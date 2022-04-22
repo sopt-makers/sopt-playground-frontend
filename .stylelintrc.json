@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-prettier",
+    "stylelint-config-concentric-order",
+    "stylelint-config-styled-components",
+    "postcss-syntax",
+    "postcss-html"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.@(ts|tsx)"],
+      "customSyntax": "@stylelint/postcss-css-in-js"
+    },
+    {
+      "files": ["*.html", "**/*.html"],
+      "customSyntax": "postcss-html"
+    }
+  ]
+}
