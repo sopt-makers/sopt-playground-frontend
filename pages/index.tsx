@@ -1,9 +1,16 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { atom, useRecoilState } from 'recoil';
 import styles from '../styles/Home.module.css';
 
+const counterAtom = atom<number>({
+  key: 'counter',
+  default: 0,
+});
+
 const Home: NextPage = () => {
+  const [counter, setCounter] = useRecoilState(counterAtom);
   return (
     <div className={styles.container}>
       <Head>
@@ -44,6 +51,11 @@ const Home: NextPage = () => {
             <h2>Deploy &rarr;</h2>
             <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
           </a>
+        </div>
+        <h1>{counter}</h1>
+        <div style={{ display: 'flex' }}>
+          <button onClick={() => setCounter((prev) => prev + 1)}>+</button>
+          <button onClick={() => setCounter((prev) => prev - 1)}>-</button>
         </div>
       </main>
 

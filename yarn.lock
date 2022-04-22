@@ -1983,6 +1983,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hamt_plus@npm:1.0.2":
+  version: 1.0.2
+  resolution: "hamt_plus@npm:1.0.2"
+  checksum: af26ea32db03009019cc83dfa9411521a2fa16079443de1a502c9be46d8b3c975acda8ed93fc5750ef08d3186d35901e2d8cfe717dd54bea67b358601fa74e4c
+  languageName: node
+  linkType: hard
+
 "hard-rejection@npm:^2.1.0":
   version: 2.1.0
   resolution: "hard-rejection@npm:2.1.0"
@@ -3172,6 +3179,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"recoil@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "recoil@npm:0.7.2"
+  dependencies:
+    hamt_plus: 1.0.2
+  peerDependencies:
+    react: ">=16.13.1"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 2ad0c2052fd33ee358e3b448fd36ea6d4b37e69ace65ff44124605171c4794e4f167215209731aac3d45d42ea9f4c67e9c5a0704ff04ab94b64bcca96d5f59a3
+  languageName: node
+  linkType: hard
+
 "redent@npm:^3.0.0":
   version: 3.0.0
   resolution: "redent@npm:3.0.0"
@@ -3417,6 +3440,7 @@ __metadata:
     prettier: 2.6.2
     react: 18.0.0
     react-dom: 18.0.0
+    recoil: ^0.7.2
     stylelint: ^14.7.1
     stylelint-config-concentric-order: ^5.0.0
     stylelint-config-prettier: ^9.0.3

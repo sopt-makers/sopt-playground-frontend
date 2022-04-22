@@ -14,7 +14,8 @@
     "@emotion/styled": "^11.8.1",
     "next": "12.1.5",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "recoil": "^0.7.2"
   },
   "devDependencies": {
     "@stylelint/postcss-css-in-js": "^0.37.2",
