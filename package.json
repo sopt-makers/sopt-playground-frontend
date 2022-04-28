@@ -19,8 +19,7 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-query": "^3.38.0",
-    "recoil": "^0.7.2",
-    "storybook": "^6.4.22"
+    "recoil": "^0.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
@@ -50,6 +49,7 @@
     "postcss-syntax": "^0.36.2",
     "prettier": "2.6.2",
     "sass-loader": "^12.6.0",
+    "storybook": "^6.4.22",
     "stylelint": "^14.7.1",
     "stylelint-config-concentric-order": "^5.0.0",
     "stylelint-config-prettier": "^9.0.3",
