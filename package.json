@@ -8,13 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook",
     "postinstall": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "axios": "^0.27.2",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
@@ -45,6 +46,8 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-storybook": "^0.5.11",
     "husky": "^7.0.0",
+    "msw": "^0.39.2",
+    "msw-storybook-addon": "^1.6.3",
     "postcss-html": "^1.4.1",
     "postcss-syntax": "^0.36.2",
     "prettier": "2.6.2",
@@ -59,5 +62,8 @@
     "typescript": "4.6.3",
     "webpack": "^5.72.0"
   },
-  "packageManager": "yarn@3.2.0"
+  "packageManager": "yarn@3.2.0",
+  "msw": {
+    "workerDirectory": "public"
+  }
 }
