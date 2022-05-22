@@ -15,8 +15,10 @@ Default.parameters = {
   msw: {
     handlers: [
       rest.get(API_PATH, (_req, res, ctx) => {
-        return res(ctx.json(random));
+        return res(ctx.json({ data: random }));
       }),
     ],
   },
 };
+
+console.log({ data: random });
