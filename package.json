@@ -55,6 +55,7 @@
     "prettier": "2.6.2",
     "sass-loader": "^12.6.0",
     "storybook": "^6.5.5",
+    "storybook-dark-mode": "^1.1.0",
     "stylelint": "^14.7.1",
     "stylelint-config-concentric-order": "^5.0.0",
     "stylelint-config-prettier": "^9.0.3",

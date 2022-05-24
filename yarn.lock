@@ -10009,7 +10009,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
+"fast-deep-equal@npm:^3.0.0, fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
   checksum: e21a9d8d84f53493b6aa15efc9cfd53dd5b714a1f23f67fb5dc8f574af80df889b3bce25dc081887c6d25457cce704e636395333abad896ccdec03abaf1f3f9d
@@ -16995,6 +16995,7 @@ __metadata:
     recoil: ^0.7.2
     sass-loader: ^12.6.0
     storybook: ^6.5.5
+    storybook-dark-mode: ^1.1.0
     stylelint: ^14.7.1
     stylelint-config-concentric-order: ^5.0.0
     stylelint-config-prettier: ^9.0.3
@@ -17222,6 +17223,22 @@ __metadata:
   version: 2.13.2
   resolution: "store2@npm:2.13.2"
   checksum: 9e760ea2a7f56eae47d5bafe507511b25ad983bba901e1e0c5f65713e631c15aafb8e031c658047af53c2008a5d21cb6c43f2383673b3493144e8e1ead5c8f91
+  languageName: node
+  linkType: hard
+
+"storybook-dark-mode@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "storybook-dark-mode@npm:1.1.0"
+  dependencies:
+    fast-deep-equal: ^3.0.0
+    memoizerific: ^1.11.3
+  peerDependencies:
+    "@storybook/addons": ^6.0.0
+    "@storybook/api": ^6.0.0
+    "@storybook/components": ^6.0.0
+    "@storybook/core-events": ^6.0.0
+    "@storybook/theming": ^6.0.0
+  checksum: e1d7abbb96d1cdbe9cdba1e20aabffa6878f170e348958cc328de4183027c2052f44f6d78f82a45039f803349c7a4ec19988d42898030b2720dc591192f520e6
   languageName: node
   linkType: hard
 

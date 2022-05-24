@@ -7,13 +7,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ variant = 'default', size = 'medium', ...props }, ref) => {
-  return (
-    <StyledButton variant={variant} size={size} {...props} ref={ref}>
-      예시 버튼
-    </StyledButton>
-  );
-});
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ variant = 'default', size = 'medium', children, ...props }, ref) => {
+    return (
+      <StyledButton variant={variant} size={size} {...props} ref={ref}>
+        {children}
+      </StyledButton>
+    );
+  },
+);
 
 export default Button;
 

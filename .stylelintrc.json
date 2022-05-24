@@ -16,8 +16,5 @@
       "files": ["*.html", "**/*.html"],
       "customSyntax": "postcss-html"
     }
-  ],
-  "rules": {
-    "function-no-unknown": "off"
-  }
+  ]
 }

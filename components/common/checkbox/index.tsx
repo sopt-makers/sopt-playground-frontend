@@ -1,10 +1,8 @@
 // https://dev.to/tomdohnal/custom-checkbox-in-react-animated-and-accessible-3jk9
 import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes, useCallback, useState } from 'react';
-
 import { colors } from 'styles/common/colors';
-import { animated, useSprings, useSpring, config, useSpringRef, useChain } from 'react-spring';
-import { css } from '@emotion/react';
+import { animated, useSpring, config, useSpringRef, useChain } from 'react-spring';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   checked?: boolean;
@@ -35,7 +33,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ checked, childre
     [0, 0.1],
   );
   const checkboxStyle = useSpring({
-    backgroundColor: isChecked ? colors.purple100 : '#fff',
+    backgroundColor: isChecked ? colors.purple100 : colors.black80,
     borderColor: isChecked ? colors.purple80 : colors.gray100,
   });
 
