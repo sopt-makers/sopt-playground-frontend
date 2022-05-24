@@ -20,5 +20,3 @@ Default.parameters = {
     ],
   },
 };
-
-console.log({ data: random });
