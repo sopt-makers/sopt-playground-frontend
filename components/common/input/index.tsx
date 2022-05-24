@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes } from 'react';
 import { colors } from 'styles/common/colors';
