@@ -1,6 +1,6 @@
 {
   " sopt.org storybook snippet": {
-    "prefix": "write-story",
+    "prefix": "stories",
     "body": [
       "import { ComponentMeta, ComponentStory } from '@storybook/react';",
       "import { graphql, rest } from 'msw';",
@@ -24,10 +24,9 @@
       "",
       "const Template: ComponentStory<typeof $2> = (args) => <$2 {...args} />;",
       "",
-      "export const Primary = Template.bind({});",
-      "Primary.args = {};",
-      "Primary.storyName = '기본';",
-      "",
+      "export const Default = Template.bind({});",
+      "Default.args = {};",
+      "Default.storyName = '기본';",
       "$1"
     ]
   }
