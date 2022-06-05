@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { buttonSize, ButtonSize, ButtonStyle, buttonStyles } from '@/components/common/button/style';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
+import { textStyles } from 'styles/common/typography';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonStyle;
@@ -24,8 +25,6 @@ type StyledButtonProps = Required<Pick<ButtonProps, 'variant' | 'size'>>;
 const StyledButton = styled.button<StyledButtonProps>`
   border-radius: 100px;
   cursor: pointer;
-  line-height: 22px;
-  font-size: 20px;
-  font-weight: 500;
+  ${textStyles.SUIT_16_M};
   ${({ variant, size }) => [buttonStyles[variant], buttonSize[size]]};
 `;

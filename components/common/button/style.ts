@@ -18,9 +18,9 @@ export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
 export const buttonSize: Record<ButtonSize, SerializedStyles> = {
   small: css``,
   medium: css`
-    padding: 20px 0;
-    width: 237px;
-    height: 62px;
+    padding: 14px 0;
+    width: 163px;
+    height: 42px;
   `,
   large: css``,
 };

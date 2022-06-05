@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes } from 'react';
 import { colors } from '@/styles/colors';
+import { textStyles } from 'styles/common/typography';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
@@ -12,14 +13,14 @@ export default Input;
 
 const StyledInput = styled.input`
   box-sizing: border-box;
+  transition: all 0.2s;
   border: 1.5px solid ${colors.black60};
   border-radius: 6px;
   background-color: ${colors.black60};
-  padding: 20px;
+  padding: 14px 20px;
   width: 100%;
-  max-width: 100%;
   color: ${colors.white};
-  font-size: 22px;
+  ${textStyles.SUIT_16_M};
 
   &::placeholder {
     color: ${colors.gray100};
