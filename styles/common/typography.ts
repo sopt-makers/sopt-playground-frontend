@@ -1,9 +1,7 @@
 import { css, SerializedStyles } from '@emotion/react';
 
 export const baseTextStyles = css`
-  line-height: 100%;
   letter-spacing: -0.01em;
-  font-style: normal;
 `;
 
 export type Typography =
