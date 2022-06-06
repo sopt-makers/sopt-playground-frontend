@@ -1,15 +1,17 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { FC, forwardRef, HTMLAttributes } from 'react';
 import { colors } from 'styles/common/colors';
 
-const Switch = () => {
+interface SwitchProps extends HTMLAttributes<HTMLInputElement> {}
+
+const Switch: FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(({ ...props }, ref) => {
   return (
     <StyledLabel>
-      <StyledInput type='checkbox' />
+      <StyledInput ref={ref} type='checkbox' {...props} />
       <StyledSlider className='slider' />
     </StyledLabel>
   );
-};
+});
 
 export default Switch;
 
