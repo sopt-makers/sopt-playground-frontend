@@ -4,12 +4,13 @@ import { colors } from '@/styles/colors';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   width?: number;
+  disabled?: boolean;
 }
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ width = 200, children, placeholder = '', ...props }, ref) => {
+  ({ width = 200, disabled = false, children, placeholder = '', ...props }, ref) => {
     return (
-      <StyledSelect width={width} ref={ref} {...props}>
+      <StyledSelect width={width} ref={ref} disabled={disabled} {...props}>
         <option value='' selected disabled hidden>
           {placeholder}
         </option>

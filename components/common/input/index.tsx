@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
-import { forwardRef, InputHTMLAttributes } from 'react';
+import Text from 'components/common/text';
+import React, { ChangeEvent, forwardRef, InputHTMLAttributes, useCallback, useState } from 'react';
 import { colors } from '@/styles/colors';
 import { textStyles } from 'styles/common/typography';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({ ...props }, ref) => {
-  return <StyledInput {...props} />;
+  return <StyledInput ref={ref} {...props} />;
 });
 
 export default Input;

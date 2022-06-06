@@ -2,22 +2,26 @@ import styled from '@emotion/styled';
 import { FC, HTMLAttributes, PropsWithChildren } from 'react';
 import Text from 'components/common/text';
 import { colors } from 'styles/common/colors';
-import { Typography } from 'styles/common/typography';
+import { textStyles, Typography } from 'styles/common/typography';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   essential?: boolean;
+  description?: string;
   typography?: Typography;
 }
 
-const FormTitle: FC<PropsWithChildren<Props>> = ({ essential, typography = 'SUIT_18_SB', children, ...props }) => {
+const FormTitle: FC<PropsWithChildren<Props>> = ({
+  essential,
+  typography = 'SUIT_18_SB',
+  description,
+  children,
+  ...props
+}) => {
   return (
     <StyledTitle {...props}>
       <Text typography={typography}>{children}</Text>
-      {essential && (
-        <Text typography='SUIT_16_M' color={colors.purple100}>
-          *
-        </Text>
-      )}
+      {essential && <Essential>*</Essential>}
+      {description && <Description>{description}</Description>}
     </StyledTitle>
   );
 };
@@ -26,5 +30,16 @@ export default FormTitle;
 
 const StyledTitle = styled.div`
   display: flex;
-  gap: 4px;
+`;
+
+const Essential = styled(Text)`
+  margin: 0 0 0 4px;
+  color: ${colors.purple100};
+  ${textStyles.SUIT_16_M};
+`;
+
+const Description = styled(Text)`
+  align-self: center;
+  margin: 0 0 0 10px;
+  color: ${colors.purple100};
 `;
