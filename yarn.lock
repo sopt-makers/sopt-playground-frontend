@@ -15694,6 +15694,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.31.3":
+  version: 7.31.3
+  resolution: "react-hook-form@npm:7.31.3"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 01601c904c39dea8f617d0fc35ff62ab6e8c4968b2007990ce88952f1c24063c025eb169703edcf596dc38439669268175b9f5fb7a5d553e46fdc8bb7523ed63
+  languageName: node
+  linkType: hard
+
 "react-inspector@npm:^5.1.0":
   version: 5.1.1
   resolution: "react-inspector@npm:5.1.1"
@@ -16990,6 +16999,7 @@ __metadata:
     prettier: 2.6.2
     react: 18.0.0
     react-dom: 18.0.0
+    react-hook-form: ^7.31.3
     react-query: ^3.38.0
     react-spring: ^9.4.5
     recoil: ^0.7.2
