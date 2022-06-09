@@ -7,32 +7,30 @@ import Input from 'components/common/input';
 import Select from 'components/common/select';
 import Switch from 'components/common/Switch';
 import Text from 'components/common/text';
-import { OfficialActivitiy } from 'components/project/upload/constants';
+import {
+  formItems,
+  OfficialActivitiy,
+  officiallActivityLabel,
+  ProjectUploadForm,
+  TH,
+} from 'components/project/upload/constants';
 import FormTitle from 'components/project/upload/FormTitle';
 import MemberForm from 'components/project/upload/MemberForm';
 import { FC, PropsWithChildren, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { colors } from 'styles/common/colors';
 import { textStyles } from 'styles/common/typography';
-import { 기수 } from 'components/project/upload/constants';
 import TextArea from 'components/common/TextArea';
+import FormStatus from 'components/project/upload/FormStatus';
 
 interface Member {
   memberId: string | null;
   role: string | null;
   comment: string;
 }
+
 interface MemebersForm {
   [key: number]: Member;
-}
-
-interface ProjectUploadForm {
-  name: string;
-  th: string; // 기수
-  thChecked: boolean; // 특정 기수 활동으로 진행하지 않았음
-  activity: OfficialActivitiy;
-  isAvailable: boolean;
-  isFounding: boolean;
 }
 
 const ProjectUploadPage = () => {
@@ -49,12 +47,17 @@ const ProjectUploadPage = () => {
     [2]: memeberTemplate,
   });
 
-  const { watch, control } = useForm<ProjectUploadForm>({
+  const {
+    watch,
+    control,
+    register,
+    formState: { dirtyFields },
+  } = useForm<ProjectUploadForm>({
     defaultValues: {
       name: '',
       th: undefined,
       thChecked: false,
-      activity: undefined,
+      officialActivity: undefined,
       isAvailable: false,
       isFounding: false,
     },
@@ -64,47 +67,23 @@ const ProjectUploadPage = () => {
     'name',
     'th',
     'thChecked',
-    'activity',
+    'officialActivity',
     'isAvailable',
     'isFounding',
   ]);
 
-  console.log(name, th, thChecked, activity, isAvaliable, isFounding);
+  const _formItems = formItems.map((formItem) =>
+    dirtyFields?.[formItem.value]
+      ? {
+          ...formItem,
+          isDirty: true,
+        }
+      : formItem,
+  );
 
   return (
     <Container>
-      <Status>
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          `}
-        >
-          <FormTitle typography='SUIT_24_SB'>등록 진행</FormTitle>
-          <div
-            css={css`
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 6px;
-              background-color: ${colors.black60};
-              width: 50px;
-              height: 24px;
-            `}
-          >
-            <Text typography='SUIT_12_M' color={colors.purple100}>
-              {/* TODO: react-hook-form activate 상태로 숫자 변경 */}
-              1/11
-            </Text>
-          </div>
-        </div>
-        <Divider />
-        <Text typography='SUIT_16_M' color={colors.gray100}>
-          프로젝트를 등록해주세요
-        </Text>
-        <StatusList></StatusList>
-      </Status>
+      <FormStatus formItems={_formItems} />
       <Project>
         <FormTitle typography='SUIT_24_SB'>프로젝트</FormTitle>
         <Divider />
@@ -146,7 +125,7 @@ const ProjectUploadPage = () => {
           control={control}
           render={({ field }) => (
             <Select width={236} placeholder='선택' {...field}>
-              {기수.map((item) => (
+              {TH.map((item) => (
                 <option key={item} value={item}>
                   {item}기
                 </option>
@@ -182,13 +161,13 @@ const ProjectUploadPage = () => {
           기수는 SOPT 공식 활동을 기준으로 선택해주세요
         </Text>
         <Controller
-          name='activity'
+          name='officialActivity'
           control={control}
           render={({ field }) => (
             <Select placeholder='선택' {...field}>
               {Object.values(OfficialActivitiy).map((officalActivity) => (
                 <option key={officalActivity} value={officalActivity}>
-                  {officalActivity}
+                  {officiallActivityLabel[officalActivity]}
                 </option>
               ))}
             </Select>
@@ -202,7 +181,8 @@ const ProjectUploadPage = () => {
             margin: 18px 0 0;
           `}
         >
-          <Controller name='isAvailable' control={control} render={({ field }) => <Switch {...field} />} />
+          {/* <Controller name='isAvailable' control={control} render={({ field }) => <Switch {...field} />} /> */}
+          <Switch {...register('isAvailable')} />
           <Text typography='SUIT_12_M' color={colors.gray100}>
             현재 이 서비스를 이용할 수 있나요?
           </Text>
