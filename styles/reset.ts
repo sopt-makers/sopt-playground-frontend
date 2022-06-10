@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles/common/colors';
+import { colors } from '@/styles/colors';
 
 export const reset = css`
   html,
@@ -8,7 +8,7 @@ export const reset = css`
     width: 100%;
     height: 100%;
     color: ${colors.white};
-    font-family: Ecommerce, sans-serif;
+    font-family: SUIT, sans-serif;
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
