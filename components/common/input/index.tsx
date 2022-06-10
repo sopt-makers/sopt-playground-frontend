@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Text from 'components/common/text';
 import React, { ChangeEvent, forwardRef, InputHTMLAttributes, useCallback, useState } from 'react';
 import { colors } from '@/styles/colors';
-import { textStyles } from 'styles/common/typography';
+import { textStyles } from '@/styles/typography';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 

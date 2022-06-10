@@ -18,8 +18,8 @@ import FormTitle from 'components/project/upload/FormTitle';
 import MemberForm from 'components/project/upload/MemberForm';
 import { FC, PropsWithChildren, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { colors } from 'styles/common/colors';
-import { textStyles } from 'styles/common/typography';
+import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 import TextArea from 'components/common/TextArea';
 import FormStatus from 'components/project/upload/FormStatus';
 

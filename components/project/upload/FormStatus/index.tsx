@@ -3,8 +3,8 @@ import Text from 'components/common/text';
 import { FormItem } from 'components/project/upload/constants';
 import FormTitle from 'components/project/upload/FormTitle';
 import { FC } from 'react';
-import { colors } from 'styles/common/colors';
-import { textStyles } from 'styles/common/typography';
+import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 import IconDoneCheck from 'public/icons/icon-done-check.svg';
 
 interface FormStatusProps {

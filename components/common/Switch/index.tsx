@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { FC, forwardRef, HTMLAttributes } from 'react';
-import { colors } from 'styles/common/colors';
+import { colors } from '@/styles/colors';
 
 interface SwitchProps extends HTMLAttributes<HTMLInputElement> {}
 

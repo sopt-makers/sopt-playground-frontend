@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC, HTMLAttributes, PropsWithChildren } from 'react';
-import { colors } from 'styles/common/colors';
-import { textStyles } from 'styles/common/typography';
+import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
 interface TextAreaProps extends HTMLAttributes<HTMLTextAreaElement> {}
 

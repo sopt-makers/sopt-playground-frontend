@@ -1,9 +1,9 @@
 // https://dev.to/tomdohnal/custom-checkbox-in-react-animated-and-accessible-3jk9
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef, InputHTMLAttributes, useCallback, useState } from 'react';
+import { forwardRef, InputHTMLAttributes } from 'react';
 import { colors } from '@/styles/colors';
-import { animated, useSpring, config, useSpringRef, useChain } from 'react-spring';
+import IconCheck from '@/public/icons/icon-check.svg';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   checked?: boolean;

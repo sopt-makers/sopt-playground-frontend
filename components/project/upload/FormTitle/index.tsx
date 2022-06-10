@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { FC, HTMLAttributes, PropsWithChildren } from 'react';
 import Text from 'components/common/text';
-import { colors } from 'styles/common/colors';
-import { textStyles, Typography } from 'styles/common/typography';
+import { colors } from '@/styles/colors';
+import { textStyles, Typography } from '@/styles/typography';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   essential?: boolean;

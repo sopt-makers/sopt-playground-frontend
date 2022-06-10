@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC, HTMLAttributes, PropsWithChildren } from 'react';
-import { colors } from 'styles/common/colors';
-import { baseTextStyles, textStyles, Typography } from 'styles/common/typography';
+import { colors } from '@/styles/colors';
+import { baseTextStyles, textStyles, Typography } from '@/styles/typography';
 
 interface TextProps extends HTMLAttributes<HTMLSpanElement> {
   typography?: Typography;
