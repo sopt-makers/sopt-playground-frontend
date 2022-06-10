@@ -1,4 +1,4 @@
-import Input, { InputProps } from 'components/common/input';
+import Input, { InputProps } from '@/components/common/Input';
 import React, { FC, useEffect, useState } from 'react';
 
 const DATE_REGEX = /^\d{4}.(0[1-9]|1[0-2])/;

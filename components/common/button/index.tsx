@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { buttonSize, ButtonSize, ButtonStyle, buttonStyles } from '@/components/common/button/style';
+import { buttonSize, ButtonSize, ButtonStyle, buttonStyles } from '@/components/common/Button/style';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { textStyles } from '@/styles/typography';
 

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Text from 'components/common/text';
+import Text from '@/components/common/Text';
 import { FormItem } from 'components/project/upload/constants';
 import FormTitle from 'components/project/upload/FormTitle';
 import { FC } from 'react';

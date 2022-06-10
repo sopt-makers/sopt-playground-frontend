@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { graphql, rest } from 'msw';
-import Text from '.';
+import Text from './';
 
 export default {
   component: Text,

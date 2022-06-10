@@ -1,5 +1,5 @@
 import { ComponentMeta, Story } from '@storybook/react';
-import Select from 'components/common/select';
+import Select from '@/components/common/Select';
 
 export default {
   components: Select,

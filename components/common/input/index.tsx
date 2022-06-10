@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Text from 'components/common/text';
+import Text from '@/components/common/Text';
 import React, { ChangeEvent, forwardRef, InputHTMLAttributes, useCallback, useState } from 'react';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';

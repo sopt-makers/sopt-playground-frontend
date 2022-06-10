@@ -1,11 +1,10 @@
 import { Meta, Story } from '@storybook/react';
-import Example, { API_PATH } from 'components/common/example/Example';
+import Example, { API_PATH } from '@/components/common/Example';
 import { rest } from 'msw';
 
 const random = { message: 'https://images.dog.ceo/breeds/spaniel-irish/n02102973_377.jpg', status: 'success' };
 
 export default {
-  title: 'components/예시',
   component: Example,
 } as Meta;
 

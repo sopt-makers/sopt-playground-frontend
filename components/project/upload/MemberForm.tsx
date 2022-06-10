@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import Input from 'components/common/input';
-import Select from 'components/common/select';
+import Input from '@/components/common/Input';
+import Select from '@/components/common/Select';
 import { FC } from 'react';
 import IconDelete from 'public/icons/icon-delete.svg';
 

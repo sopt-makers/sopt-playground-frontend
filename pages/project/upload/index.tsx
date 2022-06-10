@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Button from 'components/common/button';
-import Checkbox from 'components/common/checkbox';
+import Button from '@/components/common/Button';
+import Checkbox from '@/components/common/Checkbox';
 import DateInput from 'components/common/DateInput';
-import Input from 'components/common/input';
-import Select from 'components/common/select';
+import Input from '@/components/common/Input';
+import Select from '@/components/common/Select';
 import Switch from 'components/common/Switch';
-import Text from 'components/common/text';
+import Text from '@/components/common/Text';
 import {
   formItems,
   OfficialActivitiy,
