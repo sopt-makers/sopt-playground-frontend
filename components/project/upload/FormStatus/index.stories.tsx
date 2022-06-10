@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { formItems } from 'components/project/upload/constants';
-import UploadStatus from 'components/project/upload/FormStatus';
+import { formItems } from '@/components/project/upload/constants';
+import UploadStatus from '@/components/project/upload/FormStatus';
 
 export default {
   component: UploadStatus,

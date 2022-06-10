@@ -2,10 +2,10 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '@/components/common/Button';
 import Checkbox from '@/components/common/Checkbox';
-import DateInput from 'components/common/DateInput';
+import DateInput from '@/components/common/DateInput';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
-import Switch from 'components/common/Switch';
+import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
 import {
   formItems,
@@ -13,15 +13,15 @@ import {
   officiallActivityLabel,
   ProjectUploadForm,
   TH,
-} from 'components/project/upload/constants';
-import FormTitle from 'components/project/upload/FormTitle';
-import MemberForm from 'components/project/upload/MemberForm';
+} from '@/components/project/upload/constants';
+import FormTitle from '@/components/project/upload/FormTitle';
+import MemberForm from '@/components/project/upload/MemberForm';
 import { FC, PropsWithChildren, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import TextArea from 'components/common/TextArea';
-import FormStatus from 'components/project/upload/FormStatus';
+import TextArea from '@/components/common/TextArea';
+import FormStatus from '@/components/project/upload/FormStatus';
 
 interface Member {
   memberId: string | null;

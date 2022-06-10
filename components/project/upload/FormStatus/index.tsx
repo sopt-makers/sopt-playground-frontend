@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import Text from '@/components/common/Text';
-import { FormItem } from 'components/project/upload/constants';
-import FormTitle from 'components/project/upload/FormTitle';
+import { FormItem } from '@/components/project/upload/constants';
+import FormTitle from '@/components/project/upload/FormTitle';
 import { FC } from 'react';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import IconDoneCheck from 'public/icons/icon-done-check.svg';
+import IconDoneCheck from '@/public/icons/icon-done-check.svg';
 
 interface FormStatusProps {
   formItems: FormItem[];

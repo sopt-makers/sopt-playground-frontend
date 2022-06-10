@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import DateInput from 'components/common/DateInput';
+import DateInput from '@/components/common/DateInput';
 
 export default {
   component: DateInput,

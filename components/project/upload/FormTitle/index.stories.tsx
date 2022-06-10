@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import FormTitle from 'components/project/upload/FormTitle';
+import FormTitle from '@/components/project/upload/FormTitle';
 
 export default {
   component: FormTitle,
