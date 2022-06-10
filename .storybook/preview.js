@@ -1,8 +1,8 @@
 import { themes } from '@storybook/theming';
 import { initialize, mswDecorator } from 'msw-storybook-addon';
 import { QueryClientProvider, QueryClient } from 'react-query';
-import GlobalStyle from '../styles/common/GlobalStyle';
-import { colors } from '../styles/common/colors';
+import GlobalStyle from '@/styles/GlobalStyle';
+import { colors } from '@/styles/colors';
 
 initialize();
 

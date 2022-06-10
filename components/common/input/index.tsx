@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes } from 'react';
-import { colors } from 'styles/common/colors';
+import { colors } from '@/styles/colors';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 

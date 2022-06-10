@@ -1,5 +1,5 @@
 import { css, SerializedStyles } from '@emotion/react';
-import { colors } from 'styles/common/colors';
+import { colors } from '@/styles/colors';
 
 export type ButtonStyle = 'default' | 'primary';
 export type ButtonSize = 'small' | 'medium' | 'large';
