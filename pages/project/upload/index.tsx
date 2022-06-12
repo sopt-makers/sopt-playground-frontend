@@ -16,39 +16,23 @@ import {
 } from '@/components/project/upload/constants';
 import FormTitle from '@/components/project/upload/FormTitle';
 import MemberForm from '@/components/project/upload/MemberForm';
-import { FC, PropsWithChildren, useState } from 'react';
+import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { colors } from '@/styles/colors';
-import { textStyles } from '@/styles/typography';
 import TextArea from '@/components/common/TextArea';
 import FormStatus from '@/components/project/upload/FormStatus';
+import useMemberForm from '@/components/project/upload/MemberForm/useMemberForm';
+import IconLinkShare from '@/public/icons/icon-link-share.svg';
+import { textStyles } from '@/styles/typography';
 
-interface Member {
-  memberId: string | null;
-  role: string | null;
-  comment: string;
+interface MemberForm {
+  memberId: string;
+  role: string;
+  description: string;
 }
 
-interface MemebersForm {
-  [key: number]: Member;
-}
-
-const ProjectUploadPage = () => {
-  //TODO: useMemberForm
-  const memeberTemplate = {
-    memberId: null,
-    role: null,
-    comment: '',
-  };
-  const [memeberNum, setMeneberNum] = useState<number>(1);
-  const [members, setMembers] = useState<MemebersForm>({
-    [0]: memeberTemplate,
-    [1]: memeberTemplate,
-    [2]: memeberTemplate,
-  });
-
+const ProjectUploadPage: FC = () => {
   const {
-    watch,
     control,
     register,
     formState: { dirtyFields },
@@ -63,14 +47,8 @@ const ProjectUploadPage = () => {
     },
   });
 
-  const [name, th, thChecked, activity, isAvaliable, isFounding] = watch([
-    'name',
-    'th',
-    'thChecked',
-    'officialActivity',
-    'isAvailable',
-    'isFounding',
-  ]);
+  const { members: appJamMembers, ...appJamMemberFormProps } = useMemberForm();
+  const { members: releaseMembers, ...releaseMemberFormProps } = useMemberForm();
 
   const _formItems = formItems.map((formItem) =>
     dirtyFields?.[formItem.value]
@@ -181,7 +159,6 @@ const ProjectUploadPage = () => {
             margin: 18px 0 0;
           `}
         >
-          {/* <Controller name='isAvailable' control={control} render={({ field }) => <Switch {...field} />} /> */}
           <Switch {...register('isAvailable')} />
           <Text typography='SUIT_12_M' color={colors.gray100}>
             현재 이 서비스를 이용할 수 있나요?
@@ -200,32 +177,26 @@ const ProjectUploadPage = () => {
             현재 이 프로젝트로 창업을 진행하고 있나요?
           </Text>
         </div>
-        <FormTitle
-          essential
-          css={css`
-            margin: 60px 0 14px;
-          `}
-        >
-          앱잼 팀원
-        </FormTitle>
-        <Text typography='SUIT_16_M' color={colors.gray100}>
-          회원가입을 한 사람만 팀원 등록이 가능해요
-        </Text>
-        <AppjamMembersContainer>
-          {Object.entries(members).map(([key, member]) => (
-            <MemberForm key={key} />
-          ))}
-        </AppjamMembersContainer>
-        <Text
-          css={css`
-            margin: 18px 20px;
-            cursor: pointer;
-          `}
-          typography='SUIT_16_M'
-          color={colors.gray100}
-        >
-          + 추가
-        </Text>
+        <AppjamMembersWrapper>
+          <AppjamMemberTitleWrapper>
+            <FormTitle essential>앱잼 팀원</FormTitle>
+            <LinkShareWrapper>
+              회원가입 링크 공유
+              <LinkShareButton>
+                <IconLinkShare />
+              </LinkShareButton>
+            </LinkShareWrapper>
+          </AppjamMemberTitleWrapper>
+          <Text color={colors.gray100}>회원가입을 한 사람만 팀원 등록이 가능해요</Text>
+          <MemberForm members={appJamMembers} {...appJamMemberFormProps} />
+        </AppjamMembersWrapper>
+        <ReleaseMembersWrapper>
+          <FormTitle>추가 합류한 팀원</FormTitle>
+          <Text color={colors.gray100}>
+            회원가입을 한 사람만 팀원 등록이 가능해요. 릴리즈에 합류한 팀원들의 이름을 적어주세요
+          </Text>
+          <MemberForm members={releaseMembers} {...releaseMemberFormProps} />
+        </ReleaseMembersWrapper>
         <FormTitle
           essential
           description='복수선택 가능'
@@ -311,20 +282,6 @@ const Container = styled.div`
   margin: 167px auto 0;
 `;
 
-const Status = styled.div`
-  border-radius: 12px;
-  background-color: ${colors.black80};
-  padding: 47px 40px;
-  width: 278px;
-`;
-
-const StatusList = styled.div`
-  margin: 29px 0 0;
-  border-radius: 6px;
-  background-color: ${colors.black60};
-  padding: 25px 20px;
-`;
-
 const Project = styled.div`
   display: flex;
   flex-direction: column;
@@ -349,12 +306,42 @@ const CheckboxWrapper = styled.div`
   margin: 13.25px 0 61.25px;
 `;
 
-const AppjamMembersContainer = styled.div`
+const AppjamMembersWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 18px 0 0;
+  margin: 60px 0 0;
+
+  & > span {
+    margin: 14px 0 18px;
+  }
 `;
+
+const AppjamMemberTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const LinkShareWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${colors.gray100};
+  ${textStyles.SUIT_12_M};
+`;
+
+const LinkShareButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 7px;
+  border-radius: 6px;
+  background-color: ${colors.black60};
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+`;
+
+const ReleaseMembersWrapper = styled(AppjamMembersWrapper)``;
 
 const ServiceTypeButtonWrapper = styled.div`
   display: flex;
