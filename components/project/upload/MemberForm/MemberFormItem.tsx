@@ -7,11 +7,7 @@ import { Member } from '@/components/project/upload/MemberForm/useMemberForm';
 import { useForm } from 'react-hook-form';
 import { MemeberFormProps } from '@/components/project/upload/MemberForm';
 
-type MemberForm = {
-  memberId: string;
-  role: string;
-  description: string;
-};
+type MemberForm = Omit<Member, 'key'>;
 
 interface MemberFormItemProps extends Omit<MemeberFormProps, 'members' | 'onClickAdd'> {
   member: Member;
