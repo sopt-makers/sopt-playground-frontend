@@ -5,20 +5,20 @@ import MemberFormItem from '@/components/project/upload/MemberForm/MemberFormIte
 import { textStyles } from '@/styles/typography';
 import { colors } from '@/styles/colors';
 
-interface MemeberFormProps {
+export interface MemeberFormProps {
   members: Member[];
-  onCreate: () => void;
-  onDelete: (memberKey: number) => void;
+  onClickAdd: () => void;
   onChange: (member: Member) => void;
+  onDelete: (memberKey: number) => void;
 }
 
-const MemberForm: FC<MemeberFormProps> = ({ members, onCreate, onDelete, onChange }) => {
+const MemberForm: FC<MemeberFormProps> = ({ members, onClickAdd, onChange, onDelete }) => {
   return (
     <Container>
       {members.map((member) => (
-        <MemberFormItem key={member.key} member={member} onDelete={onDelete} onChange={onChange} />
+        <MemberFormItem key={member.key} member={member} onChange={onChange} onDelete={onDelete} />
       ))}
-      <MemberAddButton onClick={onCreate}>+ 추가</MemberAddButton>
+      <MemberAddButton onClick={onClickAdd}>+ 추가</MemberAddButton>
     </Container>
   );
 };

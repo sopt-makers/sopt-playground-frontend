@@ -5,6 +5,7 @@ import { ChangeEvent, FC } from 'react';
 import IconDelete from '@/public/icons/icon-delete.svg';
 import { Member } from '@/components/project/upload/MemberForm/useMemberForm';
 import { useForm } from 'react-hook-form';
+import { MemeberFormProps } from '@/components/project/upload/MemberForm';
 
 type MemberForm = {
   memberId: string;
@@ -12,14 +13,13 @@ type MemberForm = {
   description: string;
 };
 
-interface MemberFormItemProps {
-  onChange: (member: Member) => void;
-  onDelete: (memberKey: number) => void;
+interface MemberFormItemProps extends Omit<MemeberFormProps, 'members' | 'onClickAdd'> {
   member: Member;
 }
 
 const MemberFormItem: FC<MemberFormItemProps> = ({ member, onChange, onDelete }) => {
   const { register } = useForm<MemberForm>();
+
   const _onChange = (e: ChangeEvent<any>, key: keyof MemberForm) => {
     onChange({
       ...member,

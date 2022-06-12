@@ -16,10 +16,9 @@ import {
 } from '@/components/project/upload/constants';
 import FormTitle from '@/components/project/upload/FormTitle';
 import MemberForm from '@/components/project/upload/MemberForm';
-import { FC, PropsWithChildren, useState } from 'react';
+import { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { colors } from '@/styles/colors';
-import { textStyles } from '@/styles/typography';
 import TextArea from '@/components/common/TextArea';
 import FormStatus from '@/components/project/upload/FormStatus';
 import useMemberForm from '@/components/project/upload/MemberForm/useMemberForm';
@@ -30,7 +29,7 @@ interface MemberForm {
   description: string;
 }
 
-const ProjectUploadPage = () => {
+const ProjectUploadPage: FC = () => {
   const {
     watch,
     control,
@@ -56,7 +55,7 @@ const ProjectUploadPage = () => {
     'isFounding',
   ]);
 
-  const { members, onClickAdd, onDelete, onChange } = useMemberForm();
+  const { members, ...memberFormProps } = useMemberForm();
 
   console.log('[member]: ', members);
 
@@ -169,7 +168,6 @@ const ProjectUploadPage = () => {
             margin: 18px 0 0;
           `}
         >
-          {/* <Controller name='isAvailable' control={control} render={({ field }) => <Switch {...field} />} /> */}
           <Switch {...register('isAvailable')} />
           <Text typography='SUIT_12_M' color={colors.gray100}>
             현재 이 서비스를 이용할 수 있나요?
@@ -199,9 +197,9 @@ const ProjectUploadPage = () => {
         <Text typography='SUIT_16_M' color={colors.gray100}>
           회원가입을 한 사람만 팀원 등록이 가능해요
         </Text>
-        <AppjamMembersContainer>
-          <MemberForm members={Object.values(members)} onCreate={onClickAdd} onDelete={onDelete} onChange={onChange} />
-        </AppjamMembersContainer>
+        <AppjamMembersWrapper>
+          <MemberForm members={Object.values(members)} {...memberFormProps} />
+        </AppjamMembersWrapper>
         <FormTitle
           essential
           description='복수선택 가능'
@@ -325,7 +323,7 @@ const CheckboxWrapper = styled.div`
   margin: 13.25px 0 61.25px;
 `;
 
-const AppjamMembersContainer = styled.div`
+const AppjamMembersWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
