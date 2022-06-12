@@ -1,7 +1,8 @@
 import { useState, useCallback, useRef } from 'react';
 
+const DEFAULT_MEMBER_KEY = 0;
 const DEFAULT_MEMBER: Member = {
-  key: 0,
+  key: DEFAULT_MEMBER_KEY,
   memberId: null,
   role: null,
   description: '',
@@ -19,34 +20,13 @@ interface Members {
 }
 
 const useMemberForm = () => {
-  //   const [members, setMembers] = useState<Member[]>(defaultMember);
-  //   const memberKey = useRef<number>(1);
-
-  //   const onCreate = useCallback(() => {
-  //     const defaultMember: Member = {
-  //       key: memberKey.current,
-  //       memberId: null,
-  //       role: null,
-  //       description: '',
-  //     };
-  //     setMembers((members) => [...members, defaultMember]);
-  //     memberKey.current += 1;
-  //   }, [setMembers]);
-
-  //   const onDelete = useCallback(
-  //     (memberKey: number) => {
-  //       setMembers((members) => members.filter((member) => member.key !== memberKey));
-  //     },
-  //     [setMembers],
-  //   );
-
-  //   return { members, onCreate, onDelete };
   const [members, setMembers] = useState<Members>({
     [DEFAULT_MEMBER.key]: DEFAULT_MEMBER,
   });
-  const memberKey = useRef<number>(1);
+  const _members = Object.values(members);
+  const memberKey = useRef<number>(DEFAULT_MEMBER_KEY + 1);
 
-  const onClickAdd = () => {
+  const onClickAdd = useCallback(() => {
     const _memberKey = memberKey.current;
     const defaultMember: Member = {
       key: memberKey.current,
@@ -59,29 +39,35 @@ const useMemberForm = () => {
       [_memberKey]: defaultMember,
     }));
     memberKey.current += 1;
-  };
+  }, [setMembers, memberKey]);
 
-  const onDelete = (memberKey: number) => {
-    setMembers((members) => {
-      const _members: Member[] = Object.values(members).filter((member) => member.key !== memberKey);
-      return _members.reduce(
-        (acc, cur) => ({
-          ...acc,
-          [cur.key]: cur,
-        }),
-        {},
-      );
-    });
-  };
+  const onDelete = useCallback(
+    (memberKey: number) => {
+      setMembers((members) => {
+        const _members: Member[] = Object.values(members).filter((member) => member.key !== memberKey);
+        return _members.reduce(
+          (acc, cur) => ({
+            ...acc,
+            [cur.key]: cur,
+          }),
+          {},
+        );
+      });
+    },
+    [setMembers],
+  );
 
-  const onChange = (member: Member) => {
-    setMembers((members) => ({
-      ...members,
-      [member.key]: member,
-    }));
-  };
+  const onChange = useCallback(
+    (member: Member) => {
+      setMembers((members) => ({
+        ...members,
+        [member.key]: member,
+      }));
+    },
+    [setMembers],
+  );
 
-  return { members, onClickAdd, onDelete, onChange };
+  return { members: _members, onClickAdd, onDelete, onChange };
 };
 
 export default useMemberForm;

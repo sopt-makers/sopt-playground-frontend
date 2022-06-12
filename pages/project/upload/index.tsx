@@ -31,7 +31,6 @@ interface MemberForm {
 
 const ProjectUploadPage: FC = () => {
   const {
-    watch,
     control,
     register,
     formState: { dirtyFields },
@@ -46,18 +45,8 @@ const ProjectUploadPage: FC = () => {
     },
   });
 
-  const [name, th, thChecked, activity, isAvaliable, isFounding] = watch([
-    'name',
-    'th',
-    'thChecked',
-    'officialActivity',
-    'isAvailable',
-    'isFounding',
-  ]);
-
-  const { members, ...memberFormProps } = useMemberForm();
-
-  console.log('[member]: ', members);
+  const { members: appJamMembers, ...appJamMemberFormProps } = useMemberForm();
+  const { members: releaseMembers, ...releaseMemberFormProps } = useMemberForm();
 
   const _formItems = formItems.map((formItem) =>
     dirtyFields?.[formItem.value]
@@ -186,20 +175,18 @@ const ProjectUploadPage: FC = () => {
             현재 이 프로젝트로 창업을 진행하고 있나요?
           </Text>
         </div>
-        <FormTitle
-          essential
-          css={css`
-            margin: 60px 0 14px;
-          `}
-        >
-          앱잼 팀원
-        </FormTitle>
-        <Text typography='SUIT_16_M' color={colors.gray100}>
-          회원가입을 한 사람만 팀원 등록이 가능해요
-        </Text>
         <AppjamMembersWrapper>
-          <MemberForm members={Object.values(members)} {...memberFormProps} />
+          <FormTitle essential>앱잼 팀원</FormTitle>
+          <Text color={colors.gray100}>회원가입을 한 사람만 팀원 등록이 가능해요</Text>
+          <MemberForm members={appJamMembers} {...appJamMemberFormProps} />
         </AppjamMembersWrapper>
+        <AdditionalMembersWrapper>
+          <FormTitle>추가 합류한 팀원</FormTitle>
+          <Text color={colors.gray100}>
+            회원가입을 한 사람만 팀원 등록이 가능해요. 릴리즈에 합류한 팀원들의 이름을 적어주세요
+          </Text>
+          <MemberForm members={releaseMembers} {...releaseMemberFormProps} />
+        </AdditionalMembersWrapper>
         <FormTitle
           essential
           description='복수선택 가능'
@@ -285,20 +272,6 @@ const Container = styled.div`
   margin: 167px auto 0;
 `;
 
-const Status = styled.div`
-  border-radius: 12px;
-  background-color: ${colors.black80};
-  padding: 47px 40px;
-  width: 278px;
-`;
-
-const StatusList = styled.div`
-  margin: 29px 0 0;
-  border-radius: 6px;
-  background-color: ${colors.black60};
-  padding: 25px 20px;
-`;
-
 const Project = styled.div`
   display: flex;
   flex-direction: column;
@@ -326,9 +299,14 @@ const CheckboxWrapper = styled.div`
 const AppjamMembersWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 18px 0 0;
+  margin: 60px 0 0;
+
+  & > span {
+    margin: 14px 0 18px;
+  }
 `;
+
+const AdditionalMembersWrapper = styled(AppjamMembersWrapper)``;
 
 const ServiceTypeButtonWrapper = styled.div`
   display: flex;

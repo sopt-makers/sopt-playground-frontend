@@ -33,7 +33,7 @@ const Container = styled.div`
 
 const MemberAddButton = styled.button`
   align-self: start;
-  margin: 18px 20px;
+  margin: 8px 0 0 20px;
   cursor: pointer;
   color: ${colors.gray100};
 
