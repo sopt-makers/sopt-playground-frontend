@@ -22,31 +22,15 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import TextArea from '@/components/common/TextArea';
 import FormStatus from '@/components/project/upload/FormStatus';
+import useMemberForm from '@/components/project/upload/MemberForm/useMemberForm';
 
-interface Member {
-  memberId: string | null;
-  role: string | null;
-  comment: string;
-}
-
-interface MemebersForm {
-  [key: number]: Member;
+interface MemberForm {
+  memberId: string;
+  role: string;
+  description: string;
 }
 
 const ProjectUploadPage = () => {
-  //TODO: useMemberForm
-  const memeberTemplate = {
-    memberId: null,
-    role: null,
-    comment: '',
-  };
-  const [memeberNum, setMeneberNum] = useState<number>(1);
-  const [members, setMembers] = useState<MemebersForm>({
-    [0]: memeberTemplate,
-    [1]: memeberTemplate,
-    [2]: memeberTemplate,
-  });
-
   const {
     watch,
     control,
@@ -71,6 +55,10 @@ const ProjectUploadPage = () => {
     'isAvailable',
     'isFounding',
   ]);
+
+  const { members, onClickAdd, onDelete, onChange } = useMemberForm();
+
+  console.log('[member]: ', members);
 
   const _formItems = formItems.map((formItem) =>
     dirtyFields?.[formItem.value]
@@ -212,20 +200,8 @@ const ProjectUploadPage = () => {
           회원가입을 한 사람만 팀원 등록이 가능해요
         </Text>
         <AppjamMembersContainer>
-          {Object.entries(members).map(([key, member]) => (
-            <MemberForm key={key} />
-          ))}
+          <MemberForm members={Object.values(members)} onCreate={onClickAdd} onDelete={onDelete} onChange={onChange} />
         </AppjamMembersContainer>
-        <Text
-          css={css`
-            margin: 18px 20px;
-            cursor: pointer;
-          `}
-          typography='SUIT_16_M'
-          color={colors.gray100}
-        >
-          + 추가
-        </Text>
         <FormTitle
           essential
           description='복수선택 가능'
