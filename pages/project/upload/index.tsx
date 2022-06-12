@@ -22,6 +22,8 @@ import { colors } from '@/styles/colors';
 import TextArea from '@/components/common/TextArea';
 import FormStatus from '@/components/project/upload/FormStatus';
 import useMemberForm from '@/components/project/upload/MemberForm/useMemberForm';
+import IconLinkShare from '@/public/icons/icon-link-share.svg';
+import { textStyles } from '@/styles/typography';
 
 interface MemberForm {
   memberId: string;
@@ -176,17 +178,25 @@ const ProjectUploadPage: FC = () => {
           </Text>
         </div>
         <AppjamMembersWrapper>
-          <FormTitle essential>앱잼 팀원</FormTitle>
+          <AppjamMemberTitleWrapper>
+            <FormTitle essential>앱잼 팀원</FormTitle>
+            <LinkShareWrapper>
+              회원가입 링크 공유
+              <LinkShareButton>
+                <IconLinkShare />
+              </LinkShareButton>
+            </LinkShareWrapper>
+          </AppjamMemberTitleWrapper>
           <Text color={colors.gray100}>회원가입을 한 사람만 팀원 등록이 가능해요</Text>
           <MemberForm members={appJamMembers} {...appJamMemberFormProps} />
         </AppjamMembersWrapper>
-        <AdditionalMembersWrapper>
+        <ReleaseMembersWrapper>
           <FormTitle>추가 합류한 팀원</FormTitle>
           <Text color={colors.gray100}>
             회원가입을 한 사람만 팀원 등록이 가능해요. 릴리즈에 합류한 팀원들의 이름을 적어주세요
           </Text>
           <MemberForm members={releaseMembers} {...releaseMemberFormProps} />
-        </AdditionalMembersWrapper>
+        </ReleaseMembersWrapper>
         <FormTitle
           essential
           description='복수선택 가능'
@@ -306,7 +316,32 @@ const AppjamMembersWrapper = styled.div`
   }
 `;
 
-const AdditionalMembersWrapper = styled(AppjamMembersWrapper)``;
+const AppjamMemberTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const LinkShareWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${colors.gray100};
+  ${textStyles.SUIT_12_M};
+`;
+
+const LinkShareButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 7px;
+  border-radius: 6px;
+  background-color: ${colors.black60};
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+`;
+
+const ReleaseMembersWrapper = styled(AppjamMembersWrapper)``;
 
 const ServiceTypeButtonWrapper = styled.div`
   display: flex;
