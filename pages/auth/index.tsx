@@ -1,13 +1,12 @@
-import axios from 'axios';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const appId = '520253793038775'; // App id for test app. This is not a secret.
-const redirectUri = 'http://localhost:3000/auth/facebook';
+const redirectUri = 'http://localhost:3000/auth/login/facebook';
 const stateParam = 'asdfasdf';
 
 export default function AuthPage() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('accessToken');
@@ -30,6 +29,7 @@ export default function AuthPage() {
     return (
       <div>
         <button onClick={login}>Login with Facebook</button>
+        <Link href='/auth/verify'>회원인증</Link>
       </div>
     );
   }
@@ -39,7 +39,6 @@ export default function AuthPage() {
       <button onClick={logout}>Logout</button>
       <div>
         <p>Access Token: {accessToken}</p>
-        <p>Verified: {verified ? 'True' : 'False'}</p>
       </div>
     </div>
   );
