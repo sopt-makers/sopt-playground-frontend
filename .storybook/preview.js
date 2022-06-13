@@ -1,5 +1,8 @@
+import { themes } from '@storybook/theming';
 import { initialize, mswDecorator } from 'msw-storybook-addon';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import GlobalStyle from '@/styles/GlobalStyle';
+import { colors } from '@/styles/colors';
 
 initialize();
 
@@ -15,11 +18,20 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  backgrounds: {
+    default: 'dark',
+  },
+  darkMode: {
+    current: 'dark',
+    dark: { ...themes.dark, appBg: colors.black80 },
+    light: { ...themes.normal, appBg: '#fff' },
+  },
 };
 
 export const decorators = [
   (Story) => (
     <QueryClientProvider client={queryClient}>
+      <GlobalStyle />
       <Story />
     </QueryClientProvider>
   ),
