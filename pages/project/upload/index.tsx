@@ -216,19 +216,6 @@ const ProjectUploadPage: FC = () => {
             </Text>
             <MemberForm members={releaseMembers} {...releaseMemberFormProps} />
           </ReleaseMembersWrapper>
-          {/* <FormTitle
-            essential
-            description='복수선택 가능'
-            css={css`
-              margin: 60px 0 0;
-            `}
-          >
-            서비스 형태
-          </FormTitle>
-          <ServiceTypeButtonWrapper>
-            <Button>웹</Button>
-            <Button>앱</Button>
-          </ServiceTypeButtonWrapper> */}
           <ServiceTypeForm />
           <StyledFormDateTerm />
           <FormTitle
