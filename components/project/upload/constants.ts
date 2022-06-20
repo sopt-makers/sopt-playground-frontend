@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs';
 const LATEST_TH = 30;
 
 export const TH = Array.from({ length: LATEST_TH }, (_, i) => i + 1).reverse();
@@ -26,6 +27,12 @@ export enum ServiceType {
   APP = 'app',
 }
 
+export type TermDate = {
+  dateFrom: string;
+  dateTo: string;
+  isOngoing: boolean;
+};
+
 export interface ProjectUploadForm {
   name: string;
   th: string;
@@ -36,7 +43,7 @@ export interface ProjectUploadForm {
   originalMembers: any;
   additionalMembers: any;
   serviceType: ServiceType[];
-  term: any; // Dayjs
+  termDate: TermDate;
   description: string;
   thumbnailImage: string;
   projectImage: string;
@@ -91,7 +98,7 @@ export const formItems: FormItem[] = [
   },
   {
     label: '프로젝트 기간',
-    value: 'term',
+    value: 'termDate',
     isDirty: false,
     isRequired: true,
   },

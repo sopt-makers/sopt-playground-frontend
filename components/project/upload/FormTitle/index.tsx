@@ -4,13 +4,13 @@ import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles, Typography } from '@/styles/typography';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+export interface FormTitleProps extends HTMLAttributes<HTMLDivElement> {
   essential?: boolean;
   description?: string;
   typography?: Typography;
 }
 
-const FormTitle: FC<PropsWithChildren<Props>> = ({
+const FormTitle: FC<PropsWithChildren<FormTitleProps>> = ({
   essential,
   typography = 'SUIT_18_SB',
   description,
