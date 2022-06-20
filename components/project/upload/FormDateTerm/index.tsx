@@ -18,7 +18,7 @@ const FormDateTerm = () => {
   } = useFormContext<ProjectUploadForm>();
 
   return (
-    <FormItem title='프로젝트 기간' essential>
+    <FormItem title='프로젝트 기간' titleProps={{ essential: true }}>
       <Content>
         <DateFormWrapper>
           <Input

@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '@/components/common/Button';
 import Checkbox from '@/components/common/Checkbox';
-import DateInput from '@/components/common/DateInput';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import Switch from '@/components/common/Switch';
@@ -27,6 +26,7 @@ import { textStyles } from '@/styles/typography';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import FormDateTerm from '@/components/project/upload/FormDateTerm';
+import ServiceTypeForm from '@/components/project/upload/ServiceTypeForm';
 
 const schema = yup.object().shape({
   'name': yup.string().required('프로젝트 이름을 입력해주세요'),
@@ -54,12 +54,14 @@ const ProjectUploadPage: FC = () => {
         dateTo: undefined,
         isOngoing: false,
       },
+      serviceType: [],
     },
   });
 
   const {
     register,
     control,
+    watch,
     formState: { dirtyFields },
   } = methods;
 
@@ -214,7 +216,7 @@ const ProjectUploadPage: FC = () => {
             </Text>
             <MemberForm members={releaseMembers} {...releaseMemberFormProps} />
           </ReleaseMembersWrapper>
-          <FormTitle
+          {/* <FormTitle
             essential
             description='복수선택 가능'
             css={css`
@@ -226,7 +228,8 @@ const ProjectUploadPage: FC = () => {
           <ServiceTypeButtonWrapper>
             <Button>웹</Button>
             <Button>앱</Button>
-          </ServiceTypeButtonWrapper>
+          </ServiceTypeButtonWrapper> */}
+          <ServiceTypeForm />
           <StyledFormDateTerm />
           <FormTitle
             essential

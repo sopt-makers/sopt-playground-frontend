@@ -5,12 +5,13 @@ import React, { FC, PropsWithChildren } from 'react';
 
 interface FromItemProps extends FormTitleProps {
   title: string;
+  titleProps: FormTitleProps;
 }
 
-const FormItem: FC<PropsWithChildren<FromItemProps>> = ({ title, children, ...props }) => {
+const FormItem: FC<PropsWithChildren<FromItemProps>> = ({ title, titleProps, children }) => {
   return (
     <Container>
-      <FormTitle {...props}>{title}</FormTitle>
+      <FormTitle {...titleProps}>{title}</FormTitle>
       <Content>{children}</Content>
     </Container>
   );
