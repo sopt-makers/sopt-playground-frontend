@@ -1,4 +1,3 @@
-// https://dev.to/tomdohnal/custom-checkbox-in-react-animated-and-accessible-3jk9
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes } from 'react';
@@ -11,8 +10,8 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ checked = false, ...props }, ref) => {
   return (
-    <StyledLabel htmlFor='check'>
-      <input id='check' ref={ref} type='checkbox' {...props} />
+    <StyledLabel>
+      <input ref={ref} type='checkbox' {...props} />
       <StyledCheckbox checked={checked}>{checked && <IconCheck />}</StyledCheckbox>
     </StyledLabel>
   );
