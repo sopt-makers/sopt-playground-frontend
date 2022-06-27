@@ -29,7 +29,7 @@ const useMemberForm = () => {
   const onClickAdd = useCallback(() => {
     const _memberKey = memberKey.current;
     const defaultMember: Member = {
-      key: memberKey.current,
+      key: _memberKey,
       memberId: null,
       role: null,
       description: '',
