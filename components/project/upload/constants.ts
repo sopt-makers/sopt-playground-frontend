@@ -1,4 +1,5 @@
-import { Dayjs } from 'dayjs';
+import { Link } from '@/components/project/upload/LinkForm/constants';
+
 const LATEST_TH = 30;
 
 export const TH = Array.from({ length: LATEST_TH }, (_, i) => i + 1).reverse();
@@ -27,11 +28,11 @@ export enum ServiceType {
   APP = 'app',
 }
 
-export type TermDate = {
+export interface TermDate {
   dateFrom: string;
   dateTo: string;
   isOngoing: boolean;
-};
+}
 
 export interface ProjectUploadForm {
   name: string;
@@ -45,9 +46,10 @@ export interface ProjectUploadForm {
   serviceType: ServiceType[];
   termDate: TermDate;
   description: string;
-  thumbnailImage: string;
-  projectImage: string;
-  link: string;
+  logoImage: File;
+  thumbnailImage: File;
+  projectImage: File;
+  link: Link;
 }
 
 export type FormItemValue = keyof ProjectUploadForm;

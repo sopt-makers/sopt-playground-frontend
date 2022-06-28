@@ -15,7 +15,7 @@ import {
 } from '@/components/project/upload/constants';
 import FormTitle from '@/components/project/upload/FormTitle';
 import MemberForm from '@/components/project/upload/MemberForm';
-import { FC } from 'react';
+import { FC, FormEvent } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { colors } from '@/styles/colors';
 import TextArea from '@/components/common/TextArea';
@@ -27,11 +27,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import FormDateTerm from '@/components/project/upload/FormDateTerm';
 import ServiceTypeForm from '@/components/project/upload/ServiceTypeForm';
+import ImageUploader from '@/components/common/ImageUploader';
+import LinkForm from '@/components/project/upload/LinkForm';
+import useLinkForm from '@/components/project/upload/LinkForm/useLinkForm';
 
 const schema = yup.object().shape({
   'name': yup.string().required('프로젝트 이름을 입력해주세요'),
-  'termDate.dateFrom': yup.date(),
-  'termDate.dateTo': yup.date(),
+  'officialActivity': yup.string().required('어디서 진행했는지 선택해주세요'),
+  'termDate.dateFrom': yup.date().required('프로젝트 기간을 입력해주세요'),
+  'termDate.dateTo': yup.date().required('프로젝트 기간을 입력해주세요'),
 });
 interface MemberForm {
   memberId: string;
@@ -44,14 +48,10 @@ const ProjectUploadPage: FC = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',
-      th: undefined,
       thChecked: false,
-      officialActivity: undefined,
       isAvailable: false,
       isFounding: false,
       termDate: {
-        dateFrom: undefined,
-        dateTo: undefined,
         isOngoing: false,
       },
       serviceType: [],
@@ -62,11 +62,13 @@ const ProjectUploadPage: FC = () => {
     register,
     control,
     watch,
+    handleSubmit,
     formState: { dirtyFields },
   } = methods;
 
   const { members: appJamMembers, ...appJamMemberFormProps } = useMemberForm();
   const { members: releaseMembers, ...releaseMemberFormProps } = useMemberForm();
+  const { links, ...linkFormProps } = useLinkForm();
 
   const _formItems = formItems.map((formItem) =>
     dirtyFields?.[formItem.value]
@@ -77,9 +79,13 @@ const ProjectUploadPage: FC = () => {
       : formItem,
   );
 
+  const onSubmit = () => {
+    // TODO: api 연결
+  };
+
   return (
     <FormProvider {...methods}>
-      <Container>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <FormStatus formItems={_formItems} />
         <Project>
           <FormTitle typography='SUIT_24_SB'>프로젝트</FormTitle>
@@ -235,35 +241,58 @@ const ProjectUploadPage: FC = () => {
             css={css`
               margin: 84px 0 0;
             `}
+            essential
           >
-            썸네일 이미지
+            로고 이미지
           </FormTitle>
           <Text
             css={css`
               margin: 12px 0 18px;
             `}
-            typography='SUIT_16_M'
+            typography='SUIT_14_M'
             color={colors.gray100}
           >
-            가로 300px : 세로 400px, 1MB 이내로 썸네일을 제작해주세요
+            가로 300px 세로 300px 권장합니다. 예외 규격은 잘릴 수 있습니다.
           </Text>
-          <FormTitle essential>썸네일</FormTitle>
-          <Text typography='SUIT_16_M' color={colors.gray100}>
-            가로 1000px : 세로 제한없음, 10MB 이내로 프로젝트 이미지를 제작해주세요
+          <Controller name='logoImage' control={control} render={({ field }) => <ImageUploader {...field} />} />
+          <FormTitle essential>썸네일 이미지</FormTitle>
+          <Text typography='SUIT_14_M' color={colors.gray100}>
+            16:9 비율로 가로 368px 세로208px을 권장합니다.
           </Text>
+          <Controller
+            name='thumbnailImage'
+            control={control}
+            render={({ field }) => <ImageUploader width={369} height={208} {...field} />}
+          />
+          <FormTitle>프로젝트 이미지</FormTitle>
+          <Text
+            css={css`
+              margin: 12px 0 18px;
+            `}
+            typography='SUIT_14_M'
+            color={colors.gray100}
+          >
+            10MB 이내로 가로 1200px, 세로는 자유롭게 제작해주세요.
+          </Text>
+          <Controller
+            name='projectImage'
+            control={control}
+            render={({ field }) => <ImageUploader width={369} height={208} {...field} />}
+          />
           <FormTitle>링크</FormTitle>
           <Text typography='SUIT_16_M' color={colors.gray100}>
             웹사이트, 구글 플레이스토어, 앱스토어, Github, 발표영상, 관련자료, instagram 등을 자유롭게 업로드해주세요
           </Text>
+          <LinkForm links={links} {...linkFormProps} />
         </Project>
-      </Container>
+      </StyledForm>
     </FormProvider>
   );
 };
 
 export default ProjectUploadPage;
 
-const Container = styled.div`
+const StyledForm = styled.form`
   display: flex;
   gap: 40px;
   justify-content: center;
