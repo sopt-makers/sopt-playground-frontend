@@ -15,13 +15,17 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@hookform/resolvers": "^2.9.1",
     "axios": "^0.27.2",
+    "dayjs": "^1.11.3",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "react-hook-form": "^7.31.3",
     "react-query": "^3.38.0",
     "react-spring": "^9.4.5",
-    "recoil": "^0.7.2"
+    "recoil": "^0.7.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

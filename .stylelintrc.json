@@ -16,5 +16,9 @@
       "files": ["*.html", "**/*.html"],
       "customSyntax": "postcss-html"
     }
-  ]
+  ],
+  "rules": {
+    "value-keyword-case": null,
+    "function-no-unknown": null
+  }
 }

@@ -1,11 +1,5 @@
-import font from '@/styles/font';
-import { reset } from '@/styles/reset';
-import { css, Global } from '@emotion/react';
-
-const global = css`
-  ${font}
-  ${reset}
-`;
+import { global } from '@/styles/global';
+import { Global } from '@emotion/react';
 
 const GlobalStyle = () => <Global styles={global} />;
 

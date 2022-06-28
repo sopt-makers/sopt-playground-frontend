@@ -1,0 +1,33 @@
+{
+  " sopt.org storybook snippet": {
+    "prefix": "stories",
+    "body": [
+      "import { ComponentMeta, ComponentStory } from '@storybook/react';",
+      "import { graphql, rest } from 'msw';",
+      "import ${2:${TM_FILENAME_BASE/(.*).stories/$1/}} from './${3:${TM_FILENAME_BASE/(.*).stories/$1/}}';",
+      "",
+      "export default {",
+      "  component: $2,",
+      "  parameters: {",
+      "    msw: {",
+      "      handlers: [",
+      "        graphql.query('GraphQLQueryName', (req, res, ctx) => res(ctx.data({ result: { is_test: true } }))),",
+      "        graphql.mutation('GraphQLMutationName', (req, res, ctx) => res(ctx.data({ result: { is_test: true } }))),",
+      "        // https://mswjs.io/docs/api/rest",
+      "        rest.get('https://localhost:4200/api/*', (req, res, ctx) => res(ctx.json({ is_test: true }))),",
+      "        rest.post('https://localhost:4200/api/*', (req, res, ctx) => res(ctx.status(200))),",
+      "      ],",
+      "    },",
+      "  },",
+      "  decorators: [],",
+      "} as ComponentMeta<typeof $2>;",
+      "",
+      "const Template: ComponentStory<typeof $2> = (args) => <$2 {...args} />;",
+      "",
+      "export const Default = Template.bind({});",
+      "Default.args = {};",
+      "Default.storyName = '기본';",
+      "$1"
+    ]
+  }
+}
