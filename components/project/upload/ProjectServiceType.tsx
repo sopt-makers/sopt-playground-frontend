@@ -1,5 +1,5 @@
-import { ServiceType } from '@/components/project/upload/constants';
 import FormTitle from '@/components/project/upload/FormTitle';
+import { ServiceType } from '@/components/project/upload/types';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';

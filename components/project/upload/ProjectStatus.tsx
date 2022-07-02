@@ -12,7 +12,7 @@ const ProjectStatus: FC = () => {
   const { register } = useFormContext<ProjectUploadForm>();
   return (
     <StyledContainer>
-      <FormTitle>프로젝트 현재 상태</FormTitle>
+      <FormTitle essential>프로젝트 현재 상태</FormTitle>
       <StyledWrapper>
         <Switch {...register('isAvailable')} />
         <StyledSubTitle>현재 이 서비스를 이용할 수 있나요?</StyledSubTitle>

@@ -1,7 +1,8 @@
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
-import { Category, categoryLabel } from '@/components/project/upload/constants';
+import { categoryLabel } from '@/components/project/upload/constants';
 import FormTitle from '@/components/project/upload/FormTitle';
+import { Category } from '@/components/project/upload/types';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';

@@ -11,7 +11,7 @@ const ProjectDetail: FC = () => {
   return (
     <StyledContaeinr>
       <FormTitle essential>프로젝트 설명</FormTitle>
-      <StyledTextArea placeholder='프로젝트에 대해 설명해주세요' {...register('detail')} />
+      <StyledTextArea count maxCount={500} placeholder='프로젝트에 대해 설명해주세요' {...register('detail')} />
     </StyledContaeinr>
   );
 };

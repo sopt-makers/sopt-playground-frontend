@@ -1,3 +1,4 @@
+import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import FormTitle from '@/components/project/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/project/upload';
@@ -7,13 +8,18 @@ import { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const ProjectName: FC = () => {
-  const { register } = useFormContext<ProjectUploadForm>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<ProjectUploadForm>();
   return (
     <>
       <FormTitle typography='SUIT_24_SB'>프로젝트</FormTitle>
       <StyledDivider />
       <FormTitle essential>프로젝트 이름</FormTitle>
-      <StyledInput placeholder='프로젝트' {...register('name')} />
+      <FormItem errorMessage={errors.name?.message}>
+        <StyledInput placeholder='프로젝트' error={!!errors.name} {...register('name')} />
+      </FormItem>
     </>
   );
 };

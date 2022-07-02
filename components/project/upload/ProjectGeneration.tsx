@@ -7,11 +7,25 @@ import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 const ProjectGeneration: FC = () => {
-  const { register, control } = useFormContext<ProjectUploadForm>();
+  const { register, watch, control, setValue } = useFormContext<ProjectUploadForm>();
+  const [generation, generationChecked] = watch(['generation', 'generationChecked']);
+
+  useEffect(() => {
+    if (generationChecked) {
+      setValue('generation', undefined);
+    }
+  }, [generationChecked, setValue]);
+
+  useEffect(() => {
+    if (generation) {
+      setValue('generationChecked', false);
+    }
+  }, [generation, setValue]);
+
   return (
     <StyledContainer>
       <FormTitle>기수</FormTitle>

@@ -10,7 +10,7 @@ const ProjectSummary: FC = () => {
   return (
     <StyledContainer>
       <FormTitle essential>프로젝트 한줄 소개</FormTitle>
-      <StyledInput placeholder='프로젝트 한줄 소개' {...register('summary')} />
+      <StyledInput count maxCount={30} placeholder='프로젝트 한줄 소개' {...register('summary')} />
     </StyledContainer>
   );
 };
