@@ -1,8 +1,10 @@
 import Checkbox from '@/components/common/Checkbox';
+import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import Text from '@/components/common/Text';
-import { ProjectUploadForm } from '@/components/project/upload/constants';
-import FormItem from '@/components/project/upload/FormItem';
+
+import FormTitle from '@/components/project/upload/FormTitle';
+import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
@@ -10,7 +12,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 const DATE_PATTERN = /^d{4}.(0[1-9]|1[0-2])/;
 
-const FormDateTerm = () => {
+const ProjectPeriod = () => {
   const {
     control,
     register,
@@ -18,31 +20,36 @@ const FormDateTerm = () => {
   } = useFormContext<ProjectUploadForm>();
 
   return (
-    <FormItem title='프로젝트 기간' titleProps={{ essential: true }}>
-      <Content>
+    <StyledContainer>
+      <FormTitle essential>프로젝트 기간</FormTitle>
+      <StyledContent>
         <DateFormWrapper>
-          <Input
-            placeholder='YYYY.MM'
-            {...register('termDate.dateFrom', {
-              pattern: DATE_PATTERN,
-            })}
-          />
-          {errors.termDate?.dateFrom && <Text type='error'>{errors.termDate?.dateFrom?.message}</Text>}
+          <FormItem errorMessage={errors.period?.startAt?.message}>
+            <Input
+              placeholder='YYYY.MM'
+              error={!!errors.period?.startAt}
+              {...register('period.startAt', {
+                pattern: DATE_PATTERN,
+              })}
+            />
+          </FormItem>
         </DateFormWrapper>
         <StyledText>{'-'}</StyledText>
         <DateFormWrapper>
-          <Input
-            placeholder='YYYY.MM'
-            {...register('termDate.dateTo', {
-              pattern: DATE_PATTERN,
-            })}
-          />
-          {errors.termDate?.dateTo && <Text type='error'>{errors.termDate?.dateTo?.message}</Text>}
+          <FormItem errorMessage={errors.period?.endAt?.message}>
+            <Input
+              error={!!errors.period?.endAt?.message}
+              placeholder='YYYY.MM'
+              {...register('period.endAt', {
+                pattern: DATE_PATTERN,
+              })}
+            />
+          </FormItem>
         </DateFormWrapper>
-      </Content>
+      </StyledContent>
       <CheckboxWrapper>
         <Controller
-          name='termDate.isOngoing'
+          name='period.isOngoing'
           control={control}
           render={({ field: { value, ...props } }) => <Checkbox checked={value} {...props} />}
         />
@@ -50,15 +57,20 @@ const FormDateTerm = () => {
           진행중
         </Text>
       </CheckboxWrapper>
-    </FormItem>
+    </StyledContainer>
   );
 };
 
-export default FormDateTerm;
+export default ProjectPeriod;
 
-const Content = styled.div`
+const StyledContainer = styled.section`
+  margin: 60px 0 0;
+`;
+
+const StyledContent = styled.div`
   display: flex;
   align-items: center;
+  margin: 20px 0 0;
 `;
 
 const DateFormWrapper = styled.div`
