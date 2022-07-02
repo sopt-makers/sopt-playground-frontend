@@ -1,25 +1,20 @@
 import styled from '@emotion/styled';
-import Text from '@/components/common/Text';
 import { forwardRef, InputHTMLAttributes } from 'react';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
+import { css } from '@emotion/react';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  errorMessage?: string;
+  error?: boolean;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(({ errorMessage, ...props }, ref) => {
-  return (
-    <>
-      <StyledInput ref={ref} {...props} />
-      {errorMessage && <StyledErrorMessage>{errorMessage}</StyledErrorMessage>}
-    </>
-  );
+export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, ...props }, ref) => {
+  return <StyledInput error={error} ref={ref} {...props} />;
 });
 
 export default Input;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<InputProps>`
   box-sizing: border-box;
   transition: all 0.2s;
   border: 1.5px solid ${colors.black60};
@@ -39,9 +34,14 @@ const StyledInput = styled.input`
     border-color: ${colors.purple100};
     background-color: ${colors.black80};
   }
-`;
 
-const StyledErrorMessage = styled(Text)`
-  color: red;
-  ${textStyles.SUIT_12_M};
+  ${({ error }) =>
+    error &&
+    css`
+      border-color: ${colors.red100};
+
+      :focus {
+        border-color: ${colors.red100};
+      }
+    `}
 `;

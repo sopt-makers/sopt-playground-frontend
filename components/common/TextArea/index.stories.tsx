@@ -12,3 +12,10 @@ Default.args = {
   placeholder: '프로젝트에 대해 설명해주세요',
 };
 Default.storyName = '기본';
+
+export const Error = Template.bind({});
+Error.args = {
+  placeholder: '프로젝트에 대해 설명해주세요',
+  error: true,
+};
+Error.storyName = '에러';
