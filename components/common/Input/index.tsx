@@ -1,15 +1,31 @@
 import styled from '@emotion/styled';
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes, useState } from 'react';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { css } from '@emotion/react';
+import Text from '@/components/common/Text';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
+  count?: boolean;
+  maxCount?: number;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, ...props }, ref) => {
-  return <StyledInput error={error} ref={ref} {...props} />;
+export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, count, maxCount, ...props }, ref) => {
+  const [value, setValue] = useState<string>('');
+
+  return (
+    <>
+      <StyledInput value={value} onChange={(e) => setValue(e.target.value)} error={error} ref={ref} {...props} />
+      {count && (
+        <StyledCountValue>
+          <Text color={colors.gray100} typography='SUIT_12_M'>
+            {`${value.length}/${maxCount}`}
+          </Text>
+        </StyledCountValue>
+      )}
+    </>
+  );
 });
 
 export default Input;
@@ -44,4 +60,10 @@ const StyledInput = styled.input<InputProps>`
         border-color: ${colors.red100};
       }
     `}
+`;
+
+const StyledCountValue = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
 `;
