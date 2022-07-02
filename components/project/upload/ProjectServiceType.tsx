@@ -1,24 +1,22 @@
-import { ProjectUploadForm, ServiceType } from '@/components/project/upload/constants';
-import FormItem from '@/components/project/upload/FormItem';
+import FormTitle from '@/components/project/upload/FormTitle';
+import { ServiceType } from '@/components/project/upload/types';
+import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useFormContext } from 'react-hook-form';
 
-const ServiceTypeForm = () => {
+const ProjectServiceType = () => {
   const { watch, register } = useFormContext<ProjectUploadForm>();
   const selectedServices = watch('serviceType');
 
   return (
-    <FormItem
-      title='서비스 형태'
-      titleProps={{
-        essential: true,
-        description: '복수 선택 가능',
-      }}
-    >
-      <Content>
+    <StyledContainer>
+      <FormTitle essential description='복수 선택 가능'>
+        서비스 형태
+      </FormTitle>
+      <StyledContent>
         <StyledLabel checked={selectedServices.includes(ServiceType.WEB)}>
           <input type='checkbox' value={ServiceType.WEB} {...register('serviceType')} />
           <span>웹</span>
@@ -27,16 +25,21 @@ const ServiceTypeForm = () => {
           <input type='checkbox' value={ServiceType.APP} {...register('serviceType')} />
           <span>앱</span>
         </StyledLabel>
-      </Content>
-    </FormItem>
+      </StyledContent>
+    </StyledContainer>
   );
 };
 
-export default ServiceTypeForm;
+export default ProjectServiceType;
 
-const Content = styled.div`
+const StyledContainer = styled.section`
+  margin-top: 60px;
+`;
+
+const StyledContent = styled.div`
   display: flex;
   align-items: center;
+  margin: 20px 0 0;
 
   & > :last-child {
     margin: 0 0 0 10px;

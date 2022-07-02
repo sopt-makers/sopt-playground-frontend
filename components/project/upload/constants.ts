@@ -1,65 +1,17 @@
-import { Link } from '@/components/project/upload/LinkForm/constants';
+import { Category, FormItem, FormItemValue } from '@/components/project/upload/types';
 
-const LATEST_TH = 30;
+const LATEST_GENERATION = 30;
 
-export const TH = Array.from({ length: LATEST_TH }, (_, i) => i + 1).reverse();
+export const GENERATION = Array.from({ length: LATEST_GENERATION }, (_, i) => i + 1).reverse();
 
-// TODO: 서버쪽 인터페이스에 맞게 수정
-export enum OfficialActivitiy {
-  APPJAM = 'APPJAM',
-  SOPKATHON = 'SOPKATHON',
-  SOPTERM = 'SOPTERM',
-  STUDY = 'STUDY',
-  JOINTSEMINAR = 'JOINTSEMINAR',
-  ETC = 'ETC',
-}
-
-export const officiallActivityLabel: Record<OfficialActivitiy, string> = {
-  [OfficialActivitiy.APPJAM]: '앱잼',
-  [OfficialActivitiy.SOPKATHON]: '솝커톤',
-  [OfficialActivitiy.SOPTERM]: '솝텀 프로젝트',
-  [OfficialActivitiy.STUDY]: '스터디',
-  [OfficialActivitiy.JOINTSEMINAR]: '합동 세미나',
-  [OfficialActivitiy.ETC]: '기타',
+export const categoryLabel: Record<Category, string> = {
+  [Category.APPJAM]: '앱잼',
+  [Category.SOPKATHON]: '솝커톤',
+  [Category.SOPTERM]: '솝텀 프로젝트',
+  [Category.STUDY]: '스터디',
+  [Category.JOINTSEMINAR]: '합동 세미나',
+  [Category.ETC]: '기타',
 };
-
-export enum ServiceType {
-  WEB = 'web',
-  APP = 'app',
-}
-
-export interface TermDate {
-  dateFrom: string;
-  dateTo: string;
-  isOngoing: boolean;
-}
-
-export interface ProjectUploadForm {
-  name: string;
-  th: string;
-  thChecked: boolean; // 특정 기수 활동으로 진행하지 않았음
-  officialActivity: OfficialActivitiy;
-  isAvailable: boolean;
-  isFounding: boolean;
-  originalMembers: any;
-  additionalMembers: any;
-  serviceType: ServiceType[];
-  termDate: TermDate;
-  description: string;
-  logoImage: File;
-  thumbnailImage: File;
-  projectImage: File;
-  link: Link;
-}
-
-export type FormItemValue = keyof ProjectUploadForm;
-
-export interface FormItem {
-  label: string;
-  value: FormItemValue;
-  isDirty: boolean;
-  isRequired: boolean;
-}
 
 export const formItems: FormItem[] = [
   {
@@ -70,25 +22,25 @@ export const formItems: FormItem[] = [
   },
   {
     label: '기수',
-    value: 'th',
+    value: 'generation',
     isDirty: false,
     isRequired: false,
   },
   {
-    label: '진행유형',
-    value: 'officialActivity',
+    label: '어디서 진행했나요?',
+    value: 'category',
     isDirty: false,
     isRequired: true,
   },
   {
-    label: '앱잼 팀원',
-    value: 'originalMembers',
+    label: '프로젝트 팀원',
+    value: 'members',
     isDirty: false,
     isRequired: true,
   },
   {
     label: '추가 합류한 팀원',
-    value: 'additionalMembers',
+    value: 'releaseMembers',
     isDirty: false,
     isRequired: true,
   },
@@ -100,13 +52,25 @@ export const formItems: FormItem[] = [
   },
   {
     label: '프로젝트 기간',
-    value: 'termDate',
+    value: 'period',
     isDirty: false,
     isRequired: true,
   },
   {
     label: '프로젝트 한줄 소개',
-    value: 'description',
+    value: 'summary',
+    isDirty: false,
+    isRequired: true,
+  },
+  {
+    label: '프로젝트 설명',
+    value: 'detail',
+    isDirty: false,
+    isRequired: true,
+  },
+  {
+    label: '로고 이미지',
+    value: 'logoImage',
     isDirty: false,
     isRequired: true,
   },
