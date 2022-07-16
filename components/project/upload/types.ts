@@ -28,3 +28,13 @@ export enum Category {
   JOINTSEMINAR = 'JOINTSEMINAR',
   ETC = 'ETC',
 }
+
+export type Generation = {
+  generation?: string;
+  checked: boolean;
+};
+
+export type Status = {
+  isAvailable: boolean;
+  isFounding: boolean;
+};

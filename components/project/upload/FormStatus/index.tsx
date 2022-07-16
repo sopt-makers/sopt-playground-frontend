@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Text from '@/components/common/Text';
-import { FormItem } from '@/components/project/upload/constants';
+import { FormItem } from '@/components/project/upload/types';
 import FormTitle from '@/components/project/upload/FormTitle';
 import { FC } from 'react';
 import { colors } from '@/styles/colors';

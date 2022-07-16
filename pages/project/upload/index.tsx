@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { categoryLabel, formItems } from '@/components/project/upload/constants';
+import { categoryLabel, FORM_ITEMS } from '@/components/project/upload/constants';
 import { FC } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, DefaultValues } from 'react-hook-form';
 import { colors } from '@/styles/colors';
 import FormStatus from '@/components/project/upload/FormStatus';
 import useMemberForm from '@/components/project/upload/MemberForm/useMemberForm';
@@ -21,14 +21,11 @@ import ProjectSummary from '@/components/project/upload/ProjectSummary';
 import ProjectDetail from '@/components/project/upload/ProjectDetail';
 import ProjectLink from '@/components/project/upload/ProjectLink';
 import ProjectImageSection from '@/components/project/upload/ProjectImageSection';
-import { Period, ServiceType, Category, FormItem } from '@/components/project/upload/types';
+import { Period, ServiceType, Category, FormItem, Status, Generation } from '@/components/project/upload/types';
 
 const schema = yup.object().shape({
   'name': yup.string().required('프로젝트 이름을 입력해주세요'),
-  'generation': yup.string(),
   'category': yup.string().required('어디서 진행했는지 선택해주세요'),
-  'isAvaliable': yup.boolean().required(),
-  'isFounding': yup.boolean().required(),
   'serviceType': yup.array().required('서비스 형태를 선택해주세요.'),
   'period.startAt': yup.date().required('프로젝트 시작일을 입력해주세요'),
   'period.endAt': yup.date().required('프로젝트 종료일을 입력해주세요'),
@@ -40,13 +37,29 @@ const schema = yup.object().shape({
   'link': yup.object(),
 });
 
+const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
+  name: '',
+  generation: {
+    generation: undefined,
+    checked: false,
+  },
+  status: {
+    isAvailable: false,
+    isFounding: false,
+  },
+  period: {
+    isOngoing: false,
+  },
+  serviceType: [],
+  summary: '',
+  detail: '',
+};
+
 export interface ProjectUploadForm {
   name: string;
-  generation?: string;
-  generationChecked: boolean;
+  generation: Generation;
   category: Category;
-  isAvailable: boolean;
-  isFounding: boolean;
+  status: Status;
   members: any;
   releaseMembers: any;
   serviceType: ServiceType[];
@@ -62,43 +75,14 @@ export interface ProjectUploadForm {
 const ProjectUploadPage: FC = () => {
   const methods = useForm<ProjectUploadForm>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      generationChecked: false,
-      isAvailable: false,
-      isFounding: false,
-      period: {
-        isOngoing: false,
-      },
-      serviceType: [],
-    },
+    defaultValues: DEFAULT_VALUES,
     mode: 'onSubmit',
   });
-  const {
-    handleSubmit,
-    watch,
-    formState: { dirtyFields },
-  } = methods;
+  const { handleSubmit, watch } = methods;
   const { members, ...memberFormProps } = useMemberForm();
   const { members: releaseMembers, ...releaseMemberFormProps } = useMemberForm();
   const { links, ...linkFormProps } = useLinkForm();
   const category = watch('category');
-  const label = categoryLabel?.[category] ?? '';
-
-  const _formItems = formItems
-    .map((formItem) =>
-      dirtyFields?.[formItem.value]
-        ? {
-            ...formItem,
-            isDirty: true,
-          }
-        : formItem,
-    )
-    .reduce(
-      (acc: FormItem[], cur) =>
-        cur.value === 'members' ? [...acc, { ...cur, label: `${label} 팀원` }] : [...acc, cur],
-
-      [],
-    );
 
   const onSubmit = (data: ProjectUploadForm) => {
     // TODO: api 연결
@@ -107,7 +91,8 @@ const ProjectUploadPage: FC = () => {
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <FormStatus formItems={_formItems} />
+        {/* TODO: 릴리즈 이후에 고도화 */}
+        {/* <FormStatus formItems={_formItems} /> */}
         <ProjectContainer>
           <ProjectName />
           <ProjectGeneration />
