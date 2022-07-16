@@ -18,7 +18,9 @@ const MemberForm: FC<MemeberFormProps> = ({ members, onClickAdd, onChange, onDel
       {members.map((member) => (
         <MemberFormItem key={member.key} member={member} onChange={onChange} onDelete={onDelete} />
       ))}
-      <MemberAddButton onClick={onClickAdd}>+ 추가</MemberAddButton>
+      <MemberAddButton type='button' onClick={onClickAdd}>
+        + 추가
+      </MemberAddButton>
     </Container>
   );
 };

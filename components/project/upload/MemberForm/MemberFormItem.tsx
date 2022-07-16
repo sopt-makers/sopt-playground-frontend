@@ -4,7 +4,7 @@ import Select from '@/components/common/Select';
 import { ChangeEvent, FC } from 'react';
 import IconDelete from '@/public/icons/icon-delete.svg';
 import { Member } from '@/components/project/upload/MemberForm/useMemberForm';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { MemeberFormProps } from '@/components/project/upload/MemberForm';
 
 type MemberForm = Omit<Member, 'key'>;
@@ -14,7 +14,7 @@ interface MemberFormItemProps extends Omit<MemeberFormProps, 'members' | 'onClic
 }
 
 const MemberFormItem: FC<MemberFormItemProps> = ({ member, onChange, onDelete }) => {
-  const { register } = useForm<MemberForm>();
+  const { register, control } = useForm<MemberForm>();
 
   const _onChange = (e: ChangeEvent<any>, key: keyof MemberForm) => {
     onChange({
@@ -43,11 +43,16 @@ const MemberFormItem: FC<MemberFormItemProps> = ({ member, onChange, onDelete })
         <option value='역할4'>역할4</option>
         <option value='역할5'>역할5</option>
       </StyledSelect>
-      <Input
-        placeholder='어떤 역할을 맡았는지 적어주세요'
-        {...register('description', {
-          onChange: (e) => _onChange(e, 'description'),
-        })}
+      <Controller
+        control={control}
+        name='description'
+        render={({ field: { onChange, ...props } }) => (
+          <Input
+            placeholder='어떤 역할을 맡았는지 적어주세요'
+            onChange={(e) => _onChange(e, 'description')}
+            {...props}
+          />
+        )}
       />
       <IconDeleteWrapper>
         <IconDelete onClick={() => onDelete(member.key)} />

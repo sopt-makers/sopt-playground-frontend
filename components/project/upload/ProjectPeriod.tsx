@@ -1,5 +1,5 @@
 import Checkbox from '@/components/common/Checkbox';
-import FormItem from '@/components/common/form/FormItem';
+import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Text from '@/components/common/Text';
 
@@ -24,27 +24,23 @@ const ProjectPeriod = () => {
       <FormTitle essential>프로젝트 기간</FormTitle>
       <StyledContent>
         <DateFormWrapper>
-          <FormItem errorMessage={errors.period?.startAt?.message}>
-            <Input
-              placeholder='YYYY.MM'
-              error={!!errors.period?.startAt}
-              {...register('period.startAt', {
-                pattern: DATE_PATTERN,
-              })}
-            />
-          </FormItem>
+          <RHFControllerFormItem
+            control={control}
+            name='period.startAt'
+            component={Input}
+            placeholder='YYYY.MM'
+            rules={{ pattern: DATE_PATTERN }}
+          />
         </DateFormWrapper>
         <StyledText>{'-'}</StyledText>
         <DateFormWrapper>
-          <FormItem errorMessage={errors.period?.endAt?.message}>
-            <Input
-              error={!!errors.period?.endAt?.message}
-              placeholder='YYYY.MM'
-              {...register('period.endAt', {
-                pattern: DATE_PATTERN,
-              })}
-            />
-          </FormItem>
+          <RHFControllerFormItem
+            control={control}
+            name='period.endAt'
+            component={Input}
+            placeholder='YYYY.MM'
+            rules={{ pattern: DATE_PATTERN }}
+          />
         </DateFormWrapper>
       </StyledContent>
       <CheckboxWrapper>
