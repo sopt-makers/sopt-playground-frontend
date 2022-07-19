@@ -7,7 +7,6 @@ import { colors } from '@/styles/colors';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import ProjectServiceType from '@/components/project/upload/ProjectServiceType';
-import useLinkForm from '@/components/project/upload/LinkForm/useLinkForm';
 import { Link } from '@/components/project/upload/LinkForm/constants';
 import ProjectName from '@/components/project/upload/ProjectName';
 import ProjectGeneration from '@/components/project/upload/ProjectGeneration';
@@ -23,7 +22,7 @@ import ProjectImageSection from '@/components/project/upload/ProjectImageSection
 import { Period, ServiceType, Category, FormItem, Status, Generation } from '@/components/project/upload/types';
 import Button from '@/components/common/Button';
 import useCreateProjectMutation from '@/components/project/upload/hooks/useCreateProjectMutation';
-import { Role } from '@/api/project/types';
+import { Member } from '@/components/project/upload/MemberForm/constants';
 
 const schema: yup.SchemaOf<ProjectUploadForm> = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
@@ -47,7 +46,7 @@ const schema: yup.SchemaOf<ProjectUploadForm> = yup.object().shape({
     }),
   ),
   releaseMembers: yup.array().of(
-    yup.object({
+    yup.object().shape({
       userId: yup.number().required(),
       description: yup.string().required(),
       role: yup.string().required(),
@@ -63,7 +62,12 @@ const schema: yup.SchemaOf<ProjectUploadForm> = yup.object().shape({
   logoImage: yup.string().required('로고 이미지를 업로드해 주세요'),
   thumbnailImage: yup.string(),
   projectImage: yup.string(),
-  link: yup.object(),
+  links: yup.array().of(
+    yup.object().shape({
+      title: yup.string().required(),
+      url: yup.string().required(),
+    }),
+  ),
 });
 
 const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
@@ -79,6 +83,7 @@ const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   period: {
     isOngoing: false,
   },
+  members: [{ userId: undefined, role: undefined, isTeamMember: true, description: undefined }],
   serviceType: [],
   summary: '',
   detail: '',
@@ -89,12 +94,7 @@ export interface ProjectUploadForm {
   generation: Generation;
   category: Category;
   status: Status;
-  members: {
-    userId: number;
-    description: string;
-    role: Role;
-    is_team_member: boolean;
-  }[];
+  members: Member[];
   releaseMembers: any;
   serviceType: ServiceType[];
   period: Period;
@@ -103,7 +103,7 @@ export interface ProjectUploadForm {
   logoImage: File;
   thumbnailImage: File;
   projectImage: File;
-  link: Link;
+  links: Link[];
 }
 
 const ProjectUploadPage: FC = () => {
@@ -112,14 +112,9 @@ const ProjectUploadPage: FC = () => {
     defaultValues: DEFAULT_VALUES,
     mode: 'onSubmit',
   });
-  const { handleSubmit, watch } = methods;
-  const { links, ...linkFormProps } = useLinkForm();
+  const { control, handleSubmit, watch } = methods;
   const category = watch('category');
   const { mutate } = useCreateProjectMutation();
-  const [members, releaseMembers] = watch(['members', 'releaseMembers']);
-
-  console.log('[members]: ', members);
-  console.log('[releaseMembers]: ', releaseMembers);
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
@@ -131,10 +126,7 @@ const ProjectUploadPage: FC = () => {
         detail: data.detail,
         summary: data.summary,
         service_type: data.serviceType,
-        links: links.map((link) => ({
-          title: link.title ?? '',
-          url: link.url,
-        })),
+        links: data.links,
         start_at: data.period.startAt,
         end_at: !data.period.isOngoing ? data.period.endAt : undefined,
         is_available: data.status.isAvailable,
@@ -163,7 +155,7 @@ const ProjectUploadPage: FC = () => {
           <ProjectSummary />
           <ProjectDetail />
           <ProjectImageSection />
-          <ProjectLink links={links} {...linkFormProps} />
+          <ProjectLink />
         </ProjectContainer>
         <Button type='submit'>제출하기</Button>
       </StyledForm>
