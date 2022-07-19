@@ -5,7 +5,7 @@ import { Category, ServiceType } from '@/components/project/upload/types';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
-import { FC, Fragment, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import IconPlaystore from '@/public/icons/icon-playstore.svg';
 import IconAppstore from '@/public/icons/icon-appstore.svg';
 import IconWeb from '@/public/icons/icon-web.svg';
