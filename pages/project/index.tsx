@@ -6,13 +6,13 @@ import useGetProjectListQuery from '@/components/project/upload/hooks/useGetProj
 
 const ProjectPage: FC = () => {
   const { data } = useGetProjectListQuery();
-  
+
   return (
     <StyledContainer>
       <StyledContent>
         <h1>Projects</h1>
         <StyledGridContainer>
-          <img src={IconAppstore} />
+          <IconAppstore />
           {/* Project Cards */}
         </StyledGridContainer>
       </StyledContent>
