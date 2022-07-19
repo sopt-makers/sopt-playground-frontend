@@ -1,21 +1,18 @@
-export type LinkType = 'github' | 'website' | 'googlePlay' | 'appStore';
+export type LinkTitle = 'website' | 'googlePlay' | 'appStore' | 'github';
 
 export interface Link {
-  key: number;
-  type: LinkType | null;
+  title: LinkTitle;
   url: string;
 }
 
-export const LINK_TYPES = [
-  { type: 'github', label: 'Github' },
-  { type: 'website', label: '웹사이트' },
-  { type: 'googlePlay', label: '구글 플레이스토어' },
-  { type: 'appStore', label: '앱 스토어' },
+export const LINK_TITLES: { title: LinkTitle; label: string }[] = [
+  { title: 'website', label: '웹사이트' },
+  { title: 'googlePlay', label: '구글 플레이스토어' },
+  { title: 'appStore', label: '앱 스토어' },
+  { title: 'github', label: 'Github' },
 ];
 
-export const DEFAULT_LINK_KEY = 0;
 export const DEFAULT_LINK: Link = {
-  key: DEFAULT_LINK_KEY,
-  type: null,
+  title: 'website',
   url: '',
 };
