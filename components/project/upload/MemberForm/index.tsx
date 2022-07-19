@@ -8,19 +8,7 @@ import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import { Role } from '@/api/project/types';
 import IconDelete from '@/public/icons/icon-delete.svg';
-
-interface Member {
-  userId?: number;
-  role?: Role;
-  isTeamMember?: boolean;
-  description?: string;
-}
-const DEFAULT_MEMBER: Member = {
-  userId: undefined,
-  role: undefined,
-  isTeamMember: undefined,
-  description: undefined,
-};
+import { DEFAULT_MEMBER } from '@/components/project/upload/MemberForm/constants';
 
 interface MemberFormProps {
   name: UseFieldArrayProps<ProjectUploadForm, 'members' | 'releaseMembers' | `releaseMembers.${string}`, 'id'>['name'];
