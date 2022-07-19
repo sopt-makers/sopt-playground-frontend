@@ -21,6 +21,10 @@ Thumbnail.args = {
   thumbnailIamge: THUMBNAIL_IMAGE,
   logoImage: LOGO_IMAGE,
   serviceType: [ServiceType.APP, ServiceType.WEB],
+  links: [
+    { type: 'website', url: 'zigzag.kr' },
+    { type: 'appStore', url: 'zigzag.kr' },
+  ],
 };
 Thumbnail.storyName = '썸네일 이미지';
 

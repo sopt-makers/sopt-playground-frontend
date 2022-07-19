@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import ProjectCard from '@/components/project/main/ProjectCard';
+import IconAppstore from '@/public/icons/icon-appstore.svg';
 import { FC } from 'react';
 import useGetProjectListQuery from '@/components/project/upload/hooks/useGetProjectListQuery';
 
@@ -10,7 +11,10 @@ const ProjectPage: FC = () => {
     <StyledContainer>
       <StyledContent>
         <h1>Projects</h1>
-        <StyledGridContainer>{/* Project Cards */}</StyledGridContainer>
+        <StyledGridContainer>
+          <img src={IconAppstore} />
+          {/* Project Cards */}
+        </StyledGridContainer>
       </StyledContent>
     </StyledContainer>
   );

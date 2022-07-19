@@ -1,10 +1,22 @@
 import Text from '@/components/common/Text';
 import { categoryLabel } from '@/components/project/upload/constants';
+import { Link, LinkTitle } from '@/components/project/upload/LinkForm/constants';
 import { Category, ServiceType } from '@/components/project/upload/types';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { FC } from 'react';
+import IconPlaystore from '@/public/icons/icon-playstore.svg';
+import IconAppstore from '@/public/icons/icon-appstore.svg';
+import IconWeb from '@/public/icons/icon-web.svg';
+import NextLink from 'next/link';
+
+const LINK_INFO: Record<LinkTitle, { icon: string; label: string }> = {
+  website: { icon: IconWeb, label: '서비스 바로가기' },
+  googlePlay: { icon: IconPlaystore, label: 'Google Play' },
+  appStore: { icon: IconAppstore, label: 'App Store' },
+  github: { icon: '', label: 'Github' },
+};
 
 interface ProjectCardProps {
   serviceType: ServiceType[];
@@ -14,6 +26,7 @@ interface ProjectCardProps {
   description: string;
   thumbnailIamge?: string;
   logoImage: string;
+  links?: Link[];
 }
 
 const ProjectCard: FC<ProjectCardProps> = ({
@@ -24,6 +37,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
   description,
   thumbnailIamge,
   logoImage,
+  links,
 }) => {
   return (
     <StyledCard>
@@ -32,13 +46,22 @@ const ProjectCard: FC<ProjectCardProps> = ({
           <StyledServiceType key={index}>{item}</StyledServiceType>
         ))}
       </StyledServiceTypeWrapper>
-      <StyledImageSection>
+      <StyledImageSection className='card-image'>
         {thumbnailIamge ? (
           <StyledThumbnail src={thumbnailIamge} alt='thumbnail-image' />
         ) : (
           <StyledLogo src={logoImage} alt='logo-image' />
         )}
-        {/* <StyledServiceLink></StyledServiceLink> */}
+        <ServiceLinkWrapper className='card-hover'>
+          {links?.map(({ type, url }, index) => (
+            <StyledServiceLink key={index}>
+              <img src={LINK_INFO[type].icon} alt='icon-link' />
+              <NextLink passHref href={url}>
+                <Text typography='SUIT_12_SB'>{LINK_INFO[type].label}</Text>
+              </NextLink>
+            </StyledServiceLink>
+          ))}
+        </ServiceLinkWrapper>
       </StyledImageSection>
       <StyledContent>
         <StyledTitleWrapper>
@@ -65,6 +88,16 @@ const StyledCard = styled.div`
   padding: 6px;
   width: 380px;
   height: 292px;
+
+  &:hover {
+    & .card-hover {
+      visibility: visible;
+    }
+
+    & .card-image {
+      opacity: 0.8;
+    }
+  }
 `;
 
 const StyledServiceTypeWrapper = styled.div`
@@ -96,19 +129,26 @@ const StyledServiceType = styled.div`
 
 const StyledImageSection = styled.section`
   display: flex;
-
-  /* position: relative; */
+  position: relative;
   flex-direction: column;
   align-items: center;
   width: 100%;
   height: 208px;
 `;
 
+const ServiceLinkWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 60px;
+  gap: 16px;
+  visibility: hidden;
+`;
+
 const StyledServiceLink = styled.div`
   display: flex;
-  bottom: 16px;
+  flex-direction: column;
+  gap: 10px;
   align-items: center;
-  justify-content: center;
 `;
 
 const StyledThumbnail = styled.img`
