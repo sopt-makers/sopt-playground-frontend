@@ -88,7 +88,7 @@ export const FORM_ITEMS: FormItem[] = [
   },
   {
     label: '링크',
-    value: 'link',
+    value: 'links',
     isDirty: false,
     isRequired: false,
   },
