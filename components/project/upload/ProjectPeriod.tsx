@@ -2,22 +2,23 @@ import Checkbox from '@/components/common/Checkbox';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Text from '@/components/common/Text';
-
 import FormTitle from '@/components/project/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
 const DATE_PATTERN = /^d{4}.(0[1-9]|1[0-2])/;
 
 const ProjectPeriod = () => {
   const {
     control,
-    register,
     formState: { errors },
   } = useFormContext<ProjectUploadForm>();
+  const { period } = useWatch<ProjectUploadForm>({
+    control,
+  });
 
   return (
     <StyledContainer>
@@ -25,6 +26,8 @@ const ProjectPeriod = () => {
       <StyledContent>
         <DateFormWrapper>
           <RHFControllerFormItem
+            error={!!errors.period?.startAt}
+            errorMessage={errors.period?.startAt?.message}
             control={control}
             name='period.startAt'
             component={Input}
@@ -32,16 +35,22 @@ const ProjectPeriod = () => {
             rules={{ pattern: DATE_PATTERN }}
           />
         </DateFormWrapper>
-        <StyledText>{'-'}</StyledText>
-        <DateFormWrapper>
-          <RHFControllerFormItem
-            control={control}
-            name='period.endAt'
-            component={Input}
-            placeholder='YYYY.MM'
-            rules={{ pattern: DATE_PATTERN }}
-          />
-        </DateFormWrapper>
+        {!period?.isOngoing && (
+          <>
+            <StyledText>{'-'}</StyledText>
+            <DateFormWrapper>
+              <RHFControllerFormItem
+                error={!!errors.period?.endAt}
+                errorMessage={errors.period?.endAt?.message}
+                control={control}
+                name='period.endAt'
+                component={Input}
+                placeholder='YYYY.MM'
+                rules={{ pattern: DATE_PATTERN }}
+              />
+            </DateFormWrapper>
+          </>
+        )}
       </StyledContent>
       <CheckboxWrapper>
         <Controller
