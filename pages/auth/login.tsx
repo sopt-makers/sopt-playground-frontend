@@ -1,4 +1,4 @@
-import { useFacebookAuth } from '@/components/auth/idp/facebook';
+import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
 import Link from 'next/link';
 import { FC } from 'react';
 
