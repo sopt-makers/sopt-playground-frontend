@@ -4,16 +4,8 @@ import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import MemberForm from '@/components/project/upload/MemberForm';
-import { Member } from '@/components/project/upload/MemberForm/useMemberForm';
 
-interface ProjectReleaseMembersProps {
-  members: Member[];
-  onClickAdd: () => void;
-  onDelete: (memberKey: number) => void;
-  onChange: (member: Member) => void;
-}
-
-const ProjectReleaseMembers: FC<ProjectReleaseMembersProps> = ({ members, ...props }) => {
+const ProjectReleaseMembers: FC = () => {
   return (
     <StyledContainer>
       <FormTitle>추가 합류한 팀원</FormTitle>
@@ -21,7 +13,7 @@ const ProjectReleaseMembers: FC<ProjectReleaseMembersProps> = ({ members, ...pro
         릴리즈에 합류한 팀원들의 이름을 적어주세요. 회원가입을 한 사람만 팀원 등록이 가능해요{' '}
         <StyledSignupLink>회원가입 링크 복사</StyledSignupLink>
       </StyledDescription>
-      <MemberForm members={members} {...props} />
+      <MemberForm name='releaseMembers' />
     </StyledContainer>
   );
 };

@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { formItems } from '@/components/project/upload/constants';
+import { FORM_ITEMS } from '@/components/project/upload/constants';
 import UploadStatus from '@/components/project/upload/FormStatus';
 
 export default {
@@ -10,6 +10,6 @@ const Template: ComponentStory<typeof UploadStatus> = (args) => <UploadStatus {.
 
 export const Default = Template.bind({});
 Default.args = {
-  formItems,
+  formItems: FORM_ITEMS,
 };
 Default.storyName = '기본';

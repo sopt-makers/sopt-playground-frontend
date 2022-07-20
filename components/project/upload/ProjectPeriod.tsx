@@ -1,51 +1,56 @@
 import Checkbox from '@/components/common/Checkbox';
-import FormItem from '@/components/common/form/FormItem';
+import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Text from '@/components/common/Text';
-
 import FormTitle from '@/components/project/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
 const DATE_PATTERN = /^d{4}.(0[1-9]|1[0-2])/;
 
 const ProjectPeriod = () => {
   const {
     control,
-    register,
     formState: { errors },
   } = useFormContext<ProjectUploadForm>();
+  const { period } = useWatch<ProjectUploadForm>({
+    control,
+  });
 
   return (
     <StyledContainer>
       <FormTitle essential>프로젝트 기간</FormTitle>
       <StyledContent>
         <DateFormWrapper>
-          <FormItem errorMessage={errors.period?.startAt?.message}>
-            <Input
-              placeholder='YYYY.MM'
-              error={!!errors.period?.startAt}
-              {...register('period.startAt', {
-                pattern: DATE_PATTERN,
-              })}
-            />
-          </FormItem>
+          <RHFControllerFormItem
+            error={!!errors.period?.startAt}
+            errorMessage={errors.period?.startAt?.message}
+            control={control}
+            name='period.startAt'
+            component={Input}
+            placeholder='YYYY.MM'
+            rules={{ pattern: DATE_PATTERN }}
+          />
         </DateFormWrapper>
-        <StyledText>{'-'}</StyledText>
-        <DateFormWrapper>
-          <FormItem errorMessage={errors.period?.endAt?.message}>
-            <Input
-              error={!!errors.period?.endAt?.message}
-              placeholder='YYYY.MM'
-              {...register('period.endAt', {
-                pattern: DATE_PATTERN,
-              })}
-            />
-          </FormItem>
-        </DateFormWrapper>
+        {!period?.isOngoing && (
+          <>
+            <StyledText>{'-'}</StyledText>
+            <DateFormWrapper>
+              <RHFControllerFormItem
+                error={!!errors.period?.endAt}
+                errorMessage={errors.period?.endAt?.message}
+                control={control}
+                name='period.endAt'
+                component={Input}
+                placeholder='YYYY.MM'
+                rules={{ pattern: DATE_PATTERN }}
+              />
+            </DateFormWrapper>
+          </>
+        )}
       </StyledContent>
       <CheckboxWrapper>
         <Controller
