@@ -22,6 +22,4 @@ export const useStringParam = <T extends readonly string[]>(keys: T, fn: (obj: T
       fn(x as TupleKeyObject<T>);
     }
   }, [router, fn, keys]);
-
-  return {};
 };

@@ -6,20 +6,16 @@ import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
+import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 
 const ProjectName: FC = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<ProjectUploadForm>();
+  const { control } = useFormContext<ProjectUploadForm>();
   return (
     <>
       <FormTitle typography='SUIT_24_SB'>프로젝트</FormTitle>
       <StyledDivider />
       <FormTitle essential>프로젝트 이름</FormTitle>
-      <FormItem errorMessage={errors.name?.message}>
-        <StyledInput placeholder='프로젝트' error={!!errors.name} {...register('name')} />
-      </FormItem>
+      <RHFControllerFormItem name='name' control={control} component={StyledInput} placeholder='프로젝트' />
     </>
   );
 };

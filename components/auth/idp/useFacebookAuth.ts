@@ -21,7 +21,7 @@ interface FacebookAuth {
   ): Promise<{ success: boolean; accessToken: any } | { success: boolean; accessToken?: undefined }>;
 }
 
-export const useFacebookAuth = (): FacebookAuth => {
+const useFacebookAuth = (): FacebookAuth => {
   const stateParam = useStateParam();
 
   return {
@@ -77,3 +77,5 @@ export const useFacebookAuth = (): FacebookAuth => {
     },
   };
 };
+
+export default useFacebookAuth;

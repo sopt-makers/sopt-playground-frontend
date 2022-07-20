@@ -1,4 +1,4 @@
-import { useFacebookAuth } from '@/components/auth/idp/facebook';
+import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
 import SquareLink from '@/components/common/SquareLink';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';

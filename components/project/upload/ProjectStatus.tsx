@@ -14,11 +14,11 @@ const ProjectStatus: FC = () => {
     <StyledContainer>
       <FormTitle essential>프로젝트 현재 상태</FormTitle>
       <StyledWrapper>
-        <Switch {...register('isAvailable')} />
+        <Switch {...register('status.isAvailable')} />
         <StyledSubTitle>현재 이 서비스를 이용할 수 있나요?</StyledSubTitle>
       </StyledWrapper>
       <StyledWrapper>
-        <Switch {...register('isFounding')} />
+        <Switch {...register('status.isFounding')} />
         <StyledSubTitle>현재 이 프로젝트로 창업을 진행하고 있나요?</StyledSubTitle>
       </StyledWrapper>
     </StyledContainer>

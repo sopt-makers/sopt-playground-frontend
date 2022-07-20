@@ -12,17 +12,17 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 const ProjectGeneration: FC = () => {
   const { register, watch, control, setValue } = useFormContext<ProjectUploadForm>();
-  const [generation, generationChecked] = watch(['generation', 'generationChecked']);
+  const [generation, generationChecked] = watch(['generation.generation', 'generation.checked']);
 
   useEffect(() => {
     if (generationChecked) {
-      setValue('generation', undefined);
+      setValue('generation.generation', undefined);
     }
   }, [generationChecked, setValue]);
 
   useEffect(() => {
     if (generation) {
-      setValue('generationChecked', false);
+      setValue('generation.checked', false);
     }
   }, [generation, setValue]);
 
@@ -30,7 +30,7 @@ const ProjectGeneration: FC = () => {
     <StyledContainer>
       <FormTitle>기수</FormTitle>
       <StyledDescription>참여한 팀원들의 기수에 맞춰 작성해주세요</StyledDescription>
-      <Select width={236} placeholder='선택' {...register('generation')}>
+      <Select width={236} placeholder='선택' {...register('generation.generation')}>
         {GENERATION.map((item) => (
           <option key={item} value={item}>
             {item}기
@@ -39,7 +39,7 @@ const ProjectGeneration: FC = () => {
       </Select>
       <StyledCheckboxWrapper>
         <Controller
-          name='generationChecked'
+          name='generation.checked'
           control={control}
           render={({ field: { value, ...props } }) => <Checkbox checked={value} {...props} />}
         />

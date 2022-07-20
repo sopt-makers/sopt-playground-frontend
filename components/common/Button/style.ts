@@ -2,7 +2,7 @@ import { css, SerializedStyles } from '@emotion/react';
 import { colors } from '@/styles/colors';
 
 export type ButtonStyle = 'default' | 'primary';
-export type ButtonSize = 'small' | 'medium' | 'large';
+export type ButtonSize = 'fill' | 'small' | 'medium' | 'large';
 
 export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
   default: css`
@@ -16,6 +16,10 @@ export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
 };
 
 export const buttonSize: Record<ButtonSize, SerializedStyles> = {
+  fill: css`
+    width: auto;
+    height: auto;
+  `,
   small: css``,
   medium: css`
     padding: 14px 0;

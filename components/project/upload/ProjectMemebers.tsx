@@ -4,19 +4,18 @@ import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import Text from '@/components/common/Text';
-import { Member } from '@/components/project/upload/MemberForm/useMemberForm';
 import FormItem from '@/components/common/form/FormItem';
+import { useFormContext } from 'react-hook-form';
+import { ProjectUploadForm } from '@/pages/project/upload';
 
 interface ProjectMembersProps {
   type: string;
-  members: Member[];
-  onClickAdd: () => void;
-  onDelete: (memberKey: number) => void;
-  onChange: (member: Member) => void;
 }
 
-const ProjectMembers: FC<ProjectMembersProps> = ({ members, type, ...props }) => {
-  const error = members.length === 0;
+const ProjectMembers: FC<ProjectMembersProps> = ({ type }) => {
+  const {
+    formState: { errors },
+  } = useFormContext<ProjectUploadForm>();
 
   return (
     <StyledContainer>
@@ -24,8 +23,8 @@ const ProjectMembers: FC<ProjectMembersProps> = ({ members, type, ...props }) =>
       <StyledDescription color={colors.gray100}>
         회원가입을 한 사람만 팀원 등록이 가능해요 <StyledSignupLink>회원가입 링크 복사</StyledSignupLink>
       </StyledDescription>
-      <FormItem errorMessage={error && `${type} 팀원을 추가해주세요`}>
-        <MemberForm members={members} {...props} />
+      <FormItem>
+        <MemberForm name='members' />
       </FormItem>
     </StyledContainer>
   );
