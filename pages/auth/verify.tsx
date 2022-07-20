@@ -1,3 +1,8 @@
+import Input from '@/components/common/Input';
+import SquareLink from '@/components/common/SquareLink';
+import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
+import styled from '@emotion/styled';
 import axios from 'axios';
 import { FC, useState } from 'react';
 
@@ -20,15 +25,52 @@ export const VerifyPage: FC = () => {
   }
 
   return (
-    <div>
-      <h1>SOPT 인증</h1>
-      <div>
-        <input type='text' placeholder='이메일' value={emailInput} onChange={(e) => setEmailInput(e.target.value)} />
-        <button onClick={register}>인증메일 발송</button>
+    <StyledVerifyPage>
+      <Title>SOPT 회원인증</Title>
+      <Description>SOPT 지원시 입력했던 이메일을 입력해주세요</Description>
+      <Container>
+        <Label>이메일</Label>
+        <Input placeholder='이메일을 입력해주세요' value={emailInput} onChange={(e) => setEmailInput(e.target.value)} />
+        <SendButton variant='primary' onClick={register}>
+          SOPT 회원 인증메일 발송
+        </SendButton>
         <p>{output}</p>
-      </div>
-    </div>
+      </Container>
+    </StyledVerifyPage>
   );
 };
 
 export default VerifyPage;
+
+const StyledVerifyPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200px;
+`;
+
+const Title = styled.h2`
+  ${textStyles.SUIT_32_SB}
+`;
+
+const Description = styled.p`
+  margin-top: 12px;
+  margin-bottom: 45px;
+  ${textStyles.SUIT_16_M};
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+`;
+
+const Label = styled.label`
+  margin-bottom: 18px;
+  color: ${colors.gray80};
+  ${textStyles.SUIT_14_M};
+`;
+
+const SendButton = styled(SquareLink)`
+  margin-top: 60px;
+`;
