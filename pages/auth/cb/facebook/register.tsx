@@ -19,7 +19,7 @@ const FacebookRegisterCallbackPage: FC = () => {
     }
 
     localStorage.setItem('accessToken', ret.accessToken);
-    router.push('/');
+    router.replace('/');
   });
 
   return (

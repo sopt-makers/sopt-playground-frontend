@@ -1,7 +1,6 @@
 import FacebookButton from '@/components/auth/idp/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
 import SquareLink from '@/components/common/SquareLink';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import Link from 'next/link';

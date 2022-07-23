@@ -11,18 +11,33 @@ export const RegisterPage: FC = () => {
   const facebookAuth = useFacebookAuth();
 
   const [info, setInfo] = useState<{ name: string; generation: number } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useStringParam(['token'], async ({ token }) => {
-    const res = await axios.post('http://localhost:5000/api/v1/register/checkToken', {
-      registerToken: token,
-    });
+    setIsLoading(true);
 
-    setInfo({
-      name: res.data.name,
-      generation: res.data.generation,
-    });
-    localStorage.setItem('registerToken', token);
+    try {
+      const res = await axios.post('http://localhost:5000/api/v1/register/checkToken', {
+        registerToken: token,
+      });
+
+      setInfo({
+        name: res.data.name,
+        generation: res.data.generation,
+      });
+      localStorage.setItem('registerToken', token);
+    } finally {
+      setIsLoading(false);
+    }
   });
+
+  if (isLoading) {
+    return <StyledRegisterPage>잠시만 기다려주세요...</StyledRegisterPage>;
+  }
+
+  if (info === null) {
+    return <StyledRegisterPage>올바르지 않은 접근입니다.</StyledRegisterPage>;
+  }
 
   return (
     <StyledRegisterPage>
