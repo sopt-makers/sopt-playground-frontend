@@ -1,7 +1,8 @@
 import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
-import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import IconImage from '@/public/icons/icon-image.svg';
+import { project } from '@/api/project';
 
 interface ImageUploaderProps {
   width?: number;
@@ -26,11 +27,23 @@ const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onCh
     const inputEl = inputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
-    inputEl.onchange = () => {
+    inputEl.onchange = async () => {
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
       const file = files[0];
-      onChange(file);
+      try {
+        const { data: presignedUrl } = await project.getPresignedUrl();
+        if (!presignedUrl) {
+          throw new Error('presignedUrl이 존재하지 않습니다.');
+        }
+        const { data: s3Url } = await project.putImage({
+          url: presignedUrl,
+          image: file,
+        });
+        onChange(s3Url);
+      } catch (error) {
+        console.error(error);
+      }
     };
     inputEl.click();
   };

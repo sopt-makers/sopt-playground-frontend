@@ -9,6 +9,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 const ProjectImageSection: FC = () => {
   const { control, register } = useFormContext<ProjectUploadForm>();
+
   return (
     <StyledContainer>
       <FormTitle essential>로고 이미지</FormTitle>
