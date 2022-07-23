@@ -1,3 +1,4 @@
+import FacebookButton from '@/components/auth/idp/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
 import SquareLink from '@/components/common/SquareLink';
 import { colors } from '@/styles/colors';
@@ -14,7 +15,7 @@ const LoginPage: FC = () => {
       <LoginTitle>SOPT 회원 로그인</LoginTitle>
       <LoginDescription>SOPT에 로그인하고 프로젝트를 공유해보세요</LoginDescription>
       <LinkContainer>
-        <FacebookLoginLink onClick={facebookAuth.login}>페이스북으로 로그인</FacebookLoginLink>
+        <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
         <Link href='/auth/verify' passHref>
           <SquareLink>회원가입</SquareLink>
         </Link>
@@ -47,9 +48,4 @@ const LinkContainer = styled.div`
     margin-bottom: 20px;
     width: 420px;
   }
-`;
-
-const FacebookLoginLink = styled(SquareLink)`
-  background-color: #1877f2;
-  color: ${colors.white};
 `;
