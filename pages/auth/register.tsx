@@ -1,5 +1,5 @@
 import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
-import { useStringParam } from '@/components/auth/hooks';
+import useStringParam from '@/components/auth/useStringParam';
 import axios from 'axios';
 import { FC, useState } from 'react';
 

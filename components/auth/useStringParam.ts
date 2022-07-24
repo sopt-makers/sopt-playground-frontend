@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 type TupleKeyObject<T extends readonly string[]> = { [key in T[number]]: string };
 
-export const useStringParam = <T extends readonly string[]>(keys: T, fn: (obj: TupleKeyObject<T>) => void) => {
+const useStringParam = <T extends readonly string[]>(keys: T, fn: (obj: TupleKeyObject<T>) => void) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -23,3 +23,5 @@ export const useStringParam = <T extends readonly string[]>(keys: T, fn: (obj: T
     }
   }, [router, fn, keys]);
 };
+
+export default useStringParam;

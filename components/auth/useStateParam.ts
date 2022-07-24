@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 
-export const useStateParam = () => {
+const useStateParam = () => {
   const [param, setParam] = useState('');
 
   useEffect(() => {
@@ -17,3 +17,5 @@ export const useStateParam = () => {
 
   return param;
 };
+
+export default useStateParam;
