@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
 import Register from '@/components/auth/register/Register';
-import { useStringParam } from '@/components/auth/hooks';
+import useStringParam from '@/components/auth/useStringParam';
 import { useQuery } from 'react-query';
 import { auth } from '@/api/auth';
 

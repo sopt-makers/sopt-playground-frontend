@@ -1,4 +1,4 @@
-import { useStringParam } from '@/components/auth/hooks';
+import useStringParam from '@/components/auth/useStringParam';
 import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';

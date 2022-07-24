@@ -1,4 +1,4 @@
-import { useStateParam } from '@/components/auth/stateParam';
+import useStateParam from '@/components/auth/useStateParam';
 import axios from 'axios';
 
 const FACEBOOK_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID ?? '';

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 type TupleKeyObject<T extends readonly string[]> = { [key in T[number]]: string };
 
-export const useStringParam = <T extends readonly string[]>(keys: T, fn?: (obj: TupleKeyObject<T>) => void) => {
+const useStringParam = <T extends readonly string[]>(keys: T, fn?: (obj: TupleKeyObject<T>) => void) => {
   const router = useRouter();
   const [params, setParams] = useState<TupleKeyObject<T> | null>(null);
   const called = useRef(false);
@@ -29,3 +29,5 @@ export const useStringParam = <T extends readonly string[]>(keys: T, fn?: (obj: 
 
   return params;
 };
+
+export default useStringParam;
