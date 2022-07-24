@@ -3,6 +3,7 @@ import SquareLink from '@/components/common/SquareLink';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
+import IconWarning from '@/public/icons/icon-warning.svg';
 import axios, { AxiosError } from 'axios';
 import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
@@ -27,7 +28,7 @@ const VerifyByEmail: FC = () => {
       <Label>이메일</Label>
       <Input placeholder='이메일을 입력해주세요' value={emailInput} onChange={(e) => setEmailInput(e.target.value)} />
       <ErrorMessage show={verify.isError}>
-        {expoIcon} {verify.error?.response?.data.message + ''}
+        <IconWarning /> {verify.error?.response?.data.message + ''}
       </ErrorMessage>
       <SendButton variant='primary' onClick={() => verify.mutate()}>
         SOPT 회원 인증메일 발송
@@ -78,14 +79,6 @@ const ErrorMessage = styled.p<{ show: boolean }>`
     height: 100%;
   }
 `;
-
-const expoIcon = (
-  <svg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <rect width='14' height='14' rx='7' fill='#BD372F' />
-    <path d='M7.00586 4L7.00586 7' stroke='#FCFCFC' strokeLinecap='round' strokeLinejoin='round' />
-    <path d='M7.00586 10L6.99919 10' stroke='#FCFCFC' strokeWidth='1.2' strokeLinecap='round' strokeLinejoin='round' />
-  </svg>
-);
 
 const SendButton = styled(SquareLink)`
   align-self: stretch;
