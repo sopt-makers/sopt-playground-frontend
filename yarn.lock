@@ -13902,6 +13902,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "nanoid@npm:4.0.0"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 7d5946df5c6d383694195b781ae7b5067c149d164ec71e910d6b06676309c3459b68af570b944fb5ecd5065d19df464f05700d141d70bb712ff8ca06642fd8df
+  languageName: node
+  linkType: hard
+
 "nanomatch@npm:^1.2.9":
   version: 1.2.13
   resolution: "nanomatch@npm:1.2.13"
@@ -17063,6 +17072,7 @@ __metadata:
     lodash-es: ^4.17.21
     msw: ^0.39.2
     msw-storybook-addon: ^1.6.3
+    nanoid: ^4.0.0
     next: 12.1.5
     postcss-html: ^1.4.1
     postcss-syntax: ^0.36.2
