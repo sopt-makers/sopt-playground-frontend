@@ -7,6 +7,7 @@ import IconWarning from '@/public/icons/icon-warning.svg';
 import axios, { AxiosError } from 'axios';
 import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
+import { auth } from '@/api/auth';
 
 interface ErrorResponse {
   success: false;
@@ -16,9 +17,7 @@ interface ErrorResponse {
 const VerifyByEmail: FC = () => {
   const [emailInput, setEmailInput] = useState('');
   const verify = useMutation<unknown, AxiosError<ErrorResponse>>(async () => {
-    return axios.post('http://localhost:5000/api/v1/register/sendEmail', {
-      email: emailInput,
-    });
+    return auth.sendVerificationEmail(emailInput);
   });
 
   return (

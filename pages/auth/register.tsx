@@ -2,22 +2,15 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import Register from '@/components/auth/register/Register';
 import { useStringParam } from '@/components/auth/hooks';
-import axios from 'axios';
 import { useQuery } from 'react-query';
+import { auth } from '@/api/auth';
 
 export const RegisterPage: FC = () => {
   const params = useStringParam(['token'] as const);
 
-  const query = useQuery(
-    ['registerTokenInfo', 123],
-    () =>
-      axios.post<{ name: string; generation: number }>('http://localhost:5000/api/v1/register/checkToken', {
-        registerToken: params?.token,
-      }),
-    {
-      enabled: params !== null,
-    },
-  );
+  const query = useQuery(['registerTokenInfo', 123], () => auth.getRegisterTokenInfo(params?.token ?? ''), {
+    enabled: params !== null,
+  });
 
   if (query.isLoading || query.isIdle) {
     return <StyledRegisterPage>잠시만 기다려주세요...</StyledRegisterPage>;
