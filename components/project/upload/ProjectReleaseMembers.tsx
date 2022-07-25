@@ -34,4 +34,8 @@ const StyledSignupLink = styled(Text)`
   cursor: pointer;
   text-decoration: underline;
   color: ${colors.gray100};
+
+  @media screen and (max-width: 375px) {
+    display: none;
+  }
 `;

@@ -18,12 +18,16 @@ const Header: FC = () => {
       </StyledLeftSection>
       <StyledRightSection>
         <Link passHref href='/project/upload'>
-          <StyledUploadButton variant='primary' size='fill'>
-            + 내 프로젝트 올리기
-          </StyledUploadButton>
+          <a>
+            <StyledUploadButton variant='primary' size='fill'>
+              + 내 프로젝트 올리기
+            </StyledUploadButton>
+          </a>
         </Link>
         <Link passHref href='/auth/login'>
-          <StyledLoginButton size='fill'>로그인</StyledLoginButton>
+          <a>
+            <StyledLoginButton size='fill'>로그인</StyledLoginButton>
+          </a>
         </Link>
       </StyledRightSection>
     </StyledHeader>

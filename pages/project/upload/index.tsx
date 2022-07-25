@@ -22,7 +22,7 @@ import ProjectImageSection from '@/components/project/upload/ProjectImageSection
 import { Period, ServiceType, Category, FormItem, Status, Generation } from '@/components/project/upload/types';
 import Button from '@/components/common/Button';
 import useCreateProjectMutation from '@/components/project/upload/hooks/useCreateProjectMutation';
-import { Member } from '@/components/project/upload/MemberForm/constants';
+import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/constants';
 
 const schema: yup.SchemaOf<ProjectUploadForm> = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
@@ -83,7 +83,7 @@ const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   period: {
     isOngoing: false,
   },
-  members: [{ userId: undefined, role: undefined, isTeamMember: true, description: undefined }],
+  members: [{ ...DEFAULT_MEMBER }],
   serviceType: [],
   summary: '',
   detail: '',
@@ -157,7 +157,6 @@ const ProjectUploadPage: FC = () => {
           <ProjectImageSection />
           <ProjectLink />
         </ProjectContainer>
-        <Button type='submit'>제출하기</Button>
       </StyledForm>
     </FormProvider>
   );
@@ -178,4 +177,13 @@ const ProjectContainer = styled.div`
   background-color: ${colors.black80};
   padding: 47px 40px;
   width: 892px;
+
+  @media screen and (max-width: 1055px) {
+    border-radius: 0%;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 375px) {
+    padding: 38px 24px 0;
+  }
 `;

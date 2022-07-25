@@ -7,6 +7,7 @@ import Text from '@/components/common/Text';
 import FormItem from '@/components/common/form/FormItem';
 import { useFormContext } from 'react-hook-form';
 import { ProjectUploadForm } from '@/pages/project/upload';
+import useScreenSize from '@/hooks/useScreenSize';
 
 interface ProjectMembersProps {
   type: string;
@@ -16,6 +17,7 @@ const ProjectMembers: FC<ProjectMembersProps> = ({ type }) => {
   const {
     formState: { errors },
   } = useFormContext<ProjectUploadForm>();
+  const { isMobile } = useScreenSize();
 
   return (
     <StyledContainer>
@@ -50,4 +52,8 @@ const StyledSignupLink = styled(Text)`
   cursor: pointer;
   text-decoration: underline;
   color: ${colors.gray100};
+
+  @media screen and (max-width: 375px) {
+    display: none;
+  }
 `;
