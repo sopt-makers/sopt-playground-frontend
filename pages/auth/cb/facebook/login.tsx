@@ -15,7 +15,7 @@ const FacebookLoginCallbackPage: FC = () => {
       setMessage('로그인에 오류가 발생했습니다.');
       return;
     }
-    router.push('/');
+    router.replace('/');
   });
 
   return (

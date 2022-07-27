@@ -1,32 +1,37 @@
-import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
+import { FC } from 'react';
+import styled from '@emotion/styled';
+import Register from '@/components/auth/register/Register';
 import useStringParam from '@/components/auth/useStringParam';
-import axios from 'axios';
-import { FC, useState } from 'react';
+import { useQuery } from 'react-query';
+import { auth } from '@/api/auth';
 
 export const RegisterPage: FC = () => {
-  const facebookAuth = useFacebookAuth();
+  const params = useStringParam(['token'] as const);
 
-  const [info, setInfo] = useState<{ name: string; generation: number } | null>(null);
-
-  useStringParam(['token'], async ({ token }) => {
-    const res = await axios.post('http://localhost:5000/api/v1/register/checkToken', {
-      registerToken: token,
-    });
-
-    setInfo({
-      name: res.data.name,
-      generation: res.data.generation,
-    });
-    localStorage.setItem('registerToken', token);
+  const query = useQuery(['registerTokenInfo', 123], () => auth.getRegisterTokenInfo(params?.token ?? ''), {
+    enabled: params !== null,
   });
 
+  if (query.isLoading || query.isIdle) {
+    return <StyledRegisterPage>잠시만 기다려주세요...</StyledRegisterPage>;
+  }
+
+  if (query.isError || !query.data) {
+    return <StyledRegisterPage>올바르지 않은 접근입니다.</StyledRegisterPage>;
+  }
+
   return (
-    <div>
-      <h1>회원가입</h1>
-      <p>유저정보: {JSON.stringify(info)}</p>
-      <button onClick={facebookAuth.register}>facebook으로 회원가입</button>
-    </div>
+    <StyledRegisterPage>
+      <Register userInfo={query.data.data} />
+    </StyledRegisterPage>
   );
 };
 
 export default RegisterPage;
+
+const StyledRegisterPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200px;
+`;
