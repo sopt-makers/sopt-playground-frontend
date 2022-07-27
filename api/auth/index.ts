@@ -8,13 +8,13 @@ const authClient = axios.create({
 
 async function getRegisterTokenInfo(registerToken: string) {
   return authClient.post<{ name: string; generation: number }>('api/v1/register/checkToken', {
-    registerToken: registerToken,
+    registerToken,
   });
 }
 
 async function sendVerificationEmail(email: string) {
   return authClient.post('api/v1/register/sendEmail', {
-    email: email,
+    email,
   });
 }
 

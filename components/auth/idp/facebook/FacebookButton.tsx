@@ -23,7 +23,7 @@ const FacebookButton: FC<FacebookButtonProps> = (props) => {
 export default FacebookButton;
 
 const StyledFacebookButton = styled(SquareLink)`
-  background-color: #1877f2;
+  background-color: ${colors.facebook};
   color: ${colors.white};
 `;
 

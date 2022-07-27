@@ -11,4 +11,5 @@ export const colors = {
   gray80: '#838383',
   gray60: '#A9A9A9',
   white: '#fcfcfc',
+  facebook: '#1877f2',
 };
