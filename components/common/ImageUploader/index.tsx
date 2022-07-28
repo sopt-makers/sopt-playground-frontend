@@ -5,8 +5,8 @@ import IconImage from '@/public/icons/icon-image.svg';
 import { project } from '@/api/project';
 
 interface ImageUploaderProps {
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   value?: File | null;
   onChange: (value: File | null) => void;
 }
@@ -65,8 +65,8 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'>>`
   border-radius: 6px;
   background-color: ${colors.black60};
   cursor: pointer;
-  width: ${({ width }) => width}px;
-  height: ${({ height }) => height}px;
+  width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
+  height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
 `;
 
 const StyledInput = styled.input`

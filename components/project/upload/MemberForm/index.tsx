@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { textStyles } from '@/styles/typography';
 import { colors } from '@/styles/colors';
 import { Controller, useFieldArray, useFormContext, UseFieldArrayProps, useWatch } from 'react-hook-form';
@@ -42,8 +42,12 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
     }
     setValue(`${name}.${index}.isEdit`, false);
   };
-
-  console.log(`${name}: `, selectedMembers);
+  const onRemove = (index: number) => {
+    setValue(
+      `${name}`,
+      selectedMembers.filter((_, memberIndex) => memberIndex !== index),
+    );
+  };
 
   return (
     <Container>
@@ -79,10 +83,10 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
         </>
       ) : (
         <>
-          {selectedMembers.map((selectedMember, index) => (
+          {selectedMembers.map((selectedMember, memberIndex) => (
             <>
-              {selectedMember.isEdit ? (
-                <MobileMemberItem key={selectedMember.userId} onClick={() => onEdit(index)}>
+              {!selectedMember.isEdit ? (
+                <MobileMemberItem key={selectedMember.userId} onClick={() => onEdit(memberIndex)}>
                   <Text typography='SUIT_12_M' color={colors.gray100}>
                     {selectedMember.userId}
                   </Text>
@@ -94,55 +98,14 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   </Text>
                 </MobileMemberItem>
               ) : (
-                fields.map((field, index) => (
-                  <>
-                    {selectedMembers?.[index]?.isEdit && (
-                      <MobileMemberApplyForm key={field.id}>
-                        <MobileMemberSelect>
-                          <Controller
-                            control={control}
-                            name={`${name}.${index}.userId`}
-                            render={({ field }) => <MobileSearch placeholder='SOPT 회원 검색' {...field} />}
-                          />
-                          <MobileSelect placeholder='역할' {...register(`${name}.${index}.role`)}>
-                            {Object.values(Role).map((role) => (
-                              <option key={role} value={role}>
-                                {role}
-                              </option>
-                            ))}
-                          </MobileSelect>
-                        </MobileMemberSelect>
-                        <Controller
-                          control={control}
-                          name={`${name}.${index}.description`}
-                          render={({ field }) => (
-                            <MobileDescription placeholder='어떤 역할을 맡았는지 적어주세요' {...field} />
-                          )}
-                        />
-                        <MobileApplyFormFooter>
-                          <IconDelete onClick={remove} />
-                          <MobileCompleteButton type='button' onClick={() => onComplete(index)}>
-                            완료
-                          </MobileCompleteButton>
-                        </MobileApplyFormFooter>
-                      </MobileMemberApplyForm>
-                    )}
-                  </>
-                ))
-              )}
-            </>
-          ))}
-          {fields.map((field, index) => (
-            <>
-              {selectedMembers?.[index]?.isEdit && (
-                <MobileMemberApplyForm key={field.id}>
+                <MobileMemberApplyForm>
                   <MobileMemberSelect>
                     <Controller
                       control={control}
-                      name={`${name}.${index}.userId`}
+                      name={`${name}.${memberIndex}.userId`}
                       render={({ field }) => <MobileSearch placeholder='SOPT 회원 검색' {...field} />}
                     />
-                    <MobileSelect placeholder='역할' {...register(`${name}.${index}.role`)}>
+                    <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.role`)}>
                       {Object.values(Role).map((role) => (
                         <option key={role} value={role}>
                           {role}
@@ -152,14 +115,14 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   </MobileMemberSelect>
                   <Controller
                     control={control}
-                    name={`${name}.${index}.description`}
+                    name={`${name}.${memberIndex}.description`}
                     render={({ field }) => (
                       <MobileDescription placeholder='어떤 역할을 맡았는지 적어주세요' {...field} />
                     )}
                   />
                   <MobileApplyFormFooter>
-                    <IconDelete onClick={remove} />
-                    <MobileCompleteButton type='button' onClick={() => onComplete(index)}>
+                    <IconDelete onClick={() => onRemove(memberIndex)} />
+                    <MobileCompleteButton type='button' onClick={() => onComplete(memberIndex)}>
                       완료
                     </MobileCompleteButton>
                   </MobileApplyFormFooter>
@@ -237,14 +200,20 @@ const MobileMemberSelect = styled.div`
 `;
 
 const MobileSearch = styled(Input)`
+  ${textStyles.SUIT_14_M};
+
   border: 1px solid ${colors.black40};
 `;
 
 const MobileSelect = styled(Select)`
+  ${textStyles.SUIT_14_M};
+
   border: 1px solid ${colors.black40};
 `;
 
 const MobileDescription = styled(Input)`
+  ${textStyles.SUIT_14_M};
+
   margin-top: 12px;
   border: 1px solid ${colors.black40};
 `;

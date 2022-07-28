@@ -1,6 +1,7 @@
 import ImageUploader from '@/components/common/ImageUploader';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/project/upload/FormTitle';
+import useScreenSize from '@/hooks/useScreenSize';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
@@ -9,6 +10,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 const ProjectImageSection: FC = () => {
   const { control, register } = useFormContext<ProjectUploadForm>();
+  const { isMobile } = useScreenSize();
 
   return (
     <StyledContainer>
@@ -16,18 +18,23 @@ const ProjectImageSection: FC = () => {
       <StyledDescription>가로 300px 세로 300px 권장합니다. 예외 규격은 잘릴 수 있습니다.</StyledDescription>
       <Controller name='logoImage' control={control} render={({ field }) => <ImageUploader {...field} />} />
       <StyledTitle essential>썸네일 이미지</StyledTitle>
-      <StyledDescription>16:9 비율로 가로 368px 세로208px을 권장합니다.</StyledDescription>
+      <StyledDescription>
+        16:9 비율로 가로 368px 세로208px을 권장합니다.{isMobile && <p>웹페이지에서 등록을 권장합니다.</p>}
+      </StyledDescription>
       <Controller
         name='thumbnailImage'
         control={control}
-        render={({ field }) => <ImageUploader width={369} height={208} {...field} />}
+        render={({ field }) => <ImageUploader width={isMobile ? '100%' : 368} height={208} {...field} />}
       />
       <StyledTitle>프로젝트 이미지</StyledTitle>
-      <StyledDescription>10MB 이내로 가로 1200px, 세로는 자유롭게 제작해주세요.</StyledDescription>
+      <StyledDescription>
+        10MB 이내로 가로 1200px, 세로는 675px 사이즈로 제작해주세요.{' '}
+        {isMobile && <p>웹페이지에서 등록을 권장합니다.</p>}
+      </StyledDescription>
       <Controller
         name='projectImage'
         control={control}
-        render={({ field }) => <ImageUploader width={369} height={208} {...field} />}
+        render={({ field }) => <ImageUploader width={isMobile ? '100%' : 368} height={208} {...field} />}
       />
     </StyledContainer>
   );

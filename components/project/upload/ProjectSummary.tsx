@@ -2,6 +2,8 @@ import RHFControllerFormItem from '@/components/common/form/RHFControllerFormIte
 import Input from '@/components/common/Input';
 import FormTitle from '@/components/project/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/project/upload';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FC } from 'react';
@@ -18,7 +20,7 @@ const ProjectSummary: FC = () => {
         `}
         control={control}
         name='summary'
-        component={Input}
+        component={StyledInput}
         count
         maxCount={30}
         placeholder='프로젝트 한줄 소개'
@@ -31,4 +33,10 @@ export default ProjectSummary;
 
 const StyledContainer = styled.section`
   margin: 60px 0 0;
+`;
+
+const StyledInput = styled(Input)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_M}
+  }
 `;

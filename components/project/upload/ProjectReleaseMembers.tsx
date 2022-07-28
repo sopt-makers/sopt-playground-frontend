@@ -4,13 +4,15 @@ import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import MemberForm from '@/components/project/upload/MemberForm';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const ProjectReleaseMembers: FC = () => {
   return (
     <StyledContainer>
       <FormTitle>추가 합류한 팀원</FormTitle>
       <StyledDescription color={colors.gray100}>
-        릴리즈에 합류한 팀원들의 이름을 적어주세요. 회원가입을 한 사람만 팀원 등록이 가능해요{' '}
+        릴리즈에 합류한 팀원들의 이름을 적어주세요
+        <span className='extra'>. 회원가입을 한 사람만 팀원 등록이 가능해요</span>
         <StyledSignupLink>회원가입 링크 복사</StyledSignupLink>
       </StyledDescription>
       <MemberForm name='releaseMembers' />
@@ -28,6 +30,12 @@ const StyledDescription = styled(Text)`
   display: block;
   margin: 12px 0 18px;
   color: ${colors.gray100};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    .extra {
+      display: none;
+    }
+  }
 `;
 
 const StyledSignupLink = styled(Text)`

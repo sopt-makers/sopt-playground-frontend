@@ -20,7 +20,6 @@ import ProjectDetail from '@/components/project/upload/ProjectDetail';
 import ProjectLink from '@/components/project/upload/ProjectLink';
 import ProjectImageSection from '@/components/project/upload/ProjectImageSection';
 import { Period, ServiceType, Category, FormItem, Status, Generation } from '@/components/project/upload/types';
-import Button from '@/components/common/Button';
 import useCreateProjectMutation from '@/components/project/upload/hooks/useCreateProjectMutation';
 import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/constants';
 
@@ -132,7 +131,8 @@ const ProjectUploadPage: FC = () => {
         is_available: data.status.isAvailable,
         is_founding: data.status.isFounding,
         users: [...data.members, ...data.releaseMembers],
-        images: data.projectImage,
+        images: [data.projectImage],
+        logo_image: data.logoImage,
         thumbnail_image: data.thumbnailImage,
       });
     }

@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes } from 'react';
 import { colors } from '@/styles/colors';
 import IconCheck from '@/public/icons/icon-check.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   checked?: boolean;
@@ -49,4 +50,9 @@ const StyledCheckbox = styled.span<CheckboxProps>`
       border: 1px solid ${colors.purple80};
       background-color: ${colors.purple100};
     `}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 17.5px;
+    height: 17.5px;
+  }
 `;
