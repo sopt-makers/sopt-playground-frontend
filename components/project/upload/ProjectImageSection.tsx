@@ -9,7 +9,7 @@ import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 const ProjectImageSection: FC = () => {
-  const { control, register } = useFormContext<ProjectUploadForm>();
+  const { control } = useFormContext<ProjectUploadForm>();
   const { isMobile } = useScreenSize();
 
   return (
@@ -29,7 +29,7 @@ const ProjectImageSection: FC = () => {
       <StyledTitle>프로젝트 이미지</StyledTitle>
       <StyledDescription>
         10MB 이내로 가로 1200px, 세로는 675px 사이즈로 제작해주세요.{' '}
-        {isMobile && <p>웹페이지에서 등록을 권장합니다.</p>}
+        {isMobile && <span>웹페이지에서 등록을 권장합니다.</span>}
       </StyledDescription>
       <Controller
         name='projectImage'
