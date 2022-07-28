@@ -7,6 +7,7 @@ import Text from '@/components/common/Text';
 import FormItem from '@/components/common/form/FormItem';
 import { useFormContext } from 'react-hook-form';
 import { ProjectUploadForm } from '@/pages/project/upload';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ProjectMembersProps {
   type: string;
@@ -51,7 +52,7 @@ const StyledSignupLink = styled(Text)`
   text-decoration: underline;
   color: ${colors.gray100};
 
-  @media screen and (max-width: 375px) {
+  @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
 `;

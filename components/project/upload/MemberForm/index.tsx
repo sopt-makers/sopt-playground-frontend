@@ -11,6 +11,7 @@ import IconDelete from '@/public/icons/icon-delete.svg';
 import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/constants';
 import useScreenSize from '@/hooks/useScreenSize';
 import Text from '@/components/common/Text';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MemberFormProps {
   name: UseFieldArrayProps<ProjectUploadForm, 'members' | 'releaseMembers' | `releaseMembers.${string}`, 'id'>['name'];
@@ -148,7 +149,7 @@ const Container = styled.div`
   & > * {
     margin-top: 10px;
 
-    @media screen and (max-width: 375px) {
+    @media ${MOBILE_MEDIA_QUERY} {
       margin-top: 12px;
     }
   }

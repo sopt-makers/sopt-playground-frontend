@@ -22,6 +22,7 @@ import ProjectImageSection from '@/components/project/upload/ProjectImageSection
 import { Period, ServiceType, Category, FormItem, Status, Generation } from '@/components/project/upload/types';
 import useCreateProjectMutation from '@/components/project/upload/hooks/useCreateProjectMutation';
 import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/constants';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const schema: yup.SchemaOf<ProjectUploadForm> = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
@@ -183,7 +184,7 @@ const ProjectContainer = styled.div`
     width: 100%;
   }
 
-  @media screen and (max-width: 375px) {
+  @media ${MOBILE_MEDIA_QUERY} {
     padding: 38px 24px 107px;
   }
 `;

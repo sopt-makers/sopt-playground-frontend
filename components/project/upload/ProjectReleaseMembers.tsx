@@ -43,7 +43,7 @@ const StyledSignupLink = styled(Text)`
   text-decoration: underline;
   color: ${colors.gray100};
 
-  @media screen and (max-width: 375px) {
+  @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
 `;
