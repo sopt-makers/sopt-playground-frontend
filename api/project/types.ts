@@ -60,3 +60,20 @@ export type ProjectResponse = Omit<ProjectInput, ResponseOmitTypes> & {
   links: (Link & { project_id: number; id: number })[];
   users: (User & { project_id: number })[];
 };
+
+export interface Fields {
+  'acl': string;
+  'bucket': string;
+  'X-Amz-Algorithm': string;
+  'X-Amz-Credential': string;
+  'X-Amz-Date': string;
+  'X-Amz-Security-Token': string;
+  'key': string;
+  'Policy': string;
+  'X-Amz-Signature': string;
+}
+
+export interface SignedUrl {
+  url: string;
+  fields: Fields;
+}

@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/api';
-import { ProjectResponse, ProjectInput } from '@/api/project/types';
+import { ProjectResponse, ProjectInput, SignedUrl } from '@/api/project/types';
 import { AxiosResponse } from 'axios';
 
 const createProject = (data: ProjectInput) => {
@@ -32,7 +32,7 @@ const getProjects = () => {
 };
 
 const getPresignedUrl = () => {
-  return axiosInstance.request<{ signedUrl: string }>({
+  return axiosInstance.request<{ signedUrl: SignedUrl }>({
     method: 'GET',
     url: 'api/v1/presigned-url',
   });
