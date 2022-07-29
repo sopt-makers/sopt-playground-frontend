@@ -46,6 +46,7 @@ export interface ProjectInput {
   summary: string;
   detail: string;
   thumbnail_image: string;
+  logo_image: string;
   images: string[];
   links: Link[];
   users: User[];

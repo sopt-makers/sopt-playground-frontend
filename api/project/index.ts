@@ -31,9 +31,17 @@ const getProjects = () => {
   });
 };
 
+const getPresignedUrl = () => {
+  return axiosInstance.request<{ signedUrl: string }>({
+    method: 'GET',
+    url: 'api/v1/presigned-url',
+  });
+};
+
 export const project = {
   create: createProject,
   delete: deleteProject,
   get: getProject,
   getList: getProjects,
+  getPresignedUrl,
 };

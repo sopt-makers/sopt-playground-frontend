@@ -6,41 +6,115 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { FC } from 'react';
-import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
+import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import IconDelete from '@/public/icons/icon-delete.svg';
+import useScreenSize from '@/hooks/useScreenSize';
+import Text from '@/components/common/Text';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const LinkForm: FC = () => {
-  const { control, register } = useFormContext<ProjectUploadForm>();
+  const { control, register, setValue } = useFormContext<ProjectUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'links',
   });
+  const links = useWatch({
+    name: 'links',
+    control,
+  });
+
+  const { isMobile } = useScreenSize();
+  const onEdit = (index: number) => {
+    setValue(`links.${index}.isEdit`, true);
+  };
+  const onAppend = () => {
+    append(DEFAULT_LINK);
+  };
+  const onComplete = (index: number) => {
+    setValue(`links.${index}.isEdit`, false);
+  };
+  const onRemove = (index: number) => {
+    if (!links) {
+      return;
+    }
+    setValue(
+      'links',
+      links.filter((_, linkIndex) => linkIndex !== index),
+    );
+  };
 
   return (
-    <ul>
-      {fields.map((field, index) => (
-        <StyledLi key={field.id}>
-          <StyledSelect placeholder='선택' {...register(`links.${index}.title`)}>
-            {LINK_TITLES.map(({ title, label }) => (
-              <option key={title} value={title}>
-                {label}
-              </option>
-            ))}
-          </StyledSelect>
-          <Controller
-            control={control}
-            name={`links.${index}.url`}
-            render={({ field }) => <StyledInput placeholder='https://' {...field} />}
-          />
-          <IconDeleteWrapper>
-            <IconDelete onClick={() => remove(index)} />
-          </IconDeleteWrapper>
-        </StyledLi>
-      ))}
-      <StyledButton type='button' onClick={() => append(DEFAULT_LINK)}>
-        + 추가
-      </StyledButton>
-    </ul>
+    <>
+      {!isMobile ? (
+        <ul>
+          {fields.map((field, index) => (
+            <StyledLi key={field.id}>
+              <StyledSelect placeholder='선택' {...register(`links.${index}.title`)}>
+                {LINK_TITLES.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </StyledSelect>
+              <Controller
+                control={control}
+                name={`links.${index}.url`}
+                render={({ field }) => <StyledInput placeholder='https://' {...field} />}
+              />
+              <IconDeleteWrapper>
+                <IconDelete onClick={() => remove(index)} />
+              </IconDeleteWrapper>
+            </StyledLi>
+          ))}
+          <StyledButton type='button' onClick={() => append(DEFAULT_LINK)}>
+            + 추가
+          </StyledButton>
+        </ul>
+      ) : (
+        <ul>
+          {links?.map((link, index) => (
+            <StyledLi key={index}>
+              {!link.isEdit ? (
+                <MobileLinkItem onClick={() => onEdit(index)}>
+                  <Text typography='SUIT_12_M' color={colors.gray100}>
+                    {link.title}
+                  </Text>
+                  <Text typography='SUIT_12_M' color={colors.gray100}>
+                    {link.url}
+                  </Text>
+                </MobileLinkItem>
+              ) : (
+                <MobileLinkApplyForm>
+                  <MobileLinkSelect>
+                    <MobileSelect placeholder='선택' {...register(`links.${index}.title`)}>
+                      {LINK_TITLES.map((value) => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </MobileSelect>
+                    <Controller
+                      control={control}
+                      name={`links.${index}.url`}
+                      render={({ field }) => <MobileLink placeholder='https://' {...field} />}
+                    />
+                  </MobileLinkSelect>
+                  <MobileApplyFormFooter>
+                    <IconDelete onClick={() => onRemove(index)} />
+                    <MobileCompleteButton type='button' onClick={() => onComplete(index)}>
+                      완료
+                    </MobileCompleteButton>
+                  </MobileApplyFormFooter>
+                </MobileLinkApplyForm>
+              )}
+            </StyledLi>
+          ))}
+          <MobileAddButton type='button' onClick={onAppend}>
+            추가하기
+          </MobileAddButton>
+        </ul>
+      )}
+    </>
   );
 };
 
@@ -52,6 +126,9 @@ const StyledLi = styled.li`
 
   &:not(:first-child) {
     margin-top: 10px;
+  }
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: block;
   }
 `;
 
@@ -81,4 +158,62 @@ const StyledButton = styled.button`
   color: ${colors.gray100};
 
   ${textStyles.SUIT_16_M};
+`;
+
+// for mobile
+const MobileLinkItem = styled.div`
+  display: flex;
+  gap: 19px;
+  border-radius: 6px;
+  background-color: ${colors.black40};
+  padding: 15px 20px;
+`;
+
+const MobileLinkApplyForm = styled.div`
+  border-radius: 6px;
+  background-color: ${colors.black60};
+  padding: 12px;
+`;
+
+const MobileLinkSelect = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+const MobileSelect = styled(Select)`
+  ${textStyles.SUIT_14_M};
+
+  border: 1px solid ${colors.black40};
+  width: 135px;
+`;
+
+const MobileLink = styled(Input)`
+  ${textStyles.SUIT_14_M};
+
+  border: 1px solid ${colors.black40};
+`;
+
+const MobileApplyFormFooter = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 15px;
+`;
+
+const MobileCompleteButton = styled.button`
+  border-radius: 4px;
+  background-color: ${colors.black40};
+  padding: 6.5px 30px;
+  color: ${colors.gray100};
+
+  ${textStyles.SUIT_14_M};
+`;
+
+const MobileAddButton = styled.button`
+  margin-top: 12px;
+  border: 1px solid ${colors.black40};
+  border-radius: 6px;
+  background-color: ${colors.black60};
+  padding: 14px 20px;
+  width: 100%;
 `;

@@ -2,6 +2,7 @@ import FormTitle from '@/components/project/upload/FormTitle';
 import { ServiceType } from '@/components/project/upload/types';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -47,11 +48,14 @@ const StyledContent = styled.div`
 `;
 
 const StyledLabel = styled.label<{ checked?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background-color 0.2s, color 0.2s;
   border-radius: 100px;
   background-color: ${colors.black60};
   cursor: pointer;
-  padding: 14px 75px;
+  padding: 14px 0;
   width: 163px;
   height: 42px;
   color: ${colors.gray100};
@@ -63,4 +67,8 @@ const StyledLabel = styled.label<{ checked?: boolean }>`
       color: ${colors.white};
     `}
   ${textStyles.SUIT_14_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 158px;
+  }
 `;

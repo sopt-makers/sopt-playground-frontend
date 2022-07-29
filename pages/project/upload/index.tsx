@@ -20,11 +20,11 @@ import ProjectDetail from '@/components/project/upload/ProjectDetail';
 import ProjectLink from '@/components/project/upload/ProjectLink';
 import ProjectImageSection from '@/components/project/upload/ProjectImageSection';
 import { Period, ServiceType, Category, FormItem, Status, Generation } from '@/components/project/upload/types';
-import Button from '@/components/common/Button';
 import useCreateProjectMutation from '@/components/project/upload/hooks/useCreateProjectMutation';
-import { Member } from '@/components/project/upload/MemberForm/constants';
+import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/constants';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-const schema: yup.SchemaOf<ProjectUploadForm> = yup.object().shape({
+const schema = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
   generation: yup
     .object()
@@ -83,7 +83,7 @@ const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   period: {
     isOngoing: false,
   },
-  members: [{ userId: undefined, role: undefined, isTeamMember: true, description: undefined }],
+  members: [{ ...DEFAULT_MEMBER }],
   serviceType: [],
   summary: '',
   detail: '',
@@ -100,9 +100,9 @@ export interface ProjectUploadForm {
   period: Period;
   summary: string;
   detail: string;
-  logoImage: File;
-  thumbnailImage: File;
-  projectImage: File;
+  logoImage: string;
+  thumbnailImage: string;
+  projectImage: string;
   links: Link[];
 }
 
@@ -132,7 +132,8 @@ const ProjectUploadPage: FC = () => {
         is_available: data.status.isAvailable,
         is_founding: data.status.isFounding,
         users: [...data.members, ...data.releaseMembers],
-        images: data.projectImage,
+        images: [data.projectImage],
+        logo_image: data.logoImage,
         thumbnail_image: data.thumbnailImage,
       });
     }
@@ -157,7 +158,6 @@ const ProjectUploadPage: FC = () => {
           <ProjectImageSection />
           <ProjectLink />
         </ProjectContainer>
-        <Button type='submit'>제출하기</Button>
       </StyledForm>
     </FormProvider>
   );
@@ -178,4 +178,13 @@ const ProjectContainer = styled.div`
   background-color: ${colors.black80};
   padding: 47px 40px;
   width: 892px;
+
+  @media screen and (max-width: 1055px) {
+    border-radius: 0%;
+    width: 100%;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 38px 24px 107px;
+  }
 `;

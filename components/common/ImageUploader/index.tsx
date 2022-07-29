@@ -1,36 +1,45 @@
 import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
-import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import IconImage from '@/public/icons/icon-image.svg';
+import { project } from '@/api/project';
 
 interface ImageUploaderProps {
-  width?: number;
-  height?: number;
-  value?: File | null;
-  onChange: (value: File | null) => void;
+  width?: number | string;
+  height?: number | string;
+  value?: string | null;
+  onChange: (value: string | null) => void;
 }
 
 const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onChange, value }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [previewImage, setPreviewImage] = useState<string>('');
 
-  useEffect(() => {
-    if (!value) {
-      return;
-    }
-    const preview = URL.createObjectURL(value);
-    setPreviewImage(preview);
-  }, [value]);
-
   const handleClick = () => {
     const inputEl = inputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
-    inputEl.onchange = () => {
+    inputEl.onchange = async () => {
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
       const file = files[0];
-      onChange(file);
+      const preview = URL.createObjectURL(file);
+      setPreviewImage(preview);
+      try {
+        const {
+          data: { signedUrl },
+        } = await project.getPresignedUrl();
+        if (!signedUrl) {
+          throw new Error('presignedUrl이 존재하지 않습니다.');
+        }
+        await fetch(signedUrl, {
+          method: 'PUT',
+          body: file,
+        });
+        onChange(signedUrl);
+      } catch (error) {
+        console.error(error);
+      }
     };
     inputEl.click();
   };
@@ -52,8 +61,8 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'>>`
   border-radius: 6px;
   background-color: ${colors.black60};
   cursor: pointer;
-  width: ${({ width }) => width}px;
-  height: ${({ height }) => height}px;
+  width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
+  height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
 `;
 
 const StyledInput = styled.input`

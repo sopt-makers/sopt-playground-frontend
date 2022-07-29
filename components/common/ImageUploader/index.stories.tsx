@@ -7,7 +7,7 @@ export default {
 } as ComponentMeta<typeof ImageUploader>;
 
 export const Default = () => {
-  const { control } = useForm<{ image: File }>();
+  const { control } = useForm<{ image: string }>();
 
   return <Controller name='image' control={control} render={({ field }) => <ImageUploader {...field} />} />;
 };

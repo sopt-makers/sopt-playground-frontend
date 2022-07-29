@@ -5,6 +5,7 @@ import { GENERATION } from '@/components/project/upload/constants';
 import FormTitle from '@/components/project/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { FC, useEffect } from 'react';
@@ -30,13 +31,13 @@ const ProjectGeneration: FC = () => {
     <StyledContainer>
       <FormTitle>기수</FormTitle>
       <StyledDescription>참여한 팀원들의 기수에 맞춰 작성해주세요</StyledDescription>
-      <Select width={236} placeholder='선택' {...register('generation.generation')}>
+      <StyledSelect width={236} placeholder='선택' {...register('generation.generation')}>
         {GENERATION.map((item) => (
           <option key={item} value={item}>
             {item}기
           </option>
         ))}
-      </Select>
+      </StyledSelect>
       <StyledCheckboxWrapper>
         <Controller
           name='generation.checked'
@@ -63,6 +64,16 @@ const StyledDescription = styled(Text)`
   margin: 12px 0 18px;
   color: ${colors.gray100};
   ${textStyles.SUIT_14_M};
+`;
+
+const StyledSelect = styled(Select)`
+  width: 236px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_M}
+
+    width: 160px;
+  }
 `;
 
 const StyledCheckboxWrapper = styled.div`

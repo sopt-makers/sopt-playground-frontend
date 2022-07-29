@@ -5,6 +5,7 @@ import Text from '@/components/common/Text';
 import FormTitle from '@/components/project/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
@@ -81,6 +82,10 @@ const StyledContent = styled.div`
 const DateFormWrapper = styled.div`
   & > input {
     width: 163px;
+    @media ${MOBILE_MEDIA_QUERY} {
+      width: 100%;
+      ${textStyles.SUIT_14_M}
+    }
   }
 `;
 
