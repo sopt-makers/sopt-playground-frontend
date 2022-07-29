@@ -30,8 +30,5 @@ jobs:
           yarn install --immutable --immutable-cache --check-cache
           touch .cacheChecked
 
-      - name: Install Dependencies
-        run: yarn install
-
       - name: Build Test
         run: yarn build
