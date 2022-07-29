@@ -5,20 +5,27 @@ import { Category, ServiceType } from '@/components/project/upload/types';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
-import { FC, ReactElement } from 'react';
+import { FC } from 'react';
 import IconPlaystore from '@/public/icons/icon-playstore.svg';
 import IconAppstore from '@/public/icons/icon-appstore.svg';
 import IconWeb from '@/public/icons/icon-web.svg';
 import NextLink from 'next/link';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-const LINK_INFO: Record<LinkTitle, { icon: ReactElement; label: string }> = {
-  website: { icon: <IconWeb />, label: '서비스 바로가기' },
-  googlePlay: { icon: <IconPlaystore />, label: 'Google Play' },
-  appStore: { icon: <IconAppstore />, label: 'App Store' },
-  github: { icon: <></>, label: 'Github' },
+const getLinkInfo = (title: LinkTitle) => {
+  switch (title) {
+    case 'website':
+      return { icon: <IconWeb />, label: '서비스 바로가기' };
+    case 'googlePlay':
+      return { icon: <IconPlaystore />, label: 'Google Play' };
+    case 'appStore':
+      return { icon: <IconAppstore />, label: 'App Store' };
+    case 'github':
+      return { icon: <IconWeb />, label: 'Github' };
+  }
 };
 
-interface ProjectCardProps {
+export interface ProjectCardProps {
   serviceType: ServiceType[];
   name: string;
   category: Category;
@@ -56,8 +63,8 @@ const ProjectCard: FC<ProjectCardProps> = ({
           {links?.map(({ title, url }, index) => (
             <NextLink key={index} passHref href={url}>
               <StyledServiceLink>
-                {LINK_INFO[title].icon}
-                <Text typography='SUIT_12_SB'>{LINK_INFO[title].label}</Text>
+                {getLinkInfo(title).icon}
+                <Text typography='SUIT_12_SB'>{getLinkInfo(title).label}</Text>
               </StyledServiceLink>
             </NextLink>
           ))}
@@ -89,16 +96,22 @@ const StyledCard = styled.div`
   width: 380px;
   height: 292px;
 
-  &:hover {
+  :hover {
     & .card-hover {
-      transition: visibility 0.2s;
+      transition: visibility 0.3s linear, opacity 0.3s linear;
       visibility: visible;
+      opacity: 1;
     }
 
     & .card-image {
       transition: opacity 0.2s;
       opacity: 0.8;
     }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 355px;
+    height: 276px;
   }
 `;
 
@@ -145,6 +158,7 @@ const ServiceLinkWrapper = styled.div`
   bottom: 60px;
   gap: 16px;
   visibility: hidden;
+  opacity: 0;
 `;
 
 const StyledServiceLink = styled.div`
