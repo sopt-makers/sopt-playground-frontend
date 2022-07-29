@@ -61,7 +61,7 @@ const dummy: ProjectCardProps[] = [
 ];
 
 const ProjectPage: FC = () => {
-  // const { data } = useGetProjectListQuery();
+  const { data } = useGetProjectListQuery();
 
   return (
     <StyledContainer>

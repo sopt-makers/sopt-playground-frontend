@@ -32,7 +32,7 @@ const getProjects = () => {
 };
 
 const getPresignedUrl = () => {
-  return axiosInstance.request<string>({
+  return axiosInstance.request<{ signedUrl: string }>({
     method: 'GET',
     url: 'api/v1/presigned-url',
   });

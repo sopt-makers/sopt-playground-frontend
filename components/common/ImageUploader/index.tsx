@@ -32,12 +32,14 @@ const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onCh
       if (files == null || files.length === 0) return;
       const file = files[0];
       try {
-        const { data: presignedUrl } = await project.getPresignedUrl();
-        if (!presignedUrl) {
+        const {
+          data: { signedUrl },
+        } = await project.getPresignedUrl();
+        if (!signedUrl) {
           throw new Error('presignedUrl이 존재하지 않습니다.');
         }
         const { data: s3Url } = await project.putImage({
-          url: presignedUrl,
+          url: signedUrl,
           image: file,
         });
         onChange(s3Url);
