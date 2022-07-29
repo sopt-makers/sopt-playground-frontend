@@ -9,26 +9,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
+      - name: Checkout Branch
         uses: actions/checkout@v2
 
-      - name: Cache the fact that we have checked the yarn cache.
-        id: yarn-cache
-        uses: actions/cache@v2.1.6
-        with:
-          path: .cacheChecked
-          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - name: Yarn Cache
+        uses: c-hive/gha-yarn-cache@v2
 
-      - name: Install dependencies without refetching on cache hit.
-        if: ${{ steps.yarn-cache.outputs.cache-hit == 'true' }}
-        run: yarn install --immutable --immutable-cache
-
-      - name: Install dependencies, refetching on cache miss for added security.
-        if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
-        run: |
-          # See https://yarnpkg.com/features/zero-installs#does-it-have-security-implications
-          yarn install --immutable --immutable-cache --check-cache
-          touch .cacheChecked
+      - name: Install Packages
+        run: yarn install
 
       - name: Build Test
         run: yarn build
