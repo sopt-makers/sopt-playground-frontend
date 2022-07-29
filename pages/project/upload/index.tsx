@@ -24,7 +24,7 @@ import useCreateProjectMutation from '@/components/project/upload/hooks/useCreat
 import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-const schema: yup.SchemaOf<ProjectUploadForm> = yup.object().shape({
+const schema = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
   generation: yup
     .object()
@@ -100,9 +100,9 @@ export interface ProjectUploadForm {
   period: Period;
   summary: string;
   detail: string;
-  logoImage: File;
-  thumbnailImage: File;
-  projectImage: File;
+  logoImage: string;
+  thumbnailImage: string;
+  projectImage: string;
   links: Link[];
 }
 

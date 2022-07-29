@@ -1,6 +1,6 @@
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
-import { DEFAULT_LINK, LinkTitle } from '@/components/project/upload/LinkForm/constants';
+import { DEFAULT_LINK, LINK_TITLES } from '@/components/project/upload/LinkForm/constants';
 import { ProjectUploadForm } from '@/pages/project/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
@@ -18,7 +18,8 @@ const LinkForm: FC = () => {
     control,
     name: 'links',
   });
-  const { links } = useWatch({
+  const links = useWatch({
+    name: 'links',
     control,
   });
 
@@ -49,7 +50,7 @@ const LinkForm: FC = () => {
           {fields.map((field, index) => (
             <StyledLi key={field.id}>
               <StyledSelect placeholder='선택' {...register(`links.${index}.title`)}>
-                {Object.values(LinkTitle).map((value) => (
+                {LINK_TITLES.map((value) => (
                   <option key={value} value={value}>
                     {value}
                   </option>
@@ -86,7 +87,7 @@ const LinkForm: FC = () => {
                 <MobileLinkApplyForm>
                   <MobileLinkSelect>
                     <MobileSelect placeholder='선택' {...register(`links.${index}.title`)}>
-                      {Object.values(LinkTitle).map((value) => (
+                      {LINK_TITLES.map((value) => (
                         <option key={value} value={value}>
                           {value}
                         </option>
