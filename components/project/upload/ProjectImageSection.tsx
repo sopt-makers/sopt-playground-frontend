@@ -1,3 +1,4 @@
+// presigned-url https://allardqjy.medium.com/using-pre-signed-urls-to-upload-files-to-amazon-s3-from-reactjs-5b15c94b66df
 import ImageUploader from '@/components/common/ImageUploader';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/project/upload/FormTitle';

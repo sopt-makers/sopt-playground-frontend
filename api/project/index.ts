@@ -38,19 +38,10 @@ const getPresignedUrl = () => {
   });
 };
 
-const putImage = (input: { url: string; image: File }) => {
-  return axiosInstance.request({
-    method: 'PUT',
-    url: input.url,
-    data: input.image,
-  });
-};
-
 export const project = {
   create: createProject,
   delete: deleteProject,
   get: getProject,
   getList: getProjects,
   getPresignedUrl,
-  putImage,
 };
