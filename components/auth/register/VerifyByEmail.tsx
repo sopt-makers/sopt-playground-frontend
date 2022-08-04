@@ -4,10 +4,11 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import IconWarning from '@/public/icons/icon-warning.svg';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
 import { auth } from '@/api/auth';
+import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
 
 interface ErrorResponse {
   success: false;
@@ -20,16 +21,36 @@ const VerifyByEmail: FC = () => {
     return auth.sendVerificationEmail(emailInput);
   });
 
+  const handleSend = () => {
+    if (verify.isLoading) {
+      return;
+    }
+    verify.mutate();
+  };
+
+  if (verify.isSuccess) {
+    return <SendingMailSuccess />;
+  }
+
+  if (verify.isLoading) {
+    return <Container>잠시만 기다려주세요...</Container>;
+  }
+
   return (
     <Container>
       <Title>SOPT 회원인증</Title>
       <Description>SOPT 지원시 입력했던 이메일을 입력해주세요</Description>
       <Label>이메일</Label>
-      <Input placeholder='이메일을 입력해주세요' value={emailInput} onChange={(e) => setEmailInput(e.target.value)} />
+      <Input
+        placeholder='이메일을 입력해주세요'
+        value={emailInput}
+        onChange={(e) => setEmailInput(e.target.value)}
+        disabled={verify.isLoading}
+      />
       <ErrorMessage show={verify.isError}>
         <IconWarning /> {verify.error?.response?.data.message + ''}
       </ErrorMessage>
-      <SendButton variant='primary' onClick={() => verify.mutate()}>
+      <SendButton variant='primary' onClick={handleSend}>
         SOPT 회원 인증메일 발송
       </SendButton>
     </Container>
