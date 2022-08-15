@@ -3,7 +3,6 @@ import { categoryLabel, FORM_ITEMS } from '@/components/project/upload/constants
 import { FC } from 'react';
 import { FormProvider, useForm, DefaultValues } from 'react-hook-form';
 import { colors } from '@/styles/colors';
-// import FormStatus from '@/components/project/upload/FormStatus';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import ProjectServiceType from '@/components/project/upload/ProjectServiceType';
@@ -19,10 +18,14 @@ import ProjectSummary from '@/components/project/upload/ProjectSummary';
 import ProjectDetail from '@/components/project/upload/ProjectDetail';
 import ProjectLink from '@/components/project/upload/ProjectLink';
 import ProjectImageSection from '@/components/project/upload/ProjectImageSection';
-import { Period, ServiceType, Category, FormItem, Status, Generation } from '@/components/project/upload/types';
+import { Period, ServiceType, Category, Status, Generation, FormItem } from '@/components/project/upload/types';
 import useCreateProjectMutation from '@/components/project/upload/hooks/useCreateProjectMutation';
 import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import _omit from 'lodash/omit';
+import FormStatus from '@/components/project/upload/FormStatus';
+
+const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
 const schema = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
@@ -40,22 +43,22 @@ const schema = yup.object().shape({
   }),
   members: yup.array().of(
     yup.object().shape({
-      userId: yup.number().required(),
-      description: yup.string().required(),
-      role: yup.string().required(),
+      userId: yup.number().required('유저 아이디를 입력해주세요.'),
+      description: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
+      role: yup.string().required('역할을 선택해주세요.'),
     }),
   ),
   releaseMembers: yup.array().of(
     yup.object().shape({
-      userId: yup.number().required(),
-      description: yup.string().required(),
-      role: yup.string().required(),
+      userId: yup.number().required('유저 아이디를 입력해주세요.'),
+      description: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
+      role: yup.string().required('역할을 선택해주세요.'),
     }),
   ),
   serviceType: yup.array().required('서비스 형태를 선택해주세요.'),
   period: yup.object().shape({
-    startAt: yup.date().required('프로젝트 시작일을 입력해주세요'),
-    endAt: yup.date(),
+    startAt: yup.string().required('시작일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
+    endAt: yup.string().required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
   }),
   summary: yup.string().required('프로젝트 한줄 소개를 입력해주세요'),
   detail: yup.string().required('프로젝트 설명을 입력해주세요'),
@@ -64,8 +67,8 @@ const schema = yup.object().shape({
   projectImage: yup.string(),
   links: yup.array().of(
     yup.object().shape({
-      title: yup.string().required(),
-      url: yup.string().required(),
+      title: yup.string().required('프로젝트 타입을 선택해주세요.'),
+      url: yup.string().required('프로젝트 링크를 입력해주세요.').url('올바른 링크를 입력해주세요.'),
     }),
   ),
 });
@@ -95,7 +98,7 @@ export interface ProjectUploadForm {
   category: Category;
   status: Status;
   members: Member[];
-  releaseMembers: any;
+  releaseMembers: Member[];
   serviceType: ServiceType[];
   period: Period;
   summary: string;
@@ -110,40 +113,58 @@ const ProjectUploadPage: FC = () => {
   const methods = useForm<ProjectUploadForm>({
     resolver: yupResolver(schema),
     defaultValues: DEFAULT_VALUES,
-    mode: 'onSubmit',
+    mode: 'onChange',
   });
-  const { control, handleSubmit, watch } = methods;
+  const {
+    handleSubmit,
+    watch,
+    formState: { dirtyFields },
+  } = methods;
   const category = watch('category');
+  const formItems = FORM_ITEMS.filter((formItem) => formItem.isRequired)
+    .map((formItem) => ({
+      ...formItem,
+      isDirty: dirtyFields?.[formItem.value] ? true : formItem.isDirty,
+    }))
+    .reduce(
+      (acc: FormItem[], cur) =>
+        cur.value === 'members'
+          ? [...acc, { ...cur, label: `${categoryLabel?.[category] ?? ''} 팀원` }]
+          : [...acc, cur],
+      [],
+    );
   const { mutate } = useCreateProjectMutation();
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
+    const users = [...data.members, ...(data.releaseMembers ?? [])].map((user) =>
+      _omit({ ...user, user_id: user.userId, is_team_member: user.isTeamMember }, 'isEdit'),
+    );
     if (notify) {
-      mutate({
-        name: data.name,
-        generation: data.generation.checked ? undefined : data.generation.generation,
-        category: data.category,
-        detail: data.detail,
-        summary: data.summary,
-        service_type: data.serviceType,
-        links: data.links,
-        start_at: data.period.startAt,
-        end_at: !data.period.isOngoing ? data.period.endAt : undefined,
-        is_available: data.status.isAvailable,
-        is_founding: data.status.isFounding,
-        users: [...data.members, ...data.releaseMembers],
-        images: [data.projectImage],
-        logo_image: data.logoImage,
-        thumbnail_image: data.thumbnailImage,
-      });
+      // mutate({
+      //   name: data.name,
+      //   generation: data.generation.checked ? undefined : data.generation.generation,
+      //   category: data.category,
+      //   detail: data.detail,
+      //   summary: data.summary,
+      //   service_type: data.serviceType,
+      //   links: data.links,
+      //   start_at: data.period.startAt,
+      //   end_at: !data.period.isOngoing ? data.period.endAt : undefined,
+      //   is_available: data.status.isAvailable,
+      //   is_founding: data.status.isFounding,
+      //   users,
+      //   images: [data.projectImage],
+      //   logo_image: data.logoImage,
+      //   thumbnail_image: data.thumbnailImage,
+      // });
     }
   };
 
   return (
     <FormProvider {...methods}>
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        {/* TODO: 릴리즈 이후에 고도화 */}
-        {/* <FormStatus formItems={_formItems} /> */}
+        <FormStatus formItems={formItems} />
         <ProjectContainer>
           <ProjectName />
           <ProjectGeneration />

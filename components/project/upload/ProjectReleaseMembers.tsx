@@ -12,7 +12,7 @@ const ProjectReleaseMembers: FC = () => {
       <FormTitle>추가 합류한 팀원</FormTitle>
       <StyledDescription color={colors.gray100}>
         릴리즈에 합류한 팀원들의 이름을 적어주세요
-        <span className='extra'>. 회원가입을 한 사람만 팀원 등록이 가능해요</span>
+        <span className='extra'>. 회원가입을 한 사람만 팀원 등록이 가능해요 </span>
         <StyledSignupLink>회원가입 링크 복사</StyledSignupLink>
       </StyledDescription>
       <MemberForm name='releaseMembers' />
