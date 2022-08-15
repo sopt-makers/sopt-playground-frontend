@@ -58,12 +58,17 @@ const StyledContainer = styled.div`
   padding: 47px 40px;
   width: 278px;
   height: fit-content;
+
+  @media screen and (max-width: 1055px) {
+    display: none;
+  }
 `;
 
 const StyledContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  white-space: nowrap;
 `;
 
 const ProgressNumber = styled.div`
