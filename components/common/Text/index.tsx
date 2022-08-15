@@ -11,7 +11,7 @@ interface TextProps extends HTMLAttributes<HTMLSpanElement> {
 
 const Text: FC<PropsWithChildren<TextProps>> = ({
   typography = 'SUIT_14_M',
-  color = '#fcfcfc',
+  color,
   type = 'default',
   children,
   ...props
@@ -25,10 +25,10 @@ const Text: FC<PropsWithChildren<TextProps>> = ({
 
 export default Text;
 
-const StyledText = styled.span<Required<Pick<TextProps, 'typography' | 'color' | 'type'>>>`
+const StyledText = styled.span<Pick<TextProps, 'typography' | 'color' | 'type'>>`
   ${baseTextStyles};
-  ${({ typography }) => textStyles[typography]}
-  ${({ color }) => `color: ${color}`};
+  ${({ typography }) => (typography ? textStyles[typography] : '')}
+  ${({ color }) => (color ? `color: ${color}` : '')};
 
   ${({ type }) =>
     type === 'error' &&

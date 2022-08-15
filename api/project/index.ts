@@ -31,10 +31,10 @@ const getProjects = () => {
   });
 };
 
-const getPresignedUrl = () => {
-  return axiosInstance.request<{ signedUrl: SignedUrl }>({
+const getPresignedUrl = (name: string) => {
+  return axiosInstance.request<{ signedUrl: SignedUrl; filename: string }>({
     method: 'GET',
-    url: 'api/v1/presigned-url',
+    url: `api/v1/presigned-url?filename=${name}`,
   });
 };
 
