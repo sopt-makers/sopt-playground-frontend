@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import { FC, useRef, useState } from 'react';
 import IconImage from '@/public/icons/icon-image.svg';
 import { project } from '@/api/project';
+import axios from 'axios';
+import { Fields } from '@/api/project/types';
 
 interface ImageUploaderProps {
   width?: number | string;
@@ -30,13 +32,20 @@ const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onCh
           data: { signedUrl },
         } = await project.getPresignedUrl();
         if (!signedUrl) {
-          throw new Error('presignedUrl이 존재하지 않습니다.');
+          throw new Error('presigned-url을 받아오는데 실패하였습니다.');
         }
-        await fetch(signedUrl, {
-          method: 'PUT',
-          body: file,
+        const { url, fields } = signedUrl;
+        const formData = new FormData();
+        for (const key in fields) {
+          formData.append(key, fields[key as keyof Fields]);
+        }
+        formData.append('file', file);
+        await axios.request({
+          method: 'POST',
+          url,
+          data: formData,
         });
-        onChange(signedUrl);
+        onChange(url);
       } catch (error) {
         console.error(error);
       }

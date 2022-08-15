@@ -24,6 +24,8 @@ import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/c
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import _omit from 'lodash/omit';
 import FormStatus from '@/components/project/upload/FormStatus';
+import Button from '@/components/common/Button';
+import { textStyles } from '@/styles/typography';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -178,6 +180,11 @@ const ProjectUploadPage: FC = () => {
           <ProjectDetail />
           <ProjectImageSection />
           <ProjectLink />
+          <StyledButtonWrapper>
+            <Button type='submit' variant='primary'>
+              프로젝트 등록하기
+            </Button>
+          </StyledButtonWrapper>
         </ProjectContainer>
       </StyledForm>
     </FormProvider>
@@ -207,5 +214,15 @@ const ProjectContainer = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 38px 24px 107px;
+  }
+`;
+
+const StyledButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 60px;
+
+  & > button {
+    ${textStyles.SUIT_14_M};
   }
 `;
