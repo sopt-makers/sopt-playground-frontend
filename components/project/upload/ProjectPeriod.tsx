@@ -10,8 +10,6 @@ import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
-const DATE_PATTERN = /^d{4}.(0[1-9]|1[0-2])/;
-
 const ProjectPeriod = () => {
   const {
     control,
@@ -33,11 +31,10 @@ const ProjectPeriod = () => {
             name='period.startAt'
             component={Input}
             placeholder='YYYY.MM'
-            rules={{ pattern: DATE_PATTERN }}
           />
         </DateFormWrapper>
         {!period?.isOngoing && (
-          <>
+          <StyledEndAtWrapper>
             <StyledText>{'-'}</StyledText>
             <DateFormWrapper>
               <RHFControllerFormItem
@@ -47,10 +44,9 @@ const ProjectPeriod = () => {
                 name='period.endAt'
                 component={Input}
                 placeholder='YYYY.MM'
-                rules={{ pattern: DATE_PATTERN }}
               />
             </DateFormWrapper>
-          </>
+          </StyledEndAtWrapper>
         )}
       </StyledContent>
       <CheckboxWrapper>
@@ -75,7 +71,7 @@ const StyledContainer = styled.section`
 
 const StyledContent = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin: 20px 0 0;
 `;
 
@@ -87,6 +83,11 @@ const DateFormWrapper = styled.div`
       ${textStyles.SUIT_14_M}
     }
   }
+`;
+
+const StyledEndAtWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const StyledText = styled(Text)`

@@ -27,6 +27,8 @@ const RHFControllerFormItem = <
   control,
   rules,
   shouldUnregister,
+  error,
+  errorMessage,
   defaultValue,
   ...props
 }: RHFControllerFormItemProps<T, TFieldValues, TFieldPath>) => {
@@ -37,10 +39,10 @@ const RHFControllerFormItem = <
   } = useController({ name, control, rules, shouldUnregister, defaultValue });
 
   return (
-    <FormItem errorMessage={errors?.[name]?.message}>
+    <FormItem errorMessage={errors?.[name]?.message || errorMessage}>
       <Component
         {...({
-          error: !!fieldState.error,
+          error: error || !!fieldState.error,
           ...field,
           ...props,
         } as React.ComponentProps<T>)}
