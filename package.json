@@ -25,6 +25,7 @@
     "react-dom": "18.0.0",
     "react-hook-form": "^7.31.3",
     "react-query": "^3.38.0",
+    "react-spinners": "^0.13.4",
     "react-spring": "^9.4.5",
     "recoil": "^0.7.2",
     "yup": "^0.32.11"

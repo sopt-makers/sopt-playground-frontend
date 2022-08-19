@@ -9,6 +9,7 @@ import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
 import { auth } from '@/api/auth';
 import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
+import { ClipLoader } from 'react-spinners';
 
 interface ErrorResponse {
   success: false;
@@ -32,10 +33,6 @@ const VerifyByEmail: FC = () => {
     return <SendingMailSuccess />;
   }
 
-  if (verify.isLoading) {
-    return <Container>잠시만 기다려주세요...</Container>;
-  }
-
   return (
     <Container>
       <Title>SOPT 회원인증</Title>
@@ -48,16 +45,21 @@ const VerifyByEmail: FC = () => {
         disabled={verify.isLoading}
       />
       <ErrorMessage show={verify.isError}>
-        <IconWarning /> {verify.error?.response?.data.message + ''}
+        <IconWarning /> {formatErrorMessage(verify.error)}
       </ErrorMessage>
       <SendButton variant='primary' onClick={handleSend}>
-        SOPT 회원 인증메일 발송
+        {verify.isLoading ? <ClipLoader color='#ffffff' size={25} /> : <>SOPT 회원 인증메일 전송</>}
       </SendButton>
     </Container>
   );
 };
 
 export default VerifyByEmail;
+
+function formatErrorMessage(error: AxiosError<ErrorResponse> | null) {
+  const innerMessage = error?.response?.data?.message;
+  return innerMessage ?? '서버와의 접속이 실패했습니다.';
+}
 
 const Container = styled.div`
   display: flex;
