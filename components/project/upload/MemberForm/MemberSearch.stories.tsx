@@ -19,9 +19,9 @@ const Template: ComponentStory<typeof MemberSearch> = (args) => <MemberSearch {.
 export const Default = Template.bind({});
 Default.args = {
   members: [
-    { generation: 27, name: '이준호', userId: '960921' },
-    { generation: 27, name: '이준호', userId: '960921' },
-    { generation: 27, name: '이준호', userId: '960921' },
+    { generation: 27, name: '이준호', auth_user_id: 1, id: 1 },
+    { generation: 27, name: '이준호', auth_user_id: 1, id: 1 },
+    { generation: 27, name: '이준호', auth_user_id: 1, id: 1 },
   ],
 };
 Default.storyName = '기본';
