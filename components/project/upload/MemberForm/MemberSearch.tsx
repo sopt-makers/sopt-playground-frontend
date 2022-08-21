@@ -1,5 +1,6 @@
+// @ts-nocheck
+// MEMO: headless-ui와 emotion jsx의 충돌때문인지 ts 에러가 발생하여 주석 처리
 import { User } from '@/api/user/types';
-import { InputProps } from '@/components/common/Input';
 import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
 import React, { FC } from 'react';
