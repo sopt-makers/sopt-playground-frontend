@@ -89,14 +89,16 @@ export default function ProjectDetailPage() {
         <DetailContainer>
           <DetailTitle>Project Overview</DetailTitle>
           <DetailWrapper>{data?.detail}</DetailWrapper>
-          <LinksWrapper>
-            {data?.links.map((link) => (
-              <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-                <LinkIcon />
-                {link.title}
-              </LinkBox>
-            ))}
-          </LinksWrapper>
+          {!isTablet && (
+            <LinksWrapper>
+              {data?.links.map((link) => (
+                <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+                  <LinkIcon />
+                  {link.title}
+                </LinkBox>
+              ))}
+            </LinksWrapper>
+          )}
         </DetailContainer>
 
         <MemberWrapper>
@@ -121,6 +123,16 @@ export default function ProjectDetailPage() {
           </MemberList>
         </MemberWrapper>
       </ProjectDetailContainer>
+
+      <LinksWrapper>
+        {isTablet &&
+          data?.links.map((link) => (
+            <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+              <LinkIcon />
+              {link.title}
+            </LinkBox>
+          ))}
+      </LinksWrapper>
     </Container>
   );
 }
@@ -129,6 +141,10 @@ const Container = styled.div`
   margin: 0 auto;
   width: 100%;
   max-width: 1200px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    padding-bottom: 40px;
+  }
 `;
 const Header = styled.section`
   display: flex;
@@ -275,6 +291,7 @@ const ProjectDetailContainer = styled.section`
   @media ${TABLET_MEDIA_QUERY} {
     flex-direction: column-reverse;
     gap: 0;
+    padding: 0;
   }
 `;
 const DetailContainer = styled.div`
@@ -282,6 +299,10 @@ const DetailContainer = styled.div`
   background: ${colors.black80};
   padding: 48px;
   width: 100%;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    padding: 36px 24px;
+  }
 `;
 const DetailTitle = styled.h3`
   margin-bottom: 32px;
@@ -289,14 +310,31 @@ const DetailTitle = styled.h3`
   color: white;
   font-size: 18px;
   font-weight: 800;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    margin-bottom: 24px;
+    font-size: 16px;
+  }
 `;
 const DetailWrapper = styled.div`
   margin-bottom: 54px;
+  line-height: 180%;
   white-space: pre-wrap; /* or pre-line */
+  font-size: 16px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    margin: 0;
+    font-size: 14px;
+  }
 `;
 const LinksWrapper = styled.div`
   display: flex;
   gap: 32px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    gap: 32px 26px;
+    padding: 48px 40px;
+  }
 `;
 const LinkBox = styled.div`
   display: flex;
@@ -308,6 +346,10 @@ const LinkBox = styled.div`
   color: ${colors.gray60};
   font-size: 14px;
   font-weight: 500;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    font-size: 12px;
+  }
 `;
 // TODO: change from div to img
 const LinkIcon = styled.div`
@@ -315,6 +357,11 @@ const LinkIcon = styled.div`
   background: ${colors.black60};
   width: 72px;
   height: 72px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    width: 54px;
+    height: 54px;
+  }
 `;
 const MemberWrapper = styled.div`
   display: flex;
