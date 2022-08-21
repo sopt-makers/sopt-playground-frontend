@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import useScreenSize from '@/hooks/useScreenSize';
 import { TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -16,11 +16,6 @@ export default function ProjectDetailPage() {
   const { data } = useGetProjectQuery({ id: projectId as string });
   const { isTablet } = useScreenSize();
 
-  // TODO: remove after test
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const startAt = dayjs(data?.start_at).format('YYYY-MM');
   const endAt = data?.end_at ? dayjs(data.end_at).format('YYYY-MM') : '';
   const mainImage = data?.images[0];
@@ -28,6 +23,29 @@ export default function ProjectDetailPage() {
   const navigateToLink = (url: string) => {
     window.open(url, '_blank', 'noreferrer');
   };
+
+  const memberNamesByRole = useMemo(() => new Map<string, string[]>(), []);
+  // NOTE: Map 자료구조를 update하기 위해 임시 state를 하나 만든다. Map 자료구조를 만든 다음 해당 state를 변경시켜 rerendering을 발생시킨다.
+  // 이렇게 한 이유는 React가 ES6 Map 자료구조가 변경되어도 rerender를 발생시키지 않기 때문이다.
+  // 만약 Map이 변경되었을 때 rerender를 발생시키려면, Map을 state로 만들고
+  const [_, rerender] = useState('');
+  useEffect(() => {
+    if (!data?.users) {
+      return;
+    }
+
+    data.users.forEach((user) => {
+      if (!memberNamesByRole.has(user.role)) {
+        memberNamesByRole.set(user.role, [user.user.name]);
+      } else {
+        const names = memberNamesByRole.get(user.role)!.slice();
+        names.push(user.user.name);
+        memberNamesByRole.set(user.role, names);
+      }
+    });
+    rerender('update');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
     <Container>
@@ -87,13 +105,17 @@ export default function ProjectDetailPage() {
             <Info>{data?.category}</Info>
           </MemberInfoWrapper>
           <MemberList>
-            {data?.users.map((user) => (
-              <MemberItem key={user.user_id}>
-                <MemberRole>{user.role}</MemberRole>
-                <MemberName>
-                  <MemberIcon />
-                  {user.user.name}
-                </MemberName>
+            {Array.from(memberNamesByRole).map(([role, names], idx) => (
+              <MemberItem key={idx}>
+                <MemberRole>{role}</MemberRole>
+                <MemberNameList>
+                  {names.map((name, idx) => (
+                    <MemberName key={idx}>
+                      <MemberIcon />
+                      {name}
+                    </MemberName>
+                  ))}
+                </MemberNameList>
               </MemberItem>
             ))}
           </MemberList>
@@ -350,8 +372,17 @@ const MemberRole = styled.div`
   font-size: 14px;
   font-weight: 500;
 `;
+const MemberNameList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
 const MemberName = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  border-radius: 20px;
+  background: ${colors.black60};
+  padding: 3px 12px 3px 4px;
+  width: fit-content;
 `;
