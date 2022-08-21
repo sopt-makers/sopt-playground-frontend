@@ -113,6 +113,10 @@ const Header = styled.section`
   flex-direction: column;
   gap: 22px;
   margin-bottom: 66px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    margin-bottom: 24px;
+  }
 `;
 const ServiceTypeWrapper = styled.div`
   display: flex;
@@ -149,7 +153,7 @@ const ServiceInfoWrapper = styled.div`
     flex-direction: column;
     gap: 24px;
     align-items: flex-start;
-    padding: 28px 20px 24px;
+    padding: 28px 20px 0;
   }
 `;
 const LogoImageWrapper = styled.div`
@@ -229,6 +233,11 @@ const MainImageWrapper = styled.section`
   width: 100%;
   height: 675px;
   overflow: hidden;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    border-radius: 0;
+    height: 210px;
+  }
 `;
 const MainImage = styled.img`
   width: 100%;
