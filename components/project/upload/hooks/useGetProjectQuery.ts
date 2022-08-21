@@ -8,15 +8,14 @@ interface GetProjectQueryVariables {
 const useGetProjectQuery = (varaiables: GetProjectQueryVariables) => {
   const { id } = varaiables;
   return useQuery(
-    ['getProjectQuery', varaiables],
+    ['getProjectQuery', id],
     async () => {
-      const {
-        data: { data },
-      } = await project.get(id);
+      const { data } = await project.get(id);
 
       return data;
     },
     {
+      enabled: !!id,
       onError: (error: { message: string }) => {
         alert(error.message);
       },

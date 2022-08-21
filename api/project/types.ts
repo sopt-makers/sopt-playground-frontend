@@ -32,6 +32,12 @@ export interface User {
   description: string;
   role: Role;
   is_team_member: boolean;
+  user: {
+    id: number;
+    auth_user_id: number;
+    name: string;
+    generation: number;
+  };
 }
 
 export interface ProjectInput {

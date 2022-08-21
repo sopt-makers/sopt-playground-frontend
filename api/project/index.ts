@@ -18,7 +18,7 @@ const deleteProject = (id: string) => {
 };
 
 const getProject = (id: string) => {
-  return axiosInstance.request<AxiosResponse<ProjectResponse>>({
+  return axiosInstance.request<ProjectResponse>({
     method: 'GET',
     url: `api/v1/projects/${id}`,
   });

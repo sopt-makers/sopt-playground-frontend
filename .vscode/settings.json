@@ -6,7 +6,7 @@
   },
   "stylelint.validate": ["css", "scss", "typescript", "typescriptreact"],
   "editor.codeActionsOnSave": {
-    "source.fixAll.stylelint": true
+    "source.fixAll": true
   },
   "typescript.preferences.importModuleSpecifier": "non-relative"
 }
