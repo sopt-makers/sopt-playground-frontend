@@ -20,6 +20,10 @@ export default function ProjectDetailPage() {
   const endAt = data?.end_at ? dayjs(data.end_at).format('YYYY-MM') : '';
   const mainImage = data?.images[0];
 
+  const navigateToLink = (url: string) => {
+    window.open(url, '_blank', 'noreferrer');
+  };
+
   return (
     <Container>
       <Header>
@@ -48,6 +52,22 @@ export default function ProjectDetailPage() {
           <MainImage src={mainImage} alt={data?.name} />
         </MainImageWrapper>
       )}
+
+      <ProjectDetailContainer>
+        <DetailContainer>
+          <DetailTitle>Project Overview</DetailTitle>
+          <DetailWrapper>{data?.detail}</DetailWrapper>
+          <LinksWrapper>
+            {data?.links.map((link) => (
+              <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+                <LinkIcon />
+                {link.title}
+              </LinkBox>
+            ))}
+          </LinksWrapper>
+        </DetailContainer>
+        <div></div>
+      </ProjectDetailContainer>
     </Container>
   );
 }
@@ -93,6 +113,8 @@ const LogoImageWrapper = styled.div`
   overflow: hidden;
 `;
 const LogoImage = styled.img`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `;
 const InfoWrapper = styled.div`
@@ -133,5 +155,49 @@ const MainImageWrapper = styled.section`
   overflow: hidden;
 `;
 const MainImage = styled.img`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+`;
+const ProjectDetailContainer = styled.section`
+  display: flex;
+  gap: 32px;
+`;
+const DetailContainer = styled.div`
+  border-radius: 12px;
+  background: ${colors.black80};
+  padding: 48px;
+`;
+const DetailTitle = styled.h3`
+  margin-bottom: 32px;
+  line-height: 100%;
+  color: white;
+  font-size: 18px;
+  font-weight: 800;
+`;
+const DetailWrapper = styled.div`
+  margin-bottom: 54px;
+  white-space: pre-wrap; /* or pre-line */
+`;
+const LinksWrapper = styled.div`
+  display: flex;
+  gap: 32px;
+`;
+const LinkBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  line-height: 160%;
+  color: ${colors.gray60};
+  font-size: 14px;
+  font-weight: 500;
+`;
+// TODO: change from div to img
+const LinkIcon = styled.div`
+  border-radius: 100%;
+  background: ${colors.black60};
+  width: 72px;
+  height: 72px;
 `;
