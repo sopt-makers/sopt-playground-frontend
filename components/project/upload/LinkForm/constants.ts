@@ -2,7 +2,7 @@ export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github'] as co
 
 export type LinkTitle = typeof LINK_TITLES[number];
 export interface Link {
-  title: LinkTitle;
+  title: LinkTitle | string;
   url: string;
   isEdit?: boolean;
 }

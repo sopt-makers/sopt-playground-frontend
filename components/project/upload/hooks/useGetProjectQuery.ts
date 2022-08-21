@@ -17,7 +17,7 @@ const useGetProjectQuery = (varaiables: GetProjectQueryVariables) => {
     {
       enabled: !!id,
       onError: (error: { message: string }) => {
-        alert(error.message);
+        console.error(error.message);
       },
     },
   );

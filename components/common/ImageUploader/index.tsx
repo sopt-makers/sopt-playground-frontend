@@ -25,27 +25,31 @@ const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onCh
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
       const file = files[0];
-      const preview = URL.createObjectURL(file);
-      setPreviewImage(preview);
       try {
         const {
-          data: { signedUrl },
-        } = await project.getPresignedUrl();
+          data: { signedUrl, filename },
+        } = await project.getPresignedUrl(file.name);
         if (!signedUrl) {
           throw new Error('presigned-url을 받아오는데 실패하였습니다.');
         }
         const { url, fields } = signedUrl;
+        // MEMO: signedUrl 에서 응답으로 내려준 fields들을 formData에 그대로 담아 보내줍니다.
         const formData = new FormData();
         for (const key in fields) {
           formData.append(key, fields[key as keyof Fields]);
         }
-        formData.append('file', file);
+        // MEMO: s3 버킷에 올라간 이미지 주소(s3Url)에 접근하기 위한 서버에서 준 filename으로 file의 이름을 변경하는 작업입니다.
+        const blob = file.slice(0, file.size, 'image/*');
+        const s3Filename = new File([blob], filename, { type: 'image/*' });
+        formData.append('file', s3Filename);
         await axios.request({
           method: 'POST',
           url,
           data: formData,
         });
-        onChange(url);
+        const s3Url = `${url}/${filename}`;
+        setPreviewImage(s3Url);
+        onChange(s3Url);
       } catch (error) {
         console.error(error);
       }

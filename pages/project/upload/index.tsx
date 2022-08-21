@@ -26,6 +26,8 @@ import _omit from 'lodash/omit';
 import FormStatus from '@/components/project/upload/FormStatus';
 import Button from '@/components/common/Button';
 import { textStyles } from '@/styles/typography';
+import dayjs from 'dayjs';
+import { User } from '@/api/project/types';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -40,19 +42,19 @@ const schema = yup.object().shape({
     .optional(),
   category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요'),
   status: yup.object().shape({
-    isFounding: yup.boolean().required(),
-    isAvaliable: yup.boolean().required(),
+    isFounding: yup.boolean(),
+    isAvaliable: yup.boolean(),
   }),
   members: yup.array().of(
     yup.object().shape({
-      userId: yup.number().required('유저 아이디를 입력해주세요.'),
+      user: yup.object().required('유저를 선택해주세요.'),
       description: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
       role: yup.string().required('역할을 선택해주세요.'),
     }),
   ),
   releaseMembers: yup.array().of(
     yup.object().shape({
-      userId: yup.number().required('유저 아이디를 입력해주세요.'),
+      user: yup.object().required('유저를 선택해주세요.'),
       description: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
       role: yup.string().required('역할을 선택해주세요.'),
     }),
@@ -79,7 +81,7 @@ const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   name: '',
   generation: {
     generation: undefined,
-    checked: false,
+    checked: true,
   },
   status: {
     isAvailable: false,
@@ -112,6 +114,7 @@ export interface ProjectUploadForm {
 }
 
 const ProjectUploadPage: FC = () => {
+  const { mutate } = useCreateProjectMutation();
   const methods = useForm<ProjectUploadForm>({
     resolver: yupResolver(schema),
     defaultValues: DEFAULT_VALUES,
@@ -135,31 +138,38 @@ const ProjectUploadPage: FC = () => {
           : [...acc, cur],
       [],
     );
-  const { mutate } = useCreateProjectMutation();
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
-    const users = [...data.members, ...(data.releaseMembers ?? [])].map((user) =>
-      _omit({ ...user, user_id: user.userId, is_team_member: user.isTeamMember }, 'isEdit'),
-    );
+    const users: Omit<User, 'user'>[] = [...data.members, ...(data.releaseMembers ?? [])].map((user) => ({
+      user_id: user.user?.auth_user_id!,
+      is_team_member: user.isTeamMember!,
+      role: user.role!,
+      description: user.description!,
+    }));
+    const links: Omit<Link, 'isEdit'>[] = data.links.map((link) => ({
+      title: link.title,
+      url: link.url,
+    }));
+
     if (notify) {
-      // mutate({
-      //   name: data.name,
-      //   generation: data.generation.checked ? undefined : data.generation.generation,
-      //   category: data.category,
-      //   detail: data.detail,
-      //   summary: data.summary,
-      //   service_type: data.serviceType,
-      //   links: data.links,
-      //   start_at: data.period.startAt,
-      //   end_at: !data.period.isOngoing ? data.period.endAt : undefined,
-      //   is_available: data.status.isAvailable,
-      //   is_founding: data.status.isFounding,
-      //   users,
-      //   images: [data.projectImage],
-      //   logo_image: data.logoImage,
-      //   thumbnail_image: data.thumbnailImage,
-      // });
+      mutate({
+        name: data.name,
+        generation: data.generation.checked ? undefined : data.generation.generation,
+        category: data.category,
+        detail: data.detail,
+        summary: data.summary,
+        service_type: data.serviceType,
+        start_at: dayjs(data.period.startAt).toDate(),
+        end_at: !data.period.isOngoing ? dayjs(data.period.endAt).toDate() : undefined,
+        is_available: data.status.isAvailable,
+        is_founding: data.status.isFounding,
+        images: data.projectImage ? [data.projectImage] : [],
+        logo_image: data.logoImage,
+        thumbnail_image: data.thumbnailImage,
+        users,
+        links,
+      });
     }
   };
 

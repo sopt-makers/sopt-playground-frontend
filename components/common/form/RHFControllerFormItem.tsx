@@ -30,6 +30,7 @@ const RHFControllerFormItem = <
   error,
   errorMessage,
   defaultValue,
+  style,
   ...props
 }: RHFControllerFormItemProps<T, TFieldValues, TFieldPath>) => {
   const {
@@ -39,7 +40,7 @@ const RHFControllerFormItem = <
   } = useController({ name, control, rules, shouldUnregister, defaultValue });
 
   return (
-    <FormItem errorMessage={errors?.[name]?.message || errorMessage}>
+    <FormItem style={style} errorMessage={errors?.[name]?.message || errorMessage}>
       <Component
         {...({
           error: error || !!fieldState.error,

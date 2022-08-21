@@ -1,64 +1,9 @@
 import styled from '@emotion/styled';
-import ProjectCard, { ProjectCardProps } from '@/components/project/main/ProjectCard';
+import ProjectCard from '@/components/project/main/ProjectCard';
 import { FC } from 'react';
 import useGetProjectListQuery from '@/components/project/upload/hooks/useGetProjectListQuery';
-
-// dummy
-import { Category, ServiceType } from '@/api/project/types';
 import Text from '@/components/common/Text';
-import { LinkTitle } from '@/components/project/upload/LinkForm/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-const THUMBNAIL_IMAGE = 'https://dummyimage.com/368x208/8040ff/ffffff';
-const LOGO_IMAGE = 'https://dummyimage.com/120x120/8040ff/ffffff';
-
-const dummy: ProjectCardProps[] = [
-  {
-    name: '핸디캔디',
-    generation: 28,
-    category: Category.APPJAM,
-    description: '핸디캔디로 미래의 나에게 보상을 설정해 보아요',
-    thumbnailIamge: THUMBNAIL_IMAGE,
-    logoImage: LOGO_IMAGE,
-    serviceType: [ServiceType.APP, ServiceType.WEB],
-    links: [
-      { title: 'website', url: 'https://zigzag.kr' },
-      { title: 'appStore', url: 'https://zigzag.kr' },
-      { title: 'googlePlay', url: 'https://zigzag.kr' },
-    ],
-  },
-  {
-    name: '핸디캔디',
-    generation: 28,
-    category: Category.APPJAM,
-    description: '핸디캔디로 미래의 나에게 보상을 설정해 보아요',
-    logoImage: LOGO_IMAGE,
-    serviceType: [ServiceType.WEB],
-    links: [{ title: 'github', url: 'https://zigzag.kr' }],
-  },
-  {
-    name: '쿠키파킹',
-    generation: 27,
-    category: Category.APPJAM,
-    description: '나만의 파킹랏',
-    thumbnailIamge: THUMBNAIL_IMAGE,
-    logoImage: LOGO_IMAGE,
-    serviceType: [ServiceType.APP, ServiceType.WEB],
-    links: [
-      { title: 'website', url: 'https://zigzag.kr' },
-      { title: 'appStore', url: 'https://fashionbykakao.kr' },
-      { title: 'googlePlay', url: 'https://zigzag.kr' },
-    ],
-  },
-  {
-    name: '핸디캔디',
-    generation: 28,
-    category: Category.APPJAM,
-    description: '핸디캔디로 미래의 나에게 보상을 설정해 보아요',
-    logoImage: LOGO_IMAGE,
-    serviceType: [ServiceType.WEB],
-    links: [{ title: 'github', url: 'https://zigzag.kr' }],
-  },
-];
 
 const ProjectPage: FC = () => {
   const { data } = useGetProjectListQuery();
@@ -66,23 +11,21 @@ const ProjectPage: FC = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        <StyledLength typography='SUIT_22_B'>{dummy.length} Projects</StyledLength>
+        <StyledLength typography='SUIT_22_B'>{data?.projects.length} Projects</StyledLength>
         <StyledGridContainer>
-          {dummy.map(
-            ({ category, description, generation, links, logoImage, name, serviceType, thumbnailIamge }, index) => (
-              <ProjectCard
-                key={index}
-                category={category}
-                description={description}
-                generation={generation}
-                links={links}
-                logoImage={logoImage}
-                name={name}
-                serviceType={serviceType}
-                thumbnailIamge={thumbnailIamge}
-              />
-            ),
-          )}
+          {data?.projects.map((project, index) => (
+            <ProjectCard
+              key={index}
+              category={project.category}
+              summary={project.summary}
+              generation={project.generation}
+              links={project.links}
+              logoImage={project.logo_image}
+              name={project.name}
+              serviceType={project.service_type}
+              thumbnailIamge={project.thumbnail_image}
+            />
+          ))}
         </StyledGridContainer>
       </StyledContent>
     </StyledContainer>

@@ -55,7 +55,7 @@ export interface ProjectInput {
   logo_image: string;
   images: string[];
   links: Link[];
-  users: User[];
+  users: Omit<User, 'user'>[];
 }
 
 type ResponseOmitTypes = 'links' | 'users';

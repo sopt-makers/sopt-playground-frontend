@@ -1,5 +1,7 @@
+// @ts-nocheck
+// FIXME: react-hook-form의 타입이 옵셔널해서 맞춰지지 않아 임시로 주석처리(selectedMembers)
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { textStyles } from '@/styles/typography';
 import { colors } from '@/styles/colors';
 import { Controller, useFieldArray, useFormContext, UseFieldArrayProps, useWatch } from 'react-hook-form';
@@ -12,13 +14,22 @@ import { DEFAULT_MEMBER, Member } from '@/components/project/upload/MemberForm/c
 import useScreenSize from '@/hooks/useScreenSize';
 import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import useGetUsersByNameQuery from '@/components/project/upload/hooks/useGetUsersByNameQuery';
+import _debounce from 'lodash/debounce';
+import MemberSearch from '@/components/project/upload/MemberForm/MemberSearch';
+import FormItem from '@/components/common/form/FormItem';
 
 interface MemberFormProps {
   name: UseFieldArrayProps<ProjectUploadForm, 'members' | 'releaseMembers', 'id'>['name'];
 }
 
 const MemberForm: FC<MemberFormProps> = ({ name }) => {
-  const { control, register, setValue } = useFormContext<ProjectUploadForm>();
+  const {
+    formState: { errors },
+    control,
+    register,
+    setValue,
+  } = useFormContext<ProjectUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name,
@@ -26,10 +37,15 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
   const { members, releaseMembers } = useWatch({
     control,
   });
+  const [searchName, setSearchName] = useState<string>('');
+  const { data } = useGetUsersByNameQuery({
+    name: searchName,
+  });
 
   // MEMO: 모바일 뷰를 위한 변수,함수들 입니다.
   // 기존 데스크탑과 멤버 추가 방식과 UI가 아예 달라서 이를 분기처리하는 로직과, 수정상태인지 여부인 isEdit를 이용해야 하기 때문에 아래와 같은 로직들이 필요합니다.
   const { isMobile } = useScreenSize();
+
   const selectedMembers: Member[] = (name === 'members' ? members : releaseMembers) ?? [];
   const onEdit = (index: number) => {
     setValue(`${name}.${index}.isEdit`, true);
@@ -38,7 +54,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
     append({ ...DEFAULT_MEMBER, isTeamMember: name === 'members' });
   };
   const onComplete = (index: number) => {
-    if (!(selectedMembers[index].userId || selectedMembers[index].role || selectedMembers[index].description)) {
+    if (!(selectedMembers[index].user || selectedMembers[index].role || selectedMembers[index].description)) {
       return;
     }
     setValue(`${name}.${index}.isEdit`, false);
@@ -58,8 +74,22 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
             <MemberItemWrapper key={field.id}>
               <Controller
                 control={control}
-                name={`${name}.${index}.userId`}
-                render={({ field }) => <StyledMemberSearch placeholder='SOPT 멤버 검색' {...field} />}
+                name={`${name}.${index}.user`}
+                render={({ field: { value, onChange, name } }) => (
+                  <MemberSearchWrapper errorMessage={errors.members?.[index]?.user?.name?.message}>
+                    <MemberSearch
+                      error={!!errors?.members?.[index].user?.name}
+                      members={data?.data ?? []}
+                      onSearch={_debounce(
+                        (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
+                        300,
+                      )}
+                      value={value}
+                      onChange={onChange}
+                      name={name}
+                    />
+                  </MemberSearchWrapper>
+                )}
               />
               <StyledSelect placeholder='역할' {...register(`${name}.${index}.role`)}>
                 {Object.values(Role).map((role) => (
@@ -71,7 +101,15 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
               <Controller
                 control={control}
                 name={`${name}.${index}.description`}
-                render={({ field }) => <Input placeholder='어떤 역할을 맡았는지 적어주세요' {...field} />}
+                render={({ field }) => (
+                  <StyledInputFormItem errorMessage={errors.members?.[index]?.description?.message}>
+                    <Input
+                      error={!!errors.members?.[index]?.description}
+                      placeholder='어떤 역할을 맡았는지 적어주세요'
+                      {...field}
+                    />
+                  </StyledInputFormItem>
+                )}
               />
               <IconDeleteWrapper>
                 <IconDelete onClick={() => remove(index)} />
@@ -87,9 +125,9 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
           {selectedMembers.map((selectedMember, memberIndex) => (
             <>
               {!selectedMember.isEdit ? (
-                <MobileMemberItem key={selectedMember.userId} onClick={() => onEdit(memberIndex)}>
+                <MobileMemberItem key={selectedMember.user?.auth_user_id} onClick={() => onEdit(memberIndex)}>
                   <Text typography='SUIT_12_M' color={colors.gray100}>
-                    {selectedMember.userId}
+                    {selectedMember.user?.name}
                   </Text>
                   <Text style={{ marginLeft: '29px' }} typography='SUIT_12_M' color={colors.gray100}>
                     {selectedMember.role}
@@ -103,16 +141,29 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   <MobileMemberSelect>
                     <Controller
                       control={control}
-                      name={`${name}.${memberIndex}.userId`}
-                      render={({ field }) => <MobileSearch placeholder='SOPT 회원 검색' {...field} />}
+                      name={`${name}.${memberIndex}.user`}
+                      render={({ field: { value, onChange, name } }) => (
+                        <MemberSearch
+                          value={value}
+                          onChange={onChange}
+                          name={name}
+                          members={data?.data ?? []}
+                          onSearch={_debounce(
+                            (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
+                            300,
+                          )}
+                        />
+                      )}
                     />
-                    <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.role`)}>
-                      {Object.values(Role).map((role) => (
-                        <option key={role} value={role}>
-                          {role}
-                        </option>
-                      ))}
-                    </MobileSelect>
+                    <FormItem errorMessage={errors.members?.[index]?.role?.message}>
+                      <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.role`)}>
+                        {Object.values(Role).map((role) => (
+                          <option key={role} value={role}>
+                            {role}
+                          </option>
+                        ))}
+                      </MobileSelect>
+                    </FormItem>
                   </MobileMemberSelect>
                   <Controller
                     control={control}
@@ -164,18 +215,22 @@ const MemberAddButton = styled.button`
   ${textStyles.SUIT_16_M};
 `;
 
-const MemberItemWrapper = styled.div`
-  display: flex;
-  align-items: center;
+const MemberSearchWrapper = styled.div`
+  width: 163px;
 `;
 
-const StyledMemberSearch = styled(Input)`
-  width: 163px;
+const MemberItemWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
 `;
 
 const StyledSelect = styled(Select)`
   margin: 0 10px;
   min-width: 200px;
+`;
+
+const StyledInputFormItem = styled(FormItem)`
+  width: 100% !important;
 `;
 
 const IconDeleteWrapper = styled.div`
@@ -198,12 +253,7 @@ const MobileMemberApplyForm = styled.div`
 const MobileMemberSelect = styled.div`
   display: flex;
   gap: 12px;
-`;
-
-const MobileSearch = styled(Input)`
-  ${textStyles.SUIT_14_M};
-
-  border: 1px solid ${colors.black40};
+  align-items: flex-start;
 `;
 
 const MobileSelect = styled(Select)`

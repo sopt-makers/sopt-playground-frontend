@@ -5,8 +5,6 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import Text from '@/components/common/Text';
 import FormItem from '@/components/common/form/FormItem';
-import { useFormContext } from 'react-hook-form';
-import { ProjectUploadForm } from '@/pages/project/upload';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ProjectMembersProps {
@@ -14,10 +12,6 @@ interface ProjectMembersProps {
 }
 
 const ProjectMembers: FC<ProjectMembersProps> = ({ type }) => {
-  const {
-    formState: { errors },
-  } = useFormContext<ProjectUploadForm>();
-
   return (
     <StyledContainer>
       <FormTitle essential>{`${type} 팀원`}</FormTitle>
