@@ -29,11 +29,11 @@ export interface ProjectCardProps {
   serviceType: ServiceType[];
   name: string;
   category: Category;
-  generation: number;
-  description: string;
+  generation?: number;
+  summary: string;
   thumbnailIamge?: string;
   logoImage: string;
-  links?: Link[];
+  links: Link[];
 }
 
 const ProjectCard: FC<ProjectCardProps> = ({
@@ -41,7 +41,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
   category,
   generation,
   serviceType,
-  description,
+  summary,
   thumbnailIamge,
   logoImage,
   links,
@@ -63,8 +63,8 @@ const ProjectCard: FC<ProjectCardProps> = ({
           {links?.map(({ title, url }, index) => (
             <NextLink key={index} passHref href={url}>
               <StyledServiceLink>
-                {getLinkInfo(title).icon}
-                <Text typography='SUIT_12_SB'>{getLinkInfo(title).label}</Text>
+                {getLinkInfo(title as LinkTitle)?.icon}
+                <Text typography='SUIT_12_SB'>{getLinkInfo(title as LinkTitle)?.label}</Text>
               </StyledServiceLink>
             </NextLink>
           ))}
@@ -73,10 +73,12 @@ const ProjectCard: FC<ProjectCardProps> = ({
       <StyledContent>
         <StyledTitleWrapper>
           <Text typography='SUIT_18_B'>{name}</Text>
-          <Text typography='SUIT_12_SB' color={colors.gray100}>{`${generation}기 ${categoryLabel[category]}`}</Text>
+          <Text typography='SUIT_12_SB' color={colors.gray100}>
+            {generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}
+          </Text>
         </StyledTitleWrapper>
         <Text typography='SUIT_14_M' color={colors.gray60}>
-          {description}
+          {summary}
         </Text>
       </StyledContent>
     </StyledCard>

@@ -25,7 +25,7 @@ const getProject = (id: string) => {
 };
 
 const getProjects = () => {
-  return axiosInstance.request<AxiosResponse<ProjectResponse[]>>({
+  return axiosInstance.request<{ projects: ProjectResponse[] }>({
     method: 'GET',
     url: 'api/v1/projects',
   });
