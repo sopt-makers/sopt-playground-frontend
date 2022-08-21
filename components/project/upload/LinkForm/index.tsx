@@ -11,9 +11,15 @@ import IconDelete from '@/public/icons/icon-delete.svg';
 import useScreenSize from '@/hooks/useScreenSize';
 import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import FormItem from '@/components/common/form/FormItem';
 
 const LinkForm: FC = () => {
-  const { control, register, setValue } = useFormContext<ProjectUploadForm>();
+  const {
+    control,
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext<ProjectUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'links',
@@ -59,7 +65,22 @@ const LinkForm: FC = () => {
               <Controller
                 control={control}
                 name={`links.${index}.url`}
-                render={({ field }) => <StyledInput placeholder='https://' {...field} />}
+                render={({ field: { value, onBlur, onChange, ...props } }) => (
+                  <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
+                    <StyledInput
+                      error={!!errors?.links?.[index]?.url}
+                      placeholder='https://'
+                      value={value}
+                      onChange={onChange}
+                      onBlur={() => {
+                        if (value && !/^https?:\/\//i.test(value)) {
+                          onChange('https://' + value);
+                        }
+                      }}
+                      {...props}
+                    />
+                  </FormItem>
+                )}
               />
               <IconDeleteWrapper>
                 <IconDelete onClick={() => remove(index)} />
@@ -96,7 +117,22 @@ const LinkForm: FC = () => {
                     <Controller
                       control={control}
                       name={`links.${index}.url`}
-                      render={({ field }) => <MobileLink placeholder='https://' {...field} />}
+                      render={({ field: { value, onChange, onBlur, ...props } }) => (
+                        <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
+                          <MobileLink
+                            error={!!errors?.links?.[index]?.url}
+                            placeholder='https://'
+                            value={value}
+                            onChange={onChange}
+                            onBlur={() => {
+                              if (value && !/^https?:\/\//i.test(value)) {
+                                onChange('https://' + value);
+                              }
+                            }}
+                            {...props}
+                          />
+                        </FormItem>
+                      )}
                     />
                   </MobileLinkSelect>
                   <MobileApplyFormFooter>
@@ -122,7 +158,7 @@ export default LinkForm;
 
 const StyledLi = styled.li`
   display: flex;
-  align-items: center;
+  gap: 10px;
 
   &:not(:first-child) {
     margin-top: 10px;
@@ -133,11 +169,11 @@ const StyledLi = styled.li`
 `;
 
 const StyledSelect = styled(Select)`
+  align-self: flex-start;
   width: 200px;
 `;
 
 const StyledInput = styled(Input)`
-  margin-left: 10px;
   width: 365px;
 `;
 
@@ -147,8 +183,8 @@ const IconDeleteWrapper = styled.div`
   justify-content: center;
   margin: 0 14px 0 4px;
   cursor: pointer;
-  min-width: 42px;
-  min-height: 42px;
+  width: 42px;
+  height: 42px;
 `;
 
 const StyledButton = styled.button`
@@ -178,11 +214,14 @@ const MobileLinkApplyForm = styled.div`
 const MobileLinkSelect = styled.div`
   display: flex;
   gap: 12px;
+  align-items: center;
+  height: 42px;
 `;
 
 const MobileSelect = styled(Select)`
   ${textStyles.SUIT_14_M};
 
+  align-self: flex-start;
   border: 1px solid ${colors.black40};
   width: 135px;
 `;
