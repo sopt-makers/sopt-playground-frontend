@@ -141,7 +141,7 @@ const ProjectUploadPage: FC = () => {
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
-    const users: User[] = [...data.members, ...(data.releaseMembers ?? [])].map((user) => ({
+    const users: Omit<User, 'user'>[] = [...data.members, ...(data.releaseMembers ?? [])].map((user) => ({
       user_id: user.user?.auth_user_id!,
       is_team_member: user.isTeamMember!,
       role: user.role!,
