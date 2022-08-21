@@ -8,16 +8,22 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
 const ProjectPeriod = () => {
   const {
     control,
+    resetField,
     formState: { errors },
   } = useFormContext<ProjectUploadForm>();
   const { period } = useWatch<ProjectUploadForm>({
     control,
   });
+
+  useEffect(() => {
+    resetField('period.endAt');
+  }, [resetField, period?.isOngoing]);
 
   return (
     <StyledContainer>
