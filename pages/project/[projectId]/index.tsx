@@ -6,12 +6,15 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import dayjs from 'dayjs';
+import useScreenSize from '@/hooks/useScreenSize';
+import { TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function ProjectDetailPage() {
   const router = useRouter();
   const { projectId } = router.query;
 
   const { data } = useGetProjectQuery({ id: projectId as string });
+  const { isTablet } = useScreenSize();
 
   // TODO: remove after test
   useEffect(() => {
@@ -29,11 +32,13 @@ export default function ProjectDetailPage() {
   return (
     <Container>
       <Header>
-        <ServiceTypeWrapper>
-          {data?.service_type.map((type) => (
-            <ServiceType key={type}>{type}</ServiceType>
-          ))}
-        </ServiceTypeWrapper>
+        {!isTablet && (
+          <ServiceTypeWrapper>
+            {data?.service_type.map((type) => (
+              <ServiceType key={type}>{type}</ServiceType>
+            ))}
+          </ServiceTypeWrapper>
+        )}
         <ServiceInfoWrapper>
           <LogoImageWrapper>
             <LogoImage src={data?.logo_image} alt={data?.name} />
@@ -41,10 +46,17 @@ export default function ProjectDetailPage() {
           <InfoWrapper>
             <Name>{data?.name}</Name>
             <Description>{data?.summary}</Description>
-            <div>
+            <StartEndAtWrapper>
               <StartEndAt>{startAt}</StartEndAt>
               {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
-            </div>
+            </StartEndAtWrapper>
+            {isTablet && (
+              <ServiceTypeWrapper>
+                {data?.service_type.map((type) => (
+                  <ServiceType key={type}>{type}</ServiceType>
+                ))}
+              </ServiceTypeWrapper>
+            )}
           </InfoWrapper>
         </ServiceInfoWrapper>
       </Header>
@@ -107,6 +119,11 @@ const ServiceTypeWrapper = styled.div`
   gap: 10px;
   align-items: center;
   margin-left: 194px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    gap: 8px;
+    margin: 0;
+  }
 `;
 const ServiceType = styled.div`
   display: flex;
@@ -118,11 +135,22 @@ const ServiceType = styled.div`
   padding: 6px 12px;
   color: ${colors.black40};
   ${textStyles.SUIT_12_B};
+
+  @media ${TABLET_MEDIA_QUERY} {
+    font-size: 12px;
+  }
 `;
 const ServiceInfoWrapper = styled.div`
   display: flex;
   gap: 44px;
   align-items: center;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    padding: 28px 20px 24px;
+  }
 `;
 const LogoImageWrapper = styled.div`
   flex-shrink: 0;
@@ -130,6 +158,11 @@ const LogoImageWrapper = styled.div`
   width: 150px;
   height: 150px;
   overflow: hidden;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    width: 80px;
+    height: 80px;
+  }
 `;
 const LogoImage = styled.img`
   width: 100%;
@@ -145,12 +178,27 @@ const Name = styled.h2`
   line-height: 100%;
   font-size: 44px;
   font-weight: 700;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    margin-bottom: 12px;
+    font-size: 24px;
+  }
 `;
 const Description = styled.p`
   margin-bottom: 32px;
   line-height: 100%;
   font-size: 24px;
   font-weight: 400;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+`;
+const StartEndAtWrapper = styled.div`
+  @media ${TABLET_MEDIA_QUERY} {
+    margin-bottom: 16px;
+  }
 `;
 const StartEndAt = styled.span`
   display: inline-block;
@@ -158,6 +206,10 @@ const StartEndAt = styled.span`
   color: ${colors.gray60};
   font-size: 18px;
   font-weight: 500;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    font-size: 12px;
+  }
 `;
 const InProgress = styled.span`
   margin-left: 12px;
@@ -165,6 +217,11 @@ const InProgress = styled.span`
   color: white;
   font-size: 18px;
   font-weight: 800;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    margin-left: 8px;
+    font-size: 12px;
+  }
 `;
 const MainImageWrapper = styled.section`
   margin-bottom: 54px;
