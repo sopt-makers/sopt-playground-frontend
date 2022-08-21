@@ -17,13 +17,19 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import useGetUsersByNameQuery from '@/components/project/upload/hooks/useGetUsersByNameQuery';
 import _debounce from 'lodash/debounce';
 import MemberSearch from '@/components/project/upload/MemberForm/MemberSearch';
+import FormItem from '@/components/common/form/FormItem';
 
 interface MemberFormProps {
   name: UseFieldArrayProps<ProjectUploadForm, 'members' | 'releaseMembers', 'id'>['name'];
 }
 
 const MemberForm: FC<MemberFormProps> = ({ name }) => {
-  const { control, register, setValue } = useFormContext<ProjectUploadForm>();
+  const {
+    formState: { errors },
+    control,
+    register,
+    setValue,
+  } = useFormContext<ProjectUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name,
@@ -70,13 +76,19 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                 control={control}
                 name={`${name}.${index}.user`}
                 render={({ field: { value, onChange, name } }) => (
-                  <MemberSearch
-                    members={data?.data ?? []}
-                    onSearch={_debounce((e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value), 300)}
-                    value={value}
-                    onChange={onChange}
-                    name={name}
-                  />
+                  <MemberSearchWrapper errorMessage={errors.members?.[index]?.user?.name?.message}>
+                    <MemberSearch
+                      error={!!errors?.members?.[index].user?.name}
+                      members={data?.data ?? []}
+                      onSearch={_debounce(
+                        (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
+                        300,
+                      )}
+                      value={value}
+                      onChange={onChange}
+                      name={name}
+                    />
+                  </MemberSearchWrapper>
                 )}
               />
               <StyledSelect placeholder='역할' {...register(`${name}.${index}.role`)}>
@@ -89,7 +101,15 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
               <Controller
                 control={control}
                 name={`${name}.${index}.description`}
-                render={({ field }) => <Input placeholder='어떤 역할을 맡았는지 적어주세요' {...field} />}
+                render={({ field }) => (
+                  <StyledInputFormItem errorMessage={errors.members?.[index]?.description?.message}>
+                    <Input
+                      error={!!errors.members?.[index]?.description}
+                      placeholder='어떤 역할을 맡았는지 적어주세요'
+                      {...field}
+                    />
+                  </StyledInputFormItem>
+                )}
               />
               <IconDeleteWrapper>
                 <IconDelete onClick={() => remove(index)} />
@@ -135,13 +155,15 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                         />
                       )}
                     />
-                    <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.role`)}>
-                      {Object.values(Role).map((role) => (
-                        <option key={role} value={role}>
-                          {role}
-                        </option>
-                      ))}
-                    </MobileSelect>
+                    <FormItem errorMessage={errors.members?.[index]?.role?.message}>
+                      <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.role`)}>
+                        {Object.values(Role).map((role) => (
+                          <option key={role} value={role}>
+                            {role}
+                          </option>
+                        ))}
+                      </MobileSelect>
+                    </FormItem>
                   </MobileMemberSelect>
                   <Controller
                     control={control}
@@ -193,6 +215,10 @@ const MemberAddButton = styled.button`
   ${textStyles.SUIT_16_M};
 `;
 
+const MemberSearchWrapper = styled.div`
+  width: 163px;
+`;
+
 const MemberItemWrapper = styled.div`
   display: flex;
   align-items: flex-start;
@@ -201,6 +227,10 @@ const MemberItemWrapper = styled.div`
 const StyledSelect = styled(Select)`
   margin: 0 10px;
   min-width: 200px;
+`;
+
+const StyledInputFormItem = styled(FormItem)`
+  width: 100% !important;
 `;
 
 const IconDeleteWrapper = styled.div`

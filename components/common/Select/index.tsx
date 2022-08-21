@@ -2,16 +2,18 @@ import styled from '@emotion/styled';
 import { forwardRef, SelectHTMLAttributes } from 'react';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
+import { css } from '@emotion/react';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   width?: number;
   disabled?: boolean;
+  error?: boolean;
 }
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ width = 200, disabled = false, children, placeholder = '', ...props }, ref) => {
+  ({ width = 200, disabled = false, children, error, placeholder = '', ...props }, ref) => {
     return (
-      <StyledSelect width={width} ref={ref} disabled={disabled} {...props}>
+      <StyledSelect width={width} ref={ref} disabled={disabled} error={error} {...props}>
         <option value='' selected disabled hidden>
           {placeholder}
         </option>
@@ -23,7 +25,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
 export default Select;
 
-const StyledSelect = styled.select<Pick<SelectProps, 'width'>>`
+const StyledSelect = styled.select<Pick<SelectProps, 'width' | 'error'>>`
   border: 1px solid transparent;
   border-radius: 6px;
   background: top 12px right 14px ${colors.black60} no-repeat
@@ -36,4 +38,14 @@ const StyledSelect = styled.select<Pick<SelectProps, 'width'>>`
   &:focus {
     border-color: ${colors.purple100};
   }
+
+  ${({ error }) =>
+    error &&
+    css`
+      border-color: ${colors.red100};
+
+      :focus {
+        border-color: ${colors.red100};
+      }
+    `}
 `;

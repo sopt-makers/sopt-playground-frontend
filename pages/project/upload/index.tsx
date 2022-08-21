@@ -141,14 +141,16 @@ const ProjectUploadPage: FC = () => {
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
-    const users = [...data.members, ...(data.releaseMembers ?? [])].map((user) =>
-      _omit({ ...user, user_id: user.user?.auth_user_id, is_team_member: user.isTeamMember }, [
-        'isEdit',
-        'user',
-        'isTeamMember',
-      ]),
-    );
-    const links = data.links.map((link) => _omit({ ...link }, 'isEdit'));
+    const users: User[] = [...data.members, ...(data.releaseMembers ?? [])].map((user) => ({
+      user_id: user.user?.auth_user_id!,
+      is_team_member: user.isTeamMember!,
+      role: user.role!,
+      description: user.description!,
+    }));
+    const links: Omit<Link, 'isEdit'>[] = data.links.map((link) => ({
+      title: link.title,
+      url: link.url,
+    }));
 
     if (notify) {
       mutate({
@@ -158,15 +160,15 @@ const ProjectUploadPage: FC = () => {
         detail: data.detail,
         summary: data.summary,
         service_type: data.serviceType,
-        links,
         start_at: dayjs(data.period.startAt).toDate(),
         end_at: !data.period.isOngoing ? dayjs(data.period.endAt).toDate() : undefined,
         is_available: data.status.isAvailable,
         is_founding: data.status.isFounding,
-        users: users as User[],
         images: data.projectImage ? [data.projectImage] : [],
         logo_image: data.logoImage,
         thumbnail_image: data.thumbnailImage,
+        users,
+        links,
       });
     }
   };

@@ -1,17 +1,17 @@
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import React, { FC, PropsWithChildren } from 'react';
+import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
 import IconWarning from '@/public/icons/icon-warning.svg';
 import styled from '@emotion/styled';
 import Text from '@/components/common/Text';
 
-export interface FormItemProps {
+export interface FormItemProps extends HTMLAttributes<HTMLDivElement> {
   errorMessage?: React.ReactNode;
 }
 
-const FormItem: FC<PropsWithChildren<FormItemProps>> = ({ children, errorMessage }) => {
+const FormItem: FC<PropsWithChildren<FormItemProps>> = ({ children, errorMessage, ...props }) => {
   return (
-    <StyledContainer>
+    <StyledContainer {...props}>
       {children}
       {errorMessage && (
         <StyledErrorWrapper>
@@ -19,6 +19,7 @@ const FormItem: FC<PropsWithChildren<FormItemProps>> = ({ children, errorMessage
           <StyledErrorMessage>{errorMessage}</StyledErrorMessage>
         </StyledErrorWrapper>
       )}
+      <div></div>
     </StyledContainer>
   );
 };
