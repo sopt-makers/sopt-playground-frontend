@@ -136,11 +136,13 @@ const ProjectUploadPage: FC = () => {
       [],
     );
   const { mutate } = useCreateProjectMutation();
+  const watchAllFields = watch();
+  console.log('[watchAllFields]: ', watchAllFields);
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
     const users = [...data.members, ...(data.releaseMembers ?? [])].map((user) =>
-      _omit({ ...user, user_id: user.userId, is_team_member: user.isTeamMember }, 'isEdit'),
+      _omit({ ...user, user_id: user.user?.auth_user_id, is_team_member: user.isTeamMember }, 'isEdit'),
     );
     if (notify) {
       // mutate({

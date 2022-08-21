@@ -1,7 +1,8 @@
 import { Role } from '@/api/project/types';
+import { User } from '@/api/user/types';
 
 export interface Member {
-  userId?: number;
+  user?: User;
   role?: Role;
   isTeamMember?: boolean;
   description?: string;
@@ -9,7 +10,7 @@ export interface Member {
 }
 
 export const DEFAULT_MEMBER: Member = {
-  userId: undefined,
+  user: undefined,
   role: undefined,
   isTeamMember: true,
   description: undefined,
