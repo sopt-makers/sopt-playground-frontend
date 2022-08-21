@@ -78,7 +78,7 @@ export const FORM_ITEMS: FormItem[] = [
     label: '썸네일 이미지',
     value: 'thumbnailImage',
     isDirty: false,
-    isRequired: false,
+    isRequired: true,
   },
   {
     label: '프로젝트 이미지',
