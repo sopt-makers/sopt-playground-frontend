@@ -1,6 +1,5 @@
 import { axiosInstance } from '@/api';
 import { ProjectResponse, ProjectInput, SignedUrl } from '@/api/project/types';
-import { AxiosResponse } from 'axios';
 
 const createProject = (data: ProjectInput) => {
   return axiosInstance.request({
