@@ -1,4 +1,5 @@
 import useGetProjectQuery from '@/components/project/upload/hooks/useGetProjectQuery';
+import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
@@ -12,6 +13,7 @@ export default function ProjectDetailPage() {
 
   const { data } = useGetProjectQuery({ id: projectId as string });
 
+  // TODO: remove after test
   useEffect(() => {
     console.log(data);
   }, [data]);
@@ -66,7 +68,24 @@ export default function ProjectDetailPage() {
             ))}
           </LinksWrapper>
         </DetailContainer>
-        <div></div>
+
+        <MemberWrapper>
+          <MemberInfoWrapper>
+            {data?.generation && <Info>{data.generation}기</Info>}
+            <Info>{data?.category}</Info>
+          </MemberInfoWrapper>
+          <MemberList>
+            {data?.users.map((user) => (
+              <MemberItem key={user.user_id}>
+                <MemberRole>{user.role}</MemberRole>
+                <MemberName>
+                  <MemberIcon />
+                  {user.user.name}
+                </MemberName>
+              </MemberItem>
+            ))}
+          </MemberList>
+        </MemberWrapper>
       </ProjectDetailContainer>
     </Container>
   );
@@ -162,11 +181,13 @@ const MainImage = styled.img`
 const ProjectDetailContainer = styled.section`
   display: flex;
   gap: 32px;
+  padding-bottom: 200px;
 `;
 const DetailContainer = styled.div`
   border-radius: 12px;
   background: ${colors.black80};
   padding: 48px;
+  width: 100%;
 `;
 const DetailTitle = styled.h3`
   margin-bottom: 32px;
@@ -200,4 +221,43 @@ const LinkIcon = styled.div`
   background: ${colors.black60};
   width: 72px;
   height: 72px;
+`;
+const MemberWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: ${colors.black80};
+  padding: 48px 28px;
+  height: fit-content;
+`;
+const MemberInfoWrapper = styled.div`
+  margin-bottom: 36px;
+`;
+const Info = styled.div`
+  margin-bottom: 10px;
+  line-height: 100%;
+  font-size: 18px;
+  font-weight: 800;
+`;
+const MemberList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
+const MemberItem = styled.div`
+  border-left: 2px solid ${colors.purple80};
+  padding-left: 20px;
+`;
+const MemberRole = styled.div`
+  margin-bottom: 12px;
+  line-height: 100%;
+  color: ${colors.gray80};
+  font-size: 14px;
+  font-weight: 500;
+`;
+const MemberName = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
 `;
