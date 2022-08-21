@@ -13,7 +13,7 @@ const ProjectDetail: FC = () => {
   const { control } = useFormContext<ProjectUploadForm>();
 
   return (
-    <StyledContaeinr>
+    <StyledContainer>
       <FormTitle essential>프로젝트 설명</FormTitle>
       <RHFControllerFormItem
         css={css`
@@ -27,13 +27,13 @@ const ProjectDetail: FC = () => {
         maxCount={500}
         placeholder='프로젝트에 대해 설명해주세요'
       />
-    </StyledContaeinr>
+    </StyledContainer>
   );
 };
 
 export default ProjectDetail;
 
-const StyledContaeinr = styled.section`
+const StyledContainer = styled.section`
   margin: 84px 0 0;
 `;
 
