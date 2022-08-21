@@ -235,6 +235,7 @@ const MainImageWrapper = styled.section`
   overflow: hidden;
 
   @media ${TABLET_MEDIA_QUERY} {
+    margin-bottom: 0;
     border-radius: 0;
     height: 210px;
   }
@@ -248,6 +249,11 @@ const ProjectDetailContainer = styled.section`
   display: flex;
   gap: 32px;
   padding-bottom: 200px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    flex-direction: column-reverse;
+    gap: 0;
+  }
 `;
 const DetailContainer = styled.div`
   border-radius: 12px;
@@ -296,20 +302,42 @@ const MemberWrapper = styled.div`
   background: ${colors.black80};
   padding: 48px 28px;
   height: fit-content;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    border-radius: 0;
+    padding: 24px 28px 36px;
+  }
 `;
 const MemberInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin-bottom: 36px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    gap: 8px;
+    margin-bottom: 28px;
+  }
 `;
 const Info = styled.div`
-  margin-bottom: 10px;
   line-height: 100%;
   font-size: 18px;
   font-weight: 800;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    font-size: 14px;
+  }
 `;
 const MemberList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 26px;
+  }
 `;
 const MemberItem = styled.div`
   border-left: 2px solid ${colors.purple80};
