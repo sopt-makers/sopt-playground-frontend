@@ -18,6 +18,7 @@ export default function ProjectDetailPage() {
 
   const startAt = dayjs(data?.start_at).format('YYYY-MM');
   const endAt = data?.end_at ? dayjs(data.end_at).format('YYYY-MM') : '';
+  const mainImage = data?.images[0];
 
   return (
     <Container>
@@ -41,6 +42,12 @@ export default function ProjectDetailPage() {
           </InfoWrapper>
         </ServiceInfoWrapper>
       </Header>
+
+      {mainImage && (
+        <MainImageWrapper>
+          <MainImage src={mainImage} alt={data?.name} />
+        </MainImageWrapper>
+      )}
     </Container>
   );
 }
@@ -50,13 +57,15 @@ const Container = styled.div`
   width: 100%;
   max-width: 1200px;
 `;
-const Header = styled.div`
+const Header = styled.section`
   display: flex;
   flex-direction: column;
   gap: 22px;
+  margin-bottom: 66px;
 `;
 const ServiceTypeWrapper = styled.div`
   display: flex;
+  gap: 10px;
   align-items: center;
   margin-left: 194px;
 `;
@@ -115,4 +124,14 @@ const InProgress = styled.span`
   color: white;
   font-size: 18px;
   font-weight: 800;
+`;
+const MainImageWrapper = styled.section`
+  margin-bottom: 54px;
+  border-radius: 12px;
+  width: 100%;
+  height: 675px;
+  overflow: hidden;
+`;
+const MainImage = styled.img`
+  object-fit: cover;
 `;
