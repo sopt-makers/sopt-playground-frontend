@@ -10,9 +10,7 @@ const useGetProjectQuery = (varaiables: GetProjectQueryVariables) => {
   return useQuery(
     ['getProjectQuery', id],
     async () => {
-      const {
-        data: { data },
-      } = await project.get(id);
+      const { data } = await project.get(id);
 
       return data;
     },
