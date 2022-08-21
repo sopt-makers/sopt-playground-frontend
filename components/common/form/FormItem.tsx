@@ -11,21 +11,26 @@ export interface FormItemProps {
 
 const FormItem: FC<PropsWithChildren<FormItemProps>> = ({ children, errorMessage }) => {
   return (
-    <>
+    <StyledContainer>
       {children}
       {errorMessage && (
-        <StyledContainer>
+        <StyledErrorWrapper>
           <IconWarning />
           <StyledErrorMessage>{errorMessage}</StyledErrorMessage>
-        </StyledContainer>
+        </StyledErrorWrapper>
       )}
-    </>
+    </StyledContainer>
   );
 };
 
 export default FormItem;
 
 const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledErrorWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 11px;
