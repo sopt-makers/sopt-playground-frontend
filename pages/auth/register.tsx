@@ -8,7 +8,7 @@ import { auth } from '@/api/auth';
 export const RegisterPage: FC = () => {
   const params = useStringParam(['token'] as const);
 
-  const query = useQuery(['registerTokenInfo', 123], () => auth.getRegisterTokenInfo(params?.token ?? ''), {
+  const query = useQuery(['registerTokenInfo', params?.token], () => auth.getRegisterTokenInfo(params?.token ?? ''), {
     enabled: params !== null,
   });
 

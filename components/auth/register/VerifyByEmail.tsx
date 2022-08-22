@@ -4,10 +4,12 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import IconWarning from '@/public/icons/icon-warning.svg';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
 import { auth } from '@/api/auth';
+import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
+import { ClipLoader } from 'react-spinners';
 
 interface ErrorResponse {
   success: false;
@@ -20,23 +22,44 @@ const VerifyByEmail: FC = () => {
     return auth.sendVerificationEmail(emailInput);
   });
 
+  const handleSend = () => {
+    if (verify.isLoading) {
+      return;
+    }
+    verify.mutate();
+  };
+
+  if (verify.isSuccess) {
+    return <SendingMailSuccess />;
+  }
+
   return (
     <Container>
       <Title>SOPT 회원인증</Title>
       <Description>SOPT 지원시 입력했던 이메일을 입력해주세요</Description>
       <Label>이메일</Label>
-      <Input placeholder='이메일을 입력해주세요' value={emailInput} onChange={(e) => setEmailInput(e.target.value)} />
+      <Input
+        placeholder='이메일을 입력해주세요'
+        value={emailInput}
+        onChange={(e) => setEmailInput(e.target.value)}
+        disabled={verify.isLoading}
+      />
       <ErrorMessage show={verify.isError}>
-        <IconWarning /> {verify.error?.response?.data.message + ''}
+        <IconWarning /> {formatErrorMessage(verify.error)}
       </ErrorMessage>
-      <SendButton variant='primary' onClick={() => verify.mutate()}>
-        SOPT 회원 인증메일 발송
+      <SendButton variant='primary' onClick={handleSend}>
+        {verify.isLoading ? <ClipLoader color='#ffffff' size={25} /> : <>SOPT 회원 인증메일 전송</>}
       </SendButton>
     </Container>
   );
 };
 
 export default VerifyByEmail;
+
+function formatErrorMessage(error: AxiosError<ErrorResponse> | null) {
+  const innerMessage = error?.response?.data?.message;
+  return innerMessage ?? '서버와의 접속이 실패했습니다.';
+}
 
 const Container = styled.div`
   display: flex;
