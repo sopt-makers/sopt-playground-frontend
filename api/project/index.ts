@@ -1,6 +1,5 @@
 import { axiosInstance } from '@/api';
-import { ProjectResponse, ProjectInput } from '@/api/project/types';
-import { AxiosResponse } from 'axios';
+import { ProjectResponse, ProjectInput, SignedUrl } from '@/api/project/types';
 
 const createProject = (data: ProjectInput) => {
   return axiosInstance.request({
@@ -18,16 +17,23 @@ const deleteProject = (id: string) => {
 };
 
 const getProject = (id: string) => {
-  return axiosInstance.request<AxiosResponse<ProjectResponse>>({
+  return axiosInstance.request<ProjectResponse>({
     method: 'GET',
     url: `api/v1/projects/${id}`,
   });
 };
 
 const getProjects = () => {
-  return axiosInstance.request<AxiosResponse<ProjectResponse[]>>({
+  return axiosInstance.request<{ projects: ProjectResponse[] }>({
     method: 'GET',
     url: 'api/v1/projects',
+  });
+};
+
+const getPresignedUrl = (name: string) => {
+  return axiosInstance.request<{ signedUrl: SignedUrl; filename: string }>({
+    method: 'GET',
+    url: `api/v1/presigned-url?filename=${name}`,
   });
 };
 
@@ -36,4 +42,5 @@ export const project = {
   delete: deleteProject,
   get: getProject,
   getList: getProjects,
+  getPresignedUrl,
 };

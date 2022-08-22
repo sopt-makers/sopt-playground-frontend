@@ -1,0 +1,23 @@
+name: Build test
+
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+
+      - name: Yarn Cache
+        uses: c-hive/gha-yarn-cache@v2
+
+      - name: Install Packages
+        run: yarn install
+
+      - name: Build Test
+        run: yarn build

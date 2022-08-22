@@ -14,12 +14,12 @@ const ProjectStatus: FC = () => {
     <StyledContainer>
       <FormTitle essential>프로젝트 현재 상태</FormTitle>
       <StyledWrapper>
-        <Switch {...register('status.isAvailable')} />
         <StyledSubTitle>현재 이 서비스를 이용할 수 있나요?</StyledSubTitle>
+        <Switch {...register('status.isAvailable')} />
       </StyledWrapper>
       <StyledWrapper>
-        <Switch {...register('status.isFounding')} />
         <StyledSubTitle>현재 이 프로젝트로 창업을 진행하고 있나요?</StyledSubTitle>
+        <Switch {...register('status.isFounding')} />
       </StyledWrapper>
     </StyledContainer>
   );
@@ -41,7 +41,7 @@ const StyledWrapper = styled.div`
   align-items: center;
   margin: 18px 0 0;
 
-  & > span {
+  & > label {
     margin-left: 8px;
   }
 `;

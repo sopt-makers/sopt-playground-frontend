@@ -32,6 +32,12 @@ export interface User {
   description: string;
   role: Role;
   is_team_member: boolean;
+  user: {
+    id: number;
+    auth_user_id: number;
+    name: string;
+    generation: number;
+  };
 }
 
 export interface ProjectInput {
@@ -46,9 +52,10 @@ export interface ProjectInput {
   summary: string;
   detail: string;
   thumbnail_image: string;
+  logo_image: string;
   images: string[];
   links: Link[];
-  users: User[];
+  users: Omit<User, 'user'>[];
 }
 
 type ResponseOmitTypes = 'links' | 'users';
@@ -59,3 +66,20 @@ export type ProjectResponse = Omit<ProjectInput, ResponseOmitTypes> & {
   links: (Link & { project_id: number; id: number })[];
   users: (User & { project_id: number })[];
 };
+
+export interface Fields {
+  'acl': string;
+  'bucket': string;
+  'X-Amz-Algorithm': string;
+  'X-Amz-Credential': string;
+  'X-Amz-Date': string;
+  'X-Amz-Security-Token': string;
+  'key': string;
+  'Policy': string;
+  'X-Amz-Signature': string;
+}
+
+export interface SignedUrl {
+  url: string;
+  fields: Fields;
+}

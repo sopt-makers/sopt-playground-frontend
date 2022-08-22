@@ -5,14 +5,12 @@ const useGetProjectListQuery = () => {
   return useQuery(
     ['getProjectListQuery'],
     async () => {
-      const {
-        data: { data },
-      } = await project.getList();
+      const { data } = await project.getList();
       return data;
     },
     {
       onError: (error: { message: string }) => {
-        alert(error.message);
+        console.error(error.message);
       },
     },
   );

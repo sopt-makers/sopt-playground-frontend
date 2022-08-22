@@ -1,4 +1,3 @@
-import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import FormTitle from '@/components/project/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/project/upload';
@@ -7,6 +6,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const ProjectName: FC = () => {
   const { control } = useFormContext<ProjectUploadForm>();
@@ -33,4 +33,8 @@ const StyledDivider = styled.hr`
 const StyledInput = styled(Input)`
   margin-top: 9px;
   width: 340px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
