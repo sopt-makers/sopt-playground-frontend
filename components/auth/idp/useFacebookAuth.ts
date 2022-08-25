@@ -1,11 +1,11 @@
+import { auth } from '@/api/auth';
 import useStateParam from '@/components/auth/useStateParam';
-import axios from 'axios';
 
+const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
 const FACEBOOK_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID ?? '';
-const FACEBOOK_LOGIN_CALLBACK_URI = process.env.NEXT_PUBLIC_FACEBOOK_LOGIN_CALLBACK_URI ?? '';
-const FACEBOOK_REGISTER_CALLBACK_URI = process.env.NEXT_PUBLIC_FACEBOOK_REGISTER_CALLBACK_URI ?? '';
-const FACEBOOK_LOGIN_CODE_ENDPOINT = process.env.NEXT_PUBLIC_FACEBOOK_LOGIN_CODE_ENDPOINT ?? '';
-const FACEBOOK_REGISTER_CODE_ENDPOINT = process.env.NEXT_PUBLIC_FACEBOOK_REGISTER_CODE_ENDPOINT ?? '';
+
+const FACEBOOK_LOGIN_CALLBACK_URI = `${ORIGIN}/auth/cb/facebook/login`;
+const FACEBOOK_REGISTER_CALLBACK_URI = `${ORIGIN}/auth/cb/facebook/register`;
 
 interface FacebookAuth {
   login(): void;
@@ -43,10 +43,10 @@ const useFacebookAuth = (): FacebookAuth => {
       }
 
       try {
-        const res = await axios.post(FACEBOOK_LOGIN_CODE_ENDPOINT, { code });
+        const res = await auth.sendLoginRequest('facebook', { code });
         return {
           success: true,
-          accessToken: res.data.accessToken,
+          accessToken: res.accessToken,
         };
       } catch {
         return {
@@ -60,14 +60,14 @@ const useFacebookAuth = (): FacebookAuth => {
       }
 
       try {
-        const res = await axios.post(FACEBOOK_REGISTER_CODE_ENDPOINT, {
-          facebookAuthCode: code,
+        const res = await auth.sendRegisterRequest('facebook', {
+          code,
           registerToken,
         });
 
         return {
           success: true,
-          accessToken: res.data.accessToken,
+          accessToken: res.accessToken,
         };
       } catch (e) {
         return {
