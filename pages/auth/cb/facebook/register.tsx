@@ -2,6 +2,7 @@ import useStringParam from '@/components/auth/useStringParam';
 import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
+import { setAccessToken } from '@/components/auth/accessToken';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const FacebookRegisterCallbackPage: FC = () => {
       return;
     }
 
-    localStorage.setItem('accessToken', ret.accessToken);
+    setAccessToken(ret.accessToken);
     router.replace('/auth/register-finished');
   });
 

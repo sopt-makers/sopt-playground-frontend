@@ -2,6 +2,7 @@ import useStringParam from '@/components/auth/useStringParam';
 import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
+import { setAccessToken } from '@/components/auth/accessToken';
 
 const FacebookLoginCallbackPage: FC = () => {
   const router = useRouter();
@@ -15,6 +16,8 @@ const FacebookLoginCallbackPage: FC = () => {
       setMessage('로그인에 오류가 발생했습니다.');
       return;
     }
+
+    setAccessToken(ret.accessToken);
     router.replace('/');
   });
 
