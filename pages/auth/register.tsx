@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import styled from '@emotion/styled';
 import Register from '@/components/auth/register/Register';
 import useStringParam from '@/components/auth/useStringParam';
@@ -10,6 +10,10 @@ export const RegisterPage: FC = () => {
 
   const query = useQuery(['registerTokenInfo', params?.token], () => auth.getRegisterTokenInfo(params?.token ?? ''), {
     enabled: params !== null,
+  });
+
+  useEffect(() => {
+    localStorage.setItem('registerToken', params?.token ?? '');
   });
 
   if (query.isLoading || query.isIdle) {
