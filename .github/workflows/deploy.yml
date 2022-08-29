@@ -1,3 +1,5 @@
+name: Deploy to CloudFlare Pages
+
 on:
   push:
     branches: [main]
