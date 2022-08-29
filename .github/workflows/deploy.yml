@@ -1,7 +1,12 @@
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    
 
 jobs:
   deploy:
+    environment: production
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -14,6 +19,8 @@ jobs:
         uses: c-hive/gha-yarn-cache@v2
       - name: Install Packages
         run: yarn install
+      - name: Set .env
+        run: echo ${{ secrets.PROJECT_ENV }} > .env.local
       - name: Build
         run: yarn build && yarn next export
       - name: Publish
