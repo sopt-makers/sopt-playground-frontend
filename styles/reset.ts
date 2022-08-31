@@ -110,13 +110,6 @@ export const reset = css`
     background-color: transparent;
   }
 
-  a:link,
-  a:active,
-  a:visited {
-    text-decoration: inherit;
-    color: inherit;
-  }
-
   /**
   * 1. Remove the bottom border in Chrome 57-
   * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
