@@ -6,22 +6,19 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { FC } from 'react';
-import IconPlaystore from '@/public/icons/icon-playstore.svg';
-import IconAppstore from '@/public/icons/icon-appstore.svg';
-import IconWeb from '@/public/icons/icon-web.svg';
 import NextLink from 'next/link';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const getLinkInfo = (title: LinkTitle) => {
   switch (title) {
     case 'website':
-      return { icon: <IconWeb />, label: '서비스 바로가기' };
+      return { icon: '/icons/icon-web.svg', label: '서비스 바로가기' };
     case 'googlePlay':
-      return { icon: <IconPlaystore />, label: 'Google Play' };
+      return { icon: '/icons/icon-playstore.svg', label: 'Google Play' };
     case 'appStore':
-      return { icon: <IconAppstore />, label: 'App Store' };
+      return { icon: '/icons/icon-appstore.svg', label: 'App Store' };
     case 'github':
-      return { icon: <IconWeb />, label: 'Github' };
+      return { icon: '/icons/icon-github.svg', label: 'Github' };
   }
 };
 
@@ -63,7 +60,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
           {links?.map(({ title, url }, index) => (
             <NextLink key={index} passHref href={url}>
               <StyledServiceLink>
-                {getLinkInfo(title as LinkTitle)?.icon}
+                <StyledLinkIcon alt='link-icon' src={getLinkInfo(title as LinkTitle)?.icon} />
                 <Text typography='SUIT_12_SB'>{getLinkInfo(title as LinkTitle)?.label}</Text>
               </StyledServiceLink>
             </NextLink>
@@ -161,6 +158,11 @@ const ServiceLinkWrapper = styled.div`
   gap: 16px;
   visibility: hidden;
   opacity: 0;
+`;
+
+const StyledLinkIcon = styled.img`
+  width: 54px;
+  height: 54px;
 `;
 
 const StyledServiceLink = styled.div`

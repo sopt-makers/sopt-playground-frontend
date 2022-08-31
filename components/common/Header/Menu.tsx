@@ -34,7 +34,7 @@ const Menu: FC<MenuProps> = ({ onToggle }) => {
             <MenuTitle href='/history' isSelected={router.pathname === '/history'}>
               역대기수소개
             </MenuTitle>
-            <MenuTitle href='/project' isSelected={router.pathname === '/projects'}>
+            <MenuTitle href='/project' isSelected={router.pathname === '/project'}>
               프로젝트
             </MenuTitle>
             <MenuTitle href='/recruit' isSelected={router.pathname === '/recruit'}>
