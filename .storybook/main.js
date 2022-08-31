@@ -8,6 +8,7 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     'storybook-dark-mode',
+    'storybook-addon-next-router',
   ],
   framework: '@storybook/react',
   webpackFinal: async (config) => {

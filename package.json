@@ -30,6 +30,7 @@
     "react-spinners": "^0.13.4",
     "react-spring": "^9.4.5",
     "recoil": "^0.7.2",
+    "storybook-addon-next-router": "^4.0.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

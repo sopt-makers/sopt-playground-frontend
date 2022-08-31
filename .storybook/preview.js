@@ -3,6 +3,7 @@ import { initialize, mswDecorator } from 'msw-storybook-addon';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { colors } from '@/styles/colors';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
 
 initialize();
 
@@ -25,6 +26,9 @@ export const parameters = {
     current: 'dark',
     dark: { ...themes.dark, appBg: colors.black80 },
     light: { ...themes.normal, appBg: '#fff' },
+  },
+  nextRouter: {
+    Provider: RouterContext.Provider,
   },
 };
 
