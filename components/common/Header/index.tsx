@@ -1,43 +1,50 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@/styles/colors';
-import IconLogo from '@/public/icons/icon-logo.svg';
 import IconLogoMobile from '@/public/icons/icon-logo-mobile.svg';
 import IconMenu from '@/public/icons/icon-menu.svg';
 import Button from '@/components/common/Button';
 import Link from 'next/link';
 import useScreenSize from '@/hooks/useScreenSize';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import Menu from '@/components/common/Header/Menu';
 
 const Header: FC = () => {
   const { isMobile } = useScreenSize();
+  const [isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
+
+  const onToggle = () => {
+    setIsMenuOpened((isOpen) => !isOpen);
+  };
 
   return (
-    <StyledHeader>
-      <StyledLeftSection>
-        {/* TODO: 메뉴 생기면 연결 및 주석 해제 */}
-        <IconMenu />
-        <Link href='/' passHref>
-          {!isMobile ? <StyledIconLogo /> : <IconLogoMobile />}
-        </Link>
-      </StyledLeftSection>
-      <StyledRightSection>
-        {!isMobile && (
-          <Link passHref href='/project/upload'>
+    <>
+      <StyledHeader>
+        <StyledLeftSection>
+          <Link href='/' passHref>
+            {!isMobile ? <StyledIconLogo alt='logo' src='/icons/logo.png' /> : <IconLogoMobile />}
+          </Link>
+        </StyledLeftSection>
+        <StyledRightSection>
+          {!isMobile && (
+            <Link passHref href='/project/upload'>
+              <a>
+                <StyledUploadButton variant='primary' size='fill'>
+                  + 내 프로젝트 올리기
+                </StyledUploadButton>
+              </a>
+            </Link>
+          )}
+          <Link passHref href='/auth/login'>
             <a>
-              <StyledUploadButton variant='primary' size='fill'>
-                + 내 프로젝트 올리기
-              </StyledUploadButton>
+              <StyledLoginButton size='fill'>로그인</StyledLoginButton>
             </a>
           </Link>
-        )}
-        <Link passHref href='/auth/login'>
-          <a>
-            <StyledLoginButton size='fill'>로그인</StyledLoginButton>
-          </a>
-        </Link>
-      </StyledRightSection>
-    </StyledHeader>
+          <StyledIconMenu onClick={onToggle} />
+        </StyledRightSection>
+      </StyledHeader>
+      {isMenuOpened && <Menu onToggle={onToggle} />}
+    </>
   );
 };
 
@@ -63,8 +70,15 @@ const StyledLeftSection = styled.section`
   justify-content: center;
 `;
 
-const StyledIconLogo = styled(IconLogo)`
+const StyledIconLogo = styled.img`
   cursor: pointer;
+  width: 125px;
+  height: 41px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 97px;
+    height: 31px;
+  }
 `;
 
 const StyledRightSection = styled.section`
@@ -81,4 +95,9 @@ const StyledLoginButton = styled(Button)`
   margin: 0 0 0 10px;
   border: 1px solid #534d64;
   padding: 11px 21px;
+`;
+
+const StyledIconMenu = styled(IconMenu)`
+  margin-left: 36px;
+  cursor: pointer;
 `;
