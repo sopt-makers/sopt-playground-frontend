@@ -22,7 +22,7 @@ const Header: FC = () => {
           <StyledIconLogo alt='logo' src='/icons/icon-logo.svg' />
         </Link>
         <Empty />
-        <Link passHref href='/project/upload'>
+        <Link passHref href='/projects/upload'>
           <a>
             <StyledUploadButton variant='primary' size='fill'>
               + 내 프로젝트 올리기
