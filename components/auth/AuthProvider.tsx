@@ -12,12 +12,12 @@ export const AuthProvider: FC<{ children: ReactNode }> = (props) => {
 export default AuthProvider;
 
 function useClientOnce(fn: () => void) {
-  const runed = useRef(false);
+  const isExecuted = useRef(false);
 
   if (typeof window !== 'undefined') {
-    if (!runed.current) {
+    if (!isExecuted.current) {
       fn();
-      runed.current = true;
+      isExecuted.current = true;
     }
   }
 }
