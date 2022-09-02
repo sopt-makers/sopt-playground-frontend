@@ -13,7 +13,7 @@ const FinishRegister: FC = () => {
         <br />
         프로젝트를 등록하여 SOPT에서의 경험을 공유해보세요.
       </Description>
-      <Link href='/project/upload' passHref>
+      <Link href='/projects/upload' passHref>
         <SendButton variant='primary'>프로젝트 등록하기</SendButton>
       </Link>
     </Container>
