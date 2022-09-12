@@ -11,6 +11,28 @@ import IconYoutube from '@/public/icons/icon-youtube-logo.svg';
 import IconKakao from '@/public/icons/icon-kakao-logo.svg';
 
 const SOPT_RECRUIT_LINK = 'https://sopt-recruiting.web.app/recruiting/apply/ob';
+const ICONS = [
+  {
+    icon: <IconMail />,
+    link: 'mailto:president@sopt.org',
+  },
+  {
+    icon: <IconFaceBook />,
+    link: 'https://www.facebook.com/clubsopt/',
+  },
+  {
+    icon: <IconInstagram />,
+    link: 'https://www.instagram.com/sopt_timi_tmi/',
+  },
+  {
+    icon: <IconYoutube />,
+    link: 'https://www.youtube.com/c/SOPTMEDIA',
+  },
+  {
+    icon: <IconKakao />,
+    link: 'http://pf.kakao.com/_JdTKd',
+  },
+];
 
 interface MenuProps {
   isOpen: boolean;
@@ -57,11 +79,11 @@ const Menu: FC<MenuProps> = ({ isOpen, onToggle }) => {
             <ChannelWrap>
               <ChannelTitle>SOPT 채널 바로가기</ChannelTitle>
               <ChannelIconWrapper>
-                <IconMail />
-                <IconFaceBook />
-                <IconInstagram />
-                <IconYoutube />
-                <IconKakao />
+                {ICONS.map(({ icon, link }, index) => (
+                  <a key={index} href={link} rel='noreferrer' target='_blank'>
+                    {icon}
+                  </a>
+                ))}
               </ChannelIconWrapper>
             </ChannelWrap>
           </BottomWrap>
