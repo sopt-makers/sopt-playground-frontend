@@ -13,14 +13,15 @@ import IconKakao from '@/public/icons/icon-kakao-logo.svg';
 const SOPT_RECRUIT_LINK = 'https://sopt-recruiting.web.app/recruiting/apply/ob';
 
 interface MenuProps {
+  isOpen: boolean;
   onToggle: () => void;
 }
 
-const Menu: FC<MenuProps> = ({ onToggle }) => {
+const Menu: FC<MenuProps> = ({ isOpen, onToggle }) => {
   const router = useRouter();
 
   return (
-    <StyledMenu>
+    <StyledMenu isOpen={isOpen}>
       <MenuWrap>
         <StyledIcon onClick={onToggle} />
         <ContentsWrap>
@@ -72,10 +73,13 @@ const Menu: FC<MenuProps> = ({ onToggle }) => {
 
 export default Menu;
 
-const StyledMenu = styled.div`
+const StyledMenu = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   right: 0;
+  transition: opacity 0.2s;
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+  z-index: 10;
   box-shadow: 0 0 5px rgb(0 0 0 / 50%);
   background-color: #232323;
   width: 100%;
@@ -93,7 +97,6 @@ const StyledMenu = styled.div`
 `;
 
 const MenuWrap = styled.div`
-  /* 이샛기 width가 고정되어있음 */
   padding: 0 60px;
   width: 100%;
 
@@ -118,9 +121,6 @@ const StyledIcon = styled(IconCloseMenu)`
   @media (max-width: 1279px) {
     top: 47px;
     right: -90%;
-
-    /* width: 16px;
-    height: 16px; */
   }
 `;
 

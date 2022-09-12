@@ -18,25 +18,27 @@ const Header: FC = () => {
   return (
     <>
       <StyledHeader>
-        <Link href='/' passHref>
-          <StyledIconLogo alt='logo' src='/icons/icon-logo.svg' />
-        </Link>
-        <Empty />
-        <Link passHref href='/projects/upload'>
-          <a>
-            <StyledUploadButton variant='primary' size='fill'>
-              + 내 프로젝트 올리기
-            </StyledUploadButton>
-          </a>
-        </Link>
-        <Link passHref href='/auth/login'>
-          <a>
-            <StyledLoginButton size='fill'>로그인</StyledLoginButton>
-          </a>
-        </Link>
-        <StyledIconMenu alt='menu' src='/icons/icon-menu.svg' onClick={onToggle} />
+        <StyledContent>
+          <Link href='/' passHref>
+            <StyledIconLogo alt='logo' src='/icons/icon-logo.png' />
+          </Link>
+          <Empty />
+          <Link passHref href='/projects/upload'>
+            <a>
+              <StyledUploadButton variant='primary' size='fill'>
+                + 내 프로젝트 올리기
+              </StyledUploadButton>
+            </a>
+          </Link>
+          <Link passHref href='/auth/login'>
+            <a>
+              <StyledLoginButton size='fill'>로그인</StyledLoginButton>
+            </a>
+          </Link>
+          <StyledIconMenu alt='menu' src='/icons/icon-menu.svg' onClick={onToggle} />
+        </StyledContent>
       </StyledHeader>
-      {isMenuOpened && <Menu onToggle={onToggle} />}
+      <Menu isOpen={isMenuOpened} onToggle={onToggle} />
     </>
   );
 };
@@ -46,11 +48,10 @@ export default Header;
 const StyledHeader = styled.header`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin: 0 auto;
   background-color: ${colors.black100};
-  padding: 24px 48px;
-  width: 1060px;
-  height: 92px;
+  height: 100px;
 
   @media (max-width: 1060px) {
     width: 100%;
@@ -63,6 +64,12 @@ const StyledHeader = styled.header`
     padding: 14px 20px;
     height: 56px;
   }
+`;
+
+const StyledContent = styled.div`
+  display: flex;
+  align-items: center;
+  width: 1160px;
 `;
 
 const Empty = styled.div`
