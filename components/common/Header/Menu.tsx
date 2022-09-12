@@ -62,6 +62,9 @@ const Menu: FC<MenuProps> = ({ isOpen, onToggle }) => {
             </MenuTitle>
             <MenuTitle href='/recruit' isSelected={router.pathname === '/recruit'}>
               <a
+                style={{
+                  color: 'inherit',
+                }}
                 onClick={(e) => {
                   e.preventDefault();
                   window.location.href = SOPT_RECRUIT_LINK;
