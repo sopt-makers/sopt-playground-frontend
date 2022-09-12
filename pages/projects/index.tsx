@@ -4,6 +4,7 @@ import { FC } from 'react';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import Link from 'next/link';
 
 const ProjectPage: FC = () => {
   const { data } = useGetProjectListQuery();
@@ -13,18 +14,19 @@ const ProjectPage: FC = () => {
       <StyledContent>
         <StyledLength typography='SUIT_22_B'>{data?.projects.length} Projects</StyledLength>
         <StyledGridContainer>
-          {data?.projects.map((project, index) => (
-            <ProjectCard
-              key={index}
-              category={project.category}
-              summary={project.summary}
-              generation={project.generation}
-              links={project.links}
-              logoImage={project.logo_image}
-              name={project.name}
-              serviceType={project.service_type}
-              thumbnailIamge={project.thumbnail_image}
-            />
+          {data?.projects.map((project) => (
+            <Link passHref key={project.id} href={`/projects/${project.id}`}>
+              <ProjectCard
+                category={project.category}
+                summary={project.summary}
+                generation={project.generation}
+                links={project.links}
+                logoImage={project.logo_image}
+                name={project.name}
+                serviceType={project.service_type}
+                thumbnailIamge={project.thumbnail_image}
+              />
+            </Link>
           ))}
         </StyledGridContainer>
       </StyledContent>
