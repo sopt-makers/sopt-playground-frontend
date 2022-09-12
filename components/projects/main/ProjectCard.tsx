@@ -6,7 +6,6 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { FC } from 'react';
-import NextLink from 'next/link';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const getLinkInfo = (title: LinkTitle) => {
@@ -31,6 +30,7 @@ export interface ProjectCardProps {
   thumbnailIamge?: string;
   logoImage: string;
   links: Link[];
+  onClick: () => void;
 }
 
 const ProjectCard: FC<ProjectCardProps> = ({
@@ -42,9 +42,10 @@ const ProjectCard: FC<ProjectCardProps> = ({
   thumbnailIamge,
   logoImage,
   links,
+  onClick,
 }) => {
   return (
-    <StyledCard>
+    <StyledCard onClick={onClick}>
       <StyledServiceTypeWrapper>
         {serviceType.map((item, index) => (
           <StyledServiceType key={index}>{item}</StyledServiceType>
@@ -58,12 +59,10 @@ const ProjectCard: FC<ProjectCardProps> = ({
         )}
         <ServiceLinkWrapper className='card-hover'>
           {links?.map(({ title, url }, index) => (
-            <NextLink key={index} passHref href={url}>
-              <StyledServiceLink>
-                <StyledLinkIcon alt='link-icon' src={getLinkInfo(title as LinkTitle)?.icon} />
-                <Text typography='SUIT_12_SB'>{getLinkInfo(title as LinkTitle)?.label}</Text>
-              </StyledServiceLink>
-            </NextLink>
+            <StyledServiceLink key={index} href={url} onClick={(e) => e.stopPropagation()}>
+              <StyledLinkIcon alt='link-icon' src={getLinkInfo(title as LinkTitle)?.icon} />
+              <Text typography='SUIT_12_SB'>{getLinkInfo(title as LinkTitle)?.label}</Text>
+            </StyledServiceLink>
           ))}
         </ServiceLinkWrapper>
       </StyledImageSection>
@@ -165,7 +164,7 @@ const StyledLinkIcon = styled.img`
   height: 54px;
 `;
 
-const StyledServiceLink = styled.div`
+const StyledServiceLink = styled.a`
   display: flex;
   flex-direction: column;
   gap: 10px;

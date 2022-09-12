@@ -110,6 +110,18 @@ export const reset = css`
     background-color: transparent;
   }
 
+  a {
+    outline: none;
+    text-decoration: none;
+    color: ${colors.white};
+  }
+
+  a:hover,
+  a:visited,
+  a:active {
+    text-decoration: none;
+  }
+
   /**
   * 1. Remove the bottom border in Chrome 57-
   * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.

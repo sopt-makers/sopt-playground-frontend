@@ -20,7 +20,9 @@ const Header: FC = () => {
       <StyledHeader>
         <StyledContent>
           <Link href='/' passHref>
-            <StyledIconLogo alt='logo' src='/icons/icon-logo.png' />
+            <a>
+              <StyledIconLogo alt='logo' src='/icons/icon-logo.png' />
+            </a>
           </Link>
           <Empty />
           <Link passHref href='/projects/upload'>
