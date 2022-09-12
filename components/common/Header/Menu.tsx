@@ -99,13 +99,23 @@ const StyledMenu = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   right: 0;
-  transition: opacity 0.2s;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-  z-index: 10;
+  transition: opacity 0.2s, visibility 0.2s;
   box-shadow: 0 0 5px rgb(0 0 0 / 50%);
   background-color: #232323;
   width: 100%;
   height: 100%;
+
+  ${({ isOpen }) =>
+    isOpen
+      ? css`
+          visibility: visible;
+          opacity: 1;
+          z-index: 10;
+        `
+      : css`
+          visibility: hidden;
+          opacity: 0;
+        `}
 
   /* 데스크탑 뷰 */
   @media (min-width: 1280px) {
