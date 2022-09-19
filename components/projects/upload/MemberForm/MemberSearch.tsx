@@ -52,10 +52,18 @@ const StyledContainer = styled.div`
   ${textStyles.SUIT_14_M};
 
   & .search {
+    transition: all 0.2s;
+    border: 1px solid ${colors.black60};
     border-radius: 6px;
     background: ${colors.black60};
-    padding: 15.5px 20px;
+    padding: 14px 20px;
     color: ${colors.gray100};
+
+    &:focus {
+      outline: none;
+      border-color: ${colors.purple100};
+      background-color: ${colors.black80};
+    }
   }
 
   & .options {
