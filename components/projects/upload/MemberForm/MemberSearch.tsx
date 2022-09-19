@@ -53,10 +53,10 @@ const StyledContainer = styled.div`
 
   & .search {
     transition: all 0.2s;
-    border: 1.5px solid ${colors.black60};
+    border: 1px solid ${colors.black60};
     border-radius: 6px;
     background: ${colors.black60};
-    padding: 15.5px 20px;
+    padding: 14px 20px;
     color: ${colors.gray100};
 
     &:focus {

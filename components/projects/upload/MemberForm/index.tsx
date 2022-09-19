@@ -227,11 +227,18 @@ const MemberItemWrapper = styled.div`
 const StyledSelect = styled(Select)`
   margin: 0 10px;
   min-width: 200px;
-  height: 100%;
+
+  ${textStyles.SUIT_14_M};
 `;
 
 const StyledInputFormItem = styled(FormItem)`
   width: 100% !important;
+
+  & > input {
+    ${textStyles.SUIT_14_M};
+
+    border-width: 1px;
+  }
 `;
 
 const IconDeleteWrapper = styled.div`
