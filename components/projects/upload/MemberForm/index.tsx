@@ -227,6 +227,7 @@ const MemberItemWrapper = styled.div`
 const StyledSelect = styled(Select)`
   margin: 0 10px;
   min-width: 200px;
+  height: 100%;
 `;
 
 const StyledInputFormItem = styled(FormItem)`
