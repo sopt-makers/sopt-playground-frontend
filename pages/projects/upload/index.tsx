@@ -199,7 +199,7 @@ const ProjectUploadPage: FC = () => {
             </Button>
           </StyledButtonWrapper>
         </ProjectContainer>
-        {toast.isActive && <ProjectToast toast={toast} setToast={(toast: Toast) => setToast(toast)} />}
+        <ProjectToast toast={toast} setToast={(toast: Toast) => setToast(toast)} />
       </StyledForm>
     </FormProvider>
   );

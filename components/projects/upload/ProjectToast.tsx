@@ -23,7 +23,9 @@ const ProjectToast: FC<ProjectToastProps> = ({ toast, setToast, duration = 1000 
 
   return (
     <StyledContainer>
-      <StyledToastItem animation={animation}>{message}</StyledToastItem>
+      <StyledToastItem animation={animation} isActive={isActive}>
+        {message}
+      </StyledToastItem>
     </StyledContainer>
   );
 };
@@ -37,14 +39,15 @@ const StyledContainer = styled.div`
   z-index: 100;
 `;
 
-const StyledToastItem = styled.div<{ animation: string }>`
+const StyledToastItem = styled.div<{ animation: string; isActive: boolean }>`
   position: sticky;
   top: 10px;
   margin: 20px 14px;
   background-color: white;
   padding: 20px;
-  animation: 0.3s forwards ${(props) => props.animation};
   color: black;
+  animation: 0.3s forwards ${(props) => props.animation};
+  visibility: ${(props) => (props.isActive ? 'visible' : 'hidden')};
 
   @keyframes slide-in {
     from {
