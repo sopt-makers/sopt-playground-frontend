@@ -6,11 +6,11 @@ import { colors } from '@/styles/colors';
 import { copyToClipboard } from '@/utils';
 import { Toast } from '@/components/projects/upload/types';
 
-interface ProjectSignupLinkProps {
+interface SignupLinkProps {
   setToast: (toast: Toast) => void;
 }
 
-const ProjectSignupLink: FC<ProjectSignupLinkProps> = ({ setToast }) => {
+const SignupLink: FC<SignupLinkProps> = ({ setToast }) => {
   const copySignupLink = () =>
     copyToClipboard(
       '회원가입 링크',
@@ -21,7 +21,7 @@ const ProjectSignupLink: FC<ProjectSignupLinkProps> = ({ setToast }) => {
   return <StyledContainer onClick={copySignupLink}>회원가입 링크 복사</StyledContainer>;
 };
 
-export default ProjectSignupLink;
+export default SignupLink;
 
 const StyledContainer = styled(Text)`
   cursor: pointer;

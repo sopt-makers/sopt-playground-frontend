@@ -7,7 +7,7 @@ import Text from '@/components/common/Text';
 import FormItem from '@/components/common/form/FormItem';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { Toast } from '@/components/projects/upload/types';
-import ProjectSignupLink from '@/components/projects/upload/ProjectSignupLink';
+import SignupLink from '@/components/projects/upload/SignupLink';
 
 interface ProjectMembersProps {
   type: string;
@@ -19,7 +19,7 @@ const ProjectMembers: FC<ProjectMembersProps> = ({ type, setToast }) => {
     <StyledContainer>
       <FormTitle essential>{`${type} 팀원`}</FormTitle>
       <StyledDescription color={colors.gray100}>
-        회원가입을 한 사람만 팀원 등록이 가능해요 <ProjectSignupLink setToast={setToast} />
+        회원가입을 한 사람만 팀원 등록이 가능해요 <SignupLink setToast={setToast} />
       </StyledDescription>
       <FormItem>
         <MemberForm name='members' />
