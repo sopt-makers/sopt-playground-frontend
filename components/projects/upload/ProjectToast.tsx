@@ -12,19 +12,16 @@ interface ProjectToastProps {
 
 const ProjectToast: FC<ProjectToastProps> = ({ toast, setToast, duration = 1000 }) => {
   const { isActive, message } = toast;
-  const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
 
   useEffect(() => {
     setTimeout(() => {
-      setAnimation('slide-out');
+      setToast({ isActive: false, message: '' });
     }, duration);
   }, [duration, isActive, setToast]);
 
   return (
     <StyledContainer>
-      <StyledToastItem animation={animation} isActive={isActive}>
-        {message}
-      </StyledToastItem>
+      <StyledToastItem isActive={isActive}>{message}</StyledToastItem>
     </StyledContainer>
   );
 };
@@ -38,14 +35,14 @@ const StyledContainer = styled.div`
   z-index: 100;
 `;
 
-const StyledToastItem = styled.div<{ animation: string; isActive: boolean }>`
+const StyledToastItem = styled.div<{ isActive: boolean }>`
   position: sticky;
   top: 10px;
   margin: 20px 14px;
   background-color: white;
   padding: 20px;
   color: black;
-  animation: 0.3s forwards ${(props) => props.animation};
+  animation: 0.3s forwards ${(props) => (props.isActive ? 'slide-in' : 'slide-out')};
   visibility: ${(props) => (props.isActive ? 'visible' : 'hidden')};
 
   @keyframes slide-in {
