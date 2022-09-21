@@ -38,3 +38,8 @@ export type Status = {
   isAvailable: boolean;
   isFounding: boolean;
 };
+
+export type Toast = {
+  isActive: boolean;
+  message: string;
+};

@@ -18,7 +18,7 @@ import ProjectSummary from '@/components/projects/upload/ProjectSummary';
 import ProjectDetail from '@/components/projects/upload/ProjectDetail';
 import ProjectLink from '@/components/projects/upload/ProjectLink';
 import ProjectImageSection from '@/components/projects/upload/ProjectImageSection';
-import { Period, ServiceType, Category, Status, Generation, FormItem } from '@/components/projects/upload/types';
+import { Period, ServiceType, Category, Status, Generation, FormItem, Toast } from '@/components/projects/upload/types';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -28,6 +28,8 @@ import Button from '@/components/common/Button';
 import { textStyles } from '@/styles/typography';
 import dayjs from 'dayjs';
 import { User } from '@/api/project/types';
+import { useState } from 'react';
+import ProjectToast from '@/components/projects/upload/ProjectToast';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -138,6 +140,7 @@ const ProjectUploadPage: FC = () => {
           : [...acc, cur],
       [],
     );
+  const [toast, setToast] = useState<Toast>({ isActive: false, message: '' });
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
@@ -182,8 +185,8 @@ const ProjectUploadPage: FC = () => {
           <ProjectGeneration />
           <ProjectCategory />
           <ProjectStatus />
-          <ProjectMembers type={categoryLabel?.[category] ?? ''} />
-          <ProjectReleaseMembers />
+          <ProjectMembers type={categoryLabel?.[category] ?? ''} setToast={(toast: Toast) => setToast(toast)} />
+          <ProjectReleaseMembers setToast={(toast: Toast) => setToast(toast)} />
           <ProjectServiceType />
           <ProjectPeriod />
           <ProjectSummary />
@@ -196,6 +199,7 @@ const ProjectUploadPage: FC = () => {
             </Button>
           </StyledButtonWrapper>
         </ProjectContainer>
+        {toast.isActive && <ProjectToast toast={toast} setToast={(toast: Toast) => setToast(toast)} />}
       </StyledForm>
     </FormProvider>
   );
@@ -205,6 +209,7 @@ export default ProjectUploadPage;
 
 const StyledForm = styled.form`
   display: flex;
+  position: relative;
   gap: 40px;
   justify-content: center;
 `;

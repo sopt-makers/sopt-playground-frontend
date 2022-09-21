@@ -5,15 +5,21 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import MemberForm from '@/components/projects/upload/MemberForm';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import ProjectSignupLink from '@/components/projects/upload/ProjectSignupLink';
+import { Toast } from '@/components/projects/upload/types';
 
-const ProjectReleaseMembers: FC = () => {
+interface ProjectReleaseMembersProps {
+  setToast: (toast: Toast) => void;
+}
+
+const ProjectReleaseMembers: FC<ProjectReleaseMembersProps> = ({ setToast }) => {
   return (
     <StyledContainer>
       <FormTitle>추가 합류한 팀원</FormTitle>
       <StyledDescription color={colors.gray100}>
         릴리즈에 합류한 팀원들의 이름을 적어주세요
         <span className='extra'>. 회원가입을 한 사람만 팀원 등록이 가능해요 </span>
-        <StyledSignupLink>회원가입 링크 복사</StyledSignupLink>
+        <ProjectSignupLink setToast={setToast} />
       </StyledDescription>
       <MemberForm name='releaseMembers' />
     </StyledContainer>
