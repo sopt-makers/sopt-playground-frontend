@@ -17,7 +17,6 @@ const ProjectToast: FC<ProjectToastProps> = ({ toast, setToast, duration = 1000 
   useEffect(() => {
     setTimeout(() => {
       setAnimation('slide-out');
-      setTimeout(() => setToast({ isActive: false, message: '' }), 300);
     }, duration);
   }, [duration, isActive, setToast]);
 
