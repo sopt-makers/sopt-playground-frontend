@@ -2,8 +2,8 @@ export const copyToClipboard = async (text: string, onSuccess?: () => void, onEr
   try {
     if (!text) throw '빈 문자열입니다';
     await navigator.clipboard.writeText(text);
-    onSuccess && onSuccess();
+    onSuccess?.();
   } catch (error) {
-    onError && onError();
+    onError?.();
   }
 };
