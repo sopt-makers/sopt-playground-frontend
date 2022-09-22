@@ -29,7 +29,7 @@ import { textStyles } from '@/styles/typography';
 import dayjs from 'dayjs';
 import { User } from '@/api/project/types';
 import { useState } from 'react';
-import ProjectToast from '@/components/projects/upload/ProjectToast';
+import ProjectToast from '@/components/projects/upload/Toast';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -199,7 +199,7 @@ const ProjectUploadPage: FC = () => {
             </Button>
           </StyledButtonWrapper>
         </ProjectContainer>
-        <ProjectToast toast={toast} setToast={(toast: Toast) => setToast(toast)} />
+        <ProjectToast isActive={toast.isActive} message={toast.message} setToast={(toast: Toast) => setToast(toast)} />
       </StyledForm>
     </FormProvider>
   );

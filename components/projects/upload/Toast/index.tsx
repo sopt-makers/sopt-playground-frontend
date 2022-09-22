@@ -2,17 +2,15 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import { Toast } from '@/components/projects/upload/types';
 import { useEffect } from 'react';
-import { useState } from 'react';
 
 interface ProjectToastProps {
-  toast: Toast;
+  isActive: boolean;
+  message: string;
   setToast: (toast: Toast) => void;
   duration?: number;
 }
 
-const ProjectToast: FC<ProjectToastProps> = ({ toast, setToast, duration = 1000 }) => {
-  const { isActive, message } = toast;
-
+const ProjectToast: FC<ProjectToastProps> = ({ isActive, message, setToast, duration = 1000 }) => {
   useEffect(() => {
     setTimeout(() => {
       setToast({ isActive: false, message: '' });
@@ -38,12 +36,12 @@ const StyledContainer = styled.div`
 const StyledToastItem = styled.div<{ isActive: boolean }>`
   position: sticky;
   top: 10px;
+  visibility: ${(props) => (props.isActive ? 'visible' : 'hidden')};
   margin: 20px 14px;
   background-color: white;
   padding: 20px;
-  color: black;
   animation: 0.3s forwards ${(props) => (props.isActive ? 'slide-in' : 'slide-out')};
-  visibility: ${(props) => (props.isActive ? 'visible' : 'hidden')};
+  color: black;
 
   @keyframes slide-in {
     from {
