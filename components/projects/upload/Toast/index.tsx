@@ -1,21 +1,18 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import { Toast } from '@/components/projects/upload/types';
 import { useEffect } from 'react';
+import useToast from '@/components/projects/upload/Toast/useToast';
 
 interface ProjectToastProps {
-  isActive: boolean;
-  message: string;
-  setToast: (toast: Toast) => void;
   duration?: number;
 }
 
-const ProjectToast: FC<ProjectToastProps> = ({ isActive, message, setToast, duration = 1000 }) => {
+const ProjectToast: FC<ProjectToastProps> = ({ duration = 1000 }) => {
+  const { hideToast, message, isActive } = useToast();
+
   useEffect(() => {
-    setTimeout(() => {
-      setToast({ isActive: false, message: '' });
-    }, duration);
-  }, [duration, isActive, setToast]);
+    setTimeout(() => hideToast(), duration);
+  }, [duration, hideToast]);
 
   return (
     <StyledContainer>

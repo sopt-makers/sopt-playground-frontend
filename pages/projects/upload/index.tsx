@@ -140,7 +140,6 @@ const ProjectUploadPage: FC = () => {
           : [...acc, cur],
       [],
     );
-  const [toast, setToast] = useState<Toast>({ isActive: false, message: '' });
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
@@ -185,8 +184,8 @@ const ProjectUploadPage: FC = () => {
           <ProjectGeneration />
           <ProjectCategory />
           <ProjectStatus />
-          <ProjectMembers type={categoryLabel?.[category] ?? ''} setToast={(toast: Toast) => setToast(toast)} />
-          <ProjectReleaseMembers setToast={(toast: Toast) => setToast(toast)} />
+          <ProjectMembers type={categoryLabel?.[category] ?? ''} />
+          <ProjectReleaseMembers />
           <ProjectServiceType />
           <ProjectPeriod />
           <ProjectSummary />
@@ -199,7 +198,7 @@ const ProjectUploadPage: FC = () => {
             </Button>
           </StyledButtonWrapper>
         </ProjectContainer>
-        <ProjectToast isActive={toast.isActive} message={toast.message} setToast={(toast: Toast) => setToast(toast)} />
+        <ProjectToast />
       </StyledForm>
     </FormProvider>
   );

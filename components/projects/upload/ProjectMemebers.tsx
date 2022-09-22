@@ -11,15 +11,14 @@ import SignupLink from '@/components/projects/upload/SignupLink';
 
 interface ProjectMembersProps {
   type: string;
-  setToast: (toast: Toast) => void;
 }
 
-const ProjectMembers: FC<ProjectMembersProps> = ({ type, setToast }) => {
+const ProjectMembers: FC<ProjectMembersProps> = ({ type }) => {
   return (
     <StyledContainer>
       <FormTitle essential>{`${type} 팀원`}</FormTitle>
       <StyledDescription color={colors.gray100}>
-        회원가입을 한 사람만 팀원 등록이 가능해요 <SignupLink setToast={setToast} />
+        회원가입을 한 사람만 팀원 등록이 가능해요 <SignupLink />
       </StyledDescription>
       <FormItem>
         <MemberForm name='members' />
