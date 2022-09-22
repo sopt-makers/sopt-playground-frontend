@@ -23,4 +23,4 @@ Default.storyName = '기본';
 
 export const Duration2000 = Template.bind({});
 Default.args = { duration: 2000 };
-Default.storyName = '기본';
+Default.storyName = 'duration 2000';
