@@ -1,4 +1,4 @@
-import { Toast } from '@/components/projects/upload/types';
+import { Toast } from '@/components/projects/upload/Toast/types';
 import { atom } from 'recoil';
 
 export const toastState = atom<Toast>({
