@@ -6,7 +6,6 @@ import { FC } from 'react';
 import Text from '@/components/common/Text';
 import FormItem from '@/components/common/form/FormItem';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { Toast } from '@/components/projects/upload/types';
 import SignupLink from '@/components/projects/upload/SignupLink';
 
 interface ProjectMembersProps {

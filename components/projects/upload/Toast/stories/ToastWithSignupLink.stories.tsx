@@ -1,7 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import ProjectToast from '@/components/projects/upload/Toast';
 import SignupLink from '@/components/projects/upload/SignupLink';
-import { RecoilRoot } from 'recoil';
 
 const ToastWithSignupLink = ({ duration }: { duration?: number }) => {
   return (

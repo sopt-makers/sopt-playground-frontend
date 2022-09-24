@@ -18,17 +18,15 @@ import ProjectSummary from '@/components/projects/upload/ProjectSummary';
 import ProjectDetail from '@/components/projects/upload/ProjectDetail';
 import ProjectLink from '@/components/projects/upload/ProjectLink';
 import ProjectImageSection from '@/components/projects/upload/ProjectImageSection';
-import { Period, ServiceType, Category, Status, Generation, FormItem, Toast } from '@/components/projects/upload/types';
+import { Period, ServiceType, Category, Status, Generation, FormItem } from '@/components/projects/upload/types';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import _omit from 'lodash/omit';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import Button from '@/components/common/Button';
 import { textStyles } from '@/styles/typography';
 import dayjs from 'dayjs';
 import { User } from '@/api/project/types';
-import { useState } from 'react';
 import ProjectToast from '@/components/projects/upload/Toast';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;

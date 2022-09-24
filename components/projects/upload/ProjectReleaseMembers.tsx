@@ -6,7 +6,6 @@ import { FC } from 'react';
 import MemberForm from '@/components/projects/upload/MemberForm';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import SignupLink from '@/components/projects/upload/SignupLink';
-import { Toast } from '@/components/projects/upload/types';
 
 const ProjectReleaseMembers: FC = () => {
   return (

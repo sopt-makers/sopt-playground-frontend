@@ -4,7 +4,6 @@ import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { colors } from '@/styles/colors';
 import { copyToClipboard } from '@/utils';
-import { Toast } from '@/components/projects/upload/types';
 import useToast from '@/components/projects/upload/Toast/useToast';
 
 const SignupLink: FC = () => {
