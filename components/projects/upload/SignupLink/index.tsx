@@ -4,7 +4,7 @@ import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { colors } from '@/styles/colors';
 import { copyToClipboard } from '@/utils';
-import { ToastContext } from '@/components/projects/upload/ToastProvider/context';
+import { ToastContext } from '@/components/projects/upload/ToastProvider';
 
 const SignupLink: FC = () => {
   const { showToast } = useContext(ToastContext);
