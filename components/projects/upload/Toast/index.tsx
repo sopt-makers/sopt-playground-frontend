@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import useToast from '@/components/projects/upload/Toast/useToast';
@@ -8,16 +8,24 @@ interface ProjectToastProps {
 }
 
 const ProjectToast: FC<ProjectToastProps> = ({ duration = 1000 }) => {
-  const { hideToast, message, isActive } = useToast();
+  const { message, isActive } = useToast();
+  const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
 
   useEffect(() => {
-    setTimeout(() => hideToast(), duration);
-  }, [duration, hideToast]);
+    let animationTimeout: NodeJS.Timeout;
+    if (isActive) {
+      animationTimeout = setTimeout(() => {
+        setAnimation('slide-out');
+        clearTimeout(animationTimeout);
+      }, duration);
+    } else {
+      setAnimation('slide-in');
+    }
+    return () => clearTimeout(animationTimeout);
+  }, [duration, isActive, animation]);
 
   return (
-    <StyledContainer>
-      <StyledToastItem isActive={isActive}>{message}</StyledToastItem>
-    </StyledContainer>
+    <StyledContainer>{isActive && <StyledToastItem animation={animation}>{message}</StyledToastItem>}</StyledContainer>
   );
 };
 
@@ -30,14 +38,13 @@ const StyledContainer = styled.div`
   z-index: 100;
 `;
 
-const StyledToastItem = styled.div<{ isActive: boolean }>`
+const StyledToastItem = styled.div<{ animation: string }>`
   position: sticky;
   top: 10px;
-  visibility: ${(props) => (props.isActive ? 'visible' : 'hidden')};
   margin: 20px 14px;
   background-color: white;
   padding: 20px;
-  animation: 0.3s forwards ${(props) => (props.isActive ? 'slide-in' : 'slide-out')};
+  animation: 0.3s forwards ${(props) => props.animation};
   color: black;
 
   @keyframes slide-in {
