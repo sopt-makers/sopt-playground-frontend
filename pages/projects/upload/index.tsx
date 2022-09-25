@@ -27,7 +27,7 @@ import Button from '@/components/common/Button';
 import { textStyles } from '@/styles/typography';
 import dayjs from 'dayjs';
 import { User } from '@/api/project/types';
-import ProjectToast from '@/components/projects/upload/Toast';
+import ToastProvider from '@/components/projects/upload/ToastProvider';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -182,8 +182,10 @@ const ProjectUploadPage: FC = () => {
           <ProjectGeneration />
           <ProjectCategory />
           <ProjectStatus />
-          <ProjectMembers type={categoryLabel?.[category] ?? ''} />
-          <ProjectReleaseMembers />
+          <ToastProvider>
+            <ProjectMembers type={categoryLabel?.[category] ?? ''} />
+            <ProjectReleaseMembers />
+          </ToastProvider>
           <ProjectServiceType />
           <ProjectPeriod />
           <ProjectSummary />
@@ -196,7 +198,6 @@ const ProjectUploadPage: FC = () => {
             </Button>
           </StyledButtonWrapper>
         </ProjectContainer>
-        <ProjectToast />
       </StyledForm>
     </FormProvider>
   );
