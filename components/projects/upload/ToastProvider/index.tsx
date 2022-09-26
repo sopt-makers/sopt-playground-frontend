@@ -2,6 +2,7 @@ import { createContext, FC, ReactNode, useState } from 'react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { ToastStatus } from '@/components/projects/upload/ToastProvider/types';
+import { TimeoutID } from '@/types';
 
 export const ToastContext = createContext({ showToast(message: string) {} });
 
@@ -12,7 +13,7 @@ interface ToastProviderProps {
 
 export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) => {
   const [toast, setToast] = useState<ToastStatus>({ isActive: false, message: '' });
-  const [timeoutID, setTimeoutID] = useState<NodeJS.Timeout | null>(null);
+  const [timeoutID, setTimeoutID] = useState<TimeoutID | null>(null);
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
 
   const showToast = (message: string) => {
