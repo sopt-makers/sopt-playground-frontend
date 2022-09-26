@@ -1,5 +1,5 @@
-import useStringParam from '@/components/auth/useStringParam';
-import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
+import useQueryStringParam from '@/components/auth/useQueryString';
+import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { setAccessToken } from '@/components/auth/accessToken';
@@ -10,14 +10,14 @@ const FacebookLoginCallbackPage: FC = () => {
 
   const [message, setMessage] = useState('');
 
-  useStringParam(['code', 'state'], async ({ code, state }) => {
-    const ret = await facebookAuth.sendLoginRequest(code, state);
-    if (!ret.success) {
+  useQueryStringParam(['code', 'state'], async ({ code, state }) => {
+    const loginResult = await facebookAuth.sendLoginRequest(code, state);
+    if (!loginResult.success) {
       setMessage('로그인에 오류가 발생했습니다.');
       return;
     }
 
-    setAccessToken(ret.accessToken);
+    setAccessToken(loginResult.accessToken);
     router.replace('/');
   });
 

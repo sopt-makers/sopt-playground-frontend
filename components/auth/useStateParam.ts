@@ -5,14 +5,14 @@ const useStateParam = () => {
   const [param, setParam] = useState('');
 
   useEffect(() => {
-    const savedParam = sessionStorage.getItem('stateParam');
-    if (!savedParam) {
-      const newParam = nanoid(10);
-      sessionStorage.setItem('stateParam', newParam);
-      setParam(newParam);
+    const savedStateParam = sessionStorage.getItem('stateParam');
+    if (!savedStateParam) {
+      const newStateParam = nanoid(10);
+      sessionStorage.setItem('stateParam', newStateParam);
+      setParam(newStateParam);
       return;
     }
-    setParam(savedParam);
+    setParam(savedStateParam);
   }, []);
 
   return param;

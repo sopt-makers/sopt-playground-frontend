@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const FinishRegister: FC = () => {
+const RegisterFinished: FC = () => {
   return (
     <Container>
       <Title>회원가입 완료!</Title>
@@ -20,7 +20,7 @@ const FinishRegister: FC = () => {
   );
 };
 
-export default FinishRegister;
+export default RegisterFinished;
 
 const Container = styled.div`
   display: flex;

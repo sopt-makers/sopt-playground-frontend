@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import FinishRegister from '@/components/auth/register/FinishRegister';
+import RegisterFinished from '@/components/auth/register/RegisterFinished';
 
 export const RegisterSuccessPage: FC = () => {
   return (
     <StyledRegisterSuccessPage>
-      <FinishRegister />
+      <RegisterFinished />
     </StyledRegisterSuccessPage>
   );
 };
