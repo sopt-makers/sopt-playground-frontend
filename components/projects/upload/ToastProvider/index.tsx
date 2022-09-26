@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useState } from 'react';
+import { createContext, FC, ReactNode, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { ToastStatus } from '@/components/projects/upload/ToastProvider/types';
@@ -13,19 +13,17 @@ interface ToastProviderProps {
 
 export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) => {
   const [toast, setToast] = useState<ToastStatus>({ isActive: false, message: '' });
-  const [timeoutID, setTimeoutID] = useState<TimeoutID | null>(null);
+  const timeoutID = useRef<TimeoutID | undefined>();
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
 
   const showToast = (message: string) => {
-    if (timeoutID) return;
+    if (timeoutID.current) return;
     setToast({ isActive: true, message });
-    setTimeoutID(
-      setTimeout(() => {
-        hideToast();
-        timeoutID && clearTimeout(timeoutID);
-        setTimeoutID(null);
-      }, (duration ?? 1000) + 600),
-    );
+    timeoutID.current = setTimeout(() => {
+      hideToast();
+      timeoutID.current && clearTimeout(timeoutID.current);
+      timeoutID.current = undefined;
+    }, (duration ?? 1000) + 600);
   };
   const hideToast = () => setToast({ isActive: false, message: '' });
 
