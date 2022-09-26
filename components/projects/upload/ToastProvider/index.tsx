@@ -19,16 +19,16 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
   const showToast = (message: string) => {
     if (timeoutID.current) return;
     setToast({ isActive: true, message });
-    timeoutID.current = setTimeout(() => {
-      hideToast();
-      timeoutID.current && clearTimeout(timeoutID.current);
-      timeoutID.current = undefined;
-    }, (duration ?? 1000) + 600);
+    timeoutID.current = setTimeout(() => hideToast(), (duration ?? 1000) + 600);
   };
-  const hideToast = () => setToast({ isActive: false, message: '' });
+  const hideToast = () => {
+    setToast({ isActive: false, message: '' });
+    timeoutID.current && clearTimeout(timeoutID.current);
+    timeoutID.current = undefined;
+  };
 
   useEffect(() => {
-    let animationTimeout: NodeJS.Timeout;
+    let animationTimeout: TimeoutID;
     if (toast.isActive) {
       animationTimeout = setTimeout(() => {
         setAnimation('slide-out');
