@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { graphql, rest } from 'msw';
 import MemberSearch from './MemberSearch';
 
 export default {

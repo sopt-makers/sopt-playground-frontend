@@ -1,5 +1,4 @@
 import { user } from '@/api/user';
-import React from 'react';
 import { useQuery } from 'react-query';
 
 interface GetUsersByNameQueryVariables {

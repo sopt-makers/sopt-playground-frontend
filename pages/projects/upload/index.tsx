@@ -22,7 +22,6 @@ import { Period, ServiceType, Category, Status, Generation, FormItem } from '@/c
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import _omit from 'lodash/omit';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import Button from '@/components/common/Button';
 import { textStyles } from '@/styles/typography';

@@ -65,6 +65,7 @@ const LinkForm: FC = () => {
               <Controller
                 control={control}
                 name={`links.${index}.url`}
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 render={({ field: { value, onBlur, onChange, ...props } }) => (
                   <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
                     <StyledInput
@@ -117,6 +118,7 @@ const LinkForm: FC = () => {
                     <Controller
                       control={control}
                       name={`links.${index}.url`}
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
                       render={({ field: { value, onChange, onBlur, ...props } }) => (
                         <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
                           <MobileLink
