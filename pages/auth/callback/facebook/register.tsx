@@ -1,5 +1,5 @@
-import useStringParam from '@/components/auth/useStringParam';
-import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
+import useQueryStringParam from '@/components/auth/useQueryString';
+import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { setAccessToken } from '@/components/auth/accessToken';
@@ -10,16 +10,16 @@ const FacebookRegisterCallbackPage: FC = () => {
 
   const [message, setMessage] = useState('');
 
-  useStringParam(['code', 'state'] as const, async ({ code, state }) => {
+  useQueryStringParam(['code', 'state'] as const, async ({ code, state }) => {
     const registerToken = localStorage.getItem('registerToken') ?? '';
-    const ret = await facebookAuth.sendRegisterRequest(code, registerToken, state);
+    const registerResult = await facebookAuth.sendRegisterRequest(code, registerToken, state);
 
-    if (!ret.success) {
+    if (!registerResult.success) {
       setMessage('회원가입에 오류가 발생했습니다.');
       return;
     }
 
-    setAccessToken(ret.accessToken);
+    setAccessToken(registerResult.accessToken);
     router.replace('/auth/register-finished');
   });
 

@@ -43,10 +43,10 @@ const useFacebookAuth = (): FacebookAuth => {
       }
 
       try {
-        const res = await auth.sendLoginRequest('facebook', { code });
+        const { accessToken } = await auth.sendLoginRequest('facebook', { code });
         return {
           success: true,
-          accessToken: res.accessToken,
+          accessToken,
         };
       } catch {
         return {
@@ -60,14 +60,14 @@ const useFacebookAuth = (): FacebookAuth => {
       }
 
       try {
-        const res = await auth.sendRegisterRequest('facebook', {
+        const { accessToken } = await auth.sendRegisterRequest('facebook', {
           code,
           registerToken,
         });
 
         return {
           success: true,
-          accessToken: res.accessToken,
+          accessToken,
         };
       } catch (e) {
         return {

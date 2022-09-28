@@ -1,5 +1,5 @@
-import FacebookButton from '@/components/auth/idp/facebook/FacebookButton';
-import useFacebookAuth from '@/components/auth/idp/useFacebookAuth';
+import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
+import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
