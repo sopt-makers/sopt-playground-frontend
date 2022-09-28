@@ -65,20 +65,19 @@ const LinkForm: FC = () => {
               <Controller
                 control={control}
                 name={`links.${index}.url`}
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                render={({ field: { value, onBlur, onChange, ...props } }) => (
+                render={({ field: { value, onChange, ...props } }) => (
                   <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
                     <StyledInput
                       error={!!errors?.links?.[index]?.url}
                       placeholder='https://'
                       value={value}
                       onChange={onChange}
+                      {...props}
                       onBlur={() => {
                         if (value && !/^https?:\/\//i.test(value)) {
                           onChange('https://' + value);
                         }
                       }}
-                      {...props}
                     />
                   </FormItem>
                 )}
@@ -118,20 +117,19 @@ const LinkForm: FC = () => {
                     <Controller
                       control={control}
                       name={`links.${index}.url`}
-                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                      render={({ field: { value, onChange, onBlur, ...props } }) => (
+                      render={({ field: { value, onChange, ...props } }) => (
                         <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
                           <MobileLink
                             error={!!errors?.links?.[index]?.url}
                             placeholder='https://'
                             value={value}
                             onChange={onChange}
+                            {...props}
                             onBlur={() => {
                               if (value && !/^https?:\/\//i.test(value)) {
                                 onChange('https://' + value);
                               }
                             }}
-                            {...props}
                           />
                         </FormItem>
                       )}
