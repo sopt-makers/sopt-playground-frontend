@@ -29,7 +29,6 @@ export default function ProjectDetailPage() {
   // NOTE: Map 자료구조를 update하기 위해 임시 state를 하나 만든다. Map 자료구조를 만든 다음 해당 state를 변경시켜 rerendering을 발생시킨다.
   // 이렇게 한 이유는 React가 ES6 Map 자료구조가 변경되어도 rerender를 발생시키지 않기 때문이다.
   // 만약 Map이 변경되었을 때 rerender를 발생시키려면, Map을 state로 만들고
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, rerender] = useState('');
   useEffect(() => {
     if (!data?.users) {
@@ -40,9 +39,11 @@ export default function ProjectDetailPage() {
       if (!memberNamesByRole.has(user.role)) {
         memberNamesByRole.set(user.role, [user.user.name]);
       } else {
-        const names = memberNamesByRole.get(user.role)!.slice();
-        names.push(user.user.name);
-        memberNamesByRole.set(user.role, names);
+        const names = memberNamesByRole.get(user.role)?.slice();
+        if (names) {
+          names.push(user.user.name);
+          memberNamesByRole.set(user.role, names);
+        }
       }
     });
     rerender('update');

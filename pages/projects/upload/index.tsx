@@ -142,10 +142,15 @@ const ProjectUploadPage: FC = () => {
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
+    // TODO eslint non-null-assertion 관련 룰 만족하도록 수정 필요
     const users: Omit<User, 'user'>[] = [...data.members, ...(data.releaseMembers ?? [])].map((user) => ({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       user_id: user.user?.auth_user_id!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       is_team_member: user.isTeamMember!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       role: user.role!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       description: user.description!,
     }));
     const links: Omit<Link, 'isEdit'>[] = data.links.map((link) => ({
