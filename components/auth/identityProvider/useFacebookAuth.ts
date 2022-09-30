@@ -66,7 +66,7 @@ const useFacebookAuth = (): FacebookAuth => {
           success: true,
           accessToken,
         };
-      } catch (e) {
+      } catch {
         return {
           success: false,
         };
