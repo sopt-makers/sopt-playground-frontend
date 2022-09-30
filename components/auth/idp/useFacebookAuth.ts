@@ -10,15 +10,12 @@ const FACEBOOK_REGISTER_CALLBACK_URI = `${ORIGIN}/auth/cb/facebook/register`;
 interface FacebookAuth {
   login(): void;
   register(): void;
-  sendLoginRequest(
-    code: string,
-    state: string,
-  ): Promise<{ success: boolean; accessToken: any } | { success: boolean; accessToken?: undefined }>;
+  sendLoginRequest(code: string, state: string): Promise<{ success: true; accessToken: string } | { success: false }>;
   sendRegisterRequest(
     code: string,
     registerToken: string,
     state: string,
-  ): Promise<{ success: boolean; accessToken: any } | { success: boolean; accessToken?: undefined }>;
+  ): Promise<{ success: true; accessToken: string } | { success: false }>;
 }
 
 const useFacebookAuth = (): FacebookAuth => {
