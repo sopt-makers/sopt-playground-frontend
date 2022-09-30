@@ -5,33 +5,36 @@ import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetPro
 import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { useRouter } from 'next/router';
+import AuthRequired from '@/components/auth/AuthRequired';
 
 const ProjectPage: FC = () => {
   const { data } = useGetProjectListQuery();
   const router = useRouter();
 
   return (
-    <StyledContainer>
-      <StyledContent>
-        <StyledLength typography='SUIT_22_B'>{data?.projects.length} Projects</StyledLength>
-        <StyledGridContainer>
-          {data?.projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              category={project.category}
-              summary={project.summary}
-              generation={project.generation}
-              links={project.links}
-              logoImage={project.logo_image}
-              name={project.name}
-              serviceType={project.service_type}
-              thumbnailIamge={project.thumbnail_image}
-              onClick={() => router.push(`/projects/${project.id}`)}
-            />
-          ))}
-        </StyledGridContainer>
-      </StyledContent>
-    </StyledContainer>
+    <AuthRequired>
+      <StyledContainer>
+        <StyledContent>
+          <StyledLength typography='SUIT_22_B'>{data?.projects.length} Projects</StyledLength>
+          <StyledGridContainer>
+            {data?.projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                category={project.category}
+                summary={project.summary}
+                generation={project.generation}
+                links={project.links}
+                logoImage={project.logo_image}
+                name={project.name}
+                serviceType={project.service_type}
+                thumbnailIamge={project.thumbnail_image}
+                onClick={() => router.push(`/projects/${project.id}`)}
+              />
+            ))}
+          </StyledGridContainer>
+        </StyledContent>
+      </StyledContainer>
+    </AuthRequired>
   );
 };
 

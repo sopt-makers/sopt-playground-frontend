@@ -2,6 +2,10 @@ import { axiosInstance } from '@/api';
 
 const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 
+export function getAccessToken() {
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
+
 export function setAccessToken(accessToken: string) {
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
@@ -12,8 +16,10 @@ export function removeAccessToken() {
 }
 
 export function loadAccessToken() {
-  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+  const accessToken = getAccessToken();
   if (accessToken) {
     setAccessToken(accessToken);
   }
+
+  return accessToken;
 }

@@ -28,6 +28,7 @@ import { textStyles } from '@/styles/typography';
 import dayjs from 'dayjs';
 import { User } from '@/api/project/types';
 import { ToastProvider } from '@/components/projects/upload/ToastProvider';
+import AuthRequired from '@/components/auth/AuthRequired';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -174,32 +175,34 @@ const ProjectUploadPage: FC = () => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <FormStatus formItems={formItems} />
-        <ProjectContainer>
-          <ProjectName />
-          <ProjectGeneration />
-          <ProjectCategory />
-          <ProjectStatus />
-          <ToastProvider>
-            <ProjectMembers type={categoryLabel?.[category] ?? ''} />
-            <ProjectReleaseMembers />
-          </ToastProvider>
-          <ProjectServiceType />
-          <ProjectPeriod />
-          <ProjectSummary />
-          <ProjectDetail />
-          <ProjectImageSection />
-          <ProjectLink />
-          <StyledButtonWrapper>
-            <Button type='submit' variant='primary'>
-              프로젝트 등록하기
-            </Button>
-          </StyledButtonWrapper>
-        </ProjectContainer>
-      </StyledForm>
-    </FormProvider>
+    <AuthRequired>
+      <FormProvider {...methods}>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+          <FormStatus formItems={formItems} />
+          <ProjectContainer>
+            <ProjectName />
+            <ProjectGeneration />
+            <ProjectCategory />
+            <ProjectStatus />
+            <ToastProvider>
+              <ProjectMembers type={categoryLabel?.[category] ?? ''} />
+              <ProjectReleaseMembers />
+            </ToastProvider>
+            <ProjectServiceType />
+            <ProjectPeriod />
+            <ProjectSummary />
+            <ProjectDetail />
+            <ProjectImageSection />
+            <ProjectLink />
+            <StyledButtonWrapper>
+              <Button type='submit' variant='primary'>
+                프로젝트 등록하기
+              </Button>
+            </StyledButtonWrapper>
+          </ProjectContainer>
+        </StyledForm>
+      </FormProvider>
+    </AuthRequired>
   );
 };
 
