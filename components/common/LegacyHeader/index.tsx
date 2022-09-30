@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors';
 import Button from '@/components/common/Button';
 import Link from 'next/link';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import Menu from '@/components/common/Header/Menu';
+import Menu from '@/components/common/LegacyHeader/Menu';
 
 const HEADER_MOBILE_MEDIA_QUERY = '(max-width: 600px)';
 
