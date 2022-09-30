@@ -4,6 +4,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { colors } from '@/styles/colors';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
+import { RecoilRoot } from 'recoil';
 
 initialize();
 
@@ -35,8 +36,10 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <Story />
+      <RecoilRoot>
+        <GlobalStyle />
+        <Story />
+      </RecoilRoot>
     </QueryClientProvider>
   ),
   mswDecorator,

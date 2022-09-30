@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import Text from '@/components/common/Text';
 import FormItem from '@/components/common/form/FormItem';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import SignupLink from '@/components/projects/upload/SignupLink';
 
 interface ProjectMembersProps {
   type: string;
@@ -16,7 +16,7 @@ const ProjectMembers: FC<ProjectMembersProps> = ({ type }) => {
     <StyledContainer>
       <FormTitle essential>{`${type} 팀원`}</FormTitle>
       <StyledDescription color={colors.gray100}>
-        회원가입을 한 사람만 팀원 등록이 가능해요 <StyledSignupLink>회원가입 링크 복사</StyledSignupLink>
+        회원가입을 한 사람만 팀원 등록이 가능해요 <SignupLink />
       </StyledDescription>
       <FormItem>
         <MemberForm name='members' />
@@ -39,14 +39,4 @@ const StyledContainer = styled.section`
 
 const StyledDescription = styled(Text)`
   color: ${colors.gray100};
-`;
-
-const StyledSignupLink = styled(Text)`
-  cursor: pointer;
-  text-decoration: underline;
-  color: ${colors.gray100};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
 `;

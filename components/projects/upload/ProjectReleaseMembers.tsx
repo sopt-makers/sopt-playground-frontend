@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import MemberForm from '@/components/projects/upload/MemberForm';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import SignupLink from '@/components/projects/upload/SignupLink';
 
 const ProjectReleaseMembers: FC = () => {
   return (
@@ -13,7 +14,7 @@ const ProjectReleaseMembers: FC = () => {
       <StyledDescription color={colors.gray100}>
         릴리즈에 합류한 팀원들의 이름을 적어주세요
         <span className='extra'>. 회원가입을 한 사람만 팀원 등록이 가능해요 </span>
-        <StyledSignupLink>회원가입 링크 복사</StyledSignupLink>
+        <SignupLink />
       </StyledDescription>
       <MemberForm name='releaseMembers' />
     </StyledContainer>
@@ -35,15 +36,5 @@ const StyledDescription = styled(Text)`
     .extra {
       display: none;
     }
-  }
-`;
-
-const StyledSignupLink = styled(Text)`
-  cursor: pointer;
-  text-decoration: underline;
-  color: ${colors.gray100};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
   }
 `;
