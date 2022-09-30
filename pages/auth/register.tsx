@@ -1,9 +1,10 @@
-import { FC, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { FC, useEffect } from 'react';
+import { useQuery } from 'react-query';
+
+import { auth } from '@/api/auth';
 import Register from '@/components/auth/register/Register';
 import useQueryStringParam from '@/components/auth/useQueryString';
-import { useQuery } from 'react-query';
-import { auth } from '@/api/auth';
 
 export const RegisterPage: FC = () => {
   const params = useQueryStringParam(['token'] as const);

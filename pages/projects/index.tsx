@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
-import ProjectCard from '@/components/projects/main/ProjectCard';
-import { FC } from 'react';
-import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
-import Text from '@/components/common/Text';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { useRouter } from 'next/router';
+import { FC } from 'react';
+
+import Text from '@/components/common/Text';
+import ProjectCard from '@/components/projects/main/ProjectCard';
+import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const ProjectPage: FC = () => {
   const { data } = useGetProjectListQuery();

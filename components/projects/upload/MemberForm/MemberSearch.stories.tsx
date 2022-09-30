@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import MemberSearch from './MemberSearch';
 
 export default {

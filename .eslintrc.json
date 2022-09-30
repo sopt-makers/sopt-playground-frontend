@@ -1,5 +1,6 @@
 {
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"],
+  "plugins": ["simple-import-sort"],
   "rules": {
     "react/display-name": "off",
     "@next/next/no-img-element": "off",
@@ -15,6 +16,8 @@
         "argsIgnorePattern": "^_",
         "caughtErrors": "all"
       }
-    ]
+    ],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   }
 }

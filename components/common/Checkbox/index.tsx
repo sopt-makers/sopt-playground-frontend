@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes } from 'react';
-import { colors } from '@/styles/colors';
+
 import IconCheck from '@/public/icons/icon-check.svg';
+import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {

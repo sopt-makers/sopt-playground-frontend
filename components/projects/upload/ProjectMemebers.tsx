@@ -1,11 +1,12 @@
-import FormTitle from '@/components/projects/upload/FormTitle';
-import MemberForm from '@/components/projects/upload/MemberForm';
-import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
 import { FC } from 'react';
-import Text from '@/components/common/Text';
+
 import FormItem from '@/components/common/form/FormItem';
+import Text from '@/components/common/Text';
+import FormTitle from '@/components/projects/upload/FormTitle';
+import MemberForm from '@/components/projects/upload/MemberForm';
 import SignupLink from '@/components/projects/upload/SignupLink';
+import { colors } from '@/styles/colors';
 
 interface ProjectMembersProps {
   type: string;

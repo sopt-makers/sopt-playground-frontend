@@ -1,7 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import TextArea from '@/components/common/TextArea';
-import FormItem from '@/components/common/form/FormItem';
 import { useState } from 'react';
+
+import FormItem from '@/components/common/form/FormItem';
+import TextArea from '@/components/common/TextArea';
 
 export default {
   component: TextArea,

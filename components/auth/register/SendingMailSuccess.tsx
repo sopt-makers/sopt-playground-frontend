@@ -1,6 +1,7 @@
-import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { FC } from 'react';
+
+import { textStyles } from '@/styles/typography';
 
 const SendingMailSuccess: FC = () => {
   return (

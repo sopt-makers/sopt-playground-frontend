@@ -1,10 +1,11 @@
+import styled from '@emotion/styled';
+import { FC } from 'react';
+
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import LinkForm from '@/components/projects/upload/LinkForm';
 import useScreenSize from '@/hooks/useScreenSize';
 import { colors } from '@/styles/colors';
-import styled from '@emotion/styled';
-import { FC } from 'react';
 
 const ProjectLink: FC = () => {
   const { isMobile } = useScreenSize();

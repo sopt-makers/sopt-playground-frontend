@@ -1,17 +1,18 @@
-import Input from '@/components/common/Input';
-import Select from '@/components/common/Select';
-import { DEFAULT_LINK, LINK_TITLES } from '@/components/projects/upload/LinkForm/constants';
-import { ProjectUploadForm } from '@/pages/projects/upload';
-import { colors } from '@/styles/colors';
-import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
-import IconDelete from '@/public/icons/icon-delete.svg';
-import useScreenSize from '@/hooks/useScreenSize';
-import Text from '@/components/common/Text';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+
 import FormItem from '@/components/common/form/FormItem';
+import Input from '@/components/common/Input';
+import Select from '@/components/common/Select';
+import Text from '@/components/common/Text';
+import { DEFAULT_LINK, LINK_TITLES } from '@/components/projects/upload/LinkForm/constants';
+import useScreenSize from '@/hooks/useScreenSize';
+import { ProjectUploadForm } from '@/pages/projects/upload';
+import IconDelete from '@/public/icons/icon-delete.svg';
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 const LinkForm: FC = () => {
   const {

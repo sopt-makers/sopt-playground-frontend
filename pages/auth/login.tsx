@@ -1,10 +1,11 @@
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { FC } from 'react';
+
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import SquareLink from '@/components/common/SquareLink';
 import { textStyles } from '@/styles/typography';
-import styled from '@emotion/styled';
-import Link from 'next/link';
-import { FC } from 'react';
 
 const LoginPage: FC = () => {
   const facebookAuth = useFacebookAuth();

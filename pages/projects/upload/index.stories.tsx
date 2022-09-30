@@ -1,6 +1,8 @@
-import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import { colors } from '@/styles/colors';
+
 import ProjectUploadPage from '.';
 
 export default {

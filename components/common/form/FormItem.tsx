@@ -1,9 +1,10 @@
+import styled from '@emotion/styled';
+import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
+
+import Text from '@/components/common/Text';
+import IconWarning from '@/public/icons/icon-warning.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
-import IconWarning from '@/public/icons/icon-warning.svg';
-import styled from '@emotion/styled';
-import Text from '@/components/common/Text';
 
 export interface FormItemProps extends HTMLAttributes<HTMLDivElement> {
   errorMessage?: React.ReactNode;

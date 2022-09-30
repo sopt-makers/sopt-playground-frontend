@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import { FORM_ITEMS } from '@/components/projects/upload/constants';
 import UploadStatus from '@/components/projects/upload/FormStatus';
 

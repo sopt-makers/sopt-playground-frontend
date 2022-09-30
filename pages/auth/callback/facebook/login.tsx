@@ -1,8 +1,9 @@
-import useQueryStringParam from '@/components/auth/useQueryString';
-import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
+
 import { setAccessToken } from '@/components/auth/accessToken';
+import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
+import useQueryStringParam from '@/components/auth/useQueryString';
 
 const FacebookLoginCallbackPage: FC = () => {
   const router = useRouter();

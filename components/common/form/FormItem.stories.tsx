@@ -1,6 +1,8 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import FormItem from './FormItem';
 
 export default {

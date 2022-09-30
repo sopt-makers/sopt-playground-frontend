@@ -1,12 +1,13 @@
+import styled from '@emotion/styled';
+import { FC } from 'react';
+import { useFormContext } from 'react-hook-form';
+
 import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import styled from '@emotion/styled';
-import { FC } from 'react';
-import { useFormContext } from 'react-hook-form';
 
 const ProjectStatus: FC = () => {
   const { register } = useFormContext<ProjectUploadForm>();

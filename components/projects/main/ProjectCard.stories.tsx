@@ -1,5 +1,7 @@
-import { Category, ServiceType } from '@/components/projects/upload/types';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import { Category, ServiceType } from '@/components/projects/upload/types';
+
 import ProjectCard from './ProjectCard';
 
 export default {

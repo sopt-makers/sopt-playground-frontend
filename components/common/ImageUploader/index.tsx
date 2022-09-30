@@ -1,10 +1,11 @@
-import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
-import { FC, useRef, useState } from 'react';
-import IconImage from '@/public/icons/icon-image.svg';
-import { project } from '@/api/project';
 import axios from 'axios';
+import { FC, useRef, useState } from 'react';
+
+import { project } from '@/api/project';
 import { Fields } from '@/api/project/types';
+import IconImage from '@/public/icons/icon-image.svg';
+import { colors } from '@/styles/colors';
 
 interface ImageUploaderProps {
   width?: number | string;

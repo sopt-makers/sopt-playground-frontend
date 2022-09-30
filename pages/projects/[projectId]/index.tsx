@@ -1,13 +1,14 @@
-import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
-import MemberIcon from '@/public/icons/icon-member.svg';
-import { colors } from '@/styles/colors';
-import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-import dayjs from 'dayjs';
+
+import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import useScreenSize from '@/hooks/useScreenSize';
+import MemberIcon from '@/public/icons/icon-member.svg';
+import { colors } from '@/styles/colors';
 import { TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 export default function ProjectDetailPage() {
   const router = useRouter();
