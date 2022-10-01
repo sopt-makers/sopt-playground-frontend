@@ -1,12 +1,13 @@
+import styled from '@emotion/styled';
+import { FC } from 'react';
+
 import Text from '@/components/common/Text';
 import { categoryLabel } from '@/components/projects/upload/constants';
 import { Link, LinkTitle } from '@/components/projects/upload/LinkForm/constants';
 import { Category, ServiceType } from '@/components/projects/upload/types';
 import { colors } from '@/styles/colors';
-import { textStyles } from '@/styles/typography';
-import styled from '@emotion/styled';
-import { FC } from 'react';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 const getLinkInfo = (title: LinkTitle) => {
   switch (title) {

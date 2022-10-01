@@ -1,23 +1,24 @@
 // @ts-nocheck
 // FIXME: react-hook-form의 타입이 옵셔널해서 맞춰지지 않아 임시로 주석처리(selectedMembers)
 import styled from '@emotion/styled';
+import _debounce from 'lodash/debounce';
 import React, { FC, useState } from 'react';
-import { textStyles } from '@/styles/typography';
-import { colors } from '@/styles/colors';
-import { Controller, useFieldArray, useFormContext, UseFieldArrayProps, useWatch } from 'react-hook-form';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { Controller, useFieldArray, UseFieldArrayProps, useFormContext, useWatch } from 'react-hook-form';
+
+import { Role } from '@/api/project/types';
+import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
-import { Role } from '@/api/project/types';
-import IconDelete from '@/public/icons/icon-delete.svg';
-import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
-import useScreenSize from '@/hooks/useScreenSize';
 import Text from '@/components/common/Text';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import useGetUsersByNameQuery from '@/components/projects/upload/hooks/useGetUsersByNameQuery';
-import _debounce from 'lodash/debounce';
+import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
 import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
-import FormItem from '@/components/common/form/FormItem';
+import useScreenSize from '@/hooks/useScreenSize';
+import { ProjectUploadForm } from '@/pages/projects/upload';
+import IconDelete from '@/public/icons/icon-delete.svg';
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 interface MemberFormProps {
   name: UseFieldArrayProps<ProjectUploadForm, 'members' | 'releaseMembers', 'id'>['name'];

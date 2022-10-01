@@ -1,3 +1,7 @@
+import styled from '@emotion/styled';
+import { FC } from 'react';
+import { useFormContext } from 'react-hook-form';
+
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import { categoryLabel } from '@/components/projects/upload/constants';
@@ -7,9 +11,6 @@ import { ProjectUploadForm } from '@/pages/projects/upload';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import styled from '@emotion/styled';
-import { FC } from 'react';
-import { useFormContext } from 'react-hook-form';
 
 const ProjectCategory: FC = () => {
   const { register } = useFormContext<ProjectUploadForm>();

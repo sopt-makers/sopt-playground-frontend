@@ -1,8 +1,9 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { forwardRef, SelectHTMLAttributes } from 'react';
+
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import { css } from '@emotion/react';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   width?: number;

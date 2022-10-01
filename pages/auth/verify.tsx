@@ -1,6 +1,7 @@
-import VerifyByEmail from '@/components/auth/register/VerifyByEmail';
 import styled from '@emotion/styled';
 import { FC } from 'react';
+
+import VerifyByEmail from '@/components/auth/register/VerifyByEmail';
 
 export const VerifyPage: FC = () => {
   return (

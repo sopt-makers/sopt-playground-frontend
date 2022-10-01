@@ -1,5 +1,6 @@
-import { loadAccessToken } from '@/components/auth/accessToken';
 import { FC, ReactNode, useRef } from 'react';
+
+import { loadAccessToken } from '@/components/auth/accessToken';
 
 export const AuthProvider: FC<{ children: ReactNode }> = (props) => {
   useClientSideOnce(() => {

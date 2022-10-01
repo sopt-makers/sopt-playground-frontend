@@ -1,3 +1,7 @@
+import styled from '@emotion/styled';
+import { FC, useEffect } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+
 import Checkbox from '@/components/common/Checkbox';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
@@ -7,9 +11,6 @@ import { ProjectUploadForm } from '@/pages/projects/upload';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import styled from '@emotion/styled';
-import { FC, useEffect } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
 
 const ProjectGeneration: FC = () => {
   const { register, watch, control, setValue } = useFormContext<ProjectUploadForm>();

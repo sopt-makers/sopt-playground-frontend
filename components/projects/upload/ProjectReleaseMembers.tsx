@@ -1,11 +1,12 @@
-import Text from '@/components/common/Text';
-import FormTitle from '@/components/projects/upload/FormTitle';
-import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
 import { FC } from 'react';
+
+import Text from '@/components/common/Text';
+import FormTitle from '@/components/projects/upload/FormTitle';
 import MemberForm from '@/components/projects/upload/MemberForm';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import SignupLink from '@/components/projects/upload/SignupLink';
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const ProjectReleaseMembers: FC = () => {
   return (
@@ -36,15 +37,5 @@ const StyledDescription = styled(Text)`
     .extra {
       display: none;
     }
-  }
-`;
-
-const StyledSignupLink = styled(Text)`
-  cursor: pointer;
-  text-decoration: underline;
-  color: ${colors.gray100};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
   }
 `;

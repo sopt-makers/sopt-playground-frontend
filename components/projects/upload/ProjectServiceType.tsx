@@ -1,12 +1,13 @@
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useFormContext } from 'react-hook-form';
+
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ServiceType } from '@/components/projects/upload/types';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { useFormContext } from 'react-hook-form';
 
 const ProjectServiceType = () => {
   const { watch, register } = useFormContext<ProjectUploadForm>();

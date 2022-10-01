@@ -1,10 +1,11 @@
-import { FC, useContext } from 'react';
 import styled from '@emotion/styled';
+import { FC, useContext } from 'react';
+
 import Text from '@/components/common/Text';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { colors } from '@/styles/colors';
-import { copyToClipboard } from '@/utils';
 import { ToastContext } from '@/components/projects/upload/ToastProvider';
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { copyToClipboard } from '@/utils';
 
 const SignupLink: FC = () => {
   const { showToast } = useContext(ToastContext);

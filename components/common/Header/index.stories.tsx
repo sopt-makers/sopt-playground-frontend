@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { graphql, rest } from 'msw';
+
 import Text from './';
 
 export default {
@@ -7,11 +8,11 @@ export default {
   parameters: {
     msw: {
       handlers: [
-        graphql.query('GraphQLQueryName', (req, res, ctx) => res(ctx.data({ result: { is_test: true } }))),
-        graphql.mutation('GraphQLMutationName', (req, res, ctx) => res(ctx.data({ result: { is_test: true } }))),
+        graphql.query('GraphQLQueryName', (_req, res, ctx) => res(ctx.data({ result: { is_test: true } }))),
+        graphql.mutation('GraphQLMutationName', (_req, res, ctx) => res(ctx.data({ result: { is_test: true } }))),
         // https://mswjs.io/docs/api/rest
-        rest.get('https://localhost:4200/api/*', (req, res, ctx) => res(ctx.json({ is_test: true }))),
-        rest.post('https://localhost:4200/api/*', (req, res, ctx) => res(ctx.status(200))),
+        rest.get('https://localhost:4200/api/*', (_req, res, ctx) => res(ctx.json({ is_test: true }))),
+        rest.post('https://localhost:4200/api/*', (_req, res, ctx) => res(ctx.status(200))),
       ],
     },
   },

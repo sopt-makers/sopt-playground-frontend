@@ -1,9 +1,10 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FC, PropsWithChildren, TextareaHTMLAttributes, useState } from 'react';
+
+import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import { css } from '@emotion/react';
-import Text from '@/components/common/Text';
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: boolean;

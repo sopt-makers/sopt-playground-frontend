@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import SignupLink from '@/components/projects/upload/SignupLink';
 import { ToastProvider } from '@/components/projects/upload/ToastProvider';
 

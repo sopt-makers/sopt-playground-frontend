@@ -1,10 +1,15 @@
-import { createContext, FC, ReactNode, useRef, useState } from 'react';
 import styled from '@emotion/styled';
+import { createContext, FC, ReactNode, useRef, useState } from 'react';
 import { useEffect } from 'react';
+
 import { ToastStatus } from '@/components/projects/upload/ToastProvider/types';
 import { TimeoutID } from '@/types';
 
-export const ToastContext = createContext({ showToast(message: string) {} });
+export const ToastContext = createContext<{ showToast: (message: string) => void }>({
+  showToast() {
+    // do nothing
+  },
+});
 
 interface ToastProviderProps {
   children: ReactNode;

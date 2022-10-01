@@ -1,6 +1,7 @@
-import FormItem, { FormItemProps } from '@/components/common/form/FormItem';
 import React from 'react';
-import { useController, UseControllerProps, FieldValues, FieldPath } from 'react-hook-form';
+import { FieldPath, FieldValues, useController, UseControllerProps } from 'react-hook-form';
+
+import FormItem, { FormItemProps } from '@/components/common/form/FormItem';
 
 type RHFControllerFormItemProps<
   T extends React.ElementType,

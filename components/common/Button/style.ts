@@ -1,4 +1,5 @@
 import { css, SerializedStyles } from '@emotion/react';
+
 import { colors } from '@/styles/colors';
 
 export type ButtonStyle = 'default' | 'primary';

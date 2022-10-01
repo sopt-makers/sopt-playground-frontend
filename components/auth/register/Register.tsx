@@ -1,9 +1,10 @@
+import styled from '@emotion/styled';
+import { FC } from 'react';
+
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import styled from '@emotion/styled';
-import { FC } from 'react';
 
 interface RegisterProps {
   userInfo: {

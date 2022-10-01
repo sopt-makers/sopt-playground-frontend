@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import SquareLink from '@/components/common/SquareLink';
 
 export default {

@@ -1,6 +1,6 @@
-import { user } from '@/api/user';
-import React from 'react';
 import { useQuery } from 'react-query';
+
+import { user } from '@/api/user';
 
 interface GetUsersByNameQueryVariables {
   name: string;

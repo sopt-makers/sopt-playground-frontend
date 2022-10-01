@@ -1,33 +1,34 @@
 import styled from '@emotion/styled';
-import { categoryLabel, FORM_ITEMS } from '@/components/projects/upload/constants';
-import { FC } from 'react';
-import { FormProvider, useForm, DefaultValues } from 'react-hook-form';
-import { colors } from '@/styles/colors';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import ProjectServiceType from '@/components/projects/upload/ProjectServiceType';
-import { Link } from '@/components/projects/upload/LinkForm/constants';
-import ProjectName from '@/components/projects/upload/ProjectName';
-import ProjectGeneration from '@/components/projects/upload/ProjectGeneration';
-import ProjectCategory from '@/components/projects/upload/ProjectCategory';
-import ProjectStatus from '@/components/projects/upload/ProjectStatus';
-import ProjectMembers from '@/components/projects/upload/ProjectMemebers';
-import ProjectReleaseMembers from '@/components/projects/upload/ProjectReleaseMembers';
-import ProjectPeriod from '@/components/projects/upload/ProjectPeriod';
-import ProjectSummary from '@/components/projects/upload/ProjectSummary';
-import ProjectDetail from '@/components/projects/upload/ProjectDetail';
-import ProjectLink from '@/components/projects/upload/ProjectLink';
-import ProjectImageSection from '@/components/projects/upload/ProjectImageSection';
-import { Period, ServiceType, Category, Status, Generation, FormItem } from '@/components/projects/upload/types';
-import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
-import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import FormStatus from '@/components/projects/upload/FormStatus';
-import Button from '@/components/common/Button';
-import { textStyles } from '@/styles/typography';
 import dayjs from 'dayjs';
+import { FC } from 'react';
+import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+
 import { User } from '@/api/project/types';
+import Button from '@/components/common/Button';
+import { categoryLabel, FORM_ITEMS } from '@/components/projects/upload/constants';
+import FormStatus from '@/components/projects/upload/FormStatus';
+import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
+import { Link } from '@/components/projects/upload/LinkForm/constants';
+import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
+import ProjectCategory from '@/components/projects/upload/ProjectCategory';
+import ProjectDetail from '@/components/projects/upload/ProjectDetail';
+import ProjectGeneration from '@/components/projects/upload/ProjectGeneration';
+import ProjectImageSection from '@/components/projects/upload/ProjectImageSection';
+import ProjectLink from '@/components/projects/upload/ProjectLink';
+import ProjectMembers from '@/components/projects/upload/ProjectMemebers';
+import ProjectName from '@/components/projects/upload/ProjectName';
+import ProjectPeriod from '@/components/projects/upload/ProjectPeriod';
+import ProjectReleaseMembers from '@/components/projects/upload/ProjectReleaseMembers';
+import ProjectServiceType from '@/components/projects/upload/ProjectServiceType';
+import ProjectStatus from '@/components/projects/upload/ProjectStatus';
+import ProjectSummary from '@/components/projects/upload/ProjectSummary';
 import { ToastProvider } from '@/components/projects/upload/ToastProvider';
+import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -141,10 +142,15 @@ const ProjectUploadPage: FC = () => {
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
+    // TODO eslint non-null-assertion 관련 룰 만족하도록 수정 필요
     const users: Omit<User, 'user'>[] = [...data.members, ...(data.releaseMembers ?? [])].map((user) => ({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       user_id: user.user?.auth_user_id!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       is_team_member: user.isTeamMember!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       role: user.role!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       description: user.description!,
     }));
     const links: Omit<Link, 'isEdit'>[] = data.links.map((link) => ({

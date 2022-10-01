@@ -1,13 +1,14 @@
-import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
-import MemberIcon from '@/public/icons/icon-member.svg';
-import { colors } from '@/styles/colors';
-import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-import dayjs from 'dayjs';
+
+import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import useScreenSize from '@/hooks/useScreenSize';
+import MemberIcon from '@/public/icons/icon-member.svg';
+import { colors } from '@/styles/colors';
 import { TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 export default function ProjectDetailPage() {
   const router = useRouter();
@@ -38,9 +39,11 @@ export default function ProjectDetailPage() {
       if (!memberNamesByRole.has(user.role)) {
         memberNamesByRole.set(user.role, [user.user.name]);
       } else {
-        const names = memberNamesByRole.get(user.role)!.slice();
-        names.push(user.user.name);
-        memberNamesByRole.set(user.role, names);
+        const names = memberNamesByRole.get(user.role)?.slice();
+        if (names) {
+          names.push(user.user.name);
+          memberNamesByRole.set(user.role, names);
+        }
       }
     });
     rerender('update');

@@ -1,5 +1,6 @@
-import { FC } from 'react';
 import styled from '@emotion/styled';
+import { FC } from 'react';
+
 import RegisterFinished from '@/components/auth/register/RegisterFinished';
 
 export const RegisterSuccessPage: FC = () => {

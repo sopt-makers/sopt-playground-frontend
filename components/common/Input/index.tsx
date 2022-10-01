@@ -1,9 +1,10 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes, useState } from 'react';
+
+import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import { css } from '@emotion/react';
-import Text from '@/components/common/Text';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;

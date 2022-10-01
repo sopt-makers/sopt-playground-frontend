@@ -1,5 +1,6 @@
-import Text from '@/components/common/Text';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import Text from '@/components/common/Text';
 
 export default {
   component: Text,
