@@ -3,6 +3,7 @@ import { createContext, FC, ReactNode, useRef, useState } from 'react';
 import { useEffect } from 'react';
 
 import { ToastStatus } from '@/components/projects/upload/ToastProvider/types';
+import { colors } from '@/styles/colors';
 import { TimeoutID } from '@/types';
 
 export const ToastContext = createContext<{ showToast: (message: string) => void }>({
@@ -57,37 +58,46 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
 
 const StyledContainer = styled.div`
   position: fixed;
-  top: 0;
-  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 100;
 `;
 
 const StyledToastItem = styled.div<{ animation: string }>`
   position: sticky;
-  top: 10px;
+  bottom: 71px;
+  left: 36px;
   margin: 20px 14px;
-  background-color: white;
-  padding: 20px;
+  border-radius: 8px;
+  background: #fff;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-left: 24px;
+  width: 343px;
   animation: 0.3s forwards ${(props) => props.animation};
+  line-height: 136%;
   color: black;
+  color: ${colors.gray80};
+  font-size: 16px;
+  font-weight: 500;
 
   @keyframes slide-in {
     from {
-      transform: translateX(300%);
+      transform: translateY(300%);
     }
 
     to {
-      transform: translateX(0%);
+      transform: translateY(0%);
     }
   }
 
   @keyframes slide-out {
     from {
-      transform: translateX(0%);
+      transform: translateY(0%);
     }
 
     to {
-      transform: translateX(300%);
+      transform: translateY(300%);
     }
   }
 `;
