@@ -1,5 +1,6 @@
-import Register from '@/components/auth/register/Register';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import Register from '@/components/auth/register/Register';
 
 export default {
   component: Register,

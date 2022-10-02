@@ -1,6 +1,7 @@
-import { getAccessToken } from '@/components/auth/accessToken';
 import { useRouter } from 'next/router';
 import { FC, ReactNode, useEffect } from 'react';
+
+import { getAccessToken } from '@/components/auth/accessToken';
 
 interface AuthRequiredProps {
   children: ReactNode;

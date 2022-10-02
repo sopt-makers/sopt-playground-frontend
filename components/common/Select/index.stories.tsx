@@ -1,4 +1,5 @@
 import { ComponentMeta, Story } from '@storybook/react';
+
 import Select from '@/components/common/Select';
 
 export default {

@@ -1,13 +1,14 @@
 // presigned-url https://allardqjy.medium.com/using-pre-signed-urls-to-upload-files-to-amazon-s3-from-reactjs-5b15c94b66df
+import styled from '@emotion/styled';
+import { FC } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+
 import ImageUploader from '@/components/common/ImageUploader';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import useScreenSize from '@/hooks/useScreenSize';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 import { colors } from '@/styles/colors';
-import styled from '@emotion/styled';
-import { FC } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
 
 const ProjectImageSection: FC = () => {
   const { control } = useFormContext<ProjectUploadForm>();

@@ -1,15 +1,16 @@
-import Input from '@/components/common/Input';
-import SquareLink from '@/components/common/SquareLink';
-import { colors } from '@/styles/colors';
-import { textStyles } from '@/styles/typography';
 import styled from '@emotion/styled';
-import IconWarning from '@/public/icons/icon-warning.svg';
 import { AxiosError } from 'axios';
 import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
+import { ClipLoader } from 'react-spinners';
+
 import { auth } from '@/api/auth';
 import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
-import { ClipLoader } from 'react-spinners';
+import Input from '@/components/common/Input';
+import SquareLink from '@/components/common/SquareLink';
+import IconWarning from '@/public/icons/icon-warning.svg';
+import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
 interface ErrorResponse {
   success: false;

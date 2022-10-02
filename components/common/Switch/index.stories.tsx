@@ -1,4 +1,5 @@
 import { Meta, Story } from '@storybook/react';
+
 import Switch from '@/components/common/Switch';
 
 export default {

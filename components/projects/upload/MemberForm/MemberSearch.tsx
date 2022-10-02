@@ -1,13 +1,14 @@
 // @ts-nocheck
 // MEMO: headless-ui와 emotion jsx의 충돌때문인지 ts 에러가 발생하여 주석 처리
-import { User } from '@/api/user/types';
-import { colors } from '@/styles/colors';
 import styled from '@emotion/styled';
-import React, { FC } from 'react';
 import { Combobox } from '@headlessui/react';
-import { textStyles } from '@/styles/typography';
+import React, { FC } from 'react';
+
+import { User } from '@/api/user/types';
 import Text from '@/components/common/Text';
+import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 interface MemberSearchProps {
   value?: User;

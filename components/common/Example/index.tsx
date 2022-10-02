@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Image from 'next/image';
 import { useQuery } from 'react-query';
 
 export const API_PATH = 'https://dog.ceo/api/breeds/image/random';

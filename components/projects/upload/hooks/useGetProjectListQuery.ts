@@ -1,5 +1,6 @@
-import { project } from '@/api/project';
 import { useQuery } from 'react-query';
+
+import { project } from '@/api/project';
 
 const useGetProjectListQuery = () => {
   return useQuery(

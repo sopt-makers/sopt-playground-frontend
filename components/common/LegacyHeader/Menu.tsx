@@ -1,14 +1,15 @@
-import { FC } from 'react';
-import styled from '@emotion/styled';
-import { colors } from 'styles/colors';
-import { useRouter } from 'next/router';
-import IconCloseMenu from '@/public/icons/icon-close-menu.svg';
 import { css } from '@emotion/react';
-import IconMail from '@/public/icons/icon-mail-logo.svg';
+import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
+import { FC } from 'react';
+import { colors } from 'styles/colors';
+
+import IconCloseMenu from '@/public/icons/icon-close-menu.svg';
 import IconFaceBook from '@/public/icons/icon-facebook-logo.svg';
 import IconInstagram from '@/public/icons/icon-instagram-logo.svg';
-import IconYoutube from '@/public/icons/icon-youtube-logo.svg';
 import IconKakao from '@/public/icons/icon-kakao-logo.svg';
+import IconMail from '@/public/icons/icon-mail-logo.svg';
+import IconYoutube from '@/public/icons/icon-youtube-logo.svg';
 
 const SOPT_RECRUIT_LINK = 'https://sopt-recruiting.web.app/recruiting/apply/ob';
 const ICONS = [

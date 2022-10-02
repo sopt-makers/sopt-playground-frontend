@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { rest } from 'msw';
+
 import ProjectPage from '.';
 const fixture = {
   projects: [

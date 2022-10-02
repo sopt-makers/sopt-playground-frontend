@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { FC, HTMLAttributes, PropsWithChildren } from 'react';
+
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles, Typography } from '@/styles/typography';
