@@ -1,8 +1,11 @@
+import useAuth from '@/components/auth/useAuth';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
 const Header: FC = () => {
+  const { logout } = useAuth();
+
   return (
     <StyledHeader>
       <Link href='/' passHref>
@@ -18,9 +21,7 @@ const Header: FC = () => {
       <Link href='/projects/upload' passHref>
         <TextLinkButton>내 프로젝트 올리기</TextLinkButton>
       </Link>
-      <Link href='/auth/login' passHref>
-        <TextLinkButton>로그아웃</TextLinkButton>
-      </Link>
+      <TextLinkButton onClick={logout}>로그아웃</TextLinkButton>
     </StyledHeader>
   );
 };
@@ -34,6 +35,7 @@ const StyledHeader = styled.header`
 `;
 
 const TextLinkButton = styled.a`
+  cursor: pointer;
   padding: 5px 10px;
 `;
 
