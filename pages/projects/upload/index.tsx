@@ -29,6 +29,8 @@ import dayjs from 'dayjs';
 import { User } from '@/api/project/types';
 import { ToastProvider } from '@/components/projects/upload/ToastProvider';
 import AuthRequired from '@/components/auth/AuthRequired';
+import { setLayout } from '@/utils/layout';
+import Header from '@/components/common/Header';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -205,6 +207,13 @@ const ProjectUploadPage: FC = () => {
     </AuthRequired>
   );
 };
+
+setLayout(ProjectUploadPage, (page) => (
+  <>
+    <Header />
+    {page}
+  </>
+));
 
 export default ProjectUploadPage;
 

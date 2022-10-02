@@ -6,6 +6,8 @@ import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { useRouter } from 'next/router';
 import AuthRequired from '@/components/auth/AuthRequired';
+import { setLayout } from '@/utils/layout';
+import Header from '@/components/common/Header';
 
 const ProjectPage: FC = () => {
   const { data } = useGetProjectListQuery();
@@ -37,6 +39,13 @@ const ProjectPage: FC = () => {
     </AuthRequired>
   );
 };
+
+setLayout(ProjectPage, (page) => (
+  <>
+    <Header />
+    {page}
+  </>
+));
 
 export default ProjectPage;
 
