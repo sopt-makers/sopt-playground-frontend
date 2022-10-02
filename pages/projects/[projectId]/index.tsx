@@ -9,8 +9,11 @@ import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
 import { TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import AuthRequired from '@/components/auth/AuthRequired';
+import { setLayout } from '@/utils/layout';
+import SiteHeader from '@/components/common/Header';
 
-export default function ProjectDetailPage() {
+const ProjectDetailPage = () => {
   const router = useRouter();
   const { projectId } = router.query;
 
@@ -51,94 +54,105 @@ export default function ProjectDetailPage() {
   }, [data]);
 
   return (
-    <Container>
-      <Header>
-        {!isTablet && (
-          <ServiceTypeWrapper>
-            {data?.service_type.map((type) => (
-              <ServiceType key={type}>{type}</ServiceType>
-            ))}
-          </ServiceTypeWrapper>
-        )}
-        <ServiceInfoWrapper>
-          <LogoImageWrapper>
-            <LogoImage src={data?.logo_image} alt={data?.name} />
-          </LogoImageWrapper>
-          <InfoWrapper>
-            <Name>{data?.name}</Name>
-            <Description>{data?.summary}</Description>
-            <StartEndAtWrapper>
-              <StartEndAt>{startAt}</StartEndAt>
-              {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
-            </StartEndAtWrapper>
-            {isTablet && (
-              <ServiceTypeWrapper>
-                {data?.service_type.map((type) => (
-                  <ServiceType key={type}>{type}</ServiceType>
-                ))}
-              </ServiceTypeWrapper>
-            )}
-          </InfoWrapper>
-        </ServiceInfoWrapper>
-      </Header>
-
-      {mainImage && (
-        <MainImageWrapper>
-          <MainImage src={mainImage} alt={data?.name} />
-        </MainImageWrapper>
-      )}
-
-      <ProjectDetailContainer>
-        <DetailContainer>
-          <DetailTitle>Project Overview</DetailTitle>
-          <DetailWrapper>{data?.detail}</DetailWrapper>
+    <AuthRequired>
+      <Container>
+        <Header>
           {!isTablet && (
-            <LinksWrapper>
-              {data?.links.map((link) => (
-                <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-                  <LinkIcon />
-                  {link.title}
-                </LinkBox>
+            <ServiceTypeWrapper>
+              {data?.service_type.map((type) => (
+                <ServiceType key={type}>{type}</ServiceType>
               ))}
-            </LinksWrapper>
+            </ServiceTypeWrapper>
           )}
-        </DetailContainer>
-
-        <MemberWrapper>
-          <MemberInfoWrapper>
-            {data?.generation && <Info>{data.generation}기</Info>}
-            <Info>{data?.category}</Info>
-          </MemberInfoWrapper>
-          <MemberList>
-            {Array.from(memberNamesByRole).map(([role, names], idx) => (
-              <MemberItem key={idx}>
-                <MemberRole>{role}</MemberRole>
-                <MemberNameList>
-                  {names.map((name, idx) => (
-                    <MemberName key={idx}>
-                      <MemberIcon />
-                      {name}
-                    </MemberName>
+          <ServiceInfoWrapper>
+            <LogoImageWrapper>
+              <LogoImage src={data?.logo_image} alt={data?.name} />
+            </LogoImageWrapper>
+            <InfoWrapper>
+              <Name>{data?.name}</Name>
+              <Description>{data?.summary}</Description>
+              <StartEndAtWrapper>
+                <StartEndAt>{startAt}</StartEndAt>
+                {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
+              </StartEndAtWrapper>
+              {isTablet && (
+                <ServiceTypeWrapper>
+                  {data?.service_type.map((type) => (
+                    <ServiceType key={type}>{type}</ServiceType>
                   ))}
-                </MemberNameList>
-              </MemberItem>
-            ))}
-          </MemberList>
-        </MemberWrapper>
-      </ProjectDetailContainer>
+                </ServiceTypeWrapper>
+              )}
+            </InfoWrapper>
+          </ServiceInfoWrapper>
+        </Header>
 
-      <LinksWrapper>
-        {isTablet &&
-          data?.links.map((link) => (
-            <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-              <LinkIcon />
-              {link.title}
-            </LinkBox>
-          ))}
-      </LinksWrapper>
-    </Container>
+        {mainImage && (
+          <MainImageWrapper>
+            <MainImage src={mainImage} alt={data?.name} />
+          </MainImageWrapper>
+        )}
+
+        <ProjectDetailContainer>
+          <DetailContainer>
+            <DetailTitle>Project Overview</DetailTitle>
+            <DetailWrapper>{data?.detail}</DetailWrapper>
+            {!isTablet && (
+              <LinksWrapper>
+                {data?.links.map((link) => (
+                  <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+                    <LinkIcon />
+                    {link.title}
+                  </LinkBox>
+                ))}
+              </LinksWrapper>
+            )}
+          </DetailContainer>
+
+          <MemberWrapper>
+            <MemberInfoWrapper>
+              {data?.generation && <Info>{data.generation}기</Info>}
+              <Info>{data?.category}</Info>
+            </MemberInfoWrapper>
+            <MemberList>
+              {Array.from(memberNamesByRole).map(([role, names], idx) => (
+                <MemberItem key={idx}>
+                  <MemberRole>{role}</MemberRole>
+                  <MemberNameList>
+                    {names.map((name, idx) => (
+                      <MemberName key={idx}>
+                        <MemberIcon />
+                        {name}
+                      </MemberName>
+                    ))}
+                  </MemberNameList>
+                </MemberItem>
+              ))}
+            </MemberList>
+          </MemberWrapper>
+        </ProjectDetailContainer>
+
+        <LinksWrapper>
+          {isTablet &&
+            data?.links.map((link) => (
+              <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+                <LinkIcon />
+                {link.title}
+              </LinkBox>
+            ))}
+        </LinksWrapper>
+      </Container>
+    </AuthRequired>
   );
-}
+};
+
+setLayout(ProjectDetailPage, (page) => (
+  <>
+    <SiteHeader />
+    {page}
+  </>
+));
+
+export default ProjectDetailPage;
 
 const Container = styled.div`
   margin: 0 auto;
