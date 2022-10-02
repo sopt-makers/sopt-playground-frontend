@@ -1,4 +1,5 @@
 import { axiosInstance } from '@/api';
+import { decode } from 'jsonwebtoken';
 
 const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 
@@ -17,9 +18,36 @@ export function removeAccessToken() {
 
 export function loadAccessToken() {
   const accessToken = getAccessToken();
-  if (accessToken) {
-    setAccessToken(accessToken);
+  if (!accessToken) {
+    return null;
   }
 
+  if (!safeDecodeAccessToken(accessToken)) {
+    removeAccessToken();
+    return null;
+  }
+
+  setAccessToken(accessToken);
+
   return accessToken;
+}
+
+function safeDecodeAccessToken(token: string) {
+  try {
+    const content = decode(token);
+
+    if (typeof content === 'string' || !content) {
+      return null;
+    }
+
+    const exp = content.exp ?? 0;
+
+    if (exp < Date.now() / 1000) {
+      return null;
+    }
+
+    return content;
+  } catch {
+    return null;
+  }
 }
