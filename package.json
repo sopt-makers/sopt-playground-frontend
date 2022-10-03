@@ -21,7 +21,6 @@
     "axios": "^0.27.2",
     "dayjs": "^1.11.3",
     "eslint-plugin-simple-import-sort": "^8.0.0",
-    "jsonwebtoken": "^8.5.1",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.0",
     "next": "12.1.5",

@@ -1,4 +1,4 @@
-import { decode } from 'jsonwebtoken';
+import { number, object } from 'yup';
 
 import { axiosInstance } from '@/api';
 
@@ -35,20 +35,24 @@ export function loadAccessToken() {
 
 function safeDecodeAccessToken(token: string) {
   try {
-    const content = decode(token);
+    const encodedSegment = token.split('.')[1];
+    const segment = JSON.parse(window.atob(encodedSegment)) as unknown;
 
-    if (typeof content === 'string' || !content) {
-      return null;
-    }
+    const jwtHeader = hasExp.validateSync(segment);
 
-    const exp = content.exp ?? 0;
+    const exp = jwtHeader.exp;
 
     if (exp < Date.now() / 1000) {
       return null;
     }
 
-    return content;
-  } catch {
+    return segment;
+  } catch (e) {
+    console.log(e);
     return null;
   }
 }
+
+const hasExp = object({
+  exp: number().required(),
+});
