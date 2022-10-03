@@ -30,7 +30,7 @@ const ProjectGeneration: FC = () => {
 
   return (
     <StyledContainer>
-      <FormTitle>기수</FormTitle>
+      <FormTitle essential>기수</FormTitle>
       <StyledDescription>참여한 팀원들의 기수에 맞춰 작성해주세요</StyledDescription>
       <StyledSelect width={236} placeholder='선택' {...register('generation.generation')}>
         {GENERATION.map((item) => (

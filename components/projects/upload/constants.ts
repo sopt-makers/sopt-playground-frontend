@@ -24,7 +24,7 @@ export const FORM_ITEMS: FormItem[] = [
     label: '기수',
     value: 'generation',
     isDirty: false,
-    isRequired: false,
+    isRequired: true,
   },
   {
     label: '어디서 진행했나요?',
@@ -78,7 +78,7 @@ export const FORM_ITEMS: FormItem[] = [
     label: '썸네일 이미지',
     value: 'thumbnailImage',
     isDirty: false,
-    isRequired: true,
+    isRequired: false,
   },
   {
     label: '프로젝트 이미지',

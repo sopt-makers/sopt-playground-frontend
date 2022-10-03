@@ -19,7 +19,7 @@ const ProjectImageSection: FC = () => {
       <FormTitle essential>로고 이미지</FormTitle>
       <StyledDescription>가로 300px 세로 300px 권장합니다. 예외 규격은 잘릴 수 있습니다.</StyledDescription>
       <Controller name='logoImage' control={control} render={({ field }) => <ImageUploader {...field} />} />
-      <StyledTitle essential>썸네일 이미지</StyledTitle>
+      <StyledTitle>썸네일 이미지</StyledTitle>
       <StyledDescription>
         16:9 비율로 가로 368px 세로208px을 권장합니다.{isMobile && <p>웹페이지에서 등록을 권장합니다.</p>}
       </StyledDescription>

@@ -34,13 +34,10 @@ const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
 const schema = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
-  generation: yup
-    .object()
-    .shape({
-      generation: yup.number(),
-      checked: yup.string(),
-    })
-    .optional(),
+  generation: yup.object().shape({
+    generation: yup.number().optional(),
+    checked: yup.boolean().required(),
+  }),
   category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요'),
   status: yup.object().shape({
     isFounding: yup.boolean(),
