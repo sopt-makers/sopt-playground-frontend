@@ -3,15 +3,15 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 
+import AuthRequired from '@/components/auth/AuthRequired';
+import SiteHeader from '@/components/common/Header';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import useScreenSize from '@/hooks/useScreenSize';
 import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
 import { TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import AuthRequired from '@/components/auth/AuthRequired';
 import { setLayout } from '@/utils/layout';
-import SiteHeader from '@/components/common/Header';
 
 const ProjectDetailPage = () => {
   const router = useRouter();

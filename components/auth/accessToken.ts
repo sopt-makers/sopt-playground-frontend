@@ -1,5 +1,6 @@
-import { axiosInstance } from '@/api';
 import { decode } from 'jsonwebtoken';
+
+import { axiosInstance } from '@/api';
 
 const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 

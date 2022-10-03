@@ -1,5 +1,6 @@
-import { removeAccessToken } from '@/components/auth/accessToken';
 import { useRouter } from 'next/router';
+
+import { removeAccessToken } from '@/components/auth/accessToken';
 
 const useAuth = () => {
   const router = useRouter();

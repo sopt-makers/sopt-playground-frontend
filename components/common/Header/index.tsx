@@ -1,7 +1,8 @@
-import useAuth from '@/components/auth/useAuth';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
+
+import useAuth from '@/components/auth/useAuth';
 
 const Header: FC = () => {
   const { logout } = useAuth();
