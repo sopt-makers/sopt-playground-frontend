@@ -37,5 +37,6 @@ const StyledInput = styled(Input)`
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
+    max-width: 340px;
   }
 `;
