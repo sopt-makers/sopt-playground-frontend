@@ -10,7 +10,7 @@ import { copyToClipboard } from '@/utils';
 const SignupLink: FC = () => {
   const { showToast } = useContext(ToastContext);
   const onCopy = () =>
-    copyToClipboard('https://sopt-project.pages.dev/auth/verify', {
+    copyToClipboard(`${process.env.NEXT_PUBLIC_ORIGIN}/auth/verify`, {
       onSuccess: () => showToast('링크가 클립보드에 저장되었습니다'),
       onError: () => showToast('다시 시도해주세요'),
     });
