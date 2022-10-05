@@ -12,6 +12,7 @@ import IconMail from '@/public/icons/icon-mail-logo.svg';
 import IconYoutube from '@/public/icons/icon-youtube-logo.svg';
 
 const SOPT_RECRUIT_LINK = 'https://sopt-recruiting.web.app/recruiting/apply/ob';
+
 const ICONS = [
   {
     icon: <IconMail />,
@@ -35,6 +36,42 @@ const ICONS = [
   },
 ];
 
+interface MenuItem {
+  url: string;
+  text: string;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+}
+const MenuItems: MenuItem[] = [
+  {
+    url: '/',
+    text: '홈',
+  },
+  {
+    url: '/about',
+    text: 'SOPT소개',
+  },
+  {
+    url: '/history',
+    text: '역대기수소개',
+  },
+  {
+    url: '/projects',
+    text: '프로젝트',
+  },
+  {
+    url: '/recruit',
+    text: '신입회원모집',
+    onClick: (e) => {
+      e.preventDefault();
+      window.location.href = SOPT_RECRUIT_LINK;
+    },
+  },
+  {
+    url: '/partners',
+    text: '협력사',
+  },
+];
+
 interface MenuProps {
   isOpen: boolean;
   onToggle: () => void;
@@ -49,34 +86,11 @@ const Menu: FC<MenuProps> = ({ isOpen, onToggle }) => {
         <StyledIcon onClick={onToggle} />
         <ContentsWrap>
           <MenuTitlesWrap>
-            <MenuTitle href='/' isSelected={router.pathname === '/'}>
-              홈
-            </MenuTitle>
-            <MenuTitle href='/about' isSelected={router.pathname === '/about'}>
-              SOPT소개
-            </MenuTitle>
-            <MenuTitle href='/history' isSelected={router.pathname === '/history'}>
-              역대기수소개
-            </MenuTitle>
-            <MenuTitle href='/projects' isSelected={router.pathname === '/projects'}>
-              프로젝트
-            </MenuTitle>
-            <MenuTitle href='/recruit' isSelected={router.pathname === '/recruit'}>
-              <a
-                style={{
-                  color: 'inherit',
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.location.href = SOPT_RECRUIT_LINK;
-                }}
-              >
-                신입회원모집
-              </a>
-            </MenuTitle>
-            <MenuTitle href='/partners' isSelected={router.pathname === '/partners'}>
-              협력사
-            </MenuTitle>
+            {MenuItems.map(({ url, text, onClick }) => (
+              <MenuTitle key={url} href={url} onClick={(e) => onClick?.(e)} active={router.pathname === url}>
+                {text}
+              </MenuTitle>
+            ))}
           </MenuTitlesWrap>
           <BottomWrap>
             <Rules href='/rules'>SOPT 회칙</Rules>
@@ -183,7 +197,7 @@ const MenuTitlesWrap = styled.div`
   padding-bottom: 30px;
 `;
 
-const MenuTitle = styled.a<{ isSelected: boolean }>`
+const MenuTitle = styled.a<{ active: boolean }>`
   outline: none;
   cursor: pointer;
   padding-bottom: 4px;
@@ -197,8 +211,8 @@ const MenuTitle = styled.a<{ isSelected: boolean }>`
   font-weight: 500;
 
   /* TODO: main-color 수정 */
-  ${({ isSelected }) =>
-    isSelected &&
+  ${({ active }) =>
+    active &&
     css`
       border-bottom: 3px solid ${colors.purple100};
       color: ${colors.white};

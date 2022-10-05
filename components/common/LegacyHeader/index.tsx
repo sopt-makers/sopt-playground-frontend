@@ -7,8 +7,6 @@ import Menu from '@/components/common/LegacyHeader/Menu';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-const HEADER_MOBILE_MEDIA_QUERY = '(max-width: 600px)';
-
 const Header: FC = () => {
   const [isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
 
@@ -54,14 +52,15 @@ const StyledHeader = styled.header`
   justify-content: center;
   margin: 0 auto;
   background-color: ${colors.black100};
+  padding: 0 30px;
   height: 100px;
+
   @media (max-width: 1060px) {
     width: 100%;
   }
+
   @media ${MOBILE_MEDIA_QUERY} {
     justify-content: center;
-    margin: 0;
-    margin-top: 40px;
     padding: 14px 20px;
     height: 56px;
   }
@@ -71,6 +70,12 @@ const StyledContent = styled.div`
   display: flex;
   align-items: center;
   width: 1160px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 const Empty = styled.div`
@@ -85,6 +90,7 @@ const StyledIconLogo = styled.img`
   cursor: pointer;
   width: 125px;
   height: 41px;
+
   @media ${MOBILE_MEDIA_QUERY} {
     width: 97px;
     height: 31px;
@@ -93,17 +99,20 @@ const StyledIconLogo = styled.img`
 
 const StyledUploadButton = styled(Button)`
   padding: 11px 21px;
-  @media ${HEADER_MOBILE_MEDIA_QUERY} {
+
+  @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
 `;
+2;
 
 const StyledLoginButton = styled(Button)`
   margin: 0 0 0 10px;
   border: 1px solid #534d64;
   padding: 11px 21px;
   font-weight: 700;
-  @media ${HEADER_MOBILE_MEDIA_QUERY} {
+
+  @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
 `;
@@ -113,10 +122,9 @@ const StyledIconMenu = styled.img`
   cursor: pointer;
   width: 24px;
   height: 24px;
+
   @media ${MOBILE_MEDIA_QUERY} {
-    position: absolute;
-    top: 63px;
-    right: 30px;
+    margin-left: 0;
     width: 16px;
     height: 16px;
   }

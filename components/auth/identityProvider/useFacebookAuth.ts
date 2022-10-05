@@ -4,8 +4,8 @@ import useStateParam from '@/components/auth/useStateParam';
 const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
 const FACEBOOK_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID ?? '';
 
-const FACEBOOK_LOGIN_CALLBACK_URI = `${ORIGIN}/auth/cb/facebook/login`;
-const FACEBOOK_REGISTER_CALLBACK_URI = `${ORIGIN}/auth/cb/facebook/register`;
+const FACEBOOK_LOGIN_CALLBACK_URI = `${ORIGIN}/auth/callback/facebook/login`;
+const FACEBOOK_REGISTER_CALLBACK_URI = `${ORIGIN}/auth/callback/facebook/register`;
 
 interface FacebookAuth {
   login(): void;

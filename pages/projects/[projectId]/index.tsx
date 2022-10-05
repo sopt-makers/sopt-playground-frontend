@@ -6,19 +6,17 @@ import { useEffect, useMemo, useState } from 'react';
 import AuthRequired from '@/components/auth/AuthRequired';
 import SiteHeader from '@/components/common/Header';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
-import useScreenSize from '@/hooks/useScreenSize';
 import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
-import { TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
-const ProjectDetailPage = () => {
+export const ProjectDetailPage = () => {
   const router = useRouter();
   const { projectId } = router.query;
 
   const { data } = useGetProjectQuery({ id: projectId as string });
-  const { isTablet } = useScreenSize();
 
   const startAt = dayjs(data?.start_at).format('YYYY-MM');
   const endAt = data?.end_at ? dayjs(data.end_at).format('YYYY-MM') : '';
@@ -57,13 +55,11 @@ const ProjectDetailPage = () => {
     <AuthRequired>
       <Container>
         <Header>
-          {!isTablet && (
-            <ServiceTypeWrapper>
-              {data?.service_type.map((type) => (
-                <ServiceType key={type}>{type}</ServiceType>
-              ))}
-            </ServiceTypeWrapper>
-          )}
+          <ServiceTypeWrapper>
+            {data?.service_type.map((type) => (
+              <ServiceType key={type}>{type}</ServiceType>
+            ))}
+          </ServiceTypeWrapper>
           <ServiceInfoWrapper>
             <LogoImageWrapper>
               <LogoImage src={data?.logo_image} alt={data?.name} />
@@ -75,13 +71,11 @@ const ProjectDetailPage = () => {
                 <StartEndAt>{startAt}</StartEndAt>
                 {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
               </StartEndAtWrapper>
-              {isTablet && (
-                <ServiceTypeWrapper>
-                  {data?.service_type.map((type) => (
-                    <ServiceType key={type}>{type}</ServiceType>
-                  ))}
-                </ServiceTypeWrapper>
-              )}
+              <MobileServiceTypeWrapper>
+                {data?.service_type.map((type) => (
+                  <ServiceType key={type}>{type}</ServiceType>
+                ))}
+              </MobileServiceTypeWrapper>
             </InfoWrapper>
           </ServiceInfoWrapper>
         </Header>
@@ -96,16 +90,14 @@ const ProjectDetailPage = () => {
           <DetailContainer>
             <DetailTitle>Project Overview</DetailTitle>
             <DetailWrapper>{data?.detail}</DetailWrapper>
-            {!isTablet && (
-              <LinksWrapper>
-                {data?.links.map((link) => (
-                  <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-                    <LinkIcon />
-                    {link.title}
-                  </LinkBox>
-                ))}
-              </LinksWrapper>
-            )}
+            <LinksWrapper>
+              {data?.links.map((link) => (
+                <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+                  <LinkIcon />
+                  {link.title}
+                </LinkBox>
+              ))}
+            </LinksWrapper>
           </DetailContainer>
 
           <MemberWrapper>
@@ -131,15 +123,14 @@ const ProjectDetailPage = () => {
           </MemberWrapper>
         </ProjectDetailContainer>
 
-        <LinksWrapper>
-          {isTablet &&
-            data?.links.map((link) => (
-              <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-                <LinkIcon />
-                {link.title}
-              </LinkBox>
-            ))}
-        </LinksWrapper>
+        <MoblieLinksWrapper>
+          {data?.links.map((link) => (
+            <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+              <LinkIcon />
+              {link.title}
+            </LinkBox>
+          ))}
+        </MoblieLinksWrapper>
       </Container>
     </AuthRequired>
   );
@@ -159,7 +150,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 1200px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     padding-bottom: 40px;
   }
 `;
@@ -169,7 +160,7 @@ const Header = styled.section`
   gap: 22px;
   margin-bottom: 66px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 24px;
   }
 `;
@@ -179,11 +170,21 @@ const ServiceTypeWrapper = styled.div`
   align-items: center;
   margin-left: 194px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
+`;
+
+const MobileServiceTypeWrapper = styled.div`
+  display: none;
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
     gap: 8px;
+    align-items: center;
     margin: 0;
   }
 `;
+
 const ServiceType = styled.div`
   display: flex;
   align-items: center;
@@ -195,7 +196,7 @@ const ServiceType = styled.div`
   color: ${colors.black40};
   ${textStyles.SUIT_12_B};
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     font-size: 12px;
   }
 `;
@@ -204,7 +205,7 @@ const ServiceInfoWrapper = styled.div`
   gap: 44px;
   align-items: center;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     gap: 24px;
     align-items: flex-start;
@@ -218,7 +219,7 @@ const LogoImageWrapper = styled.div`
   height: 150px;
   overflow: hidden;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     width: 80px;
     height: 80px;
   }
@@ -238,7 +239,7 @@ const Name = styled.h2`
   font-size: 44px;
   font-weight: 700;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 12px;
     font-size: 24px;
   }
@@ -249,13 +250,13 @@ const Description = styled.p`
   font-size: 24px;
   font-weight: 400;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 18px;
     font-size: 14px;
   }
 `;
 const StartEndAtWrapper = styled.div`
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 16px;
   }
 `;
@@ -266,7 +267,7 @@ const StartEndAt = styled.span`
   font-size: 18px;
   font-weight: 500;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     font-size: 12px;
   }
 `;
@@ -277,7 +278,7 @@ const InProgress = styled.span`
   font-size: 18px;
   font-weight: 800;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     margin-left: 8px;
     font-size: 12px;
   }
@@ -289,7 +290,7 @@ const MainImageWrapper = styled.section`
   height: 675px;
   overflow: hidden;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 0;
     border-radius: 0;
     height: 210px;
@@ -305,7 +306,7 @@ const ProjectDetailContainer = styled.section`
   gap: 32px;
   padding-bottom: 200px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column-reverse;
     gap: 0;
     padding: 0;
@@ -317,7 +318,7 @@ const DetailContainer = styled.div`
   padding: 48px;
   width: 100%;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     padding: 36px 24px;
   }
 `;
@@ -328,7 +329,7 @@ const DetailTitle = styled.h3`
   font-size: 18px;
   font-weight: 800;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 24px;
     font-size: 16px;
   }
@@ -339,7 +340,7 @@ const DetailWrapper = styled.div`
   white-space: pre-wrap; /* or pre-line */
   font-size: 16px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
     font-size: 14px;
   }
@@ -348,7 +349,14 @@ const LinksWrapper = styled.div`
   display: flex;
   gap: 32px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
+`;
+
+const MoblieLinksWrapper = styled.div`
+  display: none;
+  @media ${MOBILE_MEDIA_QUERY} {
     gap: 32px 26px;
     padding: 48px 40px;
   }
@@ -364,7 +372,7 @@ const LinkBox = styled.div`
   font-size: 14px;
   font-weight: 500;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     font-size: 12px;
   }
 `;
@@ -375,7 +383,7 @@ const LinkIcon = styled.div`
   width: 72px;
   height: 72px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     width: 54px;
     height: 54px;
   }
@@ -389,7 +397,7 @@ const MemberWrapper = styled.div`
   padding: 48px 28px;
   height: fit-content;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
     padding: 24px 28px 36px;
   }
@@ -400,7 +408,7 @@ const MemberInfoWrapper = styled.div`
   gap: 10px;
   margin-bottom: 36px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     gap: 8px;
     margin-bottom: 28px;
   }
@@ -410,7 +418,7 @@ const Info = styled.div`
   font-size: 18px;
   font-weight: 800;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     font-size: 14px;
   }
 `;
@@ -419,7 +427,7 @@ const MemberList = styled.div`
   flex-direction: column;
   gap: 32px;
 
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 32px 26px;
