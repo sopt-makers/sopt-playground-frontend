@@ -30,18 +30,4 @@ const nextConfig = {
   },
 };
 
-// https://nextjs.org/docs/api-reference/next.config.js/redirects
-const SOPT_RECRUIT_LINK = 'https://sopt-recruiting.web.app/recruiting/apply/ob';
-
-module.exports = {
-  ...nextConfig,
-  async redirects() {
-    return [
-      {
-        source: '/recruit',
-        destination: SOPT_RECRUIT_LINK,
-        permanent: false,
-      },
-    ];
-  },
-};
+module.exports = nextConfig;
