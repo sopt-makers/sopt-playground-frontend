@@ -32,7 +32,7 @@ const ProjectPeriod = () => {
       <StyledContent>
         <DateFormWrapper>
           <RHFControllerFormItem
-            style={{ width: '163px' }}
+            style={{ maxWidth: '163px' }}
             error={!!errors.period?.startAt}
             errorMessage={errors.period?.startAt?.message}
             control={control}
@@ -46,7 +46,7 @@ const ProjectPeriod = () => {
             <StyledText>{'-'}</StyledText>
             <DateFormWrapper>
               <RHFControllerFormItem
-                style={{ width: '163px' }}
+                style={{ maxWidth: '163px' }}
                 error={!!errors.period?.endAt}
                 errorMessage={errors.period?.endAt?.message}
                 control={control}

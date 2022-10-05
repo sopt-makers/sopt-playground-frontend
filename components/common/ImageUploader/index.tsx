@@ -12,9 +12,10 @@ interface ImageUploaderProps {
   height?: number | string;
   value?: string | null;
   onChange: (value: string | null) => void;
+  className?: string;
 }
 
-const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onChange, value }) => {
+const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onChange, value, className }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [previewImage, setPreviewImage] = useState<string>('');
 
@@ -59,7 +60,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onCh
   };
 
   return (
-    <Container onClick={handleClick} width={width} height={height}>
+    <Container className={className} width={width} height={height} onClick={handleClick}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
       {value ? <StyledPreview src={previewImage} alt='preview-image' /> : <IconImage />}
     </Container>
