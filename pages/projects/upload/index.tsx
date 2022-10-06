@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import dayjs from 'dayjs';
-import { FC } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useContext } from 'react';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -26,7 +27,7 @@ import ProjectReleaseMembers from '@/components/projects/upload/ProjectReleaseMe
 import ProjectServiceType from '@/components/projects/upload/ProjectServiceType';
 import ProjectStatus from '@/components/projects/upload/ProjectStatus';
 import ProjectSummary from '@/components/projects/upload/ProjectSummary';
-import { ToastProvider } from '@/components/projects/upload/ToastProvider';
+import { ToastContext, ToastProvider } from '@/components/projects/upload/ToastProvider';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -38,8 +39,11 @@ const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 const schema = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
   generation: yup.object().shape({
-    generation: yup.number().optional(),
     checked: yup.boolean().required(),
+    generation: yup.number().when('checked', {
+      is: false,
+      then: yup.number().required('프로젝트 기수를 입력해주세요.'),
+    }),
   }),
   category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요'),
   status: yup.object().shape({
@@ -62,8 +66,12 @@ const schema = yup.object().shape({
   ),
   serviceType: yup.array().required('서비스 형태를 선택해주세요.'),
   period: yup.object().shape({
+    isOngoing: yup.boolean(),
     startAt: yup.string().required('시작일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
-    endAt: yup.string().required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
+    endAt: yup.string().when('isOngoing', {
+      is: false,
+      then: yup.string().required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
+    }),
   }),
   summary: yup.string().required('프로젝트 한줄 소개를 입력해주세요'),
   detail: yup.string().required('프로젝트 설명을 입력해주세요'),
@@ -139,6 +147,8 @@ const ProjectUploadPage: FC = () => {
           : [...acc, cur],
       [],
     );
+  const { showToast } = useContext(ToastContext);
+  const router = useRouter();
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
@@ -159,53 +169,61 @@ const ProjectUploadPage: FC = () => {
     }));
 
     if (notify) {
-      mutate({
-        name: data.name,
-        generation: data.generation.checked ? undefined : data.generation.generation,
-        category: data.category,
-        detail: data.detail,
-        summary: data.summary,
-        service_type: data.serviceType,
-        start_at: dayjs(data.period.startAt).toDate(),
-        end_at: !data.period.isOngoing ? dayjs(data.period.endAt).toDate() : undefined,
-        is_available: data.status.isAvailable,
-        is_founding: data.status.isFounding,
-        images: data.projectImage ? [data.projectImage] : [],
-        logo_image: data.logoImage,
-        thumbnail_image: data.thumbnailImage,
-        users,
-        links,
-      });
+      mutate(
+        {
+          name: data.name,
+          generation: data.generation.checked ? undefined : data.generation.generation,
+          category: data.category,
+          detail: data.detail,
+          summary: data.summary,
+          service_type: data.serviceType,
+          start_at: dayjs(data.period.startAt).toDate(),
+          end_at: !data.period.isOngoing ? dayjs(data.period.endAt).toDate() : undefined,
+          is_available: data.status.isAvailable,
+          is_founding: data.status.isFounding,
+          images: data.projectImage ? [data.projectImage] : [],
+          logo_image: data.logoImage,
+          thumbnail_image: data.thumbnailImage,
+          users,
+          links,
+        },
+        {
+          onSuccess: () => {
+            showToast('프로젝트가 성공적으로 업로드 되었습니다.');
+            router.push('/projects');
+          },
+        },
+      );
     }
   };
 
   return (
     <AuthRequired>
       <FormProvider {...methods}>
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <FormStatus formItems={formItems} />
-          <ProjectContainer>
-            <ProjectName />
-            <ProjectGeneration />
-            <ProjectCategory />
-            <ProjectStatus />
-            <ToastProvider>
+        <ToastProvider>
+          <StyledForm onSubmit={handleSubmit(onSubmit)}>
+            <FormStatus formItems={formItems} />
+            <ProjectContainer>
+              <ProjectName />
+              <ProjectGeneration />
+              <ProjectCategory />
+              <ProjectStatus />
               <ProjectMembers type={categoryLabel?.[category] ?? ''} />
               <ProjectReleaseMembers />
-            </ToastProvider>
-            <ProjectServiceType />
-            <ProjectPeriod />
-            <ProjectSummary />
-            <ProjectDetail />
-            <ProjectImageSection />
-            <ProjectLink />
-            <StyledButtonWrapper>
-              <Button type='submit' variant='primary'>
-                프로젝트 등록하기
-              </Button>
-            </StyledButtonWrapper>
-          </ProjectContainer>
-        </StyledForm>
+              <ProjectServiceType />
+              <ProjectPeriod />
+              <ProjectSummary />
+              <ProjectDetail />
+              <ProjectImageSection />
+              <ProjectLink />
+              <StyledButtonWrapper>
+                <Button type='submit' variant='primary'>
+                  프로젝트 등록하기
+                </Button>
+              </StyledButtonWrapper>
+            </ProjectContainer>
+          </StyledForm>
+        </ToastProvider>
       </FormProvider>
     </AuthRequired>
   );

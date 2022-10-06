@@ -9,6 +9,7 @@ const useCreateProjectMutation = () => {
       const { data } = await project.create(input);
       return data;
     },
+    onError: (error: { message: string }) => alert(error.message),
   });
 };
 
