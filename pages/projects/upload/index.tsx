@@ -38,8 +38,11 @@ const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 const schema = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
   generation: yup.object().shape({
-    generation: yup.number().optional(),
     checked: yup.boolean().required(),
+    generation: yup.number().when('checked', {
+      is: false,
+      then: yup.number().required('프로젝트 기수를 입력해주세요.'),
+    }),
   }),
   category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요'),
   status: yup.object().shape({
@@ -62,8 +65,12 @@ const schema = yup.object().shape({
   ),
   serviceType: yup.array().required('서비스 형태를 선택해주세요.'),
   period: yup.object().shape({
+    isOngoing: yup.boolean(),
     startAt: yup.string().required('시작일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
-    endAt: yup.string().required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
+    endAt: yup.string().when('isOngoing', {
+      is: false,
+      then: yup.string().required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
+    }),
   }),
   summary: yup.string().required('프로젝트 한줄 소개를 입력해주세요'),
   detail: yup.string().required('프로젝트 설명을 입력해주세요'),
@@ -139,6 +146,7 @@ const ProjectUploadPage: FC = () => {
           : [...acc, cur],
       [],
     );
+  console.log('[methods]: ', methods.formState.errors);
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
