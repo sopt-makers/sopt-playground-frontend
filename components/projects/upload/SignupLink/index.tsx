@@ -7,10 +7,12 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { copyToClipboard } from '@/utils';
 
+const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
+
 const SignupLink: FC = () => {
   const { showToast } = useContext(ToastContext);
   const onCopy = () =>
-    copyToClipboard(`${process.env.NEXT_PUBLIC_ORIGIN}/auth/verify`, {
+    copyToClipboard(`${ORIGIN}/auth/verify`, {
       onSuccess: () => showToast('링크가 클립보드에 저장되었습니다'),
       onError: () => showToast('다시 시도해주세요'),
     });
