@@ -13,11 +13,11 @@ import Text from '@/components/common/Text';
 import useGetUsersByNameQuery from '@/components/projects/upload/hooks/useGetUsersByNameQuery';
 import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
 import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
-import useScreenSize from '@/hooks/useScreenSize';
+import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 import IconDelete from '@/public/icons/icon-delete.svg';
 import { colors } from '@/styles/colors';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MemberFormProps {
@@ -42,6 +42,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
   const { data } = useGetUsersByNameQuery({
     name: searchName,
   });
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
   // MEMO: 모바일 뷰를 위한 변수,함수들 입니다.
   // 기존 데스크탑과 멤버 추가 방식과 UI가 아예 달라서 이를 분기처리하는 로직과, 수정상태인지 여부인 isEdit를 이용해야 하기 때문에 아래와 같은 로직들이 필요합니다.
@@ -67,117 +68,125 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
 
   return (
     <>
-      <Container>
-        {fields.map((field, index) => (
-          <MemberItemWrapper key={field.id}>
-            <Controller
-              control={control}
-              name={`${name}.${index}.user`}
-              render={({ field: { value, onChange, name } }) => (
-                <MemberSearchWrapper errorMessage={errors.members?.[index]?.user?.name?.message}>
-                  <MemberSearch
-                    error={!!errors?.members?.[index].user?.name}
-                    members={data?.data ?? []}
-                    onSearch={_debounce((e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value), 300)}
-                    value={value}
-                    onChange={onChange}
-                    name={name}
-                  />
-                </MemberSearchWrapper>
-              )}
-            />
-            <StyledSelect placeholder='역할' {...register(`${name}.${index}.role`)}>
-              {Object.values(Role).map((role) => (
-                <option key={role} value={role}>
-                  {role}
-                </option>
-              ))}
-            </StyledSelect>
-            <Controller
-              control={control}
-              name={`${name}.${index}.description`}
-              render={({ field }) => (
-                <StyledInputFormItem errorMessage={errors.members?.[index]?.description?.message}>
-                  <Input
-                    error={!!errors.members?.[index]?.description}
-                    placeholder='어떤 역할을 맡았는지 적어주세요'
-                    {...field}
-                  />
-                </StyledInputFormItem>
-              )}
-            />
-            <IconDeleteWrapper>
-              <IconDelete onClick={() => remove(index)} />
-            </IconDeleteWrapper>
-          </MemberItemWrapper>
-        ))}
-        <MemberAddButton type='button' onClick={onAppend}>
-          + 추가
-        </MemberAddButton>
-      </Container>
-      <MobileContainer>
-        {selectedMembers.map((selectedMember, memberIndex) => (
-          <>
-            {!selectedMember.isEdit ? (
-              <MobileMemberItem key={selectedMember.user?.auth_user_id} onClick={() => onEdit(memberIndex)}>
-                <Text typography='SUIT_12_M' color={colors.gray100}>
-                  {selectedMember.user?.name}
-                </Text>
-                <Text style={{ marginLeft: '29px' }} typography='SUIT_12_M' color={colors.gray100}>
-                  {selectedMember.role}
-                </Text>
-                <Text style={{ marginLeft: '40px' }} typography='SUIT_12_M' color={colors.gray100}>
-                  {selectedMember.description}
-                </Text>
-              </MobileMemberItem>
-            ) : (
-              <MobileMemberApplyForm>
-                <MobileMemberSelect>
+      {!isMobile ? (
+        <Container>
+          {fields.map((field, index) => (
+            <MemberItemWrapper key={field.id}>
+              <Controller
+                control={control}
+                name={`${name}.${index}.user`}
+                render={({ field: { value, onChange, name } }) => (
+                  <MemberSearchWrapper errorMessage={errors.members?.[index]?.user?.name?.message}>
+                    <MemberSearch
+                      error={!!errors?.members?.[index].user?.name}
+                      members={data?.data ?? []}
+                      onSearch={_debounce(
+                        (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
+                        300,
+                      )}
+                      value={value}
+                      onChange={onChange}
+                      name={name}
+                    />
+                  </MemberSearchWrapper>
+                )}
+              />
+              <StyledSelect placeholder='역할' {...register(`${name}.${index}.role`)}>
+                {Object.values(Role).map((role) => (
+                  <option key={role} value={role}>
+                    {role}
+                  </option>
+                ))}
+              </StyledSelect>
+              <Controller
+                control={control}
+                name={`${name}.${index}.description`}
+                render={({ field }) => (
+                  <StyledInputFormItem errorMessage={errors.members?.[index]?.description?.message}>
+                    <Input
+                      error={!!errors.members?.[index]?.description}
+                      placeholder='어떤 역할을 맡았는지 적어주세요'
+                      {...field}
+                    />
+                  </StyledInputFormItem>
+                )}
+              />
+              <IconDeleteWrapper>
+                <IconDelete onClick={() => remove(index)} />
+              </IconDeleteWrapper>
+            </MemberItemWrapper>
+          ))}
+          <MemberAddButton type='button' onClick={onAppend}>
+            + 추가
+          </MemberAddButton>
+        </Container>
+      ) : (
+        <MobileContainer>
+          {selectedMembers.map((selectedMember, memberIndex) => (
+            <>
+              {!selectedMember.isEdit ? (
+                <MobileMemberItem key={selectedMember.user?.auth_user_id} onClick={() => onEdit(memberIndex)}>
+                  <Text typography='SUIT_12_M' color={colors.gray100}>
+                    {selectedMember.user?.name}
+                  </Text>
+                  <Text style={{ marginLeft: '29px' }} typography='SUIT_12_M' color={colors.gray100}>
+                    {selectedMember.role}
+                  </Text>
+                  <Text style={{ marginLeft: '40px' }} typography='SUIT_12_M' color={colors.gray100}>
+                    {selectedMember.description}
+                  </Text>
+                </MobileMemberItem>
+              ) : (
+                <MobileMemberApplyForm>
+                  <MobileMemberSelect>
+                    <Controller
+                      control={control}
+                      name={`${name}.${memberIndex}.user`}
+                      render={({ field: { value, onChange, name } }) => (
+                        <MemberSearch
+                          value={value}
+                          onChange={onChange}
+                          name={name}
+                          members={data?.data ?? []}
+                          onSearch={_debounce(
+                            (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
+                            300,
+                          )}
+                        />
+                      )}
+                    />
+                    <FormItem errorMessage={errors.members?.[memberIndex]?.role?.message}>
+                      <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.role`)}>
+                        {Object.values(Role).map((role) => (
+                          <option key={role} value={role}>
+                            {role}
+                          </option>
+                        ))}
+                      </MobileSelect>
+                    </FormItem>
+                  </MobileMemberSelect>
                   <Controller
                     control={control}
-                    name={`${name}.${memberIndex}.user`}
-                    render={({ field: { value, onChange, name } }) => (
-                      <MemberSearch
-                        value={value}
-                        onChange={onChange}
-                        name={name}
-                        members={data?.data ?? []}
-                        onSearch={_debounce(
-                          (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
-                          300,
-                        )}
-                      />
+                    name={`${name}.${memberIndex}.description`}
+                    render={({ field }) => (
+                      <MobileDescription placeholder='어떤 역할을 맡았는지 적어주세요' {...field} />
                     )}
                   />
-                  <FormItem errorMessage={errors.members?.[index]?.role?.message}>
-                    <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.role`)}>
-                      {Object.values(Role).map((role) => (
-                        <option key={role} value={role}>
-                          {role}
-                        </option>
-                      ))}
-                    </MobileSelect>
-                  </FormItem>
-                </MobileMemberSelect>
-                <Controller
-                  control={control}
-                  name={`${name}.${memberIndex}.description`}
-                  render={({ field }) => <MobileDescription placeholder='어떤 역할을 맡았는지 적어주세요' {...field} />}
-                />
-                <MobileApplyFormFooter>
-                  <IconDelete onClick={() => onRemove(memberIndex)} />
-                  <MobileCompleteButton type='button' onClick={() => onComplete(memberIndex)}>
-                    완료
-                  </MobileCompleteButton>
-                </MobileApplyFormFooter>
-              </MobileMemberApplyForm>
-            )}
-          </>
-        ))}
-        <MobileAddButton type='button' onClick={onAppend}>
-          추가하기
-        </MobileAddButton>
-      </MobileContainer>
+                  <MobileApplyFormFooter>
+                    <IconDelete onClick={() => onRemove(memberIndex)} />
+                    <MobileCompleteButton type='button' onClick={() => onComplete(memberIndex)}>
+                      완료
+                    </MobileCompleteButton>
+                  </MobileApplyFormFooter>
+                </MobileMemberApplyForm>
+              )}
+            </>
+          ))}
+          <MobileAddButton type='button' onClick={onAppend}>
+            추가하기
+          </MobileAddButton>
+        </MobileContainer>
+      )}
     </>
   );
 };
@@ -194,9 +203,6 @@ const Container = styled.div`
     @media ${MOBILE_MEDIA_QUERY} {
       margin-top: 12px;
     }
-  }
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
   }
 `;
 
@@ -250,12 +256,7 @@ const IconDeleteWrapper = styled.div`
 `;
 
 // MEMO: Mobile view
-const MobileContainer = styled.div`
-  display: none;
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: block;
-  }
-`;
+const MobileContainer = styled.div``;
 const MobileMemberApplyForm = styled.div`
   border-radius: 6px;
   background-color: ${colors.black60};

@@ -7,10 +7,11 @@ import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import { DEFAULT_LINK, LINK_TITLES } from '@/components/projects/upload/LinkForm/constants';
+import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 import IconDelete from '@/public/icons/icon-delete.svg';
 import { colors } from '@/styles/colors';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const LinkForm: FC = () => {
@@ -28,6 +29,7 @@ const LinkForm: FC = () => {
     name: 'links',
     control,
   });
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
   const onEdit = (index: number) => {
     setValue(`links.${index}.isEdit`, true);
@@ -50,115 +52,112 @@ const LinkForm: FC = () => {
 
   return (
     <>
-      <StyledUl>
-        {fields.map((field, index) => (
-          <StyledLi key={field.id}>
-            <StyledSelect placeholder='선택' {...register(`links.${index}.title`)}>
-              {LINK_TITLES.map((value) => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </StyledSelect>
-            <Controller
-              control={control}
-              name={`links.${index}.url`}
-              render={({ field: { value, onChange, ...props } }) => (
-                <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
-                  <StyledInput
-                    error={!!errors?.links?.[index]?.url}
-                    placeholder='https://'
-                    value={value}
-                    onChange={onChange}
-                    {...props}
-                    onBlur={() => {
-                      if (value && !/^https?:\/\//i.test(value)) {
-                        onChange('https://' + value);
-                      }
-                    }}
-                  />
-                </FormItem>
+      {!isMobile ? (
+        <StyledUl>
+          {fields.map((field, index) => (
+            <StyledLi key={field.id}>
+              <StyledSelect placeholder='선택' {...register(`links.${index}.title`)}>
+                {LINK_TITLES.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </StyledSelect>
+              <Controller
+                control={control}
+                name={`links.${index}.url`}
+                render={({ field: { value, onChange, ...props } }) => (
+                  <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
+                    <StyledInput
+                      error={!!errors?.links?.[index]?.url}
+                      placeholder='https://'
+                      value={value}
+                      onChange={onChange}
+                      {...props}
+                      onBlur={() => {
+                        if (value && !/^https?:\/\//i.test(value)) {
+                          onChange('https://' + value);
+                        }
+                      }}
+                    />
+                  </FormItem>
+                )}
+              />
+              <IconDeleteWrapper>
+                <IconDelete onClick={() => remove(index)} />
+              </IconDeleteWrapper>
+            </StyledLi>
+          ))}
+          <StyledButton type='button' onClick={() => append(DEFAULT_LINK)}>
+            + 추가
+          </StyledButton>
+        </StyledUl>
+      ) : (
+        <MobileUl>
+          {links?.map((link, index) => (
+            <StyledLi key={index}>
+              {!link.isEdit ? (
+                <MobileLinkItem onClick={() => onEdit(index)}>
+                  <Text typography='SUIT_12_M' color={colors.gray100}>
+                    {link.title}
+                  </Text>
+                  <Text typography='SUIT_12_M' color={colors.gray100}>
+                    {link.url}
+                  </Text>
+                </MobileLinkItem>
+              ) : (
+                <MobileLinkApplyForm>
+                  <MobileLinkSelect>
+                    <MobileSelect placeholder='선택' {...register(`links.${index}.title`)}>
+                      {LINK_TITLES.map((value) => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </MobileSelect>
+                    <Controller
+                      control={control}
+                      name={`links.${index}.url`}
+                      render={({ field: { value, onChange, ...props } }) => (
+                        <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
+                          <MobileLink
+                            error={!!errors?.links?.[index]?.url}
+                            placeholder='https://'
+                            value={value}
+                            onChange={onChange}
+                            {...props}
+                            onBlur={() => {
+                              if (value && !/^https?:\/\//i.test(value)) {
+                                onChange('https://' + value);
+                              }
+                            }}
+                          />
+                        </FormItem>
+                      )}
+                    />
+                  </MobileLinkSelect>
+                  <MobileApplyFormFooter>
+                    <IconDelete onClick={() => onRemove(index)} />
+                    <MobileCompleteButton type='button' onClick={() => onComplete(index)}>
+                      완료
+                    </MobileCompleteButton>
+                  </MobileApplyFormFooter>
+                </MobileLinkApplyForm>
               )}
-            />
-            <IconDeleteWrapper>
-              <IconDelete onClick={() => remove(index)} />
-            </IconDeleteWrapper>
-          </StyledLi>
-        ))}
-        <StyledButton type='button' onClick={() => append(DEFAULT_LINK)}>
-          + 추가
-        </StyledButton>
-      </StyledUl>
-
-      <MobileUl>
-        {links?.map((link, index) => (
-          <StyledLi key={index}>
-            {!link.isEdit ? (
-              <MobileLinkItem onClick={() => onEdit(index)}>
-                <Text typography='SUIT_12_M' color={colors.gray100}>
-                  {link.title}
-                </Text>
-                <Text typography='SUIT_12_M' color={colors.gray100}>
-                  {link.url}
-                </Text>
-              </MobileLinkItem>
-            ) : (
-              <MobileLinkApplyForm>
-                <MobileLinkSelect>
-                  <MobileSelect placeholder='선택' {...register(`links.${index}.title`)}>
-                    {LINK_TITLES.map((value) => (
-                      <option key={value} value={value}>
-                        {value}
-                      </option>
-                    ))}
-                  </MobileSelect>
-                  <Controller
-                    control={control}
-                    name={`links.${index}.url`}
-                    render={({ field: { value, onChange, ...props } }) => (
-                      <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
-                        <MobileLink
-                          error={!!errors?.links?.[index]?.url}
-                          placeholder='https://'
-                          value={value}
-                          onChange={onChange}
-                          {...props}
-                          onBlur={() => {
-                            if (value && !/^https?:\/\//i.test(value)) {
-                              onChange('https://' + value);
-                            }
-                          }}
-                        />
-                      </FormItem>
-                    )}
-                  />
-                </MobileLinkSelect>
-                <MobileApplyFormFooter>
-                  <IconDelete onClick={() => onRemove(index)} />
-                  <MobileCompleteButton type='button' onClick={() => onComplete(index)}>
-                    완료
-                  </MobileCompleteButton>
-                </MobileApplyFormFooter>
-              </MobileLinkApplyForm>
-            )}
-          </StyledLi>
-        ))}
-        <MobileAddButton type='button' onClick={onAppend}>
-          추가하기
-        </MobileAddButton>
-      </MobileUl>
+            </StyledLi>
+          ))}
+          <MobileAddButton type='button' onClick={onAppend}>
+            추가하기
+          </MobileAddButton>
+        </MobileUl>
+      )}
     </>
   );
 };
 
 export default LinkForm;
 
-const StyledUl = styled.ul`
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
-`;
-
+const StyledUl = styled.ul``;
 const StyledLi = styled.li`
   display: flex;
   gap: 10px;
@@ -200,13 +199,7 @@ const StyledButton = styled.button`
 `;
 
 // for mobile
-const MobileUl = styled.ul`
-  display: none;
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: block;
-  }
-`;
-
+const MobileUl = styled.ul``;
 const MobileLinkItem = styled.div`
   display: flex;
   gap: 19px;
