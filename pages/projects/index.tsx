@@ -2,39 +2,51 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import AuthRequired from '@/components/auth/AuthRequired';
+import Header from '@/components/common/Header';
 import Text from '@/components/common/Text';
 import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { setLayout } from '@/utils/layout';
 
 const ProjectPage: FC = () => {
   const { data } = useGetProjectListQuery();
   const router = useRouter();
 
   return (
-    <StyledContainer>
-      <StyledContent>
-        <StyledLength typography='SUIT_22_B'>{data?.projects.length} Projects</StyledLength>
-        <StyledGridContainer>
-          {data?.projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              category={project.category}
-              summary={project.summary}
-              generation={project.generation}
-              links={project.links}
-              logoImage={project.logo_image}
-              name={project.name}
-              serviceType={project.service_type}
-              thumbnailIamge={project.thumbnail_image}
-              onClick={() => router.push(`/projects/${project.id}`)}
-            />
-          ))}
-        </StyledGridContainer>
-      </StyledContent>
-    </StyledContainer>
+    <AuthRequired>
+      <StyledContainer>
+        <StyledContent>
+          <StyledLength typography='SUIT_22_B'>{data?.projects.length} Projects</StyledLength>
+          <StyledGridContainer>
+            {data?.projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                category={project.category}
+                summary={project.summary}
+                generation={project.generation}
+                links={project.links}
+                logoImage={project.logo_image}
+                name={project.name}
+                serviceType={project.service_type}
+                thumbnailIamge={project.thumbnail_image}
+                onClick={() => router.push(`/projects/${project.id}`)}
+              />
+            ))}
+          </StyledGridContainer>
+        </StyledContent>
+      </StyledContainer>
+    </AuthRequired>
   );
 };
+
+setLayout(ProjectPage, (page) => (
+  <>
+    <Header />
+    {page}
+  </>
+));
 
 export default ProjectPage;
 

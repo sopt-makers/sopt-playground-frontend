@@ -3,13 +3,16 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 
+import AuthRequired from '@/components/auth/AuthRequired';
+import SiteHeader from '@/components/common/Header';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { setLayout } from '@/utils/layout';
 
-export default function ProjectDetailPage() {
+export const ProjectDetailPage = () => {
   const router = useRouter();
   const { projectId } = router.query;
 
@@ -49,87 +52,98 @@ export default function ProjectDetailPage() {
   }, [data]);
 
   return (
-    <Container>
-      <Header>
-        <ServiceTypeWrapper>
-          {data?.service_type.map((type) => (
-            <ServiceType key={type}>{type}</ServiceType>
-          ))}
-        </ServiceTypeWrapper>
-        <ServiceInfoWrapper>
-          <LogoImageWrapper>
-            <LogoImage src={data?.logo_image} alt={data?.name} />
-          </LogoImageWrapper>
-          <InfoWrapper>
-            <Name>{data?.name}</Name>
-            <Description>{data?.summary}</Description>
-            <StartEndAtWrapper>
-              <StartEndAt>{startAt}</StartEndAt>
-              {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
-            </StartEndAtWrapper>
-            <MobileServiceTypeWrapper>
-              {data?.service_type.map((type) => (
-                <ServiceType key={type}>{type}</ServiceType>
+    <AuthRequired>
+      <Container>
+        <Header>
+          <ServiceTypeWrapper>
+            {data?.service_type.map((type) => (
+              <ServiceType key={type}>{type}</ServiceType>
+            ))}
+          </ServiceTypeWrapper>
+          <ServiceInfoWrapper>
+            <LogoImageWrapper>
+              <LogoImage src={data?.logo_image} alt={data?.name} />
+            </LogoImageWrapper>
+            <InfoWrapper>
+              <Name>{data?.name}</Name>
+              <Description>{data?.summary}</Description>
+              <StartEndAtWrapper>
+                <StartEndAt>{startAt}</StartEndAt>
+                {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
+              </StartEndAtWrapper>
+              <MobileServiceTypeWrapper>
+                {data?.service_type.map((type) => (
+                  <ServiceType key={type}>{type}</ServiceType>
+                ))}
+              </MobileServiceTypeWrapper>
+            </InfoWrapper>
+          </ServiceInfoWrapper>
+        </Header>
+
+        {mainImage && (
+          <MainImageWrapper>
+            <MainImage src={mainImage} alt={data?.name} />
+          </MainImageWrapper>
+        )}
+
+        <ProjectDetailContainer>
+          <DetailContainer>
+            <DetailTitle>Project Overview</DetailTitle>
+            <DetailWrapper>{data?.detail}</DetailWrapper>
+            <LinksWrapper>
+              {data?.links.map((link) => (
+                <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+                  <LinkIcon />
+                  {link.title}
+                </LinkBox>
               ))}
-            </MobileServiceTypeWrapper>
-          </InfoWrapper>
-        </ServiceInfoWrapper>
-      </Header>
+            </LinksWrapper>
+          </DetailContainer>
 
-      {mainImage && (
-        <MainImageWrapper>
-          <MainImage src={mainImage} alt={data?.name} />
-        </MainImageWrapper>
-      )}
+          <MemberWrapper>
+            <MemberInfoWrapper>
+              {data?.generation && <Info>{data.generation}기</Info>}
+              <Info>{data?.category}</Info>
+            </MemberInfoWrapper>
+            <MemberList>
+              {Array.from(memberNamesByRole).map(([role, names], idx) => (
+                <MemberItem key={idx}>
+                  <MemberRole>{role}</MemberRole>
+                  <MemberNameList>
+                    {names.map((name, idx) => (
+                      <MemberName key={idx}>
+                        <MemberIcon />
+                        {name}
+                      </MemberName>
+                    ))}
+                  </MemberNameList>
+                </MemberItem>
+              ))}
+            </MemberList>
+          </MemberWrapper>
+        </ProjectDetailContainer>
 
-      <ProjectDetailContainer>
-        <DetailContainer>
-          <DetailTitle>Project Overview</DetailTitle>
-          <DetailWrapper>{data?.detail}</DetailWrapper>
-          <LinksWrapper>
-            {data?.links.map((link) => (
-              <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-                <LinkIcon />
-                {link.title}
-              </LinkBox>
-            ))}
-          </LinksWrapper>
-        </DetailContainer>
-
-        <MemberWrapper>
-          <MemberInfoWrapper>
-            {data?.generation && <Info>{data.generation}기</Info>}
-            <Info>{data?.category}</Info>
-          </MemberInfoWrapper>
-          <MemberList>
-            {Array.from(memberNamesByRole).map(([role, names], idx) => (
-              <MemberItem key={idx}>
-                <MemberRole>{role}</MemberRole>
-                <MemberNameList>
-                  {names.map((name, idx) => (
-                    <MemberName key={idx}>
-                      <MemberIcon />
-                      {name}
-                    </MemberName>
-                  ))}
-                </MemberNameList>
-              </MemberItem>
-            ))}
-          </MemberList>
-        </MemberWrapper>
-      </ProjectDetailContainer>
-
-      <MoblieLinksWrapper>
-        {data?.links.map((link) => (
-          <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-            <LinkIcon />
-            {link.title}
-          </LinkBox>
-        ))}
-      </MoblieLinksWrapper>
-    </Container>
+        <MoblieLinksWrapper>
+          {data?.links.map((link) => (
+            <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
+              <LinkIcon />
+              {link.title}
+            </LinkBox>
+          ))}
+        </MoblieLinksWrapper>
+      </Container>
+    </AuthRequired>
   );
-}
+};
+
+setLayout(ProjectDetailPage, (page) => (
+  <>
+    <SiteHeader />
+    {page}
+  </>
+));
+
+export default ProjectDetailPage;
 
 const Container = styled.div`
   margin: 0 auto;

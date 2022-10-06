@@ -1,7 +1,20 @@
 import type { NextPage } from 'next';
 
+import AuthRequired from '@/components/auth/AuthRequired';
+import Header from '@/components/common/Header';
+import { setLayout } from '@/utils/layout';
+
 const Home: NextPage = () => {
-  return <div>Home</div>;
+  return <AuthRequired>멤버 페이지</AuthRequired>;
 };
+
+setLayout(Home, (page) => {
+  return (
+    <>
+      <Header />
+      {page}
+    </>
+  );
+});
 
 export default Home;

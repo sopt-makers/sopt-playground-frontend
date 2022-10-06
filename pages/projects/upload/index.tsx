@@ -6,7 +6,9 @@ import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { User } from '@/api/project/types';
+import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
+import Header from '@/components/common/Header';
 import { categoryLabel, FORM_ITEMS } from '@/components/projects/upload/constants';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
@@ -29,6 +31,7 @@ import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/c
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { setLayout } from '@/utils/layout';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
@@ -177,34 +180,43 @@ const ProjectUploadPage: FC = () => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <FormStatus formItems={formItems} />
-        <ProjectContainer>
-          <ProjectName />
-          <ProjectGeneration />
-          <ProjectCategory />
-          <ProjectStatus />
-          <ToastProvider>
-            <ProjectMembers type={categoryLabel?.[category] ?? ''} />
-            <ProjectReleaseMembers />
-          </ToastProvider>
-          <ProjectServiceType />
-          <ProjectPeriod />
-          <ProjectSummary />
-          <ProjectDetail />
-          <ProjectImageSection />
-          <ProjectLink />
-          <StyledButtonWrapper>
-            <Button type='submit' variant='primary'>
-              프로젝트 등록하기
-            </Button>
-          </StyledButtonWrapper>
-        </ProjectContainer>
-      </StyledForm>
-    </FormProvider>
+    <AuthRequired>
+      <FormProvider {...methods}>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+          <FormStatus formItems={formItems} />
+          <ProjectContainer>
+            <ProjectName />
+            <ProjectGeneration />
+            <ProjectCategory />
+            <ProjectStatus />
+            <ToastProvider>
+              <ProjectMembers type={categoryLabel?.[category] ?? ''} />
+              <ProjectReleaseMembers />
+            </ToastProvider>
+            <ProjectServiceType />
+            <ProjectPeriod />
+            <ProjectSummary />
+            <ProjectDetail />
+            <ProjectImageSection />
+            <ProjectLink />
+            <StyledButtonWrapper>
+              <Button type='submit' variant='primary'>
+                프로젝트 등록하기
+              </Button>
+            </StyledButtonWrapper>
+          </ProjectContainer>
+        </StyledForm>
+      </FormProvider>
+    </AuthRequired>
   );
 };
+
+setLayout(ProjectUploadPage, (page) => (
+  <>
+    <Header />
+    {page}
+  </>
+));
 
 export default ProjectUploadPage;
 

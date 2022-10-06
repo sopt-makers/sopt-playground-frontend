@@ -1,25 +1,14 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { graphql, rest } from 'msw';
 
-import Text from './';
+import Header from '@/components/common/Header';
 
 export default {
-  component: Text,
-  parameters: {
-    msw: {
-      handlers: [
-        graphql.query('GraphQLQueryName', (_req, res, ctx) => res(ctx.data({ result: { is_test: true } }))),
-        graphql.mutation('GraphQLMutationName', (_req, res, ctx) => res(ctx.data({ result: { is_test: true } }))),
-        // https://mswjs.io/docs/api/rest
-        rest.get('https://localhost:4200/api/*', (_req, res, ctx) => res(ctx.json({ is_test: true }))),
-        rest.post('https://localhost:4200/api/*', (_req, res, ctx) => res(ctx.status(200))),
-      ],
-    },
-  },
+  component: Header,
+  parameters: {},
   decorators: [],
-} as ComponentMeta<typeof Text>;
+} as ComponentMeta<typeof Header>;
 
-const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />;
+const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};

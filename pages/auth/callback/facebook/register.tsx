@@ -21,7 +21,7 @@ const FacebookRegisterCallbackPage: FC = () => {
     }
 
     setAccessToken(registerResult.accessToken);
-    router.replace('/auth/register-finished');
+    router.replace('/profile/create');
   });
 
   return (

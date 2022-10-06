@@ -1,6 +1,7 @@
-import { FC, ReactNode, useRef } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { loadAccessToken } from '@/components/auth/accessToken';
+import useClientSideOnce from '@/hooks/useClientSideOnce';
 
 export const AuthProvider: FC<{ children: ReactNode }> = (props) => {
   useClientSideOnce(() => {
@@ -11,14 +12,3 @@ export const AuthProvider: FC<{ children: ReactNode }> = (props) => {
 };
 
 export default AuthProvider;
-
-function useClientSideOnce(handler: () => void) {
-  const isExecuted = useRef(false);
-
-  if (typeof window !== 'undefined') {
-    if (!isExecuted.current) {
-      handler();
-      isExecuted.current = true;
-    }
-  }
-}
