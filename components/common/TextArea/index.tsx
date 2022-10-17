@@ -16,7 +16,7 @@ const TextArea: FC<PropsWithChildren<TextAreaProps>> = ({ count, maxCount, error
   const [value, setValue] = useState<string>('');
   return (
     <>
-      <StyledTextArea value={value} onChange={(e) => setValue(e.target.value)} error={error} {...props} />
+      <StyledTextArea {...props} value={value} onChange={(e) => setValue(e.target.value)} error={error} />
       {count && (
         <StyledCountValue>
           <Text color={colors.gray100} typography='SUIT_12_M'>
