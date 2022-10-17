@@ -45,6 +45,7 @@ const RHFControllerFormItem = <
       <Component
         {...({
           error: error || !!fieldState.error,
+          maxLength: props.maxCount,
           ...field,
           ...props,
         } as React.ComponentProps<T>)}
