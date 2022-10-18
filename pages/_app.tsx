@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
 import AuthProvider from '@/components/auth/AuthProvider';
+import Debugger from '@/components/debug/Debugger';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
 const queryClient = new QueryClient({
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RecoilRoot>
           <GlobalStyle />
           {layout(<Component {...pageProps} />)}
+          <Debugger />
         </RecoilRoot>
       </QueryClientProvider>
     </AuthProvider>
