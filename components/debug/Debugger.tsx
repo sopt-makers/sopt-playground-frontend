@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import DebugDrawer from '@/components/debug/DebugDrawer';
+import SidePanel from '@/components/debug/SidePanel';
 import SideToggleButton from '@/components/debug/SideToggleButton';
 import { DEBUG } from '@/constants/Config';
 
@@ -14,7 +14,7 @@ const Debugger: FC = () => {
   return (
     <>
       <SideToggleButton onClick={() => setIsOpen(true)} />
-      <DebugDrawer isOpen={isOpen} onClose={() => setIsOpen(false)}></DebugDrawer>
+      <SidePanel isOpen={isOpen} onClose={() => setIsOpen(false)}></SidePanel>
     </>
   );
 };

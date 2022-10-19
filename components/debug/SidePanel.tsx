@@ -2,13 +2,13 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FC, ReactNode, useEffect } from 'react';
 
-interface DebugDrawerProps {
+interface SidePanelProps {
   isOpen: boolean;
   onClose(): void;
   children?: ReactNode;
 }
 
-const DebugDrawer: FC<DebugDrawerProps> = ({ isOpen, onClose, children }) => {
+const SidePanel: FC<SidePanelProps> = ({ isOpen, onClose, children }) => {
   useEffect(() => {
     const keydownHandler = () => {
       onClose();
@@ -21,19 +21,19 @@ const DebugDrawer: FC<DebugDrawerProps> = ({ isOpen, onClose, children }) => {
   }, [onClose]);
 
   return (
-    <StyledDebugDrawer isOpen={isOpen}>
+    <StyledSidePanel isOpen={isOpen}>
       <Header>
         <HeaderTitle>Debug Panel</HeaderTitle>
         <CloseButton onClick={() => onClose()}>X</CloseButton>
       </Header>
       <Content>{children}</Content>
-    </StyledDebugDrawer>
+    </StyledSidePanel>
   );
 };
 
-export default DebugDrawer;
+export default SidePanel;
 
-const StyledDebugDrawer = styled.div<{ isOpen: boolean }>`
+const StyledSidePanel = styled.div<{ isOpen: boolean }>`
   box-sizing: border-box;
   display: flex;
   position: fixed;
