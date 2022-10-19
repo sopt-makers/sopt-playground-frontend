@@ -17,7 +17,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, count, m
 
   return (
     <>
-      <StyledInput {...props} value={value} onChange={(e) => setValue(e.target.value)} error={error} ref={ref} />
+      <StyledInput value={value} onChange={(e) => setValue(e.target.value)} error={error} ref={ref} {...props} />
       {count && (
         <StyledCountValue>
           <Text color={colors.gray100} typography='SUIT_12_M'>
