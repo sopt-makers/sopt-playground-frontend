@@ -6,17 +6,25 @@ import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextAreaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'value'> {
   error?: boolean;
   count?: boolean;
   maxCount?: number;
 }
 
-const TextArea: FC<PropsWithChildren<TextAreaProps>> = ({ count, maxCount, error, ...props }) => {
+const TextArea: FC<PropsWithChildren<TextAreaProps>> = ({ count, maxCount, error, onChange, ...props }) => {
   const [value, setValue] = useState<string>('');
   return (
     <>
-      <StyledTextArea value={value} onChange={(e) => setValue(e.target.value)} error={error} {...props} />
+      <StyledTextArea
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange?.(e);
+        }}
+        error={error}
+        {...props}
+      />
       {count && (
         <StyledCountValue>
           <Text color={colors.gray100} typography='SUIT_12_M'>
