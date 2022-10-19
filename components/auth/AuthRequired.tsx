@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
 import { FC, ReactNode, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import { getAccessToken } from '@/components/auth/accessToken';
+import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 
 interface AuthRequiredProps {
   children: ReactNode;
@@ -13,11 +14,13 @@ interface AuthRequiredProps {
 const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
   const router = useRouter();
 
+  const accessToken = useRecoilValue(accessTokenAtom);
+
   useEffect(() => {
-    if (getAccessToken() === null) {
+    if (accessToken === null) {
       router.replace('/auth/login');
     }
-  }, [router]);
+  }, [router, accessToken]);
 
   return <>{children}</>;
 };
