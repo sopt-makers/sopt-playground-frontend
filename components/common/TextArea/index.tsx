@@ -6,7 +6,7 @@ import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface TextAreaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'value'> {
+interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: boolean;
   count?: boolean;
   maxCount?: number;
@@ -17,7 +17,7 @@ const TextArea: FC<PropsWithChildren<TextAreaProps>> = ({ count, maxCount, error
   return (
     <>
       <StyledTextArea
-        value={value}
+        value={props.value ?? value}
         onChange={(e) => {
           setValue(e.target.value);
           onChange?.(e);
