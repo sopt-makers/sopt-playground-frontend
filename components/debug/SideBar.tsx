@@ -5,10 +5,11 @@ import { FC, ReactNode, useEffect } from 'react';
 interface SidePanelProps {
   isOpen: boolean;
   onClose(): void;
+  title: string;
   children?: ReactNode;
 }
 
-const SidePanel: FC<SidePanelProps> = ({ isOpen, onClose, children }) => {
+const SideBar: FC<SidePanelProps> = ({ isOpen, onClose, title, children }) => {
   useEffect(() => {
     const keydownHandler = () => {
       onClose();
@@ -23,7 +24,7 @@ const SidePanel: FC<SidePanelProps> = ({ isOpen, onClose, children }) => {
   return (
     <StyledSidePanel isOpen={isOpen}>
       <Header>
-        <HeaderTitle>Debug Panel</HeaderTitle>
+        <HeaderTitle>{title}</HeaderTitle>
         <CloseButton onClick={() => onClose()}>X</CloseButton>
       </Header>
       <Content>{children}</Content>
@@ -31,7 +32,7 @@ const SidePanel: FC<SidePanelProps> = ({ isOpen, onClose, children }) => {
   );
 };
 
-export default SidePanel;
+export default SideBar;
 
 const StyledSidePanel = styled.div<{ isOpen: boolean }>`
   box-sizing: border-box;
