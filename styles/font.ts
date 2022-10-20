@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
-import SUIT_EXTRA_BOLD from '@/public/fonts/SUIT-ExtraBold.ttf';
+
 import SUIT_BOLD from '@/public/fonts/SUIT-Bold.ttf';
-import SUIT_SEMI_BOLD from '@/public/fonts/SUIT-SemiBold.ttf';
+import SUIT_EXTRA_BOLD from '@/public/fonts/SUIT-ExtraBold.ttf';
 import SUIT_Medium from '@/public/fonts/SUIT-Medium.ttf';
+import SUIT_SEMI_BOLD from '@/public/fonts/SUIT-SemiBold.ttf';
 
 const font = css`
   @font-face {
