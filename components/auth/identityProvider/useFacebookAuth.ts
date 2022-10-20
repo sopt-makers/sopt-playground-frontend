@@ -1,5 +1,5 @@
 import { auth } from '@/api/auth';
-import useStateParam from '@/components/auth/useStateParam';
+import useStateParam from '@/components/auth/util/useStateParam';
 
 const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
 const FACEBOOK_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID ?? '';
