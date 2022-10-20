@@ -18,7 +18,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, count, m
   return (
     <>
       <StyledInput
-        value={props.value ?? value}
         onChange={(e) => {
           setValue(e.target.value);
           onChange?.(e);

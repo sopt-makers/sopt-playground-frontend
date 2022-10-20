@@ -17,7 +17,6 @@ const TextArea: FC<PropsWithChildren<TextAreaProps>> = ({ count, maxCount, error
   return (
     <>
       <StyledTextArea
-        value={props.value ?? value}
         onChange={(e) => {
           setValue(e.target.value);
           onChange?.(e);
