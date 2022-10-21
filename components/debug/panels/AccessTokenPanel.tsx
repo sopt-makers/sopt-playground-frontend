@@ -28,13 +28,16 @@ const AccessTokenPanel: FC = () => {
 
   const decodedToken = useMemo(() => {
     if (!accessToken) {
-      return false;
+      return null;
     }
     return safeDecodeAccessToken(accessToken);
   }, [accessToken]);
 
   const isEditError = useMemo(() => {
     if (editState.type === 'idle') {
+      return false;
+    }
+    if (editState.value === '') {
       return false;
     }
     return safeDecodeAccessToken(editState.value) === null;
