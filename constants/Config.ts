@@ -1,5 +1,1 @@
-const isLocal = !!process.env.NEXT_PUBLIC_LOCAL;
-
-export default {
-  isLocal,
-};
+export const isLocal = !!process.env.NEXT_PUBLIC_LOCAL;

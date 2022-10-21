@@ -1,5 +1,6 @@
-import { global } from '@/styles/global';
 import { Global } from '@emotion/react';
+
+import { global } from '@/styles/global';
 
 const GlobalStyle = () => <Global styles={global} />;
 

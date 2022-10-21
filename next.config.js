@@ -28,6 +28,9 @@ const nextConfig = {
 
     return config;
   },
+  eslint: {
+    dirs: ['components', 'constants', 'hooks', 'pages', 'styles', 'types', 'utils'],
+  },
 };
 
 module.exports = nextConfig;
