@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
+import { colors } from '@/styles/colors';
+
 interface SideToggleButtonProps {
   onClick(): void;
 }
@@ -15,7 +17,16 @@ const StyledSideToggleButton = styled.button`
   position: fixed;
   right: 10px;
   bottom: 10px;
-  background-color: white;
+  border-radius: 7px;
+  background-color: ${colors.purple60};
   cursor: pointer;
-  color: black;
+  padding: 5px;
+  color: ${colors.gray100};
+  font-size: 18px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: ${colors.white};
+    color: ${colors.purple100};
+  }
 `;
