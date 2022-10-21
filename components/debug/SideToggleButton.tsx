@@ -12,9 +12,10 @@ const SideToggleButton: FC<SideToggleButtonProps> = ({ onClick }) => {
 export default SideToggleButton;
 
 const StyledSideToggleButton = styled.button`
-  position: absolute;
+  position: fixed;
   right: 10px;
   bottom: 10px;
   background-color: white;
+  cursor: pointer;
   color: black;
 `;

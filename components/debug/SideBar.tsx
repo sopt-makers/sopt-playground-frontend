@@ -11,8 +11,10 @@ interface SidePanelProps {
 
 const SideBar: FC<SidePanelProps> = ({ isOpen, onClose, title, children }) => {
   useEffect(() => {
-    const keydownHandler = () => {
-      onClose();
+    const keydownHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
     };
     window.addEventListener('keydown', keydownHandler);
 
@@ -45,10 +47,10 @@ const StyledSidePanel = styled.div<{ isOpen: boolean }>`
   transition: transform 0.3s ease-in 0s;
   z-index: 99999999;
   border-right: 1px solid gray;
-  background-color: white;
+  background-color: #373737;
   width: 500px;
   overflow: visible;
-  color: black;
+  color: white;
 
   ${(props) =>
     props.isOpen
@@ -63,14 +65,29 @@ const StyledSidePanel = styled.div<{ isOpen: boolean }>`
 
 const Header = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const HeaderTitle = styled.h2`
   flex-grow: 1;
+  margin-left: 10px;
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  padding: 15px 0 0;
+`;
 
 const CloseButton = styled.button`
-  color: black;
+  /* padding: 8px 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  color: white;
+
+  &:hover {
+    background-color: rgb(200 200 200 / 30%);
+  }
 `;
