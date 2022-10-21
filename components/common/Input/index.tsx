@@ -12,12 +12,20 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   maxCount?: number;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, count, maxCount, ...props }, ref) => {
+export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, count, maxCount, onChange, ...props }, ref) => {
   const [value, setValue] = useState<string>('');
 
   return (
     <>
-      <StyledInput value={value} onChange={(e) => setValue(e.target.value)} error={error} ref={ref} {...props} />
+      <StyledInput
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange?.(e);
+        }}
+        error={error}
+        ref={ref}
+        {...props}
+      />
       {count && (
         <StyledCountValue>
           <Text color={colors.gray100} typography='SUIT_12_M'>
