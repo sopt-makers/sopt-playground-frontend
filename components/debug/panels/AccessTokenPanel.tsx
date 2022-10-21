@@ -1,15 +1,16 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { FC, useReducer } from 'react';
+import { FC, useMemo, useReducer } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { safeDecodeAccessToken } from '@/components/auth/util/accessToken';
 import Button from '@/components/common/Button';
 import TextArea from '@/components/common/TextArea';
 import Panel from '@/components/debug/Panel';
 import { colors } from '@/styles/colors';
 
-const AuthPanel: FC = () => {
+const AccessTokenPanel: FC = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
 
   const [editState, dispatchEdit] = useReducer(reducer, { type: 'idle' });
@@ -18,9 +19,26 @@ const AuthPanel: FC = () => {
     if (editState.type !== 'editing') {
       return;
     }
+    if (isEditError) {
+      return;
+    }
     setAccessToken(editState.value !== '' ? editState.value : null);
     dispatchEdit({ type: 'end' });
   };
+
+  const decodedToken = useMemo(() => {
+    if (!accessToken) {
+      return false;
+    }
+    return safeDecodeAccessToken(accessToken);
+  }, [accessToken]);
+
+  const isEditError = useMemo(() => {
+    if (editState.type === 'idle') {
+      return false;
+    }
+    return safeDecodeAccessToken(editState.value) === null;
+  }, [editState]);
 
   return (
     <Panel title='저장된 액세스 토큰'>
@@ -29,6 +47,7 @@ const AuthPanel: FC = () => {
           <StyledTextArea
             value={editState.value}
             onChange={(e) => dispatchEdit({ type: 'change', value: e.target.value })}
+            error={isEditError}
           />
           <ActionBox>
             <Button
@@ -51,13 +70,15 @@ const AuthPanel: FC = () => {
               변경
             </Button>
           </ActionBox>
+          <InSectionTitle>디코드된 토큰 정보</InSectionTitle>
+          <StyledTextArea value={JSON.stringify(decodedToken, null, 2)} disabled />
         </>
       )}
     </Panel>
   );
 };
 
-export default AuthPanel;
+export default AccessTokenPanel;
 
 const StyledTextArea = styled(TextArea)`
   min-height: 130px;
@@ -74,6 +95,10 @@ const ActionBox = styled.div`
   display: flex;
   flex-direction: row-reverse;
   margin-top: 8px;
+`;
+
+const InSectionTitle = styled.h3`
+  margin: 5px 0;
 `;
 
 type States =
