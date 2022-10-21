@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import SiteHeader from '@/components/common/Header';
@@ -12,7 +12,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
-export const ProjectDetailPage = () => {
+const ProjectDetailPage: FC = () => {
   const router = useRouter();
   const { projectId } = router.query;
 
