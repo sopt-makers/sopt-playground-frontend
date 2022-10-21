@@ -1,11 +1,11 @@
-import Config from '@/constants/Config';
 import { useRouter } from 'next/router';
+
+import { isLocal } from '@/constants/Config';
 
 const SERVICE_ACCESS_TOKEN_KEY = 'serviceAccessToken';
 const SERVICE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN ?? '';
 
 const useLocalLogin = () => {
-  const { isLocal } = Config;
   const router = useRouter();
 
   const onClickLocalLogin = () => {

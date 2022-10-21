@@ -3,7 +3,7 @@ import { ReactElement, ReactNode } from 'react';
 
 export type Layout = (page: ReactElement) => ReactNode;
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: Layout;
 };
 
