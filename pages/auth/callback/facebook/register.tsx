@@ -1,13 +1,15 @@
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
-import { setAccessToken } from '@/components/auth/accessToken';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
+import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useQueryStringParam from '@/components/auth/useQueryString';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
   const facebookAuth = useFacebookAuth();
+  const setAccessToken = useSetRecoilState(accessTokenAtom);
 
   const [message, setMessage] = useState('');
 

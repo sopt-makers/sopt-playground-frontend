@@ -2,7 +2,6 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
-import AuthProvider from '@/components/auth/AuthProvider';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
 const queryClient = new QueryClient({
@@ -13,14 +12,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const layout = getLayout(Component);
 
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <GlobalStyle />
-          {layout(<Component {...pageProps} />)}
-        </RecoilRoot>
-      </QueryClientProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <GlobalStyle />
+        {layout(<Component {...pageProps} />)}
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }
 

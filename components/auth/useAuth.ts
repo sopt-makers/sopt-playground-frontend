@@ -1,13 +1,15 @@
 import { useRouter } from 'next/router';
+import { useResetRecoilState } from 'recoil';
 
-import { removeAccessToken } from '@/components/auth/accessToken';
+import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 
 const useAuth = () => {
   const router = useRouter();
+  const resetAccessToken = useResetRecoilState(accessTokenAtom);
 
   return {
     logout() {
-      removeAccessToken();
+      resetAccessToken();
       router.push('/auth/login');
     },
   };

@@ -7,3 +7,5 @@ export const copyToClipboard = async (text: string, options?: { onSuccess?: () =
     options?.onError?.();
   }
 };
+
+export const isClientSide = () => typeof window !== 'undefined';
