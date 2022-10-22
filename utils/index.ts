@@ -3,7 +3,7 @@ export const copyToClipboard = async (text: string, options?: { onSuccess?: () =
     if (!text) throw new Error('빈 문자열입니다');
     await navigator.clipboard.writeText(text);
     options?.onSuccess?.();
-  } catch (error) {
+  } catch {
     options?.onError?.();
   }
 };

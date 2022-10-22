@@ -5,7 +5,7 @@ import Header from '@/components/common/Header';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
-  return <AuthRequired>멤버 페이지</AuthRequired>;
+  return <AuthRequired>Home</AuthRequired>;
 };
 
 setLayout(Home, (page) => {

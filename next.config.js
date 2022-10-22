@@ -9,7 +9,14 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgo: false, // rect가 path로 렌더링되지 않도록
+          },
+        },
+      ],
     });
 
     config.module.rules.push({
@@ -27,6 +34,9 @@ const nextConfig = {
     };
 
     return config;
+  },
+  eslint: {
+    dirs: ['components', 'constants', 'hooks', 'pages', 'styles', 'types', 'utils'],
   },
 };
 
