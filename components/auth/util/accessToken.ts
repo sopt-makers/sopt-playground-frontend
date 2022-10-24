@@ -1,4 +1,4 @@
-import { number, object } from 'yup';
+import { number, object, string } from 'yup';
 
 const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 
@@ -16,24 +16,34 @@ export const tokenStorage = {
 
 export function safeDecodeAccessToken(token: string) {
   try {
-    const encodedSegment = token.split('.')[1];
-    const segment = JSON.parse(window.atob(encodedSegment)) as unknown;
+    const matches = token.match(/^(.+)\.(.+)\.(.+)$/);
+    if (!matches) {
+      return null;
+    }
 
-    const jwtHeader = hasExp.validateSync(segment);
+    const jwtHeader = JSON.parse(window.atob(matches[1])) as unknown;
+    const jwtPayload = JSON.parse(window.atob(matches[2])) as unknown;
 
-    const exp = jwtHeader.exp;
+    const header = validateHeader.validateSync(jwtHeader);
+    const payload = validatePayload.validateSync(jwtPayload);
+
+    const exp = payload.exp;
 
     if (exp < Date.now() / 1000) {
       return null;
     }
 
-    return segment;
-  } catch (e) {
-    console.log(e);
+    return { header, payload };
+  } catch {
     return null;
   }
 }
 
-const hasExp = object({
+const validatePayload = object({
   exp: number().required(),
+});
+
+const validateHeader = object({
+  alg: string(),
+  typ: string().oneOf(['JWT']),
 });
