@@ -8,10 +8,10 @@ import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
-import InfoItem from '@/components/members/detail/InfoItem';
-import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
-import PartItem from '@/components/members/detail/PartItem';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
+import InfoItem from '@/components/users/detail/InfoItem';
+import PartItem from '@/components/users/detail/PartItem';
+import UserProjectCard from '@/components/users/detail/UserProjectCard';
 import { setLayout } from '@/utils/layout';
 
 // TODO: 데이터 변경
@@ -49,7 +49,7 @@ const parts = [
   },
 ];
 
-const MemberDetailPage: FC = () => {
+const UserDetailPage: FC = () => {
   //   const router = useRouter();
   //   const { memberId } = router.query;
 
@@ -117,7 +117,7 @@ const MemberDetailPage: FC = () => {
             <ProjectSub>3개의 프로젝트에 참여</ProjectSub>
             <ProjectGrid>
               {data?.projects.map((project) => (
-                <MemberProjectCard
+                <UserProjectCard
                   key={project.id}
                   category={project.category}
                   summary={project.summary}
@@ -136,7 +136,7 @@ const MemberDetailPage: FC = () => {
   );
 };
 
-setLayout(MemberDetailPage, (page) => (
+setLayout(UserDetailPage, (page) => (
   <>
     <Header />
     {page}
@@ -289,4 +289,4 @@ const ProjectGrid = styled.div`
   row-gap: 64px;
 `;
 
-export default MemberDetailPage;
+export default UserDetailPage;

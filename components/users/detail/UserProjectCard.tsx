@@ -8,7 +8,7 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export interface MemberProjectCardProps {
+export interface UserProjectCardProps {
   serviceType: ServiceType[];
   name: string;
   category: Category;
@@ -18,7 +18,7 @@ export interface MemberProjectCardProps {
   logoImage: string;
 }
 
-const MemberProjectCard: FC<MemberProjectCardProps> = ({
+const MemberProjectCard: FC<UserProjectCardProps> = ({
   name,
   category,
   generation,
