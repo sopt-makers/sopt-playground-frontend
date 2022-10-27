@@ -10,6 +10,8 @@ export const colors = {
   gray100: '#646464',
   gray80: '#838383',
   gray60: '#A9A9A9',
+  gray40: '#C0C5C9',
+  gray10: '#F7F8FA',
   white: '#fcfcfc',
   facebook: '#1877f2',
 };
