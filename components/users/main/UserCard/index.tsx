@@ -5,7 +5,7 @@ import { LATEST_GENERATION } from '@/constants/generation';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface CardProps {
+interface UserCardProps {
   name: string;
   role: string;
   description: string;
@@ -13,7 +13,7 @@ interface CardProps {
   generation: number; // TODO: 서버에서 내려준다면 isActiveGeneration 등으로 변경 가능
 }
 
-const Card: FC<CardProps> = ({ name, role, description, image, generation }) => {
+const UserCard: FC<UserCardProps> = ({ name, role, description, image, generation }) => {
   const isActiveGeneration = generation === LATEST_GENERATION;
 
   return (
@@ -35,7 +35,7 @@ const Card: FC<CardProps> = ({ name, role, description, image, generation }) => 
   );
 };
 
-export default Card;
+export default UserCard;
 
 const StyledCard = styled.div`
   transition: background-color 0.3s;
