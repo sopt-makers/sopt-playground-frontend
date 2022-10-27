@@ -19,8 +19,12 @@ const Card: FC<CardProps> = ({ name, role, description, image, generation }) => 
   return (
     <StyledCard>
       <CardHeader>
-        <ActiveGenerationBadge>{isActiveGeneration && `${generation}기 활동중`}</ActiveGenerationBadge>
-        <Image className='image' src={image ?? '/icons/icon-member-default.svg'} alt='member_image' />
+        {isActiveGeneration && <ActiveGenerationBadge>{`${generation}기 활동중`}</ActiveGenerationBadge>}
+        {image ? (
+          <Image className='image' src={image} alt='member_image' />
+        ) : (
+          <DefaultImage className='image' src={'/icons/icon-member-default.svg'} alt='default_member_image' />
+        )}
       </CardHeader>
       <CardContent>
         <Name>{name}</Name>
@@ -34,7 +38,7 @@ const Card: FC<CardProps> = ({ name, role, description, image, generation }) => 
 export default Card;
 
 const StyledCard = styled.div`
-  transition: background-color 0.3s transform 0.3s;
+  transition: background-color 0.3s;
   border-radius: 30px;
   background-color: ${colors.black80};
   cursor: pointer;
@@ -45,6 +49,7 @@ const StyledCard = styled.div`
 
     .image {
       transform: scale(1.2);
+      transition: transform 0.3s;
     }
   }
 `;
@@ -58,12 +63,14 @@ const CardHeader = styled.div`
   background-color: rgb(255 255 255 / 5%);
   width: 100%;
   height: 278px;
+  overflow: hidden;
 `;
 
 const ActiveGenerationBadge = styled.div`
   position: absolute;
   top: 17px;
   left: 17px;
+  z-index: 1;
   border-radius: 33px;
   background-color: ${colors.black100};
   padding: 10px 14.5px;
@@ -71,8 +78,13 @@ const ActiveGenerationBadge = styled.div`
   ${textStyles.SUIT_14_M}
 `;
 
-const Image = styled.img`
+const DefaultImage = styled.img`
   width: 67px;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 const CardContent = styled.div`
