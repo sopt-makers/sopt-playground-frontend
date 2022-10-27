@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import Text from '@/components/common/Text';
 import { categoryLabel } from '@/components/projects/upload/constants';
 import { Category, ServiceType } from '@/components/projects/upload/types';
 import { colors } from '@/styles/colors';
@@ -48,14 +47,10 @@ const MemberProjectCard: FC<UserProjectCardProps> = ({
       </StyledImageSection>
       <StyledContent>
         <StyledTitleWrapper>
-          <Text typography='SUIT_18_B'>{name}</Text>
-          <Text typography='SUIT_12_SB' color={colors.gray100}>
-            {generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}
-          </Text>
+          <Title>{name}</Title>
+          <Generation>{generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}</Generation>
         </StyledTitleWrapper>
-        <Text typography='SUIT_14_M' color={colors.gray60}>
-          {summary}
-        </Text>
+        <Summary>{summary}</Summary>
       </StyledContent>
     </StyledCard>
   );
@@ -74,8 +69,9 @@ const StyledCard = styled.div`
   height: 317px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 355px;
-    height: 276px;
+    border-radius: 20px;
+    width: 100%;
+    height: 277px;
   }
 `;
 
@@ -92,6 +88,11 @@ const StyledServiceTypeWrapper = styled.div`
       margin-left: 6px;
     }
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    top: 17.36px;
+    left: 18.44px;
+  }
 `;
 
 const StyledServiceType = styled.div`
@@ -104,6 +105,9 @@ const StyledServiceType = styled.div`
   width: 53px;
   height: 23px;
   ${textStyles.SUIT_12_B};
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 1711.29px;
+  }
 `;
 
 const StyledImageSection = styled.section`
@@ -113,12 +117,18 @@ const StyledImageSection = styled.section`
   align-items: center;
   width: 100%;
   height: 216px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 188.74px;
+  }
 `;
 
 const StyledThumbnail = styled.img`
   border-radius: 24px 24px 0 0;
   width: 100%;
   height: 100%;
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 20px 20px 0 0;
+  }
 `;
 
 const StyledLogo = styled.img`
@@ -134,10 +144,45 @@ const StyledContent = styled.section`
   flex-direction: column;
   justify-content: space-between;
   padding: 25px 18px 28px 19px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 21.4px 19.89px 24.02px 20.77px;
+  }
 `;
 
 const StyledTitleWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const Title = styled.div`
+  line-height: 100%;
+  font-size: 20px;
+  font-weight: 700;
+  @media ${MOBILE_MEDIA_QUERY} {
+    font-size: 16px;
+  }
+`;
+
+const Generation = styled.div`
+  line-height: 100%;
+  letter-spacing: -0.01em;
+  color: ${colors.gray60};
+  font-size: 12px;
+  font-weight: 500;
+  @media ${MOBILE_MEDIA_QUERY} {
+    font-size: 14px;
+  }
+`;
+
+const Summary = styled.div`
+  margin-top: 14px;
+  line-height: 100%;
+  letter-spacing: -0.01em;
+  color: ${colors.gray80};
+  font-size: 14px;
+  font-weight: 500;
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 12.83px;
+  }
 `;
