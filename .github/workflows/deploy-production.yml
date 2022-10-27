@@ -1,10 +1,8 @@
-name: Deploy to CloudFlare Pages
+name: Deploy to CloudFlare Pages (Production)
 
 on:
   push:
     branches: [main]
-  pull_request:
-    
 
 jobs:
   deploy:
@@ -30,6 +28,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: sopt-project
+          projectName: ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
           directory: out
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
