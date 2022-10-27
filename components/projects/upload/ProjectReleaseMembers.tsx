@@ -4,7 +4,7 @@ import { FC } from 'react';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import MemberForm from '@/components/projects/upload/MemberForm';
-import SignupLink from '@/components/projects/upload/SignupLink';
+import SignUpLink from '@/components/projects/upload/SignUpLink';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -15,7 +15,7 @@ const ProjectReleaseMembers: FC = () => {
       <StyledDescription color={colors.gray100}>
         릴리즈에 합류한 팀원들의 이름을 적어주세요
         <span className='extra'>. 회원가입을 한 사람만 팀원 등록이 가능해요 </span>
-        <SignupLink />
+        <SignUpLink />
       </StyledDescription>
       <MemberForm name='releaseMembers' />
     </StyledContainer>
