@@ -48,7 +48,7 @@ const StyledCard = styled.div`
     background-color: ${colors.black60};
 
     .image {
-      transform: scale(1.2);
+      transform: scale(1.1);
       transition: transform 0.3s;
     }
   }
