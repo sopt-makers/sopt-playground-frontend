@@ -27,6 +27,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 export default Select;
 
 const StyledSelect = styled.select<Pick<SelectProps, 'width' | 'error'>>`
+  transition: all 0.2s;
   border: 1px solid transparent;
   border-radius: 6px;
   background: top 12px right 14px ${colors.black60} no-repeat

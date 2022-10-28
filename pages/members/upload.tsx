@@ -20,8 +20,8 @@ export default function MemberUploadPage() {
         </StyledHeader>
         <StyledForm>
           <BasicFormSection />
-          <AdditionalFormSection />
           <SoptActivityFormSection />
+          <AdditionalFormSection />
           <PublicQuestionFormSection />
         </StyledForm>
       </StyledContainer>

@@ -15,7 +15,7 @@ import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/
 import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
-import IconDelete from '@/public/icons/icon-delete.svg';
+import IconGarbage from '@/public/icons/icon-garbage.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -112,7 +112,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                 )}
               />
               <IconDeleteWrapper>
-                <IconDelete onClick={() => remove(index)} />
+                <IconGarbage onClick={() => remove(index)} />
               </IconDeleteWrapper>
             </MemberItemWrapper>
           ))}
@@ -173,7 +173,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                     )}
                   />
                   <MobileApplyFormFooter>
-                    <IconDelete onClick={() => onRemove(memberIndex)} />
+                    <IconGarbage onClick={() => onRemove(memberIndex)} />
                     <MobileCompleteButton type='button' onClick={() => onComplete(memberIndex)}>
                       완료
                     </MobileCompleteButton>

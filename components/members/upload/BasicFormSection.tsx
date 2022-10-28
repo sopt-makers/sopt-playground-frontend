@@ -2,18 +2,17 @@ import styled from '@emotion/styled';
 
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
+import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 export default function MemberBasicFormSection() {
   return (
     <FormSection>
-      <StyledTitle>기본정보</StyledTitle>
-      <StyledLine />
+      <FormHeader title='기본정보' />
       <StyledFormItems>
         <FormItem
           title='프로필 사진'
@@ -51,30 +50,6 @@ export default function MemberBasicFormSection() {
     </FormSection>
   );
 }
-
-const StyledTitle = styled.h2`
-  color: ${colors.gray10};
-  ${textStyles.SUIT_24_B};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_18_B};
-  }
-`;
-
-const StyledLine = styled.hr`
-  margin-top: 20px;
-  margin-bottom: 0;
-  border: none;
-  background-color: ${colors.black60};
-  width: 100%;
-  height: 1.5px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 16px;
-    background-color: ${colors.black80};
-    height: 1px;
-  }
-`;
 
 const StyledFormItems = styled.div`
   display: flex;
