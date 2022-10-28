@@ -15,5 +15,6 @@ module.exports = {
         'revert', // 리버트 커밋
       ],
     ],
+    'subject-case': [0, 'never'],
   },
 };
