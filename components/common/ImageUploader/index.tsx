@@ -13,9 +13,17 @@ interface ImageUploaderProps {
   value?: string | null;
   onChange: (value: string | null) => void;
   className?: string;
+  emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
 }
 
-const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onChange, value, className }) => {
+const ImageUploader: FC<ImageUploaderProps> = ({
+  width = 104,
+  height = 104,
+  onChange,
+  value,
+  className,
+  emptyIcon: EmptyIcon = IconImage,
+}) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [previewImage, setPreviewImage] = useState<string>('');
 
@@ -62,7 +70,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({ width = 104, height = 104, onCh
   return (
     <Container className={className} width={width} height={height} onClick={handleClick}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
-      {value ? <StyledPreview src={previewImage} alt='preview-image' /> : <IconImage />}
+      {value ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
     </Container>
   );
 };
