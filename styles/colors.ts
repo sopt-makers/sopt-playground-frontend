@@ -4,6 +4,7 @@ export const colors = {
   black60: '#2C2D2E',
   black40: '#3C3D40',
   red100: '#BD372F',
+  purpledim100: '#282839',
   purple100: '#8040FF',
   purple80: '#9E6DFF',
   purple60: '#F0E9FF',

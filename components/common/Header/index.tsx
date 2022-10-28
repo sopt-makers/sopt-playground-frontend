@@ -33,7 +33,7 @@ const Header: FC = () => {
         </Link>
 
         <MenuGroup className='pc-only'>
-          <Link href='/members' passHref>
+          <Link href='/users' passHref>
             <TextLinkButton isCurrentPath={router.pathname === '/members'}>멤버</TextLinkButton>
           </Link>
           <Link href='/projects' passHref>
