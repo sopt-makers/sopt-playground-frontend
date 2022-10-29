@@ -25,11 +25,11 @@ export default function MemberBasicFormSection() {
           <StyledInput />
         </FormItem>
         <FormItem title='생년월일' essential>
-          <StyledBirthday>
+          <StyledBirthdayInputWrapper>
             <Input placeholder='년도' />
             <Input placeholder='월' />
             <Input placeholder='일' />
-          </StyledBirthday>
+          </StyledBirthdayInputWrapper>
         </FormItem>
         <FormItem title='연락처'>
           <StyledInput />
@@ -41,10 +41,10 @@ export default function MemberBasicFormSection() {
           <StyledInput placeholder='ex) 서울시 강남구, 인천시 중구' />
         </FormItem>
         <FormItem title='학교 / 전공'>
-          <StyledEducation>
+          <StyledEducationInputWrapper>
             <Input placeholder='학교 입력' className='school' />
             <Input placeholder='전공 입력' className='major' />
-          </StyledEducation>
+          </StyledEducationInputWrapper>
         </FormItem>
       </StyledFormItems>
     </FormSection>
@@ -88,7 +88,7 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const StyledBirthday = styled.div`
+const StyledBirthdayInputWrapper = styled.div`
   display: flex;
   gap: 12px;
   margin-top: 18px;
@@ -105,7 +105,7 @@ const StyledBirthday = styled.div`
   }
 `;
 
-const StyledEducation = styled.div`
+const StyledEducationInputWrapper = styled.div`
   display: flex;
   gap: 12.04px;
   margin-top: 20px;

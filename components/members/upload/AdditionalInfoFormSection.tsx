@@ -19,10 +19,10 @@ export default function MemberAdditionalFormSection() {
       <FormHeader title='추가정보' />
       <StyledFormItems>
         <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
-          <StyledIntroduction>
+          <StyledIntroductionInputWrapper>
             <Input placeholder='한줄 입력' />
             <Text typography='SUIT_12_M' color={colors.gray80} className='count'>{`1/30`}</Text>
-          </StyledIntroduction>
+          </StyledIntroductionInputWrapper>
         </FormItem>
         <FormItem title='스킬' description='내가 자신있는 스킬에 대해 작성해주세요. 쉼표(,)로 구분해서 적어주세요.'>
           <StyledInput placeholder='ex) Node, Product Managing, Branding, UI' />
@@ -54,10 +54,10 @@ export default function MemberAdditionalFormSection() {
 
       <MobileFormItems>
         <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
-          <StyledIntroduction>
+          <StyledIntroductionInputWrapper>
             <TextArea placeholder='한줄 입력' />
             <Text typography='SUIT_12_M' color={colors.gray80} className='count'>{`1/30`}</Text>
-          </StyledIntroduction>
+          </StyledIntroductionInputWrapper>
         </FormItem>
         <FormItem title='스킬' description={`내가 자신있는 스킬에 대해 작성해주세요.\n쉼표(,)로 구분해서 적어주세요.`}>
           <StyledTextArea placeholder='ex) Node, Product Managing, BI/BX' />
@@ -109,7 +109,7 @@ const MobileFormItems = styled.div`
   }
 `;
 
-const StyledIntroduction = styled.div`
+const StyledIntroductionInputWrapper = styled.div`
   position: relative;
   margin-top: 18px;
   width: 632px;
