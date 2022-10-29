@@ -120,6 +120,7 @@ const StyledIntroduction = styled.div`
     top: 50%;
     right: 25px;
     transform: translateY(-50%);
+    padding-top: 3px;
 
     @media ${MOBILE_MEDIA_QUERY} {
       top: 102px;
