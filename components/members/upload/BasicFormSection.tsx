@@ -58,6 +58,7 @@ const StyledFormItems = styled.div`
   margin-top: 46px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    gap: 30px;
     margin-top: 30px;
   }
 `;

@@ -10,6 +10,22 @@ export const MemberFormSection = styled.section`
 
   input {
     border-radius: 14px;
+    padding: 16px 20px;
+
+    &::placeholder {
+      color: ${colors.gray80};
+    }
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      border-radius: 12px;
+      border-color: ${colors.black80};
+      background-color: ${colors.black80};
+    }
+  }
+
+  textarea {
+    padding: 16px 20px;
+    height: 128px;
 
     &::placeholder {
       color: ${colors.gray80};
