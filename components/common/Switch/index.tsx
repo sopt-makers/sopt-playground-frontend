@@ -13,7 +13,9 @@ const Switch: FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
     ref,
   ) => {
     const translateX = `${
-      Number(size.labelWidth.replace('px', '')) - Number(size.sliderWidth.replace('px', '')) - 1.85
+      Number(size.labelWidth.replace('px', '')) -
+      Number(size.sliderWidth.replace('px', '')) -
+      Number(size.labelHeight.replace('px', '')) / 12
     }px`;
     return (
       <StyledLabel width={size.labelWidth} height={size.labelHeight}>
