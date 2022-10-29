@@ -27,7 +27,9 @@ export default function MemberUploadPage() {
           <MobileSubmitButton className='mobile-only'>완료</MobileSubmitButton>
         </StyledForm>
         <StyledFooter className='pc-only'>
-          <button className='submit'>프로필 등록하기</button>
+          <div className='button-wrapper'>
+            <button className='submit'>프로필 등록하기</button>
+          </div>
         </StyledFooter>
       </StyledContainer>
     </AuthRequired>
@@ -121,17 +123,26 @@ const StyledFooter = styled.div`
   position: fixed;
   bottom: 0;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   background-color: ${colors.black80};
   width: 100vw;
   height: 90px;
 
   .submit {
-    margin-right: 360px;
     border-radius: 100px;
     background-color: ${colors.purple100};
     padding: 18px 50px;
 
     ${textStyles.SUIT_14_M}
+  }
+
+  .button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 790px;
+    @media (max-width: 790px) {
+      width: 100%;
+    }
   }
 `;
