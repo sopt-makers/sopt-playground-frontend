@@ -12,6 +12,7 @@ export type Typography =
   | 'SUIT_14_M'
   | 'SUIT_16_M'
   | 'SUIT_16_SB'
+  | 'SUIT_16_B'
   | 'SUIT_18_M'
   | 'SUIT_18_SB'
   | 'SUIT_18_B'
@@ -55,6 +56,10 @@ export const textStyles: Record<Typography, SerializedStyles> = {
   SUIT_16_SB: css`
     font-size: 16px;
     font-weight: 600;
+  `,
+  SUIT_16_B: css`
+    font-size: 16px;
+    font-weight: 700;
   `,
   SUIT_18_M: css`
     font-size: 18px;
