@@ -8,6 +8,7 @@ import PublicQuestionFormSection from '@/components/members/upload/PublicQuestio
 import SoptActivityFormSection from '@/components/members/upload/SoptActivityFormSection';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 export default function MemberUploadPage() {
@@ -23,7 +24,11 @@ export default function MemberUploadPage() {
           <SoptActivityFormSection />
           <AdditionalFormSection />
           <PublicQuestionFormSection />
+          <MobileSubmitButton className='mobile-only'>완료</MobileSubmitButton>
         </StyledForm>
+        <StyledFooter className='pc-only'>
+          <button className='submit'>프로필 등록하기</button>
+        </StyledFooter>
       </StyledContainer>
     </AuthRequired>
   );
@@ -38,14 +43,20 @@ setLayout(MemberUploadPage, (page) => (
 
 const StyledContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 375px;
 
   & > * {
     width: 790px;
     @media (max-width: 790px) {
       width: 100%;
     }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-bottom: 0;
   }
 `;
 
@@ -92,5 +103,35 @@ const StyledForm = styled.form`
     gap: 70px;
     margin-top: 52px;
     padding: 0 20px 48px;
+  }
+`;
+
+const MobileSubmitButton = styled.button`
+  margin-top: 18px;
+  border-radius: 12px;
+  background-color: ${colors.purple100};
+  padding: 18px 0;
+  color: ${colors.white100};
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+const StyledFooter = styled.div`
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: ${colors.black80};
+  width: 100vw;
+  height: 90px;
+
+  .submit {
+    margin-right: 360px;
+    border-radius: 100px;
+    background-color: ${colors.purple100};
+    padding: 18px 50px;
+
+    ${textStyles.SUIT_14_M}
   }
 `;

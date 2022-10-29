@@ -10,7 +10,7 @@ import { textStyles } from '@/styles/typography';
 
 export default function MemberSoptActivityInfo() {
   return (
-    <FormSection>
+    <StyledFormSection>
       <FormHeader title='SOPT 활동 정보' />
       <AddableInputWrapper pcWidth='628px'>
         <StyledSelectWrapper>
@@ -19,9 +19,15 @@ export default function MemberSoptActivityInfo() {
           <StyledSelect placeholder='운팀/미팀' className='team' />
         </StyledSelectWrapper>
       </AddableInputWrapper>
-    </FormSection>
+    </StyledFormSection>
   );
 }
+
+const StyledFormSection = styled(FormSection)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-bottom: 17px;
+  }
+`;
 
 const StyledSelectWrapper = styled.div`
   display: flex;
