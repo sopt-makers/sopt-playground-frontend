@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import UserRoleMenuItem from '@/components/users/main/UserRoleMenu/UserRoleMenuItem';
 import { colors } from '@/styles/colors';
@@ -11,7 +11,7 @@ export interface Menu {
   value: MenuValue;
 }
 
-const MENUS: Menu[] = [
+export const MENUS: Menu[] = [
   {
     icon: '/icons/icon-all.svg',
     label: '전체',
