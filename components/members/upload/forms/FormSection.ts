@@ -10,7 +10,7 @@ export const MemberFormSection = styled.section`
 
   input {
     border-radius: 14px;
-    padding: 16px 20px;
+    padding: 14.5px 20px;
 
     &::placeholder {
       color: ${colors.gray80};
@@ -36,6 +36,10 @@ export const MemberFormSection = styled.section`
       border-color: ${colors.black80};
       background-color: ${colors.black80};
     }
+  }
+
+  label {
+    padding: 16px 34px 16px 20px;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
