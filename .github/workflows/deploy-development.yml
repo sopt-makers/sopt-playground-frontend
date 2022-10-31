@@ -1,11 +1,14 @@
-name: Production Deploy
+name: Development Deploy
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   deploy:
-    environment: production
+    environment: development
     runs-on: ubuntu-latest
     permissions:
       contents: read
