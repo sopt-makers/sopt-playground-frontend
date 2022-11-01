@@ -9,7 +9,7 @@ import Text from '@/components/common/Text';
 import { DEFAULT_LINK, LINK_TITLES } from '@/components/projects/upload/LinkForm/constants';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
-import IconGarbage from '@/public/icons/icon-garbage.svg';
+import IconTrash from '@/public/icons/icon-trash.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -84,7 +84,7 @@ const LinkForm: FC = () => {
                 )}
               />
               <IconDeleteWrapper>
-                <IconGarbage onClick={() => remove(index)} />
+                <IconTrash onClick={() => remove(index)} />
               </IconDeleteWrapper>
             </StyledLi>
           ))}
@@ -137,7 +137,7 @@ const LinkForm: FC = () => {
                     />
                   </MobileLinkSelect>
                   <MobileApplyFormFooter>
-                    <IconGarbage onClick={() => onRemove(index)} />
+                    <IconTrash onClick={() => onRemove(index)} />
                     <MobileCompleteButton type='button' onClick={() => onComplete(index)}>
                       완료
                     </MobileCompleteButton>
