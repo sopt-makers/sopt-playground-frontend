@@ -23,7 +23,7 @@ const UserCard: FC<UserCardProps> = ({ name, role, description, image, generatio
         {image ? (
           <Image className='image' src={image} alt='member_image' />
         ) : (
-          <DefaultImage className='image' src={'/icons/icon-member-default.svg'} alt='default_member_image' />
+          <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
         )}
       </CardHeader>
       <CardContent>
