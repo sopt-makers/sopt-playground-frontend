@@ -9,8 +9,10 @@ export type Typography =
   | 'SUIT_12_M'
   | 'SUIT_12_SB'
   | 'SUIT_12_B'
+  | 'SUIT_13_M'
   | 'SUIT_14_M'
   | 'SUIT_16_M'
+  | 'SUIT_15_SB'
   | 'SUIT_16_SB'
   | 'SUIT_18_M'
   | 'SUIT_18_SB'
@@ -18,6 +20,7 @@ export type Typography =
   | 'SUIT_20_SB'
   | 'SUIT_22_B'
   | 'SUIT_24_SB'
+  | 'SUIT_24_B'
   | 'SUIT_32_SB'
   | 'SUIT_28_B';
 
@@ -38,6 +41,10 @@ export const textStyles: Record<Typography, SerializedStyles> = {
     font-size: 12px;
     font-weight: 700;
   `,
+  SUIT_13_M: css`
+    font-size: 13px;
+    font-weight: 500;
+  `,
   SUIT_14_M: css`
     font-size: 14px;
     font-weight: 500;
@@ -45,6 +52,10 @@ export const textStyles: Record<Typography, SerializedStyles> = {
   SUIT_16_M: css`
     font-size: 16px;
     font-weight: 500;
+  `,
+  SUIT_15_SB: css`
+    font-size: 15px;
+    font-weight: 600;
   `,
   SUIT_16_SB: css`
     font-size: 16px;
@@ -73,6 +84,10 @@ export const textStyles: Record<Typography, SerializedStyles> = {
   SUIT_24_SB: css`
     font-size: 24px;
     font-weight: 600;
+  `,
+  SUIT_24_B: css`
+    font-size: 24px;
+    font-weight: 700;
   `,
   SUIT_32_SB: css`
     font-size: 32px;
