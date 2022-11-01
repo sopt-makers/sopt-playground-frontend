@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ReactChild } from 'react';
+import { ReactNode } from 'react';
 
 import IconDelete from '@/public/icons/icon-delete.svg';
 import IconPlus from '@/public/icons/icon-plus.svg';
@@ -9,7 +9,7 @@ import { textStyles } from '@/styles/typography';
 
 interface MemberAddableInputWrapperProps {
   pcWidth: string;
-  children: ReactChild;
+  children: ReactNode;
 }
 
 export default function MemberAddableInputWrapper({ pcWidth, children }: MemberAddableInputWrapperProps) {

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ReactChild } from 'react';
+import { ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
@@ -10,7 +10,7 @@ interface MemberFormItemProps {
   title: string;
   essential?: boolean;
   description?: string;
-  children: ReactChild;
+  children: ReactNode;
 }
 
 export default function MemberFormItem({ title, essential, description, children }: MemberFormItemProps) {
