@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
@@ -11,25 +12,27 @@ import { setLayout } from '@/utils/layout';
 
 const UserPage: FC = () => {
   return (
-    <StyledContainer>
-      <IntroducePannel>
-        <LeftContainer>
-          <StyledImage src={'/icons/icon-doublestar.svg'} alt='' />
-          <TextContainer>
-            <Text typography='SUIT_28_R'>이정연님, 안녕하세요!</Text>
-            <Text typography='SUIT_28_B'>내 프로필도 등록해보시겠어요?</Text>
-          </TextContainer>
-        </LeftContainer>
-        <ButtonContainer>
-          <Link href='/projects/upload' passHref>
-            <UploadButton>프로젝트 업로드</UploadButton>
-          </Link>
-          <Link href='/users/upload' passHref>
-            <ProfileButton>프로필 추가</ProfileButton>
-          </Link>
-        </ButtonContainer>
-      </IntroducePannel>
-    </StyledContainer>
+    <AuthRequired>
+      <StyledContainer>
+        <IntroducePannel>
+          <LeftContainer>
+            <StyledImage src={'/icons/icon-doublestar.svg'} alt='' />
+            <TextContainer>
+              <Text typography='SUIT_28_R'>이정연님, 안녕하세요!</Text>
+              <Text typography='SUIT_28_B'>내 프로필도 등록해보시겠어요?</Text>
+            </TextContainer>
+          </LeftContainer>
+          <ButtonContainer>
+            <Link href='/projects/upload' passHref>
+              <UploadButton>프로젝트 업로드</UploadButton>
+            </Link>
+            <Link href='/users/upload' passHref>
+              <ProfileButton>프로필 추가</ProfileButton>
+            </Link>
+          </ButtonContainer>
+        </IntroducePannel>
+      </StyledContainer>
+    </AuthRequired>
   );
 };
 
