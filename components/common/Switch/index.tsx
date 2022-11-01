@@ -9,7 +9,11 @@ interface SwitchProps extends HTMLAttributes<HTMLInputElement> {
 
 const Switch: FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
   (
-    { size = { labelWidth: '30px', labelHeight: '18px', sliderWidth: '16.15px', sliderHeight: '15.75px' }, ...props },
+    {
+      size = { labelWidth: '30px', labelHeight: '18px', sliderWidth: '16.15px', sliderHeight: '15.75px' },
+      className,
+      ...props
+    },
     ref,
   ) => {
     const translateX = `${
@@ -18,7 +22,7 @@ const Switch: FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
       Number(size.labelHeight.replace('px', '')) / 12
     }px`;
     return (
-      <StyledLabel width={size.labelWidth} height={size.labelHeight}>
+      <StyledLabel width={size.labelWidth} height={size.labelHeight} className={className}>
         <StyledInput ref={ref} type='checkbox' translateX={translateX} {...props} />
         <StyledSlider width={size.sliderWidth} height={size.sliderHeight} className='slider' />
       </StyledLabel>

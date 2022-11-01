@@ -40,14 +40,14 @@ export default function MemberAdditionalFormSection() {
           <StyledTitle>
             <div className='title'>Open to work</div>
           </StyledTitle>
-          <Switch size={switchSize} />
+          <Switch size={switchSize} className='switch' />
           <StyledDescription>채용 제안에 열려있는 상태라면 체크해주세요.</StyledDescription>
         </StyledSwitchWrapper>
         <StyledSwitchWrapper>
           <StyledTitle>
             <div className='title'>Open to side project</div>
           </StyledTitle>
-          <Switch size={switchSize} />
+          <Switch size={switchSize} className='switch' />
           <StyledDescription>사이드 프로젝트 제안에 열려있는 상태라면 체크해주세요.</StyledDescription>
         </StyledSwitchWrapper>
       </StyledFormItems>
@@ -220,7 +220,7 @@ const StyledSwitchWrapper = styled.div`
   grid-template-columns: auto 40px;
   row-gap: 10px;
 
-  label {
+  .switch {
     grid-row: span 2;
     align-self: center;
   }
@@ -254,7 +254,7 @@ const StyledOpenQuestion = styled.div`
     width: 100%;
     row-gap: 10px;
 
-    label {
+    .switch {
       grid-row: span 2;
       align-self: center;
       margin-bottom: 10px;
