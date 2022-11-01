@@ -166,6 +166,7 @@ const StyledSelectWrapper = styled.div`
 const StyledSelect = styled(Select)`
   border-width: 1.5px;
   border-radius: 14px;
+  padding: 16px 34px 16px 20px;
   color: ${colors.gray80};
 
   ${textStyles.SUIT_16_M};

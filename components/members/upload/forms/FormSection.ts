@@ -38,10 +38,6 @@ export const MemberFormSection = styled.section`
     }
   }
 
-  label {
-    padding: 16px 34px 16px 20px;
-  }
-
   @media ${MOBILE_MEDIA_QUERY} {
     background-color: initial;
     padding: 0;
