@@ -11,7 +11,9 @@ interface UserRoleDropdownProps {
   value: MenuValue;
   onSelect: (menuValue: MenuValue) => void;
 }
-
+/**
+ * @remarks 해당 컴포넌트는 모바일에서만 사용됩니다. 데스크톱에선 UserRoleMenu를 사용해주세요.
+ */
 const UserRoleDropdown: FC<UserRoleDropdownProps> = ({ className, value, onSelect }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentMenuValue, setCurrentMenuValue] = useState<MenuValue>(value);
@@ -54,6 +56,7 @@ const UserRoleDropdown: FC<UserRoleDropdownProps> = ({ className, value, onSelec
 export default UserRoleDropdown;
 
 const StyledDropdown = styled.ul`
+  z-index: 100;
   border-radius: 14px;
   background-color: ${colors.black80};
   width: 335px;
