@@ -39,7 +39,7 @@ export default function MemberAdditionalFormSection() {
           <StyledInput {...register('skill')} placeholder='ex) Node, Product Managing, Branding, UI' />
         </FormItem>
         <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
-          <StyledAddableWrapper onAppend={onAppend} pcWidth='683px'>
+          <StyledAddableWrapper onAppend={onAppend}>
             {fields.map((field, index) => (
               <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                 <StyledSelectWrapper>
@@ -75,7 +75,7 @@ export default function MemberAdditionalFormSection() {
           <StyledTextArea placeholder='ex) Node, Product Managing, BI/BX' />
         </FormItem>
         <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
-          <StyledAddableWrapper onAppend={onAppend} pcWidth='633px'>
+          <StyledAddableWrapper onAppend={onAppend}>
             {fields.map((field, index) => (
               <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                 <StyledSelectWrapper>
@@ -276,7 +276,9 @@ const StyledOpenQuestion = styled.div`
 
 const StyledAddableWrapper = styled(AddableWrapper)`
   margin-top: 19px;
+  width: 683px;
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
+    width: 100%;
   }
 `;

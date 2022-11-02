@@ -7,14 +7,13 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MemberAddableWrapperProps extends HTMLAttributes<HTMLDivElement> {
-  pcWidth: string;
   children: ReactNode;
   onAppend: () => void;
 }
 
-export default function MemberAddableWrapper({ pcWidth, onAppend, children, ...props }: MemberAddableWrapperProps) {
+export default function MemberAddableWrapper({ onAppend, children, ...props }: MemberAddableWrapperProps) {
   return (
-    <StyledContainer {...props} pcWidth={pcWidth}>
+    <StyledContainer {...props}>
       <StyledAddableItems>{children}</StyledAddableItems>
       <StyledAddButton onClick={onAppend} className='pc-only'>
         <IconPlus stroke={colors.purple100} />
@@ -28,9 +27,9 @@ export default function MemberAddableWrapper({ pcWidth, onAppend, children, ...p
   );
 }
 
-const StyledContainer = styled.div<{ pcWidth: string }>`
+const StyledContainer = styled.div`
   position: relative;
-  width: ${(props) => props.pcWidth};
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;

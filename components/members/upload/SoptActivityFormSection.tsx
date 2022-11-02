@@ -27,7 +27,7 @@ export default function MemberSoptActivityFormSection() {
   return (
     <StyledFormSection>
       <FormHeader title='SOPT 활동 정보' />
-      <StyledAddableWrapper onAppend={onAppend} pcWidth='678px'>
+      <StyledAddableWrapper onAppend={onAppend}>
         {fields.map((field, index) => (
           <AddableItem onRemove={() => onRemove(index)} key={field.id}>
             <StyledSelectWrapper key={field.id}>
@@ -56,9 +56,11 @@ const StyledFormSection = styled(FormSection)`
 
 const StyledAddableWrapper = styled(AddableWrapper)`
   margin-top: 46px;
+  width: 683px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 30px;
+    width: 100%;
   }
 `;
 
@@ -87,6 +89,7 @@ const StyledSelect = styled(Select)`
   border-width: 1.5px;
   border-radius: 14px;
   padding: 16px 34px 16px 20px;
+  width: 100%;
   color: ${colors.gray80};
 
   ${textStyles.SUIT_16_M};
