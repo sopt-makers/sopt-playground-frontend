@@ -1,5 +1,6 @@
 export type Profile = {
   name: string;
+  isMine: boolean;
   profileImage: string;
   birthday: string;
   phone: string;
@@ -9,17 +10,21 @@ export type Profile = {
   major: string;
   introduction: string;
   skill: string;
-  activities: Activity[];
+  activities: {
+    cardinalActivities: Activity[];
+    cardinalInfo: string;
+  }[];
   links: Link[];
   openToWork: boolean;
   openToSideProject: boolean;
   allowOfficial: boolean;
+  projects: [];
 };
 
-type Activity = {
+export type Activity = {
   id: number;
   generation: number;
-  part: string;
+  isProject: string;
   team: string;
 };
 

@@ -1,62 +1,33 @@
 import styled from '@emotion/styled';
-// import { useRouter } from 'next/router';
+import dayjs from 'dayjs';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import { FC } from 'react';
 
+import { useGetMemberProfileById } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
 import MobileHeader from '@/components/common/MobileHeader';
-import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import InfoItem from '@/components/users/detail/InfoItem';
 import PartItem from '@/components/users/detail/PartItem';
-import UserProjectCard from '@/components/users/detail/UserProjectCard';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
-// TODO: 데이터 변경
-const parts = [
-  {
-    imgSrc: '',
-    year: '30기',
-    part: '디자인 파트',
-    appjam: {
-      id: 1,
-      name: '너가소개서',
-    },
-    sopkathon: {
-      id: 1,
-      name: '코잇',
-    },
-  },
-  {
-    imgSrc: '',
-    year: '29기',
-    part: '디자인 파트',
-    appjam: {
-      id: 1,
-      name: '너가소개서',
-    },
-  },
-  {
-    imgSrc: '',
-    year: '29기',
-    part: '디자인 파트',
-    other: {
-      id: 1,
-      name: '운영팀',
-    },
-  },
-];
-
 const UserDetailPage: FC = () => {
-  //   const router = useRouter();
-  //   const { memberId } = router.query;
+  const router = useRouter();
+  const { memberId = 4 } = router.query;
+  console.log(memberId);
 
-  // TODO: 데이터 변경
-  const { data } = useGetProjectListQuery();
+  const { data: profile, status } = useGetMemberProfileById(Number(memberId));
+  if (status === 'error') {
+    router.replace('/members/upload');
+  }
+
+  const isMyProfile = profile?.isMine ?? false;
 
   return (
     <AuthRequired>
@@ -64,24 +35,28 @@ const UserDetailPage: FC = () => {
       <Container>
         <Wrapper>
           <ProfileContainer>
-            <ProfileImage />
+            <ProfileImage src={profile?.profileImage} />
             <ProfileContents>
               <div>
                 <NameWrapper>
-                  <div className='name'>유예린</div>
-                  <div className='part'>디자인 / 기획</div>
+                  <div className='name'>{profile?.name}</div>
+                  <div className='part'>{profile?.major}</div>
                 </NameWrapper>
-                <div className='intro'>행복을 찾는 UIUX 디자이너^^</div>
+                <div className='intro'>{profile?.introduction}</div>
               </div>
               <ContactWrapper>
-                <div>
-                  <CallIcon />
-                  <div className='phone'>010-9122-3006</div>
-                </div>
-                <div>
-                  <MailIcon />
-                  <div className='email'>dbdPfls98@gmail.com</div>
-                </div>
+                <Link passHref href={`tel:${profile?.email}`}>
+                  <div style={{ cursor: 'pointer' }}>
+                    <CallIcon />
+                    <div className='phone'>{profile?.phone}</div>
+                  </div>
+                </Link>
+                <Link passHref href={`mailto:${profile?.email}`}>
+                  <div style={{ cursor: 'pointer' }}>
+                    <MailIcon />
+                    <div className='email'>{profile?.email}</div>
+                  </div>
+                </Link>
               </ContactWrapper>
             </ProfileContents>
 
@@ -91,28 +66,40 @@ const UserDetailPage: FC = () => {
           </ProfileContainer>
 
           <InfoContainer style={{ gap: '30px' }}>
-            <InfoItem label='생년월일' content='1998년 07월 27일' />
-            <InfoItem label='사는 지역' content='인천시 중구' />
-            <InfoItem label='학교 / 전공' content='홍익대학교 시각디자인과' />
+            <InfoItem label='생년월일' content={dayjs(profile?.birthday).format('YYYY-MM-DD')} />
+            <InfoItem label='사는 지역' content={profile?.address ?? ''} />
+            <InfoItem label='학교 / 전공' content={profile?.major ?? ''} />
           </InfoContainer>
 
           <InfoContainer style={{ gap: '34px' }}>
-            {parts.map((item, idx) => (
-              <PartItem key={idx} {...item} />
-            ))}
+            {profile?.activities.map((item, idx) => {
+              const a = item.cardinalInfo.split(',');
+              console.log('a', a);
+              const [generation, part] = item.cardinalInfo.split(',');
+              return (
+                <PartItem
+                  key={idx}
+                  generation={generation}
+                  part={part}
+                  cardinalActivities={item.cardinalActivities.filter((act) => act.generation.toString() === generation)}
+                />
+              );
+            })}
           </InfoContainer>
 
           <InfoContainer style={{ gap: '30px' }}>
-            <InfoItem label='스킬' content='Node, Product Managing, Branding, UI' />
+            <InfoItem label='스킬' content={profile?.skill ?? ''} />
             <InfoItem
               label='링크'
               content={
                 <LinkItems>
-                  {[0, 0].map((_item, idx) => (
-                    <div key={idx}>
-                      <LinkIcon />
-                      <span>Linkedin</span>
-                    </div>
+                  {profile?.links.map((item, idx) => (
+                    <Link passHref href={item.url} key={idx}>
+                      <div>
+                        <LinkIcon />
+                        <span>{item.title}</span>
+                      </div>
+                    </Link>
                   ))}
                 </LinkItems>
               }
@@ -120,10 +107,10 @@ const UserDetailPage: FC = () => {
           </InfoContainer>
 
           <ProjectContainer>
-            <ProjectTitle>유예린님이 참여한 프로젝트</ProjectTitle>
-            <ProjectSub>3개의 프로젝트에 참여</ProjectSub>
+            <ProjectTitle>{profile?.name}님이 참여한 프로젝트</ProjectTitle>
+            <ProjectSub>{profile?.projects.length}개의 프로젝트에 참여</ProjectSub>
             <ProjectDisplay>
-              {data?.projects.map((project) => (
+              {/* {profile?.projects.map((project) => (
                 <UserProjectCard
                   key={project.id}
                   category={project.category}
@@ -134,7 +121,7 @@ const UserDetailPage: FC = () => {
                   serviceType={project.service_type}
                   thumbnailImage={project.thumbnail_image}
                 />
-              ))}
+              ))} */}
             </ProjectDisplay>
           </ProjectContainer>
         </Wrapper>
@@ -185,11 +172,12 @@ const ProfileContainer = styled.div`
   }
 `;
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
   border-radius: 36px;
   background: #2c2d2e;
   width: 171px;
   height: 171px;
+  object-fit: cover;
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 20px;
     width: 88px;

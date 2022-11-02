@@ -2,41 +2,32 @@ import styled from '@emotion/styled';
 import AddIcon from 'public/icons/icon-add.svg';
 import { FC, ReactChild } from 'react';
 
+import { Activity } from '@/api/members/type';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type PartItemProps = {
-  imgSrc: string;
-  year: string;
+  cardinalActivities: Activity[];
+  generation: string;
   part: string;
-  appjam?: {
-    id: number;
-    name: string;
-  };
-  sopkathon?: {
-    id: number;
-    name: string;
-  };
-  other?: {
-    id: number;
-    name: string;
-  };
+  imgSrc?: string;
 };
 
 const PartItem: FC<PartItemProps> = (project) => {
-  const { year, part, appjam, sopkathon, other } = project;
+  const { cardinalActivities, generation, part, imgSrc } = project;
+  console.log('cardinalActivities', cardinalActivities);
   return (
     <>
       <Container className='pc-only'>
         <Thumbnail />
         <Contents>
           <Title>
-            <div className='year'>{year}</div>
-            <div className='part'>{part}</div>
+            <div className='year'>{generation}기</div>
+            <div className='part'>{part} 파트</div>
           </Title>
           <Badges>
-            {other && <Badge>{other.name}</Badge>}
-            {appjam ? <Badge>{appjam.name}</Badge> : <EmptyBadge>앱잼 팀 등록하기</EmptyBadge>}
-            {sopkathon ? <Badge>{sopkathon.name}</Badge> : <EmptyBadge>솝커톤 팀 등록하기</EmptyBadge>}
+            {cardinalActivities.map((activity) => (
+              <Badge key={activity.id}>{activity.team}</Badge>
+            ))}
           </Badges>
         </Contents>
       </Container>
@@ -45,14 +36,14 @@ const PartItem: FC<PartItemProps> = (project) => {
         <Contents>
           <Thumbnail />
           <Title>
-            <div className='year'>{year}</div>
+            <div className='year'>{generation}</div>
             <div className='part'>{part}</div>
           </Title>
         </Contents>
         <Badges>
-          {other && <Badge>{other.name}</Badge>}
-          {appjam ? <Badge>{appjam.name}</Badge> : <EmptyBadge>앱잼 팀 등록하기</EmptyBadge>}
-          {sopkathon ? <Badge>{sopkathon.name}</Badge> : <EmptyBadge>솝커톤 팀 등록하기</EmptyBadge>}
+          {cardinalActivities.map((activity) => (
+            <Badge key={activity.id}>{activity.team}</Badge>
+          ))}
         </Badges>
       </Container>
     </>

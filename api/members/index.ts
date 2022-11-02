@@ -33,7 +33,7 @@ export const getMemberOfMe = async () => {
 
 // 멤버 프로필 조회
 export const getMemberProfileById = async (id: number) => {
-  const { data } = await axiosInstance.request<Member>({
+  const { data } = await axiosInstance.request<Profile>({
     method: 'GET',
     url: `api/v1/members/profile/${id}`,
   });
@@ -43,7 +43,7 @@ export const getMemberProfileById = async (id: number) => {
 
 // 자신의 토큰으로 프로필 조회
 export const getMemberProfileOfMe = async () => {
-  const { data } = await axiosInstance.request<Member>({
+  const { data } = await axiosInstance.request<Profile>({
     method: 'GET',
     url: `api/v1/members/profile/me`,
   });
