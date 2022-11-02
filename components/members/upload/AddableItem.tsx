@@ -45,6 +45,7 @@ const StyledDeleteButton = styled.button<{ isHover: boolean }>`
 const MobileDeleteButton = styled.button`
   align-self: flex-end;
   margin-top: 20px;
+  margin-right: 5px;
   color: ${colors.gray60};
   font-size: 15px;
   font-weight: 600;
