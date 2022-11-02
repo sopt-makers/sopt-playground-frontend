@@ -1,19 +1,13 @@
-import axios from 'axios';
-
-const AUTH_API_URL = process.env.NEXT_PUBLIC_AUTH_API_URL;
-
-const authClient = axios.create({
-  baseURL: AUTH_API_URL,
-});
+import { axiosInstance } from '@/api';
 
 async function getRegisterTokenInfo(registerToken: string) {
-  return authClient.post<{ name: string; generation: number }>('api/v1/register/checkToken', {
+  return axiosInstance.post<{ name: string; generation: number }>('api/v1/registration/info', {
     registerToken,
   });
 }
 
 async function sendVerificationEmail(email: string) {
-  return authClient.post('api/v1/register/sendEmail', {
+  return axiosInstance.post('api/v1/registration/email', {
     email,
   });
 }
@@ -27,7 +21,7 @@ interface LoginRequestResponse {
 async function sendLoginRequest(idpName: IDPTypes, data: { code: string }): Promise<LoginRequestResponse> {
   const { code } = data;
 
-  const res = await authClient.post(`api/v1/idp/${idpName}/auth`, { code });
+  const res = await axiosInstance.post(`api/v1/idp/${idpName}/auth`, { code });
 
   return {
     accessToken: res.data.accessToken + '',
@@ -44,7 +38,7 @@ async function sendRegisterRequest(
 ): Promise<RegisterRequestResponse> {
   const { code, registerToken } = data;
 
-  const res = await authClient.post(`api/v1/idp/${idpName}/register`, {
+  const res = await axiosInstance.post(`api/v1/idp/${idpName}/register`, {
     code,
     registerToken,
   });
