@@ -16,7 +16,7 @@ export default function MemberAddableItem({ onRemove, children }: MemberAddableI
   const onMouseLeave = () => setIsHover(false);
 
   return (
-    <StyledContainer onMouseEnter={onMouseOver} onMouseLeave={onMouseLeave}>
+    <StyledContainer onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
       {children}
       <StyledDeleteButton onClick={onRemove} isHover={isHover} className='pc-only'>
         <IconDelete />
