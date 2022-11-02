@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import { LATEST_GENERATION } from '@/constants/generation';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface UserCardProps {
@@ -42,7 +43,7 @@ const StyledCard = styled.div`
   border-radius: 30px;
   background-color: ${colors.black80};
   cursor: pointer;
-  width: 278px;
+  width: 235px;
 
   &:hover {
     background-color: ${colors.black60};
@@ -51,6 +52,11 @@ const StyledCard = styled.div`
       transform: scale(1.1);
       transition: transform 0.3s;
     }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 20px;
+    width: 163px;
   }
 `;
 
@@ -62,8 +68,13 @@ const CardHeader = styled.div`
   border-radius: 30px 30px 0 0;
   background-color: rgb(255 255 255 / 5%);
   width: 100%;
-  height: 278px;
+  height: 234px;
   overflow: hidden;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 20px 20px 0 0;
+    height: 163px;
+  }
 `;
 
 const ActiveGenerationBadge = styled.div`
@@ -79,7 +90,7 @@ const ActiveGenerationBadge = styled.div`
 `;
 
 const DefaultImage = styled.img`
-  width: 67px;
+  width: 56px;
 `;
 
 const Image = styled.img`
@@ -89,29 +100,45 @@ const Image = styled.img`
 
 const CardContent = styled.div`
   padding: 19px 27px 30px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 13px 19px 18px;
+  }
 `;
 
 const Name = styled.h1`
-  ${textStyles.SUIT_24_B};
+  ${textStyles.SUIT_20_B};
 
   line-height: 24px;
   color: ${colors.gray10};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_18_SB}
+  }
 `;
 
 const Role = styled.span`
-  ${textStyles.SUIT_16_M};
+  ${textStyles.SUIT_14_M};
 
   display: block;
   margin-top: 12px;
   line-height: 16px;
   color: ${colors.gray40};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+  }
 `;
 
 const Description = styled.span`
-  ${textStyles.SUIT_16_M};
+  ${textStyles.SUIT_14_M};
 
   display: block;
   margin-top: 20px;
   line-height: 16px;
   color: ${colors.gray80};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 14px;
+  }
 `;
