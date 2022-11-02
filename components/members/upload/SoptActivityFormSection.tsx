@@ -30,7 +30,7 @@ export default function MemberSoptActivityFormSection() {
       <StyledAddableWrapper onAppend={onAppend}>
         {fields.map((field, index) => (
           <AddableItem onRemove={() => onRemove(index)} key={field.id}>
-            <StyledSelectWrapper key={field.id}>
+            <StyledSelectWrapper>
               <StyledSelect {...register(`activities.${index}.generation`)} placeholder='활동기수'>
                 <SelectOptions options={GENERATION} />
               </StyledSelect>
