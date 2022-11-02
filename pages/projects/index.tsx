@@ -30,7 +30,7 @@ const ProjectPage: FC = () => {
                 logoImage={project.logo_image}
                 name={project.name}
                 serviceType={project.service_type}
-                thumbnailIamge={project.thumbnail_image}
+                thumbnailImage={project.thumbnail_image}
                 onClick={() => router.push(`/projects/${project.id}`)}
               />
             ))}

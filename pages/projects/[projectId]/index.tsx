@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import SiteHeader from '@/components/common/Header';
@@ -12,7 +12,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
-export const ProjectDetailPage = () => {
+const ProjectDetailPage: FC = () => {
   const router = useRouter();
   const { projectId } = router.query;
 
@@ -26,7 +26,7 @@ export const ProjectDetailPage = () => {
     window.open(url, '_blank', 'noreferrer');
   };
 
-  const memberNamesByRole = useMemo(() => new Map<string, string[]>(), []);
+  const userNamesByRole = useMemo(() => new Map<string, string[]>(), []);
   // NOTE: Map 자료구조를 update하기 위해 임시 state를 하나 만든다. Map 자료구조를 만든 다음 해당 state를 변경시켜 rerendering을 발생시킨다.
   // 이렇게 한 이유는 React가 ES6 Map 자료구조가 변경되어도 rerender를 발생시키지 않기 때문이다.
   // 만약 Map이 변경되었을 때 rerender를 발생시키려면, Map을 state로 만들고
@@ -37,13 +37,13 @@ export const ProjectDetailPage = () => {
     }
 
     data.users.forEach((user) => {
-      if (!memberNamesByRole.has(user.role)) {
-        memberNamesByRole.set(user.role, [user.user.name]);
+      if (!userNamesByRole.has(user.role)) {
+        userNamesByRole.set(user.role, [user.user.name]);
       } else {
-        const names = memberNamesByRole.get(user.role)?.slice();
+        const names = userNamesByRole.get(user.role)?.slice();
         if (names) {
           names.push(user.user.name);
-          memberNamesByRole.set(user.role, names);
+          userNamesByRole.set(user.role, names);
         }
       }
     });
@@ -100,37 +100,37 @@ export const ProjectDetailPage = () => {
             </LinksWrapper>
           </DetailContainer>
 
-          <MemberWrapper>
-            <MemberInfoWrapper>
+          <UserWrapper>
+            <UserInfoWrapper>
               {data?.generation && <Info>{data.generation}기</Info>}
               <Info>{data?.category}</Info>
-            </MemberInfoWrapper>
-            <MemberList>
-              {Array.from(memberNamesByRole).map(([role, names], idx) => (
-                <MemberItem key={idx}>
-                  <MemberRole>{role}</MemberRole>
-                  <MemberNameList>
+            </UserInfoWrapper>
+            <UserList>
+              {Array.from(userNamesByRole).map(([role, names], idx) => (
+                <UserItem key={idx}>
+                  <UserRole>{role}</UserRole>
+                  <UserNameList>
                     {names.map((name, idx) => (
-                      <MemberName key={idx}>
+                      <UserName key={idx}>
                         <MemberIcon />
                         {name}
-                      </MemberName>
+                      </UserName>
                     ))}
-                  </MemberNameList>
-                </MemberItem>
+                  </UserNameList>
+                </UserItem>
               ))}
-            </MemberList>
-          </MemberWrapper>
+            </UserList>
+          </UserWrapper>
         </ProjectDetailContainer>
 
-        <MoblieLinksWrapper>
+        <MobileLinksWrapper>
           {data?.links.map((link) => (
             <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
               <LinkIcon />
               {link.title}
             </LinkBox>
           ))}
-        </MoblieLinksWrapper>
+        </MobileLinksWrapper>
       </Container>
     </AuthRequired>
   );
@@ -354,7 +354,7 @@ const LinksWrapper = styled.div`
   }
 `;
 
-const MoblieLinksWrapper = styled.div`
+const MobileLinksWrapper = styled.div`
   display: none;
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 32px 26px;
@@ -388,7 +388,7 @@ const LinkIcon = styled.div`
     height: 54px;
   }
 `;
-const MemberWrapper = styled.div`
+const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -402,7 +402,7 @@ const MemberWrapper = styled.div`
     padding: 24px 28px 36px;
   }
 `;
-const MemberInfoWrapper = styled.div`
+const UserInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -422,7 +422,7 @@ const Info = styled.div`
     font-size: 14px;
   }
 `;
-const MemberList = styled.div`
+const UserList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -433,23 +433,23 @@ const MemberList = styled.div`
     gap: 32px 26px;
   }
 `;
-const MemberItem = styled.div`
+const UserItem = styled.div`
   border-left: 2px solid ${colors.purple80};
   padding-left: 20px;
 `;
-const MemberRole = styled.div`
+const UserRole = styled.div`
   margin-bottom: 12px;
   line-height: 100%;
   color: ${colors.gray80};
   font-size: 14px;
   font-weight: 500;
 `;
-const MemberNameList = styled.div`
+const UserNameList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
 `;
-const MemberName = styled.div`
+const UserName = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;

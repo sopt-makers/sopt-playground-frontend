@@ -28,7 +28,7 @@ export interface ProjectCardProps {
   category: Category;
   generation?: number;
   summary: string;
-  thumbnailIamge?: string;
+  thumbnailImage?: string;
   logoImage: string;
   links: Link[];
   onClick: () => void;
@@ -40,21 +40,26 @@ const ProjectCard: FC<ProjectCardProps> = ({
   generation,
   serviceType,
   summary,
-  thumbnailIamge,
+  thumbnailImage,
   logoImage,
   links,
   onClick,
 }) => {
+  const serviceTypeMap = {
+    웹: 'WEB',
+    앱: 'APP',
+  };
+
   return (
     <StyledCard onClick={onClick}>
       <StyledServiceTypeWrapper>
         {serviceType.map((item, index) => (
-          <StyledServiceType key={index}>{item}</StyledServiceType>
+          <StyledServiceType key={index}>{serviceTypeMap[item]}</StyledServiceType>
         ))}
       </StyledServiceTypeWrapper>
       <StyledImageSection>
-        {thumbnailIamge ? (
-          <StyledThumbnail className='card-image' src={thumbnailIamge} alt='thumbnail-image' />
+        {thumbnailImage ? (
+          <StyledThumbnail className='card-image' src={thumbnailImage} alt='thumbnail-image' />
         ) : (
           <StyledLogo className='card-image' src={logoImage} alt='logo-image' />
         )}

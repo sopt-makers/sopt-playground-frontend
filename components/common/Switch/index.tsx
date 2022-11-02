@@ -3,27 +3,43 @@ import { FC, forwardRef, HTMLAttributes } from 'react';
 
 import { colors } from '@/styles/colors';
 
-interface SwitchProps extends HTMLAttributes<HTMLInputElement> {}
+interface SwitchProps extends HTMLAttributes<HTMLInputElement> {
+  size?: { labelWidth: string; labelHeight: string; sliderWidth: string; sliderHeight: string };
+}
 
-const Switch: FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(({ ...props }, ref) => {
-  return (
-    <StyledLabel>
-      <StyledInput ref={ref} type='checkbox' {...props} />
-      <StyledSlider className='slider' />
-    </StyledLabel>
-  );
-});
+const Switch: FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
+  (
+    {
+      size = { labelWidth: '30px', labelHeight: '18px', sliderWidth: '16.15px', sliderHeight: '15.75px' },
+      className,
+      ...props
+    },
+    ref,
+  ) => {
+    const translateX = `${
+      Number(size.labelWidth.replace('px', '')) -
+      Number(size.sliderWidth.replace('px', '')) -
+      Number(size.labelHeight.replace('px', '')) / 12
+    }px`;
+    return (
+      <StyledLabel width={size.labelWidth} height={size.labelHeight} className={className}>
+        <StyledInput ref={ref} type='checkbox' translateX={translateX} {...props} />
+        <StyledSlider width={size.sliderWidth} height={size.sliderHeight} className='slider' />
+      </StyledLabel>
+    );
+  },
+);
 
 export default Switch;
 
-const StyledLabel = styled.label`
+const StyledLabel = styled.label<{ width: string; height: string }>`
   display: inline-block;
   position: relative;
-  width: 30px;
-  height: 18px;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ translateX: string }>`
   opacity: 0;
   width: 0;
   height: 0;
@@ -33,7 +49,7 @@ const StyledInput = styled.input`
   }
 
   &:checked + .slider::before {
-    transform: translateX(12px);
+    transform: translate(${(props) => props.translateX}, -50%);
   }
 
   &:focus + .slider {
@@ -41,7 +57,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledSlider = styled.span`
+const StyledSlider = styled.span<{ width: string; height: string }>`
   position: absolute;
   top: 0;
   right: 0;
@@ -54,13 +70,14 @@ const StyledSlider = styled.span`
 
   &::before {
     position: absolute;
-    bottom: 1px;
+    top: 50%;
     left: 1px;
+    transform: translateY(-50%);
     transition: 0.2s;
     border-radius: 50%;
     background-color: ${colors.white};
-    width: 16.15px;
-    height: 15.75px;
+    width: ${(props) => props.width};
+    height: ${(props) => props.height};
     content: '';
   }
 `;

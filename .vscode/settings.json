@@ -9,5 +9,6 @@
     "source.fixAll.eslint": true,
     "source.fixAll": true
   },
-  "typescript.preferences.importModuleSpecifier": "non-relative"
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "cSpell.words": ["appjam", "sopkathon"]
 }
