@@ -20,14 +20,13 @@ import { setLayout } from '@/utils/layout';
 const UserDetailPage: FC = () => {
   const router = useRouter();
   const { memberId = 4 } = router.query;
-  console.log(memberId);
 
   const { data: profile, status } = useGetMemberProfileById(Number(memberId));
   if (status === 'error') {
     router.replace('/members/upload');
   }
 
-  const isMyProfile = profile?.isMine ?? false;
+  const isMyProfile = !!profile?.isMine;
 
   return (
     <AuthRequired>

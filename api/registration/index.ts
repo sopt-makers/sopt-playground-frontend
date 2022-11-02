@@ -1,12 +1,8 @@
-import axios from 'axios';
-
-const authClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
+import { axiosInstance } from '@/api';
 
 // 토큰으로 자기 자신 확인
 export const postRegistrationInfo = async (registerToken: string) => {
-  const { data } = await authClient.post<{ name: string; generation: number }>('api/v1/registration/info', {
+  const { data } = await axiosInstance.post<{ name: string; generation: number }>('api/v1/registration/info', {
     registerToken,
   });
 
@@ -15,7 +11,7 @@ export const postRegistrationInfo = async (registerToken: string) => {
 
 // email 발송
 export const postRegistrationEmail = async (email: string) => {
-  const { data } = await authClient.post<{ success: boolean; code: string; message: string }>(
+  const { data } = await axiosInstance.post<{ success: boolean; code: string; message: string }>(
     'api/v1/registration/email',
     {
       email,
@@ -27,7 +23,7 @@ export const postRegistrationEmail = async (email: string) => {
 
 // facebook register
 export const postFacebookRegistration = async ({ code, registerToken }: { code: string; registerToken: string }) => {
-  const { data } = await authClient.post<{ accessToken: string }>(`api/v1/idp/facebook/register`, {
+  const { data } = await axiosInstance.post<{ accessToken: string }>(`api/v1/idp/facebook/register`, {
     code,
     registerToken,
   });
@@ -37,7 +33,7 @@ export const postFacebookRegistration = async ({ code, registerToken }: { code: 
 
 // facebook auth
 export const postFacebookAuth = async ({ code }: { code: string }) => {
-  const { data } = await authClient.post<{ accessToken: string }>(`api/v1/idp/facebook/auth`, {
+  const { data } = await axiosInstance.post<{ accessToken: string }>(`api/v1/idp/facebook/auth`, {
     code,
   });
 

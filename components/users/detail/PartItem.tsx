@@ -14,7 +14,6 @@ type PartItemProps = {
 
 const PartItem: FC<PartItemProps> = (project) => {
   const { cardinalActivities, generation, part, imgSrc } = project;
-  console.log('cardinalActivities', cardinalActivities);
   return (
     <>
       <Container className='pc-only'>
