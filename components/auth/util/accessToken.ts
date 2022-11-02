@@ -4,6 +4,7 @@ const ACCESS_TOKEN_KEY = 'serviceAccessToken';
 
 export const tokenStorage = {
   get() {
+    if (typeof window === 'undefined') return '';
     return localStorage.getItem(ACCESS_TOKEN_KEY);
   },
   set(accessToken: string) {

@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
 import { ClipLoader } from 'react-spinners';
 
-import { auth } from '@/api/auth';
+import { postRegistrationEmail } from '@/api/registration';
 import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
 import Input from '@/components/common/Input';
 import SquareLink from '@/components/common/SquareLink';
@@ -20,7 +20,7 @@ interface ErrorResponse {
 const VerifyByEmail: FC = () => {
   const [emailInput, setEmailInput] = useState('');
   const verify = useMutation<unknown, AxiosError<ErrorResponse>>(async () => {
-    return auth.sendVerificationEmail(emailInput);
+    return postRegistrationEmail(emailInput);
   });
 
   const handleSend = () => {

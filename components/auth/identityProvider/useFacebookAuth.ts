@@ -1,4 +1,4 @@
-import { auth } from '@/api/auth';
+import { postFacebookAuth, postFacebookRegistration } from '@/api/registration';
 import useStateParam from '@/components/auth/util/useStateParam';
 
 const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
@@ -40,7 +40,7 @@ const useFacebookAuth = (): FacebookAuth => {
       }
 
       try {
-        const { accessToken } = await auth.sendLoginRequest('facebook', { code });
+        const { accessToken } = await postFacebookAuth({ code });
         return {
           success: true,
           accessToken,
@@ -57,7 +57,7 @@ const useFacebookAuth = (): FacebookAuth => {
       }
 
       try {
-        const { accessToken } = await auth.sendRegisterRequest('facebook', {
+        const { accessToken } = await postFacebookRegistration({
           code,
           registerToken,
         });
