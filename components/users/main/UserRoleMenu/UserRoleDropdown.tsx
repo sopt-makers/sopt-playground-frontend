@@ -58,8 +58,10 @@ export default UserRoleDropdown;
 const StyledDropdown = styled.ul`
   z-index: 100;
   border-radius: 14px;
-  background-color: ${colors.black80};
-  width: 335px;
+  background-color: ${colors.black100};
+  width: 100%;
+  min-width: 278px;
+  height: 100%;
 `;
 
 const StyledIconArrow = styled.img<{ isOpen?: boolean }>`
