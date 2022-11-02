@@ -1,13 +1,13 @@
 import { axiosInstance } from '@/api';
 
 async function getRegisterTokenInfo(registerToken: string) {
-  return axiosInstance.post<{ name: string; generation: number }>('api/v1/register/checkToken', {
+  return axiosInstance.post<{ name: string; generation: number }>('api/v1/registration/info', {
     registerToken,
   });
 }
 
 async function sendVerificationEmail(email: string) {
-  return axiosInstance.post('api/v1/register/sendEmail', {
+  return axiosInstance.post('api/v1/registration/email', {
     email,
   });
 }
