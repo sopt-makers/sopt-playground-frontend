@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-const AUTH_API_URL = process.env.NEXT_PUBLIC_AUTH_API_URL;
-
 const authClient = axios.create({
-  baseURL: AUTH_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 // 토큰으로 자기 자신 확인

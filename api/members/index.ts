@@ -23,12 +23,12 @@ export const getMemberById = async (id: number) => {
 
 // 자신의 토큰으로 조회
 export const getMemberOfMe = async () => {
-  const { data } = await axiosInstance.request<Member>({
+  const data = await axiosInstance.request<Member>({
     method: 'GET',
     url: `api/v1/members/me`,
   });
 
-  return data;
+  return data.data;
 };
 
 // 멤버 프로필 조회
