@@ -21,7 +21,7 @@ export default function MemberSoptActivityFormSection() {
     name: 'activities',
   });
 
-  const onAppend = () => append({ generation: '', part: '', team: '' }, { shouldFocus: false });
+  const onAppend = () => append({ generation: '', part: '', team: '' });
   const onRemove = (index: number) => remove(index);
 
   return (
