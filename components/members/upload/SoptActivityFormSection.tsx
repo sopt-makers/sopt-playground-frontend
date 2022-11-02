@@ -27,7 +27,7 @@ export default function MemberSoptActivityFormSection() {
   return (
     <StyledFormSection>
       <FormHeader title='SOPT 활동 정보' />
-      <StyledAddableWrapper onAppend={onAppend} pcWidth='628px'>
+      <StyledAddableWrapper onAppend={onAppend} pcWidth='678px'>
         {fields.map((field, index) => (
           <AddableItem onRemove={() => onRemove(index)} key={field.id}>
             <StyledSelectWrapper key={field.id}>
