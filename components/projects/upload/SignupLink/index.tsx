@@ -9,7 +9,7 @@ import { copyToClipboard } from '@/utils';
 
 const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
 
-const SignupLink: FC = () => {
+const SignUpLink: FC = () => {
   const { showToast } = useContext(ToastContext);
   const onCopy = () =>
     copyToClipboard(`${ORIGIN}/auth/verify`, {
@@ -20,7 +20,7 @@ const SignupLink: FC = () => {
   return <StyledContainer onClick={onCopy}>회원가입 링크 복사</StyledContainer>;
 };
 
-export default SignupLink;
+export default SignUpLink;
 
 const StyledContainer = styled(Text)`
   cursor: pointer;

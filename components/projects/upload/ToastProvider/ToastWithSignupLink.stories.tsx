@@ -1,21 +1,21 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import SignupLink from '@/components/projects/upload/SignupLink';
+import SignUpLink from '@/components/projects/upload/SignUpLink';
 import { ToastProvider } from '@/components/projects/upload/ToastProvider';
 
-const ToastWithSignupLink = () => {
+const ToastWithSignUpLink = () => {
   return (
     <ToastProvider>
-      <SignupLink />
+      <SignUpLink />
     </ToastProvider>
   );
 };
 
 export default {
-  component: ToastWithSignupLink,
-} as ComponentMeta<typeof ToastWithSignupLink>;
+  component: ToastWithSignUpLink,
+} as ComponentMeta<typeof ToastWithSignUpLink>;
 
-const Template: ComponentStory<typeof ToastWithSignupLink> = () => <ToastWithSignupLink />;
+const Template: ComponentStory<typeof ToastWithSignUpLink> = () => <ToastWithSignUpLink />;
 
 export const Default = Template.bind({});
 Default.storyName = '기본';

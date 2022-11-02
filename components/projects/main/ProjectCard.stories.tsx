@@ -19,7 +19,7 @@ Thumbnail.args = {
   generation: 28,
   category: Category.APPJAM,
   summary: '핸디캔디로 미래의 나에게 보상을 설정해 보아요',
-  thumbnailIamge: THUMBNAIL_IMAGE,
+  thumbnailImage: THUMBNAIL_IMAGE,
   logoImage: LOGO_IMAGE,
   serviceType: [ServiceType.APP, ServiceType.WEB],
   links: [
