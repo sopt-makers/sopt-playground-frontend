@@ -1,52 +1,40 @@
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
-import IconDelete from '@/public/icons/icon-delete.svg';
 import IconPlus from '@/public/icons/icon-plus.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface MemberAddableInputWrapperProps {
+interface MemberAddableWrapperProps extends HTMLAttributes<HTMLDivElement> {
   pcWidth: string;
   children: ReactNode;
+  onAppend: () => void;
 }
 
-export default function MemberAddableInputWrapper({ pcWidth, children }: MemberAddableInputWrapperProps) {
+export default function MemberAddableWrapper({ pcWidth, onAppend, children, ...props }: MemberAddableWrapperProps) {
   return (
-    <>
-      <StyledInputWrapper pcWidth={pcWidth}>
-        {children}
-        <StyledDeleteButton className='pc-only' />
-        <MobileDeleteButton className='mobile-only'>삭제</MobileDeleteButton>
-      </StyledInputWrapper>
-      <StyledAddButton className='pc-only'>
+    <StyledContainer {...props} pcWidth={pcWidth}>
+      <StyledAddableItems>{children}</StyledAddableItems>
+      <StyledAddButton onClick={onAppend} className='pc-only'>
         <IconPlus stroke={colors.purple100} />
         <div>추가</div>
       </StyledAddButton>
-      <MobileAddButton>
+      <MobileAddButton onClick={onAppend}>
         <IconPlus stroke={colors.gray20} />
         <div>추가</div>
       </MobileAddButton>
-    </>
+    </StyledContainer>
   );
 }
 
-const StyledInputWrapper = styled.div<{ pcWidth: string }>`
+const StyledContainer = styled.div<{ pcWidth: string }>`
   position: relative;
   width: ${(props) => props.pcWidth};
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
   }
-`;
-
-const StyledDeleteButton = styled(IconDelete)`
-  position: absolute;
-  top: 50%;
-  right: -50px;
-  transform: translateY(-50%);
-  cursor: pointer;
 `;
 
 const StyledAddButton = styled.button`
@@ -59,15 +47,6 @@ const StyledAddButton = styled.button`
   ${textStyles.SUIT_16_SB}
 `;
 
-const MobileDeleteButton = styled.button`
-  position: absolute;
-  right: 4px;
-  bottom: -35px;
-  color: ${colors.gray60};
-  font-size: 15px;
-  font-weight: 600;
-`;
-
 const MobileAddButton = styled.button`
   display: none;
 
@@ -76,11 +55,21 @@ const MobileAddButton = styled.button`
     gap: 11px;
     align-items: center;
     justify-content: center;
-    margin-top: 55px;
+    margin-top: 20px;
     border: 1px solid ${colors.black40};
     border-radius: 12px;
     padding: 16px 0;
     width: 100%;
     color: ${colors.gray20};
+  }
+`;
+
+const StyledAddableItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 20px;
   }
 `;

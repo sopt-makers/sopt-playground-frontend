@@ -1,37 +1,51 @@
 import styled from '@emotion/styled';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
+import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import PublicQuestionFormSection from '@/components/members/upload/PublicQuestionFormSection';
 import SoptActivityFormSection from '@/components/members/upload/SoptActivityFormSection';
+import { MemberUploadForm } from '@/components/members/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 export default function MemberUploadPage() {
+  const formMethods = useForm<MemberUploadForm>({
+    defaultValues: MEMBER_DEFAULT_VALUES,
+  });
+  const { handleSubmit } = formMethods;
+  const onSubmit = (data: MemberUploadForm) => console.log(data);
   return (
     <AuthRequired>
-      <StyledContainer>
-        <StyledHeader>
-          <div className='title'>프로필 등록</div>
-          <div className='description'>SOPT 멤버들을 위한 프로필을 등록해주세요</div>
-        </StyledHeader>
-        <StyledForm>
-          <BasicFormSection />
-          <SoptActivityFormSection />
-          <AdditionalFormSection />
-          <PublicQuestionFormSection />
-          <MobileSubmitButton className='mobile-only'>완료</MobileSubmitButton>
-        </StyledForm>
-        <StyledFooter className='pc-only'>
-          <div className='button-wrapper'>
-            <button className='submit'>프로필 등록하기</button>
-          </div>
-        </StyledFooter>
-      </StyledContainer>
+      <FormProvider {...formMethods}>
+        <StyledContainer>
+          <StyledHeader>
+            <div className='title'>프로필 등록</div>
+            <div className='description'>SOPT 멤버들을 위한 프로필을 등록해주세요</div>
+          </StyledHeader>
+          <StyledForm onSubmit={(e) => e.preventDefault()}>
+            <BasicFormSection />
+            <SoptActivityFormSection />
+            <AdditionalFormSection />
+            <PublicQuestionFormSection />
+            <MobileSubmitButton onClick={handleSubmit(onSubmit)} className='mobile-only'>
+              완료
+            </MobileSubmitButton>
+          </StyledForm>
+          <StyledFooter className='pc-only'>
+            <div className='button-wrapper'>
+              <button onClick={handleSubmit(onSubmit)} className='submit'>
+                프로필 등록하기
+              </button>
+            </div>
+          </StyledFooter>
+        </StyledContainer>
+      </FormProvider>
     </AuthRequired>
   );
 }
