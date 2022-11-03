@@ -26,8 +26,6 @@ const UserDetailPage: FC = () => {
     router.replace('/members/upload');
   }
 
-  const isMyProfile = !!profile?.isMine;
-
   return (
     <AuthRequired>
       <MobileHeader />

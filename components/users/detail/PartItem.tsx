@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import AddIcon from 'public/icons/icon-add.svg';
-import { FC, ReactChild } from 'react';
+import { FC } from 'react';
 
 import { Activity } from '@/api/members/type';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -13,7 +12,7 @@ type PartItemProps = {
 };
 
 const PartItem: FC<PartItemProps> = (project) => {
-  const { cardinalActivities, generation, part, imgSrc } = project;
+  const { cardinalActivities, generation, part } = project;
   return (
     <>
       <Container className='pc-only'>
@@ -46,15 +45,6 @@ const PartItem: FC<PartItemProps> = (project) => {
         </Badges>
       </Container>
     </>
-  );
-};
-
-const EmptyBadge: FC<{ children: ReactChild }> = ({ children }) => {
-  return (
-    <EmptyBadgeContainer>
-      <AddIcon />
-      {children}
-    </EmptyBadgeContainer>
   );
 };
 
@@ -140,13 +130,6 @@ const Badge = styled.div`
     width: fit-content;
     white-space: nowrap;
   }
-`;
-
-const EmptyBadgeContainer = styled(Badge)`
-  border: 1px dashed #606265;
-  border-radius: 13px;
-  background: #2c2d2e;
-  cursor: pointer;
 `;
 
 export default PartItem;
