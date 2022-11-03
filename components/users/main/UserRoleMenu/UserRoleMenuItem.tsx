@@ -72,12 +72,12 @@ const RightSection = styled.section`
 `;
 
 const StyledMenuItemIcon = styled.img`
-  width: 26px;
+  width: 17px;
 `;
 
 const StyledMenuItemText = styled(Text)<{ isSelected?: boolean }>`
-  ${textStyles.SUIT_20_M}
-  ${({ isSelected }) => isSelected && textStyles.SUIT_20_B}
+  ${textStyles.SUIT_18_M}
+  ${({ isSelected }) => isSelected && textStyles.SUIT_18_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_16_M}

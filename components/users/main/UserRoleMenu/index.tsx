@@ -73,5 +73,5 @@ const StyledMenu = styled.ul`
   gap: 13px;
   border-radius: 6px;
   background-color: ${colors.black100};
-  width: 278px;
+  width: 235px;
 `;
