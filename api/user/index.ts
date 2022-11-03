@@ -1,3 +1,6 @@
+/**
+ * legacy
+ */
 import { axiosInstance } from '@/api';
 import { User } from '@/api/user/types';
 

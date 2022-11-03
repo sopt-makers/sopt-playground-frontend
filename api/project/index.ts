@@ -1,3 +1,6 @@
+/**
+ * legacy
+ */
 import { axiosInstance } from '@/api';
 import { ProjectInput, ProjectResponse, SignedUrl } from '@/api/project/types';
 

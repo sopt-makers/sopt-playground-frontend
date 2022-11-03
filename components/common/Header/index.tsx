@@ -6,6 +6,7 @@ import MemberIcon from 'public/icons/icon-member.svg';
 import MenuIcon from 'public/icons/icon-menu.svg';
 import { FC, useState } from 'react';
 
+import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -14,6 +15,8 @@ const Header: FC = () => {
   const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
 
   const router = useRouter();
+
+  const { data: me } = useGetMemberOfMe();
 
   return (
     <StyledHeader>
@@ -53,13 +56,13 @@ const Header: FC = () => {
 
         <UserButton onClick={() => setIsUserDropdownOpened((e) => !e)}>
           <MemberIcon />
-          <span>세글자</span>
+          <span>{me?.name}</span>
         </UserButton>
       </RightGroup>
 
       {isUserDropdownOpened && (
         <UserDropdown>
-          <div>내 프로필</div>
+          <Link href={`/members/${me?.id}`}>내 프로필</Link>
           <div onClick={logout}>로그아웃</div>
         </UserDropdown>
       )}
