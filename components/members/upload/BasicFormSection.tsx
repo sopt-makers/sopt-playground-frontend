@@ -1,15 +1,19 @@
 import styled from '@emotion/styled';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
+import { MemberUploadForm } from '@/components/members/upload/types';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MemberBasicFormSection() {
+  const { control, register } = useFormContext<MemberUploadForm>();
+
   return (
     <FormSection>
       <FormHeader title='기본정보' />
@@ -19,31 +23,35 @@ export default function MemberBasicFormSection() {
           description={`가로 300px 세로 300px 권장합니다.\n예외 규격은 잘릴 수 있습니다.`}
           essential
         >
-          <StyledImageUploader onChange={() => console.log()} emptyIcon={IconCamera} />
+          <Controller
+            name='profileImage'
+            control={control}
+            render={({ field }) => <StyledImageUploader {...field} emptyIcon={IconCamera} />}
+          />
         </FormItem>
         <FormItem title='이름' essential>
-          <StyledInput />
+          <StyledInput {...register('name')} />
         </FormItem>
         <FormItem title='생년월일' essential>
           <StyledBirthdayInputWrapper>
-            <Input placeholder='년도' />
-            <Input placeholder='월' />
-            <Input placeholder='일' />
+            <Input {...register('birthday.year')} placeholder='년도' />
+            <Input {...register('birthday.month')} placeholder='월' />
+            <Input {...register('birthday.day')} placeholder='일' />
           </StyledBirthdayInputWrapper>
         </FormItem>
         <FormItem title='연락처'>
-          <StyledInput />
+          <StyledInput {...register('phone')} />
         </FormItem>
         <FormItem title='이메일' essential>
-          <StyledInput />
+          <StyledInput {...register('email')} />
         </FormItem>
         <FormItem title='사는 지역' essential>
-          <StyledInput placeholder='ex) 서울시 강남구, 인천시 중구' />
+          <StyledInput {...register('address')} placeholder='ex) 서울시 강남구, 인천시 중구' />
         </FormItem>
         <FormItem title='학교 / 전공'>
           <StyledEducationInputWrapper>
-            <Input placeholder='학교 입력' className='school' />
-            <Input placeholder='전공 입력' className='major' />
+            <Input {...register('university')} placeholder='학교 입력' className='school' />
+            <Input {...register('major')} placeholder='전공 입력' className='major' />
           </StyledEducationInputWrapper>
         </FormItem>
       </StyledFormItems>
