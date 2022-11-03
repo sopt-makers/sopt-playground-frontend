@@ -23,10 +23,7 @@ jobs:
       - name: Build
         run: yarn build && yarn next export
       - name: Publish
-        uses: cloudflare/pages-action@1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
-          directory: out
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn dlx wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message " "
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
