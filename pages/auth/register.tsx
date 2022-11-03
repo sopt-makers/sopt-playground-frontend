@@ -2,14 +2,14 @@ import styled from '@emotion/styled';
 import { FC, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
-import { auth } from '@/api/auth';
+import { postRegistrationInfo } from '@/api/registration';
 import Register from '@/components/auth/register/Register';
 import useQueryStringParam from '@/components/auth/useQueryString';
 
 export const RegisterPage: FC = () => {
   const params = useQueryStringParam(['token'] as const);
 
-  const query = useQuery(['registerTokenInfo', params?.token], () => auth.getRegisterTokenInfo(params?.token ?? ''), {
+  const query = useQuery(['registerTokenInfo', params?.token], () => postRegistrationInfo(params?.token ?? ''), {
     enabled: params !== null,
   });
 
@@ -27,7 +27,7 @@ export const RegisterPage: FC = () => {
 
   return (
     <StyledRegisterPage>
-      <Register userInfo={query.data.data} />
+      <Register userInfo={query.data} />
     </StyledRegisterPage>
   );
 };
