@@ -14,17 +14,15 @@ import Header from '@/components/common/Header';
 import MobileHeader from '@/components/common/MobileHeader';
 import InfoItem from '@/components/users/detail/InfoItem';
 import PartItem from '@/components/users/detail/PartItem';
+import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
 const UserDetailPage: FC = () => {
   const router = useRouter();
-  const { memberId = 4 } = router.query;
+  const { memberId } = router.query;
 
-  const { data: profile, status } = useGetMemberProfileById(Number(memberId));
-  if (status === 'error') {
-    router.replace('/members/upload');
-  }
+  const { data: profile } = useGetMemberProfileById(Number(memberId));
 
   const isMyProfile = !!profile?.isMine;
 
@@ -175,7 +173,7 @@ const ProfileContainer = styled.div`
 
 const ProfileImage = styled.img`
   border-radius: 36px;
-  background: #2c2d2e;
+  background: ${colors.black60};
   width: 171px;
   height: 171px;
   object-fit: cover;
