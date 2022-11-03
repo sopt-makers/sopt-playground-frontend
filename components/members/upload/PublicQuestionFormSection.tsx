@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
+import { useFormContext } from 'react-hook-form';
 
 import Switch from '@/components/common/Switch';
+import { MemberUploadForm } from '@/components/members/upload/types';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -8,11 +10,12 @@ import { textStyles } from '@/styles/typography';
 
 export default function MemberPublicQuestionFormSection() {
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
+  const { register } = useFormContext<MemberUploadForm>();
 
   return (
     <StyledSection>
       <div className='question'>{`공식 홈페이지에도 프로필을 \n공개하시겠어요?`}</div>
-      <Switch size={isMobile ? mobileSwitchSize : switchSize} className='switch' />
+      <Switch {...register('allowOfficial')} size={isMobile ? mobileSwitchSize : switchSize} className='switch' />
       <div className='info description'>공식 홈페이지는 이름, 프로필, 이메일 정보만 보여져요.</div>
       <div className='public-timing description'>
         {`SOPT 공식 홈페이지는 아직 개발 중에 있어, \n개발이 완료된 시점부터 공개됩니다.`}

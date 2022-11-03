@@ -24,8 +24,6 @@ const UserDetailPage: FC = () => {
 
   const { data: profile } = useGetMemberProfileById(Number(memberId));
 
-  const isMyProfile = !!profile?.isMine;
-
   return (
     <AuthRequired>
       <MobileHeader />

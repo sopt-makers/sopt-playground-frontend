@@ -1,6 +1,6 @@
 import { Category, FormItem } from '@/components/projects/upload/types';
 
-const LATEST_GENERATION = 30;
+const LATEST_GENERATION = 31;
 
 export const GENERATION = Array.from({ length: LATEST_GENERATION }, (_, i) => i + 1).reverse();
 
