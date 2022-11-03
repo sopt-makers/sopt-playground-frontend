@@ -62,7 +62,7 @@ const Header: FC = () => {
 
       {isUserDropdownOpened && (
         <UserDropdown>
-          <Link href={`/members/${me?.id}`}>내 프로필</Link>
+          <Link href={me?.hasProfile ? `/members/${me?.id}` : '/projects/upload'}>내 프로필</Link>
           <div onClick={logout}>로그아웃</div>
         </UserDropdown>
       )}
@@ -184,6 +184,7 @@ const UserDropdown = styled.div`
   right: 36px;
   flex-direction: column;
   gap: 25px;
+  z-index: 100;
   border-radius: 14px;
   background: #272828;
   padding: 25px 20px;

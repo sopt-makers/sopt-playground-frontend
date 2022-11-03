@@ -59,9 +59,11 @@ const UserDetailPage: FC = () => {
               </ContactWrapper>
             </ProfileContents>
 
-            <EditButton>
-              <EditIcon />
-            </EditButton>
+            {isMyProfile && (
+              <EditButton>
+                <EditIcon />
+              </EditButton>
+            )}
           </ProfileContainer>
 
           <InfoContainer style={{ gap: '30px' }}>
