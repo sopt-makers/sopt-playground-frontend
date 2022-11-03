@@ -27,7 +27,7 @@ export const RegisterPage: FC = () => {
 
   return (
     <StyledRegisterPage>
-      <Register userInfo={query.data} />
+      <Register userInfo={{ name: query.data.name }} />
     </StyledRegisterPage>
   );
 };
