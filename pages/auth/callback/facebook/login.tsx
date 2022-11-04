@@ -9,11 +9,13 @@ import { useSetRecoilState } from 'recoil';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useURLStringQuery from '@/components/auth/useURLQuery';
+import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import { colors } from '@/styles/colors';
 
 const FacebookLoginCallbackPage: FC = () => {
   const router = useRouter();
   const facebookAuth = useFacebookAuth();
+  const lastUnauthorized = useLastUnauthorized();
   const setAccessToken = useSetRecoilState(accessTokenAtom);
 
   const { query: queryData, status: queryStatus } = useURLStringQuery(['code', 'state'] as const);
@@ -31,7 +33,7 @@ const FacebookLoginCallbackPage: FC = () => {
       onSuccess(result) {
         if (result.success) {
           setAccessToken(result.accessToken);
-          router.replace('/');
+          router.replace(lastUnauthorized.popPath() ?? '/');
         }
       },
     },
@@ -72,8 +74,7 @@ const FacebookLoginCallbackPage: FC = () => {
 
     return (
       <StyledFacebookLoginCallback>
-        <ErrorMessage>{message}</ErrorMessage>
-
+        <ErrorMessage>{message}</ErrorMessage>feat/#128
         <Link href='/auth/login' replace passHref>
           <RetryLink>다시 시도</RetryLink>
         </Link>
