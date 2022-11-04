@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import UserRoleMenuItem from '@/components/users/main/UserRoleMenu/UserRoleMenuItem';
+import MemberRoleMenuItem from '@/components/members/main/MemberRoleMenu/MemberRoleMenuItem';
 import { colors } from '@/styles/colors';
 
 export type MenuValue = 'all' | 'pm' | 'design' | 'ios' | 'web' | 'andriod';
@@ -54,7 +54,7 @@ const UserRoleMenu: FC<UserRoleMenuProps> = ({ className, value, onSelect }) => 
   return (
     <StyledMenu className={className}>
       {MENUS.map((menu) => (
-        <UserRoleMenuItem
+        <MemberRoleMenuItem
           key={menu.value}
           menu={menu}
           isSelected={value === menu.value}
