@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { Category, ServiceType } from '@/api/project/types';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
 import Text from '@/components/common/Text';

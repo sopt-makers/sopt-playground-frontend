@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
+import { ProjectLink } from '@/api/projects/type';
 import Text from '@/components/common/Text';
 import { categoryLabel } from '@/components/projects/upload/constants';
-import { Link, LinkTitle } from '@/components/projects/upload/LinkForm/constants';
+import { LinkTitle } from '@/components/projects/upload/LinkForm/constants';
 import { Category, ServiceType } from '@/components/projects/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -30,7 +31,7 @@ export interface ProjectCardProps {
   summary: string;
   thumbnailImage?: string;
   logoImage: string;
-  links: Link[];
+  links: ProjectLink[];
   onClick: () => void;
 }
 
@@ -45,16 +46,11 @@ const ProjectCard: FC<ProjectCardProps> = ({
   links,
   onClick,
 }) => {
-  const serviceTypeMap = {
-    웹: 'WEB',
-    앱: 'APP',
-  };
-
   return (
     <StyledCard onClick={onClick}>
       <StyledServiceTypeWrapper>
-        {serviceType.map((item, index) => (
-          <StyledServiceType key={index}>{serviceTypeMap[item]}</StyledServiceType>
+        {serviceType.map((serviceType, index) => (
+          <StyledServiceType key={index}>{serviceType}</StyledServiceType>
         ))}
       </StyledServiceTypeWrapper>
       <StyledImageSection>
@@ -64,10 +60,10 @@ const ProjectCard: FC<ProjectCardProps> = ({
           <StyledLogo className='card-image' src={logoImage} alt='logo-image' />
         )}
         <ServiceLinkWrapper className='card-hover'>
-          {links?.map(({ title, url }, index) => (
-            <StyledServiceLink key={index} href={url} onClick={(e) => e.stopPropagation()}>
-              <StyledLinkIcon alt='link-icon' src={getLinkInfo(title as LinkTitle)?.icon} />
-              <Text typography='SUIT_12_SB'>{getLinkInfo(title as LinkTitle)?.label}</Text>
+          {links?.map(({ linkTitle, linkUrl }, index) => (
+            <StyledServiceLink key={index} href={linkUrl} onClick={(e) => e.stopPropagation()}>
+              <StyledLinkIcon alt='link-icon' src={getLinkInfo(linkTitle as LinkTitle)?.icon} />
+              <Text typography='SUIT_12_SB'>{getLinkInfo(linkTitle as LinkTitle)?.label}</Text>
             </StyledServiceLink>
           ))}
         </ServiceLinkWrapper>

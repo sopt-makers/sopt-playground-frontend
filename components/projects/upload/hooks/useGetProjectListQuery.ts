@@ -1,12 +1,12 @@
 import { useQuery } from 'react-query';
 
-import { project } from '@/api/project';
+import { getProjects } from '@/api/projects';
 
 const useGetProjectListQuery = () => {
   return useQuery(
     ['getProjectListQuery'],
     async () => {
-      const { data } = await project.getList();
+      const data = await getProjects();
       return data;
     },
     {

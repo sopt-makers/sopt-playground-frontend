@@ -23,9 +23,9 @@ Thumbnail.args = {
   logoImage: LOGO_IMAGE,
   serviceType: [ServiceType.APP, ServiceType.WEB],
   links: [
-    { title: 'website', url: 'zigzag.kr' },
-    { title: 'appStore', url: 'zigzag.kr' },
-    { title: 'googlePlay', url: 'zigzag.kr' },
+    { linkId: 0, linkTitle: 'website', linkUrl: 'zigzag.kr' },
+    { linkId: 1, linkTitle: 'appStore', linkUrl: 'zigzag.kr' },
+    { linkId: 2, linkTitle: 'googlePlay', linkUrl: 'zigzag.kr' },
   ],
 };
 Thumbnail.storyName = '썸네일 이미지';
@@ -38,6 +38,6 @@ Logo.args = {
   summary: '핸디캔디로 미래의 나에게 보상을 설정해 보아요',
   logoImage: LOGO_IMAGE,
   serviceType: [ServiceType.WEB],
-  links: [{ title: 'website', url: 'zigzag.kr' }],
+  links: [{ linkId: 0, linkTitle: 'website', linkUrl: 'zigzag.kr' }],
 };
 Logo.storyName = '로고 이미지';

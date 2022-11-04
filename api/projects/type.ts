@@ -1,4 +1,5 @@
 export type Project = {
+  id: number;
   name: string;
   writerId: number;
   generation: number;
@@ -17,14 +18,15 @@ export type Project = {
   links: ProjectLink[];
 };
 
-type ProjectMember = {
+export type ProjectMember = {
   memberId: number;
   memberRole: string;
   memberDescription: string;
   isTeamMember: boolean;
 };
 
-type ProjectLink = {
+export type ProjectLink = {
+  linkId: number;
   linkTitle: string;
   linkUrl: string;
 };
