@@ -1,8 +1,6 @@
 import { Category, FormItem } from '@/components/projects/upload/types';
 import { LATEST_GENERATION } from '@/constants/generation';
 
-const LATEST_GENERATION = 31;
-
 export const GENERATION = Array.from({ length: LATEST_GENERATION }, (_, i) => i + 1).reverse();
 
 export const categoryLabel: Record<Category, string> = {

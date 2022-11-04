@@ -1,1 +1,1 @@
-export const LATEST_GENERATION = 30;
+export const LATEST_GENERATION = 31;
