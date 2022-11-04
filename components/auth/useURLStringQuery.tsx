@@ -13,19 +13,23 @@ type URLStringQueryResult<Keys extends readonly string[]> =
       query: TupleKeyObject<Keys>;
     };
 
-const useURLStringQuery = <Keys extends readonly string[]>(keys: Keys): URLStringQueryResult<Keys> => {
+/**
+ * 현재 페이지의 URL query에 지정된 Key들의 값이 모두 string 타입으로 있나 확인하고 가져옵니다.
+ * @param expectedQueryKeys query에서 검사할 Key들의 Tuple
+ */
+const useURLStringQuery = <Keys extends readonly string[]>(expectedQueryKeys: Keys): URLStringQueryResult<Keys> => {
   const router = useRouter();
 
   const [result, setResult] = useState<URLStringQueryResult<Keys>>({ status: 'loading', query: null });
 
   useEffect(() => {
     if (router.isReady) {
-      const stringDataKeys = keys.filter((key) => {
+      const stringValueKeys = expectedQueryKeys.filter((key) => {
         const query = router.query[key];
         return typeof query === 'string';
       });
 
-      if (stringDataKeys.length !== keys.length) {
+      if (stringValueKeys.length !== expectedQueryKeys.length) {
         setResult({
           status: 'error',
           query: null,
@@ -34,7 +38,7 @@ const useURLStringQuery = <Keys extends readonly string[]>(keys: Keys): URLStrin
       }
 
       const query = Object.fromEntries(
-        stringDataKeys.map((key) => [key, router.query[key] as string]),
+        stringValueKeys.map((key) => [key, router.query[key] as string]),
       ) as TupleKeyObject<Keys>;
 
       setResult({
