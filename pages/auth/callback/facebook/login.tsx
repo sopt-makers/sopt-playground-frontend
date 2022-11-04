@@ -74,7 +74,7 @@ const FacebookLoginCallbackPage: FC = () => {
 
     return (
       <StyledFacebookLoginCallback>
-        <ErrorMessage>{message}</ErrorMessage>feat/#128
+        <ErrorMessage>{message}</ErrorMessage>
         <Link href='/auth/login' replace passHref>
           <RetryLink>다시 시도</RetryLink>
         </Link>
