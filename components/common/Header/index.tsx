@@ -272,13 +272,6 @@ const EmptyProfileImage = styled.div`
   height: 42px;
 `;
 
-const ProfileImage = styled.img`
-  border-radius: 14px;
-  width: 42px;
-  height: 42px;
-  object-fit: cover;
-`;
-
 const Name = styled.div`
   margin-left: 12px;
   color: ${colors.white};
