@@ -51,7 +51,7 @@ export default function MemberAdditionalFormSection() {
                     <StyledSelect {...register(`links.${index}.title`)} className='category'>
                       <MemberSelectOptions options={LINK_TITLES} />
                     </StyledSelect>
-                    <StyledSelect {...register(`links.${index}.url`)} placeholder='https://' className='link' />
+                    <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
                   </StyledSelectWrapper>
                 </AddableItem>
               ))}
@@ -90,7 +90,7 @@ export default function MemberAdditionalFormSection() {
                 <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                   <StyledSelectWrapper>
                     <StyledSelect {...register(`links.${index}.title`)} className='category' />
-                    <StyledSelect {...register(`links.${index}.url`)} placeholder='https://' className='link' />
+                    <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
                   </StyledSelectWrapper>
                 </AddableItem>
               ))}
