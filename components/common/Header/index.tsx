@@ -75,7 +75,7 @@ const Header: FC = () => {
         <MobileMenuWrapper onClick={() => setIsMobileMenuOpened(false)}>
           <MobileMenu>
             <ProfileContainer>
-              {/* TODO: 수정필요 */}
+              {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
               <EmptyProfileImage>
                 <ProfileIcon width={17.29} height='auto' />
               </EmptyProfileImage>
