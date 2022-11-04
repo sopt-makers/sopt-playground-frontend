@@ -32,7 +32,8 @@ export const getMemberOfMe = async () => {
 };
 
 // 멤버 프로필 조회
-export const getMemberProfileById = async (id: number) => {
+export const getMemberProfileById = async (id: number | undefined) => {
+  if (typeof id === 'undefined') throw new Error('Invalid id');
   const { data } = await axiosInstance.request<ProfileDetail>({
     method: 'GET',
     url: `api/v1/members/profile/${id}`,
