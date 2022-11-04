@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import uniq from 'lodash/uniq';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
 import Text from '@/components/common/Text';
@@ -10,46 +12,28 @@ import UserCard from '@/components/users/main/UserCard';
 import UserRoleMenu from '@/components/users/main/UserRoleMenu';
 import UserRoleDropdown from '@/components/users/main/UserRoleMenu/UserRoleDropdown';
 import useUserRoleMenu from '@/components/users/main/UserRoleMenu/useUserRoleMenu';
+import { LATEST_GENERATION } from '@/constants/generation';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
-const CARDS = [
-  {
-    name: '유예린',
-    role: '디자인',
-    description: '행복을 주는 UI/UX 디자이너',
-    image: '',
-    generation: 30,
-  },
-  {
-    name: '이준호',
-    role: '웹',
-    description: '웃음을 주는 웹 개발자',
-    image: '',
-    generation: 28,
-  },
-  {
-    name: '이정연',
-    role: 'PM',
-    description: '행복을 주는 당근',
-    image: '',
-    generation: 30,
-  },
-  {
-    name: '박건영',
-    role: '인프라',
-    description: '커비를 조아해요',
-    image: '',
-    generation: 29,
-  },
-];
-
 const UserPage: FC = () => {
-  const { menuValue, onSelect } = useUserRoleMenu();
+  // const { menuValue, onSelect } = useUserRoleMenu(); TODO: 서버 필터스펙 개발 이후 주석 해제
+  const { data: memberProfileData } = useGetMemberProfile();
+  const { data: memberOfMeData } = useGetMemberOfMe();
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
+
+  const profiles = memberProfileData?.map((member) => ({
+    ...member,
+    isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
+    part: uniq(member.activities.map(({ part }) => part)).join(' / '),
+  }));
+
+  if (!memberProfileData) {
+    return null;
+  }
 
   return (
     <AuthRequired>
@@ -59,7 +43,9 @@ const UserPage: FC = () => {
             <LeftContainer>
               <StyledImage src='/icons/icon-doublestar.svg' alt='' />
               <TextContainer>
-                <Text typography={isMobile ? 'SUIT_22_R' : 'SUIT_20_R'}>이정연님, 안녕하세요!</Text>
+                <Text typography={isMobile ? 'SUIT_22_R' : 'SUIT_20_R'}>{`${
+                  memberOfMeData?.name ?? ''
+                }님, 안녕하세요!`}</Text>
                 <Text typography={isMobile ? 'SUIT_22_B' : 'SUIT_24_B'}>내 프로필도 등록해보시겠어요?</Text>
               </TextContainer>
             </LeftContainer>
@@ -75,21 +61,22 @@ const UserPage: FC = () => {
 
           <StyledMain>
             <StyledDivider />
-            {!isMobile ? (
+            {/* {!isMobile ? (
               <UserRoleMenu value={menuValue} onSelect={onSelect} />
             ) : (
               <StyledUserRoleDropdown value={menuValue} onSelect={onSelect} />
-            )}
+            )} */}
             <StyledCardWrapper>
-              {CARDS.map((card, index) => (
-                <UserCard
-                  key={index}
-                  name={card.name}
-                  role={card.role}
-                  generation={card.generation}
-                  description={card.description}
-                  image={card.image}
-                />
+              {profiles?.map((profile) => (
+                <a key={profile.id} href={`/members/${profile.id}`}>
+                  <UserCard
+                    name={profile.name}
+                    part={profile.part}
+                    isActiveGeneration={profile.isActive}
+                    introduction={profile.introduction}
+                    image={profile.profileImage}
+                  />
+                </a>
               ))}
             </StyledCardWrapper>
           </StyledMain>
@@ -113,7 +100,6 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 120px;
-  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 45px;
@@ -238,15 +224,18 @@ const StyledDivider = styled.div`
 
 const StyledCardWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
   justify-items: center;
-  width: 100%;
+
+  @media screen and (max-width: 1000px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    grid-template-rows: repeat(auto-fit, minmax(163px, auto));
-    grid-gap: 12px 8px;
-    margin-top: 102px;
+    gap: 12px 8px;
+    margin-top: 32.5px;
 
     & > div {
       width: 100%;
@@ -257,13 +246,13 @@ const StyledCardWrapper = styled.div`
   }
 `;
 
-const StyledUserRoleDropdown = styled(UserRoleDropdown)`
-  position: absolute;
-  top: 32px;
-  padding: inherit;
-  height: auto;
+// const StyledUserRoleDropdown = styled(UserRoleDropdown)`
+//   position: absolute;
+//   top: 32px;
+//   padding: inherit;
+//   height: auto;
 
-  & > li {
-    width: 100%;
-  }
-`;
+//   & > li {
+//     width: 100%;
+//   }
+// `;

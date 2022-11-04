@@ -8,19 +8,17 @@ import { textStyles } from '@/styles/typography';
 
 interface UserCardProps {
   name: string;
-  role: string;
-  description: string;
+  part: string;
+  introduction: string;
   image?: string;
-  generation: number; // TODO: 서버에서 내려준다면 isActiveGeneration 등으로 변경 가능
+  isActiveGeneration: boolean;
 }
 
-const UserCard: FC<UserCardProps> = ({ name, role, description, image, generation }) => {
-  const isActiveGeneration = generation === LATEST_GENERATION;
-
+const UserCard: FC<UserCardProps> = ({ name, part, introduction, image, isActiveGeneration }) => {
   return (
     <StyledCard>
       <CardHeader>
-        {isActiveGeneration && <ActiveGenerationBadge>{`${generation}기 활동중`}</ActiveGenerationBadge>}
+        {isActiveGeneration && <ActiveGenerationBadge>{`${LATEST_GENERATION}기 활동중`}</ActiveGenerationBadge>}
         {image ? (
           <Image className='image' src={image} alt='member_image' />
         ) : (
@@ -29,8 +27,8 @@ const UserCard: FC<UserCardProps> = ({ name, role, description, image, generatio
       </CardHeader>
       <CardContent>
         <Name>{name}</Name>
-        <Role>{role}</Role>
-        <Description>{description}</Description>
+        <Part>{part}</Part>
+        <Introduction>{introduction}</Introduction>
       </CardContent>
     </StyledCard>
   );
@@ -117,7 +115,7 @@ const Name = styled.h1`
   }
 `;
 
-const Role = styled.span`
+const Part = styled.span`
   ${textStyles.SUIT_14_M};
 
   display: block;
@@ -130,7 +128,7 @@ const Role = styled.span`
   }
 `;
 
-const Description = styled.span`
+const Introduction = styled.span`
   ${textStyles.SUIT_14_M};
 
   display: block;
