@@ -19,7 +19,16 @@ export default function MemberUploadPage() {
     defaultValues: MEMBER_DEFAULT_VALUES,
   });
   const { handleSubmit } = formMethods;
-  const onSubmit = (data: MemberUploadForm) => console.log(data);
+  const onSubmit = (formData: MemberUploadForm) => {
+    const data = {
+      ...formData,
+      birthday: `${formData.birthday.year}-${formData.birthday.month.padStart(2, '0')}-${formData.birthday.day.padStart(
+        2,
+        '0',
+      )}`,
+    };
+    console.log(data);
+  };
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
