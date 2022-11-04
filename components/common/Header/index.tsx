@@ -4,28 +4,32 @@ import { useRouter } from 'next/router';
 import LogoIcon from 'public/icons/icon-logo.svg';
 import MemberIcon from 'public/icons/icon-member.svg';
 import MenuIcon from 'public/icons/icon-menu.svg';
+import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
+import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 const Header: FC = () => {
   const { logout } = useAuth();
   const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
+  const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
 
-  const router = useRouter();
+  const { pathname } = useRouter();
 
   const { data: me } = useGetMemberOfMe();
 
   return (
     <StyledHeader>
       <LeftGroup>
-        <div className='mobile-only'>
+        <div className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
           <MenuIcon />
         </div>
         <Link href='/' passHref>
-          <TextLinkButton isCurrentPath={router.pathname === '/'}>
+          <TextLinkButton isCurrentPath={pathname === '/'}>
             <StyledLogo>
               <LogoIcon />
             </StyledLogo>
@@ -34,10 +38,10 @@ const Header: FC = () => {
 
         <MenuGroup className='pc-only'>
           <Link href='/members' passHref>
-            <TextLinkButton isCurrentPath={router.pathname === '/members'}>멤버</TextLinkButton>
+            <TextLinkButton isCurrentPath={pathname === '/members'}>멤버</TextLinkButton>
           </Link>
           <Link href='/projects' passHref>
-            <TextLinkButton isCurrentPath={router.pathname === '/projects'}>프로젝트</TextLinkButton>
+            <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
           </Link>
           {/* <Link href='/web-product' passHref>
           <TextLinkButton isCurrentPath={router.pathname === ''}>Web Product</TextLinkButton>
@@ -62,9 +66,37 @@ const Header: FC = () => {
 
       {isUserDropdownOpened && (
         <UserDropdown>
-          <Link href={`/members/${me?.id}`}>내 프로필</Link>
+          <Link href={me?.hasProfile ? `/members/${me?.id}` : '/members/upload'}>내 프로필</Link>
           <div onClick={logout}>로그아웃</div>
         </UserDropdown>
+      )}
+
+      {isMobileMenuOpened && (
+        <MobileMenuWrapper onClick={() => setIsMobileMenuOpened(false)}>
+          <MobileMenu>
+            <ProfileContainer>
+              {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
+              <EmptyProfileImage>
+                <ProfileIcon width={17.29} height='auto' />
+              </EmptyProfileImage>
+              <Name>{me?.name}</Name>
+            </ProfileContainer>
+
+            <MenuWrapper>
+              <div>내 프로필</div>
+              <div>로그아웃</div>
+            </MenuWrapper>
+
+            <RouterWrapper>
+              <Link href='/members' passHref>
+                <TextLinkButton isCurrentPath={pathname === '/members'}>멤버</TextLinkButton>
+              </Link>
+              <Link href='/projects' passHref>
+                <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
+              </Link>
+            </RouterWrapper>
+          </MobileMenu>
+        </MobileMenuWrapper>
       )}
     </StyledHeader>
   );
@@ -122,6 +154,9 @@ const TextLinkButton = styled.a<{ isCurrentPath: boolean }>`
   cursor: pointer;
   color: ${({ isCurrentPath }) => (isCurrentPath ? '#fff' : '#C0C5C9')};
   font-weight: ${({ isCurrentPath }) => (isCurrentPath ? 700 : 500)};
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${({ isCurrentPath }) => (isCurrentPath ? textStyles.SUIT_18_B : textStyles.SUIT_18_M)}
+  }
 `;
 
 const UploadButton = styled.a`
@@ -184,6 +219,7 @@ const UserDropdown = styled.div`
   right: 36px;
   flex-direction: column;
   gap: 25px;
+  z-index: 100;
   border-radius: 14px;
   background: #272828;
   padding: 25px 20px;
@@ -202,4 +238,68 @@ const UserDropdown = styled.div`
     width: 144px;
     font-size: 15px;
   }
+`;
+
+const MobileMenuWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  background-color: rgb(0 0 0 / 70%);
+  width: 100%;
+  height: 100vh;
+`;
+
+const MobileMenu = styled.div`
+  background-color: ${colors.black80};
+  padding: 57px 20px;
+  width: 212px;
+  height: 100vh;
+`;
+
+const ProfileContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const EmptyProfileImage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: ${colors.black60};
+  width: 42px;
+  height: 42px;
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 14px;
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+`;
+
+const Name = styled.div`
+  margin-left: 12px;
+  color: ${colors.white};
+  ${textStyles.SUIT_20_B}
+`;
+
+const MenuWrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 21px;
+  border-bottom: 1px solid ${colors.black60};
+  padding-bottom: 30px;
+  ${textStyles.SUIT_15_SB}
+`;
+
+const RouterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 30px;
+  color: ${colors.white100};
 `;
