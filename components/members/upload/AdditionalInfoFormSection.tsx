@@ -8,14 +8,17 @@ import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
+import { LINK_TITLES } from '@/components/members/upload/constants';
 import CountableInput from '@/components/members/upload/forms/CountableInput';
 import CountableTextArea from '@/components/members/upload/forms/CountableTextArea';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
+import MemberSelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
+import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function MemberAdditionalFormSection() {
@@ -24,6 +27,7 @@ export default function MemberAdditionalFormSection() {
     control,
     name: 'links',
   });
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
   const onAppend = () => append({ title: '', url: '' });
   const onRemove = (index: number) => remove(index);
@@ -31,74 +35,81 @@ export default function MemberAdditionalFormSection() {
   return (
     <FormSection>
       <FormHeader title='추가정보' />
-      <StyledFormItems>
-        <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
-          <StyledCountableInput {...register('introduction')} maxCount={30} />
-        </FormItem>
-        <FormItem title='스킬' description='내가 자신있는 스킬에 대해 작성해주세요. 쉼표(,)로 구분해서 적어주세요.'>
-          <StyledInput {...register('skill')} placeholder='ex) Node, Product Managing, Branding, UI' />
-        </FormItem>
-        <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
-          <StyledAddableWrapper onAppend={onAppend}>
-            {fields.map((field, index) => (
-              <AddableItem onRemove={() => onRemove(index)} key={field.id}>
-                <StyledSelectWrapper>
-                  <StyledSelect {...register(`links.${index}.title`)} className='category' />
-                  <StyledSelect {...register(`links.${index}.url`)} placeholder='https://' className='link' />
-                </StyledSelectWrapper>
-              </AddableItem>
-            ))}
-          </StyledAddableWrapper>
-        </FormItem>
-        <StyledLine />
-        <StyledSwitchWrapper>
-          <StyledTitle>
-            <div className='title'>Open to work</div>
-          </StyledTitle>
-          <Switch {...register('openToWork')} size={switchSize} className='switch' />
-          <StyledDescription>채용 제안에 열려있는 상태라면 체크해주세요.</StyledDescription>
-        </StyledSwitchWrapper>
-        <StyledSwitchWrapper>
-          <StyledTitle>
-            <div className='title'>Open to side project</div>
-          </StyledTitle>
-          <Switch {...register('openToSideProject')} size={switchSize} className='switch' />
-          <StyledDescription>사이드 프로젝트 제안에 열려있는 상태라면 체크해주세요.</StyledDescription>
-        </StyledSwitchWrapper>
-      </StyledFormItems>
-
-      <MobileFormItems>
-        <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
-          <StyledCountableTextArea maxCount={30} />
-        </FormItem>
-        <FormItem title='스킬' description={`내가 자신있는 스킬에 대해 작성해주세요.\n쉼표(,)로 구분해서 적어주세요.`}>
-          <StyledTextArea placeholder='ex) Node, Product Managing, BI/BX' />
-        </FormItem>
-        <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
-          <StyledAddableWrapper onAppend={onAppend}>
-            {fields.map((field, index) => (
-              <AddableItem onRemove={() => onRemove(index)} key={field.id}>
-                <StyledSelectWrapper>
-                  <StyledSelect {...register(`links.${index}.title`)} className='category' />
-                  <StyledSelect {...register(`links.${index}.url`)} placeholder='https://' className='link' />
-                </StyledSelectWrapper>
-              </AddableItem>
-            ))}
-          </StyledAddableWrapper>
-        </FormItem>
-        <StyledOpenQuestion>
-          <div className='wrapper'>
-            <div className='question'>현재 구직 중이신가요?</div>
-            <Switch {...register('openToWork')} size={mobileSwitchSize} className='switch' />
-            <div className='description'>추후에 채용 연결 제공을 고려하고 있어요.</div>
-          </div>
-          <div className='wrapper'>
-            <div className='question'>{`사이드 프로젝트 제안을\n받고 싶으신가요?`}</div>
-            <Switch {...register('openToSideProject')} size={mobileSwitchSize} className='switch' />
-            <div className='description'>{`추후에 사이드 프로젝트 팀원 연결 제공을\n고려하고 있어요.`}</div>
-          </div>
-        </StyledOpenQuestion>
-      </MobileFormItems>
+      {!isMobile ? (
+        <StyledFormItems>
+          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
+            <StyledCountableInput {...register('introduction')} maxCount={30} />
+          </FormItem>
+          <FormItem title='스킬' description='내가 자신있는 스킬에 대해 작성해주세요. 쉼표(,)로 구분해서 적어주세요.'>
+            <StyledInput {...register('skill')} placeholder='ex) Node, Product Managing, Branding, UI' />
+          </FormItem>
+          <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
+            <StyledAddableWrapper onAppend={onAppend}>
+              {fields.map((field, index) => (
+                <AddableItem onRemove={() => onRemove(index)} key={field.id}>
+                  <StyledSelectWrapper>
+                    <StyledSelect {...register(`links.${index}.title`)} className='category'>
+                      <MemberSelectOptions options={LINK_TITLES} />
+                    </StyledSelect>
+                    <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
+                  </StyledSelectWrapper>
+                </AddableItem>
+              ))}
+            </StyledAddableWrapper>
+          </FormItem>
+          <StyledLine />
+          <StyledSwitchWrapper>
+            <StyledTitle>
+              <div className='title'>Open to work</div>
+            </StyledTitle>
+            <Switch {...register('openToWork')} size={switchSize} className='switch' />
+            <StyledDescription>채용 제안에 열려있는 상태라면 체크해주세요.</StyledDescription>
+          </StyledSwitchWrapper>
+          <StyledSwitchWrapper>
+            <StyledTitle>
+              <div className='title'>Open to side project</div>
+            </StyledTitle>
+            <Switch {...register('openToSideProject')} size={switchSize} className='switch' />
+            <StyledDescription>사이드 프로젝트 제안에 열려있는 상태라면 체크해주세요.</StyledDescription>
+          </StyledSwitchWrapper>
+        </StyledFormItems>
+      ) : (
+        <MobileFormItems>
+          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
+            <StyledCountableTextArea maxCount={30} />
+          </FormItem>
+          <FormItem
+            title='스킬'
+            description={`내가 자신있는 스킬에 대해 작성해주세요.\n쉼표(,)로 구분해서 적어주세요.`}
+          >
+            <StyledTextArea placeholder='ex) Node, Product Managing, BI/BX' />
+          </FormItem>
+          <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
+            <StyledAddableWrapper onAppend={onAppend}>
+              {fields.map((field, index) => (
+                <AddableItem onRemove={() => onRemove(index)} key={field.id}>
+                  <StyledSelectWrapper>
+                    <StyledSelect {...register(`links.${index}.title`)} className='category' />
+                    <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
+                  </StyledSelectWrapper>
+                </AddableItem>
+              ))}
+            </StyledAddableWrapper>
+          </FormItem>
+          <StyledOpenQuestion>
+            <div className='wrapper'>
+              <div className='question'>현재 구직 중이신가요?</div>
+              <Switch {...register('openToWork')} size={mobileSwitchSize} className='switch' />
+              <div className='description'>추후에 채용 연결 제공을 고려하고 있어요.</div>
+            </div>
+            <div className='wrapper'>
+              <div className='question'>{`사이드 프로젝트 제안을\n받고 싶으신가요?`}</div>
+              <Switch {...register('openToSideProject')} size={mobileSwitchSize} className='switch' />
+              <div className='description'>{`추후에 사이드 프로젝트 팀원 연결 제공을\n고려하고 있어요.`}</div>
+            </div>
+          </StyledOpenQuestion>
+        </MobileFormItems>
+      )}
     </FormSection>
   );
 }

@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { postMemberProfile } from '@/api/members';
+import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
@@ -18,8 +21,20 @@ export default function MemberUploadPage() {
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
   });
+  const router = useRouter();
+
   const { handleSubmit } = formMethods;
-  const onSubmit = (data: MemberUploadForm) => console.log(data);
+  const onSubmit = async (formData: MemberUploadForm) => {
+    const data: ProfileRequest = {
+      ...formData,
+      birthday: `${formData.birthday.year}-${formData.birthday.month.padStart(2, '0')}-${formData.birthday.day.padStart(
+        2,
+        '0',
+      )}`,
+    };
+    const response = await postMemberProfile(data);
+    router.push(`/members/${response.id}`);
+  };
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>

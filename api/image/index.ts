@@ -1,9 +1,15 @@
 import { axiosInstance } from '@/api';
 
-export const getPresignedUrl = async ({ filename, type }: { filename: string; type: string }) => {
-  const { data } = await axiosInstance.request<unknown>({
+export const getPresignedUrl = async ({
+  filename,
+  type,
+}: {
+  filename: string;
+  type?: string;
+}): Promise<{ filename: string; signedUrl: string }> => {
+  const { data } = await axiosInstance.request<{ filename: string; signedUrl: string }>({
     method: 'GET',
-    url: `api/v1/presigned-url?filename=${filename}&type=${type}`,
+    url: `api/v1/presigned-url?filename=${filename}${type ? `&type=${type}` : ''}`,
   });
 
   return data;
