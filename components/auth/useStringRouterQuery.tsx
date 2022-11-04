@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 type TupleKeyObject<T extends readonly string[]> = { [key in T[number]]: string };
 
-type URLStringQueryResult<Keys extends readonly string[]> =
+type RouterQueryResult<Keys extends readonly string[]> =
   | {
       status: 'loading' | 'error';
       query: null;
@@ -14,13 +14,13 @@ type URLStringQueryResult<Keys extends readonly string[]> =
     };
 
 /**
- * 현재 페이지의 URL query에 지정된 Key들의 값이 모두 string 타입으로 있나 확인하고 가져옵니다.
+ * 현재 router.query에 지정된 Key들의 값이 모두 string 타입으로 있나 확인하고 가져옵니다.
  * @param expectedQueryKeys query에서 검사할 Key들의 Tuple
  */
-const useURLStringQuery = <Keys extends readonly string[]>(expectedQueryKeys: Keys): URLStringQueryResult<Keys> => {
+const useStringRouterQuery = <Keys extends readonly string[]>(expectedQueryKeys: Keys): RouterQueryResult<Keys> => {
   const router = useRouter();
 
-  const [result, setResult] = useState<URLStringQueryResult<Keys>>({ status: 'loading', query: null });
+  const [result, setResult] = useState<RouterQueryResult<Keys>>({ status: 'loading', query: null });
 
   useEffect(() => {
     if (router.isReady) {
@@ -51,4 +51,4 @@ const useURLStringQuery = <Keys extends readonly string[]>(expectedQueryKeys: Ke
   return result;
 };
 
-export default useURLStringQuery;
+export default useStringRouterQuery;

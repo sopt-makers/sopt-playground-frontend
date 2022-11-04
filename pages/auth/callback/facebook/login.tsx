@@ -8,7 +8,7 @@ import { useSetRecoilState } from 'recoil';
 
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
-import useURLStringQuery from '@/components/auth/useURLStringQuery';
+import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import { colors } from '@/styles/colors';
 
@@ -18,7 +18,7 @@ const FacebookLoginCallbackPage: FC = () => {
   const lastUnauthorized = useLastUnauthorized();
   const setAccessToken = useSetRecoilState(accessTokenAtom);
 
-  const { query: queryData, status: queryStatus } = useURLStringQuery(['code', 'state'] as const);
+  const { query: queryData, status: queryStatus } = useStringRouterQuery(['code', 'state'] as const);
 
   const { data, status } = useQuery(
     ['facebookLoginCallback'],
