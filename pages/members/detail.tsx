@@ -89,8 +89,6 @@ const UserDetailPage: FC = () => {
 
           <InfoContainer style={{ gap: '34px' }}>
             {profile?.activities.map((item, idx) => {
-              const a = item.cardinalInfo.split(',');
-              console.log('a', a);
               const [generation, part] = item.cardinalInfo.split(',');
               return (
                 <PartItem
