@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { postFacebookAuth, postFacebookRegistration } from '@/api/registration';
 import useStateParam from '@/components/auth/util/useStateParam';
 
@@ -10,7 +12,12 @@ const FACEBOOK_REGISTER_CALLBACK_URI = `${ORIGIN}/auth/callback/facebook/registe
 interface FacebookAuth {
   login(): void;
   register(): void;
-  sendLoginRequest(code: string, state: string): Promise<{ success: true; accessToken: string } | { success: false }>;
+  sendLoginRequest(
+    code: string,
+    state: string,
+  ): Promise<
+    { success: true; accessToken: string } | { success: false; error: 'invalidNonce' | 'notMember' | 'unknown' }
+  >;
   sendRegisterRequest(
     code: string,
     registerToken: string,
@@ -36,7 +43,7 @@ const useFacebookAuth = (): FacebookAuth => {
     },
     async sendLoginRequest(code, state) {
       if (state !== stateParam) {
-        return { success: false };
+        return { success: false, error: 'invalidNonce' };
       }
 
       try {
@@ -45,9 +52,18 @@ const useFacebookAuth = (): FacebookAuth => {
           success: true,
           accessToken,
         };
-      } catch {
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          if (err.response?.status === 403) {
+            return {
+              success: false,
+              error: 'notMember',
+            };
+          }
+        }
         return {
           success: false,
+          error: 'unknown',
         };
       }
     },
