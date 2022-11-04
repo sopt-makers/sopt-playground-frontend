@@ -54,7 +54,7 @@ const VerifyByEmail: FC = () => {
         {verify.isLoading ? <ClipLoader color='#ffffff' size={25} /> : <>SOPT 회원 인증메일 전송</>}
       </SendButton>
       <ErrorNotice>
-        <GoogleFormButton>
+        <GoogleFormButton onClick={() => window.open('https://forms.gle/Hs9tJgMG9bNvT1rS9', '_blank')}>
           <div className='question'>이메일로 SOPT 회원 인증이 안된다면?</div>
           <IconArrowRight />
         </GoogleFormButton>
