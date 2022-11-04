@@ -6,6 +6,7 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
+import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
@@ -30,7 +31,14 @@ const UserDetailPage: FC = () => {
       <Container>
         <Wrapper>
           <ProfileContainer>
-            <ProfileImage src={profile?.profileImage} />
+            {profile?.profileImage ? (
+              <ProfileImage src={profile.profileImage} />
+            ) : (
+              <EmptyProfileImage>
+                <ProfileIcon />
+              </EmptyProfileImage>
+            )}
+
             <ProfileContents>
               <div>
                 <NameWrapper>
@@ -169,9 +177,18 @@ const ProfileContainer = styled.div`
   }
 `;
 
-const ProfileImage = styled.img`
+const EmptyProfileImage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 36px;
   background: ${colors.black60};
+  width: 171px;
+  height: 171px;
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 36px;
   width: 171px;
   height: 171px;
   object-fit: cover;
