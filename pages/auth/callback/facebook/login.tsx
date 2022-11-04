@@ -8,7 +8,7 @@ import { useSetRecoilState } from 'recoil';
 
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
-import useURLStringQuery from '@/components/auth/useURLQuery';
+import useURLStringQuery from '@/components/auth/useURLStringQuery';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import { colors } from '@/styles/colors';
 
