@@ -58,9 +58,9 @@ const VerifyByEmail: FC = () => {
           <div className='question'>이메일로 SOPT 회원 인증이 안된다면?</div>
           <IconArrowRight />
         </GoogleFormButton>
-        <div className='description'>
+        <ErrorNoticeDescription>
           {`SOPT 정보 등록 시 기입한 이메일의 확인이 어려운 경우,\n구글폼을 통해 가입을 도와드리고 있어요!`}{' '}
-        </div>
+        </ErrorNoticeDescription>
       </ErrorNotice>
     </Container>
   );
@@ -135,17 +135,17 @@ const ErrorNotice = styled.div`
   padding: 19px 0 18px 20px;
   width: 420px;
 
-  .description {
-    line-height: 140%;
-    white-space: pre-line;
-    color: ${colors.gray60};
-    font-size: 12px;
-    font-weight: 500;
-  }
-
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
   }
+`;
+
+const ErrorNoticeDescription = styled.div`
+  line-height: 140%;
+  white-space: pre-line;
+  color: ${colors.gray60};
+  font-size: 12px;
+  font-weight: 500;
 `;
 
 const GoogleFormButton = styled.button`
