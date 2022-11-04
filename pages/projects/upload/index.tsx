@@ -7,6 +7,7 @@ import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { User } from '@/api/project/types';
+import { ProjectLink as ProjectLinkType } from '@/api/projects/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
@@ -163,9 +164,9 @@ const ProjectUploadPage: FC = () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       description: user.description!,
     }));
-    const links: Omit<Link, 'isEdit'>[] = data.links.map((link) => ({
-      title: link.title,
-      url: link.url,
+    const links: Omit<ProjectLinkType, 'linkId'>[] = data.links.map((link) => ({
+      linkTitle: link.title,
+      linkUrl: link.url,
     }));
 
     if (notify) {

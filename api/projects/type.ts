@@ -18,6 +18,10 @@ export type Project = {
   links: ProjectLink[];
 };
 
+export type ProjectInput = Omit<Project, 'id' | 'links'> & {
+  links: Omit<ProjectLink, 'linkId'>[];
+};
+
 export type ProjectMember = {
   memberId: number;
   memberRole: string;
