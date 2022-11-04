@@ -57,7 +57,7 @@ export const useGetMemberOfMe = () => {
 };
 
 // 멤버 프로필 조회
-export const useGetMemberProfileById = (id: number) => {
+export const useGetMemberProfileById = (id: number | undefined) => {
   return useQuery(
     ['getMemberProfileById'],
     async () => {
@@ -68,7 +68,7 @@ export const useGetMemberProfileById = (id: number) => {
       onError: (error: { message: string }) => {
         console.error(error.message);
       },
-      enabled: !!id,
+      enabled: typeof id === 'number',
     },
   );
 };
