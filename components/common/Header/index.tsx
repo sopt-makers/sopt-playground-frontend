@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 import LogoIcon from 'public/icons/icon-logo.svg';
 import MemberIcon from 'public/icons/icon-member.svg';
 import MenuIcon from 'public/icons/icon-menu.svg';
+import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useState } from 'react';
 
-import { useGetMemberOfMe, useGetMemberProfileById } from '@/apiHooks/members';
+import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -20,9 +21,7 @@ const Header: FC = () => {
   const { pathname } = useRouter();
 
   const { data: me } = useGetMemberOfMe();
-  const { data: profile, status: profileStatus } = useGetMemberProfileById(me?.id ?? 0);
 
-  if (profileStatus === 'error') return null;
   return (
     <StyledHeader>
       <LeftGroup>
@@ -76,8 +75,11 @@ const Header: FC = () => {
         <MobileMenuWrapper onClick={() => setIsMobileMenuOpened(false)}>
           <MobileMenu>
             <ProfileContainer>
-              <ProfileImage src={profile?.profileImage} />
-              <Name>{profile?.name}</Name>
+              {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
+              <EmptyProfileImage>
+                <ProfileIcon width={17.29} height='auto' />
+              </EmptyProfileImage>
+              <Name>{me?.name}</Name>
             </ProfileContainer>
 
             <MenuWrapper>
@@ -260,9 +262,18 @@ const ProfileContainer = styled.div`
   align-items: center;
 `;
 
-const ProfileImage = styled.img`
+const EmptyProfileImage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 14px;
   background: ${colors.black60};
+  width: 42px;
+  height: 42px;
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 14px;
   width: 42px;
   height: 42px;
   object-fit: cover;
