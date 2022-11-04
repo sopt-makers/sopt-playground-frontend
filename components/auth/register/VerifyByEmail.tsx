@@ -8,8 +8,10 @@ import { postRegistrationEmail } from '@/api/registration';
 import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
 import Input from '@/components/common/Input';
 import SquareLink from '@/components/common/SquareLink';
+import IconArrowRight from '@/public/icons/icon-arrow-right.svg';
 import IconWarning from '@/public/icons/icon-warning.svg';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface ErrorResponse {
@@ -39,7 +41,7 @@ const VerifyByEmail: FC = () => {
       <Title>SOPT 회원인증</Title>
       <Description>SOPT 지원시 입력했던 이메일을 입력해주세요</Description>
       <Label>이메일</Label>
-      <Input
+      <StyledInput
         placeholder='이메일을 입력해주세요'
         value={emailInput}
         onChange={(e) => setEmailInput(e.target.value)}
@@ -51,6 +53,15 @@ const VerifyByEmail: FC = () => {
       <SendButton variant='primary' onClick={handleSend}>
         {verify.isLoading ? <ClipLoader color='#ffffff' size={25} /> : <>SOPT 회원 인증메일 전송</>}
       </SendButton>
+      <ErrorNotice>
+        <GoogleFormButton onClick={() => window.open('https://forms.gle/Hs9tJgMG9bNvT1rS9', '_blank')}>
+          <div className='question'>이메일로 SOPT 회원 인증이 안된다면?</div>
+          <IconArrowRight />
+        </GoogleFormButton>
+        <ErrorNoticeDescription>
+          {`SOPT 정보 등록 시 기입한 이메일의 확인이 어려운 경우,\n구글폼을 통해 가입을 도와드리고 있어요!`}{' '}
+        </ErrorNoticeDescription>
+      </ErrorNotice>
     </Container>
   );
 };
@@ -67,6 +78,9 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 420px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 0 24px;
+  }
 `;
 
 const Title = styled.h2`
@@ -105,4 +119,49 @@ const ErrorMessage = styled.p<{ show: boolean }>`
 
 const SendButton = styled(SquareLink)`
   align-self: stretch;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const ErrorNotice = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 60px;
+  border-radius: 6px;
+  background-color: ${colors.black60};
+  padding: 19px 0 18px 20px;
+  width: 420px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const ErrorNoticeDescription = styled.div`
+  line-height: 140%;
+  white-space: pre-line;
+  color: ${colors.gray60};
+  font-size: 12px;
+  font-weight: 500;
+`;
+
+const GoogleFormButton = styled.button`
+  display: flex;
+  gap: 2px;
+  align-items: center;
+
+  .text {
+    color: ${colors.gray10};
+
+    ${textStyles.SUIT_14_M}
+  }
+`;
+
+const StyledInput = styled(Input)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
