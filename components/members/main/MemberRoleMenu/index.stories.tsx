@@ -1,6 +1,6 @@
 import { ComponentMeta } from '@storybook/react';
 
-import useUserRoleMenu from '@/components/users/main/UserRoleMenu/useUserRoleMenu';
+import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 
 import UserRoleMenu from '.';
 
@@ -9,7 +9,7 @@ export default {
 } as ComponentMeta<typeof UserRoleMenu>;
 
 export const Default = () => {
-  const { menuValue, onSelect } = useUserRoleMenu();
+  const { menuValue, onSelect } = useMemberRoleMenu();
 
   return <UserRoleMenu value={menuValue} onSelect={onSelect} />;
 };

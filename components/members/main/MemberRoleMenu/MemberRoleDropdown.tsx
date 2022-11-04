@@ -2,19 +2,19 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
-import { MENUS, MenuValue } from '@/components/users/main/UserRoleMenu';
-import UserRoleMenuItem from '@/components/users/main/UserRoleMenu/UserRoleMenuItem';
+import { MENUS, MenuValue } from '@/components/members/main/MemberRoleMenu';
+import MemberRoleMenuItem from '@/components/members/main/MemberRoleMenu/MemberRoleMenuItem';
 import { colors } from '@/styles/colors';
 
-interface UserRoleDropdownProps {
+interface MemberRoleDropdownProps {
   className?: string;
   value: MenuValue;
   onSelect: (menuValue: MenuValue) => void;
 }
 /**
- * @remarks 해당 컴포넌트는 모바일에서만 사용됩니다. 데스크톱에선 UserRoleMenu를 사용해주세요.
+ * @remarks 해당 컴포넌트는 모바일에서만 사용됩니다. 데스크톱에선 MemberRoleMenu를 사용해주세요.
  */
-const UserRoleDropdown: FC<UserRoleDropdownProps> = ({ className, value, onSelect }) => {
+const MemberRoleDropdown: FC<MemberRoleDropdownProps> = ({ className, value, onSelect }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentMenuValue, setCurrentMenuValue] = useState<MenuValue>(value);
   const filteredMenus = MENUS.filter((menu) => currentMenuValue !== menu.value);
@@ -33,7 +33,7 @@ const UserRoleDropdown: FC<UserRoleDropdownProps> = ({ className, value, onSelec
 
   return (
     <StyledDropdown className={className}>
-      <UserRoleMenuItem
+      <MemberRoleMenuItem
         menu={currentMenu}
         onClick={() => handleSelect(currentMenuValue)}
         suffix={
@@ -47,13 +47,13 @@ const UserRoleDropdown: FC<UserRoleDropdownProps> = ({ className, value, onSelec
       />
       {isOpen &&
         filteredMenus.map((menu) => (
-          <UserRoleMenuItem key={menu.value} menu={menu} onClick={() => handleSelect(menu.value)} />
+          <MemberRoleMenuItem key={menu.value} menu={menu} onClick={() => handleSelect(menu.value)} />
         ))}
     </StyledDropdown>
   );
 };
 
-export default UserRoleDropdown;
+export default MemberRoleDropdown;
 
 const StyledDropdown = styled.ul`
   z-index: 100;

@@ -3,19 +3,19 @@ import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
-import { Menu } from '@/components/users/main/UserRoleMenu';
+import { Menu } from '@/components/members/main/MemberRoleMenu';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface UserRoleMenuItemProps {
+interface MemberRoleMenuItemProps {
   menu: Menu;
   isSelected?: boolean;
   onClick: () => void;
   suffix?: ReactNode;
 }
 
-const UserRoleMenuItem: FC<UserRoleMenuItemProps> = ({ menu, isSelected, onClick, suffix }) => {
+const MemberRoleMenuItem: FC<MemberRoleMenuItemProps> = ({ menu, isSelected, onClick, suffix }) => {
   return (
     <StyledMenuItem onClick={onClick} isSelected={isSelected}>
       <LeftSection>
@@ -27,7 +27,7 @@ const UserRoleMenuItem: FC<UserRoleMenuItemProps> = ({ menu, isSelected, onClick
   );
 };
 
-export default UserRoleMenuItem;
+export default MemberRoleMenuItem;
 
 const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   display: flex;

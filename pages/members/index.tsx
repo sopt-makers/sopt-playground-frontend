@@ -8,10 +8,10 @@ import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
 import Text from '@/components/common/Text';
-import UserCard from '@/components/users/main/UserCard';
-import UserRoleMenu from '@/components/users/main/UserRoleMenu';
-import UserRoleDropdown from '@/components/users/main/UserRoleMenu/UserRoleDropdown';
-import useUserRoleMenu from '@/components/users/main/UserRoleMenu/useUserRoleMenu';
+import MemberCard from '@/components/members/main/MemberCard';
+import MemberRoleMenu from '@/components/members/main/MemberRoleMenu';
+import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
+import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
@@ -69,7 +69,7 @@ const UserPage: FC = () => {
             <StyledCardWrapper>
               {profiles?.map((profile) => (
                 <a key={profile.id} href={`/members/${profile.id}`}>
-                  <UserCard
+                  <MemberCard
                     name={profile.name}
                     part={profile.part}
                     isActiveGeneration={profile.isActive}

@@ -6,7 +6,7 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface UserCardProps {
+interface MemberCardProps {
   name: string;
   part: string;
   introduction: string;
@@ -14,7 +14,7 @@ interface UserCardProps {
   isActiveGeneration: boolean;
 }
 
-const UserCard: FC<UserCardProps> = ({ name, part, introduction, image, isActiveGeneration }) => {
+const MemberCard: FC<MemberCardProps> = ({ name, part, introduction, image, isActiveGeneration }) => {
   return (
     <StyledCard>
       <CardHeader>
@@ -34,7 +34,7 @@ const UserCard: FC<UserCardProps> = ({ name, part, introduction, image, isActive
   );
 };
 
-export default UserCard;
+export default MemberCard;
 
 const StyledCard = styled.div`
   transition: background-color 0.3s;
