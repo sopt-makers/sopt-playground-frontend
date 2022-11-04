@@ -51,7 +51,7 @@ export const getMemberProfileOfMe = async () => {
   return data;
 };
 
-export const postMemberProfile = async (data: ProfileRequest) => {
-  const response = await axiosInstance.request({ method: 'POST', url: 'api/v1/members/profile', data });
-  console.log('response', response);
+export const postMemberProfile = async (body: ProfileRequest): Promise<Profile & { id: string }> => {
+  const { data } = await axiosInstance.request({ method: 'POST', url: 'api/v1/members/profile', data: body });
+  return data;
 };

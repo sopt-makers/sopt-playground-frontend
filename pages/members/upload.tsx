@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { postMemberProfile } from '@/api/members';
@@ -20,6 +21,8 @@ export default function MemberUploadPage() {
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
   });
+  const router = useRouter();
+
   const { handleSubmit } = formMethods;
   const onSubmit = async (formData: MemberUploadForm) => {
     const data: ProfileRequest = {
@@ -29,7 +32,8 @@ export default function MemberUploadPage() {
         '0',
       )}`,
     };
-    await postMemberProfile(data);
+    const response = await postMemberProfile(data);
+    router.push(`/members/${response.id}`);
   };
   return (
     <AuthRequired>
