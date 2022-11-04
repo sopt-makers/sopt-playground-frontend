@@ -66,7 +66,7 @@ const Header: FC = () => {
 
       {isUserDropdownOpened && (
         <UserDropdown>
-          <Link href={me?.hasProfile ? `/members/${me?.id}` : '/members/upload'}>내 프로필</Link>
+          <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'}>내 프로필</Link>
           <div onClick={logout}>로그아웃</div>
         </UserDropdown>
       )}

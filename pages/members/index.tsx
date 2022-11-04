@@ -53,7 +53,7 @@ const UserPage: FC = () => {
               <Link href='/projects/upload' passHref>
                 <UploadButton>프로젝트 업로드</UploadButton>
               </Link>
-              <Link href='/users/upload' passHref>
+              <Link href='/members/upload' passHref>
                 <ProfileButton>프로필 추가</ProfileButton>
               </Link>
             </ButtonContainer>
@@ -68,7 +68,7 @@ const UserPage: FC = () => {
             )} */}
             <StyledCardWrapper>
               {profiles?.map((profile) => (
-                <a key={profile.id} href={`/members/${profile.id}`}>
+                <a key={profile.id} href={`/members/detail?memberId=${profile.id}`}>
                   <MemberCard
                     name={profile.name}
                     part={profile.part}
@@ -200,7 +200,7 @@ const ProfileButton = styled.a`
 const StyledMain = styled.main`
   display: flex;
   justify-content: space-around;
-  margin-top: 90px;
+  margin: 90px 0;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
