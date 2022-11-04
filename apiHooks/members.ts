@@ -68,7 +68,7 @@ export const useGetMemberProfileById = (id: number | undefined) => {
       onError: (error: { message: string }) => {
         console.error(error.message);
       },
-      enabled: typeof id === 'number',
+      enabled: !!id,
     },
   );
 };
