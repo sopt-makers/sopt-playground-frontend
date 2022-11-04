@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/api';
-import { Member, Profile } from '@/api/members/type';
+import { Member, Profile, ProfileRequest } from '@/api/members/type';
 
 // 멤버 프로필 전체 조회
 export const getMemberProfile = async () => {
@@ -49,4 +49,9 @@ export const getMemberProfileOfMe = async () => {
   });
 
   return data;
+};
+
+export const postMemberProfile = async (data: ProfileRequest) => {
+  const response = await axiosInstance.request({ method: 'POST', url: 'api/v1/members/profile', data });
+  console.log('response', response);
 };

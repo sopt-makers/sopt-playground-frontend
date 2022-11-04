@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { postMemberProfile } from '@/api/members';
+import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Header from '@/components/common/Header';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
@@ -19,15 +21,15 @@ export default function MemberUploadPage() {
     defaultValues: MEMBER_DEFAULT_VALUES,
   });
   const { handleSubmit } = formMethods;
-  const onSubmit = (formData: MemberUploadForm) => {
-    const data = {
+  const onSubmit = async (formData: MemberUploadForm) => {
+    const data: ProfileRequest = {
       ...formData,
       birthday: `${formData.birthday.year}-${formData.birthday.month.padStart(2, '0')}-${formData.birthday.day.padStart(
         2,
         '0',
       )}`,
     };
-    console.log(data);
+    await postMemberProfile(data);
   };
   return (
     <AuthRequired>
