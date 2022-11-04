@@ -17,6 +17,7 @@ import InfoItem from '@/components/users/detail/InfoItem';
 import PartItem from '@/components/users/detail/PartItem';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 const UserDetailPage: FC = () => {
@@ -69,6 +70,16 @@ const UserDetailPage: FC = () => {
               </EditButton>
             )}
           </ProfileContainer>
+
+          {!profile?.isMine && (
+            <AskContainer>
+              <div>
+                <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
+                <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
+              </div>
+              <AskButton>질문 남기기</AskButton>
+            </AskContainer>
+          )}
 
           <InfoContainer style={{ gap: '30px' }}>
             <InfoItem label='생년월일' content={dayjs(profile?.birthday).format('YYYY-MM-DD')} />
@@ -324,6 +335,53 @@ const InfoContainer = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 18px;
     padding: 30px 20px;
+  }
+`;
+
+const AskContainer = styled(InfoContainer)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 36px;
+  padding-bottom: 36px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 24px;
+  }
+`;
+
+const AskTitle = styled.div`
+  color: ${colors.white100};
+  ${textStyles.SUIT_18_SB}
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_16_SB}
+  }
+`;
+
+const AskSubtitle = styled.div`
+  margin-top: 12px;
+  color: ${colors.gray60};
+  ${textStyles.SUIT_16_M}
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_M}
+  }
+`;
+
+const AskButton = styled.div`
+  border-radius: 14px;
+  background-color: ${colors.purple100};
+  cursor: pointer;
+  padding: 15px 36px;
+  color: ${colors.white100};
+  ${textStyles.SUIT_15_SB}
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 34px;
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+    ${textStyles.SUIT_16_SB}
   }
 `;
 
