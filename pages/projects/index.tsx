@@ -31,7 +31,7 @@ const ProjectPage: FC = () => {
                 name={project.name}
                 serviceType={project.service_type}
                 thumbnailImage={project.thumbnail_image}
-                onClick={() => router.push(`/projects/${project.id}`)}
+                onClick={() => router.push(`/projects/detail?projectId=${project.id}`)}
               />
             ))}
           </StyledGridContainer>
