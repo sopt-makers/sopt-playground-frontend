@@ -9,7 +9,6 @@ export const colors = {
   purple80: '#9E6DFF',
   purple60: '#F0E9FF',
   purple40: '#C6A9FF',
-  purpledim100: '#282039',
   gray100: '#606265',
   gray80: '#808388',
   gray60: '#989BA0',
