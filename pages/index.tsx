@@ -10,10 +10,8 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // MEMO: playground mainpage가 추가되기 전까진 멤버페이지로 redirect 시킵니다.
-      router.push('/members');
-    }
+    // MEMO: playground mainpage가 추가되기 전까진 멤버페이지로 redirect 시킵니다.
+    router.push('/members');
   }, [router]);
 
   return <AuthRequired>{}</AuthRequired>;
