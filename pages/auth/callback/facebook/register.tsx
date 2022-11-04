@@ -5,10 +5,12 @@ import { useSetRecoilState } from 'recoil';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useQueryStringParam from '@/components/auth/useQueryString';
+import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
   const facebookAuth = useFacebookAuth();
+  const lastUnauthorized = useLastUnauthorized();
   const setAccessToken = useSetRecoilState(accessTokenAtom);
 
   const [message, setMessage] = useState('');
@@ -23,7 +25,7 @@ const FacebookRegisterCallbackPage: FC = () => {
     }
 
     setAccessToken(registerResult.accessToken);
-    router.replace('/profile/create');
+    router.replace(lastUnauthorized.popPath() ?? '/profile/create');
   });
 
   return (
