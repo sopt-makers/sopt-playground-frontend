@@ -64,3 +64,25 @@ export type Member = {
   generation: number;
   hasProfile: true;
 };
+
+export type ProfileRequest = {
+  name: string;
+  profileImage: string;
+  birthday: string;
+  phone: string;
+  email: string;
+  address: string;
+  university: string;
+  major: string;
+  introduction: string;
+  skill: string;
+  activities: {
+    generation: string;
+    part: string;
+    team: string;
+  }[];
+  links: Omit<Link, 'id'>[];
+  openToWork: boolean;
+  openToSideProject: boolean;
+  allowOfficial: boolean;
+};

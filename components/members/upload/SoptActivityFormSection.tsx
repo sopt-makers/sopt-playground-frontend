@@ -4,8 +4,8 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import Select from '@/components/common/Select';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
-import { PART, TEAM } from '@/components/members/upload/constants';
-import { GENERATION } from '@/components/members/upload/constants';
+import { PARTS, TEAMS } from '@/components/members/upload/constants';
+import { GENERATIONS } from '@/components/members/upload/constants';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import SelectOptions from '@/components/members/upload/forms/SelectOptions';
@@ -32,13 +32,13 @@ export default function MemberSoptActivityFormSection() {
           <AddableItem onRemove={() => onRemove(index)} key={field.id}>
             <StyledSelectWrapper>
               <StyledSelect {...register(`activities.${index}.generation`)} placeholder='활동기수'>
-                <SelectOptions options={GENERATION} />
+                <SelectOptions options={GENERATIONS} />
               </StyledSelect>
               <StyledSelect {...register(`activities.${index}.part`)} placeholder='파트'>
-                <SelectOptions options={PART} />
+                <SelectOptions options={PARTS} />
               </StyledSelect>
               <StyledSelect {...register(`activities.${index}.team`)} placeholder='운팀/미팀' className='team'>
-                <SelectOptions options={TEAM} />
+                <SelectOptions options={TEAMS} />
               </StyledSelect>
             </StyledSelectWrapper>
           </AddableItem>

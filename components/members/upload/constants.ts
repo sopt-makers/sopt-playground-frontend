@@ -4,7 +4,7 @@ import { MemberUploadForm } from '@/components/members/upload/types';
 
 const LATEST_GENERATION = 31;
 
-export const GENERATION = Array.from({ length: LATEST_GENERATION }, (_, i) => (i + 1).toString()).reverse();
+export const GENERATIONS = Array.from({ length: LATEST_GENERATION }, (_, i) => (i + 1).toString()).reverse();
 
 export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   profileImage: '',
@@ -24,6 +24,8 @@ export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   allowOfficial: false,
 };
 
-export const PART = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
+export const PARTS = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
 
-export const TEAM = ['운영팀', '미디어팀', '해당 없음'];
+export const TEAMS = ['운영팀', '미디어팀', '해당 없음'];
+
+export const LINK_TITLES = ['Facebook', 'Instagram', 'LinkedIn', 'GitHub', 'Behance'];
