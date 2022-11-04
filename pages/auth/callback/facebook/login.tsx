@@ -21,7 +21,7 @@ const FacebookLoginCallbackPage: FC = () => {
     }
 
     setAccessToken(loginResult.accessToken);
-    router.replace('/');
+    router.replace('/members');
   });
 
   return (

@@ -28,8 +28,8 @@ const Header: FC = () => {
         <div className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
           <MenuIcon />
         </div>
-        <Link href='/' passHref>
-          <TextLinkButton isCurrentPath={pathname === '/'}>
+        <Link href='/members' passHref>
+          <TextLinkButton isCurrentPath={pathname === '/members'}>
             <StyledLogo>
               <LogoIcon />
             </StyledLogo>
