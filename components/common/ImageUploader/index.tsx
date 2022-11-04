@@ -2,8 +2,7 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { FC, useRef, useState } from 'react';
 
-import { project } from '@/api/project';
-import { Fields } from '@/api/project/types';
+import { getPresignedUrl } from '@/api/image';
 import IconImage from '@/public/icons/icon-image.svg';
 import { colors } from '@/styles/colors';
 
@@ -36,28 +35,19 @@ const ImageUploader: FC<ImageUploaderProps> = ({
       if (files == null || files.length === 0) return;
       const file = files[0];
       try {
-        const {
-          data: { signedUrl, filename },
-        } = await project.getPresignedUrl(file.name);
+        const { filename, signedUrl } = await getPresignedUrl({ filename: file.name });
         if (!signedUrl) {
           throw new Error('presigned-url을 받아오는데 실패하였습니다.');
         }
-        const { url, fields } = signedUrl;
-        // MEMO: signedUrl 에서 응답으로 내려준 fields들을 formData에 그대로 담아 보내줍니다.
-        const formData = new FormData();
-        for (const key in fields) {
-          formData.append(key, fields[key as keyof Fields]);
-        }
-        // MEMO: s3 버킷에 올라간 이미지 주소(s3Url)에 접근하기 위한 서버에서 준 filename으로 file의 이름을 변경하는 작업입니다.
-        const blob = file.slice(0, file.size, 'image/*');
-        const s3Filename = new File([blob], filename, { type: 'image/*' });
-        formData.append('file', s3Filename);
+
         await axios.request({
-          method: 'POST',
-          url,
-          data: formData,
+          method: 'PUT',
+          url: signedUrl,
+          headers: { 'Content-Type': file.type },
+          data: file,
         });
-        const s3Url = `${url}/${filename}`;
+
+        const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
         setPreviewImage(s3Url);
         onChange(s3Url);
       } catch (error) {
