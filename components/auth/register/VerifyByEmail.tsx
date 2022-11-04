@@ -41,7 +41,7 @@ const VerifyByEmail: FC = () => {
       <Title>SOPT 회원인증</Title>
       <Description>SOPT 지원시 입력했던 이메일을 입력해주세요</Description>
       <Label>이메일</Label>
-      <Input
+      <StyledInput
         placeholder='이메일을 입력해주세요'
         value={emailInput}
         onChange={(e) => setEmailInput(e.target.value)}
@@ -78,6 +78,9 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 420px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 0 24px;
+  }
 `;
 
 const Title = styled.h2`
@@ -116,6 +119,10 @@ const ErrorMessage = styled.p<{ show: boolean }>`
 
 const SendButton = styled(SquareLink)`
   align-self: stretch;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const ErrorNotice = styled.div`
@@ -150,5 +157,11 @@ const GoogleFormButton = styled.button`
     color: ${colors.gray10};
 
     ${textStyles.SUIT_14_M}
+  }
+`;
+
+const StyledInput = styled(Input)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
   }
 `;
