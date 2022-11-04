@@ -38,4 +38,5 @@ export type Member = {
   id: number;
   name: string;
   generation: number;
+  hasProfile: true;
 };
