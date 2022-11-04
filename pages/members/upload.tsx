@@ -33,7 +33,7 @@ export default function MemberUploadPage() {
       )}`,
     };
     const response = await postMemberProfile(data);
-    router.push(`/members/${response.id}`);
+    router.push(`/members/detail?memberId=${response.id}`);
   };
   return (
     <AuthRequired>
