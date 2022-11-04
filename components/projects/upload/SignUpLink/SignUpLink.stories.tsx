@@ -1,12 +1,12 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import SignupLink from '@/components/projects/upload/SignUpLink';
+import SignUpLink from '@/components/projects/upload/SignUpLink';
 
 export default {
-  component: SignupLink,
-} as ComponentMeta<typeof SignupLink>;
+  component: SignUpLink,
+} as ComponentMeta<typeof SignUpLink>;
 
-const Template: ComponentStory<typeof SignupLink> = (args) => <SignupLink {...args} />;
+const Template: ComponentStory<typeof SignUpLink> = (args) => <SignUpLink {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {};
