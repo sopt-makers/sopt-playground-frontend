@@ -55,7 +55,7 @@ const UserDetailPage: FC = () => {
               </ContactWrapper>
             </ProfileContents>
 
-            {isMyProfile && (
+            {profile?.isMine && (
               <EditButton>
                 <EditIcon />
               </EditButton>
