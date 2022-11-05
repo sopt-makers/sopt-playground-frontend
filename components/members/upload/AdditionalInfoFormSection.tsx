@@ -89,7 +89,9 @@ export default function MemberAdditionalFormSection() {
               {fields.map((field, index) => (
                 <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                   <StyledSelectWrapper>
-                    <StyledSelect {...register(`links.${index}.title`)} className='category' />
+                    <StyledSelect {...register(`links.${index}.title`)} className='category'>
+                      <MemberSelectOptions options={LINK_TITLES} />
+                    </StyledSelect>
                     <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
                   </StyledSelectWrapper>
                 </AddableItem>
