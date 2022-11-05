@@ -46,6 +46,7 @@ const useStringRouterQuery = <Keys extends readonly string[]>(expectedQueryKeys:
         query,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, router.isReady]);
 
   return result;
