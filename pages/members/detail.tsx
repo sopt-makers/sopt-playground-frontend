@@ -71,9 +71,8 @@ const UserDetailPage: FC = () => {
                         return part;
                       }),
                     )
-                      .join('/')
-                      .replace(new RegExp('^/'), '')
-                      .replace(new RegExp('/$'), '')}
+                      .filter((part) => part.length)
+                      .join('/')}
                   </div>
                 </NameWrapper>
                 <div className='intro'>{profile?.introduction}</div>
