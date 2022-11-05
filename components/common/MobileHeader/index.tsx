@@ -1,9 +1,16 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import BackIcon from 'public/icons/icon-back.svg';
 
 const MobileHeader = () => {
+  const router = useRouter();
   return (
-    <Wrapper className='mobile-only'>
+    <Wrapper
+      onClick={() => {
+        router.back();
+      }}
+      className='mobile-only'
+    >
       <BackIcon />
     </Wrapper>
   );
