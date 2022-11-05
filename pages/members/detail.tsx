@@ -24,7 +24,9 @@ import { setLayout } from '@/utils/layout';
 
 const UserDetailPage: FC = () => {
   const { query, status } = useStringRouterQuery(['memberId'] as const);
-  const { data: profile } = useGetMemberProfileById(status === 'success' ? safeParseInt(query.memberId) : null);
+  const { data: profile } = useGetMemberProfileById(
+    status === 'success' ? safeParseInt(query.memberId) ?? undefined : undefined,
+  );
 
   const is이정연 = profile?.name === '이정연';
   const is김나연 = profile?.name === '김나연';

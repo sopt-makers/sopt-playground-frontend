@@ -57,13 +57,10 @@ export const useGetMemberOfMe = () => {
 };
 
 // 멤버 프로필 조회
-export const useGetMemberProfileById = (id: number | null) => {
+export const useGetMemberProfileById = (id: number | undefined) => {
   return useQuery(
     ['getMemberProfileById', id],
     async () => {
-      if (id === null) {
-        throw new Error('Should not be happened');
-      }
       const data = await getMemberProfileById(id);
       return data;
     },
