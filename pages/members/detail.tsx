@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
@@ -12,6 +11,7 @@ import { FC } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
+import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import Header from '@/components/common/Header';
 import MobileHeader from '@/components/common/MobileHeader';
 import InfoItem from '@/components/users/detail/InfoItem';
@@ -19,13 +19,12 @@ import PartItem from '@/components/users/detail/PartItem';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { safeParseInt } from '@/utils';
 import { setLayout } from '@/utils/layout';
 
 const UserDetailPage: FC = () => {
-  const router = useRouter();
-  const { memberId } = router.query;
-
-  const { data: profile } = useGetMemberProfileById(Number(memberId));
+  const { query, status } = useStringRouterQuery(['memberId'] as const);
+  const { data: profile } = useGetMemberProfileById(status === 'success' ? safeParseInt(query.memberId) : null);
 
   const is이정연 = profile?.name === '이정연';
   const is김나연 = profile?.name === '김나연';

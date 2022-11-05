@@ -65,15 +65,17 @@ const UserPage: FC = () => {
             )} */}
             <StyledCardWrapper>
               {profiles?.map((profile) => (
-                <a key={profile.id} href={`/members/detail?memberId=${profile.id}`}>
-                  <MemberCard
-                    name={profile.name}
-                    part={profile.part}
-                    isActiveGeneration={profile.isActive}
-                    introduction={profile.introduction}
-                    image={profile.profileImage}
-                  />
-                </a>
+                <Link key={profile.id} href={`/members/detail?memberId=${profile.id}`} passHref>
+                  <a>
+                    <MemberCard
+                      name={profile.name}
+                      part={profile.part}
+                      isActiveGeneration={profile.isActive}
+                      introduction={profile.introduction}
+                      image={profile.profileImage}
+                    />
+                  </a>
+                </Link>
               ))}
             </StyledCardWrapper>
           </StyledMain>
