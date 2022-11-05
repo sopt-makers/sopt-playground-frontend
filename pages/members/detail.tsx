@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
+import uniq from 'lodash/uniq';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import CallIcon from 'public/icons/icon-call.svg';
@@ -63,7 +64,17 @@ const UserDetailPage: FC = () => {
               <div>
                 <NameWrapper>
                   <div className='name'>{profile?.name}</div>
-                  <div className='part'>{profile?.major}</div>
+                  <div className='part'>
+                    {uniq(
+                      profile?.activities.map((item) => {
+                        const [_, part] = item.cardinalInfo.split(',');
+                        return part;
+                      }),
+                    )
+                      .join('/')
+                      .replace(new RegExp('^/'), '')
+                      .replace(new RegExp('/$'), '')}
+                  </div>
                 </NameWrapper>
                 <div className='intro'>{profile?.introduction}</div>
               </div>
