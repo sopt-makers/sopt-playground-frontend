@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
+    "@cloudflare/workers-types": "^3.18.0",
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
     "@mdx-js/react": "^1.6.22",
