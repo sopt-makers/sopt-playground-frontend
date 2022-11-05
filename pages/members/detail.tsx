@@ -26,15 +26,18 @@ const UserDetailPage: FC = () => {
 
   const { data: profile } = useGetMemberProfileById(Number(memberId));
 
+  const is이정연 = profile?.name === '이정연';
+  const is김나연 = profile?.name === '김나연';
+
   const handleAskToMeClick = () => {
     if (profile == null) return;
 
-    if (profile.name === '이정연') {
+    if (is이정연) {
       window.open('https://forms.gle/scjKJFpc4sszuGgp9', '_blank');
       return;
     }
 
-    if (profile.name === '김나연') {
+    if (is김나연) {
       window.open('https://forms.gle/s5Kkc7GxxsEBYh4U8', '_blank');
       return;
     }
@@ -89,10 +92,22 @@ const UserDetailPage: FC = () => {
 
           {!profile?.isMine && (
             <AskContainer>
-              <div>
-                <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
-                <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
-              </div>
+              {is김나연 ? (
+                <div>
+                  <AskTitle>기획/PM 직무, 취업에 대해 궁금하신가요?</AskTitle>
+                  <AskSubtitle>궁금한 점을 편하게 남겨주세요~!</AskSubtitle>
+                </div>
+              ) : is이정연 ? (
+                <div>
+                  <AskTitle>31기 기획파트 여러분 안녕하세요!</AskTitle>
+                  <AskSubtitle>제품 구현 또는 협업에 대한 고민이 있다면 편하게 질문 남겨주세요~</AskSubtitle>
+                </div>
+              ) : (
+                <div>
+                  <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
+                  <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
+                </div>
+              )}
               <AskButton onClick={handleAskToMeClick}>질문 남기기</AskButton>
             </AskContainer>
           )}

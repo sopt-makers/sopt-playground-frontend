@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -17,7 +18,13 @@ const LoginPage: FC = () => {
       <LinkContainer>
         <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
         <Link href='/auth/verify' passHref>
-          <SquareLink>회원가입</SquareLink>
+          <SquareLink
+            css={css`
+              color: white;
+            `}
+          >
+            회원가입
+          </SquareLink>
         </Link>
       </LinkContainer>
     </StyledLoginPage>
