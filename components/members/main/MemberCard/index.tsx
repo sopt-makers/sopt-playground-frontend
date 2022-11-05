@@ -87,6 +87,13 @@ const ActiveGenerationBadge = styled.div`
   padding: 10px 14.5px;
 
   ${textStyles.SUIT_14_M}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_12_M}
+
+    top: 8px;
+    left: 8px;
+  }
 `;
 
 const DefaultImage = styled.img`
@@ -96,6 +103,7 @@ const DefaultImage = styled.img`
 const Image = styled.img`
   width: 100%;
   height: 100%;
+  object-fit: cover;
 `;
 
 const CardContent = styled.div`
