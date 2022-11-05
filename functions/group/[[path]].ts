@@ -1,14 +1,9 @@
-export async function onRequest(context) {
-  // Contents of context object
-  const {
-    request, // same as existing Worker API
-    env, // same as existing Worker API
-    params, // if filename includes [id] or [[path]]
-    waitUntil, // same as ctx.waitUntil in existing Worker API
-    passThroughOnException, // same as ctx.passThroughOnException in existing Worker API
-    next, // used for middleware or to fetch assets
-    data, // arbitrary space for passing data between middlewares
-  } = context;
+const CREW_DOMAIN = 'sopt-crew-dev.pages.dev';
 
-  return new Response('Hello, world!');
-}
+export const onRequest: PagesFunction = async (context) => {
+  const { request } = context;
+
+  const newURL = new URL(request.url);
+  newURL.hostname = CREW_DOMAIN;
+  return fetch(newURL.href, request);
+};
