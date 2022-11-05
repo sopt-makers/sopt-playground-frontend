@@ -26,6 +26,22 @@ const UserDetailPage: FC = () => {
 
   const { data: profile } = useGetMemberProfileById(Number(memberId));
 
+  const handleAskToMeClick = () => {
+    if (profile == null) return;
+
+    if (profile.name === '이정연') {
+      window.open('https://forms.gle/scjKJFpc4sszuGgp9', '_blank');
+      return;
+    }
+
+    if (profile.name === '김나연') {
+      window.open('https://forms.gle/s5Kkc7GxxsEBYh4U8', '_blank');
+      return;
+    }
+
+    alert('준비 중인 기능이에요!');
+  };
+
   return (
     <AuthRequired>
       <MobileHeader />
@@ -77,7 +93,7 @@ const UserDetailPage: FC = () => {
                 <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
                 <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
               </div>
-              <AskButton>질문 남기기</AskButton>
+              <AskButton onClick={handleAskToMeClick}>질문 남기기</AskButton>
             </AskContainer>
           )}
 
