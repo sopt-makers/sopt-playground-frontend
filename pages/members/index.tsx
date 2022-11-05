@@ -219,6 +219,7 @@ const StyledDivider = styled.div`
   }
 `;
 
+const IPHONE_XR = 414;
 const StyledCardWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -238,7 +239,7 @@ const StyledCardWrapper = styled.div`
       width: 100%;
     }
   }
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: ${IPHONE_XR}px) {
     grid-template-columns: repeat(2, 1fr);
   }
 `;
