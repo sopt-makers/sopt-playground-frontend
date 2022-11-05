@@ -15,7 +15,7 @@ export const Default = Template.bind({});
 Default.args = {
   name: '유예린',
   part: '디자인 / 기획',
-  introduction: '행복을 찾는 UIUX 디자이너^^',
+  introduction: '인왕산 야간등산을 좋아해요. 그러다 도루리 집을 멤돌았다는건 안 비밀^^',
   isActiveGeneration: true,
 };
 Default.storyName = '기본';
@@ -24,7 +24,7 @@ export const Active = Template.bind({});
 Active.args = {
   name: '유예린',
   part: '디자인 / 기획',
-  introduction: '행복을 찾는 UIUX 디자이너^^',
+  introduction: '인왕산 야간등산을 좋아해요. 그러다 도루리 집을 멤돌았다는건 안 비밀^^',
   image: yerinImage,
   isActiveGeneration: false,
 };

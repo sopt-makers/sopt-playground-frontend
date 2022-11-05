@@ -42,6 +42,7 @@ const StyledCard = styled.div`
   background-color: ${colors.black80};
   cursor: pointer;
   width: 235px;
+  height: 370px;
 
   &:hover {
     background-color: ${colors.black60};
@@ -55,6 +56,7 @@ const StyledCard = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 20px;
     width: 163px;
+    height: 272px;
   }
 `;
 
@@ -133,7 +135,11 @@ const Introduction = styled.span`
 
   display: block;
   margin-top: 20px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   line-height: 16px;
+  white-space: nowrap;
   color: ${colors.gray80};
 
   @media ${MOBILE_MEDIA_QUERY} {
