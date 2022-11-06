@@ -9,3 +9,12 @@ export const copyToClipboard = async (text: string, options?: { onSuccess?: () =
 };
 
 export const isClientSide = () => typeof window !== 'undefined';
+
+export const safeParseInt = (str: string): number | null => {
+  const value = parseInt(str, 10);
+
+  if (isNaN(value)) {
+    return null;
+  }
+  return value;
+};

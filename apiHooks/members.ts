@@ -59,7 +59,7 @@ export const useGetMemberOfMe = () => {
 // 멤버 프로필 조회
 export const useGetMemberProfileById = (id: number | undefined) => {
   return useQuery(
-    ['getMemberProfileById'],
+    ['getMemberProfileById', id],
     async () => {
       const data = await getMemberProfileById(id);
       return data;
