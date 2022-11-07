@@ -178,6 +178,7 @@ const StyledThumbnail = styled.img`
   background: linear-gradient(180deg, rgb(35 35 50 / 0%) 0%, rgb(35 35 35 / 80%) 100%);
   width: 100%;
   height: 100%;
+  object-fit: cover;
 `;
 
 const StyledLogo = styled.img`
