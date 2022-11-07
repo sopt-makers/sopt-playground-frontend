@@ -10,7 +10,7 @@ import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
-import useGetUsersByNameQuery from '@/components/projects/upload/hooks/useGetUsersByNameQuery';
+import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
 import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
 import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
 import useMediaQuery from '@/hooks/useMediaQuery';
@@ -39,7 +39,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
     control,
   });
   const [searchName, setSearchName] = useState<string>('');
-  const { data } = useGetUsersByNameQuery({
+  const { data: membersData } = useGetMembersByNameQuery({
     name: searchName,
   });
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
@@ -79,7 +79,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   <MemberSearchWrapper errorMessage={errors.members?.[index]?.user?.name?.message}>
                     <MemberSearch
                       error={!!errors?.members?.[index].user?.name}
-                      members={data?.data ?? []}
+                      members={membersData ?? []}
                       onSearch={_debounce(
                         (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
                         300,

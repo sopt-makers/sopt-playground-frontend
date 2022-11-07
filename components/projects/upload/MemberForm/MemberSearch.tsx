@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { Combobox } from '@headlessui/react';
 import React, { FC } from 'react';
 
+import { Member } from '@/api/members/type';
 import { User } from '@/api/user/types';
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
@@ -11,11 +12,11 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MemberSearchProps {
-  value?: User;
-  onChange: (value: User) => void;
+  value?: Member;
+  onChange: (value: Member) => void;
   onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
-  members: User[];
+  members: Member[];
 }
 
 const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, members, name }) => {

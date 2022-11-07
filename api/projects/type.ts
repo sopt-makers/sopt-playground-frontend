@@ -5,7 +5,7 @@ export type Project = {
   generation: number;
   category: string;
   startAt: string;
-  endAt: string;
+  endAt?: string;
   serviceType: string[];
   isAvailable: boolean;
   isFounding: boolean;
@@ -18,8 +18,10 @@ export type Project = {
   links: ProjectLink[];
 };
 
-export type ProjectInput = Omit<Project, 'id' | 'links'> & {
+type ProjectInputOmitType = 'id' | 'links' | 'generation';
+export type ProjectInput = Omit<Project, ProjectInputOmitType> & {
   links: Omit<ProjectLink, 'linkId'>[];
+  generation?: number;
 };
 
 export type ProjectMember = {

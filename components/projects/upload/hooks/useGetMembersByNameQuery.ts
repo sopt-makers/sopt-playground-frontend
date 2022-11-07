@@ -1,19 +1,18 @@
 import { useQuery } from 'react-query';
 
-import { user } from '@/api/user';
-
-interface GetUsersByNameQueryVariables {
+import { getMemebersSearchByName } from '@/api/members';
+interface GetMembersByNameQueryVariables {
   name: string;
 }
-const useGetUsersByNameQuery = (variables: GetUsersByNameQueryVariables) => {
+const useGetMembersByNameQuery = (variables: GetMembersByNameQueryVariables) => {
   const { name } = variables;
   return useQuery(
-    ['useGetUsersByNameQuery', variables],
+    ['useGetMemebersSearchByName', variables],
     () => {
       if (!name) {
         return;
       }
-      return user.getUsersByName(name);
+      return getMemebersSearchByName(name);
     },
     {
       onError: (error: { message: string }) => {
@@ -24,4 +23,4 @@ const useGetUsersByNameQuery = (variables: GetUsersByNameQueryVariables) => {
   );
 };
 
-export default useGetUsersByNameQuery;
+export default useGetMembersByNameQuery;

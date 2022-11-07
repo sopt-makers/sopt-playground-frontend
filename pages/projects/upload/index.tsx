@@ -6,8 +6,9 @@ import { FC, useContext } from 'react';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { User } from '@/api/project/types';
 import { ProjectLink as ProjectLinkType } from '@/api/projects/type';
+import { ProjectMember } from '@/api/projects/type';
+import { useGetMemberOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
@@ -106,6 +107,8 @@ const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   detail: '',
 };
 
+const DATE_FORMAT = 'YYYY-MM-DD';
+
 export interface ProjectUploadForm {
   name: string;
   generation: Generation;
@@ -124,6 +127,7 @@ export interface ProjectUploadForm {
 }
 
 const ProjectUploadPage: FC = () => {
+  const { data: myProfileData } = useGetMemberOfMe();
   const { mutate } = useCreateProjectMutation();
   const methods = useForm<ProjectUploadForm>({
     resolver: yupResolver(schema),
@@ -154,22 +158,22 @@ const ProjectUploadPage: FC = () => {
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
     // TODO eslint non-null-assertion 관련 룰 만족하도록 수정 필요
-    const users: Omit<User, 'user'>[] = [...data.members, ...(data.releaseMembers ?? [])].map((user) => ({
+    const members: ProjectMember[] = [...data.members, ...(data.releaseMembers ?? [])].map((member) => ({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      user_id: user.user?.auth_user_id!,
+      memberId: member.user?.auth_user_id!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      is_team_member: user.isTeamMember!,
+      isTeamMember: member.isTeamMember!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      role: user.role!,
+      memberRole: member.role!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      description: user.description!,
+      memberDescription: member.description!,
     }));
     const links: Omit<ProjectLinkType, 'linkId'>[] = data.links.map((link) => ({
       linkTitle: link.title,
       linkUrl: link.url,
     }));
 
-    if (notify) {
+    if (notify && myProfileData) {
       mutate(
         {
           name: data.name,
@@ -177,16 +181,17 @@ const ProjectUploadPage: FC = () => {
           category: data.category,
           detail: data.detail,
           summary: data.summary,
-          service_type: data.serviceType,
-          start_at: dayjs(data.period.startAt).toDate(),
-          end_at: !data.period.isOngoing ? dayjs(data.period.endAt).toDate() : undefined,
-          is_available: data.status.isAvailable,
-          is_founding: data.status.isFounding,
+          serviceType: data.serviceType,
+          startAt: dayjs(data.period.startAt).format(DATE_FORMAT),
+          endAt: !data.period.isOngoing ? dayjs(data.period.endAt).format(DATE_FORMAT) : undefined,
+          isAvailable: data.status.isAvailable,
+          isFounding: data.status.isFounding,
           images: data.projectImage ? [data.projectImage] : [],
-          logo_image: data.logoImage,
-          thumbnail_image: data.thumbnailImage,
-          users,
+          logoImage: data.logoImage,
+          thumbnailImage: data.thumbnailImage,
+          members,
           links,
+          writerId: myProfileData?.id,
         },
         {
           onSuccess: () => {

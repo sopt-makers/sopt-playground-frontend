@@ -56,3 +56,11 @@ export const postMemberProfile = async (body: ProfileRequest): Promise<Profile> 
   const { data } = await axiosInstance.request({ method: 'POST', url: 'api/v1/members/profile', data: body });
   return data;
 };
+
+export const getMemebersSearchByName = async (name: string) => {
+  const { data } = await axiosInstance.request<Member[]>({
+    method: 'GET',
+    url: `api/v1/members/search?name=${name}`,
+  });
+  return data;
+};
