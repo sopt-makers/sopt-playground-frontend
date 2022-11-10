@@ -82,7 +82,7 @@ export default function MemberAdditionalFormSection() {
             title='스킬'
             description={`내가 자신있는 스킬에 대해 작성해주세요.\n쉼표(,)로 구분해서 적어주세요.`}
           >
-            <StyledTextArea placeholder='ex) Node, Product Managing, BI/BX' />
+            <StyledTextArea {...register('skill')} placeholder='ex) Node, Product Managing, BI/BX' />
           </FormItem>
           <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
             <StyledAddableWrapper onAppend={onAppend}>

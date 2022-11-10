@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { FC, PropsWithChildren, TextareaHTMLAttributes, useState } from 'react';
+import { forwardRef, TextareaHTMLAttributes, useState } from 'react';
 
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
@@ -12,33 +12,30 @@ interface MemberCountableTextAreaProps extends TextareaHTMLAttributes<HTMLTextAr
   maxCount?: number;
 }
 
-const MemberCountableTextArea: FC<PropsWithChildren<MemberCountableTextAreaProps>> = ({
-  maxCount,
-  error,
-  onChange,
-  className,
-  ...props
-}) => {
-  const [value, setValue] = useState<string>('');
-  return (
-    <StyledContainer className={className}>
-      <StyledTextArea
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange?.(e);
-        }}
-        error={error}
-        maxLength={maxCount}
-        {...props}
-      />
-      <StyledCountValue>
-        <Text color={colors.gray100} typography='SUIT_12_M'>
-          {`${value.length}/${maxCount}`}
-        </Text>
-      </StyledCountValue>
-    </StyledContainer>
-  );
-};
+export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCountableTextAreaProps>(
+  ({ error, maxCount, onChange, className, ...props }, ref) => {
+    const [value, setValue] = useState<string>('');
+    return (
+      <StyledContainer className={className}>
+        <StyledTextArea
+          onChange={(e) => {
+            setValue(e.target.value);
+            onChange?.(e);
+          }}
+          error={error}
+          ref={ref}
+          maxLength={maxCount}
+          {...props}
+        />
+        <StyledCountValue>
+          <Text color={colors.gray100} typography='SUIT_12_M'>
+            {`${value.length}/${maxCount}`}
+          </Text>
+        </StyledCountValue>
+      </StyledContainer>
+    );
+  },
+);
 export default MemberCountableTextArea;
 
 const StyledContainer = styled.div`
