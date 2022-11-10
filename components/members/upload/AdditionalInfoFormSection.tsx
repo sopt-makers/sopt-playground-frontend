@@ -14,7 +14,7 @@ import CountableTextArea from '@/components/members/upload/forms/CountableTextAr
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
-import MemberSelectOptions from '@/components/members/upload/forms/SelectOptions';
+import SelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
@@ -49,7 +49,7 @@ export default function MemberAdditionalFormSection() {
                 <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                   <StyledSelectWrapper>
                     <StyledSelect {...register(`links.${index}.title`)} className='category'>
-                      <MemberSelectOptions options={LINK_TITLES} />
+                      <SelectOptions options={LINK_TITLES} />
                     </StyledSelect>
                     <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
                   </StyledSelectWrapper>
@@ -90,7 +90,7 @@ export default function MemberAdditionalFormSection() {
                 <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                   <StyledSelectWrapper>
                     <StyledSelect {...register(`links.${index}.title`)} className='category'>
-                      <MemberSelectOptions options={LINK_TITLES} />
+                      <SelectOptions options={LINK_TITLES} />
                     </StyledSelect>
                     <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
                   </StyledSelectWrapper>
