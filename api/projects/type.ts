@@ -1,12 +1,14 @@
+import { Category, ServiceType } from '@/components/projects/upload/types';
+
 export type Project = {
   id: number;
   name: string;
   writerId: number;
   generation: number;
-  category: string;
+  category: Category;
   startAt: string;
   endAt?: string;
-  serviceType: string[];
+  serviceType: ServiceType[];
   isAvailable: boolean;
   isFounding: boolean;
   summary: string;
