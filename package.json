@@ -10,7 +10,8 @@
     "prettier": "prettier --write .",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "typecheck": "tsc --noemit -p ."
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
