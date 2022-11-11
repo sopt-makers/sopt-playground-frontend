@@ -21,27 +21,31 @@ const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectPr
       onChange,
       className,
       placeholder,
-      onChangeSelect,
+      onChangeSelect: setRealValue,
       ...props
     },
     ref,
   ) => {
-    const [inputValue, setInputValue] = useState('');
+    const [visibleValue, setVisibleValue] = useState('');
     const [isEditable, setIsEditable] = useState(false);
+
+    const setValue = (value: string) => {
+      setRealValue(value);
+      setVisibleValue(value);
+    };
 
     const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
       const editableOptionIndex = (children as ReactElement).props.options.length + 1;
       if (e.target.selectedIndex === editableOptionIndex) {
-        setInputValue('');
+        setValue('');
       } else {
-        onChangeSelect(e.target.value);
-        setInputValue(e.target.value);
+        setValue(e.target.value);
       }
       setIsEditable(e.target.selectedIndex === editableOptionIndex);
     };
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
+      setValue(e.target.value);
       onChange?.(e);
     };
 
@@ -56,7 +60,7 @@ const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectPr
           placeholder={isEditable ? '직접입력' : placeholder}
           readOnly={!isEditable}
           ref={ref}
-          value={inputValue}
+          value={visibleValue}
           {...props}
         />
       </StyledContainer>
