@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
-import Select from '@/components/common/Select';
 import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
@@ -11,6 +10,7 @@ import AddableWrapper from '@/components/members/upload/AddableWrapper';
 import { LINK_TITLES } from '@/components/members/upload/constants';
 import CountableInput from '@/components/members/upload/forms/CountableInput';
 import CountableTextArea from '@/components/members/upload/forms/CountableTextArea';
+import EditableSelect from '@/components/members/upload/forms/EditableSelect';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
@@ -22,7 +22,7 @@ import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function MemberAdditionalFormSection() {
-  const { register, control } = useFormContext<MemberUploadForm>();
+  const { register, control, setValue } = useFormContext<MemberUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'links',
@@ -48,9 +48,15 @@ export default function MemberAdditionalFormSection() {
               {fields.map((field, index) => (
                 <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                   <StyledSelectWrapper>
-                    <StyledSelect {...register(`links.${index}.title`)} className='category'>
+                    <StyledEditableSelect
+                      placeholder='ex) Instagram'
+                      {...register(`links.${index}.title`)}
+                      width='100%'
+                      className='category'
+                      onChangeSelect={(value: string) => setValue(`links.${index}.title`, value)}
+                    >
                       <SelectOptions options={LINK_TITLES} />
-                    </StyledSelect>
+                    </StyledEditableSelect>
                     <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
                   </StyledSelectWrapper>
                 </AddableItem>
@@ -89,9 +95,15 @@ export default function MemberAdditionalFormSection() {
               {fields.map((field, index) => (
                 <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                   <StyledSelectWrapper>
-                    <StyledSelect {...register(`links.${index}.title`)} className='category'>
+                    <StyledEditableSelect
+                      onChangeSelect={(value: string) => setValue(`links.${index}.title`, value)}
+                      placeholder='ex) Instagram'
+                      {...register(`links.${index}.title`)}
+                      width='100%'
+                      className='category'
+                    >
                       <SelectOptions options={LINK_TITLES} />
-                    </StyledSelect>
+                    </StyledEditableSelect>
                     <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
                   </StyledSelectWrapper>
                 </AddableItem>
@@ -160,26 +172,30 @@ const StyledSelectWrapper = styled.div`
 
   .link {
     flex: 2;
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      flex: 1;
+    }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     gap: 11px;
+    height: 111px;
   }
 `;
 
-const StyledSelect = styled(Select)`
+const StyledEditableSelect = styled(EditableSelect)`
   border-width: 1.5px;
   border-radius: 14px;
   padding: 16px 34px 16px 20px;
-  color: ${colors.gray80};
+  height: 50px;
 
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 12px;
     background-color: ${colors.black80};
-    width: 100%;
   }
 `;
 
