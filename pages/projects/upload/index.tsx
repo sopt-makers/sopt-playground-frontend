@@ -55,16 +55,16 @@ const schema = yup.object().shape({
   }),
   members: yup.array().of(
     yup.object().shape({
-      user: yup.object().required('유저를 선택해주세요.'),
-      description: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
-      role: yup.string().required('역할을 선택해주세요.'),
+      searchedMember: yup.object().required('유저를 선택해주세요.'),
+      memberDescription: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
+      memberRole: yup.string().required('역할을 선택해주세요.'),
     }),
   ),
   releaseMembers: yup.array().of(
     yup.object().shape({
-      user: yup.object().required('유저를 선택해주세요.'),
-      description: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
-      role: yup.string().required('역할을 선택해주세요.'),
+      searchedMember: yup.object().required('유저를 선택해주세요.'),
+      memberDescription: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
+      memberRole: yup.string().required('역할을 선택해주세요.'),
     }),
   ),
   serviceType: yup.array().required('서비스 형태를 선택해주세요.'),
@@ -83,8 +83,8 @@ const schema = yup.object().shape({
   projectImage: yup.string(),
   links: yup.array().of(
     yup.object().shape({
-      title: yup.string().required('프로젝트 타입을 선택해주세요.'),
-      url: yup.string().required('프로젝트 링크를 입력해주세요.').url('올바른 링크를 입력해주세요.'),
+      linkTitle: yup.string().required('프로젝트 타입을 선택해주세요.'),
+      linkUrl: yup.string().required('프로젝트 링크를 입력해주세요.').url('올바른 링크를 입력해주세요.'),
     }),
   ),
 });
@@ -154,7 +154,6 @@ const ProjectUploadPage: FC = () => {
     );
   const { showToast } = useContext(ToastContext);
   const router = useRouter();
-  console.log('[forms]: ', watch());
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
