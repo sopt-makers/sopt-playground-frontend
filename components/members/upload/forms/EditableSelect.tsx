@@ -42,7 +42,7 @@ const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectPr
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
       onChangeSelect(e.target.value);
-      onChangeInput?.(e);
+      onChangeInput(e);
     };
 
     return (
