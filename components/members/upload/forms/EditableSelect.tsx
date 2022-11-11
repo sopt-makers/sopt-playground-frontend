@@ -18,10 +18,10 @@ const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectPr
       disabled = false,
       children,
       error,
-      onChange,
+      onChange: onChangeInput,
       className,
       placeholder,
-      onChangeSelect: setRealValue,
+      onChangeSelect,
       ...props
     },
     ref,
@@ -30,7 +30,7 @@ const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectPr
     const [isEditable, setIsEditable] = useState(false);
 
     const setValue = (value: string) => {
-      setRealValue(value);
+      onChangeSelect(value);
       setVisibleValue(value);
     };
 
@@ -46,7 +46,7 @@ const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectPr
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value);
-      onChange?.(e);
+      onChangeInput?.(e);
     };
 
     return (
