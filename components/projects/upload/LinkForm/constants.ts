@@ -1,14 +1,11 @@
-export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github'] as const;
+import { ProjectLink } from '@/api/projects/type';
 
-export type LinkTitle = typeof LINK_TITLES[number];
-export interface Link {
-  title: LinkTitle | string;
-  url: string;
+export type LinkFormType = Omit<ProjectLink, 'linkId'> & {
   isEdit?: boolean;
-}
+};
 
-export const DEFAULT_LINK: Link = {
-  title: 'website',
-  url: '',
+export const DEFAULT_LINK: LinkFormType = {
+  linkTitle: 'website',
+  linkUrl: '',
   isEdit: true,
 };

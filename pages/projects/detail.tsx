@@ -3,35 +3,15 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useMemo, useState } from 'react';
 
-import { LinkTitle, ProjectLink } from '@/api/projects/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import SiteHeader from '@/components/common/Header';
+import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
-
-const renderLinkIcon = (linkTitle: ProjectLink['linkTitle']) => {
-  switch (linkTitle as LinkTitle) {
-    case 'website':
-      return '/icons/ic_web.svg';
-    case 'googlePlay':
-      return '/icons/ic_googleplay.svg';
-    case 'appStore':
-      return '/icons/ic_appstore.svg';
-    case 'github':
-      return '/icons/ic_github.svg';
-    // TOOD: select에 추가한 뒤 추가
-    // case 'instagram':
-    //   return '/icons/ic_instagram.svg'
-    // case 'media':
-    //   return '/icons/ic_media.svg'
-    default:
-      return '/icons/ic_etc.svg';
-  }
-};
 
 const ProjectDetailPage: FC = () => {
   const router = useRouter();
@@ -110,7 +90,7 @@ const ProjectDetailPage: FC = () => {
             <LinksWrapper>
               {data?.links.map((link) => (
                 <LinkBox key={link.linkUrl} href={link.linkUrl}>
-                  <LinkIcon key={link.linkId} src={renderLinkIcon(link.linkTitle)} alt='link_icon' />
+                  <LinkIcon key={link.linkId} src={getLinkInfo(link.linkTitle).icon} alt='link_icon' />
                   {link.linkTitle}
                 </LinkBox>
               ))}
@@ -143,7 +123,7 @@ const ProjectDetailPage: FC = () => {
         <MobileLinksWrapper>
           {data?.links.map((link) => (
             <LinkBox key={link.linkUrl} href={link.linkUrl}>
-              <LinkIcon key={link.linkId} src={renderLinkIcon(link.linkTitle)} alt='link_icon' />
+              <LinkIcon key={link.linkId} src={getLinkInfo(link.linkTitle).icon} alt='link_icon' />
               {link.linkTitle}
             </LinkBox>
           ))}

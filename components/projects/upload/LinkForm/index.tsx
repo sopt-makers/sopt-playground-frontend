@@ -2,11 +2,12 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
+import { LINK_TITLES } from '@/api/projects/type';
 import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
-import { DEFAULT_LINK, LINK_TITLES } from '@/components/projects/upload/LinkForm/constants';
+import { DEFAULT_LINK } from '@/components/projects/upload/LinkForm/constants';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 import IconTrash from '@/public/icons/icon-trash.svg';
@@ -56,7 +57,7 @@ const LinkForm: FC = () => {
         <StyledUl>
           {fields.map((field, index) => (
             <StyledLi key={field.id}>
-              <StyledSelect placeholder='선택' {...register(`links.${index}.title`)}>
+              <StyledSelect placeholder='선택' {...register(`links.${index}.linkTitle`)}>
                 {LINK_TITLES.map((value) => (
                   <option key={value} value={value}>
                     {value}
@@ -65,11 +66,11 @@ const LinkForm: FC = () => {
               </StyledSelect>
               <Controller
                 control={control}
-                name={`links.${index}.url`}
+                name={`links.${index}.linkUrl`}
                 render={({ field: { value, onChange, ...props } }) => (
-                  <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
+                  <FormItem errorMessage={errors?.links?.[index]?.linkUrl?.message}>
                     <StyledInput
-                      error={!!errors?.links?.[index]?.url}
+                      error={!!errors?.links?.[index]?.linkUrl}
                       placeholder='https://'
                       value={value}
                       onChange={onChange}
@@ -99,16 +100,16 @@ const LinkForm: FC = () => {
               {!link.isEdit ? (
                 <MobileLinkItem onClick={() => onEdit(index)}>
                   <Text typography='SUIT_12_M' color={colors.gray100}>
-                    {link.title}
+                    {link.linkTitle}
                   </Text>
                   <Text typography='SUIT_12_M' color={colors.gray100}>
-                    {link.url}
+                    {link.linkUrl}
                   </Text>
                 </MobileLinkItem>
               ) : (
                 <MobileLinkApplyForm>
                   <MobileLinkSelect>
-                    <MobileSelect placeholder='선택' {...register(`links.${index}.title`)}>
+                    <MobileSelect placeholder='선택' {...register(`links.${index}.linkTitle`)}>
                       {LINK_TITLES.map((value) => (
                         <option key={value} value={value}>
                           {value}
@@ -117,11 +118,11 @@ const LinkForm: FC = () => {
                     </MobileSelect>
                     <Controller
                       control={control}
-                      name={`links.${index}.url`}
+                      name={`links.${index}.linkUrl`}
                       render={({ field: { value, onChange, ...props } }) => (
-                        <FormItem errorMessage={errors?.links?.[index]?.url?.message}>
+                        <FormItem errorMessage={errors?.links?.[index]?.linkUrl?.message}>
                           <MobileLink
-                            error={!!errors?.links?.[index]?.url}
+                            error={!!errors?.links?.[index]?.linkUrl}
                             placeholder='https://'
                             value={value}
                             onChange={onChange}

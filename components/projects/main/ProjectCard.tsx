@@ -1,27 +1,13 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { ProjectLink } from '@/api/projects/type';
+import { LinkTitle, ProjectLink } from '@/api/projects/type';
 import Text from '@/components/common/Text';
-import { categoryLabel } from '@/components/projects/upload/constants';
-import { LinkTitle } from '@/components/projects/upload/LinkForm/constants';
+import { categoryLabel, getLinkInfo } from '@/components/projects/upload/constants';
 import { Category, ServiceType } from '@/components/projects/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-
-const getLinkInfo = (title: LinkTitle) => {
-  switch (title) {
-    case 'website':
-      return { icon: '/icons/icon-web.svg', label: '서비스 바로가기' };
-    case 'googlePlay':
-      return { icon: '/icons/icon-playstore.svg', label: 'Google Play' };
-    case 'appStore':
-      return { icon: '/icons/icon-appstore.svg', label: 'App Store' };
-    case 'github':
-      return { icon: '/icons/icon-github.svg', label: 'Github' };
-  }
-};
 
 export interface ProjectCardProps {
   serviceType: ServiceType[];
@@ -162,6 +148,8 @@ const ServiceLinkWrapper = styled.div`
 `;
 
 const StyledLinkIcon = styled.img`
+  border-radius: 10px;
+  background-color: ${colors.black100};
   width: 54px;
   height: 54px;
 `;

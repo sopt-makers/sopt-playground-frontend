@@ -6,7 +6,7 @@ import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
-import { ProjectLink as ProjectLinkType } from '@/api/projects/type';
+import { ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
@@ -14,8 +14,8 @@ import Header from '@/components/common/Header';
 import { categoryLabel, FORM_ITEMS } from '@/components/projects/upload/constants';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
-import { Link } from '@/components/projects/upload/LinkForm/constants';
-import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
+import { LinkFormType } from '@/components/projects/upload/LinkForm/constants';
+import { DEFAULT_MEMBER, MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
 import ProjectCategory from '@/components/projects/upload/ProjectCategory';
 import ProjectDetail from '@/components/projects/upload/ProjectDetail';
 import ProjectGeneration from '@/components/projects/upload/ProjectGeneration';
@@ -113,8 +113,8 @@ export interface ProjectUploadForm {
   generation: Generation;
   category: Category;
   status: Status;
-  members: Member[];
-  releaseMembers: Member[];
+  members: MemeberFormType[];
+  releaseMembers: MemeberFormType[];
   serviceType: ServiceType[];
   period: Period;
   summary: string;
@@ -122,7 +122,7 @@ export interface ProjectUploadForm {
   logoImage: string;
   thumbnailImage: string;
   projectImage: string;
-  links: Link[];
+  links: LinkFormType[];
 }
 
 const ProjectUploadPage: FC = () => {
@@ -137,7 +137,7 @@ const ProjectUploadPage: FC = () => {
   const {
     handleSubmit,
     watch,
-    formState: { dirtyFields, errors },
+    formState: { dirtyFields },
   } = methods;
   const category = watch('category');
   const formItems = FORM_ITEMS.filter((formItem) => formItem.isRequired)
@@ -154,24 +154,20 @@ const ProjectUploadPage: FC = () => {
     );
   const { showToast } = useContext(ToastContext);
   const router = useRouter();
+  console.log('[forms]: ', watch());
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
-    // TODO eslint non-null-assertion 관련 룰 만족하도록 수정 필요
-    const members = [...data.members, ...(data.releaseMembers ?? [])].map((member) => ({
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      memberId: member.user?.id!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      isTeamMember: member.isTeamMember!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      memberRole: member.role!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      memberDescription: member.description!,
-    }));
-    const links: Omit<ProjectLinkType, 'linkId'>[] = data.links.map((link) => ({
-      linkTitle: link.title,
-      linkUrl: link.url,
-    }));
+    const members: ProjectMember[] = [...data.members, ...(data.releaseMembers ?? [])].map(
+      ({ isTeamMember, memberDescription, memberRole, searchedMember }) => ({
+        isTeamMember,
+        memberRole,
+        memberDescription,
+        memberGeneration: searchedMember?.generation ?? 0,
+        memberId: searchedMember?.id ?? 0,
+        memberName: searchedMember?.name ?? '',
+      }),
+    );
 
     if (notify && myProfileData) {
       mutate(
@@ -190,7 +186,7 @@ const ProjectUploadPage: FC = () => {
           logoImage: data.logoImage,
           thumbnailImage: data.thumbnailImage,
           members,
-          links,
+          links: data.links,
           writerId: myProfileData?.id,
         },
         {

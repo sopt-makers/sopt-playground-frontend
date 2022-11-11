@@ -27,16 +27,26 @@ export type ProjectInput = Omit<Project, ProjectInputOmitType> & {
   members: Omit<ProjectMember, 'memberName' | 'memberGeneration'>[];
 };
 
+export enum MemberRole {
+  MAINPM = 'MAINPM',
+  PM = 'PM',
+  DESIGN = 'DESIGN',
+  IOS = 'IOS',
+  ANDROID = 'ANDROID',
+  WEB = 'WEB',
+  SERVER = 'SERVER',
+}
+
 export type ProjectMember = {
   memberId: number;
-  memberRole: string;
+  memberRole: MemberRole;
   memberDescription: string;
   isTeamMember: boolean;
   memberName: string;
   memberGeneration: number;
 };
 
-export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github'] as const;
+export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
 export type LinkTitle = typeof LINK_TITLES[number];
 
 export type ProjectLink = {

@@ -8,11 +8,12 @@ const useGetMembersByNameQuery = (variables: GetMembersByNameQueryVariables) => 
   const { name } = variables;
   return useQuery(
     ['useGetMemebersSearchByName', variables],
-    () => {
+    async () => {
       if (!name) {
         return;
       }
-      return getMemebersSearchByName(name);
+      const data = await getMemebersSearchByName(name);
+      return data;
     },
     {
       onError: (error: { message: string }) => {
