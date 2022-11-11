@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useMemo, useState } from 'react';
 
+import { LinkTitle, ProjectLink } from '@/api/projects/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import SiteHeader from '@/components/common/Header';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
@@ -12,19 +13,35 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
+const renderLinkIcon = (linkTitle: ProjectLink['linkTitle']) => {
+  switch (linkTitle as LinkTitle) {
+    case 'website':
+      return '/icons/ic_web.svg';
+    case 'googlePlay':
+      return '/icons/ic_googleplay.svg';
+    case 'appStore':
+      return '/icons/ic_appstore.svg';
+    case 'github':
+      return '/icons/ic_github.svg';
+    // TOOD: select에 추가한 뒤 추가
+    // case 'instagram':
+    //   return '/icons/ic_instagram.svg'
+    // case 'media':
+    //   return '/icons/ic_media.svg'
+    default:
+      return '/icons/ic_etc.svg';
+  }
+};
+
 const ProjectDetailPage: FC = () => {
   const router = useRouter();
   const { projectId } = router.query;
 
   const { data } = useGetProjectQuery({ id: projectId as string });
 
-  const startAt = dayjs(data?.start_at).format('YYYY-MM');
-  const endAt = data?.end_at ? dayjs(data.end_at).format('YYYY-MM') : '';
+  const startAt = dayjs(data?.startAt).format('YYYY-MM');
+  const endAt = data?.endAt ? dayjs(data.endAt).format('YYYY-MM') : '';
   const mainImage = data?.images[0];
-
-  const navigateToLink = (url: string) => {
-    window.open(url, '_blank', 'noreferrer');
-  };
 
   const userNamesByRole = useMemo(() => new Map<string, string[]>(), []);
   // NOTE: Map 자료구조를 update하기 위해 임시 state를 하나 만든다. Map 자료구조를 만든 다음 해당 state를 변경시켜 rerendering을 발생시킨다.
@@ -32,18 +49,18 @@ const ProjectDetailPage: FC = () => {
   // 만약 Map이 변경되었을 때 rerender를 발생시키려면, Map을 state로 만들고
   const [_, rerender] = useState('');
   useEffect(() => {
-    if (!data?.users) {
+    if (!data?.members) {
       return;
     }
 
-    data.users.forEach((user) => {
-      if (!userNamesByRole.has(user.role)) {
-        userNamesByRole.set(user.role, [user.user.name]);
+    data.members.forEach((member) => {
+      if (!userNamesByRole.has(member.memberRole)) {
+        userNamesByRole.set(member.memberRole, [member.memberName]);
       } else {
-        const names = userNamesByRole.get(user.role)?.slice();
+        const names = userNamesByRole.get(member.memberRole)?.slice();
         if (names) {
-          names.push(user.user.name);
-          userNamesByRole.set(user.role, names);
+          names.push(member.memberName);
+          userNamesByRole.set(member.memberRole, names);
         }
       }
     });
@@ -56,13 +73,13 @@ const ProjectDetailPage: FC = () => {
       <Container>
         <Header>
           <ServiceTypeWrapper>
-            {data?.service_type.map((type) => (
+            {data?.serviceType.map((type) => (
               <ServiceType key={type}>{type}</ServiceType>
             ))}
           </ServiceTypeWrapper>
           <ServiceInfoWrapper>
             <LogoImageWrapper>
-              <LogoImage src={data?.logo_image} alt={data?.name} />
+              <LogoImage src={data?.logoImage} alt={data?.name} />
             </LogoImageWrapper>
             <InfoWrapper>
               <Name>{data?.name}</Name>
@@ -72,7 +89,7 @@ const ProjectDetailPage: FC = () => {
                 {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
               </StartEndAtWrapper>
               <MobileServiceTypeWrapper>
-                {data?.service_type.map((type) => (
+                {data?.serviceType.map((type) => (
                   <ServiceType key={type}>{type}</ServiceType>
                 ))}
               </MobileServiceTypeWrapper>
@@ -92,9 +109,9 @@ const ProjectDetailPage: FC = () => {
             <DetailWrapper>{data?.detail}</DetailWrapper>
             <LinksWrapper>
               {data?.links.map((link) => (
-                <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-                  <LinkIcon />
-                  {link.title}
+                <LinkBox key={link.linkUrl} href={link.linkUrl}>
+                  <LinkIcon key={link.linkId} src={renderLinkIcon(link.linkTitle)} alt='link_icon' />
+                  {link.linkTitle}
                 </LinkBox>
               ))}
             </LinksWrapper>
@@ -125,9 +142,9 @@ const ProjectDetailPage: FC = () => {
 
         <MobileLinksWrapper>
           {data?.links.map((link) => (
-            <LinkBox key={link.url} onClick={() => navigateToLink(link.url)}>
-              <LinkIcon />
-              {link.title}
+            <LinkBox key={link.linkUrl} href={link.linkUrl}>
+              <LinkIcon key={link.linkId} src={renderLinkIcon(link.linkTitle)} alt='link_icon' />
+              {link.linkTitle}
             </LinkBox>
           ))}
         </MobileLinksWrapper>
@@ -361,7 +378,7 @@ const MobileLinksWrapper = styled.div`
     padding: 48px 40px;
   }
 `;
-const LinkBox = styled.div`
+const LinkBox = styled.a`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -376,10 +393,10 @@ const LinkBox = styled.div`
     font-size: 12px;
   }
 `;
-// TODO: change from div to img
-const LinkIcon = styled.div`
+
+const LinkIcon = styled.img`
   border-radius: 100%;
-  background: ${colors.black60};
+  background-color: ${colors.black60};
   width: 72px;
   height: 72px;
 
