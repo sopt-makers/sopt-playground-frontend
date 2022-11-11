@@ -68,7 +68,6 @@ export default MemberEditableSelect;
 
 const StyledContainer = styled.div<{ width: number | string; height: number | string }>`
   position: relative;
-  background-color: red;
 
   ${({ width }) => `width: ${width}${typeof width === 'number' ? 'px' : ''};`}
   ${({ height }) => `height: ${height}${typeof height === 'number' ? 'px' : ''};`}
