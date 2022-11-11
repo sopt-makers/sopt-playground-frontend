@@ -6,8 +6,10 @@ import Select from '@/components/common/Select';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface MemberEditableSelectProps extends InputProps {
+interface MemberEditableSelectProps extends Omit<InputProps, 'value' | 'onChange'> {
   onChangeSelect: (value: string) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 }
 
 const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectProps>(
