@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
 import Switch from '@/components/common/Switch';
@@ -28,6 +28,7 @@ export default function MemberAdditionalFormSection() {
     name: 'links',
   });
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
+  const linkCategories = useWatch({ control, name: 'links' });
 
   const onAppend = () => append({ title: '', url: '' });
   const onRemove = (index: number) => remove(index);
@@ -54,6 +55,7 @@ export default function MemberAdditionalFormSection() {
                       width='100%'
                       className='category'
                       onChangeSelect={(value: string) => setValue(`links.${index}.title`, value)}
+                      value={linkCategories[index]?.title ?? ''}
                     >
                       <SelectOptions options={LINK_TITLES} />
                     </StyledEditableSelect>
@@ -99,6 +101,7 @@ export default function MemberAdditionalFormSection() {
                       onChangeSelect={(value: string) => setValue(`links.${index}.title`, value)}
                       placeholder='ex) Instagram'
                       {...register(`links.${index}.title`)}
+                      value={linkCategories[index]?.title ?? ''}
                       width='100%'
                       className='category'
                     >
