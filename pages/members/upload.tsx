@@ -25,14 +25,16 @@ export default function MemberUploadPage() {
 
   const { handleSubmit } = formMethods;
   const onSubmit = async (formData: MemberUploadForm) => {
-    const data: ProfileRequest = {
+    const { birthday, university, major, skill, links } = formData;
+    const requestBody: ProfileRequest = {
       ...formData,
-      birthday: `${formData.birthday.year}-${formData.birthday.month.padStart(2, '0')}-${formData.birthday.day.padStart(
-        2,
-        '0',
-      )}`,
+      birthday: `${birthday.year}-${birthday.month.padStart(2, '0')}-${birthday.day.padStart(2, '0')}`,
+      university: university.length ? university : null,
+      major: major.length ? major : null,
+      skill: skill.length ? skill : null,
+      links: links.length ? links : null,
     };
-    const response = await postMemberProfile(data);
+    const response = await postMemberProfile(requestBody);
     router.push(`/members/detail?memberId=${response.id}`);
   };
   return (

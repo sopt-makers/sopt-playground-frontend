@@ -72,16 +72,16 @@ export type ProfileRequest = {
   phone: string;
   email: string;
   address: string;
-  university: string;
-  major: string;
+  university: string | null;
+  major: string | null;
   introduction: string;
-  skill: string;
+  skill: string | null;
   activities: {
     generation: string;
     part: string;
     team: string;
   }[];
-  links: Omit<Link, 'id'>[];
+  links: Omit<Link, 'id'>[] | null;
   openToWork: boolean;
   openToSideProject: boolean;
   allowOfficial: boolean;
