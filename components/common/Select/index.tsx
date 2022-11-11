@@ -6,7 +6,7 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  width?: number;
+  width?: number | string;
   disabled?: boolean;
   error?: boolean;
 }
@@ -35,7 +35,7 @@ const StyledSelect = styled.select<Pick<SelectProps, 'width' | 'error'>>`
   padding: 14px 34px 14px 20px;
   color: ${colors.gray100};
   ${textStyles.SUIT_16_M};
-  ${({ width }) => `width: ${width}px`};
+  ${({ width }) => `width: ${width}${typeof width === 'number' ? 'px' : ''};`}
 
   &:focus {
     border-color: ${colors.purple100};
