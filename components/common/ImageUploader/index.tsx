@@ -83,6 +83,7 @@ const StyledInput = styled.input`
 `;
 
 const StyledPreview = styled.img`
+  border-radius: 6px;
   width: inherit;
   height: inherit;
 `;

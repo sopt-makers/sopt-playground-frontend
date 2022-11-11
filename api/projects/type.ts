@@ -20,10 +20,11 @@ export type Project = {
   links: ProjectLink[];
 };
 
-type ProjectInputOmitType = 'id' | 'links' | 'generation';
+type ProjectInputOmitType = 'id' | 'links' | 'generation' | 'members';
 export type ProjectInput = Omit<Project, ProjectInputOmitType> & {
   links: Omit<ProjectLink, 'linkId'>[];
   generation?: number;
+  members: Omit<ProjectMember, 'memberName' | 'memberGeneration'>[];
 };
 
 export type ProjectMember = {
@@ -31,10 +32,15 @@ export type ProjectMember = {
   memberRole: string;
   memberDescription: string;
   isTeamMember: boolean;
+  memberName: string;
+  memberGeneration: number;
 };
+
+export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github'] as const;
+export type LinkTitle = typeof LINK_TITLES[number];
 
 export type ProjectLink = {
   linkId: number;
-  linkTitle: string;
+  linkTitle: LinkTitle | string;
   linkUrl: string;
 };

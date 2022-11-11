@@ -7,7 +7,6 @@ import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { ProjectLink as ProjectLinkType } from '@/api/projects/type';
-import { ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
@@ -107,7 +106,7 @@ const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   detail: '',
 };
 
-const DATE_FORMAT = 'YYYY-MM-DD';
+const DATE_FORMAT = 'YYYY.MM';
 
 export interface ProjectUploadForm {
   name: string;
@@ -158,7 +157,7 @@ const ProjectUploadPage: FC = () => {
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');
     // TODO eslint non-null-assertion 관련 룰 만족하도록 수정 필요
-    const members: ProjectMember[] = [...data.members, ...(data.releaseMembers ?? [])].map((member) => ({
+    const members = [...data.members, ...(data.releaseMembers ?? [])].map((member) => ({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       memberId: member.user?.auth_user_id!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
@@ -172,6 +171,7 @@ const ProjectUploadPage: FC = () => {
       linkTitle: link.title,
       linkUrl: link.url,
     }));
+    console.log('[data]: ', dayjs(data.period.startAt).format('YYYY.MM.DD'));
 
     if (notify && myProfileData) {
       mutate(
