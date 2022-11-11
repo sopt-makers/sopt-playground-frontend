@@ -1,8 +1,8 @@
 import { ProjectUploadForm } from '@/pages/projects/upload';
 
 export interface Period {
-  startAt: Date;
-  endAt: Date;
+  startAt: string;
+  endAt: string;
   isOngoing: boolean;
 }
 

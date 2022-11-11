@@ -86,4 +86,5 @@ const StyledPreview = styled.img`
   border-radius: 6px;
   width: inherit;
   height: inherit;
+  object-fit: cover;
 `;

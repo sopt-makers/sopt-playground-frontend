@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FC, useContext } from 'react';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { ProjectLink as ProjectLinkType } from '@/api/projects/type';
@@ -30,6 +30,7 @@ import ProjectStatus from '@/components/projects/upload/ProjectStatus';
 import ProjectSummary from '@/components/projects/upload/ProjectSummary';
 import { ToastContext, ToastProvider } from '@/components/projects/upload/ToastProvider';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
+import { convertPeriodFormat } from '@/components/projects/upload/utils';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -42,8 +43,9 @@ const schema = yup.object().shape({
   generation: yup.object().shape({
     checked: yup.boolean().required(),
     generation: yup.number().when('checked', {
-      is: false,
-      then: yup.number().required('프로젝트 기수를 입력해주세요.'),
+      is: true,
+      then: yup.number().optional(),
+      otherwise: yup.number().required(),
     }),
   }),
   category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요'),
@@ -106,8 +108,6 @@ const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   detail: '',
 };
 
-const DATE_FORMAT = 'YYYY.MM';
-
 export interface ProjectUploadForm {
   name: string;
   generation: Generation;
@@ -128,6 +128,7 @@ export interface ProjectUploadForm {
 const ProjectUploadPage: FC = () => {
   const { data: myProfileData } = useGetMemberOfMe();
   const { mutate } = useCreateProjectMutation();
+  const queryClient = useQueryClient();
   const methods = useForm<ProjectUploadForm>({
     resolver: yupResolver(schema),
     defaultValues: DEFAULT_VALUES,
@@ -136,7 +137,7 @@ const ProjectUploadPage: FC = () => {
   const {
     handleSubmit,
     watch,
-    formState: { dirtyFields },
+    formState: { dirtyFields, errors },
   } = methods;
   const category = watch('category');
   const formItems = FORM_ITEMS.filter((formItem) => formItem.isRequired)
@@ -159,7 +160,7 @@ const ProjectUploadPage: FC = () => {
     // TODO eslint non-null-assertion 관련 룰 만족하도록 수정 필요
     const members = [...data.members, ...(data.releaseMembers ?? [])].map((member) => ({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-      memberId: member.user?.auth_user_id!,
+      memberId: member.user?.id!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
       isTeamMember: member.isTeamMember!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
@@ -171,7 +172,6 @@ const ProjectUploadPage: FC = () => {
       linkTitle: link.title,
       linkUrl: link.url,
     }));
-    console.log('[data]: ', dayjs(data.period.startAt).format('YYYY.MM.DD'));
 
     if (notify && myProfileData) {
       mutate(
@@ -182,8 +182,8 @@ const ProjectUploadPage: FC = () => {
           detail: data.detail,
           summary: data.summary,
           serviceType: data.serviceType,
-          startAt: dayjs(data.period.startAt).format(DATE_FORMAT),
-          endAt: !data.period.isOngoing ? dayjs(data.period.endAt).format(DATE_FORMAT) : undefined,
+          startAt: convertPeriodFormat(data.period.startAt),
+          endAt: !data.period.isOngoing ? convertPeriodFormat(data.period.endAt) : undefined,
           isAvailable: data.status.isAvailable,
           isFounding: data.status.isFounding,
           images: data.projectImage ? [data.projectImage] : [],
@@ -197,6 +197,7 @@ const ProjectUploadPage: FC = () => {
           onSuccess: () => {
             showToast('프로젝트가 성공적으로 업로드 되었습니다.');
             router.push('/projects');
+            queryClient.invalidateQueries('getProjectListQuery');
           },
         },
       );
