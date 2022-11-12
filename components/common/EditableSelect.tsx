@@ -6,13 +6,13 @@ import Select from '@/components/common/Select';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface MemberEditableSelectProps extends Omit<InputProps, 'value' | 'onChange'> {
+interface EditableSelectProps extends Omit<InputProps, 'value' | 'onChange'> {
   onChangeSelect: (value: string) => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 
-const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectProps>(
+const EditableSelect = forwardRef<HTMLInputElement, EditableSelectProps>(
   (
     {
       width = 200,
@@ -63,7 +63,7 @@ const MemberEditableSelect = forwardRef<HTMLInputElement, MemberEditableSelectPr
   },
 );
 
-export default MemberEditableSelect;
+export default EditableSelect;
 
 const StyledContainer = styled.div<{ width: number | string; height: number | string }>`
   position: relative;
