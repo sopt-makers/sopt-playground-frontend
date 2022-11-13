@@ -17,10 +17,7 @@ export const accessTokenAtom = atom<string | null>({
         }
       }
 
-      console.log('GOGO');
-
       onSet((token, _, isReset) => {
-        console.log('SET');
         if (isReset || token === null) {
           tokenStorage.remove();
           return;
