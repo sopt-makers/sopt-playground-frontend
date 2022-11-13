@@ -6,43 +6,26 @@ import Select from '@/components/common/Select';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface EditableSelectProps extends Omit<InputProps, 'value' | 'onChange'> {
-  onChangeSelect: (value: string) => void;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+interface EditableSelectProps extends Omit<InputProps, 'value' | 'onSelect'> {
+  onSelect: (value: string) => void;
   value: string;
 }
 
 const EditableSelect = forwardRef<HTMLInputElement, EditableSelectProps>(
   (
-    {
-      width = 200,
-      height = 50,
-      disabled = false,
-      children,
-      error,
-      onChange: onChangeInput,
-      className,
-      placeholder,
-      onChangeSelect,
-      ...props
-    },
+    { width = 200, height = 50, disabled = false, children, error, className, placeholder, onSelect, ...props },
     ref,
   ) => {
     const [isEditable, setIsEditable] = useState(false);
 
     const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
       const editableOptionIndex = (children as ReactElement).props.options.length + 1;
-      if (e.target.selectedIndex === editableOptionIndex) {
-        onChangeSelect('');
-      } else {
-        onChangeSelect(e.target.value);
-      }
       setIsEditable(e.target.selectedIndex === editableOptionIndex);
+      onSelect(e.target.selectedIndex === editableOptionIndex ? '' : e.target.value);
     };
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-      onChangeSelect(e.target.value);
-      onChangeInput(e);
+      onSelect(e.target.value);
     };
 
     return (

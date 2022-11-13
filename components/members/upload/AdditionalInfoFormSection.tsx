@@ -54,7 +54,7 @@ export default function MemberAdditionalFormSection() {
                       {...register(`links.${index}.title`)}
                       width='100%'
                       className='category'
-                      onChangeSelect={(value: string) => setValue(`links.${index}.title`, value)}
+                      onSelect={(value: string) => setValue(`links.${index}.title`, value)}
                       value={linkCategories[index]?.title ?? ''}
                     >
                       <SelectOptions options={LINK_TITLES} />
@@ -98,9 +98,9 @@ export default function MemberAdditionalFormSection() {
                 <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                   <StyledSelectWrapper>
                     <StyledEditableSelect
-                      onChangeSelect={(value: string) => setValue(`links.${index}.title`, value)}
                       placeholder='ex) Instagram'
                       {...register(`links.${index}.title`)}
+                      onSelect={(value: string) => setValue(`links.${index}.title`, value)}
                       value={linkCategories[index]?.title ?? ''}
                       width='100%'
                       className='category'
