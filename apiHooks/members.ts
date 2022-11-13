@@ -53,7 +53,7 @@ export const useGetMemberOfMe = () => {
       onError: (error: { message: string }) => {
         console.error(error.message);
       },
-      enabled: !!tokenStorage.get(),
+      enabled: false,
     },
   );
 };

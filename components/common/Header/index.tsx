@@ -5,10 +5,11 @@ import LogoIcon from 'public/icons/icon-logo.svg';
 import MemberIcon from 'public/icons/icon-member.svg';
 import MenuIcon from 'public/icons/icon-menu.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
+import { tokenStorage } from '@/components/auth/util/accessToken';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -20,7 +21,14 @@ const Header: FC = () => {
 
   const { pathname } = useRouter();
 
-  const { data: me } = useGetMemberOfMe();
+  const { data: me, refetch } = useGetMemberOfMe();
+
+  const isLogined = !!tokenStorage.get();
+  useEffect(() => {
+    if (isLogined) {
+      refetch();
+    }
+  }, [isLogined, refetch]);
 
   return (
     <StyledHeader>
