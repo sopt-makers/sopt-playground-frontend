@@ -13,17 +13,21 @@ export const accessTokenAtom = atom<string | null>({
         const token = tokenStorage.get();
         if (token !== null && safeDecodeAccessToken(token)) {
           setSelf(token);
+          axiosInstance.defaults.headers.common['Authorization'] = token;
         }
       }
 
-      onSet((newValue, _, isReset) => {
-        if (isReset || newValue === null) {
+      console.log('GOGO');
+
+      onSet((token, _, isReset) => {
+        console.log('SET');
+        if (isReset || token === null) {
           tokenStorage.remove();
           return;
         }
-        tokenStorage.set(newValue);
+        tokenStorage.set(token);
 
-        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newValue}`;
+        axiosInstance.defaults.headers.common['Authorization'] = token;
       });
     },
   ],
