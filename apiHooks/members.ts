@@ -7,6 +7,7 @@ import {
   getMemberProfileById,
   getMemberProfileOfMe,
 } from '@/api/members';
+import { tokenStorage } from '@/components/auth/util/accessToken';
 
 // 멤버 프로필 전체 조회
 export const useGetMemberProfile = () => {
@@ -52,6 +53,7 @@ export const useGetMemberOfMe = () => {
       onError: (error: { message: string }) => {
         console.error(error.message);
       },
+      enabled: !!tokenStorage.get(),
     },
   );
 };
