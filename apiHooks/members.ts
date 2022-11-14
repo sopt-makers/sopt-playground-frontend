@@ -27,7 +27,7 @@ export const useGetMemberProfile = () => {
 // 멤버 프로필 조회
 export const useGetMemberById = (id: number) => {
   return useQuery(
-    ['getMemberById'],
+    ['getMemberById', id],
     async () => {
       const data = await getMemberById(id);
       return data;
