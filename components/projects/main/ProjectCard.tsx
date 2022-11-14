@@ -1,26 +1,13 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
+import { LinkTitle, ProjectLink } from '@/api/projects/type';
 import Text from '@/components/common/Text';
-import { categoryLabel } from '@/components/projects/upload/constants';
-import { Link, LinkTitle } from '@/components/projects/upload/LinkForm/constants';
+import { categoryLabel, getLinkInfo } from '@/components/projects/upload/constants';
 import { Category, ServiceType } from '@/components/projects/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-
-const getLinkInfo = (title: LinkTitle) => {
-  switch (title) {
-    case 'website':
-      return { icon: '/icons/icon-web.svg', label: '서비스 바로가기' };
-    case 'googlePlay':
-      return { icon: '/icons/icon-playstore.svg', label: 'Google Play' };
-    case 'appStore':
-      return { icon: '/icons/icon-appstore.svg', label: 'App Store' };
-    case 'github':
-      return { icon: '/icons/icon-github.svg', label: 'Github' };
-  }
-};
 
 export interface ProjectCardProps {
   serviceType: ServiceType[];
@@ -30,7 +17,7 @@ export interface ProjectCardProps {
   summary: string;
   thumbnailImage?: string;
   logoImage: string;
-  links: Link[];
+  links: ProjectLink[];
   onClick: () => void;
 }
 
@@ -45,16 +32,11 @@ const ProjectCard: FC<ProjectCardProps> = ({
   links,
   onClick,
 }) => {
-  const serviceTypeMap = {
-    웹: 'WEB',
-    앱: 'APP',
-  };
-
   return (
     <StyledCard onClick={onClick}>
       <StyledServiceTypeWrapper>
-        {serviceType.map((item, index) => (
-          <StyledServiceType key={index}>{serviceTypeMap[item]}</StyledServiceType>
+        {serviceType.map((serviceType, index) => (
+          <StyledServiceType key={index}>{serviceType}</StyledServiceType>
         ))}
       </StyledServiceTypeWrapper>
       <StyledImageSection>
@@ -64,10 +46,10 @@ const ProjectCard: FC<ProjectCardProps> = ({
           <StyledLogo className='card-image' src={logoImage} alt='logo-image' />
         )}
         <ServiceLinkWrapper className='card-hover'>
-          {links?.map(({ title, url }, index) => (
-            <StyledServiceLink key={index} href={url} onClick={(e) => e.stopPropagation()}>
-              <StyledLinkIcon alt='link-icon' src={getLinkInfo(title as LinkTitle)?.icon} />
-              <Text typography='SUIT_12_SB'>{getLinkInfo(title as LinkTitle)?.label}</Text>
+          {links?.map(({ linkTitle, linkUrl }, index) => (
+            <StyledServiceLink key={index} href={linkUrl} onClick={(e) => e.stopPropagation()}>
+              <StyledLinkIcon alt='link-icon' src={getLinkInfo(linkTitle as LinkTitle)?.icon} />
+              <Text typography='SUIT_12_SB'>{getLinkInfo(linkTitle as LinkTitle)?.label}</Text>
             </StyledServiceLink>
           ))}
         </ServiceLinkWrapper>
@@ -166,6 +148,8 @@ const ServiceLinkWrapper = styled.div`
 `;
 
 const StyledLinkIcon = styled.img`
+  border-radius: 10px;
+  background-color: ${colors.black100};
   width: 54px;
   height: 54px;
 `;
@@ -182,6 +166,7 @@ const StyledThumbnail = styled.img`
   background: linear-gradient(180deg, rgb(35 35 50 / 0%) 0%, rgb(35 35 35 / 80%) 100%);
   width: 100%;
   height: 100%;
+  object-fit: cover;
 `;
 
 const StyledLogo = styled.img`

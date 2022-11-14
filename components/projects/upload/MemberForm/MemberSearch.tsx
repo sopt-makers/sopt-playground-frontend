@@ -4,18 +4,18 @@ import styled from '@emotion/styled';
 import { Combobox } from '@headlessui/react';
 import React, { FC } from 'react';
 
-import { User } from '@/api/user/types';
+import { Member } from '@/api/members/type';
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MemberSearchProps {
-  value?: User;
-  onChange: (value: User) => void;
+  value?: Member;
+  onChange: (value: Member) => void;
   onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
-  members: User[];
+  members: Member[];
 }
 
 const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, members, name }) => {
@@ -25,14 +25,14 @@ const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, member
         <Combobox.Input
           name={name}
           className='search'
-          displayValue={(member: User) => member?.name}
+          displayValue={(member: Member) => member?.name}
           onChange={onSearch}
           placeholder='SOPT 멤버 검색'
         />
         {members.length > 0 && (
           <Combobox.Options className='options'>
             {members.map((member) => (
-              <Combobox.Option className='option' key={member.auth_user_id} value={member}>
+              <Combobox.Option className='option' key={member.id} value={member}>
                 <Text>{member.name}</Text>
                 <Text>{`${member.generation}기`}</Text>
               </Combobox.Option>

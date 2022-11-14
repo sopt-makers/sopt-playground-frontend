@@ -1,18 +1,16 @@
-import { Role } from '@/api/project/types';
-import { User } from '@/api/user/types';
+import { Member } from '@/api/members/type';
+import { ProjectMember } from '@/api/projects/type';
 
-export interface Member {
-  user?: User;
-  role?: Role;
-  isTeamMember?: boolean;
-  description?: string;
+export type MemeberFormType = ProjectMember & {
   isEdit?: boolean;
-}
+  searchedMember?: Member;
+};
 
-export const DEFAULT_MEMBER: Member = {
-  user: undefined,
-  role: undefined,
+export const DEFAULT_MEMBER: Partial<MemeberFormType> = {
+  memberRole: undefined,
+  memberDescription: '',
   isTeamMember: true,
-  description: undefined,
+  memberName: '',
+  memberGeneration: undefined,
   isEdit: true,
 };

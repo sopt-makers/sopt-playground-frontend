@@ -33,7 +33,6 @@ const StyledContainer = styled.div`
   align-items: center;
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
-    height: 154px;
   }
 `;
 

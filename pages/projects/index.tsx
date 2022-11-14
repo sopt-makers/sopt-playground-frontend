@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import _uniqBy from 'lodash/uniqBy';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
@@ -13,29 +14,30 @@ import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 const ProjectPage: FC = () => {
-  const { data } = useGetProjectListQuery();
+  const { data, isLoading } = useGetProjectListQuery();
   const router = useRouter();
 
   return (
     <AuthRequired>
       <StyledContainer>
         <StyledContent>
-          <StyledLength typography='SUIT_22_B'>{data?.projects?.length ?? 0} Projects</StyledLength>
-          {data?.projects == null ? (
+          {data && <StyledLength typography='SUIT_22_B'>{data.length} Projects</StyledLength>}
+          {!isLoading && data == null ? (
             <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
           ) : (
             <StyledGridContainer>
-              {data?.projects.map((project) => (
+              {data?.map((project) => (
                 <ProjectCard
                   key={project.id}
                   category={project.category}
                   summary={project.summary}
                   generation={project.generation}
-                  links={project.links}
-                  logoImage={project.logo_image}
+                  // FIXME: 서버쪽에서 link가 중복으로 내려오는 이슈가 있어 임시처리합니다.
+                  links={_uniqBy(project.links, 'linkId')}
+                  logoImage={project.logoImage}
                   name={project.name}
-                  serviceType={project.service_type}
-                  thumbnailImage={project.thumbnail_image}
+                  serviceType={project.serviceType}
+                  thumbnailImage={project.thumbnailImage}
                   onClick={() => router.push(`/projects/detail?projectId=${project.id}`)}
                 />
               ))}
@@ -69,7 +71,7 @@ const StyledContainer = styled.div`
 
 const StyledContent = styled.div`
   justify-self: flex-start;
-  margin: 64px 0 0;
+  margin: 64px 0;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
