@@ -67,14 +67,14 @@ export type Member = {
 
 export type ProfileRequest = {
   name: string;
-  profileImage: string;
-  birthday: string;
-  phone: string;
-  email: string;
-  address: string;
+  profileImage: string | null;
+  birthday: string | null;
+  phone: string | null;
+  email: string | null;
+  address: string | null;
   university: string | null;
   major: string | null;
-  introduction: string;
+  introduction: string | null;
   skill: string | null;
   activities: {
     generation: string;
