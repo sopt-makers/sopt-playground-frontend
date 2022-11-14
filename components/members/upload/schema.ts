@@ -13,7 +13,9 @@ export const memberFormSchema = yup.object().shape({
   phone: yup
     .string()
     .when([], (_, { originalValue }) =>
-      originalValue?.length ? yup.string().matches(PHONE_REG_EXP, `'-'를 넣어 입력해주세요`) : yup.string(),
+      originalValue?.length
+        ? yup.string().matches(PHONE_REG_EXP, `'-'를 넣어 휴대폰 양식에 맞게 입력해주세요`)
+        : yup.string(),
     ),
   email: yup
     .string()

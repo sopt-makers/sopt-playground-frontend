@@ -43,10 +43,10 @@ export default function MemberBasicFormSection() {
             <Input {...register('birthday.day')} placeholder='일' />
           </StyledBirthdayInputWrapper>
         </FormItem>
-        <FormItem title='연락처'>
+        <FormItem title='연락처' errorMessage={errors.phone?.message}>
           <StyledInput {...register('phone')} />
         </FormItem>
-        <FormItem title='이메일' essential>
+        <FormItem title='이메일' essential errorMessage={errors.email?.message}>
           <StyledInput {...register('email')} />
         </FormItem>
         <FormItem title='사는 지역' essential>
