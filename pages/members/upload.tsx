@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
-import Header from '@/components/common/Header';
+import HeaderLayout from '@/components/layout/HeaderLayout';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
@@ -65,12 +65,7 @@ export default function MemberUploadPage() {
   );
 }
 
-setLayout(MemberUploadPage, (page) => (
-  <>
-    <Header />
-    {page}
-  </>
-));
+setLayout(MemberUploadPage, HeaderLayout);
 
 const StyledContainer = styled.div`
   display: flex;

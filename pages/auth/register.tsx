@@ -5,6 +5,8 @@ import { useQuery } from 'react-query';
 import { postRegistrationInfo } from '@/api/registration';
 import Register from '@/components/auth/register/Register';
 import useQueryStringParam from '@/components/auth/useQueryString';
+import EmptyLayout from '@/components/layout/EmptyLayout';
+import { setLayout } from '@/utils/layout';
 
 export const RegisterPage: FC = () => {
   const params = useQueryStringParam(['token'] as const);
@@ -31,6 +33,8 @@ export const RegisterPage: FC = () => {
     </StyledRegisterPage>
   );
 };
+
+setLayout(RegisterPage, EmptyLayout);
 
 export default RegisterPage;
 

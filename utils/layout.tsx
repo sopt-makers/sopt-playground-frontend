@@ -1,16 +1,22 @@
 import { NextPage } from 'next';
-import { ReactElement, ReactNode } from 'react';
+import { FC, ReactElement, ReactNode } from 'react';
 
-export type Layout = (page: ReactElement) => ReactNode;
+export type LayoutLegacy = (page: ReactElement) => ReactNode;
+export type Layout = FC<{ children: ReactNode }>;
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
-  getLayout?: Layout;
+  getLayout?: LayoutLegacy;
 };
 
 export function getLayout<P, IP>(Component: NextPageWithLayout<P, IP>) {
   return Component.getLayout ?? ((page) => page);
 }
 
-export function setLayout(Component: NextPage, layout: Layout) {
+/** @deprecated */
+export function setLayoutLegacy(Component: NextPage, layout: LayoutLegacy) {
   (Component as NextPageWithLayout).getLayout = layout;
+}
+
+export function setLayout(Component: NextPage, Layout: Layout) {
+  (Component as NextPageWithLayout).getLayout = (page) => <Layout>{page}</Layout>;
 }

@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import Header from '@/components/common/Header';
 import Text from '@/components/common/Text';
+import HeaderLayout from '@/components/layout/HeaderLayout';
 import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { colors } from '@/styles/colors';
@@ -47,12 +47,7 @@ const ProjectPage: FC = () => {
   );
 };
 
-setLayout(ProjectPage, (page) => (
-  <>
-    <Header />
-    {page}
-  </>
-));
+setLayout(ProjectPage, HeaderLayout);
 
 export default ProjectPage;
 

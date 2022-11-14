@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import Header from '@/components/common/Header';
+import HeaderLayout from '@/components/layout/HeaderLayout';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
@@ -17,13 +17,6 @@ const Home: NextPage = () => {
   return <AuthRequired>{}</AuthRequired>;
 };
 
-setLayout(Home, (page) => {
-  return (
-    <>
-      <Header />
-      {page}
-    </>
-  );
-});
+setLayout(Home, HeaderLayout);
 
 export default Home;

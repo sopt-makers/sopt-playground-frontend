@@ -6,7 +6,9 @@ import { FC } from 'react';
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import SquareLink from '@/components/common/SquareLink';
+import EmptyLayout from '@/components/layout/EmptyLayout';
 import { textStyles } from '@/styles/typography';
+import { setLayout } from '@/utils/layout';
 
 const LoginPage: FC = () => {
   const facebookAuth = useFacebookAuth();
@@ -32,6 +34,8 @@ const LoginPage: FC = () => {
 };
 
 export default LoginPage;
+
+setLayout(LoginPage, EmptyLayout);
 
 export const StyledLoginPage = styled.div`
   display: flex;

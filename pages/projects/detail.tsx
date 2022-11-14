@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useMemo, useState } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import SiteHeader from '@/components/common/Header';
+import HeaderLayout from '@/components/layout/HeaderLayout';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
@@ -136,12 +136,7 @@ const ProjectDetailPage: FC = () => {
   );
 };
 
-setLayout(ProjectDetailPage, (page) => (
-  <>
-    <SiteHeader />
-    {page}
-  </>
-));
+setLayout(ProjectDetailPage, HeaderLayout);
 
 export default ProjectDetailPage;
 

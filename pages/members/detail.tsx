@@ -12,8 +12,8 @@ import { FC } from 'react';
 import { useGetMemberProfileById } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
-import Header from '@/components/common/Header';
 import MobileHeader from '@/components/common/MobileHeader';
+import HeaderLayout from '@/components/layout/HeaderLayout';
 import InfoItem from '@/components/users/detail/InfoItem';
 import PartItem from '@/components/users/detail/PartItem';
 import { colors } from '@/styles/colors';
@@ -186,12 +186,7 @@ const UserDetailPage: FC = () => {
   );
 };
 
-setLayout(UserDetailPage, (page) => (
-  <>
-    <Header />
-    {page}
-  </>
-));
+setLayout(UserDetailPage, HeaderLayout);
 
 const Container = styled.div`
   display: flex;
