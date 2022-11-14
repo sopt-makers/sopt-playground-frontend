@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <GlobalStyle />
-        {layout(<Component {...pageProps} />)}
+        {layout({ children: <Component {...pageProps} /> })}
         <Debugger />
       </RecoilRoot>
     </QueryClientProvider>
