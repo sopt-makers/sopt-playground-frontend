@@ -22,11 +22,7 @@ export default function MemberBasicFormSection() {
     <FormSection>
       <FormHeader title='기본정보' />
       <StyledFormItems>
-        <FormItem
-          title='프로필 사진'
-          description={`가로 300px 세로 300px 권장합니다.\n예외 규격은 잘릴 수 있습니다.`}
-          essential
-        >
+        <FormItem title='프로필 사진' description={`가로 300px 세로 300px 권장합니다.\n예외 규격은 잘릴 수 있습니다.`}>
           <Controller
             name='profileImage'
             control={control}
@@ -36,7 +32,7 @@ export default function MemberBasicFormSection() {
         <FormItem title='이름' essential errorMessage={errors.name?.message}>
           <StyledInput {...register('name')} error={errors.hasOwnProperty('name')} />
         </FormItem>
-        <FormItem title='생년월일' essential>
+        <FormItem title='생년월일'>
           <StyledBirthdayInputWrapper>
             <Input {...register('birthday.year')} placeholder='년도' />
             <Input {...register('birthday.month')} placeholder='월' />
@@ -46,10 +42,10 @@ export default function MemberBasicFormSection() {
         <FormItem title='연락처' errorMessage={errors.phone?.message}>
           <StyledInput {...register('phone')} />
         </FormItem>
-        <FormItem title='이메일' essential errorMessage={errors.email?.message}>
+        <FormItem title='이메일' errorMessage={errors.email?.message}>
           <StyledInput {...register('email')} />
         </FormItem>
-        <FormItem title='사는 지역' essential>
+        <FormItem title='사는 지역'>
           <StyledInput {...register('address')} placeholder='ex) 서울시 강남구, 인천시 중구' />
         </FormItem>
         <FormItem title='학교 / 전공'>

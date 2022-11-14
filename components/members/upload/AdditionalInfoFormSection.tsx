@@ -83,7 +83,7 @@ export default function MemberAdditionalFormSection() {
         </StyledFormItems>
       ) : (
         <MobileFormItems>
-          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
+          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!'>
             <StyledCountableTextArea {...register('introduction')} maxCount={30} />
           </FormItem>
           <FormItem
