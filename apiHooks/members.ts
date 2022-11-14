@@ -6,6 +6,7 @@ import {
   getMemberProfile,
   getMemberProfileById,
   getMemberProfileOfMe,
+  getMemebersSearchByName,
 } from '@/api/members';
 
 // 멤버 프로필 전체 조회
@@ -27,7 +28,7 @@ export const useGetMemberProfile = () => {
 // 멤버 프로필 조회
 export const useGetMemberById = (id: number) => {
   return useQuery(
-    ['getMemberById'],
+    ['getMemberById', id],
     async () => {
       const data = await getMemberById(id);
       return data;
@@ -79,6 +80,21 @@ export const useGetMemberProfileOfMe = () => {
     ['getMemberProfileOfMe'],
     async () => {
       const data = await getMemberProfileOfMe();
+      return data;
+    },
+    {
+      onError: (error: { message: string }) => {
+        console.error(error.message);
+      },
+    },
+  );
+};
+
+export const useGetMembersSearchByName = (name: string) => {
+  return useQuery(
+    ['getMembersSearchByName', name],
+    async () => {
+      const data = await getMemebersSearchByName(name);
       return data;
     },
     {

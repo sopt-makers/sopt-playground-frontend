@@ -1,3 +1,4 @@
+import { LinkTitle } from '@/api/projects/type';
 import { Category, FormItem } from '@/components/projects/upload/types';
 import { LATEST_GENERATION } from '@/constants/generation';
 
@@ -92,3 +93,22 @@ export const FORM_ITEMS: FormItem[] = [
     isRequired: false,
   },
 ];
+
+export const getLinkInfo = (linkTitle: LinkTitle | string) => {
+  switch (linkTitle as LinkTitle) {
+    case 'website':
+      return { icon: '/icons/icon-web.svg', label: '서비스 바로가기' };
+    case 'googlePlay':
+      return { icon: '/icons/icon-googleplay.svg', label: 'Google Play' };
+    case 'appStore':
+      return { icon: '/icons/icon-appstore.svg', label: 'App Store' };
+    case 'github':
+      return { icon: '/icons/icon-github.svg', label: 'Github' };
+    case 'instagram':
+      return { icon: '/icons/icon-instagram.svg', label: 'Instagram' };
+    case 'media':
+      return { icons: '/icons/icon-media.svg', label: 'Media' };
+    default:
+      return { icons: '/icons/icon-etc.svg', label: '기타' };
+  }
+};
