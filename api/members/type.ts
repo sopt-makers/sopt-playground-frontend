@@ -63,25 +63,26 @@ export type Member = {
   name: string;
   generation: number;
   hasProfile: true;
+  profileImage?: string | null;
 };
 
 export type ProfileRequest = {
   name: string;
-  profileImage: string;
-  birthday: string;
-  phone: string;
-  email: string;
-  address: string;
-  university: string;
-  major: string;
-  introduction: string;
-  skill: string;
+  profileImage: string | null;
+  birthday: string | null;
+  phone: string | null;
+  email: string | null;
+  address: string | null;
+  university: string | null;
+  major: string | null;
+  introduction: string | null;
+  skill: string | null;
   activities: {
     generation: string;
     part: string;
     team: string;
   }[];
-  links: Omit<Link, 'id'>[];
+  links: Omit<Link, 'id'>[] | null;
   openToWork: boolean;
   openToSideProject: boolean;
   allowOfficial: boolean;

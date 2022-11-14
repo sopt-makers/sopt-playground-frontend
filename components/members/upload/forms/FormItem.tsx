@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import WarningIcon from 'public/icons/icon-warning.svg';
 import { ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
@@ -10,10 +11,11 @@ interface MemberFormItemProps {
   title: string;
   essential?: boolean;
   description?: string;
+  errorMessage?: string;
   children: ReactNode;
 }
 
-export default function MemberFormItem({ title, essential, description, children }: MemberFormItemProps) {
+export default function MemberFormItem({ title, essential, description, errorMessage, children }: MemberFormItemProps) {
   return (
     <div>
       <StyledTitle>
@@ -22,6 +24,12 @@ export default function MemberFormItem({ title, essential, description, children
       </StyledTitle>
       {description && <StyledDescription>{description}</StyledDescription>}
       {children}
+      {errorMessage && (
+        <StyledError>
+          <WarningIcon />
+          <StyledErrorMessage type='error'>{errorMessage}</StyledErrorMessage>
+        </StyledError>
+      )}
     </div>
   );
 }
@@ -54,4 +62,15 @@ const StyledDescription = styled(Text)`
 
     ${textStyles.SUIT_13_M}
   }
+`;
+
+const StyledError = styled.div`
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 12px;
+`;
+
+const StyledErrorMessage = styled(Text)`
+  display: block;
 `;

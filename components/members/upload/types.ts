@@ -22,12 +22,12 @@ interface SoptActivity {
   team: string;
 }
 
-interface Link {
+export interface Link {
   title: string;
   url: string;
 }
 
-interface Birthday {
+export interface Birthday {
   year: string;
   month: string;
   day: string;

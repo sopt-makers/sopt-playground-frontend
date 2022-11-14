@@ -1,8 +1,8 @@
 import { ProjectUploadForm } from '@/pages/projects/upload';
 
 export interface Period {
-  startAt: Date;
-  endAt: Date;
+  startAt: string;
+  endAt: string;
   isOngoing: boolean;
 }
 
@@ -16,17 +16,17 @@ export interface FormItem {
 }
 
 export enum ServiceType {
-  WEB = '웹',
-  APP = '앱',
+  WEB = 'WEB',
+  APP = 'APP',
 }
 
 export enum Category {
-  APPJAM = '앱잼',
-  SOPKATHON = '솝커톤',
-  SOPTERM = '솝텀',
-  STUDY = '스터디',
-  JOINTSEMINAR = '합동세미나',
-  ETC = '기타',
+  APPJAM = 'APPJAM',
+  SOPKATHON = 'SOPKATHON',
+  SOPTERM = 'SOPTERM',
+  STUDY = 'STUDY',
+  JOINTSEMINAR = 'JOINTSEMINAR',
+  ETC = 'ETC',
 }
 
 export type Generation = {

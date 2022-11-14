@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -10,8 +11,9 @@ import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFor
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import PublicQuestionFormSection from '@/components/members/upload/PublicQuestionFormSection';
+import { memberFormSchema } from '@/components/members/upload/schema';
 import SoptActivityFormSection from '@/components/members/upload/SoptActivityFormSection';
-import { MemberUploadForm } from '@/components/members/upload/types';
+import { Birthday, MemberUploadForm } from '@/components/members/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -20,19 +22,40 @@ import { setLayout } from '@/utils/layout';
 export default function MemberUploadPage() {
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
+    mode: 'onChange',
+    resolver: yupResolver(memberFormSchema),
   });
   const router = useRouter();
 
-  const { handleSubmit } = formMethods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = formMethods;
+
+  const convertEmptyStringToNull = (value: string) => (value.length > 0 ? value : null);
+  const formatBirthday = (birthday: Birthday) => {
+    birthday.year = birthday.year.length > 0 ? birthday.year : '9999';
+    birthday.month = birthday.month.length > 0 ? birthday.month.padStart(2, '0') : '99';
+    birthday.day = birthday.day.length > 0 ? birthday.day.padStart(2, '0') : '99';
+    return `${birthday.year}-${birthday.month}-${birthday.day}`;
+  };
   const onSubmit = async (formData: MemberUploadForm) => {
-    const data: ProfileRequest = {
+    if (Object.keys(errors).length) return;
+    const { profileImage, birthday, phone, email, university, introduction, major, skill, links, address } = formData;
+    const requestBody: ProfileRequest = {
       ...formData,
-      birthday: `${formData.birthday.year}-${formData.birthday.month.padStart(2, '0')}-${formData.birthday.day.padStart(
-        2,
-        '0',
-      )}`,
+      profileImage: convertEmptyStringToNull(profileImage),
+      birthday: convertEmptyStringToNull(formatBirthday(birthday)),
+      phone: convertEmptyStringToNull(phone),
+      email: convertEmptyStringToNull(email),
+      address: convertEmptyStringToNull(address),
+      university: convertEmptyStringToNull(university),
+      major: convertEmptyStringToNull(major),
+      introduction: convertEmptyStringToNull(introduction),
+      skill: convertEmptyStringToNull(skill),
+      links: links.filter((link) => link.title && link.url).length ? links : null,
     };
-    const response = await postMemberProfile(data);
+    const response = await postMemberProfile(requestBody);
     router.push(`/members/detail?memberId=${response.id}`);
   };
   return (
