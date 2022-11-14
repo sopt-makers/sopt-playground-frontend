@@ -12,7 +12,11 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MemberBasicFormSection() {
-  const { control, register } = useFormContext<MemberUploadForm>();
+  const {
+    control,
+    register,
+    formState: { errors },
+  } = useFormContext<MemberUploadForm>();
 
   return (
     <FormSection>
@@ -29,8 +33,8 @@ export default function MemberBasicFormSection() {
             render={({ field }) => <StyledImageUploader {...field} emptyIcon={IconCamera} />}
           />
         </FormItem>
-        <FormItem title='이름' essential>
-          <StyledInput {...register('name')} />
+        <FormItem title='이름' essential errorMessage={errors.name?.message}>
+          <StyledInput {...register('name')} error={errors.hasOwnProperty('name')} />
         </FormItem>
         <FormItem title='생년월일' essential>
           <StyledBirthdayInputWrapper>

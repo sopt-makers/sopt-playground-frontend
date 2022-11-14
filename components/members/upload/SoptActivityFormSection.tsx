@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { FieldError, useFieldArray, useFormContext } from 'react-hook-form';
 
 import Select from '@/components/common/Select';
 import AddableItem from '@/components/members/upload/AddableItem';
@@ -15,7 +15,11 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function MemberSoptActivityFormSection() {
-  const { control, register } = useFormContext<MemberUploadForm>();
+  const {
+    control,
+    register,
+    formState: { errors },
+  } = useFormContext<MemberUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'activities',
@@ -23,21 +27,52 @@ export default function MemberSoptActivityFormSection() {
 
   const onAppend = () => append({ generation: '', part: '', team: '' });
   const onRemove = (index: number) => remove(index);
+  const getActivityErrorMessage = (
+    activityError:
+      | {
+          generation?: FieldError | undefined;
+          part?: FieldError | undefined;
+          team?: FieldError | undefined;
+        }
+      | undefined,
+  ) => {
+    if (!activityError) return;
+    if (activityError.hasOwnProperty('generation')) return activityError.generation?.message;
+    if (activityError.hasOwnProperty('part')) return activityError.part?.message;
+    return activityError.team?.message;
+  };
 
   return (
     <StyledFormSection>
       <FormHeader title='SOPT 활동 정보' />
       <StyledAddableWrapper onAppend={onAppend}>
         {fields.map((field, index) => (
-          <AddableItem onRemove={() => onRemove(index)} key={field.id}>
+          <AddableItem
+            onRemove={() => onRemove(index)}
+            key={field.id}
+            errorMessage={getActivityErrorMessage(errors.activities?.[index])}
+          >
             <StyledSelectWrapper>
-              <StyledSelect {...register(`activities.${index}.generation`)} placeholder='활동기수'>
+              <StyledSelect
+                {...register(`activities.${index}.generation`)}
+                error={errors?.activities?.[index]?.hasOwnProperty('generation')}
+                placeholder='활동기수'
+              >
                 <SelectOptions options={GENERATIONS} />
               </StyledSelect>
-              <StyledSelect {...register(`activities.${index}.part`)} placeholder='파트'>
+              <StyledSelect
+                {...register(`activities.${index}.part`)}
+                error={errors?.activities?.[index]?.hasOwnProperty('part')}
+                placeholder='파트'
+              >
                 <SelectOptions options={PARTS} />
               </StyledSelect>
-              <StyledSelect {...register(`activities.${index}.team`)} placeholder='운팀/미팀' className='team'>
+              <StyledSelect
+                {...register(`activities.${index}.team`)}
+                error={errors?.activities?.[index]?.hasOwnProperty('team')}
+                placeholder='운팀/미팀'
+                className='team'
+              >
                 <SelectOptions options={TEAMS} />
               </StyledSelect>
             </StyledSelectWrapper>

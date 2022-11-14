@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -10,6 +11,7 @@ import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFor
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import PublicQuestionFormSection from '@/components/members/upload/PublicQuestionFormSection';
+import { memberFormSchema } from '@/components/members/upload/schema';
 import SoptActivityFormSection from '@/components/members/upload/SoptActivityFormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import { colors } from '@/styles/colors';
@@ -20,11 +22,17 @@ import { setLayout } from '@/utils/layout';
 export default function MemberUploadPage() {
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
+    mode: 'onChange',
+    resolver: yupResolver(memberFormSchema),
   });
   const router = useRouter();
 
-  const { handleSubmit } = formMethods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = formMethods;
   const onSubmit = async (formData: MemberUploadForm) => {
+    if (Object.keys(errors).length) return;
     const { birthday, university, major, skill, links } = formData;
     const requestBody: ProfileRequest = {
       ...formData,
