@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
+import { colors } from '@/styles/colors';
 import { baseTextStyles, textStyles, Typography } from '@/styles/typography';
 
 interface TextProps extends HTMLAttributes<HTMLSpanElement> {
@@ -36,6 +37,6 @@ const StyledText = styled.span<Pick<TextProps, 'typography' | 'color' | 'type'>>
     css`
       ${textStyles.SUIT_12_M}
 
-      color: red;
+      color: ${colors.red100};
     `}
 `;
