@@ -27,8 +27,8 @@ const MemberProjectCard: FC<UserProjectCardProps> = ({
   logoImage,
 }) => {
   const serviceTypeMap = {
-    웹: 'WEB',
-    앱: 'APP',
+    WEB: 'WEB',
+    APP: 'APP',
   };
 
   return (

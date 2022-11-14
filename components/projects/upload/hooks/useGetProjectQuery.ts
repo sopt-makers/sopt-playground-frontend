@@ -1,6 +1,7 @@
+import _uniqBy from 'lodash/uniqBy';
 import { useQuery } from 'react-query';
 
-import { project } from '@/api/project';
+import { getProjectById } from '@/api/projects';
 
 interface GetProjectQueryVariables {
   id: string;
@@ -11,9 +12,13 @@ const useGetProjectQuery = (varaiables: GetProjectQueryVariables) => {
   return useQuery(
     ['getProjectQuery', id],
     async () => {
-      const { data } = await project.get(id);
+      const data = await getProjectById(id);
 
-      return data;
+      return {
+        ...data,
+        // FIXME: 서버 이슈로 링크가 여러개 생성되고 있음. 서버 수정되면 지우기
+        links: [..._uniqBy(data.links, 'linkId')],
+      };
     },
     {
       enabled: !!id,

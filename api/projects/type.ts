@@ -1,11 +1,14 @@
+import { Category, ServiceType } from '@/components/projects/upload/types';
+
 export type Project = {
+  id: number;
   name: string;
   writerId: number;
   generation: number;
-  category: string;
+  category: Category;
   startAt: string;
-  endAt: string;
-  serviceType: string[];
+  endAt?: string;
+  serviceType: ServiceType[];
   isAvailable: boolean;
   isFounding: boolean;
   summary: string;
@@ -17,14 +20,37 @@ export type Project = {
   links: ProjectLink[];
 };
 
-type ProjectMember = {
-  memberId: number;
-  memberRole: string;
-  memberDescription: string;
-  isTeamMember: boolean;
+type ProjectInputOmitType = 'id' | 'links' | 'generation' | 'members';
+export type ProjectInput = Omit<Project, ProjectInputOmitType> & {
+  links: Omit<ProjectLink, 'linkId'>[];
+  generation?: number;
+  members: Omit<ProjectMember, 'memberName' | 'memberGeneration'>[];
 };
 
-type ProjectLink = {
-  linkTitle: string;
+export enum MemberRole {
+  MAINPM = 'MAINPM',
+  PM = 'PM',
+  DESIGN = 'DESIGN',
+  IOS = 'IOS',
+  ANDROID = 'ANDROID',
+  WEB = 'WEB',
+  SERVER = 'SERVER',
+}
+
+export type ProjectMember = {
+  memberId: number;
+  memberRole: MemberRole;
+  memberDescription: string;
+  isTeamMember: boolean;
+  memberName: string;
+  memberGeneration: number;
+};
+
+export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
+export type LinkTitle = typeof LINK_TITLES[number];
+
+export type ProjectLink = {
+  linkId: number;
+  linkTitle: LinkTitle | string;
   linkUrl: string;
 };

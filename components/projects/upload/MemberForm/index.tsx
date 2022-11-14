@@ -5,13 +5,13 @@ import _debounce from 'lodash/debounce';
 import React, { FC, useState } from 'react';
 import { Controller, useFieldArray, UseFieldArrayProps, useFormContext, useWatch } from 'react-hook-form';
 
-import { Role } from '@/api/project/types';
+import { MemberRole } from '@/api/projects/type';
 import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
-import useGetUsersByNameQuery from '@/components/projects/upload/hooks/useGetUsersByNameQuery';
-import { DEFAULT_MEMBER, Member } from '@/components/projects/upload/MemberForm/constants';
+import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
+import { DEFAULT_MEMBER, MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
 import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
@@ -39,14 +39,15 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
     control,
   });
   const [searchName, setSearchName] = useState<string>('');
-  const { data } = useGetUsersByNameQuery({
+  const { data: membersData } = useGetMembersByNameQuery({
     name: searchName,
   });
+
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
   // MEMO: 모바일 뷰를 위한 변수,함수들 입니다.
   // 기존 데스크탑과 멤버 추가 방식과 UI가 아예 달라서 이를 분기처리하는 로직과, 수정상태인지 여부인 isEdit를 이용해야 하기 때문에 아래와 같은 로직들이 필요합니다.
-  const selectedMembers: Member[] = (name === 'members' ? members : releaseMembers) ?? [];
+  const selectedMembers: MemeberFormType[] = (name === 'members' ? members : releaseMembers) ?? [];
   const onEdit = (index: number) => {
     setValue(`${name}.${index}.isEdit`, true);
   };
@@ -54,7 +55,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
     append({ ...DEFAULT_MEMBER, isTeamMember: name === 'members' });
   };
   const onComplete = (index: number) => {
-    if (!(selectedMembers[index].user || selectedMembers[index].role || selectedMembers[index].description)) {
+    if (!(selectedMembers[index].memberRole || selectedMembers[index].memberDescription)) {
       return;
     }
     setValue(`${name}.${index}.isEdit`, false);
@@ -74,12 +75,11 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
             <MemberItemWrapper key={field.id}>
               <Controller
                 control={control}
-                name={`${name}.${index}.user`}
+                name={`${name}.${index}.searchedMember`}
                 render={({ field: { value, onChange, name } }) => (
-                  <MemberSearchWrapper errorMessage={errors.members?.[index]?.user?.name?.message}>
+                  <MemberSearchWrapper>
                     <MemberSearch
-                      error={!!errors?.members?.[index].user?.name}
-                      members={data?.data ?? []}
+                      members={membersData ?? []}
                       onSearch={_debounce(
                         (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
                         300,
@@ -91,8 +91,8 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   </MemberSearchWrapper>
                 )}
               />
-              <StyledSelect placeholder='역할' {...register(`${name}.${index}.role`)}>
-                {Object.values(Role).map((role) => (
+              <StyledSelect placeholder='역할' {...register(`${name}.${index}.memberRole`)}>
+                {Object.values(MemberRole).map((role) => (
                   <option key={role} value={role}>
                     {role}
                   </option>
@@ -100,11 +100,11 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
               </StyledSelect>
               <Controller
                 control={control}
-                name={`${name}.${index}.description`}
+                name={`${name}.${index}.memberDescription`}
                 render={({ field }) => (
-                  <StyledInputFormItem errorMessage={errors.members?.[index]?.description?.message}>
+                  <StyledInputFormItem errorMessage={errors.members?.[index]?.memberDescription?.message}>
                     <Input
-                      error={!!errors.members?.[index]?.description}
+                      error={!!errors.members?.[index]?.memberDescription}
                       placeholder='어떤 역할을 맡았는지 적어주세요'
                       {...field}
                     />
@@ -125,15 +125,15 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
           {selectedMembers.map((selectedMember, memberIndex) => (
             <>
               {!selectedMember.isEdit ? (
-                <MobileMemberItem key={selectedMember.user?.auth_user_id} onClick={() => onEdit(memberIndex)}>
+                <MobileMemberItem key={selectedMember.memberId} onClick={() => onEdit(memberIndex)}>
                   <Text typography='SUIT_12_M' color={colors.gray100}>
-                    {selectedMember.user?.name}
+                    {selectedMember.memberName}
                   </Text>
                   <Text style={{ marginLeft: '29px' }} typography='SUIT_12_M' color={colors.gray100}>
-                    {selectedMember.role}
+                    {selectedMember.memberRole}
                   </Text>
                   <Text style={{ marginLeft: '40px' }} typography='SUIT_12_M' color={colors.gray100}>
-                    {selectedMember.description}
+                    {selectedMember.memberDescription}
                   </Text>
                 </MobileMemberItem>
               ) : (
@@ -141,13 +141,13 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   <MobileMemberSelect>
                     <Controller
                       control={control}
-                      name={`${name}.${memberIndex}.user`}
+                      name={`${name}.${memberIndex}.searchedMember`}
                       render={({ field: { value, onChange, name } }) => (
                         <MemberSearch
                           value={value}
                           onChange={onChange}
                           name={name}
-                          members={data?.data ?? []}
+                          members={membersData ?? []}
                           onSearch={_debounce(
                             (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
                             300,
@@ -155,9 +155,9 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                         />
                       )}
                     />
-                    <FormItem errorMessage={errors.members?.[memberIndex]?.role?.message}>
-                      <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.role`)}>
-                        {Object.values(Role).map((role) => (
+                    <FormItem errorMessage={errors.members?.[memberIndex]?.memberRole?.message}>
+                      <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.memberRole`)}>
+                        {Object.values(MemberRole).map((role) => (
                           <option key={role} value={role}>
                             {role}
                           </option>
@@ -167,7 +167,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   </MobileMemberSelect>
                   <Controller
                     control={control}
-                    name={`${name}.${memberIndex}.description`}
+                    name={`${name}.${memberIndex}.memberDescription`}
                     render={({ field }) => (
                       <MobileDescription placeholder='어떤 역할을 맡았는지 적어주세요' {...field} />
                     )}

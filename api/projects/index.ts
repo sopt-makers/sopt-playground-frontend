@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/api';
-import { Project } from '@/api/projects/type';
+import { Project, ProjectInput } from '@/api/projects/type';
 
 // project id로 조회
 export const getProjectById = async (id: string) => {
@@ -22,11 +22,11 @@ export const getProjects = async () => {
 };
 
 // project 생성
-export const postProject = (data: Project) => {
+export const postProject = (input: ProjectInput) => {
   return axiosInstance.request({
     method: 'POST',
     url: 'api/v1/projects',
-    data,
+    data: input,
   });
 };
 
