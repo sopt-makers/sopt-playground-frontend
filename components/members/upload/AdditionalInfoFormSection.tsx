@@ -38,7 +38,7 @@ export default function MemberAdditionalFormSection() {
       <FormHeader title='추가정보' />
       {!isMobile ? (
         <StyledFormItems>
-          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
+          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!'>
             <StyledCountableInput {...register('introduction')} maxCount={30} />
           </FormItem>
           <FormItem title='스킬' description='내가 자신있는 스킬에 대해 작성해주세요. 쉼표(,)로 구분해서 적어주세요.'>
@@ -83,8 +83,8 @@ export default function MemberAdditionalFormSection() {
         </StyledFormItems>
       ) : (
         <MobileFormItems>
-          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!' essential>
-            <StyledCountableTextArea maxCount={30} />
+          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!'>
+            <StyledCountableTextArea {...register('introduction')} maxCount={30} />
           </FormItem>
           <FormItem
             title='스킬'
