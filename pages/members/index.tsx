@@ -50,9 +50,11 @@ const UserPage: FC = () => {
               <Link href='/projects/upload' passHref>
                 <UploadButton>프로젝트 업로드</UploadButton>
               </Link>
-              <Link href='/members/upload' passHref>
-                <ProfileButton>프로필 추가</ProfileButton>
-              </Link>
+              {!memberOfMeData?.hasProfile && (
+                <Link href='/members/upload' passHref>
+                  <ProfileButton>프로필 추가</ProfileButton>
+                </Link>
+              )}
             </ButtonContainer>
           </IntroducePanel>
 
