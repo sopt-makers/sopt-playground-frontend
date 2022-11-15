@@ -25,7 +25,7 @@ const FacebookRegisterCallbackPage: FC = () => {
     }
 
     setAccessToken(registerResult.accessToken);
-    router.replace(lastUnauthorized.popPath() ?? '/profile/create');
+    router.replace(lastUnauthorized.popPath() ?? '/members/upload');
   });
 
   return (
