@@ -14,6 +14,7 @@ type PartItemProps = {
 
 const PartItem: FC<PartItemProps> = (project) => {
   const { cardinalActivities, generation, part } = project;
+
   return (
     <>
       <Container className='pc-only'>
@@ -26,9 +27,9 @@ const PartItem: FC<PartItemProps> = (project) => {
             <div className='part'>{part} 파트</div>
           </Title>
           <Badges>
-            {cardinalActivities.map((activity) => (
-              <Badge key={activity.id}>{activity.team}</Badge>
-            ))}
+            {cardinalActivities.map(
+              (activity) => activity.team !== '해당 없음' && <Badge key={activity.id}>{activity.team}</Badge>,
+            )}
           </Badges>
         </Contents>
       </Container>
