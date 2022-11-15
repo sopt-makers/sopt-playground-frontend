@@ -5,7 +5,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
+import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
+import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import Header from '@/components/common/Header';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
@@ -25,12 +27,50 @@ export default function MemberUploadPage() {
     mode: 'onChange',
     resolver: yupResolver(memberFormSchema),
   });
+
   const router = useRouter();
+  const { query } = useStringRouterQuery(['edit'] as const);
+  const { data: myProfile, refetch: refetchMyProfile } = useGetMemberProfileOfMe();
+  const { data: me, refetch: refetchMe } = useGetMemberOfMe();
+
+  const { refetch: refetchProfileById } = useGetMemberProfileById(me?.id);
+
+  const isEditPage = query?.edit === 'true' ? true : false;
 
   const {
     handleSubmit,
+    setValue,
     formState: { errors },
   } = formMethods;
+
+  if (isEditPage && myProfile) {
+    setValue('name', myProfile.name);
+    setValue('birthday', {
+      year: Number(myProfile.birthday.split('-')[0]).toString(),
+      month: Number(myProfile.birthday.split('-')[1]).toString(),
+      day: Number(myProfile.birthday.split('-')[2]).toString(),
+    });
+    setValue('phone', myProfile.phone);
+    setValue('email', myProfile.email);
+    setValue('address', myProfile.address);
+    setValue('university', myProfile.university);
+    setValue('major', myProfile.major);
+    setValue('introduction', myProfile.introduction);
+    setValue('skill', myProfile.skill);
+    setValue('links', myProfile.links);
+    setValue('openToWork', myProfile.openToWork);
+    setValue('openToSideProject', myProfile.openToSideProject);
+    setValue(
+      'activities',
+      myProfile.activities.map((act) => ({
+        generation: act.cardinalInfo.split(',')[0],
+        part: act.cardinalInfo.split(',')[1],
+        team: act.cardinalActivities[0].team,
+      })),
+    );
+    setValue('allowOfficial', myProfile.allowOfficial);
+    setValue('profileImage', myProfile.profileImage);
+  }
 
   const convertEmptyStringToNull = (value: string) => (value.length > 0 ? value : null);
   const formatBirthday = (birthday: Birthday) => {
@@ -56,15 +96,20 @@ export default function MemberUploadPage() {
       links: links.filter((link) => link.title && link.url).length ? links : null,
     };
     const response = await postMemberProfile(requestBody);
+    await Promise.all([refetchMyProfile(), refetchProfileById(), refetchMe()]);
+
     router.push(`/members/detail?memberId=${response.id}`);
   };
+
+  const uploadType = isEditPage ? '수정' : '등록';
+
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
         <StyledContainer>
           <StyledHeader>
-            <div className='title'>프로필 등록</div>
-            <div className='description'>SOPT 멤버들을 위한 프로필을 등록해주세요</div>
+            <div className='title'>프로필 {uploadType}</div>
+            <div className='description'>SOPT 멤버들을 위한 프로필을 {uploadType}해주세요</div>
           </StyledHeader>
           <StyledForm onSubmit={(e) => e.preventDefault()}>
             <BasicFormSection />
@@ -78,7 +123,7 @@ export default function MemberUploadPage() {
           <StyledFooter className='pc-only'>
             <div className='button-wrapper'>
               <button onClick={handleSubmit(onSubmit)} className='submit'>
-                프로필 등록하기
+                프로필 {uploadType}하기
               </button>
             </div>
           </StyledFooter>
@@ -193,6 +238,11 @@ const StyledFooter = styled.div`
     align-items: center;
     justify-content: flex-end;
     width: 790px;
+
+    button {
+      cursor: pointer;
+    }
+
     @media (max-width: 790px) {
       width: 100%;
     }
