@@ -107,9 +107,16 @@ export default Header;
 const StyledHeader = styled.header`
   display: flex;
   position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 36px;
+  z-index: 100;
+  background-color: ${colors.black100};
+  padding: 0 36px;
+  height: 80px;
   line-height: 100%;
   letter-spacing: -0.01em;
   font-size: 14px;
