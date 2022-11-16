@@ -12,7 +12,7 @@ export const global = css`
   html,
   body {
     background-color: ${colors.black100};
-    color: ${colors.white};
+    padding-top: 40px;
 
     .pc-only {
       @media ${MOBILE_MEDIA_QUERY} {
@@ -25,6 +25,10 @@ export const global = css`
       @media ${MOBILE_MEDIA_QUERY} {
         display: block;
       }
+    }
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      padding-top: 30px;
     }
   }
 `;

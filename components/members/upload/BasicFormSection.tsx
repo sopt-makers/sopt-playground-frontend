@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { useGetMemberProfileOfMe } from '@/apiHooks/members';
+import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
@@ -18,6 +20,11 @@ export default function MemberBasicFormSection() {
     formState: { errors },
   } = useFormContext<MemberUploadForm>();
 
+  const { query } = useStringRouterQuery(['edit'] as const);
+  const { data: myProfile } = useGetMemberProfileOfMe();
+
+  const isEditPage = query?.edit === 'true' ? true : false;
+
   return (
     <FormSection>
       <FormHeader title='기본정보' />
@@ -26,7 +33,13 @@ export default function MemberBasicFormSection() {
           <Controller
             name='profileImage'
             control={control}
-            render={({ field }) => <StyledImageUploader {...field} emptyIcon={IconCamera} />}
+            render={({ field }) => (
+              <StyledImageUploader
+                src={(isEditPage && myProfile && myProfile.profileImage) || ''}
+                {...field}
+                emptyIcon={IconCamera}
+              />
+            )}
           />
         </FormItem>
         <FormItem title='이름' essential errorMessage={errors.name?.message}>

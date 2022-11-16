@@ -36,7 +36,7 @@ const UserPage: FC = () => {
     <AuthRequired>
       <StyledContainer>
         <StyledContent>
-          <IntroducePannel>
+          <IntroducePanel>
             <LeftContainer>
               <StyledImage src='/icons/icon-doublestar.svg' alt='' />
               <TextContainer>
@@ -50,11 +50,13 @@ const UserPage: FC = () => {
               <Link href='/projects/upload' passHref>
                 <UploadButton>프로젝트 업로드</UploadButton>
               </Link>
-              <Link href='/members/upload' passHref>
-                <ProfileButton>프로필 추가</ProfileButton>
-              </Link>
+              {!memberOfMeData?.hasProfile && (
+                <Link href='/members/upload' passHref>
+                  <ProfileButton>프로필 추가</ProfileButton>
+                </Link>
+              )}
             </ButtonContainer>
-          </IntroducePannel>
+          </IntroducePanel>
 
           <StyledMain>
             <StyledDivider />
@@ -110,7 +112,7 @@ const StyledContent = styled.div`
   max-width: 1000px;
 `;
 
-const IntroducePannel = styled.section`
+const IntroducePanel = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
