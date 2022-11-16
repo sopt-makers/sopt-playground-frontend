@@ -1,9 +1,6 @@
 import { DefaultValues } from 'react-hook-form';
 
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { LATEST_GENERATION } from '@/constants/generation';
-
-export const GENERATIONS = Array.from({ length: LATEST_GENERATION }, (_, i) => (i + 1).toString()).reverse();
 
 export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   profileImage: '',
