@@ -4,9 +4,13 @@ import { FC } from 'react';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-const Notifier: FC = () => {
+interface NotifierProps {
+  className?: string;
+}
+
+const Notifier: FC<NotifierProps> = ({ className }) => {
   return (
-    <StyledJoinNotifier>
+    <StyledJoinNotifier className={className}>
       <Title>현재 makers 1기 진행 중이에요. 2기에서 만나요!</Title>
       <SubTitle>2기 모집은 2023년 1-2월 중에 진행될 예정이에요.</SubTitle>
       <ButtonGroup>
