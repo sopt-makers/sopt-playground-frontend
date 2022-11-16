@@ -28,7 +28,7 @@ const convertBirthdayFormat = (birthday?: string) => {
   // FIXME: 서버쪽에 YYYY-MM-DD 형태로 무조건 업로드시 전송해줘야 하는 이슈가 있어서,
   // 생년월일을 보내지 않았을 경우에 DEFAULT_DATE를 전송하도록 임시처리 해 두었습니다. 이를 클라에서 보여주기 위해 대응합니다.
   if (birthday) {
-    const isDefaultDay = dayjs(birthday).isSame(DEFAULT_DATE);
+    const isDefaultDay = dayjs(birthday).isSame(dayjs(DEFAULT_DATE));
     return isDefaultDay ? '' : dayjs(birthday).format('YYYY-MM-DD');
   }
   return '';
