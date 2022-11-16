@@ -22,6 +22,8 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
+export const DEFAULT_DATE = '1970-01-01';
+
 export default function MemberUploadPage() {
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
@@ -47,7 +49,7 @@ export default function MemberUploadPage() {
   const formatBirthday = (birthday: Birthday) => {
     const { year, month, day } = birthday;
     const parsedBirthDay = dayjs(`${year}-${month}-${day}`);
-    return (parsedBirthDay.isValid() ? parsedBirthDay : dayjs()).format('YYYY-MM-DD');
+    return (parsedBirthDay.isValid() ? parsedBirthDay : dayjs(DEFAULT_DATE)).format('YYYY-MM-DD');
   };
   const onSubmit = async (formData: MemberUploadForm) => {
     // if (Object.keys(errors).length) return;
