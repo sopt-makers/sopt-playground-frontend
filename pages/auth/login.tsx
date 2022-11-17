@@ -35,7 +35,7 @@ const LoginPage: FC = () => {
       <Link href='/makers' passHref>
         <MadeByMakersLink>
           <MadeByTitle>made by</MadeByTitle>
-          <StyledMakersLogo src='/logos/logo-full.svg' alt='makers-logo' />
+          <StyledMakersLogo src='/logos/logo-makers-full.svg' alt='makers-logo' />
         </MadeByMakersLink>
       </Link>
     </StyledLoginPage>
