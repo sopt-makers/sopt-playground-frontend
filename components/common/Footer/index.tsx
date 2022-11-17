@@ -15,7 +15,7 @@ const Footer: FC<FooterProps> = ({}) => {
       <Link href='/makers' passHref>
         <FooterLink highlight>만든 사람들</FooterLink>
       </Link>
-      <FooterLink>의견 제안하기</FooterLink>
+      <FooterLink href='#'>의견 제안하기</FooterLink>
     </StyledFooter>
   );
 };
@@ -24,10 +24,12 @@ export default Footer;
 
 const StyledFooter = styled.div`
   display: flex;
+  position: fixed;
+  bottom: 0;
   border-top: 1px solid ${colors.black40};
   background-color: ${colors.black80};
   padding: 0 0 0 38px;
-  height: 48px;
+  width: 100%;
 `;
 
 const FooterLink = styled.a<{ highlight?: boolean }>`

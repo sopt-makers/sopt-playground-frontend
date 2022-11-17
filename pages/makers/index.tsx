@@ -1,17 +1,39 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { FC } from 'react';
 
+import useAuth from '@/components/auth/useAuth';
+import Footer from '@/components/common/Footer';
+import Header from '@/components/common/Header';
 import AboutMakers from '@/components/makers/AboutMakers';
 import { makersGenerationsData } from '@/components/makers/data';
 import MakersMembers from '@/components/makers/MakersMembers';
+import IconBack from '@/public/icons/icon-back.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const MakersPage: FC = () => {
+  const { isLoggedIn } = useAuth();
+
   return (
-    <StyledMakersPage>
-      <AboutMakers />
-      <StyledMakersMembers generations={makersGenerationsData} />
-    </StyledMakersPage>
+    <>
+      {isLoggedIn ? (
+        <Header />
+      ) : (
+        <NotLoggedInHeader>
+          <Link href='/auth/login' passHref>
+            <BackLink>
+              <StyledBackIcon />
+              돌아가기
+            </BackLink>
+          </Link>
+        </NotLoggedInHeader>
+      )}
+      <StyledMakersPage>
+        <AboutMakers />
+        <StyledMakersMembers generations={makersGenerationsData} />
+      </StyledMakersPage>
+      <Footer />
+    </>
   );
 };
 
@@ -21,6 +43,7 @@ const StyledMakersPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 100px;
 `;
 
 const StyledMakersMembers = styled(MakersMembers)`
@@ -29,4 +52,22 @@ const StyledMakersMembers = styled(MakersMembers)`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 48px;
   }
+`;
+
+const NotLoggedInHeader = styled.div`
+  display: flex;
+  position: fixed;
+  top: 0;
+  align-items: stretch;
+  margin: 0 40px;
+  width: 100%;
+  height: 80px;
+`;
+
+const StyledBackIcon = styled(IconBack)``;
+
+const BackLink = styled.a`
+  display: flex;
+  align-items: center;
+  padding: 30px 8px;
 `;
