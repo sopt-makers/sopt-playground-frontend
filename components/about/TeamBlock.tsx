@@ -6,15 +6,16 @@ import { textStyles } from '@/styles/typography';
 
 interface TeamBlockProps {
   title: string;
-  description: string;
+  description?: string;
   children: ReactNode;
+  className?: string;
 }
 
-const TeamBlock: FC<TeamBlockProps> = ({ title, description, children }) => {
+const TeamBlock: FC<TeamBlockProps> = ({ title, description, children, className }) => {
   return (
-    <StyledTeamBlock>
+    <StyledTeamBlock className={className}>
       <Title>{title}</Title>
-      <Description>{description}</Description>
+      {description && <Description>{description}</Description>}
       <ChildrenBox>{children}</ChildrenBox>
     </StyledTeamBlock>
   );

@@ -6,7 +6,7 @@ import { textStyles } from '@/styles/typography';
 
 interface PersonBlockProps {
   name: string;
-  position: string;
+  position?: string;
   imageUrl?: string;
 }
 
@@ -16,7 +16,7 @@ const PersonBlock: FC<PersonBlockProps> = ({ name, position, imageUrl }) => {
       <ImageBox>{imageUrl ? <StyledImage src={imageUrl} alt={`${name}`} /> : <EmptyImage />}</ImageBox>
       <ContentBox>
         <Name>{name}</Name>
-        <Position>{position}</Position>
+        {position && <Position>{position}</Position>}
       </ContentBox>
     </StyledPersonBlock>
   );
