@@ -8,13 +8,14 @@ import { colors } from '@/styles/colors';
 interface FacebookButtonProps {
   children?: ReactNode;
   onClick?(): void;
+  className?: string;
 }
 
 const FacebookButton: FC<FacebookButtonProps> = (props) => {
-  const { children, onClick } = props;
+  const { children, onClick, className } = props;
 
   return (
-    <StyledFacebookButton onClick={onClick}>
+    <StyledFacebookButton className={className} onClick={onClick}>
       <StyledFacebookIcon />
       {children}
     </StyledFacebookButton>
