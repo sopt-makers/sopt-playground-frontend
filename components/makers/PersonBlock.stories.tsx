@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import PersonBlock from '@/components/about/PersonBlock';
+import PersonBlock from '@/components/makers/PersonBlock';
 
 export default {
   component: PersonBlock,

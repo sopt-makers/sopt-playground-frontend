@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import AboutMakers from '@/components/about/AboutMakers';
+import AboutMakers from '@/components/makers/AboutMakers';
 
 export default {
   component: AboutMakers,

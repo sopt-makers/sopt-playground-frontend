@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Notifier from '@/components/about/Notifier';
+import Notifier from '@/components/makers/Notifier';
 
 export default {
   component: Notifier,

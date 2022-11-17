@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import { Tab } from '@headlessui/react';
 import { FC, Fragment } from 'react';
 
-import { MakersGeneration } from '@/components/about/data/types';
-import PersonBlock from '@/components/about/PersonBlock';
-import TeamBlock from '@/components/about/TeamBlock';
+import { MakersGeneration } from '@/components/makers/data/types';
+import PersonBlock from '@/components/makers/PersonBlock';
+import TeamBlock from '@/components/makers/TeamBlock';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 

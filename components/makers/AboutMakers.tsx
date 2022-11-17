@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import Notifier from '@/components/about/Notifier';
+import Notifier from '@/components/makers/Notifier';
 import { textStyles } from '@/styles/typography';
 
 const AboutMakers: FC = () => {
