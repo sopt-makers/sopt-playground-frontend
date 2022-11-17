@@ -14,22 +14,30 @@ const LoginPage: FC = () => {
 
   return (
     <StyledLoginPage>
-      <LoginTitle>
-        <LoginPrefix>SOPT Playground에</LoginPrefix> 오신 걸 환영합니다
-      </LoginTitle>
-      <LoginDescription>SOPT회원만 이용할 수 있어요.</LoginDescription>
-      <LinkContainer>
-        <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
-        <Link href='/auth/verify' passHref>
-          <SquareLink
-            css={css`
-              color: white;
-            `}
-          >
-            회원가입
-          </SquareLink>
-        </Link>
-      </LinkContainer>
+      <LoginBox>
+        <LoginTitle>
+          <LoginPrefix>SOPT Playground에</LoginPrefix> 오신 걸 환영합니다
+        </LoginTitle>
+        <LoginDescription>SOPT회원만 이용할 수 있어요.</LoginDescription>
+        <LinkContainer>
+          <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
+          <Link href='/auth/verify' passHref>
+            <SquareLink
+              css={css`
+                color: white;
+              `}
+            >
+              회원가입
+            </SquareLink>
+          </Link>
+        </LinkContainer>
+      </LoginBox>
+      <Link href='/makers' passHref>
+        <MadeByMakersLink>
+          <MadeByTitle>made by</MadeByTitle>
+          <StyledMakersLogo src='/logos/logo-full.svg' alt='makers-logo' />
+        </MadeByMakersLink>
+      </Link>
     </StyledLoginPage>
   );
 };
@@ -40,14 +48,21 @@ export const StyledLoginPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20rem;
+  justify-content: space-around;
+  min-height: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 20rem 20px 0;
+    padding: 0 20px;
   }
 `;
 
-export const LoginTitle = styled.h2`
+const LoginBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const LoginTitle = styled.h2`
   text-align: center;
   ${textStyles.SUIT_32_SB}
 `;
@@ -77,3 +92,18 @@ const LinkContainer = styled.div`
     }
   }
 `;
+
+const MadeByMakersLink = styled.a`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 234px;
+`;
+
+const MadeByTitle = styled.h3`
+  ${textStyles.SUIT_20_L};
+`;
+
+const StyledMakersLogo = styled.img``;
