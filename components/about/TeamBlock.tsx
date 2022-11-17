@@ -1,20 +1,26 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
+import IconLinkOutgoing from '@/public/icons/icon-link-outgoing.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface TeamBlockProps {
   title: string;
   description?: string;
+  link?: string;
   children: ReactNode;
   className?: string;
 }
 
-const TeamBlock: FC<TeamBlockProps> = ({ title, description, children, className }) => {
+const TeamBlock: FC<TeamBlockProps> = ({ title, description, link, children, className }) => {
   return (
     <StyledTeamBlock className={className}>
-      <Title>{title}</Title>
+      <TitleBox href={link}>
+        {title}
+        {link && <StyledLinkIcon />}
+      </TitleBox>
       {description && <Description>{description}</Description>}
       <ChildrenBox>{children}</ChildrenBox>
     </StyledTeamBlock>
@@ -23,10 +29,28 @@ const TeamBlock: FC<TeamBlockProps> = ({ title, description, children, className
 
 export default TeamBlock;
 
-const StyledTeamBlock = styled.div``;
+const StyledTeamBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-const Title = styled.h2`
+const TitleBox = styled.a`
   ${textStyles.SUIT_24_B};
+
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  transition: border-bottom 0.2s;
+  border-bottom: 1px dashed transparent;
+
+  ${(props) =>
+    props.href
+      ? css`
+          &:hover {
+            border-bottom: 1px dashed gray;
+          }
+        `
+      : ''}
 `;
 
 const Description = styled.p`
@@ -38,4 +62,10 @@ const Description = styled.p`
 
 const ChildrenBox = styled.div`
   margin-top: 24px;
+`;
+
+const StyledLinkIcon = styled(IconLinkOutgoing)`
+  margin-left: 8px;
+  width: 24px;
+  height: 24px;
 `;

@@ -21,7 +21,7 @@ const AboutMakers: FC = () => {
 
       {makersMembers.map((page) =>
         page.teams.map((team, teamIdx) => (
-          <StyledTeamBlock key={teamIdx} title={team.title} description={team.description}>
+          <StyledTeamBlock key={teamIdx} title={team.title} description={team.description} link={team.link}>
             <PeopleBox>
               {team.people.map((person, personIdx) => (
                 <PersonBlock key={personIdx} name={person.name} position={person.position} imageUrl={person.imageUrl} />

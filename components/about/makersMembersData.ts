@@ -43,6 +43,25 @@ export const makersMembers: Page[] = [
           },
         ],
       },
+      {
+        title: 'SOPT 공식 홈페이지 팀',
+        description: 'SOPT의 첫인상인 sopt.org를 만들어요.',
+        link: 'https://sopt.org',
+        people: [
+          {
+            name: '이채연',
+            position: '오거나이저 리드',
+          },
+          {
+            name: '이정연',
+            position: '디자이너',
+          },
+          {
+            name: '남주영',
+            position: '웹 프론트엔드',
+          },
+        ],
+      },
     ],
   },
 ];
