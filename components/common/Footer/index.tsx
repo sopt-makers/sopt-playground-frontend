@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC } from 'react';
 
+import useScroll from '@/hooks/useScroll';
 import { colors } from '@/styles/colors';
 
 interface FooterProps {
@@ -10,30 +11,10 @@ interface FooterProps {
 }
 
 const Footer: FC<FooterProps> = ({}) => {
-  const lastScrollPositionRef = useRef(0);
-  const [showFooter, setShowFooter] = useState(true);
-
-  useEffect(() => {
-    const scrollHandler = () => {
-      const currentScrollPosition = window.scrollY;
-
-      if (currentScrollPosition > lastScrollPositionRef.current) {
-        setShowFooter(false);
-      } else {
-        setShowFooter(true);
-      }
-      lastScrollPositionRef.current = currentScrollPosition;
-    };
-
-    window.addEventListener('scroll', scrollHandler);
-
-    return () => {
-      window.removeEventListener('scroll', scrollHandler);
-    };
-  }, []);
+  const { isScrollingDown, isScrollTop } = useScroll();
 
   return (
-    <StyledFooter hide={!showFooter}>
+    <StyledFooter hide={isScrollingDown && !isScrollTop}>
       <Link href='/makers' passHref>
         <FooterLink highlight>만든 사람들</FooterLink>
       </Link>
