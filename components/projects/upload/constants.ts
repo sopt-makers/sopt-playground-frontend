@@ -1,8 +1,5 @@
 import { LinkTitle } from '@/api/projects/type';
 import { Category, FormItem } from '@/components/projects/upload/types';
-import { LATEST_GENERATION } from '@/constants/generation';
-
-export const GENERATION = Array.from({ length: LATEST_GENERATION }, (_, i) => i + 1).reverse();
 
 export const categoryLabel: Record<Category, string> = {
   [Category.APPJAM]: '앱잼',

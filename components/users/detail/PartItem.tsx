@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import { Activity } from '@/api/members/type';
+import GenLogo from '@/components/users/detail/GenLogo';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type PartItemProps = {
@@ -13,19 +14,22 @@ type PartItemProps = {
 
 const PartItem: FC<PartItemProps> = (project) => {
   const { cardinalActivities, generation, part } = project;
+
   return (
     <>
       <Container className='pc-only'>
-        <Thumbnail />
+        <Thumbnail>
+          <GenLogo gen={generation} />
+        </Thumbnail>
         <Contents>
           <Title>
             <div className='year'>{generation}기</div>
             <div className='part'>{part} 파트</div>
           </Title>
           <Badges>
-            {cardinalActivities.map((activity) => (
-              <Badge key={activity.id}>{activity.team}</Badge>
-            ))}
+            {cardinalActivities.map(
+              (activity) => activity.team !== '해당 없음' && <Badge key={activity.id}>{activity.team}</Badge>,
+            )}
           </Badges>
         </Contents>
       </Container>
@@ -39,9 +43,9 @@ const PartItem: FC<PartItemProps> = (project) => {
           </Title>
         </Contents>
         <Badges>
-          {cardinalActivities.map((activity) => (
-            <Badge key={activity.id}>{activity.team}</Badge>
-          ))}
+          {cardinalActivities.map(
+            (activity) => activity.team !== '해당 없음' && <Badge key={activity.id}>{activity.team}</Badge>,
+          )}
         </Badges>
       </Container>
     </>
@@ -58,10 +62,18 @@ const Container = styled.div`
 `;
 
 const Thumbnail = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 14px;
   background: #000;
   width: 84px;
   height: 84px;
+
+  svg {
+    width: 83px;
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     width: 60px;
     height: 60px;

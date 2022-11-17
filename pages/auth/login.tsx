@@ -15,7 +15,7 @@ const LoginPage: FC = () => {
 
   return (
     <StyledLoginPage>
-      <LoginTitle>SOPT Internal에 오신걸 환영합니다</LoginTitle>
+      <LoginTitle>SOPT Playground에 오신걸 환영합니다</LoginTitle>
       <LoginDescription>SOPT회원만 이용할 수 있어요.</LoginDescription>
       <LinkContainer>
         <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>

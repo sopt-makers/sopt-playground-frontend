@@ -186,7 +186,7 @@ const ProjectUploadPage: FC = () => {
           thumbnailImage: data.thumbnailImage,
           members,
           links: data.links,
-          writerId: myProfileData?.id,
+          writerId: myProfileData.id,
         },
         {
           onSuccess: () => {
