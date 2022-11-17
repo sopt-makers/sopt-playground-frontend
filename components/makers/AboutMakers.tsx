@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import Notifier from '@/components/makers/Notifier';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const AboutMakers: FC = () => {
@@ -31,15 +32,24 @@ const StyledAbout = styled.div`
 const MakersLogoBox = styled.div``;
 
 const StyledLogo = styled.img`
-  width: 470px;
+  width: 100%;
+  max-width: 470px;
 `;
 
 const Intro = styled.div`
+  margin-top: 80px;
   ${textStyles.SUIT_28_M}
 
-  margin-top: 80px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 48px;
+    ${textStyles.SUIT_16_M}
+  }
 `;
 
 const StyledNotifier = styled(Notifier)`
   margin-top: 80px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 48px;
+  }
 `;

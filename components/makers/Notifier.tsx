@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface NotifierProps {
@@ -28,11 +29,19 @@ export default Notifier;
 const StyledJoinNotifier = styled.div`
   border-radius: 16px;
   background-color: ${colors.black80};
-  padding: 30px;
+  padding: 32px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_24_M}
+  }
 `;
 
 const Title = styled.h2`
   ${textStyles.SUIT_24_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_20_M}
+  }
 `;
 
 const SubTitle = styled.h3`
@@ -40,11 +49,19 @@ const SubTitle = styled.h3`
   color: ${colors.gray60};
 
   ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_M}
+  }
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   margin-top: 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+  }
 `;
 
 const SubscribeButton = styled.a`
@@ -70,4 +87,9 @@ const ExpiredButton = styled.a`
   padding: 14px 20px;
 
   ${textStyles.SUIT_14_B}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 12px;
+    margin-left: 0;
+  }
 `;

@@ -4,6 +4,7 @@ import { FC, ReactNode } from 'react';
 
 import IconLinkOutgoing from '@/public/icons/icon-link-outgoing.svg';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface TeamBlockProps {
@@ -54,10 +55,14 @@ const TitleBox = styled.a`
 `;
 
 const Description = styled.p`
-  ${textStyles.SUIT_16_M};
-
   margin-top: 4px;
   color: ${colors.gray60};
+
+  ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_M}
+  }
 `;
 
 const ChildrenBox = styled.div`

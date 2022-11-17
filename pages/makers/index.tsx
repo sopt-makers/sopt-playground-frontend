@@ -4,6 +4,7 @@ import { FC } from 'react';
 import AboutMakers from '@/components/makers/AboutMakers';
 import { makersGenerationsData } from '@/components/makers/data';
 import MakersMembers from '@/components/makers/MakersMembers';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const MakersPage: FC = () => {
   return (
@@ -24,4 +25,8 @@ const StyledMakersPage = styled.div`
 
 const StyledMakersMembers = styled(MakersMembers)`
   margin-top: 80px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 48px;
+  }
 `;
