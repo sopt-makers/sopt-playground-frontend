@@ -1,10 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { makersMembers } from '@/components/about/makersMembersData';
 import Notifier from '@/components/about/Notifier';
-import PersonBlock from '@/components/about/PersonBlock';
-import TeamBlock from '@/components/about/TeamBlock';
 import { textStyles } from '@/styles/typography';
 
 const AboutMakers: FC = () => {
@@ -18,18 +15,6 @@ const AboutMakers: FC = () => {
         연결하기 위해 신설된 특수 기구에요.
       </Intro>
       <StyledNotifier />
-
-      {makersMembers.map((page) =>
-        page.teams.map((team, teamIdx) => (
-          <StyledTeamBlock key={teamIdx} title={team.title} description={team.description} link={team.link}>
-            <PeopleBox>
-              {team.people.map((person, personIdx) => (
-                <PersonBlock key={personIdx} name={person.name} position={person.position} imageUrl={person.imageUrl} />
-              ))}
-            </PeopleBox>
-          </StyledTeamBlock>
-        )),
-      )}
     </StyledAbout>
   );
 };
@@ -57,14 +42,4 @@ const Intro = styled.div`
 
 const StyledNotifier = styled(Notifier)`
   margin-top: 80px;
-`;
-
-const StyledTeamBlock = styled(TeamBlock)`
-  margin-top: 80px;
-`;
-
-const PeopleBox = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  row-gap: 24px;
 `;
