@@ -10,12 +10,13 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MakersMembersProps {
+  className?: string;
   generations: MakersGeneration[];
 }
 
-const MakersMembers: FC<MakersMembersProps> = ({ generations }) => {
+const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
   return (
-    <StyledMakersMembers>
+    <StyledMakersMembers className={className}>
       <Tab.Group>
         <Tab.List as={TabList}>
           {generations.map((generation, idx) => (
@@ -52,7 +53,10 @@ const MakersMembers: FC<MakersMembersProps> = ({ generations }) => {
 
 export default MakersMembers;
 
-const StyledMakersMembers = styled.div``;
+const StyledMakersMembers = styled.div`
+  padding: 16px;
+  max-width: 800px;
+`;
 
 const TabButton = styled.a<{ selected: boolean }>`
   transition: border-bottom-color 0.2s, color 0.2s;

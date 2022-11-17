@@ -24,7 +24,7 @@ export default AboutMakers;
 const StyledAbout = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 0 16px;
   max-width: 800px;
 `;
 
