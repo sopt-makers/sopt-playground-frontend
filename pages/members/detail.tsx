@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
@@ -23,6 +24,8 @@ import { safeParseInt } from '@/utils';
 import { setLayout } from '@/utils/layout';
 
 const UserDetailPage: FC = () => {
+  const router = useRouter();
+
   const { query, status } = useStringRouterQuery(['memberId'] as const);
   const { data: profile } = useGetMemberProfileById(
     status === 'success' ? safeParseInt(query.memberId) ?? undefined : undefined,
@@ -95,7 +98,7 @@ const UserDetailPage: FC = () => {
             </ProfileContents>
 
             {profile?.isMine && (
-              <EditButton>
+              <EditButton onClick={() => router.push(`/members/upload?edit=true`)}>
                 <EditIcon />
               </EditButton>
             )}

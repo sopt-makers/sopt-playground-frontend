@@ -5,8 +5,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 import Checkbox from '@/components/common/Checkbox';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
-import { GENERATION } from '@/components/projects/upload/constants';
 import FormTitle from '@/components/projects/upload/FormTitle';
+import { GENERATIONS } from '@/constants/generation';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -33,7 +33,7 @@ const ProjectGeneration: FC = () => {
       <FormTitle essential>기수</FormTitle>
       <StyledDescription>참여한 팀원들의 기수에 맞춰 작성해주세요</StyledDescription>
       <StyledSelect width={236} placeholder='선택' {...register('generation.generation')}>
-        {GENERATION.map((item) => (
+        {GENERATIONS.map((item) => (
           <option key={item} value={item}>
             {item}기
           </option>
