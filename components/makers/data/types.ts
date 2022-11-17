@@ -1,17 +1,25 @@
 export interface MakersGeneration {
   title: string;
-  teams: Team[];
+  teams: MakersTeam[];
 }
 
-export interface Team {
+export interface MakersTeam {
   title: string;
   link?: string;
   description?: string;
-  people: Person[];
+  people: MakersPerson[];
 }
 
-export interface Person {
-  imageUrl?: string;
-  name: string;
-  position?: string;
-}
+export type MakersPerson =
+  | {
+      type: 'raw';
+      name: string;
+      position?: string;
+      imageUrl?: string;
+    }
+  | {
+      type: 'member';
+      id: number;
+      name: string;
+      position?: string;
+    };

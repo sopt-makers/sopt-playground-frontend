@@ -11,21 +11,21 @@ interface PersonBlockProps {
   imageUrl?: string;
 }
 
-const PersonBlock: FC<PersonBlockProps> = ({ name, position, imageUrl }) => {
+const RawPersonBlock: FC<PersonBlockProps> = ({ name, position, imageUrl }) => {
   return (
-    <StyledPersonBlock>
+    <StyledRawPersonBlock>
       <ImageBox>{imageUrl ? <StyledImage src={imageUrl} alt={`${name}`} /> : <EmptyImage />}</ImageBox>
       <ContentBox>
         <Name>{name}</Name>
-        {position && <Position>{position}</Position>}
+        {position ? <Position>{position}</Position> : null}
       </ContentBox>
-    </StyledPersonBlock>
+    </StyledRawPersonBlock>
   );
 };
 
-export default PersonBlock;
+export default RawPersonBlock;
 
-const StyledPersonBlock = styled.div`
+const StyledRawPersonBlock = styled.div`
   display: flex;
 `;
 

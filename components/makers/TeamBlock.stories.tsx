@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import { WithImage } from '@/components/makers/PersonBlock.stories';
 import TeamBlock from '@/components/makers/TeamBlock';
 
 export default {
