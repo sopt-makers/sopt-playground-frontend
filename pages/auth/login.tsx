@@ -103,7 +103,7 @@ const MadeByMakersLink = styled.a`
 `;
 
 const MadeByTitle = styled.h3`
-  ${textStyles.SUIT_20_L};
+  ${textStyles.SUIT_20_R};
 `;
 
 const StyledMakersLogo = styled.img``;
