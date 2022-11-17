@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { useGetMemberProfileOfMe } from '@/apiHooks/members';
-import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
@@ -20,10 +18,10 @@ export default function MemberBasicFormSection() {
     formState: { errors },
   } = useFormContext<MemberUploadForm>();
 
-  const { query } = useStringRouterQuery(['edit'] as const);
-  const { data: myProfile } = useGetMemberProfileOfMe();
+  // const { query } = useStringRouterQuery(['edit'] as const);
+  // const { data: myProfile } = useGetMemberProfileOfMe();
 
-  const isEditPage = query?.edit === 'true' ? true : false;
+  // const isEditPage = query?.edit === 'true' ? true : false;
 
   return (
     <FormSection>
@@ -35,7 +33,7 @@ export default function MemberBasicFormSection() {
             control={control}
             render={({ field }) => (
               <StyledImageUploader
-                src={(isEditPage && myProfile && myProfile.profileImage) || ''}
+                // src={(isEditPage && myProfile && myProfile.profileImage) || ''}
                 {...field}
                 emptyIcon={IconCamera}
               />

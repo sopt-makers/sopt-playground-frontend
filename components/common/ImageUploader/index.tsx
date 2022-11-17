@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 
 import { getPresignedUrl } from '@/api/image';
 import IconImage from '@/public/icons/icon-image.svg';
@@ -13,7 +13,7 @@ interface ImageUploaderProps {
   onChange: (value: string | null) => void;
   className?: string;
   emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  src?: string;
+  // src?: string;
 }
 
 const ImageUploader: FC<ImageUploaderProps> = ({
@@ -23,14 +23,14 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   value,
   className,
   emptyIcon: EmptyIcon = IconImage,
-  src,
+  // src,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [previewImage, setPreviewImage] = useState<string>('');
 
-  useEffect(() => {
-    if (src) setPreviewImage(src);
-  }, [src]);
+  // useEffect(() => {
+  //   if (src) setPreviewImage(src);
+  // }, [src]);
 
   const handleClick = () => {
     const inputEl = inputRef.current;
