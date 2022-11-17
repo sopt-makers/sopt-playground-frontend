@@ -56,12 +56,16 @@ const StyledMakersMembers = styled(MakersMembers)`
 
 const NotLoggedInHeader = styled.div`
   display: flex;
-  position: fixed;
+  position: absolute;
   top: 0;
   align-items: stretch;
   margin: 0 40px;
   width: 100%;
   height: 80px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 0 20px;
+  }
 `;
 
 const StyledBackIcon = styled(IconBack)``;

@@ -18,7 +18,7 @@ interface TeamBlockProps {
 const TeamBlock: FC<TeamBlockProps> = ({ title, description, link, children, className }) => {
   return (
     <StyledTeamBlock className={className}>
-      <TitleBox href={link}>
+      <TitleBox href={link} target='_blank'>
         {title}
         {link && <StyledLinkIcon />}
       </TitleBox>

@@ -80,7 +80,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
 export default MakersMembers;
 
 const StyledMakersMembers = styled.div`
-  padding: 16px;
+  padding: 20px;
   max-width: 800px;
 `;
 
