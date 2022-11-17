@@ -1,4 +1,6 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { FC } from 'react';
 
 import { colors } from '@/styles/colors';
@@ -9,11 +11,12 @@ interface PersonBlockProps {
   name: string;
   position?: string;
   imageUrl?: string;
+  link?: string;
 }
 
-const RawPersonBlock: FC<PersonBlockProps> = ({ name, position, imageUrl }) => {
-  return (
-    <StyledRawPersonBlock>
+const PersonBlock: FC<PersonBlockProps> = ({ name, position, imageUrl, link }) => {
+  const content = (
+    <StyledRawPersonBlock active={link !== undefined}>
       <ImageBox>{imageUrl ? <StyledImage src={imageUrl} alt={`${name}`} /> : <EmptyImage />}</ImageBox>
       <ContentBox>
         <Name>{name}</Name>
@@ -21,12 +24,29 @@ const RawPersonBlock: FC<PersonBlockProps> = ({ name, position, imageUrl }) => {
       </ContentBox>
     </StyledRawPersonBlock>
   );
+
+  if (link !== undefined) {
+    return (
+      <Link href={link} passHref>
+        {content}
+      </Link>
+    );
+  }
+
+  return content;
 };
 
-export default RawPersonBlock;
+export default PersonBlock;
 
-const StyledRawPersonBlock = styled.div`
+const StyledRawPersonBlock = styled.a<{ active: boolean }>`
   display: flex;
+
+  ${(props) =>
+    props.active
+      ? css`
+          cursor: pointer;
+        `
+      : ''};
 `;
 
 const ImageBox = styled.div`

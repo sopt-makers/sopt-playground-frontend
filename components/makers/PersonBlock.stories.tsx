@@ -1,12 +1,12 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import RawPersonBlock from '@/components/makers/RawPersonBlock';
+import PersonBlock from '@/components/makers/PersonBlock';
 
 export default {
-  component: RawPersonBlock,
-} as ComponentMeta<typeof RawPersonBlock>;
+  component: PersonBlock,
+} as ComponentMeta<typeof PersonBlock>;
 
-const Template: ComponentStory<typeof RawPersonBlock> = (args) => <RawPersonBlock {...args} />;
+const Template: ComponentStory<typeof PersonBlock> = (args) => <PersonBlock {...args} />;
 
 export const WithImage = Template.bind({});
 WithImage.args = {

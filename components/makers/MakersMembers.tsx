@@ -5,7 +5,7 @@ import { FC, Fragment, useMemo } from 'react';
 
 import { useGetMemberProfile } from '@/apiHooks/members';
 import { MakersGeneration, MakersPerson } from '@/components/makers/data/types';
-import RawPersonBlock from '@/components/makers/RawPersonBlock';
+import PersonBlock from '@/components/makers/PersonBlock';
 import TeamBlock from '@/components/makers/TeamBlock';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
@@ -59,11 +59,12 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                 <StyledTeamBlock key={teamIdx} title={team.title} description={team.description} link={team.link}>
                   <PeopleBox>
                     {team.people.map((person, personIdx) => (
-                      <RawPersonBlock
+                      <PersonBlock
                         key={personIdx}
                         name={person.name}
                         position={person.position}
                         imageUrl={resolveProfileImage(person)}
+                        link={person.type === 'member' ? `members/detail?memberId=${person.id}` : undefined}
                       />
                     ))}
                   </PeopleBox>
