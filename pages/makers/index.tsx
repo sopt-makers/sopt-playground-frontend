@@ -23,7 +23,7 @@ const MakersPage: FC = () => {
           <Link href='/auth/login' passHref>
             <BackLink>
               <StyledBackIcon />
-              돌아가기
+              로그인하러 가기
             </BackLink>
           </Link>
         </NotLoggedInHeader>

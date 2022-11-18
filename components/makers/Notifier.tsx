@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
+import { NOTIFY_2ND_GENERATION_URL } from '@/constants/links';
 import IconBell from '@/public/icons/icon-bell.svg';
 import IconOutgoing from '@/public/icons/icon-link-outgoing.svg';
 import { colors } from '@/styles/colors';
@@ -17,7 +18,7 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
       <Title>현재 makers 1기 진행 중이에요. 2기에서 만나요!</Title>
       <SubTitle>2기 모집은 2023년 1-2월 중에 진행될 예정이에요.</SubTitle>
       <ButtonGroup>
-        <SubscribeButton href='#'>
+        <SubscribeButton href={NOTIFY_2ND_GENERATION_URL} target='_blank'>
           <StyledBellIcon />
           2기 모집 알림 신청
         </SubscribeButton>

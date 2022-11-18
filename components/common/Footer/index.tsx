@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { FEEDBACK_FORM_URL } from '@/constants/links';
 import useScroll from '@/hooks/useScroll';
 import { colors } from '@/styles/colors';
 
@@ -18,7 +19,7 @@ const Footer: FC<FooterProps> = ({}) => {
       <Link href='/makers' passHref>
         <FooterLink highlight>만든 사람들</FooterLink>
       </Link>
-      <FooterLink href='#'>의견 제안하기</FooterLink>
+      <FooterLink href={FEEDBACK_FORM_URL}>의견 제안하기</FooterLink>
     </StyledFooter>
   );
 };

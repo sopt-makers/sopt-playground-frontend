@@ -9,6 +9,7 @@ import { FC, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
+import { FEEDBACK_FORM_URL } from '@/constants/links';
 import BackIcon from '@/public/icons/icon-back.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -100,7 +101,7 @@ const Header: FC = () => {
               <Link href='/makers' passHref>
                 <MenuLink>만든 사람들</MenuLink>
               </Link>
-              <Link href='/makers' passHref>
+              <Link href={FEEDBACK_FORM_URL} passHref>
                 <MenuLink>의견 제안하기</MenuLink>
               </Link>
               <MenuLink onClick={logout}>로그아웃</MenuLink>
