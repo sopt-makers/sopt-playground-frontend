@@ -11,6 +11,9 @@ const Template: ComponentStory<typeof UploadStatus> = (args) => <UploadStatus {.
 
 export const Default = Template.bind({});
 Default.args = {
-  formItems: FORM_ITEMS,
+  formItems: FORM_ITEMS.map((item) => ({
+    ...item,
+    isDirty: true,
+  })),
 };
 Default.storyName = '기본';
