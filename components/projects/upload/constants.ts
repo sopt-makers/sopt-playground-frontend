@@ -38,7 +38,7 @@ export const FORM_ITEMS: FormItem[] = [
   {
     label: '어디서 진행했나요?',
     value: 'category',
-    isDirty: ({ category }) => !!category,
+    isDirty: (_, defaultValue) => !!defaultValue?.category,
     isRequired: true,
   },
   {
@@ -74,7 +74,7 @@ export const FORM_ITEMS: FormItem[] = [
   {
     label: '서비스 형태',
     value: 'serviceType',
-    isDirty: ({ serviceType }) => !!serviceType,
+    isDirty: ({ serviceType }) => (serviceType ?? []).length > 0,
     isRequired: true,
   },
   {
