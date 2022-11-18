@@ -19,7 +19,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
   const { data, isLoading } = useGetMemberProfile();
 
   const memberImageMap = useMemo(() => {
-    const map = new Map();
+    const map = new Map<number, string>();
     if (!data) {
       return map;
     }
