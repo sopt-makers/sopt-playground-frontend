@@ -48,8 +48,6 @@ export const generation1: MakersGeneration = {
     },
     {
       title: 'Product Crew 팀',
-      description: 'SOPT의 첫인상인 sopt.org를 만들어요.',
-      link: 'https://sopt.org',
       people: [
         { type: 'member', id: 6, name: '김나연', position: 'PM' },
         { type: 'member', id: 30, name: '김인우', position: '디자이너' },
@@ -62,8 +60,6 @@ export const generation1: MakersGeneration = {
     },
     {
       title: 'SOPT APP 팀',
-      description: 'SOPT의 첫인상인 sopt.org를 만들어요.',
-      link: 'https://sopt.org',
       people: [
         { type: 'raw', name: '박윤정', position: 'PM' },
         { type: 'raw', name: '김연수', position: '디자이너' },
