@@ -64,7 +64,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                         name={person.name}
                         position={person.position}
                         imageUrl={resolveProfileImage(person)}
-                        link={person.type === 'member' ? `members/detail?memberId=${person.id}` : undefined}
+                        link={person.type === 'member' ? `/members/detail?memberId=${person.id}` : undefined}
                       />
                     ))}
                   </PeopleBox>
