@@ -9,6 +9,8 @@ import { FC, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
+import { FEEDBACK_FORM_URL } from '@/constants/links';
+import BackIcon from '@/public/icons/icon-back.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -74,18 +76,17 @@ const Header: FC = () => {
       {isMobileMenuOpened && (
         <MobileMenuWrapper onClick={() => setIsMobileMenuOpened(false)}>
           <MobileMenu>
-            <ProfileContainer>
-              {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
-              <EmptyProfileImage>
-                <ProfileIcon width={17.29} height='auto' />
-              </EmptyProfileImage>
-              <Name>{me?.name}</Name>
-            </ProfileContainer>
-
-            <MenuWrapper>
-              <div>내 프로필</div>
-              <div>로그아웃</div>
-            </MenuWrapper>
+            <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'} passHref>
+              <ProfileContainer>
+                {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
+                <EmptyProfileImage>
+                  <ProfileIcon width={17.29} />
+                </EmptyProfileImage>
+                <Name>{me?.name}</Name>
+                <Spacer />
+                <StyledForwardIcon />
+              </ProfileContainer>
+            </Link>
 
             <RouterWrapper>
               <Link href='/members' passHref>
@@ -95,6 +96,16 @@ const Header: FC = () => {
                 <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
               </Link>
             </RouterWrapper>
+            <Divider />
+            <MenuWrapper>
+              <Link href='/makers' passHref>
+                <MenuLink>만든 사람들</MenuLink>
+              </Link>
+              <Link href={FEEDBACK_FORM_URL} passHref>
+                <MenuLink>의견 제안하기</MenuLink>
+              </Link>
+              <MenuLink onClick={logout}>로그아웃</MenuLink>
+            </MenuWrapper>
           </MobileMenu>
         </MobileMenuWrapper>
       )}
@@ -264,7 +275,7 @@ const MobileMenu = styled.div`
   height: 100vh;
 `;
 
-const ProfileContainer = styled.div`
+const ProfileContainer = styled.a`
   display: flex;
   align-items: center;
 `;
@@ -285,21 +296,36 @@ const Name = styled.div`
   ${textStyles.SUIT_20_B}
 `;
 
+const RouterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 30px;
+  padding-bottom: 30px;
+  color: ${colors.white100};
+`;
+
+const Divider = styled.div`
+  border-bottom: 1px solid ${colors.black60};
+`;
+
 const MenuWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 18px;
   margin-top: 21px;
-  border-bottom: 1px solid ${colors.black60};
-  padding-bottom: 30px;
-  ${textStyles.SUIT_15_SB}
+  ${textStyles.SUIT_14_M}
 `;
 
-const RouterWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 30px;
-  color: ${colors.white100};
+const MenuLink = styled.a`
+  cursor: pointer;
+`;
+
+const Spacer = styled.div`
+  flex-grow: 1;
+`;
+
+const StyledForwardIcon = styled(BackIcon)`
+  transform: rotate(180deg);
 `;
