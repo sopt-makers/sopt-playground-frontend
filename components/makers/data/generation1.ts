@@ -21,7 +21,7 @@ export const generation1: MakersGeneration = {
     },
     {
       title: 'SOPT 공식 홈페이지 팀',
-      description: 'SOPT의 첫인상인 sopt.org를 만들어요.',
+      description: 'SOPT를 대내외적으로 알릴 수 있는 공식홈페이지를 개선하고 발전시켜요.',
       link: 'https://sopt.org',
       people: [
         { type: 'member', id: 40, name: '김희영', position: 'PM' },
@@ -34,7 +34,8 @@ export const generation1: MakersGeneration = {
     },
     {
       title: 'SOPT Playground 팀',
-      description: 'SOPT 구성원들을 위한 서비스를 만들어요.',
+      description:
+        'SOPT 구성원들을 위한 서비스, SOPT 플레이그라운드를 만들고 있어요. 앱잼, 솝커톤, 솝텀 등 멋진 프로젝트들이 잘 기록될 수 있도록 프로젝트 기능을 담당해요. 또한 이천여명의 SOPT 구성원들이 어떻게 하면 더 잘 소통하고 가치를 연결할 수 있을지 고민하는 팀이에요.',
       people: [
         { type: 'member', id: 1, name: '이정연', position: 'PM' },
         { type: 'member', id: 6, name: '박현지', position: 'PM' },
@@ -48,6 +49,7 @@ export const generation1: MakersGeneration = {
     },
     {
       title: 'Product Crew 팀',
+      description: 'SOPT 플레이그라운드 내에서 구성원들이 하나로 모일 수 있는 모임 서비스를 만들고 있어요.',
       people: [
         { type: 'member', id: 6, name: '김나연', position: 'PM' },
         { type: 'member', id: 30, name: '김인우', position: '디자이너' },
@@ -60,6 +62,8 @@ export const generation1: MakersGeneration = {
     },
     {
       title: 'SOPT APP 팀',
+      description:
+        'SOPT 공식 앱을 만드는 팀이에요. SOPT를 더욱 재미있고, 알차게 활동할 수 있도록 도와주는 서비스를 만들고 있어요.',
       people: [
         { type: 'raw', name: '박윤정', position: 'PM' },
         { type: 'raw', name: '김연수', position: '디자이너' },
