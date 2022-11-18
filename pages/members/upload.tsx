@@ -80,7 +80,7 @@ export default function MemberUploadPage() {
     return `${birthday.year}-${birthday.month}-${birthday.day}`;
   };
   const onSubmit = async (formData: MemberUploadForm) => {
-    if (Object.keys(errors).length) return;
+    // if (Object.keys(errors).length) return;
     const { profileImage, birthday, phone, email, university, introduction, major, skill, links, address } = formData;
     const requestBody: ProfileRequest = {
       ...formData,
@@ -102,6 +102,8 @@ export default function MemberUploadPage() {
   };
 
   const uploadType = isEditPage ? '수정' : '등록';
+
+  console.error('[error]: ', errors);
 
   return (
     <AuthRequired>
