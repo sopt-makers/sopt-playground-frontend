@@ -69,7 +69,7 @@ export const FORM_ITEMS: FormItem[] = [
       }
       return false;
     },
-    isRequired: true,
+    isRequired: false,
   },
   {
     label: '서비스 형태',
@@ -113,7 +113,7 @@ export const FORM_ITEMS: FormItem[] = [
     label: '썸네일 이미지',
     value: 'thumbnailImage',
     isDirty: ({ thumbnailImage }) => !!thumbnailImage,
-    isRequired: false,
+    isRequired: true,
   },
   {
     label: '프로젝트 이미지',
@@ -126,7 +126,7 @@ export const FORM_ITEMS: FormItem[] = [
     value: 'links',
     isDirty: ({ links }) => {
       if (links) {
-        return links?.every((link) => Object.values(link).every((item) => !!item));
+        return links?.filter(({ linkTitle, linkUrl }) => linkTitle && linkUrl).length > 0;
       }
       return false;
     },

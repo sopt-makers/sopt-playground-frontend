@@ -74,7 +74,7 @@ const ProjectUploadPage: FC = () => {
       isDirty: formItem.isDirty(dirtyFields, methods.getValues()),
     }))
     .reduce(
-      (acc: Omit<FormItem, 'isDirty'>[], cur) =>
+      (acc: Array<Omit<FormItem, 'isDirty'> & { isDirty: boolean }>, cur) =>
         cur.value === 'members'
           ? [...acc, { ...cur, label: `${categoryLabel?.[category] ?? ''} 팀원` }]
           : [...acc, cur],

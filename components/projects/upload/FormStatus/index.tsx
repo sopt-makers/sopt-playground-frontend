@@ -9,7 +9,7 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface FormStatusProps {
-  formItems: FormItem[];
+  formItems: Array<Omit<FormItem, 'isDirty'> & { isDirty: boolean }>;
 }
 
 const FormStatus: FC<FormStatusProps> = ({ formItems }) => {
