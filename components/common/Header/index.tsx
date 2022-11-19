@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -99,7 +100,7 @@ const Header: FC = () => {
             <Divider />
             <MenuWrapper>
               <Link href='/makers' passHref>
-                <MenuLink>만든 사람들</MenuLink>
+                <MenuLink highlight={pathname === '/makers'}>만든 사람들</MenuLink>
               </Link>
               <Link href={FEEDBACK_FORM_URL} passHref>
                 <MenuLink>의견 제안하기</MenuLink>
@@ -315,11 +316,21 @@ const MenuWrapper = styled.div`
   flex-direction: column;
   gap: 18px;
   margin-top: 21px;
-  ${textStyles.SUIT_14_M}
 `;
 
-const MenuLink = styled.a`
+const MenuLink = styled.a<{ highlight?: boolean }>`
   cursor: pointer;
+  color: ${colors.gray30};
+
+  ${textStyles.SUIT_14_M}
+
+  ${(props) =>
+    props.highlight
+      ? css`
+          color: ${colors.white100};
+          ${textStyles.SUIT_14_B}
+        `
+      : ''}
 `;
 
 const Spacer = styled.div`
