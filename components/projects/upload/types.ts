@@ -1,3 +1,5 @@
+import { FieldNamesMarkedBoolean } from 'react-hook-form';
+
 import { ProjectUploadForm } from '@/pages/projects/upload';
 
 export interface Period {
@@ -11,7 +13,7 @@ export type FormItemValue = keyof ProjectUploadForm;
 export interface FormItem {
   label: string;
   value: FormItemValue;
-  isDirty: boolean;
+  isDirty: (dirtyFields: FieldNamesMarkedBoolean<ProjectUploadForm>, defaultValue?: ProjectUploadForm) => boolean;
   isRequired: boolean;
 }
 
