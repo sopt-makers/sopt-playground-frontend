@@ -1,9 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Tab } from '@headlessui/react';
-import { FC, Fragment, useCallback, useMemo } from 'react';
+import { FC, Fragment, useMemo } from 'react';
 
 import { useGetMemberProfile } from '@/apiHooks/members';
+import useAuth from '@/components/auth/useAuth';
 import { MakersGeneration, MakersPerson } from '@/components/makers/data/types';
 import PersonBlock from '@/components/makers/PersonBlock';
 import TeamBlock from '@/components/makers/TeamBlock';
@@ -17,6 +18,7 @@ interface MakersMembersProps {
 
 const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
   const { data, isLoading } = useGetMemberProfile();
+  const { isLoggedIn } = useAuth();
 
   const memberImageMap = useMemo(() => {
     const map = new Map<number, string>();
@@ -48,6 +50,16 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
     return undefined;
   };
 
+  const resolveProfileOnClick = (person: MakersPerson) => {
+    return () => {
+      if (!isLoggedIn) {
+        if (resolveProfileImage(person) !== undefined) {
+          alert('프로필을 보려면 로그인 해주세요.');
+        }
+      }
+    };
+  };
+
   return (
     <StyledMakersMembers className={className}>
       <Tab.Group>
@@ -72,6 +84,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                         position={person.position}
                         imageUrl={resolveProfileImage(person)}
                         link={resolveProfileLink(person)}
+                        onClick={resolveProfileOnClick(person)}
                       />
                     ))}
                   </PeopleBox>
