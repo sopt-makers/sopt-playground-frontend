@@ -102,9 +102,9 @@ const Header: FC = () => {
               <Link href='/makers' passHref>
                 <MenuLink highlight={pathname === '/makers'}>만든 사람들</MenuLink>
               </Link>
-              <Link href={FEEDBACK_FORM_URL} passHref>
-                <MenuLink>의견 제안하기</MenuLink>
-              </Link>
+              <MenuLink href={FEEDBACK_FORM_URL} target='_blank'>
+                의견 제안하기
+              </MenuLink>
               <MenuLink onClick={logout}>로그아웃</MenuLink>
             </MenuWrapper>
           </MobileMenu>
