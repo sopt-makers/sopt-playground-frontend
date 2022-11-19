@@ -7,6 +7,7 @@ import { FC } from 'react';
 import { FEEDBACK_FORM_URL } from '@/constants/links';
 import useScroll from '@/hooks/useScroll';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface FooterProps {
   className?: string;
@@ -44,6 +45,10 @@ const StyledFooter = styled.div<{ hide: boolean }>`
           transform: translateY(100%);
         `
       : ''}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 0 0 0 10px;
+  }
 `;
 
 const FooterLink = styled.a<{ highlight?: boolean }>`

@@ -59,12 +59,12 @@ const NotLoggedInHeader = styled.div`
   position: absolute;
   top: 0;
   align-items: stretch;
-  margin: 0 40px;
+  margin: 0 30px;
   width: 100%;
   height: 80px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 0 20px;
+    margin: 0;
   }
 `;
 
