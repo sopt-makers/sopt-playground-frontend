@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
+import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import ImageUploader from '@/components/common/ImageUploader';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
@@ -16,19 +17,19 @@ const ProjectImageSection: FC = () => {
     <StyledContainer>
       <FormTitle essential>로고 이미지</FormTitle>
       <StyledDescription>가로 300px 세로 300px 권장합니다. 예외 규격은 잘릴 수 있습니다.</StyledDescription>
-      <Controller name='logoImage' control={control} render={({ field }) => <StyledLogoImageUploader {...field} />} />
+      <RHFControllerFormItem name='logoImage' control={control} component={StyledLogoImageUploader} />
       <StyledTitle essential>썸네일 이미지</StyledTitle>
       <StyledDescription>
         16:9 비율로 가로 368px 세로208px을 권장합니다.
         <MobileDescription>웹페이지에서 등록을 권장합니다.</MobileDescription>
       </StyledDescription>
-      <Controller name='thumbnailImage' control={control} render={({ field }) => <StyledImageUploaer {...field} />} />
+      <RHFControllerFormItem name='thumbnailImage' control={control} component={StyledImageUploaer} />
       <StyledTitle>프로젝트 이미지</StyledTitle>
       <StyledDescription>
         10MB 이내로 가로 1200px, 세로는 675px 사이즈로 제작해주세요.{' '}
         <MobileDescription>웹페이지에서 등록을 권장합니다.</MobileDescription>
       </StyledDescription>
-      <Controller name='projectImage' control={control} render={({ field }) => <StyledImageUploaer {...field} />} />
+      <RHFControllerFormItem name='projectImage' control={control} component={StyledImageUploaer} />
     </StyledContainer>
   );
 };

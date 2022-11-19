@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
 export const projectSchema = yup.object().shape({
-  name: yup.string().required('프로젝트 이름을 입력해주세요'),
+  name: yup.string().required('프로젝트 이름을 입력해주세요.'),
   generation: yup.object().shape({
     checked: yup.boolean().required(),
     generation: yup.number().when('checked', {
@@ -12,7 +12,7 @@ export const projectSchema = yup.object().shape({
       otherwise: yup.number().required(),
     }),
   }),
-  category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요'),
+  category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요.'),
   status: yup.object().shape({
     isFounding: yup.boolean(),
     isAvaliable: yup.boolean(),
@@ -40,10 +40,10 @@ export const projectSchema = yup.object().shape({
       then: yup.string().required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
     }),
   }),
-  summary: yup.string().required('프로젝트 한줄 소개를 입력해주세요'),
-  detail: yup.string().required('프로젝트 설명을 입력해주세요'),
-  logoImage: yup.string().required('로고 이미지를 업로드해 주세요'),
-  thumbnailImage: yup.string(),
+  summary: yup.string().required('프로젝트 한줄 소개를 입력해주세요.'),
+  detail: yup.string().required('프로젝트 설명을 입력해주세요.'),
+  logoImage: yup.string().required('로고 이미지를 업로드해 주세요.'),
+  thumbnailImage: yup.string().required('썸네일 이미지를 업로드해 주세요.'),
   projectImage: yup.string(),
   links: yup.array().of(
     yup.object().shape({
