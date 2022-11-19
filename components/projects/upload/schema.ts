@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
 
-export const schema = yup.object().shape({
+export const projectSchema = yup.object().shape({
   name: yup.string().required('프로젝트 이름을 입력해주세요'),
   generation: yup.object().shape({
     checked: yup.boolean().required(),
@@ -31,7 +31,7 @@ export const schema = yup.object().shape({
       memberRole: yup.string().required('역할을 선택해주세요.'),
     }),
   ),
-  serviceType: yup.array().required('서비스 형태를 선택해주세요.'),
+  serviceType: yup.array().min(1, '서비스 형태를 선택해주세요.'),
   period: yup.object().shape({
     isOngoing: yup.boolean(),
     startAt: yup.string().required('시작일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),

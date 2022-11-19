@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useFormContext } from 'react-hook-form';
 
+import FormItem from '@/components/common/form/FormItem';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ServiceType } from '@/components/projects/upload/types';
 import { ProjectUploadForm } from '@/pages/projects/upload';
@@ -10,7 +11,11 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const ProjectServiceType = () => {
-  const { watch, register } = useFormContext<ProjectUploadForm>();
+  const {
+    watch,
+    register,
+    formState: { errors },
+  } = useFormContext<ProjectUploadForm>();
   const selectedServices = watch('serviceType');
 
   return (
@@ -18,16 +23,18 @@ const ProjectServiceType = () => {
       <FormTitle essential description='복수 선택 가능'>
         서비스 형태
       </FormTitle>
-      <StyledContent>
-        <StyledLabel checked={selectedServices.includes(ServiceType.WEB)}>
-          <input type='checkbox' value={ServiceType.WEB} {...register('serviceType')} />
-          <span>웹</span>
-        </StyledLabel>
-        <StyledLabel checked={selectedServices.includes(ServiceType.APP)}>
-          <input type='checkbox' value={ServiceType.APP} {...register('serviceType')} />
-          <span>앱</span>
-        </StyledLabel>
-      </StyledContent>
+      <FormItem errorMessage={errors.serviceType?.message}>
+        <StyledContent>
+          <StyledLabel checked={selectedServices.includes(ServiceType.WEB)}>
+            <input type='checkbox' value={ServiceType.WEB} {...register('serviceType')} />
+            <span>웹</span>
+          </StyledLabel>
+          <StyledLabel checked={selectedServices.includes(ServiceType.APP)}>
+            <input type='checkbox' value={ServiceType.APP} {...register('serviceType')} />
+            <span>앱</span>
+          </StyledLabel>
+        </StyledContent>
+      </FormItem>
     </StyledContainer>
   );
 };

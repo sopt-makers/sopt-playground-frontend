@@ -27,7 +27,7 @@ import ProjectReleaseMembers from '@/components/projects/upload/ProjectReleaseMe
 import ProjectServiceType from '@/components/projects/upload/ProjectServiceType';
 import ProjectStatus from '@/components/projects/upload/ProjectStatus';
 import ProjectSummary from '@/components/projects/upload/ProjectSummary';
-import { schema } from '@/components/projects/upload/schema';
+import { projectSchema } from '@/components/projects/upload/schema';
 import { ToastContext, ToastProvider } from '@/components/projects/upload/ToastProvider';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
 import { convertPeriodFormat } from '@/components/projects/upload/utils';
@@ -58,14 +58,14 @@ const ProjectUploadPage: FC = () => {
   const { mutate } = useCreateProjectMutation();
   const queryClient = useQueryClient();
   const methods = useForm<ProjectUploadForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(projectSchema),
     defaultValues: PROJECT_DEFAULT_VALUES,
     mode: 'onChange',
   });
   const {
     handleSubmit,
     watch,
-    formState: { dirtyFields },
+    formState: { dirtyFields, errors },
   } = methods;
   const category = watch('category');
   const formItems = FORM_ITEMS.filter((formItem) => formItem.isRequired)
@@ -82,6 +82,7 @@ const ProjectUploadPage: FC = () => {
     );
   const { showToast } = useContext(ToastContext);
   const router = useRouter();
+  console.log('[errors]: ', errors);
 
   const onSubmit = (data: ProjectUploadForm) => {
     const notify = confirm('프로젝트를 업로드 하시겠습니까?');

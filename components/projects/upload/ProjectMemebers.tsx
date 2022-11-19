@@ -19,9 +19,7 @@ const ProjectMembers: FC<ProjectMembersProps> = ({ type }) => {
       <StyledDescription color={colors.gray100}>
         회원가입을 한 사람만 팀원 등록이 가능해요 <SignUpLink />
       </StyledDescription>
-      <FormItem>
-        <MemberForm name='members' />
-      </FormItem>
+      <MemberForm name='members' />
     </StyledContainer>
   );
 };

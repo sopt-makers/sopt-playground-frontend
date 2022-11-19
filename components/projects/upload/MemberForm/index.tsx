@@ -73,31 +73,40 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
         <Container>
           {fields.map((field, index) => (
             <MemberItemWrapper key={field.id}>
-              <Controller
-                control={control}
-                name={`${name}.${index}.searchedMember`}
-                render={({ field: { value, onChange, name } }) => (
-                  <MemberSearchWrapper>
-                    <MemberSearch
-                      members={membersData ?? []}
-                      onSearch={_debounce(
-                        (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
-                        300,
-                      )}
-                      value={value}
-                      onChange={onChange}
-                      name={name}
-                    />
-                  </MemberSearchWrapper>
-                )}
-              />
-              <StyledSelect placeholder='역할' {...register(`${name}.${index}.memberRole`)}>
-                {Object.values(MemberRole).map((role) => (
-                  <option key={role} value={role}>
-                    {role}
-                  </option>
-                ))}
-              </StyledSelect>
+              <FormItem errorMessage={errors.members?.[index]?.searchedMember.message}>
+                <Controller
+                  control={control}
+                  name={`${name}.${index}.searchedMember`}
+                  render={({ field: { value, onChange, name } }) => (
+                    <MemberSearchWrapper>
+                      <MemberSearch
+                        error={!!errors.members?.[index]?.searchedMember}
+                        members={membersData ?? []}
+                        onSearch={_debounce(
+                          (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
+                          300,
+                        )}
+                        value={value}
+                        onChange={onChange}
+                        name={name}
+                      />
+                    </MemberSearchWrapper>
+                  )}
+                />
+              </FormItem>
+              <FormItem errorMessage={errors.members?.[index]?.memberRole?.message}>
+                <StyledSelect
+                  error={!!errors.members?.[index]?.memberRole}
+                  placeholder='역할'
+                  {...register(`${name}.${index}.memberRole`)}
+                >
+                  {Object.values(MemberRole).map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </StyledSelect>
+              </FormItem>
               <Controller
                 control={control}
                 name={`${name}.${index}.memberDescription`}
@@ -156,7 +165,11 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                       )}
                     />
                     <FormItem errorMessage={errors.members?.[memberIndex]?.memberRole?.message}>
-                      <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.memberRole`)}>
+                      <MobileSelect
+                        placeholder='역할'
+                        error={!!errors.members?.[memberIndex]?.memberRole}
+                        {...register(`${name}.${memberIndex}.memberRole`)}
+                      >
                         {Object.values(MemberRole).map((role) => (
                           <option key={role} value={role}>
                             {role}
