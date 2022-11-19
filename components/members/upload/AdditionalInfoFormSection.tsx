@@ -50,7 +50,7 @@ export default function MemberAdditionalFormSection() {
                 <AddableItem onRemove={() => onRemove(index)} key={field.id}>
                   <StyledSelectWrapper>
                     <StyledEditableSelect
-                      placeholder='ex) Instagram'
+                      placeholder='링크를 입력해주세요'
                       {...register(`links.${index}.title`)}
                       width='100%'
                       className='category'
