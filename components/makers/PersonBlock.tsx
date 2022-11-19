@@ -14,10 +14,13 @@ interface PersonBlockProps {
   link?: string;
 }
 
-const PersonBlock: FC<PersonBlockProps> = ({ name, position, imageUrl, link }) => {
+const PersonBlock: FC<PersonBlockProps> = ({ name, position, link, imageUrl = '/icons/icon-profile-fallback.svg' }) => {
   const content = (
     <StyledRawPersonBlock active={link !== undefined}>
-      <ImageBox>{imageUrl ? <StyledImage src={imageUrl} alt={`${name}`} /> : <EmptyImage />}</ImageBox>
+      <ImageBox>
+        {' '}
+        <StyledImage src={imageUrl} alt={`${name}`} />{' '}
+      </ImageBox>
       <ContentBox>
         <Name>{name}</Name>
         {position ? <Position>{position}</Position> : null}
@@ -58,12 +61,6 @@ const ImageBox = styled.div`
     width: 40px;
     height: 40px;
   }
-`;
-
-const EmptyImage = styled.div`
-  background-color: ${colors.gray60};
-  width: 100%;
-  height: 100%;
 `;
 
 const StyledImage = styled.img`
