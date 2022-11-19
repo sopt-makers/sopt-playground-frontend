@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { FEEDBACK_FORM_URL } from '@/constants/links';
@@ -13,11 +14,12 @@ interface FooterProps {
 
 const Footer: FC<FooterProps> = ({}) => {
   const { isScrollingDown, isScrollTop } = useScroll();
+  const { pathname } = useRouter();
 
   return (
     <StyledFooter hide={isScrollingDown && !isScrollTop}>
       <Link href='/makers' passHref>
-        <FooterLink highlight>만든 사람들</FooterLink>
+        <FooterLink highlight={pathname === '/makers'}>만든 사람들</FooterLink>
       </Link>
       <FooterLink href={FEEDBACK_FORM_URL}>의견 제안하기</FooterLink>
     </StyledFooter>
