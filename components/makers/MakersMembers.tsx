@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Tab } from '@headlessui/react';
-import { FC, Fragment, useMemo } from 'react';
+import { FC, Fragment, useCallback, useMemo } from 'react';
 
 import { useGetMemberProfile } from '@/apiHooks/members';
 import { MakersGeneration, MakersPerson } from '@/components/makers/data/types';
@@ -41,6 +41,13 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
     return memberImageMap.get(person.id) ?? undefined;
   };
 
+  const resolveProfileLink = (person: MakersPerson) => {
+    if (person.type === 'member') {
+      return `/members/detail?memberId=${person.id}`;
+    }
+    return undefined;
+  };
+
   return (
     <StyledMakersMembers className={className}>
       <Tab.Group>
@@ -64,7 +71,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                         name={person.name}
                         position={person.position}
                         imageUrl={resolveProfileImage(person)}
-                        link={person.type === 'member' ? `/members/detail?memberId=${person.id}` : undefined}
+                        link={resolveProfileLink(person)}
                       />
                     ))}
                   </PeopleBox>

@@ -12,14 +12,20 @@ interface PersonBlockProps {
   position?: string;
   imageUrl?: string;
   link?: string;
+  onClick?: () => void;
 }
 
-const PersonBlock: FC<PersonBlockProps> = ({ name, position, link, imageUrl = '/icons/icon-profile-fallback.svg' }) => {
+const PersonBlock: FC<PersonBlockProps> = ({
+  name,
+  position,
+  link,
+  onClick,
+  imageUrl = '/icons/icon-profile-fallback.svg',
+}) => {
   const content = (
-    <StyledRawPersonBlock active={link !== undefined}>
+    <StyledRawPersonBlock active={link !== undefined} onClick={onClick}>
       <ImageBox>
-        {' '}
-        <StyledImage src={imageUrl} alt={`${name}`} />{' '}
+        <StyledImage src={imageUrl} alt={`${name}`} />
       </ImageBox>
       <ContentBox>
         <Name>{name}</Name>
