@@ -1,5 +1,9 @@
+import { DefaultValues } from 'react-hook-form';
+
 import { LinkTitle } from '@/api/projects/type';
+import { DEFAULT_MEMBER } from '@/components/projects/upload/MemberForm/constants';
 import { Category, FormItem } from '@/components/projects/upload/types';
+import { ProjectUploadForm } from '@/pages/projects/upload';
 
 export const categoryLabel: Record<Category, string> = {
   [Category.APPJAM]: '앱잼',
@@ -14,79 +18,118 @@ export const FORM_ITEMS: FormItem[] = [
   {
     label: '프로젝트 이름',
     value: 'name',
-    isDirty: false,
+    isDirty: ({ name }) => !!name,
     isRequired: true,
   },
   {
     label: '기수',
     value: 'generation',
-    isDirty: false,
+    isDirty: ({ generation }, defaultValue) => {
+      if (defaultValue?.generation.checked) {
+        return true;
+      }
+      if (generation?.generation) {
+        return true;
+      }
+      return false;
+    },
     isRequired: true,
   },
   {
     label: '어디서 진행했나요?',
     value: 'category',
-    isDirty: false,
+    isDirty: (_, defaultValue) => !!defaultValue?.category,
     isRequired: true,
   },
   {
     label: '프로젝트 팀원',
     value: 'members',
-    isDirty: false,
+    isDirty: (dirtyFields) => {
+      if (dirtyFields.members) {
+        return (
+          dirtyFields.members.filter(
+            ({ memberRole, searchedMember, memberDescription }) => memberRole && searchedMember && memberDescription,
+          ).length > 0
+        );
+      }
+      return false;
+    },
     isRequired: true,
   },
   {
     label: '추가 합류한 팀원',
     value: 'releaseMembers',
-    isDirty: false,
-    isRequired: true,
+    isDirty: (dirtyFields) => {
+      if (dirtyFields.releaseMembers) {
+        return (
+          dirtyFields.releaseMembers.filter(
+            ({ memberRole, searchedMember, memberDescription }) => memberRole && searchedMember && memberDescription,
+          ).length > 0
+        );
+      }
+      return false;
+    },
+    isRequired: false,
   },
   {
     label: '서비스 형태',
     value: 'serviceType',
-    isDirty: false,
+    isDirty: ({ serviceType }) => (serviceType ?? []).length > 0,
     isRequired: true,
   },
   {
     label: '프로젝트 기간',
     value: 'period',
-    isDirty: false,
+    isDirty: ({ period }) => {
+      if (period?.startAt && period.isOngoing) {
+        return true;
+      }
+      if (period?.startAt && period.endAt) {
+        return true;
+      }
+      return false;
+    },
     isRequired: true,
   },
   {
     label: '프로젝트 한줄 소개',
     value: 'summary',
-    isDirty: false,
+    isDirty: ({ summary }) => !!summary,
     isRequired: true,
   },
   {
     label: '프로젝트 설명',
     value: 'detail',
-    isDirty: false,
+    isDirty: ({ detail }) => !!detail,
     isRequired: true,
   },
   {
     label: '로고 이미지',
     value: 'logoImage',
-    isDirty: false,
+    isDirty: ({ logoImage }) => !!logoImage,
     isRequired: true,
   },
   {
     label: '썸네일 이미지',
     value: 'thumbnailImage',
-    isDirty: false,
-    isRequired: false,
+    isDirty: ({ thumbnailImage }) => !!thumbnailImage,
+    isRequired: true,
   },
   {
     label: '프로젝트 이미지',
     value: 'projectImage',
-    isDirty: false,
+    isDirty: ({ projectImage }) => !!projectImage,
     isRequired: false,
   },
   {
     label: '링크',
     value: 'links',
-    isDirty: false,
+    isDirty: ({ links }) => {
+      if (links) {
+        return links?.filter(({ linkTitle, linkUrl }) => linkTitle && linkUrl).length > 0;
+      }
+      return false;
+    },
     isRequired: false,
   },
 ];
@@ -108,4 +151,23 @@ export const getLinkInfo = (linkTitle: LinkTitle | string) => {
     default:
       return { icons: '/icons/icon-etc.svg', label: '기타' };
   }
+};
+
+export const PROJECT_DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
+  name: '',
+  generation: {
+    generation: undefined,
+    checked: true,
+  },
+  status: {
+    isAvailable: false,
+    isFounding: false,
+  },
+  period: {
+    isOngoing: false,
+  },
+  members: [{ ...DEFAULT_MEMBER }],
+  serviceType: [],
+  summary: '',
+  detail: '',
 };
