@@ -20,7 +20,7 @@ const PersonBlock: FC<PersonBlockProps> = ({ name, position, link, onClick, imag
     <StyledRawPersonBlock active={link !== undefined} onClick={onClick}>
       <ImageBox>
         {imageUrl ? (
-          <StyledImage src={imageUrl} alt={`${name}`} />
+          <StyledImage src={imageUrl} alt={name} />
         ) : (
           <StyledImage src='/icons/icon-profile-fallback.svg' alt='' />
         )}
