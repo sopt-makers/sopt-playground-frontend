@@ -23,7 +23,7 @@ const ProjectServiceType = () => {
       <FormTitle essential description='복수 선택 가능'>
         서비스 형태
       </FormTitle>
-      <FormItem errorMessage={errors.serviceType?.message}>
+      <FormItem errorMessage={errors.serviceType?.[0]?.message}>
         <StyledContent>
           <StyledLabel checked={selectedServices.includes(ServiceType.WEB)}>
             <input type='checkbox' value={ServiceType.WEB} {...register('serviceType')} />
