@@ -6,8 +6,6 @@ import { FC } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
-import Footer from '@/components/common/Footer';
-import Header from '@/components/common/Header';
 import Text from '@/components/common/Text';
 import MemberCard from '@/components/members/main/MemberCard';
 import { LATEST_GENERATION } from '@/constants/generation';
@@ -88,13 +86,7 @@ const UserPage: FC = () => {
   );
 };
 
-setLayout(UserPage, (page) => (
-  <>
-    <Header />
-    {page}
-    <Footer />
-  </>
-));
+setLayout(UserPage, 'headerFooter');
 
 export default UserPage;
 
