@@ -25,6 +25,13 @@ export default function MemberBasicFormSection() {
 
   const isEditPage = query?.edit === 'true' ? true : false;
 
+  const getBirthdayErrorMessage = () => {
+    if (errors.birthday?.year) return errors.birthday?.year.message;
+    if (errors.birthday?.month) return errors.birthday?.month.message;
+    if (errors.birthday?.day) return errors.birthday?.day.message;
+    return '';
+  };
+
   return (
     <FormSection>
       <FormHeader title='기본정보' />
@@ -45,11 +52,11 @@ export default function MemberBasicFormSection() {
         <FormItem title='이름' essential errorMessage={errors.name?.message}>
           <StyledInput {...register('name')} error={errors.hasOwnProperty('name')} />
         </FormItem>
-        <FormItem title='생년월일'>
+        <FormItem title='생년월일' errorMessage={getBirthdayErrorMessage()}>
           <StyledBirthdayInputWrapper>
-            <Input {...register('birthday.year')} placeholder='년도' />
-            <Input {...register('birthday.month')} placeholder='월' />
-            <Input {...register('birthday.day')} placeholder='일' />
+            <Input {...register('birthday.year')} placeholder='년도' error={errors.birthday?.hasOwnProperty('year')} />
+            <Input {...register('birthday.month')} placeholder='월' error={errors.birthday?.hasOwnProperty('month')} />
+            <Input {...register('birthday.day')} placeholder='일' error={errors.birthday?.hasOwnProperty('day')} />
           </StyledBirthdayInputWrapper>
         </FormItem>
         <FormItem title='연락처' errorMessage={errors.phone?.message}>
