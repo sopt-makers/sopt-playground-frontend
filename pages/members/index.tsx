@@ -87,7 +87,7 @@ const UserPage: FC = () => {
   );
 };
 
-setLayout(UserPage, HeaderLayout);
+setLayout(UserPage, 'header');
 
 export default UserPage;
 

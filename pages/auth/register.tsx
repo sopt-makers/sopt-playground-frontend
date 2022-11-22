@@ -34,7 +34,7 @@ export const RegisterPage: FC = () => {
   );
 };
 
-setLayout(RegisterPage, EmptyLayout);
+setLayout(RegisterPage, 'empty');
 
 export default RegisterPage;
 

@@ -35,7 +35,7 @@ const LoginPage: FC = () => {
 
 export default LoginPage;
 
-setLayout(LoginPage, EmptyLayout);
+setLayout(LoginPage, 'empty');
 
 export const StyledLoginPage = styled.div`
   display: flex;

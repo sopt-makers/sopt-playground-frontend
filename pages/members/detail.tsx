@@ -189,7 +189,7 @@ const UserDetailPage: FC = () => {
   );
 };
 
-setLayout(UserDetailPage, HeaderLayout);
+setLayout(UserDetailPage, 'header');
 
 const Container = styled.div`
   display: flex;

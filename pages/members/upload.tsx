@@ -133,7 +133,7 @@ export default function MemberUploadPage() {
   );
 }
 
-setLayout(MemberUploadPage, HeaderLayout);
+setLayout(MemberUploadPage, 'header');
 
 const StyledContainer = styled.div`
   display: flex;

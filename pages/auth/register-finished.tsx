@@ -13,7 +13,7 @@ export const RegisterSuccessPage: FC = () => {
   );
 };
 
-setLayout(RegisterSuccessPage, EmptyLayout);
+setLayout(RegisterSuccessPage, 'empty');
 
 export default RegisterSuccessPage;
 

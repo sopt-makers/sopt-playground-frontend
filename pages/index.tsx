@@ -17,6 +17,6 @@ const Home: NextPage = () => {
   return <AuthRequired>{}</AuthRequired>;
 };
 
-setLayout(Home, HeaderLayout);
+setLayout(Home, 'header');
 
 export default Home;

@@ -231,7 +231,7 @@ const ProjectUploadPage: FC = () => {
   );
 };
 
-setLayout(ProjectUploadPage, HeaderLayout);
+setLayout(ProjectUploadPage, 'header');
 
 export default ProjectUploadPage;
 

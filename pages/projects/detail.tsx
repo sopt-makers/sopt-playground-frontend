@@ -133,7 +133,7 @@ const ProjectDetailPage: FC = () => {
   );
 };
 
-setLayout(ProjectDetailPage, HeaderLayout);
+setLayout(ProjectDetailPage, 'header');
 
 export default ProjectDetailPage;
 

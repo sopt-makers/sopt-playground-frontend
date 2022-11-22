@@ -49,7 +49,7 @@ const ProjectPage: FC = () => {
   );
 };
 
-setLayout(ProjectPage, HeaderLayout);
+setLayout(ProjectPage, 'header');
 
 export default ProjectPage;
 

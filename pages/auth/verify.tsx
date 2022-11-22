@@ -13,7 +13,7 @@ export const VerifyPage: FC = () => {
   );
 };
 
-setLayout(VerifyPage, EmptyLayout);
+setLayout(VerifyPage, 'empty');
 
 export default VerifyPage;
 
