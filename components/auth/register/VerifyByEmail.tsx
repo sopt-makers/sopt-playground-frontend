@@ -79,7 +79,6 @@ const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 100px;
   width: 420px;
 
   @media ${MOBILE_MEDIA_QUERY} {
