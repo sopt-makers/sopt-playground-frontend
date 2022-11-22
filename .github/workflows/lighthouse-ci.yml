@@ -1,0 +1,25 @@
+name: Build project and run Lighthouse CI
+on: [push]
+jobs:
+  lhci:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    steps:
+			- names: Checkout Branch
+	      uses: actions/checkout@v2
+      
+			- name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+			- name: Yarn Cache
+        uses: c-hive/gha-yarn-cache@v2
+
+      - name: Install Packages
+        run: |
+          yarn install
+      - name: Run Lighthouse CI
+        run: |
+          yarn global add @lhci/cli@0.3.x
+          lhci autorun --upload.target=temporary-public-storage || echo "LHCI failed!"
