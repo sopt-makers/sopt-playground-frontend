@@ -6,7 +6,7 @@ module.exports = {
     },
     upload: {
       target: 'lhci',
-      serverBaseUrl: 'https://shrouded-atoll-56755.herokuapp.com/app/projects',
+      serverBaseUrl: 'https://shrouded-atoll-56755.herokuapp.com',
       token: '689daa0b-ed2e-4de1-aeb5-be14c09e0c7d',
     },
   },
