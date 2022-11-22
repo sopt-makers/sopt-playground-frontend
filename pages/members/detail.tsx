@@ -17,11 +17,22 @@ import MobileHeader from '@/components/common/MobileHeader';
 import HeaderLayout from '@/components/layout/HeaderLayout';
 import InfoItem from '@/components/users/detail/InfoItem';
 import PartItem from '@/components/users/detail/PartItem';
+import { DEFAULT_DATE } from '@/pages/members/upload';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
 import { setLayout } from '@/utils/layout';
+
+const convertBirthdayFormat = (birthday?: string) => {
+  // FIXME: 서버쪽에 YYYY-MM-DD 형태로 무조건 업로드시 전송해줘야 하는 이슈가 있어서,
+  // 생년월일을 보내지 않았을 경우에 DEFAULT_DATE를 전송하도록 임시처리 해 두었습니다. 이를 클라에서 보여주기 위해 대응합니다.
+  if (birthday) {
+    const isDefaultDay = dayjs(birthday).isSame(dayjs(DEFAULT_DATE));
+    return isDefaultDay ? '' : dayjs(birthday).format('YYYY-MM-DD');
+  }
+  return '';
+};
 
 const UserDetailPage: FC = () => {
   const router = useRouter();
@@ -127,7 +138,7 @@ const UserDetailPage: FC = () => {
           )}
 
           <InfoContainer style={{ gap: '30px' }}>
-            <InfoItem label='생년월일' content={dayjs(profile?.birthday).format('YYYY-MM-DD')} />
+            <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />
             <InfoItem label='사는 지역' content={profile?.address ?? ''} />
             <InfoItem label='학교 / 전공' content={profile?.major ?? ''} />
           </InfoContainer>

@@ -2,20 +2,18 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { FC, useContext } from 'react';
-import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
-import * as yup from 'yup';
 
 import { ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
-import HeaderLayout from '@/components/layout/HeaderLayout';
-import { categoryLabel, FORM_ITEMS } from '@/components/projects/upload/constants';
+import { categoryLabel, FORM_ITEMS, PROJECT_DEFAULT_VALUES } from '@/components/projects/upload/constants';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { LinkFormType } from '@/components/projects/upload/LinkForm/constants';
-import { DEFAULT_MEMBER, MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
+import { MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
 import ProjectCategory from '@/components/projects/upload/ProjectCategory';
 import ProjectDetail from '@/components/projects/upload/ProjectDetail';
 import ProjectGeneration from '@/components/projects/upload/ProjectGeneration';
@@ -28,6 +26,7 @@ import ProjectReleaseMembers from '@/components/projects/upload/ProjectReleaseMe
 import ProjectServiceType from '@/components/projects/upload/ProjectServiceType';
 import ProjectStatus from '@/components/projects/upload/ProjectStatus';
 import ProjectSummary from '@/components/projects/upload/ProjectSummary';
+import { schema } from '@/components/projects/upload/schema';
 import { ToastContext, ToastProvider } from '@/components/projects/upload/ToastProvider';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
 import { convertPeriodFormat } from '@/components/projects/upload/utils';
@@ -35,78 +34,6 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
-
-const DATE_PATTERN = /^\d{4}.(0[1-9]|1[0-2])/g;
-
-const schema = yup.object().shape({
-  name: yup.string().required('프로젝트 이름을 입력해주세요'),
-  generation: yup.object().shape({
-    checked: yup.boolean().required(),
-    generation: yup.number().when('checked', {
-      is: true,
-      then: yup.number().optional(),
-      otherwise: yup.number().required(),
-    }),
-  }),
-  category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요'),
-  status: yup.object().shape({
-    isFounding: yup.boolean(),
-    isAvaliable: yup.boolean(),
-  }),
-  members: yup.array().of(
-    yup.object().shape({
-      searchedMember: yup.object().required('유저를 선택해주세요.'),
-      memberDescription: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
-      memberRole: yup.string().required('역할을 선택해주세요.'),
-    }),
-  ),
-  releaseMembers: yup.array().of(
-    yup.object().shape({
-      searchedMember: yup.object().required('유저를 선택해주세요.'),
-      memberDescription: yup.string().required('어떤 역할을 맡았는지 입력해주세요.'),
-      memberRole: yup.string().required('역할을 선택해주세요.'),
-    }),
-  ),
-  serviceType: yup.array().required('서비스 형태를 선택해주세요.'),
-  period: yup.object().shape({
-    isOngoing: yup.boolean(),
-    startAt: yup.string().required('시작일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
-    endAt: yup.string().when('isOngoing', {
-      is: false,
-      then: yup.string().required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
-    }),
-  }),
-  summary: yup.string().required('프로젝트 한줄 소개를 입력해주세요'),
-  detail: yup.string().required('프로젝트 설명을 입력해주세요'),
-  logoImage: yup.string().required('로고 이미지를 업로드해 주세요'),
-  thumbnailImage: yup.string(),
-  projectImage: yup.string(),
-  links: yup.array().of(
-    yup.object().shape({
-      linkTitle: yup.string().required('프로젝트 타입을 선택해주세요.'),
-      linkUrl: yup.string().required('프로젝트 링크를 입력해주세요.').url('올바른 링크를 입력해주세요.'),
-    }),
-  ),
-});
-
-const DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
-  name: '',
-  generation: {
-    generation: undefined,
-    checked: true,
-  },
-  status: {
-    isAvailable: false,
-    isFounding: false,
-  },
-  period: {
-    isOngoing: false,
-  },
-  members: [{ ...DEFAULT_MEMBER }],
-  serviceType: [],
-  summary: '',
-  detail: '',
-};
 
 export interface ProjectUploadForm {
   name: string;
@@ -131,7 +58,7 @@ const ProjectUploadPage: FC = () => {
   const queryClient = useQueryClient();
   const methods = useForm<ProjectUploadForm>({
     resolver: yupResolver(schema),
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: PROJECT_DEFAULT_VALUES,
     mode: 'onChange',
   });
   const {
@@ -143,10 +70,10 @@ const ProjectUploadPage: FC = () => {
   const formItems = FORM_ITEMS.filter((formItem) => formItem.isRequired)
     .map((formItem) => ({
       ...formItem,
-      isDirty: dirtyFields?.[formItem.value] ? true : formItem.isDirty,
+      isDirty: formItem.isDirty(dirtyFields, methods.getValues()),
     }))
     .reduce(
-      (acc: FormItem[], cur) =>
+      (acc: Array<Omit<FormItem, 'isDirty'> & { isDirty: boolean }>, cur) =>
         cur.value === 'members'
           ? [...acc, { ...cur, label: `${categoryLabel?.[category] ?? ''} 팀원` }]
           : [...acc, cur],

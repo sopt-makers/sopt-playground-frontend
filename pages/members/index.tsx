@@ -6,8 +6,9 @@ import { FC } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
+import Footer from '@/components/common/Footer';
+import Header from '@/components/common/Header';
 import Text from '@/components/common/Text';
-import HeaderLayout from '@/components/layout/HeaderLayout';
 import MemberCard from '@/components/members/main/MemberCard';
 import { LATEST_GENERATION } from '@/constants/generation';
 import useMediaQuery from '@/hooks/useMediaQuery';
@@ -87,7 +88,13 @@ const UserPage: FC = () => {
   );
 };
 
-setLayout(UserPage, 'header');
+setLayout(UserPage, (page) => (
+  <>
+    <Header />
+    {page}
+    <Footer />
+  </>
+));
 
 export default UserPage;
 

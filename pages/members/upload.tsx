@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { postMemberProfile } from '@/api/members';
@@ -21,6 +23,8 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
+export const DEFAULT_DATE = '1970-01-01';
+
 export default function MemberUploadPage() {
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
@@ -32,76 +36,65 @@ export default function MemberUploadPage() {
   const { query } = useStringRouterQuery(['edit'] as const);
   const { data: myProfile, refetch: refetchMyProfile } = useGetMemberProfileOfMe();
   const { data: me, refetch: refetchMe } = useGetMemberOfMe();
-
   const { refetch: refetchProfileById } = useGetMemberProfileById(me?.id);
-
-  const isEditPage = query?.edit === 'true' ? true : false;
-
   const {
     handleSubmit,
     setValue,
     formState: { errors },
   } = formMethods;
 
-  if (isEditPage && myProfile) {
-    setValue('name', myProfile.name);
-    setValue('birthday', {
-      year: Number(myProfile.birthday.split('-')[0]).toString(),
-      month: Number(myProfile.birthday.split('-')[1]).toString(),
-      day: Number(myProfile.birthday.split('-')[2]).toString(),
-    });
-    setValue('phone', myProfile.phone);
-    setValue('email', myProfile.email);
-    setValue('address', myProfile.address);
-    setValue('university', myProfile.university);
-    setValue('major', myProfile.major);
-    setValue('introduction', myProfile.introduction);
-    setValue('skill', myProfile.skill);
-    setValue('links', myProfile.links);
-    setValue('openToWork', myProfile.openToWork);
-    setValue('openToSideProject', myProfile.openToSideProject);
-    setValue(
-      'activities',
-      myProfile.activities.map((act) => ({
-        generation: act.cardinalInfo.split(',')[0],
-        part: act.cardinalInfo.split(',')[1],
-        team: act.cardinalActivities[0].team,
-      })),
-    );
-    setValue('allowOfficial', myProfile.allowOfficial);
-    setValue('profileImage', myProfile.profileImage);
-  }
+  const isEditPage = query?.edit === 'true' ? true : false;
+  const uploadType = isEditPage ? '수정' : '등록';
 
-  const convertEmptyStringToNull = (value: string) => (value.length > 0 ? value : null);
+  useEffect(() => {
+    if (isEditPage && myProfile) {
+      setValue('name', myProfile.name);
+      setValue('birthday', {
+        year: Number(myProfile.birthday.split('-')[0]).toString(),
+        month: Number(myProfile.birthday.split('-')[1]).toString(),
+        day: Number(myProfile.birthday.split('-')[2]).toString(),
+      });
+      setValue('phone', myProfile.phone);
+      setValue('email', myProfile.email);
+      setValue('address', myProfile.address);
+      setValue('university', myProfile.university);
+      setValue('major', myProfile.major);
+      setValue('introduction', myProfile.introduction);
+      setValue('skill', myProfile.skill);
+      setValue('links', myProfile.links);
+      setValue('openToWork', myProfile.openToWork);
+      setValue('openToSideProject', myProfile.openToSideProject);
+      setValue(
+        'activities',
+        myProfile.activities.map((act) => ({
+          generation: act.cardinalInfo.split(',')[0],
+          part: act.cardinalInfo.split(',')[1],
+          team: act.cardinalActivities[0].team,
+        })),
+      );
+      setValue('allowOfficial', myProfile.allowOfficial);
+      setValue('profileImage', myProfile.profileImage);
+    }
+  }, [isEditPage, myProfile, setValue]);
+
   const formatBirthday = (birthday: Birthday) => {
-    birthday.year = birthday.year.length > 0 ? birthday.year : '9999';
-    birthday.month = birthday.month.length > 0 ? birthday.month.padStart(2, '0') : '99';
-    birthday.day = birthday.day.length > 0 ? birthday.day.padStart(2, '0') : '99';
-    return `${birthday.year}-${birthday.month}-${birthday.day}`;
+    const { year, month, day } = birthday;
+    const parsedBirthDay = dayjs(`${year}-${month}-${day}`);
+    return (parsedBirthDay.isValid() ? parsedBirthDay : dayjs(DEFAULT_DATE)).format('YYYY-MM-DD');
   };
   const onSubmit = async (formData: MemberUploadForm) => {
-    if (Object.keys(errors).length) return;
-    const { profileImage, birthday, phone, email, university, introduction, major, skill, links, address } = formData;
+    // if (Object.keys(errors).length) return;
+    const { birthday, links } = formData;
     const requestBody: ProfileRequest = {
       ...formData,
-      profileImage: convertEmptyStringToNull(profileImage),
-      birthday: convertEmptyStringToNull(formatBirthday(birthday)),
-      phone: convertEmptyStringToNull(phone),
-      email: convertEmptyStringToNull(email),
-      address: convertEmptyStringToNull(address),
-      university: convertEmptyStringToNull(university),
-      major: convertEmptyStringToNull(major),
-      introduction: convertEmptyStringToNull(introduction),
-      skill: convertEmptyStringToNull(skill),
-      links: links.filter((link) => link.title && link.url).length ? links : null,
+      birthday: formatBirthday(birthday),
+      links: links.filter((link) => Object.values(link).every((item) => !!item)),
     };
     const response = await postMemberProfile(requestBody);
     await Promise.all([refetchMyProfile(), refetchProfileById(), refetchMe()]);
 
     router.push(`/members/detail?memberId=${response.id}`);
   };
-
-  const uploadType = isEditPage ? '수정' : '등록';
 
   return (
     <AuthRequired>
