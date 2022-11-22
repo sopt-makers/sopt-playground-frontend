@@ -52,7 +52,7 @@ const VerifyByEmail: FC = () => {
       <ErrorMessage show={verify.isError}>
         <IconWarning /> {formatErrorMessage(verify.error)}
       </ErrorMessage>
-      <SendButton variant='primary' href='#'>
+      <SendButton as='button' variant='primary'>
         {verify.isLoading ? <ClipLoader color='#ffffff' size={25} /> : <>SOPT 회원 인증메일 전송</>}
       </SendButton>
       <ErrorNotice href='https://forms.gle/Hs9tJgMG9bNvT1rS9' target='_blank'>
@@ -79,7 +79,9 @@ const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 100px;
   width: 420px;
+
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 24px;
   }
