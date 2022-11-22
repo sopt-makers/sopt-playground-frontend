@@ -1,4 +1,4 @@
-name: Build project and run Lighthouse CI
+name: Lighthouse CI
 on:
   push:
     branches: main
@@ -39,6 +39,6 @@ jobs:
       - name: Run Lighthouse CI
         run: |
           yarn add @lhci/cli@0.9.x
-          yarn lighthouse --upload.target=temporary-public-storage || echo "LHCI failed!"
+          yarn lighthouse || echo "LHCI failed!"
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
