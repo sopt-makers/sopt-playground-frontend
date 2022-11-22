@@ -4,6 +4,11 @@ module.exports = {
       url: ['http://localhost:3000/projects', 'http://localhost:3000/projects/upload'],
       startServerCommand: 'npm run start',
     },
+    assers: {
+      assertions: {
+        preset: 'lighthouse:recommended',
+      },
+    },
     upload: {
       target: 'lhci',
       serverBaseUrl: 'https://shrouded-atoll-56755.herokuapp.com',
