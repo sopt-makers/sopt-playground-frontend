@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useMemo, useState } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import HeaderLayout from '@/components/layout/HeaderLayout';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import MemberIcon from '@/public/icons/icon-member.svg';

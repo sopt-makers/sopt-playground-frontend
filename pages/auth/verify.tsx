@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import VerifyByEmail from '@/components/auth/register/VerifyByEmail';
-import EmptyLayout from '@/components/layout/EmptyLayout';
 import { setLayout } from '@/utils/layout';
 
 export const VerifyPage: FC = () => {

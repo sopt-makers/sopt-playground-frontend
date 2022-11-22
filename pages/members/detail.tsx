@@ -14,7 +14,6 @@ import { useGetMemberProfileById } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import MobileHeader from '@/components/common/MobileHeader';
-import HeaderLayout from '@/components/layout/HeaderLayout';
 import InfoItem from '@/components/users/detail/InfoItem';
 import PartItem from '@/components/users/detail/PartItem';
 import { DEFAULT_DATE } from '@/pages/members/upload';

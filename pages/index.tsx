@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import HeaderLayout from '@/components/layout/HeaderLayout';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
