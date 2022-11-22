@@ -11,7 +11,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "postinstall": "husky install",
-    "typecheck": "tsc --noemit -p ."
+    "typecheck": "tsc --noemit -p .",
+    "lhci": "next build && lhci autorun"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
