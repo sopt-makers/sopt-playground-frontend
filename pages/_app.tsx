@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
@@ -15,6 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Head>
+        <title>SOPT Playground</title>
+      </Head>
       <RecoilRoot>
         <GlobalStyle />
         {layout(<Component {...pageProps} />)}
