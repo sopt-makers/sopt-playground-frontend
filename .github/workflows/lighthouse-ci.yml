@@ -1,25 +1,44 @@
 name: Build project and run Lighthouse CI
-on: [push]
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
 jobs:
   lhci:
     name: Lighthouse CI
     runs-on: ubuntu-latest
     steps:
-			- names: Checkout Branch
-	      uses: actions/checkout@v2
-      
-			- name: Use Node.js 16.x
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
 
-			- name: Yarn Cache
-        uses: c-hive/gha-yarn-cache@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: yarn set version 3.2.0
 
       - name: Install Packages
         run: |
           yarn install
+
+      - name: Build
+        run: |
+          yarn run build
+
       - name: Run Lighthouse CI
         run: |
-          yarn global add @lhci/cli@0.3.x
-          lhci autorun --upload.target=temporary-public-storage || echo "LHCI failed!"
+          yarn add @lhci/cli@0.9.x
+          yarn lighthouse --upload.target=temporary-public-storage || echo "LHCI failed!"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

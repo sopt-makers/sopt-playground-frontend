@@ -12,7 +12,7 @@
     "build-storybook": "build-storybook",
     "postinstall": "husky install",
     "typecheck": "tsc --noemit -p .",
-    "lhci": "next build && lhci autorun"
+    "lighthouse": "lhci autorun"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
