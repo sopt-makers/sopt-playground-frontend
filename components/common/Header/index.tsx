@@ -51,6 +51,19 @@ const Header: FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const closeDropdown = () => {
+      setIsUserDropdownOpened(false);
+      setIsMobileMenuOpened(false);
+    };
+
+    events.on('routeChangeStart', closeDropdown);
+
+    return () => {
+      events.off('routeChangeStart', closeDropdown);
+    };
+  }, [events]);
+
   return (
     <StyledHeader>
       <LeftGroup>
