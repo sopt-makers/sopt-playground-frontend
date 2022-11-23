@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FC, useMemo, useReducer } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { accessTokenAtom } from '@/atoms/accessTokenAtom';
 import { safeDecodeAccessToken } from '@/components/auth/util/accessToken';
 import Button from '@/components/common/Button';
 import TextArea from '@/components/common/TextArea';

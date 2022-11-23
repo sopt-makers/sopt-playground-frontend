@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { accessTokenAtom } from '@/atoms/accessTokenAtom';
 
 const useAuth = () => {
   const router = useRouter();

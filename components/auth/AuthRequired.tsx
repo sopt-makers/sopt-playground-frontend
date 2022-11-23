@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
 import { FC, ReactNode, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { accessTokenAtom } from '@/atoms/accessTokenAtom';
+import { profileDropdownAtom } from '@/atoms/profileDropdownAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 
 interface AuthRequiredProps {
@@ -17,6 +18,7 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
 
   const lastUnauthorized = useLastUnauthorized();
   const accessToken = useRecoilValue(accessTokenAtom);
+  const setIsUserDropdownOpened = useSetRecoilState(profileDropdownAtom);
 
   useEffect(() => {
     if (router.isReady && accessToken === null) {
@@ -25,7 +27,7 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
     }
   }, [router, router.isReady, accessToken, lastUnauthorized]);
 
-  return <>{children}</>;
+  return <div onClick={() => setIsUserDropdownOpened(false)}>{children}</div>;
 };
 
 export default AuthRequired;

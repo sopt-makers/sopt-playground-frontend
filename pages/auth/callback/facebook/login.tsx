@@ -7,7 +7,7 @@ import { ClipLoader } from 'react-spinners';
 import { useSetRecoilState } from 'recoil';
 
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { accessTokenAtom } from '@/atoms/accessTokenAtom';
 import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import { colors } from '@/styles/colors';

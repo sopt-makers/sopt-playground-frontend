@@ -7,8 +7,10 @@ import MemberIcon from 'public/icons/icon-member.svg';
 import MenuIcon from 'public/icons/icon-menu.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
+import { profileDropdownAtom } from '@/atoms/profileDropdownAtom';
 import useAuth from '@/components/auth/useAuth';
 import { FEEDBACK_FORM_URL } from '@/constants/links';
 import BackIcon from '@/public/icons/icon-back.svg';
@@ -18,15 +20,16 @@ import { textStyles } from '@/styles/typography';
 
 const Header: FC = () => {
   const { logout } = useAuth();
-  const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
+
+  const [isUserDropdownOpened, setIsUserDropdownOpened] = useRecoilState(profileDropdownAtom);
 
   const { pathname } = useRouter();
 
   const { data: me } = useGetMemberOfMe();
 
   return (
-    <StyledHeader>
+    <StyledHeader onClick={() => setIsUserDropdownOpened(false)}>
       <LeftGroup>
         <div className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
           <MenuIcon />
@@ -61,7 +64,12 @@ const Header: FC = () => {
           </Link>
         </div>
 
-        <UserButton onClick={() => setIsUserDropdownOpened((e) => !e)}>
+        <UserButton
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsUserDropdownOpened(true);
+          }}
+        >
           <MemberIcon />
           <span>{me?.name}</span>
         </UserButton>

@@ -37,11 +37,7 @@ export default function MemberUploadPage() {
   const { data: myProfile, refetch: refetchMyProfile } = useGetMemberProfileOfMe();
   const { data: me, refetch: refetchMe } = useGetMemberOfMe();
   const { refetch: refetchProfileById } = useGetMemberProfileById(me?.id);
-  const {
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = formMethods;
+  const { handleSubmit, setValue } = formMethods;
 
   const isEditPage = query?.edit === 'true' ? true : false;
   const uploadType = isEditPage ? '수정' : '등록';

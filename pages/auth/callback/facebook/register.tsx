@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { accessTokenAtom } from '@/atoms/accessTokenAtom';
 import useQueryStringParam from '@/components/auth/useQueryString';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 
