@@ -18,7 +18,7 @@ import { textStyles } from '@/styles/typography';
 
 const Header: FC = () => {
   const { logout } = useAuth();
-  const { pathname } = useRouter();
+  const { pathname, events } = useRouter();
 
   const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
@@ -93,49 +93,44 @@ const Header: FC = () => {
         </UserButton>
       </RightGroup>
 
-      {isUserDropdownOpened && (
-        <UserDropdown ref={dropdownRef}>
-          <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'}>내 프로필</Link>
-          <div onClick={logout}>로그아웃</div>
-        </UserDropdown>
-      )}
+      <UserDropdown ref={dropdownRef} isOpen={isUserDropdownOpened}>
+        <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'}>내 프로필</Link>
+        <div onClick={logout}>로그아웃</div>
+      </UserDropdown>
 
-      {isMobileMenuOpened && (
-        <MobileMenuWrapper ref={mobileMenuRef} onClick={() => setIsMobileMenuOpened(false)}>
-          <MobileMenu>
-            <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'} passHref>
-              <ProfileContainer>
-                {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
-                <EmptyProfileImage>
-                  <ProfileIcon width={17.29} />
-                </EmptyProfileImage>
-                <Name>{me?.name}</Name>
-                <Spacer />
-                <StyledForwardIcon />
-              </ProfileContainer>
-            </Link>
+      <DimmedBackground isOpen={isMobileMenuOpened} onClick={() => setIsMobileMenuOpened(false)} />
+      <MobileMenu isOpen={isMobileMenuOpened} ref={mobileMenuRef}>
+        <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'} passHref>
+          <ProfileContainer>
+            {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
+            <EmptyProfileImage>
+              <ProfileIcon width={17.29} />
+            </EmptyProfileImage>
+            <Name>{me?.name}</Name>
+            <Spacer />
+            <StyledForwardIcon />
+          </ProfileContainer>
+        </Link>
 
-            <RouterWrapper>
-              <Link href='/members' passHref>
-                <TextLinkButton isCurrentPath={pathname === '/members'}>멤버</TextLinkButton>
-              </Link>
-              <Link href='/projects' passHref>
-                <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
-              </Link>
-            </RouterWrapper>
-            <Divider />
-            <MenuWrapper>
-              <Link href='/makers' passHref>
-                <MenuLink highlight={pathname === '/makers'}>만든 사람들</MenuLink>
-              </Link>
-              <MenuLink href={FEEDBACK_FORM_URL} target='_blank'>
-                의견 제안하기
-              </MenuLink>
-              <MenuLink onClick={logout}>로그아웃</MenuLink>
-            </MenuWrapper>
-          </MobileMenu>
-        </MobileMenuWrapper>
-      )}
+        <RouterWrapper>
+          <Link href='/members' passHref>
+            <TextLinkButton isCurrentPath={pathname === '/members'}>멤버</TextLinkButton>
+          </Link>
+          <Link href='/projects' passHref>
+            <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
+          </Link>
+        </RouterWrapper>
+        <Divider />
+        <MenuWrapper>
+          <Link href='/makers' passHref>
+            <MenuLink highlight={pathname === '/makers'}>만든 사람들</MenuLink>
+          </Link>
+          <MenuLink href={FEEDBACK_FORM_URL} target='_blank'>
+            의견 제안하기
+          </MenuLink>
+          <MenuLink onClick={logout}>로그아웃</MenuLink>
+        </MenuWrapper>
+      </MobileMenu>
     </StyledHeader>
   );
 };
@@ -182,6 +177,9 @@ const RightGroup = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  @media ${MOBILE_MEDIA_QUERY} {
+    visibility: collapse;
+  }
 `;
 
 const StyledLogo = styled.div`
@@ -256,7 +254,7 @@ const UserButton = styled.button`
   }
 `;
 
-const UserDropdown = styled.div`
+const UserDropdown = styled.div<{ isOpen: boolean }>`
   box-sizing: border-box;
   display: flex;
   position: absolute;
@@ -264,6 +262,8 @@ const UserDropdown = styled.div`
   right: 36px;
   flex-direction: column;
   gap: 25px;
+  transition: opacity 0.2s;
+  opacity: ${(props) => (props.isOpen ? 1 : 0)};
   z-index: 100;
   border-radius: 14px;
   background: #272828;
@@ -276,30 +276,46 @@ const UserDropdown = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    top: 56px;
-    right: 20px;
-    gap: 20px;
-    padding: 22px 20px;
-    width: 144px;
-    font-size: 15px;
+    display: none;
   }
 `;
 
-const MobileMenuWrapper = styled.div`
+const DimmedBackground = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 300;
+  z-index: 100000;
   background-color: rgb(0 0 0 / 70%);
   width: 100%;
   height: 100vh;
+
+  ${(props) =>
+    props.isOpen
+      ? css``
+      : css`
+          visibility: hidden;
+        `}
 `;
 
-const MobileMenu = styled.div`
+const MobileMenu = styled.div<{ isOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s;
+  z-index: 100001;
   background-color: ${colors.black80};
   padding: 57px 20px;
   width: 212px;
   height: 100vh;
+
+  ${(props) =>
+    props.isOpen
+      ? css`
+          transform: translateX(0);
+        `
+      : css`
+          transform: translateX(-100%);
+        `}
 `;
 
 const ProfileContainer = styled.a`
