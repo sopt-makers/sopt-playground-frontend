@@ -22,6 +22,9 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
     if (router.isReady && accessToken === null) {
       lastUnauthorized.setPath(router.asPath);
       router.replace('/auth/login');
+    } else {
+      // MEMO: playground mainPage가 추가되기 전까진 멤버페이지로 redirect 시킵니다.
+      router.push('/members');
     }
   }, [router, router.isReady, accessToken, lastUnauthorized]);
 
