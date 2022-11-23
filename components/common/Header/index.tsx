@@ -6,7 +6,7 @@ import LogoIcon from 'public/icons/icon-logo.svg';
 import MemberIcon from 'public/icons/icon-member.svg';
 import MenuIcon from 'public/icons/icon-menu.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
@@ -18,19 +18,45 @@ import { textStyles } from '@/styles/typography';
 
 const Header: FC = () => {
   const { logout } = useAuth();
+  const { pathname } = useRouter();
+
   const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
 
-  const { pathname } = useRouter();
-
   const { data: me } = useGetMemberOfMe();
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const closeDropdownHandler = (e: Event) => {
+      if (!(e.target instanceof HTMLElement)) {
+        return;
+      }
+
+      if (!dropdownButtonRef.current?.contains(e.target) && !dropdownRef.current?.contains(e.target)) {
+        setIsUserDropdownOpened(false);
+      }
+      if (!mobileButtonRef.current?.contains(e.target) && !mobileMenuRef.current?.contains(e.target)) {
+        setIsMobileMenuOpened(false);
+      }
+    };
+
+    document.addEventListener('click', closeDropdownHandler);
+
+    return () => {
+      document.removeEventListener('click', closeDropdownHandler);
+    };
+  }, []);
 
   return (
     <StyledHeader>
       <LeftGroup>
-        <div className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
+        <button ref={mobileButtonRef} className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
           <MenuIcon />
-        </div>
+        </button>
         <Link href='/' passHref>
           <TextLinkButton isCurrentPath={pathname === '/'}>
             <StyledLogo>
@@ -61,21 +87,21 @@ const Header: FC = () => {
           </Link>
         </div>
 
-        <UserButton onClick={() => setIsUserDropdownOpened((e) => !e)}>
+        <UserButton ref={dropdownButtonRef} onClick={() => setIsUserDropdownOpened((e) => !e)}>
           <MemberIcon />
           <span>{me?.name}</span>
         </UserButton>
       </RightGroup>
 
       {isUserDropdownOpened && (
-        <UserDropdown>
+        <UserDropdown ref={dropdownRef}>
           <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'}>내 프로필</Link>
           <div onClick={logout}>로그아웃</div>
         </UserDropdown>
       )}
 
       {isMobileMenuOpened && (
-        <MobileMenuWrapper onClick={() => setIsMobileMenuOpened(false)}>
+        <MobileMenuWrapper ref={mobileMenuRef} onClick={() => setIsMobileMenuOpened(false)}>
           <MobileMenu>
             <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'} passHref>
               <ProfileContainer>
@@ -193,7 +219,7 @@ const UploadButton = styled.a`
   }
 `;
 
-const UserButton = styled.a`
+const UserButton = styled.button`
   box-sizing: border-box;
   display: flex;
   align-items: center;
