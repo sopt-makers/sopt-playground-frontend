@@ -110,7 +110,7 @@ const StyledServiceTypeWrapper = styled.div`
   z-index: 1;
 
   & > * {
-    :not(:first-child) {
+    :not(:first-of-type) {
       margin-left: 6px;
     }
   }

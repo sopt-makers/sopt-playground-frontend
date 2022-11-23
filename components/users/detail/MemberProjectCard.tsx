@@ -7,7 +7,7 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export interface UserProjectCardProps {
+export interface MemberProjectCardProps {
   serviceType: ServiceType[];
   name: string;
   category: Category;
@@ -17,7 +17,7 @@ export interface UserProjectCardProps {
   logoImage: string;
 }
 
-const MemberProjectCard: FC<UserProjectCardProps> = ({
+const MemberProjectCard: FC<MemberProjectCardProps> = ({
   name,
   category,
   generation,
@@ -84,7 +84,7 @@ const StyledServiceTypeWrapper = styled.div`
   z-index: 1;
 
   & > * {
-    :not(:first-child) {
+    :not(:first-of-type) {
       margin-left: 6px;
     }
   }

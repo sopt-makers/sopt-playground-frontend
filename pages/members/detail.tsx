@@ -16,6 +16,7 @@ import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import Header from '@/components/common/Header';
 import MobileHeader from '@/components/common/MobileHeader';
 import InfoItem from '@/components/users/detail/InfoItem';
+import MemberProjectCard from '@/components/users/detail/MemberProjectCard';
 import PartItem from '@/components/users/detail/PartItem';
 import { DEFAULT_DATE } from '@/pages/members/upload';
 import { colors } from '@/styles/colors';
@@ -60,6 +61,8 @@ const UserDetailPage: FC = () => {
 
     alert('준비 중인 기능이에요!');
   };
+
+  console.log('profile?.projects', profile?.projects);
 
   return (
     <AuthRequired>
@@ -180,18 +183,18 @@ const UserDetailPage: FC = () => {
             <ProjectTitle>{profile?.name}님이 참여한 프로젝트</ProjectTitle>
             <ProjectSub>{profile?.projects.length}개의 프로젝트에 참여</ProjectSub>
             <ProjectDisplay>
-              {/* {profile?.projects.map((project) => (
-                <UserProjectCard
+              {profile?.projects.map((project) => (
+                <MemberProjectCard
                   key={project.id}
                   category={project.category}
                   summary={project.summary}
                   generation={project.generation}
-                  logoImage={project.logo_image}
+                  logoImage={project.logoImage}
                   name={project.name}
-                  serviceType={project.service_type}
-                  thumbnailImage={project.thumbnail_image}
+                  serviceType={[]}
+                  thumbnailImage={project.thumbnailImage}
                 />
-              ))} */}
+              ))}
             </ProjectDisplay>
           </ProjectContainer>
         </Wrapper>
