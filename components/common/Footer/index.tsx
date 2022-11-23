@@ -34,6 +34,7 @@ const StyledFooter = styled.div<{ hide: boolean }>`
   position: fixed;
   bottom: 0;
   transition: transform 0.3s;
+  z-index: 99999;
   border-top: 1px solid ${colors.black40};
   background-color: ${colors.black80};
   padding: 0 0 0 38px;
