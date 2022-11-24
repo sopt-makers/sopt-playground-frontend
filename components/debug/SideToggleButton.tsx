@@ -8,7 +8,11 @@ interface SideToggleButtonProps {
 }
 
 const SideToggleButton: FC<SideToggleButtonProps> = ({ onClick }) => {
-  return <StyledSideToggleButton onClick={onClick}>DEBUG</StyledSideToggleButton>;
+  return (
+    <StyledSideToggleButton onClick={onClick} tabIndex={-1}>
+      DEBUG
+    </StyledSideToggleButton>
+  );
 };
 
 export default SideToggleButton;
