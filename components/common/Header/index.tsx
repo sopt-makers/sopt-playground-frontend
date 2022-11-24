@@ -6,7 +6,7 @@ import LogoIcon from 'public/icons/icon-logo.svg';
 import MemberIcon from 'public/icons/icon-member.svg';
 import MenuIcon from 'public/icons/icon-menu.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
@@ -18,19 +18,58 @@ import { textStyles } from '@/styles/typography';
 
 const Header: FC = () => {
   const { logout } = useAuth();
+  const { pathname, events } = useRouter();
+
   const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
 
-  const { pathname } = useRouter();
-
   const { data: me } = useGetMemberOfMe();
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const closeDropdownHandler = (e: Event) => {
+      if (!(e.target instanceof HTMLElement)) {
+        return;
+      }
+
+      if (!dropdownButtonRef.current?.contains(e.target) && !dropdownRef.current?.contains(e.target)) {
+        setIsUserDropdownOpened(false);
+      }
+      if (!mobileButtonRef.current?.contains(e.target) && !mobileMenuRef.current?.contains(e.target)) {
+        setIsMobileMenuOpened(false);
+      }
+    };
+
+    document.addEventListener('click', closeDropdownHandler);
+
+    return () => {
+      document.removeEventListener('click', closeDropdownHandler);
+    };
+  }, []);
+
+  useEffect(() => {
+    const closeDropdown = () => {
+      setIsUserDropdownOpened(false);
+      setIsMobileMenuOpened(false);
+    };
+
+    events.on('routeChangeStart', closeDropdown);
+
+    return () => {
+      events.off('routeChangeStart', closeDropdown);
+    };
+  }, [events]);
 
   return (
     <StyledHeader>
       <LeftGroup>
-        <div className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
+        <button ref={mobileButtonRef} className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
           <MenuIcon />
-        </div>
+        </button>
         <Link href='/' passHref>
           <TextLinkButton isCurrentPath={pathname === '/'}>
             <StyledLogo>
@@ -61,55 +100,50 @@ const Header: FC = () => {
           </Link>
         </div>
 
-        <UserButton onClick={() => setIsUserDropdownOpened((e) => !e)}>
+        <UserButton ref={dropdownButtonRef} onClick={() => setIsUserDropdownOpened((e) => !e)}>
           <MemberIcon />
           <span>{me?.name}</span>
         </UserButton>
       </RightGroup>
 
-      {isUserDropdownOpened && (
-        <UserDropdown>
-          <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'}>내 프로필</Link>
-          <div onClick={logout}>로그아웃</div>
-        </UserDropdown>
-      )}
+      <UserDropdown ref={dropdownRef} isOpen={isUserDropdownOpened}>
+        <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'}>내 프로필</Link>
+        <div onClick={logout}>로그아웃</div>
+      </UserDropdown>
 
-      {isMobileMenuOpened && (
-        <MobileMenuWrapper onClick={() => setIsMobileMenuOpened(false)}>
-          <MobileMenu>
-            <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'} passHref>
-              <ProfileContainer>
-                {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
-                <EmptyProfileImage>
-                  <ProfileIcon width={17.29} />
-                </EmptyProfileImage>
-                <Name>{me?.name}</Name>
-                <Spacer />
-                <StyledForwardIcon />
-              </ProfileContainer>
-            </Link>
+      <DimmedBackground isOpen={isMobileMenuOpened} onClick={() => setIsMobileMenuOpened(false)} />
+      <MobileMenu isOpen={isMobileMenuOpened} ref={mobileMenuRef}>
+        <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'} passHref>
+          <ProfileContainer>
+            {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
+            <EmptyProfileImage>
+              <ProfileIcon width={17.29} />
+            </EmptyProfileImage>
+            <Name>{me?.name}</Name>
+            <Spacer />
+            <StyledForwardIcon />
+          </ProfileContainer>
+        </Link>
 
-            <RouterWrapper>
-              <Link href='/members' passHref>
-                <TextLinkButton isCurrentPath={pathname === '/members'}>멤버</TextLinkButton>
-              </Link>
-              <Link href='/projects' passHref>
-                <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
-              </Link>
-            </RouterWrapper>
-            <Divider />
-            <MenuWrapper>
-              <Link href='/makers' passHref>
-                <MenuLink highlight={pathname === '/makers'}>만든 사람들</MenuLink>
-              </Link>
-              <MenuLink href={FEEDBACK_FORM_URL} target='_blank'>
-                의견 제안하기
-              </MenuLink>
-              <MenuLink onClick={logout}>로그아웃</MenuLink>
-            </MenuWrapper>
-          </MobileMenu>
-        </MobileMenuWrapper>
-      )}
+        <RouterWrapper>
+          <Link href='/members' passHref>
+            <TextLinkButton isCurrentPath={pathname === '/members'}>멤버</TextLinkButton>
+          </Link>
+          <Link href='/projects' passHref>
+            <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
+          </Link>
+        </RouterWrapper>
+        <Divider />
+        <MenuWrapper>
+          <Link href='/makers' passHref>
+            <MenuLink highlight={pathname === '/makers'}>만든 사람들</MenuLink>
+          </Link>
+          <MenuLink href={FEEDBACK_FORM_URL} target='_blank'>
+            의견 제안하기
+          </MenuLink>
+          <MenuLink onClick={logout}>로그아웃</MenuLink>
+        </MenuWrapper>
+      </MobileMenu>
     </StyledHeader>
   );
 };
@@ -156,6 +190,9 @@ const RightGroup = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  @media ${MOBILE_MEDIA_QUERY} {
+    visibility: collapse;
+  }
 `;
 
 const StyledLogo = styled.div`
@@ -193,7 +230,7 @@ const UploadButton = styled.a`
   }
 `;
 
-const UserButton = styled.a`
+const UserButton = styled.button`
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -230,7 +267,7 @@ const UserButton = styled.a`
   }
 `;
 
-const UserDropdown = styled.div`
+const UserDropdown = styled.div<{ isOpen: boolean }>`
   box-sizing: border-box;
   display: flex;
   position: absolute;
@@ -238,6 +275,8 @@ const UserDropdown = styled.div`
   right: 36px;
   flex-direction: column;
   gap: 25px;
+  transition: opacity 0.2s;
+  opacity: ${(props) => (props.isOpen ? 1 : 0)};
   z-index: 100;
   border-radius: 14px;
   background: #272828;
@@ -250,30 +289,46 @@ const UserDropdown = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    top: 56px;
-    right: 20px;
-    gap: 20px;
-    padding: 22px 20px;
-    width: 144px;
-    font-size: 15px;
+    display: none;
   }
 `;
 
-const MobileMenuWrapper = styled.div`
+const DimmedBackground = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 300;
+  z-index: 100000;
   background-color: rgb(0 0 0 / 70%);
   width: 100%;
   height: 100vh;
+
+  ${(props) =>
+    props.isOpen
+      ? css``
+      : css`
+          visibility: hidden;
+        `}
 `;
 
-const MobileMenu = styled.div`
+const MobileMenu = styled.div<{ isOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s;
+  z-index: 100001;
   background-color: ${colors.black80};
   padding: 57px 20px;
   width: 212px;
   height: 100vh;
+
+  ${(props) =>
+    props.isOpen
+      ? css`
+          transform: translateX(0);
+        `
+      : css`
+          transform: translateX(-100%);
+        `}
 `;
 
 const ProfileContainer = styled.a`
