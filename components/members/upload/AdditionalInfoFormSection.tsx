@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { FieldError, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import EditableSelect from '@/components/common/EditableSelect';
 import Input from '@/components/common/Input';
@@ -22,7 +22,13 @@ import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function MemberAdditionalFormSection() {
-  const { register, control, setValue } = useFormContext<MemberUploadForm>();
+  const {
+    register,
+    control,
+    setValue,
+    trigger,
+    formState: { errors },
+  } = useFormContext<MemberUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'links',
@@ -32,6 +38,18 @@ export default function MemberAdditionalFormSection() {
 
   const onAppend = () => append({ title: '', url: '' });
   const onRemove = (index: number) => remove(index);
+  const getLinksErrorMessage = (
+    linksError:
+      | {
+          title?: FieldError | undefined;
+          url?: FieldError | undefined;
+        }
+      | undefined,
+  ) => {
+    if (!linksError) return;
+    if (linksError.hasOwnProperty('title')) return linksError.title?.message;
+    return linksError.url?.message;
+  };
 
   return (
     <FormSection>
@@ -47,19 +65,32 @@ export default function MemberAdditionalFormSection() {
           <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
             <StyledAddableWrapper onAppend={onAppend}>
               {fields.map((field, index) => (
-                <AddableItem onRemove={() => onRemove(index)} key={field.id}>
+                <AddableItem
+                  onRemove={() => onRemove(index)}
+                  key={field.id}
+                  errorMessage={getLinksErrorMessage(errors.links?.[index])}
+                >
                   <StyledSelectWrapper>
                     <StyledEditableSelect
                       placeholder='링크를 입력해주세요'
                       {...register(`links.${index}.title`)}
+                      error={errors?.links?.[index]?.hasOwnProperty('title')}
                       width='100%'
                       className='category'
-                      onSelect={(value: string) => setValue(`links.${index}.title`, value)}
+                      onSelect={(value: string) => {
+                        setValue(`links.${index}.title`, value);
+                        trigger(`links.${index}.title`);
+                      }}
                       value={linkCategories[index]?.title ?? ''}
                     >
                       <SelectOptions options={LINK_TITLES} />
                     </StyledEditableSelect>
-                    <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
+                    <Input
+                      {...register(`links.${index}.url`)}
+                      error={errors?.links?.[index]?.hasOwnProperty('url')}
+                      placeholder='https://'
+                      className='link'
+                    />
                   </StyledSelectWrapper>
                 </AddableItem>
               ))}
@@ -95,19 +126,32 @@ export default function MemberAdditionalFormSection() {
           <FormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
             <StyledAddableWrapper onAppend={onAppend}>
               {fields.map((field, index) => (
-                <AddableItem onRemove={() => onRemove(index)} key={field.id}>
+                <AddableItem
+                  onRemove={() => onRemove(index)}
+                  key={field.id}
+                  errorMessage={getLinksErrorMessage(errors.links?.[index])}
+                >
                   <StyledSelectWrapper>
                     <StyledEditableSelect
                       placeholder='ex) Instagram'
                       {...register(`links.${index}.title`)}
-                      onSelect={(value: string) => setValue(`links.${index}.title`, value)}
+                      onSelect={(value: string) => {
+                        setValue(`links.${index}.title`, value);
+                        trigger(`links.${index}.title`);
+                      }}
                       value={linkCategories[index]?.title ?? ''}
+                      error={errors?.links?.[index]?.hasOwnProperty('title')}
                       width='100%'
                       className='category'
                     >
                       <SelectOptions options={LINK_TITLES} />
                     </StyledEditableSelect>
-                    <Input {...register(`links.${index}.url`)} placeholder='https://' className='link' />
+                    <Input
+                      {...register(`links.${index}.url`)}
+                      error={errors?.links?.[index]?.hasOwnProperty('url')}
+                      placeholder='https://'
+                      className='link'
+                    />
                   </StyledSelectWrapper>
                 </AddableItem>
               ))}
