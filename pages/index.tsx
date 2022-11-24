@@ -1,22 +1,23 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import useAuth from '@/components/auth/useAuth';
+import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import Header from '@/components/common/Header';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
-  const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const accessToken = useRecoilValue(accessTokenAtom);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      router.replace('/members');
-    } else {
+    if (router.isReady && accessToken === null) {
       router.replace('/auth/login');
+    } else {
+      router.replace('/members');
     }
-  }, [isLoggedIn, router]);
+  }, [accessToken, router, router.isReady]);
 
   return null;
 };
