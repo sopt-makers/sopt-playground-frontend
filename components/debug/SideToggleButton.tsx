@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { forwardRef } from 'react';
 
 import { colors } from '@/styles/colors';
 
@@ -7,13 +7,13 @@ interface SideToggleButtonProps {
   onClick(): void;
 }
 
-const SideToggleButton: FC<SideToggleButtonProps> = ({ onClick }) => {
+const SideToggleButton = forwardRef<HTMLButtonElement, SideToggleButtonProps>(({ onClick }, ref) => {
   return (
-    <StyledSideToggleButton onClick={onClick} tabIndex={-1}>
+    <StyledSideToggleButton ref={ref} onClick={onClick} tabIndex={-1}>
       DEBUG
     </StyledSideToggleButton>
   );
-};
+});
 
 export default SideToggleButton;
 
