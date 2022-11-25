@@ -18,13 +18,13 @@ const ProjectPage: FC = () => {
   const { data: projects, isLoading } = useGetProjectListQuery();
   const router = useRouter();
 
-  // 오래된 순 -> 최신 순으로 변경
-  const reverseProjects = projects && [...projects].reverse();
+  // 최신순
+  const sortedProjects = projects && [...projects].sort((a, b) => b.id - a.id);
 
   const uniqueProjects =
-    reverseProjects &&
-    reverseProjects.filter((project, index) => {
-      const latestProjectIndex = reverseProjects.findIndex(({ name }) => name === project.name);
+    sortedProjects &&
+    sortedProjects.filter((project, index) => {
+      const latestProjectIndex = sortedProjects.findIndex(({ name }) => name === project.name);
       return latestProjectIndex === index;
     });
 
