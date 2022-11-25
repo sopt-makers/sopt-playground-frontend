@@ -15,19 +15,29 @@ import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 const ProjectPage: FC = () => {
-  const { data, isLoading } = useGetProjectListQuery();
+  const { data: projects, isLoading } = useGetProjectListQuery();
   const router = useRouter();
+
+  // 오래된 순 -> 최신 순으로 변경
+  const reverseProjects = projects && [...projects].reverse();
+
+  const uniqueProjects =
+    reverseProjects &&
+    reverseProjects.filter((project, index) => {
+      const latestProjectIndex = reverseProjects.findIndex(({ name }) => name === project.name);
+      return latestProjectIndex === index;
+    });
 
   return (
     <AuthRequired>
       <StyledContainer>
         <StyledContent>
-          {data && <StyledLength typography='SUIT_22_B'>{data.length} Projects</StyledLength>}
-          {!isLoading && data == null ? (
+          {uniqueProjects && <StyledLength typography='SUIT_22_B'>{uniqueProjects.length} Projects</StyledLength>}
+          {!isLoading && uniqueProjects == null ? (
             <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
           ) : (
             <StyledGridContainer>
-              {data?.map((project) => (
+              {uniqueProjects?.map((project) => (
                 <ProjectCard
                   key={project.id}
                   category={project.category}
