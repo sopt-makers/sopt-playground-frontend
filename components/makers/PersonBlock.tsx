@@ -21,14 +21,21 @@ const PersonBlock: FC<PersonBlockProps> = ({ name, position, link, onClick, imag
   const content = (
     <StyledRawPersonBlock active={link !== undefined} onClick={onClick}>
       <ImageBox>
-        <StyledImage src='/icons/icon-profile-fallback.svg' alt='' hide={isImageLoaded} />
+        <StyledImage
+          src='/icons/icon-profile-fallback.svg'
+          alt=''
+          loading='lazy'
+          decoding='async'
+          hide={isImageLoaded}
+        />
         {imageUrl && (
           <StyledImage
             src={imageUrl}
             alt=''
-            loading='lazy'
             onLoad={() => setIsImageLoaded(true)}
             hide={!isImageLoaded}
+            loading='lazy'
+            decoding='async'
           />
         )}
       </ImageBox>
@@ -80,13 +87,14 @@ const StyledImage = styled.img<{ hide?: boolean }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  content-visibility: auto;
 
   ${(props) =>
     props.hide
       ? css`
           visibility: hidden;
         `
-      : ''}
+      : ''};
 `;
 
 const ContentBox = styled.div`
