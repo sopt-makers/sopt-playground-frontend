@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import _ from 'lodash';
 import { FC } from 'react';
 
 import { LinkTitle, ProjectLink } from '@/api/projects/type';
