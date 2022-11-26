@@ -73,31 +73,40 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
         <Container>
           {fields.map((field, index) => (
             <MemberItemWrapper key={field.id}>
-              <Controller
-                control={control}
-                name={`${name}.${index}.searchedMember`}
-                render={({ field: { value, onChange, name } }) => (
-                  <MemberSearchWrapper>
-                    <MemberSearch
-                      members={membersData ?? []}
-                      onSearch={_debounce(
-                        (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
-                        300,
-                      )}
-                      value={value}
-                      onChange={onChange}
-                      name={name}
-                    />
-                  </MemberSearchWrapper>
-                )}
-              />
-              <StyledSelect placeholder='역할' {...register(`${name}.${index}.memberRole`)}>
-                {Object.values(MemberRole).map((role) => (
-                  <option key={role} value={role}>
-                    {role}
-                  </option>
-                ))}
-              </StyledSelect>
+              <FormItem errorMessage={errors.members?.[index]?.searchedMember?.message}>
+                <Controller
+                  control={control}
+                  name={`${name}.${index}.searchedMember`}
+                  render={({ field: { value, onChange, name } }) => (
+                    <MemberSearchWrapper>
+                      <MemberSearch
+                        error={!!errors.members?.[index]?.searchedMember}
+                        members={membersData ?? []}
+                        onSearch={_debounce(
+                          (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
+                          300,
+                        )}
+                        value={value}
+                        onChange={onChange}
+                        name={name}
+                      />
+                    </MemberSearchWrapper>
+                  )}
+                />
+              </FormItem>
+              <FormItem errorMessage={errors.members?.[index]?.memberRole?.message}>
+                <StyledSelect
+                  error={!!errors.members?.[index]?.memberRole}
+                  placeholder='역할'
+                  {...register(`${name}.${index}.memberRole`)}
+                >
+                  {Object.values(MemberRole).map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </StyledSelect>
+              </FormItem>
               <Controller
                 control={control}
                 name={`${name}.${index}.memberDescription`}
@@ -139,24 +148,31 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
               ) : (
                 <MobileMemberApplyForm>
                   <MobileMemberSelect>
-                    <Controller
-                      control={control}
-                      name={`${name}.${memberIndex}.searchedMember`}
-                      render={({ field: { value, onChange, name } }) => (
-                        <MemberSearch
-                          value={value}
-                          onChange={onChange}
-                          name={name}
-                          members={membersData ?? []}
-                          onSearch={_debounce(
-                            (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
-                            300,
-                          )}
-                        />
-                      )}
-                    />
+                    <FormItem errorMessage={errors.members?.[memberIndex]?.searchedMember?.message}>
+                      <Controller
+                        control={control}
+                        name={`${name}.${memberIndex}.searchedMember`}
+                        render={({ field: { value, onChange, name } }) => (
+                          <MemberSearch
+                            value={value}
+                            error={!!errors.members?.[memberIndex]?.searchedMember}
+                            onChange={onChange}
+                            name={name}
+                            members={membersData ?? []}
+                            onSearch={_debounce(
+                              (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
+                              300,
+                            )}
+                          />
+                        )}
+                      />
+                    </FormItem>
                     <FormItem errorMessage={errors.members?.[memberIndex]?.memberRole?.message}>
-                      <MobileSelect placeholder='역할' {...register(`${name}.${memberIndex}.memberRole`)}>
+                      <MobileSelect
+                        placeholder='역할'
+                        error={!!errors.members?.[memberIndex]?.memberRole}
+                        {...register(`${name}.${memberIndex}.memberRole`)}
+                      >
                         {Object.values(MemberRole).map((role) => (
                           <option key={role} value={role}>
                             {role}
@@ -165,13 +181,19 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                       </MobileSelect>
                     </FormItem>
                   </MobileMemberSelect>
-                  <Controller
-                    control={control}
-                    name={`${name}.${memberIndex}.memberDescription`}
-                    render={({ field }) => (
-                      <MobileDescription placeholder='어떤 역할을 맡았는지 적어주세요' {...field} />
-                    )}
-                  />
+                  <FormItem errorMessage={errors.members?.[memberIndex]?.memberDescription?.message}>
+                    <Controller
+                      control={control}
+                      name={`${name}.${memberIndex}.memberDescription`}
+                      render={({ field }) => (
+                        <MobileDescription
+                          placeholder='어떤 역할을 맡았는지 적어주세요'
+                          error={!!errors.members?.[memberIndex]?.memberDescription}
+                          {...field}
+                        />
+                      )}
+                    />
+                  </FormItem>
                   <MobileApplyFormFooter>
                     <IconTrash onClick={() => onRemove(memberIndex)} />
                     <MobileCompleteButton type='button' onClick={() => onComplete(memberIndex)}>

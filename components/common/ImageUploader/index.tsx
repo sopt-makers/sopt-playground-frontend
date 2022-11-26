@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import { FC, useEffect, useRef, useState } from 'react';
@@ -13,6 +14,7 @@ interface ImageUploaderProps {
   onChange: (value: string | null) => void;
   className?: string;
   emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
+  error?: boolean;
   src?: string;
 }
 
@@ -23,6 +25,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   value,
   className,
   emptyIcon: EmptyIcon = IconImage,
+  error,
   src,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -64,7 +67,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   };
 
   return (
-    <Container className={className} width={width} height={height} onClick={handleClick}>
+    <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
       {value ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
     </Container>
@@ -73,7 +76,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
 
 export default ImageUploader;
 
-const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'>>`
+const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height' | 'error'>>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,6 +85,12 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'>>`
   cursor: pointer;
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
+
+  ${({ error }) =>
+    error &&
+    css`
+      border: 1px solid ${colors.red100};
+    `}
 `;
 
 const StyledInput = styled.input`

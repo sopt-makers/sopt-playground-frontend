@@ -32,6 +32,9 @@ const ProjectCard: FC<ProjectCardProps> = ({
   links,
   onClick,
 }) => {
+  // FIXME: 서버측에서 링크 업로드 하지 않았을 경우 빈 배열이 아닌 속성에 null 이 담긴 link 배열이 내려와 임시 대응 (https://github.com/sopt-makers/internal-server/issues/32)
+  const filteredLinks = links.filter(({ linkId, linkTitle, linkUrl }) => linkId && linkTitle && linkUrl);
+
   return (
     <StyledCard onClick={onClick}>
       <StyledServiceTypeWrapper>
@@ -52,8 +55,8 @@ const ProjectCard: FC<ProjectCardProps> = ({
           <StyledLogo className='card-image' src={logoImage} alt='logo-image' loading='lazy' decoding='async' />
         )}
         <ServiceLinkWrapper className='card-hover'>
-          {links?.map(({ linkTitle, linkUrl }, index) => (
-            <StyledServiceLink key={index} href={linkUrl} onClick={(e) => e.stopPropagation()}>
+          {filteredLinks.map(({ linkId, linkTitle, linkUrl }) => (
+            <StyledServiceLink key={linkId} href={linkUrl} onClick={(e) => e.stopPropagation()}>
               <StyledLinkIcon alt='link-icon' src={getLinkInfo(linkTitle as LinkTitle)?.icon} />
               <Text typography='SUIT_12_SB'>{getLinkInfo(linkTitle as LinkTitle)?.label}</Text>
             </StyledServiceLink>
