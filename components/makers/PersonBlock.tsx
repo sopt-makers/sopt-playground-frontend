@@ -87,7 +87,6 @@ const StyledImage = styled.img<{ hide?: boolean }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  content-visibility: auto;
 
   ${(props) =>
     props.hide
