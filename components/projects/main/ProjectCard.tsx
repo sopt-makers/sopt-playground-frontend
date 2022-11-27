@@ -1,27 +1,16 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { FC } from 'react';
 
-import { LinkTitle, ProjectLink } from '@/api/projects/type';
+import { LinkTitle, Project } from '@/api/projects/type';
 import Text from '@/components/common/Text';
 import { categoryLabel, getLinkInfo } from '@/components/projects/upload/constants';
-import { Category, ServiceType } from '@/components/projects/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export interface ProjectCardProps {
-  serviceType: ServiceType[];
-  name: string;
-  category: Category;
-  generation?: number;
-  summary: string;
-  thumbnailImage?: string;
-  logoImage: string;
-  links: ProjectLink[];
-  onClick: () => void;
-}
-
-const ProjectCard: FC<ProjectCardProps> = ({
+const ProjectCard: FC<Project> = ({
+  id,
   name,
   category,
   generation,
@@ -30,57 +19,58 @@ const ProjectCard: FC<ProjectCardProps> = ({
   thumbnailImage,
   logoImage,
   links,
-  onClick,
 }) => {
   // FIXME: 서버측에서 링크 업로드 하지 않았을 경우 빈 배열이 아닌 속성에 null 이 담긴 link 배열이 내려와 임시 대응 (https://github.com/sopt-makers/internal-server/issues/32)
   const filteredLinks = links.filter(({ linkId, linkTitle, linkUrl }) => linkId && linkTitle && linkUrl);
 
   return (
-    <StyledCard onClick={onClick}>
-      <StyledServiceTypeWrapper>
-        {serviceType.map((serviceType, index) => (
-          <StyledServiceType key={index}>{serviceType}</StyledServiceType>
-        ))}
-      </StyledServiceTypeWrapper>
-      <StyledImageSection>
-        {thumbnailImage ? (
-          <StyledThumbnail
-            className='card-image'
-            src={thumbnailImage}
-            alt='thumbnail-image'
-            loading='lazy'
-            decoding='async'
-          />
-        ) : (
-          <StyledLogo className='card-image' src={logoImage} alt='logo-image' loading='lazy' decoding='async' />
-        )}
-        <ServiceLinkWrapper className='card-hover'>
-          {filteredLinks.map(({ linkId, linkTitle, linkUrl }) => (
-            <StyledServiceLink key={linkId} href={linkUrl} onClick={(e) => e.stopPropagation()}>
-              <StyledLinkIcon alt='link-icon' src={getLinkInfo(linkTitle as LinkTitle)?.icon} />
-              <Text typography='SUIT_12_SB'>{getLinkInfo(linkTitle as LinkTitle)?.label}</Text>
-            </StyledServiceLink>
+    <Link passHref href={`/projects/detail?projectId=${id}`}>
+      <StyledCard>
+        <StyledServiceTypeWrapper>
+          {serviceType.map((serviceType, index) => (
+            <StyledServiceType key={index}>{serviceType}</StyledServiceType>
           ))}
-        </ServiceLinkWrapper>
-      </StyledImageSection>
-      <StyledContent>
-        <StyledTitleWrapper>
-          <Text typography='SUIT_18_B'>{name}</Text>
-          <Text typography='SUIT_12_SB' color={colors.gray100}>
-            {generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}
+        </StyledServiceTypeWrapper>
+        <StyledImageSection>
+          {thumbnailImage ? (
+            <StyledThumbnail
+              className='card-image'
+              src={thumbnailImage}
+              alt='thumbnail-image'
+              loading='lazy'
+              decoding='async'
+            />
+          ) : (
+            <StyledLogo className='card-image' src={logoImage} alt='logo-image' loading='lazy' decoding='async' />
+          )}
+          <ServiceLinkWrapper className='card-hover'>
+            {filteredLinks.map(({ linkId, linkTitle, linkUrl }) => (
+              <StyledServiceLink key={linkId} href={linkUrl} onClick={(e) => e.stopPropagation()}>
+                <StyledLinkIcon alt='link-icon' src={getLinkInfo(linkTitle as LinkTitle)?.icon} />
+                <Text typography='SUIT_12_SB'>{getLinkInfo(linkTitle as LinkTitle)?.label}</Text>
+              </StyledServiceLink>
+            ))}
+          </ServiceLinkWrapper>
+        </StyledImageSection>
+        <StyledContent>
+          <StyledTitleWrapper>
+            <Text typography='SUIT_18_B'>{name}</Text>
+            <Text typography='SUIT_12_SB' color={colors.gray100}>
+              {generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}
+            </Text>
+          </StyledTitleWrapper>
+          <Text typography='SUIT_14_M' color={colors.gray60}>
+            {summary}
           </Text>
-        </StyledTitleWrapper>
-        <Text typography='SUIT_14_M' color={colors.gray60}>
-          {summary}
-        </Text>
-      </StyledContent>
-    </StyledCard>
+        </StyledContent>
+      </StyledCard>
+    </Link>
   );
 };
 
 export default ProjectCard;
 
-const StyledCard = styled.div`
+const StyledCard = styled.a`
   display: flex;
   position: relative;
   flex-direction: column;
@@ -119,7 +109,7 @@ const StyledServiceTypeWrapper = styled.div`
   z-index: 1;
 
   & > * {
-    :not(:first-child) {
+    :not(:first-of-type) {
       margin-left: 6px;
     }
   }
