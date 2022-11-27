@@ -21,7 +21,7 @@ const MemberCard: FC<MemberCardProps> = ({ name, part, introduction, image, isAc
       <CardHeader>
         {isActiveGeneration && <ActiveGenerationBadge>{`${LATEST_GENERATION}기 활동중`}</ActiveGenerationBadge>}
         {image ? (
-          <Image className='image' src={image} width={235 * 2} alt='member_image' />
+          <Image className='image' src={image} width={235} alt='member_image' />
         ) : (
           <DefaultImage
             className='image'

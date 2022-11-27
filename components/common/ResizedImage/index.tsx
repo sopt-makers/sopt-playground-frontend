@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 
 const getResizedImage = (src: string, width: number) => {
-  return `//wsrv.nl/?url=${encodeURIComponent(src)}&w=${width}`;
+  return `https://wsrv.nl/?url=${encodeURIComponent(src)}&w=${width}&output=webp`;
 };
 
 interface ImageProps {
@@ -28,6 +28,7 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) =>
       ) : (
         <img
           src={getResizedImage(src, width)}
+          srcSet={`${getResizedImage(src, width)} 1x, ${getResizedImage(src, width * 2)} 2x`}
           alt={alt}
           className={className}
           loading='lazy'

@@ -35,7 +35,7 @@ const PersonBlock: FC<PersonBlockProps> = ({ name, position, link, onClick, imag
             alt=''
             onLoad={() => setIsImageLoaded(true)}
             hide={!isImageLoaded}
-            width={48 * 2}
+            width={48}
           />
         )}
       </ImageBox>

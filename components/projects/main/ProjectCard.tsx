@@ -34,9 +34,9 @@ const ProjectCard: FC<Project> = ({
         </StyledServiceTypeWrapper>
         <StyledImageSection>
           {thumbnailImage ? (
-            <StyledThumbnail className='card-image' src={thumbnailImage} width={380 * 2} alt='thumbnail-image' />
+            <StyledThumbnail className='card-image' src={thumbnailImage} width={380} alt='thumbnail-image' />
           ) : (
-            <StyledLogo className='card-image' src={logoImage} width={380 * 2} alt='logo-image' />
+            <StyledLogo className='card-image' src={logoImage} width={380} alt='logo-image' />
           )}
           <ServiceLinkWrapper className='card-hover'>
             {filteredLinks.map(({ linkId, linkTitle, linkUrl }) => (
