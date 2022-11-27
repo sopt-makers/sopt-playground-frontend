@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
+import ResizedImage from '@/components/common/ResizedImage';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -20,7 +21,7 @@ const MemberCard: FC<MemberCardProps> = ({ name, part, introduction, image, isAc
       <CardHeader>
         {isActiveGeneration && <ActiveGenerationBadge>{`${LATEST_GENERATION}기 활동중`}</ActiveGenerationBadge>}
         {image ? (
-          <Image className='image' src={image} alt='member_image' loading='lazy' decoding='async' />
+          <Image className='image' src={image} width={235 * 2} alt='member_image' />
         ) : (
           <DefaultImage
             className='image'
@@ -106,7 +107,7 @@ const DefaultImage = styled.img`
   width: 56px;
 `;
 
-const Image = styled.img`
+const Image = styled(ResizedImage)`
   width: 100%;
   height: 100%;
   object-fit: cover;

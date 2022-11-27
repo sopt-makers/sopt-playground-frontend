@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { LinkTitle, Project } from '@/api/projects/type';
+import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import { categoryLabel, getLinkInfo } from '@/components/projects/upload/constants';
 import { colors } from '@/styles/colors';
@@ -33,15 +34,9 @@ const ProjectCard: FC<Project> = ({
         </StyledServiceTypeWrapper>
         <StyledImageSection>
           {thumbnailImage ? (
-            <StyledThumbnail
-              className='card-image'
-              src={thumbnailImage}
-              alt='thumbnail-image'
-              loading='lazy'
-              decoding='async'
-            />
+            <StyledThumbnail className='card-image' src={thumbnailImage} width={380 * 2} alt='thumbnail-image' />
           ) : (
-            <StyledLogo className='card-image' src={logoImage} alt='logo-image' loading='lazy' decoding='async' />
+            <StyledLogo className='card-image' src={logoImage} width={380 * 2} alt='logo-image' />
           )}
           <ServiceLinkWrapper className='card-hover'>
             {filteredLinks.map(({ linkId, linkTitle, linkUrl }) => (
@@ -160,7 +155,7 @@ const StyledServiceLink = styled.a`
   align-items: center;
 `;
 
-const StyledThumbnail = styled.img`
+const StyledThumbnail = styled(ResizedImage)`
   border-radius: 6px;
   background: linear-gradient(180deg, rgb(35 35 50 / 0%) 0%, rgb(35 35 35 / 80%) 100%);
   width: 100%;
@@ -168,7 +163,7 @@ const StyledThumbnail = styled.img`
   object-fit: cover;
 `;
 
-const StyledLogo = styled.img`
+const StyledLogo = styled(ResizedImage)`
   margin: 44px 0 0;
   border-radius: 20px;
   width: 120px;
