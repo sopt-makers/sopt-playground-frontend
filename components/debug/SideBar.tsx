@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { FC, ReactNode, useEffect } from 'react';
+import { forwardRef, ReactNode, useEffect } from 'react';
 
 interface SidePanelProps {
   isOpen: boolean;
@@ -9,7 +9,7 @@ interface SidePanelProps {
   children?: ReactNode;
 }
 
-const SideBar: FC<SidePanelProps> = ({ isOpen, onClose, title, children }) => {
+const SideBar = forwardRef<HTMLDivElement, SidePanelProps>(({ isOpen, onClose, title, children }, ref) => {
   useEffect(() => {
     const keydownHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -24,7 +24,7 @@ const SideBar: FC<SidePanelProps> = ({ isOpen, onClose, title, children }) => {
   }, [onClose]);
 
   return (
-    <StyledSidePanel isOpen={isOpen}>
+    <StyledSidePanel ref={ref} isOpen={isOpen}>
       <Header>
         <HeaderTitle>{title}</HeaderTitle>
         <CloseButton onClick={() => onClose()}>X</CloseButton>
@@ -32,7 +32,7 @@ const SideBar: FC<SidePanelProps> = ({ isOpen, onClose, title, children }) => {
       <Content>{children}</Content>
     </StyledSidePanel>
   );
-};
+});
 
 export default SideBar;
 
