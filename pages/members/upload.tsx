@@ -93,7 +93,7 @@ export default function MemberUploadPage() {
     const response = await postMemberProfile(requestBody);
     await Promise.all([refetchMyProfile(), refetchProfileById(), refetchMe()]);
 
-    router.push(`/members/detail?memberId=${response.id}`);
+    router.push(`/members?id=${response.id}`);
   };
 
   return (

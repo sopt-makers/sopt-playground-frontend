@@ -63,7 +63,7 @@ const MemberList: FC = () => {
             )} */}
           <StyledCardWrapper>
             {profiles?.map((profile) => (
-              <Link key={profile.id} href={`/members/detail?memberId=${profile.id}`} passHref>
+              <Link key={profile.id} href={`/members?id=${profile.id}`} passHref>
                 <a>
                   <MemberCard
                     name={profile.name}
