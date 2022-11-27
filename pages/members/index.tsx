@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
+import MobileHeader from '@/components/common/MobileHeader';
 import MemberDetail from '@/components/members/main/MemberDetail';
 import MemberList from '@/components/members/main/MemberList';
 import { setLayout } from '@/utils/layout';
@@ -40,6 +41,7 @@ const UserPage: FC = () => {
 
   return (
     <AuthRequired>
+      <MobileHeader />
       <MemberDetail memberId={memberId} />
     </AuthRequired>
   );
