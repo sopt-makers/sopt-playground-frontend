@@ -62,8 +62,6 @@ const UserDetailPage: FC = () => {
     alert('준비 중인 기능이에요!');
   };
 
-  console.log('profile?.projects', profile?.projects);
-
   return (
     <AuthRequired>
       <MobileHeader />
@@ -193,6 +191,7 @@ const UserDetailPage: FC = () => {
                   name={project.name}
                   serviceType={[]}
                   thumbnailImage={project.thumbnailImage}
+                  onClick={() => router.push(`/projects/detail?projectId=${project.id}`)}
                 />
               ))}
             </ProjectDisplay>

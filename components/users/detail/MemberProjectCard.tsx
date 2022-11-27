@@ -15,6 +15,7 @@ export interface MemberProjectCardProps {
   summary: string;
   thumbnailImage?: string;
   logoImage: string;
+  onClick: () => void;
 }
 
 const MemberProjectCard: FC<MemberProjectCardProps> = ({
@@ -25,6 +26,7 @@ const MemberProjectCard: FC<MemberProjectCardProps> = ({
   summary,
   thumbnailImage,
   logoImage,
+  onClick,
 }) => {
   const serviceTypeMap = {
     WEB: 'WEB',
@@ -32,7 +34,7 @@ const MemberProjectCard: FC<MemberProjectCardProps> = ({
   };
 
   return (
-    <StyledCard>
+    <StyledCard onClick={onClick}>
       <StyledServiceTypeWrapper>
         {serviceType.map((item, index) => (
           <StyledServiceType key={index}>{serviceTypeMap[item]}</StyledServiceType>
