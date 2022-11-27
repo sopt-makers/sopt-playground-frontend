@@ -15,8 +15,11 @@ jobs:
           #if use checkout@v2, https://github.com/marketplace/actions/publish-to-chromatic#checkout-depth
           fetch-depth: 0
 
+      - name: Yarn Cache
+        uses: c-hive/gha-yarn-cache@v2
+
       - name: Install Dependency
-        run: yarn
+        run: yarn install
 
       - name: Publish Chromatic
         id: publish_chromatic
