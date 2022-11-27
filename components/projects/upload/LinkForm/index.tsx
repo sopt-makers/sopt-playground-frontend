@@ -163,7 +163,7 @@ const StyledLi = styled.li`
   display: flex;
   gap: 10px;
 
-  &:not(:first-child) {
+  &:not(:first-of-type) {
     margin-top: 10px;
   }
   @media ${MOBILE_MEDIA_QUERY} {
