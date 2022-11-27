@@ -1,3 +1,5 @@
+import { Category } from '@/components/projects/upload/types';
+
 export type Profile = {
   id: number;
   name: string;
@@ -42,7 +44,7 @@ export type ProfileDetail = {
   openToWork: boolean;
   openToSideProject: boolean;
   allowOfficial: boolean;
-  projects: [];
+  projects: MemberProject[];
 };
 
 export type Activity = {
@@ -64,6 +66,16 @@ export type Member = {
   generation: number;
   hasProfile: true;
   profileImage?: string | null;
+};
+
+export type MemberProject = {
+  category: Category;
+  generation: number;
+  id: number;
+  logoImage: string;
+  name: string;
+  summary: string;
+  thumbnailImage: string;
 };
 
 export type ProfileRequest = {

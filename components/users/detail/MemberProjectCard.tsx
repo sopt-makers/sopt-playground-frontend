@@ -1,64 +1,60 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { FC } from 'react';
 
+import { MemberProject } from '@/api/members/type';
 import { categoryLabel } from '@/components/projects/upload/constants';
-import { Category, ServiceType } from '@/components/projects/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
+// import { textStyles } from '@/styles/typography';
 
-export interface UserProjectCardProps {
-  serviceType: ServiceType[];
-  name: string;
-  category: Category;
-  generation?: number;
-  summary: string;
-  thumbnailImage?: string;
-  logoImage: string;
-}
-
-const MemberProjectCard: FC<UserProjectCardProps> = ({
+const MemberProjectCard: FC<MemberProject> = ({
+  id,
   name,
   category,
   generation,
-  serviceType,
+  // serviceType, TODO: 서버대응 필요
   summary,
   thumbnailImage,
   logoImage,
 }) => {
-  const serviceTypeMap = {
-    WEB: 'WEB',
-    APP: 'APP',
-  };
+  // const serviceTypeMap = {
+  //   WEB: 'WEB',
+  //   APP: 'APP',
+  // };
 
   return (
-    <StyledCard>
-      <StyledServiceTypeWrapper>
-        {serviceType.map((item, index) => (
-          <StyledServiceType key={index}>{serviceTypeMap[item]}</StyledServiceType>
-        ))}
-      </StyledServiceTypeWrapper>
-      <StyledImageSection>
-        {thumbnailImage ? (
-          <StyledThumbnail className='card-image' src={thumbnailImage} alt='thumbnail-image' />
-        ) : (
-          <StyledLogo className='card-image' src={logoImage} alt='logo-image' />
-        )}
-      </StyledImageSection>
-      <StyledContent>
-        <StyledTitleWrapper>
-          <Title>{name}</Title>
-          <Generation>{generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}</Generation>
-        </StyledTitleWrapper>
-        <Summary>{summary}</Summary>
-      </StyledContent>
-    </StyledCard>
+    <Link passHref href={`/projects/detail?projectId=${id}`}>
+      <StyledCard>
+        <StyledServiceTypeWrapper>
+          {/* {serviceType.map((item, index) => (
+            <StyledServiceType key={index}>{serviceTypeMap[item]}</StyledServiceType>
+          ))} */}
+        </StyledServiceTypeWrapper>
+        <StyledImageSection>
+          {thumbnailImage ? (
+            <StyledThumbnail className='card-image' src={thumbnailImage} alt='thumbnail-image' />
+          ) : (
+            <StyledLogo className='card-image' src={logoImage} alt='logo-image' />
+          )}
+        </StyledImageSection>
+        <StyledContent>
+          <StyledTitleWrapper>
+            <Title>{name}</Title>
+            <Generation>
+              {generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}
+            </Generation>
+          </StyledTitleWrapper>
+          <Summary>{summary}</Summary>
+        </StyledContent>
+      </StyledCard>
+    </Link>
   );
 };
 
 export default MemberProjectCard;
 
-const StyledCard = styled.div`
+const StyledCard = styled.a`
   display: flex;
   position: relative;
   flex-direction: column;
@@ -84,7 +80,7 @@ const StyledServiceTypeWrapper = styled.div`
   z-index: 1;
 
   & > * {
-    :not(:first-child) {
+    :not(:first-of-type) {
       margin-left: 6px;
     }
   }
@@ -95,20 +91,20 @@ const StyledServiceTypeWrapper = styled.div`
   }
 `;
 
-const StyledServiceType = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2000px;
-  background: rgb(0 0 0 / 15%);
-  backdrop-filter: blur(5px);
-  width: 53px;
-  height: 23px;
-  ${textStyles.SUIT_12_B};
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 1711.29px;
-  }
-`;
+// const StyledServiceType = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: 2000px;
+//   background: rgb(0 0 0 / 15%);
+//   backdrop-filter: blur(5px);
+//   width: 53px;
+//   height: 23px;
+//   ${textStyles.SUIT_12_B};
+//   @media ${MOBILE_MEDIA_QUERY} {
+//     border-radius: 1711.29px;
+//   }
+// `;
 
 const StyledImageSection = styled.section`
   display: flex;

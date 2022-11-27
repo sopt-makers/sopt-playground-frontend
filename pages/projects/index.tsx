@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import _uniqBy from 'lodash/uniqBy';
-import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
@@ -16,7 +15,6 @@ import { setLayout } from '@/utils/layout';
 
 const ProjectPage: FC = () => {
   const { data: projects, isLoading } = useGetProjectListQuery();
-  const router = useRouter();
 
   // 최신순
   const sortedProjects = projects && [...projects].sort((a, b) => b.id - a.id);
@@ -40,16 +38,9 @@ const ProjectPage: FC = () => {
               {uniqueProjects?.map((project) => (
                 <ProjectCard
                   key={project.id}
-                  category={project.category}
-                  summary={project.summary}
-                  generation={project.generation}
+                  {...project}
                   // FIXME: 서버쪽에서 link가 중복으로 내려오는 이슈가 있어 임시처리합니다.
                   links={_uniqBy(project.links, 'linkId')}
-                  logoImage={project.logoImage}
-                  name={project.name}
-                  serviceType={project.serviceType}
-                  thumbnailImage={project.thumbnailImage}
-                  onClick={() => router.push(`/projects/detail?projectId=${project.id}`)}
                 />
               ))}
             </StyledGridContainer>
