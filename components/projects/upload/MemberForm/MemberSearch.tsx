@@ -1,5 +1,6 @@
 // @ts-nocheck
 // MEMO: headless-ui와 emotion jsx의 충돌때문인지 ts 에러가 발생하여 주석 처리
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Combobox } from '@headlessui/react';
 import React, { FC } from 'react';
@@ -16,11 +17,12 @@ interface MemberSearchProps {
   onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
   members: Member[];
+  error?: boolean;
 }
 
-const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, members, name }) => {
+const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, members, name, error }) => {
   return (
-    <StyledContainer>
+    <StyledContainer error={error}>
       <Combobox value={value} onChange={onChange}>
         <Combobox.Input
           name={name}
@@ -46,7 +48,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, member
 
 export default MemberSearch;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{ error?: booelan }>`
   display: flex;
   flex-direction: column;
 
@@ -65,6 +67,16 @@ const StyledContainer = styled.div`
       border-color: ${colors.purple100};
       background-color: ${colors.black80};
     }
+
+    ${({ error }) =>
+      error &&
+      css`
+        border-color: ${colors.red100};
+
+        &:focus {
+          border-color: ${colors.red100};
+        }
+      `}
   }
 
   & .options {

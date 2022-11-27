@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import FormItem from '@/components/common/form/FormItem';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import MemberForm from '@/components/projects/upload/MemberForm';
@@ -19,9 +18,7 @@ const ProjectMembers: FC<ProjectMembersProps> = ({ type }) => {
       <StyledDescription color={colors.gray100}>
         회원가입을 한 사람만 팀원 등록이 가능해요 <SignUpLink />
       </StyledDescription>
-      <FormItem>
-        <MemberForm name='members' />
-      </FormItem>
+      <MemberForm name='members' />
     </StyledContainer>
   );
 };
