@@ -20,9 +20,15 @@ const MemberCard: FC<MemberCardProps> = ({ name, part, introduction, image, isAc
       <CardHeader>
         {isActiveGeneration && <ActiveGenerationBadge>{`${LATEST_GENERATION}기 활동중`}</ActiveGenerationBadge>}
         {image ? (
-          <Image className='image' src={image} alt='member_image' />
+          <Image className='image' src={image} alt='member_image' loading='lazy' decoding='async' />
         ) : (
-          <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
+          <DefaultImage
+            className='image'
+            src='/icons/icon-member-default.svg'
+            alt='default_member_image'
+            loading='lazy'
+            decoding='async'
+          />
         )}
       </CardHeader>
       <CardContent>
