@@ -11,8 +11,14 @@ export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
     color: ${colors.gray100};
   `,
   primary: css`
+    transition: background-color 0.3s;
     background-color: ${colors.purple100};
     color: #e2e2e2;
+
+    &:hover,
+    &:focus {
+      background-color: ${colors.purple80};
+    }
   `,
 };
 

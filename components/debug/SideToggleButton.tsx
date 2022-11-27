@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { forwardRef } from 'react';
 
 import { colors } from '@/styles/colors';
 
@@ -7,9 +7,13 @@ interface SideToggleButtonProps {
   onClick(): void;
 }
 
-const SideToggleButton: FC<SideToggleButtonProps> = ({ onClick }) => {
-  return <StyledSideToggleButton onClick={onClick}>DEBUG</StyledSideToggleButton>;
-};
+const SideToggleButton = forwardRef<HTMLButtonElement, SideToggleButtonProps>(({ onClick }, ref) => {
+  return (
+    <StyledSideToggleButton ref={ref} onClick={onClick} tabIndex={-1}>
+      DEBUG
+    </StyledSideToggleButton>
+  );
+});
 
 export default SideToggleButton;
 
@@ -17,6 +21,7 @@ const StyledSideToggleButton = styled.button`
   position: fixed;
   right: 10px;
   bottom: 10px;
+  z-index: 100009;
   border-radius: 7px;
   background-color: ${colors.purple60};
   cursor: pointer;

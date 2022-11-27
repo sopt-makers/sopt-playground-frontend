@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { AnchorHTMLAttributes, forwardRef } from 'react';
+import { AnchorHTMLAttributes, ElementType, forwardRef } from 'react';
 
 import { ButtonSize, buttonSize, ButtonStyle, buttonStyles } from '@/components/common/SquareLink/style';
 import { textStyles } from '@/styles/typography';
@@ -7,12 +7,13 @@ import { textStyles } from '@/styles/typography';
 interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   variant?: ButtonStyle;
   size?: ButtonSize;
+  as?: ElementType;
 }
 
 const SquareLink = forwardRef<HTMLAnchorElement, ButtonProps>(
-  ({ variant = 'default', size = 'medium', children, ...props }, ref) => {
+  ({ variant = 'default', size = 'medium', as, children, ...props }, ref) => {
     return (
-      <StyledSquareLink variant={variant} size={size} {...props} ref={ref}>
+      <StyledSquareLink as={as} variant={variant} size={size} {...props} ref={ref}>
         {children}
       </StyledSquareLink>
     );

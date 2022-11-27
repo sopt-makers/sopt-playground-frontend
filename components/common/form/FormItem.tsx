@@ -20,7 +20,6 @@ const FormItem: FC<PropsWithChildren<FormItemProps>> = ({ children, errorMessage
           <StyledErrorMessage>{errorMessage}</StyledErrorMessage>
         </StyledErrorWrapper>
       )}
-      <div></div>
     </StyledContainer>
   );
 };

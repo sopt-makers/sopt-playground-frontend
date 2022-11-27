@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { AxiosError } from 'axios';
-import { FC, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { ClipLoader } from 'react-spinners';
 
@@ -25,7 +25,9 @@ const VerifyByEmail: FC = () => {
     return postRegistrationEmail(emailInput);
   });
 
-  const handleSend = () => {
+  const handleSend = (e: FormEvent) => {
+    e.preventDefault();
+
     if (verify.isLoading) {
       return;
     }
@@ -37,7 +39,7 @@ const VerifyByEmail: FC = () => {
   }
 
   return (
-    <Container>
+    <FormContainer onSubmit={handleSend}>
       <Title>SOPT 회원인증</Title>
       <Description>SOPT 지원시 입력했던 이메일을 입력해주세요</Description>
       <Label>이메일</Label>
@@ -50,19 +52,19 @@ const VerifyByEmail: FC = () => {
       <ErrorMessage show={verify.isError}>
         <IconWarning /> {formatErrorMessage(verify.error)}
       </ErrorMessage>
-      <SendButton variant='primary' onClick={handleSend}>
+      <SendButton as='button' variant='primary'>
         {verify.isLoading ? <ClipLoader color='#ffffff' size={25} /> : <>SOPT 회원 인증메일 전송</>}
       </SendButton>
-      <ErrorNotice>
-        <GoogleFormButton onClick={() => window.open('https://forms.gle/Hs9tJgMG9bNvT1rS9', '_blank')}>
+      <ErrorNotice href='https://forms.gle/Hs9tJgMG9bNvT1rS9' target='_blank'>
+        <NoticeTitle>
           <div className='question'>이메일로 SOPT 회원 인증이 안된다면?</div>
           <IconArrowRight />
-        </GoogleFormButton>
+        </NoticeTitle>
         <ErrorNoticeDescription>
           {`SOPT 정보 등록 시 기입한 이메일의 확인이 어려운 경우,\n구글폼을 통해 가입을 도와드리고 있어요!`}{' '}
         </ErrorNoticeDescription>
       </ErrorNotice>
-    </Container>
+    </FormContainer>
   );
 };
 
@@ -73,11 +75,12 @@ function formatErrorMessage(error: AxiosError<ErrorResponse> | null) {
   return innerMessage ?? '서버와의 접속이 실패했습니다.';
 }
 
-const Container = styled.div`
+const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 420px;
+
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 24px;
   }
@@ -125,15 +128,20 @@ const SendButton = styled(SquareLink)`
   }
 `;
 
-const ErrorNotice = styled.div`
+const ErrorNotice = styled.a`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: background-color 0.3s;
   margin-top: 60px;
   border-radius: 6px;
   background-color: ${colors.black60};
   padding: 19px 0 18px 20px;
   width: 420px;
+
+  &:hover {
+    background-color: ${colors.black40};
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
@@ -148,7 +156,7 @@ const ErrorNoticeDescription = styled.div`
   font-weight: 500;
 `;
 
-const GoogleFormButton = styled.button`
+const NoticeTitle = styled.div`
   display: flex;
   gap: 2px;
   align-items: center;

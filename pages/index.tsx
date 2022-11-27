@@ -1,19 +1,24 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import AuthRequired from '@/components/auth/AuthRequired';
+import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const accessToken = useRecoilValue(accessTokenAtom);
 
   useEffect(() => {
-    // MEMO: playground mainpage가 추가되기 전까진 멤버페이지로 redirect 시킵니다.
-    router.push('/members');
-  }, [router]);
+    if (router.isReady && accessToken === null) {
+      router.replace('/auth/login');
+    } else {
+      router.replace('/members');
+    }
+  }, [accessToken, router, router.isReady]);
 
-  return <AuthRequired>{}</AuthRequired>;
+  return null;
 };
 
 setLayout(Home, 'header');

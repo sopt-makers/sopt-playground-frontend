@@ -15,6 +15,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import MobileHeader from '@/components/common/MobileHeader';
 import InfoItem from '@/components/users/detail/InfoItem';
+import MemberProjectCard from '@/components/users/detail/MemberProjectCard';
 import PartItem from '@/components/users/detail/PartItem';
 import { DEFAULT_DATE } from '@/pages/members/upload';
 import { colors } from '@/styles/colors';
@@ -139,7 +140,7 @@ const UserDetailPage: FC = () => {
           <InfoContainer style={{ gap: '30px' }}>
             <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />
             <InfoItem label='사는 지역' content={profile?.address ?? ''} />
-            <InfoItem label='학교 / 전공' content={profile?.major ?? ''} />
+            <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
           </InfoContainer>
 
           <InfoContainer style={{ gap: '34px' }}>
@@ -179,18 +180,9 @@ const UserDetailPage: FC = () => {
             <ProjectTitle>{profile?.name}님이 참여한 프로젝트</ProjectTitle>
             <ProjectSub>{profile?.projects.length}개의 프로젝트에 참여</ProjectSub>
             <ProjectDisplay>
-              {/* {profile?.projects.map((project) => (
-                <UserProjectCard
-                  key={project.id}
-                  category={project.category}
-                  summary={project.summary}
-                  generation={project.generation}
-                  logoImage={project.logo_image}
-                  name={project.name}
-                  serviceType={project.service_type}
-                  thumbnailImage={project.thumbnail_image}
-                />
-              ))} */}
+              {profile?.projects.map((project) => (
+                <MemberProjectCard key={project.id} {...project} />
+              ))}
             </ProjectDisplay>
           </ProjectContainer>
         </Wrapper>
