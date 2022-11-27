@@ -141,7 +141,7 @@ const UserDetailPage: FC = () => {
           <InfoContainer style={{ gap: '30px' }}>
             <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />
             <InfoItem label='사는 지역' content={profile?.address ?? ''} />
-            <InfoItem label='학교 / 전공' content={profile?.major ?? ''} />
+            <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
           </InfoContainer>
 
           <InfoContainer style={{ gap: '34px' }}>
