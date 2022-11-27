@@ -14,8 +14,6 @@ const UserPage: FC = () => {
   const [memberId, setMemberId] = useState<string | null>(null);
   const [isReady, setIsReady] = useState(false);
 
-  console.log(memberId);
-
   useEffect(() => {
     if (router.isReady) {
       const { id } = router.query;
@@ -26,7 +24,7 @@ const UserPage: FC = () => {
       }
       setIsReady(true);
     }
-  }, [router, router.isReady, router.query, router.query.id]);
+  }, [router, router.isReady, router.query]);
 
   if (!isReady) {
     return null;

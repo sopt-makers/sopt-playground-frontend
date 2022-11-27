@@ -20,10 +20,12 @@ const ProjectPage: FC = () => {
       const { id } = router.query;
       if (typeof id === 'string') {
         setProjectId(id);
+      } else {
+        setProjectId(null);
       }
       setIsReady(true);
     }
-  }, [router, router.isReady]);
+  }, [router, router.isReady, router.query]);
 
   if (!isReady) {
     return null;
