@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -16,13 +16,27 @@ interface PersonBlockProps {
 }
 
 const PersonBlock: FC<PersonBlockProps> = ({ name, position, link, onClick, imageUrl }) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   const content = (
     <StyledRawPersonBlock active={link !== undefined} onClick={onClick}>
       <ImageBox>
-        {imageUrl ? (
-          <StyledImage src={imageUrl} alt={name} />
-        ) : (
-          <StyledImage src='/icons/icon-profile-fallback.svg' alt='' />
+        <StyledImage
+          src='/icons/icon-profile-fallback.svg'
+          alt=''
+          loading='lazy'
+          decoding='async'
+          hide={isImageLoaded}
+        />
+        {imageUrl && (
+          <StyledImage
+            src={imageUrl}
+            alt=''
+            onLoad={() => setIsImageLoaded(true)}
+            hide={!isImageLoaded}
+            loading='lazy'
+            decoding='async'
+          />
         )}
       </ImageBox>
       <ContentBox>
@@ -57,9 +71,10 @@ const StyledRawPersonBlock = styled.a<{ active: boolean }>`
 `;
 
 const ImageBox = styled.div`
-  clip-path: circle(50%);
+  position: relative;
   width: 48px;
   height: 48px;
+  clip-path: circle(50%);
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 40px;
@@ -67,10 +82,18 @@ const ImageBox = styled.div`
   }
 `;
 
-const StyledImage = styled.img`
-  object-fit: cover;
+const StyledImage = styled.img<{ hide?: boolean }>`
+  position: absolute;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+
+  ${(props) =>
+    props.hide
+      ? css`
+          visibility: hidden;
+        `
+      : ''};
 `;
 
 const ContentBox = styled.div`
