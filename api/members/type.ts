@@ -68,7 +68,7 @@ export type Member = {
   profileImage?: string | null;
 };
 
-type MemberProject = {
+export type MemberProject = {
   category: Category;
   generation: number;
   id: number;

@@ -182,17 +182,7 @@ const UserDetailPage: FC = () => {
             <ProjectSub>{profile?.projects.length}개의 프로젝트에 참여</ProjectSub>
             <ProjectDisplay>
               {profile?.projects.map((project) => (
-                <MemberProjectCard
-                  key={project.id}
-                  category={project.category}
-                  summary={project.summary}
-                  generation={project.generation}
-                  logoImage={project.logoImage}
-                  name={project.name}
-                  serviceType={[]}
-                  thumbnailImage={project.thumbnailImage}
-                  onClick={() => router.push(`/projects/detail?projectId=${project.id}`)}
-                />
+                <MemberProjectCard key={project.id} {...project} />
               ))}
             </ProjectDisplay>
           </ProjectContainer>
