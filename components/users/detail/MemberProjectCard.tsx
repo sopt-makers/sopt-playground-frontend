@@ -54,7 +54,7 @@ const MemberProjectCard: FC<MemberProject> = ({
 
 export default MemberProjectCard;
 
-const StyledCard = styled.div`
+const StyledCard = styled.a`
   display: flex;
   position: relative;
   flex-direction: column;

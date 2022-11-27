@@ -64,7 +64,7 @@ const ProjectCard: FC<Project> = ({
 
 export default ProjectCard;
 
-const StyledCard = styled.div`
+const StyledCard = styled.a`
   display: flex;
   position: relative;
   flex-direction: column;
