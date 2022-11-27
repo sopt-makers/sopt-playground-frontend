@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import Notifier from '@/components/makers/Notifier';
+import LogoMakersFull from '@/public/logos/logo-makers-full.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -9,7 +10,7 @@ const AboutMakers: FC = () => {
   return (
     <StyledAbout>
       <MakersLogoBox>
-        <StyledLogo src='/logos/logo-makers-full.svg' alt='makers-logo' />
+        <StyledLogo />
       </MakersLogoBox>
       <Intro>
         sopt makers는 SOPT 구성원들이 가진 불편함을 제품을 통해 해결하여, 2000여명의 구성원들에게 더 많은 가치를
@@ -31,7 +32,7 @@ const StyledAbout = styled.div`
 
 const MakersLogoBox = styled.div``;
 
-const StyledLogo = styled.img`
+const StyledLogo = styled(LogoMakersFull)`
   width: 100%;
   max-width: 470px;
 `;
