@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
 import MobileHeader from '@/components/common/MobileHeader';
 import MemberDetail from '@/components/members/main/MemberDetail';
 import MemberList from '@/components/members/main/MemberList';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
 
 const UserPage: FC = () => {
