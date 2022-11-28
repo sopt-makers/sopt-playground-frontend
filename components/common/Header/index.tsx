@@ -107,13 +107,13 @@ const Header: FC = () => {
       </RightGroup>
 
       <UserDropdown ref={dropdownRef} isOpen={isUserDropdownOpened}>
-        <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'}>내 프로필</Link>
+        <Link href={me?.hasProfile ? `/members?id=${me?.id}` : '/members/upload'}>내 프로필</Link>
         <div onClick={logout}>로그아웃</div>
       </UserDropdown>
 
       <DimmedBackground isOpen={isMobileMenuOpened} onClick={() => setIsMobileMenuOpened(false)} />
       <MobileMenu isOpen={isMobileMenuOpened} ref={mobileMenuRef}>
-        <Link href={me?.hasProfile ? `/members/detail?memberId=${me?.id}` : '/members/upload'} passHref>
+        <Link href={me?.hasProfile ? `/members?id=${me?.id}` : '/members/upload'} passHref>
           <ProfileContainer>
             {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
             <EmptyProfileImage>

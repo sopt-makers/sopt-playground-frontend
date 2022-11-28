@@ -45,7 +45,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
 
   const resolveProfileLink = (person: MakersPerson) => {
     if (person.type === 'member') {
-      return `/members/detail?memberId=${person.id}`;
+      return `/members?id=${person.id}`;
     }
     return undefined;
   };
