@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
+import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
 import MobileHeader from '@/components/common/MobileHeader';
@@ -10,28 +10,13 @@ import MemberList from '@/components/members/main/MemberList';
 import { setLayout } from '@/utils/layout';
 
 const UserPage: FC = () => {
-  const router = useRouter();
+  const { status, query } = useStringRouterQuery(['id'] as const);
 
-  const [memberId, setMemberId] = useState<string | null>(null);
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    if (router.isReady) {
-      const { id } = router.query;
-      if (typeof id === 'string') {
-        setMemberId(id);
-      } else {
-        setMemberId(null);
-      }
-      setIsReady(true);
-    }
-  }, [router, router.isReady, router.query]);
-
-  if (!isReady) {
+  if (status === 'loading') {
     return null;
   }
 
-  if (memberId === null) {
+  if (status === 'error') {
     return (
       <AuthRequired>
         <MemberList />
@@ -39,12 +24,16 @@ const UserPage: FC = () => {
     );
   }
 
-  return (
-    <AuthRequired>
-      <MobileHeader />
-      <MemberDetail memberId={memberId} />
-    </AuthRequired>
-  );
+  if (status === 'success') {
+    return (
+      <AuthRequired>
+        <MobileHeader />
+        <MemberDetail memberId={query.id} />
+      </AuthRequired>
+    );
+  }
+
+  return null;
 };
 
 setLayout(UserPage, (page) => (
