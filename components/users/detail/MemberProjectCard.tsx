@@ -24,7 +24,7 @@ const MemberProjectCard: FC<MemberProject> = ({
   // };
 
   return (
-    <Link passHref href={`/projects/detail?projectId=${id}`}>
+    <Link passHref href={`/projects?id=${id}`}>
       <StyledCard>
         <StyledServiceTypeWrapper>
           {/* {serviceType.map((item, index) => (

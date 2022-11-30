@@ -9,7 +9,7 @@ import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
-import useStringRouterQuery from '@/components/auth/useStringRouterQuery';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import Header from '@/components/common/Header';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
@@ -93,7 +93,7 @@ export default function MemberUploadPage() {
     const response = await postMemberProfile(requestBody);
     await Promise.all([refetchMyProfile(), refetchProfileById(), refetchMe()]);
 
-    router.push(`/members/detail?memberId=${response.id}`);
+    router.push(`/members?id=${response.id}`);
   };
 
   return (
