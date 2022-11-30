@@ -1,6 +1,8 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 
-const WAIT_TIME = 3000;
+import useEnterScreen from '@/hooks/useEnterScreen';
+
+const WAIT_TIME = 2000;
 
 const getResizedImage = (src: string, width: number) => {
   return `https://wsrv.nl/?url=${encodeURIComponent(src)}&w=${width}&output=webp`;
@@ -36,15 +38,13 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) =>
     onLoad?.();
   };
 
-  useEffect(() => {
+  const { ref: imgRef } = useEnterScreen<HTMLImageElement>(() => {
     timeoutTokenRef.current = setTimeout(() => {
-      setIsUsingOriginal(true);
+      if (!imgRef.current?.complete) {
+        setIsUsingOriginal(true);
+      }
     }, WAIT_TIME);
-
-    return () => {
-      cancelReplacementTimer();
-    };
-  }, []);
+  });
 
   return (
     <>
@@ -52,6 +52,7 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) =>
         <img src={src} alt={alt} className={className} onLoad={onLoad} loading='lazy' decoding='async' />
       ) : (
         <img
+          ref={imgRef}
           src={getResizedImage(src, width)}
           srcSet={`${getResizedImage(src, width)} 1x, ${getResizedImage(src, width * 2)} 2x`}
           alt={alt}
