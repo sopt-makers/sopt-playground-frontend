@@ -39,6 +39,10 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) =>
   };
 
   const { ref: imgRef } = useEnterScreen<HTMLImageElement>(() => {
+    if (imgRef.current?.complete) {
+      return;
+    }
+
     timeoutTokenRef.current = setTimeout(() => {
       if (!imgRef.current?.complete) {
         setIsUsingOriginal(true);
