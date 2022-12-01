@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
-import { FC, PropsWithChildren, Suspense, useState } from 'react';
+import { FC, PropsWithChildren, Suspense, useEffect, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 
 import Button from '@/components/common/Button';
 import Modal from '@/components/common/Modal';
+import useModalState from '@/components/common/Modal/useModalState';
 
 interface ConfirmModalProps {
   title?: string;
@@ -20,10 +21,17 @@ const ConfirmModal: FC<PropsWithChildren<ConfirmModalProps>> = ({
   ...props
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const onClose = () => {
-    afterClose?.();
     setIsOpen(false);
+    afterClose?.();
   };
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setIsOpen(true);
+    }
+  }, []);
 
   return (
     <Modal title={title} isOpen={isOpen} onClose={onClose} {...props}>
