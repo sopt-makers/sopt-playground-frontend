@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import RegisterFinished from '@/components/auth/register/RegisterFinished';
+import { setLayout } from '@/utils/layout';
 
 export const RegisterSuccessPage: FC = () => {
   return (
@@ -10,6 +11,8 @@ export const RegisterSuccessPage: FC = () => {
     </StyledRegisterSuccessPage>
   );
 };
+
+setLayout(RegisterSuccessPage, 'empty');
 
 export default RegisterSuccessPage;
 

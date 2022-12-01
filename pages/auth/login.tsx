@@ -8,6 +8,7 @@ import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth'
 import SquareLink from '@/components/common/SquareLink';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { setLayout } from '@/utils/layout';
 
 const LoginPage: FC = () => {
   const facebookAuth = useFacebookAuth();
@@ -43,6 +44,8 @@ const LoginPage: FC = () => {
 };
 
 export default LoginPage;
+
+setLayout(LoginPage, 'empty');
 
 export const StyledLoginPage = styled.div`
   display: flex;

@@ -22,7 +22,9 @@ const Footer: FC<FooterProps> = ({}) => {
       <Link href='/makers' passHref>
         <FooterLink highlight={pathname === '/makers'}>만든 사람들</FooterLink>
       </Link>
-      <FooterLink href={FEEDBACK_FORM_URL}>의견 제안하기</FooterLink>
+      <FooterLink href={FEEDBACK_FORM_URL} target='_blank'>
+        의견 제안하기
+      </FooterLink>
     </StyledFooter>
   );
 };
