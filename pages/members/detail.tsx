@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 
-import SiteHeader from '@/components/common/Header';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
@@ -19,11 +18,6 @@ const MemberDetailPage: FC = () => {
   return null;
 };
 
-setLayout(MemberDetailPage, (page) => (
-  <>
-    <SiteHeader />
-    {page}
-  </>
-));
+setLayout(MemberDetailPage, 'header');
 
 export default MemberDetailPage;

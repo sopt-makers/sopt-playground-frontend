@@ -9,7 +9,6 @@ import { ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
-import Header from '@/components/common/Header';
 import { categoryLabel, FORM_ITEMS, PROJECT_DEFAULT_VALUES } from '@/components/projects/upload/constants';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
@@ -160,12 +159,7 @@ const ProjectUploadPage: FC = () => {
   );
 };
 
-setLayout(ProjectUploadPage, (page) => (
-  <>
-    <Header />
-    {page}
-  </>
-));
+setLayout(ProjectUploadPage, 'header');
 
 export default ProjectUploadPage;
 

@@ -9,7 +9,6 @@ import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
-import Header from '@/components/common/Header';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
@@ -127,12 +126,7 @@ export default function MemberUploadPage() {
   );
 }
 
-setLayout(MemberUploadPage, (page) => (
-  <>
-    <Header />
-    {page}
-  </>
-));
+setLayout(MemberUploadPage, 'header');
 
 const StyledContainer = styled.div`
   display: flex;

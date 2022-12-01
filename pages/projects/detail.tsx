@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 
-import SiteHeader from '@/components/common/Header';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
@@ -19,11 +18,6 @@ const ProjectDetailPage: FC = () => {
   return null;
 };
 
-setLayout(ProjectDetailPage, (page) => (
-  <>
-    <SiteHeader />
-    {page}
-  </>
-));
+setLayout(ProjectDetailPage, 'header');
 
 export default ProjectDetailPage;
