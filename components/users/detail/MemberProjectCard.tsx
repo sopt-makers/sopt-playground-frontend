@@ -4,6 +4,7 @@ import { FC } from 'react';
 
 import { MemberProject } from '@/api/members/type';
 import { categoryLabel } from '@/components/projects/upload/constants';
+import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 // import { textStyles } from '@/styles/typography';
@@ -24,7 +25,7 @@ const MemberProjectCard: FC<MemberProject> = ({
   // };
 
   return (
-    <Link passHref href={`/projects?id=${id}`}>
+    <Link passHref href={playgroundLink.memberDetail(id)}>
       <StyledCard>
         <StyledServiceTypeWrapper>
           {/* {serviceType.map((item, index) => (

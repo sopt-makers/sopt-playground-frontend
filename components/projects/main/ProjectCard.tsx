@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { LinkTitle, Project } from '@/api/projects/type';
 import Text from '@/components/common/Text';
 import { categoryLabel, getLinkInfo } from '@/components/projects/upload/constants';
+import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -24,7 +25,7 @@ const ProjectCard: FC<Project> = ({
   const filteredLinks = links.filter(({ linkId, linkTitle, linkUrl }) => linkId && linkTitle && linkUrl);
 
   return (
-    <Link passHref href={`/projects?id=${id}`}>
+    <Link passHref href={playgroundLink.projectDetail(id)}>
       <StyledCard>
         <StyledServiceTypeWrapper>
           {serviceType.map((serviceType, index) => (

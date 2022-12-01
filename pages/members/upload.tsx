@@ -9,7 +9,6 @@ import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
-import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import Header from '@/components/common/Header';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
@@ -18,6 +17,8 @@ import PublicQuestionFormSection from '@/components/members/upload/PublicQuestio
 import { memberFormSchema } from '@/components/members/upload/schema';
 import SoptActivityFormSection from '@/components/members/upload/SoptActivityFormSection';
 import { Birthday, MemberUploadForm } from '@/components/members/upload/types';
+import { playgroundLink } from '@/constants/links';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -93,7 +94,7 @@ export default function MemberUploadPage() {
     const response = await postMemberProfile(requestBody);
     await Promise.all([refetchMyProfile(), refetchProfileById(), refetchMe()]);
 
-    router.push(`/members?id=${response.id}`);
+    router.push(playgroundLink.memberDetail(response.id));
   };
 
   return (

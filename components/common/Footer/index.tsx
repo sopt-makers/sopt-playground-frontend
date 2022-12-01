@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import { FEEDBACK_FORM_URL } from '@/constants/links';
+import { FEEDBACK_FORM_URL, playgroundLink } from '@/constants/links';
 import useScroll from '@/hooks/useScroll';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -19,8 +19,8 @@ const Footer: FC<FooterProps> = ({}) => {
 
   return (
     <StyledFooter hide={isScrollingDown && !isScrollTop}>
-      <Link href='/makers' passHref>
-        <FooterLink highlight={pathname === '/makers'}>만든 사람들</FooterLink>
+      <Link href={playgroundLink.makers()} passHref>
+        <FooterLink highlight={pathname === playgroundLink.makers()}>만든 사람들</FooterLink>
       </Link>
       <FooterLink href={FEEDBACK_FORM_URL}>의견 제안하기</FooterLink>
     </StyledFooter>

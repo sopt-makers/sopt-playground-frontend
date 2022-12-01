@@ -8,6 +8,7 @@ import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import MemberCard from '@/components/members/main/MemberCard';
 import { LATEST_GENERATION } from '@/constants/generation';
+import { playgroundLink } from '@/constants/links';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -43,11 +44,11 @@ const MemberList: FC = () => {
             </TextContainer>
           </LeftContainer>
           <ButtonContainer>
-            <Link href='/projects/upload' passHref>
+            <Link href={playgroundLink.projectUpload()} passHref>
               <UploadButton>프로젝트 업로드</UploadButton>
             </Link>
             {!memberOfMeData?.hasProfile && (
-              <Link href='/members/upload' passHref>
+              <Link href={playgroundLink.memberUpload()} passHref>
                 <ProfileButton>프로필 추가</ProfileButton>
               </Link>
             )}
@@ -63,7 +64,7 @@ const MemberList: FC = () => {
             )} */}
           <StyledCardWrapper>
             {profiles?.map((profile) => (
-              <Link key={profile.id} href={`/members?id=${profile.id}`} passHref>
+              <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
                 <a>
                   <MemberCard
                     name={profile.name}

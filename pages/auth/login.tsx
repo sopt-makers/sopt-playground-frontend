@@ -6,6 +6,7 @@ import { FC } from 'react';
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import SquareLink from '@/components/common/SquareLink';
+import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -21,7 +22,7 @@ const LoginPage: FC = () => {
         <LoginDescription>SOPT회원만 이용할 수 있어요.</LoginDescription>
         <LinkContainer>
           <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
-          <Link href='/auth/verify' passHref>
+          <Link href={playgroundLink.register()} passHref>
             <SquareLink
               css={css`
                 color: white;
@@ -32,7 +33,7 @@ const LoginPage: FC = () => {
           </Link>
         </LinkContainer>
       </LoginBox>
-      <Link href='/makers' passHref>
+      <Link href={playgroundLink.makers()} passHref>
         <MadeByMakersLink>
           <MadeByTitle>made by</MadeByTitle>
           <StyledMakersLogo src='/logos/logo-makers-full.svg' alt='makers-logo' />

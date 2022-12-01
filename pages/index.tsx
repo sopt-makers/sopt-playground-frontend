@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import Header from '@/components/common/Header';
+import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
@@ -13,9 +14,9 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (router.isReady && accessToken === null) {
-      router.replace('/auth/login');
+      router.replace(playgroundLink.login());
     } else {
-      router.replace('/members');
+      router.replace(playgroundLink.memberList());
     }
   }, [accessToken, router, router.isReady]);
 

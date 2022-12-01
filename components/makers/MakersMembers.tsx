@@ -8,6 +8,7 @@ import useAuth from '@/components/auth/useAuth';
 import { MakersGeneration, MakersPerson } from '@/components/makers/data/types';
 import PersonBlock from '@/components/makers/PersonBlock';
 import TeamBlock from '@/components/makers/TeamBlock';
+import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
@@ -45,7 +46,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
 
   const resolveProfileLink = (person: MakersPerson) => {
     if (person.type === 'member') {
-      return `/members?id=${person.id}`;
+      return playgroundLink.memberDetail(person.id);
     }
     return undefined;
   };

@@ -8,6 +8,7 @@ import { postRegistrationEmail } from '@/api/registration';
 import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
 import Input from '@/components/common/Input';
 import SquareLink from '@/components/common/SquareLink';
+import { MEMBER_REQUEST_FORM_URL } from '@/constants/links';
 import IconArrowRight from '@/public/icons/icon-arrow-right.svg';
 import IconWarning from '@/public/icons/icon-warning.svg';
 import { colors } from '@/styles/colors';
@@ -55,7 +56,7 @@ const VerifyByEmail: FC = () => {
       <SendButton as='button' variant='primary'>
         {verify.isLoading ? <ClipLoader color='#ffffff' size={25} /> : <>SOPT 회원 인증메일 전송</>}
       </SendButton>
-      <ErrorNotice href='https://forms.gle/Hs9tJgMG9bNvT1rS9' target='_blank'>
+      <ErrorNotice href={MEMBER_REQUEST_FORM_URL} target='_blank'>
         <NoticeTitle>
           <div className='question'>이메일로 SOPT 회원 인증이 안된다면?</div>
           <IconArrowRight />
