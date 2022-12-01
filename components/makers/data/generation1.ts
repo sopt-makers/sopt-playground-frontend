@@ -51,7 +51,7 @@ export const generation1: MakersGeneration = {
       title: 'Product Crew 팀',
       description: 'SOPT 플레이그라운드 내에서 구성원들이 하나로 모일 수 있는 모임 서비스를 만들고 있어요.',
       people: [
-        { type: 'member', id: 6, name: '김나연', position: 'PM' },
+        { type: 'member', id: 5, name: '김나연', position: 'PM' },
         { type: 'member', id: 30, name: '김인우', position: '디자이너' },
         { type: 'member', id: 38, name: '김준영', position: '디자이너' },
         { type: 'member', id: 37, name: '이동훈', position: '백엔드 개발자' },
