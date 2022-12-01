@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
 const DEFAULT_FORMAT = 'YYYY.MM';
 const INPUT_DATE_FORMAT = 'YYYY-MM-DD';
