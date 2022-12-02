@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
-import Header from '@/components/common/Header';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
@@ -22,13 +21,6 @@ const Home: NextPage = () => {
   return null;
 };
 
-setLayout(Home, (page) => {
-  return (
-    <>
-      <Header />
-      {page}
-    </>
-  );
-});
+setLayout(Home, 'header');
 
 export default Home;
