@@ -5,12 +5,13 @@ import { createRoot, Root } from 'react-dom/client';
 import Button from '@/components/common/Button';
 import Modal, { ModalProps } from '@/components/common/Modal';
 
-interface ConfirmModalProps extends ModalProps {
+interface ConfirmModalProps extends Omit<ModalProps, 'onClose'> {
   title?: string;
   cancelText?: string;
   okText?: string;
   onConfirm?: () => void;
   onCancel?: () => void;
+  onClose?: () => void;
 }
 const ConfirmModal: FC<PropsWithChildren<ConfirmModalProps>> = ({
   title = '',
@@ -77,10 +78,10 @@ function createConfirmElement(props: ConfirmModalProps) {
     <Suspense fallback={null}>
       <ConfirmModal
         {...props}
-        // afterClose={() => {
-        //   removeConfirmElement(divTarget, root);
-        //   props.afterClose?.();
-        // }}
+        onClose={() => {
+          removeConfirmElement(divTarget, root);
+          props.onClose?.();
+        }}
       />
     </Suspense>,
   );
@@ -93,21 +94,27 @@ function removeConfirmElement(target: HTMLElement, root: Root) {
   }
 }
 
-export function Confirm(props: ConfirmModalProps): Promise<void> {
+export function Confirm(props: ConfirmModalProps): Promise<boolean | undefined> {
   return new Promise((resolve) => {
-    const resolved = false;
+    let resolved = false;
     createConfirmElement({
       ...props,
-      // onConfirm: () => {
-      //   resolve(true);
-      //   props.onConfirm?.();
-      // },
-      // onCancel: () => {},
-      // onClose: () => {},
-      // afterClose: () => {
-      //   resolve();
-      //   props.afterClose?.();
-      // },
+      onConfirm: () => {
+        resolved = true;
+        resolve(true);
+        props.onConfirm?.();
+      },
+      onCancel: () => {
+        resolved = true;
+        resolve(false);
+        props.onCancel?.();
+      },
+      onClose: () => {
+        if (!resolved) {
+          resolve(undefined);
+        }
+        props.onClose?.();
+      },
     });
   });
 }
