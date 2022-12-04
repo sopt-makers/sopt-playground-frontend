@@ -3,18 +3,28 @@ import { FC, PropsWithChildren, Suspense, useEffect, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 
 import Button from '@/components/common/Button';
-import Modal from '@/components/common/Modal';
+import Modal, { ModalProps } from '@/components/common/Modal';
 
-interface AlertModalProps {
+interface AlertModalProps extends Omit<ModalProps, 'onClose'> {
   title?: string;
   okText?: string;
   afterClose?: () => void;
+  onClose?: () => void;
 }
-const AlertModal: FC<PropsWithChildren<AlertModalProps>> = ({ title = '', okText, afterClose, children, ...props }) => {
+const AlertModal: FC<PropsWithChildren<AlertModalProps>> = ({
+  title = '',
+  confirmIcon = true,
+  okText,
+  onClose,
+  afterClose,
+  children,
+  ...props
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const onClose = () => {
+  const handleClose = () => {
     setIsOpen(false);
+    onClose?.();
     afterClose?.();
   };
 
@@ -25,12 +35,12 @@ const AlertModal: FC<PropsWithChildren<AlertModalProps>> = ({ title = '', okText
   }, []);
 
   return (
-    <Modal title={title} isOpen={isOpen} onClose={onClose} {...props}>
+    <Modal title={title} isOpen={isOpen} onClose={handleClose} confirmIcon={confirmIcon} {...props}>
       {children}
       <StyledModalFooter>
-        <Button onClick={onClose} variant='primary'>
+        <StyledButton onClick={handleClose} variant='primary' size='fill'>
           {okText ?? '완료'}
-        </Button>
+        </StyledButton>
       </StyledModalFooter>
     </Modal>
   );
@@ -41,6 +51,11 @@ const StyledModalFooter = styled.footer`
   align-items: center;
   justify-content: center;
   margin-top: 42px;
+`;
+
+const StyledButton = styled(Button)`
+  border-radius: 12px;
+  padding: 14px 28px;
 `;
 
 export default AlertModal;
