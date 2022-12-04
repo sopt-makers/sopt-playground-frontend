@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import FocusTrap from 'focus-trap-react';
-import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect } from 'react';
+import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
 
 import Portal from '@/components/common/Modal/Portal';
+import useOnClickOutside from '@/hooks/useOnClickOutside';
 import IconModalCheck from '@/public/icons/icon-modal-check.svg';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
 import { colors } from '@/styles/colors';
@@ -18,6 +19,7 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
 }
 const Modal: FC<ModalProps> = (props) => {
   const { confirmIcon, children, title = '', content, isOpen, onClose, width, ...restProps } = props;
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const keydownHandler = (e: KeyboardEvent) => {
@@ -32,6 +34,8 @@ const Modal: FC<ModalProps> = (props) => {
     };
   }, [onClose]);
 
+  useOnClickOutside(modalRef, onClose);
+
   if (!isOpen) {
     return null;
   }
@@ -40,7 +44,7 @@ const Modal: FC<ModalProps> = (props) => {
     <Portal>
       <StyledBackground>
         <FocusTrap>
-          <StyledModal role='dialog' width={width} onClick={onClose} {...restProps}>
+          <StyledModal ref={modalRef} role='dialog' width={width} onClick={onClose} {...restProps}>
             <StyledCloseButton type='button' onClick={onClose}>
               <StyledIconClose />
             </StyledCloseButton>
