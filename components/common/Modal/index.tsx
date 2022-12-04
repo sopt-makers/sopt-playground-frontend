@@ -86,13 +86,6 @@ const StyledCloseButton = styled.button`
   justify-content: center;
   cursor: pointer;
   padding: 4px;
-
-  :focus {
-    top: 21px;
-    right: 21px;
-    border: 1px solid ${colors.purple100};
-    border-radius: 4px;
-  }
 `;
 
 const StyledIconClose = styled(IconModalClose)``;

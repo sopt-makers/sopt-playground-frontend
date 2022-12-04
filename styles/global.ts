@@ -13,8 +13,6 @@ export const global = css`
   body {
     background-color: ${colors.black100};
 
-    /* padding-top: 40px; */
-
     .pc-only {
       @media ${MOBILE_MEDIA_QUERY} {
         display: none;
@@ -26,6 +24,10 @@ export const global = css`
       @media ${MOBILE_MEDIA_QUERY} {
         display: block;
       }
+    }
+
+    & :focus {
+      outline: 1px solid ${colors.purple100};
     }
 
     /* Change Autocomplete styles in Chrome */
