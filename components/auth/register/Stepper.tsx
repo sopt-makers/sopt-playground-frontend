@@ -11,11 +11,11 @@ interface StepperProps {
 const Stepper: FC<StepperProps> = ({ step }) => {
   return (
     <Container>
-      <Circle isPurple>
+      <Circle isProceeding>
         1<div>SOPT 회원인증</div>
       </Circle>
-      <Line isPurple={step === 2} />
-      <Circle isPurple={step === 2}>
+      <Line isProceeding={step === 2} />
+      <Circle isProceeding={step === 2}>
         2<div>회원가입</div>
       </Circle>
     </Container>
@@ -37,13 +37,13 @@ const Container = styled.div`
   }
 `;
 
-const Circle = styled.div<{ isPurple: boolean }>`
+const Circle = styled.div<{ isProceeding: boolean }>`
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${({ isPurple }) => (isPurple ? colors.purple100 : colors.black40)};
+  background-color: ${({ isProceeding }) => (isProceeding ? colors.purple100 : colors.black40)};
   width: 28px;
   height: 28px;
 
@@ -51,7 +51,7 @@ const Circle = styled.div<{ isPurple: boolean }>`
     position: absolute;
     top: 40px;
     white-space: nowrap;
-    color: ${({ isPurple }) => (isPurple ? colors.white100 : colors.gray100)};
+    color: ${({ isProceeding }) => (isProceeding ? colors.white100 : colors.gray100)};
     font-size: 14px;
     @media ${MOBILE_MEDIA_QUERY} {
       top: 28px;
@@ -66,8 +66,8 @@ const Circle = styled.div<{ isPurple: boolean }>`
   }
 `;
 
-const Line = styled.div<{ isPurple: boolean }>`
-  background-color: ${({ isPurple }) => (isPurple ? colors.purple100 : colors.black40)};
+const Line = styled.div<{ isProceeding: boolean }>`
+  background-color: ${({ isProceeding }) => (isProceeding ? colors.purple100 : colors.black40)};
   width: 280px;
   height: 2px;
   @media ${MOBILE_MEDIA_QUERY} {
