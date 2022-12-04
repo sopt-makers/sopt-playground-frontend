@@ -2,8 +2,6 @@ import _uniqBy from 'lodash/uniqBy';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import Footer from '@/components/common/Footer';
-import Header from '@/components/common/Header';
 import ProjectDetail from '@/components/projects/main/ProjectDetail';
 import ProjectList from '@/components/projects/main/ProjectList';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
@@ -35,12 +33,6 @@ const ProjectPage: FC = () => {
   return null;
 };
 
-setLayout(ProjectPage, (page) => (
-  <>
-    <Header />
-    {page}
-    <Footer />
-  </>
-));
+setLayout(ProjectPage, 'headerFooter');
 
 export default ProjectPage;
