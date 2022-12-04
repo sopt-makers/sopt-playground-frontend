@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import { playgroundLink } from '@/constants/links';
 
 interface AuthRequiredProps {
   children: ReactNode;
@@ -21,7 +22,7 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
   useEffect(() => {
     if (router.isReady && accessToken === null) {
       lastUnauthorized.setPath(router.asPath);
-      router.replace('/auth/login');
+      router.replace(playgroundLink.login());
     }
   }, [router, router.isReady, accessToken, lastUnauthorized]);
 

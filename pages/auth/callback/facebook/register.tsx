@@ -6,6 +6,7 @@ import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth'
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useQueryStringParam from '@/components/auth/useQueryString';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import { playgroundLink } from '@/constants/links';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const FacebookRegisterCallbackPage: FC = () => {
     }
 
     setAccessToken(registerResult.accessToken);
-    router.replace(lastUnauthorized.popPath() ?? '/members/upload');
+    router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberUpload());
   });
 
   return (

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import SquareLink from '@/components/common/SquareLink';
+import { playgroundLink } from '@/constants/links';
 import { textStyles } from '@/styles/typography';
 
 const RegisterFinished: FC = () => {
@@ -14,7 +15,7 @@ const RegisterFinished: FC = () => {
         <br />
         프로젝트를 등록하여 SOPT에서의 경험을 공유해보세요.
       </Description>
-      <Link href='/projects/upload' passHref>
+      <Link href={playgroundLink.projectUpload()} passHref>
         <SendButton variant='primary'>프로젝트 등록하기</SendButton>
       </Link>
     </Container>

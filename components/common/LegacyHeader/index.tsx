@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Menu from '@/components/common/LegacyHeader/Menu';
+import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -18,20 +19,20 @@ const Header: FC = () => {
     <>
       <StyledHeader>
         <StyledContent>
-          <Link href='/' passHref>
+          <Link href={playgroundLink.memberList()} passHref>
             <a>
               <StyledIconLogo alt='logo' src='/icons/icon-logo.png' />
             </a>
           </Link>
           <Empty />
-          <Link passHref href='/projects/upload'>
+          <Link passHref href={playgroundLink.projectUpload()}>
             <a>
               <StyledUploadButton variant='primary' size='fill'>
                 + 내 프로젝트 올리기
               </StyledUploadButton>
             </a>
           </Link>
-          <Link passHref href='/auth/login'>
+          <Link passHref href={playgroundLink.login()}>
             <a>
               <StyledLoginButton size='fill'>로그인</StyledLoginButton>
             </a>

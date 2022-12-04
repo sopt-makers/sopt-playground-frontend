@@ -30,6 +30,7 @@ import { projectSchema } from '@/components/projects/upload/schema';
 import { ToastContext, ToastProvider } from '@/components/projects/upload/ToastProvider';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
 import { convertPeriodFormat } from '@/components/projects/upload/utils';
+import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -118,7 +119,7 @@ const ProjectUploadPage: FC = () => {
         {
           onSuccess: () => {
             showToast('프로젝트가 성공적으로 업로드 되었습니다.');
-            router.push('/projects');
+            router.push(playgroundLink.projectList());
             queryClient.invalidateQueries('getProjectListQuery');
           },
         },
