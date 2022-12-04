@@ -3,28 +3,40 @@ import { FC, PropsWithChildren, Suspense, useEffect, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 
 import Button from '@/components/common/Button';
-import Modal from '@/components/common/Modal';
-import useModalState from '@/components/common/Modal/useModalState';
+import Modal, { ModalProps } from '@/components/common/Modal';
 
-interface ConfirmModalProps {
+interface ConfirmModalProps extends ModalProps {
   title?: string;
   cancelText?: string;
   okText?: string;
-  afterClose?: () => void;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 const ConfirmModal: FC<PropsWithChildren<ConfirmModalProps>> = ({
   title = '',
   okText,
   cancelText,
-  afterClose,
+  onConfirm,
+  onCancel,
+  onClose,
   children,
   ...props
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const onClose = () => {
+  const handleClose = () => {
+    onClose?.();
     setIsOpen(false);
-    afterClose?.();
+  };
+
+  const handleCancel = () => {
+    onCancel?.();
+    handleClose();
+  };
+
+  const handleConfirm = () => {
+    onConfirm?.();
+    handleClose();
   };
 
   useEffect(() => {
@@ -34,11 +46,13 @@ const ConfirmModal: FC<PropsWithChildren<ConfirmModalProps>> = ({
   }, []);
 
   return (
-    <Modal title={title} isOpen={isOpen} onClose={onClose} {...props}>
+    <Modal title={title} isOpen={isOpen} onClose={handleClose} {...props}>
       {children}
       <StyledModalFooter>
-        <Button onClick={onClose}>{okText ?? '취소'}</Button>
-        <Button variant='primary'>{cancelText ?? '완료'}</Button>
+        <Button onClick={handleCancel}>{okText ?? '취소'}</Button>
+        <Button variant='primary' onClick={handleConfirm}>
+          {cancelText ?? '완료'}
+        </Button>
       </StyledModalFooter>
     </Modal>
   );
@@ -56,17 +70,17 @@ export default ConfirmModal;
 
 function createConfirmElement(props: ConfirmModalProps) {
   const divTarget = document.createElement('div');
-  divTarget.id = 'pastel-alert';
+  divTarget.id = 'makers-confirm';
   document.body.appendChild(divTarget);
   const root = createRoot(divTarget);
   root.render(
     <Suspense fallback={null}>
       <ConfirmModal
         {...props}
-        afterClose={() => {
-          removeConfirmElement(divTarget, root);
-          props.afterClose?.();
-        }}
+        // afterClose={() => {
+        //   removeConfirmElement(divTarget, root);
+        //   props.afterClose?.();
+        // }}
       />
     </Suspense>,
   );
@@ -81,12 +95,19 @@ function removeConfirmElement(target: HTMLElement, root: Root) {
 
 export function Confirm(props: ConfirmModalProps): Promise<void> {
   return new Promise((resolve) => {
+    const resolved = false;
     createConfirmElement({
       ...props,
-      afterClose: () => {
-        resolve();
-        props.afterClose?.();
-      },
+      // onConfirm: () => {
+      //   resolve(true);
+      //   props.onConfirm?.();
+      // },
+      // onCancel: () => {},
+      // onClose: () => {},
+      // afterClose: () => {
+      //   resolve();
+      //   props.afterClose?.();
+      // },
     });
   });
 }

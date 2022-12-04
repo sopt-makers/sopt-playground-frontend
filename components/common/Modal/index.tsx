@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { FC, HTMLAttributes, PropsWithChildren } from 'react';
+import FocusTrap from 'focus-trap-react';
+import { FC, HTMLAttributes, PropsWithChildren, useEffect } from 'react';
 
 import Portal from '@/components/common/Modal/Portal';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
@@ -15,6 +16,19 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
 const Modal: FC<ModalProps> = (props) => {
   const { children, title = '', isOpen, onClose, width, ...restProps } = props;
 
+  useEffect(() => {
+    const keydownHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', keydownHandler);
+
+    return () => {
+      window.removeEventListener('keydown', keydownHandler);
+    };
+  }, [onClose]);
+
   if (!isOpen) {
     return null;
   }
@@ -22,13 +36,19 @@ const Modal: FC<ModalProps> = (props) => {
   return (
     <Portal>
       <StyledBackground>
-        <StyledModal role='dialog' tabIndex={-1} width={width} {...restProps}>
-          <StyledIconClose onClick={onClose} />
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <StyledTitle>{title}</StyledTitle>
-            {children}
-          </ModalContent>
-        </StyledModal>
+        <FocusTrap>
+          <StyledModal role='dialog' tabIndex={-1} width={width} onClick={onClose} {...restProps}>
+            <div onClick={(e) => e.stopPropagation()}>
+              <StyledCloseButton type='button' onClick={onClose}>
+                <StyledIconClose />
+              </StyledCloseButton>
+              <ModalContent>
+                <StyledTitle>{title}</StyledTitle>
+                {children}
+              </ModalContent>
+            </div>
+          </StyledModal>
+        </FocusTrap>
       </StyledBackground>
     </Portal>
   );
@@ -57,12 +77,25 @@ const StyledModal = styled.div<{ width?: number }>`
   color: ${colors.white};
 `;
 
-const StyledIconClose = styled(IconModalClose)`
+const StyledCloseButton = styled.button`
+  display: flex;
   position: absolute;
   top: 22px;
   right: 22px;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  padding: 4px;
+
+  :focus {
+    top: 21px;
+    right: 21px;
+    border: 1px solid ${colors.purple100};
+    border-radius: 4px;
+  }
 `;
+
+const StyledIconClose = styled(IconModalClose)``;
 
 const ModalContent = styled.div`
   display: flex;
@@ -73,5 +106,5 @@ const ModalContent = styled.div`
 `;
 
 const StyledTitle = styled.h1`
-  ${textStyles.SUIT_30_B}
+  ${textStyles.SUIT_24_B}
 `;
