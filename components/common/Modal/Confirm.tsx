@@ -50,10 +50,12 @@ const ConfirmModal: FC<PropsWithChildren<ConfirmModalProps>> = ({
     <Modal title={title} isOpen={isOpen} onClose={handleClose} {...props}>
       {children}
       <StyledModalFooter>
-        <Button onClick={handleCancel}>{okText ?? '취소'}</Button>
-        <Button variant='primary' onClick={handleConfirm}>
+        <StyledButton onClick={handleCancel} size='fill'>
+          {okText ?? '취소'}
+        </StyledButton>
+        <StyledButton variant='primary' onClick={handleConfirm} size='fill'>
           {cancelText ?? '완료'}
-        </Button>
+        </StyledButton>
       </StyledModalFooter>
     </Modal>
   );
@@ -65,6 +67,11 @@ const StyledModalFooter = styled.footer`
   align-items: center;
   justify-content: center;
   margin-top: 42px;
+`;
+
+const StyledButton = styled(Button)`
+  border-radius: 12px;
+  padding: 14px 44px;
 `;
 
 export default ConfirmModal;
