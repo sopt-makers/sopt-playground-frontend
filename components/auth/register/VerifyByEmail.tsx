@@ -6,6 +6,7 @@ import { ClipLoader } from 'react-spinners';
 
 import { postRegistrationEmail } from '@/api/registration';
 import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
+import Stepper from '@/components/auth/register/Stepper';
 import Input from '@/components/common/Input';
 import SquareLink from '@/components/common/SquareLink';
 import { MEMBER_REQUEST_FORM_URL } from '@/constants/links';
@@ -41,6 +42,7 @@ const VerifyByEmail: FC = () => {
 
   return (
     <FormContainer onSubmit={handleSend}>
+      <Stepper step={1} />
       <Title>SOPT 회원인증</Title>
       <Description>SOPT 지원시 입력했던 이메일을 입력해주세요</Description>
       <Label>이메일</Label>
