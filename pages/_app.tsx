@@ -1,15 +1,18 @@
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
-import Debugger from '@/components/debug/Debugger';
+import { DEBUG } from '@/constants/Config';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
+
+const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
 
 function MyApp({ Component, pageProps }: AppProps) {
   const layout = getLayout(Component);
@@ -22,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <GlobalStyle />
         {layout({ children: <Component {...pageProps} /> })}
-        <Debugger />
+        {DEBUG && <Debugger />}
       </RecoilRoot>
     </QueryClientProvider>
   );
