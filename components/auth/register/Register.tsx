@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
+import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
+import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import Stepper from '@/components/auth/register/Stepper';
 import { colors } from '@/styles/colors';
@@ -17,6 +19,7 @@ export const Register: FC<RegisterProps> = (props) => {
   const { userInfo } = props;
 
   const facebookAuth = useFacebookAuth();
+  const googleAuth = useGoogleAuth();
 
   return (
     <StyledRegister>
@@ -29,6 +32,7 @@ export const Register: FC<RegisterProps> = (props) => {
       </Description>
       <Container>
         <FacebookButton onClick={facebookAuth.register}>페이스북으로 로그인</FacebookButton>
+        <GoogleAuthButton onClick={googleAuth.register}>Google로 로그인</GoogleAuthButton>
         <Info>현재는 페이스북 로그인만 지원하고 있어요</Info>
       </Container>
     </StyledRegister>

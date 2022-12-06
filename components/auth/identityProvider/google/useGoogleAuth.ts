@@ -39,12 +39,9 @@ const useGoogleAuth = (): FacebookAuth => {
     },
     register() {
       open(
-        `https://accounts.google.com/o/oauth2/v2/auth?
-            scope=openid&
-            response_type=token&
-            state=${stateParam}&
-            redirect_uri=${encodeURIComponent(GOOGLE_REGISTER_CALLBACK_URI)}&
-            client_id=${GOOGLE_OAUTH_CLIENT_ID}`,
+        `https://accounts.google.com/o/oauth2/v2/auth?scope=openid&response_type=code&state=${stateParam}&redirect_uri=${encodeURIComponent(
+          GOOGLE_REGISTER_CALLBACK_URI,
+        )}&client_id=${GOOGLE_OAUTH_CLIENT_ID}`,
         '_parent',
       );
     },
