@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 
+import ResizedImage from '@/components/common/ResizedImage';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -29,13 +30,12 @@ const PersonBlock: FC<PersonBlockProps> = ({ name, position, link, onClick, imag
           hide={isImageLoaded}
         />
         {imageUrl && (
-          <StyledImage
+          <StyledResizedImage
             src={imageUrl}
             alt=''
             onLoad={() => setIsImageLoaded(true)}
             hide={!isImageLoaded}
-            loading='lazy'
-            decoding='async'
+            width={48}
           />
         )}
       </ImageBox>
@@ -83,6 +83,20 @@ const ImageBox = styled.div`
 `;
 
 const StyledImage = styled.img<{ hide?: boolean }>`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  ${(props) =>
+    props.hide
+      ? css`
+          visibility: hidden;
+        `
+      : ''};
+`;
+
+const StyledResizedImage = styled(ResizedImage)<{ hide?: boolean }>`
   position: absolute;
   width: 100%;
   height: 100%;
