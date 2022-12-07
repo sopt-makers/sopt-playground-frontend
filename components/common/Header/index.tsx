@@ -10,7 +10,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
-import { FEEDBACK_FORM_URL } from '@/constants/links';
+import { FEEDBACK_FORM_URL, playgroundLink } from '@/constants/links';
 import BackIcon from '@/public/icons/icon-back.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -70,7 +70,7 @@ const Header: FC = () => {
         <button ref={mobileButtonRef} className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
           <MenuIcon />
         </button>
-        <Link href='/' passHref>
+        <Link href={playgroundLink.memberList()} passHref>
           <TextLinkButton isCurrentPath={pathname === '/'}>
             <StyledLogo>
               <LogoIcon />
@@ -79,11 +79,11 @@ const Header: FC = () => {
         </Link>
 
         <MenuGroup className='pc-only'>
-          <Link href='/members' passHref>
-            <TextLinkButton isCurrentPath={pathname === '/members'}>멤버</TextLinkButton>
+          <Link href={playgroundLink.memberList()} passHref>
+            <TextLinkButton isCurrentPath={pathname === playgroundLink.memberList()}>멤버</TextLinkButton>
           </Link>
-          <Link href='/projects' passHref>
-            <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
+          <Link href={playgroundLink.projectList()} passHref>
+            <TextLinkButton isCurrentPath={pathname === playgroundLink.projectList()}>프로젝트</TextLinkButton>
           </Link>
           {/* <Link href='/web-product' passHref>
           <TextLinkButton isCurrentPath={router.pathname === ''}>Web Product</TextLinkButton>
@@ -93,7 +93,7 @@ const Header: FC = () => {
 
       <RightGroup>
         <div className='pc-only'>
-          <Link href='/projects/upload' passHref>
+          <Link href={playgroundLink.projectUpload()} passHref>
             <UploadButton>
               <span>+</span>내 프로젝트 올리기
             </UploadButton>
@@ -107,13 +107,15 @@ const Header: FC = () => {
       </RightGroup>
 
       <UserDropdown ref={dropdownRef} isOpen={isUserDropdownOpened}>
-        <Link href={me?.hasProfile ? `/members?id=${me?.id}` : '/members/upload'}>내 프로필</Link>
+        <Link href={me?.hasProfile ? playgroundLink.memberDetail(me.id) : playgroundLink.memberUpload()}>
+          내 프로필
+        </Link>
         <div onClick={logout}>로그아웃</div>
       </UserDropdown>
 
       <DimmedBackground isOpen={isMobileMenuOpened} onClick={() => setIsMobileMenuOpened(false)} />
       <MobileMenu isOpen={isMobileMenuOpened} ref={mobileMenuRef}>
-        <Link href={me?.hasProfile ? `/members?id=${me?.id}` : '/members/upload'} passHref>
+        <Link href={me?.hasProfile ? playgroundLink.memberDetail(me.id) : playgroundLink.memberUpload()} passHref>
           <ProfileContainer>
             {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
             <EmptyProfileImage>
@@ -126,17 +128,17 @@ const Header: FC = () => {
         </Link>
 
         <RouterWrapper>
-          <Link href='/members' passHref>
-            <TextLinkButton isCurrentPath={pathname === '/members'}>멤버</TextLinkButton>
+          <Link href={playgroundLink.memberList()} passHref>
+            <TextLinkButton isCurrentPath={pathname === playgroundLink.memberList()}>멤버</TextLinkButton>
           </Link>
-          <Link href='/projects' passHref>
-            <TextLinkButton isCurrentPath={pathname === '/projects'}>프로젝트</TextLinkButton>
+          <Link href={playgroundLink.projectList()} passHref>
+            <TextLinkButton isCurrentPath={pathname === playgroundLink.projectList()}>프로젝트</TextLinkButton>
           </Link>
         </RouterWrapper>
         <Divider />
         <MenuWrapper>
-          <Link href='/makers' passHref>
-            <MenuLink highlight={pathname === '/makers'}>만든 사람들</MenuLink>
+          <Link href={playgroundLink.makers()} passHref>
+            <MenuLink highlight={pathname === playgroundLink.makers()}>만든 사람들</MenuLink>
           </Link>
           <MenuLink href={FEEDBACK_FORM_URL} target='_blank'>
             의견 제안하기

@@ -8,8 +8,9 @@ import { useSetRecoilState } from 'recoil';
 
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
-import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import { playgroundLink } from '@/constants/links';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { colors } from '@/styles/colors';
 
 const FacebookLoginCallbackPage: FC = () => {
@@ -43,7 +44,7 @@ const FacebookLoginCallbackPage: FC = () => {
     return (
       <StyledFacebookLoginCallback>
         잘못된 접근입니다.
-        <Link href='/auth/login' replace passHref>
+        <Link href={playgroundLink.login()} replace passHref>
           <RetryLink>로그인 페이지로 이동</RetryLink>
         </Link>
       </StyledFacebookLoginCallback>
@@ -75,7 +76,7 @@ const FacebookLoginCallbackPage: FC = () => {
     return (
       <StyledFacebookLoginCallback>
         <ErrorMessage>{message}</ErrorMessage>
-        <Link href='/auth/login' replace passHref>
+        <Link href={playgroundLink.login()} replace passHref>
           <RetryLink>다시 시도</RetryLink>
         </Link>
       </StyledFacebookLoginCallback>

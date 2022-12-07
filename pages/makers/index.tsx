@@ -8,6 +8,7 @@ import Header from '@/components/common/Header';
 import AboutMakers from '@/components/makers/AboutMakers';
 import { makersGenerationsData } from '@/components/makers/data';
 import MakersMembers from '@/components/makers/MakersMembers';
+import { playgroundLink } from '@/constants/links';
 import IconBack from '@/public/icons/icon-back.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -20,7 +21,7 @@ const MakersPage: FC = () => {
         <Header />
       ) : (
         <NotLoggedInHeader>
-          <Link href='/auth/login' passHref>
+          <Link href={playgroundLink.login()} passHref>
             <BackLink>
               <StyledBackIcon />
               로그인하러 가기

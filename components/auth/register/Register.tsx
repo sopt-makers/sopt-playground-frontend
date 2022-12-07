@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
+import Stepper from '@/components/auth/register/Stepper';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
@@ -19,6 +20,7 @@ export const Register: FC<RegisterProps> = (props) => {
 
   return (
     <StyledRegister>
+      <Stepper step={2} />
       <Title>회원가입</Title>
       <Description>
         반갑습니다 {userInfo.name}님,
