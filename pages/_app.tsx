@@ -18,9 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Head>
-        <GoogleTagManagerScript />
         <title>SOPT Playground</title>
       </Head>
+      <GoogleTagManagerScript />
       <RecoilRoot>
         <GlobalStyle />
         {layout({ children: <Component {...pageProps} /> })}

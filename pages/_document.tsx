@@ -7,9 +7,9 @@ export default function Document() {
     <Html>
       <Head />
       <body>
+        <GoogleTagManagerNoscript />
         <Main />
         <NextScript />
-        <GoogleTagManagerNoscript />
       </body>
     </Html>
   );
