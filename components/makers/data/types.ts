@@ -1,5 +1,6 @@
 export interface MakersGeneration {
   title: string;
+  message?: string;
   teams: MakersTeam[];
 }
 
