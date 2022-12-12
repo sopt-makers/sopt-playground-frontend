@@ -56,10 +56,10 @@ const MemberList: FC = () => {
           </IntroducePanel>
         )}
 
-        <StyledMain>
+        <StyledMain hasProfile={!!memberOfMeData?.hasProfile}>
           {!memberOfMeData?.hasProfile && <StyledDivider />}
           {!isMobile ? (
-            <MemberRoleMenu value={filter} onSelect={onSelect} />
+            <StyledMemberRoleMenu value={filter} onSelect={onSelect} />
           ) : (
             <StyledMemberRoleDropdown value={filter} onSelect={onSelect} />
           )}
@@ -101,6 +101,11 @@ const StyledContainer = styled.div`
 const StyledContent = styled.div`
   width: 100%;
   max-width: 1000px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const IntroducePanel = styled.section`
@@ -189,13 +194,14 @@ const ProfileButton = styled.a`
   color: ${colors.purple40};
 `;
 
-const StyledMain = styled.main`
+const StyledMain = styled.main<{ hasProfile?: boolean }>`
   display: flex;
-  justify-content: space-around;
-  margin: 90px 0;
+  position: relative;
+  column-gap: 30px;
+
+  ${({ hasProfile }) => hasProfile && `margin: 90px 0`}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    position: relative;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -209,6 +215,7 @@ const StyledDivider = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;
+    margin: 23.5px 0 32.5px;
     border: 0.5px solid ${colors.black80};
     width: 100%;
   }
@@ -228,7 +235,9 @@ const StyledCardWrapper = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 12px 8px;
-    margin-top: 32.5px;
+
+    /* NOTE: Dropdown을 position: absolute로 포지셔닝 해서 간격을 다음과 같이 맞춰주었습니다. */
+    margin-top: 70px;
 
     & > div {
       width: 100%;
@@ -239,10 +248,15 @@ const StyledCardWrapper = styled.div`
   }
 `;
 
+const StyledMemberRoleMenu = styled(MemberRoleMenu)`
+  min-width: 225px;
+`;
+
 const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
   position: absolute;
-  top: 32px;
-  padding: inherit;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
   height: auto;
 
   & > li {
