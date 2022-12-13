@@ -113,22 +113,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
         {!profile?.isMine && (
           <AskContainer>
-            {is김나연 ? (
-              <div>
-                <AskTitle>기획/PM 직무, 취업에 대해 궁금하신가요?</AskTitle>
-                <AskSubtitle>궁금한 점을 편하게 남겨주세요~!</AskSubtitle>
-              </div>
-            ) : is이정연 ? (
-              <div>
-                <AskTitle>31기 기획파트 여러분 안녕하세요!</AskTitle>
-                <AskSubtitle>제품 구현 또는 협업에 대한 고민이 있다면 편하게 질문 남겨주세요~</AskSubtitle>
-              </div>
-            ) : (
-              <div>
-                <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
-                <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
-              </div>
-            )}
+            <div>
+              <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
+              <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
+            </div>
             <AskButton onClick={handleAskToMeClick}>질문 남기기</AskButton>
           </AskContainer>
         )}
@@ -302,6 +290,7 @@ const NameWrapper = styled.div`
 
   .name {
     line-height: 100%;
+    white-space: nowrap;
     font-size: 36px;
     font-weight: 700;
     @media ${MOBILE_MEDIA_QUERY} {
