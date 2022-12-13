@@ -8,7 +8,7 @@ import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
 import InfoItem from '@/components/users/detail/InfoItem';
@@ -58,6 +58,16 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
     alert('준비 중인 기능이에요!');
   };
+
+  const sortedActivities = useMemo(
+    () =>
+      profile?.activities.sort((a, b) => {
+        const aGen = Number(a.cardinalInfo.split(',')[0]);
+        const bGen = Number(b.cardinalInfo.split(',')[0]);
+        return bGen - aGen;
+      }) ?? [],
+    [profile?.activities],
+  );
 
   return (
     <Container>
@@ -140,7 +150,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         </InfoContainer>
 
         <InfoContainer style={{ gap: '34px' }}>
-          {profile?.activities.map((item, idx) => {
+          {sortedActivities.map((item, idx) => {
             const [generation, part] = item.cardinalInfo.split(',');
             return (
               <PartItem
