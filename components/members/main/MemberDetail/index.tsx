@@ -11,9 +11,9 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
-import InfoItem from '@/components/users/detail/InfoItem';
-import MemberProjectCard from '@/components/users/detail/MemberProjectCard';
-import PartItem from '@/components/users/detail/PartItem';
+import InfoItem from '@/components/members/detail/InfoItem';
+import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
+import PartItem from '@/components/members/detail/PartItem';
 import { playgroundLink } from '@/constants/links';
 import { DEFAULT_DATE } from '@/pages/members/upload';
 import { colors } from '@/styles/colors';
@@ -159,10 +159,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               <LinkItems>
                 {profile?.links.map((item, idx) => (
                   <Link passHref href={item.url} key={idx}>
-                    <div>
+                    <a target='_blank'>
                       <LinkIcon />
                       <span>{item.title}</span>
-                    </div>
+                    </a>
                   </Link>
                 ))}
               </LinkItems>
@@ -422,7 +422,7 @@ const LinkItems = styled.div`
   flex-direction: column;
   gap: 12px;
 
-  & > div {
+  & > a {
     display: flex;
     gap: 10px;
     align-items: center;

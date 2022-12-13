@@ -50,7 +50,7 @@ export type ProfileDetail = {
 export type Activity = {
   id: number;
   generation: number;
-  isProject: string;
+  isProject: boolean;
   team: string;
 };
 
