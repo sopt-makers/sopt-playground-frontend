@@ -39,7 +39,7 @@ const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   background-color: ${colors.black100};
   cursor: pointer;
   padding: 20px 21px;
-  width: 100%;
+  width: inherit;
 
   ${({ isSelected }) =>
     isSelected &&
@@ -54,7 +54,6 @@ const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 14px;
     padding: 14px 18px;
-    width: 335px;
   }
 `;
 
