@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import { Activity } from '@/api/members/type';
-import GenLogo from '@/components/users/detail/GenLogo';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type PartItemProps = {
@@ -19,7 +18,11 @@ const PartItem: FC<PartItemProps> = (project) => {
     <>
       <Container className='pc-only'>
         <Thumbnail>
-          <GenLogo gen={generation} />
+          {Number(generation) < 12 ? (
+            <img alt='generation-logo' src='/icons/logo/time=1-11.svg' />
+          ) : (
+            <img alt='generation-logo' src={`/icons/logo/time=${generation}.svg`} />
+          )}
         </Thumbnail>
         <Contents>
           <Title>
