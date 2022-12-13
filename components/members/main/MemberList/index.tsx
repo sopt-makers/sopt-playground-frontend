@@ -104,6 +104,7 @@ const StyledContent = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
+    flex-direction: column;
     justify-content: center;
   }
 `;
@@ -199,7 +200,7 @@ const StyledMain = styled.main<{ hasProfile?: boolean }>`
   position: relative;
   column-gap: 30px;
 
-  ${({ hasProfile }) => hasProfile && `margin: 90px 0`}
+  ${({ hasProfile }) => hasProfile && `margin: 90px 0`};
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
@@ -236,9 +237,6 @@ const StyledCardWrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 12px 8px;
 
-    /* NOTE: Dropdown을 position: absolute로 포지셔닝 해서 간격을 다음과 같이 맞춰주었습니다. */
-    margin-top: 70px;
-
     & > div {
       width: 100%;
     }
@@ -253,13 +251,6 @@ const StyledMemberRoleMenu = styled(MemberRoleMenu)`
 `;
 
 const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
-  position: absolute;
-  right: 0;
-  left: 0;
-  margin: 0 auto;
-  height: auto;
-
-  & > li {
-    width: 100%;
-  }
+  margin-bottom: 16px;
+  max-width: 505px;
 `;

@@ -65,7 +65,7 @@ const StyledDropdown = styled.ul`
   height: 100%;
 `;
 
-const StyledIconArrow = styled.img<{ isOpen?: boolean }>`
+const StyledIconArrow = styled.img<{ isOpen: boolean }>`
   ${({ isOpen }) =>
     isOpen &&
     css`
@@ -78,7 +78,9 @@ const StyledIconArrow = styled.img<{ isOpen?: boolean }>`
 const StyledDropdownContent = styled.div<{ isOpen: boolean }>`
   position: absolute;
   transition: height ease 0.5s;
+  border-radius: inherit;
+  background-color: inherit;
   width: inherit;
-  height: ${({ isOpen }) => (isOpen ? 0 : 'auto')};
+  height: ${({ isOpen }) => (isOpen ? 'auto' : 0)};
   overflow: hidden;
 `;
