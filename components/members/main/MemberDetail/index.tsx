@@ -11,9 +11,9 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
-import InfoItem from '@/components/users/detail/InfoItem';
-import MemberProjectCard from '@/components/users/detail/MemberProjectCard';
-import PartItem from '@/components/users/detail/PartItem';
+import InfoItem from '@/components/members/detail/InfoItem';
+import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
+import PartItem from '@/components/members/detail/PartItem';
 import { playgroundLink } from '@/constants/links';
 import { DEFAULT_DATE } from '@/pages/members/upload';
 import { colors } from '@/styles/colors';

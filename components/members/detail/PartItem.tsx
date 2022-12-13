@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import { Activity } from '@/api/members/type';
-import GenLogo from '@/components/users/detail/GenLogo';
+import GenLogo from '@/components/members/detail/GenLogo';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type PartItemProps = {
