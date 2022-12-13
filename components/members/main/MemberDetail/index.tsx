@@ -161,10 +161,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               <LinkItems>
                 {profile?.links.map((item, idx) => (
                   <Link passHref href={item.url} key={idx}>
-                    <div>
+                    <a target='_blank'>
                       <LinkIcon />
                       <span>{item.title}</span>
-                    </div>
+                    </a>
                   </Link>
                 ))}
               </LinkItems>
@@ -423,7 +423,7 @@ const LinkItems = styled.div`
   flex-direction: column;
   gap: 12px;
 
-  & > div {
+  & > a {
     display: flex;
     gap: 10px;
     align-items: center;
