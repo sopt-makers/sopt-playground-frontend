@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
 import Debugger from '@/components/debug/Debugger';
+import GoogleTagManagerScript from '@/components/googleTagManager/Script';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
 
@@ -19,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>SOPT Playground</title>
       </Head>
+      <GoogleTagManagerScript />
       <RecoilRoot>
         <GlobalStyle />
         {layout({ children: <Component {...pageProps} /> })}
