@@ -9,19 +9,19 @@ import { textStyles } from '@/styles/typography';
 
 const ActivityBadge: FC<Activity> = (activity) => {
   const [category, setCategory] = useState('');
-  const getProjectCategory = async () => {
-    if (activity.isProject) {
-      const project = await getProjectById(activity.id.toString());
-      setCategory(categoryLabel[project.category]);
-    }
-  };
 
   useEffect(() => {
+    const getProjectCategory = async () => {
+      if (activity.isProject) {
+        const project = await getProjectById(activity.id.toString());
+        setCategory(categoryLabel[project.category]);
+      }
+    };
+
     getProjectCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('activity', activity);
   return (
     <Container key={activity.id}>
       {category && <Category>{category}</Category>}
