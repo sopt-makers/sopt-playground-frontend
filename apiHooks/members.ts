@@ -6,16 +6,15 @@ import {
   getMemberProfile,
   getMemberProfileById,
   getMemberProfileOfMe,
-  GetMemberProfileVariables,
   getMemebersSearchByName,
 } from '@/api/members';
 
 // 멤버 프로필 전체 조회
-export const useGetMemberProfile = (variables: GetMemberProfileVariables) => {
+export const useGetMemberProfile = () => {
   return useQuery(
-    ['getMemberProfile', variables],
+    ['getMemberProfile'],
     async () => {
-      const data = await getMemberProfile(variables);
+      const data = await getMemberProfile();
       return data;
     },
     {
