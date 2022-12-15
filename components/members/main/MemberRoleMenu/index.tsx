@@ -41,7 +41,7 @@ export const MENUS: Menu[] = [
     value: MenuValue.WEB,
   },
   {
-    icon: '/icons/icon-webpart.svg',
+    icon: '/icons/icon-server.svg',
     label: 'SERVER',
     value: MenuValue.SERVER,
   },

@@ -18,7 +18,9 @@ interface MakersMembersProps {
 }
 
 const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
-  const { data, isLoading } = useGetMemberProfile();
+  const { data, isLoading } = useGetMemberProfile({
+    filter: 0,
+  });
   const { isLoggedIn } = useAuth();
 
   const memberImageMap = useMemo(() => {
