@@ -30,11 +30,12 @@ const MemberList: FC = () => {
     isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
     part: uniq(member.activities.map(({ part }) => part)).join(' / '),
   }));
+  const hasProfile = Boolean(memberOfMeData?.hasProfile);
 
   return (
-    <StyledContainer>
+    <StyledContainer hasProfile={hasProfile}>
       <StyledContent>
-        {!memberOfMeData?.hasProfile && (
+        {!hasProfile && (
           <IntroducePanel>
             <LeftContainer>
               <StyledImage src='/icons/icon-doublestar.svg' alt='' />
@@ -56,8 +57,8 @@ const MemberList: FC = () => {
           </IntroducePanel>
         )}
 
-        <StyledMain hasProfile={!!memberOfMeData?.hasProfile}>
-          {!memberOfMeData?.hasProfile && <StyledDivider />}
+        <StyledMain hasProfile={hasProfile}>
+          {!hasProfile && <StyledDivider />}
           {!isMobile ? (
             <StyledMemberRoleMenu value={filter} onSelect={onSelect} />
           ) : (
@@ -87,14 +88,14 @@ const MemberList: FC = () => {
 
 export default MemberList;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{ hasProfile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 120px;
+  ${({ hasProfile }) => !hasProfile && `margin-top: 120px;`}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 45px;
+    ${({ hasProfile }) => !hasProfile && `margin-top: 45px;`}
   }
 `;
 
