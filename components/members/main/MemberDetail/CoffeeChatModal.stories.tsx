@@ -1,12 +1,12 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import PostNoteModal from './PostNoteModal';
+import CoffeeChatModal from './CoffeeChatModal';
 
 export default {
-  component: PostNoteModal,
-} as ComponentMeta<typeof PostNoteModal>;
+  component: CoffeeChatModal,
+} as ComponentMeta<typeof CoffeeChatModal>;
 
-const Template: ComponentStory<typeof PostNoteModal> = (args) => <PostNoteModal {...args} />;
+const Template: ComponentStory<typeof CoffeeChatModal> = (args) => <CoffeeChatModal {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

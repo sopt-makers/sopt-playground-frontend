@@ -57,23 +57,23 @@ const schema = yup.object().shape({
   content: yup.string().required('내용을 입력해주세요.'),
 });
 
-interface NoteForm {
+interface CoffeeChatForm {
   email: string;
   content: string;
 }
 
-interface PostNoteModalProps extends ModalProps {
+interface CoffeeChatModalProps extends ModalProps {
   profile: ReactNode;
   name: string;
 }
 
-const PostNoteModal: FC<PostNoteModalProps> = ({ profile, name, ...props }) => {
+const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ profile, name, ...props }) => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryValue | null>(null);
   const {
     handleSubmit,
     control,
     formState: { isValid: _isValid },
-  } = useForm<NoteForm>({
+  } = useForm<CoffeeChatForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
@@ -139,7 +139,7 @@ const PostNoteModal: FC<PostNoteModalProps> = ({ profile, name, ...props }) => {
   );
 };
 
-export default PostNoteModal;
+export default CoffeeChatModal;
 
 const StyledModal = styled(Modal)`
   padding-top: 20px;
