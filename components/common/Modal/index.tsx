@@ -44,13 +44,13 @@ const Modal: FC<ModalProps> = (props) => {
     <Portal>
       <StyledBackground>
         <FocusTrap>
-          <StyledModal ref={modalRef} role='dialog' width={width} onClick={onClose} {...restProps}>
+          <StyledModal ref={modalRef} role='dialog' width={width} {...restProps}>
             <StyledCloseButton type='button' onClick={onClose}>
               <StyledIconClose />
             </StyledCloseButton>
             <ModalContent>
               {confirmIcon && <StyledIconCheck />}
-              <StyledTitle>{title}</StyledTitle>
+              {title && <StyledTitle>{title}</StyledTitle>}
               {content && <StyledContent>{content}</StyledContent>}
               {children}
             </ModalContent>
@@ -70,6 +70,7 @@ const StyledBackground = styled.div<{ visible?: boolean }>`
   left: 0;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
   background-color: rgb(0 0 0 / 40%);
   width: 100%;
   height: 100%;
