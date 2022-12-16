@@ -2333,6 +2333,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@badrap/bar-of-progress@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@badrap/bar-of-progress@npm:0.2.2"
+  checksum: 9b0d7c276213024d7444414d90228e56622964e34d4c3eaa4db524b37442f3b6a4b55e6fcb9c1446550c8166ac619ebf5000689fbc797fe509b0aeceb5513c67
+  languageName: node
+  linkType: hard
+
 "@base2/pretty-print-object@npm:1.0.1":
   version: 1.0.1
   resolution: "@base2/pretty-print-object@npm:1.0.1"
@@ -17192,6 +17199,7 @@ __metadata:
   resolution: "sopt.org-project@workspace:."
   dependencies:
     "@babel/core": ^7.17.9
+    "@badrap/bar-of-progress": ^0.2.2
     "@cloudflare/workers-types": ^3.18.0
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
