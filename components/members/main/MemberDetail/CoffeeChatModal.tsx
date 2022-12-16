@@ -5,9 +5,11 @@ import { FC, ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+import { usePostCoffeeChatMutation } from '@/apiHooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Modal, { ModalProps } from '@/components/common/Modal';
+import { Alert } from '@/components/common/Modal/Alert';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { colors } from '@/styles/colors';
@@ -65,9 +67,10 @@ interface CoffeeChatForm {
 interface CoffeeChatModalProps extends ModalProps {
   profile: ReactNode;
   name: string;
+  receiverId: string;
 }
 
-const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ profile, name, ...props }) => {
+const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, ...props }) => {
   const [selectedCategory, setSelectedCategory] = useState<CoffeChatCategory | null>(null);
   const {
     handleSubmit,
@@ -78,17 +81,38 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ profile, name, ...props }) 
     mode: 'onChange',
   });
   const isValid = _isValid && Boolean(selectedCategory);
+  const { mutateAsync } = usePostCoffeeChatMutation();
 
   const onClickCategory = (category: CoffeChatCategory) => {
     setSelectedCategory(category);
   };
-  const onSubmit = () => {
-    // TODO: mutation
+  const onSubmit = async ({ content, email }: CoffeeChatForm) => {
+    const confirm = window.confirm('쪽지를 보내시겠습니까?');
+    try {
+      if (!selectedCategory) {
+        return;
+      }
+      if (confirm) {
+        await mutateAsync({
+          senderEmail: email,
+          content,
+          category: selectedCategory,
+          receiverId,
+        });
+        await Alert({
+          title: '쪽지 보내기',
+          content: '성공적으로 전송되었어요!',
+        });
+        props.onClose();
+      }
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <StyledModal isOpen {...props}>
+    <StyledModal isOpen {...props}>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         {profile}
         <Text mt={30} typography='SUIT_26_B'>
           {name}님에게 쪽지 보내기
@@ -129,13 +153,13 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ profile, name, ...props }) 
           component={StyledTextArea}
           placeholder='전달할 내용을 입력해주세요!'
         />
-        <StyledButton type='submit' isDisabled={isValid}>
+        <StyledButton isDisabled={!isValid}>
           <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
             쪽지 보내기
           </Text>
         </StyledButton>
-      </StyledModal>
-    </form>
+      </StyledForm>
+    </StyledModal>
   );
 };
 
@@ -143,6 +167,12 @@ export default CoffeeChatModal;
 
 const StyledModal = styled(Modal)`
   padding-top: 20px;
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StyledCategory = styled.section`
@@ -199,7 +229,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   transition: all 0.2s;
   margin-top: 36px;
   border-radius: 12px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.purple100 : colors.black60)};
+  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
   cursor: pointer;
   padding: 14px 28px;
 `;
