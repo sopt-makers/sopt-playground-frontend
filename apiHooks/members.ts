@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 
 import {
   getMemberById,
@@ -7,7 +7,9 @@ import {
   getMemberProfileById,
   getMemberProfileOfMe,
   getMemebersSearchByName,
+  postMemberCoffeeChat,
 } from '@/api/members';
+import { PostMemberCoffeeChatVariables } from '@/api/members/type';
 
 // 멤버 프로필 전체 조회
 export const useGetMemberProfile = () => {
@@ -103,4 +105,12 @@ export const useGetMembersSearchByName = (name: string) => {
       },
     },
   );
+};
+
+export const usePostCoffeeChatMutation = () => {
+  return useMutation(async (variables: PostMemberCoffeeChatVariables) => await postMemberCoffeeChat(variables), {
+    onError: (error: { message: string }) => {
+      console.error(error.message);
+    },
+  });
 };

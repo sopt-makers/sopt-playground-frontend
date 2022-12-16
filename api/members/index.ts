@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/api';
-import { Member, Profile, ProfileDetail, ProfileRequest } from '@/api/members/type';
+import { Member, PostMemberCoffeeChatVariables, Profile, ProfileDetail, ProfileRequest } from '@/api/members/type';
 
 // 멤버 프로필 전체 조회
 export const getMemberProfile = async () => {
@@ -61,6 +61,18 @@ export const getMemebersSearchByName = async (name: string) => {
   const { data } = await axiosInstance.request<Member[]>({
     method: 'GET',
     url: `api/v1/members/search?name=${name}`,
+  });
+  return data;
+};
+
+export const postMemberCoffeeChat = async (variables: PostMemberCoffeeChatVariables) => {
+  const { data } = await axiosInstance.request<{
+    success: boolean;
+    message: string;
+  }>({
+    method: 'POST',
+    url: 'api/v1/members/coffeechat',
+    data: variables,
   });
   return data;
 };

@@ -100,3 +100,10 @@ export type ProfileRequest = {
   openToSideProject: boolean;
   allowOfficial: boolean;
 };
+
+export interface PostMemberCoffeeChatVariables {
+  receiverId: string;
+  senderEmail: string;
+  category: string;
+  content: string;
+}
