@@ -105,6 +105,7 @@ export default MakersMembers;
 
 const StyledMakersMembers = styled.div`
   padding: 20px;
+  width: 100%;
   max-width: 800px;
 `;
 
