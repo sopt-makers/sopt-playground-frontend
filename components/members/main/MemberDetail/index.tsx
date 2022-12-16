@@ -11,9 +11,11 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
+import useModalState from '@/components/common/Modal/useModalState';
 import InfoItem from '@/components/members/detail/InfoItem';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import PartItem from '@/components/members/detail/PartItem';
+import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
 import { playgroundLink } from '@/constants/links';
 import { DEFAULT_DATE } from '@/pages/members/upload';
 import { colors } from '@/styles/colors';
@@ -37,27 +39,8 @@ const convertBirthdayFormat = (birthday?: string) => {
 
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
-
+  const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
-
-  const is이정연 = profile?.name === '이정연';
-  const is김나연 = profile?.name === '김나연';
-
-  const handleAskToMeClick = () => {
-    if (profile == null) return;
-
-    if (is이정연) {
-      window.open('https://forms.gle/scjKJFpc4sszuGgp9', '_blank');
-      return;
-    }
-
-    if (is김나연) {
-      window.open('https://forms.gle/s5Kkc7GxxsEBYh4U8', '_blank');
-      return;
-    }
-
-    alert('준비 중인 기능이에요!');
-  };
 
   const sortedActivities = useMemo(
     () =>
@@ -122,13 +105,36 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         </ProfileContainer>
 
         {!profile?.isMine && (
-          <AskContainer>
-            <div>
-              <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
-              <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
-            </div>
-            <AskButton onClick={handleAskToMeClick}>질문 남기기</AskButton>
-          </AskContainer>
+          <>
+            <AskContainer>
+              <div>
+                <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
+                <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
+              </div>
+              <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
+            </AskContainer>
+            {isOpen && (
+              <CoffeeChatModal
+                receiverId={memberId}
+                name={profile?.name ?? ''}
+                profile={
+                  <>
+                    {profile?.profileImage ? (
+                      <ProfileImage
+                        src={profile.profileImage}
+                        style={{ width: '84px', height: '84px', borderRadius: '20px' }}
+                      />
+                    ) : (
+                      <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
+                        <ProfileIcon />
+                      </EmptyProfileImage>
+                    )}
+                  </>
+                }
+                onClose={onClose}
+              />
+            )}
+          </>
         )}
 
         <InfoContainer style={{ gap: '30px' }}>

@@ -1,17 +1,24 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { FC, HTMLAttributes, PropsWithChildren } from 'react';
+import { CSSProperties, FC, HTMLAttributes, PropsWithChildren } from 'react';
 
 import { colors } from '@/styles/colors';
+import { space, SpaceProps } from '@/styles/spacing';
 import { baseTextStyles, textStyles, Typography } from '@/styles/typography';
 
-interface TextProps extends HTMLAttributes<HTMLSpanElement> {
-  typography?: Typography;
+const TEXT_TAGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'b', 'small', 'i', 'span', 'del', 'em', 'blockquote'] as const;
+type As = keyof Pick<JSX.IntrinsicElements, typeof TEXT_TAGS[number]>;
+interface TextProps extends HTMLAttributes<HTMLSpanElement>, SpaceProps {
+  align?: CSSProperties['textAlign'];
+  as?: As;
   color?: string;
+  typography?: Typography;
   type?: 'default' | 'error';
 }
 
 const Text: FC<PropsWithChildren<TextProps>> = ({
+  align,
+  as,
   typography = 'SUIT_14_M',
   color,
   type = 'default',
@@ -19,7 +26,7 @@ const Text: FC<PropsWithChildren<TextProps>> = ({
   ...props
 }) => {
   return (
-    <StyledText typography={typography} color={color} type={type} {...props}>
+    <StyledText as={as} align={align} typography={typography} color={color} type={type} {...props}>
       {children}
     </StyledText>
   );
@@ -27,11 +34,11 @@ const Text: FC<PropsWithChildren<TextProps>> = ({
 
 export default Text;
 
-const StyledText = styled.span<Pick<TextProps, 'typography' | 'color' | 'type'>>`
+const StyledText = styled.span<TextProps>`
   ${baseTextStyles};
-  ${({ typography }) => (typography ? textStyles[typography] : '')}
+  ${({ align }) => align && `text-align: ${align}`};
+  ${({ typography }) => (typography ? textStyles[typography] : '')};
   ${({ color }) => (color ? `color: ${color}` : '')};
-
   ${({ type }) =>
     type === 'error' &&
     css`
@@ -39,4 +46,5 @@ const StyledText = styled.span<Pick<TextProps, 'typography' | 'color' | 'type'>>
 
       color: ${colors.red100};
     `}
+  ${space}
 `;
