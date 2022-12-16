@@ -9,16 +9,15 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MemberRoleMenuItemProps {
-  className?: string;
   menu: Menu;
   isSelected?: boolean;
   onClick: () => void;
   suffix?: ReactNode;
 }
 
-const MemberRoleMenuItem: FC<MemberRoleMenuItemProps> = ({ className, menu, isSelected, onClick, suffix }) => {
+const MemberRoleMenuItem: FC<MemberRoleMenuItemProps> = ({ menu, isSelected, onClick, suffix }) => {
   return (
-    <StyledMenuItem className={className} onClick={onClick} isSelected={isSelected}>
+    <StyledMenuItem onClick={onClick} isSelected={isSelected}>
       <LeftSection>
         <StyledMenuItemIcon src={menu.icon} alt='role-icon' />
         <StyledMenuItemText isSelected={isSelected}>{menu.label}</StyledMenuItemText>
@@ -39,7 +38,7 @@ const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   background-color: ${colors.black100};
   cursor: pointer;
   padding: 20px 21px;
-  width: inherit;
+  width: 100%;
 
   ${({ isSelected }) =>
     isSelected &&
@@ -54,6 +53,7 @@ const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 14px;
     padding: 14px 18px;
+    width: 335px;
   }
 `;
 

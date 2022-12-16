@@ -4,15 +4,7 @@ import { FC } from 'react';
 import MemberRoleMenuItem from '@/components/members/main/MemberRoleMenu/MemberRoleMenuItem';
 import { colors } from '@/styles/colors';
 
-export enum MenuValue {
-  ALL = 0,
-  PM,
-  DESIGN,
-  WEB,
-  SERVER,
-  ANDROID,
-  iOS,
-}
+export type MenuValue = 'all' | 'pm' | 'design' | 'ios' | 'web' | 'andriod';
 export interface Menu {
   icon: string;
   label: string;
@@ -23,37 +15,32 @@ export const MENUS: Menu[] = [
   {
     icon: '/icons/icon-all.svg',
     label: '전체',
-    value: MenuValue.ALL,
+    value: 'all',
   },
   {
     icon: '/icons/icon-pm.svg',
     label: 'PM',
-    value: MenuValue.PM,
+    value: 'pm',
   },
   {
     icon: '/icons/icon-design.svg',
     label: '디자인',
-    value: MenuValue.DESIGN,
-  },
-  {
-    icon: '/icons/icon-webpart.svg',
-    label: 'WEB',
-    value: MenuValue.WEB,
-  },
-  {
-    icon: '/icons/icon-server.svg',
-    label: 'SERVER',
-    value: MenuValue.SERVER,
-  },
-  {
-    icon: '/icons/icon-android.svg',
-    label: 'Android',
-    value: MenuValue.ANDROID,
+    value: 'design',
   },
   {
     icon: '/icons/icon-iOS.svg',
     label: 'iOS',
-    value: MenuValue.iOS,
+    value: 'ios',
+  },
+  {
+    icon: '/icons/icon-webpart.svg',
+    label: 'WEB',
+    value: 'web',
+  },
+  {
+    icon: '/icons/icon-android.svg',
+    label: 'Android',
+    value: 'andriod',
   },
 ];
 
@@ -63,7 +50,7 @@ interface UserRoleMenuProps {
   onSelect: (menuValue: MenuValue) => void;
 }
 
-const MemberRoleMenu: FC<UserRoleMenuProps> = ({ className, value, onSelect }) => {
+const UserRoleMenu: FC<UserRoleMenuProps> = ({ className, value, onSelect }) => {
   return (
     <StyledMenu className={className}>
       {MENUS.map((menu) => (
@@ -78,7 +65,7 @@ const MemberRoleMenu: FC<UserRoleMenuProps> = ({ className, value, onSelect }) =
   );
 };
 
-export default MemberRoleMenu;
+export default UserRoleMenu;
 
 const StyledMenu = styled.ul`
   display: flex;

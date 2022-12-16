@@ -1,19 +1,11 @@
 import { axiosInstance } from '@/api';
 import { Member, Profile, ProfileDetail, ProfileRequest } from '@/api/members/type';
 
-export type GetMemberProfileVariables = {
-  filter: number;
-  limit?: number;
-  cursor?: number;
-};
 // 멤버 프로필 전체 조회
-export const getMemberProfile = async (variables: GetMemberProfileVariables) => {
-  const { filter, limit, cursor } = variables;
-  const limitQuery = limit ? `&?limit=${limit}` : '';
-  const cursorQuery = cursor ? `&?cursor=${cursor}` : '';
+export const getMemberProfile = async () => {
   const { data } = await axiosInstance.request<Profile[]>({
     method: 'GET',
-    url: `api/v1/members/profile?filter=${filter}${limitQuery}${cursorQuery}`,
+    url: `api/v1/members/profile`,
   });
 
   return data;
