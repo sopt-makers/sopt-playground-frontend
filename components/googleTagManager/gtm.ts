@@ -5,7 +5,7 @@ const dataLayer =
       (window as any).dataLayer;
 
 export const pageview = (url: string) => {
-  if (!dataLayer) throw new Error('pageview push 실패');
+  if (!dataLayer) return;
   dataLayer.push({
     event: 'pageview',
     page: url,
