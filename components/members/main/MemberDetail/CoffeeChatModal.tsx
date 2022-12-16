@@ -12,43 +12,43 @@ import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { colors } from '@/styles/colors';
 
-type CategoryValue = 'coffeechat' | 'mentoring' | 'network' | 'project' | 'teambuilding' | 'etc';
+enum CoffeChatCategory {
+  COFFEE_CHAT = '커피챗',
+  MENTORING = '멘토링',
+  NETWORK = '친목',
+  PROJECT_SUGGESTION = '프로젝트 제안',
+  APPJAM_TEAM_BUILDING = '앱잼 팀 빌딩',
+  ETC = '기타',
+}
 interface Category {
   icon: string;
-  label: string;
-  value: CategoryValue;
+  value: CoffeChatCategory;
 }
 const CATEGORY: Category[] = [
   {
     icon: '/icons/icon-coffeechat.svg',
-    label: '커피챗',
-    value: 'coffeechat',
+    value: CoffeChatCategory.COFFEE_CHAT,
   },
   {
     icon: '/icons/icon-mentoring.svg',
-    label: '멘토링',
-    value: 'mentoring',
+    value: CoffeChatCategory.MENTORING,
   },
   {
     icon: '/icons/icon-network.svg',
-    label: '친목',
-    value: 'network',
+    value: CoffeChatCategory.NETWORK,
   },
 
   {
     icon: '/icons/icon-project-suggest.svg',
-    label: '프로젝트 제안',
-    value: 'project',
+    value: CoffeChatCategory.PROJECT_SUGGESTION,
   },
   {
     icon: '/icons/icon-appjam-build.svg',
-    label: '앱잼 팀 빌딩',
-    value: 'teambuilding',
+    value: CoffeChatCategory.APPJAM_TEAM_BUILDING,
   },
   {
     icon: '/icons/icon-postnote-etc.svg',
-    label: '기타',
-    value: 'etc',
+    value: CoffeChatCategory.ETC,
   },
 ];
 
@@ -68,7 +68,7 @@ interface CoffeeChatModalProps extends ModalProps {
 }
 
 const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ profile, name, ...props }) => {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryValue | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CoffeChatCategory | null>(null);
   const {
     handleSubmit,
     control,
@@ -79,7 +79,7 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ profile, name, ...props }) 
   });
   const isValid = _isValid && Boolean(selectedCategory);
 
-  const onClickCategory = (category: CategoryValue) => {
+  const onClickCategory = (category: CoffeChatCategory) => {
     setSelectedCategory(category);
   };
   const onSubmit = () => {
@@ -101,11 +101,11 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ profile, name, ...props }) 
             <StyledCategoryItem
               key={index}
               onClick={() => onClickCategory(category.value)}
-              isSelected={category.value === (selectedCategory as CategoryValue | null)}
+              isSelected={category.value === (selectedCategory as CoffeChatCategory | null)}
             >
-              <StyledIcon src={category.icon} alt={category.label} />
+              <StyledIcon src={category.icon} alt={category.value} />
               <Text typography='SUIT_15_SB' color={colors.gray40}>
-                {category.label}
+                {category.value}
               </Text>
             </StyledCategoryItem>
           ))}
@@ -199,15 +199,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   transition: all 0.2s;
   margin-top: 36px;
   border-radius: 12px;
+  background-color: ${({ isDisabled }) => (isDisabled ? colors.purple100 : colors.black60)};
   cursor: pointer;
   padding: 14px 28px;
-
-  ${({ isDisabled }) =>
-    isDisabled
-      ? css`
-          background-color: ${colors.purple100};
-        `
-      : css`
-          background-color: ${colors.black60};
-        `}
 `;

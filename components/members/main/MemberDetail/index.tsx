@@ -15,7 +15,7 @@ import useModalState from '@/components/common/Modal/useModalState';
 import InfoItem from '@/components/members/detail/InfoItem';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import PartItem from '@/components/members/detail/PartItem';
-import PostNoteModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
+import CoffeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
 import { playgroundLink } from '@/constants/links';
 import { DEFAULT_DATE } from '@/pages/members/upload';
 import { colors } from '@/styles/colors';
@@ -114,7 +114,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
             </AskContainer>
             {isOpen && (
-              <PostNoteModal
+              <CoffeChatModal
                 name={profile?.name ?? ''}
                 profile={
                   <>
