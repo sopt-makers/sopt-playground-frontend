@@ -1,9 +1,12 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
 import Debugger from '@/components/debug/Debugger';
+import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
@@ -14,6 +17,14 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const layout = getLayout(Component);
+
+  const router = useRouter();
+  useEffect(() => {
+    router.events.on('routeChangeComplete', gtm.pageview);
+    return () => {
+      router.events.off('routeChangeComplete', gtm.pageview);
+    };
+  }, [router.events]);
 
   return (
     <QueryClientProvider client={queryClient}>
