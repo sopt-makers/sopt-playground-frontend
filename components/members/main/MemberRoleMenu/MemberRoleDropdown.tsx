@@ -45,10 +45,11 @@ const MemberRoleDropdown: FC<MemberRoleDropdownProps> = ({ className, value, onS
           />
         }
       />
-      {isOpen &&
-        filteredMenus.map((menu) => (
+      <StyledDropdownContent isOpen={isOpen}>
+        {filteredMenus.map((menu) => (
           <MemberRoleMenuItem key={menu.value} menu={menu} onClick={() => handleSelect(menu.value)} />
         ))}
+      </StyledDropdownContent>
     </StyledDropdown>
   );
 };
@@ -64,7 +65,7 @@ const StyledDropdown = styled.ul`
   height: 100%;
 `;
 
-const StyledIconArrow = styled.img<{ isOpen?: boolean }>`
+const StyledIconArrow = styled.img<{ isOpen: boolean }>`
   ${({ isOpen }) =>
     isOpen &&
     css`
@@ -72,4 +73,14 @@ const StyledIconArrow = styled.img<{ isOpen?: boolean }>`
     `};
 
   transition: transform 0.3s;
+`;
+
+const StyledDropdownContent = styled.div<{ isOpen: boolean }>`
+  position: absolute;
+  transition: height ease 0.5s;
+  border-radius: inherit;
+  background-color: inherit;
+  width: inherit;
+  height: ${({ isOpen }) => (isOpen ? 'auto' : 0)};
+  overflow: hidden;
 `;
