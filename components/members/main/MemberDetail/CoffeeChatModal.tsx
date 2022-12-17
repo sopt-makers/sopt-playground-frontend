@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FC, ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { ClipLoader } from 'react-spinners';
 import * as yup from 'yup';
 
 import { usePostCoffeeChatMutation } from '@/apiHooks';
@@ -81,7 +82,7 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, 
     mode: 'onChange',
   });
   const isValid = _isValid && Boolean(selectedCategory);
-  const { mutateAsync } = usePostCoffeeChatMutation();
+  const { mutateAsync, isLoading } = usePostCoffeeChatMutation();
 
   const onClickCategory = (category: CoffeChatCategory) => {
     setSelectedCategory(category);
@@ -154,9 +155,13 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, 
           placeholder='전달할 내용을 입력해주세요!'
         />
         <StyledButton isDisabled={!isValid}>
-          <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
-            쪽지 보내기
-          </Text>
+          {isLoading ? (
+            <ClipLoader color='#ffffff' size={25} />
+          ) : (
+            <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
+              쪽지 보내기
+            </Text>
+          )}
         </StyledButton>
       </StyledForm>
     </StyledModal>

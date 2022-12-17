@@ -7,6 +7,9 @@ import { FC } from 'react';
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import MemberCard from '@/components/members/main/MemberCard';
+import MemberRoleMenu from '@/components/members/main/MemberRoleMenu';
+import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
+import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useMediaQuery from '@/hooks/useMediaQuery';
@@ -15,8 +18,10 @@ import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const MemberList: FC = () => {
-  // const { menuValue, onSelect } = useUserRoleMenu(); TODO: 서버 필터스펙 개발 이후 주석 해제
-  const { data: memberProfileData } = useGetMemberProfile();
+  const { menuValue: filter, onSelect } = useMemberRoleMenu();
+  const { data: memberProfileData } = useGetMemberProfile({
+    filter,
+  });
   const { data: memberOfMeData } = useGetMemberOfMe();
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
@@ -25,43 +30,41 @@ const MemberList: FC = () => {
     isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
     part: uniq(member.activities.map(({ part }) => part)).join(' / '),
   }));
-
-  if (!memberProfileData) {
-    return null;
-  }
+  const hasProfile = !!memberOfMeData?.hasProfile;
 
   return (
-    <StyledContainer>
+    <StyledContainer hasProfile={hasProfile}>
       <StyledContent>
-        <IntroducePanel>
-          <LeftContainer>
-            <StyledImage src='/icons/icon-doublestar.svg' alt='' />
-            <TextContainer>
-              <Text typography={isMobile ? 'SUIT_22_R' : 'SUIT_20_R'}>{`${
-                memberOfMeData?.name ?? ''
-              }님, 안녕하세요!`}</Text>
-              <Text typography={isMobile ? 'SUIT_22_B' : 'SUIT_24_B'}>내 프로필도 등록해보시겠어요?</Text>
-            </TextContainer>
-          </LeftContainer>
-          <ButtonContainer>
-            <Link href={playgroundLink.projectUpload()} passHref>
-              <UploadButton>프로젝트 업로드</UploadButton>
-            </Link>
-            {!memberOfMeData?.hasProfile && (
+        {memberOfMeData && !hasProfile && (
+          <IntroducePanel>
+            <LeftContainer>
+              <StyledImage src='/icons/icon-doublestar.svg' alt='' />
+              <TextContainer>
+                <Text typography={isMobile ? 'SUIT_22_R' : 'SUIT_20_R'}>{`${
+                  memberOfMeData?.name ?? ''
+                }님, 안녕하세요!`}</Text>
+                <Text typography={isMobile ? 'SUIT_22_B' : 'SUIT_24_B'}>내 프로필도 등록해보시겠어요?</Text>
+              </TextContainer>
+            </LeftContainer>
+            <ButtonContainer>
+              <Link href={playgroundLink.projectUpload()} passHref>
+                <UploadButton>프로젝트 업로드</UploadButton>
+              </Link>
               <Link href={playgroundLink.memberUpload()} passHref>
                 <ProfileButton>프로필 추가</ProfileButton>
               </Link>
-            )}
-          </ButtonContainer>
-        </IntroducePanel>
+            </ButtonContainer>
+          </IntroducePanel>
+        )}
 
-        <StyledMain>
-          <StyledDivider />
-          {/* {!isMobile ? (
-              <UserRoleMenu value={menuValue} onSelect={onSelect} />
-            ) : (
-              <StyledUserRoleDropdown value={menuValue} onSelect={onSelect} />
-            )} */}
+        <StyledMain hasProfile={hasProfile}>
+          {!hasProfile && <StyledDivider />}
+          {!isMobile ? (
+            <StyledMemberRoleMenu value={filter} onSelect={onSelect} />
+          ) : (
+            <StyledMemberRoleDropdown value={filter} onSelect={onSelect} />
+          )}
+          {/* TODO(@jun): 로딩 추가 */}
           <StyledCardWrapper>
             {profiles?.map((profile) => (
               <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
@@ -85,20 +88,26 @@ const MemberList: FC = () => {
 
 export default MemberList;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{ hasProfile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 120px;
+  ${({ hasProfile }) => !hasProfile && `margin-top: 120px;`}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 45px;
+    ${({ hasProfile }) => !hasProfile && `margin-top: 45px;`}
   }
 `;
 
 const StyledContent = styled.div`
   width: 100%;
   max-width: 1000px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
 const IntroducePanel = styled.section`
@@ -187,13 +196,14 @@ const ProfileButton = styled.a`
   color: ${colors.purple40};
 `;
 
-const StyledMain = styled.main`
+const StyledMain = styled.main<{ hasProfile?: boolean }>`
   display: flex;
-  justify-content: space-around;
-  margin: 90px 0;
+  position: relative;
+  column-gap: 30px;
+
+  ${({ hasProfile }) => hasProfile && `margin: 90px 0`};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    position: relative;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -207,6 +217,7 @@ const StyledDivider = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;
+    margin: 23.5px 0 32.5px;
     border: 0.5px solid ${colors.black80};
     width: 100%;
   }
@@ -215,7 +226,7 @@ const StyledDivider = styled.div`
 const IPHONE_XR = 414;
 const StyledCardWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   align-items: start;
   justify-items: center;
@@ -226,7 +237,6 @@ const StyledCardWrapper = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 12px 8px;
-    margin-top: 32.5px;
 
     & > div {
       width: 100%;
@@ -237,13 +247,11 @@ const StyledCardWrapper = styled.div`
   }
 `;
 
-// const StyledUserRoleDropdown = styled(UserRoleDropdown)`
-//   position: absolute;
-//   top: 32px;
-//   padding: inherit;
-//   height: auto;
+const StyledMemberRoleMenu = styled(MemberRoleMenu)`
+  min-width: 225px;
+`;
 
-//   & > li {
-//     width: 100%;
-//   }
-// `;
+const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
+  margin-bottom: 16px;
+  max-width: 505px;
+`;
