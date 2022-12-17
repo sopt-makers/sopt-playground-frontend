@@ -30,12 +30,12 @@ const MemberList: FC = () => {
     isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
     part: uniq(member.activities.map(({ part }) => part)).join(' / '),
   }));
-  const hasProfile = Boolean(memberOfMeData?.hasProfile);
+  const hasProfile = !!memberOfMeData?.hasProfile;
 
   return (
     <StyledContainer hasProfile={hasProfile}>
       <StyledContent>
-        {!hasProfile && (
+        {memberOfMeData && !hasProfile && (
           <IntroducePanel>
             <LeftContainer>
               <StyledImage src='/icons/icon-doublestar.svg' alt='' />
