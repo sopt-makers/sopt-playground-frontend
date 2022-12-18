@@ -39,3 +39,20 @@ export const postFacebookAuth = async ({ code }: { code: string }) => {
 
   return data;
 };
+
+export const postGoogleRegistration = async ({ code, registerToken }: { code: string; registerToken: string }) => {
+  const { data } = await axiosInstance.post<{ accessToken: string }>(`api/v1/idp/google/register`, {
+    code,
+    registerToken,
+  });
+
+  return data;
+};
+
+export const postGoogleAuth = async ({ code }: { code: string }) => {
+  const { data } = await axiosInstance.post<{ accessToken: string }>(`api/v1/idp/google/auth`, {
+    code,
+  });
+
+  return data;
+};
