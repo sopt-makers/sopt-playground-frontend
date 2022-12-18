@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import { FC, useEffect, useMemo, useState } from 'react';
+import groupBy from 'lodash/groupBy';
+import { FC, useMemo } from 'react';
 
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
+import { playgroundLink } from '@/constants/links';
 import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -19,31 +21,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
   const startAt = dayjs(data?.startAt).format('YYYY-MM');
   const endAt = data?.endAt ? dayjs(data.endAt).format('YYYY-MM') : '';
   const mainImage = data?.images[0];
-
-  const userNamesByRole = useMemo(() => new Map<string, string[]>(), []);
-  // NOTE: Map 자료구조를 update하기 위해 임시 state를 하나 만든다. Map 자료구조를 만든 다음 해당 state를 변경시켜 rerendering을 발생시킨다.
-  // 이렇게 한 이유는 React가 ES6 Map 자료구조가 변경되어도 rerender를 발생시키지 않기 때문이다.
-  // 만약 Map이 변경되었을 때 rerender를 발생시키려면, Map을 state로 만들고
-  const [_, rerender] = useState('');
-  useEffect(() => {
-    if (!data?.members) {
-      return;
-    }
-
-    data.members.forEach((member) => {
-      if (!userNamesByRole.has(member.memberRole)) {
-        userNamesByRole.set(member.memberRole, [member.memberName]);
-      } else {
-        const names = userNamesByRole.get(member.memberRole)?.slice();
-        if (names) {
-          names.push(member.memberName);
-          userNamesByRole.set(member.memberRole, names);
-        }
-      }
-    });
-    rerender('update');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  const memberGroupbyRole = useMemo(() => groupBy([...(data?.members ?? [])], 'memberRole'), [data]);
 
   return (
     <Container>
@@ -99,14 +77,14 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
             <Info>{data?.category}</Info>
           </UserInfoWrapper>
           <UserList>
-            {Array.from(userNamesByRole).map(([role, names], idx) => (
-              <UserItem key={idx}>
+            {Object.entries(memberGroupbyRole).map(([role, members], index) => (
+              <UserItem key={index}>
                 <UserRole>{role}</UserRole>
                 <UserNameList>
-                  {names.map((name, idx) => (
-                    <UserName key={idx}>
+                  {members.map((member) => (
+                    <UserName key={member.memberId} href={playgroundLink.memberDetail(member.memberId)}>
                       <MemberIcon />
-                      {name}
+                      {member.memberName}
                     </UserName>
                   ))}
                 </UserNameList>
@@ -434,12 +412,13 @@ const UserNameList = styled.div`
   flex-direction: column;
   gap: 4px;
 `;
-const UserName = styled.div`
+const UserName = styled.a`
   display: flex;
   gap: 8px;
   align-items: center;
   border-radius: 20px;
   background: ${colors.black60};
+  cursor: pointer;
   padding: 3px 12px 3px 4px;
   width: fit-content;
 `;
