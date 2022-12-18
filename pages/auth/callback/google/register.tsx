@@ -47,7 +47,7 @@ const GoogleRegisterCallbackPage: FC = () => {
       <StyledFacebookLoginCallback>
         잘못된 접근입니다.
         <Link href={playgroundLink.login()} replace passHref>
-          <RetryLink>로그인 페이지로 이동</RetryLink>
+          <LoginLink>로그인 페이지로 이동</LoginLink>
         </Link>
       </StyledFacebookLoginCallback>
     );
@@ -73,7 +73,7 @@ const GoogleRegisterCallbackPage: FC = () => {
       <StyledFacebookLoginCallback>
         <ErrorMessage>{message}</ErrorMessage>
         <Link href={playgroundLink.login()} replace passHref>
-          <RetryLink>다시 시도</RetryLink>
+          <LoginLink>로그인 페이지로 이동</LoginLink>
         </Link>
       </StyledFacebookLoginCallback>
     );
@@ -98,7 +98,7 @@ const ErrorMessage = styled.p`
   white-space: pre-wrap;
 `;
 
-const RetryLink = styled.a`
+const LoginLink = styled.a`
   display: block;
   margin-top: 10px;
   color: #90ace3;
