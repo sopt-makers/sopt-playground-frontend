@@ -4,7 +4,15 @@ import { FC } from 'react';
 import MemberRoleMenuItem from '@/components/members/main/MemberRoleMenu/MemberRoleMenuItem';
 import { colors } from '@/styles/colors';
 
-export type MenuValue = 'all' | 'pm' | 'design' | 'ios' | 'web' | 'andriod';
+export enum MenuValue {
+  ALL = 0,
+  PM,
+  DESIGN,
+  WEB,
+  SERVER,
+  ANDROID,
+  iOS,
+}
 export interface Menu {
   icon: string;
   label: string;
@@ -15,32 +23,37 @@ export const MENUS: Menu[] = [
   {
     icon: '/icons/icon-all.svg',
     label: '전체',
-    value: 'all',
+    value: MenuValue.ALL,
   },
   {
     icon: '/icons/icon-pm.svg',
     label: 'PM',
-    value: 'pm',
+    value: MenuValue.PM,
   },
   {
     icon: '/icons/icon-design.svg',
     label: '디자인',
-    value: 'design',
-  },
-  {
-    icon: '/icons/icon-iOS.svg',
-    label: 'iOS',
-    value: 'ios',
+    value: MenuValue.DESIGN,
   },
   {
     icon: '/icons/icon-webpart.svg',
     label: 'WEB',
-    value: 'web',
+    value: MenuValue.WEB,
+  },
+  {
+    icon: '/icons/icon-server.svg',
+    label: 'SERVER',
+    value: MenuValue.SERVER,
   },
   {
     icon: '/icons/icon-android.svg',
     label: 'Android',
-    value: 'andriod',
+    value: MenuValue.ANDROID,
+  },
+  {
+    icon: '/icons/icon-iOS.svg',
+    label: 'iOS',
+    value: MenuValue.iOS,
   },
 ];
 
@@ -50,7 +63,7 @@ interface UserRoleMenuProps {
   onSelect: (menuValue: MenuValue) => void;
 }
 
-const UserRoleMenu: FC<UserRoleMenuProps> = ({ className, value, onSelect }) => {
+const MemberRoleMenu: FC<UserRoleMenuProps> = ({ className, value, onSelect }) => {
   return (
     <StyledMenu className={className}>
       {MENUS.map((menu) => (
@@ -65,7 +78,7 @@ const UserRoleMenu: FC<UserRoleMenuProps> = ({ className, value, onSelect }) => 
   );
 };
 
-export default UserRoleMenu;
+export default MemberRoleMenu;
 
 const StyledMenu = styled.ul`
   display: flex;

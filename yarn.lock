@@ -2333,6 +2333,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@badrap/bar-of-progress@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@badrap/bar-of-progress@npm:0.2.2"
+  checksum: 9b0d7c276213024d7444414d90228e56622964e34d4c3eaa4db524b37442f3b6a4b55e6fcb9c1446550c8166ac619ebf5000689fbc797fe509b0aeceb5513c67
+  languageName: node
+  linkType: hard
+
 "@base2/pretty-print-object@npm:1.0.1":
   version: 1.0.1
   resolution: "@base2/pretty-print-object@npm:1.0.1"
@@ -10489,6 +10496,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"focus-trap-react@npm:^10.0.2":
+  version: 10.0.2
+  resolution: "focus-trap-react@npm:10.0.2"
+  dependencies:
+    focus-trap: ^7.2.0
+    tabbable: ^6.0.1
+  peerDependencies:
+    prop-types: ^15.8.1
+    react: ">=16.3.0"
+    react-dom: ">=16.3.0"
+  checksum: 9bd33883764ef78b6aae3314814ff0eab48477d045acae7eef0246df563c7d0db0b3935cc9bd25d261ec272322b424d8d3e8581ef0bcccdfdd65ee72d8916d0b
+  languageName: node
+  linkType: hard
+
+"focus-trap@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "focus-trap@npm:7.2.0"
+  dependencies:
+    tabbable: ^6.0.1
+  checksum: 181138fab2f82b66e0b8efaf30ef0c4adf691526b85b2171d780c0d3a5918021d305ebbf907343401fafcc369c904a9bf71a25f1f05223ca28217054955fab43
+  languageName: node
+  linkType: hard
+
 "follow-redirects@npm:^1.14.9":
   version: 1.14.9
   resolution: "follow-redirects@npm:1.14.9"
@@ -17169,6 +17199,7 @@ __metadata:
   resolution: "sopt.org-project@workspace:."
   dependencies:
     "@babel/core": ^7.17.9
+    "@badrap/bar-of-progress": ^0.2.2
     "@cloudflare/workers-types": ^3.18.0
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
@@ -17201,6 +17232,7 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-plugin-simple-import-sort: ^8.0.0
     eslint-plugin-storybook: ^0.5.12
+    focus-trap-react: ^10.0.2
     husky: ^7.0.0
     lodash-es: ^4.17.21
     msw: ^0.39.2
@@ -17978,6 +18010,13 @@ __metadata:
   version: 2.0.15
   resolution: "synchronous-promise@npm:2.0.15"
   checksum: 6079a6acd37d02eb76f250dc7ce09009151744901b320a8cfbba056b015c3d7cbf4e7467458f2d27c6393634f68521b241ea9e35fd9640f8fb59342740550472
+  languageName: node
+  linkType: hard
+
+"tabbable@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "tabbable@npm:6.0.1"
+  checksum: 65e378ad69a97416f2fdce34ade11b8ff68b33d9b2d978920a9d285c77e1bb88cb35113a8f00af8c4f0163d788d451a48840a216fa918d6a3f0c554951deb984
   languageName: node
   linkType: hard
 

@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
 import Footer from '@/components/common/Footer';
@@ -11,10 +12,14 @@ const HeaderFooterLayout: FC<HeaderLayoutProps> = ({ children }) => {
   return (
     <>
       <Header />
-      {children}
+      <StyledContainer>{children}</StyledContainer>
       <Footer />
     </>
   );
 };
 
 export default HeaderFooterLayout;
+
+const StyledContainer = styled.div`
+  padding-top: 40px;
+`;

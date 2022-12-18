@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import { Activity } from '@/api/members/type';
-import GenLogo from '@/components/users/detail/GenLogo';
+import ActivityBadge from '@/components/members/detail/ActivityBadge';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type PartItemProps = {
@@ -19,7 +19,11 @@ const PartItem: FC<PartItemProps> = (project) => {
     <>
       <Container className='pc-only'>
         <Thumbnail>
-          <GenLogo gen={generation} />
+          {Number(generation) < 12 ? (
+            <img alt='generation-logo' src='/icons/logo/time=1-11.svg' />
+          ) : (
+            <img alt='generation-logo' src={`/icons/logo/time=${generation}.svg`} />
+          )}
         </Thumbnail>
         <Contents>
           <Title>
@@ -28,7 +32,7 @@ const PartItem: FC<PartItemProps> = (project) => {
           </Title>
           <Badges>
             {cardinalActivities.map(
-              (activity) => activity.team !== '해당 없음' && <Badge key={activity.id}>{activity.team}</Badge>,
+              (activity) => activity.team !== '해당 없음' && <ActivityBadge key={activity.id} {...activity} />,
             )}
           </Badges>
         </Contents>
@@ -44,7 +48,7 @@ const PartItem: FC<PartItemProps> = (project) => {
         </Contents>
         <Badges>
           {cardinalActivities.map(
-            (activity) => activity.team !== '해당 없음' && <Badge key={activity.id}>{activity.team}</Badge>,
+            (activity) => activity.team !== '해당 없음' && <ActivityBadge key={activity.id} {...activity} />,
           )}
         </Badges>
       </Container>
@@ -124,23 +128,6 @@ const Badges = styled.div`
     flex-wrap: wrap;
     gap: 12px 8px;
     margin-top: 12px;
-  }
-`;
-
-const Badge = styled.div`
-  display: flex;
-  align-items: center;
-  border-radius: 13px;
-  background: #8040ff;
-  padding: 6px 14px;
-  line-height: 100%;
-  letter-spacing: -0.01em;
-  font-size: 14px;
-  font-weight: 500;
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin: 0;
-    width: fit-content;
-    white-space: nowrap;
   }
 `;
 

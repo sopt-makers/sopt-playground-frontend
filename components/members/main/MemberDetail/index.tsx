@@ -8,12 +8,14 @@ import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
-import InfoItem from '@/components/users/detail/InfoItem';
-import MemberProjectCard from '@/components/users/detail/MemberProjectCard';
-import PartItem from '@/components/users/detail/PartItem';
+import useModalState from '@/components/common/Modal/useModalState';
+import InfoItem from '@/components/members/detail/InfoItem';
+import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
+import PartItem from '@/components/members/detail/PartItem';
+import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
 import { playgroundLink } from '@/constants/links';
 import { DEFAULT_DATE } from '@/pages/members/upload';
 import { colors } from '@/styles/colors';
@@ -37,27 +39,18 @@ const convertBirthdayFormat = (birthday?: string) => {
 
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
-
+  const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
 
-  const is이정연 = profile?.name === '이정연';
-  const is김나연 = profile?.name === '김나연';
-
-  const handleAskToMeClick = () => {
-    if (profile == null) return;
-
-    if (is이정연) {
-      window.open('https://forms.gle/scjKJFpc4sszuGgp9', '_blank');
-      return;
-    }
-
-    if (is김나연) {
-      window.open('https://forms.gle/s5Kkc7GxxsEBYh4U8', '_blank');
-      return;
-    }
-
-    alert('준비 중인 기능이에요!');
-  };
+  const sortedActivities = useMemo(
+    () =>
+      profile?.activities.sort((a, b) => {
+        const aGen = Number(a.cardinalInfo.split(',')[0]);
+        const bGen = Number(b.cardinalInfo.split(',')[0]);
+        return bGen - aGen;
+      }) ?? [],
+    [profile?.activities],
+  );
 
   return (
     <Container>
@@ -112,25 +105,36 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         </ProfileContainer>
 
         {!profile?.isMine && (
-          <AskContainer>
-            {is김나연 ? (
-              <div>
-                <AskTitle>기획/PM 직무, 취업에 대해 궁금하신가요?</AskTitle>
-                <AskSubtitle>궁금한 점을 편하게 남겨주세요~!</AskSubtitle>
-              </div>
-            ) : is이정연 ? (
-              <div>
-                <AskTitle>31기 기획파트 여러분 안녕하세요!</AskTitle>
-                <AskSubtitle>제품 구현 또는 협업에 대한 고민이 있다면 편하게 질문 남겨주세요~</AskSubtitle>
-              </div>
-            ) : (
+          <>
+            <AskContainer>
               <div>
                 <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
                 <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
               </div>
+              <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
+            </AskContainer>
+            {isOpen && (
+              <CoffeeChatModal
+                receiverId={memberId}
+                name={profile?.name ?? ''}
+                profile={
+                  <>
+                    {profile?.profileImage ? (
+                      <ProfileImage
+                        src={profile.profileImage}
+                        style={{ width: '84px', height: '84px', borderRadius: '20px' }}
+                      />
+                    ) : (
+                      <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
+                        <ProfileIcon />
+                      </EmptyProfileImage>
+                    )}
+                  </>
+                }
+                onClose={onClose}
+              />
             )}
-            <AskButton onClick={handleAskToMeClick}>질문 남기기</AskButton>
-          </AskContainer>
+          </>
         )}
 
         <InfoContainer style={{ gap: '30px' }}>
@@ -140,7 +144,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         </InfoContainer>
 
         <InfoContainer style={{ gap: '34px' }}>
-          {profile?.activities.map((item, idx) => {
+          {sortedActivities.map((item, idx) => {
             const [generation, part] = item.cardinalInfo.split(',');
             return (
               <PartItem
@@ -161,10 +165,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               <LinkItems>
                 {profile?.links.map((item, idx) => (
                   <Link passHref href={item.url} key={idx}>
-                    <div>
+                    <a target='_blank'>
                       <LinkIcon />
                       <span>{item.title}</span>
-                    </div>
+                    </a>
                   </Link>
                 ))}
               </LinkItems>
@@ -302,6 +306,7 @@ const NameWrapper = styled.div`
 
   .name {
     line-height: 100%;
+    white-space: nowrap;
     font-size: 36px;
     font-weight: 700;
     @media ${MOBILE_MEDIA_QUERY} {
@@ -423,7 +428,7 @@ const LinkItems = styled.div`
   flex-direction: column;
   gap: 12px;
 
-  & > div {
+  & > a {
     display: flex;
     gap: 10px;
     align-items: center;

@@ -10,6 +10,7 @@ import PersonBlock from '@/components/makers/PersonBlock';
 import TeamBlock from '@/components/makers/TeamBlock';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MakersMembersProps {
@@ -18,7 +19,9 @@ interface MakersMembersProps {
 }
 
 const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
-  const { data, isLoading } = useGetMemberProfile();
+  const { data, isLoading } = useGetMemberProfile({
+    filter: 0,
+  });
   const { isLoggedIn } = useAuth();
 
   const memberImageMap = useMemo(() => {
@@ -75,6 +78,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
         <Tab.Panels>
           {generations.map((generation, genIdx) => (
             <Tab.Panel key={genIdx}>
+              {generation.message && <GenerationMessage>{generation.message}</GenerationMessage>}
               {generation.teams.map((team, teamIdx) => (
                 <StyledTeamBlock key={teamIdx} title={team.title} description={team.description} link={team.link}>
                   <PeopleBox>
@@ -103,6 +107,7 @@ export default MakersMembers;
 
 const StyledMakersMembers = styled.div`
   padding: 20px;
+  width: 100%;
   max-width: 800px;
 `;
 
@@ -122,6 +127,10 @@ const TabButton = styled.a<{ selected: boolean }>`
         `}
 
   ${textStyles.SUIT_20_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_18_B};
+  }
 `;
 
 const TabList = styled.div`
@@ -135,6 +144,23 @@ const TabBottomLine = styled.div`
   z-index: -1;
   margin: 0;
   border-bottom: 1px solid rgb(255 255 255 / 20%);
+`;
+
+const GenerationMessage = styled.div`
+  margin-top: 50px;
+  border-radius: 16px;
+  background-color: ${colors.black80};
+  padding: 32px;
+  color: ${colors.gray30};
+
+  ${textStyles.SUIT_18_M}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 33px;
+    padding: 20px;
+
+    ${textStyles.SUIT_14_M}
+  }
 `;
 
 const StyledTeamBlock = styled(TeamBlock)`

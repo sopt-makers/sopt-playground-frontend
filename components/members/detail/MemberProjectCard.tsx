@@ -7,30 +7,25 @@ import { categoryLabel } from '@/components/projects/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-// import { textStyles } from '@/styles/typography';
+import { textStyles } from '@/styles/typography';
 
 const MemberProjectCard: FC<MemberProject> = ({
   id,
   name,
   category,
   generation,
-  // serviceType, TODO: 서버대응 필요
+  serviceType,
   summary,
   thumbnailImage,
   logoImage,
 }) => {
-  // const serviceTypeMap = {
-  //   WEB: 'WEB',
-  //   APP: 'APP',
-  // };
-
   return (
-    <Link passHref href={playgroundLink.memberDetail(id)}>
+    <Link passHref href={playgroundLink.projectDetail(id)}>
       <StyledCard>
         <StyledServiceTypeWrapper>
-          {/* {serviceType.map((item, index) => (
-            <StyledServiceType key={index}>{serviceTypeMap[item]}</StyledServiceType>
-          ))} */}
+          {serviceType.map((serviceType, index) => (
+            <StyledServiceType key={index}>{serviceType}</StyledServiceType>
+          ))}
         </StyledServiceTypeWrapper>
         <StyledImageSection>
           {thumbnailImage ? (
@@ -92,20 +87,20 @@ const StyledServiceTypeWrapper = styled.div`
   }
 `;
 
-// const StyledServiceType = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   border-radius: 2000px;
-//   background: rgb(0 0 0 / 15%);
-//   backdrop-filter: blur(5px);
-//   width: 53px;
-//   height: 23px;
-//   ${textStyles.SUIT_12_B};
-//   @media ${MOBILE_MEDIA_QUERY} {
-//     border-radius: 1711.29px;
-//   }
-// `;
+const StyledServiceType = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2000px;
+  background: rgb(0 0 0 / 15%);
+  backdrop-filter: blur(5px);
+  width: 53px;
+  height: 23px;
+  ${textStyles.SUIT_12_B};
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 1711.29px;
+  }
+`;
 
 const StyledImageSection = styled.section`
   display: flex;
