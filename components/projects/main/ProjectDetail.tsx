@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import groupBy from 'lodash/groupBy';
+import Link from 'next/link';
 import { FC, useMemo } from 'react';
 
 import { getLinkInfo } from '@/components/projects/upload/constants';
@@ -21,7 +22,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
   const startAt = dayjs(data?.startAt).format('YYYY-MM');
   const endAt = data?.endAt ? dayjs(data.endAt).format('YYYY-MM') : '';
   const mainImage = data?.images[0];
-  const memberGroupbyRole = useMemo(() => groupBy([...(data?.members ?? [])], 'memberRole'), [data]);
+  const memberGroupByRole = useMemo(() => groupBy([...(data?.members ?? [])], 'memberRole'), [data]);
 
   return (
     <Container>
@@ -77,15 +78,17 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
             <Info>{data?.category}</Info>
           </UserInfoWrapper>
           <UserList>
-            {Object.entries(memberGroupbyRole).map(([role, members], index) => (
+            {Object.entries(memberGroupByRole).map(([role, members], index) => (
               <UserItem key={index}>
                 <UserRole>{role}</UserRole>
                 <UserNameList>
                   {members.map((member) => (
-                    <UserName key={member.memberId} href={playgroundLink.memberDetail(member.memberId)}>
-                      <MemberIcon />
-                      {member.memberName}
-                    </UserName>
+                    <Link passHref key={member.memberId} href={playgroundLink.memberDetail(member.memberId)}>
+                      <UserName>
+                        <MemberIcon />
+                        {member.memberName}
+                      </UserName>
+                    </Link>
                   ))}
                 </UserNameList>
               </UserItem>
