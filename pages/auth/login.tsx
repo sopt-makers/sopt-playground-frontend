@@ -26,7 +26,7 @@ const LoginPage: FC = () => {
         <LoginDescription>SOPT회원만 이용할 수 있어요.</LoginDescription>
         <LinkContainer>
           <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
-          <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>
+          {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
           <Link href={playgroundLink.register()} passHref>
             <SquareLink
               css={css`

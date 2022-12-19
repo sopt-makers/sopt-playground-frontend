@@ -9,7 +9,7 @@ const GOOGLE_OAUTH_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID ??
 const GOOGLE_LOGIN_CALLBACK_URI = `${ORIGIN}/auth/callback/google/login`;
 const GOOGLE_REGISTER_CALLBACK_URI = `${ORIGIN}/auth/callback/google/register`;
 
-interface FacebookAuth {
+interface GoogleAuth {
   login(): void;
   register(): void;
   sendLoginRequest(
@@ -23,12 +23,14 @@ interface FacebookAuth {
     registerToken: string,
     state: string,
   ): Promise<{ success: true; accessToken: string } | { success: false }>;
+  isAvailable: boolean;
 }
 
-const useGoogleAuth = (): FacebookAuth => {
+const useGoogleAuth = (): GoogleAuth => {
   const stateParam = useStateParam();
 
   return {
+    isAvailable: GOOGLE_OAUTH_CLIENT_ID !== '',
     login() {
       open(
         `https://accounts.google.com/o/oauth2/v2/auth?scope=openid&response_type=code&state=${stateParam}&redirect_uri=${encodeURIComponent(

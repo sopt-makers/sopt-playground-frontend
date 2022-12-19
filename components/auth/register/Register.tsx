@@ -32,7 +32,7 @@ export const Register: FC<RegisterProps> = (props) => {
       </Description>
       <Container>
         <FacebookButton onClick={facebookAuth.register}>페이스북으로 로그인</FacebookButton>
-        <GoogleAuthButton onClick={googleAuth.register}>Google로 로그인</GoogleAuthButton>
+        {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.register}>Google로 로그인</GoogleAuthButton>}
       </Container>
     </StyledRegister>
   );
