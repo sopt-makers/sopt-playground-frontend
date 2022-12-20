@@ -26,7 +26,7 @@ export const global = css`
       }
     }
 
-    & :focus {
+    & :focus-visible {
       outline: 1px solid ${colors.purple100};
     }
 

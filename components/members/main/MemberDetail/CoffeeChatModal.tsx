@@ -172,6 +172,8 @@ export default CoffeeChatModal;
 
 const StyledModal = styled(Modal)`
   padding-top: 20px;
+  max-height: 100%;
+  overflow-y: auto;
 `;
 
 const StyledForm = styled.form`
@@ -231,7 +233,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
   margin-top: 36px;
   border-radius: 12px;
   background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
