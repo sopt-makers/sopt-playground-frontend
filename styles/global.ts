@@ -26,6 +26,10 @@ export const global = css`
       }
     }
 
+    & :focus-visible {
+      outline: 1px solid ${colors.purple100};
+    }
+
     /* Change Autocomplete styles in Chrome */
     input:-webkit-autofill,
     input:-webkit-autofill:hover,

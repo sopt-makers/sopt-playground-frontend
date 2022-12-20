@@ -83,10 +83,6 @@ const StyledModal = styled.div<{ width?: number }>`
   background: ${colors.black80};
   width: ${({ width }) => width ?? 450}px;
   color: ${colors.white};
-
-  & :focus {
-    outline: 1px solid ${colors.purple100};
-  }
 `;
 
 const StyledCloseButton = styled.button`
