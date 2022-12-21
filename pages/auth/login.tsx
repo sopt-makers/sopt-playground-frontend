@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
+import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
+import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import SquareLink from '@/components/common/SquareLink';
 import { playgroundLink } from '@/constants/links';
@@ -13,6 +15,7 @@ import { setLayout } from '@/utils/layout';
 
 const LoginPage: FC = () => {
   const facebookAuth = useFacebookAuth();
+  const googleAuth = useGoogleAuth();
 
   return (
     <StyledLoginPage>
@@ -23,6 +26,7 @@ const LoginPage: FC = () => {
         <LoginDescription>SOPT회원만 이용할 수 있어요.</LoginDescription>
         <LinkContainer>
           <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
+          {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
           <Link href={playgroundLink.register()} passHref>
             <SquareLink
               css={css`

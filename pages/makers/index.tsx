@@ -44,6 +44,7 @@ const StyledMakersPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 80px;
   padding-bottom: 100px;
 `;
 
@@ -61,7 +62,7 @@ const NotLoggedInHeader = styled.div`
   top: 0;
   align-items: stretch;
   margin: 0 30px;
-  width: 100%;
+  width: calc(100% - 30px);
   height: 80px;
 
   @media ${MOBILE_MEDIA_QUERY} {
