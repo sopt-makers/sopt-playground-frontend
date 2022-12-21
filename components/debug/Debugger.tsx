@@ -4,7 +4,7 @@ import AccessTokenPanel from '@/components/debug/panels/AccessTokenPanel';
 import NavigationPanel from '@/components/debug/panels/NavigationPanel';
 import SideBar from '@/components/debug/SideBar';
 import SideToggleButton from '@/components/debug/SideToggleButton';
-import { DEBUG } from '@/constants/Config';
+import { DEBUG } from '@/constants/env';
 
 const Debugger: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
