@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { FocusEvent, InputHTMLAttributes, useState } from 'react';
 
 import Input from '@/components/common/Input';
@@ -17,5 +18,11 @@ export default function MonthInput({ onFocus, onBlur, ...props }: MonthInputProp
     setType('text');
   };
 
-  return <Input {...props} type={type} onFocus={handleFocus} onBlur={handleBlur} />;
+  return <StyledInput {...props} type={type} onFocus={handleFocus} onBlur={handleBlur} />;
 }
+
+const StyledInput = styled(Input)`
+  &[type='month']::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
+  }
+`;
