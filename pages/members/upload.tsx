@@ -85,17 +85,22 @@ export default function MemberUploadPage() {
   };
   const onSubmit = async (formData: MemberUploadForm) => {
     // if (Object.keys(errors).length) return;
-    const { birthday, links } = formData;
+    const { birthday, links, careers } = formData;
     const requestBody: ProfileRequest = {
       ...formData,
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
+      careers: careers
+        .map((career) => (career.endDate ? career : { ...career, endDate: null }))
+        .filter((career) => !Object.values(career).some((item) => item === '')),
     };
     const response = await postMemberProfile(requestBody);
     await Promise.all([refetchMyProfile(), refetchProfileById(), refetchMe()]);
 
     router.push(playgroundLink.memberDetail(response.id));
   };
+
+  useEffect(() => console.log('error', errors), [errors]);
 
   return (
     <AuthRequired>

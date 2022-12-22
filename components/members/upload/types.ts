@@ -38,6 +38,6 @@ export interface Career {
   companyName: string;
   title: string;
   startDate: string;
-  endDate: string;
+  endDate: string | null;
   isCurrent: boolean;
 }
