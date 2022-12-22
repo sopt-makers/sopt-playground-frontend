@@ -14,7 +14,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function CareerFormSection() {
-  const { control } = useFormContext<MemberUploadForm>();
+  const { control, register, watch } = useFormContext<MemberUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'careers',
@@ -31,16 +31,16 @@ export default function CareerFormSection() {
           <StyledAddableItem onRemove={() => onRemove(index)} key={field.id}>
             <CurrentItem>
               <CurrentTitle>{`회사정보 ${index + 1}`}</CurrentTitle>
-              <Input placeholder='회사 입력' />
-              <Input placeholder='직무 입력' />
+              <Input {...register(`careers.${index}.companyName`)} placeholder='회사 입력' />
+              <Input {...register(`careers.${index}.title`)} placeholder='직무 입력' />
               <IsCurrent>
                 현재 재직 중
-                <Switch />
+                <Switch {...register(`careers.${index}.isCurrent`)} />
               </IsCurrent>
-              <StartDateWrapper>
-                <MonthInput placeholder='근무 시작일' className='start-date' />
-              </StartDateWrapper>
-              <MonthInput placeholder='근무 종료일' />
+              <MonthInput placeholder='근무 시작일' className='start-date' />
+              <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
+                <MonthInput placeholder='근무 종료일' />
+              </EndDateWrapper>
             </CurrentItem>
           </StyledAddableItem>
         ))}
@@ -65,14 +65,11 @@ const IsCurrent = styled.div`
 
 const CurrentItem = styled.div`
   display: grid;
-  position: relative;
+
+  /* position: relative; */
   grid-template-columns: 1fr 1fr;
   column-gap: 18px;
   width: 630px;
-
-  input[type='month']::-webkit-calendar-picker-indicator {
-    filter: invert(100%);
-  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
@@ -86,11 +83,17 @@ const CurrentTitle = styled.div`
   ${textStyles.SUIT_18_SB}
 `;
 
-const StartDateWrapper = styled.div`
-  &::after {
+const EndDateWrapper = styled.div`
+  ${(props: { isShow: boolean }) => props.isShow && 'display: none;'};
+
+  position: relative;
+
+  &::before {
     position: absolute;
     bottom: 16px;
-    padding-left: 4px;
+    left: -14px;
     content: '-';
+
+    ${textStyles.SUIT_16_M}
   }
 `;
