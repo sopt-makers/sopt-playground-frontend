@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
+import MonthInput from '@/components/common/MonthInput';
 import Switch from '@/components/common/Switch';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
@@ -37,9 +38,9 @@ export default function CareerFormSection() {
                 <Switch />
               </IsCurrent>
               <StartDateWrapper>
-                <Input placeholder='근무 시작일' className='start-date' />
+                <MonthInput placeholder='근무 시작일' className='start-date' />
               </StartDateWrapper>
-              <Input placeholder='근무 종료일' />
+              <MonthInput placeholder='근무 종료일' />
             </CurrentItem>
           </StyledAddableItem>
         ))}
@@ -68,6 +69,10 @@ const CurrentItem = styled.div`
   grid-template-columns: 1fr 1fr;
   column-gap: 18px;
   width: 630px;
+
+  input[type='month']::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
