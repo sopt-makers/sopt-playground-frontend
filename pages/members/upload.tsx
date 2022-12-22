@@ -100,8 +100,6 @@ export default function MemberUploadPage() {
     router.push(playgroundLink.memberDetail(response.id));
   };
 
-  useEffect(() => console.log('error', errors), [errors]);
-
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
