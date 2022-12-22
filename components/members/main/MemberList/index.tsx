@@ -114,6 +114,7 @@ const IntroducePanel = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 92px;
   border-radius: 42px;
   background-color: ${colors.black80};
   padding: 59px 64px;
@@ -122,6 +123,7 @@ const IntroducePanel = styled.section`
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;
+    margin-bottom: 56px;
     background-color: ${colors.black100};
     padding: 0;
     height: auto;
@@ -207,7 +209,6 @@ const StyledMain = styled.main<{ hasProfile?: boolean }>`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 23px;
     padding: 0 20px;
   }
 `;
