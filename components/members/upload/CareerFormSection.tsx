@@ -14,7 +14,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function CareerFormSection() {
-  const { control, register, watch } = useFormContext<MemberUploadForm>();
+  const { control, register, watch, setValue } = useFormContext<MemberUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'careers',
@@ -37,9 +37,18 @@ export default function CareerFormSection() {
                 현재 재직 중
                 <Switch {...register(`careers.${index}.isCurrent`)} />
               </IsCurrent>
-              <MonthInput placeholder='근무 시작일' className='start-date' />
+              <MonthInput
+                {...register(`careers.${index}.startDate`)}
+                onChange={(e) => setValue(`careers.${index}.startDate`, e.target.value)}
+                placeholder='근무 시작일'
+                className='start-date'
+              />
               <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
-                <MonthInput placeholder='근무 종료일' />
+                <MonthInput
+                  {...register(`careers.${index}.endDate`)}
+                  onChange={(e) => setValue(`careers.${index}.endDate`, e.target.value)}
+                  placeholder='근무 종료일'
+                />
               </EndDateWrapper>
             </CurrentItem>
           </StyledAddableItem>
