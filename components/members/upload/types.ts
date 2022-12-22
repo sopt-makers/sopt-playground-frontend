@@ -14,6 +14,7 @@ export interface MemberUploadForm {
   openToWork: boolean;
   openToSideProject: boolean;
   allowOfficial: boolean;
+  careers: Career[];
 }
 
 interface SoptActivity {
@@ -31,4 +32,12 @@ export interface Birthday {
   year: string;
   month: string;
   day: string;
+}
+
+export interface Career {
+  companyName: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  isCurrent: boolean;
 }

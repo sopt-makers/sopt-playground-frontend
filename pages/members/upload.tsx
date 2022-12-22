@@ -11,6 +11,7 @@ import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } fr
 import AuthRequired from '@/components/auth/AuthRequired';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
+import CareerFormSection from '@/components/members/upload/CareerFormSection';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import PublicQuestionFormSection from '@/components/members/upload/PublicQuestionFormSection';
 import { memberFormSchema } from '@/components/members/upload/schema';
@@ -107,6 +108,7 @@ export default function MemberUploadPage() {
           <StyledForm onSubmit={(e) => e.preventDefault()}>
             <BasicFormSection />
             <SoptActivityFormSection />
+            <CareerFormSection />
             <AdditionalFormSection />
             <PublicQuestionFormSection />
             <MobileSubmitButton onClick={handleSubmit(onSubmit)} className='mobile-only'>
