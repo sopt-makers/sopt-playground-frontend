@@ -3,11 +3,10 @@ import { FC, useContext } from 'react';
 
 import Text from '@/components/common/Text';
 import { ToastContext } from '@/components/projects/upload/ToastProvider';
+import { ORIGIN } from '@/constants/env';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { copyToClipboard } from '@/utils';
-
-const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
 
 const SignUpLink: FC = () => {
   const { showToast } = useContext(ToastContext);
