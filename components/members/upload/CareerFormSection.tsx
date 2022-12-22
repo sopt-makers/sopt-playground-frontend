@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { FieldError, useFieldArray, useFormContext } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
 import MonthInput from '@/components/common/MonthInput';
@@ -14,7 +14,14 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function CareerFormSection() {
-  const { control, register, watch, setValue } = useFormContext<MemberUploadForm>();
+  const {
+    control,
+    register,
+    watch,
+    setValue,
+    trigger,
+    formState: { errors },
+  } = useFormContext<MemberUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'careers',
@@ -22,31 +29,63 @@ export default function CareerFormSection() {
 
   const onAppend = () => append(DEFAULT_CAREER);
   const onRemove = (index: number) => remove(index);
+  const getCareerErrorMessage = (
+    careerError:
+      | {
+          title?: FieldError | undefined;
+          companyName?: FieldError | undefined;
+          startDate?: FieldError | undefined;
+          endDate?: FieldError | undefined;
+        }
+      | undefined,
+  ) => {
+    if (!careerError) return;
+    if (careerError.hasOwnProperty('title')) return careerError.title?.message;
+    if (careerError.hasOwnProperty('companyName')) return careerError.companyName?.message;
+    if (careerError.hasOwnProperty('startDate')) return careerError.startDate?.message;
+    return careerError.endDate?.message;
+  };
 
   return (
     <FormSection>
       <FormHeader title='경력' />
       <AddableWrapper onAppend={onAppend}>
         {fields.map((field, index) => (
-          <StyledAddableItem onRemove={() => onRemove(index)} key={field.id}>
+          <StyledAddableItem
+            errorMessage={getCareerErrorMessage(errors.careers?.[index])}
+            onRemove={() => onRemove(index)}
+            key={field.id}
+          >
             <CurrentItem>
               <CurrentTitle>{`회사정보 ${index + 1}`}</CurrentTitle>
               <Input {...register(`careers.${index}.companyName`)} placeholder='회사 입력' />
               <Input {...register(`careers.${index}.title`)} placeholder='직무 입력' />
               <IsCurrent>
                 현재 재직 중
-                <Switch {...register(`careers.${index}.isCurrent`)} />
+                <Switch
+                  {...register(`careers.${index}.isCurrent`)}
+                  onChange={(e) => {
+                    register(`careers.${index}.isCurrent`).onChange(e);
+                    trigger(`careers.${index}.endDate`);
+                  }}
+                />
               </IsCurrent>
               <MonthInput
                 {...register(`careers.${index}.startDate`)}
-                onChange={(e) => setValue(`careers.${index}.startDate`, e.target.value)}
+                onChange={(e) => {
+                  setValue(`careers.${index}.startDate`, e.target.value);
+                  trigger(`careers.${index}.startDate`);
+                }}
                 placeholder='근무 시작일'
                 className='start-date'
               />
               <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
                 <MonthInput
                   {...register(`careers.${index}.endDate`)}
-                  onChange={(e) => setValue(`careers.${index}.endDate`, e.target.value)}
+                  onChange={(e) => {
+                    setValue(`careers.${index}.endDate`, e.target.value);
+                    trigger(`careers.${index}.endDate`);
+                  }}
                   placeholder='근무 종료일'
                 />
               </EndDateWrapper>
