@@ -1,25 +1,25 @@
 import styled from '@emotion/styled';
 import WarningIcon from 'public/icons/icon-warning.svg';
-import { ReactNode, useState } from 'react';
+import { HTMLAttributes, ReactNode, useState } from 'react';
 
 import Text from '@/components/common/Text';
 import IconDelete from '@/public/icons/icon-delete.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-interface MemberAddableItemProps {
+interface MemberAddableItemProps extends HTMLAttributes<HTMLDivElement> {
   onRemove: () => void;
   errorMessage?: string;
   children: ReactNode;
 }
 
-export default function MemberAddableItem({ onRemove, errorMessage, children }: MemberAddableItemProps) {
+export default function MemberAddableItem({ onRemove, errorMessage, children, ...props }: MemberAddableItemProps) {
   const [isHover, setIsHover] = useState(false);
   const onMouseOver = () => setIsHover(true);
   const onMouseLeave = () => setIsHover(false);
 
   return (
-    <StyledContainer>
+    <StyledContainer {...props}>
       <StyledItemWrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
         {children}
         <StyledDeleteButton onClick={onRemove} isHover={isHover} className='pc-only'>
@@ -43,6 +43,7 @@ const StyledContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
+  width: 100%;
 `;
 
 const StyledItemWrapper = styled.div`
