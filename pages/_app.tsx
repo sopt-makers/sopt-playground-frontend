@@ -1,17 +1,20 @@
 import ProgressBar from '@badrap/bar-of-progress';
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
-import Debugger from '@/components/debug/Debugger';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
+import { DEBUG } from '@/constants/Config';
 import { colors } from '@/styles/colors';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
+
+const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
@@ -42,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <GlobalStyle />
         {layout({ children: <Component {...pageProps} /> })}
-        <Debugger />
+        {DEBUG && <Debugger />}
       </RecoilRoot>
     </QueryClientProvider>
   );
