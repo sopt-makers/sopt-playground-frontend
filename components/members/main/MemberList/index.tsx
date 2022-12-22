@@ -7,6 +7,7 @@ import { FC } from 'react';
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import MemberCard from '@/components/members/main/MemberCard';
+import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import MemberRoleMenu from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
@@ -64,22 +65,25 @@ const MemberList: FC = () => {
           ) : (
             <StyledMemberRoleDropdown value={filter} onSelect={onSelect} />
           )}
-          {/* TODO(@jun): 로딩 추가 */}
-          <StyledCardWrapper>
-            {profiles?.map((profile) => (
-              <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
-                <a>
-                  <MemberCard
-                    name={profile.name}
-                    part={profile.part}
-                    isActiveGeneration={profile.isActive}
-                    introduction={profile.introduction}
-                    image={profile.profileImage}
-                  />
-                </a>
-              </Link>
-            ))}
-          </StyledCardWrapper>
+          <StyledRightWrapper>
+            <StyledInput placeholder='멤버 검색' />
+            {/* TODO(@jun): 로딩 추가 */}
+            <StyledCardWrapper>
+              {profiles?.map((profile) => (
+                <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
+                  <a>
+                    <MemberCard
+                      name={profile.name}
+                      part={profile.part}
+                      isActiveGeneration={profile.isActive}
+                      introduction={profile.introduction}
+                      image={profile.profileImage}
+                    />
+                  </a>
+                </Link>
+              ))}
+            </StyledCardWrapper>
+          </StyledRightWrapper>
         </StyledMain>
       </StyledContent>
     </StyledContainer>
@@ -212,6 +216,18 @@ const StyledMain = styled.main<{ hasProfile?: boolean }>`
   }
 `;
 
+const StyledRightWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledInput = styled(MemberSearch)`
+  align-self: flex-end;
+  @media ${MOBILE_MEDIA_QUERY} {
+    align-self: center;
+  }
+`;
+
 const StyledDivider = styled.div`
   display: none;
 
@@ -230,6 +246,7 @@ const StyledCardWrapper = styled.div`
   gap: 20px;
   align-items: start;
   justify-items: center;
+  margin-top: 28px;
 
   @media screen and (max-width: 1000px) {
     grid-template-columns: repeat(3, 1fr);
