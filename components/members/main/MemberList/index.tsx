@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
@@ -19,9 +19,12 @@ import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const MemberList: FC = () => {
+  const [name, setName] = useState<string>('');
+  const [query, setQuery] = useState<string>('');
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
   const { data: memberProfileData } = useGetMemberProfile({
     filter,
+    // TODO: 멤버검색 query 추가
   });
   const { data: memberOfMeData } = useGetMemberOfMe();
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
@@ -66,7 +69,7 @@ const MemberList: FC = () => {
             <StyledMemberRoleDropdown value={filter} onSelect={onSelect} />
           )}
           <StyledRightWrapper>
-            <StyledInput placeholder='멤버 검색' />
+            <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={(e) => setName(e.target.value)} />
             {/* TODO(@jun): 로딩 추가 */}
             <StyledCardWrapper>
               {profiles?.map((profile) => (
@@ -221,7 +224,7 @@ const StyledRightWrapper = styled.div`
   flex-direction: column;
 `;
 
-const StyledInput = styled(MemberSearch)`
+const StyledMemberSearch = styled(MemberSearch)`
   align-self: flex-end;
   @media ${MOBILE_MEDIA_QUERY} {
     align-self: center;
