@@ -34,7 +34,7 @@ export default function CareerFormSection() {
               <Input placeholder='회사 입력' />
               <Input placeholder='직무 입력' />
               <IsCurrent>
-                현재 재직중
+                현재 재직 중
                 <Switch />
               </IsCurrent>
               <StartDateWrapper>
