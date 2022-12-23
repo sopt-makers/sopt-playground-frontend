@@ -56,8 +56,8 @@ export default function CareerFormSection() {
             onRemove={() => onRemove(index)}
             key={field.id}
           >
-            <CurrentItem>
-              <CurrentTitle>{`회사정보 ${index + 1}`}</CurrentTitle>
+            <CareerItem>
+              <CareerTitle>{`회사정보 ${index + 1}`}</CareerTitle>
               <Input {...register(`careers.${index}.companyName`)} placeholder='회사 입력' />
               <Input {...register(`careers.${index}.title`)} placeholder='직무 입력' />
               <IsCurrent>
@@ -89,7 +89,7 @@ export default function CareerFormSection() {
                   placeholder='근무 종료일'
                 />
               </EndDateWrapper>
-            </CurrentItem>
+            </CareerItem>
           </StyledAddableItem>
         ))}
       </AddableWrapper>
@@ -111,7 +111,7 @@ const IsCurrent = styled.div`
   ${textStyles.SUIT_16_M}
 `;
 
-const CurrentItem = styled.div`
+const CareerItem = styled.div`
   display: grid;
 
   /* position: relative; */
@@ -124,7 +124,7 @@ const CurrentItem = styled.div`
   }
 `;
 
-const CurrentTitle = styled.div`
+const CareerTitle = styled.div`
   grid-column: 1 / span 2;
   margin-bottom: 20px;
 
