@@ -113,8 +113,6 @@ const IsCurrent = styled.div`
 
 const CareerItem = styled.div`
   display: grid;
-
-  /* position: relative; */
   grid-template-columns: 1fr 1fr;
   column-gap: 18px;
   width: 630px;
