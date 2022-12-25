@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
-import { FC, ReactNode, useCallback, useState } from 'react';
+import { FC, ReactNode, useMemo, useState } from 'react';
 import { useEffect } from 'react';
 
+import Portal from '@/components/common/Portal';
 import { ToastContext } from '@/components/common/Toast/context';
 import { ToastController, ToastEntry, ToastOption } from '@/components/common/Toast/types';
 import useAtomicTimeout from '@/components/common/Toast/useAtomicTimeout';
@@ -18,19 +19,17 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
   const toastTimeout = useAtomicTimeout();
 
-  const showToast = useCallback(
-    ({ message }: ToastOption) => {
-      setToast({ option: { message } });
-      toastTimeout.set(() => {
-        setToast(null);
-      }, duration + 600);
-    },
+  const controller: ToastController = useMemo(
+    () => ({
+      show: ({ message }: ToastOption) => {
+        setToast({ option: { message } });
+        toastTimeout.set(() => {
+          setToast(null);
+        }, duration + 600);
+      },
+    }),
     [duration, toastTimeout],
   );
-
-  const controller: ToastController = {
-    show: showToast,
-  };
 
   useEffect(() => {
     let animationTimeout: TimeoutID;
@@ -48,9 +47,11 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
   return (
     <ToastContext.Provider value={controller}>
       {children}
-      <StyledContainer>
-        {toast && <StyledToastItem animation={animation}>{toast.option.message}</StyledToastItem>}
-      </StyledContainer>
+      <Portal portalId='toast-root'>
+        <StyledContainer>
+          {toast && <StyledToastItem animation={animation}>{toast.option.message}</StyledToastItem>}
+        </StyledContainer>
+      </Portal>
     </ToastContext.Provider>
   );
 };
