@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
@@ -12,6 +12,7 @@ import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberR
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -23,6 +24,8 @@ const MemberList: FC = () => {
     filter,
   });
   const { data: memberOfMeData } = useGetMemberOfMe();
+  const ref = useRef(null);
+  const { isVisible } = useIntersectionObserver(ref);
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
   const profiles = memberProfileData?.map((member) => ({
@@ -31,6 +34,11 @@ const MemberList: FC = () => {
     part: uniq(member.activities.map(({ part }) => part)).join(' / '),
   }));
   const hasProfile = !!memberOfMeData?.hasProfile;
+
+  /**
+   * limit = cursor 부터 몇개까지 내려오는가
+   * cursor = 어디서 부터 가져올 건가
+   */
 
   return (
     <StyledContainer hasProfile={hasProfile}>
@@ -77,6 +85,7 @@ const MemberList: FC = () => {
                 />
               </Link>
             ))}
+            <Observe ref={ref} />
           </StyledCardWrapper>
         </StyledMain>
       </StyledContent>
@@ -254,3 +263,5 @@ const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
   margin-bottom: 16px;
   max-width: 505px;
 `;
+
+const Observe = styled.div``;
