@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
-import { FC, ReactNode, useCallback, useRef, useState } from 'react';
+import { FC, ReactNode, useCallback, useState } from 'react';
 import { useEffect } from 'react';
 
 import { ToastContext } from '@/components/common/Toast/context';
 import { ToastController, ToastOption, ToastStatus } from '@/components/common/Toast/types';
+import useAtomicTimeout from '@/components/common/Toast/useAtomicTimeout';
 import { colors } from '@/styles/colors';
 import { TimeoutID } from '@/types';
 
@@ -14,22 +15,17 @@ interface ToastProviderProps {
 
 export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) => {
   const [toast, setToast] = useState<ToastStatus>({ isActive: false, message: '' });
-  const timeoutID = useRef<TimeoutID | undefined>();
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
-
-  const hideToast = useCallback(() => {
-    setToast({ isActive: false, message: '' });
-    timeoutID.current && clearTimeout(timeoutID.current);
-    timeoutID.current = undefined;
-  }, []);
+  const toastTimeout = useAtomicTimeout();
 
   const showToast = useCallback(
     ({ message }: ToastOption) => {
-      if (timeoutID.current) return;
       setToast({ isActive: true, message });
-      timeoutID.current = setTimeout(() => hideToast(), (duration ?? 1000) + 600);
+      toastTimeout.set(() => {
+        setToast({ isActive: false, message: '' });
+      }, duration + 600);
     },
-    [duration, hideToast],
+    [duration, toastTimeout],
   );
 
   const controller: ToastController = {
