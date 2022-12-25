@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC, useContext } from 'react';
 
 import Text from '@/components/common/Text';
-import { ToastContext } from '@/components/projects/upload/ToastProvider';
+import { ToastContext } from '@/components/common/Toast';
 import { ORIGIN } from '@/constants/env';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';

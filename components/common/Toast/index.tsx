@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { createContext, FC, ReactNode, useRef, useState } from 'react';
 import { useEffect } from 'react';
 
-import { ToastStatus } from '@/components/projects/upload/ToastProvider/types';
+import { ToastStatus } from '@/components/common/Toast/types';
 import { colors } from '@/styles/colors';
 import { TimeoutID } from '@/types';
 
