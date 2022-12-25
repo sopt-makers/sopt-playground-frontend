@@ -1,16 +1,11 @@
 import styled from '@emotion/styled';
-import { createContext, FC, ReactNode, useRef, useState } from 'react';
+import { FC, ReactNode, useCallback, useRef, useState } from 'react';
 import { useEffect } from 'react';
 
-import { ToastStatus } from '@/components/common/Toast/types';
+import { ToastContext } from '@/components/common/Toast/context';
+import { ToastController, ToastOption, ToastStatus } from '@/components/common/Toast/types';
 import { colors } from '@/styles/colors';
 import { TimeoutID } from '@/types';
-
-export const ToastContext = createContext<{ showToast: (message: string) => void }>({
-  showToast() {
-    // do nothing
-  },
-});
 
 interface ToastProviderProps {
   children: ReactNode;
@@ -22,15 +17,23 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
   const timeoutID = useRef<TimeoutID | undefined>();
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
 
-  const showToast = (message: string) => {
-    if (timeoutID.current) return;
-    setToast({ isActive: true, message });
-    timeoutID.current = setTimeout(() => hideToast(), (duration ?? 1000) + 600);
-  };
-  const hideToast = () => {
+  const hideToast = useCallback(() => {
     setToast({ isActive: false, message: '' });
     timeoutID.current && clearTimeout(timeoutID.current);
     timeoutID.current = undefined;
+  }, []);
+
+  const showToast = useCallback(
+    ({ message }: ToastOption) => {
+      if (timeoutID.current) return;
+      setToast({ isActive: true, message });
+      timeoutID.current = setTimeout(() => hideToast(), (duration ?? 1000) + 600);
+    },
+    [duration, hideToast],
+  );
+
+  const controller: ToastController = {
+    show: showToast,
   };
 
   useEffect(() => {
@@ -47,7 +50,7 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
   }, [duration, toast, animation]);
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={controller}>
       {children}
       <StyledContainer>
         {toast.isActive && <StyledToastItem animation={animation}>{toast.message}</StyledToastItem>}
