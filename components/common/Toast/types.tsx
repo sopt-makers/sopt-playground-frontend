@@ -1,11 +1,10 @@
 import { TimeoutID } from '@/types';
 
-export type ToastStatus = {
-  isActive: boolean;
-  message: string;
-};
+export interface ToastEntry {
+  option: ToastOption;
+}
 
-export interface Toast extends ToastStatus {
+export interface Toast extends ToastEntry {
   timeoutID: TimeoutID | null;
 }
 

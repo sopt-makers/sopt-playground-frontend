@@ -3,7 +3,7 @@ import { FC, ReactNode, useCallback, useState } from 'react';
 import { useEffect } from 'react';
 
 import { ToastContext } from '@/components/common/Toast/context';
-import { ToastController, ToastOption, ToastStatus } from '@/components/common/Toast/types';
+import { ToastController, ToastEntry, ToastOption } from '@/components/common/Toast/types';
 import useAtomicTimeout from '@/components/common/Toast/useAtomicTimeout';
 import { colors } from '@/styles/colors';
 import { TimeoutID } from '@/types';
@@ -14,15 +14,15 @@ interface ToastProviderProps {
 }
 
 export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) => {
-  const [toast, setToast] = useState<ToastStatus>({ isActive: false, message: '' });
+  const [toast, setToast] = useState<ToastEntry | null>(null);
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
   const toastTimeout = useAtomicTimeout();
 
   const showToast = useCallback(
     ({ message }: ToastOption) => {
-      setToast({ isActive: true, message });
+      setToast({ option: { message } });
       toastTimeout.set(() => {
-        setToast({ isActive: false, message: '' });
+        setToast(null);
       }, duration + 600);
     },
     [duration, toastTimeout],
@@ -34,7 +34,7 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
 
   useEffect(() => {
     let animationTimeout: TimeoutID;
-    if (toast.isActive) {
+    if (toast) {
       animationTimeout = setTimeout(() => {
         setAnimation('slide-out');
         clearTimeout(animationTimeout);
@@ -49,7 +49,7 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
     <ToastContext.Provider value={controller}>
       {children}
       <StyledContainer>
-        {toast.isActive && <StyledToastItem animation={animation}>{toast.message}</StyledToastItem>}
+        {toast && <StyledToastItem animation={animation}>{toast.option.message}</StyledToastItem>}
       </StyledContainer>
     </ToastContext.Provider>
   );
