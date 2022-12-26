@@ -2,18 +2,20 @@ import { axiosInstance } from '@/api';
 import { Member, PostMemberCoffeeChatVariables, Profile, ProfileDetail, ProfileRequest } from '@/api/members/type';
 
 export type GetMemberProfileVariables = {
-  filter: number;
+  filter?: number;
   limit?: number;
   cursor?: number;
 };
 // 멤버 프로필 전체 조회
 export const getMemberProfile = async (variables: GetMemberProfileVariables) => {
-  const { filter, limit, cursor } = variables;
-  const limitQuery = limit ? `&?limit=${limit}` : '';
-  const cursorQuery = cursor ? `&?cursor=${cursor}` : '';
+  const url = new URL('https://api/v1/members/profile');
+  Object.entries(variables)
+    .filter(([_, value]) => Boolean(value))
+    .forEach(([query, value]) => url.searchParams.set(query, value.toString()));
+
   const { data } = await axiosInstance.request<Profile[]>({
     method: 'GET',
-    url: `api/v1/members/profile?filter=${filter}${limitQuery}${cursorQuery}`,
+    url: `${url.hostname}${url.pathname}${url.search}`,
   });
 
   return data;
