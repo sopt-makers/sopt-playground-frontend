@@ -1,47 +1,50 @@
-import { useMutation, useQuery } from 'react-query';
+import { useRouter } from 'next/router';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 
 import {
-  getMemberById,
   getMemberOfMe,
   getMemberProfile,
   getMemberProfileById,
   getMemberProfileOfMe,
-  GetMemberProfileVariables,
   getMemebersSearchByName,
   postMemberCoffeeChat,
 } from '@/api/members';
-import { PostMemberCoffeeChatVariables } from '@/api/members/type';
+import { PostMemberCoffeeChatVariables, Profile } from '@/api/members/type';
+
+interface Variables {
+  filter?: number;
+  limit?: number;
+}
 
 // 멤버 프로필 전체 조회
-export const useGetMemberProfile = (variables: GetMemberProfileVariables) => {
-  return useQuery(
-    ['getMemberProfile', variables],
-    async () => {
-      const data = await getMemberProfile(variables);
-      return data;
-    },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-    },
-  );
-};
+export const useGetMemberProfile = (input: Variables) => {
+  const router = useRouter();
+  return useInfiniteQuery({
+    queryKey: ['getMemberProfile', input],
+    queryFn: async ({ pageParam: cursor = 0 }) => {
+      const params = { ...input, cursor };
 
-// 멤버 프로필 조회
-export const useGetMemberById = (id: number) => {
-  return useQuery(
-    ['getMemberById', id],
-    async () => {
-      const data = await getMemberById(id);
+      const url = new URL(`${window.location.origin}${window.location.pathname}`);
+      Object.entries(params).forEach(([query, value]) => url.searchParams.set(query, value.toString()));
+      router.push(url);
+
+      const data = await getMemberProfile(url.search);
       return data;
     },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
+    getNextPageParam: (lastPage: Profile[]) => {
+      // TODO(@jun): nextPage 있는지 여부 boolean으로 undefined 예외처리
+      if (!lastPage.length) {
+        return undefined;
+      }
+      const lastIndex = lastPage.length - 1;
+      const lastMemberId = lastPage[lastIndex].id;
+      return lastMemberId;
     },
-  );
+    onError: (error: { message: string }) => {
+      console.error(error.message);
+    },
+    keepPreviousData: true,
+  });
 };
 
 // 멤버 프로필 조회

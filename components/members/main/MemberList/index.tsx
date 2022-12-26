@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
-import { FC, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
@@ -18,27 +18,30 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+const limit = 30;
+
 const MemberList: FC = () => {
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberProfileData } = useGetMemberProfile({
-    filter,
-  });
+  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({ filter, limit });
   const { data: memberOfMeData } = useGetMemberOfMe();
   const ref = useRef(null);
   const { isVisible } = useIntersectionObserver(ref);
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
-  const profiles = memberProfileData?.map((member) => ({
-    ...member,
-    isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
-    part: uniq(member.activities.map(({ part }) => part)).join(' / '),
-  }));
+  const profiles = memberProfileData?.pages.map((members) =>
+    members.map((member) => ({
+      ...member,
+      isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
+      part: uniq(member.activities.map(({ part }) => part)).join(' / '),
+    })),
+  );
   const hasProfile = !!memberOfMeData?.hasProfile;
 
-  /**
-   * limit = cursor 부터 몇개까지 내려오는가
-   * cursor = 어디서 부터 가져올 건가
-   */
+  useEffect(() => {
+    if (isVisible) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, isVisible]);
 
   return (
     <StyledContainer hasProfile={hasProfile}>
@@ -74,16 +77,22 @@ const MemberList: FC = () => {
           )}
           {/* TODO(@jun): 로딩 추가 */}
           <StyledCardWrapper>
-            {profiles?.map((profile) => (
-              <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
-                <MemberCard
-                  name={profile.name}
-                  part={profile.part}
-                  isActiveGeneration={profile.isActive}
-                  introduction={profile.introduction}
-                  image={profile.profileImage}
-                />
-              </Link>
+            {profiles?.map((profiles, index) => (
+              <React.Fragment key={index}>
+                {profiles.map((profile) => (
+                  <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
+                    <a>
+                      <MemberCard
+                        name={profile.name}
+                        part={profile.part}
+                        isActiveGeneration={profile.isActive}
+                        introduction={profile.introduction}
+                        image={profile.profileImage}
+                      />
+                    </a>
+                  </Link>
+                ))}
+              </React.Fragment>
             ))}
             <Observe ref={ref} />
           </StyledCardWrapper>

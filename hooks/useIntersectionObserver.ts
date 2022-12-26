@@ -1,16 +1,14 @@
 import { RefObject, useEffect, useState } from 'react';
 
 interface IntersectionObserverOptions extends IntersectionObserverInit {
-  freezeOnceVisible?: boolean;
+  enabled?: boolean;
 }
 
 function useIntersectionObserver(
   ref: RefObject<Element>,
-  { threshold = 0, root = null, rootMargin = '0%', freezeOnceVisible = false }: IntersectionObserverOptions = {},
+  { threshold = 0, root = null, rootMargin = '0%', enabled = false }: IntersectionObserverOptions = {},
 ) {
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
-
-  const frozen = entry?.isIntersecting && freezeOnceVisible;
 
   const updateEntry = ([entry]: IntersectionObserverEntry[]): void => {
     setEntry(entry);
@@ -19,7 +17,7 @@ function useIntersectionObserver(
   useEffect(() => {
     const node = ref?.current;
 
-    if (frozen || !node) return;
+    if (enabled || !node) return;
 
     const observerParams = { threshold, root, rootMargin };
     const observer = new IntersectionObserver(updateEntry, observerParams);
@@ -29,9 +27,9 @@ function useIntersectionObserver(
     return () => observer.disconnect();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref?.current, JSON.stringify(threshold), root, rootMargin, frozen]);
+  }, [ref?.current, JSON.stringify(threshold), root, rootMargin, enabled]);
 
-  return { entry, isVisible: Boolean(entry?.isIntersecting) };
+  return { entry, isVisible: !!entry?.isIntersecting };
 }
 
 export default useIntersectionObserver;
