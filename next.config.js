@@ -1,6 +1,12 @@
-/** @type {import('next').NextConfig} */
 const path = require('path');
 
+const shouldAnalyzeBundles = process.env.ANALYZE === 'true';
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: shouldAnalyzeBundles,
+});
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   // https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
@@ -40,4 +46,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);
