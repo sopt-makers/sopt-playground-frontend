@@ -75,7 +75,7 @@ const Header: FC = () => {
         <Link href={playgroundLink.memberList()} passHref legacyBehavior>
           <TextLinkButton isCurrentPath={pathname === '/'}>
             <StyledLogo>
-              <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
+              <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' width='72' height='26' />
             </StyledLogo>
           </TextLinkButton>
         </Link>
@@ -206,11 +206,9 @@ const RightGroup = styled.div`
 const StyledLogo = styled.div`
   margin-right: 40px;
   padding: 10px;
+
   @media ${MOBILE_MEDIA_QUERY} {
-    svg {
-      width: 49px;
-      height: auto;
-    }
+    transform: scale(0.72) translateX(-10px);
   }
 `;
 
