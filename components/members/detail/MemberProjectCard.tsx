@@ -20,7 +20,7 @@ const MemberProjectCard: FC<MemberProject> = ({
   logoImage,
 }) => {
   return (
-    <Link passHref href={playgroundLink.projectDetail(id)}>
+    <Link passHref href={playgroundLink.projectDetail(id)} legacyBehavior>
       <StyledCard>
         <StyledServiceTypeWrapper>
           {serviceType.map((serviceType, index) => (

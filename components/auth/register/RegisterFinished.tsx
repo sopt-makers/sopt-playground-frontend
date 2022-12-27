@@ -15,7 +15,7 @@ const RegisterFinished: FC = () => {
         <br />
         프로젝트를 등록하여 SOPT에서의 경험을 공유해보세요.
       </Description>
-      <Link href={playgroundLink.projectUpload()} passHref>
+      <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
         <SendButton variant='primary'>프로젝트 등록하기</SendButton>
       </Link>
     </Container>
