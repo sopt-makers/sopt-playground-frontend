@@ -38,16 +38,18 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) =>
     onLoad?.();
   };
 
-  const { ref: imgRef } = useEnterScreen<HTMLImageElement>(() => {
-    if (imgRef.current?.complete) {
-      return;
-    }
-
-    timeoutTokenRef.current = setTimeout(() => {
-      if (!imgRef.current?.complete) {
-        setIsUsingOriginal(true);
+  const { ref: imgRef } = useEnterScreen<HTMLImageElement>({
+    onEnter: () => {
+      if (imgRef.current?.complete) {
+        return;
       }
-    }, WAIT_TIME);
+
+      timeoutTokenRef.current = setTimeout(() => {
+        if (!imgRef.current?.complete) {
+          setIsUsingOriginal(true);
+        }
+      }, WAIT_TIME);
+    },
   });
 
   return (

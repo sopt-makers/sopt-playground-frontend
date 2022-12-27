@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 
 import {
@@ -12,23 +11,20 @@ import {
 import { PostMemberCoffeeChatVariables, Profile } from '@/api/members/type';
 
 interface Variables {
-  filter?: number;
   limit?: number;
 }
 
 // 멤버 프로필 전체 조회
 export const useGetMemberProfile = (input: Variables) => {
-  const router = useRouter();
   return useInfiniteQuery({
-    queryKey: ['getMemberProfile', input],
+    queryKey: ['getMemberProfile', input, window.location.search],
     queryFn: async ({ pageParam: cursor = 0 }) => {
       const params = { ...input, cursor };
 
-      const url = new URL(`${window.location.origin}${window.location.pathname}`);
-      Object.entries(params).forEach(([query, value]) => url.searchParams.set(query, value.toString()));
-      router.push(url);
+      const apiUrl = new URL(window.location.href);
+      Object.entries(params).forEach(([query, value]) => apiUrl.searchParams.set(query, value.toString()));
 
-      const data = await getMemberProfile(url.search);
+      const data = await getMemberProfile(apiUrl.search);
       return data;
     },
     getNextPageParam: (lastPage: Profile[]) => {

@@ -2,31 +2,46 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
-import React, { FC, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
+import React, { FC } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import MemberCard from '@/components/members/main/MemberCard';
-import MemberRoleMenu from '@/components/members/main/MemberRoleMenu';
+import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import useEnterScreen from '@/hooks/useEnterScreen';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const limit = 30;
+const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({ filter, limit });
+  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({ limit: PAGE_LIMIT });
   const { data: memberOfMeData } = useGetMemberOfMe();
-  const ref = useRef(null);
-  const { isVisible } = useIntersectionObserver(ref);
+  const router = useRouter();
+  const { ref } = useEnterScreen({
+    onEnter: () => {
+      console.log('[entered!]');
+      // fetchNextPage();
+    },
+  });
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
+  const handleSelect = (value: MenuValue) => {
+    onSelect(value);
+    const url = new URL(window.location.href);
+    url.searchParams.set('filter', value.toString());
+    if (value === MenuValue.ALL) {
+      url.searchParams.delete('filter');
+    }
+    router.push(url);
+  };
 
   const profiles = memberProfileData?.pages.map((members) =>
     members.map((member) => ({
@@ -36,12 +51,6 @@ const MemberList: FC = () => {
     })),
   );
   const hasProfile = !!memberOfMeData?.hasProfile;
-
-  useEffect(() => {
-    if (isVisible) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, isVisible]);
 
   return (
     <StyledContainer hasProfile={hasProfile}>
@@ -71,9 +80,9 @@ const MemberList: FC = () => {
         <StyledMain hasProfile={hasProfile}>
           {!hasProfile && <StyledDivider />}
           {!isMobile ? (
-            <StyledMemberRoleMenu value={filter} onSelect={onSelect} />
+            <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
           ) : (
-            <StyledMemberRoleDropdown value={filter} onSelect={onSelect} />
+            <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
           )}
           {/* TODO(@jun): 로딩 추가 */}
           <StyledCardWrapper>
@@ -94,8 +103,8 @@ const MemberList: FC = () => {
                 ))}
               </React.Fragment>
             ))}
-            <Observe ref={ref} />
           </StyledCardWrapper>
+          <Observe ref={ref} />
         </StyledMain>
       </StyledContent>
     </StyledContainer>
