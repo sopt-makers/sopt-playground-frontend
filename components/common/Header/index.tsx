@@ -70,7 +70,7 @@ const Header: FC = () => {
         <button ref={mobileButtonRef} className='mobile-only' onClick={() => setIsMobileMenuOpened(true)}>
           <MenuIcon />
         </button>
-        <Link href={playgroundLink.memberList()} passHref>
+        <Link href={playgroundLink.memberList()} passHref legacyBehavior>
           <TextLinkButton isCurrentPath={pathname === '/'}>
             <StyledLogo>
               <LogoIcon />
@@ -79,10 +79,10 @@ const Header: FC = () => {
         </Link>
 
         <MenuGroup className='pc-only'>
-          <Link href={playgroundLink.memberList()} passHref>
+          <Link href={playgroundLink.memberList()} passHref legacyBehavior>
             <TextLinkButton isCurrentPath={pathname === playgroundLink.memberList()}>멤버</TextLinkButton>
           </Link>
-          <Link href={playgroundLink.projectList()} passHref>
+          <Link href={playgroundLink.projectList()} passHref legacyBehavior>
             <TextLinkButton isCurrentPath={pathname === playgroundLink.projectList()}>프로젝트</TextLinkButton>
           </Link>
           {/* <Link href='/web-product' passHref>
@@ -93,7 +93,7 @@ const Header: FC = () => {
 
       <RightGroup>
         <div className='pc-only'>
-          <Link href={playgroundLink.projectUpload()} passHref>
+          <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
             <UploadButton>
               <span>+</span>내 프로젝트 올리기
             </UploadButton>
@@ -115,7 +115,11 @@ const Header: FC = () => {
 
       <DimmedBackground isOpen={isMobileMenuOpened} onClick={() => setIsMobileMenuOpened(false)} />
       <MobileMenu isOpen={isMobileMenuOpened} ref={mobileMenuRef}>
-        <Link href={me?.hasProfile ? playgroundLink.memberDetail(me.id) : playgroundLink.memberUpload()} passHref>
+        <Link
+          href={me?.hasProfile ? playgroundLink.memberDetail(me.id) : playgroundLink.memberUpload()}
+          passHref
+          legacyBehavior
+        >
           <ProfileContainer>
             {/* TODO: 프로필 있을 경우와 아닐 경우에 따라 분기처리 필요 */}
             <EmptyProfileImage>
@@ -128,16 +132,16 @@ const Header: FC = () => {
         </Link>
 
         <RouterWrapper>
-          <Link href={playgroundLink.memberList()} passHref>
+          <Link href={playgroundLink.memberList()} passHref legacyBehavior>
             <TextLinkButton isCurrentPath={pathname === playgroundLink.memberList()}>멤버</TextLinkButton>
           </Link>
-          <Link href={playgroundLink.projectList()} passHref>
+          <Link href={playgroundLink.projectList()} passHref legacyBehavior>
             <TextLinkButton isCurrentPath={pathname === playgroundLink.projectList()}>프로젝트</TextLinkButton>
           </Link>
         </RouterWrapper>
         <Divider />
         <MenuWrapper>
-          <Link href={playgroundLink.makers()} passHref>
+          <Link href={playgroundLink.makers()} passHref legacyBehavior>
             <MenuLink highlight={pathname === playgroundLink.makers()}>만든 사람들</MenuLink>
           </Link>
           <MenuLink href={FEEDBACK_FORM_URL} target='_blank'>

@@ -82,13 +82,13 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               <div className='intro'>{profile?.introduction}</div>
             </div>
             <ContactWrapper>
-              <Link passHref href={`tel:${profile?.email}`}>
+              <Link passHref href={`tel:${profile?.email}`} legacyBehavior>
                 <div style={{ cursor: 'pointer' }}>
                   <CallIcon />
                   <div className='phone'>{profile?.phone}</div>
                 </div>
               </Link>
-              <Link passHref href={`mailto:${profile?.email}`}>
+              <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
                 <div style={{ cursor: 'pointer' }}>
                   <MailIcon />
                   <div className='email'>{profile?.email}</div>
@@ -164,11 +164,9 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             content={
               <LinkItems>
                 {profile?.links.map((item, idx) => (
-                  <Link passHref href={item.url} key={idx}>
-                    <a target='_blank'>
-                      <LinkIcon />
-                      <span>{item.title}</span>
-                    </a>
+                  <Link passHref href={item.url} key={idx} target='_blank'>
+                    <LinkIcon />
+                    <span>{item.title}</span>
                   </Link>
                 ))}
               </LinkItems>

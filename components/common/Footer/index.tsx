@@ -19,7 +19,7 @@ const Footer: FC<FooterProps> = ({}) => {
 
   return (
     <StyledFooter hide={isScrollingDown && !isScrollTop}>
-      <Link href={playgroundLink.makers()} passHref>
+      <Link href={playgroundLink.makers()} passHref legacyBehavior>
         <FooterLink highlight={pathname === playgroundLink.makers()}>만든 사람들</FooterLink>
       </Link>
       <FooterLink href={FEEDBACK_FORM_URL} target='_blank'>

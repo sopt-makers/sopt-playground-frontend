@@ -10,10 +10,10 @@ const NavigationPanel: FC = () => {
   return (
     <Panel title='주요 페이지 이동'>
       <PanelContent>
-        <Link href={playgroundLink.memberList()} passHref>
+        <Link href={playgroundLink.memberList()} passHref legacyBehavior>
           <Button variant='primary'>홈</Button>
         </Link>
-        <Link href={playgroundLink.login()} passHref>
+        <Link href={playgroundLink.login()} passHref legacyBehavior>
           <Button variant='primary'>로그인</Button>
         </Link>
       </PanelContent>
