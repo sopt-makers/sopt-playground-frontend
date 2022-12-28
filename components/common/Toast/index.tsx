@@ -1,13 +1,11 @@
 import styled from '@emotion/styled';
 import { FC, ReactNode, useMemo, useState } from 'react';
-import { useEffect } from 'react';
 
 import Portal from '@/components/common/Portal';
 import { ToastContext } from '@/components/common/Toast/context';
 import { ToastController, ToastEntry, ToastOption } from '@/components/common/Toast/types';
 import useAtomicTimeout from '@/components/common/Toast/useAtomicTimeout';
 import { colors } from '@/styles/colors';
-import { TimeoutID } from '@/types';
 
 interface ToastProviderProps {
   children: ReactNode;
@@ -16,33 +14,23 @@ interface ToastProviderProps {
 
 export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) => {
   const [toast, setToast] = useState<ToastEntry | null>(null);
-  const [animation, setAnimation] = useState<'slide-in' | 'slide-out'>('slide-in');
+  const [animation, setAnimation] = useState<'slide-in' | 'slide-out' | 'slide-reset'>('slide-in');
   const toastTimeout = useAtomicTimeout();
 
   const controller: ToastController = useMemo(
     () => ({
-      show: ({ message }: ToastOption) => {
+      show: async ({ message }: ToastOption) => {
         setToast({ option: { message } });
+        setAnimation('slide-reset');
+        await sleep(0);
+        setAnimation('slide-in');
         toastTimeout.set(() => {
-          setToast(null);
-        }, duration + 600);
+          setAnimation('slide-out');
+        }, duration);
       },
     }),
     [duration, toastTimeout],
   );
-
-  useEffect(() => {
-    let animationTimeout: TimeoutID;
-    if (toast) {
-      animationTimeout = setTimeout(() => {
-        setAnimation('slide-out');
-        clearTimeout(animationTimeout);
-      }, duration);
-    } else {
-      setAnimation('slide-in');
-    }
-    return () => clearTimeout(animationTimeout);
-  }, [duration, toast, animation]);
 
   return (
     <ToastContext.Provider value={controller}>
@@ -100,4 +88,18 @@ const StyledToastItem = styled.div<{ animation: string }>`
       transform: translateY(300%);
     }
   }
+
+  @keyframes slide-reset {
+    from {
+      transform: translateY(300%);
+    }
+
+    to {
+      transform: translateY(300%);
+    }
+  }
 `;
+
+function sleep(delay: number) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
+}
