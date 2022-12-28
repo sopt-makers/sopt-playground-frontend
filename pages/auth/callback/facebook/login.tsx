@@ -44,7 +44,7 @@ const FacebookLoginCallbackPage: FC = () => {
     return (
       <StyledFacebookLoginCallback>
         잘못된 접근입니다.
-        <Link href={playgroundLink.login()} replace passHref>
+        <Link href={playgroundLink.login()} replace passHref legacyBehavior>
           <RetryLink>로그인 페이지로 이동</RetryLink>
         </Link>
       </StyledFacebookLoginCallback>
@@ -76,7 +76,7 @@ const FacebookLoginCallbackPage: FC = () => {
     return (
       <StyledFacebookLoginCallback>
         <ErrorMessage>{message}</ErrorMessage>
-        <Link href={playgroundLink.login()} replace passHref>
+        <Link href={playgroundLink.login()} replace passHref legacyBehavior>
           <RetryLink>다시 시도</RetryLink>
         </Link>
       </StyledFacebookLoginCallback>

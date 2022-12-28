@@ -26,7 +26,7 @@ const ProjectCard: FC<Project> = ({
   const filteredLinks = links.filter(({ linkId, linkTitle, linkUrl }) => linkId && linkTitle && linkUrl);
 
   return (
-    <Link passHref href={playgroundLink.projectDetail(id)}>
+    <Link passHref href={playgroundLink.projectDetail(id)} legacyBehavior>
       <StyledCard>
         <StyledServiceTypeWrapper>
           {serviceType.map((serviceType, index) => (

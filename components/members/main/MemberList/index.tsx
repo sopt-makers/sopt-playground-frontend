@@ -47,10 +47,10 @@ const MemberList: FC = () => {
               </TextContainer>
             </LeftContainer>
             <ButtonContainer>
-              <Link href={playgroundLink.projectUpload()} passHref>
+              <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
                 <UploadButton>프로젝트 업로드</UploadButton>
               </Link>
-              <Link href={playgroundLink.memberUpload()} passHref>
+              <Link href={playgroundLink.memberUpload()} passHref legacyBehavior>
                 <ProfileButton>프로필 추가</ProfileButton>
               </Link>
             </ButtonContainer>
@@ -68,15 +68,13 @@ const MemberList: FC = () => {
           <StyledCardWrapper>
             {profiles?.map((profile) => (
               <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
-                <a>
-                  <MemberCard
-                    name={profile.name}
-                    part={profile.part}
-                    isActiveGeneration={profile.isActive}
-                    introduction={profile.introduction}
-                    image={profile.profileImage}
-                  />
-                </a>
+                <MemberCard
+                  name={profile.name}
+                  part={profile.part}
+                  isActiveGeneration={profile.isActive}
+                  introduction={profile.introduction}
+                  image={profile.profileImage}
+                />
               </Link>
             ))}
           </StyledCardWrapper>
