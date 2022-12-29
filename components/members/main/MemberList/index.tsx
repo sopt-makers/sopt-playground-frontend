@@ -105,7 +105,7 @@ const MemberList: FC = () => {
                 ))}
               </React.Fragment>
             ))}
-            <Observe ref={ref} />
+            <Target ref={ref} />
           </StyledCardWrapper>
         </StyledMain>
       </StyledContent>
@@ -284,4 +284,4 @@ const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
   max-width: 505px;
 `;
 
-const Observe = styled.div``;
+const Target = styled.div``;

@@ -15,14 +15,16 @@ interface Variables {
 }
 
 // 멤버 프로필 전체 조회
-export const useGetMemberProfile = (input: Variables) => {
+export const useGetMemberProfile = ({ limit }: Variables) => {
   return useInfiniteQuery({
     queryKey: ['getMemberProfile'],
     queryFn: async ({ pageParam: cursor = 0 }) => {
-      const params = { ...input, cursor };
+      const params = { limit, cursor };
 
       const apiUrl = new URL(window.location.href);
-      Object.entries(params).forEach(([query, value]) => apiUrl.searchParams.set(query, value.toString()));
+      Object.entries(params).forEach(
+        ([query, value]) => value !== undefined && apiUrl.searchParams.set(query, value.toString()),
+      );
 
       const data = await getMemberProfile(apiUrl.search);
       return data;

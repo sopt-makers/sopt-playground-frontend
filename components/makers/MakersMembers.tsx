@@ -19,9 +19,7 @@ interface MakersMembersProps {
 }
 
 const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
-  const { data, isLoading } = useGetMemberProfile({
-    filter: 0,
-  });
+  const { data, isLoading } = useGetMemberProfile({});
   const { isLoggedIn } = useAuth();
 
   const memberImageMap = useMemo(() => {
@@ -29,9 +27,11 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
     if (!data) {
       return map;
     }
-    data.forEach((x) => {
-      map.set(x.id, x.profileImage);
-    });
+    data.pages.forEach((members) =>
+      members.forEach((member) => {
+        map.set(member.id, member.profileImage);
+      }),
+    );
 
     return map;
   }, [data]);
