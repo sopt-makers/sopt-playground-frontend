@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
@@ -13,7 +13,7 @@ import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberR
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
-import useEnterScreen from '@/hooks/useEnterScreen';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -26,12 +26,8 @@ const MemberList: FC = () => {
   const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({ limit: PAGE_LIMIT });
   const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
-  const { ref } = useEnterScreen({
-    onEnter: () => {
-      console.log('[entered!]');
-      // fetchNextPage();
-    },
-  });
+  const { ref, isVisible } = useIntersectionObserver();
+
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
   const handleSelect = (value: MenuValue) => {
     onSelect(value);
@@ -42,6 +38,12 @@ const MemberList: FC = () => {
     }
     router.push(url);
   };
+
+  useEffect(() => {
+    if (isVisible) {
+      fetchNextPage();
+    }
+  }, [isVisible, fetchNextPage]);
 
   const profiles = memberProfileData?.pages.map((members) =>
     members.map((member) => ({
@@ -103,8 +105,8 @@ const MemberList: FC = () => {
                 ))}
               </React.Fragment>
             ))}
+            <Observe ref={ref} />
           </StyledCardWrapper>
-          <Observe ref={ref} />
         </StyledMain>
       </StyledContent>
     </StyledContainer>
