@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { FormEvent } from 'react';
 import { FieldError, useFieldArray, useFormContext } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
@@ -45,6 +46,10 @@ export default function CareerFormSection() {
     if (careerError.hasOwnProperty('startDate')) return careerError.startDate?.message;
     return careerError.endDate?.message;
   };
+  const onChangeIsCurrent = (e: FormEvent<HTMLInputElement>, index: number) => {
+    register(`careers.${index}.isCurrent`).onChange(e);
+    trigger(`careers.${index}.endDate`);
+  };
 
   return (
     <FormSection>
@@ -62,13 +67,7 @@ export default function CareerFormSection() {
               <Input {...register(`careers.${index}.title`)} placeholder='직무 입력' />
               <IsCurrent>
                 현재 재직 중
-                <Switch
-                  {...register(`careers.${index}.isCurrent`)}
-                  onChange={(e) => {
-                    register(`careers.${index}.isCurrent`).onChange(e);
-                    trigger(`careers.${index}.endDate`);
-                  }}
-                />
+                <Switch {...register(`careers.${index}.isCurrent`)} onChange={(e) => onChangeIsCurrent(e, index)} />
               </IsCurrent>
               <MonthInput
                 {...register(`careers.${index}.startDate`)}
