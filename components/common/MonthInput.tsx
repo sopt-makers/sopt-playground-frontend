@@ -1,28 +1,46 @@
+import 'react-datepicker/dist/react-datepicker.css';
+
 import styled from '@emotion/styled';
-import { FocusEvent, InputHTMLAttributes, useState } from 'react';
+import DatePicker from 'react-datepicker';
 
-import Input from '@/components/common/Input';
+import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
-export interface MonthInputProps extends InputHTMLAttributes<HTMLInputElement> {}
-
-export default function MonthInput({ onFocus, onBlur, ...props }: MonthInputProps) {
-  const [type, setType] = useState('text');
-
-  const handleFocus = (e: FocusEvent<HTMLInputElement, Element>) => {
-    onFocus?.(e);
-    setType('month');
-  };
-
-  const handleBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
-    onBlur?.(e);
-    setType('text');
-  };
-
-  return <StyledInput {...props} type={type} onFocus={handleFocus} onBlur={handleBlur} />;
+export interface MonthInputProps {
+  onChange: (date: Date) => void;
+  value: Date | null;
 }
 
-const StyledInput = styled(Input)`
-  &[type='month']::-webkit-calendar-picker-indicator {
-    filter: invert(100%);
+export default function MonthInput({ onChange, value }: MonthInputProps) {
+  return (
+    <StyledDatePicker
+      selected={value}
+      onChange={(date: Date) => onChange?.(date)}
+      dateFormat='yyyy/MM'
+      showMonthYearPicker
+      preventOpenOnFocus
+    />
+  );
+}
+
+const StyledDatePicker = styled(DatePicker)`
+  box-sizing: border-box;
+  transition: all 0.2s;
+  border: 1.5px solid ${colors.black60};
+  border-radius: 6px;
+  background-color: ${colors.black60};
+  padding: 14px 20px;
+  width: 100%;
+  color: ${colors.white};
+  ${textStyles.SUIT_16_M};
+
+  &::placeholder {
+    color: ${colors.gray100};
+  }
+
+  &:focus {
+    outline: none;
+    border-color: ${colors.purple100};
+    background-color: ${colors.black80};
   }
 `;
