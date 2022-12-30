@@ -6,12 +6,12 @@ import DatePicker from 'react-datepicker';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-export interface MonthInputProps {
+export interface MonthPickerProps {
   onChange: (date: Date) => void;
   value: Date | null;
 }
 
-export default function MonthInput({ onChange, value }: MonthInputProps) {
+export default function MonthPicker({ onChange, value }: MonthPickerProps) {
   return (
     <StyledDatePicker
       selected={value}
