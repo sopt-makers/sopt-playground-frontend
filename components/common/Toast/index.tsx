@@ -22,7 +22,10 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
       show: async ({ message }: ToastOption) => {
         setToast({ option: { message } });
         setAnimation('slide-reset');
+
+        // slide-reset 값 세팅이 무시되지 않도록, slide-in 값 세팅을 이벤트 루프 뒤로 보내기
         await sleep(0);
+
         setAnimation('slide-in');
         toastTimeout.set(() => {
           setAnimation('slide-out');
