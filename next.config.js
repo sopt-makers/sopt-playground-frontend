@@ -11,7 +11,7 @@ const nextConfig = {
   reactStrictMode: true,
   // https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
   pageExtensions: ['tsx', 'ts', 'jsx', 'js', 'stories.tsx'],
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
@@ -38,6 +38,32 @@ const nextConfig = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname),
     };
+
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        ...(config.optimization.splitChunks && {
+          splitChunks: {
+            ...config.optimization.splitChunks,
+            cacheGroups: {
+              ...config.optimization.splitChunks.cacheGroups,
+              components: {
+                chunks: 'all',
+                test: /[\\/]components[\\/]/,
+              },
+              lodash: {
+                chunks: 'all',
+                test: /[\\/]node_modules[\\/]lodash/,
+              },
+              recoil: {
+                chunks: 'all',
+                test: /[\\/]node_modules[\\/]recoil/,
+              },
+            },
+          },
+        }),
+      };
+    }
 
     return config;
   },
