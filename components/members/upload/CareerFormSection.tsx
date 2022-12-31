@@ -74,7 +74,7 @@ export default function CareerFormSection() {
               <MonthPicker
                 value={careers[index].startDate ? new Date(careers[index].startDate) : null}
                 onChange={(date: Date) => {
-                  setValue(`careers.${index}.startDate`, dayjs(date).format('YYYY/MM'));
+                  setValue(`careers.${index}.startDate`, date ? dayjs(date).format('YYYY/MM') : '');
                   trigger(`careers.${index}.startDate`);
                 }}
                 placeholder='근무 시작일'
@@ -83,7 +83,7 @@ export default function CareerFormSection() {
                 <MonthPicker
                   value={careers[index].endDate ? new Date(careers[index].endDate ?? '') : null}
                   onChange={(date: Date) => {
-                    setValue(`careers.${index}.endDate`, dayjs(date).format('YYYY/MM'));
+                    setValue(`careers.${index}.endDate`, date ? dayjs(date).format('YYYY/MM') : '');
                     trigger(`careers.${index}.endDate`);
                   }}
                   placeholder='근무 종료일'
