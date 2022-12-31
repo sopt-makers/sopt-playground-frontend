@@ -48,7 +48,7 @@ const PersonBlock: FC<PersonBlockProps> = ({ name, position, link, onClick, imag
 
   if (link !== undefined) {
     return (
-      <Link href={link} passHref>
+      <Link href={link} passHref legacyBehavior>
         {content}
       </Link>
     );

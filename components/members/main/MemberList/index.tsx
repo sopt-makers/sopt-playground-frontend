@@ -2,34 +2,56 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
-import { FC } from 'react';
+import { useRouter } from 'next/router';
+import React, { FC, useEffect } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import MemberCard from '@/components/members/main/MemberCard';
-import MemberRoleMenu from '@/components/members/main/MemberRoleMenu';
+import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+const PAGE_LIMIT = 30;
+
 const MemberList: FC = () => {
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberProfileData } = useGetMemberProfile({
-    filter,
-  });
+  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({ limit: PAGE_LIMIT });
   const { data: memberOfMeData } = useGetMemberOfMe();
-  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
+  const router = useRouter();
+  const { ref, isVisible } = useIntersectionObserver();
 
-  const profiles = memberProfileData?.map((member) => ({
-    ...member,
-    isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
-    part: uniq(member.activities.map(({ part }) => part)).join(' / '),
-  }));
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
+  const handleSelect = (value: MenuValue) => {
+    onSelect(value);
+    const url = new URL(window.location.href);
+    url.searchParams.set('filter', value.toString());
+    if (value === MenuValue.ALL) {
+      url.searchParams.delete('filter');
+    }
+    router.push(url);
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      fetchNextPage();
+    }
+  }, [isVisible, fetchNextPage]);
+
+  const profiles = memberProfileData?.pages.map((members) =>
+    members.map((member) => ({
+      ...member,
+      isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
+      part: uniq(member.activities.map(({ part }) => part)).join(' / '),
+    })),
+  );
   const hasProfile = !!memberOfMeData?.hasProfile;
 
   return (
@@ -47,10 +69,10 @@ const MemberList: FC = () => {
               </TextContainer>
             </LeftContainer>
             <ButtonContainer>
-              <Link href={playgroundLink.projectUpload()} passHref>
+              <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
                 <UploadButton>프로젝트 업로드</UploadButton>
               </Link>
-              <Link href={playgroundLink.memberUpload()} passHref>
+              <Link href={playgroundLink.memberUpload()} passHref legacyBehavior>
                 <ProfileButton>프로필 추가</ProfileButton>
               </Link>
             </ButtonContainer>
@@ -60,25 +82,28 @@ const MemberList: FC = () => {
         <StyledMain hasProfile={hasProfile}>
           {!hasProfile && <StyledDivider />}
           {!isMobile ? (
-            <StyledMemberRoleMenu value={filter} onSelect={onSelect} />
+            <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
           ) : (
-            <StyledMemberRoleDropdown value={filter} onSelect={onSelect} />
+            <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
           )}
           {/* TODO(@jun): 로딩 추가 */}
           <StyledCardWrapper>
-            {profiles?.map((profile) => (
-              <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
-                <a>
-                  <MemberCard
-                    name={profile.name}
-                    part={profile.part}
-                    isActiveGeneration={profile.isActive}
-                    introduction={profile.introduction}
-                    image={profile.profileImage}
-                  />
-                </a>
-              </Link>
+            {profiles?.map((profiles, index) => (
+              <React.Fragment key={index}>
+                {profiles.map((profile) => (
+                  <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)}>
+                    <MemberCard
+                      name={profile.name}
+                      part={profile.part}
+                      isActiveGeneration={profile.isActive}
+                      introduction={profile.introduction}
+                      image={profile.profileImage}
+                    />
+                  </Link>
+                ))}
+              </React.Fragment>
             ))}
+            <Target ref={ref} />
           </StyledCardWrapper>
         </StyledMain>
       </StyledContent>
@@ -256,3 +281,5 @@ const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
   margin-bottom: 16px;
   max-width: 505px;
 `;
+
+const Target = styled.div``;

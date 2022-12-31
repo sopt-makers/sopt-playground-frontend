@@ -9,7 +9,7 @@ import { RecoilRoot } from 'recoil';
 
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
-import { DEBUG } from '@/constants/Config';
+import { DEBUG } from '@/constants/env';
 import { colors } from '@/styles/colors';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';

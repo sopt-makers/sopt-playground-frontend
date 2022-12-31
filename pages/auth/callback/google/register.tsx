@@ -46,7 +46,7 @@ const GoogleRegisterCallbackPage: FC = () => {
     return (
       <StyledFacebookLoginCallback>
         잘못된 접근입니다.
-        <Link href={playgroundLink.login()} replace passHref>
+        <Link href={playgroundLink.login()} replace passHref legacyBehavior>
           <LoginLink>로그인 페이지로 이동</LoginLink>
         </Link>
       </StyledFacebookLoginCallback>
@@ -72,7 +72,7 @@ const GoogleRegisterCallbackPage: FC = () => {
     return (
       <StyledFacebookLoginCallback>
         <ErrorMessage>{message}</ErrorMessage>
-        <Link href={playgroundLink.login()} replace passHref>
+        <Link href={playgroundLink.login()} replace passHref legacyBehavior>
           <LoginLink>로그인 페이지로 이동</LoginLink>
         </Link>
       </StyledFacebookLoginCallback>

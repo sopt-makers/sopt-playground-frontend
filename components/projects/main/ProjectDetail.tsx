@@ -83,7 +83,12 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
                 <UserRole>{role}</UserRole>
                 <UserNameList>
                   {members.map((member) => (
-                    <Link passHref key={member.memberId} href={playgroundLink.memberDetail(member.memberId)}>
+                    <Link
+                      passHref
+                      key={member.memberId}
+                      href={playgroundLink.memberDetail(member.memberId)}
+                      legacyBehavior
+                    >
                       <UserName>
                         <MemberIcon />
                         {member.memberName}
