@@ -52,6 +52,14 @@ export default function CareerFormSection() {
     register(`careers.${index}.isCurrent`).onChange(e);
     trigger(`careers.${index}.endDate`);
   };
+  const onChangeStartDate = (date: Date, index: number) => {
+    setValue(`careers.${index}.startDate`, date ? dayjs(date).format('YYYY-MM') : '');
+    trigger(`careers.${index}.startDate`);
+  };
+  const onChangeEndDate = (date: Date, index: number) => {
+    setValue(`careers.${index}.endDate`, date ? dayjs(date).format('YYYY-MM') : '');
+    trigger(`careers.${index}.endDate`);
+  };
 
   return (
     <FormSection>
@@ -73,19 +81,13 @@ export default function CareerFormSection() {
               </IsCurrent>
               <MonthPicker
                 value={careers[index].startDate ? new Date(careers[index].startDate) : null}
-                onChange={(date: Date) => {
-                  setValue(`careers.${index}.startDate`, date ? dayjs(date).format('YYYY-MM') : '');
-                  trigger(`careers.${index}.startDate`);
-                }}
+                onChange={(date: Date) => onChangeStartDate(date, index)}
                 placeholder='근무 시작일'
               />
               <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
                 <MonthPicker
                   value={careers[index].endDate ? new Date(careers[index].endDate ?? '') : null}
-                  onChange={(date: Date) => {
-                    setValue(`careers.${index}.endDate`, date ? dayjs(date).format('YYYY-MM') : '');
-                    trigger(`careers.${index}.endDate`);
-                  }}
+                  onChange={(date: Date) => onChangeEndDate(date, index)}
                   placeholder='근무 종료일'
                 />
               </EndDateWrapper>
