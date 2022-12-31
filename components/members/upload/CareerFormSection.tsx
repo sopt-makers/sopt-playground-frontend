@@ -79,18 +79,22 @@ export default function CareerFormSection() {
                 현재 재직 중
                 <Switch {...register(`careers.${index}.isCurrent`)} onChange={(e) => onChangeIsCurrent(e, index)} />
               </IsCurrent>
-              <MonthPicker
-                value={careers[index].startDate ? new Date(careers[index].startDate) : null}
-                onChange={(date: Date) => onChangeStartDate(date, index)}
-                placeholder='근무 시작일'
-              />
-              <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
-                <MonthPicker
-                  value={careers[index].endDate ? new Date(careers[index].endDate ?? '') : null}
-                  onChange={(date: Date) => onChangeEndDate(date, index)}
-                  placeholder='근무 종료일'
-                />
-              </EndDateWrapper>
+              {careers.length && (
+                <>
+                  <MonthPicker
+                    value={careers[index].startDate ? new Date(careers[index].startDate) : null}
+                    onChange={(date: Date) => onChangeStartDate(date, index)}
+                    placeholder='근무 시작일'
+                  />
+                  <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
+                    <MonthPicker
+                      value={careers[index].endDate ? new Date(careers[index].endDate ?? '') : null}
+                      onChange={(date: Date) => onChangeEndDate(date, index)}
+                      placeholder='근무 종료일'
+                    />
+                  </EndDateWrapper>
+                </>
+              )}
             </CareerItem>
           </StyledAddableItem>
         ))}
