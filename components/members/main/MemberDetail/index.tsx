@@ -157,6 +157,35 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           })}
         </InfoContainer>
 
+        <InfoContainer className='pc-only' style={{ gap: '20px' }}>
+          {profile?.careers.map((career, idx) => (
+            <CareerItem key={idx}>
+              <div>{career.companyName}</div>
+              <div>{career.title}</div>
+              <div>
+                {`${dayjs(career.startDate).format('YYYY.MM')}${' - '}
+                ${career.isCurrent ? 'NOW' : dayjs(career.endDate).format('YYYY.MM')}`}
+              </div>
+            </CareerItem>
+          ))}
+        </InfoContainer>
+
+        <InfoContainer className='mobile-only'>
+          {profile?.careers.map((career, idx) => (
+            <CareerItem key={idx}>
+              <div>
+                <div className='company-name'>{career.companyName}</div>
+                <div className='mobile-company-divider' />
+                <div>{career.title}</div>
+              </div>
+              <div>
+                {`${dayjs(career.startDate).format('YYYY.MM')}${' - '}
+                ${career.isCurrent ? 'NOW' : dayjs(career.endDate).format('YYYY.MM')}`}
+              </div>
+            </CareerItem>
+          ))}
+        </InfoContainer>
+
         <InfoContainer style={{ gap: '30px' }}>
           <InfoItem label='스킬' content={profile?.skill ?? ''} />
           <InfoItem
@@ -491,6 +520,48 @@ const ProjectDisplay = styled.div`
     flex-direction: column;
     gap: 26px;
     margin-top: 26px;
+  }
+`;
+
+const CareerItem = styled.div`
+  display: flex;
+  ${textStyles.SUIT_18_M}
+
+  & > div:not(:last-child) {
+    margin-right: 20px;
+    border-right: 1.5px solid #3c3d40;
+    padding-right: 20px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    gap: 12px;
+    ${textStyles.SUIT_15_M};
+
+    color: ${colors.gray30};
+
+    &:not(:last-child) {
+      margin-bottom: 36px;
+    }
+
+    & > div:first-child {
+      display: flex;
+      align-items: center;
+      border: none;
+
+      .mobile-company-divider {
+        margin: 0 12px;
+        background-color: ${colors.gray100};
+        width: 1.5px;
+        height: 12px;
+      }
+
+      & > div:first-child {
+        ${textStyles.SUIT_16_B};
+
+        color: ${colors.white100};
+      }
+    }
   }
 `;
 
