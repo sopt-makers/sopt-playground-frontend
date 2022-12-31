@@ -17,7 +17,7 @@ export default function MonthPicker({ onChange, value, placeholder }: MonthPicke
     <StyledDatePicker
       selected={value}
       onChange={(date: Date) => onChange?.(date)}
-      dateFormat='yyyy/MM'
+      dateFormat='yyyy-MM'
       showMonthYearPicker
       preventOpenOnFocus
       placeholderText={placeholder}
