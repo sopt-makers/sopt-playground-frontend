@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import { FormEvent } from 'react';
-import { FieldError, useFieldArray, useFormContext } from 'react-hook-form';
+import { FieldError, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
-import MonthInput from '@/components/common/MonthInput';
+import MonthPicker from '@/components/common/MonthPicker';
 import Switch from '@/components/common/Switch';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
@@ -27,6 +28,7 @@ export default function CareerFormSection() {
     control,
     name: 'careers',
   });
+  const careers = useWatch({ control, name: 'careers' });
 
   const onAppend = () => append(DEFAULT_CAREER);
   const onRemove = (index: number) => remove(index);
@@ -69,23 +71,20 @@ export default function CareerFormSection() {
                 현재 재직 중
                 <Switch {...register(`careers.${index}.isCurrent`)} onChange={(e) => onChangeIsCurrent(e, index)} />
               </IsCurrent>
-              <MonthInput
-                {...register(`careers.${index}.startDate`)}
-                onChange={(e) => {
-                  setValue(`careers.${index}.startDate`, e.target.value);
+              <MonthPicker
+                value={careers[index].startDate ? new Date(careers[index].startDate) : null}
+                onChange={(date: Date) => {
+                  setValue(`careers.${index}.startDate`, dayjs(date).format('YYYY/MM'));
                   trigger(`careers.${index}.startDate`);
                 }}
-                placeholder='근무 시작일'
-                className='start-date'
               />
               <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
-                <MonthInput
-                  {...register(`careers.${index}.endDate`)}
-                  onChange={(e) => {
-                    setValue(`careers.${index}.endDate`, e.target.value);
+                <MonthPicker
+                  value={careers[index].endDate ? new Date(careers[index].endDate ?? '') : null}
+                  onChange={(date: Date) => {
+                    setValue(`careers.${index}.endDate`, dayjs(date).format('YYYY/MM'));
                     trigger(`careers.${index}.endDate`);
                   }}
-                  placeholder='근무 종료일'
                 />
               </EndDateWrapper>
             </CareerItem>
@@ -116,6 +115,16 @@ const CareerItem = styled.div`
   column-gap: 18px;
   width: 630px;
 
+  /* stylelint-disable-next-line selector-class-pattern */
+  .react-datepicker__tab-loop {
+    grid-row-start: 3;
+    grid-column-start: 1;
+  }
+  /* stylelint-disable-next-line selector-class-pattern */
+  .react-datepicker__triangle {
+    display: none !important;
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
   }
@@ -138,7 +147,6 @@ const EndDateWrapper = styled.div`
     bottom: 16px;
     left: -14px;
     content: '-';
-
     ${textStyles.SUIT_16_M}
   }
 `;
