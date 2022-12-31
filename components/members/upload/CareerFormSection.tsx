@@ -77,6 +77,7 @@ export default function CareerFormSection() {
                   setValue(`careers.${index}.startDate`, dayjs(date).format('YYYY/MM'));
                   trigger(`careers.${index}.startDate`);
                 }}
+                placeholder='근무 시작일'
               />
               <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
                 <MonthPicker
@@ -85,6 +86,7 @@ export default function CareerFormSection() {
                     setValue(`careers.${index}.endDate`, dayjs(date).format('YYYY/MM'));
                     trigger(`careers.${index}.endDate`);
                   }}
+                  placeholder='근무 종료일'
                 />
               </EndDateWrapper>
             </CareerItem>

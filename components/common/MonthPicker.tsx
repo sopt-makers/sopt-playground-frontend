@@ -9,9 +9,10 @@ import { textStyles } from '@/styles/typography';
 export interface MonthPickerProps {
   onChange: (date: Date) => void;
   value: Date | null;
+  placeholder?: string;
 }
 
-export default function MonthPicker({ onChange, value }: MonthPickerProps) {
+export default function MonthPicker({ onChange, value, placeholder }: MonthPickerProps) {
   return (
     <StyledDatePicker
       selected={value}
@@ -19,6 +20,7 @@ export default function MonthPicker({ onChange, value }: MonthPickerProps) {
       dateFormat='yyyy/MM'
       showMonthYearPicker
       preventOpenOnFocus
+      placeholderText={placeholder}
     />
   );
 }
