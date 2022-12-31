@@ -75,6 +75,13 @@ export default function MemberUploadPage() {
       );
       setValue('allowOfficial', myProfile.allowOfficial);
       setValue('profileImage', myProfile.profileImage);
+      myProfile.careers.forEach((career, index) => {
+        setValue(`careers.${index}.companyName`, career.companyName);
+        setValue(`careers.${index}.title`, career.title);
+        setValue(`careers.${index}.startDate`, career.startDate);
+        setValue(`careers.${index}.endDate`, career.endDate ?? '');
+        setValue(`careers.${index}.isCurrent`, career.isCurrent);
+      });
     }
   }, [isEditPage, myProfile, setValue]);
 
@@ -83,8 +90,9 @@ export default function MemberUploadPage() {
     const parsedBirthDay = dayjs(`${year}-${month}-${day}`);
     return (parsedBirthDay.isValid() ? parsedBirthDay : dayjs(DEFAULT_DATE)).format('YYYY-MM-DD');
   };
+
   const onSubmit = async (formData: MemberUploadForm) => {
-    // if (Object.keys(errors).length) return;
+    if (Object.keys(errors).length) return;
     const { birthday, links, careers } = formData;
     const requestBody: ProfileRequest = {
       ...formData,

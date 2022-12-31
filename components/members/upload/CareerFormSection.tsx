@@ -82,13 +82,13 @@ export default function CareerFormSection() {
               {careers.length && (
                 <>
                   <MonthPicker
-                    value={careers[index].startDate ? new Date(careers[index].startDate) : null}
+                    value={careers[index]?.startDate ? new Date(careers[index]?.startDate) : null}
                     onChange={(date: Date) => onChangeStartDate(date, index)}
                     placeholder='근무 시작일'
                   />
                   <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
                     <MonthPicker
-                      value={careers[index].endDate ? new Date(careers[index].endDate ?? '') : null}
+                      value={careers[index]?.endDate ? new Date(careers[index]?.endDate ?? '') : null}
                       onChange={(date: Date) => onChangeEndDate(date, index)}
                       placeholder='근무 종료일'
                     />
