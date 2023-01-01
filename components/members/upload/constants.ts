@@ -2,6 +2,8 @@ import { DefaultValues } from 'react-hook-form';
 
 import { MemberUploadForm } from '@/components/members/upload/types';
 
+export const DEFAULT_CAREER = { title: '', companyName: '', isCurrent: false, startDate: '', endDate: '' };
+
 export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   profileImage: '',
   name: '',
@@ -18,6 +20,7 @@ export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   openToWork: false,
   openToSideProject: false,
   allowOfficial: false,
+  careers: [DEFAULT_CAREER],
 };
 
 export const PARTS = [
