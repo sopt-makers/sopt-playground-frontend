@@ -6,7 +6,7 @@ const useEventLogger = () => {
   const controller = useContext(EventLoggerContext);
 
   return {
-    logEvent: controller.logEvent,
+    logClickEvent: controller.clickEvent,
   };
 };
 

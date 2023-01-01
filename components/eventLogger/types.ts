@@ -1,5 +1,5 @@
-import { Events } from '@/components/eventLogger/events';
+import { ClickEvents } from '@/components/eventLogger/events';
 
 export interface EventLoggerController {
-  logEvent<K extends keyof Events>(key: K, params: Events[K]): void;
+  clickEvent<K extends keyof ClickEvents>(key: K, params: ClickEvents[K]): void;
 }

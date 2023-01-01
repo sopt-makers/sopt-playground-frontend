@@ -7,6 +7,7 @@ import React, { FC, useEffect } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MemberCard from '@/components/members/main/MemberCard';
 import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
@@ -22,6 +23,8 @@ import { textStyles } from '@/styles/typography';
 const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
+  const { logClickEvent } = useEventLogger();
+
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
   const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({ limit: PAGE_LIMIT });
   const { data: memberOfMeData } = useGetMemberOfMe();
@@ -91,7 +94,11 @@ const MemberList: FC = () => {
             {profiles?.map((profiles, index) => (
               <React.Fragment key={index}>
                 {profiles.map((profile) => (
-                  <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)}>
+                  <Link
+                    key={profile.id}
+                    href={playgroundLink.memberDetail(profile.id)}
+                    onClick={() => logClickEvent('memberCard', { id: profile.id, name: profile.name })}
+                  >
                     <MemberCard
                       name={profile.name}
                       part={profile.part}

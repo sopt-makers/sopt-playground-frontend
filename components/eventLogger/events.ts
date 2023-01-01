@@ -1,5 +1,8 @@
-type None = Record<string, never>;
+type EmptyObject = Record<string, never>;
 
-export interface Events {
-  visit: None;
+export interface ClickEvents {
+  memberCard: {
+    id: number;
+    name: string;
+  };
 }

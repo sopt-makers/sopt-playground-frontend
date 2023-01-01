@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
-import EventLoggerProvider from '@/components/eventLogger/EventLoggerProvider';
+import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
 import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <EventLoggerProvider apiKey={AMPLITUDE_API_KEY}>
+    <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
       <QueryClientProvider client={queryClient}>
         <Head>
           <title>SOPT Playground</title>
@@ -50,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           {DEBUG && <Debugger />}
         </RecoilRoot>
       </QueryClientProvider>
-    </EventLoggerProvider>
+    </AmplitudeProvider>
   );
 }
 
