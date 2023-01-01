@@ -10,6 +10,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
+import { useEventLogger } from '@/components/eventLogger/EventLoggerProvider';
 import { FEEDBACK_FORM_URL, playgroundLink } from '@/constants/links';
 import BackIcon from '@/public/icons/icon-back.svg';
 import { colors } from '@/styles/colors';
@@ -19,6 +20,7 @@ import { textStyles } from '@/styles/typography';
 const Header: FC = () => {
   const { logout } = useAuth();
   const { pathname, events } = useRouter();
+  const eventLogger = useEventLogger();
 
   const [isUserDropdownOpened, setIsUserDropdownOpened] = useState(false);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
@@ -71,7 +73,7 @@ const Header: FC = () => {
           <MenuIcon />
         </button>
         <Link href={playgroundLink.memberList()} passHref legacyBehavior>
-          <TextLinkButton isCurrentPath={pathname === '/'}>
+          <TextLinkButton isCurrentPath={pathname === '/'} onClick={() => eventLogger.logEvent('visit', {})}>
             <StyledLogo>
               <LogoIcon />
             </StyledLogo>

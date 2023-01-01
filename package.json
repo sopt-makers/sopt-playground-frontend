@@ -15,6 +15,7 @@
     "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^1.6.7",
     "@badrap/bar-of-progress": "^0.2.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",

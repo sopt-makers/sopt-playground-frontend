@@ -7,9 +7,10 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
+import EventLoggerProvider from '@/components/eventLogger/EventLoggerProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
-import { DEBUG } from '@/constants/env';
+import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
 import { colors } from '@/styles/colors';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
@@ -37,17 +38,19 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Head>
-        <title>SOPT Playground</title>
-      </Head>
-      <GoogleTagManagerScript />
-      <RecoilRoot>
-        <GlobalStyle />
-        {layout({ children: <Component {...pageProps} /> })}
-        {DEBUG && <Debugger />}
-      </RecoilRoot>
-    </QueryClientProvider>
+    <EventLoggerProvider apiKey={AMPLITUDE_API_KEY}>
+      <QueryClientProvider client={queryClient}>
+        <Head>
+          <title>SOPT Playground</title>
+        </Head>
+        <GoogleTagManagerScript />
+        <RecoilRoot>
+          <GlobalStyle />
+          {layout({ children: <Component {...pageProps} /> })}
+          {DEBUG && <Debugger />}
+        </RecoilRoot>
+      </QueryClientProvider>
+    </EventLoggerProvider>
   );
 }
 
