@@ -1,3 +1,4 @@
+import { Career } from '@/components/members/upload/types';
 import { Category, ServiceType } from '@/components/projects/upload/types';
 
 export type Profile = {
@@ -99,6 +100,7 @@ export type ProfileRequest = {
   openToWork: boolean;
   openToSideProject: boolean;
   allowOfficial: boolean;
+  careers: Career[];
 };
 
 export interface PostMemberCoffeeChatVariables {

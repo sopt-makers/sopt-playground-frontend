@@ -67,4 +67,35 @@ export const memberFormSchema = yup.object().shape({
   openToWork: yup.boolean(),
   openToSideProject: yup.boolean(),
   allowOfficial: yup.boolean(),
+  careers: yup.array().of(
+    yup.object().shape({
+      title: yup.lazy(() =>
+        yup.string().when(['companyName', 'startDate', 'endDate'], {
+          is: (companyName: string, startDate: string, endDate: string) => companyName || startDate || endDate,
+          then: yup.string().required('직무를 입력해주세요.'),
+        }),
+      ),
+      companyName: yup.lazy(() =>
+        yup.string().when(['title', 'startDate', 'endDate'], {
+          is: (title: string, startDate: string, endDate: string) => title || startDate || endDate,
+          then: yup.string().required('회사를 입력해주세요.'),
+        }),
+      ),
+      startDate: yup.lazy(() =>
+        yup.string().when(['title', 'companyName', 'endDate'], {
+          is: (title: string, companyName: string, endDate: string) => title || companyName || endDate,
+          then: yup.string().required('근무 시작일을 입력해주세요.'),
+        }),
+      ),
+      endDate: yup.lazy(() =>
+        yup.string().when('isCurrent', {
+          is: false,
+          then: yup.string().when(['title', 'startDate', 'companyName'], {
+            is: (title: string, startDate: string, companyName: string) => title || startDate || companyName,
+            then: yup.string().required('근무 종료일을 입력해주세요.'),
+          }),
+        }),
+      ),
+    }),
+  ),
 });
