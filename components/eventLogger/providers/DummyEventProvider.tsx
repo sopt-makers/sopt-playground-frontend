@@ -1,7 +1,7 @@
 import { FC, ReactNode, useMemo } from 'react';
 
 import { EventLoggerContext } from '@/components/eventLogger/context';
-import { EventLoggerController } from '@/components/eventLogger/types';
+import { createConsoleLogController } from '@/components/eventLogger/controllers/consoleLog';
 
 interface EventLoggerProviderProps {
   children: ReactNode;
@@ -14,11 +14,3 @@ const DummyEventProvider: FC<EventLoggerProviderProps> = ({ children }) => {
 };
 
 export default DummyEventProvider;
-
-function createConsoleLogController(): EventLoggerController {
-  return {
-    clickEvent(key, params) {
-      console.log('[clickEvent]', key, params);
-    },
-  };
-}
