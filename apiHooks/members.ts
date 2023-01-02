@@ -17,7 +17,7 @@ interface Variables {
 // 멤버 프로필 전체 조회
 export const useGetMemberProfile = ({ limit }: Variables) => {
   return useInfiniteQuery({
-    queryKey: ['getMemberProfile', window.location.search],
+    queryKey: ['getMemberProfile', window.location.search, limit],
     queryFn: async ({ pageParam: cursor = 0 }) => {
       const params = { limit, cursor };
 
