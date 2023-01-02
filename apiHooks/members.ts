@@ -13,11 +13,10 @@ import { PostMemberCoffeeChatVariables, Profile } from '@/api/members/type';
 interface Variables {
   limit?: number;
   queryKey?: QueryKey;
-  enabled?: boolean;
 }
 
 // 멤버 프로필 전체 조회
-export const useGetMemberProfile = ({ limit, queryKey, enabled }: Variables) => {
+export const useGetMemberProfile = ({ limit, queryKey }: Variables) => {
   const _queryKey = (typeof queryKey === 'string' ? [queryKey] : queryKey) ?? [];
   return useInfiniteQuery({
     queryKey: ['getMemberProfile', limit, ..._queryKey],
@@ -45,7 +44,6 @@ export const useGetMemberProfile = ({ limit, queryKey, enabled }: Variables) => 
       console.error(error.message);
     },
     keepPreviousData: true,
-    enabled: enabled,
   });
 };
 

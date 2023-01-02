@@ -29,7 +29,6 @@ const MemberList: FC = () => {
   const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({
     limit: PAGE_LIMIT,
     queryKey: router.asPath,
-    enabled: router.isReady,
   });
 
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
