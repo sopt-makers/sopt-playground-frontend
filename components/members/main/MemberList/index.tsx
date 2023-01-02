@@ -8,6 +8,7 @@ import React, { FC, useEffect } from 'react';
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import MemberCard from '@/components/members/main/MemberCard';
+import MemberCardSkeleton from '@/components/members/main/MemberCard/MemberCardSkeleton';
 import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
@@ -23,7 +24,12 @@ const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({ limit: PAGE_LIMIT });
+  const {
+    data: memberProfileData,
+    fetchNextPage,
+    isLoading,
+    isFetchingNextPage,
+  } = useGetMemberProfile({ limit: PAGE_LIMIT });
   const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
   const { ref, isVisible } = useIntersectionObserver();
@@ -53,6 +59,8 @@ const MemberList: FC = () => {
     })),
   );
   const hasProfile = !!memberOfMeData?.hasProfile;
+
+  console.log('[isLoading]:', isLoading);
 
   return (
     <StyledContainer hasProfile={hasProfile}>
@@ -90,17 +98,19 @@ const MemberList: FC = () => {
           <StyledCardWrapper>
             {profiles?.map((profiles, index) => (
               <React.Fragment key={index}>
-                {profiles.map((profile) => (
-                  <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)}>
-                    <MemberCard
-                      name={profile.name}
-                      part={profile.part}
-                      isActiveGeneration={profile.isActive}
-                      introduction={profile.introduction}
-                      image={profile.profileImage}
-                    />
-                  </Link>
-                ))}
+                {isLoading || isFetchingNextPage
+                  ? [1, 2, 3].map((_, index) => <MemberCardSkeleton key={index} />)
+                  : profiles.map((profile) => (
+                      <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)}>
+                        <MemberCard
+                          name={profile.name}
+                          part={profile.part}
+                          isActiveGeneration={profile.isActive}
+                          introduction={profile.introduction}
+                          image={profile.profileImage}
+                        />
+                      </Link>
+                    ))}
               </React.Fragment>
             ))}
             <Target ref={ref} />
