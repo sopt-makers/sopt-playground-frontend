@@ -1,30 +1,29 @@
-import { css } from '@emotion/react';
+import localFont from '@next/font/local';
 
-const font = css`
-  @font-face {
-    font-family: SUIT;
-    src: url('/fonts/SUIT-ExtraBold.ttf') format('truetype');
-    font-weight: 800;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: SUIT;
-    src: url('/fonts/SUIT-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: SUIT;
-    src: url('/fonts/SUIT-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: SUIT;
-    src: url('/fonts/SUIT-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-display: swap;
-  }
-`;
-
-export default font;
+export const myFont = localFont({
+  src: [
+    {
+      path: '../public/fonts/SUIT-ExtraBold.woff2',
+      weight: '500',
+      style: 'Medium',
+    },
+    {
+      path: '../public/fonts/SUIT-ExtraBold.woff2',
+      weight: '600',
+      style: 'SemiBold',
+    },
+    {
+      path: '../public/fonts/SUIT-ExtraBold.woff2',
+      weight: '700',
+      style: 'Bold',
+    },
+    {
+      path: '../public/fonts/SUIT-ExtraBold.woff2',
+      weight: '800',
+      style: 'ExtraBold',
+    },
+  ],
+  fallback: ['sans-serif'],
+  display: 'swap',
+  preload: true,
+});

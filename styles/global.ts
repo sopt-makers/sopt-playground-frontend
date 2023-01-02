@@ -1,13 +1,11 @@
 import { css } from '@emotion/react';
 
 import { colors } from '@/styles/colors';
-import font from '@/styles/font';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { reset } from '@/styles/reset';
 
 export const global = css`
   ${reset};
-  ${font}
 
   html,
   body {

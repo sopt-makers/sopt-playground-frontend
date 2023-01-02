@@ -3211,6 +3211,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/font@npm:^13.1.1":
+  version: 13.1.1
+  resolution: "@next/font@npm:13.1.1"
+  checksum: 468a77d3a6db4a95ece3cc99c28dcaaf6135354ad81c3954a08a6c7d977693d7b7f07ff835b972a80d25794b711d6cb6545ea55fe6bed4c624346f3524061d19
+  languageName: node
+  linkType: hard
+
 "@next/swc-android-arm-eabi@npm:13.1.1":
   version: 13.1.1
   resolution: "@next/swc-android-arm-eabi@npm:13.1.1"
@@ -18022,6 +18029,7 @@ __metadata:
     "@hookform/resolvers": ^2.9.1
     "@mdx-js/react": ^1.6.22
     "@next/bundle-analyzer": ^13.1.1
+    "@next/font": ^13.1.1
     "@storybook/addon-actions": ^6.5.5
     "@storybook/addon-docs": ^6.5.5
     "@storybook/addon-essentials": ^6.5.5

@@ -11,6 +11,7 @@ import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
 import { DEBUG } from '@/constants/env';
 import { colors } from '@/styles/colors';
+import { myFont } from '@/styles/font';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
 
@@ -44,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <GoogleTagManagerScript />
       <RecoilRoot>
         <GlobalStyle />
-        {layout({ children: <Component {...pageProps} /> })}
+        <main className={myFont.className}>{layout({ children: <Component {...pageProps} /> })}</main>
         {DEBUG && <Debugger />}
       </RecoilRoot>
     </QueryClientProvider>
