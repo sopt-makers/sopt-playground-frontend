@@ -51,18 +51,16 @@ export default ToastProvider;
 
 const StyledContainer = styled.div`
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 71px;
+  left: 36px;
   z-index: 100;
 `;
 
 const StyledToastItem = styled.div<{ animation: string }>`
   position: sticky;
-  bottom: 71px;
-  left: 36px;
   margin: 20px 14px;
   border-radius: 8px;
-  background: #fff;
+  background: ${colors.black60};
   padding-top: 13px;
   padding-bottom: 13px;
   padding-left: 24px;

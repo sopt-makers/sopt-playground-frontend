@@ -3,6 +3,7 @@ export interface ToastEntry {
 }
 
 export interface ToastOption {
+  title?: string;
   message: string;
 }
 
