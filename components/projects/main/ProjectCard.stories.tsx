@@ -26,6 +26,7 @@ Thumbnail.args = {
     { linkId: 0, linkTitle: 'website', linkUrl: 'zigzag.kr' },
     { linkId: 1, linkTitle: 'appStore', linkUrl: 'zigzag.kr' },
     { linkId: 2, linkTitle: 'googlePlay', linkUrl: 'zigzag.kr' },
+    { linkId: 3, linkTitle: 'media', linkUrl: 'zigzag.kr' },
   ],
 };
 Thumbnail.storyName = '썸네일 이미지';
