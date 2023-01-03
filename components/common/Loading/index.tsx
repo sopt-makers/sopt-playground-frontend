@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { AnimationProps, motion } from 'framer-motion';
-import { FC, HTMLAttributes } from 'react';
 
 import Portal from '@/components/common/Portal';
 import { colors } from '@/styles/colors';
