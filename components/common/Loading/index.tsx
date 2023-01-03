@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { AnimationProps, motion } from 'framer-motion';
-import { FC } from 'react';
+import { FC, HTMLAttributes } from 'react';
 
+import Portal from '@/components/common/Portal';
 import { colors } from '@/styles/colors';
 
 const variants: AnimationProps['variants'] = {
@@ -30,7 +31,20 @@ const variants: AnimationProps['variants'] = {
   },
 };
 
-const Loading: FC = () => {
+interface LoadingProps {
+  type?: 'default' | 'fullPage';
+}
+export default function Loading({ type = 'default' }: LoadingProps) {
+  switch (type) {
+    case 'fullPage':
+      return <LoadingFullPage />;
+    case 'default':
+    default:
+      return <LoadingDefault />;
+  }
+}
+
+const LoadingDefault = () => {
   return (
     <StyledLoading>
       <LoadingDot variants={variants} animate='loadingOne' />
@@ -39,8 +53,15 @@ const Loading: FC = () => {
     </StyledLoading>
   );
 };
-
-export default Loading;
+const LoadingFullPage = () => {
+  return (
+    <Portal>
+      <StyledBackground>
+        <Loading />
+      </StyledBackground>
+    </Portal>
+  );
+};
 
 const StyledLoading = styled.div`
   display: flex;
@@ -53,4 +74,17 @@ const LoadingDot = styled(motion.span)`
   background-color: ${colors.purple100};
   width: 12px;
   height: 12px;
+`;
+
+const StyledBackground = styled.div`
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  background-color: rgb(0 0 0 / 30%);
+  width: 100%;
+  height: 100%;
 `;

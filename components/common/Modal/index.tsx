@@ -71,7 +71,7 @@ const StyledBackground = styled.div<{ visible?: boolean }>`
   align-items: center;
   justify-content: center;
   z-index: 99999;
-  background-color: rgb(0 0 0 / 40%);
+  background-color: rgb(0 0 0 / 30%);
   width: 100%;
   height: 100%;
 `;

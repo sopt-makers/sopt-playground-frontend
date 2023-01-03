@@ -9,5 +9,8 @@ export default {
 const Template: ComponentStory<typeof Loading> = (args) => <Loading {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+
+export const FullPage = Template.bind({});
+FullPage.args = {
+  type: 'fullPage',
+};
