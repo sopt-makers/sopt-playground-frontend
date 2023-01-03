@@ -12,7 +12,7 @@ interface ToastProviderProps {
   duration?: number;
 }
 
-export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) => {
+const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) => {
   const [toast, setToast] = useState<ToastEntry | null>(null);
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out' | 'slide-reset'>('slide-in');
   const toastTimeout = useAtomicTimeout();
@@ -46,6 +46,8 @@ export const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, childre
     </ToastContext.Provider>
   );
 };
+
+export default ToastProvider;
 
 const StyledContainer = styled.div`
   position: fixed;
