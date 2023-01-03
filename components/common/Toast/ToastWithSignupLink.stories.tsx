@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import { ToastProvider } from '@/components/common/Toast';
+import { ToastProvider } from '@/components/common/Toast/providers/ToastProvider';
 import SignUpLink from '@/components/projects/upload/SignUpLink';
 
 const ToastWithSignUpLink = () => {
