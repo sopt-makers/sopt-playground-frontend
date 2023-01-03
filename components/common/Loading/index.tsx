@@ -4,32 +4,38 @@ import { FC } from 'react';
 
 import { colors } from '@/styles/colors';
 
-const transition: AnimationProps['transition'] = {
-  repeat: Infinity,
-  repeatType: 'reverse',
-};
-
 const variants: AnimationProps['variants'] = {
   loadingOne: {
-    opacity: [0.2, 0.5, 0],
-    transition,
+    opacity: [0, 0.2, 0.5, 1, 0.5, 0.2, 0],
+    transition: {
+      repeat: Infinity,
+      duration: 1.2,
+    },
   },
   loadingTwo: {
-    opacity: [0.5, 0, 0.2],
-    transition,
+    opacity: [0, 0.2, 0.5, 1, 0.5, 0.2, 0],
+    transition: {
+      repeat: Infinity,
+      duration: 1.2,
+      delay: 0.4,
+    },
   },
   loadingThree: {
-    opacity: [0, 0.2, 0.5],
-    transition,
+    opacity: [0, 0.2, 0.5, 1, 0.5, 0.2, 0],
+    transition: {
+      repeat: Infinity,
+      duration: 1.2,
+      delay: 0.8,
+    },
   },
 };
 
 const Loading: FC = () => {
   return (
     <StyledLoading>
-      <LoadingDot initial={{ opacity: 0.2 }} variants={variants} animate='loadingOne' />
-      <LoadingDot initial={{ opacity: 0.5 }} variants={variants} animate='loadingTwo' />
-      <LoadingDot initial={{ opacity: 0 }} variants={variants} animate='loadingThree' />
+      <LoadingDot variants={variants} animate='loadingOne' />
+      <LoadingDot variants={variants} animate='loadingTwo' />
+      <LoadingDot variants={variants} animate='loadingThree' />
     </StyledLoading>
   );
 };

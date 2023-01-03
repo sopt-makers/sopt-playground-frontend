@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import FocusTrap from 'focus-trap-react';
 import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
 
-import Portal from '@/components/common/Modal/Portal';
+import Portal from '@/components/common/Portal';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import IconModalCheck from '@/public/icons/icon-modal-check.svg';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
