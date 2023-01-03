@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { AnimationProps, motion } from 'framer-motion';
+import { FC, PropsWithChildren } from 'react';
 
 import Portal from '@/components/common/Portal';
 import { colors } from '@/styles/colors';
@@ -33,31 +34,34 @@ const variants: AnimationProps['variants'] = {
 interface LoadingProps {
   type?: 'default' | 'fullPage';
 }
-export default function Loading({ type = 'default' }: LoadingProps) {
+const Loading: FC<LoadingProps> = ({ type = 'default' }) => {
   switch (type) {
     case 'fullPage':
-      return <LoadingFullPage />;
-    case 'default':
+      return (
+        <FullPageWrapper>
+          <LoadingDefault />
+        </FullPageWrapper>
+      );
     default:
+    case 'default':
       return <LoadingDefault />;
   }
-}
-
-const LoadingDefault = () => {
-  return (
-    <StyledLoading>
-      <LoadingDot variants={variants} animate='loadingOne' />
-      <LoadingDot variants={variants} animate='loadingTwo' />
-      <LoadingDot variants={variants} animate='loadingThree' />
-    </StyledLoading>
-  );
 };
-const LoadingFullPage = () => {
+
+export default Loading;
+
+const LoadingDefault = () => (
+  <StyledLoading>
+    <LoadingDot variants={variants} animate='loadingOne' />
+    <LoadingDot variants={variants} animate='loadingTwo' />
+    <LoadingDot variants={variants} animate='loadingThree' />
+  </StyledLoading>
+);
+
+const FullPageWrapper: FC<PropsWithChildren<unknown>> = ({ children }) => {
   return (
     <Portal>
-      <StyledBackground>
-        <Loading />
-      </StyledBackground>
+      <StyledBackground>{children}</StyledBackground>
     </Portal>
   );
 };
