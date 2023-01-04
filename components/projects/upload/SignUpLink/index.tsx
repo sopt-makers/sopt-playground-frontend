@@ -12,7 +12,7 @@ const SignUpLink: FC = () => {
   const toast = useToast();
   const onCopy = () =>
     copyToClipboard(`${ORIGIN}/auth/verify`, {
-      onSuccess: () => toast.show({ message: '링크가 클립보드에 저장되었습니다' }),
+      onSuccess: () => toast.show({ title: '링크 복사 완료', message: '링크가 클립보드에 저장되었습니다' }),
       onError: () => toast.show({ message: '다시 시도해주세요' }),
     });
 

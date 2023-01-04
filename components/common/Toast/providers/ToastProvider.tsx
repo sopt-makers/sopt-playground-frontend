@@ -3,9 +3,9 @@ import { FC, ReactNode, useMemo, useState } from 'react';
 
 import Portal from '@/components/common/Portal';
 import { ToastContext } from '@/components/common/Toast/context';
-import { ToastController, ToastEntry, ToastOption } from '@/components/common/Toast/types';
+import ToastEntry from '@/components/common/Toast/ToastEntry';
+import { ToastController, ToastEntryData, ToastOption } from '@/components/common/Toast/types';
 import useAtomicTimeout from '@/components/common/Toast/useAtomicTimeout';
-import { colors } from '@/styles/colors';
 
 interface ToastProviderProps {
   children: ReactNode;
@@ -13,14 +13,14 @@ interface ToastProviderProps {
 }
 
 const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) => {
-  const [toast, setToast] = useState<ToastEntry | null>(null);
+  const [toast, setToast] = useState<ToastEntryData | null>(null);
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out' | 'slide-reset'>('slide-in');
   const toastTimeout = useAtomicTimeout();
 
   const controller: ToastController = useMemo(
     () => ({
-      show: async ({ message }: ToastOption) => {
-        setToast({ option: { message } });
+      show: async ({ title, message }: ToastOption) => {
+        setToast({ option: { title, message } });
         setAnimation('slide-reset');
 
         // slide-reset 값 세팅이 무시되지 않도록, slide-in 값 세팅을 이벤트 루프 뒤로 보내기
@@ -39,9 +39,9 @@ const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) =>
     <ToastContext.Provider value={controller}>
       {children}
       <Portal portalId='toast-root'>
-        <StyledContainer>
-          {toast && <StyledToastItem animation={animation}>{toast.option.message}</StyledToastItem>}
-        </StyledContainer>
+        <ToastContainer animation={animation}>
+          {toast && <ToastEntry title={toast.option.title} message={toast.option.message} />}
+        </ToastContainer>
       </Portal>
     </ToastContext.Provider>
   );
@@ -49,28 +49,14 @@ const ToastProvider: FC<ToastProviderProps> = ({ duration = 1000, children }) =>
 
 export default ToastProvider;
 
-const StyledContainer = styled.div`
+const ToastContainer = styled.div<{ animation: string }>`
   position: fixed;
-  bottom: 71px;
+  bottom: 59px;
   left: 36px;
+  transform: translateY(300%);
   z-index: 100;
-`;
-
-const StyledToastItem = styled.div<{ animation: string }>`
-  position: sticky;
-  margin: 20px 14px;
-  border-radius: 8px;
-  background: ${colors.black60};
-  padding-top: 13px;
-  padding-bottom: 13px;
-  padding-left: 24px;
-  width: 343px;
+  min-width: 400px;
   animation: 0.3s forwards ${(props) => props.animation};
-  line-height: 136%;
-  color: black;
-  color: ${colors.gray80};
-  font-size: 16px;
-  font-weight: 500;
 
   @keyframes slide-in {
     from {

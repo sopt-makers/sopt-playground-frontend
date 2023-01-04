@@ -1,4 +1,4 @@
-export interface ToastEntry {
+export interface ToastEntryData {
   option: ToastOption;
 }
 

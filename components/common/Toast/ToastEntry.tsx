@@ -17,7 +17,7 @@ const ToastEntry: FC<ToastEntryProps> = ({ title, message }) => {
         <IconCheck />
       </IconBox>
       <HeaderBox>
-        <Title>{title}</Title>
+        {title && <Title>{title}</Title>}
         <ContentBox>{message}</ContentBox>
       </HeaderBox>
     </StyledToastEntry>
@@ -40,6 +40,7 @@ const HeaderBox = styled.div`
 `;
 
 const Title = styled.h2`
+  margin-bottom: 7px;
   color: ${colors.white};
 
   ${textStyles.SUIT_20_B};
@@ -59,6 +60,5 @@ const IconBox = styled.div`
 `;
 
 const ContentBox = styled.div`
-  margin-top: 7px;
   color: ${colors.gray40};
 `;
