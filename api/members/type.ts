@@ -46,6 +46,7 @@ export type ProfileDetail = {
   openToSideProject: boolean;
   allowOfficial: boolean;
   projects: MemberProject[];
+  careers: Career[];
 };
 
 export type Activity = {

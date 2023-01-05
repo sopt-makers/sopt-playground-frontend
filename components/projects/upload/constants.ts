@@ -147,9 +147,9 @@ export const getLinkInfo = (linkTitle: LinkTitle | string) => {
     case 'instagram':
       return { icon: '/icons/icon-instagram.svg', label: 'Instagram' };
     case 'media':
-      return { icons: '/icons/icon-media.svg', label: 'Media' };
+      return { icon: '/icons/icon-media.svg', label: 'Media' };
     default:
-      return { icons: '/icons/icon-etc.svg', label: '기타' };
+      return { icon: '/icons/icon-etc.svg', label: '기타' };
   }
 };
 
