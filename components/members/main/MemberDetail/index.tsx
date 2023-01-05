@@ -12,6 +12,7 @@ import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
 import useModalState from '@/components/common/Modal/useModalState';
+import CareerItem from '@/components/members/detail/CareerItem';
 import InfoItem from '@/components/members/detail/InfoItem';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import PartItem from '@/components/members/detail/PartItem';
@@ -155,6 +156,12 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               />
             );
           })}
+        </InfoContainer>
+
+        <InfoContainer style={{ gap: '20px' }}>
+          {profile?.careers.map((career, idx) => (
+            <CareerItem key={idx} career={career} />
+          ))}
         </InfoContainer>
 
         <InfoContainer style={{ gap: '30px' }}>

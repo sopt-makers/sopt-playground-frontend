@@ -57,7 +57,7 @@ export const postMemberProfile = async (body: ProfileRequest): Promise<Profile> 
   return data;
 };
 
-export const getMemebersSearchByName = async (name: string) => {
+export const getMembersSearchByName = async (name: string) => {
   const { data } = await axiosInstance.request<Member[]>({
     method: 'GET',
     url: `api/v1/members/search?name=${name}`,
