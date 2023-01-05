@@ -35,17 +35,14 @@ interface LoadingProps {
   type?: 'default' | 'fullPage';
 }
 const Loading: FC<LoadingProps> = ({ type = 'default' }) => {
-  switch (type) {
-    case 'fullPage':
-      return (
-        <FullPageWrapper>
-          <LoadingDefault />
-        </FullPageWrapper>
-      );
-    default:
-    case 'default':
-      return <LoadingDefault />;
+  if (type === 'fullPage') {
+    return (
+      <FullPageWrapper>
+        <LoadingDefault />
+      </FullPageWrapper>
+    );
   }
+  return <LoadingDefault />;
 };
 
 export default Loading;

@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren<unknown> {
 const Portal: FC<Props> = ({ portalId, children }) => {
   const [element, setElement] = useState<HTMLElement | null>(null);
   const id = useId();
-  const elementId = portalId ?? id;
+  const elementId = portalId ?? `$portal-${id}`;
 
   useEffect(() => {
     let modalRoot = document.getElementById(elementId);
