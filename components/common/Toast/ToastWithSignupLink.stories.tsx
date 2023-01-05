@@ -1,14 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import SignUpLink from '@/components/projects/upload/SignUpLink';
-import { ToastProvider } from '@/components/projects/upload/ToastProvider';
 
 const ToastWithSignUpLink = () => {
-  return (
-    <ToastProvider>
-      <SignUpLink />
-    </ToastProvider>
-  );
+  return <SignUpLink />;
 };
 
 export default {
