@@ -26,10 +26,13 @@ const MemberList: FC = () => {
   const { logClickEvent } = useEventLogger();
 
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({ limit: PAGE_LIMIT });
   const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
   const { ref, isVisible } = useIntersectionObserver();
+  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({
+    limit: PAGE_LIMIT,
+    queryKey: router.asPath,
+  });
 
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
   const handleSelect = (value: MenuValue) => {

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 
@@ -9,6 +9,7 @@ import { ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
+import useToast from '@/components/common/Toast/useToast';
 import { categoryLabel, FORM_ITEMS, PROJECT_DEFAULT_VALUES } from '@/components/projects/upload/constants';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
@@ -27,7 +28,6 @@ import ProjectServiceType from '@/components/projects/upload/ProjectServiceType'
 import ProjectStatus from '@/components/projects/upload/ProjectStatus';
 import ProjectSummary from '@/components/projects/upload/ProjectSummary';
 import { projectSchema } from '@/components/projects/upload/schema';
-import { ToastContext, ToastProvider } from '@/components/projects/upload/ToastProvider';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
 import { convertPeriodFormat } from '@/components/projects/upload/utils';
 import { playgroundLink } from '@/constants/links';
@@ -80,7 +80,7 @@ const ProjectUploadPage: FC = () => {
           : [...acc, cur],
       [],
     );
-  const { showToast } = useContext(ToastContext);
+  const toast = useToast();
   const router = useRouter();
 
   const onSubmit = (data: ProjectUploadForm) => {
@@ -118,7 +118,7 @@ const ProjectUploadPage: FC = () => {
         },
         {
           onSuccess: () => {
-            showToast('프로젝트가 성공적으로 업로드 되었습니다.');
+            toast.show({ message: '프로젝트가 성공적으로 업로드 되었습니다.' });
             router.push(playgroundLink.projectList());
             queryClient.invalidateQueries('getProjectListQuery');
           },
@@ -130,30 +130,28 @@ const ProjectUploadPage: FC = () => {
   return (
     <AuthRequired>
       <FormProvider {...methods}>
-        <ToastProvider>
-          <StyledForm onSubmit={handleSubmit(onSubmit)}>
-            <FormStatus formItems={formItems} />
-            <ProjectContainer>
-              <ProjectName />
-              <ProjectGeneration />
-              <ProjectCategory />
-              <ProjectStatus />
-              <ProjectMembers type={categoryLabel?.[category] ?? ''} />
-              <ProjectReleaseMembers />
-              <ProjectServiceType />
-              <ProjectPeriod />
-              <ProjectSummary />
-              <ProjectDetail />
-              <ProjectImageSection />
-              <ProjectLink />
-              <StyledButtonWrapper>
-                <Button type='submit' variant='primary'>
-                  프로젝트 등록하기
-                </Button>
-              </StyledButtonWrapper>
-            </ProjectContainer>
-          </StyledForm>
-        </ToastProvider>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+          <FormStatus formItems={formItems} />
+          <ProjectContainer>
+            <ProjectName />
+            <ProjectGeneration />
+            <ProjectCategory />
+            <ProjectStatus />
+            <ProjectMembers type={categoryLabel?.[category] ?? ''} />
+            <ProjectReleaseMembers />
+            <ProjectServiceType />
+            <ProjectPeriod />
+            <ProjectSummary />
+            <ProjectDetail />
+            <ProjectImageSection />
+            <ProjectLink />
+            <StyledButtonWrapper>
+              <Button type='submit' variant='primary'>
+                프로젝트 등록하기
+              </Button>
+            </StyledButtonWrapper>
+          </ProjectContainer>
+        </StyledForm>
       </FormProvider>
     </AuthRequired>
   );

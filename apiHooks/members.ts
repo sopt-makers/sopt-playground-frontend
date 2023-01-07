@@ -1,23 +1,25 @@
-import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
+import { QueryKey, useInfiniteQuery, useMutation, useQuery } from 'react-query';
 
 import {
   getMemberOfMe,
   getMemberProfile,
   getMemberProfileById,
   getMemberProfileOfMe,
-  getMemebersSearchByName,
+  getMembersSearchByName,
   postMemberCoffeeChat,
 } from '@/api/members';
 import { PostMemberCoffeeChatVariables, Profile } from '@/api/members/type';
 
 interface Variables {
   limit?: number;
+  queryKey?: QueryKey;
 }
 
 // 멤버 프로필 전체 조회
-export const useGetMemberProfile = ({ limit }: Variables) => {
+export const useGetMemberProfile = ({ limit, queryKey }: Variables) => {
+  const _queryKey = (typeof queryKey === 'string' ? [queryKey] : queryKey) ?? [];
   return useInfiniteQuery({
-    queryKey: ['getMemberProfile'],
+    queryKey: ['getMemberProfile', limit, ..._queryKey],
     queryFn: async ({ pageParam: cursor = 0 }) => {
       const params = { limit, cursor };
 
@@ -98,7 +100,7 @@ export const useGetMembersSearchByName = (name: string) => {
   return useQuery(
     ['getMembersSearchByName', name],
     async () => {
-      const data = await getMemebersSearchByName(name);
+      const data = await getMembersSearchByName(name);
       return data;
     },
     {

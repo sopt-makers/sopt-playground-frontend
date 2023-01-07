@@ -6,6 +6,7 @@ import { colors } from '@/styles/colors';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { RecoilRoot } from 'recoil';
 import StorybookEventLoggerProvider from '@/components/eventLogger/providers/StorybookEventLoggerProvider';
+import StorybookToastProvider from '@/components/common/Toast/providers/StorybookToastProvider';
 
 initialize();
 
@@ -39,8 +40,10 @@ export const decorators = [
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <StorybookEventLoggerProvider>
-          <GlobalStyle />
-          <Story />
+          <StorybookToastProvider>
+            <GlobalStyle />
+            <Story />
+          </StorybookToastProvider>
         </StorybookEventLoggerProvider>
       </RecoilRoot>
     </QueryClientProvider>

@@ -52,6 +52,12 @@ const StyledCheckbox = styled.span<CheckboxProps>`
       background-color: ${colors.purple100};
     `}
 
+  & > svg {
+    width: 14px;
+    height: 9px;
+    color: ${colors.purple60};
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     width: 17.5px;
     height: 17.5px;

@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
+import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
 import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
@@ -45,9 +46,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Head>
         <GoogleTagManagerScript />
         <RecoilRoot>
-          <GlobalStyle />
-          {layout({ children: <Component {...pageProps} /> })}
-          {DEBUG && <Debugger />}
+          <ToastProvider>
+            <GlobalStyle />
+            {layout({ children: <Component {...pageProps} /> })}
+            {DEBUG && <Debugger />}
+          </ToastProvider>
         </RecoilRoot>
       </QueryClientProvider>
     </AmplitudeProvider>
