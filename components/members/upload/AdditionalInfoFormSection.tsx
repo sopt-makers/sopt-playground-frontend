@@ -8,7 +8,7 @@ import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
-import { LINK_TITLES } from '@/components/members/upload/constants';
+import { DEFAULT_LINK, LINK_TITLES } from '@/components/members/upload/constants';
 import CountableInput from '@/components/members/upload/forms/CountableInput';
 import CountableTextArea from '@/components/members/upload/forms/CountableTextArea';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
@@ -36,7 +36,7 @@ export default function MemberAdditionalFormSection() {
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
   const linkCategories = useWatch({ control, name: 'links' });
 
-  const onAppend = () => append({ title: '', url: '' });
+  const onAppend = () => append(DEFAULT_LINK);
   const onRemove = (index: number) => remove(index);
   const getLinksErrorMessage = (
     linksError:
