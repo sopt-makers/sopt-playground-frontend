@@ -138,6 +138,69 @@ const ProjectUploadPage: FC = () => {
   useEffect(() => {
     if (isEditPage && postId && project) {
       setValue('name', project.name);
+      if (project.generation) {
+        setValue('generation', { generation: project.generation, checked: false });
+      } else {
+        setValue('generation', { checked: true });
+      }
+      setValue('category', project.category);
+      setValue('status.isAvailable', project.isAvailable);
+      setValue('status.isFounding', project.isFounding);
+      setValue(
+        'members',
+        project.members
+          .filter((m) => m.isTeamMember)
+          .map((member) => ({
+            memberId: member.memberId,
+            memberRole: member.memberRole,
+            memberDescription: member.memberDescription,
+            isTeamMember: member.isTeamMember,
+            memberName: member.memberName,
+            memberGeneration: member.memberGeneration,
+            searchedMember: {
+              id: member.memberId,
+              name: member.memberName,
+              generation: member.memberGeneration,
+              hasProfile: true as const,
+              profileImage: project.thumbnailImage,
+            },
+          })),
+      );
+      setValue(
+        'releaseMembers',
+        project.members
+          .filter((m) => !m.isTeamMember)
+          .map((member) => ({
+            memberId: member.memberId,
+            memberRole: member.memberRole,
+            memberDescription: member.memberDescription,
+            isTeamMember: member.isTeamMember,
+            memberName: member.memberName,
+            memberGeneration: member.memberGeneration,
+            searchedMember: {
+              id: member.memberId,
+              name: member.memberName,
+              generation: member.memberGeneration,
+              hasProfile: true as const,
+            },
+          })),
+      );
+      setValue('serviceType', project.serviceType);
+      setValue('period.startAt', project.startAt);
+      setValue('period.endAt', project.endAt ?? '');
+      setValue('period.isOngoing', project.endAt ? false : true);
+      setValue('summary', project.summary);
+      setValue('detail', project.detail);
+      setValue('logoImage', project.logoImage);
+      setValue('thumbnailImage', project.thumbnailImage);
+      setValue('projectImage', project.images[0]);
+      setValue(
+        'links',
+        project.links.map((link) => ({
+          linkTitle: link.linkTitle,
+          linkUrl: link.linkUrl,
+        })),
+      );
     }
   }, [isEditPage, postId, project, setValue]);
 
