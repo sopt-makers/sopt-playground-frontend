@@ -10,6 +10,7 @@ import { deleteProject } from '@/api/projects';
 import { useGetMemberOfMe } from '@/apiHooks';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import { getLinkInfo } from '@/components/projects/upload/constants';
+import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import { playgroundLink } from '@/constants/links';
@@ -28,6 +29,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
 
   const { data: project } = useGetProjectQuery({ id: projectId });
   const { data: me } = useGetMemberOfMe();
+  const { refetch } = useGetProjectListQuery();
 
   const startAt = dayjs(project?.startAt).format('YYYY-MM');
   const endAt = project?.endAt ? dayjs(project.endAt).format('YYYY-MM') : '';
@@ -39,6 +41,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
   const handleDeleteProject = async () => {
     if (project) {
       await deleteProject(project.id);
+      refetch();
       router.push(playgroundLink.projectList());
     }
   };

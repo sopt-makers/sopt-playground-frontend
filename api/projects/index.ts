@@ -31,7 +31,7 @@ export const postProject = (input: ProjectInput) => {
 };
 
 // project 수정
-export const putProject = ({ id, data }: { id: number; data: Project }) => {
+export const putProject = ({ id, data }: { id: number; data: ProjectInput }) => {
   return axiosInstance.request({
     method: 'PUT',
     url: `api/v1/projects/${id}`,

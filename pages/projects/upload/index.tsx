@@ -5,6 +5,7 @@ import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 
+import { putProject } from '@/api/projects';
 import { ProjectMember } from '@/api/projects/type';
 import { useGetProjectById } from '@/apiHooks';
 import { useGetMemberOfMe } from '@/apiHooks/members';
@@ -86,8 +87,14 @@ const ProjectUploadPage: FC = () => {
   const toast = useToast();
   const router = useRouter();
 
-  const onSubmit = (data: ProjectUploadForm) => {
-    const notify = confirm('프로젝트를 업로드 하시겠습니까?');
+  const { query } = useStringRouterQuery(['id', 'edit'] as const);
+  const isEditPage = query?.edit === 'true' ? true : false;
+  const uploadType = isEditPage ? '수정' : '등록';
+  const postId = query?.id ?? undefined;
+  const { data: project } = useGetProjectById(postId);
+
+  const onSubmit = async (data: ProjectUploadForm) => {
+    const notify = confirm(`프로젝트를 ${uploadType} 하시겠습니까?`);
     const members: ProjectMember[] = [...data.members, ...(data.releaseMembers ?? [])].map(
       ({ isTeamMember, memberDescription, memberRole, searchedMember }) => ({
         isTeamMember,
@@ -100,40 +107,39 @@ const ProjectUploadPage: FC = () => {
     );
 
     if (notify && myProfileData) {
-      mutate(
-        {
-          name: data.name,
-          generation: data.generation.checked ? undefined : data.generation.generation,
-          category: data.category,
-          detail: data.detail,
-          summary: data.summary,
-          serviceType: data.serviceType,
-          startAt: convertPeriodFormat(data.period.startAt),
-          endAt: !data.period.isOngoing ? convertPeriodFormat(data.period.endAt) : undefined,
-          isAvailable: data.status.isAvailable,
-          isFounding: data.status.isFounding,
-          images: data.projectImage ? [data.projectImage] : [],
-          logoImage: data.logoImage,
-          thumbnailImage: data.thumbnailImage,
-          members,
-          links: data.links,
-          writerId: myProfileData.id,
-        },
-        {
+      const input = {
+        name: data.name,
+        generation: data.generation.checked ? undefined : data.generation.generation,
+        category: data.category,
+        detail: data.detail,
+        summary: data.summary,
+        serviceType: data.serviceType,
+        startAt: convertPeriodFormat(data.period.startAt),
+        endAt: !data.period.isOngoing ? convertPeriodFormat(data.period.endAt) : undefined,
+        isAvailable: data.status.isAvailable,
+        isFounding: data.status.isFounding,
+        images: data.projectImage ? [data.projectImage] : [],
+        logoImage: data.logoImage,
+        thumbnailImage: data.thumbnailImage,
+        members,
+        links: data.links,
+        writerId: myProfileData.id,
+      };
+      if (isEditPage && postId) {
+        await putProject({ id: Number(postId), data: input });
+        router.push(playgroundLink.projectList());
+        queryClient.invalidateQueries('getProjectListQuery');
+      } else {
+        mutate(input, {
           onSuccess: () => {
             toast.show({ message: '프로젝트가 성공적으로 업로드 되었습니다.' });
             router.push(playgroundLink.projectList());
             queryClient.invalidateQueries('getProjectListQuery');
           },
-        },
-      );
+        });
+      }
     }
   };
-
-  const { query } = useStringRouterQuery(['id', 'edit'] as const);
-  const isEditPage = query?.edit === 'true' ? true : false;
-  const postId = query?.id ?? undefined;
-  const { data: project } = useGetProjectById(postId);
 
   useEffect(() => {
     if (isEditPage && postId && project) {
@@ -224,7 +230,7 @@ const ProjectUploadPage: FC = () => {
             <ProjectLink />
             <StyledButtonWrapper>
               <Button type='submit' variant='primary'>
-                프로젝트 등록하기
+                프로젝트 {uploadType}하기
               </Button>
             </StyledButtonWrapper>
           </ProjectContainer>
