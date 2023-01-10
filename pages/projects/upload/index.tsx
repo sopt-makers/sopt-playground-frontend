@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 
 import { ProjectMember } from '@/api/projects/type';
+import { useGetProjectById } from '@/apiHooks';
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
@@ -14,7 +15,7 @@ import { categoryLabel, FORM_ITEMS, PROJECT_DEFAULT_VALUES } from '@/components/
 import FormStatus from '@/components/projects/upload/FormStatus';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { LinkFormType } from '@/components/projects/upload/LinkForm/constants';
-import { MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
+import { MemberFormType } from '@/components/projects/upload/MemberForm/constants';
 import ProjectCategory from '@/components/projects/upload/ProjectCategory';
 import ProjectDetail from '@/components/projects/upload/ProjectDetail';
 import ProjectGeneration from '@/components/projects/upload/ProjectGeneration';
@@ -31,6 +32,7 @@ import { projectSchema } from '@/components/projects/upload/schema';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
 import { convertPeriodFormat } from '@/components/projects/upload/utils';
 import { playgroundLink } from '@/constants/links';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -41,8 +43,8 @@ export interface ProjectUploadForm {
   generation: Generation;
   category: Category;
   status: Status;
-  members: MemeberFormType[];
-  releaseMembers: MemeberFormType[];
+  members: MemberFormType[];
+  releaseMembers: MemberFormType[];
   serviceType: ServiceType[];
   period: Period;
   summary: string;
@@ -64,6 +66,7 @@ const ProjectUploadPage: FC = () => {
   });
   const {
     handleSubmit,
+    setValue,
     watch,
     formState: { dirtyFields },
   } = methods;
@@ -127,6 +130,17 @@ const ProjectUploadPage: FC = () => {
     }
   };
 
+  const { query } = useStringRouterQuery(['id', 'edit'] as const);
+  const isEditPage = query?.edit === 'true' ? true : false;
+  const postId = query?.id ?? undefined;
+  const { data: project } = useGetProjectById(postId);
+
+  useEffect(() => {
+    if (isEditPage && postId && project) {
+      setValue('name', project.name);
+    }
+  }, [isEditPage, postId, project, setValue]);
+
   return (
     <AuthRequired>
       <FormProvider {...methods}>
@@ -166,6 +180,10 @@ const StyledForm = styled.form`
   position: relative;
   gap: 40px;
   justify-content: center;
+  margin-top: 100px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
+  }
 `;
 
 const ProjectContainer = styled.div`

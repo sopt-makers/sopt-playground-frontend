@@ -3,10 +3,11 @@ import { useQuery } from 'react-query';
 import { getProjectById, getProjects } from '@/api/projects';
 
 // project id로 조회
-export const useGetProjectById = (id: string) => {
+export const useGetProjectById = (id?: string) => {
   return useQuery(
-    ['getProjectByid', id],
+    ['getProjectById', id],
     async () => {
+      if (!id) return null;
       const data = await getProjectById(id);
       return data;
     },

@@ -46,7 +46,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
 
   // MEMO: 모바일 뷰를 위한 변수,함수들 입니다.
   // 기존 데스크탑과 멤버 추가 방식과 UI가 아예 달라서 이를 분기처리하는 로직과, 수정상태인지 여부인 isEdit를 이용해야 하기 때문에 아래와 같은 로직들이 필요합니다.
-  const selectedMembers: MemeberFormType[] = (name === 'members' ? members : releaseMembers) ?? [];
+  const selectedMembers: MemberFormType[] = (name === 'members' ? members : releaseMembers) ?? [];
   const onEdit = (index: number) => {
     setValue(`${name}.${index}.isEdit`, true);
   };

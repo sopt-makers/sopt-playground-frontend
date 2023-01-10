@@ -2,10 +2,13 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import groupBy from 'lodash/groupBy';
 import Link from 'next/link';
-import { FC, useMemo } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useMemo, useState } from 'react';
 
 import { MemberRole } from '@/api/projects/type';
+import { deleteProject } from '@/api/projects';
 import { useGetMemberOfMe } from '@/apiHooks';
+import ConfirmModal from '@/components/common/Modal/Confirm';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
@@ -21,6 +24,8 @@ interface ProjectDetailProps {
 }
 
 const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
+  const router = useRouter();
+
   const { data: project } = useGetProjectQuery({ id: projectId });
   const { data: me } = useGetMemberOfMe();
 
@@ -28,6 +33,15 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
   const endAt = project?.endAt ? dayjs(project.endAt).format('YYYY-MM') : '';
   const mainImage = project?.images[0];
   const memberGroupByRole = useMemo(() => groupBy([...(project?.members ?? [])], 'memberRole'), [project]);
+
+  const [isDeleteConfirmModalOpened, setIsDeleteConfirmModalOpened] = useState(false);
+
+  const handleDeleteProject = async () => {
+    if (project) {
+      await deleteProject(project.id);
+      router.push(playgroundLink.projectList());
+    }
+  };
 
   return (
     <Container>
@@ -56,8 +70,8 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           </InfoWrapper>
           {project?.writerId === me?.id && (
             <ControlWrapper>
-              <div>수정하기</div>
-              <div>
+              <div onClick={() => project && router.push(playgroundLink.projectEdit(project.id))}>수정하기</div>
+              <div onClick={() => setIsDeleteConfirmModalOpened(true)}>
                 <IconTrashcan />
               </div>
             </ControlWrapper>
@@ -123,6 +137,17 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           </LinkBox>
         ))}
       </MobileLinksWrapper>
+
+      {isDeleteConfirmModalOpened && (
+        <ConfirmModal
+          title='프로젝트 삭제'
+          content='프로젝트를 정말 삭제하시겠어요?'
+          onClose={() => setIsDeleteConfirmModalOpened(false)}
+          onConfirm={handleDeleteProject}
+          cancelText='삭제'
+          confirmButtonVariable='danger'
+        />
+      )}
     </Container>
   );
 };
