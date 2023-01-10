@@ -35,7 +35,13 @@ const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, member
           <Combobox.Options className='options'>
             {members.map((member) => (
               <Combobox.Option className='option' key={member.id} value={member}>
-                <Text>{member.name}</Text>
+                <MemberInfo>
+                  <ProfileImage
+                    src={member.profileImage ?? '/icons/icon-member-search-default.svg'}
+                    alt='멤버의 프로필 이미지'
+                  />
+                  <Text>{member.name}</Text>
+                </MemberInfo>
                 <Text>{`${member.generation}기`}</Text>
               </Combobox.Option>
             ))}
@@ -94,7 +100,7 @@ const StyledContainer = styled.div<{ error?: booelan }>`
     justify-content: space-between;
     background-color: ${colors.black60};
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 10px 16px;
     color: ${colors.gray100};
 
     &:hover {
@@ -121,4 +127,17 @@ const StyledContainer = styled.div<{ error?: booelan }>`
       width: 135px;
     }
   }
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+`;
+
+const MemberInfo = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
 `;
