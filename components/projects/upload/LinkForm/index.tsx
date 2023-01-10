@@ -132,6 +132,7 @@ const LinkForm: FC = () => {
                                 onChange('https://' + value);
                               }
                             }}
+                            type='url'
                           />
                         </FormItem>
                       )}
