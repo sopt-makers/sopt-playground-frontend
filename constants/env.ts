@@ -7,6 +7,7 @@ export const GOOGLE_OAUTH_CLIENT_ID = required(
   process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
 );
 export const GTM_ID = required('NEXT_PUBLIC_GTM_ID', process.env.NEXT_PUBLIC_GTM_ID);
+export const AMPLITUDE_API_KEY = required('AMPLITUDE_API_KEY', process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY);
 
 function required(key: string, value: string | undefined): string {
   if (value === undefined) {
