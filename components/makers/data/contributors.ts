@@ -1,7 +1,7 @@
 import { MakersGeneration } from '@/components/makers/data/types';
 
-export const contributers: MakersGeneration = {
-  title: 'Contributers',
+export const contributors: MakersGeneration = {
+  title: 'Contributors',
   message: 'makers 이전에 SOPT 프로덕트를 만드는 데 기여한 분들이에요.',
   teams: [
     {
