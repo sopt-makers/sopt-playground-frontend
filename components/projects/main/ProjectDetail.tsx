@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { FC, useMemo } from 'react';
 
 import { MemberRole } from '@/api/projects/type';
+import { useGetMemberOfMe } from '@/apiHooks';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import { playgroundLink } from '@/constants/links';
 import MemberIcon from '@/public/icons/icon-member.svg';
+import IconTrashcan from '@/public/icons/icon-trashcan.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -19,53 +21,62 @@ interface ProjectDetailProps {
 }
 
 const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
-  const { data } = useGetProjectQuery({ id: projectId });
+  const { data: project } = useGetProjectQuery({ id: projectId });
+  const { data: me } = useGetMemberOfMe();
 
-  const startAt = dayjs(data?.startAt).format('YYYY-MM');
-  const endAt = data?.endAt ? dayjs(data.endAt).format('YYYY-MM') : '';
-  const mainImage = data?.images[0];
-  const memberGroupByRole = useMemo(() => groupBy([...(data?.members ?? [])], 'memberRole'), [data]);
+  const startAt = dayjs(project?.startAt).format('YYYY-MM');
+  const endAt = project?.endAt ? dayjs(project.endAt).format('YYYY-MM') : '';
+  const mainImage = project?.images[0];
+  const memberGroupByRole = useMemo(() => groupBy([...(project?.members ?? [])], 'memberRole'), [project]);
 
   return (
     <Container>
       <Header>
         <ServiceTypeWrapper>
-          {data?.serviceType.map((type) => (
+          {project?.serviceType.map((type) => (
             <ServiceType key={type}>{type}</ServiceType>
           ))}
         </ServiceTypeWrapper>
         <ServiceInfoWrapper>
           <LogoImageWrapper>
-            <LogoImage src={data?.logoImage} alt={data?.name} />
+            <LogoImage src={project?.logoImage} alt={project?.name} />
           </LogoImageWrapper>
           <InfoWrapper>
-            <Name>{data?.name}</Name>
-            <Description>{data?.summary}</Description>
+            <Name>{project?.name}</Name>
+            <Description>{project?.summary}</Description>
             <StartEndAtWrapper>
               <StartEndAt>{startAt}</StartEndAt>
               {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
             </StartEndAtWrapper>
             <MobileServiceTypeWrapper>
-              {data?.serviceType.map((type) => (
+              {project?.serviceType.map((type) => (
                 <ServiceType key={type}>{type}</ServiceType>
               ))}
             </MobileServiceTypeWrapper>
           </InfoWrapper>
+          {project?.writerId === me?.id && (
+            <ControlWrapper>
+              <div>수정하기</div>
+              <div>
+                <IconTrashcan />
+              </div>
+            </ControlWrapper>
+          )}
         </ServiceInfoWrapper>
       </Header>
 
       {mainImage && (
         <MainImageWrapper>
-          <MainImage src={mainImage} alt={data?.name} />
+          <MainImage src={mainImage} alt={project?.name} />
         </MainImageWrapper>
       )}
 
       <ProjectDetailContainer>
         <DetailContainer>
           <DetailTitle>Project Overview</DetailTitle>
-          <DetailWrapper>{data?.detail}</DetailWrapper>
+          <DetailWrapper>{project?.detail}</DetailWrapper>
           <LinksWrapper>
-            {data?.links.map((link) => (
+            {project?.links.map((link) => (
               <LinkBox key={link.linkUrl} href={link.linkUrl}>
                 <LinkIcon key={link.linkId} src={getLinkInfo(link.linkTitle).icon} alt='link_icon' />
                 {link.linkTitle}
@@ -76,8 +87,8 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
 
         <UserWrapper>
           <UserInfoWrapper>
-            {data?.generation && <Info>{data.generation}기</Info>}
-            <Info>{data?.category}</Info>
+            {project?.generation && <Info>{project.generation}기</Info>}
+            <Info>{project?.category}</Info>
           </UserInfoWrapper>
           <UserList>
             {Object.entries(memberGroupByRole).map(([role, members], index) => (
@@ -105,7 +116,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
       </ProjectDetailContainer>
 
       <MobileLinksWrapper>
-        {data?.links.map((link) => (
+        {project?.links.map((link) => (
           <LinkBox key={link.linkUrl} href={link.linkUrl}>
             <LinkIcon key={link.linkId} src={getLinkInfo(link.linkTitle).icon} alt='link_icon' />
             {link.linkTitle}
@@ -120,10 +131,12 @@ export default ProjectDetail;
 
 const Container = styled.div`
   margin: 0 auto;
+  padding-top: 100px;
   width: 100%;
   max-width: 1200px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    padding-top: 0;
     padding-bottom: 40px;
   }
 `;
@@ -205,6 +218,38 @@ const LogoImage = styled.img`
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+`;
+const ControlWrapper = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: auto;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: ${colors.black40};
+    cursor: pointer;
+    height: 48px;
+
+    &:first-child {
+      width: 111px;
+      @media ${MOBILE_MEDIA_QUERY} {
+        width: 100%;
+      }
+    }
+
+    &:last-child {
+      width: 48px;
+      min-width: 48px;
+    }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 const Name = styled.h2`
   margin-bottom: 18px;
@@ -292,6 +337,7 @@ const DetailContainer = styled.div`
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 0;
     padding: 36px 24px;
   }
 `;
@@ -372,6 +418,7 @@ const UserWrapper = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
+    background-color: transparent;
     padding: 24px 28px 36px;
   }
 `;
