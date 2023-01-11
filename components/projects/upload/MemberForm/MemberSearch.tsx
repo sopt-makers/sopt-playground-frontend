@@ -25,6 +25,12 @@ const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, member
     e.stopPropagation();
     onChange(undefined);
   };
+  const getProfileImage = (profileImage: string | null) => {
+    if (profileImage == null || profileImage === '') {
+      return '/icons/icon-member-search-default.svg';
+    }
+    return profileImage;
+  };
 
   return (
     <StyledContainer error={error}>
@@ -41,11 +47,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, member
             <div style={{ display: 'flex', alignItems: 'center', columnGap: '6px' }}>
               <ProfileImage
                 style={{ width: '24px', height: '24px' }}
-                src={
-                  value.profileImage == null || value.profileImage === ''
-                    ? '/icons/icon-member-search-default.svg'
-                    : value.profileImage
-                }
+                src={getProfileImage(value.profileImage)}
                 alt='멤버의 프로필 이미지'
               />
               <Text>{value.name}</Text>
@@ -63,10 +65,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, member
             {members.map((member) => (
               <Combobox.Option className='option' key={member.id} value={member}>
                 <MemberInfo>
-                  <ProfileImage
-                    src={member.profileImage ?? '/icons/icon-member-search-default.svg'}
-                    alt='멤버의 프로필 이미지'
-                  />
+                  <ProfileImage src={getProfileImage(member.profileImage)} alt='멤버의 프로필 이미지' />
                   <Text>{member.name}</Text>
                 </MemberInfo>
                 <Text>{`${member.generation}기`}</Text>
