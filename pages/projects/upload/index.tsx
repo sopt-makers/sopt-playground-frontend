@@ -167,8 +167,8 @@ const ProjectUploadPage: FC = () => {
               id: member.memberId,
               name: member.memberName,
               generation: member.memberGeneration,
-              hasProfile: true as const,
-              profileImage: project.thumbnailImage,
+              hasProfile: true,
+              profileImage: member.profileImage,
             },
           })),
       );
@@ -187,7 +187,8 @@ const ProjectUploadPage: FC = () => {
               id: member.memberId,
               name: member.memberName,
               generation: member.memberGeneration,
-              hasProfile: true as const,
+              hasProfile: true,
+              profileImage: member.profileImage,
             },
           })),
       );
@@ -214,7 +215,7 @@ const ProjectUploadPage: FC = () => {
     <AuthRequired>
       <FormProvider {...methods}>
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <FormStatus formItems={formItems} />
+          {!isEditPage && <FormStatus formItems={formItems} />}
           <ProjectContainer>
             <ProjectName />
             <ProjectGeneration />
@@ -249,10 +250,6 @@ const StyledForm = styled.form`
   position: relative;
   gap: 40px;
   justify-content: center;
-  margin-top: 100px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 0;
-  }
 `;
 
 const ProjectContainer = styled.div`
