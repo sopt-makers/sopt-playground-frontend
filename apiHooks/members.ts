@@ -79,12 +79,12 @@ export const useGetMemberProfileById = (
       return data;
     },
     {
-      enabled: !!id,
       ...options,
       onError: (error: AxiosError) => {
         options?.onError?.(error);
         console.error(error.message);
       },
+      enabled: !!id,
     },
   );
 };
