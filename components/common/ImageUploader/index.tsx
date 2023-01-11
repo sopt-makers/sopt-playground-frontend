@@ -58,7 +58,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
 
         const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
         setPreviewImage(s3Url);
-        onChange && onChange(s3Url);
+        onChange?.(s3Url);
       } catch (error) {
         console.error(error);
       }
