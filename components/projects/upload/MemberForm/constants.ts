@@ -15,36 +15,13 @@ export const DEFAULT_MEMBER: Partial<MemeberFormType> = {
   isEdit: true,
 };
 
-export const MemberRoleInfo: {
-  label: string;
-  value: MemberRole;
-}[] = [
-  {
-    label: 'Team Leader',
-    value: 'TEAMLEADER',
-  },
-  {
-    label: 'PM',
-    value: 'PM',
-  },
-  {
-    label: 'Design',
-    value: 'DESIGN',
-  },
-  {
-    label: 'iOS',
-    value: 'IOS',
-  },
-  {
-    label: 'Android',
-    value: 'ANDROID',
-  },
-  {
-    label: 'Web',
-    value: 'WEB',
-  },
-  {
-    label: 'Server',
-    value: 'SERVER',
-  },
-];
+export const MemberRoleInfo: Record<MemberRole, string> = {
+  TEAMLEADER: 'Team Leader',
+  MAINPM: 'Main PM',
+  PM: 'PM',
+  DESIGN: 'Design',
+  IOS: 'iOS',
+  ANDROID: 'Android',
+  WEB: 'Web',
+  SERVER: 'Server',
+};

@@ -4,8 +4,10 @@ import groupBy from 'lodash/groupBy';
 import Link from 'next/link';
 import { FC, useMemo } from 'react';
 
+import { MemberRole } from '@/api/projects/type';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
+import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import { playgroundLink } from '@/constants/links';
 import MemberIcon from '@/public/icons/icon-member.svg';
 import { colors } from '@/styles/colors';
@@ -80,7 +82,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           <UserList>
             {Object.entries(memberGroupByRole).map(([role, members], index) => (
               <UserItem key={index}>
-                <UserRole>{role}</UserRole>
+                <UserRole>{MemberRoleInfo[role as MemberRole]}</UserRole>
                 <UserNameList>
                   {members.map((member) => (
                     <Link

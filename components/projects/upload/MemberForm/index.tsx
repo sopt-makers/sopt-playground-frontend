@@ -99,7 +99,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   placeholder='역할'
                   {...register(`${name}.${index}.memberRole`)}
                 >
-                  {MemberRoleInfo.map(({ label, value }) => (
+                  {Object.entries(MemberRoleInfo).map(([value, label]) => (
                     <option key={value} value={value}>
                       {label}
                     </option>
@@ -172,7 +172,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                         error={!!errors.members?.[memberIndex]?.memberRole}
                         {...register(`${name}.${memberIndex}.memberRole`)}
                       >
-                        {MemberRoleInfo.map(({ label, value }) => (
+                        {Object.entries(MemberRoleInfo).map(([value, label]) => (
                           <option key={value} value={value}>
                             {label}
                           </option>
