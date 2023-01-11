@@ -30,6 +30,18 @@ export const global = css`
       outline: 1px solid ${colors.purple100};
     }
 
+    /* Remove Arrows/Spinners Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+
+    /* Remove Arrows/Spinners Firefox */
+    input[type='number'] {
+      appearance: textfield;
+    }
+
     /* Change Autocomplete styles in Chrome */
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
