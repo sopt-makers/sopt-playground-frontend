@@ -238,7 +238,11 @@ const StyledMain = styled.main<{ hasProfile?: boolean }>`
   position: relative;
   column-gap: 30px;
 
-  ${({ hasProfile }) => hasProfile && `margin: 90px 0`};
+  ${({ hasProfile }) =>
+    hasProfile &&
+    css`
+      margin: 90px 0;
+    `};
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;

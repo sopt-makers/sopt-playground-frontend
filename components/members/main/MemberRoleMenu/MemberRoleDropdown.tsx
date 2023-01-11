@@ -56,13 +56,14 @@ const MemberRoleDropdown: FC<MemberRoleDropdownProps> = ({ className, value, onS
 
 export default MemberRoleDropdown;
 
-const StyledDropdown = styled.ul`
-  z-index: 100;
+const StyledDropdown = styled.div`
+  z-index: 3;
   border-radius: 14px;
   background-color: ${colors.black100};
   width: 100%;
   min-width: 278px;
   height: 100%;
+  position: relative;
 `;
 
 const StyledIconArrow = styled.img<{ isOpen: boolean }>`
@@ -75,12 +76,14 @@ const StyledIconArrow = styled.img<{ isOpen: boolean }>`
   transition: transform 0.3s;
 `;
 
-const StyledDropdownContent = styled.div<{ isOpen: boolean }>`
+const StyledDropdownContent = styled.ul<{ isOpen: boolean }>`
+  display: flex;
+  flex-direction: column;
   position: absolute;
   transition: height ease 0.5s;
   border-radius: inherit;
   background-color: inherit;
-  width: inherit;
   height: ${({ isOpen }) => (isOpen ? 'auto' : 0)};
+  width: 100%;
   overflow: hidden;
 `;
