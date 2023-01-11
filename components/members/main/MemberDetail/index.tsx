@@ -13,6 +13,7 @@ import { FC, useMemo, useState } from 'react';
 import { useGetMemberProfileById } from '@/apiHooks/members';
 import useModalState from '@/components/common/Modal/useModalState';
 import CareerItem from '@/components/members/detail/CareerItem';
+import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import PartItem from '@/components/members/detail/PartItem';
@@ -202,7 +203,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           </ProjectContainer>
         </Wrapper>
       ) : (
-        <div>빈 프로필</div>
+        <EmptyProfile />
       )}
     </Container>
   );
