@@ -8,7 +8,7 @@ import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
 import useModalState from '@/components/common/Modal/useModalState';
@@ -41,7 +41,14 @@ const convertBirthdayFormat = (birthday?: string) => {
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useModalState();
-  const { data: profile } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const [hasProfile, setHasProfile] = useState(true);
+  const { data: profile } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined, {
+    onError: (error) => {
+      if (error.response?.status === 400) {
+        setHasProfile(false);
+      }
+    },
+  });
 
   const sortedActivities = useMemo(
     () =>
@@ -55,144 +62,148 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
   return (
     <Container>
-      <Wrapper>
-        <ProfileContainer>
-          {profile?.profileImage ? (
-            <ProfileImage src={profile.profileImage} />
-          ) : (
-            <EmptyProfileImage>
-              <ProfileIcon />
-            </EmptyProfileImage>
-          )}
-
-          <ProfileContents>
-            <div>
-              <NameWrapper>
-                <div className='name'>{profile?.name}</div>
-                <div className='part'>
-                  {uniq(
-                    profile?.activities.map((item) => {
-                      const [_, part] = item.cardinalInfo.split(',');
-                      return part;
-                    }),
-                  )
-                    .filter((part) => part.length)
-                    .join('/')}
-                </div>
-              </NameWrapper>
-              <div className='intro'>{profile?.introduction}</div>
-            </div>
-            <ContactWrapper>
-              <Link passHref href={`tel:${profile?.email}`} legacyBehavior>
-                <div style={{ cursor: 'pointer' }}>
-                  <CallIcon />
-                  <div className='phone'>{profile?.phone}</div>
-                </div>
-              </Link>
-              <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
-                <div style={{ cursor: 'pointer' }}>
-                  <MailIcon />
-                  <div className='email'>{profile?.email}</div>
-                </div>
-              </Link>
-            </ContactWrapper>
-          </ProfileContents>
-
-          {profile?.isMine && (
-            <EditButton onClick={() => router.push(playgroundLink.memberEdit())}>
-              <EditIcon />
-            </EditButton>
-          )}
-        </ProfileContainer>
-
-        {!profile?.isMine && (
-          <>
-            <AskContainer>
-              <div>
-                <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
-                <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
-              </div>
-              <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
-            </AskContainer>
-            {isOpen && (
-              <CoffeeChatModal
-                receiverId={memberId}
-                name={profile?.name ?? ''}
-                profile={
-                  <>
-                    {profile?.profileImage ? (
-                      <ProfileImage
-                        src={profile.profileImage}
-                        style={{ width: '84px', height: '84px', borderRadius: '20px' }}
-                      />
-                    ) : (
-                      <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
-                        <ProfileIcon />
-                      </EmptyProfileImage>
-                    )}
-                  </>
-                }
-                onClose={onClose}
-              />
+      {hasProfile ? (
+        <Wrapper>
+          <ProfileContainer>
+            {profile?.profileImage ? (
+              <ProfileImage src={profile.profileImage} />
+            ) : (
+              <EmptyProfileImage>
+                <ProfileIcon />
+              </EmptyProfileImage>
             )}
-          </>
-        )}
 
-        <InfoContainer style={{ gap: '30px' }}>
-          <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />
-          <InfoItem label='사는 지역' content={profile?.address ?? ''} />
-          <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
-        </InfoContainer>
+            <ProfileContents>
+              <div>
+                <NameWrapper>
+                  <div className='name'>{profile?.name}</div>
+                  <div className='part'>
+                    {uniq(
+                      profile?.activities.map((item) => {
+                        const [_, part] = item.cardinalInfo.split(',');
+                        return part;
+                      }),
+                    )
+                      .filter((part) => part.length)
+                      .join('/')}
+                  </div>
+                </NameWrapper>
+                <div className='intro'>{profile?.introduction}</div>
+              </div>
+              <ContactWrapper>
+                <Link passHref href={`tel:${profile?.email}`} legacyBehavior>
+                  <div style={{ cursor: 'pointer' }}>
+                    <CallIcon />
+                    <div className='phone'>{profile?.phone}</div>
+                  </div>
+                </Link>
+                <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
+                  <div style={{ cursor: 'pointer' }}>
+                    <MailIcon />
+                    <div className='email'>{profile?.email}</div>
+                  </div>
+                </Link>
+              </ContactWrapper>
+            </ProfileContents>
 
-        <InfoContainer style={{ gap: '34px' }}>
-          {sortedActivities.map((item, idx) => {
-            const [generation, part] = item.cardinalInfo.split(',');
-            return (
-              <PartItem
-                key={idx}
-                generation={generation}
-                part={part}
-                cardinalActivities={item.cardinalActivities.filter((act) => act.generation.toString() === generation)}
-              />
-            );
-          })}
-        </InfoContainer>
+            {profile?.isMine && (
+              <EditButton onClick={() => router.push(playgroundLink.memberEdit())}>
+                <EditIcon />
+              </EditButton>
+            )}
+          </ProfileContainer>
 
-        {profile?.careers && profile.careers.length > 0 && (
-          <InfoContainer style={{ gap: '20px' }}>
-            {profile.careers.map((career, idx) => (
-              <CareerItem key={idx} career={career} />
-            ))}
+          {!profile?.isMine && (
+            <>
+              <AskContainer>
+                <div>
+                  <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
+                  <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
+                </div>
+                <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
+              </AskContainer>
+              {isOpen && (
+                <CoffeeChatModal
+                  receiverId={memberId}
+                  name={profile?.name ?? ''}
+                  profile={
+                    <>
+                      {profile?.profileImage ? (
+                        <ProfileImage
+                          src={profile.profileImage}
+                          style={{ width: '84px', height: '84px', borderRadius: '20px' }}
+                        />
+                      ) : (
+                        <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
+                          <ProfileIcon />
+                        </EmptyProfileImage>
+                      )}
+                    </>
+                  }
+                  onClose={onClose}
+                />
+              )}
+            </>
+          )}
+
+          <InfoContainer style={{ gap: '30px' }}>
+            <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />
+            <InfoItem label='사는 지역' content={profile?.address ?? ''} />
+            <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
           </InfoContainer>
-        )}
 
-        <InfoContainer style={{ gap: '30px' }}>
-          <InfoItem label='스킬' content={profile?.skill ?? ''} />
-          <InfoItem
-            label='링크'
-            content={
-              <LinkItems>
-                {profile?.links.map((item, idx) => (
-                  <Link passHref href={item.url} key={idx} target='_blank'>
-                    <LinkIcon />
-                    <span>{item.title}</span>
-                  </Link>
-                ))}
-              </LinkItems>
-            }
-          />
-        </InfoContainer>
+          <InfoContainer style={{ gap: '34px' }}>
+            {sortedActivities.map((item, idx) => {
+              const [generation, part] = item.cardinalInfo.split(',');
+              return (
+                <PartItem
+                  key={idx}
+                  generation={generation}
+                  part={part}
+                  cardinalActivities={item.cardinalActivities.filter((act) => act.generation.toString() === generation)}
+                />
+              );
+            })}
+          </InfoContainer>
 
-        <ProjectContainer>
-          <ProjectTitle>{profile?.name}님이 참여한 프로젝트</ProjectTitle>
-          <ProjectSub>{profile?.projects.length}개의 프로젝트에 참여</ProjectSub>
-          <ProjectDisplay>
-            {profile?.projects.map((project) => (
-              <MemberProjectCard key={project.id} {...project} />
-            ))}
-          </ProjectDisplay>
-        </ProjectContainer>
-      </Wrapper>
+          {profile?.careers && profile.careers.length > 0 && (
+            <InfoContainer style={{ gap: '20px' }}>
+              {profile.careers.map((career, idx) => (
+                <CareerItem key={idx} career={career} />
+              ))}
+            </InfoContainer>
+          )}
+
+          <InfoContainer style={{ gap: '30px' }}>
+            <InfoItem label='스킬' content={profile?.skill ?? ''} />
+            <InfoItem
+              label='링크'
+              content={
+                <LinkItems>
+                  {profile?.links.map((item, idx) => (
+                    <Link passHref href={item.url} key={idx} target='_blank'>
+                      <LinkIcon />
+                      <span>{item.title}</span>
+                    </Link>
+                  ))}
+                </LinkItems>
+              }
+            />
+          </InfoContainer>
+
+          <ProjectContainer>
+            <ProjectTitle>{profile?.name}님이 참여한 프로젝트</ProjectTitle>
+            <ProjectSub>{profile?.projects.length}개의 프로젝트에 참여</ProjectSub>
+            <ProjectDisplay>
+              {profile?.projects.map((project) => (
+                <MemberProjectCard key={project.id} {...project} />
+              ))}
+            </ProjectDisplay>
+          </ProjectContainer>
+        </Wrapper>
+      ) : (
+        <div>빈 프로필</div>
+      )}
     </Container>
   );
 };
