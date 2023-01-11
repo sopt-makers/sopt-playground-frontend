@@ -5,13 +5,12 @@ import _debounce from 'lodash/debounce';
 import React, { FC, useState } from 'react';
 import { Controller, useFieldArray, UseFieldArrayProps, useFormContext, useWatch } from 'react-hook-form';
 
-import { MemberRole } from '@/api/projects/type';
 import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
-import { DEFAULT_MEMBER, MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
+import { DEFAULT_MEMBER, MemberRoleInfo, MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
 import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
@@ -100,9 +99,9 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   placeholder='역할'
                   {...register(`${name}.${index}.memberRole`)}
                 >
-                  {Object.values(MemberRole).map((role) => (
-                    <option key={role} value={role}>
-                      {role}
+                  {Object.entries(MemberRoleInfo).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
                     </option>
                   ))}
                 </StyledSelect>
@@ -173,9 +172,9 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                         error={!!errors.members?.[memberIndex]?.memberRole}
                         {...register(`${name}.${memberIndex}.memberRole`)}
                       >
-                        {Object.values(MemberRole).map((role) => (
-                          <option key={role} value={role}>
-                            {role}
+                        {Object.entries(MemberRoleInfo).map(([value, label]) => (
+                          <option key={value} value={value}>
+                            {label}
                           </option>
                         ))}
                       </MobileSelect>

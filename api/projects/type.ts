@@ -27,15 +27,7 @@ export type ProjectInput = Omit<Project, ProjectInputOmitType> & {
   members: Omit<ProjectMember, 'memberName' | 'memberGeneration'>[];
 };
 
-export enum MemberRole {
-  MAINPM = 'MAINPM',
-  PM = 'PM',
-  DESIGN = 'DESIGN',
-  IOS = 'IOS',
-  ANDROID = 'ANDROID',
-  WEB = 'WEB',
-  SERVER = 'SERVER',
-}
+export type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
 
 export type ProjectMember = {
   memberId: number;

@@ -1,5 +1,5 @@
 import { Member } from '@/api/members/type';
-import { ProjectMember } from '@/api/projects/type';
+import { MemberRole, ProjectMember } from '@/api/projects/type';
 
 export type MemeberFormType = ProjectMember & {
   isEdit?: boolean;
@@ -13,4 +13,15 @@ export const DEFAULT_MEMBER: Partial<MemeberFormType> = {
   memberName: '',
   memberGeneration: undefined,
   isEdit: true,
+};
+
+export const MemberRoleInfo: Record<MemberRole, string> = {
+  TEAMLEADER: 'Team Leader',
+  MAINPM: 'Main PM',
+  PM: 'PM',
+  DESIGN: 'Design',
+  IOS: 'iOS',
+  ANDROID: 'Android',
+  WEB: 'Web',
+  SERVER: 'Server',
 };
