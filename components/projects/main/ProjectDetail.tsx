@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useMemo, useState } from 'react';
 
-import { MemberRole } from '@/api/projects/type';
 import { deleteProject } from '@/api/projects';
+import { MemberRole } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import { getLinkInfo } from '@/components/projects/upload/constants';
@@ -159,12 +159,10 @@ export default ProjectDetail;
 
 const Container = styled.div`
   margin: 0 auto;
-  padding-top: 100px;
   width: 100%;
   max-width: 1200px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding-top: 0;
     padding-bottom: 40px;
   }
 `;
