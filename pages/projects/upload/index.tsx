@@ -31,7 +31,7 @@ import ProjectStatus from '@/components/projects/upload/ProjectStatus';
 import ProjectSummary from '@/components/projects/upload/ProjectSummary';
 import { projectSchema } from '@/components/projects/upload/schema';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
-import { convertPeriodFormat } from '@/components/projects/upload/utils';
+import { convertPeriodFormat, convertPeriodFormatReverse } from '@/components/projects/upload/utils';
 import { playgroundLink } from '@/constants/links';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { colors } from '@/styles/colors';
@@ -193,8 +193,8 @@ const ProjectUploadPage: FC = () => {
           })),
       );
       setValue('serviceType', project.serviceType);
-      setValue('period.startAt', project.startAt);
-      setValue('period.endAt', project.endAt ?? '');
+      setValue('period.startAt', convertPeriodFormatReverse(project.startAt));
+      setValue('period.endAt', convertPeriodFormatReverse(project.endAt ?? ''));
       setValue('period.isOngoing', project.endAt ? false : true);
       setValue('summary', project.summary);
       setValue('detail', project.detail);
