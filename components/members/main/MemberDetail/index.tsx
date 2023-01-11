@@ -158,11 +158,13 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           })}
         </InfoContainer>
 
-        <InfoContainer style={{ gap: '20px' }}>
-          {profile?.careers.map((career, idx) => (
-            <CareerItem key={idx} career={career} />
-          ))}
-        </InfoContainer>
+        {profile?.careers && profile.careers.length > 0 && (
+          <InfoContainer style={{ gap: '20px' }}>
+            {profile.careers.map((career, idx) => (
+              <CareerItem key={idx} career={career} />
+            ))}
+          </InfoContainer>
+        )}
 
         <InfoContainer style={{ gap: '30px' }}>
           <InfoItem label='스킬' content={profile?.skill ?? ''} />

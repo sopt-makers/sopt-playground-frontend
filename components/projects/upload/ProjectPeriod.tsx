@@ -39,6 +39,7 @@ const ProjectPeriod = () => {
             name='period.startAt'
             component={Input}
             placeholder='YYYY.MM'
+            type='number'
           />
         </DateFormWrapper>
         {!period?.isOngoing && (

@@ -151,6 +151,7 @@ export default function MemberAdditionalFormSection() {
                       error={errors?.links?.[index]?.hasOwnProperty('url')}
                       placeholder='https://'
                       className='link'
+                      type='url'
                     />
                   </StyledSelectWrapper>
                 </AddableItem>
