@@ -41,7 +41,11 @@ const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, member
             <div style={{ display: 'flex', alignItems: 'center', columnGap: '6px' }}>
               <ProfileImage
                 style={{ width: '24px', height: '24px' }}
-                src={value.profileImage ?? '/icons/icon-member-search-default.svg'}
+                src={
+                  value.profileImage == null || value.profileImage === ''
+                    ? '/icons/icon-member-search-default.svg'
+                    : value.profileImage
+                }
                 alt='멤버의 프로필 이미지'
               />
               <Text>{value.name}</Text>
