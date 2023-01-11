@@ -64,7 +64,11 @@ const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, member
               <Combobox.Option className='option' key={member.id} value={member}>
                 <MemberInfo>
                   <ProfileImage
-                    src={member.profileImage ?? '/icons/icon-member-search-default.svg'}
+                    src={
+                      member.profileImage == null || member.profileImage === ''
+                        ? '/icons/icon-member-search-default.svg'
+                        : member.profileImage
+                    }
                     alt='멤버의 프로필 이미지'
                   />
                   <Text>{member.name}</Text>
