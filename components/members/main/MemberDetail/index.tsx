@@ -43,7 +43,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useModalState();
   const [hasProfile, setHasProfile] = useState(true);
-  const { data: profile } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined, {
+  const { data: profile, isLoading } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined, {
     onError: (error) => {
       if (error.response?.status === 400) {
         setHasProfile(false);
@@ -63,7 +63,9 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
   return (
     <Container>
-      {hasProfile ? (
+      {isLoading ? (
+        <></>
+      ) : hasProfile ? (
         <Wrapper>
           <ProfileContainer>
             {profile?.profileImage ? (
