@@ -15,3 +15,11 @@ const INPUT_DATE_FORMAT = 'YYYY-MM-DD';
 export const convertPeriodFormat = (period: string) => {
   return dayjs(period, DEFAULT_FORMAT).startOf('month').format(INPUT_DATE_FORMAT);
 };
+
+/**
+ * @param period string('YYYY-MM-DD')
+ * @desc 'YYYY-MM-DD' => 'YYYY.MM' 으로 변경하는 함수입니다. (수정 시 사용)
+ */
+export const convertPeriodFormatReverse = (period: string) => {
+  return dayjs(period, DEFAULT_FORMAT).format(DEFAULT_FORMAT);
+};

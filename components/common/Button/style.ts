@@ -2,7 +2,7 @@ import { css, SerializedStyles } from '@emotion/react';
 
 import { colors } from '@/styles/colors';
 
-export type ButtonStyle = 'default' | 'primary';
+export type ButtonStyle = 'default' | 'primary' | 'danger';
 export type ButtonSize = 'fill' | 'small' | 'medium' | 'large';
 
 export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
@@ -13,6 +13,10 @@ export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
   primary: css`
     background-color: ${colors.purple100};
     color: #e2e2e2;
+  `,
+  danger: css`
+    background-color: ${colors.red100};
+    color: ${colors.gray40};
   `,
 };
 

@@ -2,14 +2,20 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import groupBy from 'lodash/groupBy';
 import Link from 'next/link';
-import { FC, useMemo } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useMemo, useState } from 'react';
 
+import { deleteProject } from '@/api/projects';
 import { MemberRole } from '@/api/projects/type';
+import { useGetMemberOfMe } from '@/apiHooks';
+import ConfirmModal from '@/components/common/Modal/Confirm';
 import { getLinkInfo } from '@/components/projects/upload/constants';
+import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import { playgroundLink } from '@/constants/links';
 import MemberIcon from '@/public/icons/icon-member.svg';
+import IconTrashcan from '@/public/icons/icon-trashcan.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -19,53 +25,75 @@ interface ProjectDetailProps {
 }
 
 const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
-  const { data } = useGetProjectQuery({ id: projectId });
+  const router = useRouter();
 
-  const startAt = dayjs(data?.startAt).format('YYYY-MM');
-  const endAt = data?.endAt ? dayjs(data.endAt).format('YYYY-MM') : '';
-  const mainImage = data?.images[0];
-  const memberGroupByRole = useMemo(() => groupBy([...(data?.members ?? [])], 'memberRole'), [data]);
+  const { data: project } = useGetProjectQuery({ id: projectId });
+  const { data: me } = useGetMemberOfMe();
+  const { refetch } = useGetProjectListQuery();
+
+  const startAt = dayjs(project?.startAt).format('YYYY-MM');
+  const endAt = project?.endAt ? dayjs(project.endAt).format('YYYY-MM') : '';
+  const mainImage = project?.images[0];
+  const memberGroupByRole = useMemo(() => groupBy([...(project?.members ?? [])], 'memberRole'), [project]);
+
+  const [isDeleteConfirmModalOpened, setIsDeleteConfirmModalOpened] = useState(false);
+
+  const handleDeleteProject = async () => {
+    if (project) {
+      await deleteProject(project.id);
+      refetch();
+      router.push(playgroundLink.projectList());
+    }
+  };
 
   return (
     <Container>
       <Header>
         <ServiceTypeWrapper>
-          {data?.serviceType.map((type) => (
+          {project?.serviceType.map((type) => (
             <ServiceType key={type}>{type}</ServiceType>
           ))}
         </ServiceTypeWrapper>
         <ServiceInfoWrapper>
           <LogoImageWrapper>
-            <LogoImage src={data?.logoImage} alt={data?.name} />
+            <LogoImage src={project?.logoImage} alt={project?.name} />
           </LogoImageWrapper>
           <InfoWrapper>
-            <Name>{data?.name}</Name>
-            <Description>{data?.summary}</Description>
+            <Name>{project?.name}</Name>
+            <Description>{project?.summary}</Description>
             <StartEndAtWrapper>
               <StartEndAt>{startAt}</StartEndAt>
               {endAt ? <StartEndAt> - {endAt}</StartEndAt> : <InProgress>진행 중</InProgress>}
             </StartEndAtWrapper>
             <MobileServiceTypeWrapper>
-              {data?.serviceType.map((type) => (
+              {project?.serviceType.map((type) => (
                 <ServiceType key={type}>{type}</ServiceType>
               ))}
             </MobileServiceTypeWrapper>
           </InfoWrapper>
+          {project?.writerId === me?.id && (
+            <ControlWrapper>
+              <div onClick={() => project && router.push(playgroundLink.projectEdit(project.id))}>수정하기</div>
+              <div onClick={() => setIsDeleteConfirmModalOpened(true)}>
+                <IconTrashcan />
+              </div>
+            </ControlWrapper>
+          )}
         </ServiceInfoWrapper>
       </Header>
 
       {mainImage && (
         <MainImageWrapper>
-          <MainImage src={mainImage} alt={data?.name} />
+          <MainImage src={mainImage} alt={project?.name} />
         </MainImageWrapper>
       )}
 
       <ProjectDetailContainer>
         <DetailContainer>
           <DetailTitle>Project Overview</DetailTitle>
-          <DetailWrapper>{data?.detail}</DetailWrapper>
+          <DetailWrapper>{project?.detail}</DetailWrapper>
           <LinksWrapper>
-            {data?.links.map((link) => (
+            {project?.links.map((link) => (
               <LinkBox key={link.linkUrl} href={link.linkUrl}>
                 <LinkIcon key={link.linkId} src={getLinkInfo(link.linkTitle).icon} alt='link_icon' />
                 {link.linkTitle}
@@ -76,8 +104,8 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
 
         <UserWrapper>
           <UserInfoWrapper>
-            {data?.generation && <Info>{data.generation}기</Info>}
-            <Info>{data?.category}</Info>
+            {project?.generation && <Info>{project.generation}기</Info>}
+            <Info>{project?.category}</Info>
           </UserInfoWrapper>
           <UserList>
             {Object.entries(memberGroupByRole).map(([role, members], index) => (
@@ -105,13 +133,24 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
       </ProjectDetailContainer>
 
       <MobileLinksWrapper>
-        {data?.links.map((link) => (
+        {project?.links.map((link) => (
           <LinkBox key={link.linkUrl} href={link.linkUrl}>
             <LinkIcon key={link.linkId} src={getLinkInfo(link.linkTitle).icon} alt='link_icon' />
             {link.linkTitle}
           </LinkBox>
         ))}
       </MobileLinksWrapper>
+
+      {isDeleteConfirmModalOpened && (
+        <ConfirmModal
+          title='프로젝트 삭제'
+          content='프로젝트를 정말 삭제하시겠어요?'
+          onClose={() => setIsDeleteConfirmModalOpened(false)}
+          onConfirm={handleDeleteProject}
+          cancelText='삭제'
+          confirmButtonVariable='danger'
+        />
+      )}
     </Container>
   );
 };
@@ -205,6 +244,38 @@ const LogoImage = styled.img`
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+`;
+const ControlWrapper = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: auto;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: ${colors.black40};
+    cursor: pointer;
+    height: 48px;
+
+    &:first-child {
+      width: 111px;
+      @media ${MOBILE_MEDIA_QUERY} {
+        width: 100%;
+      }
+    }
+
+    &:last-child {
+      width: 48px;
+      min-width: 48px;
+    }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 const Name = styled.h2`
   margin-bottom: 18px;
@@ -292,6 +363,7 @@ const DetailContainer = styled.div`
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 0;
     padding: 36px 24px;
   }
 `;
@@ -372,6 +444,7 @@ const UserWrapper = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
+    background-color: transparent;
     padding: 24px 28px 36px;
   }
 `;

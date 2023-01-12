@@ -11,7 +11,7 @@ interface ImageUploaderProps {
   width?: number | string;
   height?: number | string;
   value?: string | null;
-  onChange: (value: string | null) => void;
+  onChange?: (value: string | null) => void;
   className?: string;
   emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
   error?: boolean;
@@ -58,7 +58,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
 
         const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
         setPreviewImage(s3Url);
-        onChange(s3Url);
+        onChange?.(s3Url);
       } catch (error) {
         console.error(error);
       }
