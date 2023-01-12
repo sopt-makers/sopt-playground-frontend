@@ -129,6 +129,7 @@ const ProjectUploadPage: FC = () => {
         await putProject({ id: Number(postId), data: input });
         router.push(playgroundLink.projectList());
         queryClient.invalidateQueries('getProjectListQuery');
+        queryClient.invalidateQueries('getProjectQuery');
       } else {
         mutate(input, {
           onSuccess: () => {
