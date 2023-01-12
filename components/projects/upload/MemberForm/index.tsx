@@ -86,7 +86,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                           (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
                           300,
                         )}
-                        value={value}
+                        value={members[index].searchedMember}
                         onChange={onChange}
                         name={name}
                       />
