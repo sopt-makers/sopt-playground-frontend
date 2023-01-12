@@ -76,9 +76,10 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                 <Controller
                   control={control}
                   name={`${name}.${index}.searchedMember`}
-                  render={({ field: { value, onChange, name } }) => (
+                  render={({ field: { value, onChange, name, ref } }) => (
                     <MemberSearchWrapper>
                       <MemberSearch
+                        ref={ref}
                         error={!!errors.members?.[index]?.searchedMember}
                         members={membersData ?? []}
                         onSearch={_debounce(
@@ -151,8 +152,9 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                       <Controller
                         control={control}
                         name={`${name}.${memberIndex}.searchedMember`}
-                        render={({ field: { value, onChange, name } }) => (
+                        render={({ field: { value, onChange, name, ref } }) => (
                           <MemberSearch
+                            ref={ref}
                             value={value}
                             error={!!errors.members?.[memberIndex]?.searchedMember}
                             onChange={onChange}
