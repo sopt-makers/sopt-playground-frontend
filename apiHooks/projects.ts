@@ -12,8 +12,12 @@ export const useGetProjectById = (id?: string) => {
       const data = await getProjectById(id);
       const membersWithProfileImage = await Promise.all(
         data.members.map(async (m) => {
-          const profile = await getMemberProfileById(m.memberId);
-          return { ...m, profileImage: profile.profileImage };
+          try {
+            const profile = await getMemberProfileById(m.memberId);
+            return { ...m, profileImage: profile.profileImage };
+          } catch {
+            return { ...m, profileImage: '' };
+          }
         }),
       );
       return { ...data, members: membersWithProfileImage };
