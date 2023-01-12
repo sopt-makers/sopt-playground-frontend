@@ -10,7 +10,7 @@ import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
-import { DEFAULT_MEMBER, MemberRoleInfo, MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
+import { DEFAULT_MEMBER, MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
