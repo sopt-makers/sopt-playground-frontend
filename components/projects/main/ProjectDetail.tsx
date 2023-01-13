@@ -458,8 +458,7 @@ const UserWrapper = styled.div`
 `;
 const UserInfoWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   margin-bottom: 36px;
 
   @media ${MOBILE_MEDIA_QUERY} {

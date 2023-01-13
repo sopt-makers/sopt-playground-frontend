@@ -44,7 +44,7 @@ const MemberBlock: FC<MemberBlockProps> = ({
             alt=''
             onLoad={() => setIsImageLoaded(true)}
             hide={!isImageLoaded}
-            width={48}
+            width={58}
           />
         )}
       </ImageBox>
@@ -82,9 +82,14 @@ const ImageBox = styled.div`
   height: 58px;
   clip-path: circle(50%);
 
+  /* 
+  /  Fallback 이미지 준비되면 적용하기
+  clip-path: inset(0% 0% 0% 0% round 35%); 
+  */
+
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 40px;
-    height: 40px;
+    width: 52px;
+    height: 52px;
   }
 `;
 
@@ -156,7 +161,7 @@ const BadgeContainer = styled.div`
 const Badge = styled.div`
   margin-right: 4px;
   border-radius: 3px;
-  background-color: ${colors.black60};
+  background-color: ${colors.black40};
   padding: 2px 6px;
   color: ${colors.gray20};
 
