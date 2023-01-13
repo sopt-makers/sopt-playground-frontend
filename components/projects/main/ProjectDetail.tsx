@@ -21,8 +21,8 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const memberRoleOrder: MemberRole[] = ['TEAMLEADER', 'MAINPM', 'PM', 'DESIGN', 'WEB', 'SERVER', 'ANDROID', 'IOS'];
-const sortByRole = (array: ProjectMember[]) =>
-  [...array].sort((x, y) => memberRoleOrder.indexOf(x.memberRole) - memberRoleOrder.indexOf(y.memberRole));
+const sortByRole = (projectMembers: ProjectMember[]) =>
+  [...projectMembers].sort((x, y) => memberRoleOrder.indexOf(x.memberRole) - memberRoleOrder.indexOf(y.memberRole));
 
 interface ProjectDetailProps {
   projectId: string;
