@@ -3,7 +3,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Combobox } from '@headlessui/react';
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 
 import { Member } from '@/api/members/type';
 import Text from '@/components/common/Text';
@@ -20,63 +20,66 @@ interface MemberSearchProps {
   error?: boolean;
 }
 
-const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, onSearch, members, name, error }) => {
-  const onClear = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    e.stopPropagation();
-    onChange(undefined);
-  };
-  const getProfileImage = (profileImage: string | null) => {
-    if (profileImage == null || profileImage === '') {
-      return '/icons/icon-member-search-default.svg';
-    }
-    return profileImage;
-  };
+const MemberSearch = forwardRef<HTMLInputElement, MemberSearchProps>(
+  ({ value, onChange, onSearch, members, name, error }, ref) => {
+    const onClear = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+      e.stopPropagation();
+      onChange(undefined);
+    };
+    const getProfileImage = (profileImage: string | null) => {
+      if (profileImage == null || profileImage === '') {
+        return '/icons/icon-member-search-default.svg';
+      }
+      return profileImage;
+    };
 
-  return (
-    <StyledContainer error={error}>
-      <Combobox value={value} onChange={onChange}>
-        <Combobox.Input
-          name={name}
-          className='search'
-          onChange={onSearch}
-          placeholder={!value ? 'SOPT 멤버 검색' : ''}
-          readOnly={!!value}
-        />
-        {value && (
-          <Combobox.Label className='label'>
-            <div style={{ display: 'flex', alignItems: 'center', columnGap: '6px' }}>
-              <ProfileImage
-                style={{ width: '24px', height: '24px' }}
-                src={getProfileImage(value.profileImage)}
-                alt='멤버의 프로필 이미지'
+    return (
+      <StyledContainer error={error}>
+        <Combobox value={value} onChange={onChange}>
+          <Combobox.Input
+            name={name}
+            ref={ref}
+            className='search'
+            onChange={onSearch}
+            placeholder={!value ? 'SOPT 멤버 검색' : ''}
+            readOnly={!!value}
+          />
+          {value && (
+            <Combobox.Label className='label'>
+              <div style={{ display: 'flex', alignItems: 'center', columnGap: '6px' }}>
+                <ProfileImage
+                  style={{ width: '24px', height: '24px' }}
+                  src={getProfileImage(value.profileImage)}
+                  alt='멤버의 프로필 이미지'
+                />
+                <Text>{value.name}</Text>
+              </div>
+              <ClearIcon
+                className='.icon-clear'
+                onClick={onClear}
+                src='/icons/icon-member-search-clear.svg'
+                alt='검색된 멤버 제거 아이콘'
               />
-              <Text>{value.name}</Text>
-            </div>
-            <ClearIcon
-              className='.icon-clear'
-              onClick={onClear}
-              src='/icons/icon-member-search-clear.svg'
-              alt='검색된 멤버 제거 아이콘'
-            />
-          </Combobox.Label>
-        )}
-        {members.length > 0 && (
-          <Combobox.Options className='options'>
-            {members.map((member) => (
-              <Combobox.Option className='option' key={member.id} value={member}>
-                <MemberInfo>
-                  <ProfileImage src={getProfileImage(member.profileImage)} alt='멤버의 프로필 이미지' />
-                  <Text>{member.name}</Text>
-                </MemberInfo>
-                <Text>{`${member.generation}기`}</Text>
-              </Combobox.Option>
-            ))}
-          </Combobox.Options>
-        )}
-      </Combobox>
-    </StyledContainer>
-  );
-};
+            </Combobox.Label>
+          )}
+          {members.length > 0 && (
+            <Combobox.Options className='options'>
+              {members.map((member) => (
+                <Combobox.Option className='option' key={member.id} value={member}>
+                  <MemberInfo>
+                    <ProfileImage src={getProfileImage(member.profileImage)} alt='멤버의 프로필 이미지' />
+                    <Text>{member.name}</Text>
+                  </MemberInfo>
+                  <Text>{`${member.generation}기`}</Text>
+                </Combobox.Option>
+              ))}
+            </Combobox.Options>
+          )}
+        </Combobox>
+      </StyledContainer>
+    );
+  },
+);
 
 export default MemberSearch;
 

@@ -282,7 +282,7 @@ const UserDropdown = styled.div<{ isOpen: boolean }>`
   flex-direction: column;
   gap: 25px;
   transition: opacity 0.2s;
-  opacity: ${(props) => (props.isOpen ? 1 : 0)};
+  visibility: ${(props) => (props.isOpen ? 'visible' : 'hidden')};
   z-index: 100;
   border-radius: 14px;
   background: #272828;

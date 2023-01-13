@@ -7,20 +7,24 @@ import Modal, { ModalProps } from '@/components/common/Modal';
 
 interface ConfirmModalProps extends Omit<ModalProps, 'onClose'> {
   title?: string;
+  content?: string;
   cancelText?: string;
   okText?: string;
   onConfirm?: () => void;
   onCancel?: () => void;
   onClose?: () => void;
+  confirmButtonVariable?: 'default' | 'primary' | 'danger';
 }
 const ConfirmModal: FC<PropsWithChildren<ConfirmModalProps>> = ({
   title = '',
+  content,
   okText,
   cancelText,
   onConfirm,
   onCancel,
   onClose,
   children,
+  confirmButtonVariable = 'primary',
   ...props
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -47,13 +51,13 @@ const ConfirmModal: FC<PropsWithChildren<ConfirmModalProps>> = ({
   }, []);
 
   return (
-    <Modal title={title} isOpen={isOpen} onClose={handleClose} {...props}>
+    <Modal title={title} isOpen={isOpen} content={content} onClose={handleClose} {...props}>
       {children}
       <StyledModalFooter>
         <StyledButton onClick={handleCancel} size='fill'>
           {okText ?? '취소'}
         </StyledButton>
-        <StyledButton variant='primary' onClick={handleConfirm} size='fill'>
+        <StyledButton variant={confirmButtonVariable} onClick={handleConfirm} size='fill'>
           {cancelText ?? '완료'}
         </StyledButton>
       </StyledModalFooter>
