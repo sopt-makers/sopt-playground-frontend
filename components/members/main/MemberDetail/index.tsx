@@ -61,11 +61,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     [profile?.activities],
   );
 
+  if (isLoading) return <></>;
+
   return (
     <Container>
-      {isLoading ? (
-        <></>
-      ) : hasProfile ? (
+      {hasProfile ? (
         <Wrapper>
           <ProfileContainer>
             {profile?.profileImage ? (
