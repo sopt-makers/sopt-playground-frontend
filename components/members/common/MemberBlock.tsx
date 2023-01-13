@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Link from 'next/link';
 import { FC, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
@@ -12,16 +11,25 @@ interface MemberBlockProps {
   name: string;
   position?: string;
   imageUrl?: string;
-  link?: string;
+  clickable?: boolean;
   onClick?: () => void;
   badges?: string[];
+  as?: keyof JSX.IntrinsicElements;
 }
 
-const MemberBlock: FC<MemberBlockProps> = ({ name, position, link, onClick, imageUrl, badges = [] }) => {
+const MemberBlock: FC<MemberBlockProps> = ({
+  name,
+  position,
+  onClick,
+  imageUrl,
+  badges = [],
+  as = 'div',
+  clickable = false,
+}) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-  const content = (
-    <StyledRawPersonBlock active={link !== undefined} onClick={onClick}>
+  return (
+    <StyledRawPersonBlock as={as} clickable={clickable} onClick={onClick}>
       <ImageBox>
         <StyledImage
           src='/icons/icon-profile-fallback.svg'
@@ -53,25 +61,15 @@ const MemberBlock: FC<MemberBlockProps> = ({ name, position, link, onClick, imag
       </ContentBox>
     </StyledRawPersonBlock>
   );
-
-  if (link !== undefined) {
-    return (
-      <Link href={link} passHref legacyBehavior>
-        {content}
-      </Link>
-    );
-  }
-
-  return content;
 };
 
 export default MemberBlock;
 
-const StyledRawPersonBlock = styled.a<{ active: boolean }>`
+const StyledRawPersonBlock = styled.a<{ clickable: boolean }>`
   display: flex;
 
   ${(props) =>
-    props.active
+    props.clickable
       ? css`
           cursor: pointer;
         `

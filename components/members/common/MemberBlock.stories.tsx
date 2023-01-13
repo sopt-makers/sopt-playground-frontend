@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import MemberBlock from '@/components/members/detail/MemberBlock';
+import MemberBlock from '@/components/members/common/MemberBlock';
 
 export default {
   component: MemberBlock,

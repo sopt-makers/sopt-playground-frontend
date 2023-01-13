@@ -9,12 +9,12 @@ import { deleteProject } from '@/api/projects';
 import { MemberRole, ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks';
 import ConfirmModal from '@/components/common/Modal/Confirm';
+import MemberBlock from '@/components/members/common/MemberBlock';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
 import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import { playgroundLink } from '@/constants/links';
-import MemberIcon from '@/public/icons/icon-member.svg';
 import IconTrashcan from '@/public/icons/icon-trashcan.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -116,16 +116,8 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
                 <UserRole>{MemberRoleInfo[role as MemberRole]}</UserRole>
                 <UserNameList>
                   {members.map((member) => (
-                    <Link
-                      passHref
-                      key={member.memberId}
-                      href={playgroundLink.memberDetail(member.memberId)}
-                      legacyBehavior
-                    >
-                      <UserName>
-                        <MemberIcon />
-                        {member.memberName}
-                      </UserName>
+                    <Link key={member.memberId} href={playgroundLink.memberDetail(member.memberId)}>
+                      <MemberBlock name={member.memberName} position={member.memberRole} />
                     </Link>
                   ))}
                 </UserNameList>
@@ -497,14 +489,4 @@ const UserNameList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-`;
-const UserName = styled.a`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  border-radius: 20px;
-  background: ${colors.black60};
-  cursor: pointer;
-  padding: 3px 12px 3px 4px;
-  width: fit-content;
 `;
