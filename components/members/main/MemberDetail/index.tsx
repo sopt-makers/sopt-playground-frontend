@@ -11,6 +11,7 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo, useState } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
+import Loading from '@/components/common/Loading';
 import useModalState from '@/components/common/Modal/useModalState';
 import CareerItem from '@/components/members/detail/CareerItem';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
@@ -61,7 +62,12 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     [profile?.activities],
   );
 
-  if (isLoading) return <></>;
+  if (isLoading)
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
 
   return (
     <Container>
