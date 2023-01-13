@@ -10,6 +10,7 @@ import { MemberRole, ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
+import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
@@ -116,9 +117,27 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
                 <UserRole>{MemberRoleInfo[role as MemberRole]}</UserRole>
                 <UserNameList>
                   {members.map((member) => (
-                    <Link key={member.memberId} href={playgroundLink.memberDetail(member.memberId)}>
-                      <MemberBlock name={member.memberName} position={member.memberRole} />
-                    </Link>
+                    <WithMemberMetadata
+                      key={member.memberId}
+                      memberId={member.memberId}
+                      render={(metadata) => {
+                        const badges = [];
+                        if (metadata && metadata.generations.length > 0) {
+                          badges.push(metadata.generations.map(String).join(',') + '기');
+                        }
+
+                        return (
+                          <Link href={playgroundLink.memberDetail(member.memberId)}>
+                            <MemberBlock
+                              name={member.memberName}
+                              position={member.memberRole}
+                              imageUrl={metadata?.profileImage}
+                              badges={badges}
+                            />
+                          </Link>
+                        );
+                      }}
+                    />
                   ))}
                 </UserNameList>
               </UserItem>
