@@ -20,8 +20,8 @@ export const MemberRoleInfo: Record<MemberRole, string> = {
   MAINPM: 'Main PM',
   PM: 'PM',
   DESIGN: 'Design',
-  IOS: 'iOS',
-  ANDROID: 'Android',
   WEB: 'Web',
+  ANDROID: 'Android',
   SERVER: 'Server',
+  IOS: 'iOS',
 };

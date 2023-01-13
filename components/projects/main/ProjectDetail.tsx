@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { FC, useMemo, useState } from 'react';
 
 import { deleteProject } from '@/api/projects';
-import { MemberRole } from '@/api/projects/type';
+import { MemberRole, ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import { getLinkInfo } from '@/components/projects/upload/constants';
@@ -19,6 +19,10 @@ import IconTrashcan from '@/public/icons/icon-trashcan.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+
+const memberRoleOrder: MemberRole[] = ['TEAMLEADER', 'MAINPM', 'PM', 'DESIGN', 'WEB', 'SERVER', 'ANDROID', 'IOS'];
+const sortByRole = (array: ProjectMember[]) =>
+  [...array].sort((x, y) => memberRoleOrder.indexOf(x.memberRole) - memberRoleOrder.indexOf(y.memberRole));
 
 interface ProjectDetailProps {
   projectId: string;
@@ -34,8 +38,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
   const startAt = dayjs(project?.startAt).format('YYYY-MM');
   const endAt = project?.endAt ? dayjs(project.endAt).format('YYYY-MM') : '';
   const mainImage = project?.images[0];
-  const memberGroupByRole = useMemo(() => groupBy([...(project?.members ?? [])], 'memberRole'), [project]);
-
+  const memberGroupByRole = useMemo(() => groupBy(sortByRole([...(project?.members ?? [])]), 'memberRole'), [project]);
   const [isDeleteConfirmModalOpened, setIsDeleteConfirmModalOpened] = useState(false);
 
   const handleDeleteProject = async () => {
