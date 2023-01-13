@@ -1,4 +1,5 @@
-import { QueryKey, useInfiniteQuery, useMutation, useQuery } from 'react-query';
+import { AxiosError } from 'axios';
+import { QueryKey, useInfiniteQuery, useMutation, useQuery, UseQueryOptions } from 'react-query';
 
 import {
   getMemberOfMe,
@@ -8,7 +9,7 @@ import {
   getMembersSearchByName,
   postMemberCoffeeChat,
 } from '@/api/members';
-import { PostMemberCoffeeChatVariables, Profile } from '@/api/members/type';
+import { PostMemberCoffeeChatVariables, Profile, ProfileDetail } from '@/api/members/type';
 
 interface Variables {
   limit?: number;
@@ -64,7 +65,13 @@ export const useGetMemberOfMe = () => {
 };
 
 // 멤버 프로필 조회
-export const useGetMemberProfileById = (id: number | undefined) => {
+export const useGetMemberProfileById = (
+  id: number | undefined,
+  options?: Omit<
+    UseQueryOptions<unknown, AxiosError, ProfileDetail, (string | number | undefined)[]>,
+    'queryKey' | 'queryFn'
+  >,
+) => {
   return useQuery(
     ['getMemberProfileById', id],
     async () => {
@@ -72,7 +79,9 @@ export const useGetMemberProfileById = (id: number | undefined) => {
       return data;
     },
     {
-      onError: (error: { message: string }) => {
+      ...options,
+      onError: (error: AxiosError) => {
+        options?.onError?.(error);
         console.error(error.message);
       },
       enabled: !!id,
