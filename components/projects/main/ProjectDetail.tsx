@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import groupBy from 'lodash/groupBy';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useMemo, useState } from 'react';
@@ -39,7 +38,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
   const startAt = dayjs(project?.startAt).format('YYYY-MM');
   const endAt = project?.endAt ? dayjs(project.endAt).format('YYYY-MM') : '';
   const mainImage = project?.images[0];
-  const memberGroupByRole = useMemo(() => groupBy(sortByRole([...(project?.members ?? [])]), 'memberRole'), [project]);
+  const sortedMembers = useMemo(() => sortByRole([...(project?.members ?? [])]), [project]);
   const [isDeleteConfirmModalOpened, setIsDeleteConfirmModalOpened] = useState(false);
 
   const handleDeleteProject = async () => {
@@ -112,36 +111,31 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
             <Info>{project?.category}</Info>
           </UserInfoWrapper>
           <UserList>
-            {Object.entries(memberGroupByRole).map(([role, members], index) => (
-              <UserItem key={index}>
-                <UserRole>{MemberRoleInfo[role as MemberRole]}</UserRole>
-                <UserNameList>
-                  {members.map((member) => (
-                    <WithMemberMetadata
-                      key={member.memberId}
-                      memberId={member.memberId}
-                      render={(metadata) => {
-                        const badges = [];
-                        if (metadata && metadata.generations.length > 0) {
-                          badges.push(metadata.generations.map(String).join(',') + '기');
-                        }
+            <UserNameList>
+              {sortedMembers.map((member) => (
+                <WithMemberMetadata
+                  key={member.memberId}
+                  memberId={member.memberId}
+                  render={(metadata) => {
+                    const badges = [];
+                    if (metadata && metadata.generations.length > 0) {
+                      badges.push(metadata.generations.map(String).join(',') + '기');
+                    }
 
-                        return (
-                          <Link href={playgroundLink.memberDetail(member.memberId)}>
-                            <MemberBlock
-                              name={member.memberName}
-                              position={member.memberRole}
-                              imageUrl={metadata?.profileImage}
-                              badges={badges}
-                            />
-                          </Link>
-                        );
-                      }}
-                    />
-                  ))}
-                </UserNameList>
-              </UserItem>
-            ))}
+                    return (
+                      <Link href={playgroundLink.memberDetail(member.memberId)}>
+                        <MemberBlock
+                          name={member.memberName}
+                          position={MemberRoleInfo[member.memberRole]}
+                          imageUrl={metadata?.profileImage}
+                          badges={badges}
+                        />
+                      </Link>
+                    );
+                  }}
+                />
+              ))}
+            </UserNameList>
           </UserList>
         </UserWrapper>
       </ProjectDetailContainer>
@@ -493,19 +487,8 @@ const UserList = styled.div`
     gap: 32px 26px;
   }
 `;
-const UserItem = styled.div`
-  border-left: 2px solid ${colors.purple80};
-  padding-left: 20px;
-`;
-const UserRole = styled.div`
-  margin-bottom: 12px;
-  line-height: 100%;
-  color: ${colors.gray80};
-  font-size: 14px;
-  font-weight: 500;
-`;
 const UserNameList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 24px;
 `;
