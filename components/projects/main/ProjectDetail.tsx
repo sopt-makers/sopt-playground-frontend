@@ -119,7 +119,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
                   render={(metadata) => {
                     const badges = [];
                     if (metadata && metadata.generations.length > 0) {
-                      badges.push(metadata.generations.map(String).join(',') + '기');
+                      badges.push(metadata.generations.map(String).join(', ') + '기');
                     }
 
                     return (
