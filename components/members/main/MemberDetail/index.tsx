@@ -8,7 +8,7 @@ import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/apiHooks/members';
 import Loading from '@/components/common/Loading';
@@ -43,14 +43,7 @@ const convertBirthdayFormat = (birthday?: string) => {
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useModalState();
-  const [hasProfile, setHasProfile] = useState(true);
-  const { data: profile, isLoading } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined, {
-    onError: (error) => {
-      if (error.response?.status === 400) {
-        setHasProfile(false);
-      }
-    },
-  });
+  const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
 
   const sortedActivities = useMemo(
     () =>
@@ -71,7 +64,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
   return (
     <Container>
-      {hasProfile ? (
+      {error?.response?.status !== 400 ? (
         <Wrapper>
           <ProfileContainer>
             {profile?.profileImage ? (
