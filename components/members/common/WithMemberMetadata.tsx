@@ -34,14 +34,22 @@ const memberListSelector = selector({
   },
 });
 
+const memberMapSelector = selector({
+  key: 'memberMapSelector',
+  get: ({ get }) => {
+    const memberList = get(memberListSelector);
+    return new Map(memberList.map((member) => [member.id, member]));
+  },
+});
+
 const memberMetadataFamily = selectorFamily<MemberMetadata | null, number>({
   key: 'memberMetadataFamily',
   get:
     (memberId) =>
     async ({ get }) => {
-      const memberList = get(memberListSelector);
+      const memberMap = get(memberMapSelector);
 
-      const member = memberList.find((member) => member.id === memberId);
+      const member = memberMap.get(memberId);
 
       if (!member) {
         return null;
