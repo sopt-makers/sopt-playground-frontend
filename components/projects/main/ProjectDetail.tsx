@@ -410,6 +410,7 @@ const LinksWrapper = styled.div`
 const MobileLinksWrapper = styled.div`
   display: none;
   @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
     gap: 32px 26px;
     padding: 48px 40px;
   }

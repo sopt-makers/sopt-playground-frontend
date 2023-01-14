@@ -15,6 +15,8 @@ type PartItemProps = {
 const PartItem: FC<PartItemProps> = (project) => {
   const { cardinalActivities, generation, part } = project;
 
+  const normalParts = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
+
   return (
     <>
       <Container className='pc-only'>
@@ -28,7 +30,10 @@ const PartItem: FC<PartItemProps> = (project) => {
         <Contents>
           <Title>
             <div className='year'>{generation}기</div>
-            <div className='part'>{part} 파트</div>
+            <div className='part'>
+              {part}
+              {normalParts.includes(part) ? ' 파트' : ''}
+            </div>
           </Title>
           <Badges>
             {cardinalActivities.map(
