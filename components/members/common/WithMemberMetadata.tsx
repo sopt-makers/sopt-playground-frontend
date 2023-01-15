@@ -56,8 +56,8 @@ const memberMetadataFamily = selectorFamily<MemberMetadata | null, number>({
         return null;
       }
 
-      const sortedCareers =
-        member.careers?.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()) ?? [];
+      const sortedCareers = [...member.careers];
+      sortedCareers.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 
       return {
         profileImage: member.profileImage,
