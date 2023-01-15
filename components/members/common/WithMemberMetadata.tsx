@@ -23,6 +23,7 @@ export default WithMemberMetadata;
 interface MemberMetadata {
   profileImage: string;
   generations: number[];
+  lastCompany: string | null;
 }
 
 // 파일 외부에서 사용하는것을 방지하기 위해 여기에 Recoil 셀렉터 선언
@@ -55,9 +56,13 @@ const memberMetadataFamily = selectorFamily<MemberMetadata | null, number>({
         return null;
       }
 
+      const sortedCareers =
+        member.careers?.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()) ?? [];
+
       return {
         profileImage: member.profileImage,
         generations: member.activities.map((value) => value.generation),
+        lastCompany: sortedCareers.length > 0 ? sortedCareers.at(-1)?.companyName ?? null : null,
       };
     },
 });

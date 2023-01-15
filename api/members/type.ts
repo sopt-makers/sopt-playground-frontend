@@ -23,6 +23,7 @@ export type Profile = {
   openToWork: boolean;
   openToSideProject: boolean;
   allowOfficial: boolean;
+  careers: Career[];
 };
 
 export type ProfileDetail = {
