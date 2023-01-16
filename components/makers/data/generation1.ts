@@ -12,7 +12,7 @@ export const generation1: MakersGeneration = {
       description:
         'makers의 지속 가능한 활동 운영을 포함해서 makers의 문화를 만들어가며, 메이커들이 오너십을 가지고 제품을 더 잘 만들어갈 수 있도록 고민하는 역할을 해요.',
       people: [
-        { type: 'raw', name: '이채연' },
+        { type: 'member', id: 44, name: '이채연' },
         { type: 'member', id: 23, name: '이예서' },
         { type: 'member', id: 31, name: '이서영' },
         { type: 'member', id: 8, name: '남주영' },
@@ -25,7 +25,7 @@ export const generation1: MakersGeneration = {
       link: 'https://sopt.org',
       people: [
         { type: 'member', id: 40, name: '김희영', position: 'PM' },
-        { type: 'raw', name: '박수아', position: '디자이너' },
+        { type: 'member', id: 46, name: '박수아', position: '디자이너' },
         { type: 'member', id: 26, name: '박정무', position: '백엔드 개발자' },
         { type: 'raw', name: '정효원', position: '백엔드 개발자' },
         { type: 'member', id: 31, name: '이서영', position: '웹 프론트엔드 개발자' },
@@ -65,18 +65,18 @@ export const generation1: MakersGeneration = {
       description:
         'SOPT 공식 앱을 만드는 팀이에요. SOPT를 더욱 재미있고, 알차게 활동할 수 있도록 도와주는 서비스를 만들고 있어요.',
       people: [
-        { type: 'raw', name: '박윤정', position: 'PM' },
-        { type: 'raw', name: '김연수', position: '디자이너' },
+        { type: 'member', id: 58, name: '박윤정', position: 'PM' },
+        { type: 'member', id: 173, name: '김연수', position: '디자이너' },
         { type: 'member', id: 32, name: '이다영', position: '디자이너' },
         { type: 'member', id: 43, name: '김현기', position: '백엔드 개발자' },
-        { type: 'raw', name: '허정민', position: '백엔드 개발자' },
-        { type: 'raw', name: '박세란', position: 'Android 개발자' },
+        { type: 'member', id: 188, name: '허정민', position: '백엔드 개발자' },
+        { type: 'member', id: 59, name: '박세란', position: 'Android 개발자' },
         { type: 'member', id: 34, name: '박진수', position: 'Android 개발자' },
         { type: 'member', id: 21, name: '이현우', position: 'Android 개발자' },
         { type: 'member', id: 33, name: '양수빈', position: 'iOS 개발자' },
         { type: 'member', id: 22, name: '윤수빈', position: 'iOS 개발자' },
         { type: 'member', id: 35, name: '이세진', position: 'iOS 개발자' },
-        { type: 'raw', name: '이준호', position: 'iOS 개발자' },
+        { type: 'member', id: 45, name: '이준호', position: 'iOS 개발자' },
       ],
     },
   ],

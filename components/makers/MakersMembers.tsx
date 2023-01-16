@@ -1,13 +1,15 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Tab } from '@headlessui/react';
+import Link from 'next/link';
 import { FC, Fragment, useMemo } from 'react';
 
 import { useGetMemberProfile } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
 import { MakersGeneration, MakersPerson } from '@/components/makers/data/types';
-import PersonBlock from '@/components/makers/PersonBlock';
 import TeamBlock from '@/components/makers/TeamBlock';
+import MemberBlock from '@/components/members/common/MemberBlock';
+import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -47,13 +49,6 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
     return memberImageMap.get(person.id) ?? undefined;
   };
 
-  const resolveProfileLink = (person: MakersPerson) => {
-    if (person.type === 'member') {
-      return playgroundLink.memberDetail(person.id);
-    }
-    return undefined;
-  };
-
   const resolveProfileOnClick = (person: MakersPerson) => {
     return () => {
       if (!isLoggedIn) {
@@ -62,6 +57,13 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
         }
       }
     };
+  };
+
+  const resolveGenerations = (generations: number[] | null) => {
+    if (!generations) {
+      return null;
+    }
+    return `${generations.map(String).join(', ')}기`;
   };
 
   return (
@@ -83,14 +85,28 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                 <StyledTeamBlock key={teamIdx} title={team.title} description={team.description} link={team.link}>
                   <PeopleBox>
                     {team.people.map((person, personIdx) => (
-                      <PersonBlock
-                        key={personIdx}
-                        name={person.name}
-                        position={person.position}
-                        imageUrl={resolveProfileImage(person)}
-                        link={resolveProfileLink(person)}
-                        onClick={resolveProfileOnClick(person)}
-                      />
+                      <Fragment key={personIdx}>
+                        {person.type === 'member' ? (
+                          <Link href={playgroundLink.memberDetail(person.id)} onClick={resolveProfileOnClick(person)}>
+                            <WithMemberMetadata
+                              memberId={person.id}
+                              render={(metadata) => (
+                                <MemberBlock
+                                  name={person.name}
+                                  position={person.position}
+                                  imageUrl={metadata?.profileImage}
+                                  badges={[
+                                    resolveGenerations(metadata?.generations ?? null),
+                                    metadata?.currentCompany,
+                                  ].filter((badge): badge is string => !!badge)}
+                                />
+                              )}
+                            />
+                          </Link>
+                        ) : (
+                          <MemberBlock name={person.name} />
+                        )}
+                      </Fragment>
                     ))}
                   </PeopleBox>
                 </StyledTeamBlock>

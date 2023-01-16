@@ -8,6 +8,9 @@ interface WithMemberMetadataProps {
   render: (metadata: MemberMetadata | null) => ReactElement;
 }
 
+/**
+ * @deprecated 임시 방편으로만 사용해야 합니다.
+ */
 const WithMemberMetadata: FC<WithMemberMetadataProps> = ({ memberId, render }) => {
   const { state, contents } = useRecoilValueLoadable(memberMetadataFamily(memberId));
 
@@ -23,6 +26,7 @@ export default WithMemberMetadata;
 interface MemberMetadata {
   profileImage: string;
   generations: number[];
+  currentCompany: string | null;
 }
 
 // 파일 외부에서 사용하는것을 방지하기 위해 여기에 Recoil 셀렉터 선언
@@ -55,9 +59,13 @@ const memberMetadataFamily = selectorFamily<MemberMetadata | null, number>({
         return null;
       }
 
+      const sortedCareers = member.careers.filter((career) => career.isCurrent);
+      sortedCareers.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+
       return {
         profileImage: member.profileImage,
-        generations: member.activities.map((value) => value.generation),
+        generations: member.activities.map((value) => value.generation).sort((a, b) => a - b),
+        currentCompany: sortedCareers.length > 0 ? sortedCareers.at(-1)?.companyName ?? null : null,
       };
     },
 });

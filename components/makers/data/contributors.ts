@@ -7,7 +7,7 @@ export const contributors: MakersGeneration = {
     {
       title: 'SOPT 공식홈페이지 초기 개편',
       people: [
-        { type: 'raw', name: '조승우' },
+        { type: 'member', id: 200, name: '조승우' },
         { type: 'member', id: 179, name: '이영진' },
         { type: 'member', id: 176, name: '이다은' },
         { type: 'member', id: 68, name: '박나희' },
@@ -21,7 +21,7 @@ export const contributors: MakersGeneration = {
       people: [
         { type: 'member', id: 1, name: '이정연' },
         { type: 'member', id: 23, name: '이예서' },
-        { type: 'raw', name: '정예린' },
+        { type: 'member', id: 199, name: '정예린' },
         { type: 'member', id: 13, name: '김은수' },
         { type: 'member', id: 2, name: '박건영' },
         { type: 'member', id: 3, name: '이준호' },
