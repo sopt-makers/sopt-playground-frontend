@@ -87,9 +87,9 @@ const Header: FC = () => {
           <Link href={playgroundLink.projectList()} passHref legacyBehavior>
             <TextLinkButton isCurrentPath={pathname === playgroundLink.projectList()}>프로젝트</TextLinkButton>
           </Link>
-          {/* <Link href='/web-product' passHref>
-          <TextLinkButton isCurrentPath={router.pathname === ''}>Web Product</TextLinkButton>
-        </Link> */}
+          <TextLinkButton href={playgroundLink.groupList()} isCurrentPath={pathname === playgroundLink.groupList()}>
+            모임
+          </TextLinkButton>
         </MenuGroup>
       </LeftGroup>
 
@@ -140,6 +140,9 @@ const Header: FC = () => {
           <Link href={playgroundLink.projectList()} passHref legacyBehavior>
             <TextLinkButton isCurrentPath={pathname === playgroundLink.projectList()}>프로젝트</TextLinkButton>
           </Link>
+          <TextLinkButton href={playgroundLink.groupList()} isCurrentPath={pathname === playgroundLink.groupList()}>
+            모임
+          </TextLinkButton>
         </RouterWrapper>
         <Divider />
         <MenuWrapper>
