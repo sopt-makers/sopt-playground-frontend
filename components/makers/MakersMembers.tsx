@@ -97,7 +97,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                                   imageUrl={metadata?.profileImage}
                                   badges={[
                                     resolveGenerations(metadata?.generations ?? null),
-                                    metadata?.lastCompany,
+                                    metadata?.currentCompany,
                                   ].filter((badge): badge is string => !!badge)}
                                 />
                               )}
