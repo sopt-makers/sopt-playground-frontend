@@ -185,7 +185,11 @@ const StyledTeamBlock = styled(TeamBlock)`
 
 const PeopleBox = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   row-gap: 24px;
   column-gap: 6px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `;
