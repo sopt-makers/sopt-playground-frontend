@@ -155,6 +155,7 @@ const Po = styled.span`
 
 const BadgeContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-top: 6px;
 `;
 
