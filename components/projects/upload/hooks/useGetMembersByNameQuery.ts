@@ -1,18 +1,18 @@
 import { useQuery } from 'react-query';
 
-import { getMemebersSearchByName } from '@/api/members';
+import { getMembersSearchByName } from '@/api/members';
 interface GetMembersByNameQueryVariables {
   name: string;
 }
 const useGetMembersByNameQuery = (variables: GetMembersByNameQueryVariables) => {
   const { name } = variables;
   return useQuery(
-    ['useGetMemebersSearchByName', variables],
+    ['useGetMembersSearchByName', variables],
     async () => {
       if (!name) {
         return;
       }
-      const data = await getMemebersSearchByName(name);
+      const data = await getMembersSearchByName(name);
       return data;
     },
     {

@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { LinkTitle, Project } from '@/api/projects/type';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { categoryLabel, getLinkInfo } from '@/components/projects/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
@@ -22,12 +23,14 @@ const ProjectCard: FC<Project> = ({
   logoImage,
   links,
 }) => {
+  const { logClickEvent } = useEventLogger();
+
   // FIXME: 서버측에서 링크 업로드 하지 않았을 경우 빈 배열이 아닌 속성에 null 이 담긴 link 배열이 내려와 임시 대응 (https://github.com/sopt-makers/internal-server/issues/32)
   const filteredLinks = links.filter(({ linkId, linkTitle, linkUrl }) => linkId && linkTitle && linkUrl);
 
   return (
-    <Link passHref href={playgroundLink.projectDetail(id)}>
-      <StyledCard>
+    <Link passHref href={playgroundLink.projectDetail(id)} legacyBehavior>
+      <StyledCard onClick={() => logClickEvent('projectCard', { id, name })}>
         <StyledServiceTypeWrapper>
           {serviceType.map((serviceType, index) => (
             <StyledServiceType key={index}>{serviceType}</StyledServiceType>

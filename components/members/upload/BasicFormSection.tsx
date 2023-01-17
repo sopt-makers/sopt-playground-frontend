@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { useGetMemberProfileOfMe } from '@/apiHooks/members';
-import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -54,16 +54,34 @@ export default function MemberBasicFormSection() {
         </FormItem>
         <FormItem title='생년월일' errorMessage={getBirthdayErrorMessage()}>
           <StyledBirthdayInputWrapper>
-            <Input {...register('birthday.year')} placeholder='년도' error={errors.birthday?.hasOwnProperty('year')} />
-            <Input {...register('birthday.month')} placeholder='월' error={errors.birthday?.hasOwnProperty('month')} />
-            <Input {...register('birthday.day')} placeholder='일' error={errors.birthday?.hasOwnProperty('day')} />
+            <Input
+              {...register('birthday.year')}
+              placeholder='년도'
+              error={errors.birthday?.hasOwnProperty('year')}
+              type='number'
+              pattern='\d*'
+            />
+            <Input
+              {...register('birthday.month')}
+              placeholder='월'
+              error={errors.birthday?.hasOwnProperty('month')}
+              type='number'
+              pattern='\d*'
+            />
+            <Input
+              {...register('birthday.day')}
+              placeholder='일'
+              error={errors.birthday?.hasOwnProperty('day')}
+              type='number'
+              pattern='\d*'
+            />
           </StyledBirthdayInputWrapper>
         </FormItem>
         <FormItem title='연락처' errorMessage={errors.phone?.message}>
-          <StyledInput {...register('phone')} />
+          <StyledInput {...register('phone')} type='number' />
         </FormItem>
         <FormItem title='이메일' errorMessage={errors.email?.message}>
-          <StyledInput {...register('email')} />
+          <StyledInput {...register('email')} type='email' />
         </FormItem>
         <FormItem title='사는 지역'>
           <StyledInput {...register('address')} placeholder='ex) 서울시 강남구, 인천시 중구' />

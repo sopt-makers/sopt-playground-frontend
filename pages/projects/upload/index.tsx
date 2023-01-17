@@ -1,19 +1,22 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import { FC, useContext } from 'react';
+import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 
+import { putProject } from '@/api/projects';
 import { ProjectMember } from '@/api/projects/type';
+import { useGetProjectById } from '@/apiHooks';
 import { useGetMemberOfMe } from '@/apiHooks/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
+import useToast from '@/components/common/Toast/useToast';
 import { categoryLabel, FORM_ITEMS, PROJECT_DEFAULT_VALUES } from '@/components/projects/upload/constants';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { LinkFormType } from '@/components/projects/upload/LinkForm/constants';
-import { MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
+import { MemberFormType } from '@/components/projects/upload/MemberForm/constants';
 import ProjectCategory from '@/components/projects/upload/ProjectCategory';
 import ProjectDetail from '@/components/projects/upload/ProjectDetail';
 import ProjectGeneration from '@/components/projects/upload/ProjectGeneration';
@@ -27,10 +30,10 @@ import ProjectServiceType from '@/components/projects/upload/ProjectServiceType'
 import ProjectStatus from '@/components/projects/upload/ProjectStatus';
 import ProjectSummary from '@/components/projects/upload/ProjectSummary';
 import { projectSchema } from '@/components/projects/upload/schema';
-import { ToastContext, ToastProvider } from '@/components/projects/upload/ToastProvider';
 import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/components/projects/upload/types';
-import { convertPeriodFormat } from '@/components/projects/upload/utils';
+import { convertPeriodFormat, convertPeriodFormatReverse } from '@/components/projects/upload/utils';
 import { playgroundLink } from '@/constants/links';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -41,8 +44,8 @@ export interface ProjectUploadForm {
   generation: Generation;
   category: Category;
   status: Status;
-  members: MemeberFormType[];
-  releaseMembers: MemeberFormType[];
+  members: MemberFormType[];
+  releaseMembers: MemberFormType[];
   serviceType: ServiceType[];
   period: Period;
   summary: string;
@@ -64,6 +67,7 @@ const ProjectUploadPage: FC = () => {
   });
   const {
     handleSubmit,
+    setValue,
     watch,
     formState: { dirtyFields },
   } = methods;
@@ -80,11 +84,17 @@ const ProjectUploadPage: FC = () => {
           : [...acc, cur],
       [],
     );
-  const { showToast } = useContext(ToastContext);
+  const toast = useToast();
   const router = useRouter();
 
-  const onSubmit = (data: ProjectUploadForm) => {
-    const notify = confirm('프로젝트를 업로드 하시겠습니까?');
+  const { query } = useStringRouterQuery(['id', 'edit'] as const);
+  const isEditPage = query?.edit === 'true' ? true : false;
+  const uploadType = isEditPage ? '수정' : '등록';
+  const postId = query?.id ?? undefined;
+  const { data: project } = useGetProjectById(postId);
+
+  const onSubmit = async (data: ProjectUploadForm) => {
+    const notify = confirm(`프로젝트를 ${uploadType} 하시겠습니까?`);
     const members: ProjectMember[] = [...data.members, ...(data.releaseMembers ?? [])].map(
       ({ isTeamMember, memberDescription, memberRole, searchedMember }) => ({
         isTeamMember,
@@ -97,63 +107,136 @@ const ProjectUploadPage: FC = () => {
     );
 
     if (notify && myProfileData) {
-      mutate(
-        {
-          name: data.name,
-          generation: data.generation.checked ? undefined : data.generation.generation,
-          category: data.category,
-          detail: data.detail,
-          summary: data.summary,
-          serviceType: data.serviceType,
-          startAt: convertPeriodFormat(data.period.startAt),
-          endAt: !data.period.isOngoing ? convertPeriodFormat(data.period.endAt) : undefined,
-          isAvailable: data.status.isAvailable,
-          isFounding: data.status.isFounding,
-          images: data.projectImage ? [data.projectImage] : [],
-          logoImage: data.logoImage,
-          thumbnailImage: data.thumbnailImage,
-          members,
-          links: data.links,
-          writerId: myProfileData.id,
-        },
-        {
+      const input = {
+        name: data.name,
+        generation: data.generation.checked ? undefined : data.generation.generation,
+        category: data.category,
+        detail: data.detail,
+        summary: data.summary,
+        serviceType: data.serviceType,
+        startAt: convertPeriodFormat(data.period.startAt),
+        endAt: !data.period.isOngoing ? convertPeriodFormat(data.period.endAt) : undefined,
+        isAvailable: data.status.isAvailable,
+        isFounding: data.status.isFounding,
+        images: data.projectImage ? [data.projectImage] : [],
+        logoImage: data.logoImage,
+        thumbnailImage: data.thumbnailImage,
+        members,
+        links: data.links,
+        writerId: myProfileData.id,
+      };
+      if (isEditPage && postId) {
+        await putProject({ id: Number(postId), data: input });
+        router.push(playgroundLink.projectList());
+        queryClient.invalidateQueries('getProjectListQuery');
+        queryClient.invalidateQueries('getProjectQuery');
+      } else {
+        mutate(input, {
           onSuccess: () => {
-            showToast('프로젝트가 성공적으로 업로드 되었습니다.');
+            toast.show({ message: '프로젝트가 성공적으로 업로드 되었습니다.' });
             router.push(playgroundLink.projectList());
             queryClient.invalidateQueries('getProjectListQuery');
           },
-        },
-      );
+        });
+      }
     }
   };
+
+  useEffect(() => {
+    if (isEditPage && postId && project) {
+      setValue('name', project.name);
+      if (project.generation) {
+        setValue('generation', { generation: project.generation, checked: false });
+      } else {
+        setValue('generation', { checked: true });
+      }
+      setValue('category', project.category);
+      setValue('status.isAvailable', project.isAvailable);
+      setValue('status.isFounding', project.isFounding);
+      setValue(
+        'members',
+        project.members
+          .filter((m) => m.isTeamMember)
+          .map((member) => ({
+            memberId: member.memberId,
+            memberRole: member.memberRole,
+            memberDescription: member.memberDescription,
+            isTeamMember: member.isTeamMember,
+            memberName: member.memberName,
+            memberGeneration: member.memberGeneration,
+            searchedMember: {
+              id: member.memberId,
+              name: member.memberName,
+              generation: member.memberGeneration,
+              hasProfile: true as const,
+              profileImage: member.profileImage,
+            },
+          })),
+      );
+      setValue(
+        'releaseMembers',
+        project.members
+          .filter((m) => !m.isTeamMember)
+          .map((member) => ({
+            memberId: member.memberId,
+            memberRole: member.memberRole,
+            memberDescription: member.memberDescription,
+            isTeamMember: member.isTeamMember,
+            memberName: member.memberName,
+            memberGeneration: member.memberGeneration,
+            searchedMember: {
+              id: member.memberId,
+              name: member.memberName,
+              generation: member.memberGeneration,
+              hasProfile: true as const,
+              profileImage: member.profileImage,
+            },
+          })),
+      );
+      setValue('serviceType', project.serviceType);
+      setValue('period.startAt', convertPeriodFormatReverse(project.startAt));
+      setValue('period.endAt', convertPeriodFormatReverse(project.endAt ?? ''));
+      setValue('period.isOngoing', project.endAt ? false : true);
+      setValue('summary', project.summary);
+      setValue('detail', project.detail);
+      setValue('logoImage', project.logoImage);
+      setValue('thumbnailImage', project.thumbnailImage);
+      setValue('projectImage', project.images[0]);
+      setValue(
+        'links',
+        project.links.map((link) => ({
+          linkTitle: link.linkTitle,
+          linkUrl: link.linkUrl,
+        })),
+      );
+    }
+  }, [isEditPage, postId, project, setValue]);
 
   return (
     <AuthRequired>
       <FormProvider {...methods}>
-        <ToastProvider>
-          <StyledForm onSubmit={handleSubmit(onSubmit)}>
-            <FormStatus formItems={formItems} />
-            <ProjectContainer>
-              <ProjectName />
-              <ProjectGeneration />
-              <ProjectCategory />
-              <ProjectStatus />
-              <ProjectMembers type={categoryLabel?.[category] ?? ''} />
-              <ProjectReleaseMembers />
-              <ProjectServiceType />
-              <ProjectPeriod />
-              <ProjectSummary />
-              <ProjectDetail />
-              <ProjectImageSection />
-              <ProjectLink />
-              <StyledButtonWrapper>
-                <Button type='submit' variant='primary'>
-                  프로젝트 등록하기
-                </Button>
-              </StyledButtonWrapper>
-            </ProjectContainer>
-          </StyledForm>
-        </ToastProvider>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+          {!isEditPage && <FormStatus formItems={formItems} />}
+          <ProjectContainer>
+            <ProjectName />
+            <ProjectGeneration />
+            <ProjectCategory />
+            <ProjectStatus />
+            <ProjectMembers type={categoryLabel?.[category] ?? ''} />
+            <ProjectReleaseMembers />
+            <ProjectServiceType />
+            <ProjectPeriod />
+            <ProjectSummary />
+            <ProjectDetail />
+            <ProjectImageSection />
+            <ProjectLink />
+            <StyledButtonWrapper>
+              <Button type='submit' variant='primary'>
+                프로젝트 {uploadType}하기
+              </Button>
+            </StyledButtonWrapper>
+          </ProjectContainer>
+        </StyledForm>
       </FormProvider>
     </AuthRequired>
   );

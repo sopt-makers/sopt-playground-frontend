@@ -2,9 +2,7 @@ import axios from 'axios';
 
 import { postGoogleAuth, postGoogleRegistration } from '@/api/registration';
 import useStateParam from '@/components/auth/util/useStateParam';
-
-const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
-const GOOGLE_OAUTH_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID ?? '';
+import { GOOGLE_OAUTH_CLIENT_ID, ORIGIN } from '@/constants/env';
 
 const GOOGLE_LOGIN_CALLBACK_URI = `${ORIGIN}/auth/callback/google/login`;
 const GOOGLE_REGISTER_CALLBACK_URI = `${ORIGIN}/auth/callback/google/register`;

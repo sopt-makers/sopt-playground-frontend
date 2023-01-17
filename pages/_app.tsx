@@ -1,17 +1,22 @@
 import ProgressBar from '@badrap/bar-of-progress';
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
-import Debugger from '@/components/debug/Debugger';
+import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
+import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
+import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
 import { colors } from '@/styles/colors';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
+
+const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
@@ -34,17 +39,21 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Head>
-        <title>SOPT Playground</title>
-      </Head>
-      <GoogleTagManagerScript />
-      <RecoilRoot>
-        <GlobalStyle />
-        {layout({ children: <Component {...pageProps} /> })}
-        <Debugger />
-      </RecoilRoot>
-    </QueryClientProvider>
+    <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
+      <QueryClientProvider client={queryClient}>
+        <Head>
+          <title>SOPT Playground</title>
+        </Head>
+        <GoogleTagManagerScript />
+        <RecoilRoot>
+          <ToastProvider>
+            <GlobalStyle />
+            {layout({ children: <Component {...pageProps} /> })}
+            {DEBUG && <Debugger />}
+          </ToastProvider>
+        </RecoilRoot>
+      </QueryClientProvider>
+    </AmplitudeProvider>
   );
 }
 

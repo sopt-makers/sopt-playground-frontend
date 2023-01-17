@@ -27,7 +27,7 @@ const LoginPage: FC = () => {
         <LinkContainer>
           <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
           {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
-          <Link href={playgroundLink.register()} passHref>
+          <Link href={playgroundLink.register()} passHref legacyBehavior>
             <SquareLink
               css={css`
                 color: white;
@@ -38,7 +38,7 @@ const LoginPage: FC = () => {
           </Link>
         </LinkContainer>
       </LoginBox>
-      <Link href={playgroundLink.makers()} passHref>
+      <Link href={playgroundLink.makers()} passHref legacyBehavior>
         <MadeByMakersLink>
           <MadeByTitle>made by</MadeByTitle>
           <StyledMakersLogo src='/logos/logo-makers-full.svg' alt='makers-logo' />

@@ -20,22 +20,16 @@ const Header: FC = () => {
       <StyledHeader>
         <StyledContent>
           <Link href={playgroundLink.memberList()} passHref>
-            <a>
-              <StyledIconLogo alt='logo' src='/icons/icon-logo.png' />
-            </a>
+            <StyledIconLogo alt='logo' src='/icons/icon-logo.png' />
           </Link>
           <Empty />
           <Link passHref href={playgroundLink.projectUpload()}>
-            <a>
-              <StyledUploadButton variant='primary' size='fill'>
-                + 내 프로젝트 올리기
-              </StyledUploadButton>
-            </a>
+            <StyledUploadButton variant='primary' size='fill'>
+              + 내 프로젝트 올리기
+            </StyledUploadButton>
           </Link>
           <Link passHref href={playgroundLink.login()}>
-            <a>
-              <StyledLoginButton size='fill'>로그인</StyledLoginButton>
-            </a>
+            <StyledLoginButton size='fill'>로그인</StyledLoginButton>
           </Link>
           <StyledIconMenu alt='menu' src='/icons/icon-menu.svg' onClick={onToggle} />
         </StyledContent>

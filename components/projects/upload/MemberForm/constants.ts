@@ -1,16 +1,27 @@
 import { Member } from '@/api/members/type';
-import { ProjectMember } from '@/api/projects/type';
+import { MemberRole, ProjectMember } from '@/api/projects/type';
 
-export type MemeberFormType = ProjectMember & {
+export type MemberFormType = ProjectMember & {
   isEdit?: boolean;
   searchedMember?: Member;
 };
 
-export const DEFAULT_MEMBER: Partial<MemeberFormType> = {
+export const DEFAULT_MEMBER: Partial<MemberFormType> = {
   memberRole: undefined,
   memberDescription: '',
   isTeamMember: true,
   memberName: '',
   memberGeneration: undefined,
   isEdit: true,
+};
+
+export const MemberRoleInfo: Record<MemberRole, string> = {
+  TEAMLEADER: 'Team Leader',
+  MAINPM: 'Main PM',
+  PM: 'PM',
+  DESIGN: 'Design',
+  WEB: 'Web',
+  ANDROID: 'Android',
+  SERVER: 'Server',
+  IOS: 'iOS',
 };

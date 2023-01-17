@@ -2,6 +2,10 @@ import { DefaultValues } from 'react-hook-form';
 
 import { MemberUploadForm } from '@/components/members/upload/types';
 
+export const DEFAULT_CAREER = { title: '', companyName: '', isCurrent: false, startDate: '', endDate: '' };
+export const DEFAULT_ACTIVITY = { generation: '', part: '', team: '' };
+export const DEFAULT_LINK = { title: '', url: '' };
+
 export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   profileImage: '',
   name: '',
@@ -13,11 +17,12 @@ export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   major: '',
   introduction: '',
   skill: '',
-  links: [{ title: '', url: '' }],
-  activities: [{ generation: '', part: '', team: '' }],
+  links: [DEFAULT_LINK],
+  activities: [DEFAULT_ACTIVITY],
   openToWork: false,
   openToSideProject: false,
   allowOfficial: false,
+  careers: [DEFAULT_CAREER],
 };
 
 export const PARTS = [

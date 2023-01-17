@@ -39,7 +39,6 @@ const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   background-color: ${colors.black100};
   cursor: pointer;
   padding: 20px 21px;
-  width: inherit;
 
   ${({ isSelected }) =>
     isSelected &&

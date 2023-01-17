@@ -3,37 +3,65 @@ import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
 import { FC, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { FC, useEffect } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MemberCard from '@/components/members/main/MemberCard';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
-import MemberRoleMenu from '@/components/members/main/MemberRoleMenu';
+import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+const PAGE_LIMIT = 30;
+
 const MemberList: FC = () => {
   const [name, setName] = useState<string>('');
   const [query, setQuery] = useState<string>('');
+  const { logClickEvent } = useEventLogger();
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberProfileData } = useGetMemberProfile({
-    filter,
+  const { data: memberOfMeData } = useGetMemberOfMe();
+  const router = useRouter();
+  const { ref, isVisible } = useIntersectionObserver();
+  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({
+    limit: PAGE_LIMIT,
+    queryKey: router.asPath,
     // TODO: 멤버검색 query 추가
   });
-  const { data: memberOfMeData } = useGetMemberOfMe();
-  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
-  const profiles = memberProfileData?.map((member) => ({
-    ...member,
-    isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
-    part: uniq(member.activities.map(({ part }) => part)).join(' / '),
-  }));
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
+  const handleSelect = (value: MenuValue) => {
+    onSelect(value);
+    const url = new URL(window.location.href);
+    url.searchParams.set('filter', value.toString());
+    if (value === MenuValue.ALL) {
+      url.searchParams.delete('filter');
+    }
+    router.push(url);
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      fetchNextPage();
+    }
+  }, [isVisible, fetchNextPage]);
+
+  const profiles = memberProfileData?.pages.map((members) =>
+    members.map((member) => ({
+      ...member,
+      isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
+      part: uniq(member.activities.map(({ part }) => part)).join(' / '),
+    })),
+  );
   const hasProfile = !!memberOfMeData?.hasProfile;
 
   return (
@@ -51,10 +79,10 @@ const MemberList: FC = () => {
               </TextContainer>
             </LeftContainer>
             <ButtonContainer>
-              <Link href={playgroundLink.projectUpload()} passHref>
+              <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
                 <UploadButton>프로젝트 업로드</UploadButton>
               </Link>
-              <Link href={playgroundLink.memberUpload()} passHref>
+              <Link href={playgroundLink.memberUpload()} passHref legacyBehavior>
                 <ProfileButton>프로필 추가</ProfileButton>
               </Link>
             </ButtonContainer>
@@ -64,17 +92,22 @@ const MemberList: FC = () => {
         <StyledMain hasProfile={hasProfile}>
           {!hasProfile && <StyledDivider />}
           {!isMobile ? (
-            <StyledMemberRoleMenu value={filter} onSelect={onSelect} />
+            <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
           ) : (
-            <StyledMemberRoleDropdown value={filter} onSelect={onSelect} />
+            <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
           )}
-          <StyledRightWrapper>
-            <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={(e) => setName(e.target.value)} />
-            {/* TODO(@jun): 로딩 추가 */}
-            <StyledCardWrapper>
-              {profiles?.map((profile) => (
-                <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} passHref>
-                  <a>
+        <StyledRightWrapper>
+        <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={(e) => setName(e.target.value)} />
+          {/* TODO(@jun): 로딩 추가 */}
+          <StyledCardWrapper>
+            {profiles?.map((profiles, index) => (
+              <React.Fragment key={index}>
+                {profiles.map((profile) => (
+                  <Link
+                    key={profile.id}
+                    href={playgroundLink.memberDetail(profile.id)}
+                    onClick={() => logClickEvent('memberCard', { id: profile.id, name: profile.name })}
+                  >
                     <MemberCard
                       name={profile.name}
                       part={profile.part}
@@ -82,10 +115,12 @@ const MemberList: FC = () => {
                       introduction={profile.introduction}
                       image={profile.profileImage}
                     />
-                  </a>
-                </Link>
-              ))}
-            </StyledCardWrapper>
+                  </Link>
+                ))}
+              </React.Fragment>
+            ))}
+            <Target ref={ref} />
+          </StyledCardWrapper>
           </StyledRightWrapper>
         </StyledMain>
       </StyledContent>
@@ -121,6 +156,7 @@ const IntroducePanel = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 92px;
   border-radius: 42px;
   background-color: ${colors.black80};
   padding: 59px 64px;
@@ -129,6 +165,7 @@ const IntroducePanel = styled.section`
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;
+    margin-bottom: 56px;
     background-color: ${colors.black100};
     padding: 0;
     height: auto;
@@ -208,13 +245,16 @@ const StyledMain = styled.main<{ hasProfile?: boolean }>`
   position: relative;
   column-gap: 30px;
 
-  ${({ hasProfile }) => hasProfile && `margin: 90px 0`};
+  ${({ hasProfile }) =>
+    hasProfile &&
+    css`
+      margin: 90px 0;
+    `};
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 23px;
     padding: 0 20px;
   }
 `;
@@ -275,3 +315,5 @@ const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
   margin-bottom: 16px;
   max-width: 505px;
 `;
+
+const Target = styled.div``;

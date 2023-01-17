@@ -1,19 +1,11 @@
 import { axiosInstance } from '@/api';
 import { Member, PostMemberCoffeeChatVariables, Profile, ProfileDetail, ProfileRequest } from '@/api/members/type';
 
-export type GetMemberProfileVariables = {
-  filter: number;
-  limit?: number;
-  cursor?: number;
-};
 // 멤버 프로필 전체 조회
-export const getMemberProfile = async (variables: GetMemberProfileVariables) => {
-  const { filter, limit, cursor } = variables;
-  const limitQuery = limit ? `&?limit=${limit}` : '';
-  const cursorQuery = cursor ? `&?cursor=${cursor}` : '';
+export const getMemberProfile = async (input: string) => {
   const { data } = await axiosInstance.request<Profile[]>({
     method: 'GET',
-    url: `api/v1/members/profile?filter=${filter}${limitQuery}${cursorQuery}`,
+    url: `api/v1/members/profile${input}`,
   });
 
   return data;
@@ -65,7 +57,7 @@ export const postMemberProfile = async (body: ProfileRequest): Promise<Profile> 
   return data;
 };
 
-export const getMemebersSearchByName = async (name: string) => {
+export const getMembersSearchByName = async (name: string) => {
   const { data } = await axiosInstance.request<Member[]>({
     method: 'GET',
     url: `api/v1/members/search?name=${name}`,

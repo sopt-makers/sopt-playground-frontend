@@ -2,9 +2,7 @@ import axios from 'axios';
 
 import { postFacebookAuth, postFacebookRegistration } from '@/api/registration';
 import useStateParam from '@/components/auth/util/useStateParam';
-
-const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
-const FACEBOOK_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID ?? '';
+import { FACEBOOK_APP_ID, ORIGIN } from '@/constants/env';
 
 const FACEBOOK_LOGIN_CALLBACK_URI = `${ORIGIN}/auth/callback/facebook/login`;
 const FACEBOOK_REGISTER_CALLBACK_URI = `${ORIGIN}/auth/callback/facebook/register`;

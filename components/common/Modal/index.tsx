@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import FocusTrap from 'focus-trap-react';
 import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
 
-import Portal from '@/components/common/Modal/Portal';
+import Portal from '@/components/common/Portal';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import IconModalCheck from '@/public/icons/icon-modal-check.svg';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
@@ -71,7 +71,7 @@ const StyledBackground = styled.div<{ visible?: boolean }>`
   align-items: center;
   justify-content: center;
   z-index: 99999;
-  background-color: rgb(0 0 0 / 40%);
+  background-color: rgb(0 0 0 / 30%);
   width: 100%;
   height: 100%;
 `;

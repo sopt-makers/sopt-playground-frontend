@@ -5,13 +5,12 @@ import _debounce from 'lodash/debounce';
 import React, { FC, useState } from 'react';
 import { Controller, useFieldArray, UseFieldArrayProps, useFormContext, useWatch } from 'react-hook-form';
 
-import { MemberRole } from '@/api/projects/type';
 import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
-import { DEFAULT_MEMBER, MemeberFormType } from '@/components/projects/upload/MemberForm/constants';
+import { DEFAULT_MEMBER, MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload';
@@ -47,7 +46,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
 
   // MEMO: 모바일 뷰를 위한 변수,함수들 입니다.
   // 기존 데스크탑과 멤버 추가 방식과 UI가 아예 달라서 이를 분기처리하는 로직과, 수정상태인지 여부인 isEdit를 이용해야 하기 때문에 아래와 같은 로직들이 필요합니다.
-  const selectedMembers: MemeberFormType[] = (name === 'members' ? members : releaseMembers) ?? [];
+  const selectedMembers: MemberFormType[] = (name === 'members' ? members : releaseMembers) ?? [];
   const onEdit = (index: number) => {
     setValue(`${name}.${index}.isEdit`, true);
   };
@@ -77,16 +76,17 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                 <Controller
                   control={control}
                   name={`${name}.${index}.searchedMember`}
-                  render={({ field: { value, onChange, name } }) => (
+                  render={({ field: { value, onChange, name, ref } }) => (
                     <MemberSearchWrapper>
                       <MemberSearch
+                        ref={ref}
                         error={!!errors.members?.[index]?.searchedMember}
                         members={membersData ?? []}
                         onSearch={_debounce(
                           (e: React.ChangeEvent<HTMLInputElement>) => setSearchName(e.target.value),
                           300,
                         )}
-                        value={value}
+                        value={members[index]?.searchedMember}
                         onChange={onChange}
                         name={name}
                       />
@@ -100,9 +100,9 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                   placeholder='역할'
                   {...register(`${name}.${index}.memberRole`)}
                 >
-                  {Object.values(MemberRole).map((role) => (
-                    <option key={role} value={role}>
-                      {role}
+                  {Object.entries(MemberRoleInfo).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
                     </option>
                   ))}
                 </StyledSelect>
@@ -152,8 +152,9 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                       <Controller
                         control={control}
                         name={`${name}.${memberIndex}.searchedMember`}
-                        render={({ field: { value, onChange, name } }) => (
+                        render={({ field: { value, onChange, name, ref } }) => (
                           <MemberSearch
+                            ref={ref}
                             value={value}
                             error={!!errors.members?.[memberIndex]?.searchedMember}
                             onChange={onChange}
@@ -173,9 +174,9 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                         error={!!errors.members?.[memberIndex]?.memberRole}
                         {...register(`${name}.${memberIndex}.memberRole`)}
                       >
-                        {Object.values(MemberRole).map((role) => (
-                          <option key={role} value={role}>
-                            {role}
+                        {Object.entries(MemberRoleInfo).map(([value, label]) => (
+                          <option key={value} value={value}>
+                            {label}
                           </option>
                         ))}
                       </MobileSelect>

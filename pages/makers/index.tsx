@@ -21,7 +21,7 @@ const MakersPage: FC = () => {
         <Header />
       ) : (
         <NotLoggedInHeader>
-          <Link href={playgroundLink.login()} passHref>
+          <Link href={playgroundLink.login()} passHref legacyBehavior>
             <BackLink>
               <StyledBackIcon />
               로그인하러 가기

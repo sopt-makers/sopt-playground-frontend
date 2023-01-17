@@ -4,7 +4,7 @@ import { FieldError, useFieldArray, useFormContext } from 'react-hook-form';
 import Select from '@/components/common/Select';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
-import { PARTS, TEAMS } from '@/components/members/upload/constants';
+import { DEFAULT_ACTIVITY, PARTS, TEAMS } from '@/components/members/upload/constants';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import SelectOptions from '@/components/members/upload/forms/SelectOptions';
@@ -25,7 +25,7 @@ export default function MemberSoptActivityFormSection() {
     name: 'activities',
   });
 
-  const onAppend = () => append({ generation: '', part: '', team: '' });
+  const onAppend = () => append(DEFAULT_ACTIVITY);
   const onRemove = (index: number) => remove(index);
   const getActivityErrorMessage = (
     activityError:

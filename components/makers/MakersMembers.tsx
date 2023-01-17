@@ -1,13 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Tab } from '@headlessui/react';
-import { FC, Fragment, useMemo } from 'react';
+import Link from 'next/link';
+import { FC, Fragment } from 'react';
 
-import { useGetMemberProfile } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
-import { MakersGeneration, MakersPerson } from '@/components/makers/data/types';
-import PersonBlock from '@/components/makers/PersonBlock';
+import { MakersGeneration } from '@/components/makers/data/types';
 import TeamBlock from '@/components/makers/TeamBlock';
+import MemberBlock from '@/components/members/common/MemberBlock';
+import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -19,49 +20,17 @@ interface MakersMembersProps {
 }
 
 const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
-  const { data, isLoading } = useGetMemberProfile({
-    filter: 0,
-  });
   const { isLoggedIn } = useAuth();
 
-  const memberImageMap = useMemo(() => {
-    const map = new Map<number, string>();
-    if (!data) {
-      return map;
-    }
-    data.forEach((x) => {
-      map.set(x.id, x.profileImage);
-    });
-
-    return map;
-  }, [data]);
-
-  const resolveProfileImage = (person: MakersPerson) => {
-    if (person.type === 'raw') {
-      return person.imageUrl;
-    }
-    if (isLoading && !data) {
-      return undefined;
-    }
-
-    return memberImageMap.get(person.id) ?? undefined;
+  const showNeedLogin = () => {
+    alert('프로필을 보려면 로그인 해주세요.');
   };
 
-  const resolveProfileLink = (person: MakersPerson) => {
-    if (person.type === 'member') {
-      return playgroundLink.memberDetail(person.id);
+  const resolveGenerations = (generations: number[] | null) => {
+    if (!generations) {
+      return null;
     }
-    return undefined;
-  };
-
-  const resolveProfileOnClick = (person: MakersPerson) => {
-    return () => {
-      if (!isLoggedIn) {
-        if (resolveProfileImage(person) !== undefined) {
-          alert('프로필을 보려면 로그인 해주세요.');
-        }
-      }
-    };
+    return `${generations.map(String).join(', ')}기`;
   };
 
   return (
@@ -83,14 +52,31 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                 <StyledTeamBlock key={teamIdx} title={team.title} description={team.description} link={team.link}>
                   <PeopleBox>
                     {team.people.map((person, personIdx) => (
-                      <PersonBlock
-                        key={personIdx}
-                        name={person.name}
-                        position={person.position}
-                        imageUrl={resolveProfileImage(person)}
-                        link={resolveProfileLink(person)}
-                        onClick={resolveProfileOnClick(person)}
-                      />
+                      <Fragment key={personIdx}>
+                        {person.type === 'member' ? (
+                          <WithMemberMetadata
+                            memberId={person.id}
+                            render={(metadata) => (
+                              <Link
+                                href={playgroundLink.memberDetail(person.id)}
+                                onClick={() => metadata && !isLoggedIn && showNeedLogin()}
+                              >
+                                <MemberBlock
+                                  name={person.name}
+                                  position={person.position}
+                                  imageUrl={metadata?.profileImage}
+                                  badges={[
+                                    resolveGenerations(metadata?.generations ?? null),
+                                    metadata?.currentCompany,
+                                  ].filter((badge): badge is string => !!badge)}
+                                />
+                              </Link>
+                            )}
+                          />
+                        ) : (
+                          <MemberBlock name={person.name} />
+                        )}
+                      </Fragment>
                     ))}
                   </PeopleBox>
                 </StyledTeamBlock>
@@ -169,7 +155,11 @@ const StyledTeamBlock = styled(TeamBlock)`
 
 const PeopleBox = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   row-gap: 24px;
   column-gap: 6px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `;

@@ -11,6 +11,7 @@ import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } fr
 import AuthRequired from '@/components/auth/AuthRequired';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
+import CareerFormSection from '@/components/members/upload/CareerFormSection';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import PublicQuestionFormSection from '@/components/members/upload/PublicQuestionFormSection';
 import { memberFormSchema } from '@/components/members/upload/schema';
@@ -74,6 +75,13 @@ export default function MemberUploadPage() {
       );
       setValue('allowOfficial', myProfile.allowOfficial);
       setValue('profileImage', myProfile.profileImage);
+      myProfile.careers.forEach((career, index) => {
+        setValue(`careers.${index}.companyName`, career.companyName);
+        setValue(`careers.${index}.title`, career.title);
+        setValue(`careers.${index}.startDate`, career.startDate);
+        setValue(`careers.${index}.endDate`, career.endDate ?? '');
+        setValue(`careers.${index}.isCurrent`, career.isCurrent);
+      });
     }
   }, [isEditPage, myProfile, setValue]);
 
@@ -82,13 +90,17 @@ export default function MemberUploadPage() {
     const parsedBirthDay = dayjs(`${year}-${month}-${day}`);
     return (parsedBirthDay.isValid() ? parsedBirthDay : dayjs(DEFAULT_DATE)).format('YYYY-MM-DD');
   };
+
   const onSubmit = async (formData: MemberUploadForm) => {
-    // if (Object.keys(errors).length) return;
-    const { birthday, links } = formData;
+    if (Object.keys(errors).length) return;
+    const { birthday, links, careers } = formData;
     const requestBody: ProfileRequest = {
       ...formData,
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
+      careers: careers
+        .map((career) => (career.endDate ? career : { ...career, endDate: null }))
+        .filter((career) => !Object.values(career).some((item) => item === '')),
     };
     const response = await postMemberProfile(requestBody);
     await Promise.all([refetchMyProfile(), refetchProfileById(), refetchMe()]);
@@ -107,6 +119,7 @@ export default function MemberUploadPage() {
           <StyledForm onSubmit={(e) => e.preventDefault()}>
             <BasicFormSection />
             <SoptActivityFormSection />
+            <CareerFormSection />
             <AdditionalFormSection />
             <PublicQuestionFormSection />
             <MobileSubmitButton onClick={handleSubmit(onSubmit)} className='mobile-only'>

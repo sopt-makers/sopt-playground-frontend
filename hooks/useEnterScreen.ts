@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-const useEnterScreen = <T extends Element = never>(callback: () => void) => {
+interface UseEnterScreenVariables {
+  onEnter?: () => void;
+}
+const useEnterScreen = <T extends Element = never>(variables: UseEnterScreenVariables) => {
+  const { onEnter } = variables;
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -8,9 +12,7 @@ const useEnterScreen = <T extends Element = never>(callback: () => void) => {
       if (!entry.isIntersecting) {
         return;
       }
-
-      callback();
-
+      onEnter?.();
       observer.disconnect();
     }, {});
 
@@ -21,7 +23,7 @@ const useEnterScreen = <T extends Element = never>(callback: () => void) => {
     return () => {
       observer.disconnect();
     };
-  }, [ref, callback]);
+  }, [ref, onEnter]);
 
   return {
     ref,
