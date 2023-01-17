@@ -27,7 +27,7 @@ export const generation1: MakersGeneration = {
         { type: 'member', id: 40, name: '김희영', position: 'PM' },
         { type: 'member', id: 46, name: '박수아', position: '디자이너' },
         { type: 'member', id: 26, name: '박정무', position: '백엔드 개발자' },
-        { type: 'raw', name: '정효원', position: '백엔드 개발자' },
+        { type: 'member', id: 60, name: '정효원', position: '백엔드 개발자' },
         { type: 'member', id: 31, name: '이서영', position: '웹 프론트엔드 개발자' },
         { type: 'member', id: 39, name: '이인송', position: '웹 프론트엔드 개발자' },
       ],
