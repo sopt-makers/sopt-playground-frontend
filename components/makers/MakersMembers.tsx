@@ -2,11 +2,10 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Tab } from '@headlessui/react';
 import Link from 'next/link';
-import { FC, Fragment, useMemo } from 'react';
+import { FC, Fragment } from 'react';
 
-import { useGetMemberProfile } from '@/apiHooks/members';
 import useAuth from '@/components/auth/useAuth';
-import { MakersGeneration, MakersPerson } from '@/components/makers/data/types';
+import { MakersGeneration } from '@/components/makers/data/types';
 import TeamBlock from '@/components/makers/TeamBlock';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
@@ -21,42 +20,10 @@ interface MakersMembersProps {
 }
 
 const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
-  const { data, isLoading } = useGetMemberProfile({});
   const { isLoggedIn } = useAuth();
 
-  const memberImageMap = useMemo(() => {
-    const map = new Map<number, string>();
-    if (!data) {
-      return map;
-    }
-    data.pages.forEach((members) =>
-      members.forEach((member) => {
-        map.set(member.id, member.profileImage);
-      }),
-    );
-
-    return map;
-  }, [data]);
-
-  const resolveProfileImage = (person: MakersPerson) => {
-    if (person.type === 'raw') {
-      return person.imageUrl;
-    }
-    if (isLoading && !data) {
-      return undefined;
-    }
-
-    return memberImageMap.get(person.id) ?? undefined;
-  };
-
-  const resolveProfileOnClick = (person: MakersPerson) => {
-    return () => {
-      if (!isLoggedIn) {
-        if (resolveProfileImage(person) !== undefined) {
-          alert('프로필을 보려면 로그인 해주세요.');
-        }
-      }
-    };
+  const showNeedLogin = () => {
+    alert('프로필을 보려면 로그인 해주세요.');
   };
 
   const resolveGenerations = (generations: number[] | null) => {
@@ -87,10 +54,13 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                     {team.people.map((person, personIdx) => (
                       <Fragment key={personIdx}>
                         {person.type === 'member' ? (
-                          <Link href={playgroundLink.memberDetail(person.id)} onClick={resolveProfileOnClick(person)}>
-                            <WithMemberMetadata
-                              memberId={person.id}
-                              render={(metadata) => (
+                          <WithMemberMetadata
+                            memberId={person.id}
+                            render={(metadata) => (
+                              <Link
+                                href={playgroundLink.memberDetail(person.id)}
+                                onClick={() => metadata && !isLoggedIn && showNeedLogin()}
+                              >
                                 <MemberBlock
                                   name={person.name}
                                   position={person.position}
@@ -100,9 +70,9 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                                     metadata?.currentCompany,
                                   ].filter((badge): badge is string => !!badge)}
                                 />
-                              )}
-                            />
-                          </Link>
+                              </Link>
+                            )}
+                          />
                         ) : (
                           <MemberBlock name={person.name} />
                         )}
