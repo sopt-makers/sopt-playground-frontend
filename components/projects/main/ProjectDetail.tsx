@@ -9,7 +9,6 @@ import { MemberRole, ProjectMember } from '@/api/projects/type';
 import { useGetMemberOfMe } from '@/apiHooks';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
-import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
@@ -112,29 +111,23 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           </UserInfoWrapper>
           <UserList>
             <UserNameList>
-              {sortedMembers.map((member) => (
-                <WithMemberMetadata
-                  key={member.memberId}
-                  memberId={member.memberId}
-                  render={(metadata) => {
-                    const badges = [];
-                    if (metadata && metadata.generations.length > 0) {
-                      badges.push(metadata.generations.map(String).join(', ') + '기');
-                    }
+              {sortedMembers.map((member) => {
+                const badges = [];
+                if (member.memberGenerations.length > 0) {
+                  badges.push(member.memberGenerations.map(String).join(', ') + '기');
+                }
 
-                    return (
-                      <Link href={playgroundLink.memberDetail(member.memberId)}>
-                        <MemberBlock
-                          name={member.memberName}
-                          position={MemberRoleInfo[member.memberRole]}
-                          imageUrl={metadata?.profileImage}
-                          badges={badges}
-                        />
-                      </Link>
-                    );
-                  }}
-                />
-              ))}
+                return (
+                  <Link key={member.memberId} href={playgroundLink.memberDetail(member.memberId)}>
+                    <MemberBlock
+                      name={member.memberName}
+                      position={MemberRoleInfo[member.memberRole]}
+                      imageUrl={member.memberProfileImage ?? undefined}
+                      badges={badges}
+                    />
+                  </Link>
+                );
+              })}
             </UserNameList>
           </UserList>
         </UserWrapper>

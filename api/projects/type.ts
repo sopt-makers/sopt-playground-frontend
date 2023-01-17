@@ -36,6 +36,8 @@ export type ProjectMember = {
   isTeamMember: boolean;
   memberName: string;
   memberGeneration: number;
+  memberProfileImage: string | null;
+  memberGenerations: number[];
 };
 
 export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
