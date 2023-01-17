@@ -2,9 +2,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
-import { FC, useState } from 'react';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
@@ -26,7 +25,7 @@ const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
   const [name, setName] = useState<string>('');
-  const [query, setQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const { logClickEvent } = useEventLogger();
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
   const { data: memberOfMeData } = useGetMemberOfMe();
@@ -96,31 +95,31 @@ const MemberList: FC = () => {
           ) : (
             <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
           )}
-        <StyledRightWrapper>
-        <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={(e) => setName(e.target.value)} />
-          {/* TODO(@jun): 로딩 추가 */}
-          <StyledCardWrapper>
-            {profiles?.map((profiles, index) => (
-              <React.Fragment key={index}>
-                {profiles.map((profile) => (
-                  <Link
-                    key={profile.id}
-                    href={playgroundLink.memberDetail(profile.id)}
-                    onClick={() => logClickEvent('memberCard', { id: profile.id, name: profile.name })}
-                  >
-                    <MemberCard
-                      name={profile.name}
-                      part={profile.part}
-                      isActiveGeneration={profile.isActive}
-                      introduction={profile.introduction}
-                      image={profile.profileImage}
-                    />
-                  </Link>
-                ))}
-              </React.Fragment>
-            ))}
-            <Target ref={ref} />
-          </StyledCardWrapper>
+          <StyledRightWrapper>
+            <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={(e) => setName(e.target.value)} />
+            {/* TODO(@jun): 로딩 추가 */}
+            <StyledCardWrapper>
+              {profiles?.map((profiles, index) => (
+                <React.Fragment key={index}>
+                  {profiles.map((profile) => (
+                    <Link
+                      key={profile.id}
+                      href={playgroundLink.memberDetail(profile.id)}
+                      onClick={() => logClickEvent('memberCard', { id: profile.id, name: profile.name })}
+                    >
+                      <MemberCard
+                        name={profile.name}
+                        part={profile.part}
+                        isActiveGeneration={profile.isActive}
+                        introduction={profile.introduction}
+                        image={profile.profileImage}
+                      />
+                    </Link>
+                  ))}
+                </React.Fragment>
+              ))}
+              <Target ref={ref} />
+            </StyledCardWrapper>
           </StyledRightWrapper>
         </StyledMain>
       </StyledContent>
