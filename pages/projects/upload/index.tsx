@@ -130,7 +130,7 @@ const ProjectUploadPage: FC = () => {
         router.push(playgroundLink.projectList());
         queryClient.invalidateQueries('getProjectListQuery');
         queryClient.invalidateQueries('getProjectQuery');
-      } else {
+      } else if (!isEditPage && !postId) {
         mutate(input, {
           onSuccess: () => {
             toast.show({ message: '프로젝트가 성공적으로 업로드 되었습니다.' });
