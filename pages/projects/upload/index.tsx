@@ -90,7 +90,7 @@ const ProjectUploadPage: FC = () => {
   const { query } = useStringRouterQuery(['id', 'edit'] as const);
   const isEditPage = query?.edit === 'true' ? true : false;
   const uploadType = isEditPage ? '수정' : '등록';
-  const postId = query?.id ?? undefined;
+  const postId = query?.id;
   const { data: project } = useGetProjectById(postId);
 
   const onSubmit = async (data: ProjectUploadForm) => {
