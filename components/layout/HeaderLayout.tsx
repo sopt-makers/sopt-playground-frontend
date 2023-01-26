@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
-import ProperHeader from '@/components/common/Header/ProperHeader';
+import Header from '@/components/common/Header';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface HeaderLayoutProps {
@@ -13,7 +13,7 @@ const HeaderLayout: FC<HeaderLayoutProps> = ({ children }) => {
   return (
     <>
       <FixedSlot className={RemoveScroll.classNames.zeroRight}>
-        <ProperHeader />
+        <Header />
       </FixedSlot>
       <StyledContainer>{children}</StyledContainer>
     </>
