@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import ProfileButton from '@/components/common/Header/ProfileButton';
+import ProfileButton from '@/components/common/Header/desktop/ProfileButton';
 
 export default {
   component: ProfileButton,

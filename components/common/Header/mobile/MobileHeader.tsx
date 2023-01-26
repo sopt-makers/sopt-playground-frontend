@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { MENU_IMG_SVG, SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/data';
-import MobileDrawer from '@/components/common/Header/MobileDrawer';
+import MobileDrawer from '@/components/common/Header/mobile/MobileDrawer';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 

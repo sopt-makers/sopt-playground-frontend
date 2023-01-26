@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import { useGetMemberOfMe } from '@/apiHooks';
 import useAuth from '@/components/auth/useAuth';
-import DesktopHeader from '@/components/common/Header/DesktopHeader';
-import MobileHeader from '@/components/common/Header/MobileHeader';
+import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
+import MobileHeader from '@/components/common/Header/mobile/MobileHeader';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { MOBILE_MAX_WIDTH } from '@/styles/mediaQuery';
 

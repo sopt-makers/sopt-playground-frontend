@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import DesktopHeader from '@/components/common/Header/DesktopHeader';
+import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
 
 export default {
   component: DesktopHeader,
@@ -10,7 +10,9 @@ const Template: ComponentStory<typeof DesktopHeader> = (args) => <DesktopHeader 
 
 export const Basic = Template.bind({});
 Basic.args = {
-  userName: '박건영',
-  userImage: '',
+  user: {
+    name: '박건영',
+    id: '1',
+  },
 };
 Basic.storyName = '기본';

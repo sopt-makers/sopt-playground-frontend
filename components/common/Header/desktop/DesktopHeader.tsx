@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/data';
-import ProfileButton from '@/components/common/Header/ProfileButton';
-import ProfileDropdown from '@/components/common/Header/ProfileDropdown';
+import ProfileButton from '@/components/common/Header/desktop/ProfileButton';
+import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';

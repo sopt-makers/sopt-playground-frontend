@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import ProfileDropdown from '@/components/common/Header/ProfileDropdown';
+import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown';
 
 export default {
   component: ProfileDropdown,

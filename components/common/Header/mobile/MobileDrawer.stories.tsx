@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import MobileDrawer from '@/components/common/Header/MobileDrawer';
+import MobileDrawer from '@/components/common/Header/mobile/MobileDrawer';
 
 export default {
   component: MobileDrawer,
