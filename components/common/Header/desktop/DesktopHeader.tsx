@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import { SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/data';
 import ProfileButton from '@/components/common/Header/desktop/ProfileButton';
 import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown';
+import { SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/imageData';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';

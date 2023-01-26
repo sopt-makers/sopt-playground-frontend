@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { MENU_IMG_SVG, SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/data';
+import { MENU_SVG, SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/imageData';
 import MobileSideBar from '@/components/common/Header/mobile/MobileSideBar';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
@@ -26,7 +26,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout }) => {
         myProfileHref={user ? playgroundLink.memberDetail(user.id) : '#'}
         onLogout={onLogout}
       >
-        <NavButton>{MENU_IMG_SVG}</NavButton>
+        <NavButton>{MENU_SVG}</NavButton>
       </MobileSideBar>
       <StyledBrandLink href={playgroundLink.memberList()}>
         <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
