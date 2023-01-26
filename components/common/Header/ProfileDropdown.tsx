@@ -23,7 +23,7 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ children }) => {
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
       <DropdownPortal>
-        <DropdownMenu.Content asChild>
+        <DropdownMenu.Content sideOffset={12} align='end' asChild>
           <ContentBox>
             <DropdownMenu.Item asChild>
               <ButtonItem>
@@ -50,13 +50,13 @@ const ContentBox = styled.div`
   border-radius: 14px;
   box-shadow: 0 10px 38px -10px rgb(22 23 24 / 35%), 0 10px 20px -15px rgb(22 23 24 / 20%);
   background: ${colors.black60};
-  padding: 25px 20px;
-  width: 176px;
+  padding: 12px 0;
+  min-width: 176px;
 `;
 
 const ButtonItem = styled.div`
   cursor: pointer;
-  padding: 6px 0;
+  padding: 12px 20px;
 
   ${textStyles.SUIT_16_SB}
 `;

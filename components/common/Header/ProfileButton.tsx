@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import { colors } from '@/styles/colors';
 
 interface ProfileButtonProps {
-  className?: string;
   name: string;
   profileImage?: string;
 }
@@ -20,14 +19,18 @@ const defaultProfileIcon = (
   </svg>
 );
 
-const ProfileButton: FC<ProfileButtonProps> = ({ className, name, profileImage }) => {
-  return (
-    <StyledProfileButton className={className}>
-      <ImageSlot>{profileImage ? <ResizedImage src={profileImage} width={32} alt='' /> : defaultProfileIcon}</ImageSlot>
-      <NameSlot>{name}</NameSlot>
-    </StyledProfileButton>
-  );
-};
+const ProfileButton = forwardRef<HTMLButtonElement, ProfileButtonProps & ButtonHTMLAttributes<HTMLButtonElement>>(
+  ({ name, profileImage, ...props }, ref) => {
+    return (
+      <StyledProfileButton ref={ref} {...props}>
+        <ImageSlot>
+          {profileImage ? <ResizedImage src={profileImage} width={32} alt='' /> : defaultProfileIcon}
+        </ImageSlot>
+        <NameSlot>{name}</NameSlot>
+      </StyledProfileButton>
+    );
+  },
+);
 
 export default ProfileButton;
 
