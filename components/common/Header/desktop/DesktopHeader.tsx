@@ -73,7 +73,8 @@ const MenuLinkArea = styled.nav`
   flex-grow: 1;
 `;
 
-const MenuLink = styled(Link)<{ isActive?: boolean }>`
+// 오류 해결을 위한 shouldForwardProp. See: https://dev-yakuza.posstree.com/en/react/emotion/does-not-recognize-props/
+const MenuLink = styled(Link, { shouldForwardProp: (propName) => propName !== 'isActive' })<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
   padding: 0 8px;

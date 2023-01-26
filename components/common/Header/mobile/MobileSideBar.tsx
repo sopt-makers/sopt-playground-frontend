@@ -177,7 +177,7 @@ const ProfileArrowSlot = styled.div`
   width: 18px;
 `;
 
-const NavLink = styled(Link)<{ isActive?: boolean }>`
+const NavLink = styled(Link, { shouldForwardProp: (propName) => propName !== 'isActive' })<{ isActive?: boolean }>`
   padding: 10px var(--x-gap);
   color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
 
