@@ -90,7 +90,7 @@ const ProjectUploadPage: FC = () => {
   const { query } = useStringRouterQuery(['id', 'edit'] as const);
   const isEditPage = query?.edit === 'true' ? true : false;
   const uploadType = isEditPage ? '수정' : '등록';
-  const postId = query?.id ?? undefined;
+  const postId = query?.id;
   const { data: project } = useGetProjectById(postId);
 
   const onSubmit = async (data: ProjectUploadForm) => {
@@ -130,7 +130,7 @@ const ProjectUploadPage: FC = () => {
         router.push(playgroundLink.projectList());
         queryClient.invalidateQueries('getProjectListQuery');
         queryClient.invalidateQueries('getProjectQuery');
-      } else {
+      } else if (!isEditPage && !postId) {
         mutate(input, {
           onSuccess: () => {
             toast.show({ message: '프로젝트가 성공적으로 업로드 되었습니다.' });
