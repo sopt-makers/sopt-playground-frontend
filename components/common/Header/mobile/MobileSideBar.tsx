@@ -9,9 +9,12 @@ import { FEEDBACK_FORM_URL, playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-const DialogPortal = dynamic(() => import('@radix-ui/react-dialog').then((r) => r.DialogPortal), {
-  ssr: false,
-});
+const DialogPortal = dynamic<Dialog.DialogPortalProps>(
+  () => import('@radix-ui/react-dialog').then((r) => r.DialogPortal),
+  {
+    ssr: false,
+  },
+);
 
 const RIGHT_ARROW_SVG = (
   <svg width='8' height='16' viewBox='0 0 8 16' fill='none' xmlns='http://www.w3.org/2000/svg'>

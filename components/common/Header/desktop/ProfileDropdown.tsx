@@ -7,9 +7,12 @@ import { FC, ReactNode, useState } from 'react';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-const DropdownPortal = dynamic(() => import('@radix-ui/react-dropdown-menu').then((r) => r.DropdownMenuPortal), {
-  ssr: false,
-});
+const DropdownPortal = dynamic<DropdownMenu.DropdownMenuPortalProps>(
+  () => import('@radix-ui/react-dropdown-menu').then((r) => r.DropdownMenuPortal),
+  {
+    ssr: false,
+  },
+);
 
 interface ProfileDropdownProps {
   children: ReactNode;
