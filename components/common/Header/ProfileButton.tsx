@@ -36,6 +36,7 @@ const StyledProfileButton = styled.button`
   align-items: center;
   border-radius: 19px;
   background-color: ${colors.black80};
+  cursor: pointer;
   height: 38px;
 `;
 
