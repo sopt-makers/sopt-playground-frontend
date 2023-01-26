@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/data';
@@ -21,15 +22,25 @@ interface DesktopHeaderProps {
 }
 
 const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout }) => {
+  const router = useRouter();
+
+  const pathMatch = (path: string) => router.pathname?.includes(path) ?? false;
+
   return (
     <Container>
       <StyledBrandLink href={playgroundLink.memberList()}>
         <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
       </StyledBrandLink>
       <MenuLinkArea>
-        <MenuLink href={playgroundLink.memberList()}>멤버</MenuLink>
-        <MenuLink href={playgroundLink.projectList()}>프로젝트</MenuLink>
-        <MenuLink href={playgroundLink.groupList()}>모임</MenuLink>
+        <MenuLink href={playgroundLink.memberList()} isActive={pathMatch(playgroundLink.memberList())}>
+          멤버
+        </MenuLink>
+        <MenuLink href={playgroundLink.projectList()} isActive={pathMatch(playgroundLink.projectList())}>
+          프로젝트
+        </MenuLink>
+        <MenuLink href={playgroundLink.groupList()} isActive={pathMatch(playgroundLink.groupList())}>
+          모임
+        </MenuLink>
       </MenuLinkArea>
       <ActionArea>
         <StyledUploadLink href={playgroundLink.projectUpload()}>+ 내 프로젝트 올리기</StyledUploadLink>
@@ -62,14 +73,14 @@ const MenuLinkArea = styled.nav`
   flex-grow: 1;
 `;
 
-const MenuLink = styled(Link)<{ isCurrentPath?: boolean }>`
+const MenuLink = styled(Link)<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
   padding: 0 8px;
-  color: ${({ isCurrentPath }) => (isCurrentPath ? '#fff' : '#C0C5C9')};
+  color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
 
   ${(props) =>
-    props.isCurrentPath
+    props.isActive
       ? css`
           ${textStyles.SUIT_18_B}
         `

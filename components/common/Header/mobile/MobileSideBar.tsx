@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import * as Dialog from '@radix-ui/react-dialog';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC, ReactNode, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
@@ -60,6 +61,9 @@ interface MobileSideBarProps {
 }
 
 const MobileSideBar: FC<MobileSideBarProps> = ({ children, myProfileHref = '#', onLogout, name, profileImage }) => {
+  const router = useRouter();
+  const pathMatch = (path: string) => router.pathname?.includes(path) ?? false;
+
   const [open, setOpen] = useState(false);
 
   function close() {
@@ -82,18 +86,26 @@ const MobileSideBar: FC<MobileSideBarProps> = ({ children, myProfileHref = '#', 
               <ProfileNameSlot>{name}</ProfileNameSlot>
               <ProfileArrowSlot>{RIGHT_ARROW_SVG}</ProfileArrowSlot>
             </ProfileButton>
-            <NavLink href={playgroundLink.memberList()} onClick={close}>
+            <NavLink
+              href={playgroundLink.memberList()}
+              isActive={pathMatch(playgroundLink.memberList())}
+              onClick={close}
+            >
               멤버
             </NavLink>
-            <NavLink href={playgroundLink.projectList()} onClick={close}>
+            <NavLink
+              href={playgroundLink.projectList()}
+              isActive={pathMatch(playgroundLink.projectList())}
+              onClick={close}
+            >
               프로젝트
             </NavLink>
-            <NavLink href={playgroundLink.groupList()} onClick={close}>
+            <NavLink href={playgroundLink.groupList()} isActive={pathMatch(playgroundLink.groupList())} onClick={close}>
               모임
             </NavLink>
             <Divider />
             <Link href={playgroundLink.makers()} legacyBehavior passHref>
-              <NavLinkSmall as='a' onClick={close}>
+              <NavLinkSmall as='a' isActive={pathMatch(playgroundLink.makers())} onClick={close}>
                 만든 사람들
               </NavLinkSmall>
             </Link>
@@ -195,17 +207,17 @@ const ProfileArrowSlot = styled.div`
   width: 18px;
 `;
 
-const NavLink = styled(Link)`
+const NavLink = styled(Link)<{ isActive?: boolean }>`
   padding: 10px var(--x-gap);
-  color: ${colors.gray30};
+  color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
 
   ${textStyles.SUIT_18_M};
 `;
 
-const NavLinkSmall = styled.div`
+const NavLinkSmall = styled.div<{ isActive?: boolean }>`
   cursor: pointer;
   padding: 8px var(--x-gap);
-  color: ${colors.gray30};
+  color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
 
   ${textStyles.SUIT_14_M};
 `;
