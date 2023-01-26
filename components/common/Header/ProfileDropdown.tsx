@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { FC, ReactNode, useState } from 'react';
 
-import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
@@ -14,9 +13,11 @@ const DropdownPortal = dynamic(() => import('@radix-ui/react-dropdown-menu').the
 
 interface ProfileDropdownProps {
   children: ReactNode;
+  myProfileHref?: string;
+  onLogout?: () => void;
 }
 
-const ProfileDropdown: FC<ProfileDropdownProps> = ({ children }) => {
+const ProfileDropdown: FC<ProfileDropdownProps> = ({ children, myProfileHref = '#', onLogout }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -26,14 +27,14 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ children }) => {
         <DropdownMenu.Content sideOffset={12} align='end' asChild>
           <ContentBox>
             <DropdownMenu.Item asChild>
-              <ButtonItem>
-                <Link href={playgroundLink.memberDetail(1)} onClick={() => setOpen(false)}>
+              <Link href={myProfileHref} legacyBehavior passHref>
+                <ButtonItem as='a' onClick={() => setOpen(false)}>
                   내 프로필
-                </Link>
-              </ButtonItem>
+                </ButtonItem>
+              </Link>
             </DropdownMenu.Item>
             <DropdownMenu.Item asChild>
-              <ButtonItem>로그아웃</ButtonItem>
+              <ButtonItem onClick={onLogout}>로그아웃</ButtonItem>
             </DropdownMenu.Item>
           </ContentBox>
         </DropdownMenu.Content>
