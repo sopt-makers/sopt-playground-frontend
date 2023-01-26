@@ -26,16 +26,12 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ children, myProfileHref = '
       <DropdownPortal>
         <DropdownMenu.Content sideOffset={12} align='end' asChild>
           <ContentBox>
-            <DropdownMenu.Item asChild>
-              <Link href={myProfileHref} legacyBehavior passHref>
-                <ButtonItem as='a' onClick={() => setOpen(false)}>
-                  내 프로필
-                </ButtonItem>
+            <DropdownItem>
+              <Link href={myProfileHref} onClick={() => setOpen(false)}>
+                내 프로필
               </Link>
-            </DropdownMenu.Item>
-            <DropdownMenu.Item asChild>
-              <ButtonItem onClick={onLogout}>로그아웃</ButtonItem>
-            </DropdownMenu.Item>
+            </DropdownItem>
+            <DropdownItem onClick={onLogout}>로그아웃</DropdownItem>
           </ContentBox>
         </DropdownMenu.Content>
       </DropdownPortal>
@@ -53,11 +49,28 @@ const ContentBox = styled.div`
   background: ${colors.black60};
   padding: 12px 0;
   min-width: 176px;
+  animation: slide-up-and-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes slide-up-and-fade {
+    from {
+      transform: translateY(2px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 `;
 
-const ButtonItem = styled.div`
+const DropdownItem = styled(DropdownMenu.Item)`
   cursor: pointer;
   padding: 12px 20px;
 
   ${textStyles.SUIT_16_SB}
+
+  &:focus, &:focus-visible, &:hover {
+    background-color: ${colors.purple100};
+  }
 `;

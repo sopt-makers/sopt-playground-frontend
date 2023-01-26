@@ -48,7 +48,7 @@ const DEFAULT_PROFILE_IMAGE_SVG = (
   </svg>
 );
 
-interface MobileDrawerProps {
+interface MobileSideBarProps {
   children: ReactNode;
   name: string;
   myProfileHref?: string;
@@ -56,7 +56,7 @@ interface MobileDrawerProps {
   onLogout?: () => void;
 }
 
-const MobileDrawer: FC<MobileDrawerProps> = ({ children, myProfileHref = '#', onLogout, name, profileImage }) => {
+const MobileSideBar: FC<MobileSideBarProps> = ({ children, myProfileHref = '#', onLogout, name, profileImage }) => {
   const [open, setOpen] = useState(false);
 
   function close() {
@@ -114,7 +114,7 @@ const MobileDrawer: FC<MobileDrawerProps> = ({ children, myProfileHref = '#', on
   );
 };
 
-export default MobileDrawer;
+export default MobileSideBar;
 
 const Overlay = styled.div`
   position: fixed;

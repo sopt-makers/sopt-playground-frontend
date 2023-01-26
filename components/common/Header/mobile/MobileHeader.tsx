@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { MENU_IMG_SVG, SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/data';
-import MobileDrawer from '@/components/common/Header/mobile/MobileDrawer';
+import MobileSideBar from '@/components/common/Header/mobile/MobileSideBar';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 
@@ -20,14 +20,14 @@ interface MobileHeaderProps {
 const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout }) => {
   return (
     <Container>
-      <MobileDrawer
+      <MobileSideBar
         name={user?.name ?? ''}
         profileImage={user?.image}
         myProfileHref={user ? playgroundLink.memberDetail(user.id) : '#'}
         onLogout={onLogout}
       >
         <NavButton>{MENU_IMG_SVG}</NavButton>
-      </MobileDrawer>
+      </MobileSideBar>
       <StyledBrandLink href={playgroundLink.memberList()}>
         <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
       </StyledBrandLink>
