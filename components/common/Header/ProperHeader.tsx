@@ -1,6 +1,4 @@
-import styled from '@emotion/styled';
 import { FC } from 'react';
-import { RemoveScroll } from 'react-remove-scroll';
 
 import { useGetMemberOfMe } from '@/apiHooks';
 import useAuth from '@/components/auth/useAuth';
@@ -17,19 +15,7 @@ const ProperHeader: FC = () => {
 
   const user = me ? { id: `${me.id}`, image: me.profileImage ?? undefined, name: me.name } : null;
 
-  return (
-    <FixedSlot className={RemoveScroll.classNames.zeroRight}>
-      {isMobile ? <MobileHeader user={user} onLogout={logout} /> : <DesktopHeader user={user} onLogout={logout} />}
-    </FixedSlot>
-  );
+  return isMobile ? <MobileHeader user={user} onLogout={logout} /> : <DesktopHeader user={user} onLogout={logout} />;
 };
 
 export default ProperHeader;
-
-const FixedSlot = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 100;
-`;

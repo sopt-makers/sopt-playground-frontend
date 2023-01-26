@@ -40,6 +40,7 @@
     "react-hook-form": "^7.39.5",
     "react-markdown": "^8.0.4",
     "react-query": "^3.38.0",
+    "react-remove-scroll": "^2.5.5",
     "react-spinners": "^0.13.4",
     "recoil": "^0.7.2",
     "storybook-addon-next-router": "^4.0.0",
