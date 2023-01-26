@@ -45,7 +45,7 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout }) => {
 
 export default DesktopHeader;
 
-const Container = styled.nav`
+const Container = styled.header`
   display: flex;
   background-color: ${colors.black100};
   height: 80px;

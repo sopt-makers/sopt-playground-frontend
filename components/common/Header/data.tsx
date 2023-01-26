@@ -3,7 +3,7 @@ export const SOPT_LOGO_IMG_BASE64 =
 
 export const MENU_IMG_SVG = (
   <svg width='16' height='8' viewBox='0 0 16 8' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <line x1='0.724487' y1='1.28125' x2='12.3634' y2='1.28125' stroke='#FCFCFC' stroke-width='1.5' />
-    <line x1='0.724365' y1='7.10083' x2='15.273' y2='7.10083' stroke='#FCFCFC' stroke-width='1.5' />
+    <line x1='0.724487' y1='1.28125' x2='12.3634' y2='1.28125' stroke='#FCFCFC' strokeWidth='1.5' />
+    <line x1='0.724365' y1='7.10083' x2='15.273' y2='7.10083' stroke='#FCFCFC' strokeWidth='1.5' />
   </svg>
 );

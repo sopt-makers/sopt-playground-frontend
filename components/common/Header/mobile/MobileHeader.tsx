@@ -37,7 +37,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout }) => {
 
 export default MobileHeader;
 
-const Container = styled.nav`
+const Container = styled.header`
   display: flex;
   background-color: ${colors.black100};
   padding: 0 16px;
