@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
-import Header from '@/components/common/Header';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import ProperHeader from '@/components/common/Header/ProperHeader';
 
 interface HeaderLayoutProps {
   children: ReactNode;
@@ -11,7 +10,7 @@ interface HeaderLayoutProps {
 const HeaderLayout: FC<HeaderLayoutProps> = ({ children }) => {
   return (
     <>
-      <Header />
+      <ProperHeader />
       <StyledContainer>{children}</StyledContainer>
     </>
   );
@@ -19,10 +18,4 @@ const HeaderLayout: FC<HeaderLayoutProps> = ({ children }) => {
 
 export default HeaderLayout;
 
-const StyledContainer = styled.div`
-  padding-top: 80px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding-top: 0;
-  }
-`;
+const StyledContainer = styled.div``;

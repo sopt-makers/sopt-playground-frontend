@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import useAuth from '@/components/auth/useAuth';
 import Footer from '@/components/common/Footer';
-import Header from '@/components/common/Header';
+import ProperHeader from '@/components/common/Header/ProperHeader';
 import AboutMakers from '@/components/makers/AboutMakers';
 import { makersGenerationsData } from '@/components/makers/data';
 import MakersMembers from '@/components/makers/MakersMembers';
@@ -18,7 +18,7 @@ const MakersPage: FC = () => {
   return (
     <>
       {isLoggedIn ? (
-        <Header />
+        <ProperHeader />
       ) : (
         <NotLoggedInHeader>
           <Link href={playgroundLink.login()} passHref legacyBehavior>

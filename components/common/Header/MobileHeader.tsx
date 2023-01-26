@@ -8,19 +8,22 @@ import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 
 interface MobileHeaderProps {
-  userId: string;
-  userName: string;
-  userImage: string;
+  user: {
+    id: string;
+    name: string;
+    image?: string;
+  } | null;
+
   onLogout?: () => void;
 }
 
-const MobileHeader: FC<MobileHeaderProps> = ({ userId, userName, userImage, onLogout }) => {
+const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout }) => {
   return (
     <Container>
       <MobileDrawer
-        name={userName}
-        profileImage={userImage}
-        myProfileHref={playgroundLink.memberDetail(userId)}
+        name={user?.name ?? ''}
+        profileImage={user?.image}
+        myProfileHref={user ? playgroundLink.memberDetail(user.id) : '#'}
         onLogout={onLogout}
       >
         <NavButton>{MENU_IMG_SVG}</NavButton>

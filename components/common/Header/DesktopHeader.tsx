@@ -11,13 +11,16 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface DesktopHeaderProps {
-  userId: string;
-  userName: string;
-  userImage: string;
+  user: {
+    id: string;
+    name: string;
+    image?: string;
+  } | null;
+
   onLogout?: () => void;
 }
 
-const DesktopHeader: FC<DesktopHeaderProps> = ({ userId, userName, userImage, onLogout }) => {
+const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout }) => {
   return (
     <Container>
       <StyledBrandLink href={playgroundLink.memberList()}>
@@ -31,8 +34,8 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ userId, userName, userImage, on
       <ActionArea>
         <StyledUploadLink href={playgroundLink.projectUpload()}>+ 내 프로젝트 올리기</StyledUploadLink>
         <ProfileButtonHolder>
-          <ProfileDropdown myProfileHref={playgroundLink.memberDetail(userId)} onLogout={onLogout}>
-            <ProfileButton name={userName} profileImage={userImage} />
+          <ProfileDropdown myProfileHref={user ? playgroundLink.memberDetail(user.id) : ''} onLogout={onLogout}>
+            {user ? <ProfileButton name={user.name} profileImage={user.image} /> : <ProfileButton name='' />}
           </ProfileDropdown>
         </ProfileButtonHolder>
       </ActionArea>
