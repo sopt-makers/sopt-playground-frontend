@@ -7,7 +7,9 @@
 [![Production Deploy](https://github.com/sopt-makers/sopt-playground-frontend/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/sopt-makers/sopt-playground-frontend/actions/workflows/deploy-production.yml)
 <img alt="GitHub closed issues" src="https://img.shields.io/github/commit-activity/m/sopt-makers/sopt-playground-frontend?color=fedcba">
 
+<a href="https://www.instagram.com/sopt_makers/">
 <img alt="Instagram" src="https://img.shields.io/badge/-Instagram-white?logo=Instagram&logoColor=d42121">
+</a>
 
 <br />
 
