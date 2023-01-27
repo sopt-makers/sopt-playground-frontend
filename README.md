@@ -1,34 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+
+# SOPT Playground Frontend
+
+**대학생 연합 IT벤처창업 동아리 SOPT 구성원들을 위한 서비스**
+
+[![Production Deploy](https://github.com/sopt-makers/sopt-playground-frontend/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/sopt-makers/sopt-playground-frontend/actions/workflows/deploy-production.yml)
+<img alt="GitHub closed issues" src="https://img.shields.io/github/commit-activity/m/sopt-makers/sopt-playground-frontend?color=fedcba">
+
+<img alt="Instagram" src="https://img.shields.io/badge/-Instagram-white?logo=Instagram&logoColor=d42121">
+
+<br />
+
+<img width="1424" alt="image" src="https://user-images.githubusercontent.com/73823388/215124144-daf665de-ca65-42d8-9440-bae754d680f9.png">
+</div>
+
+## Features
+
+- ⚡️ SOPT의 앱잼, 솝커톤, 솝텀 등을 통한 **프로젝트** 등록 및 조회
+- 👀 SOPT 구성원들의 **프로필** 등록 및 조회
 
 ## Getting Started
 
-First, run the development server:
+**Prerequisites**
 
-```bash
-npm run dev
-# or
+- Git
+- [Node](https://nodejs.org/)
+- [Yarn](https://yarnpkg.com/)
+
+**Running locally**
+
+```
+# 로컬 환경에 Clone하기
+git clone https://github.com/sopt-makers/sopt-playground-frontend.git
+
+# 로컬 프로젝트 폴더로 이동하기
+cd sopt-playground-frontend
+
+# 디펜던시 설치하기
+yarn install
+
+# 개발 서버 실행하기
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+개발 서버가 실행되면 브라우저에서 [http://localhost:3000](http://localhost:3000/) 로 접속하세요.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Languages & Libraries
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- React
+- TypeScript
+- Next.js
+- emotion.js
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Authors
 
-## Learn More
+<!-- 이 부분 내용은 봇이 자동으로 추가합니다. -->
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 
-To learn more about Next.js, take a look at the following resources:
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[MIT License](LICENSE.md)
