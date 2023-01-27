@@ -74,6 +74,7 @@ const DropdownItem = styled(DropdownMenu.Item)`
   ${textStyles.SUIT_16_SB}
 
   &:focus, &:focus-visible, &:hover {
-    background-color: ${colors.purple100};
+    outline: none;
+    background-color: ${colors.black40};
   }
 `;
