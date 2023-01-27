@@ -2,13 +2,12 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Tab } from '@headlessui/react';
 import Link from 'next/link';
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useMemo } from 'react';
 
 import useAuth from '@/components/auth/useAuth';
 import { MakersGeneration } from '@/components/makers/data/types';
 import TeamBlock from '@/components/makers/TeamBlock';
 import MemberBlock from '@/components/members/common/MemberBlock';
-import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -17,10 +16,13 @@ import { textStyles } from '@/styles/typography';
 interface MakersMembersProps {
   className?: string;
   generations: MakersGeneration[];
+  metadataList: { id: number; profileImage: string; currentCompany: string | null; generations: number[] }[];
 }
 
-const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
+const MakersMembers: FC<MakersMembersProps> = ({ className, generations, metadataList }) => {
   const { isLoggedIn } = useAuth();
+
+  const metadataMap = useMemo(() => new Map(metadataList.map((member) => [member.id, member])), [metadataList]);
 
   const showNeedLogin = () => {
     alert('프로필을 보려면 로그인 해주세요.');
@@ -54,9 +56,10 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                     {team.people.map((person, personIdx) => (
                       <Fragment key={personIdx}>
                         {person.type === 'member' ? (
-                          <WithMemberMetadata
-                            memberId={person.id}
-                            render={(metadata) => (
+                          (() => {
+                            const metadata = metadataMap.get(person.id);
+
+                            return (
                               <Link
                                 href={playgroundLink.memberDetail(person.id)}
                                 onClick={() => metadata && !isLoggedIn && showNeedLogin()}
@@ -71,8 +74,8 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
                                   ].filter((badge): badge is string => !!badge)}
                                 />
                               </Link>
-                            )}
-                          />
+                            );
+                          })()
                         ) : (
                           <MemberBlock name={person.name} />
                         )}
