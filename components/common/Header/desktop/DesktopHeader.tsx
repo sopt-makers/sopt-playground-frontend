@@ -24,7 +24,7 @@ interface DesktopHeaderProps {
 const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout }) => {
   const router = useRouter();
 
-  const pathMatch = (path: string) => router.pathname?.includes(path) ?? false;
+  const isPathMatch = (path: string) => router.pathname?.includes(path) ?? false;
 
   return (
     <Container>
@@ -32,13 +32,13 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout }) => {
         <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
       </StyledBrandLink>
       <MenuLinkArea>
-        <MenuLink href={playgroundLink.memberList()} isActive={pathMatch(playgroundLink.memberList())}>
+        <MenuLink href={playgroundLink.memberList()} isActive={isPathMatch(playgroundLink.memberList())}>
           멤버
         </MenuLink>
-        <MenuLink href={playgroundLink.projectList()} isActive={pathMatch(playgroundLink.projectList())}>
+        <MenuLink href={playgroundLink.projectList()} isActive={isPathMatch(playgroundLink.projectList())}>
           프로젝트
         </MenuLink>
-        <MenuLink href={playgroundLink.groupList()} isActive={pathMatch(playgroundLink.groupList())}>
+        <MenuLink as='a' href={playgroundLink.groupList()} isActive={isPathMatch(playgroundLink.groupList())}>
           모임
         </MenuLink>
       </MenuLinkArea>
@@ -74,7 +74,9 @@ const MenuLinkArea = styled.nav`
 `;
 
 // 오류 해결을 위한 shouldForwardProp. See: https://dev-yakuza.posstree.com/en/react/emotion/does-not-recognize-props/
-const MenuLink = styled(Link, { shouldForwardProp: (propName) => propName !== 'isActive' })<{ isActive?: boolean }>`
+const MenuLink = styled(Link, { shouldForwardProp: (propName) => propName !== 'isActive' && propName !== 'as' })<{
+  isActive?: boolean;
+}>`
   display: flex;
   align-items: center;
   padding: 0 8px;

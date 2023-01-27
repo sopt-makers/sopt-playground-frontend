@@ -27,7 +27,7 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ children, myProfileHref = '
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
       <DropdownPortal>
-        <DropdownMenu.Content sideOffset={12} align='end' asChild>
+        <DropdownMenu.Content sideOffset={22} align='end' asChild>
           <ContentBox>
             <DropdownItem>
               <Link href={myProfileHref} onClick={() => setOpen(false)}>

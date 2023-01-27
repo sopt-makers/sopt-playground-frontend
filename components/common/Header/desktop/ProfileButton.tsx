@@ -4,6 +4,7 @@ import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { DEFAULT_PROFILE_IMAGE_DESKTOP_SVG } from '@/components/common/Header/imageData';
 import ResizedImage from '@/components/common/ResizedImage';
 import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
 interface ProfileButtonProps {
   name: string;
@@ -52,4 +53,6 @@ const NameSlot = styled.div`
   padding: 0 8px;
   min-width: 60px;
   text-align: center;
+
+  ${textStyles.SUIT_14_B}
 `;

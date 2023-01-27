@@ -70,7 +70,12 @@ const MobileSideBar: FC<MobileSideBarProps> = ({ children, myProfileHref = '#', 
             >
               프로젝트
             </NavLink>
-            <NavLink href={playgroundLink.groupList()} isActive={pathMatch(playgroundLink.groupList())} onClick={close}>
+            <NavLink
+              as='a'
+              href={playgroundLink.groupList()}
+              isActive={pathMatch(playgroundLink.groupList())}
+              onClick={close}
+            >
               모임
             </NavLink>
             <Divider />
@@ -177,7 +182,9 @@ const ProfileArrowSlot = styled.div`
   width: 18px;
 `;
 
-const NavLink = styled(Link, { shouldForwardProp: (propName) => propName !== 'isActive' })<{ isActive?: boolean }>`
+const NavLink = styled(Link, { shouldForwardProp: (propName) => propName !== 'isActive' && propName !== 'as' })<{
+  isActive?: boolean;
+}>`
   padding: 10px var(--x-gap);
   color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
 
