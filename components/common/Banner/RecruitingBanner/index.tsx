@@ -64,6 +64,6 @@ const Deadline = styled.div<{ isRecruiting: boolean }>`
     css`
       display: flex;
       justify-content: space-between;
-      width: 198px;
+      width: 199px;
     `}
 `;
