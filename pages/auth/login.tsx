@@ -50,14 +50,14 @@ const LoginPage: FC = () => {
 
 export default LoginPage;
 
-setLayout(LoginPage, 'empty');
+setLayout(LoginPage, 'fullScreen');
 
 export const StyledLoginPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  min-height: 100%;
+  height: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 20px;

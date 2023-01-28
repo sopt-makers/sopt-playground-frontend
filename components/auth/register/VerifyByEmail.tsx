@@ -42,7 +42,7 @@ const VerifyByEmail: FC = () => {
 
   return (
     <FormContainer onSubmit={handleSend}>
-      <Stepper step={1} />
+      <StyledStepper step={1} />
       <Title>SOPT 회원인증</Title>
       <Description>SOPT 지원시 입력했던 이메일을 입력해주세요</Description>
       <Label>이메일</Label>
@@ -87,6 +87,10 @@ const FormContainer = styled.form`
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 24px;
   }
+`;
+
+const StyledStepper = styled(Stepper)`
+  margin-bottom: 50px;
 `;
 
 const Title = styled.h2`

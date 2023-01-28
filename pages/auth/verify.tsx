@@ -12,7 +12,7 @@ export const VerifyPage: FC = () => {
   );
 };
 
-setLayout(VerifyPage, 'empty');
+setLayout(VerifyPage, 'fullScreen');
 
 export default VerifyPage;
 
@@ -21,5 +21,5 @@ const StyledVerifyPage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100%;
+  height: 100%;
 `;
