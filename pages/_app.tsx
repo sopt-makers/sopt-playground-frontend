@@ -28,7 +28,7 @@ Router.events.on('routeChangeComplete', () => progress.finish());
 Router.events.on('routeChangeError', () => progress.finish());
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const layout = getLayout(Component);
+  const Layout = getLayout(Component);
 
   const router = useRouter();
   useEffect(() => {
@@ -48,7 +48,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RecoilRoot>
           <ToastProvider>
             <GlobalStyle />
-            {layout({ children: <Component {...pageProps} /> })}
+            <>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </>
             {DEBUG && <Debugger />}
           </ToastProvider>
         </RecoilRoot>

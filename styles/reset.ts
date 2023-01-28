@@ -6,8 +6,6 @@ export const reset = css`
   html,
   body {
     background: #fff;
-    width: 100%;
-    height: 100%;
     color: ${colors.white};
     font-family: SUIT, sans-serif;
     -webkit-font-smoothing: antialiased;
