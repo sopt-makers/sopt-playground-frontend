@@ -56,9 +56,5 @@ export const global = css`
       box-shadow: 0 0 0 1000px ${colors.black80} inset;
       -webkit-text-fill-color: ${colors.white};
     }
-
-    @media ${MOBILE_MEDIA_QUERY} {
-      padding-top: 30px;
-    }
   }
 `;

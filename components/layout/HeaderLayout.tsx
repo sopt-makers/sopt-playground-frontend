@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
+import { RemoveScroll } from 'react-remove-scroll';
 
 import Header from '@/components/common/Header';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -11,7 +12,9 @@ interface HeaderLayoutProps {
 const HeaderLayout: FC<HeaderLayoutProps> = ({ children }) => {
   return (
     <>
-      <Header />
+      <FixedSlot className={RemoveScroll.classNames.zeroRight}>
+        <Header />
+      </FixedSlot>
       <StyledContainer>{children}</StyledContainer>
     </>
   );
@@ -23,6 +26,14 @@ const StyledContainer = styled.div`
   padding-top: 80px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding-top: 0;
+    padding-top: 56px;
   }
+`;
+
+const FixedSlot = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
 `;
