@@ -4,14 +4,10 @@ import { useState } from 'react';
 
 import CountdownTimer from '@/components/common/Banner/RecruitmentBanner/CountdownTimer';
 
-interface RecruitmentProps {
-  term: number;
-  deadlineDate: Date;
-}
-
 const DEADLINE_DATE = new Date(2023, 1, 4, 11);
+const TERM = 2;
 
-export default function RecruitmentBanner({ term }: RecruitmentProps) {
+export default function RecruitmentBanner() {
   const [isRecruiting, setIsRecruiting] = useState(DEADLINE_DATE.getTime() - new Date().getTime() > 0);
 
   const finishCountdown = () => {
@@ -20,7 +16,7 @@ export default function RecruitmentBanner({ term }: RecruitmentProps) {
 
   return (
     <Container>
-      <RecruitmentText>{`🚀 makers ${term}기를 모집해요`}</RecruitmentText>
+      <RecruitmentText>{`🚀 makers ${TERM}기를 모집해요`}</RecruitmentText>
       <Deadline isRecruiting={isRecruiting}>
         {isRecruiting ? (
           <CountdownTimer deadlineDate={DEADLINE_DATE} finish={finishCountdown} />
