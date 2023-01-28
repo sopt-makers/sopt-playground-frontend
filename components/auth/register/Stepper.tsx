@@ -3,14 +3,16 @@ import { FC } from 'react';
 
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 interface StepperProps {
   step: 1 | 2;
+  className?: string;
 }
 
-const Stepper: FC<StepperProps> = ({ step }) => {
+const Stepper: FC<StepperProps> = ({ step, className }) => {
   return (
-    <Container>
+    <Container className={className}>
       <Circle isProceeding>
         1<div>SOPT 회원인증</div>
       </Circle>
@@ -26,14 +28,13 @@ export default Stepper;
 
 const Container = styled.div`
   display: flex;
-  position: absolute;
-  top: 64px;
   align-items: center;
-  font-size: 15px;
-  font-weight: 700;
+  height: 100px;
+
+  ${textStyles.SUIT_16_B};
+
   @media ${MOBILE_MEDIA_QUERY} {
-    top: 40px;
-    font-size: 11px;
+    ${textStyles.SUIT_12_B};
   }
 `;
 
