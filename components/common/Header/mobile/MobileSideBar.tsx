@@ -135,6 +135,7 @@ const Content = styled.div`
   background-color: ${colors.black80};
   width: 212px;
   height: 100vh;
+  overflow-y: auto;
   animation: content-show 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   @keyframes content-show {
@@ -163,6 +164,7 @@ const ProfileImageSlot = styled.div`
   background-color: ${colors.black60};
   width: 42px;
   height: 42px;
+  overflow: hidden;
 `;
 
 const ProfileNameSlot = styled.div`
