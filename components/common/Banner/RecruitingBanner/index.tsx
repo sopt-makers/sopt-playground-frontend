@@ -2,12 +2,12 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import CountdownTimer from '@/components/common/Banner/RecruitmentBanner/CountdownTimer';
+import CountdownTimer from '@/components/common/Banner/RecruitingBanner/CountdownTimer';
 
 const DEADLINE_DATE = new Date(2023, 1, 4, 11);
 const TERM = 2;
 
-export default function RecruitmentBanner() {
+export default function RecruitingBanner() {
   const [isRecruiting, setIsRecruiting] = useState(DEADLINE_DATE.getTime() - new Date().getTime() > 0);
 
   const finishCountdown = () => {
