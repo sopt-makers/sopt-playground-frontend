@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import _debounce from 'lodash/debounce';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -24,13 +25,12 @@ import { textStyles } from '@/styles/typography';
 const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
-  const [name, setName] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState<string>('');
   const { logClickEvent } = useEventLogger();
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
   const { ref, isVisible } = useIntersectionObserver();
+  const [memberName, setMemberName] = useState<string>('');
   const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({
     limit: PAGE_LIMIT,
     queryKey: router.asPath,
@@ -48,12 +48,6 @@ const MemberList: FC = () => {
     router.push(url);
   };
 
-  useEffect(() => {
-    if (isVisible) {
-      fetchNextPage();
-    }
-  }, [isVisible, fetchNextPage]);
-
   const profiles = memberProfileData?.pages.map((members) =>
     members.map((member) => ({
       ...member,
@@ -62,6 +56,22 @@ const MemberList: FC = () => {
     })),
   );
   const hasProfile = !!memberOfMeData?.hasProfile;
+
+  useEffect(() => {
+    if (isVisible) {
+      fetchNextPage();
+    }
+  }, [isVisible, fetchNextPage]);
+
+  useEffect(() => {
+    if (!memberName) {
+      return;
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.set('name', memberName);
+
+    router.push(url, undefined, { shallow: true });
+  }, [memberName, router]);
 
   return (
     <StyledContainer hasProfile={hasProfile}>
@@ -96,7 +106,10 @@ const MemberList: FC = () => {
             <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
           )}
           <StyledRightWrapper>
-            <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={(e) => setName(e.target.value)} />
+            <StyledMemberSearch
+              placeholder='멤버 검색'
+              onChange={_debounce((e) => setMemberName(e.target.value), 300)}
+            />
             {/* TODO(@jun): 로딩 추가 */}
             <StyledCardWrapper>
               {profiles?.map((profiles, index) => (
