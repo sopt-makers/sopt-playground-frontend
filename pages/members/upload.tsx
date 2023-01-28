@@ -75,13 +75,13 @@ export default function MemberUploadPage() {
       );
       setValue('allowOfficial', myProfile.allowOfficial);
       setValue('profileImage', myProfile.profileImage);
-      myProfile.careers.forEach((career, index) => {
-        setValue(`careers.${index}.companyName`, career.companyName);
-        setValue(`careers.${index}.title`, career.title);
-        setValue(`careers.${index}.startDate`, career.startDate);
-        setValue(`careers.${index}.endDate`, career.endDate ?? '');
-        setValue(`careers.${index}.isCurrent`, career.isCurrent);
-      });
+      setValue(
+        'careers',
+        myProfile.careers.map((career) => ({
+          ...career,
+          endDate: career.endDate ?? '',
+        })),
+      );
     }
   }, [isEditPage, myProfile, setValue]);
 
