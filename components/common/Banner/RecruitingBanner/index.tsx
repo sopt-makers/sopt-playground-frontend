@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { useState } from 'react';
 
-import { DEADLINE_DATE, TERM } from '@/components/common/Banner/RecruitingBanner/contants';
+import { DEADLINE_DATE, RECRUITING_LINK, TERM } from '@/components/common/Banner/RecruitingBanner/contants';
 import CountdownTimer from '@/components/common/Banner/RecruitingBanner/CountdownTimer';
 import MobileRecruitingBanner from '@/components/common/Banner/RecruitingBanner/MobileRecruitingBanner';
 import useMediaQuery from '@/hooks/useMediaQuery';
@@ -16,19 +17,23 @@ export default function RecruitingBanner() {
     setIsRecruiting(false);
   };
 
-  return isMobile ? (
-    <MobileRecruitingBanner />
-  ) : (
-    <Container>
-      <RecruitmentText>{`🚀 makers ${TERM}기를 모집해요`}</RecruitmentText>
-      <Deadline isRecruiting={isRecruiting}>
-        {isRecruiting ? (
-          <CountdownTimer deadlineDate={DEADLINE_DATE} finish={finishCountdown} />
-        ) : (
-          '☑️ 현재 모집이 마감되었습니다'
-        )}
-      </Deadline>
-    </Container>
+  return (
+    <Link href={RECRUITING_LINK} target='_blank'>
+      {isMobile ? (
+        <MobileRecruitingBanner />
+      ) : (
+        <Container>
+          <RecruitmentText>{`🚀 makers ${TERM}기를 모집해요`}</RecruitmentText>
+          <Deadline isRecruiting={isRecruiting}>
+            {isRecruiting ? (
+              <CountdownTimer deadlineDate={DEADLINE_DATE} finish={finishCountdown} />
+            ) : (
+              '☑️ 현재 모집이 마감되었습니다'
+            )}
+          </Deadline>
+        </Container>
+      )}
+    </Link>
   );
 }
 
