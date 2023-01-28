@@ -2,19 +2,23 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
+import { DEADLINE_DATE, TERM } from '@/components/common/Banner/RecruitingBanner/contants';
 import CountdownTimer from '@/components/common/Banner/RecruitingBanner/CountdownTimer';
-
-const DEADLINE_DATE = new Date(2023, 1, 4, 11);
-const TERM = 2;
+import MobileRecruitingBanner from '@/components/common/Banner/RecruitingBanner/MobileRecruitingBanner';
+import useMediaQuery from '@/hooks/useMediaQuery';
+import { MOBILE_MAX_WIDTH } from '@/styles/mediaQuery';
 
 export default function RecruitingBanner() {
   const [isRecruiting, setIsRecruiting] = useState(DEADLINE_DATE.getTime() - new Date().getTime() > 0);
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
   const finishCountdown = () => {
     setIsRecruiting(false);
   };
 
-  return (
+  return isMobile ? (
+    <MobileRecruitingBanner />
+  ) : (
     <Container>
       <RecruitmentText>{`🚀 makers ${TERM}기를 모집해요`}</RecruitmentText>
       <Deadline isRecruiting={isRecruiting}>
