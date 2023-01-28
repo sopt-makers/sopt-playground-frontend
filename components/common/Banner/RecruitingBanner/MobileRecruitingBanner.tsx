@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { TERM } from '@/components/common/Banner/RecruitingBanner/contants';
+import { textStyles } from '@/styles/typography';
 
 export default function MobileRecruitingBanner() {
   return (
@@ -21,6 +22,6 @@ const Container = styled.div`
 const Text = styled.div`
   line-height: 100%;
   color: #fff;
-  font-size: 20px;
-  font-weight: 700;
+
+  ${textStyles.SUIT_20_B}
 `;

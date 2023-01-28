@@ -8,6 +8,7 @@ import CountdownTimer from '@/components/common/Banner/RecruitingBanner/Countdow
 import MobileRecruitingBanner from '@/components/common/Banner/RecruitingBanner/MobileRecruitingBanner';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { MOBILE_MAX_WIDTH } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 export default function RecruitingBanner() {
   const [isRecruiting, setIsRecruiting] = useState(DEADLINE_DATE.getTime() - new Date().getTime() > 0);
@@ -49,15 +50,15 @@ const Container = styled.div`
 const RecruitmentText = styled.div`
   line-height: 100%;
   color: #fff;
-  font-size: 26px;
-  font-weight: 700;
+
+  ${textStyles.SUIT_26_B}
 `;
 
 const Deadline = styled.div<{ isRecruiting: boolean }>`
   line-height: 100%;
   color: rgb(255 255 255 / 70%);
-  font-size: 16px;
-  font-weight: 500;
+
+  ${textStyles.SUIT_16_M}
 
   ${({ isRecruiting }) =>
     isRecruiting &&
