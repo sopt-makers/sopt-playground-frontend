@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
+import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { getMemberProfile } from '@/api/members';
 import useAuth from '@/components/auth/useAuth';
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
@@ -12,7 +14,11 @@ import { playgroundLink } from '@/constants/links';
 import IconBack from '@/public/icons/icon-back.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-const MakersPage: FC = () => {
+interface MakersPageProps {
+  memberMetadataList: { id: number; profileImage: string; currentCompany: string | null; generations: number[] }[];
+}
+
+const MakersPage: FC<MakersPageProps> = ({ memberMetadataList }) => {
   const { isLoggedIn } = useAuth();
 
   return (
@@ -31,11 +37,35 @@ const MakersPage: FC = () => {
       )}
       <StyledMakersPage>
         <AboutMakers />
-        <StyledMakersMembers generations={makersGenerationsData} />
+        <StyledMakersMembers generations={makersGenerationsData} metadataList={memberMetadataList} />
       </StyledMakersPage>
       <Footer />
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<MakersPageProps> = async () => {
+  const memberList = await getMemberProfile('');
+
+  const memberMetadataList = memberList.map((member) => {
+    const sortedCareers = member.careers.filter((career) => career.isCurrent);
+    sortedCareers.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    const currentCompany = sortedCareers.length > 0 ? sortedCareers.at(-1)?.companyName ?? null : null;
+    const generations = member.activities.map((value) => value.generation).sort((a, b) => a - b);
+
+    return {
+      id: member.id,
+      profileImage: member.profileImage ?? '',
+      currentCompany,
+      generations,
+    };
+  });
+
+  return {
+    props: {
+      memberMetadataList,
+    },
+  };
 };
 
 export default MakersPage;
