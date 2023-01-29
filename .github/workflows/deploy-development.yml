@@ -16,7 +16,6 @@ jobs:
 
   deploy:
     needs: build-app
-    environment: development
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,10 +29,39 @@ jobs:
         with:
           name: built-app
           path: out
-      - name: LS
-        run: ls -al
       - name: Publish
-        run: yarn dlx wrangler pages publish "out" --project-name "${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message " "
+        id: publish
+        run: |
+          yarn dlx wrangler pages publish "out" --project-name "${{ vars.CF_PAGES_NAME_DEVELOPMENT }}" --commit-message " " | tee deploy.log
+          echo "log=$(cat deploy.log)" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Get Preview URL
+        uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: ${{ steps.publish.outputs.log }}
+          regex: '(https:\/\/[A-z0-9]+\.[^\.]+\.pages\.dev)'
+
+      - name: Find Comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v2
+        id: find_comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 스토리북으로 확인하기
+
+      - name: Create or update comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.find_comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            🚀 프리뷰 배포 확인하기 🚀
+
+            ${{ steps.regex-match.outputs.group1 }}
+          edit-mode: replace

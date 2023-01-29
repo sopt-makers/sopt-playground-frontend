@@ -6,6 +6,10 @@ on:
       env:
         required: true
         type: string
+      upload:
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   build:

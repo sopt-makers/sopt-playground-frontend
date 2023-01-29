@@ -11,7 +11,6 @@ jobs:
 
   deploy:
     needs: build-app
-    environment: production
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -25,10 +24,8 @@ jobs:
         with:
           name: built-app
           path: out
-      - name: LS
-        run: ls -al
       - name: Publish
-        run: yarn dlx wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message " "
+        run: yarn dlx wrangler pages publish "out" --project-name "${{ secrets.CF_PAGES_NAME_PRODUCTION }}" --commit-message " "
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
