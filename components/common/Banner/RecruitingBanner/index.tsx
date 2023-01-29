@@ -10,7 +10,11 @@ import useMediaQuery from '@/hooks/useMediaQuery';
 import { MOBILE_MAX_WIDTH } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function RecruitingBanner() {
+interface RecruitingBannerProps {
+  className?: string;
+}
+
+export default function RecruitingBanner({ className }: RecruitingBannerProps) {
   const [isRecruiting, setIsRecruiting] = useState(DEADLINE_DATE.getTime() - new Date().getTime() > 0);
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
@@ -19,7 +23,7 @@ export default function RecruitingBanner() {
   };
 
   return (
-    <Link href={RECRUITING_LINK} target='_blank'>
+    <Link href={RECRUITING_LINK} target='_blank' className={className}>
       {isMobile ? (
         <MobileRecruitingBanner />
       ) : (
