@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    path:
+      - '**.(js|ts|jsx|tsx)'
   workflow_dispatch:
 
 jobs:

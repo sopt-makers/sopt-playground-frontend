@@ -3,8 +3,12 @@ name: Build test
 on:
   push:
     branches: main
+    path:
+      - '**.(js|ts|jsx|tsx)'
   pull_request:
     branches: main
+    paths:
+      - - '**.(js|ts|jsx|tsx)'
 
 jobs:
   build:
@@ -32,3 +36,8 @@ jobs:
         run: echo "${{ secrets.PROJECT_ENV }}" > .env.local
       - name: Build Test
         run: yarn build
+
+
+name Buildtest
+
+on:

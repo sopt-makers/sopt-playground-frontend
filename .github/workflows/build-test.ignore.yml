@@ -1,0 +1,17 @@
+name: Build test
+
+on:
+  push:
+    branches: main
+    paths-ignore:
+      - '**.(js|ts|jsx|tsx)'
+  pull_request:
+    branches: main
+    paths-ignore:
+      - - '**.(js|ts|jsx|tsx)'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'
