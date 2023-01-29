@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "Tekiter",
+      "name": "Tekiter",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36122585?v=4",
+      "profile": "https://github.com/Tekiter",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "sopt-playground-frontend",
+  "projectOwner": "sopt-makers"
+}
