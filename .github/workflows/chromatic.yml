@@ -4,6 +4,8 @@ on:
   pull_request:
   push:
     branches: [main, develop]
+    path:
+      - '**.stories.(js|jsx|ts|tsx|mdx)'
 
 jobs:
   chromatic-deploy:
