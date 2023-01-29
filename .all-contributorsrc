@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "eunsukimme",
+      "name": "Eunsu(Daniel) Kim",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31213226?v=4",
+      "profile": "http://blog.eunsukim.me",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "sopt-playground-frontend",
+  "projectOwner": "sopt-makers"
+}
