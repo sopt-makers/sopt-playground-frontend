@@ -33,7 +33,9 @@ jobs:
         id: publish
         run: |
           yarn dlx wrangler pages publish "out" --project-name "${{ vars.CF_PAGES_NAME_DEVELOPMENT }}" --commit-message " " | tee deploy.log
-          echo "log=$(cat deploy.log)" >> $GITHUB_OUTPUT
+          echo "log<<EOF" >> $GITHUB_OUTPUT
+          echo "$(cat deploy.log)" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -52,7 +54,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: 스토리북으로 확인하기
+          body-includes: 프리뷰 배포 확인하기
 
       - name: Create or update comment
         if: github.event_name == 'pull_request'
