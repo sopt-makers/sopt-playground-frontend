@@ -118,16 +118,6 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
 
 ## 👏 Contributors
 
-<!-- 이 부분 내용은 봇이 자동으로 추가합니다. -->
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
 ## License
 
 [MIT License](LICENSE.md)
