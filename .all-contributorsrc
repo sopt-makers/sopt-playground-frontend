@@ -1,12 +1,12 @@
 {
-  "projectName": "all-contributors",
-  "projectOwner": "all-contributors",
+  "projectName": "sopt-playground-frontend",
+  "projectOwner": "sopt-makers",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
     "README.md"
   ],
-  "imageSize": 100,
+  "imageSize": 200,
   "commit": false,
   "contributorsPerLine": 7,
   "contributorsSortAlphabetically": false,
