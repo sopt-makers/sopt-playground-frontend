@@ -1,12 +1,7 @@
-name: Development Deploy
+name: Production Deploy
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build-app:
@@ -28,6 +23,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: built-app
+          path: out
       - name: LS
         run: ls -al
       - name: Publish

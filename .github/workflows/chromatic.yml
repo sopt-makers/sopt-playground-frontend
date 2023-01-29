@@ -21,7 +21,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install Dependency
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Publish Chromatic
         id: publish_chromatic

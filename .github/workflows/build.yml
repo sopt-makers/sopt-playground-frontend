@@ -17,7 +17,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install Packages
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Nextjs Build Cache
         uses: actions/cache@v3
