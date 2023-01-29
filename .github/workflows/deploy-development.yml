@@ -6,6 +6,9 @@ on:
       - main
     paths-ignore:
       - '**.md'
+      - '.github/**/*'
+      - '.husky/**/*'
+      - '.vscode/**/*'
   workflow_dispatch:
 
 jobs:
