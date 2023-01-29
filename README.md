@@ -1,6 +1,6 @@
 <div align="center">
 
-# SOPT Playground Frontend
+# 🚀 SOPT Playground Frontend
 
 **대학생 연합 IT벤처창업 동아리 SOPT 구성원들을 위한 서비스**
 
@@ -16,20 +16,20 @@
 <img width="1424" alt="image" src="https://user-images.githubusercontent.com/73823388/215124144-daf665de-ca65-42d8-9440-bae754d680f9.png">
 </div>
 
-## Features
+## 💁🏻‍♂️ SOPT Playground를 소개해요!
 
-- ⚡️ SOPT의 앱잼, 솝커톤, 솝텀 등을 통한 **프로젝트** 등록 및 조회
-- 👀 SOPT 구성원들의 **프로필** 등록 및 조회
+- ⚡️ SOPT의 꽃은 앱잼이죠! 앱잼을 비롯한 솝커톤, 솝텀 등의 **프로젝트**를 등록하고 조회하실 수 있어요.
+- 👀 SOPT에서 같이 사이드프로젝트 할 팀원 구할 때, 어려웠던 경험 있으시죠? SOPT 밖에서도 멋진 SOPT 구성원들의 **멤버 프로필**을 등록하고 조회하실 수 있어요.
 
-## Getting Started
+## 🙋🏻‍♂️ 시작하기
 
 **Prerequisites**
 
 - Git
 - [Node](https://nodejs.org/)
-- [Yarn](https://yarnpkg.com/)
+- [Yarn berry](https://yarnpkg.com/)
 
-**Running locally**
+**로컬에선 이렇게 실행해요**
 
 ```
 # 로컬 환경에 Clone하기
@@ -45,7 +45,8 @@ yarn install
 yarn dev
 ```
 
-개발 서버가 실행되면 브라우저에서 [http://localhost:3000](http://localhost:3000/) 로 접속하세요.
+Playground는 Next.js 기반으로 만들어진 프로젝트에요.  
+개발 서버가 실행되면 브라우저에서 [http://localhost:3000](http://localhost:3000/) 로 접속하실 수 있어요!
 
 ## Languages & Libraries
 
