@@ -17,9 +17,6 @@ jobs:
   deploy:
     needs: build-app
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
     name: Deploy to Cloudflare Pages
     steps:
       - name: Checkout Branch
