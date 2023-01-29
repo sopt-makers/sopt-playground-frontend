@@ -8,7 +8,7 @@ on:
   pull_request:
     branches: main
     paths-ignore:
-      - - '**.(js|ts|jsx|tsx)'
+      - '**.(js|ts|jsx|tsx)'
 
 jobs:
   build:
