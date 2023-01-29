@@ -7,28 +7,6 @@ on:
     branches: main
 
 jobs:
-  build:
-    environment: development
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Branch
-        uses: actions/checkout@v2
-
-      - name: Yarn Cache
-        uses: c-hive/gha-yarn-cache@v2
-
-      - name: Install Packages
-        run: yarn install
-
-      - name: Nextjs Build Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx', '**.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
-      - name: Set .env
-        run: echo "${{ secrets.PROJECT_ENV }}" > .env.local
-      - name: Build Test
-        run: yarn build
+  build-test:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
