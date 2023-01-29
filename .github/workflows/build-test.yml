@@ -10,18 +10,21 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      ignore-files: ${{ steps.filter.outputs.ignore-files }}
+      repo-settings: ${{ steps.filter.outputs.repo-settings }}
     steps:
       - uses: dorny/paths-filter@v2
         id: filter
         with:
           filters: |
-            ignore-files:
+            repo-settings:
               - '**.md'
+              - '.github/**'
+              - '.husky/**'
+              - '.vscode/**'
   build:
     environment: development
     needs: changes
-    if: ${{ needs.changes.outputs.ignore-files == 'false' }}
+    if: ${{ needs.changes.outputs.repo-settings == 'false' }}
     runs-on: ubuntu-latest
       - name: Checkout Branch
         uses: actions/checkout@v2
