@@ -6,7 +6,8 @@ on:
 jobs:
   build-app:
     uses: ./.github/workflows/build.yml
-    secrets: inherit
+    with:
+      env: ${{ vars.PRODUCTION_ENV }}
 
   deploy:
     needs: build-app

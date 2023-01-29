@@ -2,6 +2,10 @@ name: Build App
 
 on:
   workflow_call:
+    inputs:
+      env:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -29,7 +33,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
 
       - name: Set .env
-        run: echo "${{ secrets.PROJECT_ENV }}" > .env.local
+        run: echo "${{ inputs.env }}" > .env.local
 
       - name: Build
         run: yarn build && yarn next export

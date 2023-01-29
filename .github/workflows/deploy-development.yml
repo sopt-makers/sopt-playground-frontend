@@ -11,7 +11,8 @@ on:
 jobs:
   build-app:
     uses: ./.github/workflows/build.yml
-    secrets: inherit
+    with:
+      env: ${{ vars.DEVELOPMENT_ENV }}
 
   deploy:
     needs: build-app
@@ -32,7 +33,7 @@ jobs:
       - name: LS
         run: ls -al
       - name: Publish
-        run: yarn dlx wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message " "
+        run: yarn dlx wrangler pages publish "out" --project-name "${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message " "
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
