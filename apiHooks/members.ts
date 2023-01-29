@@ -1,4 +1,6 @@
 import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
+import qs from 'qs';
 import { QueryKey, useInfiniteQuery, useMutation, useQuery, UseQueryOptions } from 'react-query';
 
 import {
@@ -19,21 +21,15 @@ interface Variables {
 // 멤버 프로필 전체 조회
 export const useGetMemberProfile = ({ limit, queryKey }: Variables) => {
   const _queryKey = (typeof queryKey === 'string' ? [queryKey] : queryKey) ?? [];
+  const { query } = useRouter();
   return useInfiniteQuery({
     queryKey: ['getMemberProfile', limit, ..._queryKey],
     queryFn: async ({ pageParam: cursor = 0 }) => {
-      const params = { limit, cursor };
-
-      const apiUrl = new URL(window.location.href);
-      Object.entries(params).forEach(
-        ([query, value]) => value !== undefined && apiUrl.searchParams.set(query, value.toString()),
-      );
-
-      const data = await getMemberProfile(apiUrl.search);
+      const searchParams = { limit, cursor, ...query };
+      const data = await getMemberProfile(qs.stringify(searchParams, { addQueryPrefix: true }));
       return data;
     },
     getNextPageParam: (lastPage: Profile[]) => {
-      // TODO(@jun): nextPage 있는지 여부 boolean으로 undefined 예외처리
       if (!lastPage.length) {
         return undefined;
       }

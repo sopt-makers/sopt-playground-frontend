@@ -1,10 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import _debounce from 'lodash/debounce';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
@@ -18,6 +17,7 @@ import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useMediaQuery from '@/hooks/useMediaQuery';
+import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -30,23 +30,13 @@ const MemberList: FC = () => {
   const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
   const { ref, isVisible } = useIntersectionObserver();
-  const [memberName, setMemberName] = useState<string>('');
   const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({
     limit: PAGE_LIMIT,
     queryKey: router.asPath,
-    // TODO: 멤버검색 query 추가
   });
-
-  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
-  const handleSelect = (value: MenuValue) => {
-    onSelect(value);
-    const url = new URL(window.location.href);
-    url.searchParams.set('filter', value.toString());
-    if (value === MenuValue.ALL) {
-      url.searchParams.delete('filter');
-    }
-    router.push(url);
-  };
+  const { addQueryParams } = usePageQueryParams({
+    skipNull: true,
+  });
 
   const profiles = memberProfileData?.pages.map((members) =>
     members.map((member) => ({
@@ -55,23 +45,24 @@ const MemberList: FC = () => {
       part: uniq(member.activities.map(({ part }) => part)).join(' / '),
     })),
   );
+
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
   const hasProfile = !!memberOfMeData?.hasProfile;
+
+  const handleSelect = (value: MenuValue) => {
+    onSelect(value);
+    addQueryParams({ filter: value.toString() });
+  };
+
+  const handleSearch = (searchQuery: string) => {
+    addQueryParams({ name: searchQuery });
+  };
 
   useEffect(() => {
     if (isVisible) {
       fetchNextPage();
     }
   }, [isVisible, fetchNextPage]);
-
-  useEffect(() => {
-    if (!memberName) {
-      return;
-    }
-    const url = new URL(window.location.href);
-    url.searchParams.set('name', memberName);
-
-    router.push(url, undefined, { shallow: true });
-  }, [memberName, router]);
 
   return (
     <StyledContainer hasProfile={hasProfile}>
@@ -106,11 +97,7 @@ const MemberList: FC = () => {
             <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
           )}
           <StyledRightWrapper>
-            <StyledMemberSearch
-              placeholder='멤버 검색'
-              onChange={_debounce((e) => setMemberName(e.target.value), 300)}
-            />
-            {/* TODO(@jun): 로딩 추가 */}
+            <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
             <StyledCardWrapper>
               {profiles?.map((profiles, index) => (
                 <React.Fragment key={index}>
@@ -274,6 +261,7 @@ const StyledMain = styled.main<{ hasProfile?: boolean }>`
 const StyledRightWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const StyledMemberSearch = styled(MemberSearch)`
