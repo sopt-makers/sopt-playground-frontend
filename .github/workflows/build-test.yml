@@ -3,18 +3,26 @@ name: Build test
 on:
   push:
     branches: main
-    path:
-      - '**.(js|ts|jsx|tsx)'
   pull_request:
     branches: main
-    paths:
-      - '**.(js|ts|jsx|tsx)'
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      ignore: ${{ steps.filter.outputs.ignore-files }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            ignore-files:
+              - '**.md'
   build:
     environment: development
+    needs: changes
+    if: ${{ needs.changes.outputs.ignore-files == 'false' }}
     runs-on: ubuntu-latest
-    steps:
       - name: Checkout Branch
         uses: actions/checkout@v2
 
