@@ -12,7 +12,7 @@ export const RegisterSuccessPage: FC = () => {
   );
 };
 
-setLayout(RegisterSuccessPage, 'empty');
+setLayout(RegisterSuccessPage, 'fullScreen');
 
 export default RegisterSuccessPage;
 
@@ -20,5 +20,5 @@ const StyledRegisterSuccessPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 200px;
+  height: 100%;
 `;

@@ -33,7 +33,7 @@ export const RegisterPage: FC = () => {
   );
 };
 
-setLayout(RegisterPage, 'empty');
+setLayout(RegisterPage, 'fullScreen');
 
 export default RegisterPage;
 
@@ -41,5 +41,5 @@ const StyledRegisterPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 200px;
+  height: 100%;
 `;
