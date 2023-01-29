@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dynamic from 'next/dynamic';
@@ -29,12 +30,14 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ children, myProfileHref = '
       <DropdownPortal>
         <DropdownMenu.Content sideOffset={22} align='end' asChild>
           <ContentBox>
-            <DropdownItem>
-              <Link href={myProfileHref} onClick={() => setOpen(false)}>
+            <DropdownMenu.Item asChild>
+              <Link href={myProfileHref} css={dropdownItemStyle} onClick={() => setOpen(false)}>
                 내 프로필
               </Link>
-            </DropdownItem>
-            <DropdownItem onClick={onLogout}>로그아웃</DropdownItem>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item css={dropdownItemStyle} onClick={onLogout}>
+              로그아웃
+            </DropdownMenu.Item>
           </ContentBox>
         </DropdownMenu.Content>
       </DropdownPortal>
@@ -67,7 +70,7 @@ const ContentBox = styled.div`
   }
 `;
 
-const DropdownItem = styled(DropdownMenu.Item)`
+const dropdownItemStyle = css`
   cursor: pointer;
   padding: 12px 20px;
 
