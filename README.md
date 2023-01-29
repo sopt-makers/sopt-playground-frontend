@@ -46,12 +46,12 @@ yarn dev
 ```
 
 Playground는 Next.js 기반으로 만들어진 프로젝트에요.  
-개발 서버가 실행되면 브라우저에서 [http://localhost:3000](http://localhost:3000/) 로 접속하실 수 있어요!
+개발 서버가 실행되면 브라우저에서 [http://localhost:3000](http://localhost:3000/) 로 접속하실 수 있어요.
 
 ## 📚 Key Languages & Libraries
 
-Playground 팀은 기술 사용에 제한을 두지 않아요.  
-도입에 대한 충분한 설득만 있다면, 팀원들은 새로운 기술을 반길 준비가 되어 있어요!
+> Playground 팀은 기술 사용에 제한을 두지 않아요.  
+> 도입에 대한 충분한 설득만 있다면, 팀원들은 새로운 기술을 반길 준비가 되어 있어요 😁
 
 - React & Typescript
 - Next.js
@@ -62,7 +62,8 @@ Playground 팀은 기술 사용에 제한을 두지 않아요.
 
 ## 👨‍👩‍👧‍👦 Authors
 
-Playground를 만들고 있는
+현재 Playground를 만들고 있는 makers에요.
+저희와 같이 SOPT의 가치를 높이고 싶으시다면 지원해주세요! [**[ 👉SOPT-makers 2기 지원하기 ]**](sopt-makers.oopy.io)
 
 <table align="center">
     <tr align="center">
