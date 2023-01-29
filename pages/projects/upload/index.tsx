@@ -5,9 +5,7 @@ import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 
-import { useGetMemberOfMe, useGetProjectById } from '@/api';
-import { putProject } from '@/api/projects';
-import { ProjectMember } from '@/api/projects/type';
+import { ProjectMember, putProject, useGetMemberOfMe, useGetProjectById } from '@/api';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
 import useToast from '@/components/common/Toast/useToast';

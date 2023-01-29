@@ -6,8 +6,7 @@ import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } from '@/api';
-import { postMemberProfile } from '@/api/members';
-import { ProfileRequest } from '@/api/members/type';
+import { postMemberProfile, ProfileRequest } from '@/api/members';
 import AuthRequired from '@/components/auth/AuthRequired';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/BasicFormSection';
