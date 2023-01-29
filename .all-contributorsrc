@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "pa-rang",
+      "name": "Jeongyeon Lee 이정연",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28650320?v=4",
+      "profile": "https://github.com/pa-rang",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "sopt-playground-frontend",
+  "projectOwner": "sopt-makers"
+}
