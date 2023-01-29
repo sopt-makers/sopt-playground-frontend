@@ -1,40 +1,27 @@
 import styled from '@emotion/styled';
 import { GetStaticProps } from 'next';
-import Link from 'next/link';
 import { FC } from 'react';
+import { RemoveScroll } from 'react-remove-scroll';
 
 import { getMemberProfile } from '@/api/members';
-import useAuth from '@/components/auth/useAuth';
 import Footer from '@/components/common/Footer';
-import Header from '@/components/common/Header';
+import SwitchableHeader from '@/components/common/Header/SwitchableHeader';
 import AboutMakers from '@/components/makers/AboutMakers';
 import { makersGenerationsData } from '@/components/makers/data';
 import MakersMembers from '@/components/makers/MakersMembers';
-import { playgroundLink } from '@/constants/links';
-import IconBack from '@/public/icons/icon-back.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { setLayout } from '@/utils/layout';
 
 interface MakersPageProps {
   memberMetadataList: { id: number; profileImage: string; currentCompany: string | null; generations: number[] }[];
 }
 
 const MakersPage: FC<MakersPageProps> = ({ memberMetadataList }) => {
-  const { isLoggedIn } = useAuth();
-
   return (
     <>
-      {isLoggedIn ? (
-        <Header />
-      ) : (
-        <NotLoggedInHeader>
-          <Link href={playgroundLink.login()} passHref legacyBehavior>
-            <BackLink>
-              <StyledBackIcon />
-              로그인하러 가기
-            </BackLink>
-          </Link>
-        </NotLoggedInHeader>
-      )}
+      <FixedSlot className={RemoveScroll.classNames.zeroRight}>
+        <SwitchableHeader />
+      </FixedSlot>
       <StyledMakersPage>
         <AboutMakers />
         <StyledMakersMembers generations={makersGenerationsData} metadataList={memberMetadataList} />
@@ -68,7 +55,17 @@ export const getStaticProps: GetStaticProps<MakersPageProps> = async () => {
   };
 };
 
+setLayout(MakersPage, 'empty');
+
 export default MakersPage;
+
+const FixedSlot = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+`;
 
 const StyledMakersPage = styled.div`
   display: flex;
@@ -84,26 +81,4 @@ const StyledMakersMembers = styled(MakersMembers)`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 48px;
   }
-`;
-
-const NotLoggedInHeader = styled.div`
-  display: flex;
-  position: absolute;
-  top: 0;
-  align-items: stretch;
-  margin: 0 30px;
-  width: calc(100% - 30px);
-  height: 80px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin: 0;
-  }
-`;
-
-const StyledBackIcon = styled(IconBack)``;
-
-const BackLink = styled.a`
-  display: flex;
-  align-items: center;
-  padding: 30px 8px;
 `;
