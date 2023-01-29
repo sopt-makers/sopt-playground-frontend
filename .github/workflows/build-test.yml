@@ -10,7 +10,7 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      ignore: ${{ steps.filter.outputs.ignore-files }}
+      ignore-files: ${{ steps.filter.outputs.ignore-files }}
     steps:
       - uses: dorny/paths-filter@v2
         id: filter
