@@ -4,12 +4,17 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-app:
     uses: ./.github/workflows/build.yml
     secrets: inherit
+
   deploy:
+    needs: build-app
     environment: development
     runs-on: ubuntu-latest
     permissions:
