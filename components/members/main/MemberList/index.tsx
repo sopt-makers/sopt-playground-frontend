@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect } from 'react';
 
-import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
+import { useGetMemberOfMe, useGetMemberProfile } from '@/api';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MemberCard from '@/components/members/main/MemberCard';

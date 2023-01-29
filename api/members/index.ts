@@ -1,5 +1,6 @@
 import { axiosInstance } from '@/api';
 import { Member, PostMemberCoffeeChatVariables, Profile, ProfileDetail, ProfileRequest } from '@/api/members/type';
+export * from './type';
 
 // 멤버 프로필 전체 조회
 export const getMemberProfile = async (input: string) => {
