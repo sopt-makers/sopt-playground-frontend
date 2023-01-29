@@ -17,14 +17,14 @@ jobs:
         with:
           filters: |
             repo-settings:
-              - '**.md'
-              - '.github/**'
-              - '.husky/**'
-              - '.vscode/**'
+              - '**/!(*.md)'
+              - '!.github/**/*'
+              - '!.husky/**/*'
+              - '!.vscode/**/*'
   build:
     environment: development
     needs: changes
-    if: ${{ needs.changes.outputs.repo-settings == 'false' }}
+    if: ${{ needs.changes.outputs.repo-settings == 'true' }}
     runs-on: ubuntu-latest
       - name: Checkout Branch
         uses: actions/checkout@v2
