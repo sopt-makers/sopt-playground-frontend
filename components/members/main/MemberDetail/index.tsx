@@ -55,13 +55,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     [profile?.activities],
   );
 
-  const isEmptyField = (field: unknown) => {
-    if (!field) {
-      return true;
-    }
-    return false;
-  };
-
   if (isLoading)
     return (
       <Container>
@@ -99,7 +92,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 </NameWrapper>
                 <div className='intro'>{profile?.introduction}</div>
               </div>
-              <ContactWrapper shouldDivide={!isEmptyField(profile?.phone) && !isEmptyField(profile?.email)}>
+              <ContactWrapper shouldDivide={!!profile?.phone && !!profile?.email}>
                 {profile?.phone && (
                   <Link passHref href={`tel:${profile?.phone}`} legacyBehavior>
                     <div style={{ cursor: 'pointer' }}>
