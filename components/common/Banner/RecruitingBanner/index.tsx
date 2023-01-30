@@ -22,22 +22,26 @@ export default function RecruitingBanner({ className }: RecruitingBannerProps) {
     setIsRecruiting(false);
   };
 
+  if (isMobile) {
+    return (
+      <Link href={RECRUITING_LINK} target='_blank' className={className}>
+        <MobileRecruitingBanner />
+      </Link>
+    );
+  }
+
   return (
     <Link href={RECRUITING_LINK} target='_blank' className={className}>
-      {isMobile ? (
-        <MobileRecruitingBanner />
-      ) : (
-        <Container>
-          <RecruitmentText>{`🚀 makers ${TERM}기를 모집해요`}</RecruitmentText>
-          <Deadline isRecruiting={isRecruiting}>
-            {isRecruiting ? (
-              <CountdownTimer deadlineDate={DEADLINE_DATE} finish={finishCountdown} />
-            ) : (
-              '☑️ 현재 모집이 마감되었습니다'
-            )}
-          </Deadline>
-        </Container>
-      )}
+      <Container>
+        <RecruitmentText>{`🚀 makers ${TERM}기를 모집해요`}</RecruitmentText>
+        <Deadline isRecruiting={isRecruiting}>
+          {isRecruiting ? (
+            <CountdownTimer deadlineDate={DEADLINE_DATE} finish={finishCountdown} />
+          ) : (
+            '☑️ 현재 모집이 마감되었습니다'
+          )}
+        </Deadline>
+      </Container>
     </Link>
   );
 }
