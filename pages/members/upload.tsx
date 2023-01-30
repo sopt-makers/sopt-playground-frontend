@@ -89,7 +89,7 @@ export default function MemberUploadPage() {
   const formatBirthday = (birthday: Birthday) => {
     const { year, month, day } = birthday;
     const parsedBirthDay = dayjs(`${year}-${month}-${day}`);
-    return parsedBirthDay.isValid() ? `${year}-${month}-${day}` : '';
+    return parsedBirthDay.isValid() ? parsedBirthDay.format('YYYY-MM-DD') : '';
   };
 
   const onSubmit = async (formData: MemberUploadForm) => {
