@@ -4,177 +4,27 @@ export const baseTextStyles = css`
   letter-spacing: -0.01em;
 `;
 
-export type Typography =
-  | 'SUIT_12_M'
-  | 'SUIT_12_SB'
-  | 'SUIT_12_B'
-  | 'SUIT_13_M'
-  | 'SUIT_14_M'
-  | 'SUIT_14_SB'
-  | 'SUIT_14_B'
-  | 'SUIT_16_M'
-  | 'SUIT_15_M'
-  | 'SUIT_15_SB'
-  | 'SUIT_16_SB'
-  | 'SUIT_16_B'
-  | 'SUIT_18_M'
-  | 'SUIT_18_SB'
-  | 'SUIT_18_B'
-  | 'SUIT_20_R'
-  | 'SUIT_20_M'
-  | 'SUIT_20_SB'
-  | 'SUIT_20_B'
-  | 'SUIT_22_R'
-  | 'SUIT_22_M'
-  | 'SUIT_22_SB'
-  | 'SUIT_22_B'
-  | 'SUIT_24_SB'
-  | 'SUIT_24_B'
-  | 'SUIT_24_M'
-  | 'SUIT_26_M'
-  | 'SUIT_26_SB'
-  | 'SUIT_26_B'
-  | 'SUIT_28_R'
-  | 'SUIT_28_M'
-  | 'SUIT_28_SB'
-  | 'SUIT_28_B'
-  | 'SUIT_32_SB';
+export const textStyles = (() => {
+  const sizes = [12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 32] as const;
+  const weights = [
+    ['R', 400],
+    ['M', 500],
+    ['SB', 600],
+    ['B', 700],
+  ] as const;
 
-export const textStyles: Record<Typography, SerializedStyles> = {
-  SUIT_20_R: css`
-    font-size: 20px;
-    font-weight: 400;
-  `,
-  SUIT_12_M: css`
-    font-size: 12px;
-    font-weight: 500;
-  `,
-  SUIT_12_SB: css`
-    font-size: 12px;
-    font-weight: 600;
-  `,
-  SUIT_12_B: css`
-    font-size: 12px;
-    font-weight: 700;
-  `,
-  SUIT_13_M: css`
-    font-size: 13px;
-    font-weight: 500;
-  `,
-  SUIT_14_M: css`
-    font-size: 14px;
-    font-weight: 500;
-  `,
-  SUIT_14_SB: css`
-    font-size: 14px;
-    font-weight: 600;
-  `,
-  SUIT_14_B: css`
-    font-size: 14px;
-    font-weight: 700;
-  `,
-  SUIT_16_M: css`
-    font-size: 16px;
-    font-weight: 500;
-  `,
-  SUIT_15_M: css`
-    font-size: 15px;
-    font-weight: 500;
-  `,
-  SUIT_15_SB: css`
-    font-size: 15px;
-    font-weight: 600;
-  `,
-  SUIT_16_SB: css`
-    font-size: 16px;
-    font-weight: 600;
-  `,
-  SUIT_16_B: css`
-    font-size: 16px;
-    font-weight: 700;
-  `,
-  SUIT_18_M: css`
-    font-size: 18px;
-    font-weight: 500;
-  `,
-  SUIT_18_SB: css`
-    font-size: 18px;
-    font-weight: 600;
-  `,
-  SUIT_18_B: css`
-    font-size: 18px;
-    font-weight: 700;
-  `,
-  SUIT_20_M: css`
-    font-size: 20px;
-    font-weight: 500;
-  `,
-  SUIT_20_SB: css`
-    font-size: 20px;
-    font-weight: 600;
-  `,
-  SUIT_20_B: css`
-    font-size: 20px;
-    font-weight: 700;
-  `,
-  SUIT_22_R: css`
-    font-size: 22px;
-    font-weight: 400;
-  `,
-  SUIT_22_M: css`
-    font-size: 22px;
-    font-weight: 500;
-  `,
-  SUIT_22_SB: css`
-    font-size: 22px;
-    font-weight: 600;
-  `,
-  SUIT_22_B: css`
-    font-size: 22px;
-    font-weight: 700;
-  `,
-  SUIT_24_M: css`
-    font-size: 24px;
-    font-weight: 500;
-  `,
-  SUIT_24_SB: css`
-    font-size: 24px;
-    font-weight: 600;
-  `,
-  SUIT_24_B: css`
-    font-size: 24px;
-    font-weight: 700;
-  `,
-  SUIT_26_M: css`
-    font-size: 26px;
-    font-weight: 500;
-  `,
-  SUIT_26_SB: css`
-    font-size: 26px;
-    font-weight: 600;
-  `,
-  SUIT_26_B: css`
-    font-size: 26px;
-    font-weight: 700;
-  `,
-  SUIT_28_R: css`
-    font-size: 28px;
-    font-weight: 400;
-  `,
-  SUIT_28_M: css`
-    font-size: 28px;
-    font-weight: 500;
-  `,
-  SUIT_28_SB: css`
-    font-size: 28px;
-    font-weight: 600;
-  `,
-  SUIT_28_B: css`
-    font-size: 28px;
-    font-weight: 700;
-  `,
-  SUIT_32_SB: css`
-    font-size: 32px;
-    font-weight: 600;
-  `,
-};
+  type FontKey = `SUIT_${typeof sizes[number]}_${typeof weights[number][0]}`;
+  const entries = sizes.flatMap((size) =>
+    weights.map(([weightName, value]) => [
+      `SUIT_${size}_${weightName}` as FontKey,
+      css`
+        font-size: ${size}px;
+        font-weight: ${value};
+      `,
+    ]),
+  );
+  const textStyles: Record<FontKey, SerializedStyles> = Object.fromEntries(entries);
+  return textStyles;
+})();
+
+export type Typography = keyof typeof textStyles;

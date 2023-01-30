@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
 import { getMemberProfile } from '@/api/members';
+import RecruitingBanner from '@/components/common/Banner/RecruitingBanner';
 import Footer from '@/components/common/Footer';
 import SwitchableHeader from '@/components/common/Header/SwitchableHeader';
 import AboutMakers from '@/components/makers/AboutMakers';
@@ -23,6 +24,7 @@ const MakersPage: FC<MakersPageProps> = ({ memberMetadataList }) => {
         <SwitchableHeader />
       </FixedSlot>
       <StyledMakersPage>
+        <StyledRecruitingBanner />
         <AboutMakers />
         <StyledMakersMembers generations={makersGenerationsData} metadataList={memberMetadataList} />
       </StyledMakersPage>
@@ -71,7 +73,7 @@ const StyledMakersPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px;
+  padding-top: 80px;
   padding-bottom: 100px;
 `;
 
@@ -81,4 +83,9 @@ const StyledMakersMembers = styled(MakersMembers)`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 48px;
   }
+`;
+
+const StyledRecruitingBanner = styled(RecruitingBanner)`
+  margin-bottom: 67px;
+  width: 100%;
 `;
