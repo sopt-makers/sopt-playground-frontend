@@ -23,7 +23,11 @@ export default function RecruitingBanner({ className }: RecruitingBannerProps) {
   };
 
   if (isMobile) {
-    return <MobileRecruitingBanner />;
+    return (
+      <Link href={RECRUITING_LINK} target='_blank' className={className}>
+        <MobileRecruitingBanner />
+      </Link>
+    );
   }
 
   return (
