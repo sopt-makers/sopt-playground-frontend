@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import Link from 'next/link';
 
 import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
 
@@ -13,6 +14,12 @@ Basic.args = {
   user: {
     name: '박건영',
     id: '1',
+  },
+  renderLink({ href, children }) {
+    return <Link href={href}>{children}</Link>;
+  },
+  activePathMatcher(path) {
+    return path.startsWith('/members');
   },
 };
 Basic.storyName = '기본';
