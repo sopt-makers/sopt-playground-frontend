@@ -55,7 +55,7 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
               {renderLink({
                 href: myProfileHref,
                 children: (
-                  <ProfileLink>
+                  <ProfileButton>
                     <ProfileImageSlot>
                       {profileImage ? (
                         <ResizedImage src={profileImage} width={32} alt='' />
@@ -65,7 +65,7 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
                     </ProfileImageSlot>
                     <ProfileNameSlot>{name}</ProfileNameSlot>
                     <ProfileArrowSlot>{RIGHT_ARROW_SVG}</ProfileArrowSlot>
-                  </ProfileLink>
+                  </ProfileButton>
                 ),
               })}
             </ProfileLinkSlot>
@@ -172,7 +172,7 @@ const ProfileLinkSlot = styled.div`
   margin-bottom: 26px;
 `;
 
-const ProfileLink = styled.div`
+const ProfileButton = styled.div`
   display: flex;
   padding: 10px var(--x-gap);
 `;

@@ -35,9 +35,9 @@ const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout, renderLink, activ
       {renderLink({
         href: playgroundLink.memberList(),
         children: (
-          <StyledBrandLink>
+          <BrandButton>
             <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
-          </StyledBrandLink>
+          </BrandButton>
         ),
       })}
     </Container>
@@ -62,7 +62,7 @@ const NavButton = styled.button`
   width: 32px;
 `;
 
-const StyledBrandLink = styled.div`
+const BrandButton = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;

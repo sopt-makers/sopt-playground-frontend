@@ -29,20 +29,24 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
         {renderLink({ href: playgroundLink.memberList(), children: <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' /> })}
       </StyledBrandLink>
       <NavArea>
-        <NavItem isActive={activePathMatcher(playgroundLink.memberList())}>
-          {renderLink({ href: playgroundLink.memberList(), children: '멤버' })}
-        </NavItem>
-        <NavItem isActive={activePathMatcher(playgroundLink.projectList())}>
-          {renderLink({ href: playgroundLink.projectList(), children: '프로젝트' })}
-        </NavItem>
-        <NavItem isActive={activePathMatcher(playgroundLink.groupList())}>
-          {renderLink({ href: playgroundLink.groupList(), children: '모임' })}
-        </NavItem>
+        {renderLink({
+          href: playgroundLink.memberList(),
+          children: <NavItem isActive={activePathMatcher(playgroundLink.memberList())}>멤버</NavItem>,
+        })}
+        {renderLink({
+          href: playgroundLink.projectList(),
+          children: <NavItem isActive={activePathMatcher(playgroundLink.projectList())}>프로젝트</NavItem>,
+        })}
+        {renderLink({
+          href: playgroundLink.groupList(),
+          children: <NavItem isActive={activePathMatcher(playgroundLink.groupList())}>모임</NavItem>,
+        })}
       </NavArea>
       <ActionArea>
-        <StyledUploadLink>
-          {renderLink({ href: playgroundLink.projectUpload(), children: '+ 내 프로젝트 올리기' })}
-        </StyledUploadLink>
+        {renderLink({
+          href: playgroundLink.projectUpload(),
+          children: <StyledUploadButton>+ 내 프로젝트 올리기</StyledUploadButton>,
+        })}
         <ProfileButtonHolder>
           <ProfileDropdown
             myProfileHref={user ? playgroundLink.memberDetail(user.id) : ''}
@@ -79,18 +83,18 @@ const StyledBrandLink = styled.div`
 const NavArea = styled.nav`
   display: flex;
   flex-grow: 1;
+
+  * > & {
+    height: 100%;
+  }
 `;
 
 const NavItem = styled.div<{ isActive: boolean }>`
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: 100%;
   color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
-
-  & > * {
-    display: flex;
-    align-items: center;
-    padding: 0 8px;
-    height: 100%;
-    color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
-  }
 
   ${(props) =>
     props.isActive
@@ -104,23 +108,21 @@ const NavItem = styled.div<{ isActive: boolean }>`
 
 const ActionArea = styled.div`
   display: flex;
+  align-items: center;
   padding-right: 30px;
 `;
 
-const StyledUploadLink = styled.div`
+const StyledUploadButton = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
   align-self: center;
+  border-radius: 32px;
+  background-color: #8040ff;
+  padding: 12px 20px;
+  height: 38px;
 
-  & > * {
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    border-radius: 32px;
-    background-color: #8040ff;
-    padding: 12px 20px;
-    height: 38px;
-
-    ${textStyles.SUIT_14_B}
-  }
+  ${textStyles.SUIT_14_B}
 `;
 
 const ProfileButtonHolder = styled.div`
