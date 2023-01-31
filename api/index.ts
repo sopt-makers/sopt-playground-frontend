@@ -1,4 +1,3 @@
-export * from './hooks';
 export * from './image';
 export * from './members';
 export * from './projects';

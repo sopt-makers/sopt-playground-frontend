@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { useGetProjectById } from '@/api';
+import { useGetProjectById } from '@/api/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import ImageUploader from '@/components/common/ImageUploader';
 import Text from '@/components/common/Text';

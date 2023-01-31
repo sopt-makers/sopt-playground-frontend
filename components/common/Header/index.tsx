@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { useGetMemberOfMe } from '@/api';
+import { useGetMemberOfMe } from '@/api/hooks';
 import useAuth from '@/components/auth/useAuth';
 import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
 import MobileHeader from '@/components/common/Header/mobile/MobileHeader';
