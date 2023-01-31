@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
 import Input, { InputProps } from '@/components/common/Input';
+import SearchIcon from '@/public/icons/icon-member-search.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
@@ -23,7 +24,8 @@ const MemberSearch: FC<MemberSearchProps> = ({ className, onSearch, ...props }) 
       }}
     >
       <StyledInput value={value} onChange={(e) => setValue(e.target.value)} {...props} />
-      <StyledIcon onClick={handleSearch} src='/icons/icon-member-search.svg' alt='search_icon' />
+
+      <StyledIcon onClick={handleSearch} src='/icons/icon-member-search.svg' alt='검색 아이콘' />
     </StyledMemberSearch>
   );
 };
@@ -46,7 +48,7 @@ const StyledInput = styled(Input)`
   ${textStyles.SUIT_16_B};
 `;
 
-const StyledIcon = styled.img`
+const StyledIcon = styled(SearchIcon)`
   position: absolute;
   top: 18px;
   left: 24px;
