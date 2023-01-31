@@ -6,9 +6,10 @@ import { useRouter } from 'next/router';
 import React, { FC, useEffect, useMemo } from 'react';
 
 import { Profile } from '@/api/members/type';
-import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
+import { useGetMemberOfMe } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
@@ -31,7 +32,7 @@ const MemberList: FC = () => {
   const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
   const { ref, isVisible } = useIntersectionObserver();
-  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({
+  const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
     queryKey: router.asPath,
   });

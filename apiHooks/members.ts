@@ -1,48 +1,14 @@
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/router';
-import qs from 'qs';
-import { QueryKey, useInfiniteQuery, useMutation, useQuery, UseQueryOptions } from 'react-query';
+import { useMutation, useQuery, UseQueryOptions } from 'react-query';
 
 import {
   getMemberOfMe,
-  getMemberProfile,
   getMemberProfileById,
   getMemberProfileOfMe,
   getMembersSearchByName,
   postMemberCoffeeChat,
 } from '@/api/members';
-import { PostMemberCoffeeChatVariables, Profile, ProfileDetail } from '@/api/members/type';
-
-interface Variables {
-  limit?: number;
-  queryKey?: QueryKey;
-}
-
-// 멤버 프로필 전체 조회
-export const useGetMemberProfile = ({ limit, queryKey }: Variables) => {
-  const _queryKey = (typeof queryKey === 'string' ? [queryKey] : queryKey) ?? [];
-  const { query } = useRouter();
-  return useInfiniteQuery({
-    queryKey: ['getMemberProfile', limit, ..._queryKey],
-    queryFn: async ({ pageParam: cursor = 0 }) => {
-      const searchParams = { limit, cursor, ...query };
-      const data = await getMemberProfile(qs.stringify(searchParams, { addQueryPrefix: true }));
-      return data;
-    },
-    getNextPageParam: (lastPage: Profile[]) => {
-      if (!lastPage.length) {
-        return undefined;
-      }
-      const lastIndex = lastPage.length - 1;
-      const lastMemberId = lastPage[lastIndex].id;
-      return lastMemberId;
-    },
-    onError: (error: { message: string }) => {
-      console.error(error.message);
-    },
-    keepPreviousData: true,
-  });
-};
+import { PostMemberCoffeeChatVariables, ProfileDetail } from '@/api/members/type';
 
 // 멤버 프로필 조회
 export const useGetMemberOfMe = () => {
