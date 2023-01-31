@@ -16,8 +16,8 @@
     "postinstall": "husky install",
     "typecheck": "tsc --noemit -p .",
     "analyze": "cross-env ANALYZE=true next build",
-    "playground-common:build": "tsup",
-    "playground-common:publish": "yarn workspace @sopt-makers/playground-common npm publish --access=public"
+    "playground-common:build": "tsup --config ./playground-common/tsup.config.ts",
+    "playground-common:publish": "yarn playground-common:build && yarn workspace @sopt-makers/playground-common npm publish --access=public"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.6.7",
