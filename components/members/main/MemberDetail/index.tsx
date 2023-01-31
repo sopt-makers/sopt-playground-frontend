@@ -153,9 +153,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           )}
           {(profile?.birthday || profile?.address || profile?.university) && (
             <InfoContainer style={{ gap: '30px' }}>
-              <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />
-              <InfoItem label='사는 지역' content={profile?.address ?? ''} />
-              <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
+              {profile?.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />}
+              {profile?.address && <InfoItem label='사는 지역' content={profile?.address ?? ''} />}
+              {profile?.university && (
+                <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
+              )}
             </InfoContainer>
           )}
 
