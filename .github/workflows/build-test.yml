@@ -26,6 +26,7 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.repo-settings == 'true' }}
     runs-on: ubuntu-latest
+    steps:
       - name: Checkout Branch
         uses: actions/checkout@v2
 
