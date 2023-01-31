@@ -8,6 +8,6 @@ export default defineConfig({
   noExternal: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
   sourcemap: true,
   clean: true,
-  minify: true,
   outDir: 'playground-common/dist',
+  tsconfig: 'tsconfig.playground-common.json',
 });

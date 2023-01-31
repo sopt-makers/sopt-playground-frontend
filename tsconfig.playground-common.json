@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "incremental": false,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react"
+  }
+}
