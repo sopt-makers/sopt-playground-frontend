@@ -50,11 +50,12 @@ export default function MemberUploadPage() {
   useEffect(() => {
     if (isEditPage && myProfile) {
       setValue('name', myProfile.name);
-      setValue('birthday', {
-        year: Number(myProfile.birthday.split('-')[0]).toString(),
-        month: Number(myProfile.birthday.split('-')[1]).toString(),
-        day: Number(myProfile.birthday.split('-')[2]).toString(),
-      });
+      myProfile.birthday &&
+        setValue('birthday', {
+          year: Number(myProfile.birthday.split('-')[0]).toString(),
+          month: Number(myProfile.birthday.split('-')[1]).toString(),
+          day: Number(myProfile.birthday.split('-')[2]).toString(),
+        });
       setValue('phone', myProfile.phone);
       setValue('email', myProfile.email);
       setValue('address', myProfile.address);
@@ -75,20 +76,20 @@ export default function MemberUploadPage() {
       );
       setValue('allowOfficial', myProfile.allowOfficial);
       setValue('profileImage', myProfile.profileImage);
-      myProfile.careers.forEach((career, index) => {
-        setValue(`careers.${index}.companyName`, career.companyName);
-        setValue(`careers.${index}.title`, career.title);
-        setValue(`careers.${index}.startDate`, career.startDate);
-        setValue(`careers.${index}.endDate`, career.endDate ?? '');
-        setValue(`careers.${index}.isCurrent`, career.isCurrent);
-      });
+      setValue(
+        'careers',
+        myProfile.careers.map((career) => ({
+          ...career,
+          endDate: career.endDate ?? '',
+        })),
+      );
     }
   }, [isEditPage, myProfile, setValue]);
 
   const formatBirthday = (birthday: Birthday) => {
     const { year, month, day } = birthday;
     const parsedBirthDay = dayjs(`${year}-${month}-${day}`);
-    return (parsedBirthDay.isValid() ? parsedBirthDay : dayjs(DEFAULT_DATE)).format('YYYY-MM-DD');
+    return parsedBirthDay.isValid() ? parsedBirthDay.format('YYYY-MM-DD') : '';
   };
 
   const onSubmit = async (formData: MemberUploadForm) => {

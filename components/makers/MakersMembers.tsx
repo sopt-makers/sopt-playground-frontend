@@ -1,14 +1,12 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Tab } from '@headlessui/react';
+import * as Tabs from '@radix-ui/react-tabs';
 import Link from 'next/link';
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useMemo } from 'react';
 
 import useAuth from '@/components/auth/useAuth';
 import { MakersGeneration } from '@/components/makers/data/types';
 import TeamBlock from '@/components/makers/TeamBlock';
 import MemberBlock from '@/components/members/common/MemberBlock';
-import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -17,10 +15,13 @@ import { textStyles } from '@/styles/typography';
 interface MakersMembersProps {
   className?: string;
   generations: MakersGeneration[];
+  metadataList: { id: number; profileImage: string; currentCompany: string | null; generations: number[] }[];
 }
 
-const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
+const MakersMembers: FC<MakersMembersProps> = ({ className, generations, metadataList }) => {
   const { isLoggedIn } = useAuth();
+
+  const metadataMap = useMemo(() => new Map(metadataList.map((member) => [member.id, member])), [metadataList]);
 
   const showNeedLogin = () => {
     alert('프로필을 보려면 로그인 해주세요.');
@@ -35,56 +36,57 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations }) => {
 
   return (
     <StyledMakersMembers className={className}>
-      <Tab.Group>
-        <Tab.List as={TabList}>
-          {generations.map((generation, idx) => (
-            <Tab key={idx} as={Fragment}>
-              {({ selected }) => <TabButton selected={selected}>{generation.title}</TabButton>}
-            </Tab>
-          ))}
-        </Tab.List>
+      <Tabs.Root defaultValue='0'>
+        <Tabs.List>
+          <TabList>
+            {generations.map((generation, idx) => (
+              <Tabs.Trigger key={idx} value={`${idx}`} asChild>
+                <TabButton>{generation.title}</TabButton>
+              </Tabs.Trigger>
+            ))}
+          </TabList>
+        </Tabs.List>
         <TabBottomLine />
-        <Tab.Panels>
-          {generations.map((generation, genIdx) => (
-            <Tab.Panel key={genIdx}>
-              {generation.message && <GenerationMessage>{generation.message}</GenerationMessage>}
-              {generation.teams.map((team, teamIdx) => (
-                <StyledTeamBlock key={teamIdx} title={team.title} description={team.description} link={team.link}>
-                  <PeopleBox>
-                    {team.people.map((person, personIdx) => (
-                      <Fragment key={personIdx}>
-                        {person.type === 'member' ? (
-                          <WithMemberMetadata
-                            memberId={person.id}
-                            render={(metadata) => (
-                              <Link
-                                href={playgroundLink.memberDetail(person.id)}
-                                onClick={() => metadata && !isLoggedIn && showNeedLogin()}
-                              >
-                                <MemberBlock
-                                  name={person.name}
-                                  position={person.position}
-                                  imageUrl={metadata?.profileImage}
-                                  badges={[
-                                    resolveGenerations(metadata?.generations ?? null),
-                                    metadata?.currentCompany,
-                                  ].filter((badge): badge is string => !!badge)}
-                                />
-                              </Link>
-                            )}
-                          />
-                        ) : (
-                          <MemberBlock name={person.name} />
-                        )}
-                      </Fragment>
-                    ))}
-                  </PeopleBox>
-                </StyledTeamBlock>
-              ))}
-            </Tab.Panel>
-          ))}
-        </Tab.Panels>
-      </Tab.Group>
+        {generations.map((generation, genIdx) => (
+          <Tabs.Content key={genIdx} value={`${genIdx}`}>
+            {generation.message && <GenerationMessage>{generation.message}</GenerationMessage>}
+            {generation.teams.map((team, teamIdx) => (
+              <StyledTeamBlock key={teamIdx} title={team.title} description={team.description} link={team.link}>
+                <PeopleBox>
+                  {team.people.map((person, personIdx) => (
+                    <Fragment key={personIdx}>
+                      {person.type === 'member' ? (
+                        (() => {
+                          const metadata = metadataMap.get(person.id);
+
+                          return (
+                            <Link
+                              href={playgroundLink.memberDetail(person.id)}
+                              onClick={() => metadata && !isLoggedIn && showNeedLogin()}
+                            >
+                              <MemberBlock
+                                name={person.name}
+                                position={person.position}
+                                imageUrl={metadata?.profileImage}
+                                badges={[
+                                  resolveGenerations(metadata?.generations ?? null),
+                                  metadata?.currentCompany,
+                                ].filter((badge): badge is string => !!badge)}
+                              />
+                            </Link>
+                          );
+                        })()
+                      ) : (
+                        <MemberBlock name={person.name} />
+                      )}
+                    </Fragment>
+                  ))}
+                </PeopleBox>
+              </StyledTeamBlock>
+            ))}
+          </Tabs.Content>
+        ))}
+      </Tabs.Root>
     </StyledMakersMembers>
   );
 };
@@ -97,20 +99,17 @@ const StyledMakersMembers = styled.div`
   max-width: 800px;
 `;
 
-const TabButton = styled.a<{ selected: boolean }>`
+const TabButton = styled.a`
   transition: border-bottom-color 0.2s, color 0.2s;
   border: 2px solid transparent;
   cursor: pointer;
   padding: 12px 24px;
+  color: ${colors.gray60};
 
-  ${(props) =>
-    props.selected
-      ? css`
-          border-bottom: 2px solid ${colors.white};
-        `
-      : css`
-          color: ${colors.gray60};
-        `}
+  &[data-state='active'] {
+    border-bottom: 2px solid ${colors.white};
+    color: ${colors.white};
+  }
 
   ${textStyles.SUIT_20_B};
 

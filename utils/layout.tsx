@@ -9,11 +9,11 @@ export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: Layout;
 };
 
-export function getLayout<P, IP>(Component: NextPageWithLayout<P, IP>) {
-  return Component.getLayout ?? (({ children }) => children);
+export function getLayout<P, IP>(Component: NextPageWithLayout<P, IP>): Layout {
+  return Component.getLayout ?? ((({ children }) => children) as Layout);
 }
 
-export function setLayout(Component: NextPage, layoutOrPreDefinedKey: Layout | keyof typeof preDefinedLayouts) {
+export function setLayout<T>(Component: NextPage<T>, layoutOrPreDefinedKey: Layout | keyof typeof preDefinedLayouts) {
   if (typeof layoutOrPreDefinedKey === 'string') {
     const layout = preDefinedLayouts[layoutOrPreDefinedKey];
     (Component as NextPageWithLayout).getLayout = layout;
