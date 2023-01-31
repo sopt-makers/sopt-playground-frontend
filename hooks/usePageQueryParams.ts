@@ -20,7 +20,7 @@ export function usePageQueryParams(
   const { skipNull } = options;
   const router = useRouter();
 
-  const addQueryParams = useCallback(
+  const addQueryParamsToUrl = useCallback(
     (queryParams: NextRouter['query']) => {
       const mergedParams = { ...router.query, ...queryParams };
       const _queryParams = { ...(skipNull ? omitBy(mergedParams, isEmpty) : mergedParams) };
@@ -34,5 +34,5 @@ export function usePageQueryParams(
     [router, skipNull],
   );
 
-  return { addQueryParams };
+  return { addQueryParamsToUrl };
 }

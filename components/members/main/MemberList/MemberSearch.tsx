@@ -1,19 +1,18 @@
 import styled from '@emotion/styled';
-import { FC, useCallback, useState } from 'react';
+import { FC, useState } from 'react';
 
 import Input, { InputProps } from '@/components/common/Input';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MemberSearchProps extends InputProps {
-  className?: string;
   onSearch?: (searchQuery: string) => void;
 }
 const MemberSearch: FC<MemberSearchProps> = ({ className, onSearch, ...props }) => {
   const [value, setValue] = useState<string>('');
-  const handleSearch = useCallback(() => {
+  const handleSearch = () => {
     onSearch?.(value);
-  }, [value, onSearch]);
+  };
 
   return (
     <StyledMemberSearch
@@ -23,7 +22,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ className, onSearch, ...props }) 
         handleSearch();
       }}
     >
-      <StyledInput type='search' name='q' value={value} onChange={(e) => setValue(e.target.value)} {...props} />
+      <StyledInput value={value} onChange={(e) => setValue(e.target.value)} {...props} />
       <StyledIcon onClick={handleSearch} src='/icons/icon-member-search.svg' alt='search_icon' />
     </StyledMemberSearch>
   );

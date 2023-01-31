@@ -3,8 +3,9 @@ import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 
+import { Profile } from '@/api/members/type';
 import { useGetMemberOfMe, useGetMemberProfile } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -34,16 +35,20 @@ const MemberList: FC = () => {
     limit: PAGE_LIMIT,
     queryKey: router.asPath,
   });
-  const { addQueryParams } = usePageQueryParams({
+  const { addQueryParamsToUrl } = usePageQueryParams({
     skipNull: true,
   });
 
-  const profiles = memberProfileData?.pages.map((members) =>
-    members.map((member) => ({
-      ...member,
-      isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
-      part: uniq(member.activities.map(({ part }) => part)).join(' / '),
-    })),
+  const profiles = useMemo(
+    () =>
+      memberProfileData?.pages.map((members) =>
+        members.map((member) => ({
+          ...member,
+          isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
+          part: uniq(member.activities.map(({ part }) => part)).join(' / '),
+        })),
+      ),
+    [memberProfileData],
   );
 
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
@@ -51,11 +56,15 @@ const MemberList: FC = () => {
 
   const handleSelect = (value: MenuValue) => {
     onSelect(value);
-    addQueryParams({ filter: value.toString() });
+    addQueryParamsToUrl({ filter: value.toString() });
   };
 
   const handleSearch = (searchQuery: string) => {
-    addQueryParams({ name: searchQuery });
+    addQueryParamsToUrl({ name: searchQuery });
+  };
+
+  const handleClickCard = (profile: Profile) => {
+    logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
 
   useEffect(() => {
@@ -105,7 +114,7 @@ const MemberList: FC = () => {
                     <Link
                       key={profile.id}
                       href={playgroundLink.memberDetail(profile.id)}
-                      onClick={() => logClickEvent('memberCard', { id: profile.id, name: profile.name })}
+                      onClick={() => handleClickCard(profile)}
                     >
                       <MemberCard
                         name={profile.name}
