@@ -26,16 +26,12 @@ const Header: FC = () => {
     }
     return <Link href={href}>{children}</Link>;
   };
+  const activePathMatcher = (path: string) => router.pathname?.startsWith(path);
 
   return isMobile ? (
-    <MobileHeader user={user} onLogout={logout} />
+    <MobileHeader user={user} onLogout={logout} renderLink={renderLink} activePathMatcher={activePathMatcher} />
   ) : (
-    <DesktopHeader
-      user={user}
-      onLogout={logout}
-      renderLink={renderLink}
-      activePathMatcher={(path) => router.pathname?.startsWith(path)}
-    />
+    <DesktopHeader user={user} onLogout={logout} renderLink={renderLink} activePathMatcher={activePathMatcher} />
   );
 };
 

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import Link from 'next/link';
 import { FC } from 'react';
 
 import { MENU_SVG, SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/imageData';
 import MobileSideBar from '@/components/common/Header/mobile/MobileSideBar';
+import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 
@@ -15,9 +15,11 @@ interface MobileHeaderProps {
   } | null;
 
   onLogout?: () => void;
+  renderLink: LinkRenderer;
+  activePathMatcher: PathMatcher;
 }
 
-const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout }) => {
+const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout, renderLink, activePathMatcher }) => {
   return (
     <Container>
       <MobileSideBar
@@ -25,12 +27,19 @@ const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout }) => {
         profileImage={user?.image}
         myProfileHref={user ? playgroundLink.memberDetail(user.id) : '#'}
         onLogout={onLogout}
+        renderLink={renderLink}
+        activePathMatcher={activePathMatcher}
       >
         <NavButton>{MENU_SVG}</NavButton>
       </MobileSideBar>
-      <StyledBrandLink href={playgroundLink.memberList()}>
-        <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
-      </StyledBrandLink>
+      {renderLink({
+        href: playgroundLink.memberList(),
+        children: (
+          <StyledBrandLink>
+            <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
+          </StyledBrandLink>
+        ),
+      })}
     </Container>
   );
 };
@@ -42,6 +51,7 @@ const Container = styled.header`
   background-color: ${colors.black100};
   padding: 0 16px;
   height: 56px;
+  color: ${colors.white};
 `;
 
 const NavButton = styled.button`
@@ -52,11 +62,12 @@ const NavButton = styled.button`
   width: 32px;
 `;
 
-const StyledBrandLink = styled(Link)`
+const StyledBrandLink = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
   width: 64px;
+  height: 100%;
 
   & > img {
     width: 52px;

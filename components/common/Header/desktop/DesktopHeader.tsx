@@ -63,6 +63,7 @@ const Container = styled.header`
   display: flex;
   background-color: ${colors.black100};
   height: 80px;
+  color: ${colors.white};
 `;
 
 const StyledBrandLink = styled.div`
