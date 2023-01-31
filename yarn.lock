@@ -16975,15 +16975,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.11.0":
-  version: 6.11.0
-  resolution: "qs@npm:6.11.0"
-  dependencies:
-    side-channel: ^1.0.4
-  checksum: 6e1f29dd5385f7488ec74ac7b6c92f4d09a90408882d0c208414a34dd33badc1a621019d4c799a3df15ab9b1d0292f97c1dd71dc7c045e69f81a8064e5af7297
-  languageName: node
-  linkType: hard
-
 "querystring-es3@npm:^0.2.0":
   version: 0.2.1
   resolution: "querystring-es3@npm:0.2.1"
@@ -18691,7 +18682,6 @@ __metadata:
     postcss-html: ^1.4.1
     postcss-syntax: ^0.36.2
     prettier: 2.6.2
-    qs: ^6.11.0
     react: ^18.2.0
     react-datepicker: ^4.8.0
     react-dom: ^18.2.0
