@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  changes:
+  should-check:
     runs-on: ubuntu-latest
     outputs:
       repo-settings: ${{ steps.filter.outputs.repo-settings }}
@@ -20,7 +20,7 @@ jobs:
           filters: |
             repo-settings:
               - '**/!(*.md)'
-              - '!.github/**/*'
+              - '!.github/**/!(*.yml)'
               - '!.husky/**/*'
               - '!.vscode/**/*'
   check:

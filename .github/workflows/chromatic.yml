@@ -7,7 +7,7 @@ on:
     branches: [main]
     paths-ignore:
       - '**.md'
-      - '.github/**/*'
+      - '.github/**/!(*.yml)'
       - '.husky/**/*'
       - '.vscode/**/*'
 
