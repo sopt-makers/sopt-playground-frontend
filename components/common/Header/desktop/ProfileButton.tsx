@@ -33,6 +33,7 @@ const StyledProfileButton = styled.button`
   background-color: ${colors.black80};
   cursor: pointer;
   height: 38px;
+  color: ${colors.white};
 `;
 
 const ImageSlot = styled.div`

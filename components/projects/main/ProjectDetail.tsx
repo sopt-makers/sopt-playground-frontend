@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useMemo, useState } from 'react';
 
-import { deleteProject } from '@/api/projects';
+import { deleteProject } from '@/api';
+import { useGetMemberOfMe } from '@/api/hooks';
 import { MemberRole, ProjectMember } from '@/api/projects/type';
-import { useGetMemberOfMe } from '@/apiHooks';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';

@@ -1,0 +1,49 @@
+name: Build App
+
+on:
+  workflow_call:
+    inputs:
+      env:
+        required: true
+        type: string
+      upload:
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install Packages
+        run: yarn install --immutable
+
+      - name: Nextjs Build Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx', '**.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
+
+      - name: Set .env
+        run: echo "${{ inputs.env }}" > .env.local
+
+      - name: Build
+        run: yarn build && yarn next export
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: built-app
+          path: out
+          if-no-files-found: error
+          retention-days: 7

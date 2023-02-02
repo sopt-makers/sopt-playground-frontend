@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { useGetMemberProfileOfMe } from '@/apiHooks/members';
+import { useGetMemberProfileOfMe } from '@/api/hooks';
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import FormHeader from '@/components/members/upload/forms/FormHeader';

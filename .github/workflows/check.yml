@@ -1,0 +1,48 @@
+name: Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  should-check:
+    runs-on: ubuntu-latest
+    outputs:
+      repo-settings: ${{ steps.filter.outputs.repo-settings }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            repo-settings:
+              - '**/!(*.md)'
+              - '!.github/**/!(*.yml)'
+              - '!.husky/**/*'
+              - '!.vscode/**/*'
+  check:
+    needs: should-check
+    if: ${{ needs.should-check.outputs.repo-settings == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install Packages
+        run: yarn install --immutable
+
+      - name: Check All
+        run: |
+          yarn check | tee check.log
+
+      - name: Print Summary
+        run: |
+          echo "## Check Result" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "$(cat check.log)" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

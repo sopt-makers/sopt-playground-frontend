@@ -10,7 +10,7 @@ import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
 
-import { useGetMemberProfileById } from '@/apiHooks/members';
+import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
 import useModalState from '@/components/common/Modal/useModalState';
 import CareerItem from '@/components/members/detail/CareerItem';

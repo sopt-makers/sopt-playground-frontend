@@ -1,9 +1,15 @@
 name: Storybook Deployment
 
 on:
-  pull_request:
   push:
-    branches: [main, develop]
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.github/**/!(*.yml)'
+      - '.husky/**/*'
+      - '.vscode/**/*'
 
 jobs:
   chromatic-deploy:
@@ -15,11 +21,13 @@ jobs:
           #if use checkout@v2, https://github.com/marketplace/actions/publish-to-chromatic#checkout-depth
           fetch-depth: 0
 
-      - name: Yarn Cache
-        uses: c-hive/gha-yarn-cache@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
 
       - name: Install Dependency
-        run: yarn install
+        run: yarn install --immutable
 
       - name: Publish Chromatic
         id: publish_chromatic

@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
 import * as Dialog from '@radix-ui/react-dialog';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { FC, ReactNode, useState } from 'react';
 
 import { DEFAULT_PROFILE_IMAGE_MOBILE_SVG, RIGHT_ARROW_SVG } from '@/components/common/Header/imageData';
+import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import ResizedImage from '@/components/common/ResizedImage';
 import { FEEDBACK_FORM_URL, playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
@@ -24,12 +23,19 @@ interface MobileSideBarProps {
   myProfileHref?: string;
   profileImage?: string;
   onLogout?: () => void;
+  renderLink: LinkRenderer;
+  activePathMatcher: PathMatcher;
 }
 
-const MobileSideBar: FC<MobileSideBarProps> = ({ children, myProfileHref = '#', onLogout, name, profileImage }) => {
-  const router = useRouter();
-  const pathMatch = (path: string) => router.pathname?.includes(path) ?? false;
-
+const MobileSideBar: FC<MobileSideBarProps> = ({
+  children,
+  myProfileHref = '#',
+  onLogout,
+  name,
+  profileImage,
+  renderLink,
+  activePathMatcher,
+}) => {
   const [open, setOpen] = useState(false);
 
   function close() {
@@ -45,50 +51,61 @@ const MobileSideBar: FC<MobileSideBarProps> = ({ children, myProfileHref = '#', 
         </Dialog.Overlay>
         <Dialog.Content asChild>
           <Content>
-            <ProfileButton href={myProfileHref} onClick={() => setOpen(false)}>
-              <ProfileImageSlot>
-                {profileImage ? (
-                  <ResizedImage src={profileImage} width={32} alt='' />
-                ) : (
-                  DEFAULT_PROFILE_IMAGE_MOBILE_SVG
-                )}
-              </ProfileImageSlot>
-              <ProfileNameSlot>{name}</ProfileNameSlot>
-              <ProfileArrowSlot>{RIGHT_ARROW_SVG}</ProfileArrowSlot>
-            </ProfileButton>
-            <NavLink
-              href={playgroundLink.memberList()}
-              isActive={pathMatch(playgroundLink.memberList())}
-              onClick={close}
-            >
-              멤버
-            </NavLink>
-            <NavLink
-              href={playgroundLink.projectList()}
-              isActive={pathMatch(playgroundLink.projectList())}
-              onClick={close}
-            >
-              프로젝트
-            </NavLink>
-            <NavLink
-              as='a'
-              href={playgroundLink.groupList()}
-              isActive={pathMatch(playgroundLink.groupList())}
-              onClick={close}
-            >
-              모임
-            </NavLink>
+            <ProfileLinkSlot onClick={() => setOpen(false)}>
+              {renderLink({
+                href: myProfileHref,
+                children: (
+                  <ProfileButton>
+                    <ProfileImageSlot>
+                      {profileImage ? (
+                        <ResizedImage src={profileImage} width={32} alt='' />
+                      ) : (
+                        DEFAULT_PROFILE_IMAGE_MOBILE_SVG
+                      )}
+                    </ProfileImageSlot>
+                    <ProfileNameSlot>{name}</ProfileNameSlot>
+                    <ProfileArrowSlot>{RIGHT_ARROW_SVG}</ProfileArrowSlot>
+                  </ProfileButton>
+                ),
+              })}
+            </ProfileLinkSlot>
+
+            {renderLink({
+              href: playgroundLink.memberList(),
+              children: (
+                <NavItem isActive={activePathMatcher(playgroundLink.memberList())} onClick={close}>
+                  멤버
+                </NavItem>
+              ),
+            })}
+            {renderLink({
+              href: playgroundLink.projectList(),
+              children: (
+                <NavItem isActive={activePathMatcher(playgroundLink.projectList())} onClick={close}>
+                  프로젝트
+                </NavItem>
+              ),
+            })}
+            {renderLink({
+              href: playgroundLink.groupList(),
+              children: (
+                <NavItem isActive={activePathMatcher(playgroundLink.groupList())} onClick={close}>
+                  모임
+                </NavItem>
+              ),
+            })}
             <Divider />
-            <Link href={playgroundLink.makers()} legacyBehavior passHref>
-              <NavLinkSmall as='a' isActive={pathMatch(playgroundLink.makers())} onClick={close}>
-                만든 사람들
-              </NavLinkSmall>
-            </Link>
-            <Link href={FEEDBACK_FORM_URL} legacyBehavior passHref target='_blank'>
-              <NavLinkSmall as='a' onClick={close}>
-                의견 제안하기
-              </NavLinkSmall>
-            </Link>
+            {renderLink({
+              href: playgroundLink.makers(),
+              children: (
+                <NavLinkSmall isActive={activePathMatcher(playgroundLink.makers())} onClick={close}>
+                  만든 사람들
+                </NavLinkSmall>
+              ),
+            })}
+            <a href={FEEDBACK_FORM_URL} target='_blank' rel='noreferrer'>
+              <NavLinkSmall onClick={close}>의견 제안하기</NavLinkSmall>
+            </a>
             <NavLinkSmall
               onClick={() => {
                 onLogout?.();
@@ -137,6 +154,7 @@ const Content = styled.div`
   height: 100vh;
   overflow-y: auto;
   animation: content-show 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: ${colors.white};
 
   @keyframes content-show {
     from {
@@ -149,10 +167,13 @@ const Content = styled.div`
   }
 `;
 
-const ProfileButton = styled(Link)`
-  display: flex;
+const ProfileLinkSlot = styled.div`
   margin-top: 45px;
   margin-bottom: 26px;
+`;
+
+const ProfileButton = styled.div`
+  display: flex;
   padding: 10px var(--x-gap);
 `;
 
@@ -184,7 +205,7 @@ const ProfileArrowSlot = styled.div`
   width: 18px;
 `;
 
-const NavLink = styled(Link, { shouldForwardProp: (propName) => propName !== 'isActive' && propName !== 'as' })<{
+const NavItem = styled('div')<{
   isActive?: boolean;
 }>`
   padding: 10px var(--x-gap);
