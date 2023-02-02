@@ -42,8 +42,7 @@ jobs:
 
       - name: Print Summary
         run: |
-          echo "log<<EOF" >> $GITHUB_STEP_SUMMARY
+          echo "## Check Result" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "$(cat check.log)" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "EOF" >> $GITHUB_STEP_SUMMARY
