@@ -37,4 +37,13 @@ jobs:
         run: yarn install --immutable
 
       - name: Check All
-        run: yarn conc "yarn:lint" "yarn:typecheck" "yarn:stylelint"
+        run: |
+          yarn check | tee check.log
+
+      - name: Print Summary
+        run: |
+          echo "log<<EOF" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "$(cat check.log)" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "EOF" >> $GITHUB_STEP_SUMMARY
