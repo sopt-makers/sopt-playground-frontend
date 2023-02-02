@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { ClipLoader } from 'react-spinners';
 import * as yup from 'yup';
 
-import { usePostCoffeeChatMutation } from '@/apiHooks';
+import { usePostCoffeeChatMutation } from '@/api/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Modal, { ModalProps } from '@/components/common/Modal';

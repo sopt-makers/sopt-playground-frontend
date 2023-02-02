@@ -1,10 +1,9 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { FC, ReactNode, useState } from 'react';
 
+import { LinkRenderer } from '@/components/common/Header/types';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
@@ -19,9 +18,10 @@ interface ProfileDropdownProps {
   children: ReactNode;
   myProfileHref?: string;
   onLogout?: () => void;
+  renderLink: LinkRenderer;
 }
 
-const ProfileDropdown: FC<ProfileDropdownProps> = ({ children, myProfileHref = '#', onLogout }) => {
+const ProfileDropdown: FC<ProfileDropdownProps> = ({ children, myProfileHref = '#', onLogout, renderLink }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -30,14 +30,10 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ children, myProfileHref = '
       <DropdownPortal>
         <DropdownMenu.Content sideOffset={22} align='end' asChild>
           <ContentBox>
-            <DropdownMenu.Item asChild>
-              <Link href={myProfileHref} css={dropdownItemStyle} onClick={() => setOpen(false)}>
-                내 프로필
-              </Link>
+            <DropdownMenu.Item onClick={() => setOpen(false)} asChild>
+              {renderLink({ href: myProfileHref, children: '내 프로필' })}
             </DropdownMenu.Item>
-            <DropdownMenu.Item css={dropdownItemStyle} onClick={onLogout}>
-              로그아웃
-            </DropdownMenu.Item>
+            <DropdownMenu.Item onClick={onLogout}>로그아웃</DropdownMenu.Item>
           </ContentBox>
         </DropdownMenu.Content>
       </DropdownPortal>
@@ -56,6 +52,19 @@ const ContentBox = styled.div`
   padding: 12px 0;
   min-width: 176px;
   animation: slide-up-and-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  color: ${colors.white};
+
+  & > * {
+    cursor: pointer;
+    padding: 12px 20px;
+
+    ${textStyles.SUIT_16_SB}
+
+    &:focus, &:focus-visible, &:hover {
+      outline: none;
+      background-color: ${colors.black40};
+    }
+  }
 
   @keyframes slide-up-and-fade {
     from {
@@ -67,17 +76,5 @@ const ContentBox = styled.div`
       transform: translateY(0);
       opacity: 1;
     }
-  }
-`;
-
-const dropdownItemStyle = css`
-  cursor: pointer;
-  padding: 12px 20px;
-
-  ${textStyles.SUIT_16_SB}
-
-  &:focus, &:focus-visible, &:hover {
-    outline: none;
-    background-color: ${colors.black40};
   }
 `;

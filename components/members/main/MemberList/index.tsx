@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect, useMemo } from 'react';
 
+import { useGetMemberOfMe } from '@/api/hooks';
 import { Profile } from '@/api/members/type';
-import { useGetMemberOfMe } from '@/apiHooks/members';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
