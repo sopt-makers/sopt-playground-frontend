@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { postMemberProfile } from '@/api';
 import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } from '@/api/hooks';
+import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import AdditionalFormSection from '@/components/members/upload/AdditionalInfoFormSection';
