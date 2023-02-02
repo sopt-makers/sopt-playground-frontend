@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "stylelint": "stylelint **/*.(ts|tsx)",
     "prettier": "prettier --write .",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "postinstall": "husky install",
     "typecheck": "tsc --noemit -p .",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "check": "conc \"yarn:lint\" \"yarn:typecheck\" \"yarn:stylelint\""
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.6.7",
@@ -70,6 +72,7 @@
     "@types/react-dom": "18.0.1",
     "babel-loader": "^8.2.5",
     "chromatic": "^6.7.0",
+    "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.13.0",
     "eslint-config-next": "^13.1.1",

@@ -4,42 +4,70 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
     paths-ignore:
       - '**.md'
-      - '.github/**/*'
+      - '.github/**/!(*.yml)'
       - '.husky/**/*'
       - '.vscode/**/*'
-  workflow_dispatch:
 
 jobs:
+  build-app:
+    uses: ./.github/workflows/build.yml
+    with:
+      env: ${{ vars.DEVELOPMENT_ENV }}
+
   deploy:
-    environment: development
+    needs: build-app
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
     name: Deploy to Cloudflare Pages
     steps:
-      - name: Checkout
+      - name: Checkout Branch
         uses: actions/checkout@v3
-      - name: Yarn Cache
-        uses: c-hive/gha-yarn-cache@v2
-      - name: Install Packages
-        run: yarn install
-      - name: Nextjs Build Cache
-        uses: actions/cache@v3
+
+      - name: Download Built App
+        uses: actions/download-artifact@v3
         with:
-          path: |
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx', '**.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
-      - name: Set .env
-        run: echo "${{ secrets.PROJECT_ENV }}" > .env.local
-      - name: Build
-        run: yarn build && yarn next export
+          name: built-app
+          path: out
+
       - name: Publish
-        run: yarn dlx wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message " "
+        id: publish
+        run: |
+          yarn dlx wrangler pages publish "out" --project-name "${{ vars.CF_PAGES_NAME_DEVELOPMENT }}" --commit-message " " | tee deploy.log
+          echo "log<<EOF" >> $GITHUB_OUTPUT
+          echo "$(cat deploy.log)" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Get Preview URL
+        uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: ${{ steps.publish.outputs.log }}
+          regex: '(https:\/\/[A-z0-9]+\.[^\.]+\.pages\.dev)'
+
+      - name: Find Comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v2
+        id: find_comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 프리뷰 배포 확인하기
+
+      - name: Create or update comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.find_comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            🚀 프리뷰 배포 확인하기 🚀
+
+            ${{ steps.regex-match.outputs.group1 }}
+          edit-mode: replace
