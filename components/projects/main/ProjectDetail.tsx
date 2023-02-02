@@ -121,17 +121,18 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
                     if (metadata && metadata.generations.length > 0) {
                       badges.push(metadata.generations.map(String).join(', ') + '기');
                     }
-
-                    return (
-                      <Link href={playgroundLink.memberDetail(member.memberId)}>
-                        <MemberBlock
-                          name={member.memberName}
-                          position={MemberRoleInfo[member.memberRole]}
-                          imageUrl={metadata?.profileImage}
-                          badges={badges}
-                        />
-                      </Link>
+                    const memberBlock = (
+                      <MemberBlock
+                        name={member.memberName}
+                        position={MemberRoleInfo[member.memberRole]}
+                        imageUrl={metadata?.profileImage}
+                        badges={badges}
+                      />
                     );
+                    if (member.memberHasProfile) {
+                      return <Link href={playgroundLink.memberDetail(member.memberId)}>{memberBlock}</Link>;
+                    }
+                    return memberBlock;
                   }}
                 />
               ))}
