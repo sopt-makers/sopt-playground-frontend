@@ -20,7 +20,6 @@
     "analyze": "cross-env ANALYZE=true next build",
     "playground-common:build": "tsup --config ./playground-common/tsup.config.ts",
     "playground-common:publish": "yarn playground-common:build && yarn workspace @sopt-makers/playground-common npm publish --access=public"
-    
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^1.6.7",
@@ -44,6 +43,7 @@
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.0",
     "next": "^13.1.1",
+    "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",

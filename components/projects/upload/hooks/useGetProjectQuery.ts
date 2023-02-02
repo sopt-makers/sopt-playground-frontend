@@ -7,8 +7,8 @@ interface GetProjectQueryVariables {
   id: string;
 }
 
-const useGetProjectQuery = (varaiables: GetProjectQueryVariables) => {
-  const { id } = varaiables;
+const useGetProjectQuery = (variables: GetProjectQueryVariables) => {
+  const { id } = variables;
   return useQuery(
     ['getProjectQuery', id],
     async () => {
