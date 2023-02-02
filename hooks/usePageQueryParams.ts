@@ -29,6 +29,10 @@ export function usePageQueryParams(
         `${router.pathname}${qs.stringify(_queryParams, {
           addQueryPrefix: true,
         })}`,
+        undefined,
+        {
+          scroll: false,
+        },
       );
     },
     [router, skipNull],
