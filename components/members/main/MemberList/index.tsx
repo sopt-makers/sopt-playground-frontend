@@ -3,12 +3,15 @@ import styled from '@emotion/styled';
 import uniq from 'lodash/uniq';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 
-import { useGetMemberOfMe, useGetMemberProfile } from '@/api/hooks';
+import { useGetMemberOfMe } from '@/api/hooks';
+import { Profile } from '@/api/members/type';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
+import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
@@ -16,6 +19,7 @@ import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import useMediaQuery from '@/hooks/useMediaQuery';
+import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -24,25 +28,44 @@ const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
   const { logClickEvent } = useEventLogger();
-
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
   const { ref, isVisible } = useIntersectionObserver();
-  const { data: memberProfileData, fetchNextPage } = useGetMemberProfile({
+  const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
     queryKey: router.asPath,
   });
+  const { addQueryParamsToUrl } = usePageQueryParams({
+    skipNull: true,
+  });
+
+  const profiles = useMemo(
+    () =>
+      memberProfileData?.pages.map((members) =>
+        members.map((member) => ({
+          ...member,
+          isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
+          part: uniq(member.activities.map(({ part }) => part)).join(' / '),
+        })),
+      ),
+    [memberProfileData],
+  );
 
   const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
+  const hasProfile = !!memberOfMeData?.hasProfile;
+
   const handleSelect = (value: MenuValue) => {
     onSelect(value);
-    const url = new URL(window.location.href);
-    url.searchParams.set('filter', value.toString());
-    if (value === MenuValue.ALL) {
-      url.searchParams.delete('filter');
-    }
-    router.push(url);
+    addQueryParamsToUrl({ filter: value.toString() });
+  };
+
+  const handleSearch = (searchQuery: string) => {
+    addQueryParamsToUrl({ name: searchQuery });
+  };
+
+  const handleClickCard = (profile: Profile) => {
+    logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
 
   useEffect(() => {
@@ -50,15 +73,6 @@ const MemberList: FC = () => {
       fetchNextPage();
     }
   }, [isVisible, fetchNextPage]);
-
-  const profiles = memberProfileData?.pages.map((members) =>
-    members.map((member) => ({
-      ...member,
-      isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
-      part: uniq(member.activities.map(({ part }) => part)).join(' / '),
-    })),
-  );
-  const hasProfile = !!memberOfMeData?.hasProfile;
 
   return (
     <StyledContainer hasProfile={hasProfile}>
@@ -92,29 +106,31 @@ const MemberList: FC = () => {
           ) : (
             <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
           )}
-          {/* TODO(@jun): 로딩 추가 */}
-          <StyledCardWrapper>
-            {profiles?.map((profiles, index) => (
-              <React.Fragment key={index}>
-                {profiles.map((profile) => (
-                  <Link
-                    key={profile.id}
-                    href={playgroundLink.memberDetail(profile.id)}
-                    onClick={() => logClickEvent('memberCard', { id: profile.id, name: profile.name })}
-                  >
-                    <MemberCard
-                      name={profile.name}
-                      part={profile.part}
-                      isActiveGeneration={profile.isActive}
-                      introduction={profile.introduction}
-                      image={profile.profileImage}
-                    />
-                  </Link>
-                ))}
-              </React.Fragment>
-            ))}
-            <Target ref={ref} />
-          </StyledCardWrapper>
+          <StyledRightWrapper>
+            <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+            <StyledCardWrapper>
+              {profiles?.map((profiles, index) => (
+                <React.Fragment key={index}>
+                  {profiles.map((profile) => (
+                    <Link
+                      key={profile.id}
+                      href={playgroundLink.memberDetail(profile.id)}
+                      onClick={() => handleClickCard(profile)}
+                    >
+                      <MemberCard
+                        name={profile.name}
+                        part={profile.part}
+                        isActiveGeneration={profile.isActive}
+                        introduction={profile.introduction}
+                        image={profile.profileImage}
+                      />
+                    </Link>
+                  ))}
+                </React.Fragment>
+              ))}
+              <Target ref={ref} />
+            </StyledCardWrapper>
+          </StyledRightWrapper>
         </StyledMain>
       </StyledContent>
     </StyledContainer>
@@ -252,6 +268,19 @@ const StyledMain = styled.main<{ hasProfile?: boolean }>`
   }
 `;
 
+const StyledRightWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const StyledMemberSearch = styled(MemberSearch)`
+  align-self: flex-end;
+  @media ${MOBILE_MEDIA_QUERY} {
+    align-self: center;
+  }
+`;
+
 const StyledDivider = styled.div`
   display: none;
 
@@ -270,6 +299,7 @@ const StyledCardWrapper = styled.div`
   gap: 20px;
   align-items: start;
   justify-items: center;
+  margin-top: 28px;
 
   @media screen and (max-width: 1000px) {
     grid-template-columns: repeat(3, 1fr);
