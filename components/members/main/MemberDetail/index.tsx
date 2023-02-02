@@ -92,19 +92,23 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 </NameWrapper>
                 <div className='intro'>{profile?.introduction}</div>
               </div>
-              <ContactWrapper>
-                <Link passHref href={`tel:${profile?.email}`} legacyBehavior>
-                  <div style={{ cursor: 'pointer' }}>
-                    <CallIcon />
-                    <div className='phone'>{profile?.phone}</div>
-                  </div>
-                </Link>
-                <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
-                  <div style={{ cursor: 'pointer' }}>
-                    <MailIcon />
-                    <div className='email'>{profile?.email}</div>
-                  </div>
-                </Link>
+              <ContactWrapper shouldDivide={!!profile?.phone && !!profile?.email}>
+                {profile?.phone && (
+                  <Link passHref href={`tel:${profile?.phone}`} legacyBehavior>
+                    <div style={{ cursor: 'pointer' }}>
+                      <CallIcon />
+                      <div className='phone'>{profile?.phone}</div>
+                    </div>
+                  </Link>
+                )}
+                {profile?.email && (
+                  <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
+                    <div style={{ cursor: 'pointer' }}>
+                      <MailIcon />
+                      <div className='email'>{profile?.email}</div>
+                    </div>
+                  </Link>
+                )}
               </ContactWrapper>
             </ProfileContents>
 
@@ -147,12 +151,15 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               )}
             </>
           )}
-
-          <InfoContainer style={{ gap: '30px' }}>
-            <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />
-            <InfoItem label='사는 지역' content={profile?.address ?? ''} />
-            <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
-          </InfoContainer>
+          {(profile?.birthday || profile?.address || profile?.university) && (
+            <InfoContainer style={{ gap: '30px' }}>
+              {profile?.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />}
+              {profile?.address && <InfoItem label='사는 지역' content={profile?.address ?? ''} />}
+              {profile?.university && (
+                <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
+              )}
+            </InfoContainer>
+          )}
 
           <InfoContainer style={{ gap: '34px' }}>
             {sortedActivities.map((item, idx) => {
@@ -176,22 +183,26 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </InfoContainer>
           )}
 
-          <InfoContainer style={{ gap: '30px' }}>
-            <InfoItem label='스킬' content={profile?.skill ?? ''} />
-            <InfoItem
-              label='링크'
-              content={
-                <LinkItems>
-                  {profile?.links.map((item, idx) => (
-                    <Link passHref href={item.url} key={idx} target='_blank'>
-                      <LinkIcon />
-                      <span>{item.title}</span>
-                    </Link>
-                  ))}
-                </LinkItems>
-              }
-            />
-          </InfoContainer>
+          {(profile?.skill || (profile?.links && profile.links.length > 0)) && (
+            <InfoContainer style={{ gap: '30px' }}>
+              {profile?.skill && <InfoItem label='스킬' content={profile?.skill ?? ''} />}
+              {profile?.links.length > 0 && (
+                <InfoItem
+                  label='링크'
+                  content={
+                    <LinkItems>
+                      {profile?.links.map((item, idx) => (
+                        <Link passHref href={item.url} key={idx} target='_blank'>
+                          <LinkIcon />
+                          <span>{item.title}</span>
+                        </Link>
+                      ))}
+                    </LinkItems>
+                  }
+                />
+              )}
+            </InfoContainer>
+          )}
 
           <ProjectContainer>
             <ProjectTitle>{profile?.name}님이 참여한 프로젝트</ProjectTitle>
@@ -344,7 +355,7 @@ const NameWrapper = styled.div`
   }
 `;
 
-const ContactWrapper = styled.div`
+const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
   display: flex;
   line-height: 100%;
   color: #808388;
@@ -362,7 +373,7 @@ const ContactWrapper = styled.div`
   .phone {
     box-sizing: border-box;
     margin-right: 13px;
-    border-right: 1.5px solid #3c3d40;
+    border-right: ${({ shouldDivide }) => (shouldDivide ? '1.5px solid #3c3d40' : 'none')};
     padding-right: 17px;
     @media ${MOBILE_MEDIA_QUERY} {
       margin: 0;
