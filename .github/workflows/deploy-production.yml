@@ -4,7 +4,13 @@ on:
   workflow_dispatch:
 
 jobs:
+  build-app:
+    uses: ./.github/workflows/build.yml
+    with:
+      env: ${{ vars.PRODUCTION_ENV }}
+
   deploy:
+    needs: build-app
     environment: production
     runs-on: ubuntu-latest
     permissions:
@@ -12,26 +18,15 @@ jobs:
       deployments: write
     name: Deploy to Cloudflare Pages
     steps:
-      - name: Checkout
+      - name: Checkout Branch
         uses: actions/checkout@v3
-      - name: Yarn Cache
-        uses: c-hive/gha-yarn-cache@v2
-      - name: Install Packages
-        run: yarn install
-      - name: Nextjs Build Cache
-        uses: actions/cache@v3
+      - name: Download Built App
+        uses: actions/download-artifact@v3
         with:
-          path: |
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx', '**.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
-      - name: Set .env
-        run: echo "${{ secrets.PROJECT_ENV }}" > .env.local
-      - name: Build
-        run: yarn build && yarn next export
+          name: built-app
+          path: out
       - name: Publish
-        run: yarn dlx wrangler pages publish "out" --project-name "${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}" --commit-message " "
+        run: yarn dlx wrangler pages publish "out" --project-name "${{ secrets.CF_PAGES_NAME_PRODUCTION }}" --commit-message " "
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

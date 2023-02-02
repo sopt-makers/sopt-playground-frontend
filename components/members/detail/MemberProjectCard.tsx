@@ -118,6 +118,7 @@ const StyledThumbnail = styled.img`
   border-radius: 24px 24px 0 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 20px 20px 0 0;
   }

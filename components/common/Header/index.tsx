@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import { useGetMemberOfMe } from '@/apiHooks';
+import { useGetMemberOfMe } from '@/api/hooks';
 import useAuth from '@/components/auth/useAuth';
 import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
 import MobileHeader from '@/components/common/Header/mobile/MobileHeader';
