@@ -1,6 +1,7 @@
 import { Career } from '@/components/members/upload/types';
 import { Category, ServiceType } from '@/components/projects/upload/types';
 
+//
 export type Profile = {
   id: number;
   name: string;
