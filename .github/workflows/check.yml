@@ -9,8 +9,23 @@ on:
       - main
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      repo-settings: ${{ steps.filter.outputs.repo-settings }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            repo-settings:
+              - '**/!(*.md)'
+              - '!.github/**/*'
+              - '!.husky/**/*'
+              - '!.vscode/**/*'
   check:
-    environment: development
+    needs: changes
+    if: ${{ needs.changes.outputs.repo-settings == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch

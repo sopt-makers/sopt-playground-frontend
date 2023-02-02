@@ -1,9 +1,15 @@
 name: Storybook Deployment
 
 on:
-  pull_request:
   push:
-    branches: [main, develop]
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.github/**/*'
+      - '.husky/**/*'
+      - '.vscode/**/*'
 
 jobs:
   chromatic-deploy:
