@@ -9,13 +9,13 @@ jobs:
   should-check:
     runs-on: ubuntu-latest
     outputs:
-      skip: ${{ steps.filter.outputs.repo-settings_count == steps.filter.outputs.every_count }}
+      skip: ${{ steps.filter.outputs.to-skip_count == steps.filter.outputs.every_count }}
     steps:
       - uses: dorny/paths-filter@v2
         id: filter
         with:
           filters: |
-            files-to-skip:
+            to-skip:
               - '**/*.md'
               - '.github/**/!(*.yml)'
               - '.husky/**/*'
