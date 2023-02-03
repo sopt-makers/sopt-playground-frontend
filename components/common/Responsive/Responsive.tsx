@@ -24,6 +24,10 @@ const Responsive: FC<ResponsiveProps> = ({ children, only, forceMount = false })
 
   const [current, setCurrent] = useState<AvailableSize | null>(null);
   useEffect(() => {
+    if (forceMount) {
+      return;
+    }
+
     const mobileMedia = window.matchMedia(MOBILE_MEDIA_QUERY);
 
     const handleChange = (e: MediaQueryListEvent) => {
@@ -42,7 +46,7 @@ const Responsive: FC<ResponsiveProps> = ({ children, only, forceMount = false })
     });
 
     return () => mobileMedia.removeEventListener('change', handleChange);
-  }, []);
+  }, [forceMount]);
 
   return forceMount || current === null || only === current ? (
     <div className={selectedClassName}>{children}</div>
