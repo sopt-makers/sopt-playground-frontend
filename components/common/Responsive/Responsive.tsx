@@ -4,6 +4,7 @@ import { ResponsiveContext } from '@/components/common/Responsive/context';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ResponsiveProps {
+  className?: string;
   children: ReactNode;
   only: AvailableSize;
   forceMount?: boolean;
@@ -11,7 +12,7 @@ interface ResponsiveProps {
 
 type AvailableSize = 'mobile' | 'desktop';
 
-const Responsive: FC<ResponsiveProps> = ({ children, only, forceMount = false }) => {
+const Responsive: FC<ResponsiveProps> = ({ className, children, only, forceMount = false }) => {
   const { mobileOnlyClassName, desktopOnlyClassName } = useContext(ResponsiveContext);
 
   const selectedClassName = (() => {
@@ -49,7 +50,7 @@ const Responsive: FC<ResponsiveProps> = ({ children, only, forceMount = false })
   }, [forceMount]);
 
   return forceMount || current === null || only === current ? (
-    <div className={selectedClassName}>{children}</div>
+    <div className={`${selectedClassName} ${className}`}>{children}</div>
   ) : (
     <></>
   );
