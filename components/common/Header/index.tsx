@@ -7,12 +7,10 @@ import useAuth from '@/components/auth/useAuth';
 import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
 import MobileHeader from '@/components/common/Header/mobile/MobileHeader';
 import { LinkRenderer } from '@/components/common/Header/types';
+import Responsive from '@/components/common/Responsive';
 import { playgroundLink } from '@/constants/links';
-import useMediaQuery from '@/hooks/useMediaQuery';
-import { MOBILE_MAX_WIDTH } from '@/styles/mediaQuery';
 
 const Header: FC = () => {
-  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
   const router = useRouter();
   const { logout } = useAuth();
 
@@ -28,10 +26,15 @@ const Header: FC = () => {
   };
   const activePathMatcher = (path: string) => router.pathname?.startsWith(path);
 
-  return isMobile ? (
-    <MobileHeader user={user} onLogout={logout} renderLink={renderLink} activePathMatcher={activePathMatcher} />
-  ) : (
-    <DesktopHeader user={user} onLogout={logout} renderLink={renderLink} activePathMatcher={activePathMatcher} />
+  return (
+    <>
+      <Responsive only='mobile'>
+        <MobileHeader user={user} onLogout={logout} renderLink={renderLink} activePathMatcher={activePathMatcher} />
+      </Responsive>
+      <Responsive only='desktop'>
+        <DesktopHeader user={user} onLogout={logout} renderLink={renderLink} activePathMatcher={activePathMatcher} />
+      </Responsive>
+    </>
   );
 };
 
