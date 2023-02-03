@@ -3920,7 +3920,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-slot@npm:1.0.1":
+"@radix-ui/react-slot@npm:1.0.1, @radix-ui/react-slot@npm:^1.0.1":
   version: 1.0.1
   resolution: "@radix-ui/react-slot@npm:1.0.1"
   dependencies:
@@ -19045,6 +19045,7 @@ __metadata:
     "@radix-ui/react-collapsible": ^1.0.1
     "@radix-ui/react-dialog": ^1.0.2
     "@radix-ui/react-dropdown-menu": ^2.0.2
+    "@radix-ui/react-slot": ^1.0.1
     "@radix-ui/react-tabs": ^1.0.2
     "@storybook/addon-actions": ^6.5.5
     "@storybook/addon-docs": ^6.5.5

@@ -1,3 +1,4 @@
+import { Slot } from '@radix-ui/react-slot';
 import { FC, ReactNode, startTransition, useContext, useEffect, useState } from 'react';
 
 import { ResponsiveContext } from '@/components/common/Responsive/context';
@@ -8,11 +9,14 @@ interface ResponsiveProps {
   children: ReactNode;
   only: AvailableSize;
   forceMount?: boolean;
+  asChild?: boolean;
 }
 
 type AvailableSize = 'mobile' | 'desktop';
 
-const Responsive: FC<ResponsiveProps> = ({ className, children, only, forceMount = false }) => {
+const Responsive: FC<ResponsiveProps> = ({ className = '', children, only, asChild, forceMount = false }) => {
+  const Comp = asChild ? Slot : 'div';
+
   const { mobileOnlyClassName, desktopOnlyClassName } = useContext(ResponsiveContext);
 
   const selectedClassName = (() => {
@@ -50,7 +54,7 @@ const Responsive: FC<ResponsiveProps> = ({ className, children, only, forceMount
   }, [forceMount]);
 
   return forceMount || current === null || only === current ? (
-    <div className={`${selectedClassName} ${className}`}>{children}</div>
+    <Comp className={`${selectedClassName} ${className}`}>{children}</Comp>
   ) : (
     <></>
   );

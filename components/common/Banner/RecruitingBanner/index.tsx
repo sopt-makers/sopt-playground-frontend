@@ -22,12 +22,12 @@ export default function RecruitingBanner({ className }: RecruitingBannerProps) {
 
   return (
     <>
-      <Responsive only='mobile'>
+      <Responsive only='mobile' asChild>
         <Link href={RECRUITING_LINK} target='_blank' className={className}>
           <MobileRecruitingBanner />
         </Link>
       </Responsive>
-      <Responsive only='desktop'>
+      <Responsive only='desktop' asChild>
         <Link href={RECRUITING_LINK} target='_blank' className={className}>
           <Container>
             <RecruitmentText>{`🚀 makers ${TERM}기를 모집해요`}</RecruitmentText>
