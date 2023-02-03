@@ -6,11 +6,12 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface ResponsiveProps {
   children: ReactNode;
   only: AvailableSize;
+  forceMount?: boolean;
 }
 
 type AvailableSize = 'mobile' | 'desktop';
 
-const Responsive: FC<ResponsiveProps> = ({ children, only }) => {
+const Responsive: FC<ResponsiveProps> = ({ children, only, forceMount = false }) => {
   const { mobileOnlyClassName, desktopOnlyClassName } = useContext(ResponsiveContext);
 
   const selectedClassName = (() => {
@@ -43,7 +44,11 @@ const Responsive: FC<ResponsiveProps> = ({ children, only }) => {
     return () => mobileMedia.removeEventListener('change', handleChange);
   }, []);
 
-  return current === null || only === current ? <div className={selectedClassName}>{children}</div> : <></>;
+  return forceMount || current === null || only === current ? (
+    <div className={selectedClassName}>{children}</div>
+  ) : (
+    <></>
+  );
 };
 
 export default Responsive;

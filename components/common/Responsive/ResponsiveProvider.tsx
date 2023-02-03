@@ -11,7 +11,7 @@ interface ResponsiveProviderProps {
 
 const ResponsiveProvider: FC<ResponsiveProviderProps> = ({ children, classNamePrefix = 'responsive' }) => {
   const mobileOnlyClassName = `${classNamePrefix}-mobile-only`;
-  const desktopOnlyClassName = `${classNamePrefix}-pc-only`;
+  const desktopOnlyClassName = `${classNamePrefix}-desktop-only`;
 
   return (
     <ResponsiveContext.Provider value={{ mobileOnlyClassName, desktopOnlyClassName }}>
