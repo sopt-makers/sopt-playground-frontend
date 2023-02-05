@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useMemo, useState } from 'react';
 
-import { deleteProject } from '@/api';
 import { useGetMemberOfMe } from '@/api/hooks';
+import { deleteProject } from '@/api/projects';
 import { MemberRole, ProjectMember } from '@/api/projects/type';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
@@ -121,17 +121,18 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
                     if (metadata && metadata.generations.length > 0) {
                       badges.push(metadata.generations.map(String).join(', ') + '기');
                     }
-
-                    return (
-                      <Link href={playgroundLink.memberDetail(member.memberId)}>
-                        <MemberBlock
-                          name={member.memberName}
-                          position={MemberRoleInfo[member.memberRole]}
-                          imageUrl={metadata?.profileImage}
-                          badges={badges}
-                        />
-                      </Link>
+                    const memberBlock = (
+                      <MemberBlock
+                        name={member.memberName}
+                        position={MemberRoleInfo[member.memberRole]}
+                        imageUrl={metadata?.profileImage}
+                        badges={badges}
+                      />
                     );
+                    if (member.memberHasProfile) {
+                      return <Link href={playgroundLink.memberDetail(member.memberId)}>{memberBlock}</Link>;
+                    }
+                    return memberBlock;
                   }}
                 />
               ))}

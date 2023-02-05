@@ -5,7 +5,8 @@
 **대학생 연합 IT벤처창업 동아리 SOPT 구성원들을 위한 서비스**
 
 <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fsopt-makers%2Fsopt-playground-frontend&count_bg=%238040FF&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
-<img alt="GitHub closed issues" src="https://img.shields.io/github/commit-activity/m/sopt-makers/sopt-playground-frontend?color=8040ff">
+<a href="https://github.com/sopt-makers/sopt-playground-frontend/actions/workflows/deploy-production.yml">
+<img alt="GitHub Workflow Status (with branch)" src="https://img.shields.io/github/actions/workflow/status/sopt-makers/sopt-playground-frontend/deploy-production.yml?branch=main&color=%238040FF"></a>
 
 <a href="https://www.instagram.com/sopt_makers/">
 <img alt="Instagram" src="https://img.shields.io/badge/-Instagram-white?logo=Instagram&logoColor=d42121">
@@ -59,6 +60,10 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
 - tanstack-query
 - recoil
 - react-hook-form
+
+## 🚀 Activity
+
+![Alt](https://repobeats.axiom.co/api/embed/bffd623ce3ba58424205529201bb3600ef726474.svg 'Repobeats analytics image')
 
 ## 👨‍👩‍👧‍👦 Authors
 
