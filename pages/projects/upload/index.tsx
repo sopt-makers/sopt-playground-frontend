@@ -127,8 +127,7 @@ const ProjectUploadPage: FC = () => {
       if (isEditPage && postId) {
         await putProject({ id: Number(postId), data: input });
         router.push(playgroundLink.projectList());
-        queryClient.invalidateQueries('getProjectListQuery');
-        queryClient.invalidateQueries('getProjectQuery');
+        queryClient.invalidateQueries(['getProjectListQuery', 'getProjectQuery']);
       } else if (!isEditPage && !postId) {
         mutate(input, {
           onSuccess: () => {
