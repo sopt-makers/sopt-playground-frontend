@@ -9,20 +9,23 @@ jobs:
   should-check:
     runs-on: ubuntu-latest
     outputs:
-      repo-settings: ${{ steps.filter.outputs.repo-settings }}
+      skip: ${{ steps.filter.outputs.to-skip_count == steps.filter.outputs.every_count }}
     steps:
       - uses: dorny/paths-filter@v2
         id: filter
         with:
           filters: |
-            repo-settings:
-              - '**/!(*.md)'
-              - '!.github/**/!(*.yml)'
-              - '!.husky/**/*'
-              - '!.vscode/**/*'
+            to-skip:
+              - '**/*.md'
+              - '.github/**/!(*.yml)'
+              - '.husky/**/*'
+              - '.vscode/**/*'
+            every:
+              - '**/*'
+
   check:
     needs: should-check
-    if: ${{ needs.should-check.outputs.repo-settings == 'true' }}
+    if: ${{ needs.should-check.outputs.skip }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch
