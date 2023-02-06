@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
+import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
 import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
@@ -48,11 +49,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RecoilRoot>
           <ToastProvider>
             <GlobalStyle />
-            <>
+            <ResponsiveProvider>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
-            </>
+            </ResponsiveProvider>
             {DEBUG && <Debugger />}
           </ToastProvider>
         </RecoilRoot>

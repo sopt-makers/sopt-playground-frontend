@@ -4,16 +4,14 @@ import { RemoveScroll } from 'react-remove-scroll';
 
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
-import useMediaQuery from '@/hooks/useMediaQuery';
-import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import Responsive from '@/components/common/Responsive';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface HeaderLayoutProps {
   children: ReactNode;
 }
 
 const HeaderFooterLayout: FC<HeaderLayoutProps> = ({ children }) => {
-  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
-
   return (
     <>
       {/* 드롭다운 시 화면 밀림 방지용 클래스 추가. see: https://github.com/radix-ui/primitives/discussions/1100 */}
@@ -21,7 +19,9 @@ const HeaderFooterLayout: FC<HeaderLayoutProps> = ({ children }) => {
         <Header />
       </FixedSlot>
       <StyledContainer>{children}</StyledContainer>
-      {!isMobile && <Footer />}
+      <Responsive only='desktop'>
+        <Footer />
+      </Responsive>
     </>
   );
 };
