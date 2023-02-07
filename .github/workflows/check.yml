@@ -22,10 +22,14 @@ jobs:
               - '.vscode/**/*'
             every:
               - '**/*'
+      - name: Change Count
+        run: echo ${{ steps.filter.outputs.to-skip_count }} ${{ steps.filter.outputs.every_count }}
+      - name: Should Skip?
+        run: echo ${{ steps.filter.outputs.to-skip_count == steps.filter.outputs.every_count }}
 
   check:
     needs: should-check
-    if: ${{ needs.should-check.outputs.skip }}
+    if: needs.should-check.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch
