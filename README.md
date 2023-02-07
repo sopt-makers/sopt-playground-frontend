@@ -68,7 +68,6 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
 ## 👨‍👩‍👧‍👦 Authors
 
 현재 Playground를 만들고 있는 makers에요.  
-저희와 같이 SOPT의 가치를 높이고 싶으시다면 지원해주세요! [**[ 👉SOPT-makers 2기 지원하기 ]**](sopt-makers.oopy.io)
 
 <table align="center">
     <tr align="center">
@@ -120,8 +119,6 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
         </td>
     </tr>
 </table>
-
-## 👏 Contributors
 
 ## License
 
