@@ -155,7 +155,7 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, 
           placeholder='전달할 내용을 입력해주세요!'
         />
         <StyledButton isDisabled={!isValid}>
-          {isLoading || true ? (
+          {isLoading ? (
             <Loading />
           ) : (
             <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
