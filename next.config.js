@@ -10,7 +10,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   reactStrictMode: true,
   // https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
-  pageExtensions: ['tsx', 'ts', 'jsx', 'js', 'stories.tsx'],
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/i,
