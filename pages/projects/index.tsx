@@ -1,4 +1,4 @@
-import _uniqBy from 'lodash/uniqBy';
+import { uniqBy as _uniqBy } from 'lodash-es';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
