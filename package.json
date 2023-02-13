@@ -55,7 +55,7 @@
     "react-spinners": "^0.13.4",
     "recoil": "^0.7.2",
     "storybook-addon-next-router": "^4.0.0",
-    "yup": "^0.32.11"
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
