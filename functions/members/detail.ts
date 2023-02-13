@@ -1,3 +1,4 @@
+// 리다이렉트: /members/detail?id=123 -> /members/123
 export const onRequest: PagesFunction = async (context) => {
   const { request, next } = context;
 
@@ -5,10 +6,7 @@ export const onRequest: PagesFunction = async (context) => {
   const id = url.searchParams.get('id');
 
   if (id) {
-    const newUrl = new URL(request.url);
-    newUrl.pathname = '/member';
-    newUrl.searchParams.set('id', id);
-    return Response.redirect(newUrl.toString(), 301);
+    return Response.redirect(url.origin + `/members/${id}`, 301);
   }
 
   return next();
