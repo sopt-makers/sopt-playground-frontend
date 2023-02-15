@@ -2,12 +2,12 @@ import styled from '@emotion/styled';
 import { AxiosError } from 'axios';
 import { FC, FormEvent, useState } from 'react';
 import { useMutation } from 'react-query';
-import { ClipLoader } from 'react-spinners';
 
 import { postRegistrationEmail } from '@/api/registration';
 import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
 import Stepper from '@/components/auth/register/Stepper';
 import Input from '@/components/common/Input';
+import Loading from '@/components/common/Loading';
 import SquareLink from '@/components/common/SquareLink';
 import { MEMBER_REQUEST_FORM_URL } from '@/constants/links';
 import IconArrowRight from '@/public/icons/icon-arrow-right.svg';
@@ -56,7 +56,7 @@ const VerifyByEmail: FC = () => {
         <IconWarning /> {formatErrorMessage(verify.error)}
       </ErrorMessage>
       <SendButton as='button' variant='primary'>
-        {verify.isLoading ? <ClipLoader color='#ffffff' size={25} /> : <>SOPT 회원 인증메일 전송</>}
+        {verify.isLoading ? <Loading /> : <>SOPT 회원 인증메일 전송</>}
       </SendButton>
       <ErrorNotice href={MEMBER_REQUEST_FORM_URL} target='_blank'>
         <NoticeTitle>

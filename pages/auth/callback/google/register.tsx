@@ -3,15 +3,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import { ClipLoader } from 'react-spinners';
 import { useSetRecoilState } from 'recoil';
 
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import Loading from '@/components/common/Loading';
 import { playgroundLink } from '@/constants/links';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
-import { colors } from '@/styles/colors';
 
 const GoogleRegisterCallbackPage: FC = () => {
   const router = useRouter();
@@ -56,7 +55,7 @@ const GoogleRegisterCallbackPage: FC = () => {
   if (queryStatus === 'loading' || status === 'idle' || status === 'loading') {
     return (
       <StyledFacebookLoginCallback>
-        <ClipLoader color={colors.purple40} size={30} />
+        <Loading />
       </StyledFacebookLoginCallback>
     );
   }

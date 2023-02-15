@@ -17731,16 +17731,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-spinners@npm:^0.13.4":
-  version: 0.13.4
-  resolution: "react-spinners@npm:0.13.4"
-  peerDependencies:
-    react: ^16.0.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: ae9430bc8a2fede2ffdcac57c3586c56c5b459e1ba3ee60058c4eaf9b7cbdd87cf07c15927cfe0a171fc7460553385b69d961dc8448356bc558fd44db02eee63
-  languageName: node
-  linkType: hard
-
 "react-style-singleton@npm:^2.2.1":
   version: 2.2.1
   resolution: "react-style-singleton@npm:2.2.1"
@@ -19110,7 +19100,6 @@ __metadata:
     react-markdown: ^8.0.4
     react-query: ^3.38.0
     react-remove-scroll: ^2.5.5
-    react-spinners: ^0.13.4
     recoil: ^0.7.2
     sass-loader: ^12.6.0
     storybook: ^6.5.5
