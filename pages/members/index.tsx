@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import RecruitingBanner from '@/components/common/Banner/RecruitingBanner';
 import MobileHeader from '@/components/common/MobileHeader';
 import MemberDetail from '@/components/members/main/MemberDetail';
 import MemberList from '@/components/members/main/MemberList';
@@ -18,7 +17,6 @@ const UserPage: FC = () => {
   if (status === 'error') {
     return (
       <AuthRequired>
-        <RecruitingBanner />
         <MemberList />
       </AuthRequired>
     );

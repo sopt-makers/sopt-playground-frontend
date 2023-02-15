@@ -2,7 +2,6 @@ import _uniqBy from 'lodash/uniqBy';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import RecruitingBanner from '@/components/common/Banner/RecruitingBanner';
 import ProjectDetail from '@/components/projects/main/ProjectDetail';
 import ProjectList from '@/components/projects/main/ProjectList';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
@@ -18,7 +17,6 @@ const ProjectPage: FC = () => {
   if (status === 'error') {
     return (
       <AuthRequired>
-        <RecruitingBanner />
         <ProjectList />
       </AuthRequired>
     );
