@@ -8,6 +8,7 @@ import Footer from '@/components/common/Footer';
 import SwitchableHeader from '@/components/common/Header/SwitchableHeader';
 import AboutMakers from '@/components/makers/AboutMakers';
 import { makersGenerationsData } from '@/components/makers/data';
+import { MakersPerson } from '@/components/makers/data/types';
 import MakersMembers from '@/components/makers/MakersMembers';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
@@ -34,7 +35,19 @@ const MakersPage: FC<MakersPageProps> = ({ memberMetadataList }) => {
 export const getStaticProps: GetStaticProps<MakersPageProps> = async () => {
   const memberList = await getMemberProfile('');
 
-  const memberMetadataList = memberList.map((member) => {
+  const idSet = new Set(
+    makersGenerationsData.flatMap((gen) =>
+      gen.teams.flatMap((team) =>
+        team.people
+          .filter((person): person is MakersPerson & { type: 'member' } => person.type === 'member')
+          .map((person) => person.id),
+      ),
+    ),
+  );
+
+  const filteredMemberList = memberList.filter((member) => idSet.has(member.id));
+
+  const memberMetadataList = filteredMemberList.map((member) => {
     const sortedCareers = member.careers.filter((career) => career.isCurrent);
     sortedCareers.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
     const currentCompany = sortedCareers.length > 0 ? sortedCareers.at(-1)?.companyName ?? null : null;
