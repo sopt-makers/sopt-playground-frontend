@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FC, ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ClipLoader } from 'react-spinners';
 import * as yup from 'yup';
 
 import { usePostCoffeeChatMutation } from '@/api/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
+import Loading from '@/components/common/Loading';
 import Modal, { ModalProps } from '@/components/common/Modal';
 import { Alert } from '@/components/common/Modal/Alert';
 import Text from '@/components/common/Text';
@@ -156,7 +156,7 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, 
         />
         <StyledButton isDisabled={!isValid}>
           {isLoading ? (
-            <ClipLoader color='#ffffff' size={25} />
+            <Loading />
           ) : (
             <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
               쪽지 보내기

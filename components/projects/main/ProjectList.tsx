@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import _uniqBy from 'lodash/uniqBy';
+import { uniqBy as _uniqBy } from 'lodash-es';
 
 import Text from '@/components/common/Text';
 import ProjectCard from '@/components/projects/main/ProjectCard';
