@@ -146,11 +146,13 @@ const StyledMain = styled.main`
   display: flex;
   position: relative;
   column-gap: 30px;
+  margin-top: 90px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
+    margin-top: 56px;
     padding: 0 20px;
   }
 `;

@@ -59,7 +59,6 @@ const IntroducePanel = styled.section`
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;
-    margin-bottom: 56px;
     background-color: ${colors.black100};
     padding: 0;
     height: auto;
