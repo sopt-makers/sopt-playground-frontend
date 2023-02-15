@@ -4,11 +4,11 @@ export const MEMBER_REQUEST_FORM_URL = 'https://forms.gle/Hs9tJgMG9bNvT1rS9';
 
 export const playgroundLink = {
   memberList: () => `/members`,
-  memberDetail: (id: string | number) => `/members?id=${id}`,
+  memberDetail: (id: string | number) => `/members/${id}`,
   memberUpload: () => `/members/upload`,
   memberEdit: () => `/members/upload?edit=true`,
   projectList: () => `/projects`,
-  projectDetail: (id: string | number) => `/projects?id=${id}`,
+  projectDetail: (id: string | number) => `/projects/${id}`,
   projectUpload: () => `/projects/upload`,
   projectEdit: (id: string | number) => `/projects/upload?id=${id}&edit=true`,
   groupList: () => '/group',
