@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { NOTIFY_2ND_GENERATION_URL as RECRUIT_NOTIFY_GENERATION_URL } from '@/constants/links';
 import IconBell from '@/public/icons/icon-bell.svg';
 import IconOutgoing from '@/public/icons/icon-link-outgoing.svg';
 import { colors } from '@/styles/colors';
@@ -18,10 +17,10 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
       <Title>현재 makers 2기 진행 중이에요. 3기에서 만나요!</Title>
       <SubTitle>3기 모집은 2023년 7-8월 중에 진행될 예정이에요.</SubTitle>
       <ButtonGroup>
-        <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
+        {/* <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
           <StyledBellIcon />
           3기 모집 알림 신청
-        </SubscribeButton>
+        </SubscribeButton> */}
         <ExpiredButton href='https://sopt-makers.oopy.io/' target='_blank'>
           <StyledOutgoingIcon />
           2기 모집글 보기 (마감)
@@ -87,7 +86,6 @@ const ExpiredButton = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 16px;
   border: 1px solid ${colors.gray80};
   border-radius: 6px;
   cursor: pointer;
