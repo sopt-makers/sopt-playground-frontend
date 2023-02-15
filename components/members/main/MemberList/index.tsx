@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import uniq from 'lodash/uniq';
+import { uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect, useMemo } from 'react';

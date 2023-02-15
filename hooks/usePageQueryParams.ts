@@ -1,5 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
-import omitBy from 'lodash/omitBy';
+import { isEmpty, omitBy } from 'lodash-es';
 import { NextRouter, useRouter } from 'next/router';
 import qs from 'qs';
 import { useCallback } from 'react';

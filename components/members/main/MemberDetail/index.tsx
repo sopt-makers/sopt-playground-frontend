@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import uniq from 'lodash/uniq';
+import { uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import CallIcon from 'public/icons/icon-call.svg';
