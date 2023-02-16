@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { LinkTitle, ProjectDetail } from '@/api/projects/type';
+import { ProjectDetail } from '@/api/projects/type';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -45,8 +45,8 @@ const ProjectCard: FC<ProjectDetail> = ({
           <ServiceLinkWrapper className='card-hover'>
             {filteredLinks.map(({ linkId, linkTitle, linkUrl }) => (
               <StyledServiceLink key={linkId} href={linkUrl} onClick={(e) => e.stopPropagation()}>
-                <StyledLinkIcon alt='link-icon' src={getLinkInfo(linkTitle as LinkTitle)?.icon} />
-                <Text typography='SUIT_12_SB'>{getLinkInfo(linkTitle as LinkTitle)?.label}</Text>
+                <StyledLinkIcon alt='link-icon' src={getLinkInfo(linkTitle)?.icon} />
+                <Text typography='SUIT_12_SB'>{getLinkInfo(linkTitle)?.label}</Text>
               </StyledServiceLink>
             ))}
           </ServiceLinkWrapper>
