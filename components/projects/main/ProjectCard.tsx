@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { LinkTitle, Project } from '@/api/projects/type';
+import { LinkTitle, ProjectDetail } from '@/api/projects/type';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -12,7 +12,7 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const ProjectCard: FC<Project> = ({
+const ProjectCard: FC<ProjectDetail> = ({
   id,
   name,
   category,
