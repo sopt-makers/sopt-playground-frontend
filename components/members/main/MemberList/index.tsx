@@ -74,10 +74,10 @@ const MemberList: FC = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />}
+        {/* {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />} */}
 
         <StyledMain>
-          {!hasProfile && <StyledDivider />}
+          {/* {!hasProfile && <StyledDivider />} */}
           <Responsive only='desktop'>
             <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
           </Responsive>
@@ -119,8 +119,8 @@ export default MemberList;
 
 const StyledContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   min-height: 101vh;
 `;
 
