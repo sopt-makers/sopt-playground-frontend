@@ -63,12 +63,6 @@ export type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'AN
 export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
 export type LinkTitle = typeof LINK_TITLES[number];
 
-export type ProjectLink = {
-  linkId: number;
-  linkTitle: LinkTitle | string;
-  linkUrl: string;
-};
-
 export enum ServiceType {
   WEB = 'WEB',
   APP = 'APP',

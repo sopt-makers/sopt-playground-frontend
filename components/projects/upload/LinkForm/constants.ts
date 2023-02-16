@@ -1,6 +1,6 @@
-import { ProjectLink } from '@/api/projects/type';
-
-export type LinkFormType = Omit<ProjectLink, 'linkId'> & {
+export type LinkFormType = {
+  linkTitle: string;
+  linkUrl: string;
   isEdit?: boolean;
 };
 
