@@ -74,10 +74,10 @@ const MemberList: FC = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        {/* {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />} */}
+        {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />}
 
         <StyledMain>
-          {/* {!hasProfile && <StyledDivider />} */}
+          {!hasProfile && <StyledDivider />}
           <Responsive only='desktop'>
             <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
           </Responsive>
