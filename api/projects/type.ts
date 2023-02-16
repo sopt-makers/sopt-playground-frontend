@@ -60,16 +60,6 @@ export type ProjectInput = {
 
 export type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
 
-export type ProjectMember = {
-  memberId: number;
-  memberRole: MemberRole;
-  memberDescription: string;
-  isTeamMember: boolean;
-  memberName: string;
-  memberGeneration: number;
-  memberHasProfile?: boolean;
-};
-
 export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
 export type LinkTitle = typeof LINK_TITLES[number];
 
