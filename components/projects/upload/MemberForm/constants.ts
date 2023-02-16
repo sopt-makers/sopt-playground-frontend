@@ -1,5 +1,4 @@
 import { Member } from '@/api/members/type';
-import { MemberRole } from '@/api/projects/type';
 
 export type MemberFormType = {
   memberId: number;
@@ -12,6 +11,8 @@ export type MemberFormType = {
   isEdit?: boolean;
   searchedMember?: Member;
 };
+
+type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
 
 export const DEFAULT_MEMBER: Partial<MemberFormType> = {
   memberRole: undefined,
