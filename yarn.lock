@@ -6058,10 +6058,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.167":
-  version: 4.14.182
-  resolution: "@types/lodash@npm:4.14.182"
-  checksum: 7dd137aa9dbabd632408bd37009d984655164fa1ecc3f2b6eb94afe35bf0a5852cbab6183148d883e9c73a958b7fec9a9bcf7c8e45d41195add6a18c34958209
+"@types/lodash-es@npm:^4.17.6":
+  version: 4.17.6
+  resolution: "@types/lodash-es@npm:4.17.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 9bd239dd525086e278821949ce12fbdd4f100a060fed9323fc7ad5661113e1641f28a7ebab617230ed3474680d8f4de705c1928b48252bb684be6ec9eed715db
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.167":
+  version: 4.14.191
+  resolution: "@types/lodash@npm:4.14.191"
+  checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
   languageName: node
   linkType: hard
 
@@ -17699,16 +17708,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-spinners@npm:^0.13.4":
-  version: 0.13.4
-  resolution: "react-spinners@npm:0.13.4"
-  peerDependencies:
-    react: ^16.0.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: ae9430bc8a2fede2ffdcac57c3586c56c5b459e1ba3ee60058c4eaf9b7cbdd87cf07c15927cfe0a171fc7460553385b69d961dc8448356bc558fd44db02eee63
-  languageName: node
-  linkType: hard
-
 "react-style-singleton@npm:^2.2.1":
   version: 2.2.1
   resolution: "react-style-singleton@npm:2.2.1"
@@ -19042,6 +19041,7 @@ __metadata:
     "@storybook/testing-library": ^0.0.11
     "@stylelint/postcss-css-in-js": ^0.37.2
     "@svgr/webpack": ^6.2.1
+    "@types/lodash-es": ^4.17.6
     "@types/node": 17.0.25
     "@types/react": 18.0.5
     "@types/react-datepicker": ^4.8.0
@@ -19077,7 +19077,6 @@ __metadata:
     react-markdown: ^8.0.4
     react-query: ^3.38.0
     react-remove-scroll: ^2.5.5
-    react-spinners: ^0.13.4
     recoil: ^0.7.2
     sass-loader: ^12.6.0
     storybook: ^6.5.5

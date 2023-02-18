@@ -1,7 +1,7 @@
 // @ts-nocheck
 // FIXME: react-hook-form의 타입이 옵셔널해서 맞춰지지 않아 임시로 주석처리(selectedMembers)
 import styled from '@emotion/styled';
-import _debounce from 'lodash/debounce';
+import { debounce as _debounce } from 'lodash-es';
 import React, { FC, useState } from 'react';
 import { Controller, useFieldArray, UseFieldArrayProps, useFormContext, useWatch } from 'react-hook-form';
 
