@@ -15,40 +15,34 @@ export const memberFormSchema = yup.object().shape({
       year: yup.lazy(() =>
         yup.string().when(['month', 'day'], {
           is: (month: string, day: string) => month || day,
-          then: yup
-            .string()
-            .required('연도를 입력해주세요.')
-            .matches(YEAR_REG_EXP, '연도를 숫자 4자리로 입력해주세요.'),
+          then: (schema) =>
+            schema.required('연도를 입력해주세요.').matches(YEAR_REG_EXP, '연도를 숫자 4자리로 입력해주세요.'),
         }),
       ),
       month: yup.lazy(() =>
         yup.string().when(['year', 'day'], {
           is: (year: string, day: string) => year || day,
-          then: yup.string().required('월을 입력해주세요.').matches(MONTH_REG_EXP, '월을 형식에 맞게 입력해주세요.'),
+          then: (schema) =>
+            schema.required('월을 입력해주세요.').matches(MONTH_REG_EXP, '월을 형식에 맞게 입력해주세요.'),
         }),
       ),
       day: yup.lazy(() =>
         yup.string().when(['year', 'month'], {
           is: (year: string, month: string) => year || month,
-          then: yup.string().required('일을 입력해주세요.').matches(DAY_REG_EXP, '일을 형식에 맞게 입력해주세요.'),
+          then: (schema) =>
+            schema.required('일을 입력해주세요.').matches(DAY_REG_EXP, '일을 형식에 맞게 입력해주세요.'),
         }),
       ),
     })
     .nullable(),
-  phone: yup
-    .string()
-    .when([], (_, { originalValue }) =>
-      originalValue?.length
-        ? yup.string().matches(PHONE_REG_EXP, `'-'를 넣어 휴대폰 양식에 맞게 입력해주세요.`)
-        : yup.string().nullable(),
-    ),
-  email: yup
-    .string()
-    .when([], (_, { originalValue }) =>
-      originalValue?.length
-        ? yup.string().matches(EMAIL_REG_EXP, '이메일 양식에 맞게 입력해주세요.')
-        : yup.string().nullable(),
-    ),
+  phone: yup.lazy((value) =>
+    value === ''
+      ? yup.string()
+      : yup.string().nullable().matches(PHONE_REG_EXP, `'-'를 넣어 휴대폰 양식에 맞게 입력해주세요.`),
+  ),
+  email: yup.lazy((value) =>
+    value === '' ? yup.string() : yup.string().nullable().matches(EMAIL_REG_EXP, `이메일 양식에 맞게 입력해주세요.`),
+  ),
   address: yup.string().nullable(),
   university: yup.string().nullable(),
   major: yup.string().nullable(),
@@ -64,12 +58,14 @@ export const memberFormSchema = yup.object().shape({
     .of(
       yup.object().shape({
         title: yup.lazy(() =>
-          yup.string().when('url', { is: (url: string) => url, then: yup.string().required('링크를 선택해주세요.') }),
+          yup
+            .string()
+            .when('url', { is: (url: string) => url, then: (schema) => schema.required('링크를 선택해주세요.') }),
         ),
         url: yup.lazy(() =>
           yup
             .string()
-            .when('title', { is: (title: string) => title, then: yup.string().required('링크를 입력해주세요.') })
+            .when('title', { is: (title: string) => title, then: (schema) => schema.required('링크를 입력해주세요.') })
             .url('url 형태로 입력해주세요.'),
         ),
       }),
@@ -85,28 +81,29 @@ export const memberFormSchema = yup.object().shape({
         title: yup.lazy(() =>
           yup.string().when(['companyName', 'startDate', 'endDate'], {
             is: (companyName: string, startDate: string, endDate: string) => companyName || startDate || endDate,
-            then: yup.string().required('직무를 입력해주세요.'),
+            then: (schema) => schema.required('직무를 입력해주세요.'),
           }),
         ),
         companyName: yup.lazy(() =>
           yup.string().when(['title', 'startDate', 'endDate'], {
             is: (title: string, startDate: string, endDate: string) => title || startDate || endDate,
-            then: yup.string().required('회사를 입력해주세요.'),
+            then: (schema) => schema.required('회사를 입력해주세요.'),
           }),
         ),
         startDate: yup.lazy(() =>
           yup.string().when(['title', 'companyName', 'endDate'], {
             is: (title: string, companyName: string, endDate: string) => title || companyName || endDate,
-            then: yup.string().required('근무 시작일을 입력해주세요.'),
+            then: (schema) => schema.required('근무 시작일을 입력해주세요.'),
           }),
         ),
         endDate: yup.lazy(() =>
           yup.string().when('isCurrent', {
             is: false,
-            then: yup.string().when(['title', 'startDate', 'companyName'], {
-              is: (title: string, startDate: string, companyName: string) => title || startDate || companyName,
-              then: yup.string().required('근무 종료일을 입력해주세요.'),
-            }),
+            then: (schema) =>
+              schema.when(['title', 'startDate', 'companyName'], {
+                is: (title: string, startDate: string, companyName: string) => title || startDate || companyName,
+                then: (schema) => schema.required('근무 종료일을 입력해주세요.'),
+              }),
           }),
         ),
       }),
