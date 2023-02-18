@@ -6,7 +6,6 @@ import { FC, useMemo, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/api/hooks';
 import { deleteProject } from '@/api/projects';
-import { MemberRole, ProjectMember } from '@/api/projects/type';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
@@ -20,8 +19,8 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const memberRoleOrder: MemberRole[] = ['TEAMLEADER', 'MAINPM', 'PM', 'DESIGN', 'WEB', 'SERVER', 'ANDROID', 'IOS'];
-const sortByRole = (projectMembers: ProjectMember[]) =>
+const memberRoleOrder = ['TEAMLEADER', 'MAINPM', 'PM', 'DESIGN', 'WEB', 'SERVER', 'ANDROID', 'IOS'] as const;
+const sortByRole = <T extends { memberRole: typeof memberRoleOrder[number] }>(projectMembers: T[]): T[] =>
   [...projectMembers].sort((x, y) => memberRoleOrder.indexOf(x.memberRole) - memberRoleOrder.indexOf(y.memberRole));
 
 interface ProjectDetailProps {

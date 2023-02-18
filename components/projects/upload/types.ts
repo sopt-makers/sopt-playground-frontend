@@ -22,14 +22,7 @@ export enum ServiceType {
   APP = 'APP',
 }
 
-export enum Category {
-  APPJAM = 'APPJAM',
-  SOPKATHON = 'SOPKATHON',
-  SOPTERM = 'SOPTERM',
-  STUDY = 'STUDY',
-  JOINTSEMINAR = 'JOINTSEMINAR',
-  ETC = 'ETC',
-}
+export type Category = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'JOINTSEMINAR' | 'ETC';
 
 export type Generation = {
   generation?: number;

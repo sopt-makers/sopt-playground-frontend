@@ -1,10 +1,18 @@
 import { Member } from '@/api/members/type';
-import { MemberRole, ProjectMember } from '@/api/projects/type';
 
-export type MemberFormType = ProjectMember & {
+export type MemberFormType = {
+  memberId: number;
+  memberRole: MemberRole;
+  memberDescription: string;
+  isTeamMember: boolean;
+  memberName: string;
+  memberGeneration: number;
+  memberHasProfile?: boolean;
   isEdit?: boolean;
   searchedMember?: Member;
 };
+
+type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
 
 export const DEFAULT_MEMBER: Partial<MemberFormType> = {
   memberRole: undefined,

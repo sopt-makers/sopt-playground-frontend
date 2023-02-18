@@ -6,12 +6,12 @@ import { Category, FormItem } from '@/components/projects/upload/types';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 
 export const categoryLabel: Record<Category, string> = {
-  [Category.APPJAM]: '앱잼',
-  [Category.SOPKATHON]: '솝커톤',
-  [Category.SOPTERM]: '솝텀 프로젝트',
-  [Category.STUDY]: '스터디',
-  [Category.JOINTSEMINAR]: '합동 세미나',
-  [Category.ETC]: '기타',
+  APPJAM: '앱잼',
+  SOPKATHON: '솝커톤',
+  SOPTERM: '솝텀 프로젝트',
+  STUDY: '스터디',
+  JOINTSEMINAR: '합동 세미나',
+  ETC: '기타',
 };
 
 export const FORM_ITEMS: FormItem[] = [
