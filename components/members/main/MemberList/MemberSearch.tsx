@@ -47,7 +47,6 @@ const StyledInput = styled(Input)`
   background: ${colors.black80};
   padding: 18px 24px;
   padding-left: 56px;
-  max-width: 330px;
   color: ${colors.gray80};
 
   ${textStyles.SUIT_16_B};

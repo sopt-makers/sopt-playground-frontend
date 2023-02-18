@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -7,22 +6,21 @@ import React, { FC, useEffect, useMemo } from 'react';
 
 import { useGetMemberOfMe } from '@/api/hooks';
 import { Profile } from '@/api/members/type';
-import Text from '@/components/common/Text';
+import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
+import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
 import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import useMediaQuery from '@/hooks/useMediaQuery';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { colors } from '@/styles/colors';
-import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const PAGE_LIMIT = 30;
 
@@ -52,7 +50,6 @@ const MemberList: FC = () => {
     [memberProfileData],
   );
 
-  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
   const hasProfile = !!memberOfMeData?.hasProfile;
 
   const handleSelect = (value: MenuValue) => {
@@ -75,37 +72,18 @@ const MemberList: FC = () => {
   }, [isVisible, fetchNextPage]);
 
   return (
-    <StyledContainer hasProfile={hasProfile}>
+    <StyledContainer>
       <StyledContent>
-        {memberOfMeData && !hasProfile && (
-          <IntroducePanel>
-            <LeftContainer>
-              <StyledImage src='/icons/icon-doublestar.svg' alt='' />
-              <TextContainer>
-                <Text typography={isMobile ? 'SUIT_22_R' : 'SUIT_20_R'}>{`${
-                  memberOfMeData?.name ?? ''
-                }님, 안녕하세요!`}</Text>
-                <Text typography={isMobile ? 'SUIT_22_B' : 'SUIT_24_B'}>내 프로필도 등록해보시겠어요?</Text>
-              </TextContainer>
-            </LeftContainer>
-            <ButtonContainer>
-              <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
-                <UploadButton>프로젝트 업로드</UploadButton>
-              </Link>
-              <Link href={playgroundLink.memberUpload()} passHref legacyBehavior>
-                <ProfileButton>프로필 추가</ProfileButton>
-              </Link>
-            </ButtonContainer>
-          </IntroducePanel>
-        )}
+        {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />}
 
-        <StyledMain hasProfile={hasProfile}>
+        <StyledMain>
           {!hasProfile && <StyledDivider />}
-          {!isMobile ? (
+          <Responsive only='desktop'>
             <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
-          ) : (
+          </Responsive>
+          <Responsive only='mobile'>
             <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
-          )}
+          </Responsive>
           <StyledRightWrapper>
             <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
             <StyledCardWrapper>
@@ -139,15 +117,11 @@ const MemberList: FC = () => {
 
 export default MemberList;
 
-const StyledContainer = styled.div<{ hasProfile: boolean }>`
+const StyledContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  ${({ hasProfile }) => !hasProfile && `margin-top: 120px;`}
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${({ hasProfile }) => !hasProfile && `margin-top: 45px;`}
-  }
+  min-height: 101vh;
 `;
 
 const StyledContent = styled.div`
@@ -161,109 +135,25 @@ const StyledContent = styled.div`
   }
 `;
 
-const IntroducePanel = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 92px;
-  border-radius: 42px;
-  background-color: ${colors.black80};
-  padding: 59px 64px;
-  width: 100%;
-  height: 208px;
+const StyledOnBoardingBanner = styled(OnBoardingBanner)`
+  margin-top: 120px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    display: block;
-    margin-bottom: 56px;
-    background-color: ${colors.black100};
-    padding: 0;
-    height: auto;
+    margin-top: 45px;
   }
 `;
 
-const StyledImage = styled.img`
-  width: 84px;
-  height: 84px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-left: 20px;
-    width: 40px;
-    height: 40px;
-  }
-`;
-
-const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-left: 20px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin: 0;
-  }
-`;
-
-const LeftContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: row-reverse;
-    justify-content: center;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    justify-content: center;
-    margin-top: 24px;
-  }
-`;
-
-const buttonStyle = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 14px;
-  padding: 15px 0;
-  width: 160px;
-
-  ${textStyles.SUIT_14_SB}
-`;
-
-const UploadButton = styled.a`
-  ${buttonStyle}
-
-  background-color: ${colors.black60};
-  color: ${colors.gray30};
-`;
-
-const ProfileButton = styled.a`
-  ${buttonStyle}
-
-  background-color: ${colors.purpledim100};
-  color: ${colors.purple40};
-`;
-
-const StyledMain = styled.main<{ hasProfile?: boolean }>`
+const StyledMain = styled.main`
   display: flex;
   position: relative;
   column-gap: 30px;
-
-  ${({ hasProfile }) =>
-    hasProfile &&
-    css`
-      margin: 90px 0;
-    `};
+  margin-top: 90px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
+    margin-top: 56px;
     padding: 0 20px;
   }
 `;
@@ -276,8 +166,11 @@ const StyledRightWrapper = styled.div`
 
 const StyledMemberSearch = styled(MemberSearch)`
   align-self: flex-end;
+  max-width: 330px;
+
   @media ${MOBILE_MEDIA_QUERY} {
-    align-self: center;
+    align-self: stretch;
+    max-width: 100%;
   }
 `;
 
