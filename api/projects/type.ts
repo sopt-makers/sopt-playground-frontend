@@ -1,6 +1,4 @@
-import { Category, ServiceType } from '@/components/projects/upload/types';
-
-export type Project = {
+export type ProjectDetail = {
   id: number;
   name: string;
   writerId: number;
@@ -16,34 +14,57 @@ export type Project = {
   logoImage: string;
   thumbnailImage: string;
   images: string[];
-  members: ProjectMember[];
-  links: ProjectLink[];
+  members: {
+    memberId: number;
+    memberRole: MemberRole;
+    memberDescription: string;
+    isTeamMember: boolean;
+    memberName: string;
+    memberGeneration: number;
+    memberHasProfile?: boolean;
+  }[];
+  links: {
+    linkId: number;
+    linkTitle: LinkTitle | string;
+    linkUrl: string;
+  }[];
 };
 
-type ProjectInputOmitType = 'id' | 'links' | 'generation' | 'members';
-export type ProjectInput = Omit<Project, ProjectInputOmitType> & {
-  links: Omit<ProjectLink, 'linkId'>[];
+export type ProjectInput = {
+  name: string;
+  writerId: number;
+  category: Category;
+  startAt: string;
+  endAt?: string;
+  serviceType: ServiceType[];
+  isAvailable: boolean;
+  isFounding: boolean;
+  summary: string;
+  detail: string;
+  logoImage: string;
+  thumbnailImage: string;
+  images: string[];
+  links: {
+    linkTitle: LinkTitle | string;
+    linkUrl: string;
+  }[];
   generation?: number;
-  members: Omit<ProjectMember, 'memberName' | 'memberGeneration'>[];
+  members: {
+    memberId: number;
+    memberRole: MemberRole;
+    memberDescription: string;
+    isTeamMember: boolean;
+    memberHasProfile?: boolean;
+  }[];
 };
 
-export type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
+type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
+type Category = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'JOINTSEMINAR' | 'ETC';
 
-export type ProjectMember = {
-  memberId: number;
-  memberRole: MemberRole;
-  memberDescription: string;
-  isTeamMember: boolean;
-  memberName: string;
-  memberGeneration: number;
-  memberHasProfile?: boolean;
-};
-
-export const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
+const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
 export type LinkTitle = typeof LINK_TITLES[number];
 
-export type ProjectLink = {
-  linkId: number;
-  linkTitle: LinkTitle | string;
-  linkUrl: string;
-};
+export enum ServiceType {
+  WEB = 'WEB',
+  APP = 'APP',
+}

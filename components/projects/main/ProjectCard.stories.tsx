@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import { Category, ServiceType } from '@/components/projects/upload/types';
+import { ServiceType } from '@/components/projects/upload/types';
 
 import ProjectCard from './ProjectCard';
 
@@ -17,7 +17,7 @@ export const Thumbnail = Template.bind({});
 Thumbnail.args = {
   name: '핸디캔디',
   generation: 28,
-  category: Category.APPJAM,
+  category: 'APPJAM',
   summary: '핸디캔디로 미래의 나에게 보상을 설정해 보아요',
   thumbnailImage: THUMBNAIL_IMAGE,
   logoImage: LOGO_IMAGE,
@@ -35,7 +35,7 @@ export const Logo = Template.bind({});
 Logo.args = {
   name: '핸디캔디',
   generation: 28,
-  category: Category.APPJAM,
+  category: 'APPJAM',
   summary: '핸디캔디로 미래의 나에게 보상을 설정해 보아요',
   logoImage: LOGO_IMAGE,
   serviceType: [ServiceType.WEB],

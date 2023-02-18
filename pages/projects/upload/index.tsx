@@ -7,7 +7,6 @@ import { useQueryClient } from 'react-query';
 
 import { useGetMemberOfMe, useGetProjectById } from '@/api/hooks';
 import { putProject } from '@/api/projects';
-import { ProjectMember } from '@/api/projects/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
 import useToast from '@/components/common/Toast/useToast';
@@ -94,7 +93,7 @@ const ProjectUploadPage: FC = () => {
 
   const onSubmit = async (data: ProjectUploadForm) => {
     const notify = confirm(`프로젝트를 ${uploadType} 하시겠습니까?`);
-    const members: ProjectMember[] = [...data.members, ...(data.releaseMembers ?? [])].map(
+    const members: ProjectUploadForm['members'] = [...data.members, ...(data.releaseMembers ?? [])].map(
       ({ isTeamMember, memberDescription, memberRole, searchedMember }) => ({
         isTeamMember,
         memberRole,

@@ -1,9 +1,9 @@
 import { axiosInstance } from '@/api';
-import { Project, ProjectInput } from '@/api/projects/type';
+import { ProjectDetail, ProjectInput } from '@/api/projects/type';
 
 // project id로 조회
 export const getProjectById = async (id: string) => {
-  const { data } = await axiosInstance.request<Project>({
+  const { data } = await axiosInstance.request<ProjectDetail>({
     method: 'GET',
     url: `api/v1/projects/${id}`,
   });
@@ -13,7 +13,7 @@ export const getProjectById = async (id: string) => {
 
 // project 전체 조회
 export const getProjects = async () => {
-  const { data } = await axiosInstance.request<Project[]>({
+  const { data } = await axiosInstance.request<ProjectDetail[]>({
     method: 'GET',
     url: 'api/v1/projects',
   });

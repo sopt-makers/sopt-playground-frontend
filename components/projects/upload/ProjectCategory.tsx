@@ -5,13 +5,20 @@ import { useFormContext } from 'react-hook-form';
 import FormItem from '@/components/common/form/FormItem';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
-import { categoryLabel } from '@/components/projects/upload/constants';
 import FormTitle from '@/components/projects/upload/FormTitle';
-import { Category } from '@/components/projects/upload/types';
 import { ProjectUploadForm } from '@/pages/projects/upload';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+
+const categoryLabel = {
+  APPJAM: '앱잼',
+  SOPKATHON: '솝커톤',
+  SOPTERM: '솝텀 프로젝트',
+  STUDY: '스터디',
+  JOINTSEMINAR: '합동 세미나',
+  ETC: '기타',
+} as const;
 
 const ProjectCategory: FC = () => {
   const {
@@ -24,9 +31,9 @@ const ProjectCategory: FC = () => {
       <StyledDescription>기수는 SOPT 공식 활동을 기준으로 선택해주세요</StyledDescription>
       <FormItem errorMessage={errors.category?.message}>
         <StyledSelect error={!!errors.category} placeholder='선택' {...register('category')}>
-          {Object.values(Category).map((category) => (
+          {Object.keys(categoryLabel).map((category) => (
             <option key={category} value={category}>
-              {categoryLabel[category]}
+              {categoryLabel[category as keyof typeof categoryLabel]}
             </option>
           ))}
         </StyledSelect>
