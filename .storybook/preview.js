@@ -7,6 +7,7 @@ import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { RecoilRoot } from 'recoil';
 import StorybookEventLoggerProvider from '@/components/eventLogger/providers/StorybookEventLoggerProvider';
 import StorybookToastProvider from '@/components/common/Toast/providers/StorybookToastProvider';
+import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
 
 initialize();
 
@@ -42,7 +43,9 @@ export const decorators = [
         <StorybookEventLoggerProvider>
           <StorybookToastProvider>
             <GlobalStyle />
-            <Story />
+            <ResponsiveProvider>
+              <Story />
+            </ResponsiveProvider>
           </StorybookToastProvider>
         </StorybookEventLoggerProvider>
       </RecoilRoot>

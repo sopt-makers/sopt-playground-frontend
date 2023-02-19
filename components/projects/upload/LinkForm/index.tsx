@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
-import { LINK_TITLES } from '@/api/projects/type';
 import FormItem from '@/components/common/form/FormItem';
 import Input from '@/components/common/Input';
 import Select from '@/components/common/Select';
@@ -14,6 +13,8 @@ import IconTrash from '@/public/icons/icon-trash.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+
+const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
 
 const LinkForm: FC = () => {
   const {

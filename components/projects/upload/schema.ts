@@ -8,8 +8,8 @@ export const projectSchema = yup.object().shape({
     checked: yup.boolean().required(),
     generation: yup.number().when('checked', {
       is: true,
-      then: yup.number().optional(),
-      otherwise: yup.number().required(),
+      then: (schema) => schema.optional(),
+      otherwise: (schema) => schema.required(),
     }),
   }),
   category: yup.string().required('프로젝트를 어디서 진행했는지 선택해주세요.'),
@@ -37,7 +37,8 @@ export const projectSchema = yup.object().shape({
     startAt: yup.string().required('시작일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
     endAt: yup.string().when('isOngoing', {
       is: false,
-      then: yup.string().required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
+      then: (schema) =>
+        schema.required('종료일을 입력해주세요.').matches(DATE_PATTERN, '날짜 형식에 맞게 입력해주세요.'),
     }),
   }),
   summary: yup.string().required('프로젝트 한줄 소개를 입력해주세요.'),

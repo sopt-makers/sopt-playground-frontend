@@ -7,6 +7,7 @@
     "paths": {
       "@/*": ["./*"]
     },
+    "types": ["jest"],
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
