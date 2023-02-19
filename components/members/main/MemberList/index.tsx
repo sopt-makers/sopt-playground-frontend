@@ -14,21 +14,22 @@ import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
-import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { safeParseInt } from '@/utils';
 
 const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
-  const { logClickEvent } = useEventLogger();
-  const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
+  const { query } = useStringRouterQuery(['filter'] as const);
+  const { logClickEvent } = useEventLogger();
+  const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
@@ -53,7 +54,6 @@ const MemberList: FC = () => {
   const hasProfile = !!memberOfMeData?.hasProfile;
 
   const handleSelect = (value: MenuValue) => {
-    onSelect(value);
     addQueryParamsToUrl({ filter: value.toString() });
   };
 
@@ -75,15 +75,16 @@ const MemberList: FC = () => {
     <StyledContainer>
       <StyledContent>
         {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />}
-
         <StyledMain>
           {!hasProfile && <StyledDivider />}
+
           <Responsive only='desktop'>
-            <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
+            <StyledMemberRoleMenu value={safeParseInt(query?.filter ?? '') ?? 0} onSelect={handleSelect} />
           </Responsive>
           <Responsive only='mobile'>
-            <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
+            <StyledMemberRoleDropdown value={safeParseInt(query?.filter ?? '') ?? 0} onSelect={handleSelect} />
           </Responsive>
+
           <StyledRightWrapper>
             <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
             <StyledCardWrapper>
