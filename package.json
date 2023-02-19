@@ -9,7 +9,7 @@
     "analyze": "cross-env ANALYZE=true next build",
     "build": "next build",
     "build-storybook": "build-storybook",
-    "check": "conc \"yarn:lint\" \"yarn:typecheck\" \"yarn:stylelint\" \"yarn:test:ci\"",
+    "check": "conc -s all \"yarn:lint\" \"yarn:typecheck\" \"yarn:stylelint\" \"yarn:test:ci\"",
     "dev": "next dev",
     "test": "jest --watch",
     "test:ci": "jest --ci",
