@@ -21,6 +21,7 @@ jobs:
 
       - name: Check All
         run: |
+          set -o pipefail
           yarn check | tee check.log
 
       - name: Print Summary
