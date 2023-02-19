@@ -5,30 +5,7 @@ on:
   merge_group:
 
 jobs:
-  should-check:
-    runs-on: ubuntu-latest
-    outputs:
-      skip: ${{ steps.filter.outputs.to-skip_count == steps.filter.outputs.every_count }}
-    steps:
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            to-skip:
-              - '**/*.md'
-              - '.github/**/!(*.yml)'
-              - '.husky/**/*'
-              - '.vscode/**/*'
-            every:
-              - '**/*'
-      - name: Change Count
-        run: echo ${{ steps.filter.outputs.to-skip_count }} ${{ steps.filter.outputs.every_count }}
-      - name: Should Skip?
-        run: echo ${{ steps.filter.outputs.to-skip_count == steps.filter.outputs.every_count }}
-
   check:
-    needs: should-check
-    if: needs.should-check.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch
