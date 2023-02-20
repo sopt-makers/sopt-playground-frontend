@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import ErrorMessage from '@/components/projects/form/presenter/ErrorMessage';
+import ErrorMessage from '@/components/common/Input/ErrorMessage';
 
 export default {
   component: ErrorMessage,

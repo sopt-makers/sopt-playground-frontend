@@ -5,7 +5,6 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
-import NameField from '@/components/projects/form/fields/NameField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
@@ -17,11 +16,10 @@ interface ProjectFormProps {
 }
 
 const ProjectForm: FC<ProjectFormProps> = ({ onSubmit }) => {
-  const f = useForm<ProjectFormType>({
+  const { control, handleSubmit, register, getValues } = useForm<ProjectFormType>({
     resolver: zodResolver(uploadSchema),
     mode: 'all',
   });
-  const { control, handleSubmit, register, getValues } = f;
 
   const submit = () => {
     onSubmit?.(getValues());
@@ -34,9 +32,7 @@ const ProjectForm: FC<ProjectFormProps> = ({ onSubmit }) => {
           control={control}
           name='name'
           defaultValue=''
-          render={({ field: { value, onChange }, fieldState }) => (
-            <NameField value={value} onChange={onChange} error={fieldState.error?.message} />
-          )}
+          render={({ field, formState }) => <Input {...field} errorMessage={formState.errors.name?.message ?? ''} />}
         />
       </FormEntry>
       <FormEntry title='안녕하세요' comment='디스크립션' description='디스크립션'>

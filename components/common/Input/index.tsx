@@ -1,41 +1,64 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef, InputHTMLAttributes, useState } from 'react';
+import { ChangeEvent, FocusEvent, forwardRef } from 'react';
 
+import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: boolean;
+export interface InputProps {
+  className?: string;
+  type?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+  placeholder?: string;
   count?: boolean;
   maxCount?: number;
+  error?: boolean;
+  errorMessage?: string;
+  disabled?: boolean;
+  pattern?: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, count, maxCount, onChange, ...props }, ref) => {
-  const [value, setValue] = useState<string>('');
-
-  return (
-    <>
-      <StyledInput
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange?.(e);
-        }}
-        error={error}
-        ref={ref}
-        {...props}
-      />
-      {count && (
-        <StyledCountValue>
-          <Text color={colors.gray100} typography='SUIT_12_M'>
-            {`${value.length}/${maxCount}`}
-          </Text>
-        </StyledCountValue>
-      )}
-    </>
-  );
-});
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  (
+    { className, value, error, errorMessage, count, maxCount, disabled, pattern, onChange, onBlur, type = 'text' },
+    ref,
+  ) => {
+    return (
+      <div className={className}>
+        <StyledInput
+          value={undefined}
+          type={type}
+          onChange={(e) => {
+            onChange?.(e);
+          }}
+          onBlur={onBlur}
+          error={error || !!errorMessage}
+          disabled={disabled}
+          pattern={pattern}
+          ref={ref}
+        />
+        {errorMessage !== undefined || !!count ? (
+          <Additional>
+            <ErrorMessage message={errorMessage} />
+            <div>
+              {count && (
+                <StyledCountValue>
+                  <Text color={colors.gray100} typography='SUIT_12_M'>
+                    {`${value?.length}/${maxCount}`}
+                  </Text>
+                </StyledCountValue>
+              )}
+            </div>
+          </Additional>
+        ) : null}
+      </div>
+    );
+  },
+);
 
 export default Input;
 
@@ -69,6 +92,11 @@ const StyledInput = styled.input<InputProps>`
         border-color: ${colors.red100};
       }
     `}
+`;
+
+const Additional = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const StyledCountValue = styled.div`
