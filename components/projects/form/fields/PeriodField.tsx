@@ -9,28 +9,29 @@ interface PeriodFieldProps {
   error?: string;
 }
 
-type Value = { isOngoing: boolean; startAt: string; endAt?: string };
+type Value = { startAt: string; endAt: string | null };
 
-const PeriodField: FC<PeriodFieldProps> = ({ value, onChange }) => {
+const PeriodField: FC<PeriodFieldProps> = ({ value, onChange, error }) => {
   const handleChange =
     <K extends keyof Value>(key: K) =>
     (e: { target: { value: string } }) => {
       onChange({ ...value, [key]: e.target.value });
     };
 
-  const handleOngoingChange = (v: boolean) => {
-    if (v) {
-      onChange({ ...value, endAt: undefined, isOngoing: v });
+  const handleOngoingChange = (newValue: boolean) => {
+    if (newValue) {
+      onChange({ ...value, endAt: null });
     } else {
-      onChange({ ...value, isOngoing: v });
+      onChange({ ...value, endAt: '' });
     }
   };
 
   return (
     <div>
       <Input placeholder='from' value={value.startAt} onChange={handleChange('startAt')} />
-      {!value.isOngoing && <Input placeholder='to' value={value.endAt} onChange={handleChange('endAt')} />}
-      <Checkbox checked={value.isOngoing} onChange={(e) => handleOngoingChange(e.target.checked)} />
+      {value.endAt !== null && <Input placeholder='to' value={value.endAt} onChange={handleChange('endAt')} />}
+      <Checkbox checked={value.endAt === null} onChange={(e) => handleOngoingChange(e.target.checked)} />
+      error: {error}
     </div>
   );
 };
