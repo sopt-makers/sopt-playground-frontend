@@ -10,6 +10,7 @@ import { textStyles } from '@/styles/typography';
 export interface InputProps {
   className?: string;
   type?: string;
+  name?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
@@ -24,17 +25,31 @@ export interface InputProps {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { className, value, error, errorMessage, count, maxCount, disabled, pattern, onChange, onBlur, type = 'text' },
+    {
+      className,
+      name,
+      value,
+      error,
+      errorMessage,
+      count,
+      maxCount,
+      disabled,
+      pattern,
+      placeholder,
+      onChange,
+      onBlur,
+      type = 'text',
+    },
     ref,
   ) => {
     return (
       <div className={className}>
         <StyledInput
-          value={undefined}
+          value={value}
           type={type}
-          onChange={(e) => {
-            onChange?.(e);
-          }}
+          name={name}
+          placeholder={placeholder}
+          onChange={onChange}
           onBlur={onBlur}
           error={error || !!errorMessage}
           disabled={disabled}
@@ -43,7 +58,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         />
         {errorMessage !== undefined || !!count ? (
           <Additional>
-            <ErrorMessage message={errorMessage} />
+            <StyledErrorMessage message={errorMessage} />
             <div>
               {count && (
                 <StyledCountValue>
@@ -92,6 +107,10 @@ const StyledInput = styled.input<InputProps>`
         border-color: ${colors.red100};
       }
     `}
+`;
+
+const StyledErrorMessage = styled(ErrorMessage)`
+  margin-top: 11px;
 `;
 
 const Additional = styled.div`

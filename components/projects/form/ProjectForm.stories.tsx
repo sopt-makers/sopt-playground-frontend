@@ -9,4 +9,6 @@ export default {
 const Template: ComponentStory<typeof ProjectForm> = (args) => <ProjectForm {...args} />;
 
 export const Basic = Template.bind({});
-Basic.args = {};
+Basic.args = {
+  submitButtonContent: '프로젝트 등록하기',
+};

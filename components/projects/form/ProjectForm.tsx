@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
@@ -10,13 +10,21 @@ import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 interface ProjectFormProps {
   onSubmit?: (formData: ProjectFormType) => void;
+  submitButtonContent: ReactNode;
 }
 
-const ProjectForm: FC<ProjectFormProps> = ({ onSubmit }) => {
-  const { control, handleSubmit, register, getValues } = useForm<ProjectFormType>({
+const ProjectForm: FC<ProjectFormProps> = ({ onSubmit, submitButtonContent }) => {
+  const {
+    control,
+    handleSubmit,
+    register,
+    getValues,
+    formState: { errors },
+  } = useForm<ProjectFormType>({
     resolver: zodResolver(uploadSchema),
     mode: 'all',
   });
@@ -27,29 +35,31 @@ const ProjectForm: FC<ProjectFormProps> = ({ onSubmit }) => {
 
   return (
     <StyledForm onSubmit={handleSubmit(submit)}>
-      <FormEntry title='프로젝트 이름'>
-        <Controller
-          control={control}
-          name='name'
-          defaultValue=''
-          render={({ field, formState }) => <Input {...field} errorMessage={formState.errors.name?.message ?? ''} />}
-        />
+      <FormEntry title='프로젝트 이름' required>
+        <Input {...register('name')} errorMessage={errors.name?.message ?? ''} />
       </FormEntry>
-      <FormEntry title='안녕하세요' comment='디스크립션' description='디스크립션'>
+      <FormEntry title='프로젝트 기간' required>
         <Controller
           control={control}
           name='period'
           defaultValue={{ startAt: '', endAt: '' }}
-          render={({ field, formState }) => {
-            return <PeriodField {...field} error={formState.errors.period?.startAt?.message} />;
+          render={({ field }) => {
+            return (
+              <PeriodField
+                {...field}
+                errorMessage={errors.period?.startAt?.message ?? errors.period?.endAt?.message}
+                isStartError={!!errors.period?.startAt}
+                isEndError={!!errors.period?.endAt}
+              />
+            );
           }}
         />
       </FormEntry>
-      <Input {...register('name')} />
-
-      <Button type='submit' variant='primary'>
-        프로젝트 업로드하기
-      </Button>
+      <SubmitContainer>
+        <Button type='submit' variant='primary'>
+          {submitButtonContent}
+        </Button>
+      </SubmitContainer>
     </StyledForm>
   );
 };
@@ -72,5 +82,15 @@ const StyledForm = styled.form`
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 38px 24px 107px;
+  }
+`;
+
+const SubmitContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 60px;
+
+  & > button {
+    ${textStyles.SUIT_14_M};
   }
 `;

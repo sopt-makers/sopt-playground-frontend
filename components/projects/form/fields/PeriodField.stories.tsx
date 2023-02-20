@@ -9,4 +9,9 @@ export default {
 const Template: ComponentStory<typeof PeriodField> = (args) => <PeriodField {...args} />;
 
 export const Basic = Template.bind({});
-Basic.args = {};
+Basic.args = {
+  value: {
+    startAt: '2022-10',
+    endAt: '2023-01',
+  },
+};

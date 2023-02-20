@@ -29,7 +29,6 @@ export default ErrorMessage;
 const StyledErrorWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 11px;
   min-height: 16px;
 
   & > svg {
