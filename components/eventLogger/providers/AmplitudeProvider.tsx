@@ -13,6 +13,7 @@ const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) =
 
   useEffect(() => {
     if (!apiKey) {
+      setController(createConsoleLogController());
       return;
     }
     import('@/components/eventLogger/controllers/amplitude').then(({ createAmplitudeController }) => {
