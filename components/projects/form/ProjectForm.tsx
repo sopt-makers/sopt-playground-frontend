@@ -7,7 +7,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
-import { ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
+import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -15,9 +15,10 @@ import { textStyles } from '@/styles/typography';
 interface ProjectFormProps {
   onSubmit?: (formData: ProjectFormType) => void;
   submitButtonContent: ReactNode;
+  defaultValues?: ProjectFormType;
 }
 
-const ProjectForm: FC<ProjectFormProps> = ({ onSubmit, submitButtonContent }) => {
+const ProjectForm: FC<ProjectFormProps> = ({ onSubmit, submitButtonContent, defaultValues = defaultUploadValues }) => {
   const {
     control,
     handleSubmit,
@@ -26,6 +27,7 @@ const ProjectForm: FC<ProjectFormProps> = ({ onSubmit, submitButtonContent }) =>
     formState: { errors },
   } = useForm<ProjectFormType>({
     resolver: zodResolver(uploadSchema),
+    defaultValues,
     mode: 'all',
   });
 
@@ -42,7 +44,6 @@ const ProjectForm: FC<ProjectFormProps> = ({ onSubmit, submitButtonContent }) =>
         <Controller
           control={control}
           name='period'
-          defaultValue={{ startAt: '', endAt: '' }}
           render={({ field }) => {
             return (
               <PeriodField
