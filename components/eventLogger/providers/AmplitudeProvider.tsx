@@ -1,7 +1,6 @@
-import { FC, ReactNode, useMemo } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 
 import { EventLoggerContext } from '@/components/eventLogger/context';
-import { createAmplitudeController } from '@/components/eventLogger/controllers/amplitude';
 import { createConsoleLogController } from '@/components/eventLogger/controllers/consoleLog';
 
 interface EventLoggerProviderProps {
@@ -10,11 +9,16 @@ interface EventLoggerProviderProps {
 }
 
 const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) => {
-  const controller = useMemo(() => {
+  const [controller, setController] = useState(createConsoleLogController());
+
+  useEffect(() => {
     if (!apiKey) {
-      return createConsoleLogController();
+      setController(createConsoleLogController());
+      return;
     }
-    return createAmplitudeController(apiKey);
+    import('@/components/eventLogger/controllers/amplitude').then(({ createAmplitudeController }) => {
+      setController(() => createAmplitudeController(apiKey));
+    });
   }, [apiKey]);
 
   return <EventLoggerContext.Provider value={controller}>{children}</EventLoggerContext.Provider>;

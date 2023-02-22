@@ -219,4 +219,6 @@ const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
   max-width: 505px;
 `;
 
-const Target = styled.div``;
+const Target = styled.div`
+  height: 40px;
+`;
