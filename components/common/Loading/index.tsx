@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { AnimationProps, motion } from 'framer-motion';
+import { AnimationProps, m } from 'framer-motion';
 import { FC, PropsWithChildren } from 'react';
 
 import Portal from '@/components/common/Portal';
@@ -69,7 +69,7 @@ const StyledLoading = styled.div`
   align-items: center;
 `;
 
-const LoadingDot = styled(motion.span)`
+const LoadingDot = styled(m.span)`
   border-radius: 100%;
   background-color: ${colors.purple100};
   width: 12px;
