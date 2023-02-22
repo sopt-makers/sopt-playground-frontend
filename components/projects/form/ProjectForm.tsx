@@ -44,16 +44,14 @@ const ProjectForm: FC<ProjectFormProps> = ({ onSubmit, submitButtonContent, defa
         <Controller
           control={control}
           name='period'
-          render={({ field }) => {
-            return (
-              <PeriodField
-                {...field}
-                errorMessage={errors.period?.startAt?.message ?? errors.period?.endAt?.message}
-                isStartError={!!errors.period?.startAt}
-                isEndError={!!errors.period?.endAt}
-              />
-            );
-          }}
+          render={({ field }) => (
+            <PeriodField
+              {...field}
+              errorMessage={errors.period?.startAt?.message ?? errors.period?.endAt?.message}
+              isStartError={!!errors.period?.startAt}
+              isEndError={!!errors.period?.endAt}
+            />
+          )}
         />
       </FormEntry>
       <SubmitContainer>
