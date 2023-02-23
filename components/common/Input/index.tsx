@@ -1,41 +1,79 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef, InputHTMLAttributes, useState } from 'react';
+import { ChangeEvent, FocusEvent, forwardRef } from 'react';
 
+import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: boolean;
+export interface InputProps {
+  className?: string;
+  type?: string;
+  name?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+  placeholder?: string;
   count?: boolean;
   maxCount?: number;
+  error?: boolean;
+  errorMessage?: string;
+  disabled?: boolean;
+  pattern?: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(({ error, count, maxCount, onChange, ...props }, ref) => {
-  const [value, setValue] = useState<string>('');
-
-  return (
-    <>
-      <StyledInput
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange?.(e);
-        }}
-        error={error}
-        ref={ref}
-        {...props}
-      />
-      {count && (
-        <StyledCountValue>
-          <Text color={colors.gray100} typography='SUIT_12_M'>
-            {`${value.length}/${maxCount}`}
-          </Text>
-        </StyledCountValue>
-      )}
-    </>
-  );
-});
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      className,
+      name,
+      value,
+      error,
+      errorMessage,
+      count,
+      maxCount,
+      disabled,
+      pattern,
+      placeholder,
+      onChange,
+      onBlur,
+      type = 'text',
+    },
+    ref,
+  ) => {
+    return (
+      <div className={className}>
+        <StyledInput
+          value={value}
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          onChange={onChange}
+          onBlur={onBlur}
+          error={error || !!errorMessage}
+          disabled={disabled}
+          pattern={pattern}
+          ref={ref}
+        />
+        {errorMessage !== undefined || !!count ? (
+          <Additional>
+            <StyledErrorMessage message={errorMessage} />
+            <div>
+              {count && (
+                <StyledCountValue>
+                  <Text color={colors.gray100} typography='SUIT_12_M'>
+                    {`${value?.length ?? 0}/${maxCount}`}
+                  </Text>
+                </StyledCountValue>
+              )}
+            </div>
+          </Additional>
+        ) : null}
+      </div>
+    );
+  },
+);
 
 export default Input;
 
@@ -69,6 +107,15 @@ const StyledInput = styled.input<InputProps>`
         border-color: ${colors.red100};
       }
     `}
+`;
+
+const StyledErrorMessage = styled(ErrorMessage)`
+  margin-top: 11px;
+`;
+
+const Additional = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const StyledCountValue = styled.div`
