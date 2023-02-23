@@ -20702,6 +20702,7 @@ __metadata:
     url-loader: ^4.1.1
     webpack: ^5.72.0
     yup: ^1.0.0
+    zod: ^3.20.6
   languageName: unknown
   linkType: soft
 
@@ -23738,6 +23739,13 @@ __metadata:
     toposort: ^2.0.2
     type-fest: ^2.19.0
   checksum: 5944fd677c70e0d6b5ea82bd11e992d91339c8f33efddafd52dc812514309bd17ad61b7604cfac39fed52a5f23ca65b97a0b8cb1bd7186da5ad6e731ebdce7c7
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.20.6":
+  version: 3.20.6
+  resolution: "zod@npm:3.20.6"
+  checksum: 804b1934b8b5e2fa3750bec90043e8118b201f330b9957b8b768389a971acadf812d2060cf62921086512dab4af691d10490acb03333da58fc485c0791893c89
   languageName: node
   linkType: hard
 

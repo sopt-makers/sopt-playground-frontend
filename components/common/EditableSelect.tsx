@@ -1,14 +1,17 @@
 import styled from '@emotion/styled';
-import { ChangeEvent, forwardRef, ReactElement, useState } from 'react';
+import { ChangeEvent, forwardRef, InputHTMLAttributes, ReactElement, useState } from 'react';
 
-import { InputProps } from '@/components/common/Input';
 import Select from '@/components/common/Select';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface EditableSelectProps extends Omit<InputProps, 'value' | 'onSelect'> {
+// TODO: HTMLInputElement 프롭 타입에 의존하지 않도록 수정 필요
+interface EditableSelectProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onSelect'> {
   onSelect: (value: string) => void;
   value: string;
+  error?: boolean;
+  count?: boolean;
+  maxCount?: number;
 }
 
 const EditableSelect = forwardRef<HTMLInputElement, EditableSelectProps>(

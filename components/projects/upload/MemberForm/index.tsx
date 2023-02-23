@@ -306,7 +306,10 @@ const MobileDescription = styled(Input)`
   ${textStyles.SUIT_14_M};
 
   margin-top: 12px;
-  border: 1px solid ${colors.black40};
+
+  & > input {
+    border: 1px solid ${colors.black40};
+  }
 `;
 
 const MobileApplyFormFooter = styled.div`
