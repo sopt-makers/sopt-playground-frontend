@@ -1,12 +1,15 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/OAuthLoginCallback';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
+import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 
 const GoogleRegisterCallbackPage: FC = () => {
   const router = useRouter();
+  const registerToken = useRecoilValue(registerTokenAtom);
   const googleAuth = useGoogleAuth();
   const lastUnauthorized = useLastUnauthorized();
 
@@ -22,7 +25,6 @@ const GoogleRegisterCallbackPage: FC = () => {
         error: 'invalidURL',
       };
     }
-    const registerToken = localStorage.getItem('registerToken');
 
     if (!registerToken) {
       return {

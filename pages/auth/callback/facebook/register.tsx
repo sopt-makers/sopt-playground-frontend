@@ -1,12 +1,15 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/OAuthLoginCallback';
 import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
+import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
+  const registerToken = useRecoilValue(registerTokenAtom);
   const facebookAuth = useFacebookAuth();
   const lastUnauthorized = useLastUnauthorized();
 
@@ -22,7 +25,6 @@ const FacebookRegisterCallbackPage: FC = () => {
         error: 'invalidURL',
       };
     }
-    const registerToken = localStorage.getItem('registerToken');
 
     if (!registerToken) {
       return {
