@@ -6,7 +6,6 @@ import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFace
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import Stepper from '@/components/auth/register/Stepper';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface RegisterProps {
@@ -68,10 +67,4 @@ const Container = styled.div`
     margin-bottom: 20px;
     width: 420px;
   }
-`;
-
-const Info = styled.p`
-  text-align: center;
-  color: ${colors.gray80};
-  ${textStyles.SUIT_12_M};
 `;
