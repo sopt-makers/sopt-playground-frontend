@@ -1,41 +1,56 @@
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { FC } from 'react';
 
+import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/OAuthLoginCallback';
 import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
-import useQueryStringParam from '@/components/auth/useQueryString';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
-import { playgroundLink } from '@/constants/links';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
   const facebookAuth = useFacebookAuth();
   const lastUnauthorized = useLastUnauthorized();
-  const setAccessToken = useSetRecoilState(accessTokenAtom);
 
-  const [message, setMessage] = useState('');
+  const processParam: ProcessParamFn = async (url) => {
+    const params = new URLSearchParams(url.hash.slice(1));
 
-  useQueryStringParam(['code', 'state'] as const, async ({ code, state }) => {
-    const registerToken = localStorage.getItem('registerToken') ?? '';
-    const registerResult = await facebookAuth.sendRegisterRequest(code, registerToken, state);
+    const code = params.get('code');
+    const state = params.get('state');
 
-    if (!registerResult.success) {
-      setMessage('회원가입에 오류가 발생했습니다.');
-      return;
+    if (!code || !state) {
+      return {
+        success: false,
+        error: 'invalidURL',
+      };
+    }
+    const registerToken = localStorage.getItem('registerToken');
+
+    if (!registerToken) {
+      return {
+        success: false,
+        error: 'invalidURL',
+      };
     }
 
-    setAccessToken(registerResult.accessToken);
-    router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberUpload());
-  });
+    const res = await facebookAuth.sendRegisterRequest(code, registerToken, state);
 
-  return (
-    <div>
-      Processing...
-      <br />
-      {message}
-    </div>
-  );
+    if (res.success) {
+      return {
+        success: true,
+        accessToken: res.accessToken,
+      };
+    }
+
+    return {
+      success: false,
+      error: 'unknown',
+    };
+  };
+
+  const handleSuccess = () => {
+    router.replace(lastUnauthorized.popPath() ?? '/');
+  };
+
+  return <OAuthLoginCallback processParam={processParam} onSuccess={handleSuccess} />;
 };
 
 export default FacebookRegisterCallbackPage;
