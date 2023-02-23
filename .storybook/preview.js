@@ -1,13 +1,15 @@
 import { themes } from '@storybook/theming';
+import { LazyMotion } from 'framer-motion';
 import { initialize, mswDecorator } from 'msw-storybook-addon';
-import { QueryClientProvider, QueryClient } from 'react-query';
-import GlobalStyle from '@/styles/GlobalStyle';
-import { colors } from '@/styles/colors';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
-import StorybookEventLoggerProvider from '@/components/eventLogger/providers/StorybookEventLoggerProvider';
-import StorybookToastProvider from '@/components/common/Toast/providers/StorybookToastProvider';
+
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
+import StorybookToastProvider from '@/components/common/Toast/providers/StorybookToastProvider';
+import StorybookEventLoggerProvider from '@/components/eventLogger/providers/StorybookEventLoggerProvider';
+import { colors } from '@/styles/colors';
+import GlobalStyle from '@/styles/GlobalStyle';
 
 initialize();
 
@@ -40,14 +42,16 @@ export const decorators = [
   (Story) => (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <StorybookEventLoggerProvider>
-          <StorybookToastProvider>
-            <GlobalStyle />
-            <ResponsiveProvider>
-              <Story />
-            </ResponsiveProvider>
-          </StorybookToastProvider>
-        </StorybookEventLoggerProvider>
+        <LazyMotion strict features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
+          <StorybookEventLoggerProvider>
+            <StorybookToastProvider>
+              <GlobalStyle />
+              <ResponsiveProvider>
+                <Story />
+              </ResponsiveProvider>
+            </StorybookToastProvider>
+          </StorybookEventLoggerProvider>
+        </LazyMotion>
       </RecoilRoot>
     </QueryClientProvider>
   ),

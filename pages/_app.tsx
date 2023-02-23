@@ -1,4 +1,5 @@
 import ProgressBar from '@badrap/bar-of-progress';
+import { LazyMotion } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -47,15 +48,17 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Head>
         <GoogleTagManagerScript />
         <RecoilRoot>
-          <ToastProvider>
-            <GlobalStyle />
-            <ResponsiveProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </ResponsiveProvider>
-            {DEBUG && <Debugger />}
-          </ToastProvider>
+          <LazyMotion strict features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
+            <ToastProvider>
+              <GlobalStyle />
+              <ResponsiveProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ResponsiveProvider>
+              {DEBUG && <Debugger />}
+            </ToastProvider>
+          </LazyMotion>
         </RecoilRoot>
       </QueryClientProvider>
     </AmplitudeProvider>
