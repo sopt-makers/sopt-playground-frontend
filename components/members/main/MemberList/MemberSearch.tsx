@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
-import Input, { InputProps } from '@/components/common/Input';
+import { InputProps } from '@/components/common/Input';
 import SearchIcon from '@/public/icons/icon-member-search.svg';
 import SearchClearIcon from '@/public/icons/icon-search-clear.svg';
 import { colors } from '@/styles/colors';
@@ -28,7 +28,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ className, onSearch, ...props }) 
         handleSearch();
       }}
     >
-      <StyledInput value={value} onChange={(e) => setValue(e.target.value)} {...props} />
+      <StyledInput type='text' value={value} onChange={(e) => setValue(e.target.value)} {...props} />
       <StyledSearchIcon onClick={handleSearch} alt='검색 아이콘' />
       {value !== '' && <StyledSearchClearIcon onClick={handleClear} alt='검색어 삭제 아이콘' />}
     </StyledMemberSearch>
@@ -41,15 +41,26 @@ const StyledMemberSearch = styled.form`
   position: relative;
 `;
 
-const StyledInput = styled(Input)`
+const StyledInput = styled.input`
+  transition: all 0.2s;
   border: 1px solid transparent;
   border-radius: 14px;
-  background: ${colors.black80};
+  background-color: ${colors.black80};
   padding: 18px 24px;
   padding-left: 56px;
-  color: ${colors.gray80};
+  color: ${colors.white};
 
   ${textStyles.SUIT_16_B};
+
+  &::placeholder {
+    color: ${colors.gray100};
+  }
+
+  &:focus {
+    outline: none;
+    border-color: ${colors.purple100};
+    background-color: ${colors.black80};
+  }
 `;
 
 const StyledSearchIcon = styled(SearchIcon)`
