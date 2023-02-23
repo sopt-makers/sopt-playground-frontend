@@ -10,7 +10,7 @@ export const registerTokenAtom = atom<string | null>({
   effects: [
     ({ setSelf, onSet }) => {
       if (isClientSide()) {
-        const token = localStorage.getItem(REGISTER_TOKEN_KEY);
+        const token = sessionStorage.getItem(REGISTER_TOKEN_KEY);
         if (token !== null) {
           setSelf(token);
         }
@@ -18,10 +18,10 @@ export const registerTokenAtom = atom<string | null>({
 
       onSet((token, _, isReset) => {
         if (isReset || token === null) {
-          localStorage.removeItem(REGISTER_TOKEN_KEY);
+          sessionStorage.removeItem(REGISTER_TOKEN_KEY);
           return;
         }
-        localStorage.setItem(REGISTER_TOKEN_KEY, token);
+        sessionStorage.setItem(REGISTER_TOKEN_KEY, token);
       });
     },
   ],
