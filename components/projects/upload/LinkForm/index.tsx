@@ -235,7 +235,9 @@ const MobileSelect = styled(Select)`
 const MobileLink = styled(Input)`
   ${textStyles.SUIT_14_M};
 
-  border: 1px solid ${colors.black40};
+  & > input {
+    border: 1px solid ${colors.black40};
+  }
 `;
 
 const MobileApplyFormFooter = styled.div`
