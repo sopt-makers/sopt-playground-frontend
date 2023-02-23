@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/OAuthLoginCallback';
-import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
+import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 
 const FacebookRegisterCallbackPage: FC = () => {

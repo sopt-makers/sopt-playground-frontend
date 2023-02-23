@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
+import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
-import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import Stepper from '@/components/auth/register/Stepper';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';

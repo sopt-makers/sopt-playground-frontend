@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
+import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
-import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
 import SquareLink from '@/components/common/SquareLink';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
