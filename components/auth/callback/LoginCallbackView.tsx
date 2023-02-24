@@ -32,14 +32,11 @@ const LoginCallbackView: FC<LoginCallbackViewProps> = ({ mode }) => {
     );
   }
 
-  shouldNotReach(mode);
+  const neverReach: never = mode;
+  throw new Error(`Should not reach ${neverReach}`);
 };
 
 export default LoginCallbackView;
-
-function shouldNotReach(_obj: never): never {
-  throw new Error('Should not reach here.');
-}
 
 const StyledFacebookLoginCallback = styled.div`
   display: flex;
