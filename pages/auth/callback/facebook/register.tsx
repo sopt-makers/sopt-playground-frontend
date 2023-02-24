@@ -50,7 +50,7 @@ const FacebookRegisterCallbackPage: FC = () => {
     router.replace(lastUnauthorized.popPath() ?? '/');
   };
 
-  return <OAuthLoginCallback processParam={processParam} onSuccess={handleSuccess} />;
+  return <OAuthLoginCallback oauthKey='facebookRegister' processParam={processParam} onSuccess={handleSuccess} />;
 };
 
 export default FacebookRegisterCallbackPage;

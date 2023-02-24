@@ -30,7 +30,7 @@ const GoogleLoginCallbackPage: FC = () => {
     router.replace(lastUnauthorized.popPath() ?? '/');
   };
 
-  return <OAuthLoginCallback processParam={processParam} onSuccess={handleSuccess} />;
+  return <OAuthLoginCallback oauthKey='googleLogin' processParam={processParam} onSuccess={handleSuccess} />;
 };
 
 export default GoogleLoginCallbackPage;

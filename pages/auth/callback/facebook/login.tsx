@@ -28,7 +28,7 @@ const FacebookLoginCallbackPage: FC = () => {
     router.replace(lastUnauthorized.popPath() ?? '/');
   };
 
-  return <OAuthLoginCallback processParam={processParam} onSuccess={handleSuccess} />;
+  return <OAuthLoginCallback oauthKey='facebookLogin' processParam={processParam} onSuccess={handleSuccess} />;
 };
 
 export default FacebookLoginCallbackPage;

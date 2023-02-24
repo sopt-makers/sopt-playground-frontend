@@ -52,7 +52,7 @@ const GoogleRegisterCallbackPage: FC = () => {
     router.replace(lastUnauthorized.popPath() ?? '/');
   };
 
-  return <OAuthLoginCallback processParam={processParam} onSuccess={handleSuccess} />;
+  return <OAuthLoginCallback oauthKey='googleRegister' processParam={processParam} onSuccess={handleSuccess} />;
 };
 
 export default GoogleRegisterCallbackPage;

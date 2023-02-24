@@ -6,6 +6,7 @@ import LoginCallbackView from '@/components/auth/callback/LoginCallbackView';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 
 interface OAuthLoginCallbackProps {
+  oauthKey: string;
   processParam: ProcessParamFn;
   onSuccess: () => void;
 }
@@ -15,7 +16,7 @@ export type ProcessParamFn = (
 ) => Promise<{ success: true; accessToken: string } | { success: false; error: ErrorTypes }>;
 type ErrorTypes = 'invalidNonce' | 'invalidURL' | 'notMember' | 'unknown';
 
-const OAuthLoginCallback: FC<OAuthLoginCallbackProps> = ({ processParam, onSuccess }) => {
+const OAuthLoginCallback: FC<OAuthLoginCallbackProps> = ({ oauthKey: oauthType, processParam, onSuccess }) => {
   const setAccessToken = useSetRecoilState(accessTokenAtom);
 
   const [url, setUrl] = useState<URL | null>(null);
@@ -25,7 +26,7 @@ const OAuthLoginCallback: FC<OAuthLoginCallbackProps> = ({ processParam, onSucce
   }, []);
 
   const { data, status } = useQuery(
-    ['facebookLoginCallback'],
+    ['oauthLoginCallbackQuery', oauthType],
     async () => {
       if (url === null) {
         throw new Error('Invalid state');
