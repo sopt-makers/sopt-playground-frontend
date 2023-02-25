@@ -102,6 +102,7 @@ const StyledProgressRoot = styled(Progress.Root)`
 `;
 
 const StyledProgressIndicator = styled(Progress.Indicator)`
+  transition: transform 0.3s;
   background-color: ${colors.purple100};
   width: 100%;
   height: 100%;
