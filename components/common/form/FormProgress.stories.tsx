@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import FormProgress from '@/components/projects/form/FormProgress';
+import FormProgress from '@/components/common/form/FormProgress';
 
 export default {
   component: FormProgress,

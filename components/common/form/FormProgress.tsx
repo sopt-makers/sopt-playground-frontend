@@ -14,10 +14,10 @@ interface FormProgressProps {
   title: string;
   progressLabel: string;
 
-  items: ProgressItem[];
+  items: FormProgressItem[];
 }
 
-type ProgressItem = {
+export type FormProgressItem = {
   title: string;
   required?: boolean;
   active?: boolean;

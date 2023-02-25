@@ -8,6 +8,7 @@ import Input from '@/components/common/Input';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
+import UploadProjectProgress from '@/components/projects/form/UploadProjectProgress';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -16,58 +17,73 @@ interface ProjectFormProps {
   onSubmit?: (formData: ProjectFormType) => void;
   submitButtonContent: ReactNode;
   defaultValues?: ProjectFormType;
+  hideProgress?: boolean;
 }
 
-const ProjectForm: FC<ProjectFormProps> = ({ onSubmit, submitButtonContent, defaultValues = defaultUploadValues }) => {
-  const {
-    control,
-    handleSubmit,
-    register,
-    getValues,
-    formState: { errors },
-  } = useForm<ProjectFormType>({
+const ProjectForm: FC<ProjectFormProps> = ({
+  onSubmit,
+  submitButtonContent,
+  defaultValues = defaultUploadValues,
+  hideProgress = false,
+}) => {
+  const { control, handleSubmit, register, getValues, formState } = useForm<ProjectFormType>({
     resolver: zodResolver(uploadSchema),
     defaultValues,
     mode: 'all',
   });
+
+  const { errors } = formState;
 
   const submit = () => {
     onSubmit?.(getValues());
   };
 
   return (
-    <StyledForm onSubmit={handleSubmit(submit)}>
-      <FormEntry title='프로젝트 이름' required>
-        <Input {...register('name')} errorMessage={errors.name?.message ?? ''} />
-      </FormEntry>
-      <FormEntry title='프로젝트 기간' required>
-        <Controller
-          control={control}
-          name='period'
-          render={({ field }) => (
-            <PeriodField
-              {...field}
-              errorMessage={errors.period?.startAt?.message ?? errors.period?.endAt?.message}
-              isStartError={!!errors.period?.startAt}
-              isEndError={!!errors.period?.endAt}
-            />
-          )}
-        />
-      </FormEntry>
-      <SubmitContainer>
-        <Button type='submit' variant='primary'>
-          {submitButtonContent}
-        </Button>
-      </SubmitContainer>
-    </StyledForm>
+    <StyledFormContainer>
+      {!hideProgress && <StyledFormProgress formState={formState} />}
+      <StyledForm onSubmit={handleSubmit(submit)}>
+        <FormEntry title='프로젝트 이름' required>
+          <Input {...register('name')} errorMessage={errors.name?.message ?? ''} />
+        </FormEntry>
+        <FormEntry title='프로젝트 기간' required>
+          <Controller
+            control={control}
+            name='period'
+            render={({ field }) => (
+              <PeriodField
+                {...field}
+                errorMessage={errors.period?.startAt?.message ?? errors.period?.endAt?.message}
+                isStartError={!!errors.period?.startAt}
+                isEndError={!!errors.period?.endAt}
+              />
+            )}
+          />
+        </FormEntry>
+        <SubmitContainer>
+          <Button type='submit' variant='primary'>
+            {submitButtonContent}
+          </Button>
+        </SubmitContainer>
+      </StyledForm>
+    </StyledFormContainer>
   );
 };
 
 export default ProjectForm;
 
+const StyledFormContainer = styled.div`
+  display: flex;
+  gap: 40px;
+`;
+
+const StyledFormProgress = styled(UploadProjectProgress)`
+  flex-shrink: 0;
+`;
+
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   gap: 60px;
   border-radius: 12px;
   background-color: ${colors.black80};
