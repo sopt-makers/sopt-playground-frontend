@@ -69,13 +69,19 @@ const ProjectForm: FC<ProjectFormProps> = ({
                 )}
             />
       </FormEntry>
-        <SubmitContainer>
-          <Button type='submit' variant='primary'>
-            {submitButtonContent}
-          </Button>
-        </SubmitContainer>
-      </StyledForm>
-    </StyledFormContainer
+      <FormEntry title='기수' required>
+        <Controller
+          control={control}
+          name='generation'
+          render={({ field }) => <GenerationField {...field} errorMessage={errors.generation?.message} />}
+        />
+      </FormEntry>
+      <SubmitContainer>
+        <Button type='submit' variant='primary'>
+          {submitButtonContent}
+        </Button>
+      </SubmitContainer>
+    </StyledForm>
   );
 };
 

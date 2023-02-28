@@ -15,7 +15,7 @@ Default.args = {};
 Default.storyName = '기본';
 
 export const WithState: ComponentStory<typeof GenerationField> = (args) => {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string | null>(null);
 
   return <GenerationField value={value} onChange={setValue} />;
 };

@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
@@ -11,38 +13,20 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface GenerationFieldProps {
-  value: string;
-  onChange: (value: string) => void;
-  isError?: boolean;
+  value: string | null;
+  onChange: (value: string | null) => void;
   errorMessage?: string;
 }
 
-const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, isError, errorMessage }) => {
-  const [checked, setChecked] = useState<boolean>(!!value);
-
-  const handleGenerationChange = (generation: string) => {
-    if (generation) {
-      setChecked(false);
-    }
-    onChange(generation);
-  };
-
-  const handleCheckedChange = (checked: boolean) => {
-    if (checked) {
-      onChange('');
-    }
-    setChecked(checked);
+const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, errorMessage }) => {
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.checked ? null : value);
   };
 
   return (
     <StyledGenerationField>
       <StyledDescription>참여한 팀원들의 기수에 맞춰 작성해주세요</StyledDescription>
-      <StyledSelect
-        width={236}
-        placeholder='선택'
-        value={value}
-        onChange={(e) => handleGenerationChange(e.target.value)}
-      >
+      <StyledSelect width={236} placeholder='선택' value={value ?? ''} onChange={(e) => onChange(e.target.value)}>
         {GENERATIONS.map((item) => (
           <option key={item} value={item}>
             {item}기
@@ -50,12 +34,12 @@ const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, isError, e
         ))}
       </StyledSelect>
       <StyledCheckboxWrapper>
-        <Checkbox checked={checked} onChange={(e) => handleCheckedChange(e.target.checked)} />
+        <Checkbox checked={value === null} onChange={handleCheckboxChange} />
         <Text typography='SUIT_12_M' color={colors.gray100}>
           특정 기수 활동으로 진행하지 않았어요
         </Text>
       </StyledCheckboxWrapper>
-      {isError && <StyledErrorMessage message={errorMessage} />}
+      <StyledErrorMessage message={errorMessage} />
     </StyledGenerationField>
   );
 };
