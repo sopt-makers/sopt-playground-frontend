@@ -9,6 +9,7 @@ export const uploadSchema = z.object({
     startAt: dateStringSchema,
     endAt: dateStringSchema.nullable(),
   }),
+  category: z.string().min(1, '프로젝트를 어디서 진행했는지 선택해주세요.'),
 });
 
 export type ProjectFormType = z.infer<typeof uploadSchema>;
@@ -20,4 +21,5 @@ export const defaultUploadValues: ProjectFormType = {
     startAt: '',
     endAt: '',
   },
+  category: '',
 };

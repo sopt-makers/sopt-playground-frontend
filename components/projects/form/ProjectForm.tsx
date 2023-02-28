@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import CategoryField from '@/components/projects/form/fields/CategoryField';
 import GenerationField from '@/components/projects/form/fields/GenerationField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
@@ -67,11 +68,13 @@ const ProjectForm: FC<ProjectFormProps> = ({
             render={({ field }) => <GenerationField {...field} errorMessage={errors.generation?.message} />}
           />
         </FormEntry>
-        <FormEntry title='기수' required>
+        <FormEntry title='어디서 진행했나요?' required>
           <Controller
             control={control}
-            name='generation'
-            render={({ field }) => <GenerationField {...field} errorMessage={errors.generation?.message} />}
+            name='category'
+            render={({ field }) => (
+              <CategoryField {...field} errorMessage={errors.category?.message} isError={!!errors.category} />
+            )}
           />
         </FormEntry>
         <SubmitContainer>
