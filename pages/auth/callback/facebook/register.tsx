@@ -1,41 +1,56 @@
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { FC } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import useFacebookAuth from '@/components/auth/identityProvider/useFacebookAuth';
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
-import useQueryStringParam from '@/components/auth/useQueryString';
+import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/OAuthLoginCallback';
+import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
+import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
-import { playgroundLink } from '@/constants/links';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
+  const registerToken = useRecoilValue(registerTokenAtom);
   const facebookAuth = useFacebookAuth();
   const lastUnauthorized = useLastUnauthorized();
-  const setAccessToken = useSetRecoilState(accessTokenAtom);
 
-  const [message, setMessage] = useState('');
+  const processParam: ProcessParamFn = async (url) => {
+    const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
 
-  useQueryStringParam(['code', 'state'] as const, async ({ code, state }) => {
-    const registerToken = localStorage.getItem('registerToken') ?? '';
-    const registerResult = await facebookAuth.sendRegisterRequest(code, registerToken, state);
-
-    if (!registerResult.success) {
-      setMessage('회원가입에 오류가 발생했습니다.');
-      return;
+    if (!code || !state) {
+      return {
+        success: false,
+        error: 'invalidURL',
+      };
     }
 
-    setAccessToken(registerResult.accessToken);
-    router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberUpload());
-  });
+    if (!registerToken) {
+      return {
+        success: false,
+        error: 'invalidURL',
+      };
+    }
 
-  return (
-    <div>
-      Processing...
-      <br />
-      {message}
-    </div>
-  );
+    const res = await facebookAuth.sendRegisterRequest(code, registerToken, state);
+
+    if (res.success) {
+      return {
+        success: true,
+        accessToken: res.accessToken,
+      };
+    }
+
+    return {
+      success: false,
+      error: 'unknown',
+    };
+  };
+
+  const handleSuccess = () => {
+    router.replace(lastUnauthorized.popPath() ?? '/');
+  };
+
+  return <OAuthLoginCallback oauthKey='facebookRegister' processParam={processParam} onSuccess={handleSuccess} />;
 };
 
 export default FacebookRegisterCallbackPage;

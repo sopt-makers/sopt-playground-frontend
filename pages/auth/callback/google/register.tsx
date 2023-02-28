@@ -1,108 +1,58 @@
-import styled from '@emotion/styled';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { useQuery } from 'react-query';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
+import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/OAuthLoginCallback';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
-import Loading from '@/components/common/Loading';
-import { playgroundLink } from '@/constants/links';
-import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 
 const GoogleRegisterCallbackPage: FC = () => {
   const router = useRouter();
+  const registerToken = useRecoilValue(registerTokenAtom);
   const googleAuth = useGoogleAuth();
   const lastUnauthorized = useLastUnauthorized();
-  const setAccessToken = useSetRecoilState(accessTokenAtom);
 
-  const { status: queryStatus, query: queryData } = useStringRouterQuery(['state', 'code'] as const);
+  const processParam: ProcessParamFn = async (url) => {
+    const params = new URLSearchParams(url.hash.slice(1));
 
-  const { data, status } = useQuery(
-    ['googleRegisterCallback'],
-    async () => {
-      if (queryStatus !== 'success') {
-        throw new Error('Invalid state');
-      }
-      const registerToken = localStorage.getItem('registerToken') ?? '';
+    const code = params.get('code');
+    const state = params.get('state');
 
-      return googleAuth.sendRegisterRequest(queryData.code, registerToken, queryData.state);
-    },
-    {
-      enabled: queryStatus === 'success',
-      onSuccess(result) {
-        if (result.success) {
-          setAccessToken(result.accessToken);
-          router.replace(lastUnauthorized.popPath() ?? '/');
-        }
-      },
-    },
-  );
+    if (!code || !state) {
+      return {
+        success: false,
+        error: 'invalidURL',
+      };
+    }
 
-  if (queryStatus === 'error') {
-    return (
-      <StyledFacebookLoginCallback>
-        잘못된 접근입니다.
-        <Link href={playgroundLink.login()} replace passHref legacyBehavior>
-          <LoginLink>로그인 페이지로 이동</LoginLink>
-        </Link>
-      </StyledFacebookLoginCallback>
-    );
-  }
+    if (!registerToken) {
+      return {
+        success: false,
+        error: 'invalidURL',
+      };
+    }
 
-  if (queryStatus === 'loading' || status === 'idle' || status === 'loading') {
-    return (
-      <StyledFacebookLoginCallback>
-        <Loading />
-      </StyledFacebookLoginCallback>
-    );
-  }
+    const res = await googleAuth.sendRegisterRequest(code, registerToken, state);
 
-  if (status === 'error') {
-    return <StyledFacebookLoginCallback>알 수 없는 오류입니다.</StyledFacebookLoginCallback>;
-  }
+    if (res.success) {
+      return {
+        success: true,
+        accessToken: res.accessToken,
+      };
+    }
 
-  if (!data.success) {
-    let message = '';
-    message = '알 수 없는 오류입니다.';
+    return {
+      success: false,
+      error: 'unknown',
+    };
+  };
 
-    return (
-      <StyledFacebookLoginCallback>
-        <ErrorMessage>{message}</ErrorMessage>
-        <Link href={playgroundLink.login()} replace passHref legacyBehavior>
-          <LoginLink>로그인 페이지로 이동</LoginLink>
-        </Link>
-      </StyledFacebookLoginCallback>
-    );
-  }
+  const handleSuccess = () => {
+    router.replace(lastUnauthorized.popPath() ?? '/');
+  };
 
-  return <StyledFacebookLoginCallback>잠시 후 이동합니다..</StyledFacebookLoginCallback>;
+  return <OAuthLoginCallback oauthKey='googleRegister' processParam={processParam} onSuccess={handleSuccess} />;
 };
 
 export default GoogleRegisterCallbackPage;
-
-const StyledFacebookLoginCallback = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 100px;
-`;
-
-const ErrorMessage = styled.p`
-  text-align: center;
-  line-height: 150%;
-  white-space: pre-wrap;
-`;
-
-const LoginLink = styled.a`
-  display: block;
-  margin-top: 10px;
-  color: #90ace3;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;

@@ -1,22 +1,27 @@
 import styled from '@emotion/styled';
 import { FC, useEffect } from 'react';
 import { useQuery } from 'react-query';
+import { useSetRecoilState } from 'recoil';
 
 import { postRegistrationInfo } from '@/api/registration';
 import Register from '@/components/auth/register/Register';
-import useQueryStringParam from '@/components/auth/useQueryString';
+import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
 
 export const RegisterPage: FC = () => {
-  const params = useQueryStringParam(['token'] as const);
+  const { query: params, status } = useStringRouterQuery(['token'] as const);
+  const setRegisterToken = useSetRecoilState(registerTokenAtom);
 
   const query = useQuery(['registerTokenInfo', params?.token], () => postRegistrationInfo(params?.token ?? ''), {
     enabled: params !== null,
   });
 
   useEffect(() => {
-    localStorage.setItem('registerToken', params?.token ?? '');
-  });
+    if (status === 'success') {
+      setRegisterToken(params.token);
+    }
+  }, [params, status, setRegisterToken]);
 
   if (query.isLoading || query.isIdle) {
     return <StyledRegisterPage>잠시만 기다려주세요...</StyledRegisterPage>;
