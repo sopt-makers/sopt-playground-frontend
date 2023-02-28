@@ -5,20 +5,30 @@ import Checkbox from '@/components/common/Checkbox';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
-import { GENERATIONS } from '@/constants/generation';
+import { GENERATIONS, LATEST_GENERATION } from '@/constants/generation';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface GenerationFieldProps {
   value: string | null;
+  defaultValue?: string;
   onChange: (value: string | null) => void;
   errorMessage?: string;
 }
 
-const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, errorMessage }) => {
+const GenerationField: FC<GenerationFieldProps> = ({
+  value,
+  defaultValue = String(LATEST_GENERATION),
+  onChange,
+  errorMessage,
+}) => {
   const handleCheckboxChange = () => {
-    onChange(null);
+    if (value === null) {
+      onChange(defaultValue);
+    } else {
+      onChange(null);
+    }
   };
 
   return (
