@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import React, { FC } from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
