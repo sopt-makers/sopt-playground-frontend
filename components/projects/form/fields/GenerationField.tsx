@@ -17,8 +17,8 @@ interface GenerationFieldProps {
 }
 
 const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, errorMessage }) => {
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.checked ? null : value);
+  const handleCheckboxChange = () => {
+    onChange(null);
   };
 
   return (
