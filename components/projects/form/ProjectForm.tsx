@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import GenerationField from '@/components/projects/form/fields/GenerationField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
@@ -57,6 +58,20 @@ const ProjectForm: FC<ProjectFormProps> = ({
                 isEndError={!!errors.period?.endAt}
               />
             )}
+          />
+        </FormEntry>
+        <FormEntry title='기수' required>
+          <Controller
+            control={control}
+            name='generation'
+            render={({ field }) => <GenerationField {...field} errorMessage={errors.generation?.message} />}
+          />
+        </FormEntry>
+        <FormEntry title='기수' required>
+          <Controller
+            control={control}
+            name='generation'
+            render={({ field }) => <GenerationField {...field} errorMessage={errors.generation?.message} />}
           />
         </FormEntry>
         <SubmitContainer>
