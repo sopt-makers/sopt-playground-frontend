@@ -26,7 +26,6 @@ interface CategoryFieldProps {
 const CategoryField: FC<CategoryFieldProps> = ({ value, onChange, isError, errorMessage }) => {
   return (
     <StyledCategoryField>
-      <StyledDescription>기수는 SOPT 공식 활동을 기준으로 선택해주세요</StyledDescription>
       <StyledSelect value={value ?? ''} onChange={(e) => onChange(e.target.value)} placeholder='선택' error={isError}>
         {Object.keys(categoryLabel).map((category) => (
           <option key={category} value={category}>
@@ -44,12 +43,6 @@ export default CategoryField;
 const StyledCategoryField = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const StyledDescription = styled(Text)`
-  margin: 14px 0 18px;
-  color: ${colors.gray100};
-  ${textStyles.SUIT_14_M};
 `;
 
 const StyledSelect = styled(Select)`

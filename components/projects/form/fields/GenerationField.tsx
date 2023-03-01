@@ -33,7 +33,6 @@ const GenerationField: FC<GenerationFieldProps> = ({
 
   return (
     <StyledGenerationField>
-      <StyledDescription>참여한 팀원들의 기수에 맞춰 작성해주세요</StyledDescription>
       <StyledSelect width={236} placeholder='선택' value={value ?? ''} onChange={(e) => onChange(e.target.value)}>
         {GENERATIONS.map((item) => (
           <option key={item} value={item}>
