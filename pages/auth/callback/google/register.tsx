@@ -14,10 +14,8 @@ const GoogleRegisterCallbackPage: FC = () => {
   const lastUnauthorized = useLastUnauthorized();
 
   const processParam: ProcessParamFn = async (url) => {
-    const params = new URLSearchParams(url.hash.slice(1));
-
-    const code = params.get('code');
-    const state = params.get('state');
+    const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
 
     if (!code || !state) {
       return {
