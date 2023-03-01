@@ -14,7 +14,7 @@ Default.args = {};
 Default.storyName = '기본';
 
 export const WithState: ComponentStory<typeof CategoryField> = (args) => {
-  const [value, onChange] = useState<string | null>(null);
+  const [value, onChange] = useState<string | undefined>(undefined);
 
   return <CategoryField {...args} value={value} onChange={onChange} />;
 };

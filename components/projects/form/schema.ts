@@ -1,3 +1,4 @@
+import { DefaultValues } from 'react-hook-form';
 import * as z from 'zod';
 
 export const dateStringSchema = z.string().regex(/^\d{4}.(0[1-9]|1[0-2])/g, '날짜 형식에 맞게 입력해주세요.');
@@ -14,12 +15,12 @@ export const uploadSchema = z.object({
 
 export type ProjectFormType = z.infer<typeof uploadSchema>;
 
-export const defaultUploadValues: ProjectFormType = {
+export const defaultUploadValues: DefaultValues<ProjectFormType> = {
   name: '',
   generation: '',
   period: {
     startAt: '',
     endAt: '',
   },
-  category: '',
+  category: undefined,
 };

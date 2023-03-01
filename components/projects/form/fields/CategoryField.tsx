@@ -3,8 +3,6 @@ import React, { FC } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
-import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -18,15 +16,16 @@ const categoryLabel = {
 } as const;
 
 interface CategoryFieldProps {
-  value: string | null;
-  onChange: (value: string | null) => void;
+  value: string | undefined;
+  onChange: (value: string) => void;
   isError?: boolean;
   errorMessage?: string;
 }
 const CategoryField: FC<CategoryFieldProps> = ({ value, onChange, isError, errorMessage }) => {
+  console.log({ value });
   return (
     <StyledCategoryField>
-      <StyledSelect value={value ?? ''} onChange={(e) => onChange(e.target.value)} placeholder='선택' error={isError}>
+      <StyledSelect value={value} onChange={(e) => onChange(e.target.value)} placeholder='선택' error={isError}>
         {Object.keys(categoryLabel).map((category) => (
           <option key={category} value={category}>
             {categoryLabel[category as keyof typeof categoryLabel]}
