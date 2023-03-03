@@ -10,19 +10,15 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+const defaultValue = String(LATEST_GENERATION);
+
 interface GenerationFieldProps {
   value: string | null;
-  defaultValue?: string;
   onChange: (value: string | null) => void;
   errorMessage?: string;
 }
 
-const GenerationField: FC<GenerationFieldProps> = ({
-  value,
-  defaultValue = String(LATEST_GENERATION),
-  onChange,
-  errorMessage,
-}) => {
+const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, errorMessage }) => {
   const handleCheckboxChange = () => {
     if (value === null) {
       onChange(defaultValue);
@@ -56,12 +52,6 @@ export default GenerationField;
 const StyledGenerationField = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const StyledDescription = styled(Text)`
-  margin: 12px 0 18px;
-  color: ${colors.gray100};
-  ${textStyles.SUIT_14_M};
 `;
 
 const StyledSelect = styled(Select)`

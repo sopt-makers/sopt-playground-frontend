@@ -22,7 +22,6 @@ interface CategoryFieldProps {
   errorMessage?: string;
 }
 const CategoryField: FC<CategoryFieldProps> = ({ value, onChange, isError, errorMessage }) => {
-  console.log({ value });
   return (
     <StyledCategoryField>
       <StyledSelect value={value} onChange={(e) => onChange(e.target.value)} placeholder='선택' error={isError}>
