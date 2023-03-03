@@ -10,19 +10,15 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+const defaultValue = String(LATEST_GENERATION);
+
 interface GenerationFieldProps {
   value: string | null;
-  defaultValue?: string;
   onChange: (value: string | null) => void;
   errorMessage?: string;
 }
 
-const GenerationField: FC<GenerationFieldProps> = ({
-  value,
-  defaultValue = String(LATEST_GENERATION),
-  onChange,
-  errorMessage,
-}) => {
+const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, errorMessage }) => {
   const handleCheckboxChange = () => {
     if (value === null) {
       onChange(defaultValue);
@@ -33,7 +29,6 @@ const GenerationField: FC<GenerationFieldProps> = ({
 
   return (
     <StyledGenerationField>
-      <StyledDescription>참여한 팀원들의 기수에 맞춰 작성해주세요</StyledDescription>
       <StyledSelect width={236} placeholder='선택' value={value ?? ''} onChange={(e) => onChange(e.target.value)}>
         {GENERATIONS.map((item) => (
           <option key={item} value={item}>
@@ -57,12 +52,6 @@ export default GenerationField;
 const StyledGenerationField = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const StyledDescription = styled(Text)`
-  margin: 12px 0 18px;
-  color: ${colors.gray100};
-  ${textStyles.SUIT_14_M};
 `;
 
 const StyledSelect = styled(Select)`
