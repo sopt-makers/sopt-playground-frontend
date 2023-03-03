@@ -77,6 +77,9 @@ const ProjectForm: FC<ProjectFormProps> = ({
             )}
           />
         </FormEntry>
+        <FormEntry title='팀원' required>
+          <Controller />
+        </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>
             {submitButtonContent}
