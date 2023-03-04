@@ -1,4 +1,5 @@
-import { createContext, FC, PropsWithChildren } from 'react';
+import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
+import { useQuery } from 'react-query';
 
 export type Member = {
   generation: number;
@@ -96,3 +97,21 @@ export const DummyMemberSeacrhProvider: FC<PropsWithChildren<unknown>> = ({ chil
     </MemberSearchContext.Provider>
   );
 };
+
+export function useMemberSearch() {
+  const [name, setName] = useState<string>('');
+  const { searchMember, getMemberById } = useContext(MemberSearchContext);
+
+  // TODO: 디바운스 적용
+  const { data: searchedMemberData } = useQuery(['searchMember', name], async () => {
+    const data = await searchMember(name);
+    return data;
+  });
+
+  return {
+    name,
+    onValueChange: setName,
+    searchedMemberList: searchedMemberData,
+    getMemberById,
+  };
+}
