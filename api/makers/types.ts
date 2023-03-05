@@ -6,14 +6,14 @@ export interface Maker {
   careers: Career[];
 }
 
-export interface Activity {
+interface Activity {
   id: number;
   generation: number;
   part: string;
   team: string;
 }
 
-export interface Career {
+interface Career {
   id: number;
   companyName: string;
   title: string;
