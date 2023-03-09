@@ -41,8 +41,8 @@ const memberListSelector = selector({
 const memberMapSelector = selector({
   key: 'memberMapSelector',
   get: ({ get }) => {
-    const memberList = get(memberListSelector);
-    return new Map(memberList.map((member) => [member.id, member]));
+    const { members } = get(memberListSelector);
+    return new Map(members.map((member) => [member.id, member]));
   },
 });
 
