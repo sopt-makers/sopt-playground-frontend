@@ -64,7 +64,7 @@ const VerifyByEmail: FC = () => {
           <IconArrowRight />
         </NoticeTitle>
         <ErrorNoticeDescription>
-          {`SOPT 정보 등록 시 기입한 이메일의 확인이 어려운 경우,\n구글폼을 통해 가입을 도와드리고 있어요!`}{' '}
+          {`SOPT 정보 등록 시 기입한 이메일의 확인이 어려운 경우,\n구글폼을 통해 가입을 도와드리고 있어요!`}
         </ErrorNoticeDescription>
       </ErrorNotice>
     </FormContainer>
@@ -176,7 +176,5 @@ const NoticeTitle = styled.div`
 `;
 
 const StyledInput = styled(Input)`
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
-  }
+  width: 100%;
 `;
