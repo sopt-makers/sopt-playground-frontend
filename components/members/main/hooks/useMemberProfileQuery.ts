@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import qs from 'qs';
 import { QueryKey, useInfiniteQuery } from 'react-query';
 
-import type { MemberProfile } from '@/api/members';
 import { getMemberProfile } from '@/api/members';
+import type { PagedMemberProfile } from '@/api/members/type';
 
 interface UseMemberProfileQueryVariables {
   limit?: number;
@@ -20,7 +20,7 @@ export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQuery
       const data = await getMemberProfile(qs.stringify(searchParams, { addQueryPrefix: true }));
       return data;
     },
-    getNextPageParam: (lastPage: MemberProfile) => {
+    getNextPageParam: (lastPage: PagedMemberProfile) => {
       if (lastPage.hasNext) {
         const lastIndex = lastPage.members.length - 1;
         const lastMemberId = lastPage.members[lastIndex].id;
