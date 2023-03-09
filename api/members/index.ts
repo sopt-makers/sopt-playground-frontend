@@ -2,8 +2,12 @@ import { axiosInstance } from '@/api';
 import { Member, PostMemberCoffeeChatVariables, Profile, ProfileDetail, ProfileRequest } from '@/api/members/type';
 
 // 멤버 프로필 전체 조회
+export type MemberProfile = {
+  members: Profile[];
+  hasNext: boolean;
+};
 export const getMemberProfile = async (input: string) => {
-  const { data } = await axiosInstance.request<Profile[]>({
+  const { data } = await axiosInstance.request<MemberProfile>({
     method: 'GET',
     url: `api/v1/members/profile${input}`,
   });
