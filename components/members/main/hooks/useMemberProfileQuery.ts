@@ -21,13 +21,12 @@ export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQuery
       return data;
     },
     getNextPageParam: (lastPage: PagedMemberProfile) => {
-      if (lastPage.hasNext) {
-        const lastIndex = lastPage.members.length - 1;
-        const lastMemberId = lastPage.members[lastIndex].id;
-        return lastMemberId;
-      } else {
-        return null;
+      if (!lastPage.hasNext) {
+        return undefined;
       }
+      const lastIndex = lastPage.members.length - 1;
+      const lastMemberId = lastPage.members[lastIndex].id;
+      return lastMemberId;
     },
     onError: (error: { message: string }) => {
       console.error(error.message);
