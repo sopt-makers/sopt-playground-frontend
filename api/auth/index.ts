@@ -58,11 +58,11 @@ export const postGoogleAuth = async ({ code }: { code: string }) => {
 };
 
 export const postSSOCode = async ({ accessToken }: { accessToken: string }) => {
-  const { data } = await axiosInstance.post<{ accessToken: string }>(`api/v1/idp/sso/code`, {
+  const { data } = await axiosInstance.post<{ code: string }>(`api/v1/idp/sso/code`, {
     accessToken,
   });
 
   return {
-    code: data.accessToken,
+    code: data.code,
   };
 };
