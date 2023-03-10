@@ -3,7 +3,7 @@ import qs from 'qs';
 import { QueryKey, useInfiniteQuery } from 'react-query';
 
 import { getMemberProfile } from '@/api/members';
-import { Profile } from '@/api/members/type';
+import type { PagedMemberProfile } from '@/api/members/type';
 
 interface UseMemberProfileQueryVariables {
   limit?: number;
@@ -20,12 +20,12 @@ export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQuery
       const data = await getMemberProfile(qs.stringify(searchParams, { addQueryPrefix: true }));
       return data;
     },
-    getNextPageParam: (lastPage: Profile[]) => {
-      if (!lastPage.length) {
+    getNextPageParam: (lastPage: PagedMemberProfile) => {
+      if (!lastPage.hasNext) {
         return undefined;
       }
-      const lastIndex = lastPage.length - 1;
-      const lastMemberId = lastPage[lastIndex].id;
+      const lastIndex = lastPage.members.length - 1;
+      const lastMemberId = lastPage.members[lastIndex].id;
       return lastMemberId;
     },
     onError: (error: { message: string }) => {

@@ -26,6 +26,11 @@ export type Profile = {
   careers: Career[];
 };
 
+export type PagedMemberProfile = {
+  members: Profile[];
+  hasNext: boolean;
+};
+
 export type ProfileDetail = {
   name: string;
   isMine: boolean;
