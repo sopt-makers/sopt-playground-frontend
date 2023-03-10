@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { postSSOCode } from '@/api/registration';
+import { postSSOCode } from '@/api/auth';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import Loading from '@/components/common/Loading';

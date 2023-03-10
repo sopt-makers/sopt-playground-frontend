@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { FC, FormEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 
-import { postRegistrationEmail } from '@/api/registration';
+import { postRegistrationEmail } from '@/api/auth';
 import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
 import Stepper from '@/components/auth/register/Stepper';
 import Input from '@/components/common/Input';
