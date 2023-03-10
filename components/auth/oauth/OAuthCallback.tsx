@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { postSSOCode } from '@/api/auth';
+import { REDIRECT_URI_WHITELISTS } from '@/components/auth/oauth/whitelists';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import Loading from '@/components/common/Loading';
@@ -75,8 +76,6 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
 };
 
 export default OAuthCallback;
-
-const REDIRECT_URI_WHITELISTS = ['http://localhost:3000'];
 
 const ErrorMessage = styled.div`
   display: flex;
