@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
-import { postRegistrationInfo } from '@/api/registration';
+import { postRegistrationInfo } from '@/api/auth';
 import Register from '@/components/auth/register/Register';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
