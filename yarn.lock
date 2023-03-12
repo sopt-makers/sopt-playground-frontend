@@ -4592,6 +4592,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-scroll-area@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@radix-ui/react-scroll-area@npm:1.0.3"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/number": 1.0.0
+    "@radix-ui/primitive": 1.0.0
+    "@radix-ui/react-compose-refs": 1.0.0
+    "@radix-ui/react-context": 1.0.0
+    "@radix-ui/react-direction": 1.0.0
+    "@radix-ui/react-presence": 1.0.0
+    "@radix-ui/react-primitive": 1.0.2
+    "@radix-ui/react-use-callback-ref": 1.0.0
+    "@radix-ui/react-use-layout-effect": 1.0.0
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  checksum: 54f6d604f9ef6112ce44f0ccaf2dea96ec22ae94d67fe822d8e6388c15b647a33bbdc448d1fc86d870ee6e79a8f531bd4b171b51d0b140272d429e1b941ee12a
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-select@npm:^1.2.1":
   version: 1.2.1
   resolution: "@radix-ui/react-select@npm:1.2.1"
@@ -20824,6 +20845,7 @@ __metadata:
     "@radix-ui/react-dialog": ^1.0.2
     "@radix-ui/react-dropdown-menu": ^2.0.2
     "@radix-ui/react-progress": ^1.0.1
+    "@radix-ui/react-scroll-area": ^1.0.3
     "@radix-ui/react-select": ^1.2.1
     "@radix-ui/react-slot": ^1.0.1
     "@radix-ui/react-tabs": ^1.0.2
