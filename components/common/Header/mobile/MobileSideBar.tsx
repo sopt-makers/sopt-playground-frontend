@@ -186,6 +186,11 @@ const ProfileImageSlot = styled.div`
   width: 42px;
   height: 42px;
   overflow: hidden;
+
+  & > img {
+    object-fit: cover;
+    width: 100%;
+  }
 `;
 
 const ProfileNameSlot = styled.div`
