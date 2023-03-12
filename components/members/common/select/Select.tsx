@@ -13,7 +13,7 @@ interface SelectProps extends Omit<Select.SelectProps, 'onValueChange'> {
   placeholder?: string;
   width?: CSSValueWithLength;
   error?: boolean;
-  onChange?: (value: string) => void;
+  onChange?: Select.SelectProps['onValueChange'];
 }
 
 const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
