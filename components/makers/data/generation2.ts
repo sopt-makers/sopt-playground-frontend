@@ -87,7 +87,7 @@ export const generation2: MakersGeneration = {
         { type: 'member', id: 115, name: '김형겸', position: '웹 프론트엔드 개발자' },
         { type: 'raw', name: '김영인', position: 'iOS 개발자' },
         { type: 'member', id: 22, name: '윤수빈', position: 'iOS 개발자' },
-        { type: 'raw', name: '정화진', position: 'Android 개발자' },
+        { type: 'member', id: 283, name: '정화진', position: 'Android 개발자' },
         { type: 'member', id: 258, name: '한승현', position: 'Android 개발자' },
         { type: 'member', id: 112, name: '김소현', position: '서버 개발자' },
         { type: 'member', id: 205, name: '이용택', position: '서버 개발자' },
@@ -95,9 +95,10 @@ export const generation2: MakersGeneration = {
     },
     {
       title: '브랜딩',
-      description: '',
+      description:
+        '오거나이저와 협업하여 메이커스 초기 브랜딩을 만들어 디자인 시스템을 구축하고 나아가 제품에도 반영하는 팀입니다.',
       people: [
-        { type: 'raw', name: '김민영', position: '디자이너' },
+        { type: 'member', id: 282, name: '김민영', position: '디자이너' },
         { type: 'member', id: 238, name: '이서영', position: '디자이너' },
       ],
     },
