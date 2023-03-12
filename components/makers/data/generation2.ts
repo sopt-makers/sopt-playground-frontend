@@ -79,7 +79,8 @@ export const generation2: MakersGeneration = {
     },
     {
       title: '운영 서비스 팀',
-      description: '',
+      description:
+        'SOPT 활동 기수 회원과 임원진의 편리한 운영을 위해 공지, 출석 체크 등의 서비스를 만들어요. 전체 회원들이 SOPT의 운영과 행사 진행에 관련된 정보들을 한 곳에서 편하게 확인해요.',
       people: [
         { type: 'member', id: 265, name: '김유빈', position: 'PM' },
         { type: 'member', id: 74, name: '배민주', position: '디자이너' },
@@ -96,7 +97,7 @@ export const generation2: MakersGeneration = {
     {
       title: '브랜딩',
       description:
-        '오거나이저와 협업하여 메이커스 초기 브랜딩을 만들어 디자인 시스템을 구축하고 나아가 제품에도 반영하는 팀입니다.',
+        '오거나이저와 협업하여 메이커스 초기 브랜딩을 만들어 디자인 시스템을 구축하고 나아가 제품에도 반영하는 팀이에요.',
       people: [
         { type: 'member', id: 282, name: '김민영', position: '디자이너' },
         { type: 'member', id: 238, name: '이서영', position: '디자이너' },
