@@ -7,15 +7,23 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { buildCSSWithLength, CSSValueWithLength } from '@/utils';
 
-interface SelectProps extends Select.SelectProps {
+interface SelectProps extends Omit<Select.SelectProps, 'onValueChange'> {
   placeholder?: string;
   width?: CSSValueWithLength;
   error?: boolean;
+  onChange?: (value: string) => void;
 }
 
-const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({ width = 200, placeholder, children, error, ...props }) => {
+const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
+  children,
+  width = 200,
+  placeholder,
+  onChange,
+  error,
+  ...props
+}) => {
   return (
-    <Select.Root {...props}>
+    <Select.Root onValueChange={onChange} {...props}>
       <StyledTrigger width={width} error={error}>
         <Select.Value placeholder={placeholder} />
         <Select.Icon>

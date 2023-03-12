@@ -34,7 +34,7 @@ export const WithState = () => {
   };
 
   return (
-    <Select placeholder='기수 선택' value={value} onValueChange={(value) => onSelect(value)}>
+    <Select placeholder='기수 선택' value={value} onChange={(value) => onSelect(value)}>
       {GENERATIONS.map((generation) => (
         <Select.Item key={generation} value={generation}>
           {`${generation} 기`}
