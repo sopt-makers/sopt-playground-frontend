@@ -7,7 +7,10 @@ import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-type AccordionOpenState = 'open' | '';
+enum AccordionOpenState {
+  OPEN = 'open',
+  CLOSED = '',
+}
 
 interface FormAccordionProps {
   title: string;
@@ -15,7 +18,7 @@ interface FormAccordionProps {
   required?: boolean;
 }
 const FormAccordion: FC<PropsWithChildren<FormAccordionProps>> = ({ description, title, required, children }) => {
-  const [value, setValue] = useState<AccordionOpenState>('');
+  const [value, setValue] = useState<AccordionOpenState>(AccordionOpenState.CLOSED);
 
   return (
     <StyledRoot
@@ -31,7 +34,7 @@ const FormAccordion: FC<PropsWithChildren<FormAccordionProps>> = ({ description,
             <Text typography='SUIT_18_SB'>{title}</Text>
             {required && <Essential>*</Essential>}
           </StyledTitleWrapper>
-          <StyledTrigger>{value === 'open' ? '- 접기' : '+ 펼치기'}</StyledTrigger>
+          <StyledTrigger>{value === AccordionOpenState.OPEN ? '- 접기' : '+ 펼치기'}</StyledTrigger>
         </StyledHeader>
         <Text mt={8} typography='SUIT_14_M' color={colors.gray80}>
           {description}
@@ -41,7 +44,7 @@ const FormAccordion: FC<PropsWithChildren<FormAccordionProps>> = ({ description,
             open: { height: 'auto' },
             closed: { height: 0 },
           }}
-          animate={value === 'open' ? 'open' : 'closed'}
+          animate={value === AccordionOpenState.OPEN ? 'open' : 'closed'}
           transition={{ ease: 'easeOut', duration: 0.3 }}
         >
           {children}
