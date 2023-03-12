@@ -1,9 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 
+import Select from '@/components/members/common/select/Select';
 import { GENERATIONS } from '@/constants/generation';
-
-import Select from './Select';
 
 export default {
   component: Select,
