@@ -4200,9 +4200,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-collapsible@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@radix-ui/react-collapsible@npm:1.0.1"
+"@radix-ui/react-collapsible@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@radix-ui/react-collapsible@npm:1.0.2"
   dependencies:
     "@babel/runtime": ^7.13.10
     "@radix-ui/primitive": 1.0.0
