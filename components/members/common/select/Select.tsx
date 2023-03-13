@@ -35,7 +35,7 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
         </Select.Icon>
       </StyledTrigger>
       <Select.Portal>
-        <ScrollArea.Root type='always'>
+        <ScrollArea.Root>
           <StyledContent position='popper' width={width}>
             <StyledScrollUpButton>
               <IconSelectArrow width={18} height={18} alt='select-arrow-up' />
