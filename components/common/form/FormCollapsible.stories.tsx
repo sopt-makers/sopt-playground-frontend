@@ -1,12 +1,12 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import FormAccordion from './FormAccordion';
+import FormCollapsible from './FormCollapsible';
 
 export default {
-  component: FormAccordion,
-} as ComponentMeta<typeof FormAccordion>;
+  component: FormCollapsible,
+} as ComponentMeta<typeof FormCollapsible>;
 
-const Template: ComponentStory<typeof FormAccordion> = (args) => <FormAccordion {...args} />;
+const Template: ComponentStory<typeof FormCollapsible> = (args) => <FormCollapsible {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

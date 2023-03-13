@@ -4165,27 +4165,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-accordion@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@radix-ui/react-accordion@npm:1.1.1"
-  dependencies:
-    "@babel/runtime": ^7.13.10
-    "@radix-ui/primitive": 1.0.0
-    "@radix-ui/react-collapsible": 1.0.2
-    "@radix-ui/react-collection": 1.0.2
-    "@radix-ui/react-compose-refs": 1.0.0
-    "@radix-ui/react-context": 1.0.0
-    "@radix-ui/react-direction": 1.0.0
-    "@radix-ui/react-id": 1.0.0
-    "@radix-ui/react-primitive": 1.0.2
-    "@radix-ui/react-use-controllable-state": 1.0.0
-  peerDependencies:
-    react: ^16.8 || ^17.0 || ^18.0
-    react-dom: ^16.8 || ^17.0 || ^18.0
-  checksum: a666da8abca778a150e2cb6d2c0e19fa32912b2cd9aca04359a7a50f238d30b056d46a3119f93376da5ee964262a7fe1174f16e34096d9f51d6639beb9f0e8cd
-  languageName: node
-  linkType: hard
-
 "@radix-ui/react-arrow@npm:1.0.1":
   version: 1.0.1
   resolution: "@radix-ui/react-arrow@npm:1.0.1"
@@ -4199,7 +4178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-collapsible@npm:1.0.2":
+"@radix-ui/react-collapsible@npm:^1.0.2":
   version: 1.0.2
   resolution: "@radix-ui/react-collapsible@npm:1.0.2"
   dependencies:
@@ -4219,26 +4198,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-collapsible@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@radix-ui/react-collapsible@npm:1.0.1"
-  dependencies:
-    "@babel/runtime": ^7.13.10
-    "@radix-ui/primitive": 1.0.0
-    "@radix-ui/react-compose-refs": 1.0.0
-    "@radix-ui/react-context": 1.0.0
-    "@radix-ui/react-id": 1.0.0
-    "@radix-ui/react-presence": 1.0.0
-    "@radix-ui/react-primitive": 1.0.1
-    "@radix-ui/react-use-controllable-state": 1.0.0
-    "@radix-ui/react-use-layout-effect": 1.0.0
-  peerDependencies:
-    react: ^16.8 || ^17.0 || ^18.0
-    react-dom: ^16.8 || ^17.0 || ^18.0
-  checksum: 24c4611c06b258cf1710c9978a0ad529f25f074e7654dd6fdf615f1e43dc100bbc9f8b2acd7a318153f2e27f3c4670d209c12a336004ff43f73cd05278e9a754
-  languageName: node
-  linkType: hard
-
 "@radix-ui/react-collection@npm:1.0.1":
   version: 1.0.1
   resolution: "@radix-ui/react-collection@npm:1.0.1"
@@ -4252,22 +4211,6 @@ __metadata:
     react: ^16.8 || ^17.0 || ^18.0
     react-dom: ^16.8 || ^17.0 || ^18.0
   checksum: 4922b358baf54aa343da5235fd061a289bedef9488254696bb4eb09b320da9da91bf55e148d89f07df80afa5429804f8a203159978cddeea423e58fdea703cd0
-  languageName: node
-  linkType: hard
-
-"@radix-ui/react-collection@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@radix-ui/react-collection@npm:1.0.2"
-  dependencies:
-    "@babel/runtime": ^7.13.10
-    "@radix-ui/react-compose-refs": 1.0.0
-    "@radix-ui/react-context": 1.0.0
-    "@radix-ui/react-primitive": 1.0.2
-    "@radix-ui/react-slot": 1.0.1
-  peerDependencies:
-    react: ^16.8 || ^17.0 || ^18.0
-    react-dom: ^16.8 || ^17.0 || ^18.0
-  checksum: f7d92f52c7f92b53c055370a5cbf077eea54366706eec9100973737577d841c0cc76a2a577fec67dd85b2853d03c20c4810058f0f511821052358439017e9e5d
   languageName: node
   linkType: hard
 
@@ -20715,8 +20658,7 @@ __metadata:
     "@hookform/resolvers": ^2.9.1
     "@mdx-js/react": ^1.6.22
     "@next/bundle-analyzer": ^13.1.1
-    "@radix-ui/react-accordion": ^1.1.1
-    "@radix-ui/react-collapsible": ^1.0.1
+    "@radix-ui/react-collapsible": ^1.0.2
     "@radix-ui/react-dialog": ^1.0.2
     "@radix-ui/react-dropdown-menu": ^2.0.2
     "@radix-ui/react-progress": ^1.0.1
