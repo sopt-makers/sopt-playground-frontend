@@ -55,8 +55,7 @@ export const generation2: MakersGeneration = {
       people: [
         { type: 'member', id: 10, name: '주수한', position: 'PM' },
         { type: 'member', id: 30, name: '김인우', position: '디자이너' },
-        { type: 'raw', name: '손은서', position: '디자이너' },
-        { type: 'raw', name: '강영우', position: '백엔드 개발자' },
+        { type: 'member', id: 281, name: '강영우', position: '백엔드 개발자' },
         { type: 'member', id: 13, name: '김은수', position: '웹 프론트엔드 개발자' },
         { type: 'member', id: 36, name: '이재훈', position: '웹 프론트엔드 개발자' },
         { type: 'member', id: 28, name: '백지연', position: '웹 프론트엔드 개발자' },
