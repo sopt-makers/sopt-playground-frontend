@@ -77,7 +77,7 @@ const MakersMembers: FC<MakersMembersProps> = ({ className, generations, metadat
                           );
                         })()
                       ) : (
-                        <MemberBlock name={person.name} />
+                        <MemberBlock name={person.name} position={person.position} />
                       )}
                     </Fragment>
                   ))}
