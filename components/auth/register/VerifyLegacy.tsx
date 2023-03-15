@@ -21,7 +21,7 @@ interface ErrorResponse {
   message: string;
 }
 
-const VerifyByEmail: FC = () => {
+const VerifyLegacy: FC = () => {
   const [emailInput, setEmailInput] = useState('');
   const verify = useMutation<unknown, AxiosError<ErrorResponse>>(async () => {
     return postRegistrationEmail(emailInput);
@@ -71,7 +71,7 @@ const VerifyByEmail: FC = () => {
   );
 };
 
-export default VerifyByEmail;
+export default VerifyLegacy;
 
 function formatErrorMessage(error: AxiosError<ErrorResponse> | null) {
   const innerMessage = error?.response?.data?.message;

@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import VerifyByEmail from '@/components/auth/register/VerifyByEmail';
+import VerifyLegacy from '@/components/auth/register/VerifyLegacy';
 import { setLayout } from '@/utils/layout';
 
 export const VerifyPage: FC = () => {
   return (
     <StyledVerifyPage>
-      <VerifyByEmail />
+      <VerifyLegacy />
     </StyledVerifyPage>
   );
 };

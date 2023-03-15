@@ -12,9 +12,9 @@ interface VerifyByPhoneProps {
   byEmail: ReactNode;
 }
 
-const Verify: FC<VerifyByPhoneProps> = ({ byPhone, byEmail }) => {
+const VerifyFrame: FC<VerifyByPhoneProps> = ({ byPhone, byEmail }) => {
   return (
-    <StyledVerify>
+    <StyledVerifyFrame>
       <Stepper step={1} />
       <Title>SOPT 회원인증</Title>
       <Description>
@@ -34,13 +34,13 @@ const Verify: FC<VerifyByPhoneProps> = ({ byPhone, byEmail }) => {
           {byEmail}
         </TabsContent>
       </TabsRoot>
-    </StyledVerify>
+    </StyledVerifyFrame>
   );
 };
 
-export default Verify;
+export default VerifyFrame;
 
-const StyledVerify = styled.div`
+const StyledVerifyFrame = styled.div`
   display: flex;
   flex-direction: column;
   width: 420px;

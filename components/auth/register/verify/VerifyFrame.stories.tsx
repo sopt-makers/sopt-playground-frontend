@@ -1,18 +1,18 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Verify from './Verify';
+import VerifyFrame from './VerifyFrame';
 
 export default {
-  component: Verify,
+  component: VerifyFrame,
   parameters: {},
   decorators: [],
   argTypes: {
     byPhone: { control: false },
     byEmail: { control: false },
   },
-} as ComponentMeta<typeof Verify>;
+} as ComponentMeta<typeof VerifyFrame>;
 
-const Template: ComponentStory<typeof Verify> = (args) => <Verify {...args} />;
+const Template: ComponentStory<typeof VerifyFrame> = (args) => <VerifyFrame {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
