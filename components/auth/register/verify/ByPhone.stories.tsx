@@ -5,7 +5,13 @@ import ByPhone from './ByPhone';
 export default {
   component: ByPhone,
   parameters: {},
-  decorators: [],
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '420px' }}>
+        <Story />
+      </div>
+    ),
+  ],
 } as ComponentMeta<typeof ByPhone>;
 
 const Template: ComponentStory<typeof ByPhone> = (args) => <ByPhone {...args} />;
