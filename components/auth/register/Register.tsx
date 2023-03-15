@@ -22,7 +22,7 @@ export const Register: FC<RegisterProps> = (props) => {
 
   return (
     <StyledRegister>
-      <Stepper step={2} />
+      <StyledStepper step={1} />
       <Title>회원가입</Title>
       <Description>
         반갑습니다 {userInfo.name}님,
@@ -44,6 +44,10 @@ const StyledRegister = styled.div`
   flex-direction: column;
   align-items: center;
   width: 420px;
+`;
+
+const StyledStepper = styled(Stepper)`
+  align-self: stretch;
 `;
 
 const Title = styled.h2`
