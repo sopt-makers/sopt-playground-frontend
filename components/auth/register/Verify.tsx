@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import * as Tabs from '@radix-ui/react-tabs';
-import { AnimatePresence, m } from 'framer-motion';
-import { FC, forwardRef, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import Stepper from '@/components/auth/register/Stepper';
 import { colors } from '@/styles/colors';
