@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -7,8 +6,8 @@ import FacebookButton from '@/components/auth/identityProvider/facebook/Facebook
 import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
-import SquareLink from '@/components/common/SquareLink';
 import { playgroundLink } from '@/constants/links';
+import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
@@ -21,23 +20,22 @@ const LoginPage: FC = () => {
     <StyledLoginPage>
       <LoginBox>
         <LoginTitle>
-          <LoginPrefix>SOPT Playground에</LoginPrefix> 오신 걸 환영합니다
+          <LoginPrefix>SOPT Playground에</LoginPrefix> 오신 것을 환영해요!
         </LoginTitle>
-        <LoginDescription>SOPT회원만 이용할 수 있어요.</LoginDescription>
+        <LoginDescription>
+          Playground는 SOPT 회원만을 위한 공간이에요.
+          <br />
+          지금 회원가입하고, 역대 SOPT 구성원들과 소통해 보아요!
+        </LoginDescription>
         <LinkContainer>
           <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
           {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
-          <Link href={playgroundLink.register()} passHref legacyBehavior>
-            <SquareLink
-              css={css`
-                color: white;
-              `}
-            >
-              회원가입
-            </SquareLink>
-          </Link>
         </LinkContainer>
+        <RegisterInfo>
+          Playground가 처음이신가요? <RegisterLink href={playgroundLink.register()}>회원가입하기</RegisterLink>
+        </RegisterInfo>
       </LoginBox>
+
       <Link href={playgroundLink.makers()} passHref legacyBehavior>
         <MadeByMakersLink>
           <MadeByTitle>made by</MadeByTitle>
@@ -73,6 +71,10 @@ const LoginBox = styled.div`
 const LoginTitle = styled.h2`
   text-align: center;
   ${textStyles.SUIT_32_SB}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_24_B}
+  }
 `;
 
 const LoginPrefix = styled.span`
@@ -83,21 +85,49 @@ const LoginPrefix = styled.span`
 
 export const LoginDescription = styled.p`
   margin-top: 12px;
-  margin-bottom: 80px;
+  text-align: center;
+  color: ${colors.gray80};
+
   ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 20px;
+  }
 `;
 
 const LinkContainer = styled.div`
-  & > * {
-    margin-bottom: 20px;
-    width: 420px;
-  }
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  width: 420px;
+  row-gap: 20px;
+
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
+    row-gap: 10px;
+  }
+`;
 
-    & > * {
-      width: auto;
-    }
+const RegisterInfo = styled.div`
+  margin-top: 30px;
+  color: ${colors.gray80};
+
+  ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 37px;
+
+    ${textStyles.SUIT_12_M}
+  }
+`;
+
+const RegisterLink = styled(Link)`
+  transition: 0.2s color;
+  text-decoration: underline;
+  color: ${colors.purple100};
+
+  :hover {
+    color: ${colors.purple80};
   }
 `;
 

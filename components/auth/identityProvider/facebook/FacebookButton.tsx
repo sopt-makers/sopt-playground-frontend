@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
-import SquareLink from '@/components/common/SquareLink';
 import IconFacebook from '@/public/icons/icon-facebook.svg';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 interface FacebookButtonProps {
   children?: ReactNode;
@@ -16,7 +17,9 @@ const FacebookButton: FC<FacebookButtonProps> = (props) => {
 
   return (
     <StyledFacebookButton className={className} onClick={onClick}>
-      <StyledFacebookIcon />
+      <IconContainer>
+        <IconFacebook />
+      </IconContainer>
       {children}
     </StyledFacebookButton>
   );
@@ -24,13 +27,35 @@ const FacebookButton: FC<FacebookButtonProps> = (props) => {
 
 export default FacebookButton;
 
-const StyledFacebookButton = styled(SquareLink)`
+const StyledFacebookButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
   background-color: ${colors.facebook};
+  cursor: pointer;
+  height: 48px;
   color: ${colors.white};
+
+  ${textStyles.SUIT_16_M}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 42px;
+
+    ${textStyles.SUIT_14_M}
+  }
 `;
 
-const StyledFacebookIcon = styled(IconFacebook)`
+const IconContainer = styled.div`
   margin-right: 10px;
-  height: 100%;
-  fill: white;
+  height: 26px;
+
+  & > svg {
+    height: 100%;
+    fill: white;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 22px;
+  }
 `;
