@@ -51,6 +51,8 @@ const StyledStepper = styled(Stepper)`
 `;
 
 const Title = styled.h2`
+  margin-top: 40px;
+
   ${textStyles.SUIT_32_SB}
 `;
 
