@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
-import { Career } from '@/components/members/upload/types';
+import { Career } from '@/components/members/detail/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
