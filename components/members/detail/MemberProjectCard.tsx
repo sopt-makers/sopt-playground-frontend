@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { MemberProject } from '@/api/members/type';
-import { categoryLabel } from '@/components/projects/upload/constants';
+import { PROJECT_CATEGORY_LABEL } from '@/components/members/detail/constants';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -38,7 +38,7 @@ const MemberProjectCard: FC<MemberProject> = ({
           <StyledTitleWrapper>
             <Title>{name}</Title>
             <Generation>
-              {generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}
+              {generation ? `${generation}기 ${PROJECT_CATEGORY_LABEL[category]}` : PROJECT_CATEGORY_LABEL[category]}
             </Generation>
           </StyledTitleWrapper>
           <Summary>{summary}</Summary>
