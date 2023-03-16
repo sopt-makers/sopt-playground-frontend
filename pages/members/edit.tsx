@@ -121,7 +121,7 @@ export default function MemberUploadPage() {
           <StyledFooter className='pc-only'>
             <div className='button-wrapper'>
               <button onClick={handleSubmit(onSubmit)} className='submit'>
-                프로필 수정ㄴ하기
+                프로필 수정하기
               </button>
             </div>
           </StyledFooter>
