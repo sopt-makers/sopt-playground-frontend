@@ -40,7 +40,7 @@ type ByPhoneProps = {
 
 const PHONE_REGEX = /^01\d-\d{3,4}-\d{4}$/;
 
-const ByPhone: FC<ByPhoneProps> = (props) => {
+const ByPhoneView: FC<ByPhoneProps> = (props) => {
   const { highlightHelp, type, onSubmitPhone, onSubmitCode } = props;
 
   const [phone, setPhone] = useState('');
@@ -125,7 +125,7 @@ const ByPhone: FC<ByPhoneProps> = (props) => {
   );
 };
 
-export default ByPhone;
+export default ByPhoneView;
 
 const StyledByEmail = styled.div`
   display: flex;

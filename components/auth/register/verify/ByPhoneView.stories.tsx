@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import ByPhone from './ByPhone';
+import ByPhoneView from './ByPhoneView';
 
 export default {
-  component: ByPhone,
+  component: ByPhoneView,
   parameters: {},
   decorators: [
     (Story) => (
@@ -12,9 +12,9 @@ export default {
       </div>
     ),
   ],
-} as ComponentMeta<typeof ByPhone>;
+} as ComponentMeta<typeof ByPhoneView>;
 
-const Template: ComponentStory<typeof ByPhone> = (args) => <ByPhone {...args} />;
+const Template: ComponentStory<typeof ByPhoneView> = (args) => <ByPhoneView {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
