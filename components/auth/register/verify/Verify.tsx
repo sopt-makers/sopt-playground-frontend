@@ -22,7 +22,7 @@ const Verify: FC<VerifyProps> = ({}) => {
   const { state: emailState, submit: submitEmail } = useByEmail();
 
   return (
-    <>
+    <div>
       <VerifyFrame
         byPhone={<ByPhoneView {...phoneState} onSubmitCode={submitCode} onSubmitPhone={submitPhone} />}
         byEmail={<ByEmailView {...emailState} onSubmitEmail={submitEmail} />}
@@ -34,7 +34,7 @@ const Verify: FC<VerifyProps> = ({}) => {
           '전화번호가 바뀌었거나, 전화번호 인증이 어려우신 경우 \n추가 정보 인증을 통해 가입을 도와드리고 있어요!'
         }
       />
-    </>
+    </div>
   );
 };
 
