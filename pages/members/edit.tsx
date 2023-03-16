@@ -3,8 +3,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 
-import { useGetMemberOfMe, useGetMemberProfileById, useGetMemberProfileOfMe } from '@/api/hooks';
+import { useGetMemberProfileOfMe } from '@/api/hooks';
 import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
@@ -35,7 +36,10 @@ export default function MemberUploadPage() {
     reset,
     formState: { errors },
   } = formMethods;
-  const { refetch: refetchMyProfile } = useGetMemberProfileOfMe({
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  useGetMemberProfileOfMe({
     onSuccess: (data) => {
       reset({
         name: data.name,
@@ -70,9 +74,6 @@ export default function MemberUploadPage() {
       });
     },
   });
-  const { data: me, refetch: refetchMe } = useGetMemberOfMe();
-  const { refetch: refetchProfileById } = useGetMemberProfileById(me?.id);
-  const router = useRouter();
 
   const formatBirthday = (birthday: Birthday) => {
     const { year, month, day } = birthday;
@@ -92,7 +93,9 @@ export default function MemberUploadPage() {
         .filter((career) => !Object.values(career).some((item) => item === '')),
     };
     const response = await postMemberProfile(requestBody);
-    await Promise.all([refetchMyProfile(), refetchProfileById(), refetchMe()]);
+
+    queryClient.invalidateQueries('getMemberProfileOfMe');
+    queryClient.invalidateQueries(['getMemberProfileById', response.id]);
 
     router.push(playgroundLink.memberDetail(response.id));
   };
