@@ -48,3 +48,5 @@ export const PARTS = [
 export const TEAMS = ['운영팀', '미디어팀', '해당 없음'];
 
 export const LINK_TITLES = ['Facebook', 'Instagram', 'LinkedIn', 'GitHub', 'Behance'];
+
+export const DEFAULT_DATE = '1970-01-01';
