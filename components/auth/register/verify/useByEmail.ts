@@ -33,6 +33,9 @@ const useByEmail = (onSuccess?: () => void) => {
       return;
     }
 
+    setState({
+      type: 'success',
+    });
     onSuccess?.();
   }
 

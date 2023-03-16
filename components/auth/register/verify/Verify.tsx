@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import HelpCard from '@/components/auth/register/verify/HelpCard';
@@ -7,16 +8,24 @@ import useByPhone from '@/components/auth/register/verify/useByPhone';
 import VerifyFrame from '@/components/auth/register/verify/VerifyFrame';
 import ByEmailView from '@/components/auth/register/verify/view/ByEmailView';
 import ByPhoneView from '@/components/auth/register/verify/view/ByPhoneView';
+import { MEMBER_REQUEST_FORM_URL, playgroundLink } from '@/constants/links';
 
 interface VerifyProps {}
 
 const Verify: FC<VerifyProps> = ({}) => {
+  const router = useRouter();
+
   const {
     state: phoneState,
     submitCode,
     submitPhone,
   } = useByPhone((registerToken) => {
-    console.log(registerToken);
+    router.push({
+      pathname: playgroundLink.connectSocialAuth(),
+      query: {
+        token: registerToken,
+      },
+    });
   });
 
   const { state: emailState, submit: submitEmail } = useByEmail();
@@ -28,6 +37,7 @@ const Verify: FC<VerifyProps> = ({}) => {
         byEmail={<ByEmailView {...emailState} onSubmitEmail={submitEmail} />}
       />
       <StyledHelpCard
+        href={MEMBER_REQUEST_FORM_URL}
         highlight={phoneState.type === 'codeError' || phoneState.type === 'phoneError' || emailState.type === 'error'}
         title='전화번호로 SOPT 회원 인증에 실패하셨나요?'
         content={

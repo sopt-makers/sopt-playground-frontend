@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
 
+import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
 import VerifySubmitButton from '@/components/auth/register/verify/VerifySubmitButton';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
@@ -19,6 +20,9 @@ export type ByEmailStates =
   | {
       type: 'error';
       message: string;
+    }
+  | {
+      type: 'success';
     };
 
 type ByEmailViewProps = {
@@ -33,7 +37,13 @@ const ByEmailView: FC<ByEmailViewProps> = (props) => {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    onSubmitEmail?.(email);
+    if (email.length > 0) {
+      onSubmitEmail?.(email);
+    }
+  }
+
+  if (type === 'success') {
+    return <SendingMailSuccess />;
   }
 
   return (
@@ -99,7 +109,7 @@ const ErrorMessageHolder = styled(m.div)`
 `;
 
 const SubmitButton = styled(VerifySubmitButton)`
-  margin-top: 10px;
+  margin-top: 25px;
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
