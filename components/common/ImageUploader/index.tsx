@@ -4,8 +4,11 @@ import axios from 'axios';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl } from '@/api/image';
+import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconImage from '@/public/icons/icon-image.svg';
+import IconPencil from '@/public/icons/icon-pencil.svg';
 import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
 interface ImageUploaderProps {
   width?: number | string;
@@ -70,6 +73,19 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
       {value ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
+      <StyledSelectorControlButton>
+        <IconPencil />
+      </StyledSelectorControlButton>
+      <StyledSelector>
+        <StyledEditButton>
+          <IconPencil />
+          <div>수정</div>
+        </StyledEditButton>
+        <StyledRemoveButton>
+          <IconCancel />
+          <div>삭제</div>
+        </StyledRemoveButton>
+      </StyledSelector>
     </Container>
   );
 };
@@ -78,6 +94,7 @@ export default ImageUploader;
 
 const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height' | 'error'>>`
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
@@ -102,4 +119,59 @@ const StyledPreview = styled.img`
   width: inherit;
   height: inherit;
   object-fit: cover;
+`;
+
+const StyledSelectorControlButton = styled.button`
+  display: flex;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: ${colors.black40};
+  padding: 3.58px 3.58px 4.09px 4.09px;
+`;
+
+const StyledSelector = styled.div`
+  display: flex;
+  position: absolute;
+  right: -40px;
+  bottom: 35px;
+`;
+
+const editButtonStyle = css`
+  display: flex;
+  gap: 4px;
+  background-color: ${colors.black40};
+  padding: 10px 12px;
+  line-height: 100%;
+  letter-spacing: -0.01em;
+
+  ${textStyles.SUIT_12_M};
+`;
+
+const StyledEditButton = styled.button`
+  position: relative;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+
+  ${editButtonStyle}
+
+  &::after {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    background-color: ${colors.gray100};
+    width: 1px;
+    height: 14px;
+    content: '';
+  }
+`;
+
+const StyledRemoveButton = styled.button`
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+
+  ${editButtonStyle}
 `;
