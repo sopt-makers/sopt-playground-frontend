@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 
 import { Activity } from '@/api/members/type';
 import { getProjectById } from '@/api/projects';
-import { categoryLabel } from '@/components/projects/upload/constants';
+import { PROJECT_CATEGORY_LABEL } from '@/components/members/detail/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -14,7 +14,7 @@ const ActivityBadge: FC<Activity> = (activity) => {
     const getProjectCategory = async () => {
       if (activity.isProject) {
         const project = await getProjectById(activity.id.toString());
-        setCategory(categoryLabel[project.category]);
+        setCategory(PROJECT_CATEGORY_LABEL[project.category]);
       }
     };
 
