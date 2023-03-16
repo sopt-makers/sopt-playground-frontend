@@ -66,3 +66,19 @@ export const postSSOCode = async ({ accessToken }: { accessToken: string }) => {
     code: data.code,
   };
 };
+
+export const postSMSCode = async ({ phone }: { phone: string }) => {
+  await axiosInstance.post<string>('/api/v1/registration/sms/code', {
+    phone,
+  });
+};
+
+export const postSMSToken = async ({ code }: { code: string }) => {
+  const { data } = await axiosInstance.post<{ registerToken: string }>('/api/v1/registration/sms/token', {
+    sixNumberCode: code,
+  });
+
+  return {
+    registerToken: data.registerToken,
+  };
+};

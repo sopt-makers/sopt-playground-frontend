@@ -9,7 +9,7 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-type States =
+export type ByEmailStates =
   | {
       type: 'idle';
     }
@@ -23,7 +23,7 @@ type States =
 
 type ByEmailViewProps = {
   onSubmitEmail?: (email: string) => void;
-} & States;
+} & ByEmailStates;
 
 const ByEmailView: FC<ByEmailViewProps> = (props) => {
   const { onSubmitEmail, type } = props;
@@ -46,7 +46,7 @@ const ByEmailView: FC<ByEmailViewProps> = (props) => {
         onChange={(e) => setEmail(e.target.value)}
         error={type === 'error'}
       />
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {type === 'error' && (
           <ErrorMessageHolder
             initial='hide'

@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
 
-import HelpCard from '@/components/auth/register/verify/HelpCard';
 import VerifySubmitButton from '@/components/auth/register/verify/VerifySubmitButton';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
@@ -10,7 +9,7 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-type States =
+export type ByPhoneStates =
   | {
       type: 'phoneReady';
     }
@@ -33,15 +32,14 @@ type States =
     };
 
 type ByPhoneProps = {
-  highlightHelp?: boolean;
   onSubmitPhone?: (phone: string) => void;
   onSubmitCode?: (code: string) => void;
-} & States;
+} & ByPhoneStates;
 
 const PHONE_REGEX = /^01\d-\d{3,4}-\d{4}$/;
 
 const ByPhoneView: FC<ByPhoneProps> = (props) => {
-  const { highlightHelp, type, onSubmitPhone, onSubmitCode } = props;
+  const { type, onSubmitPhone, onSubmitCode } = props;
 
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
@@ -98,7 +96,7 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
           )}
         </AnimatePresence>
 
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {(type === 'phoneError' || type === 'codeError') && (
             <ErrorMessageHolder
               initial='hide'
@@ -113,14 +111,6 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
 
         <SubmitCodeButton disabled={type !== 'codeReady'}>SOPT 회원 인증 완료</SubmitCodeButton>
       </form>
-
-      <StyledHelpCard
-        highlight={highlightHelp}
-        title='전화번호로 SOPT 회원 인증에 실패하셨나요?'
-        content={
-          '전화번호가 바뀌었거나, 전화번호 인증이 어려우신 경우 \n추가 정보 인증을 통해 가입을 도와드리고 있어요!'
-        }
-      />
     </StyledByEmail>
   );
 };
@@ -194,8 +184,4 @@ const SubmitCodeButton = styled(VerifySubmitButton)`
 
     ${textStyles.SUIT_14_M}
   }
-`;
-
-const StyledHelpCard = styled(HelpCard)`
-  margin-top: 48px;
 `;
