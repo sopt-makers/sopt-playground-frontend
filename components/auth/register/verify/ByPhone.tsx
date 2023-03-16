@@ -5,20 +5,44 @@ import { FC, FormEvent, useState } from 'react';
 import HelpCard from '@/components/auth/register/verify/HelpCard';
 import VerifySubmitButton from '@/components/auth/register/verify/VerifySubmitButton';
 import Input from '@/components/common/Input';
+import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface ByPhoneProps {
-  status: 'init' | 'sent';
+type States =
+  | {
+      type: 'phoneReady';
+    }
+  | {
+      type: 'phoneLoading';
+    }
+  | {
+      type: 'phoneError';
+      message: string;
+    }
+  | {
+      type: 'codeReady';
+    }
+  | {
+      type: 'codeLoading';
+    }
+  | {
+      type: 'codeError';
+      message: string;
+    };
+
+type ByPhoneProps = {
   highlightHelp?: boolean;
   onSubmitPhone?: (phone: string) => void;
   onSubmitCode?: (code: string) => void;
-}
+} & States;
 
 const PHONE_REGEX = /^01\d-\d{3,4}-\d{4}$/;
 
-const ByPhone: FC<ByPhoneProps> = ({ status, highlightHelp, onSubmitPhone }) => {
+const ByPhone: FC<ByPhoneProps> = (props) => {
+  const { highlightHelp, type, onSubmitPhone, onSubmitCode } = props;
+
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
 
@@ -32,6 +56,12 @@ const ByPhone: FC<ByPhoneProps> = ({ status, highlightHelp, onSubmitPhone }) => 
     }
   }
 
+  function handleSubmitCode(e: FormEvent) {
+    e.preventDefault();
+
+    onSubmitCode?.(code);
+  }
+
   return (
     <StyledByEmail>
       <Label htmlFor='phone'>전화번호</Label>
@@ -39,34 +69,50 @@ const ByPhone: FC<ByPhoneProps> = ({ status, highlightHelp, onSubmitPhone }) => 
         <StyledPhoneInput
           name='phone'
           placeholder='010-XXXX-XXXX'
-          error={phone !== '' && !isPhoneValid}
+          error={(phone !== '' && !isPhoneValid) || type === 'phoneError'}
           autoFocus
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
-        <SubmitPhoneButton disabled={!(status === 'init' || status === 'sent') || !isPhoneValid}>
-          인증번호 받기
-        </SubmitPhoneButton>
+        <SubmitPhoneButton disabled={type === 'phoneLoading'}>인증번호 받기</SubmitPhoneButton>
       </InputArea>
-      <AnimatePresence initial={false}>
-        {status === 'sent' && (
-          <m.div
-            initial='hide'
-            animate='show'
-            exit='hide'
-            variants={{ hide: { height: 0, transition: { delay: 0.2 } }, show: { height: 'auto' } }}
-          >
-            <StyledCodeInput
-              placeholder='인증번호를 입력해주세요.'
-              variants={{ hide: { opacity: 0 }, show: { opacity: 1 } }}
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-            />
-          </m.div>
-        )}
-      </AnimatePresence>
 
-      <SubmitCodeButton disabled>SOPT 회원 인증 완료</SubmitCodeButton>
+      <form onSubmit={handleSubmitCode}>
+        <AnimatePresence initial={false}>
+          {(type === 'codeReady' || type === 'codeError' || type === 'codeLoading') && (
+            <m.div
+              initial='hide'
+              animate='show'
+              exit='hide'
+              variants={{ hide: { height: 0, transition: { delay: 0.2 } }, show: { height: 'auto' } }}
+            >
+              <StyledCodeInput
+                placeholder='인증번호를 입력해주세요.'
+                variants={{ hide: { opacity: 0 }, show: { opacity: 1 } }}
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                autoFocus
+                error={type === 'codeError'}
+              />
+            </m.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {(type === 'phoneError' || type === 'codeError') && (
+            <ErrorMessageHolder
+              initial='hide'
+              animate='show'
+              exit='hide'
+              variants={{ hide: { height: 0, opacity: 0 }, show: { height: 'auto', opacity: 1 } }}
+            >
+              <ErrorMessage message={props.message} />
+            </ErrorMessageHolder>
+          )}
+        </AnimatePresence>
+
+        <SubmitCodeButton disabled={type !== 'codeReady'}>SOPT 회원 인증 완료</SubmitCodeButton>
+      </form>
 
       <StyledHelpCard
         highlight={highlightHelp}
@@ -114,6 +160,13 @@ const StyledPhoneInput = styled(Input)`
   }
 `;
 
+const ErrorMessageHolder = styled(m.div)`
+  & > * {
+    padding-top: 10px;
+    padding-left: 2px;
+  }
+`;
+
 const StyledCodeInput = styled(m(Input))`
   & input[type='text'] {
     margin-top: 18px;
@@ -134,6 +187,7 @@ const SubmitPhoneButton = styled(VerifySubmitButton)`
 
 const SubmitCodeButton = styled(VerifySubmitButton)`
   margin-top: 48px;
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 30px;

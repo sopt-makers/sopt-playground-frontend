@@ -18,11 +18,9 @@ const Template: ComponentStory<typeof ByPhone> = (args) => <ByPhone {...args} />
 
 export const Default = Template.bind({});
 Default.args = {
-  status: 'init',
+  type: 'phoneReady',
   highlightHelp: false,
 };
 
 export const Sent = Template.bind({});
-Sent.args = {
-  status: 'sent',
-};
+Sent.args = {};
