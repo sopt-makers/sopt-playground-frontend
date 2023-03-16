@@ -95,6 +95,11 @@ const TabsTrigger = styled(Tabs.Trigger)`
     background-color: ${colors.purpledim100};
     color: ${colors.purple40};
   }
+
+  &[data-state='inactive']:hover {
+    background-color: ${colors.black60};
+    color: ${colors.white};
+  }
 `;
 
 const TabsContent = styled(Tabs.Content)`

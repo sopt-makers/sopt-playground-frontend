@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { AnimatePresence, m } from 'framer-motion';
-import { FC, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 
 import HelpCard from '@/components/auth/register/verify/HelpCard';
 import VerifySubmitButton from '@/components/auth/register/verify/VerifySubmitButton';
@@ -24,7 +24,9 @@ const ByPhone: FC<ByPhoneProps> = ({ status, highlightHelp, onSubmitPhone }) => 
 
   const isPhoneValid = phone.length > 0 && PHONE_REGEX.test(phone);
 
-  function handleSubmitPhone() {
+  function handleSubmitPhone(e: FormEvent) {
+    e.preventDefault();
+
     if (isPhoneValid) {
       onSubmitPhone?.(phone);
     }
@@ -33,10 +35,12 @@ const ByPhone: FC<ByPhoneProps> = ({ status, highlightHelp, onSubmitPhone }) => 
   return (
     <StyledByEmail>
       <Label htmlFor='phone'>전화번호</Label>
-      <InputArea>
+      <InputArea onSubmit={handleSubmitPhone}>
         <StyledPhoneInput
           name='phone'
-          placeholder='전화번호를 입력해 주세요'
+          placeholder='010-XXXX-XXXX'
+          error={phone !== '' && !isPhoneValid}
+          autoFocus
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
@@ -62,9 +66,7 @@ const ByPhone: FC<ByPhoneProps> = ({ status, highlightHelp, onSubmitPhone }) => 
         )}
       </AnimatePresence>
 
-      <SubmitCodeButton disabled onClick={handleSubmitPhone}>
-        SOPT 회원 인증 완료
-      </SubmitCodeButton>
+      <SubmitCodeButton disabled>SOPT 회원 인증 완료</SubmitCodeButton>
 
       <StyledHelpCard
         highlight={highlightHelp}
@@ -102,10 +104,6 @@ const InputArea = styled.form`
   flex-direction: row;
   column-gap: 12px;
   row-gap: 10px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-  }
 `;
 
 const StyledPhoneInput = styled(Input)`
@@ -117,14 +115,14 @@ const StyledPhoneInput = styled(Input)`
 `;
 
 const StyledCodeInput = styled(m(Input))`
-  margin-top: 18px;
-
   & input[type='text'] {
+    margin-top: 18px;
     border-radius: 10px;
 
     ${textStyles.SUIT_16_M}
 
     @media ${MOBILE_MEDIA_QUERY} {
+      margin-top: 10px;
       ${textStyles.SUIT_14_M}
     }
   }
