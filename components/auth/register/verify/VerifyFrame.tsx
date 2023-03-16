@@ -15,7 +15,7 @@ interface VerifyByPhoneProps {
 const VerifyFrame: FC<VerifyByPhoneProps> = ({ byPhone, byEmail }) => {
   return (
     <StyledVerifyFrame>
-      <Stepper step={1} />
+      <StyledStepper step={1} />
       <Title>SOPT 회원인증</Title>
       <Description>
         Playground는 SOPT 회원만을 위한 공간이에요.
@@ -43,7 +43,14 @@ export default VerifyFrame;
 const StyledVerifyFrame = styled.div`
   display: flex;
   flex-direction: column;
-  width: 420px;
+`;
+
+const StyledStepper = styled(Stepper)`
+  align-self: center;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 210px;
+  }
 `;
 
 const Title = styled.h2`
@@ -91,6 +98,8 @@ const TabsTrigger = styled(Tabs.Trigger)`
   height: 48px;
   color: ${colors.gray30};
 
+  ${textStyles.SUIT_15_SB}
+
   &[data-state='active'] {
     background-color: ${colors.purpledim100};
     color: ${colors.purple40};
@@ -99,6 +108,10 @@ const TabsTrigger = styled(Tabs.Trigger)`
   &[data-state='inactive']:hover {
     background-color: ${colors.black60};
     color: ${colors.white};
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_SB}
   }
 `;
 
