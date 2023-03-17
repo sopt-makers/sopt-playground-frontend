@@ -20,7 +20,7 @@ import { formatBirthday } from '@/components/members/upload/utils';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
-export default function MemberUploadPage() {
+export default function MemberEditPage() {
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
     mode: 'onChange',
@@ -62,7 +62,8 @@ export default function MemberUploadPage() {
             generation,
             part,
             team: act.cardinalActivities[0].team,
-        })),
+          };
+        }),
         allowOfficial: data.allowOfficial,
         profileImage: data.profileImage,
         careers: data.careers.map((career) => ({
@@ -111,4 +112,4 @@ export default function MemberUploadPage() {
   );
 }
 
-setLayout(MemberUploadPage, 'header');
+setLayout(MemberEditPage, 'header');
