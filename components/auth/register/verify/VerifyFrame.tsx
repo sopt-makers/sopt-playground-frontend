@@ -93,7 +93,7 @@ const TabsTrigger = styled(Tabs.Trigger)`
   flex-grow: 1;
   transition: 0.2s background-color, 0.2s color;
   border-radius: 10px;
-  background-color: ${colors.black80};
+  background-color: ${colors.black60};
   cursor: pointer;
   height: 48px;
   color: ${colors.gray30};

@@ -25,7 +25,7 @@ const VerifySubmitButton = styled.button`
       ? css`
           background-color: ${colors.black80};
           cursor: default;
-          color: ${colors.gray30};
+          color: ${colors.gray60};
         `
       : css`
           background-color: ${colors.purple100};
