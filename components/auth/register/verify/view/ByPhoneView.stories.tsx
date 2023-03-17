@@ -19,7 +19,6 @@ const Template: ComponentStory<typeof ByPhoneView> = (args) => <ByPhoneView {...
 export const Default = Template.bind({});
 Default.args = {
   type: 'phoneReady',
-  highlightHelp: false,
 };
 
 export const Sent = Template.bind({});
