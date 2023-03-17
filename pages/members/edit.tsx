@@ -29,11 +29,7 @@ export default function MemberEditPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const {
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = formMethods;
+  const { handleSubmit, reset } = formMethods;
 
   useGetMemberProfileOfMe({
     onSuccess: (data) => {
@@ -75,8 +71,6 @@ export default function MemberEditPage() {
   });
 
   const onSubmit = async (formData: MemberUploadForm) => {
-    if (Object.keys(errors).length) return;
-
     const { birthday, links, careers } = formData;
 
     const requestBody: ProfileRequest = {

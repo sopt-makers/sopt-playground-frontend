@@ -26,13 +26,9 @@ export default function MemberUploadPage() {
   });
   const router = useRouter();
 
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = formMethods;
+  const { handleSubmit } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
-    if (Object.keys(errors).length) return;
     const { birthday, links, careers } = formData;
     const requestBody: ProfileRequest = {
       ...formData,
