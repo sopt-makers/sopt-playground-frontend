@@ -23,7 +23,7 @@ export const RegisterPage: FC = () => {
     }
   }, [params, status, setRegisterToken]);
 
-  if (query.isLoading || query.isIdle) {
+  if (query.isLoading || query.fetchStatus === 'idle') {
     return <StyledRegisterPage>잠시만 기다려주세요...</StyledRegisterPage>;
   }
 
