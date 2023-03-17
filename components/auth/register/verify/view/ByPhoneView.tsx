@@ -80,7 +80,7 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
 
       <form onSubmit={handleSubmitCode}>
         <AnimatePresence initial={false}>
-          {(type === 'codeReady' || type === 'codeError' || type === 'codeLoading') && (
+          {oneOfStates(props, ['codeReady', 'codeError', 'codeLoading']) && (
             <m.div
               initial='hide'
               animate='show'
@@ -100,7 +100,7 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
         </AnimatePresence>
 
         <AnimatePresence initial={false}>
-          {(type === 'phoneError' || type === 'codeError') && (
+          {oneOfStates(props, ['phoneError', 'codeError']) && (
             <ErrorMessageHolder
               initial='hide'
               animate='show'
@@ -112,13 +112,22 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
           )}
         </AnimatePresence>
 
-        <SubmitCodeButton disabled={type !== 'codeReady' && type !== 'codeError'}>SOPT 회원 인증 완료</SubmitCodeButton>
+        <SubmitCodeButton disabled={!oneOfStates(props, ['codeReady', 'codeError'])}>
+          SOPT 회원 인증 완료
+        </SubmitCodeButton>
       </form>
     </StyledByEmail>
   );
 };
 
 export default ByPhoneView;
+
+function oneOfStates<T extends { type: string }, Ks extends readonly T['type'][]>(
+  state: ByPhoneStates,
+  keys: Ks,
+): state is Extract<ByPhoneStates, { type: Ks[number] }> {
+  return keys.some((key) => state.type === key);
+}
 
 const StyledByEmail = styled.div`
   display: flex;
