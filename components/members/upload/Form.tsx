@@ -5,8 +5,11 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+type FormType = 'upload' | 'edit';
+const TYPE_MAP: Record<FormType, string> = { upload: '업로드', edit: '수정' };
+
 interface MemberFormProps {
-  type: 'upload' | 'edit';
+  type: FormType;
   children: ReactNode;
   onSubmit: () => void;
 }
@@ -15,8 +18,8 @@ export default function MemberForm({ type, children, onSubmit }: MemberFormProps
   return (
     <StyledContainer>
       <StyledHeader>
-        <div className='title'>프로필 {type === 'upload' ? '업로드' : '수정'}</div>
-        <div className='description'>SOPT 멤버들을 위한 프로필을 {type === 'upload' ? '업로드' : '수정'}해주세요</div>
+        <div className='title'>프로필 {TYPE_MAP[type]}</div>
+        <div className='description'>SOPT 멤버들을 위한 프로필을 {TYPE_MAP[type]}해주세요</div>
       </StyledHeader>
       <StyledForm onSubmit={(e) => e.preventDefault()}>
         {children}
@@ -27,7 +30,7 @@ export default function MemberForm({ type, children, onSubmit }: MemberFormProps
       <StyledFooter className='pc-only'>
         <div className='button-wrapper'>
           <button onClick={onSubmit} className='submit'>
-            프로필 {type === 'upload' ? '업로드' : '수정'}하기
+            프로필 {TYPE_MAP[type]}하기
           </button>
         </div>
       </StyledFooter>
