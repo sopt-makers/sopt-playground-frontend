@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
 import { FC, useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
 import { postRegistrationInfo } from '@/api/auth';

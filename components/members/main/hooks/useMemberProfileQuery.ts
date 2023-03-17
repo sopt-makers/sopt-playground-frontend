@@ -1,6 +1,6 @@
+import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import qs from 'qs';
-import { QueryKey, useInfiniteQuery } from 'react-query';
 
 import { getMemberProfile } from '@/api/members';
 import type { PagedMemberProfile } from '@/api/members/type';

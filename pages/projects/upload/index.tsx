@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 
 import { useGetMemberOfMe, useGetProjectById } from '@/api/hooks';
 import { putProject } from '@/api/projects';

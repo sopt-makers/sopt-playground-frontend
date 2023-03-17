@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { FC, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
 import LoginCallbackView from '@/components/auth/callback/LoginCallbackView';
