@@ -26,7 +26,8 @@ export const parameters = {
     },
   },
   backgrounds: {
-    default: 'dark',
+    default: 'darker',
+    dark: { name: 'darker', value: colors.black100 },
   },
   darkMode: {
     current: 'dark',
