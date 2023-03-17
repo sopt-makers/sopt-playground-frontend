@@ -12,7 +12,7 @@ const useByPhone = (onSuccess?: (registerToken: string) => void) => {
       type: 'phoneLoading',
     });
 
-    const [err, _] = await to(postSMSCode({ phone }));
+    const [err, _] = await to(postSMSCode({ phone: phone.replace(/-/g, '') }));
 
     if (err) {
       setState({

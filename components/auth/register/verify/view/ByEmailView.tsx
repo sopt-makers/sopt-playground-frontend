@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
 
-import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
+import SendingMailSuccess from '@/components/auth/register/verify/SendingMailSuccess';
 import VerifySubmitButton from '@/components/auth/register/verify/VerifySubmitButton';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';

@@ -4,8 +4,8 @@ import { FC, FormEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 
 import { postRegistrationEmail } from '@/api/auth';
-import SendingMailSuccess from '@/components/auth/register/SendingMailSuccess';
 import Stepper from '@/components/auth/register/Stepper';
+import SendingMailSuccess from '@/components/auth/register/verify/SendingMailSuccess';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
 import SquareLink from '@/components/common/SquareLink';
