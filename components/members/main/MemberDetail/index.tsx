@@ -19,7 +19,7 @@ import InfoItem from '@/components/members/detail/InfoItem';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import PartItem from '@/components/members/detail/PartItem';
 import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
-import { DEFAULT_DATE } from '@/components/members/upload/constants';
+import InterestSection from '@/components/members/main/MemberDetail/InterestSection';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -174,6 +174,9 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               );
             })}
           </InfoContainer>
+
+          {/* TODO: 서버 인터페이스 확정 후 반영 */}
+          <InfoContainer>{/* <InterestSection /> */}</InfoContainer>
 
           {profile?.careers && profile.careers.length > 0 && (
             <InfoContainer style={{ gap: '20px' }}>
