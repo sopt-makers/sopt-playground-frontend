@@ -99,13 +99,11 @@ export default function MemberEditPage() {
     <AuthRequired>
       <FormProvider {...formMethods}>
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)}>
-          <>
-            <BasicFormSection />
-            <SoptActivityFormSection />
-            <CareerFormSection />
-            <AdditionalFormSection />
-            <PublicQuestionFormSection />
-          </>
+          <BasicFormSection />
+          <SoptActivityFormSection />
+          <CareerFormSection />
+          <AdditionalFormSection />
+          <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>
     </AuthRequired>

@@ -51,13 +51,11 @@ export default function MemberUploadPage() {
     <AuthRequired>
       <FormProvider {...formMethods}>
         <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)}>
-          <>
-            <BasicFormSection />
-            <SoptActivityFormSection />
-            <CareerFormSection />
-            <AdditionalFormSection />
-            <PublicQuestionFormSection />
-          </>
+          <BasicFormSection />
+          <SoptActivityFormSection />
+          <CareerFormSection />
+          <AdditionalFormSection />
+          <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>
     </AuthRequired>
