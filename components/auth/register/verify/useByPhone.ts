@@ -1,11 +1,12 @@
 import { to } from 'await-to-js';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { postSMSCode, postSMSToken } from '@/api/auth';
 import { ByPhoneStates } from '@/components/auth/register/verify/view/ByPhoneView';
 
 const useByPhone = (onSuccess?: (registerToken: string) => void) => {
   const [state, setState] = useState<ByPhoneStates>({ type: 'phoneReady' });
+  const timeoutIdRef = useRef<ReturnType<typeof setTimeout>>();
 
   async function submitPhone(phone: string) {
     setState({
@@ -24,7 +25,20 @@ const useByPhone = (onSuccess?: (registerToken: string) => void) => {
 
     setState({
       type: 'codeReady',
+      phoneDisabled: true,
     });
+
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+    }
+    timeoutIdRef.current = setTimeout(() => {
+      setState((state) => {
+        if (state.type === 'codeReady' && state.phoneDisabled) {
+          return { type: 'codeReady', phoneDisabled: false };
+        }
+        return state;
+      });
+    }, 2000);
   }
 
   async function submitCode(code: string) {

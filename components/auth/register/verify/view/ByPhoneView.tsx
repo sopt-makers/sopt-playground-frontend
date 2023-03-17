@@ -22,6 +22,7 @@ export type ByPhoneStates =
     }
   | {
       type: 'codeReady';
+      phoneDisabled?: boolean;
     }
   | {
       type: 'codeLoading';
@@ -72,7 +73,9 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
-        <SubmitPhoneButton disabled={type === 'phoneLoading'}>인증번호 받기</SubmitPhoneButton>
+        <SubmitPhoneButton disabled={type === 'phoneLoading' || (type === 'codeReady' && props.phoneDisabled)}>
+          인증번호 받기
+        </SubmitPhoneButton>
       </InputArea>
 
       <form onSubmit={handleSubmitCode}>
@@ -109,7 +112,7 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
           )}
         </AnimatePresence>
 
-        <SubmitCodeButton disabled={type !== 'codeReady'}>SOPT 회원 인증 완료</SubmitCodeButton>
+        <SubmitCodeButton disabled={type !== 'codeReady' && type !== 'codeError'}>SOPT 회원 인증 완료</SubmitCodeButton>
       </form>
     </StyledByEmail>
   );

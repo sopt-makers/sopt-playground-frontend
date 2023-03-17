@@ -14,16 +14,16 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
   return (
     <Container className={className}>
       <LineArea>
-        <Line isActive={step === 2} />
+        <Line isActive={step >= 2} />
       </LineArea>
       <CellArea>
         <Cell>
-          <Circle isActive={step === 1}>1</Circle>
-          <Text isActive={step == 1}>SOPT 회원인증</Text>
+          <Circle isActive={step >= 1}>1</Circle>
+          <Text isActive={step >= 1}>SOPT 회원인증</Text>
         </Cell>
         <Cell>
-          <Circle isActive={step === 2}>2</Circle>
-          <Text isActive={step == 2}>소셜 계정 연동</Text>
+          <Circle isActive={step >= 2}>2</Circle>
+          <Text isActive={step >= 2}>소셜 계정 연동</Text>
         </Cell>
       </CellArea>
     </Container>
