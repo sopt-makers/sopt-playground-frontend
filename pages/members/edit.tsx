@@ -56,10 +56,12 @@ export default function MemberUploadPage() {
         links: data.links,
         openToWork: data.openToWork,
         openToSideProject: data.openToSideProject,
-        activities: data.activities.map((act) => ({
-          generation: act.cardinalInfo.split(',')[0],
-          part: act.cardinalInfo.split(',')[1],
-          team: act.cardinalActivities[0].team,
+        activities: data.activities.map((act) => {
+          const [generation, part] = act.cardinalInfo.split(',');
+          return {
+            generation,
+            part,
+            team: act.cardinalActivities[0].team,
         })),
         allowOfficial: data.allowOfficial,
         profileImage: data.profileImage,
