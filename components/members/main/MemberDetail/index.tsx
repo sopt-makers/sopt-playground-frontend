@@ -20,6 +20,7 @@ import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import PartItem from '@/components/members/detail/PartItem';
 import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
 import InterestSection from '@/components/members/main/MemberDetail/InterestSection';
+import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
