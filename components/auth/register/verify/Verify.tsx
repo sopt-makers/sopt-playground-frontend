@@ -19,13 +19,15 @@ const Verify: FC<VerifyProps> = ({}) => {
     state: phoneState,
     submitCode,
     submitPhone,
-  } = useByPhone((registerToken) => {
-    router.push({
-      pathname: playgroundLink.connectSocialAuth(),
-      query: {
-        token: registerToken,
-      },
-    });
+  } = useByPhone({
+    onCodeSuccess: (registerToken) => {
+      router.push({
+        pathname: playgroundLink.connectSocialAuth(),
+        query: {
+          token: registerToken,
+        },
+      });
+    },
   });
 
   const { state: emailState, submit: submitEmail } = useByEmail();

@@ -25,7 +25,7 @@ const codeErrorMap: Record<string, string> = {
   expiredCode: '인증번호가 만료되었어요. 인증번호를 다시 받아주세요.',
 };
 
-const useByPhone = (onSuccess?: (registerToken: string) => void) => {
+const useByPhone = ({ onCodeSuccess }: { onCodeSuccess?: (registerToken: string) => void }) => {
   const [state, setState] = useState<ByPhoneStates>({ type: 'phoneReady' });
   const timeoutIdRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -115,7 +115,7 @@ const useByPhone = (onSuccess?: (registerToken: string) => void) => {
       return;
     }
 
-    onSuccess?.(result.registerToken);
+    onCodeSuccess?.(result.registerToken);
   }
 
   return { state, submitCode, submitPhone };

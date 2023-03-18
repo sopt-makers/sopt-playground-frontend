@@ -123,9 +123,9 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
 export default ByPhoneView;
 
 function oneOfStates<T extends { type: string }, Ks extends readonly T['type'][]>(
-  state: ByPhoneStates,
+  state: T,
   keys: Ks,
-): state is Extract<ByPhoneStates, { type: Ks[number] }> {
+): state is Extract<T, { type: Ks[number] }> {
   return keys.some((key) => state.type === key);
 }
 
