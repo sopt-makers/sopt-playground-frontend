@@ -19,8 +19,6 @@ export type Profile = {
     team: string;
   }[];
   links: Link[];
-  openToWork: boolean;
-  openToSideProject: boolean;
   allowOfficial: boolean;
   careers: Career[];
 };
@@ -123,10 +121,8 @@ export type ProfileRequest = {
     team: string;
   }[];
   links: Omit<Link, 'id'>[] | null;
-  openToWork: boolean;
-  openToSideProject: boolean;
   allowOfficial: boolean;
-  careers: Career[];
+  careers: Omit<Career, 'id'>[];
 };
 
 export interface PostMemberCoffeeChatVariables {

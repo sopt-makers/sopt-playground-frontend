@@ -19,8 +19,6 @@ export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   skill: '',
   links: [DEFAULT_LINK],
   activities: [DEFAULT_ACTIVITY],
-  openToWork: false,
-  openToSideProject: false,
   allowOfficial: false,
   careers: [DEFAULT_CAREER],
 };
