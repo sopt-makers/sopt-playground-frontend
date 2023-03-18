@@ -1,5 +1,5 @@
+import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, useQuery, UseQueryOptions } from 'react-query';
 
 import {
   getMemberOfMe,

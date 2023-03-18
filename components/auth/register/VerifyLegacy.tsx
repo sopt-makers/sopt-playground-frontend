@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FC, FormEvent, useState } from 'react';
-import { useMutation } from 'react-query';
 
 import { postRegistrationEmail } from '@/api/auth';
 import Stepper from '@/components/auth/register/Stepper';

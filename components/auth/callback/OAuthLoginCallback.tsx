@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { FC, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
 import LoginCallbackView from '@/components/auth/callback/LoginCallbackView';
@@ -25,7 +25,7 @@ const OAuthLoginCallback: FC<OAuthLoginCallbackProps> = ({ oauthKey: oauthType, 
     setUrl(new URL(self.location.href));
   }, []);
 
-  const { data, status } = useQuery(
+  const { data, status, fetchStatus } = useQuery(
     ['oauthLoginCallbackQuery', oauthType],
     async () => {
       if (url === null) {
@@ -44,7 +44,7 @@ const OAuthLoginCallback: FC<OAuthLoginCallbackProps> = ({ oauthKey: oauthType, 
     },
   );
 
-  if (url === null || status === 'idle' || status === 'loading') {
+  if (url === null || fetchStatus === 'idle' || status === 'loading') {
     return <LoginCallbackView mode={{ type: 'loading' }} />;
   }
 
