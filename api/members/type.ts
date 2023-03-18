@@ -1,4 +1,3 @@
-import { Career } from '@/components/members/upload/types';
 import { Category, ServiceType } from '@/components/projects/upload/types';
 
 export type Profile = {
@@ -20,8 +19,6 @@ export type Profile = {
     team: string;
   }[];
   links: Link[];
-  openToWork: boolean;
-  openToSideProject: boolean;
   allowOfficial: boolean;
   careers: Career[];
 };
@@ -33,7 +30,6 @@ export type PagedMemberProfile = {
 
 export type ProfileDetail = {
   name: string;
-  isMine: boolean;
   profileImage: string;
   birthday: string;
   phone: string;
@@ -43,23 +39,35 @@ export type ProfileDetail = {
   major: string;
   introduction: string;
   skill: string;
+  mbti: string;
+  mbtiDescription: string;
+  sojuCapacity: number;
+  interest: string;
+  isPourSauceLover: boolean;
+  isHardPeachLover: boolean;
+  isMintChocoLover: boolean;
+  isRedBeanFishBreadLover: boolean;
+  isSojuLover: boolean;
+  isRiceTteokLover: boolean;
+  idealType: string;
+  selfIntroduction: string;
   activities: {
-    cardinalActivities: Activity[];
     cardinalInfo: string;
+    cardinalActivities: Activity[];
   }[];
   links: Link[];
-  openToWork: boolean;
-  openToSideProject: boolean;
-  allowOfficial: boolean;
   projects: MemberProject[];
   careers: Career[];
+  allowOfficial: boolean;
+  isMine: boolean;
 };
 
 export type Activity = {
   id: number;
   generation: number;
-  isProject: boolean;
   team: string;
+  part: string;
+  isProject: boolean;
 };
 
 type Link = {
@@ -87,6 +95,15 @@ export type MemberProject = {
   thumbnailImage: string;
 };
 
+type Career = {
+  id: number;
+  companyName: string;
+  title: string;
+  startDate: string;
+  endDate: string | null;
+  isCurrent: boolean;
+};
+
 export type ProfileRequest = {
   name: string;
   profileImage: string | null;
@@ -104,10 +121,8 @@ export type ProfileRequest = {
     team: string;
   }[];
   links: Omit<Link, 'id'>[] | null;
-  openToWork: boolean;
-  openToSideProject: boolean;
   allowOfficial: boolean;
-  careers: Career[];
+  careers: Omit<Career, 'id'>[];
 };
 
 export interface PostMemberCoffeeChatVariables {

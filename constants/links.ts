@@ -6,7 +6,7 @@ export const playgroundLink = {
   memberList: () => `/members`,
   memberDetail: (id: string | number) => `/members/${id}`,
   memberUpload: () => `/members/upload`,
-  memberEdit: () => `/members/upload?edit=true`,
+  memberEdit: () => '/members/edit',
   projectList: () => `/projects`,
   projectDetail: (id: string | number) => `/projects/${id}`,
   projectUpload: () => `/projects/upload`,

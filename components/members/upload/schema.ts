@@ -71,8 +71,6 @@ export const memberFormSchema = yup.object().shape({
       }),
     )
     .nullable(),
-  openToWork: yup.boolean(),
-  openToSideProject: yup.boolean(),
   allowOfficial: yup.boolean(),
   careers: yup
     .array()
