@@ -10,6 +10,6 @@
     "source.fixAll": true
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "cSpell.words": ["appjam", "hookform", "JOINTSEMINAR", "sopkathon", "Sopt", "SOPTERM"],
+  "cSpell.words": ["appjam", "hookform", "JOINTSEMINAR", "sopkathon", "Sopt", "SOPTERM", "Mbti", "MBTI", "mbti"],
   "typescript.tsdk": "node_modules/typescript/lib"
 }
