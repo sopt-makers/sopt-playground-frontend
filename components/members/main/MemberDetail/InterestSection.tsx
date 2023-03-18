@@ -28,6 +28,16 @@ const getBalanceGameResults = (balanceGame: BalanceGame): string[] => {
     .filter((result) => result !== undefined) as string[];
 };
 
+const getSojuCapacityLabel = (sojuCapacity: number): string => {
+  if (sojuCapacity === 0) {
+    return '못마셔요';
+  }
+  if (sojuCapacity === 3) {
+    return '3병 이상';
+  }
+  return `${sojuCapacity}병`;
+};
+
 type BalanceGame = {
   isPourSauceLover: boolean | null;
   isHardPeachLover: boolean | null;
@@ -39,14 +49,14 @@ type BalanceGame = {
 
 interface InterestSectionProps {
   mbti: {
-    name: string;
-    description: string;
+    name?: string;
+    description?: string;
   };
-  sojuCapacity: number;
-  interest: string;
+  sojuCapacity?: number;
+  interest?: string;
   balanceGame: BalanceGame;
-  idealType: string;
-  selfIntroduction: string;
+  idealType?: string;
+  selfIntroduction?: string;
 }
 const InterestSection: FC<InterestSectionProps> = ({
   mbti,
@@ -57,35 +67,48 @@ const InterestSection: FC<InterestSectionProps> = ({
   selfIntroduction,
 }) => {
   const balanceGameResults = getBalanceGameResults(balanceGame);
+  const isBalanceGameAvailable = Object.values(balanceGame).some((value) => value !== null);
 
   return (
     <StyledInterestSection>
-      <InfoItem label='MBTI + 제 성격은요...'>
-        <MBTI>{mbti.name}</MBTI>
-        <MBTIDescription>{mbti.description}</MBTIDescription>
-      </InfoItem>
-      <InfoItem label='소주, 어디까지 마셔봤니?'>
-        <Description>{`${sojuCapacity}병`}</Description>
-      </InfoItem>
-      <InfoItem label='저는 요새 이런 걸 좋아해요!'>
-        <Description>{interest}</Description>
-      </InfoItem>
-      <InfoItem label='나는 어느 쪽?'>
-        <BalanceGame>
-          {balanceGameResults.map((balanceGameResult, index) => (
-            <React.Fragment key={index}>
-              {balanceGameResult}
-              {index !== balanceGameResults.length - 1 && <VerticalLine />}
-            </React.Fragment>
-          ))}
-        </BalanceGame>
-      </InfoItem>
-      <InfoItem label='나의 이상형은? 😏'>
-        <Description>{idealType}</Description>
-      </InfoItem>
-      <InfoItem label='자유로운 자기소개'>
-        <Description>{selfIntroduction}</Description>
-      </InfoItem>
+      {mbti.name && (
+        <InfoItem label='MBTI + 제 성격은요...'>
+          <MBTI>{mbti.name}</MBTI>
+          <MBTIDescription>{mbti.description ?? ''}</MBTIDescription>
+        </InfoItem>
+      )}
+      {sojuCapacity != null && (
+        <InfoItem label='소주, 어디까지 마셔봤니?'>
+          <Description>{getSojuCapacityLabel(sojuCapacity)}</Description>
+        </InfoItem>
+      )}
+      {interest && (
+        <InfoItem label='저는 요새 이런 걸 좋아해요!'>
+          <Description>{interest}</Description>
+        </InfoItem>
+      )}
+      {isBalanceGameAvailable && (
+        <InfoItem label='나는 어느 쪽?'>
+          <BalanceGame>
+            {balanceGameResults.map((balanceGameResult, index) => (
+              <React.Fragment key={index}>
+                {balanceGameResult}
+                {index !== balanceGameResults.length - 1 && <VerticalLine />}
+              </React.Fragment>
+            ))}
+          </BalanceGame>
+        </InfoItem>
+      )}
+      {idealType && (
+        <InfoItem label='나의 이상형은? 😏'>
+          <Description>{idealType}</Description>
+        </InfoItem>
+      )}
+      {selfIntroduction && (
+        <InfoItem label='자유로운 자기소개'>
+          <Description>{selfIntroduction}</Description>
+        </InfoItem>
+      )}
     </StyledInterestSection>
   );
 };

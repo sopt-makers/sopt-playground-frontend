@@ -51,3 +51,22 @@ Default.args = {
   selfIntroduction: '안녕하세요. 저는 코딩을 좋아하는 사람입니다.',
 };
 Default.storyName = '기본';
+
+export const Optional = Template.bind({});
+Optional.args = {
+  mbti: {
+    name: 'ESFJ',
+  },
+  sojuCapacity: 3,
+  interest: '코딩, 노래, 운동',
+  balanceGame: {
+    isPourSauceLover: null,
+    isHardPeachLover: null,
+    isMintChocoLover: null,
+    isRedBeanFishBreadLover: null,
+    isSojuLover: null,
+    isRiceTteokLover: null,
+  },
+  idealType: '코딩을 잘하는 사람',
+};
+Optional.storyName = '선택';

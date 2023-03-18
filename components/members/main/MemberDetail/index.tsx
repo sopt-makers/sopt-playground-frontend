@@ -55,7 +55,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     [profile?.activities],
   );
 
-  if (isLoading)
+  if (isLoading || !profile)
     return (
       <Container>
         <Loading />
@@ -93,7 +93,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 <div className='intro'>{profile?.introduction}</div>
               </div>
               <ContactWrapper shouldDivide={!!profile?.phone && !!profile?.email}>
-                {profile?.phone && (
+                {profile.phone && (
                   <Link passHref href={`tel:${profile?.phone}`} legacyBehavior>
                     <div style={{ cursor: 'pointer' }}>
                       <CallIcon />
@@ -101,7 +101,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     </div>
                   </Link>
                 )}
-                {profile?.email && (
+                {profile.email && (
                   <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
                     <div style={{ cursor: 'pointer' }}>
                       <MailIcon />
@@ -112,14 +112,14 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               </ContactWrapper>
             </ProfileContents>
 
-            {profile?.isMine && (
+            {profile.isMine && (
               <EditButton onClick={() => router.push(playgroundLink.memberEdit())}>
                 <EditIcon />
               </EditButton>
             )}
           </ProfileContainer>
 
-          {!profile?.isMine && (
+          {!profile.isMine && (
             <>
               <AskContainer>
                 <div>
@@ -151,13 +151,13 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               )}
             </>
           )}
-          {(profile?.birthday || profile?.address || profile?.university) && (
+          {(profile.birthday || profile.address || profile.university || profile.address) && (
             <InfoContainer style={{ gap: '30px' }}>
-              {profile?.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />}
-              {profile?.address && <InfoItem label='사는 지역' content={profile?.address ?? ''} />}
-              {profile?.university && (
-                <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
-              )}
+              {profile.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />}
+              {profile.address && <InfoItem label='사는 지역' content={profile?.address ?? ''} />}
+              {profile.university && <InfoItem label='학교'>{profile.university ?? ''}</InfoItem>}
+              {profile.major && <InfoItem label='전공'>{profile?.major ?? ''}</InfoItem>}
+              {profile.address && <InfoItem label='활동 지역'>{profile?.address ?? ''}</InfoItem>}
             </InfoContainer>
           )}
 
@@ -175,10 +175,40 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             })}
           </InfoContainer>
 
-          {/* TODO: 서버 인터페이스 확정 후 반영 */}
-          <InfoContainer>{/* <InterestSection /> */}</InfoContainer>
+          {(profile.sojuCapacity ||
+            profile.mbti ||
+            profile.idealType ||
+            profile.interest ||
+            profile.selfIntroduction ||
+            profile.isSojuLover ||
+            profile.isHardPeachLover ||
+            profile.isMintChocoLover ||
+            profile.isPourSauceLover ||
+            profile.isRedBeanFishBreadLover ||
+            profile.isRiceTteokLover) && (
+            <InfoContainer>
+              <InterestSection
+                sojuCapacity={profile.sojuCapacity}
+                mbti={{
+                  name: profile.mbti,
+                  description: profile.mbtiDescription,
+                }}
+                balanceGame={{
+                  isSojuLover: profile.isSojuLover,
+                  isHardPeachLover: profile.isHardPeachLover,
+                  isMintChocoLover: profile.isMintChocoLover,
+                  isPourSauceLover: profile.isPourSauceLover,
+                  isRedBeanFishBreadLover: profile.isRedBeanFishBreadLover,
+                  isRiceTteokLover: profile.isRiceTteokLover,
+                }}
+                idealType={profile.idealType}
+                interest={profile.interest}
+                selfIntroduction={profile.selfIntroduction}
+              />
+            </InfoContainer>
+          )}
 
-          {profile?.careers && profile.careers.length > 0 && (
+          {profile.careers && profile.careers.length > 0 && (
             <InfoContainer style={{ gap: '20px' }}>
               {profile.careers.map((career, idx) => (
                 <CareerItem key={idx} career={career} />
@@ -186,7 +216,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </InfoContainer>
           )}
 
-          {(profile?.skill || (profile?.links && profile.links.length > 0)) && (
+          {(profile.skill || (profile?.links && profile.links.length > 0)) && (
             <InfoContainer style={{ gap: '30px' }}>
               {profile?.skill && <InfoItem label='스킬' content={profile?.skill ?? ''} />}
               {profile?.links.length > 0 && (
