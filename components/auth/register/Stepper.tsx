@@ -1,29 +1,137 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { m } from 'framer-motion';
+import { FC, ReactNode } from 'react';
 
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+const checkSvg = (
+  <m.svg
+    width='14'
+    height='11'
+    viewBox='0 0 14 11'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    initial='inactive'
+    animate='active'
+  >
+    <m.path
+      d='M1 5L5.66667 9L13 1'
+      stroke='white'
+      stroke-width='3'
+      variants={{
+        inactive: {
+          pathLength: 0,
+        },
+        active: {
+          pathLength: 1,
+          transition: {
+            duration: 0.4,
+          },
+        },
+      }}
+    />
+  </m.svg>
+);
 interface StepperProps {
   step: 1 | 2;
   className?: string;
 }
 
 const Stepper: FC<StepperProps> = ({ step, className }) => {
+  function f<T>(target: number, conv: [T, T, T]) {
+    if (step > target) {
+      return conv[0];
+    }
+
+    if (step === target) {
+      return conv[1];
+    }
+
+    return conv[2];
+  }
+
   return (
     <Container className={className}>
       <LineArea>
-        <Line isActive={step >= 2} />
+        <Line>
+          <LineFilled
+            initial='none'
+            animate={step === 2 ? 'fill' : 'none'}
+            variants={{
+              fill: {
+                width: ['0%', '0%', '100%', '100%'],
+                transition: {
+                  times: [0, 0.4, 0.7, 1],
+                  duration: 2,
+                },
+              },
+              none: {
+                width: '0%',
+              },
+            }}
+          />
+        </Line>
       </LineArea>
       <CellArea>
-        <Cell>
-          <Circle isActive={step >= 1}>1</Circle>
+        <Cell initial='current' animate={step === 1 ? 'current' : 'passed'}>
+          <Circle
+            variants={{
+              passed: {
+                scale: 1,
+              },
+              current: {
+                scale: [1.2, 1],
+                transition: {
+                  type: 'spring',
+                  duration: 0.4,
+                },
+              },
+            }}
+          >
+            {f<ReactNode>(1, [checkSvg, '1', '1'])}
+          </Circle>
           <Text isActive={step >= 1}>SOPT 회원인증</Text>
         </Cell>
-        <Cell>
-          <Circle isActive={step >= 2}>2</Circle>
-          <Text isActive={step >= 2}>소셜 계정 연동</Text>
+        <Cell initial='future' animate={step === 2 ? 'current' : 'future'}>
+          <Circle
+            variants={{
+              future: {
+                scale: 1,
+                backgroundColor: colors.black40,
+                color: colors.gray100,
+              },
+              current: {
+                scale: [1, 1, 1.2, 1],
+                backgroundColor: [colors.black40, colors.black40, colors.purple100, colors.purple100],
+                color: [colors.gray100, colors.gray100, colors.white, colors.white],
+                transition: {
+                  times: [0, 0.7, 0.9, 1],
+                  duration: 2,
+                },
+              },
+            }}
+          >
+            {f<ReactNode>(2, [checkSvg, '2', '2'])}
+          </Circle>
+          <Text
+            isActive={step >= 2}
+            variants={{
+              future: {
+                color: colors.gray100,
+              },
+              current: {
+                color: [colors.gray100, colors.gray100, colors.white],
+                transition: {
+                  times: [0, 0.7, 1],
+                  duration: 2,
+                },
+              },
+            }}
+          >
+            소셜 계정 연동
+          </Text>
         </Cell>
       </CellArea>
     </Container>
@@ -32,7 +140,7 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
 
 export default Stepper;
 
-const Container = styled.div`
+const Container = styled(m.div)`
   position: relative;
   width: 100%;
   height: 60px;
@@ -45,14 +153,23 @@ const LineArea = styled.div`
   left: 0;
 `;
 
-const Line = styled.div<{ isActive: boolean }>`
+const Line = styled(m.div)`
+  position: relative;
   margin: 13px 35px 0;
-  background-color: ${({ isActive }) => (isActive ? colors.purple100 : colors.black40)};
+  background-color: ${colors.black40};
   height: 2px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 10px;
   }
+`;
+
+const LineFilled = styled(m.div)`
+  position: absolute;
+  left: 0;
+  background-color: ${colors.purple100};
+  width: 50%;
+  height: 100%;
 `;
 
 const CellArea = styled.div`
@@ -64,15 +181,14 @@ const CellArea = styled.div`
   justify-content: space-between;
 `;
 
-const Cell = styled.div`
+const Cell = styled(m.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const Text = styled.div<{ isActive: boolean }>`
+const Text = styled(m.div)<{ isActive: boolean }>`
   margin-top: 12px;
-  color: ${(props) => (props.isActive ? colors.white : colors.gray100)};
 
   ${textStyles.SUIT_14_B}
 
@@ -81,16 +197,15 @@ const Text = styled.div<{ isActive: boolean }>`
   }
 `;
 
-const Circle = styled.div<{ isActive: boolean }>`
+const Circle = styled(m.div)`
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${(props) => (props.isActive ? colors.purple100 : colors.black40)};
+  background-color: ${colors.purple100};
   width: 28px;
   height: 28px;
   white-space: nowrap;
-  color: ${({ isActive }) => (isActive ? colors.white100 : colors.gray100)};
 
   ${textStyles.SUIT_15_B};
 
