@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 
 import { useGetMemberProfileOfMe } from '@/api/hooks';
 import { postMemberProfile } from '@/api/members';
@@ -83,7 +83,7 @@ export default function MemberEditPage() {
     };
     const response = await postMemberProfile(requestBody);
 
-    queryClient.invalidateQueries('getMemberProfileOfMe');
+    queryClient.invalidateQueries(['getMemberProfileOfMe']);
     queryClient.invalidateQueries(['getMemberProfileById', response.id]);
 
     router.push(playgroundLink.memberDetail(response.id));
