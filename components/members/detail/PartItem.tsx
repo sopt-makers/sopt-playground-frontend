@@ -45,7 +45,13 @@ const PartItem: FC<PartItemProps> = (project) => {
 
       <Container className='mobile-only'>
         <Contents>
-          <Thumbnail />
+          <Thumbnail>
+            {Number(generation) < 12 ? (
+              <img alt='generation-logo' src='/icons/logo/time=1-11.svg' />
+            ) : (
+              <img alt='generation-logo' src={`/icons/logo/time=${generation}.svg`} />
+            )}
+          </Thumbnail>
           <Title>
             <div className='year'>{generation}</div>
             <div className='part'>{part}</div>
