@@ -154,10 +154,17 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           {(profile.birthday || profile.address || profile.university || profile.address) && (
             <InfoContainer style={{ gap: '30px' }}>
               {profile.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile.birthday)} />}
-              {profile.address && <InfoItem label='사는 지역' content={profile.address ?? ''} />}
-              {profile.university && <InfoItem label='학교'>{profile.university ?? ''}</InfoItem>}
-              {profile.major && <InfoItem label='전공'>{profile.major ?? ''}</InfoItem>}
-              {profile.address && <InfoItem label='활동 지역'>{profile.address ?? ''}</InfoItem>}
+              {profile.university && <InfoItem label='학교'>{profile.university}</InfoItem>}
+              {profile.major && <InfoItem label='전공'>{profile.major}</InfoItem>}
+              {profile.address && (
+                <InfoItem label='활동 지역'>
+                  <StyledAddressBadgeWrapper>
+                    {profile.address.split(',').map((address) => (
+                      <AddressBadge key={address}>{address}</AddressBadge>
+                    ))}
+                  </StyledAddressBadgeWrapper>
+                </InfoItem>
+              )}
             </InfoContainer>
           )}
 
@@ -425,6 +432,25 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
     gap: 4px;
     margin-top: 28px;
   }
+`;
+
+const StyledAddressBadgeWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 10px;
+  }
+`;
+
+const AddressBadge = styled.div`
+  border-radius: 13px;
+  background: ${colors.black40};
+  padding: 6px 14px;
+  color: ${colors.white};
+  ${textStyles.SUIT_14_M};
 `;
 
 const InfoContainer = styled.div`
