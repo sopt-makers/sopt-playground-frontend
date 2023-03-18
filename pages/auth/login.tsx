@@ -187,6 +187,12 @@ const TooltipRect = styled.div`
   color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 15px 20px;
+
+    ${textStyles.SUIT_12_M};
+  }
 `;
 
 const TooltipArrow = styled.div`
@@ -209,4 +215,10 @@ const MadeByTitle = styled.h3`
   ${textStyles.SUIT_20_R};
 `;
 
-const StyledMakersLogo = styled.img``;
+const StyledMakersLogo = styled.img`
+  width: 230px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 150px;
+  }
+`;
