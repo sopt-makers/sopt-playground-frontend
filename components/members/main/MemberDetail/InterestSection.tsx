@@ -18,13 +18,12 @@ const getBalanceGameResults = (balanceGame: BalanceGame): string[] => {
   };
 
   return Object.entries(BALANCE_GAME_OPTIONS)
-    .map(([key, [yesOption, noOption]]) =>
-      balanceGame[key as keyof BalanceGame] === null
-        ? undefined
-        : balanceGame[key as keyof BalanceGame]
-        ? yesOption
-        : noOption,
-    )
+    .map(([key, [yesOption, noOption]]) => {
+      if (balanceGame[key as keyof BalanceGame] === null) {
+        return undefined;
+      }
+      return balanceGame[key as keyof BalanceGame] ? yesOption : noOption;
+    })
     .filter((result) => result !== undefined) as string[];
 };
 
