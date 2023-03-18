@@ -32,7 +32,7 @@ const MemberList: FC = () => {
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
-    queryKey: router.asPath,
+    queryKey: [router.asPath],
   });
   const { addQueryParamsToUrl } = usePageQueryParams({
     skipNull: true,
