@@ -19,6 +19,7 @@ import InfoItem from '@/components/members/detail/InfoItem';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import PartItem from '@/components/members/detail/PartItem';
 import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
+import InterestSection from '@/components/members/main/MemberDetail/InterestSection';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
@@ -55,7 +56,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     [profile?.activities],
   );
 
-  if (isLoading)
+  if (isLoading || !profile)
     return (
       <Container>
         <Loading />
@@ -93,7 +94,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 <div className='intro'>{profile?.introduction}</div>
               </div>
               <ContactWrapper shouldDivide={!!profile?.phone && !!profile?.email}>
-                {profile?.phone && (
+                {profile.phone && (
                   <Link passHref href={`tel:${profile?.phone}`} legacyBehavior>
                     <div style={{ cursor: 'pointer' }}>
                       <CallIcon />
@@ -101,7 +102,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     </div>
                   </Link>
                 )}
-                {profile?.email && (
+                {profile.email && (
                   <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
                     <div style={{ cursor: 'pointer' }}>
                       <MailIcon />
@@ -112,18 +113,18 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               </ContactWrapper>
             </ProfileContents>
 
-            {profile?.isMine && (
+            {profile.isMine && (
               <EditButton onClick={() => router.push(playgroundLink.memberEdit())}>
                 <EditIcon />
               </EditButton>
             )}
           </ProfileContainer>
 
-          {!profile?.isMine && (
+          {!profile.isMine && (
             <>
               <AskContainer>
                 <div>
-                  <AskTitle>{profile?.name}에게 하고 싶은 질문이 있나요?</AskTitle>
+                  <AskTitle>{profile.name}에게 하고 싶은 질문이 있나요?</AskTitle>
                   <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
                 </div>
                 <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
@@ -131,10 +132,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               {isOpen && (
                 <CoffeeChatModal
                   receiverId={memberId}
-                  name={profile?.name ?? ''}
+                  name={profile.name ?? ''}
                   profile={
                     <>
-                      {profile?.profileImage ? (
+                      {profile.profileImage ? (
                         <ProfileImage
                           src={profile.profileImage}
                           style={{ width: '84px', height: '84px', borderRadius: '20px' }}
@@ -151,12 +152,19 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               )}
             </>
           )}
-          {(profile?.birthday || profile?.address || profile?.university) && (
+          {(profile.birthday || profile.address || profile.university || profile.address) && (
             <InfoContainer style={{ gap: '30px' }}>
-              {profile?.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile?.birthday)} />}
-              {profile?.address && <InfoItem label='사는 지역' content={profile?.address ?? ''} />}
-              {profile?.university && (
-                <InfoItem label='학교 / 전공' content={`${profile?.university ?? ''} ${profile?.major ?? ''}`} />
+              {profile.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile.birthday)} />}
+              {profile.university && <InfoItem label='학교'>{profile.university}</InfoItem>}
+              {profile.major && <InfoItem label='전공'>{profile.major}</InfoItem>}
+              {profile.address && (
+                <InfoItem label='활동 지역'>
+                  <StyledAddressBadgeWrapper>
+                    {profile.address.split(',').map((address) => (
+                      <AddressBadge key={address}>{address}</AddressBadge>
+                    ))}
+                  </StyledAddressBadgeWrapper>
+                </InfoItem>
               )}
             </InfoContainer>
           )}
@@ -175,7 +183,40 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             })}
           </InfoContainer>
 
-          {profile?.careers && profile.careers.length > 0 && (
+          {(profile.sojuCapacity ||
+            profile.mbti ||
+            profile.idealType ||
+            profile.interest ||
+            profile.selfIntroduction ||
+            profile.isSojuLover ||
+            profile.isHardPeachLover ||
+            profile.isMintChocoLover ||
+            profile.isPourSauceLover ||
+            profile.isRedBeanFishBreadLover ||
+            profile.isRiceTteokLover) && (
+            <InfoContainer>
+              <InterestSection
+                sojuCapacity={profile.sojuCapacity}
+                mbti={{
+                  name: profile.mbti,
+                  description: profile.mbtiDescription,
+                }}
+                balanceGame={{
+                  isSojuLover: profile.isSojuLover,
+                  isHardPeachLover: profile.isHardPeachLover,
+                  isMintChocoLover: profile.isMintChocoLover,
+                  isPourSauceLover: profile.isPourSauceLover,
+                  isRedBeanFishBreadLover: profile.isRedBeanFishBreadLover,
+                  isRiceTteokLover: profile.isRiceTteokLover,
+                }}
+                idealType={profile.idealType}
+                interest={profile.interest}
+                selfIntroduction={profile.selfIntroduction}
+              />
+            </InfoContainer>
+          )}
+
+          {profile.careers && profile.careers.length > 0 && (
             <InfoContainer style={{ gap: '20px' }}>
               {profile.careers.map((career, idx) => (
                 <CareerItem key={idx} career={career} />
@@ -183,15 +224,15 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </InfoContainer>
           )}
 
-          {(profile?.skill || (profile?.links && profile.links.length > 0)) && (
+          {(profile.skill || (profile.links && profile.links.length > 0)) && (
             <InfoContainer style={{ gap: '30px' }}>
-              {profile?.skill && <InfoItem label='스킬' content={profile?.skill ?? ''} />}
-              {profile?.links.length > 0 && (
+              {profile.skill && <InfoItem label='스킬' content={profile.skill ?? ''} />}
+              {profile.links.length > 0 && (
                 <InfoItem
                   label='링크'
                   content={
                     <LinkItems>
-                      {profile?.links.map((item, idx) => (
+                      {profile.links.map((item, idx) => (
                         <Link passHref href={item.url} key={idx} target='_blank'>
                           <LinkIcon />
                           <span>{item.title}</span>
@@ -205,10 +246,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           )}
 
           <ProjectContainer>
-            <ProjectTitle>{profile?.name}님이 참여한 프로젝트</ProjectTitle>
-            <ProjectSub>{profile?.projects.length}개의 프로젝트에 참여</ProjectSub>
+            <ProjectTitle>{profile.name}님이 참여한 프로젝트</ProjectTitle>
+            <ProjectSub>{profile.projects.length}개의 프로젝트에 참여</ProjectSub>
             <ProjectDisplay>
-              {profile?.projects.map((project) => (
+              {profile.projects.map((project) => (
                 <MemberProjectCard key={project.id} {...project} />
               ))}
             </ProjectDisplay>
@@ -392,6 +433,25 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
     gap: 4px;
     margin-top: 28px;
   }
+`;
+
+const StyledAddressBadgeWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 10px;
+  }
+`;
+
+const AddressBadge = styled.div`
+  border-radius: 13px;
+  background: ${colors.black40};
+  padding: 6px 14px;
+  color: ${colors.white};
+  ${textStyles.SUIT_14_M};
 `;
 
 const InfoContainer = styled.div`

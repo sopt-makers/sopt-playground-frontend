@@ -72,8 +72,6 @@ export default function MemberEditPage() {
         introduction: myProfile.introduction,
         skill: myProfile.skill,
         links: myProfile.links,
-        openToWork: myProfile.openToWork,
-        openToSideProject: myProfile.openToSideProject,
         activities: myProfile.activities.map((act) => {
           const [generation, part] = act.cardinalInfo.split(',');
           return {
