@@ -1,5 +1,6 @@
 import ProgressBar from '@badrap/bar-of-progress';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { LazyMotion } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -60,6 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </ToastProvider>
           </LazyMotion>
         </RecoilRoot>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </AmplitudeProvider>
   );
