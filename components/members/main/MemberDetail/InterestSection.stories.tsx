@@ -57,7 +57,7 @@ Optional.args = {
   mbti: {
     name: 'ESFJ',
   },
-  sojuCapacity: 3,
+  sojuCapacity: 0,
   interest: '코딩, 노래, 운동',
   balanceGame: {
     isPourSauceLover: null,

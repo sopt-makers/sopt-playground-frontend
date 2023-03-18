@@ -76,7 +76,7 @@ const InterestSection: FC<InterestSectionProps> = ({
           <MBTIDescription>{mbti.description ?? ''}</MBTIDescription>
         </InfoItem>
       )}
-      {sojuCapacity != null && (
+      {(sojuCapacity || sojuCapacity === 0) && (
         <InfoItem label='소주, 어디까지 마셔봤니?'>
           <Description>{getSojuCapacityLabel(sojuCapacity)}</Description>
         </InfoItem>
