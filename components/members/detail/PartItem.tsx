@@ -5,6 +5,11 @@ import { Activity } from '@/api/members/type';
 import ActivityBadge from '@/components/members/detail/ActivityBadge';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
+const getPartLabel = (part: string) => {
+  const NORMAL_PARTS = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
+  return `${part} ${NORMAL_PARTS.includes(part) ? '파트' : ''}`;
+};
+
 type PartItemProps = {
   cardinalActivities: Activity[];
   generation: string;
@@ -14,8 +19,6 @@ type PartItemProps = {
 
 const PartItem: FC<PartItemProps> = (project) => {
   const { cardinalActivities, generation, part } = project;
-
-  const normalParts = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
 
   return (
     <>
@@ -30,10 +33,7 @@ const PartItem: FC<PartItemProps> = (project) => {
         <Contents>
           <Title>
             <div className='year'>{generation}기</div>
-            <div className='part'>
-              {part}
-              {normalParts.includes(part) ? ' 파트' : ''}
-            </div>
+            <div className='part'>{getPartLabel(part)}</div>
           </Title>
           <Badges>
             {cardinalActivities.map(
@@ -54,7 +54,7 @@ const PartItem: FC<PartItemProps> = (project) => {
           </Thumbnail>
           <Title>
             <div className='year'>{generation}</div>
-            <div className='part'>{part}</div>
+            <div className='part'>{getPartLabel(part)}</div>
           </Title>
         </Contents>
         <Badges>
