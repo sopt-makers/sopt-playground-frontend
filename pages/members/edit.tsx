@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useGetMemberProfileOfMe } from '@/api/hooks';
@@ -28,47 +29,9 @@ export default function MemberEditPage() {
   });
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { data: myProfile } = useGetMemberProfileOfMe({ cacheTime: Infinity, staleTime: Infinity });
 
   const { handleSubmit, reset } = formMethods;
-
-  useGetMemberProfileOfMe({
-    onSuccess: (data) => {
-      reset({
-        name: data.name,
-        birthday: data.birthday
-          ? {
-              year: Number(data.birthday.split('-')[0]).toString(),
-              month: Number(data.birthday.split('-')[1]).toString(),
-              day: Number(data.birthday.split('-')[2]).toString(),
-            }
-          : undefined,
-        phone: data.phone,
-        email: data.email,
-        address: data.address,
-        university: data.university,
-        major: data.major,
-        introduction: data.introduction,
-        skill: data.skill,
-        links: data.links,
-        openToWork: data.openToWork,
-        openToSideProject: data.openToSideProject,
-        activities: data.activities.map((act) => {
-          const [generation, part] = act.cardinalInfo.split(',');
-          return {
-            generation,
-            part,
-            team: act.cardinalActivities[0].team,
-          };
-        }),
-        allowOfficial: data.allowOfficial,
-        profileImage: data.profileImage,
-        careers: data.careers.map((career) => ({
-          ...career,
-          endDate: career.endDate ?? '',
-        })),
-      });
-    },
-  });
 
   const onSubmit = async (formData: MemberUploadForm) => {
     const { birthday, links, careers } = formData;
@@ -88,6 +51,45 @@ export default function MemberEditPage() {
 
     router.push(playgroundLink.memberDetail(response.id));
   };
+
+  useEffect(() => {
+    if (myProfile) {
+      reset({
+        name: myProfile.name,
+        birthday: myProfile.birthday
+          ? {
+              year: Number(myProfile.birthday.split('-')[0]).toString(),
+              month: Number(myProfile.birthday.split('-')[1]).toString(),
+              day: Number(myProfile.birthday.split('-')[2]).toString(),
+            }
+          : undefined,
+        phone: myProfile.phone,
+        email: myProfile.email,
+        address: myProfile.address,
+        university: myProfile.university,
+        major: myProfile.major,
+        introduction: myProfile.introduction,
+        skill: myProfile.skill,
+        links: myProfile.links,
+        openToWork: myProfile.openToWork,
+        openToSideProject: myProfile.openToSideProject,
+        activities: myProfile.activities.map((act) => {
+          const [generation, part] = act.cardinalInfo.split(',');
+          return {
+            generation,
+            part,
+            team: act.cardinalActivities[0].team,
+          };
+        }),
+        allowOfficial: myProfile.allowOfficial,
+        profileImage: myProfile.profileImage,
+        careers: myProfile.careers.map((career) => ({
+          ...career,
+          endDate: career.endDate ?? '',
+        })),
+      });
+    }
+  }, [myProfile, reset]);
 
   return (
     <AuthRequired>
