@@ -8,7 +8,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const getBalanceGameResults = (balanceGame: BalanceGame): string[] => {
-  const balanceGameOptions = {
+  const BALANCE_GAME_OPTIONS = {
     isPourSauceLover: ['부먹', '찍먹'],
     isHardPeachLover: ['딱복', '물복'],
     isMintChocoLover: ['민초', '반민초'],
@@ -17,7 +17,7 @@ const getBalanceGameResults = (balanceGame: BalanceGame): string[] => {
     isRiceTteokLover: ['쌀떡', '밀떡'],
   };
 
-  return Object.entries(balanceGameOptions)
+  return Object.entries(BALANCE_GAME_OPTIONS)
     .map(([key, [yesOption, noOption]]) =>
       balanceGame[key as keyof BalanceGame] === null
         ? undefined
