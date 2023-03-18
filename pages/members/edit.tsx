@@ -48,6 +48,7 @@ export default function MemberEditPage() {
 
     queryClient.invalidateQueries(['getMemberProfileOfMe']);
     queryClient.invalidateQueries(['getMemberProfileById', response.id]);
+    queryClient.invalidateQueries(['getMemberProfile']);
 
     router.push(playgroundLink.memberDetail(response.id));
   };
