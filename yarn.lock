@@ -8594,6 +8594,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"await-to-js@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "await-to-js@npm:3.0.0"
+  checksum: b6e9dcf9f0990312d2ae28fcfa0a2c2d1ba48baaa161591fba61d3accf97072ce8a7187ee4e889f3148e1707a7ed1d174b9dd04ce4f79f02d7f8c9e017e90f8e
+  languageName: node
+  linkType: hard
+
 "axe-core@npm:^4.4.3":
   version: 4.6.1
   resolution: "axe-core@npm:4.6.1"
@@ -20854,6 +20861,7 @@ __metadata:
     "@types/react-datepicker": ^4.8.0
     "@types/react-dom": 18.0.1
     "@typescript-eslint/eslint-plugin": ^5.38.1
+    await-to-js: ^3.0.0
     axios: ^0.27.2
     babel-loader: ^8.2.5
     chromatic: ^6.7.0

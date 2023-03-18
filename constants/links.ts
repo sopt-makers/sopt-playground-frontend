@@ -14,5 +14,6 @@ export const playgroundLink = {
   groupList: () => '/group',
   login: () => `/auth/login`,
   register: () => `/auth/verify`,
+  connectSocialAuth: () => `/auth/register`,
   makers: () => `/makers`,
 };

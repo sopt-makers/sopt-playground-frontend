@@ -22,8 +22,8 @@ export const Register: FC<RegisterProps> = (props) => {
 
   return (
     <StyledRegister>
-      <Stepper step={2} />
-      <Title>회원가입</Title>
+      <StyledStepper step={2} />
+      <Title>소셜 계정 연동</Title>
       <Description>
         반갑습니다 {userInfo.name}님,
         <br />
@@ -40,13 +40,18 @@ export const Register: FC<RegisterProps> = (props) => {
 export default Register;
 
 const StyledRegister = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 420px;
+  box-sizing: content-box;
+  margin: 0 auto;
+  padding: 64px 24px;
+  max-width: 420px;
 `;
 
+const StyledStepper = styled(Stepper)``;
+
 const Title = styled.h2`
+  margin-top: 40px;
+  text-align: center;
+
   ${textStyles.SUIT_32_SB}
 `;
 

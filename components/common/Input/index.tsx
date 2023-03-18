@@ -21,6 +21,7 @@ export interface InputProps {
   errorMessage?: string;
   disabled?: boolean;
   pattern?: string;
+  autoFocus?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -36,6 +37,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       disabled,
       pattern,
       placeholder,
+      autoFocus,
       onChange,
       onBlur,
       type = 'text',
@@ -55,6 +57,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           pattern={pattern}
           ref={ref}
+          autoFocus={autoFocus}
         />
         {errorMessage !== undefined || !!count ? (
           <Additional>
