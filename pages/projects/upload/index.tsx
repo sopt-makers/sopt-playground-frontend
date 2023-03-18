@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 
 import { useGetMemberOfMe, useGetProjectById } from '@/api/hooks';
 import { putProject } from '@/api/projects';
@@ -126,14 +126,14 @@ const ProjectUploadPage: FC = () => {
       if (isEditPage && postId) {
         await putProject({ id: Number(postId), data: input });
         router.push(playgroundLink.projectList());
-        queryClient.invalidateQueries('getProjectListQuery');
-        queryClient.invalidateQueries('getProjectQuery');
+        queryClient.invalidateQueries(['getProjectListQuery']);
+        queryClient.invalidateQueries(['getProjectQuery']);
       } else if (!isEditPage && !postId) {
         mutate(input, {
           onSuccess: () => {
             toast.show({ message: '프로젝트가 성공적으로 업로드 되었습니다.' });
             router.push(playgroundLink.projectList());
-            queryClient.invalidateQueries('getProjectListQuery');
+            queryClient.invalidateQueries(['getProjectListQuery']);
           },
         });
       }

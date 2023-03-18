@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { uniqBy as _uniqBy } from 'lodash-es';
-import { useQuery } from 'react-query';
 
 import { getProjectById } from '@/api/projects';
 
