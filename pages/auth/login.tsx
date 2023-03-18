@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { m, Variants } from 'framer-motion';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -11,6 +12,30 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
+
+const tooltipVariants: Variants = {
+  init: {
+    opacity: 0,
+    scale: 0.8,
+    y: '50%',
+  },
+  open: {
+    opacity: 1,
+    y: '0',
+    scale: 1,
+    transition: {
+      type: 'spring',
+    },
+  },
+  hover: {
+    y: '-5px',
+    opacity: 1,
+    scale: 1,
+    transition: {
+      ease: 'easeOut',
+    },
+  },
+};
 
 const LoginPage: FC = () => {
   const facebookAuth = useFacebookAuth();
@@ -36,12 +61,18 @@ const LoginPage: FC = () => {
         </RegisterInfo>
       </LoginBox>
 
-      <Link href={playgroundLink.makers()} passHref legacyBehavior>
-        <MadeByMakersLink>
+      <MotionMakersContainer initial='init' animate='open' whileHover='hover'>
+        <MadeByMakersLink href={playgroundLink.makers()}>
           <MadeByTitle>made by</MadeByTitle>
           <StyledMakersLogo src='/logos/logo-makers-full.svg' alt='makers-logo' />
         </MadeByMakersLink>
-      </Link>
+        <TooltipHolder>
+          <MotionTooltip variants={tooltipVariants}>
+            <TooltipRect>이 서비스를 만든 sopt makers 사람들이 궁금하다면?</TooltipRect>
+            <TooltipArrow />
+          </MotionTooltip>
+        </TooltipHolder>
+      </MotionMakersContainer>
     </StyledLoginPage>
   );
 };
@@ -49,7 +80,6 @@ const LoginPage: FC = () => {
 export default LoginPage;
 
 setLayout(LoginPage, 'fullScreen');
-
 export const StyledLoginPage = styled.div`
   display: flex;
   flex-direction: column;
@@ -131,11 +161,46 @@ const RegisterLink = styled(Link)`
   }
 `;
 
-const MadeByMakersLink = styled.a`
+const MotionMakersContainer = styled(m.div)`
+  position: relative;
+  margin-top: 40px;
+`;
+
+const TooltipHolder = styled.div`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, calc(-100% - 20px));
+`;
+
+const MotionTooltip = styled(m.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
+`;
+
+const TooltipRect = styled.div`
+  border-radius: 12px;
+  background-color: ${colors.black60};
+  padding: 18px 16px;
+  white-space: nowrap;
+  color: ${colors.gray10};
+
+  ${textStyles.SUIT_16_M}
+`;
+
+const TooltipArrow = styled.div`
+  border: 10px solid transparent;
+  border-top: 12px solid ${colors.black60};
+  border-bottom: 0;
+  width: 0;
+  height: 0;
+`;
+
+const MadeByMakersLink = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   max-width: 234px;
 `;
