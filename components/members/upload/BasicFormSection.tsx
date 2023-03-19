@@ -70,7 +70,7 @@ export default function MemberBasicFormSection() {
         <FormItem title='연락처' errorMessage={errors.phone?.message}>
           <StyledInput {...register('phone')} />
         </FormItem>
-        <FormItem title='이메일' errorMessage={errors.email?.message}>
+        <FormItem title='이메일' essential errorMessage={errors.email?.message}>
           <StyledInput {...register('email')} type='email' />
         </FormItem>
         <FormItem title='사는 지역'>
