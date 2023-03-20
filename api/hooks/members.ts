@@ -1,5 +1,5 @@
+import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useMutation, useQuery, UseQueryOptions } from 'react-query';
 
 import {
   getMemberOfMe,
@@ -52,7 +52,9 @@ export const useGetMemberProfileById = (
 };
 
 // 자신의 토큰으로 프로필 조회
-export const useGetMemberProfileOfMe = () => {
+export const useGetMemberProfileOfMe = (
+  options?: Omit<UseQueryOptions<ProfileDetail, { message: string }, ProfileDetail, string[]>, 'queryKey' | 'queryFn'>,
+) => {
   return useQuery(
     ['getMemberProfileOfMe'],
     async () => {
@@ -63,6 +65,7 @@ export const useGetMemberProfileOfMe = () => {
       onError: (error: { message: string }) => {
         console.error(error.message);
       },
+      ...options,
     },
   );
 };

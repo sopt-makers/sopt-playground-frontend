@@ -2,7 +2,7 @@ import { themes } from '@storybook/theming';
 import { LazyMotion } from 'framer-motion';
 import { initialize, mswDecorator } from 'msw-storybook-addon';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';

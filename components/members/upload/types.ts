@@ -13,8 +13,6 @@ export interface MemberUploadForm {
   skill: string;
   links: Link[];
   activities: SoptActivity[];
-  openToWork: boolean;
-  openToSideProject: boolean;
   allowOfficial: boolean;
   careers: Career[];
   mbti: Mbti | null;

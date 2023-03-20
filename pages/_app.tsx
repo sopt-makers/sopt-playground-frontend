@@ -1,11 +1,12 @@
 import ProgressBar from '@badrap/bar-of-progress';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { LazyMotion } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
@@ -60,6 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </ToastProvider>
           </LazyMotion>
         </RecoilRoot>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </AmplitudeProvider>
   );

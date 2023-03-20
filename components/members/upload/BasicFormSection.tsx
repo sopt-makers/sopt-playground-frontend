@@ -1,14 +1,12 @@
 import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { useGetMemberProfileOfMe } from '@/api/hooks';
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -18,12 +16,8 @@ export default function MemberBasicFormSection() {
     control,
     register,
     formState: { errors },
+    getValues,
   } = useFormContext<MemberUploadForm>();
-
-  const { query } = useStringRouterQuery(['edit'] as const);
-  const { data: myProfile } = useGetMemberProfileOfMe();
-
-  const isEditPage = query?.edit === 'true' ? true : false;
 
   const getBirthdayErrorMessage = () => {
     if (errors.birthday?.year) return errors.birthday?.year.message;
@@ -41,11 +35,7 @@ export default function MemberBasicFormSection() {
             name='profileImage'
             control={control}
             render={({ field }) => (
-              <StyledImageUploader
-                src={(isEditPage && myProfile && myProfile.profileImage) || ''}
-                {...field}
-                emptyIcon={IconCamera}
-              />
+              <StyledImageUploader src={getValues('profileImage')} {...field} emptyIcon={IconCamera} />
             )}
           />
         </FormItem>
@@ -80,7 +70,7 @@ export default function MemberBasicFormSection() {
         <FormItem title='연락처' errorMessage={errors.phone?.message}>
           <StyledInput {...register('phone')} />
         </FormItem>
-        <FormItem title='이메일' errorMessage={errors.email?.message}>
+        <FormItem title='이메일' essential errorMessage={errors.email?.message}>
           <StyledInput {...register('email')} type='email' />
         </FormItem>
         <FormItem title='사는 지역'>

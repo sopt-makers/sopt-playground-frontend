@@ -6,7 +6,7 @@ export const playgroundLink = {
   memberList: () => `/members`,
   memberDetail: (id: string | number) => `/members/${id}`,
   memberUpload: () => `/members/upload`,
-  memberEdit: () => `/members/upload?edit=true`,
+  memberEdit: () => '/members/edit',
   projectList: () => `/projects`,
   projectDetail: (id: string | number) => `/projects/${id}`,
   projectUpload: () => `/projects/upload`,
@@ -14,5 +14,6 @@ export const playgroundLink = {
   groupList: () => '/group',
   login: () => `/auth/login`,
   register: () => `/auth/verify`,
+  connectSocialAuth: () => `/auth/register`,
   makers: () => `/makers`,
 };
