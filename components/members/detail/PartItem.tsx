@@ -53,7 +53,7 @@ const PartItem: FC<PartItemProps> = (project) => {
             )}
           </Thumbnail>
           <Title>
-            <div className='year'>{generation}</div>
+            <div className='year'>{generation}기</div>
             <div className='part'>{getPartLabel(part)}</div>
           </Title>
         </Contents>
