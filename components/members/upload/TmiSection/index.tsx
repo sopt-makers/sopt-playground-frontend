@@ -42,7 +42,7 @@ export default function TmiSection() {
               />
             )}
           />
-          <TextArea />
+          <StyledTextArea placeholder='ex) 저는 극강의 EEE에요.' />
         </MbtiWrapper>
       </StyledMemberFormItem>
     </MemberFormSection>
@@ -58,4 +58,11 @@ const MbtiWrapper = styled.div`
 
 const StyledMemberFormItem = styled(MemberFormItem)`
   margin-top: 32px;
+`;
+
+const StyledTextArea = styled(TextArea)`
+  border-radius: 13px;
+  padding: 14px 20px;
+  width: 632px;
+  height: 76px;
 `;

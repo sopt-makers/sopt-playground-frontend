@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 export const MemberFormSection = styled.section`
   border-radius: 30px;
@@ -24,8 +25,7 @@ export const MemberFormSection = styled.section`
   }
 
   textarea {
-    padding: 16px 20px;
-    height: 128px;
+    ${textStyles.SUIT_16_M}
 
     &::placeholder {
       color: ${colors.gray80};
