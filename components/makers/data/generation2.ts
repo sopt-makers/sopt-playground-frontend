@@ -94,7 +94,7 @@ export const generation2: MakersGeneration = {
       ],
     },
     {
-      title: '브랜딩',
+      title: '브랜딩 팀',
       description:
         '오거나이저와 협업하여 메이커스 초기 브랜딩을 만들어 디자인 시스템을 구축하고 나아가 제품에도 반영하는 팀이에요.',
       people: [
