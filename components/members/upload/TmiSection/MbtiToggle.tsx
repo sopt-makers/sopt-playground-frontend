@@ -39,7 +39,8 @@ const Container = styled.div`
 
 const Button = styled.button<{ isSelected: boolean }>`
   background-color: ${({ isSelected }) => (isSelected ? colors.purple100 : colors.black60)};
-  padding: 14px 32px;
+  padding: 14px 0;
+  width: 76px;
   color: ${({ isSelected }) => (isSelected ? colors.white : colors.gray80)};
 `;
 
@@ -49,6 +50,9 @@ const LeftButton = styled(Button)`
   border-bottom-left-radius: 13px;
 
   &::after {
+    position: absolute;
+    top: 10px;
+    right: -0.5px;
     background-color: ${colors.black40};
     width: 1px;
     height: 24px;

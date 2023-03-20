@@ -1,3 +1,5 @@
+import styled from '@emotion/styled';
+
 import MbtiToggle from '@/components/members/upload/TmiSection/MbtiToggle';
 import { Mbti, MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/TmiSection/types';
 
@@ -14,7 +16,7 @@ export default function MbtiSelector({ mbti, onSelect }: MbtiSelectorProps) {
   };
 
   return (
-    <>
+    <Container>
       {mbti.map((selectedPosition, mbtiIndex) => (
         <MbtiToggle
           index={mbtiIndex as MbtiIndex}
@@ -23,6 +25,11 @@ export default function MbtiSelector({ mbti, onSelect }: MbtiSelectorProps) {
           key={mbtiIndex}
         />
       ))}
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  gap: 8px;
+`;

@@ -14,7 +14,7 @@ export default function TmiSection() {
   return (
     <MemberFormSection>
       <MemberFormHeader title='SOPT만 아는 나의 TMI' />
-      <MemberFormItem title='MBTI + 제 성격은요...'>
+      <StyledMemberFormItem title='MBTI + 제 성격은요...'>
         <MbtiWrapper>
           <Controller
             control={control}
@@ -29,7 +29,7 @@ export default function TmiSection() {
           />
           <TextArea />
         </MbtiWrapper>
-      </MemberFormItem>
+      </StyledMemberFormItem>
     </MemberFormSection>
   );
 }
@@ -38,4 +38,9 @@ const MbtiWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
+  margin-top: 20px;
+`;
+
+const StyledMemberFormItem = styled(MemberFormItem)`
+  margin-top: 32px;
 `;
