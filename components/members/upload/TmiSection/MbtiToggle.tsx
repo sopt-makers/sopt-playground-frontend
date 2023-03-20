@@ -39,6 +39,7 @@ const Container = styled.div`
 
 const Button = styled.button<{ isSelected: boolean }>`
   background-color: ${({ isSelected }) => (isSelected ? colors.purple100 : colors.black60)};
+  cursor: pointer;
   padding: 14px 0;
   width: 76px;
   color: ${({ isSelected }) => (isSelected ? colors.white : colors.gray80)};
