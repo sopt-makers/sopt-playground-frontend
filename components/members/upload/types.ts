@@ -1,3 +1,5 @@
+import { Mbti } from '@/components/members/upload/TmiSection/types';
+
 export interface MemberUploadForm {
   profileImage: string;
   name: string;
@@ -15,6 +17,7 @@ export interface MemberUploadForm {
   openToSideProject: boolean;
   allowOfficial: boolean;
   careers: Career[];
+  mbti: Mbti;
 }
 
 interface SoptActivity {
