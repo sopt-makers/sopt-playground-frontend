@@ -10,11 +10,26 @@ import { Mbti } from '@/components/members/upload/TmiSection/types';
 import { MemberUploadForm } from '@/components/members/upload/types';
 
 export default function TmiSection() {
-  const { control } = useFormContext<MemberUploadForm>();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<MemberUploadForm>();
+
+  const getMbtiErrorMessage = () => {
+    if (errors && errors.mbti) {
+      return [
+        errors.mbti[0]?.message,
+        errors.mbti[1]?.message,
+        errors.mbti[2]?.message,
+        errors.mbti[3]?.message,
+      ].filter((message) => !!message)[0];
+    }
+  };
+
   return (
     <MemberFormSection>
       <MemberFormHeader title='SOPT만 아는 나의 TMI' />
-      <StyledMemberFormItem title='MBTI + 제 성격은요...'>
+      <StyledMemberFormItem title='MBTI + 제 성격은요...' errorMessage={getMbtiErrorMessage()}>
         <MbtiWrapper>
           <Controller
             control={control}
@@ -23,7 +38,7 @@ export default function TmiSection() {
               <MbtiSelector
                 {...field}
                 mbti={field.value ?? [null, null, null, null]}
-                onSelect={(mbti: Mbti) => field.onChange(mbti)}
+                onSelect={(mbti: Mbti | null) => field.onChange(mbti)}
               />
             )}
           />

@@ -5,14 +5,15 @@ import { Mbti, MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upl
 
 interface MbtiSelectorProps {
   mbti: Mbti;
-  onSelect: (mbti: Mbti) => void;
+  onSelect: (mbti: Mbti | null) => void;
 }
 
 export default function MbtiSelector({ mbti, onSelect }: MbtiSelectorProps) {
   const onClickMbtiToggle = (index: MbtiIndex, position: MbtiIndicatorPosition) => {
     const newMbti: Mbti = [...mbti];
     newMbti[index] = newMbti[index] === position ? null : position;
-    onSelect(newMbti);
+
+    onSelect(newMbti.every((position) => position === null) ? null : newMbti);
   };
 
   return (

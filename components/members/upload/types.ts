@@ -17,7 +17,7 @@ export interface MemberUploadForm {
   openToSideProject: boolean;
   allowOfficial: boolean;
   careers: Career[];
-  mbti: Mbti;
+  mbti: Mbti | null;
 }
 
 interface SoptActivity {
