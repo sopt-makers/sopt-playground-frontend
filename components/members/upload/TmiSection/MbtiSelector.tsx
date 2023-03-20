@@ -11,7 +11,7 @@ interface MbtiSelectorProps {
 export default function MbtiSelector({ mbti, onSelect }: MbtiSelectorProps) {
   const onClickMbtiToggle = (index: MbtiIndex, position: MbtiIndicatorPosition) => {
     const newMbti: Mbti = [...mbti];
-    newMbti[index] = position;
+    newMbti[index] = newMbti[index] === position ? null : position;
     onSelect(newMbti);
   };
 
