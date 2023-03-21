@@ -41,10 +41,8 @@ const Verify: FC<VerifyProps> = ({}) => {
       <StyledHelpCard
         href={MEMBER_REQUEST_FORM_URL}
         highlight={phoneState.type === 'codeError' || phoneState.type === 'phoneError' || emailState.type === 'error'}
-        title='전화번호로 SOPT 회원 인증에 실패하셨나요?'
-        content={
-          '전화번호가 바뀌었거나, 전화번호 인증이 어려우신 경우 \n추가 정보 인증을 통해 가입을 도와드리고 있어요!'
-        }
+        title='SOPT 회원 인증에 실패하셨나요?'
+        content={'인증이 어려우신 경우 추가 정보 인증을 통해 \n 가입을 도와드리고 있어요!'}
       />
     </div>
   );
