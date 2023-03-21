@@ -90,17 +90,29 @@ export default function MemberBasicFormSection() {
         </FormItem>
         <FormItem title='나를 한 마디로 표현한다면?' description='아래 작성해주신 내용은 멤버 프로필 카드에 표시돼요!'>
           <Responsive only='desktop'>
-            <StyledCountableInput
-              placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
-              {...register('introduction')}
-              maxCount={15}
+            <Controller
+              name='introduction'
+              render={({ field }) => (
+                <StyledCountableInput
+                  {...field}
+                  placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
+                  maxCount={15}
+                />
+              )}
+              control={control}
             />
           </Responsive>
           <Responsive only='mobile'>
-            <StyledCountableTextarea
-              placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
-              {...register('introduction')}
-              maxCount={15}
+            <Controller
+              name='introduction'
+              render={({ field }) => (
+                <StyledCountableTextarea
+                  placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
+                  {...field}
+                  maxCount={15}
+                />
+              )}
+              control={control}
             />
           </Responsive>
         </FormItem>

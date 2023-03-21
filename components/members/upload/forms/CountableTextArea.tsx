@@ -1,31 +1,32 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef, TextareaHTMLAttributes, useState } from 'react';
+import { forwardRef } from 'react';
 
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface MemberCountableTextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface MemberCountableTextAreaProps {
   error?: boolean;
   maxCount?: number;
+  onChange: () => void;
+  className?: string;
+  placeholder?: string;
+  value: string;
 }
 
 export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCountableTextAreaProps>(
-  ({ error, maxCount, onChange, className, ...props }, ref) => {
-    const [value, setValue] = useState<string>('');
+  ({ error, maxCount, onChange, className, placeholder, value }, ref) => {
     return (
       <StyledContainer className={className}>
         <StyledTextArea
-          onChange={(e) => {
-            setValue(e.target.value);
-            onChange?.(e);
-          }}
+          onChange={onChange}
           error={error}
           ref={ref}
           maxLength={maxCount}
-          {...props}
+          placeholder={placeholder}
+          value={value}
         />
         <StyledCountValue>
           <Text color={colors.gray100} typography='SUIT_12_M'>
