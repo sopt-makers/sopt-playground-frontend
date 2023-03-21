@@ -79,11 +79,11 @@ export default function MemberBasicFormSection() {
         >
           <StyledInput {...register('address')} placeholder='ex) 광나루역, 서울역, 홍대입구역' />
         </FormItem>
-        <FormItem title='학교 / 전공'>
-          <StyledEducationInputWrapper>
-            <Input {...register('university')} placeholder='학교 입력' className='school' />
-            <Input {...register('major')} placeholder='전공 입력' className='major' />
-          </StyledEducationInputWrapper>
+        <FormItem title='학교'>
+          <StyledEducationInput {...register('university')} placeholder='학교 입력' />
+        </FormItem>
+        <FormItem title='전공'>
+          <StyledEducationInput {...register('major')} placeholder='전공 입력' />
         </FormItem>
       </StyledFormItems>
     </FormSection>
@@ -127,6 +127,10 @@ const StyledInput = styled(Input)`
   }
 `;
 
+const StyledEducationInput = styled(StyledInput)`
+  width: 260px;
+`;
+
 const StyledBirthdayInputWrapper = styled.div`
   display: flex;
   gap: 12px;
@@ -139,32 +143,6 @@ const StyledBirthdayInputWrapper = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 7px;
-    margin-top: 10px;
-    width: 100%;
-  }
-`;
-
-const StyledEducationInputWrapper = styled.div`
-  display: flex;
-  gap: 12.04px;
-  margin-top: 20px;
-  width: 630px;
-
-  input {
-    width: 100%;
-  }
-
-  .school {
-    flex: 4;
-  }
-
-  .major {
-    flex: 6;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-    gap: 10px;
     margin-top: 10px;
     width: 100%;
   }
