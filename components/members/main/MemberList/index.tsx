@@ -106,11 +106,11 @@ const MemberList: FC = () => {
                   ))}
                 </React.Fragment>
               ))}
-              <Target ref={ref} />
             </StyledCardWrapper>
           </StyledRightWrapper>
         </StyledMain>
       </StyledContent>
+      <Target ref={ref} />
     </StyledContainer>
   );
 };
@@ -127,12 +127,6 @@ const StyledContainer = styled.div`
 const StyledContent = styled.div`
   width: 100%;
   max-width: 1000px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
 `;
 
 const StyledOnBoardingBanner = styled(OnBoardingBanner)`
