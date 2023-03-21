@@ -44,7 +44,7 @@ const OAuthLoginCallback: FC<OAuthLoginCallbackProps> = ({ oauthKey: oauthType, 
     },
   );
 
-  if (url === null || fetchStatus === 'idle' || status === 'loading') {
+  if (url === null || fetchStatus === 'fetching' || status === 'loading') {
     return <LoginCallbackView mode={{ type: 'loading' }} />;
   }
 
