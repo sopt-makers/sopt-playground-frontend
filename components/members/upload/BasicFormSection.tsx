@@ -75,7 +75,7 @@ export default function MemberBasicFormSection() {
         </FormItem>
         <FormItem
           title='활동 지역'
-          description='가까운 지하철역을 작성해주세요. 활동 지역이 여러개일 경우 쉼표(,)로 구분해서 적어주세요.'
+          description={`가까운 지하철역을 작성해주세요. \n활동 지역이 여러개일 경우 쉼표(,)로 구분해서 적어주세요.`}
         >
           <StyledInput {...register('address')} placeholder='ex) 광나루역, 서울역, 홍대입구역' />
         </FormItem>
