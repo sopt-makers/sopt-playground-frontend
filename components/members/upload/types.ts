@@ -1,4 +1,6 @@
-import { Mbti } from '@/components/members/upload/TmiSection/types';
+import { FavorPeach, FavorTteokbokki, Mbti } from '@/components/members/upload/TmiSection/types';
+
+import { FavorAlcohol, FavorFishBread, FavorMintChocolate, FavorSweetAndSourPork } from './TmiSection/types';
 
 export interface MemberUploadForm {
   profileImage: string;
@@ -17,6 +19,14 @@ export interface MemberUploadForm {
   careers: Career[];
   mbti: Mbti | null;
   mbtiDescription: string;
+  favor: {
+    sweetAndSourPork: FavorSweetAndSourPork | null;
+    mintChocolate: FavorMintChocolate | null;
+    alcohol: FavorAlcohol | null;
+    peach: FavorPeach | null;
+    fishBread: FavorFishBread | null;
+    tteokbokki: FavorTteokbokki | null;
+  };
 }
 
 interface SoptActivity {
