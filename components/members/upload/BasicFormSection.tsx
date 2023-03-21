@@ -3,6 +3,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
+import Responsive from '@/components/common/Responsive';
+import MemberCountableInput from '@/components/members/upload/forms/CountableInput';
+import MemberCountableTextArea from '@/components/members/upload/forms/CountableTextArea';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
@@ -85,6 +88,22 @@ export default function MemberBasicFormSection() {
         <FormItem title='전공'>
           <StyledEducationInput {...register('major')} placeholder='전공 입력' />
         </FormItem>
+        <FormItem title='나를 한 마디로 표현한다면?' description='아래 작성해주신 내용은 멤버 프로필 카드에 표시돼요!'>
+          <Responsive only='desktop'>
+            <StyledCountableInput
+              placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
+              {...register('introduction')}
+              maxCount={15}
+            />
+          </Responsive>
+          <Responsive only='mobile'>
+            <StyledCountableTextarea
+              placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
+              {...register('introduction')}
+              maxCount={15}
+            />
+          </Responsive>
+        </FormItem>
       </StyledFormItems>
     </FormSection>
   );
@@ -146,4 +165,15 @@ const StyledBirthdayInputWrapper = styled.div`
     margin-top: 10px;
     width: 100%;
   }
+`;
+
+const StyledCountableInput = styled(MemberCountableInput)`
+  margin-top: 16px;
+  width: 444px;
+`;
+
+const StyledCountableTextarea = styled(MemberCountableTextArea)`
+  margin-top: 10px;
+  width: 100%;
+  height: 115px;
 `;
