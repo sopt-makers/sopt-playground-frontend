@@ -73,8 +73,11 @@ export default function MemberBasicFormSection() {
         <FormItem title='이메일' essential errorMessage={errors.email?.message}>
           <StyledInput {...register('email')} type='email' />
         </FormItem>
-        <FormItem title='사는 지역'>
-          <StyledInput {...register('address')} placeholder='ex) 서울시 강남구, 인천시 중구' />
+        <FormItem
+          title='활동 지역'
+          description='가까운 지하철역을 작성해주세요. 활동 지역이 여러개일 경우 쉼표(,)로 구분해서 적어주세요.'
+        >
+          <StyledInput {...register('address')} placeholder='ex) 광나루역, 서울역, 홍대입구역' />
         </FormItem>
         <FormItem title='학교 / 전공'>
           <StyledEducationInputWrapper>
