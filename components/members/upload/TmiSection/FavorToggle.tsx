@@ -7,7 +7,7 @@ interface FavorToggleProps<T extends string> {
   left: T;
   right: T;
   selected: T | null;
-  onSelect: (selected: T | null) => void;
+  onSelect: (value: T | null) => void;
 }
 
 export default function FavorToggle<T extends string>({ left, right, selected, onSelect }: FavorToggleProps<T>) {
