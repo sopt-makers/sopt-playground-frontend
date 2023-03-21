@@ -121,6 +121,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 100px;
   min-height: 101vh;
 `;
 
@@ -214,5 +215,6 @@ const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
 `;
 
 const Target = styled.div`
+  width: 100%;
   height: 40px;
 `;
