@@ -21,6 +21,7 @@ export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   activities: [DEFAULT_ACTIVITY],
   allowOfficial: false,
   careers: [DEFAULT_CAREER],
+  mbti: [null, null, null, null],
 };
 
 export const PARTS = [

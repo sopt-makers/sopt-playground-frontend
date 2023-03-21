@@ -109,4 +109,13 @@ export const memberFormSchema = yup.object().shape({
       }),
     )
     .nullable(),
+  mbti: yup
+    .tuple([
+      yup.string().required('MBTI 4자리를 모두 선택해주세요.'),
+      yup.string().required('MBTI 4자리를 모두 선택해주세요.'),
+      yup.string().required('MBTI 4자리를 모두 선택해주세요.'),
+      yup.string().required('MBTI 4자리를 모두 선택해주세요.'),
+    ])
+    .nullable(),
+  mbtiDescription: yup.string().nullable(),
 });
