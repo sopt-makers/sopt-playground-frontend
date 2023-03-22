@@ -43,6 +43,10 @@ const Button = styled.button<{ isSelected: boolean }>`
   padding: 14px 0;
   width: 76px;
   color: ${({ isSelected }) => (isSelected ? colors.white : colors.gray80)};
+
+  &:hover {
+    color: ${colors.white};
+  }
 `;
 
 const LeftButton = styled(Button)`
