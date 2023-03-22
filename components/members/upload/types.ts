@@ -1,6 +1,6 @@
-import { FavorPeach, FavorTteokbokki, Mbti } from '@/components/members/upload/TmiSection/types';
+import { FavorPeach, FavorTteokbokki, Mbti } from '@/components/members/upload/sections/TmiSection/types';
 
-import { FavorAlcohol, FavorFishBread, FavorMintChocolate, FavorSweetAndSourPork } from './TmiSection/types';
+import { FavorAlcohol, FavorFishBread, FavorMintChocolate, FavorSweetAndSourPork } from './sections/TmiSection/types';
 
 export interface MemberUploadForm {
   profileImage: string;

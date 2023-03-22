@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import MbtiToggle from '@/components/members/upload/TmiSection/MbtiToggle';
-import { Mbti, MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/TmiSection/types';
+import MbtiToggle from '@/components/members/upload/sections/TmiSection/MbtiToggle';
+import { Mbti, MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/sections/TmiSection/types';
 
 interface MbtiSelectorProps {
   mbti: Mbti;
