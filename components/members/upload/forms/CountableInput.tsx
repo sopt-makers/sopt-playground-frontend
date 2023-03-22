@@ -1,31 +1,31 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef, InputHTMLAttributes, useState } from 'react';
+import { ChangeEvent, forwardRef } from 'react';
 
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-export interface MemberCountableInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface MemberCountableInputProps {
   error?: boolean;
   maxCount: number;
+  value: string;
+  onChange: (e: ChangeEvent) => void;
+  className?: string;
+  placeholder?: string;
 }
 
 export const MemberCountableInput = forwardRef<HTMLInputElement, MemberCountableInputProps>(
-  ({ error, maxCount, onChange, className, ...props }, ref) => {
-    const [value, setValue] = useState<string>('');
-
+  ({ error, maxCount, onChange, value, className, placeholder }, ref) => {
     return (
       <StyledContainer className={className}>
         <StyledInput
-          onChange={(e) => {
-            setValue(e.target.value);
-            onChange?.(e);
-          }}
+          value={value}
+          onChange={onChange}
           error={error}
           ref={ref}
           maxLength={maxCount}
-          {...props}
+          placeholder={placeholder}
         />
         <StyledCountValue>
           <Text color={colors.gray100} typography='SUIT_12_M'>

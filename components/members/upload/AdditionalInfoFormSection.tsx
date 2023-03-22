@@ -8,8 +8,6 @@ import TextArea from '@/components/common/TextArea';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
 import { DEFAULT_LINK, LINK_TITLES } from '@/components/members/upload/constants';
-import CountableInput from '@/components/members/upload/forms/CountableInput';
-import CountableTextArea from '@/components/members/upload/forms/CountableTextArea';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
@@ -53,9 +51,6 @@ export default function MemberAdditionalFormSection() {
       <FormHeader title='추가정보' />
       <Responsive only='desktop'>
         <StyledFormItems>
-          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!'>
-            <StyledCountableInput {...register('introduction')} maxCount={30} />
-          </FormItem>
           <FormItem title='스킬' description='내가 자신있는 스킬에 대해 작성해주세요. 쉼표(,)로 구분해서 적어주세요.'>
             <StyledInput {...register('skill')} placeholder='ex) Node, Product Managing, Branding, UI' />
           </FormItem>
@@ -98,9 +93,6 @@ export default function MemberAdditionalFormSection() {
 
       <Responsive only='mobile'>
         <MobileFormItems>
-          <FormItem title='한줄소개' description='나를 표현할 수 있는 한 줄을 소개해주세요!'>
-            <StyledCountableTextArea {...register('introduction')} maxCount={30} />
-          </FormItem>
           <FormItem
             title='스킬'
             description={`내가 자신있는 스킬에 대해 작성해주세요.\n쉼표(,)로 구분해서 적어주세요.`}
@@ -175,11 +167,6 @@ const StyledInput = styled(Input)`
   width: 632px;
 `;
 
-const StyledCountableInput = styled(CountableInput)`
-  margin-top: 18px;
-  width: 632px;
-`;
-
 const StyledSelectWrapper = styled.div`
   display: flex;
   gap: 12px;
@@ -221,12 +208,6 @@ const StyledEditableSelect = styled(EditableSelect)`
 
 const StyledTextArea = styled(TextArea)`
   margin-top: 14px;
-`;
-
-const StyledCountableTextArea = styled(CountableTextArea)`
-  margin-top: 16px;
-  width: 100%;
-  height: 128px;
 `;
 
 const StyledAddableWrapper = styled(AddableWrapper)`

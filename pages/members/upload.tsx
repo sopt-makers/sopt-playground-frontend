@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -25,6 +26,7 @@ export default function MemberUploadPage() {
     resolver: yupResolver(memberFormSchema),
   });
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { handleSubmit } = formMethods;
 
@@ -39,6 +41,10 @@ export default function MemberUploadPage() {
         .filter((career) => !Object.values(career).some((item) => item === '')),
     };
     const response = await postMemberProfile(requestBody);
+
+    queryClient.invalidateQueries(['getMemberProfileOfMe']);
+    queryClient.invalidateQueries(['getMemberProfileById', response.id]);
+    queryClient.invalidateQueries(['getMemberProfile']);
 
     router.push(playgroundLink.memberDetail(response.id));
   };
