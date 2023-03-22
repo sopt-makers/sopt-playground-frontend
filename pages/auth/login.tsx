@@ -216,9 +216,9 @@ const MadeByTitle = styled.h3`
 `;
 
 const StyledMakersLogo = styled.img`
-  width: 230px;
+  height: 53px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 150px;
+    height: 35px;
   }
 `;
