@@ -89,7 +89,7 @@ export default function MemberBasicFormSection() {
           <StyledEducationInput {...register('major')} placeholder='전공 입력' />
         </FormItem>
         <FormItem title='나를 한 마디로 표현한다면?' description='아래 작성해주신 내용은 멤버 프로필 카드에 표시돼요!'>
-          <Responsive only='desktop'>
+          <Responsive only='desktop' asChild>
             <Controller
               name='introduction'
               render={({ field }) => (
@@ -102,7 +102,7 @@ export default function MemberBasicFormSection() {
               control={control}
             />
           </Responsive>
-          <Responsive only='mobile'>
+          <Responsive only='mobile' asChild>
             <Controller
               name='introduction'
               render={({ field }) => (
