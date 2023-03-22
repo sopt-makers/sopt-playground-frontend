@@ -43,6 +43,10 @@ const Button = styled.button<{ isSelected: boolean }>`
   color: ${({ isSelected }) => (isSelected ? colors.white : colors.gray80)};
 
   ${textStyles.SUIT_16_SB}
+
+  &:hover {
+    color: ${colors.white};
+  }
 `;
 
 const Versus = styled.div`
