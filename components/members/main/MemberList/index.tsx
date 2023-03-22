@@ -10,11 +10,11 @@ import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
+import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
-import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -25,10 +25,10 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
-  const { logClickEvent, logSubmitEvent } = useEventLogger();
-  const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
+  const { filter, generation } = router.query;
+  const { logClickEvent } = useEventLogger();
+  const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
@@ -53,7 +53,6 @@ const MemberList: FC = () => {
   const hasProfile = !!memberOfMeData?.hasProfile;
 
   const handleSelect = (value: MenuValue) => {
-    onSelect(value);
     addQueryParamsToUrl({ filter: value.toString() });
   };
 
@@ -80,13 +79,19 @@ const MemberList: FC = () => {
         <StyledMain>
           {!hasProfile && <StyledDivider />}
           <Responsive only='desktop'>
-            <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
+            <StyledMemberRoleMenu value={(Number(filter) ?? MenuValue.ALL) as MenuValue} onSelect={handleSelect} />
           </Responsive>
           <Responsive only='mobile'>
-            <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
+            <StyledMemberRoleDropdown value={(Number(filter) ?? MenuValue.ALL) as MenuValue} onSelect={handleSelect} />
           </Responsive>
           <StyledRightWrapper>
-            <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+            <StyledFilterWrapper>
+              <GenerationSelect
+                value={generation as string | undefined}
+                onChange={(generation) => addQueryParamsToUrl({ generation })}
+              />
+              <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+            </StyledFilterWrapper>
             <StyledCardWrapper>
               {profiles?.map((profiles, index) => (
                 <React.Fragment key={index}>
@@ -160,8 +165,12 @@ const StyledRightWrapper = styled.div`
   width: 100%;
 `;
 
+const StyledFilterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const StyledMemberSearch = styled(MemberSearch)`
-  align-self: flex-end;
   max-width: 330px;
 
   @media ${MOBILE_MEDIA_QUERY} {
