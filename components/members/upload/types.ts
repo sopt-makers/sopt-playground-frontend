@@ -29,6 +29,9 @@ export interface MemberUploadForm {
     tteokbokki: FavorTteokbokki | null;
   };
   sojuCapacity: typeof SOJU_CAPACITY_RANGE[number];
+  interest: string;
+  idealType: string;
+  longIntroduction: string;
 }
 
 interface SoptActivity {

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import Input from '@/components/common/Input';
 import TextArea from '@/components/common/TextArea';
 import Select from '@/components/members/common/select/Select';
 import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
@@ -24,6 +25,7 @@ export default function TmiSection() {
   const {
     control,
     formState: { errors },
+    register,
   } = useFormContext<MemberUploadForm>();
 
   const getMbtiErrorMessage = () => {
@@ -61,15 +63,18 @@ export default function TmiSection() {
           control={control}
           name='sojuCapacity'
           render={({ field }) => (
-            <Select placeholder='주량 선택' value={field.value} onChange={field.onChange}>
+            <StyledSelect placeholder='주량 선택' value={field.value} onChange={field.onChange}>
               {SOJU_CAPACITY_RANGE.map((capacity) => (
                 <Select.Item key={capacity} value={capacity}>
                   {capacity}
                 </Select.Item>
               ))}
-            </Select>
+            </StyledSelect>
           )}
         />
+      </StyledMemberFormItem>
+      <StyledMemberFormItem title='저는 요새 이런 걸 좋아해요!'>
+        <StyledInput {...register('interest')} placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.' />
       </StyledMemberFormItem>
       <StyledMemberFormItem title='나는 어느 쪽?'>
         <FavorWrapper>
@@ -127,6 +132,15 @@ export default function TmiSection() {
           />
         </FavorWrapper>
       </StyledMemberFormItem>
+      <StyledMemberFormItem title='나의 이상형은? 😏'>
+        <StyledInput {...register('idealType')} placeholder='ex) 마음이 따뜻한 사람, 아이스 아메리카노만 마시는 사람' />
+      </StyledMemberFormItem>
+      <StyledMemberFormItem title='자유로운 자기소개'>
+        <StyledIntroductionTextarea
+          {...register('longIntroduction')}
+          placeholder={`• 나는 이런 사람이에요.\n• SOPT에 들어온 계기\n• SOPT에 들어오기 전에 무엇을 해왔는지\n• 프로젝트할 때의 나의 성향\n• SOPT에서 하고 싶은 것 등등`}
+        />
+      </StyledMemberFormItem>
     </MemberFormSection>
   );
 }
@@ -156,4 +170,20 @@ const FavorWrapper = styled.div`
   margin-top: 20px;
   width: 593px;
   row-gap: 14px;
+`;
+
+const StyledSelect = styled(Select)`
+  margin-top: 14px;
+`;
+
+const StyledInput = styled(Input)`
+  margin-top: 14px;
+  width: 632px;
+`;
+
+const StyledIntroductionTextarea = styled(StyledTextArea)`
+  margin-top: 14px;
+  height: 170px;
+  line-height: 170%;
+  letter-spacing: -0.01em;
 `;
