@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import TextArea from '@/components/common/TextArea';
+import Select from '@/components/members/common/select/Select';
+import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection } from '@/components/members/upload/forms/FormSection';
@@ -53,6 +55,21 @@ export default function TmiSection() {
           />
           <StyledTextArea placeholder='ex) 저는 극강의 EEE에요.' />
         </MbtiWrapper>
+      </StyledMemberFormItem>
+      <StyledMemberFormItem title='소주, 어디까지 마셔봤니?'>
+        <Controller
+          control={control}
+          name='sojuCapacity'
+          render={({ field }) => (
+            <Select placeholder='주량 선택' value={field.value} onChange={field.onChange}>
+              {SOJU_CAPACITY_RANGE.map((capacity) => (
+                <Select.Item key={capacity} value={capacity}>
+                  {capacity}
+                </Select.Item>
+              ))}
+            </Select>
+          )}
+        />
       </StyledMemberFormItem>
       <StyledMemberFormItem title='나는 어느 쪽?'>
         <FavorWrapper>

@@ -49,3 +49,5 @@ export const TEAMS = ['운영팀', '미디어팀', '해당 없음'];
 export const LINK_TITLES = ['Facebook', 'Instagram', 'LinkedIn', 'GitHub', 'Behance'];
 
 export const DEFAULT_DATE = '1970-01-01';
+
+export const SOJU_CAPACITY_RANGE = ['못마셔요', '0.5병', '1병', '1.5병', '2병', '2.5병', '3병 이상'];
