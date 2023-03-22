@@ -79,7 +79,6 @@ const LoginPage: FC = () => {
         </RegisterInfo>
 
         <LastLogin
-          suppressHydrationWarning
           initial='hide'
           animate={lastLoginMessage ? 'show' : 'hide'}
           variants={{
