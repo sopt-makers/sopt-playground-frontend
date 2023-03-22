@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import { memberFormSchema } from '@/components/members/upload/schema';
-import TmiSection from '@/components/members/upload/TmiSection';
+import TmiSection from '@/components/members/upload/sections/TmiSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
 
 export default {
