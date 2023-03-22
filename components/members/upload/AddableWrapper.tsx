@@ -1,20 +1,21 @@
 import styled from '@emotion/styled';
-import { HTMLAttributes, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import IconPlus from '@/public/icons/icon-plus.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface MemberAddableWrapperProps extends HTMLAttributes<HTMLDivElement> {
+interface MemberAddableWrapperProps {
   children: ReactNode;
   onAppend: () => void;
+  className?: string;
 }
 
-export default function MemberAddableWrapper({ onAppend, children, ...props }: MemberAddableWrapperProps) {
+export default function MemberAddableWrapper({ onAppend, children, className }: MemberAddableWrapperProps) {
   return (
-    <StyledContainer {...props}>
-      <StyledAddableItems>{children}</StyledAddableItems>
+    <StyledContainer>
+      <StyledAddableItems className={className}>{children}</StyledAddableItems>
       <StyledAddButton onClick={onAppend} className='pc-only'>
         <IconPlus stroke={colors.purple100} />
         <div>추가</div>

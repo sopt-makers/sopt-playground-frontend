@@ -67,14 +67,14 @@ const StyledSelect = styled(Select)`
 
 const StyledInput = styled.input`
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 1.5px;
-  transform: translateY(-50%);
   border: none;
   background-color: transparent;
-  width: calc(100% - 42px);
-  height: calc(100% - 3px);
   color: ${colors.gray30};
+
+  ${({ width }) => `width: ${width}${typeof width === 'number' ? 'px' : ''};`}
+  ${({ height }) => `height: ${height}${typeof height === 'number' ? 'px' : ''};`}
 
   ${textStyles.SUIT_16_M};
 `;
