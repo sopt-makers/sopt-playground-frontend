@@ -11,17 +11,17 @@ interface FavorToggleProps<T extends string> {
 }
 
 export default function FavorToggle<T extends string>({ left, right, selected, onSelect }: FavorToggleProps<T>) {
-  const onClick = (target: T) => {
+  const handleClick = (target: T) => {
     onSelect(target === selected ? null : target);
   };
 
   return (
     <Container>
-      <Button onClick={() => onClick(left)} isSelected={left === selected}>
+      <Button onClick={() => handleClick(left)} isSelected={left === selected}>
         {left}
       </Button>
       <Versus>vs</Versus>
-      <Button onClick={() => onClick(right)} isSelected={right === selected}>
+      <Button onClick={() => handleClick(right)} isSelected={right === selected}>
         {right}
       </Button>
     </Container>
