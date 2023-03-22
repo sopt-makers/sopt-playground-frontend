@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef } from 'react';
+import { ChangeEvent, forwardRef } from 'react';
 
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
@@ -10,7 +10,7 @@ import { textStyles } from '@/styles/typography';
 interface MemberCountableTextAreaProps {
   error?: boolean;
   maxCount?: number;
-  onChange: () => void;
+  onChange: (e: ChangeEvent) => void;
   className?: string;
   placeholder?: string;
   value: string;
