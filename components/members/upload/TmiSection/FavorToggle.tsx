@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface FavorToggleProps<T extends string> {
@@ -32,6 +33,11 @@ const Container = styled.div`
   display: flex;
   gap: 3px;
   align-items: center;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-grow: 1;
+    width: 100%;
+  }
 `;
 
 const Button = styled.button<{ isSelected: boolean }>`
@@ -47,9 +53,16 @@ const Button = styled.button<{ isSelected: boolean }>`
   &:hover {
     color: ${colors.white};
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    background-color: ${({ isSelected }) => (isSelected ? colors.purple100 : colors.black80)};
+    width: calc(50% - 14px);
+  }
 `;
 
 const Versus = styled.div`
+  width: 28px;
+  text-align: center;
   color: ${colors.white};
 
   ${textStyles.SUIT_16_SB};

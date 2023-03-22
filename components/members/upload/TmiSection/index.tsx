@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
+import Responsive from '@/components/common/Responsive';
 import TextArea from '@/components/common/TextArea';
 import Select from '@/components/members/common/select/Select';
 import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
@@ -20,6 +21,8 @@ import {
   Mbti,
 } from '@/components/members/upload/TmiSection/types';
 import { MemberUploadForm } from '@/components/members/upload/types';
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function TmiSection() {
   const {
@@ -133,7 +136,18 @@ export default function TmiSection() {
         </FavorWrapper>
       </StyledMemberFormItem>
       <StyledMemberFormItem title='나의 이상형은? 😏'>
-        <StyledInput {...register('idealType')} placeholder='ex) 마음이 따뜻한 사람, 아이스 아메리카노만 마시는 사람' />
+        <Responsive only='desktop' asChild>
+          <StyledInput
+            {...register('idealType')}
+            placeholder='ex) 마음이 따뜻한 사람, 아이스 아메리카노만 마시는 사람'
+          />
+        </Responsive>
+        <Responsive only='mobile' asChild>
+          <StyledTextArea
+            {...register('idealType')}
+            placeholder={`ex) 마음이 따뜻한 사람,\n아이스 아메리카노만 마시는 사람`}
+          />
+        </Responsive>
       </StyledMemberFormItem>
       <StyledMemberFormItem title='자유로운 자기소개'>
         <StyledIntroductionTextarea
@@ -157,10 +171,17 @@ const StyledMemberFormItem = styled(MemberFormItem)`
 `;
 
 const StyledTextArea = styled(TextArea)`
+  margin-top: 14px;
   border-radius: 13px;
   padding: 14px 20px;
   width: 632px;
   height: 76px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+    height: 80px;
+    line-height: 150%;
+  }
 `;
 
 const FavorWrapper = styled.div`
@@ -170,15 +191,27 @@ const FavorWrapper = styled.div`
   margin-top: 20px;
   width: 593px;
   row-gap: 14px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const StyledSelect = styled(Select)`
   margin-top: 14px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    background-color: ${colors.black80};
+  }
 `;
 
 const StyledInput = styled(Input)`
   margin-top: 14px;
   width: 632px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const StyledIntroductionTextarea = styled(StyledTextArea)`
@@ -186,4 +219,8 @@ const StyledIntroductionTextarea = styled(StyledTextArea)`
   height: 170px;
   line-height: 170%;
   letter-spacing: -0.01em;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 152px;
+  }
 `;
