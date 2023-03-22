@@ -91,6 +91,11 @@ const StyledContent = styled(Select.Content)<Pick<SelectProps, 'width'>>`
   padding: 8px;
   max-height: 262px;
   overflow: scroll;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   ${({ width }) => width && buildCSSWithLength('width', width)}
 `;
