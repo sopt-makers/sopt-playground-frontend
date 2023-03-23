@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import { MBTI_POSITION_LIST } from '@/components/members/upload/TmiSection/constants';
-import { MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/TmiSection/types';
+import { MBTI_POSITION_LIST } from '@/components/members/upload/sections/TmiSection/constants';
+import { MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/sections/TmiSection/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';

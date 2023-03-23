@@ -1,4 +1,4 @@
-import { MBTI_INDEX_LIST } from '@/components/members/upload/TmiSection/constants';
+import { MBTI_INDEX_LIST } from '@/components/members/upload/sections/TmiSection/constants';
 
 export type MbtiIndicatorPosition = 'left' | 'right';
 

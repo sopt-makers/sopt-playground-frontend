@@ -9,8 +9,8 @@ import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection } from '@/components/members/upload/forms/FormSection';
-import FavorToggle from '@/components/members/upload/TmiSection/FavorToggle';
-import MbtiSelector from '@/components/members/upload/TmiSection/MbtiSelector';
+import FavorToggle from '@/components/members/upload/sections/TmiSection/FavorToggle';
+import MbtiSelector from '@/components/members/upload/sections/TmiSection/MbtiSelector';
 import {
   FavorAlcohol,
   FavorFishBread,
@@ -19,7 +19,7 @@ import {
   FavorSweetAndSourPork,
   FavorTteokbokki,
   Mbti,
-} from '@/components/members/upload/TmiSection/types';
+} from '@/components/members/upload/sections/TmiSection/types';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
