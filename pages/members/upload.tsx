@@ -9,7 +9,6 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import MemberForm from '@/components/members/upload/forms/Form';
 import { memberFormSchema } from '@/components/members/upload/schema';
-import AdditionalFormSection from '@/components/members/upload/sections/AdditionalInfoFormSection';
 import BasicFormSection from '@/components/members/upload/sections/BasicFormSection';
 import CareerFormSection from '@/components/members/upload/sections/CareerFormSection';
 import PublicQuestionFormSection from '@/components/members/upload/sections/PublicQuestionFormSection';
@@ -56,7 +55,6 @@ export default function MemberUploadPage() {
           <BasicFormSection />
           <SoptActivityFormSection />
           <CareerFormSection />
-          <AdditionalFormSection />
           <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>
