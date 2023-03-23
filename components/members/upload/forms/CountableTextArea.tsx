@@ -30,7 +30,7 @@ export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCou
         />
         <StyledCountValue>
           <Text color={colors.gray100} typography='SUIT_12_M'>
-            {`${value.length}/${maxCount}`}
+            {`${value?.length ?? 0}/${maxCount}`}
           </Text>
         </StyledCountValue>
       </StyledContainer>
