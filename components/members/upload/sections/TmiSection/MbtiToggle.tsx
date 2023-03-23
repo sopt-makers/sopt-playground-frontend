@@ -11,7 +11,7 @@ interface MbtiToggleProps<T> {
   onSelect: (value: T | null) => void;
 }
 
-export default function MbtiToggle<T>({ left, right, selected, onSelect }: MbtiToggleProps<T>) {
+export default function MbtiToggle<T extends string | null>({ left, right, selected, onSelect }: MbtiToggleProps<T>) {
   const handleClick = (target: T) => {
     onSelect(target === selected ? null : target);
   };
@@ -19,10 +19,10 @@ export default function MbtiToggle<T>({ left, right, selected, onSelect }: MbtiT
   return (
     <Container>
       <LeftButton onClick={() => handleClick(left)} isSelected={left === selected}>
-        {typeof left === 'string' && left}
+        {left}
       </LeftButton>
       <RightButton onClick={() => handleClick(right)} isSelected={right === selected}>
-        {typeof right === 'string' && right}
+        {right}
       </RightButton>
     </Container>
   );
