@@ -156,7 +156,6 @@ export default function CareerFormSection() {
                         placeholder='링크를 입력해주세요'
                         {...register(`links.${index}.title`)}
                         error={errors?.links?.[index]?.hasOwnProperty('title')}
-                        width='100%'
                         className='category'
                         onSelect={(value: string) => {
                           setValue(`links.${index}.title`, value);
@@ -206,7 +205,6 @@ export default function CareerFormSection() {
                         }}
                         value={linkCategories[index]?.title ?? ''}
                         error={errors?.links?.[index]?.hasOwnProperty('title')}
-                        width='100%'
                         className='category'
                       >
                         <MemberSelectOptions options={LINK_TITLES} />
