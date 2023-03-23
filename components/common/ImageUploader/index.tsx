@@ -32,6 +32,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   src,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const selectorRef = useRef<HTMLDivElement>(null);
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 
@@ -90,6 +91,20 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     closeSelector();
   }, [previewImage]);
 
+  useEffect(() => {
+    const handleClickSelectorOutside = (e: MouseEvent) => {
+      if (selectorRef.current && !selectorRef.current.contains(e.target as Node)) {
+        closeSelector();
+      }
+    };
+    if (isOpenSelector) {
+      document.addEventListener('mousedown', handleClickSelectorOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickSelectorOutside);
+    };
+  }, [selectorRef, isOpenSelector]);
+
   return (
     <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
@@ -97,7 +112,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
       <StyledSelectorControlButton>
         <IconPencil />
       </StyledSelectorControlButton>
-      <StyledSelector isOpen={isOpenSelector}>
+      <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
         <StyledEditButton onClick={handleChange}>
           <IconPencil />
           <div>수정</div>
