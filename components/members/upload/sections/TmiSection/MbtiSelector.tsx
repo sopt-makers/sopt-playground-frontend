@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 import MbtiToggle from '@/components/members/upload/sections/TmiSection/MbtiToggle';
-import { Mbti, MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/sections/TmiSection/types';
+import { Mbti, MbtiIndicator } from '@/components/members/upload/sections/TmiSection/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MbtiSelectorProps {
@@ -10,23 +10,39 @@ interface MbtiSelectorProps {
 }
 
 export default function MbtiSelector({ mbti, onSelect }: MbtiSelectorProps) {
-  const onClickMbtiToggle = (index: MbtiIndex, position: MbtiIndicatorPosition) => {
+  const handleClickMbtiToggle = (index: number, value: MbtiIndicator | null) => {
     const newMbti: Mbti = [...mbti];
-    newMbti[index] = newMbti[index] === position ? null : position;
+    newMbti[index] = value;
 
-    onSelect(newMbti.every((position) => position === null) ? null : newMbti);
+    onSelect(newMbti.every((mbtiIndicator) => mbtiIndicator === null) ? null : newMbti);
   };
 
   return (
     <Container>
-      {mbti.map((selectedPosition, mbtiIndex) => (
-        <MbtiToggle
-          index={mbtiIndex as MbtiIndex}
-          selectedPosition={selectedPosition}
-          onClick={onClickMbtiToggle}
-          key={mbtiIndex}
-        />
-      ))}
+      <MbtiToggle<Mbti[0]>
+        left='E'
+        right='I'
+        selected={mbti[0]}
+        onSelect={(value) => handleClickMbtiToggle(0, value)}
+      />
+      <MbtiToggle<Mbti[1]>
+        left='N'
+        right='S'
+        selected={mbti[1]}
+        onSelect={(value) => handleClickMbtiToggle(1, value)}
+      />
+      <MbtiToggle<Mbti[2]>
+        left='F'
+        right='T'
+        selected={mbti[2]}
+        onSelect={(value) => handleClickMbtiToggle(2, value)}
+      />
+      <MbtiToggle<Mbti[3]>
+        left='P'
+        right='J'
+        selected={mbti[3]}
+        onSelect={(value) => handleClickMbtiToggle(3, value)}
+      />
     </Container>
   );
 }
