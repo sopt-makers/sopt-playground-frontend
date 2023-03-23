@@ -1,18 +1,20 @@
 import styled from '@emotion/styled';
-import { FC, ReactChild } from 'react';
+import { FC, PropsWithChildren, ReactChild } from 'react';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-type InfoItemProps = {
+interface InfoItemProps {
   label: string;
-  content: ReactChild;
-};
+  content?: ReactChild;
+}
 
-const InfoItem: FC<InfoItemProps> = ({ label, content }) => {
+const InfoItem: FC<PropsWithChildren<InfoItemProps>> = ({ label, content, children }) => {
+  const element = children || content;
+
   return (
     <Container>
       <div className='label'>{label}</div>
-      <div className='content'>{content}</div>
+      <div className='content'>{element}</div>
     </Container>
   );
 };

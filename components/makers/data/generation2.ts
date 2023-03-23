@@ -82,7 +82,7 @@ export const generation2: MakersGeneration = {
         'SOPT 활동 기수 회원과 임원진의 편리한 운영을 위해 공지, 출석 체크 등의 서비스를 만들어요. 전체 회원들이 SOPT의 운영과 행사 진행에 관련된 정보들을 한 곳에서 편하게 확인해요.',
       people: [
         { type: 'member', id: 265, name: '김유빈', position: 'PM' },
-        { type: 'member', id: 74, name: '배민주', position: '디자이너' },
+        { type: 'member', id: 78, name: '배민주', position: '디자이너' },
         { type: 'member', id: 251, name: '권소희', position: '웹 프론트엔드 개발자' },
         { type: 'member', id: 115, name: '김형겸', position: '웹 프론트엔드 개발자' },
         { type: 'member', id: 286, name: '김영인', position: 'iOS 개발자' },
@@ -94,7 +94,7 @@ export const generation2: MakersGeneration = {
       ],
     },
     {
-      title: '브랜딩',
+      title: '브랜딩 팀',
       description:
         '오거나이저와 협업하여 메이커스 초기 브랜딩을 만들어 디자인 시스템을 구축하고 나아가 제품에도 반영하는 팀이에요.',
       people: [

@@ -1,24 +1,23 @@
 import styled from '@emotion/styled';
-import { ChangeEvent, forwardRef, InputHTMLAttributes, ReactElement, useState } from 'react';
+import { ChangeEvent, forwardRef, ReactElement, ReactNode, useState } from 'react';
 
 import Select from '@/components/common/Select';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-
-// TODO: HTMLInputElement 프롭 타입에 의존하지 않도록 수정 필요
-interface EditableSelectProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onSelect'> {
+interface EditableSelectProps {
   onSelect: (value: string) => void;
   value: string;
   error?: boolean;
   count?: boolean;
   maxCount?: number;
+  disabled?: boolean;
+  children: ReactNode;
+  className?: string;
+  placeholder?: string;
 }
 
 const EditableSelect = forwardRef<HTMLInputElement, EditableSelectProps>(
-  (
-    { width = 200, height = 50, disabled = false, children, error, className, placeholder, onSelect, ...props },
-    ref,
-  ) => {
+  ({ disabled = false, children, error, className, placeholder, onSelect }, ref) => {
     const [isEditable, setIsEditable] = useState(false);
 
     const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -32,8 +31,8 @@ const EditableSelect = forwardRef<HTMLInputElement, EditableSelectProps>(
     };
 
     return (
-      <StyledContainer width={width} height={height} className={className}>
-        <StyledSelect width={width} className={className} onChange={handleSelect} disabled={disabled} error={error}>
+      <StyledContainer className={className}>
+        <StyledSelect onChange={handleSelect} className={className} disabled={disabled} error={error}>
           {children}
           <option label='직접입력' />
         </StyledSelect>
@@ -42,7 +41,6 @@ const EditableSelect = forwardRef<HTMLInputElement, EditableSelectProps>(
           placeholder={isEditable ? '직접입력' : placeholder}
           readOnly={!isEditable}
           ref={ref}
-          {...props}
         />
       </StyledContainer>
     );
@@ -51,30 +49,38 @@ const EditableSelect = forwardRef<HTMLInputElement, EditableSelectProps>(
 
 export default EditableSelect;
 
-const StyledContainer = styled.div<{ width: number | string; height: number | string }>`
+const StyledContainer = styled.div`
   position: relative;
-
-  ${({ width }) => `width: ${width}${typeof width === 'number' ? 'px' : ''};`}
-  ${({ height }) => `height: ${height}${typeof height === 'number' ? 'px' : ''};`}
+  width: 100%;
+  height: 50px;
 `;
 
 const StyledSelect = styled(Select)`
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
   color: transparent;
+
+  &:focus-visible {
+    outline: none;
+  }
 `;
 
 const StyledInput = styled.input`
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 1.5px;
-  transform: translateY(-50%);
   border: none;
   background-color: transparent;
-  width: calc(100% - 42px);
-  height: calc(100% - 3px);
+  width: 100%;
+  height: 100%;
   color: ${colors.gray30};
 
-  ${textStyles.SUIT_16_M};
+  ${textStyles.SUIT_16_M}
+
+  &:focus-visible {
+    outline: none;
+  }
 `;

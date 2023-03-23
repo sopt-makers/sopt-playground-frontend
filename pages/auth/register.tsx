@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
 import { FC, useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
 import { postRegistrationInfo } from '@/api/auth';
@@ -23,7 +23,7 @@ export const RegisterPage: FC = () => {
     }
   }, [params, status, setRegisterToken]);
 
-  if (query.isLoading || query.isIdle) {
+  if (query.isLoading || query.fetchStatus === 'fetching') {
     return <StyledRegisterPage>잠시만 기다려주세요...</StyledRegisterPage>;
   }
 

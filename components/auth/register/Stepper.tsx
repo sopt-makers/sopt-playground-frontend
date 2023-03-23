@@ -1,77 +1,218 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { m } from 'framer-motion';
+import { FC, ReactNode } from 'react';
 
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+const checkSvg = (
+  <m.svg
+    width='14'
+    height='11'
+    viewBox='0 0 14 11'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    initial='inactive'
+    animate='active'
+  >
+    <m.path
+      d='M1 5L5.66667 9L13 1'
+      stroke='white'
+      stroke-width='3'
+      variants={{
+        inactive: {
+          pathLength: 0,
+        },
+        active: {
+          pathLength: 1,
+          transition: {
+            duration: 0.4,
+          },
+        },
+      }}
+    />
+  </m.svg>
+);
 interface StepperProps {
   step: 1 | 2;
   className?: string;
 }
 
 const Stepper: FC<StepperProps> = ({ step, className }) => {
+  function f<T>(target: number, conv: [T, T, T]) {
+    if (step > target) {
+      return conv[0];
+    }
+
+    if (step === target) {
+      return conv[1];
+    }
+
+    return conv[2];
+  }
+
   return (
     <Container className={className}>
-      <Circle isProceeding>
-        1<div>SOPT 회원인증</div>
-      </Circle>
-      <Line isProceeding={step === 2} />
-      <Circle isProceeding={step === 2}>
-        2<div>회원가입</div>
-      </Circle>
+      <LineArea>
+        <Line>
+          <LineFilled
+            initial='none'
+            animate={step === 2 ? 'fill' : 'none'}
+            variants={{
+              fill: {
+                width: ['0%', '0%', '100%', '100%'],
+                transition: {
+                  times: [0, 0.4, 0.7, 1],
+                  duration: 2,
+                },
+              },
+              none: {
+                width: '0%',
+              },
+            }}
+          />
+        </Line>
+      </LineArea>
+      <CellArea>
+        <Cell initial='current' animate={step === 1 ? 'current' : 'passed'}>
+          <Circle
+            variants={{
+              passed: {
+                scale: 1,
+              },
+              current: {
+                scale: [1.2, 1],
+                transition: {
+                  type: 'spring',
+                  duration: 0.4,
+                },
+              },
+            }}
+          >
+            {f<ReactNode>(1, [checkSvg, '1', '1'])}
+          </Circle>
+          <Text isActive={step >= 1}>SOPT 회원인증</Text>
+        </Cell>
+        <Cell initial='future' animate={step === 2 ? 'current' : 'future'}>
+          <Circle
+            variants={{
+              future: {
+                scale: 1,
+                backgroundColor: colors.black40,
+                color: colors.gray100,
+              },
+              current: {
+                scale: [1, 1, 1.2, 1],
+                backgroundColor: [colors.black40, colors.black40, colors.purple100, colors.purple100],
+                color: [colors.gray100, colors.gray100, colors.white, colors.white],
+                transition: {
+                  times: [0, 0.7, 0.9, 1],
+                  duration: 2,
+                },
+              },
+            }}
+          >
+            {f<ReactNode>(2, [checkSvg, '2', '2'])}
+          </Circle>
+          <Text
+            isActive={step >= 2}
+            variants={{
+              future: {
+                color: colors.gray100,
+              },
+              current: {
+                color: [colors.gray100, colors.gray100, colors.white],
+                transition: {
+                  times: [0, 0.7, 1],
+                  duration: 2,
+                },
+              },
+            }}
+          >
+            소셜 계정 연동
+          </Text>
+        </Cell>
+      </CellArea>
     </Container>
   );
 };
 
 export default Stepper;
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  height: 100px;
+const Container = styled(m.div)`
+  position: relative;
+  width: 100%;
+  height: 60px;
+`;
 
-  ${textStyles.SUIT_16_B};
+const LineArea = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+`;
+
+const Line = styled(m.div)`
+  position: relative;
+  margin: 13px 35px 0;
+  background-color: ${colors.black40};
+  height: 2px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_12_B};
+    margin-top: 10px;
   }
 `;
 
-const Circle = styled.div<{ isProceeding: boolean }>`
+const LineFilled = styled(m.div)`
+  position: absolute;
+  left: 0;
+  background-color: ${colors.purple100};
+  width: 50%;
+  height: 100%;
+`;
+
+const CellArea = styled.div`
   display: flex;
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  justify-content: space-between;
+`;
+
+const Cell = styled(m.div)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Text = styled(m.div)<{ isActive: boolean }>`
+  margin-top: 12px;
+
+  ${textStyles.SUIT_14_B}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_12_SB}
+  }
+`;
+
+const Circle = styled(m.div)`
+  display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${({ isProceeding }) => (isProceeding ? colors.purple100 : colors.black40)};
+  background-color: ${colors.purple100};
   width: 28px;
   height: 28px;
+  white-space: nowrap;
 
-  & > div {
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-    color: ${({ isProceeding }) => (isProceeding ? colors.white100 : colors.gray100)};
-    font-size: 14px;
-    @media ${MOBILE_MEDIA_QUERY} {
-      top: 28px;
-      font-size: 14px;
-      font-size: 12px;
-    }
-  }
+  ${textStyles.SUIT_15_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 20px;
-    height: 20px;
-  }
-`;
+    width: 22px;
+    height: 22px;
 
-const Line = styled.div<{ isProceeding: boolean }>`
-  background-color: ${({ isProceeding }) => (isProceeding ? colors.purple100 : colors.black40)};
-  width: 280px;
-  height: 2px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 120px;
+    ${textStyles.SUIT_12_B}
   }
 `;

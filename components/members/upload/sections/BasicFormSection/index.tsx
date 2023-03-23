@@ -1,14 +1,15 @@
 import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { useGetMemberProfileOfMe } from '@/api/hooks';
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
+import Responsive from '@/components/common/Responsive';
+import MemberCountableInput from '@/components/members/upload/forms/CountableInput';
+import MemberCountableTextArea from '@/components/members/upload/forms/CountableTextArea';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -18,12 +19,8 @@ export default function MemberBasicFormSection() {
     control,
     register,
     formState: { errors },
+    getValues,
   } = useFormContext<MemberUploadForm>();
-
-  const { query } = useStringRouterQuery(['edit'] as const);
-  const { data: myProfile } = useGetMemberProfileOfMe();
-
-  const isEditPage = query?.edit === 'true' ? true : false;
 
   const getBirthdayErrorMessage = () => {
     if (errors.birthday?.year) return errors.birthday?.year.message;
@@ -41,11 +38,7 @@ export default function MemberBasicFormSection() {
             name='profileImage'
             control={control}
             render={({ field }) => (
-              <StyledImageUploader
-                src={(isEditPage && myProfile && myProfile.profileImage) || ''}
-                {...field}
-                emptyIcon={IconCamera}
-              />
+              <StyledImageUploader src={getValues('profileImage')} {...field} emptyIcon={IconCamera} />
             )}
           />
         </FormItem>
@@ -80,17 +73,48 @@ export default function MemberBasicFormSection() {
         <FormItem title='연락처' errorMessage={errors.phone?.message}>
           <StyledInput {...register('phone')} />
         </FormItem>
-        <FormItem title='이메일' errorMessage={errors.email?.message}>
+        <FormItem title='이메일' essential errorMessage={errors.email?.message}>
           <StyledInput {...register('email')} type='email' />
         </FormItem>
-        <FormItem title='사는 지역'>
-          <StyledInput {...register('address')} placeholder='ex) 서울시 강남구, 인천시 중구' />
+        <FormItem
+          title='활동 지역'
+          description={`가까운 지하철역을 작성해주세요. \n활동 지역이 여러개일 경우 쉼표(,)로 구분해서 적어주세요.`}
+        >
+          <StyledInput {...register('address')} placeholder='ex) 광나루역, 서울역, 홍대입구역' />
         </FormItem>
-        <FormItem title='학교 / 전공'>
-          <StyledEducationInputWrapper>
-            <Input {...register('university')} placeholder='학교 입력' className='school' />
-            <Input {...register('major')} placeholder='전공 입력' className='major' />
-          </StyledEducationInputWrapper>
+        <FormItem title='학교'>
+          <StyledEducationInput {...register('university')} placeholder='학교 입력' />
+        </FormItem>
+        <FormItem title='전공'>
+          <StyledEducationInput {...register('major')} placeholder='전공 입력' />
+        </FormItem>
+        <FormItem title='나를 한 마디로 표현한다면?' description='아래 작성해주신 내용은 멤버 프로필 카드에 표시돼요!'>
+          <Responsive only='desktop' asChild>
+            <Controller
+              name='introduction'
+              render={({ field }) => (
+                <StyledCountableInput
+                  {...field}
+                  placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
+                  maxCount={15}
+                />
+              )}
+              control={control}
+            />
+          </Responsive>
+          <Responsive only='mobile' asChild>
+            <Controller
+              name='introduction'
+              render={({ field }) => (
+                <StyledCountableTextarea
+                  placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
+                  {...field}
+                  maxCount={15}
+                />
+              )}
+              control={control}
+            />
+          </Responsive>
         </FormItem>
       </StyledFormItems>
     </FormSection>
@@ -134,6 +158,10 @@ const StyledInput = styled(Input)`
   }
 `;
 
+const StyledEducationInput = styled(StyledInput)`
+  width: 260px;
+`;
+
 const StyledBirthdayInputWrapper = styled.div`
   display: flex;
   gap: 12px;
@@ -151,28 +179,13 @@ const StyledBirthdayInputWrapper = styled.div`
   }
 `;
 
-const StyledEducationInputWrapper = styled.div`
-  display: flex;
-  gap: 12.04px;
-  margin-top: 20px;
-  width: 630px;
+const StyledCountableInput = styled(MemberCountableInput)`
+  margin-top: 16px;
+  width: 444px;
+`;
 
-  input {
-    width: 100%;
-  }
-
-  .school {
-    flex: 4;
-  }
-
-  .major {
-    flex: 6;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-    width: 100%;
-  }
+const StyledCountableTextarea = styled(MemberCountableTextArea)`
+  margin-top: 10px;
+  width: 100%;
+  height: 115px;
 `;

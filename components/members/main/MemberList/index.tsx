@@ -32,7 +32,7 @@ const MemberList: FC = () => {
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
-    queryKey: router.asPath,
+    queryKey: [router.asPath],
   });
   const { addQueryParamsToUrl } = usePageQueryParams({
     skipNull: true,
@@ -106,11 +106,11 @@ const MemberList: FC = () => {
                   ))}
                 </React.Fragment>
               ))}
-              <Target ref={ref} />
             </StyledCardWrapper>
           </StyledRightWrapper>
         </StyledMain>
       </StyledContent>
+      <Target ref={ref} />
     </StyledContainer>
   );
 };
@@ -121,18 +121,13 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 100px;
   min-height: 101vh;
 `;
 
 const StyledContent = styled.div`
   width: 100%;
   max-width: 1000px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
 `;
 
 const StyledOnBoardingBanner = styled(OnBoardingBanner)`
@@ -220,5 +215,6 @@ const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
 `;
 
 const Target = styled.div`
+  width: 100%;
   height: 40px;
 `;

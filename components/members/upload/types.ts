@@ -1,3 +1,8 @@
+import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
+import { FavorPeach, FavorTteokbokki, Mbti } from '@/components/members/upload/sections/TmiSection/types';
+
+import { FavorAlcohol, FavorFishBread, FavorMintChocolate, FavorSweetAndSourPork } from './sections/TmiSection/types';
+
 export interface MemberUploadForm {
   profileImage: string;
   name: string;
@@ -11,10 +16,22 @@ export interface MemberUploadForm {
   skill: string;
   links: Link[];
   activities: SoptActivity[];
-  openToWork: boolean;
-  openToSideProject: boolean;
   allowOfficial: boolean;
   careers: Career[];
+  mbti: Mbti | null;
+  mbtiDescription: string;
+  favor: {
+    sweetAndSourPork: FavorSweetAndSourPork | null;
+    mintChocolate: FavorMintChocolate | null;
+    alcohol: FavorAlcohol | null;
+    peach: FavorPeach | null;
+    fishBread: FavorFishBread | null;
+    tteokbokki: FavorTteokbokki | null;
+  };
+  sojuCapacity: typeof SOJU_CAPACITY_RANGE[number];
+  interest: string;
+  idealType: string;
+  longIntroduction: string;
 }
 
 interface SoptActivity {

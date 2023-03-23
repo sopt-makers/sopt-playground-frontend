@@ -13,11 +13,19 @@ interface MemberFormItemProps {
   description?: string;
   errorMessage?: string;
   children: ReactNode;
+  className?: string;
 }
 
-export default function MemberFormItem({ title, essential, description, errorMessage, children }: MemberFormItemProps) {
+export default function MemberFormItem({
+  title,
+  essential,
+  description,
+  errorMessage,
+  children,
+  className,
+}: MemberFormItemProps) {
   return (
-    <div>
+    <div className={className}>
       <StyledTitle>
         <div className='title'>{title}</div>
         {essential && <StyledEssential>*</StyledEssential>}
