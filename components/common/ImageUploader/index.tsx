@@ -35,10 +35,6 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 
-  useEffect(() => {
-    if (src) setPreviewImage(src);
-  }, [src]);
-
   const handleChange = () => {
     const inputEl = inputRef.current;
     if (!inputEl) return;
@@ -77,13 +73,22 @@ const ImageUploader: FC<ImageUploaderProps> = ({
 
   const handleClick = () => {
     if (previewImage?.length) {
-      toggleSelector();
+      openSelector();
     } else {
       handleChange();
     }
   };
 
-  const toggleSelector = () => setIsOpenSelector((prev) => !prev);
+  const openSelector = () => setIsOpenSelector(true);
+  const closeSelector = () => setIsOpenSelector(false);
+
+  useEffect(() => {
+    if (src) setPreviewImage(src);
+  }, [src]);
+
+  useEffect(() => {
+    closeSelector();
+  }, [previewImage]);
 
   return (
     <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
