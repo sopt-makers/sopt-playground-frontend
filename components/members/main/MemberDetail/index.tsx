@@ -120,7 +120,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             )}
           </ProfileContainer>
 
-          {!profile.isMine && (
+          {!profile.isMine && profile.email && (
             <>
               <AskContainer>
                 <div>
