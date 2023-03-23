@@ -2,13 +2,21 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import * as Select from '@radix-ui/react-select';
-import { FC, PropsWithChildren, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { FC, PropsWithChildren } from 'react';
 
 import IconClear from '@/public/icons/icon-search-clear.svg';
 import IconSelectArrow from '@/public/icons/icon-select-arrow.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { buildCSSWithLength, CSSValueWithLength } from '@/utils';
+
+const SelectPortal = dynamic<Select.SelectPortalProps>(
+  () => import('@radix-ui/react-select').then((r) => r.SelectPortal),
+  {
+    ssr: false,
+  },
+);
 
 interface SelectProps extends Omit<Select.SelectProps, 'onValueChange'> {
   allowClear?: boolean;
@@ -32,17 +40,18 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
   ...props
 }) => {
   const hasValue = !!props.value;
-  const [resetKey, setResetKey] = useState(+new Date());
 
   return (
-    <Select.Root key={resetKey} onValueChange={onChange} {...props}>
+    <Select.Root onValueChange={onChange} {...props}>
       <StyledWrapper allowClear={allowClear && hasValue}>
-        <StyledTrigger className={className} width={width} error={error}>
-          <Select.Value placeholder={placeholder} />
-          <Select.Icon className='icon-arrow'>
-            <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
-          </Select.Icon>
-        </StyledTrigger>
+        <Select.Trigger asChild>
+          <StyledTrigger className={className} error={error} width={width}>
+            {props.value === undefined ? placeholder : `${props.value}기`}
+            <StyledIconArrow className='icon-arrow'>
+              <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
+            </StyledIconArrow>
+          </StyledTrigger>
+        </Select.Trigger>
         {allowClear && hasValue && (
           <StyledIconClear
             className='icon-clear'
@@ -50,14 +59,13 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
               e.preventDefault();
               e.stopPropagation();
               onClear?.();
-              setResetKey(+new Date());
             }}
           >
             <IconClear width={18} height={18} alt='clear-icon' />
           </StyledIconClear>
         )}
       </StyledWrapper>
-      <Select.Portal>
+      <SelectPortal>
         <ScrollArea.Root>
           <StyledContent position='popper' width={width}>
             <StyledScrollUpButton>
@@ -75,7 +83,7 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
             </StyledScrollbar>
           </StyledContent>
         </ScrollArea.Root>
-      </Select.Portal>
+      </SelectPortal>
     </Select.Root>
   );
 };
@@ -83,6 +91,7 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
 const StyledWrapper = styled.div<{ allowClear: boolean }>`
   display: inline-block;
   position: relative;
+  height: fit-content;
 
   &:hover {
     ${({ allowClear }) =>
@@ -99,7 +108,7 @@ const StyledWrapper = styled.div<{ allowClear: boolean }>`
   }
 `;
 
-const StyledTrigger = styled(Select.Trigger)<Pick<SelectProps, 'width' | 'error'>>`
+const StyledTrigger = styled.div<Pick<SelectProps, 'width' | 'error'>>`
   display: flex;
   position: relative;
   align-items: center;
@@ -143,10 +152,18 @@ const StyledContent = styled(Select.Content)<Pick<SelectProps, 'width'>>`
   ${({ width }) => width && buildCSSWithLength('width', width)}
 `;
 
+const StyledIconArrow = styled(Select.Icon)`
+  display: flex;
+  align-items: center;
+`;
+
 const StyledIconClear = styled(Select.Icon)`
+  display: flex;
   position: absolute;
   top: 50%;
   right: 20px;
+  align-items: center;
+  justify-content: center;
   transform: translateY(-50%);
   transition: opacity 0.2s;
   opacity: 0;

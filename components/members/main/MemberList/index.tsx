@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/api/hooks';
 import { Profile } from '@/api/members/type';
@@ -26,7 +26,8 @@ const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
   const router = useRouter();
-  const { filter, generation } = router.query;
+  const [generation, setGeneration] = useState<string | undefined>(undefined);
+  const [filter, setFilter] = useState<string>();
   const { logClickEvent } = useEventLogger();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
@@ -71,6 +72,18 @@ const MemberList: FC = () => {
     }
   }, [isVisible, fetchNextPage]);
 
+  useEffect(() => {
+    if (router.isReady) {
+      const { generation, filter } = router.query;
+      if (typeof generation === 'string' || generation === undefined) {
+        setGeneration(generation);
+      }
+      if (typeof filter === 'string') {
+        setFilter(filter);
+      }
+    }
+  }, [router.isReady, router.query, router]);
+
   return (
     <StyledContainer>
       <StyledContent>
@@ -87,8 +100,11 @@ const MemberList: FC = () => {
           <StyledRightWrapper>
             <StyledFilterWrapper>
               <GenerationSelect
-                value={generation as string | undefined}
+                value={generation}
                 onChange={(generation) => addQueryParamsToUrl({ generation })}
+                onClear={() => {
+                  addQueryParamsToUrl({ generation: undefined });
+                }}
               />
               <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
             </StyledFilterWrapper>
