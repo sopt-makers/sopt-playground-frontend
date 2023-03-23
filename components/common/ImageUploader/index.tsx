@@ -32,13 +32,14 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   src,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [previewImage, setPreviewImage] = useState<string>('');
+  const [previewImage, setPreviewImage] = useState<string | undefined>();
+  const [isOpenSelector, setIsOpenSelector] = useState(false);
 
   useEffect(() => {
     if (src) setPreviewImage(src);
   }, [src]);
 
-  const handleClick = () => {
+  const handleChange = () => {
     const inputEl = inputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
@@ -69,19 +70,34 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     inputEl.click();
   };
 
+  const remove = () => {
+    setPreviewImage(undefined);
+    onChange?.(null);
+  };
+
+  const handleClick = () => {
+    if (previewImage?.length) {
+      toggleSelector();
+    } else {
+      handleChange();
+    }
+  };
+
+  const toggleSelector = () => setIsOpenSelector((prev) => !prev);
+
   return (
     <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
-      {value ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
+      {value && previewImage ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
       <StyledSelectorControlButton>
         <IconPencil />
       </StyledSelectorControlButton>
-      <StyledSelector>
-        <StyledEditButton>
+      <StyledSelector isOpen={isOpenSelector}>
+        <StyledEditButton onClick={handleChange}>
           <IconPencil />
           <div>수정</div>
         </StyledEditButton>
-        <StyledRemoveButton>
+        <StyledRemoveButton onClick={remove}>
           <IconCancel />
           <div>삭제</div>
         </StyledRemoveButton>
@@ -133,8 +149,8 @@ const StyledSelectorControlButton = styled.button`
   padding: 3.58px 3.58px 4.09px 4.09px;
 `;
 
-const StyledSelector = styled.div`
-  display: flex;
+const StyledSelector = styled.div<{ isOpen: boolean }>`
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   position: absolute;
   right: -40px;
   bottom: 35px;
