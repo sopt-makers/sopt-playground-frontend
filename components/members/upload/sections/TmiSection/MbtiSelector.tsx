@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 import MbtiToggle from '@/components/members/upload/sections/TmiSection/MbtiToggle';
 import { Mbti, MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/sections/TmiSection/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MbtiSelectorProps {
   mbti: Mbti;
@@ -33,4 +34,10 @@ export default function MbtiSelector({ mbti, onSelect }: MbtiSelectorProps) {
 const Container = styled.div`
   display: flex;
   gap: 8px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+  }
 `;

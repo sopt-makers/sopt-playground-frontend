@@ -1,7 +1,11 @@
 import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import Input from '@/components/common/Input';
+import Responsive from '@/components/common/Responsive';
 import TextArea from '@/components/common/TextArea';
+import Select from '@/components/members/common/select/Select';
+import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection } from '@/components/members/upload/forms/FormSection';
@@ -17,11 +21,14 @@ import {
   Mbti,
 } from '@/components/members/upload/sections/TmiSection/types';
 import { MemberUploadForm } from '@/components/members/upload/types';
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function TmiSection() {
   const {
     control,
     formState: { errors },
+    register,
   } = useFormContext<MemberUploadForm>();
 
   const getMbtiErrorMessage = () => {
@@ -53,6 +60,24 @@ export default function TmiSection() {
           />
           <StyledTextArea placeholder='ex) 저는 극강의 EEE에요.' />
         </MbtiWrapper>
+      </StyledMemberFormItem>
+      <StyledMemberFormItem title='소주, 어디까지 마셔봤니?'>
+        <Controller
+          control={control}
+          name='sojuCapacity'
+          render={({ field }) => (
+            <StyledSelect placeholder='주량 선택' value={field.value} onChange={field.onChange}>
+              {SOJU_CAPACITY_RANGE.map((capacity) => (
+                <Select.Item key={capacity} value={capacity}>
+                  {capacity}
+                </Select.Item>
+              ))}
+            </StyledSelect>
+          )}
+        />
+      </StyledMemberFormItem>
+      <StyledMemberFormItem title='저는 요새 이런 걸 좋아해요!'>
+        <StyledInput {...register('interest')} placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.' />
       </StyledMemberFormItem>
       <StyledMemberFormItem title='나는 어느 쪽?'>
         <FavorWrapper>
@@ -110,6 +135,26 @@ export default function TmiSection() {
           />
         </FavorWrapper>
       </StyledMemberFormItem>
+      <StyledMemberFormItem title='나의 이상형은? 😏'>
+        <Responsive only='desktop' asChild>
+          <StyledInput
+            {...register('idealType')}
+            placeholder='ex) 마음이 따뜻한 사람, 아이스 아메리카노만 마시는 사람'
+          />
+        </Responsive>
+        <Responsive only='mobile' asChild>
+          <StyledTextArea
+            {...register('idealType')}
+            placeholder={`ex) 마음이 따뜻한 사람,\n아이스 아메리카노만 마시는 사람`}
+          />
+        </Responsive>
+      </StyledMemberFormItem>
+      <StyledMemberFormItem title='자유로운 자기소개'>
+        <StyledIntroductionTextarea
+          {...register('longIntroduction')}
+          placeholder={`• 나는 이런 사람이에요.\n• SOPT에 들어온 계기\n• SOPT에 들어오기 전에 무엇을 해왔는지\n• 프로젝트할 때의 나의 성향\n• SOPT에서 하고 싶은 것 등등`}
+        />
+      </StyledMemberFormItem>
     </MemberFormSection>
   );
 }
@@ -126,10 +171,17 @@ const StyledMemberFormItem = styled(MemberFormItem)`
 `;
 
 const StyledTextArea = styled(TextArea)`
+  margin-top: 14px;
   border-radius: 13px;
   padding: 14px 20px;
   width: 632px;
   height: 76px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+    height: 80px;
+    line-height: 150%;
+  }
 `;
 
 const FavorWrapper = styled.div`
@@ -139,4 +191,36 @@ const FavorWrapper = styled.div`
   margin-top: 20px;
   width: 593px;
   row-gap: 14px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const StyledSelect = styled(Select)`
+  margin-top: 14px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    background-color: ${colors.black80};
+  }
+`;
+
+const StyledInput = styled(Input)`
+  margin-top: 14px;
+  width: 632px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const StyledIntroductionTextarea = styled(StyledTextArea)`
+  margin-top: 14px;
+  height: 170px;
+  line-height: 170%;
+  letter-spacing: -0.01em;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 152px;
+  }
 `;

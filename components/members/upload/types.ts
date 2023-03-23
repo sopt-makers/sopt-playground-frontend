@@ -1,3 +1,4 @@
+import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
 import { FavorPeach, FavorTteokbokki, Mbti } from '@/components/members/upload/sections/TmiSection/types';
 
 import { FavorAlcohol, FavorFishBread, FavorMintChocolate, FavorSweetAndSourPork } from './sections/TmiSection/types';
@@ -27,6 +28,10 @@ export interface MemberUploadForm {
     fishBread: FavorFishBread | null;
     tteokbokki: FavorTteokbokki | null;
   };
+  sojuCapacity: typeof SOJU_CAPACITY_RANGE[number];
+  interest: string;
+  idealType: string;
+  longIntroduction: string;
 }
 
 interface SoptActivity {

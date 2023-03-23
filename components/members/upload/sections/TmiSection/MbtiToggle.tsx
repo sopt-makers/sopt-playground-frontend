@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import { MBTI_POSITION_LIST } from '@/components/members/upload/sections/TmiSection/constants';
 import { MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/sections/TmiSection/types';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 interface MbtiToggleProps {
   onClick: (index: MbtiIndex, position: MbtiIndicatorPosition) => void;
@@ -35,6 +37,10 @@ export default function MbtiToggle({ index, selectedPosition, onClick }: MbtiTog
 
 const Container = styled.div`
   display: flex;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 48%;
+  }
 `;
 
 const Button = styled.button<{ isSelected: boolean }>`
@@ -44,8 +50,15 @@ const Button = styled.button<{ isSelected: boolean }>`
   width: 76px;
   color: ${({ isSelected }) => (isSelected ? colors.white : colors.gray80)};
 
+  ${textStyles.SUIT_16_SB}
+
   &:hover {
     color: ${colors.white};
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    background-color: ${({ isSelected }) => (isSelected ? colors.purple100 : colors.black80)};
+    width: 50%;
   }
 `;
 
