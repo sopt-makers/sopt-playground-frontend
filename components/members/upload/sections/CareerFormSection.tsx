@@ -49,8 +49,8 @@ export default function CareerFormSection() {
   const careers = useWatch({ control, name: 'careers' });
   const linkCategories = useWatch({ control, name: 'links' });
 
-  const onAppendCareer = () => appendCareer(DEFAULT_CAREER);
-  const onRemoveCareer = (index: number) => removeCareer(index);
+  const handleAppendCareer = () => appendCareer(DEFAULT_CAREER);
+  const handleRemoveCareer = (index: number) => removeCareer(index);
   const getCareerErrorMessage = (
     careerError:
       | {
@@ -68,8 +68,8 @@ export default function CareerFormSection() {
     return careerError.endDate?.message;
   };
 
-  const onAppendLink = () => appendLink(DEFAULT_LINK);
-  const onRemoveLink = (index: number) => removeLink(index);
+  const handleAppendLink = () => appendLink(DEFAULT_LINK);
+  const handleRemoveLink = (index: number) => removeLink(index);
   const getLinksErrorMessage = (
     linksError:
       | {
@@ -83,15 +83,15 @@ export default function CareerFormSection() {
     return linksError.url?.message;
   };
 
-  const onChangeIsCurrent = (e: FormEvent<HTMLInputElement>, index: number) => {
+  const handleChangeIsCurrent = (e: FormEvent<HTMLInputElement>, index: number) => {
     register(`careers.${index}.isCurrent`).onChange(e);
     trigger(`careers.${index}.endDate`);
   };
-  const onChangeStartDate = (date: Date, index: number) => {
+  const handleChangeStartDate = (date: Date, index: number) => {
     setValue(`careers.${index}.startDate`, date ? dayjs(date).format('YYYY-MM') : '');
     trigger(`careers.${index}.startDate`);
   };
-  const onChangeEndDate = (date: Date, index: number) => {
+  const handleChangeEndDate = (date: Date, index: number) => {
     setValue(`careers.${index}.endDate`, date ? dayjs(date).format('YYYY-MM') : '');
     trigger(`careers.${index}.endDate`);
   };
@@ -100,11 +100,11 @@ export default function CareerFormSection() {
     <FormSection>
       <FormHeader title='나의 커리어' />
       <FormItems>
-        <StyledCareerAddableWrapper onAppend={onAppendCareer}>
+        <StyledCareerAddableWrapper onAppend={handleAppendCareer}>
           {careerFields.map((field, index) => (
             <AddableItem
               errorMessage={getCareerErrorMessage(errors.careers?.[index])}
-              onRemove={() => onRemoveCareer(index)}
+              onRemove={() => handleRemoveCareer(index)}
               key={field.id}
             >
               <CareerItem>
@@ -113,19 +113,22 @@ export default function CareerFormSection() {
                 <Input {...register(`careers.${index}.title`)} placeholder='직무 입력' />
                 <IsCurrent>
                   현재 재직 중
-                  <Switch {...register(`careers.${index}.isCurrent`)} onChange={(e) => onChangeIsCurrent(e, index)} />
+                  <Switch
+                    {...register(`careers.${index}.isCurrent`)}
+                    onChange={(e) => handleChangeIsCurrent(e, index)}
+                  />
                 </IsCurrent>
                 {careers.length && (
                   <>
                     <MonthPicker
                       value={careers[index]?.startDate ? new Date(careers[index]?.startDate) : null}
-                      onChange={(date: Date) => onChangeStartDate(date, index)}
+                      onChange={(date: Date) => handleChangeStartDate(date, index)}
                       placeholder='근무 시작일'
                     />
                     <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
                       <MonthPicker
                         value={careers[index]?.endDate ? new Date(careers[index]?.endDate ?? '') : null}
-                        onChange={(date: Date) => onChangeEndDate(date, index)}
+                        onChange={(date: Date) => handleChangeEndDate(date, index)}
                         placeholder='근무 종료일'
                       />
                     </EndDateWrapper>
@@ -144,10 +147,10 @@ export default function CareerFormSection() {
               <StyledInput {...register('skill')} placeholder='ex) Node, Product Managing, Branding, UI' />
             </MemberFormItem>
             <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
-              <StyledAddableWrapper onAppend={onAppendLink}>
+              <StyledAddableWrapper onAppend={handleAppendLink}>
                 {linkFields.map((field, index) => (
                   <AddableItem
-                    onRemove={() => onRemoveLink(index)}
+                    onRemove={() => handleRemoveLink(index)}
                     key={field.id}
                     errorMessage={getLinksErrorMessage(errors.links?.[index])}
                   >
@@ -188,10 +191,10 @@ export default function CareerFormSection() {
               <StyledTextArea {...register('skill')} placeholder='ex) Node, Product Managing, BI/BX' />
             </MemberFormItem>
             <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
-              <StyledAddableWrapper onAppend={onAppendLink}>
+              <StyledAddableWrapper onAppend={handleAppendLink}>
                 {linkFields.map((field, index) => (
                   <AddableItem
-                    onRemove={() => onRemoveLink(index)}
+                    onRemove={() => handleRemoveLink(index)}
                     key={field.id}
                     errorMessage={getLinksErrorMessage(errors.links?.[index])}
                   >
