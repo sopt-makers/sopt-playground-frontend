@@ -1,15 +1,17 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/OAuthLoginCallback';
 import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
+import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
   const registerToken = useRecoilValue(registerTokenAtom);
+  const setLastLoginMethod = useSetRecoilState(lastLoginMethodAtom);
   const facebookAuth = useFacebookAuth();
   const lastUnauthorized = useLastUnauthorized();
 
@@ -47,6 +49,7 @@ const FacebookRegisterCallbackPage: FC = () => {
   };
 
   const handleSuccess = () => {
+    setLastLoginMethod('facebook');
     router.replace(lastUnauthorized.popPath() ?? '/');
   };
 

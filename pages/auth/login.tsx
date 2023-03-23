@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
 import { m, Variants } from 'framer-motion';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
+import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -38,8 +40,24 @@ const tooltipVariants: Variants = {
 };
 
 const LoginPage: FC = () => {
+  const lastLoginMethod = useRecoilValue(lastLoginMethodAtom);
+
   const facebookAuth = useFacebookAuth();
   const googleAuth = useGoogleAuth();
+
+  const [lastLoginMessage, setLastLoginMessage] = useState<null | string>(null);
+
+  useEffect(() => {
+    switch (lastLoginMethod) {
+      case 'google':
+        setLastLoginMessage('Google');
+        break;
+      case 'facebook':
+        setLastLoginMessage('Facebook');
+        break;
+      default:
+    }
+  }, [lastLoginMethod]);
 
   return (
     <StyledLoginPage>
@@ -59,6 +77,21 @@ const LoginPage: FC = () => {
         <RegisterInfo>
           Playground가 처음이신가요? <RegisterLink href={playgroundLink.register()}>회원가입하기</RegisterLink>
         </RegisterInfo>
+
+        <LastLogin
+          initial='hide'
+          animate={lastLoginMessage ? 'show' : 'hide'}
+          variants={{
+            show: {
+              opacity: 1,
+            },
+            hide: {
+              opacity: 0,
+            },
+          }}
+        >
+          마지막으로 로그인한 계정은 {lastLoginMessage}이에요.
+        </LastLogin>
       </LoginBox>
 
       <MotionMakersContainer initial='init' animate='open' whileHover='hover'>
@@ -149,6 +182,13 @@ const RegisterInfo = styled.div`
 
     ${textStyles.SUIT_12_M}
   }
+`;
+
+const LastLogin = styled(m.div)`
+  margin-top: 25px;
+  color: ${colors.purple100};
+
+  ${textStyles.SUIT_16_SB}
 `;
 
 const RegisterLink = styled(Link)`
