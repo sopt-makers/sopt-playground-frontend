@@ -166,7 +166,9 @@ const StyledSelectorControlButton = styled.button`
   justify-content: center;
   border-radius: 50%;
   background-color: ${colors.black40};
-  padding: 3.58px 3.58px 4.09px 4.09px;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
 `;
 
 const StyledSelector = styled.div<{ isOpen: boolean }>`
@@ -191,6 +193,7 @@ const StyledEditButton = styled.button`
   position: relative;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
+  cursor: pointer;
 
   ${editButtonStyle}
 
@@ -208,6 +211,7 @@ const StyledEditButton = styled.button`
 const StyledRemoveButton = styled.button`
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
+  cursor: pointer;
 
   ${editButtonStyle}
 `;
