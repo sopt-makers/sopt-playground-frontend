@@ -54,7 +54,7 @@ export default function TmiSection() {
               <MbtiSelector
                 {...field}
                 mbti={field.value ?? [null, null, null, null]}
-                onSelect={(mbti: Mbti | null) => field.onChange(mbti)}
+                onSelect={(value: Mbti | null) => field.onChange(value)}
               />
             )}
           />

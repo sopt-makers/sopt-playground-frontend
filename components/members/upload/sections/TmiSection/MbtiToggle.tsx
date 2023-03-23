@@ -1,35 +1,28 @@
 import styled from '@emotion/styled';
 
-import { MBTI_POSITION_LIST } from '@/components/members/upload/sections/TmiSection/constants';
-import { MbtiIndex, MbtiIndicatorPosition } from '@/components/members/upload/sections/TmiSection/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface MbtiToggleProps {
-  onClick: (index: MbtiIndex, position: MbtiIndicatorPosition) => void;
-  index: MbtiIndex;
-  selectedPosition: MbtiIndicatorPosition | null;
+interface MbtiToggleProps<T> {
+  left: T;
+  right: T;
+  selected: T | null;
+  onSelect: (value: T | null) => void;
 }
 
-export default function MbtiToggle({ index, selectedPosition, onClick }: MbtiToggleProps) {
+export default function MbtiToggle<T extends string | null>({ left, right, selected, onSelect }: MbtiToggleProps<T>) {
+  const handleClick = (target: T) => {
+    onSelect(target === selected ? null : target);
+  };
+
   return (
     <Container>
-      <LeftButton
-        onClick={() => {
-          onClick(index, 'left');
-        }}
-        isSelected={selectedPosition === 'left'}
-      >
-        {MBTI_POSITION_LIST[index].left}
+      <LeftButton onClick={() => handleClick(left)} isSelected={left === selected}>
+        {left}
       </LeftButton>
-      <RightButton
-        onClick={() => {
-          onClick(index, 'right');
-        }}
-        isSelected={selectedPosition === 'right'}
-      >
-        {MBTI_POSITION_LIST[index].right}
+      <RightButton onClick={() => handleClick(right)} isSelected={right === selected}>
+        {right}
       </RightButton>
     </Container>
   );

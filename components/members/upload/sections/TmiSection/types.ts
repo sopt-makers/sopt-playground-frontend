@@ -1,15 +1,6 @@
-import { MBTI_INDEX_LIST } from '@/components/members/upload/sections/TmiSection/constants';
+export type MbtiIndicator = 'E' | 'I' | 'N' | 'S' | 'F' | 'T' | 'P' | 'J';
 
-export type MbtiIndicatorPosition = 'left' | 'right';
-
-export type Mbti = [
-  MbtiIndicatorPosition | null,
-  MbtiIndicatorPosition | null,
-  MbtiIndicatorPosition | null,
-  MbtiIndicatorPosition | null,
-];
-
-export type MbtiIndex = typeof MBTI_INDEX_LIST[number];
+export type Mbti = ['E' | 'I' | null, 'N' | 'S' | null, 'F' | 'T' | null, 'P' | 'J' | null];
 
 export type FavorSweetAndSourPork = '부먹' | '찍먹';
 export type FavorMintChocolate = '민초' | '반민초';
