@@ -106,6 +106,7 @@ export default function CareerFormSection() {
               errorMessage={getCareerErrorMessage(errors.careers?.[index])}
               onRemove={() => handleRemoveCareer(index)}
               key={field.id}
+              essential={index === 0}
             >
               <CareerItem>
                 <CareerTitle>{`회사정보 ${index + 1}`}</CareerTitle>
@@ -153,6 +154,7 @@ export default function CareerFormSection() {
                     onRemove={() => handleRemoveLink(index)}
                     key={field.id}
                     errorMessage={getLinksErrorMessage(errors.links?.[index])}
+                    essential={index === 0}
                   >
                     <StyledSelectWrapper>
                       <StyledEditableSelect
@@ -197,6 +199,7 @@ export default function CareerFormSection() {
                     onRemove={() => handleRemoveLink(index)}
                     key={field.id}
                     errorMessage={getLinksErrorMessage(errors.links?.[index])}
+                    essential={index === 0}
                   >
                     <StyledSelectWrapper>
                       <StyledEditableSelect

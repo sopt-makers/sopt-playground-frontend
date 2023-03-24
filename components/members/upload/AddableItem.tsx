@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import WarningIcon from 'public/icons/icon-warning.svg';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import IconDelete from '@/public/icons/icon-delete.svg';
 import { colors } from '@/styles/colors';
@@ -11,9 +12,16 @@ interface MemberAddableItemProps extends HTMLAttributes<HTMLDivElement> {
   onRemove: () => void;
   errorMessage?: string;
   children: ReactNode;
+  essential?: boolean;
 }
 
-export default function MemberAddableItem({ onRemove, errorMessage, children, ...props }: MemberAddableItemProps) {
+export default function MemberAddableItem({
+  onRemove,
+  errorMessage,
+  children,
+  essential,
+  ...props
+}: MemberAddableItemProps) {
   const [isHover, setIsHover] = useState(false);
   const onMouseOver = () => setIsHover(true);
   const onMouseLeave = () => setIsHover(false);
@@ -22,12 +30,16 @@ export default function MemberAddableItem({ onRemove, errorMessage, children, ..
     <StyledContainer {...props}>
       <StyledItemWrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
         {children}
-        <StyledDeleteButton onClick={onRemove} isHover={isHover} className='pc-only'>
-          <IconDelete />
-        </StyledDeleteButton>
-        <MobileDeleteButton onClick={onRemove} className='mobile-only'>
-          삭제
-        </MobileDeleteButton>
+        <Responsive only='desktop' asChild>
+          <StyledDeleteButton onClick={essential ? undefined : onRemove} isVisible={essential ? false : isHover}>
+            <IconDelete />
+          </StyledDeleteButton>
+        </Responsive>
+        <Responsive only='mobile' asChild>
+          <MobileDeleteButton onClick={essential ? undefined : onRemove} isVisible={!essential}>
+            삭제
+          </MobileDeleteButton>
+        </Responsive>
       </StyledItemWrapper>
       {errorMessage && (
         <StyledError>
@@ -55,18 +67,20 @@ const StyledItemWrapper = styled.div`
   }
 `;
 
-const StyledDeleteButton = styled.button<{ isHover: boolean }>`
-  visibility: ${(props) => (props.isHover ? 'visible' : 'hidden')};
+const StyledDeleteButton = styled.button<{ isVisible: boolean }>`
+  visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
   margin-left: 8px;
 `;
 
-const MobileDeleteButton = styled.button`
+const MobileDeleteButton = styled.button<{ isVisible: boolean }>`
   align-self: flex-end;
   margin-top: 20px;
   margin-right: 5px;
   color: ${colors.gray60};
   font-size: 15px;
   font-weight: 600;
+
+  ${({ isVisible }) => isVisible || 'visibility: hidden;'}
 `;
 
 const StyledError = styled.div`

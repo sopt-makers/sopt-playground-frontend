@@ -51,6 +51,7 @@ export default function MemberSoptActivityFormSection() {
             onRemove={() => onRemove(index)}
             key={field.id}
             errorMessage={getActivityErrorMessage(errors.activities?.[index])}
+            essential={index === 0}
           >
             <StyledSelectWrapper>
               <StyledSelect
