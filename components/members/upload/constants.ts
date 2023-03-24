@@ -5,6 +5,14 @@ import { MemberUploadForm } from '@/components/members/upload/types';
 export const DEFAULT_CAREER = { title: '', companyName: '', isCurrent: false, startDate: '', endDate: '' };
 export const DEFAULT_ACTIVITY = { generation: '', part: '', team: '해당 없음' };
 export const DEFAULT_LINK = { title: '', url: '' };
+export const DEFAULT_FAVOR = {
+  sweetAndSourPork: null,
+  mintChocolate: null,
+  alcohol: null,
+  peach: null,
+  fishBread: null,
+  tteokbokki: null,
+};
 
 export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   profileImage: '',
