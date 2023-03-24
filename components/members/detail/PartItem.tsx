@@ -10,13 +10,13 @@ import { textStyles } from '@/styles/typography';
 const NORMAL_PARTS = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
 
 type PartItemProps = {
-  imgSrc?: string;
-  generation: string;
+  generation: number;
   part: string;
   teams?: string[];
+  activities: { type: string; name: string }[];
 };
 
-const PartItem: FC<PartItemProps> = ({ generation, part }) => {
+const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities }) => {
   const partLabel = `${part} ${NORMAL_PARTS.includes(part) ? '파트' : ''}`;
   const soptLogoSrc = Number(generation) < 12 ? '/icons/logo/time=1-11.svg' : `/icons/logo/time=${generation}.svg`;
 
@@ -29,10 +29,18 @@ const PartItem: FC<PartItemProps> = ({ generation, part }) => {
           </Thumbnail>
           <Contents>
             <TitleArea>
-              <Generation>{generation}기</Generation>
+              <Generation>
+                {generation}기 {teams?.map((team) => `| ${team}`)}
+              </Generation>
               <BelongArea>{partLabel}</BelongArea>
             </TitleArea>
-            <Badges>{}</Badges>
+            <Badges>
+              {activities.map((activity, idx) => (
+                <ActivityBadge key={idx} category={activity.type}>
+                  {activity.name}
+                </ActivityBadge>
+              ))}
+            </Badges>
           </Contents>
         </Container>
       </Responsive>

@@ -11,5 +11,10 @@ export default {
 const Template: ComponentStory<typeof PartItem> = (args) => <PartItem {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  generation: 29,
+  part: '웹',
+  activities: [{ type: '앱잼', name: '팀블' }],
+  teams: ['운영팀'],
+};
 Default.storyName = '기본';
