@@ -59,7 +59,7 @@ const MemberList: FC = () => {
 
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ name: searchQuery });
-    logSubmitEvent('memberSearch', { content: 'searchQuery' });
+    logSubmitEvent('searchMember', { content: 'searchQuery' });
   };
 
   const handleClickCard = (profile: Profile) => {

@@ -19,10 +19,22 @@ export interface ClickEvents {
   onboardingBannerProfileUpload: {
     //
   };
+  myProfile: {
+    //
+  };
+  editProfile: {
+    //
+  };
+  submitProfile: {
+    //
+  };
 }
 
 export interface SubmitEvents {
-  memberSearch: {
+  searchMember: {
     content: string;
+  };
+  editProfile: {
+    //
   };
 }

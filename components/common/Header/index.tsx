@@ -8,11 +8,13 @@ import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
 import MobileHeader from '@/components/common/Header/mobile/MobileHeader';
 import { LinkRenderer } from '@/components/common/Header/types';
 import Responsive from '@/components/common/Responsive';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
 
 const Header: FC = () => {
   const router = useRouter();
   const { logout } = useAuth();
+  const { logClickEvent } = useEventLogger();
 
   const { data: me } = useGetMemberOfMe();
 
@@ -21,6 +23,13 @@ const Header: FC = () => {
   const renderLink: LinkRenderer = ({ href, children }) => {
     if (href === playgroundLink.groupList()) {
       return <a href={href}>{children}</a>;
+    }
+    if (me && href.includes(playgroundLink.memberDetail(`${me.id}`))) {
+      return (
+        <Link href={href} onClick={() => logClickEvent('myProfile', {})}>
+          {children}
+        </Link>
+      );
     }
     return <Link href={href}>{children}</Link>;
   };

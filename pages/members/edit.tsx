@@ -8,6 +8,7 @@ import { useGetMemberProfileOfMe } from '@/api/hooks';
 import { putMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import {
   formatBirthday,
@@ -27,6 +28,7 @@ import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
 export default function MemberEditPage() {
+  const { logSubmitEvent } = useEventLogger();
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
     mode: 'onChange',
@@ -103,6 +105,8 @@ export default function MemberEditPage() {
     queryClient.invalidateQueries(['getMemberProfile']);
 
     router.push(playgroundLink.memberDetail(response.id));
+
+    logSubmitEvent('editProfile', {});
   };
 
   useEffect(() => {
