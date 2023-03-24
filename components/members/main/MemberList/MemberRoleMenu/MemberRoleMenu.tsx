@@ -3,10 +3,46 @@ import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
-import { Menu } from '@/components/members/main/MemberRoleMenu';
+import { MENUS } from '@/components/members/main/MemberList/MemberRoleMenu/constants';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+
+export interface Menu {
+  icon: string;
+  label: string;
+  value: string;
+}
+
+interface MemberRoleMenuProps {
+  className?: string;
+  value: string;
+  onSelect: (menuValue: string) => void;
+}
+
+export const MemberRoleMenu: FC<MemberRoleMenuProps> = ({ className, value, onSelect }) => {
+  return (
+    <StyledMenu className={className}>
+      {MENUS.map((menu) => (
+        <MemberRoleMenuItem
+          key={menu.value}
+          menu={menu}
+          isSelected={value === menu.value}
+          onClick={() => onSelect(menu.value)}
+        />
+      ))}
+    </StyledMenu>
+  );
+};
+
+const StyledMenu = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  border-radius: 6px;
+  background-color: ${colors.black100};
+  width: 235px;
+`;
 
 interface MemberRoleMenuItemProps {
   className?: string;
@@ -27,8 +63,6 @@ const MemberRoleMenuItem: FC<MemberRoleMenuItemProps> = ({ className, menu, isSe
     </StyledMenuItem>
   );
 };
-
-export default MemberRoleMenuItem;
 
 const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   display: flex;

@@ -11,10 +11,9 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
-import MemberRoleSelect, { menuValue } from '@/components/members/main/MemberList/MemberRoleSelect';
+import { MemberRoleMenu, MemberRoleSelect, menuValue } from '@/components/members/main/MemberList/MemberRoleMenu';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
-import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -25,9 +24,10 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
-  const router = useRouter();
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [filter, setFilter] = useState<string>(menuValue.ALL);
+
+  const router = useRouter();
   const { logClickEvent } = useEventLogger();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
@@ -52,20 +52,6 @@ const MemberList: FC = () => {
   );
 
   const hasProfile = !!memberOfMeData?.hasProfile;
-
-  const handleSelectFilter = (value: number) => {
-    addQueryParamsToUrl({ filter: value.toString() });
-  };
-
-  const handleSearch = (searchQuery: string) => {
-    addQueryParamsToUrl({ name: searchQuery });
-    logSubmitEvent('searchMember', { content: 'searchQuery' });
-  };
-
-  const handleClickCard = (profile: Profile) => {
-    logClickEvent('memberCard', { id: profile.id, name: profile.name });
-  };
-
   useEffect(() => {
     if (isVisible) {
       fetchNextPage();
@@ -84,6 +70,23 @@ const MemberList: FC = () => {
     }
   }, [router.isReady, router.query, router]);
 
+  const handleSelectFilter = (filter: string) => {
+    addQueryParamsToUrl({ filter });
+  };
+  const handleSelectGeneration = (generation: string | undefined) => {
+    addQueryParamsToUrl({ generation });
+  };
+  const handleClearGeneration = () => {
+    addQueryParamsToUrl({ generation: undefined });
+  };
+  const handleSearch = (searchQuery: string) => {
+    addQueryParamsToUrl({ name: searchQuery });
+    logSubmitEvent('searchMember', { content: 'searchQuery' });
+  };
+  const handleClickCard = (profile: Profile) => {
+    logClickEvent('memberCard', { id: profile.id, name: profile.name });
+  };
+
   return (
     <StyledContainer>
       <StyledContent>
@@ -91,21 +94,12 @@ const MemberList: FC = () => {
         <StyledMain>
           {!hasProfile && <StyledDivider />}
           <Responsive only='desktop'>
-            <StyledMemberRoleMenu
-              value={(Number(filter) ?? MenuValue.ALL) as MenuValue}
-              onSelect={handleSelectFilter}
-            />
+            <StyledMemberRoleMenu value={filter} onSelect={handleSelectFilter} />
           </Responsive>
           <Responsive only='mobile'>
             <StyledMobileFilterWrapper>
-              <StyledMemberRoleSelect value={filter} onChange={(filter) => addQueryParamsToUrl({ filter })} />
-              <GenerationSelect
-                value={generation}
-                onChange={(generation) => addQueryParamsToUrl({ generation })}
-                onClear={() => {
-                  addQueryParamsToUrl({ generation: undefined });
-                }}
-              />
+              <StyledMemberRoleSelect value={filter} onChange={handleSelectFilter} />
+              <GenerationSelect value={generation} onChange={handleSelectGeneration} onClear={handleClearGeneration} />
             </StyledMobileFilterWrapper>
             <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
           </Responsive>
@@ -114,10 +108,8 @@ const MemberList: FC = () => {
               <StyledFilterWrapper>
                 <GenerationSelect
                   value={generation}
-                  onChange={(generation) => addQueryParamsToUrl({ generation })}
-                  onClear={() => {
-                    addQueryParamsToUrl({ generation: undefined });
-                  }}
+                  onChange={handleSelectGeneration}
+                  onClear={handleClearGeneration}
                 />
                 <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
               </StyledFilterWrapper>
