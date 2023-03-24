@@ -43,7 +43,7 @@ export default function MemberBasicFormSection() {
           />
         </FormItem>
         <FormItem title='이름' essential errorMessage={errors.name?.message}>
-          <StyledInput {...register('name')} error={errors.hasOwnProperty('name')} />
+          <StyledInput {...register('name')} error={errors.hasOwnProperty('name')} placeholder='이름 입력' />
         </FormItem>
         <FormItem title='생년월일' errorMessage={getBirthdayErrorMessage()}>
           <StyledBirthdayInputWrapper>
@@ -71,10 +71,10 @@ export default function MemberBasicFormSection() {
           </StyledBirthdayInputWrapper>
         </FormItem>
         <FormItem title='연락처' errorMessage={errors.phone?.message}>
-          <StyledInput {...register('phone')} />
+          <StyledInput {...register('phone')} placeholder='010-XXXX-XXXX' />
         </FormItem>
         <FormItem title='이메일' essential errorMessage={errors.email?.message}>
-          <StyledInput {...register('email')} type='email' />
+          <StyledInput {...register('email')} type='email' placeholder='이메일 입력' />
         </FormItem>
         <FormItem
           title='활동 지역'

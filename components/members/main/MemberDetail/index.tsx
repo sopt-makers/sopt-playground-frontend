@@ -191,12 +191,12 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           profile.idealType ||
           profile.interest ||
           profile.selfIntroduction ||
-          profile.userFavor.isSojuLover ||
-          profile.userFavor.isHardPeachLover ||
-          profile.userFavor.isMintChocoLover ||
-          profile.userFavor.isPourSauceLover ||
-          profile.userFavor.isRedBeanFishBreadLover ||
-          profile.userFavor.isRiceTteokLover) && (
+          profile.userFavor?.isSojuLover ||
+          profile.userFavor?.isHardPeachLover ||
+          profile.userFavor?.isMintChocoLover ||
+          profile.userFavor?.isPourSauceLover ||
+          profile.userFavor?.isRedBeanFishBreadLover ||
+          profile.userFavor?.isRiceTteokLover) && (
           <InfoContainer>
             <InterestSection
               sojuCapacity={profile.sojuCapacity}
@@ -205,12 +205,12 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 description: profile.mbtiDescription,
               }}
               balanceGame={{
-                isSojuLover: profile.userFavor.isSojuLover,
-                isHardPeachLover: profile.userFavor.isHardPeachLover,
-                isMintChocoLover: profile.userFavor.isMintChocoLover,
-                isPourSauceLover: profile.userFavor.isPourSauceLover,
-                isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
-                isRiceTteokLover: profile.userFavor.isRiceTteokLover,
+                isSojuLover: profile.userFavor?.isSojuLover,
+                isHardPeachLover: profile.userFavor?.isHardPeachLover,
+                isMintChocoLover: profile.userFavor?.isMintChocoLover,
+                isPourSauceLover: profile.userFavor?.isPourSauceLover,
+                isRedBeanFishBreadLover: profile.userFavor?.isRedBeanFishBreadLover,
+                isRiceTteokLover: profile.userFavor?.isRiceTteokLover,
               }}
               idealType={profile.idealType}
               interest={profile.interest}

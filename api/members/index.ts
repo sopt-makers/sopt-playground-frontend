@@ -64,6 +64,11 @@ export const postMemberProfile = async (body: ProfileRequest): Promise<Profile> 
   return data;
 };
 
+export const putMemberProfile = async (body: ProfileRequest): Promise<Profile> => {
+  const { data } = await axiosInstance.request({ method: 'PUT', url: 'api/v1/members/profile', data: body });
+  return data;
+};
+
 export const getMembersSearchByName = async (name: string) => {
   const { data } = await axiosInstance.request<Member[]>({
     method: 'GET',

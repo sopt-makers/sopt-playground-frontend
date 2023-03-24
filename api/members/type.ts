@@ -106,7 +106,7 @@ type Career = {
   isCurrent: boolean;
 };
 
-export type ProfileRequest = {
+export interface ProfileRequest {
   name: string;
   profileImage: string | null;
   birthday: string | null;
@@ -125,7 +125,21 @@ export type ProfileRequest = {
   links: Omit<Link, 'id'>[] | null;
   allowOfficial: boolean;
   careers: Omit<Career, 'id'>[];
-};
+  mbti: string | null;
+  mbtiDescription: string | null;
+  sojuCapacity: number | null;
+  interest: string | null;
+  userFavor: {
+    isPourSauceLover: boolean | null;
+    isHardPeachLover: boolean | null;
+    isMintChocoLover: boolean | null;
+    isRedBeanFishBreadLover: boolean | null;
+    isSojuLover: boolean | null;
+    isRiceTteokLover: boolean | null;
+  };
+  idealType: string | null;
+  selfIntroduction: string | null;
+}
 
 export interface PostMemberCoffeeChatVariables {
   receiverId: string;

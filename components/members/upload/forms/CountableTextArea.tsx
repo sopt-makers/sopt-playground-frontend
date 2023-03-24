@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ChangeEvent, forwardRef } from 'react';
 
@@ -14,12 +14,13 @@ interface MemberCountableTextAreaProps {
   className?: string;
   placeholder?: string;
   value: string;
+  containerStyle?: SerializedStyles;
 }
 
 export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCountableTextAreaProps>(
-  ({ error, maxCount, onChange, className, placeholder, value }, ref) => {
+  ({ error, maxCount, onChange, className, placeholder, value, containerStyle }, ref) => {
     return (
-      <StyledContainer className={className}>
+      <StyledContainer customStyle={containerStyle}>
         <StyledTextArea
           onChange={onChange}
           error={error}
@@ -27,6 +28,7 @@ export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCou
           maxLength={maxCount}
           placeholder={placeholder}
           value={value}
+          className={className}
         />
         <StyledCountValue>
           <Text color={colors.gray100} typography='SUIT_12_M'>
@@ -39,9 +41,11 @@ export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCou
 );
 export default MemberCountableTextArea;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{ customStyle?: SerializedStyles }>`
   position: relative;
   width: 100%;
+
+  ${({ customStyle }) => customStyle}
 `;
 
 const StyledTextArea = styled.textarea<MemberCountableTextAreaProps>`
@@ -79,6 +83,9 @@ const StyledTextArea = styled.textarea<MemberCountableTextAreaProps>`
 
 const StyledCountValue = styled.div`
   display: flex;
+  position: absolute;
+  right: 25px;
+  bottom: 15px;
   justify-content: flex-end;
   margin-top: 12px;
 

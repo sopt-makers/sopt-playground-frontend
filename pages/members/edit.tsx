@@ -5,18 +5,29 @@ import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useGetMemberProfileOfMe } from '@/api/hooks';
-import { postMemberProfile } from '@/api/members';
+import { putMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
-import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
+import {
+  DEFAULT_CAREER,
+  DEFAULT_FAVOR,
+  DEFAULT_LINK,
+  MEMBER_DEFAULT_VALUES,
+} from '@/components/members/upload/constants';
+import {
+  formatBirthday,
+  getMbtiFromApiValue,
+  getSojuCapacityApiValue,
+  getSojuCapacityFromApiValue,
+} from '@/components/members/upload/format';
 import MemberForm from '@/components/members/upload/forms/Form';
 import { memberFormSchema } from '@/components/members/upload/schema';
 import BasicFormSection from '@/components/members/upload/sections/BasicFormSection';
 import CareerFormSection from '@/components/members/upload/sections/CareerFormSection';
 import PublicQuestionFormSection from '@/components/members/upload/sections/PublicQuestionFormSection';
 import SoptActivityFormSection from '@/components/members/upload/sections/SoptActivityFormSection';
+import TmiSection from '@/components/members/upload/sections/TmiSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { formatBirthday } from '@/components/members/upload/utils';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
@@ -33,17 +44,64 @@ export default function MemberEditPage() {
   const { handleSubmit, reset } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
-    const { birthday, links, careers } = formData;
+    const {
+      birthday,
+      links,
+      careers,
+      mbti,
+      sojuCapacity,
+      favor,
+      longIntroduction,
+      name,
+      profileImage,
+      phone,
+      email,
+      address,
+      university,
+      major,
+      introduction,
+      skill,
+      activities,
+      allowOfficial,
+      mbtiDescription,
+      interest,
+      idealType,
+    } = formData;
 
     const requestBody: ProfileRequest = {
-      ...formData,
+      name,
+      profileImage,
+      phone,
+      email,
+      address,
+      university,
+      major,
+      introduction,
+      skill,
+      activities,
+      allowOfficial,
+      mbtiDescription,
+      interest,
+      idealType,
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
       careers: careers
         .map((career) => (career.endDate ? career : { ...career, endDate: null }))
         .filter((career) => !Object.values(career).some((item) => item === '')),
+      mbti: mbti ? mbti.join('') : mbti,
+      sojuCapacity: getSojuCapacityApiValue(sojuCapacity) ?? null,
+      userFavor: {
+        isPourSauceLover: favor.sweetAndSourPork === null ? null : favor.sweetAndSourPork === '부먹',
+        isHardPeachLover: favor.peach === null ? null : favor.peach === '딱복',
+        isMintChocoLover: favor.mintChocolate === null ? null : favor.mintChocolate === '민초',
+        isRedBeanFishBreadLover: favor.fishBread === null ? null : favor.fishBread === '팥붕',
+        isSojuLover: favor.alcohol === null ? null : favor.alcohol === '소주',
+        isRiceTteokLover: favor.tteokbokki === null ? null : favor.tteokbokki === '쌀떡',
+      },
+      selfIntroduction: longIntroduction,
     };
-    const response = await postMemberProfile(requestBody);
+
+    const response = await putMemberProfile(requestBody);
 
     queryClient.invalidateQueries(['getMemberProfileOfMe']);
     queryClient.invalidateQueries(['getMemberProfileById', response.id]);
@@ -70,7 +128,7 @@ export default function MemberEditPage() {
         major: myProfile.major,
         introduction: myProfile.introduction,
         skill: myProfile.skill,
-        links: myProfile.links,
+        links: myProfile.links.length ? myProfile.links : [DEFAULT_LINK],
         activities: myProfile.activities.map((act) => {
           const [generation, part] = act.cardinalInfo.split(',');
           return {
@@ -81,10 +139,54 @@ export default function MemberEditPage() {
         }),
         allowOfficial: myProfile.allowOfficial,
         profileImage: myProfile.profileImage,
-        careers: myProfile.careers.map((career) => ({
-          ...career,
-          endDate: career.endDate ?? '',
-        })),
+        careers: myProfile.careers.length
+          ? myProfile.careers.map((career) => ({
+              ...career,
+              endDate: career.endDate ?? '',
+            }))
+          : [DEFAULT_CAREER],
+        mbti: getMbtiFromApiValue(myProfile.mbti),
+        mbtiDescription: myProfile.mbtiDescription,
+        sojuCapacity: getSojuCapacityFromApiValue(myProfile.sojuCapacity),
+        interest: myProfile.interest,
+        favor: myProfile.userFavor
+          ? {
+              sweetAndSourPork:
+                myProfile.userFavor.isPourSauceLover === null
+                  ? null
+                  : myProfile.userFavor.isPourSauceLover
+                  ? '부먹'
+                  : '찍먹',
+              peach:
+                myProfile.userFavor.isHardPeachLover === null
+                  ? null
+                  : myProfile.userFavor.isHardPeachLover
+                  ? '딱복'
+                  : '물복',
+              alcohol:
+                myProfile.userFavor.isSojuLover === null ? null : myProfile.userFavor.isSojuLover ? '소주' : '맥주',
+              fishBread:
+                myProfile.userFavor.isRedBeanFishBreadLover === null
+                  ? null
+                  : myProfile.userFavor.isRedBeanFishBreadLover
+                  ? '팥붕'
+                  : '슈붕',
+              mintChocolate:
+                myProfile.userFavor.isMintChocoLover === null
+                  ? null
+                  : myProfile.userFavor.isMintChocoLover
+                  ? '민초'
+                  : '반민초',
+              tteokbokki:
+                myProfile.userFavor.isRiceTteokLover === null
+                  ? null
+                  : myProfile.userFavor.isRiceTteokLover
+                  ? '쌀떡'
+                  : '밀떡',
+            }
+          : DEFAULT_FAVOR,
+        idealType: myProfile.idealType,
+        longIntroduction: myProfile.selfIntroduction,
       });
     }
   }, [myProfile, reset]);
@@ -95,6 +197,7 @@ export default function MemberEditPage() {
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)}>
           <BasicFormSection />
           <SoptActivityFormSection />
+          <TmiSection />
           <CareerFormSection />
           <PublicQuestionFormSection />
         </MemberForm>
