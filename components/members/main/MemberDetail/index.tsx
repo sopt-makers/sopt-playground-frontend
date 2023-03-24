@@ -207,7 +207,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                   isMintChocoLover: profile.userFavor?.isMintChocoLover,
                   isPourSauceLover: profile.userFavor?.isPourSauceLover,
                   isRedBeanFishBreadLover: profile.userFavor?.isRedBeanFishBreadLover,
-                  isRiceTteokLover: profile.userFavor.isRiceTteokLover,
+                  isRiceTteokLover: profile.userFavor?.isRiceTteokLover,
                 }}
                 idealType={profile.idealType}
                 interest={profile.interest}
