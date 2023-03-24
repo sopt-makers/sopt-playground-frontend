@@ -12,6 +12,7 @@ interface MemberRoleDropdownProps {
   onSelect: (menuValue: MenuValue) => void;
 }
 /**
+ * @deprecated 해당 컴포넌트 대신 MemberRoleSelect를 사용해주세요.
  * @remarks 해당 컴포넌트는 모바일에서만 사용됩니다. 데스크톱에선 MemberRoleMenu를 사용해주세요.
  */
 const MemberRoleDropdown: FC<MemberRoleDropdownProps> = ({ className, value, onSelect }) => {

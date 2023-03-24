@@ -14,9 +14,17 @@ interface GenerationSelectProps {
   onChange?: (value?: string) => void;
   onClear?: () => void;
 }
-const GenerationSelect: FC<GenerationSelectProps> = ({ value, onChange, onClear }) => {
+const GenerationSelect: FC<GenerationSelectProps> = ({ className, value, onChange, onClear }) => {
   return (
-    <StyledSelect placeholder='기수' value={value} onChange={onChange} selected={!!value} allowClear onClear={onClear}>
+    <StyledSelect
+      className={className}
+      placeholder='기수'
+      value={value}
+      onChange={onChange}
+      selected={!!value}
+      allowClear
+      onClear={onClear}
+    >
       {GENERATIONS.map((generation) => (
         <Select.Item key={generation} value={generation}>{`${generation}기`}</Select.Item>
       ))}
@@ -40,11 +48,8 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
     `}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    box-sizing: content-box;
-    flex: 1;
     border-radius: 14px;
     padding: 18px;
-    width: auto;
 
     &[data-placeholder] {
       ${textStyles.SUIT_16_B};

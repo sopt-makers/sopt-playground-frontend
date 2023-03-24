@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import * as Select from '@radix-ui/react-select';
 import dynamic from 'next/dynamic';
-import { FC, PropsWithChildren } from 'react';
+import { createContext, FC, PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'react';
 
 import IconClear from '@/public/icons/icon-search-clear.svg';
 import IconSelectArrow from '@/public/icons/icon-select-arrow.svg';
@@ -16,6 +16,25 @@ const SelectPortal = dynamic<Select.SelectPortalProps>(
     ssr: false,
   },
 );
+
+type SelectContextValue = {
+  value?: string;
+  label?: ReactNode;
+  onChangeLabel: (label?: ReactNode) => void;
+};
+const SelectContext = createContext<SelectContextValue>({
+  value: undefined,
+  label: undefined,
+  onChangeLabel: () => undefined,
+});
+
+function useSelectContext() {
+  const context = useContext(SelectContext);
+  if (context == null) {
+    throw new Error('<Select/> 컴포넌트와 관련된 컴포넌트를 사용해주세요');
+  }
+  return context;
+}
 
 interface SelectProps extends Omit<Select.SelectProps, 'onValueChange'> {
   allowClear?: boolean;
@@ -37,51 +56,60 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
   ...props
 }) => {
   const hasValue = !!props.value;
+  const [label, onChangeLabel] = useState<ReactNode>();
 
   return (
-    <Select.Root onValueChange={onChange} {...props}>
-      <StyledWrapper allowClear={allowClear && hasValue}>
-        <Select.Trigger asChild>
-          <StyledTrigger className={className} error={error}>
-            {props.value === undefined ? placeholder : `${props.value}기`}
-            <StyledIconArrow className='icon-arrow'>
-              <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
-            </StyledIconArrow>
-          </StyledTrigger>
-        </Select.Trigger>
-        {allowClear && hasValue && (
-          <StyledIconClear
-            className='icon-clear'
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onClear?.();
-            }}
-          >
-            <IconClear width={18} height={18} alt='clear-icon' />
-          </StyledIconClear>
-        )}
-      </StyledWrapper>
-      <SelectPortal>
-        <ScrollArea.Root>
-          <StyledContent position='popper'>
-            <StyledScrollUpButton>
-              <IconSelectArrow width={18} height={18} alt='select-arrow-up' />
-            </StyledScrollUpButton>
-            <Select.Viewport asChild>
-              <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
-            </Select.Viewport>
-            <StyledScrollDownButton>
-              <IconSelectArrow width={18} height={18} alt='select-arrow-down' />
-            </StyledScrollDownButton>
+    <SelectContext.Provider
+      value={{
+        value: props.value,
+        label,
+        onChangeLabel,
+      }}
+    >
+      <Select.Root onValueChange={onChange} {...props}>
+        <StyledWrapper allowClear={allowClear && hasValue}>
+          <Select.Trigger asChild>
+            <StyledTrigger className={className} error={error}>
+              {props.value === undefined ? placeholder : label}
+              <StyledIconArrow className='icon-arrow'>
+                <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
+              </StyledIconArrow>
+            </StyledTrigger>
+          </Select.Trigger>
+          {allowClear && hasValue && (
+            <StyledIconClear
+              className='icon-clear'
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onClear?.();
+              }}
+            >
+              <IconClear width={18} height={18} alt='clear-icon' />
+            </StyledIconClear>
+          )}
+        </StyledWrapper>
+        <SelectPortal>
+          <ScrollArea.Root>
+            <StyledContent position='popper'>
+              <StyledScrollUpButton>
+                <IconSelectArrow width={18} height={18} alt='select-arrow-up' />
+              </StyledScrollUpButton>
+              <Select.Viewport asChild>
+                <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
+              </Select.Viewport>
+              <StyledScrollDownButton>
+                <IconSelectArrow width={18} height={18} alt='select-arrow-down' />
+              </StyledScrollDownButton>
 
-            <StyledScrollbar orientation='vertical'>
-              <StyledThumb />
-            </StyledScrollbar>
-          </StyledContent>
-        </ScrollArea.Root>
-      </SelectPortal>
-    </Select.Root>
+              <StyledScrollbar orientation='vertical'>
+                <StyledThumb />
+              </StyledScrollbar>
+            </StyledContent>
+          </ScrollArea.Root>
+        </SelectPortal>
+      </Select.Root>
+    </SelectContext.Provider>
   );
 };
 
@@ -223,9 +251,17 @@ interface SelectItemProps {
   value: string;
   disabled?: boolean;
 }
-const SelectItem: FC<PropsWithChildren<SelectItemProps>> = ({ value, children, disabled }) => {
+const SelectItem: FC<PropsWithChildren<SelectItemProps>> = ({ value: valueProp, children, disabled }) => {
+  const { value, onChangeLabel } = useSelectContext();
+
+  useEffect(() => {
+    if (value === valueProp) {
+      onChangeLabel(children);
+    }
+  }, [value, valueProp, children, onChangeLabel]);
+
   return (
-    <StyledItem value={value} disabled={disabled}>
+    <StyledItem value={valueProp} disabled={disabled}>
       <Select.ItemText>{children}</Select.ItemText>
     </StyledItem>
   );

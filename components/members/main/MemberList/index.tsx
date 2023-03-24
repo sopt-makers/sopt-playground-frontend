@@ -11,10 +11,10 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
+import MemberRoleSelect, { menuValue } from '@/components/members/main/MemberList/MemberRoleSelect';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
-import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -27,7 +27,7 @@ const PAGE_LIMIT = 30;
 const MemberList: FC = () => {
   const router = useRouter();
   const [generation, setGeneration] = useState<string | undefined>(undefined);
-  const [filter, setFilter] = useState<string>();
+  const [filter, setFilter] = useState<string>(menuValue.ALL);
   const { logClickEvent } = useEventLogger();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
@@ -53,7 +53,7 @@ const MemberList: FC = () => {
 
   const hasProfile = !!memberOfMeData?.hasProfile;
 
-  const handleSelect = (value: MenuValue) => {
+  const handleSelectFilter = (value: number) => {
     addQueryParamsToUrl({ filter: value.toString() });
   };
 
@@ -91,14 +91,14 @@ const MemberList: FC = () => {
         <StyledMain>
           {!hasProfile && <StyledDivider />}
           <Responsive only='desktop'>
-            <StyledMemberRoleMenu value={(Number(filter) ?? MenuValue.ALL) as MenuValue} onSelect={handleSelect} />
+            <StyledMemberRoleMenu
+              value={(Number(filter) ?? MenuValue.ALL) as MenuValue}
+              onSelect={handleSelectFilter}
+            />
           </Responsive>
           <Responsive only='mobile'>
             <StyledMobileFilterWrapper>
-              <StyledMemberRoleDropdown
-                value={(Number(filter) ?? MenuValue.ALL) as MenuValue}
-                onSelect={handleSelect}
-              />
+              <StyledMemberRoleSelect value={filter} onChange={(filter) => addQueryParamsToUrl({ filter })} />
               <GenerationSelect
                 value={generation}
                 onChange={(generation) => addQueryParamsToUrl({ generation })}
@@ -198,8 +198,11 @@ const StyledRightWrapper = styled.div`
 const StyledMobileFilterWrapper = styled.div`
   display: flex;
   gap: 10px;
-  justify-content: space-between;
   height: 54px;
+
+  & > * {
+    flex: 1;
+  }
 `;
 
 const StyledFilterWrapper = styled.div`
@@ -257,11 +260,12 @@ const StyledMemberRoleMenu = styled(MemberRoleMenu)`
   min-width: 225px;
 `;
 
-const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
+const StyledMemberRoleSelect = styled(MemberRoleSelect)`
   flex: 1;
   width: 100%;
   min-width: 0;
-  height: 54px;
+
+  /* height: 54px; */
 `;
 
 const Target = styled.div`
