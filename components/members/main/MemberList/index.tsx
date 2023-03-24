@@ -25,7 +25,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
-  const { logClickEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent } = useEventLogger();
   const { menuValue: filter, onSelect } = useMemberRoleMenu();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const router = useRouter();
@@ -59,6 +59,7 @@ const MemberList: FC = () => {
 
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ name: searchQuery });
+    logSubmitEvent('searchMember', { content: 'searchQuery' });
   };
 
   const handleClickCard = (profile: Profile) => {

@@ -1,5 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
 
+import { useGetMemberOfMe } from '@/api/hooks';
 import { EventLoggerContext } from '@/components/eventLogger/context';
 import { createConsoleLogController } from '@/components/eventLogger/controllers/consoleLog';
 
@@ -10,6 +11,7 @@ interface EventLoggerProviderProps {
 
 const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) => {
   const [controller, setController] = useState(createConsoleLogController());
+  const { data } = useGetMemberOfMe();
 
   useEffect(() => {
     if (!apiKey) {
@@ -17,9 +19,9 @@ const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) =
       return;
     }
     import('@/components/eventLogger/controllers/amplitude').then(({ createAmplitudeController }) => {
-      setController(() => createAmplitudeController(apiKey));
+      setController(() => createAmplitudeController(apiKey, data?.id ? `${data.id}` : undefined));
     });
-  }, [apiKey]);
+  }, [apiKey, data]);
 
   return <EventLoggerContext.Provider value={controller}>{children}</EventLoggerContext.Provider>;
 };

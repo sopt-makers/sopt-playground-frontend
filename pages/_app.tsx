@@ -42,13 +42,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
-      <QueryClientProvider client={queryClient}>
-        <Head>
-          <title>SOPT Playground</title>
-        </Head>
-        <GoogleTagManagerScript />
-        <RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <Head>
+        <title>SOPT Playground</title>
+      </Head>
+      <GoogleTagManagerScript />
+      <RecoilRoot>
+        <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
           <LazyMotion strict features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
             <ToastProvider>
               <GlobalStyle />
@@ -60,10 +60,10 @@ function MyApp({ Component, pageProps }: AppProps) {
               {DEBUG && <Debugger />}
             </ToastProvider>
           </LazyMotion>
-        </RecoilRoot>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </AmplitudeProvider>
+        </AmplitudeProvider>
+      </RecoilRoot>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

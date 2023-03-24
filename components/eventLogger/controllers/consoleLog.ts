@@ -5,5 +5,8 @@ export function createConsoleLogController(): EventLoggerController {
     clickEvent(key, params) {
       console.log('[EventLogger.clickEvent]', key, params);
     },
+    submitEvent(key, params) {
+      console.log('[EventLogger.submitEvent]', key, params);
+    },
   };
 }

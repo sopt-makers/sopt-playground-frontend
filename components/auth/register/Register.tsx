@@ -6,6 +6,7 @@ import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFace
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import Stepper from '@/components/auth/register/Stepper';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { textStyles } from '@/styles/typography';
 
 interface RegisterProps {
@@ -16,6 +17,7 @@ interface RegisterProps {
 
 export const Register: FC<RegisterProps> = (props) => {
   const { userInfo } = props;
+  const { logClickEvent } = useEventLogger();
 
   const facebookAuth = useFacebookAuth();
   const googleAuth = useGoogleAuth();
@@ -30,8 +32,24 @@ export const Register: FC<RegisterProps> = (props) => {
         소셜 로그인을 진행하여 회원가입을 완료해주세요
       </Description>
       <Container>
-        <FacebookButton onClick={facebookAuth.register}>페이스북으로 로그인</FacebookButton>
-        {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.register}>Google로 로그인</GoogleAuthButton>}
+        <FacebookButton
+          onClick={() => {
+            facebookAuth.register();
+            logClickEvent('registerWith', { method: 'facebook' });
+          }}
+        >
+          페이스북으로 로그인
+        </FacebookButton>
+        {googleAuth.isAvailable && (
+          <GoogleAuthButton
+            onClick={() => {
+              googleAuth.register();
+              logClickEvent('registerWith', { method: 'google' });
+            }}
+          >
+            Google로 로그인
+          </GoogleAuthButton>
+        )}
       </Container>
     </StyledRegister>
   );

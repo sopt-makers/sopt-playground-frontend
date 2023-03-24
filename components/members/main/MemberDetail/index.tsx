@@ -13,6 +13,7 @@ import { FC, useMemo } from 'react';
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
 import useModalState from '@/components/common/Modal/useModalState';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CareerItem from '@/components/members/detail/CareerItem';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
@@ -42,6 +43,7 @@ const convertBirthdayFormat = (birthday?: string) => {
 };
 
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
+  const { logClickEvent } = useEventLogger();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
@@ -117,7 +119,12 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           </ProfileContents>
 
           {profile.isMine && (
-            <EditButton onClick={() => router.push(playgroundLink.memberEdit())}>
+            <EditButton
+              onClick={() => {
+                router.push(playgroundLink.memberEdit());
+                logClickEvent('editProfile', {});
+              }}
+            >
               <EditIcon />
             </EditButton>
           )}

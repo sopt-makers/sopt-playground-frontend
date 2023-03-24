@@ -8,11 +8,14 @@ import useByPhone from '@/components/auth/register/verify/useByPhone';
 import VerifyFrame from '@/components/auth/register/verify/VerifyFrame';
 import ByEmailView from '@/components/auth/register/verify/view/ByEmailView';
 import ByPhoneView from '@/components/auth/register/verify/view/ByPhoneView';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MEMBER_REQUEST_FORM_URL, playgroundLink } from '@/constants/links';
 
 interface VerifyProps {}
 
 const Verify: FC<VerifyProps> = ({}) => {
+  const { logSubmitEvent } = useEventLogger();
+
   const router = useRouter();
 
   const {
@@ -27,10 +30,13 @@ const Verify: FC<VerifyProps> = ({}) => {
           token: registerToken,
         },
       });
+      logSubmitEvent('verify', { by: 'phone' });
     },
   });
 
-  const { state: emailState, submit: submitEmail } = useByEmail();
+  const { state: emailState, submit: submitEmail } = useByEmail(() => {
+    logSubmitEvent('verify', { by: 'email' });
+  });
 
   return (
     <div>

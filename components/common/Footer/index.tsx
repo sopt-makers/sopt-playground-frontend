@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { FEEDBACK_FORM_URL, playgroundLink } from '@/constants/links';
 import useScroll from '@/hooks/useScroll';
 import { colors } from '@/styles/colors';
@@ -15,12 +16,15 @@ interface FooterProps {
 
 const Footer: FC<FooterProps> = ({}) => {
   const { isScrollingDown, isScrollTop } = useScroll();
+  const { logClickEvent } = useEventLogger();
   const { pathname } = useRouter();
 
   return (
     <StyledFooter hide={isScrollingDown && !isScrollTop}>
       <Link href={playgroundLink.makers()} passHref legacyBehavior>
-        <FooterLink highlight={pathname === playgroundLink.makers()}>만든 사람들</FooterLink>
+        <FooterLink highlight={pathname === playgroundLink.makers()} onClick={() => logClickEvent('aboutMakers', {})}>
+          만든 사람들
+        </FooterLink>
       </Link>
       <FooterLink href={FEEDBACK_FORM_URL} target='_blank'>
         의견 제안하기
