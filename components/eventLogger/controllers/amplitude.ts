@@ -11,5 +11,8 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
     clickEvent(key, params) {
       instance.track(`Click-${key}`, params);
     },
+    submitEvent(key, params) {
+      instance.track(`Submit-${key}`, params);
+    },
   };
 }

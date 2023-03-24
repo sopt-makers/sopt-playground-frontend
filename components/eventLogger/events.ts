@@ -20,3 +20,9 @@ export interface ClickEvents {
     //
   };
 }
+
+export interface SubmitEvents {
+  memberSearch: {
+    content: string;
+  };
+}
