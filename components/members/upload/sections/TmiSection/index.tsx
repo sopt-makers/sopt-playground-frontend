@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -6,6 +7,7 @@ import Responsive from '@/components/common/Responsive';
 import TextArea from '@/components/common/TextArea';
 import Select from '@/components/members/common/select/Select';
 import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
+import MemberCountableTextArea from '@/components/members/upload/forms/CountableTextArea';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection } from '@/components/members/upload/forms/FormSection';
@@ -150,9 +152,18 @@ export default function TmiSection() {
         </Responsive>
       </StyledMemberFormItem>
       <StyledMemberFormItem title='자유로운 자기소개'>
-        <StyledIntroductionTextarea
-          {...register('longIntroduction')}
-          placeholder={`• 나는 이런 사람이에요.\n• SOPT에 들어온 계기\n• SOPT에 들어오기 전에 무엇을 해왔는지\n• 프로젝트할 때의 나의 성향\n• SOPT에서 하고 싶은 것 등등`}
+        <Controller
+          name='longIntroduction'
+          control={control}
+          render={({ field }) => (
+            <StyledIntroductionTextarea
+              value={field.value}
+              onChange={field.onChange}
+              maxCount={300}
+              placeholder={`• 나는 이런 사람이에요.\n• SOPT에 들어온 계기\n• SOPT에 들어오기 전에 무엇을 해왔는지\n• 프로젝트할 때의 나의 성향\n• SOPT에서 하고 싶은 것 등등`}
+              containerStyle={introductionTextareaContainerStyle}
+            />
+          )}
         />
       </StyledMemberFormItem>
     </MemberFormSection>
@@ -214,13 +225,24 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const StyledIntroductionTextarea = styled(StyledTextArea)`
-  margin-top: 14px;
-  height: 170px;
+const StyledIntroductionTextarea = styled(MemberCountableTextArea)`
+  border-radius: 13px;
+  padding: 14px 20px;
   line-height: 170%;
   letter-spacing: -0.01em;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    line-height: 150%;
+  }
+`;
+
+const introductionTextareaContainerStyle = css`
+  margin-top: 14px;
+  width: 632px;
+  height: 170px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
     height: 152px;
   }
 `;
