@@ -9,6 +9,7 @@ import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFace
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -40,6 +41,8 @@ const tooltipVariants: Variants = {
 };
 
 const LoginPage: FC = () => {
+  const { logClickEvent } = useEventLogger();
+
   const lastLoginMethod = useRecoilValue(lastLoginMethodAtom);
 
   const facebookAuth = useFacebookAuth();
@@ -75,7 +78,10 @@ const LoginPage: FC = () => {
           {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
         </LinkContainer>
         <RegisterInfo>
-          Playground가 처음이신가요? <RegisterLink href={playgroundLink.register()}>회원가입하기</RegisterLink>
+          Playground가 처음이신가요?
+          <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink', {})}>
+            회원가입하기
+          </RegisterLink>
         </RegisterInfo>
 
         <LastLogin

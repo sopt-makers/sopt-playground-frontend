@@ -7,4 +7,16 @@ export interface ClickEvents {
     id: number;
     name: string;
   };
+  registerLink: {
+    //
+  };
+  registerWith: {
+    method: 'facebook' | 'google';
+  };
+  onboardingBannerProjectUpload: {
+    //
+  };
+  onboardingBannerProfileUpload: {
+    //
+  };
 }

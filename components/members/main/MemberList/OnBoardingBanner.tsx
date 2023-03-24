@@ -5,6 +5,7 @@ import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -16,6 +17,8 @@ interface OnBoardingBannerProps {
 }
 
 const OnBoardingBanner: FC<OnBoardingBannerProps> = ({ className, name }) => {
+  const { logClickEvent } = useEventLogger();
+
   return (
     <IntroducePanel className={className}>
       <LeftContainer>
@@ -35,10 +38,12 @@ const OnBoardingBanner: FC<OnBoardingBannerProps> = ({ className, name }) => {
       </LeftContainer>
       <ButtonContainer>
         <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
-          <UploadButton>프로젝트 업로드</UploadButton>
+          <UploadButton onClick={() => logClickEvent('onboardingBannerProjectUpload', {})}>
+            프로젝트 업로드
+          </UploadButton>
         </Link>
         <Link href={playgroundLink.memberUpload()} passHref legacyBehavior>
-          <ProfileButton>프로필 추가</ProfileButton>
+          <ProfileButton onClick={() => logClickEvent('onboardingBannerProfileUpload', {})}>프로필 추가</ProfileButton>
         </Link>
       </ButtonContainer>
     </IntroducePanel>
