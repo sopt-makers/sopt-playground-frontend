@@ -9,7 +9,12 @@ import { putMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
+import {
+  DEFAULT_CAREER,
+  DEFAULT_FAVOR,
+  DEFAULT_LINK,
+  MEMBER_DEFAULT_VALUES,
+} from '@/components/members/upload/constants';
 import {
   formatBirthday,
   getMbtiFromApiValue,
@@ -127,7 +132,7 @@ export default function MemberEditPage() {
         major: myProfile.major,
         introduction: myProfile.introduction,
         skill: myProfile.skill,
-        links: myProfile.links,
+        links: myProfile.links.length ? myProfile.links : [DEFAULT_LINK],
         activities: myProfile.activities.map((act) => {
           const [generation, part] = act.cardinalInfo.split(',');
           return {
@@ -138,47 +143,52 @@ export default function MemberEditPage() {
         }),
         allowOfficial: myProfile.allowOfficial,
         profileImage: myProfile.profileImage,
-        careers: myProfile.careers.map((career) => ({
-          ...career,
-          endDate: career.endDate ?? '',
-        })),
+        careers: myProfile.careers.length
+          ? myProfile.careers.map((career) => ({
+              ...career,
+              endDate: career.endDate ?? '',
+            }))
+          : [DEFAULT_CAREER],
         mbti: getMbtiFromApiValue(myProfile.mbti),
         mbtiDescription: myProfile.mbtiDescription,
         sojuCapacity: getSojuCapacityFromApiValue(myProfile.sojuCapacity),
         interest: myProfile.interest,
-        favor: {
-          sweetAndSourPork:
-            myProfile.userFavor.isPourSauceLover === null
-              ? null
-              : myProfile.userFavor.isPourSauceLover
-              ? '부먹'
-              : '찍먹',
-          peach:
-            myProfile.userFavor.isHardPeachLover === null
-              ? null
-              : myProfile.userFavor.isHardPeachLover
-              ? '딱복'
-              : '물복',
-          alcohol: myProfile.userFavor.isSojuLover === null ? null : myProfile.userFavor.isSojuLover ? '소주' : '맥주',
-          fishBread:
-            myProfile.userFavor.isRedBeanFishBreadLover === null
-              ? null
-              : myProfile.userFavor.isRedBeanFishBreadLover
-              ? '팥붕'
-              : '슈붕',
-          mintChocolate:
-            myProfile.userFavor.isMintChocoLover === null
-              ? null
-              : myProfile.userFavor.isMintChocoLover
-              ? '민초'
-              : '반민초',
-          tteokbokki:
-            myProfile.userFavor.isRiceTteokLover === null
-              ? null
-              : myProfile.userFavor.isRiceTteokLover
-              ? '쌀떡'
-              : '밀떡',
-        },
+        favor: myProfile.userFavor
+          ? {
+              sweetAndSourPork:
+                myProfile.userFavor.isPourSauceLover === null
+                  ? null
+                  : myProfile.userFavor.isPourSauceLover
+                  ? '부먹'
+                  : '찍먹',
+              peach:
+                myProfile.userFavor.isHardPeachLover === null
+                  ? null
+                  : myProfile.userFavor.isHardPeachLover
+                  ? '딱복'
+                  : '물복',
+              alcohol:
+                myProfile.userFavor.isSojuLover === null ? null : myProfile.userFavor.isSojuLover ? '소주' : '맥주',
+              fishBread:
+                myProfile.userFavor.isRedBeanFishBreadLover === null
+                  ? null
+                  : myProfile.userFavor.isRedBeanFishBreadLover
+                  ? '팥붕'
+                  : '슈붕',
+              mintChocolate:
+                myProfile.userFavor.isMintChocoLover === null
+                  ? null
+                  : myProfile.userFavor.isMintChocoLover
+                  ? '민초'
+                  : '반민초',
+              tteokbokki:
+                myProfile.userFavor.isRiceTteokLover === null
+                  ? null
+                  : myProfile.userFavor.isRiceTteokLover
+                  ? '쌀떡'
+                  : '밀떡',
+            }
+          : DEFAULT_FAVOR,
         idealType: myProfile.idealType,
         longIntroduction: myProfile.selfIntroduction,
       });

@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { useGetProjectById } from '@/api/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
-import ImageUploader from '@/components/common/ImageUploader';
+import ImageUploaderLegacy from '@/components/common/ImageUploader/Legacy';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
@@ -80,12 +80,12 @@ const MobileDescription = styled.p`
   }
 `;
 
-const StyledLogoImageUploader = styled(ImageUploader)`
+const StyledLogoImageUploader = styled(ImageUploaderLegacy)`
   width: 104px;
   height: 104px;
 `;
 
-const StyledImageUploader = styled(ImageUploader)`
+const StyledImageUploader = styled(ImageUploaderLegacy)`
   width: 369px;
   height: 208px;
   @media ${MOBILE_MEDIA_QUERY} {

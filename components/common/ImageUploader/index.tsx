@@ -4,8 +4,11 @@ import axios from 'axios';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl } from '@/api/image';
+import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconImage from '@/public/icons/icon-image.svg';
+import IconPencil from '@/public/icons/icon-pencil.svg';
 import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
 interface ImageUploaderProps {
   width?: number | string;
@@ -29,13 +32,11 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   src,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [previewImage, setPreviewImage] = useState<string>('');
+  const selectorRef = useRef<HTMLDivElement>(null);
+  const [previewImage, setPreviewImage] = useState<string | undefined>();
+  const [isOpenSelector, setIsOpenSelector] = useState(false);
 
-  useEffect(() => {
-    if (src) setPreviewImage(src);
-  }, [src]);
-
-  const handleClick = () => {
+  const handleChange = () => {
     const inputEl = inputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
@@ -66,10 +67,61 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     inputEl.click();
   };
 
+  const remove = () => {
+    setPreviewImage(undefined);
+    onChange?.(null);
+  };
+
+  const handleClick = () => {
+    if (previewImage?.length) {
+      openSelector();
+    } else {
+      handleChange();
+    }
+  };
+
+  const openSelector = () => setIsOpenSelector(true);
+  const closeSelector = () => setIsOpenSelector(false);
+
+  useEffect(() => {
+    if (src) setPreviewImage(src);
+  }, [src]);
+
+  useEffect(() => {
+    closeSelector();
+  }, [previewImage]);
+
+  useEffect(() => {
+    const handleClickSelectorOutside = (e: MouseEvent) => {
+      if (selectorRef.current && !selectorRef.current.contains(e.target as Node)) {
+        closeSelector();
+      }
+    };
+    if (isOpenSelector) {
+      document.addEventListener('mousedown', handleClickSelectorOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickSelectorOutside);
+    };
+  }, [selectorRef, isOpenSelector]);
+
   return (
     <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
-      {value ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
+      {value && previewImage ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
+      <StyledSelectorControlButton>
+        <IconPencil />
+      </StyledSelectorControlButton>
+      <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
+        <StyledEditButton onClick={handleChange}>
+          <IconPencil />
+          <div>수정</div>
+        </StyledEditButton>
+        <StyledRemoveButton onClick={remove}>
+          <IconCancel />
+          <div>삭제</div>
+        </StyledRemoveButton>
+      </StyledSelector>
     </Container>
   );
 };
@@ -78,6 +130,7 @@ export default ImageUploader;
 
 const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height' | 'error'>>`
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
@@ -102,4 +155,63 @@ const StyledPreview = styled.img`
   width: inherit;
   height: inherit;
   object-fit: cover;
+`;
+
+const StyledSelectorControlButton = styled.button`
+  display: flex;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: ${colors.black40};
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+`;
+
+const StyledSelector = styled.div<{ isOpen: boolean }>`
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  position: absolute;
+  right: -40px;
+  bottom: 35px;
+`;
+
+const editButtonStyle = css`
+  display: flex;
+  gap: 4px;
+  background-color: ${colors.black40};
+  padding: 10px 12px;
+  line-height: 100%;
+  letter-spacing: -0.01em;
+
+  ${textStyles.SUIT_12_M};
+`;
+
+const StyledEditButton = styled.button`
+  position: relative;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  cursor: pointer;
+
+  ${editButtonStyle}
+
+  &::after {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    background-color: ${colors.gray100};
+    width: 1px;
+    height: 14px;
+    content: '';
+  }
+`;
+
+const StyledRemoveButton = styled.button`
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  cursor: pointer;
+
+  ${editButtonStyle}
 `;

@@ -154,6 +154,7 @@ const Description = styled(Text)`
 
 const SelfIntroductionDescription = styled(Description)`
   line-height: 160%;
+  white-space: pre-line;
 
   @media ${MOBILE_MEDIA_QUERY} {
     line-height: 140%;
