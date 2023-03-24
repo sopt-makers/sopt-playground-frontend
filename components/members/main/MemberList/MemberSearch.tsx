@@ -37,7 +37,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ className, onSearch, ...props }) 
 
 export default MemberSearch;
 
-const StyledMemberSearch = styled.form`
+const StyledMemberSearch = styled.div`
   position: relative;
 `;
 
@@ -48,6 +48,7 @@ const StyledInput = styled.input`
   background-color: ${colors.black80};
   padding: 18px 24px;
   padding-left: 56px;
+  width: 100%;
   color: ${colors.white};
 
   ${textStyles.SUIT_16_B};

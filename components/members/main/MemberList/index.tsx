@@ -88,17 +88,17 @@ const MemberList: FC = () => {
     <StyledContainer>
       <StyledContent>
         {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />}
-
         <StyledMain>
           {!hasProfile && <StyledDivider />}
           <Responsive only='desktop'>
             <StyledMemberRoleMenu value={(Number(filter) ?? MenuValue.ALL) as MenuValue} onSelect={handleSelect} />
           </Responsive>
           <Responsive only='mobile'>
-            <StyledMemberRoleDropdown value={(Number(filter) ?? MenuValue.ALL) as MenuValue} onSelect={handleSelect} />
-          </Responsive>
-          <StyledRightWrapper>
-            <StyledFilterWrapper>
+            <StyledMobileFilterWrapper>
+              <StyledMemberRoleDropdown
+                value={(Number(filter) ?? MenuValue.ALL) as MenuValue}
+                onSelect={handleSelect}
+              />
               <GenerationSelect
                 value={generation}
                 onChange={(generation) => addQueryParamsToUrl({ generation })}
@@ -106,8 +106,22 @@ const MemberList: FC = () => {
                   addQueryParamsToUrl({ generation: undefined });
                 }}
               />
-              <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
-            </StyledFilterWrapper>
+            </StyledMobileFilterWrapper>
+            <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+          </Responsive>
+          <StyledRightWrapper>
+            <Responsive only='desktop'>
+              <StyledFilterWrapper>
+                <GenerationSelect
+                  value={generation}
+                  onChange={(generation) => addQueryParamsToUrl({ generation })}
+                  onClear={() => {
+                    addQueryParamsToUrl({ generation: undefined });
+                  }}
+                />
+                <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+              </StyledFilterWrapper>
+            </Responsive>
             <StyledCardWrapper>
               {profiles?.map((profiles, index) => (
                 <React.Fragment key={index}>
@@ -181,6 +195,13 @@ const StyledRightWrapper = styled.div`
   width: 100%;
 `;
 
+const StyledMobileFilterWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  height: 54px;
+`;
+
 const StyledFilterWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -190,7 +211,8 @@ const StyledMemberSearch = styled(MemberSearch)`
   max-width: 330px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    align-self: stretch;
+    margin-top: 16px;
+    width: 100%;
     max-width: 100%;
   }
 `;
@@ -236,8 +258,10 @@ const StyledMemberRoleMenu = styled(MemberRoleMenu)`
 `;
 
 const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
-  margin-bottom: 16px;
-  max-width: 505px;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: 54px;
 `;
 
 const Target = styled.div`

@@ -9,7 +9,6 @@ import IconClear from '@/public/icons/icon-search-clear.svg';
 import IconSelectArrow from '@/public/icons/icon-select-arrow.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import { buildCSSWithLength, CSSValueWithLength } from '@/utils';
 
 const SelectPortal = dynamic<Select.SelectPortalProps>(
   () => import('@radix-ui/react-select').then((r) => r.SelectPortal),
@@ -22,7 +21,6 @@ interface SelectProps extends Omit<Select.SelectProps, 'onValueChange'> {
   allowClear?: boolean;
   className?: string;
   placeholder?: string;
-  width?: CSSValueWithLength;
   error?: boolean;
   onChange?: Select.SelectProps['onValueChange'];
   onClear?: () => void;
@@ -32,7 +30,6 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
   allowClear = false,
   className,
   children,
-  width = 200,
   placeholder,
   onChange,
   onClear,
@@ -45,7 +42,7 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
     <Select.Root onValueChange={onChange} {...props}>
       <StyledWrapper allowClear={allowClear && hasValue}>
         <Select.Trigger asChild>
-          <StyledTrigger className={className} error={error} width={width}>
+          <StyledTrigger className={className} error={error}>
             {props.value === undefined ? placeholder : `${props.value}기`}
             <StyledIconArrow className='icon-arrow'>
               <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
@@ -67,7 +64,7 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
       </StyledWrapper>
       <SelectPortal>
         <ScrollArea.Root>
-          <StyledContent position='popper' width={width}>
+          <StyledContent position='popper'>
             <StyledScrollUpButton>
               <IconSelectArrow width={18} height={18} alt='select-arrow-up' />
             </StyledScrollUpButton>
@@ -97,18 +94,18 @@ const StyledWrapper = styled.div<{ allowClear: boolean }>`
     ${({ allowClear }) =>
       allowClear &&
       css`
-        .icon-arrow {
+        & .icon-arrow {
           opacity: 0;
         }
 
-        .icon-clear {
+        & .icon-clear {
           opacity: 1;
         }
       `}
   }
 `;
 
-const StyledTrigger = styled.div<Pick<SelectProps, 'width' | 'error'>>`
+const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
   display: flex;
   position: relative;
   align-items: center;
@@ -116,10 +113,10 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'width' | 'error'>>`
   border: 1px solid transparent;
   border-radius: 12px;
   background-color: ${colors.black60};
+  cursor: pointer;
   padding: 14px 20px;
   color: ${colors.gray80};
 
-  ${({ width }) => width && buildCSSWithLength('width', width)}
   ${({ error }) =>
     error &&
     css`
@@ -131,16 +128,27 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'width' | 'error'>>`
       }
     `}
 
-    &[data-placeholder] {
+  &[data-placeholder] {
     ${textStyles.SUIT_16_M};
+  }
+
+  & .icon-arrow {
+    transition: transform 0.3s;
+  }
+
+  &[data-state='open'] {
+    .icon-arrow {
+      transform: rotate(-180deg);
+    }
   }
 `;
 
-const StyledContent = styled(Select.Content)<Pick<SelectProps, 'width'>>`
+const StyledContent = styled(Select.Content)`
   margin-top: 4px;
   border-radius: 12px;
   background: ${colors.black60};
   padding: 8px;
+  width: var(--radix-select-trigger-width);
   max-height: 262px;
   overflow: scroll;
   scrollbar-width: none;
@@ -227,6 +235,7 @@ const StyledItem = styled(Select.Item)`
   transition: color 0.2s background-color 0.2s;
   outline: none;
   border-radius: 6px;
+  cursor: pointer;
   padding: 5px 10px;
   width: 100%;
   color: ${colors.gray80};
