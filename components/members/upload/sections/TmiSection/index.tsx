@@ -45,6 +45,7 @@ export default function TmiSection() {
   return (
     <MemberFormSection>
       <MemberFormHeader title='SOPT만 아는 나의 TMI' />
+
       <StyledMemberFormItem title='MBTI + 제 성격은요...' errorMessage={getMbtiErrorMessage()}>
         <MbtiWrapper>
           <Controller
@@ -58,9 +59,10 @@ export default function TmiSection() {
               />
             )}
           />
-          <StyledTextArea placeholder='ex) 저는 극강의 EEE에요.' />
+          <StyledTextArea {...register('mbtiDescription')} placeholder='ex) 저는 극강의 EEE에요.' />
         </MbtiWrapper>
       </StyledMemberFormItem>
+
       <StyledMemberFormItem title='소주, 어디까지 마셔봤니?'>
         <Controller
           control={control}
@@ -76,6 +78,7 @@ export default function TmiSection() {
           )}
         />
       </StyledMemberFormItem>
+
       <StyledMemberFormItem title='저는 요새 이런 걸 좋아해요!'>
         <StyledInput {...register('interest')} placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.' />
       </StyledMemberFormItem>
@@ -135,6 +138,7 @@ export default function TmiSection() {
           />
         </FavorWrapper>
       </StyledMemberFormItem>
+
       <StyledMemberFormItem title='나의 이상형은? 😏'>
         <Responsive only='desktop' asChild>
           <StyledInput
@@ -149,6 +153,7 @@ export default function TmiSection() {
           />
         </Responsive>
       </StyledMemberFormItem>
+
       <StyledMemberFormItem title='자유로운 자기소개'>
         <StyledIntroductionTextarea
           {...register('longIntroduction')}

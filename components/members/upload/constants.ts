@@ -3,7 +3,7 @@ import { DefaultValues } from 'react-hook-form';
 import { MemberUploadForm } from '@/components/members/upload/types';
 
 export const DEFAULT_CAREER = { title: '', companyName: '', isCurrent: false, startDate: '', endDate: '' };
-export const DEFAULT_ACTIVITY = { generation: '', part: '', team: '' };
+export const DEFAULT_ACTIVITY = { generation: '', part: '', team: '해당 없음' };
 export const DEFAULT_LINK = { title: '', url: '' };
 
 export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
@@ -21,7 +21,8 @@ export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   activities: [DEFAULT_ACTIVITY],
   allowOfficial: false,
   careers: [DEFAULT_CAREER],
-  mbti: [null, null, null, null],
+  mbti: null,
+  favor: { peach: null, alcohol: null, fishBread: null, tteokbokki: null, sweetAndSourPork: null, mintChocolate: null },
 };
 
 export const PARTS = [
@@ -50,4 +51,6 @@ export const LINK_TITLES = ['Facebook', 'Instagram', 'LinkedIn', 'GitHub', 'Beha
 
 export const DEFAULT_DATE = '1970-01-01';
 
-export const SOJU_CAPACITY_RANGE = ['못마셔요', '0.5병', '1병', '1.5병', '2병', '2.5병', '3병 이상'];
+export const SOJU_CAPACITY_RANGE = ['못마셔요', '0.5병', '1병', '1.5병', '2병', '2.5병', '3병 이상'] as const;
+
+export const MBTI_INDICATORS = ['E', 'I', 'N', 'S', 'F', 'T', 'P', 'J'] as const;
