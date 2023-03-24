@@ -43,12 +43,14 @@ export type ProfileDetail = {
   mbtiDescription: string;
   sojuCapacity: number;
   interest: string;
-  isPourSauceLover: boolean;
-  isHardPeachLover: boolean;
-  isMintChocoLover: boolean;
-  isRedBeanFishBreadLover: boolean;
-  isSojuLover: boolean;
-  isRiceTteokLover: boolean;
+  userFavor: {
+    isPourSauceLover: boolean;
+    isHardPeachLover: boolean;
+    isMintChocoLover: boolean;
+    isRedBeanFishBreadLover: boolean;
+    isSojuLover: boolean;
+    isRiceTteokLover: boolean;
+  };
   idealType: string;
   selfIntroduction: string;
   activities: {
