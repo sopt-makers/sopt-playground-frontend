@@ -105,7 +105,7 @@ const InterestSection: FC<InterestSectionProps> = ({
       )}
       {selfIntroduction && (
         <InfoItem label='자유로운 자기소개'>
-          <Description>{selfIntroduction}</Description>
+          <SelfIntroductionDescription>{selfIntroduction}</SelfIntroductionDescription>
         </InfoItem>
       )}
     </StyledInterestSection>
@@ -149,6 +149,14 @@ const Description = styled(Text)`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 12px;
     ${textStyles.SUIT_16_M};
+  }
+`;
+
+const SelfIntroductionDescription = styled(Description)`
+  line-height: 160%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    line-height: 140%;
   }
 `;
 
