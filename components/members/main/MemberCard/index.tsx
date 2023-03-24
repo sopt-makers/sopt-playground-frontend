@@ -88,7 +88,6 @@ const ActiveGenerationBadge = styled.div`
   position: absolute;
   top: 17px;
   left: 17px;
-  z-index: 1;
   border-radius: 33px;
   background-color: ${colors.black100};
   padding: 10px 14.5px;
