@@ -71,6 +71,7 @@ export default function TmiSection() {
           name='sojuCapacity'
           render={({ field }) => (
             <StyledSelect placeholder='주량 선택' value={field.value} onChange={field.onChange}>
+              <Select.Item value=''>선택 안 함</Select.Item>
               {SOJU_CAPACITY_RANGE.map((capacity) => (
                 <Select.Item key={capacity} value={capacity}>
                   {capacity}
