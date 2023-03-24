@@ -7,14 +7,15 @@ import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
+import { formatBirthday, getSojuCapacityApiValue } from '@/components/members/upload/format';
 import MemberForm from '@/components/members/upload/forms/Form';
 import { memberFormSchema } from '@/components/members/upload/schema';
 import BasicFormSection from '@/components/members/upload/sections/BasicFormSection';
 import CareerFormSection from '@/components/members/upload/sections/CareerFormSection';
 import PublicQuestionFormSection from '@/components/members/upload/sections/PublicQuestionFormSection';
 import SoptActivityFormSection from '@/components/members/upload/sections/SoptActivityFormSection';
+import TmiSection from '@/components/members/upload/sections/TmiSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { formatBirthday } from '@/components/members/upload/utils';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
@@ -30,7 +31,7 @@ export default function MemberUploadPage() {
   const { handleSubmit } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
-    const { birthday, links, careers } = formData;
+    const { birthday, links, careers, mbti, sojuCapacity, favor, longIntroduction } = formData;
     const requestBody: ProfileRequest = {
       ...formData,
       birthday: formatBirthday(birthday),
@@ -38,7 +39,19 @@ export default function MemberUploadPage() {
       careers: careers
         .map((career) => (career.endDate ? career : { ...career, endDate: null }))
         .filter((career) => !Object.values(career).some((item) => item === '')),
+      mbti: mbti ? mbti.join('') : mbti,
+      sojuCapacity: getSojuCapacityApiValue(sojuCapacity) ?? null,
+      userFavor: {
+        isPourSauceLover: favor.sweetAndSourPork === '부먹',
+        isHardPeachLover: favor.peach === '딱복',
+        isMintChocoLover: favor.mintChocolate === '민초',
+        isRedBeanFishBreadLover: favor.fishBread === '팥붕',
+        isSojuLover: favor.alcohol === '소주',
+        isRiceTteokLover: favor.tteokbokki === '쌀떡',
+      },
+      selfIntroduction: longIntroduction,
     };
+
     const response = await postMemberProfile(requestBody);
 
     queryClient.invalidateQueries(['getMemberProfileOfMe']);
@@ -54,6 +67,7 @@ export default function MemberUploadPage() {
         <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)}>
           <BasicFormSection />
           <SoptActivityFormSection />
+          <TmiSection />
           <CareerFormSection />
           <PublicQuestionFormSection />
         </MemberForm>
