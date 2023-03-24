@@ -28,6 +28,9 @@ export interface ClickEvents {
   submitProfile: {
     //
   };
+  aboutMakers: {
+    //
+  };
 }
 
 export interface SubmitEvents {
@@ -36,5 +39,8 @@ export interface SubmitEvents {
   };
   editProfile: {
     //
+  };
+  verify: {
+    by: 'phone' | 'email';
   };
 }
