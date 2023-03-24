@@ -4,8 +4,9 @@ import { EventLoggerController } from '@/components/eventLogger/types';
 
 export function createAmplitudeController(apiKey: string, userId: string | undefined): EventLoggerController {
   const instance = createInstance();
-  instance.init(apiKey);
-  instance.setUserId(userId);
+  instance.init(apiKey, userId, {
+    minIdLength: 1,
+  });
 
   return {
     clickEvent(key, params) {
