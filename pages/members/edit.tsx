@@ -8,7 +8,12 @@ import { useGetMemberProfileOfMe } from '@/api/hooks';
 import { putMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
-import { DEFAULT_FAVOR, MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
+import {
+  DEFAULT_CAREER,
+  DEFAULT_FAVOR,
+  DEFAULT_LINK,
+  MEMBER_DEFAULT_VALUES,
+} from '@/components/members/upload/constants';
 import {
   formatBirthday,
   getMbtiFromApiValue,
@@ -123,7 +128,7 @@ export default function MemberEditPage() {
         major: myProfile.major,
         introduction: myProfile.introduction,
         skill: myProfile.skill,
-        links: myProfile.links,
+        links: myProfile.links.length ? myProfile.links : [DEFAULT_LINK],
         activities: myProfile.activities.map((act) => {
           const [generation, part] = act.cardinalInfo.split(',');
           return {
@@ -134,10 +139,12 @@ export default function MemberEditPage() {
         }),
         allowOfficial: myProfile.allowOfficial,
         profileImage: myProfile.profileImage,
-        careers: myProfile.careers.map((career) => ({
-          ...career,
-          endDate: career.endDate ?? '',
-        })),
+        careers: myProfile.careers.length
+          ? myProfile.careers.map((career) => ({
+              ...career,
+              endDate: career.endDate ?? '',
+            }))
+          : [DEFAULT_CAREER],
         mbti: getMbtiFromApiValue(myProfile.mbti),
         mbtiDescription: myProfile.mbtiDescription,
         sojuCapacity: getSojuCapacityFromApiValue(myProfile.sojuCapacity),
