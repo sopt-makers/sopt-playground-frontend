@@ -169,7 +169,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </InfoContainer>
           )}
 
-          <InfoContainer style={{ gap: '34px' }}>
+          {/* <InfoContainer style={{ gap: '34px' }}>
             {sortedActivities.map((item, idx) => {
               const [generation, part] = item.cardinalInfo.split(',');
               return (
@@ -181,7 +181,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 />
               );
             })}
-          </InfoContainer>
+          </InfoContainer> */}
 
           {(profile.sojuCapacity ||
             profile.mbti ||

@@ -1,68 +1,59 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { Activity } from '@/api/members/type';
+import Responsive from '@/components/common/Responsive';
 import ActivityBadge from '@/components/members/detail/ActivityBadge';
+import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
-const getPartLabel = (part: string) => {
-  const NORMAL_PARTS = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
-  return `${part} ${NORMAL_PARTS.includes(part) ? '파트' : ''}`;
-};
+const NORMAL_PARTS = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
 
 type PartItemProps = {
-  cardinalActivities: Activity[];
+  imgSrc?: string;
   generation: string;
   part: string;
-  imgSrc?: string;
+  teams?: string[];
 };
 
-const PartItem: FC<PartItemProps> = (project) => {
-  const { cardinalActivities, generation, part } = project;
+const PartItem: FC<PartItemProps> = ({ generation, part }) => {
+  const partLabel = `${part} ${NORMAL_PARTS.includes(part) ? '파트' : ''}`;
+  const soptLogoSrc = Number(generation) < 12 ? '/icons/logo/time=1-11.svg' : `/icons/logo/time=${generation}.svg`;
 
   return (
     <>
-      <Container className='pc-only'>
-        <Thumbnail>
-          {Number(generation) < 12 ? (
-            <img alt='generation-logo' src='/icons/logo/time=1-11.svg' />
-          ) : (
-            <img alt='generation-logo' src={`/icons/logo/time=${generation}.svg`} />
-          )}
-        </Thumbnail>
-        <Contents>
-          <Title>
-            <div className='year'>{generation}기</div>
-            <div className='part'>{getPartLabel(part)}</div>
-          </Title>
-          <Badges>
-            {cardinalActivities.map(
-              (activity) => activity.team !== '해당 없음' && <ActivityBadge key={activity.id} {...activity} />,
-            )}
-          </Badges>
-        </Contents>
-      </Container>
-
-      <Container className='mobile-only'>
-        <Contents>
+      <Responsive only='desktop'>
+        <Container>
           <Thumbnail>
-            {Number(generation) < 12 ? (
-              <img alt='generation-logo' src='/icons/logo/time=1-11.svg' />
-            ) : (
-              <img alt='generation-logo' src={`/icons/logo/time=${generation}.svg`} />
-            )}
+            <img alt={`${generation}기 SOPT`} src={soptLogoSrc} />
           </Thumbnail>
-          <Title>
-            <div className='year'>{generation}기</div>
-            <div className='part'>{getPartLabel(part)}</div>
-          </Title>
-        </Contents>
-        <Badges>
-          {cardinalActivities.map(
-            (activity) => activity.team !== '해당 없음' && <ActivityBadge key={activity.id} {...activity} />,
-          )}
-        </Badges>
-      </Container>
+          <Contents>
+            <TitleArea>
+              <Generation>{generation}기</Generation>
+              <BelongArea>{partLabel}</BelongArea>
+            </TitleArea>
+            <Badges>{}</Badges>
+          </Contents>
+        </Container>
+      </Responsive>
+      <Responsive only='mobile'>
+        <Container className='mobile-only'>
+          <Contents>
+            <Thumbnail>
+              {Number(generation) < 12 ? (
+                <img alt='generation-logo' src='/icons/logo/time=1-11.svg' />
+              ) : (
+                <img alt='generation-logo' src={`/icons/logo/time=${generation}.svg`} />
+              )}
+            </Thumbnail>
+            <Title>
+              <div className='year'>{generation}기</div>
+              <div className='part'>{partLabel}</div>
+            </Title>
+          </Contents>
+          <Badges></Badges>
+        </Container>
+      </Responsive>
     </>
   );
 };
@@ -105,6 +96,20 @@ const Contents = styled.div`
     align-items: center;
     justify-content: start;
   }
+`;
+
+const TitleArea = styled.div``;
+
+const Generation = styled.div`
+  color: ${colors.white};
+
+  ${textStyles.SUIT_18_B}
+`;
+
+const BelongArea = styled.div`
+  color: ${colors.gray30};
+
+  ${textStyles.SUIT_18_M}
 `;
 
 const Title = styled.div`

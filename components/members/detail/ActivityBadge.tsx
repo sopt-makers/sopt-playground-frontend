@@ -1,31 +1,19 @@
 import styled from '@emotion/styled';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
-import { Activity } from '@/api/members/type';
-import { getProjectById } from '@/api/projects';
-import { PROJECT_CATEGORY_LABEL } from '@/components/members/detail/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const ActivityBadge: FC<Activity> = (activity) => {
-  const [category, setCategory] = useState('');
+interface ActivityBadgeProps {
+  category?: string;
+  children: string;
+}
 
-  useEffect(() => {
-    const getProjectCategory = async () => {
-      if (activity.isProject) {
-        const project = await getProjectById(activity.id.toString());
-        setCategory(PROJECT_CATEGORY_LABEL[project.category]);
-      }
-    };
-
-    getProjectCategory();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+const ActivityBadge: FC<ActivityBadgeProps> = ({ category, children }) => {
   return (
-    <Container key={activity.id}>
+    <Container>
       {category && <Category>{category}</Category>}
-      {activity.team}
+      {children}
     </Container>
   );
 };
