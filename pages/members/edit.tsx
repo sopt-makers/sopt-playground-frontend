@@ -144,34 +144,35 @@ export default function MemberEditPage() {
         interest: myProfile.interest,
         favor: {
           sweetAndSourPork:
-            myProfile.userFavor.isPourSauceLover === null
+            myProfile.userFavor?.isPourSauceLover === null
               ? null
-              : myProfile.userFavor.isPourSauceLover
+              : myProfile.userFavor?.isPourSauceLover
               ? '부먹'
               : '찍먹',
           peach:
-            myProfile.userFavor.isHardPeachLover === null
+            myProfile.userFavor?.isHardPeachLover === null
               ? null
-              : myProfile.userFavor.isHardPeachLover
+              : myProfile.userFavor?.isHardPeachLover
               ? '딱복'
               : '물복',
-          alcohol: myProfile.userFavor.isSojuLover === null ? null : myProfile.userFavor.isSojuLover ? '소주' : '맥주',
+          alcohol:
+            myProfile.userFavor?.isSojuLover === null ? null : myProfile.userFavor?.isSojuLover ? '소주' : '맥주',
           fishBread:
-            myProfile.userFavor.isRedBeanFishBreadLover === null
+            myProfile.userFavor?.isRedBeanFishBreadLover === null
               ? null
-              : myProfile.userFavor.isRedBeanFishBreadLover
+              : myProfile.userFavor?.isRedBeanFishBreadLover
               ? '팥붕'
               : '슈붕',
           mintChocolate:
-            myProfile.userFavor.isMintChocoLover === null
+            myProfile.userFavor?.isMintChocoLover === null
               ? null
-              : myProfile.userFavor.isMintChocoLover
+              : myProfile.userFavor?.isMintChocoLover
               ? '민초'
               : '반민초',
           tteokbokki:
-            myProfile.userFavor.isRiceTteokLover === null
+            myProfile.userFavor?.isRiceTteokLover === null
               ? null
-              : myProfile.userFavor.isRiceTteokLover
+              : myProfile.userFavor?.isRiceTteokLover
               ? '쌀떡'
               : '밀떡',
         },
