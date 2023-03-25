@@ -10,7 +10,7 @@ import { textStyles } from '@/styles/typography';
 const NORMAL_PARTS = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
 
 type PartItemProps = {
-  generation: number;
+  generation: string;
   part: string;
   teams?: string[];
   activities: { type: string; name: string; href: string }[];

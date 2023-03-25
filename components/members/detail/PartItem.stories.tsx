@@ -12,7 +12,7 @@ const Template: ComponentStory<typeof PartItem> = (args) => <PartItem {...args} 
 
 export const Default = Template.bind({});
 Default.args = {
-  generation: 29,
+  generation: '29',
   part: '웹',
   activities: [
     { type: '앱잼', name: '팀블', href: 'https://playground.sopt.org' },

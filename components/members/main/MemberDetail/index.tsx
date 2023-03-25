@@ -175,12 +175,23 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         <InfoContainer style={{ gap: '34px' }}>
           {sortedActivities.map((item, idx) => {
             const [generation, part] = item.cardinalInfo.split(',');
+
+            const thisGenList = item.cardinalActivities.filter((act) => act.generation.toString() === generation);
+
+            const activities = thisGenList.filter((item) => item.isProject);
+            const teams = thisGenList.filter((item) => !item.isProject).filter((item) => item.team !== '해당 없음');
+
             return (
               <PartItem
                 key={idx}
                 generation={generation}
                 part={part}
-                cardinalActivities={item.cardinalActivities.filter((act) => act.generation.toString() === generation)}
+                activities={activities.map((item) => ({
+                  name: item.team,
+                  type: profile.projects.find((project) => project.id === item.id)?.category ?? '',
+                  href: playgroundLink.projectDetail(item.id),
+                }))}
+                teams={teams.map(({ team }) => team)}
               />
             );
           })}
