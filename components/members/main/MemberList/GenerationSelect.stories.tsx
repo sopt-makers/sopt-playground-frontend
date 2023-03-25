@@ -16,5 +16,5 @@ Default.storyName = '기본';
 export const WithState = () => {
   const [value, onChange] = useState<string>();
 
-  return <GenerationSelect value={value} onChange={onChange} onClear={() => onChange(undefined)} />;
+  return <GenerationSelect value={value} onChange={onChange} />;
 };

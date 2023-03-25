@@ -12,19 +12,11 @@ interface GenerationSelectProps {
   className?: string;
   value?: string;
   onChange?: (value?: string) => void;
-  onClear?: () => void;
 }
-const GenerationSelect: FC<GenerationSelectProps> = ({ className, value, onChange, onClear }) => {
+const GenerationSelect: FC<GenerationSelectProps> = ({ className, value, onChange }) => {
   return (
-    <StyledSelect
-      className={className}
-      placeholder='기수'
-      value={value}
-      onChange={onChange}
-      selected={!!value}
-      allowClear
-      onClear={onClear}
-    >
+    <StyledSelect className={className} placeholder='기수' value={value} onChange={onChange} selected={!!value}>
+      <Select.Item value=''>전체 기수</Select.Item>
       {GENERATIONS.map((generation) => (
         <Select.Item key={generation} value={generation}>{`${generation}기`}</Select.Item>
       ))}

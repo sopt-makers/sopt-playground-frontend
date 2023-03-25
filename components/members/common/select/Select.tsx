@@ -199,11 +199,11 @@ const StyledIconArrow = styled(Select.Icon)`
 const StyledIconClear = styled(Select.Icon)`
   display: flex;
   position: absolute;
-  top: 50%;
   right: 20px;
+  bottom: 50%;
   align-items: center;
   justify-content: center;
-  transform: translateY(-50%);
+  transform: translateY(50%);
   transition: opacity 0.2s;
   opacity: 0;
   cursor: pointer;
