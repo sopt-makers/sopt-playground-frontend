@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
@@ -13,7 +14,7 @@ type PartItemProps = {
   generation: number;
   part: string;
   teams?: string[];
-  activities: { type: string; name: string }[];
+  activities: { type: string; name: string; href: string }[];
 };
 
 const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities }) => {
@@ -29,16 +30,16 @@ const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities }) =>
           </Thumbnail>
           <Contents>
             <TitleArea>
-              <Generation>
-                {generation}기 {teams?.map((team) => `| ${team}`)}
-              </Generation>
-              <BelongArea>{partLabel}</BelongArea>
+              <Generation>{generation}기</Generation>
+              <BelongArea>
+                {partLabel} {teams?.map((team) => `| ${team}`)}
+              </BelongArea>
             </TitleArea>
             <Badges>
               {activities.map((activity, idx) => (
-                <ActivityBadge key={idx} category={activity.type}>
-                  {activity.name}
-                </ActivityBadge>
+                <Link key={idx} href={activity.href}>
+                  <ActivityBadge category={activity.type}>{activity.name}</ActivityBadge>
+                </Link>
               ))}
             </Badges>
           </Contents>
@@ -59,7 +60,13 @@ const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities }) =>
               <div className='part'>{partLabel}</div>
             </Title>
           </Contents>
-          <Badges></Badges>
+          <Badges>
+            {activities.map((activity, idx) => (
+              <Link key={idx} href={activity.href}>
+                <ActivityBadge category={activity.type}>{activity.name}</ActivityBadge>
+              </Link>
+            ))}
+          </Badges>
         </Container>
       </Responsive>
     </>
@@ -106,9 +113,12 @@ const Contents = styled.div`
   }
 `;
 
-const TitleArea = styled.div``;
+const TitleArea = styled.div`
+  display: flex;
+`;
 
 const Generation = styled.div`
+  margin-right: 12px;
   color: ${colors.white};
 
   ${textStyles.SUIT_18_B}
