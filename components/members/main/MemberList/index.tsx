@@ -76,9 +76,11 @@ const MemberList: FC = () => {
 
   const handleSelectFilter = (filter: string) => {
     addQueryParamsToUrl({ filter });
+    logClickEvent('filterPart', { part: filter });
   };
   const handleSelectGeneration = (generation: string | undefined) => {
     addQueryParamsToUrl({ generation });
+    logClickEvent('filterGeneration', { generation: generation ?? 'all' });
   };
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ name: searchQuery });
