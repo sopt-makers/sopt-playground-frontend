@@ -28,7 +28,7 @@ const MemberList: FC = () => {
   const [filter, setFilter] = useState<string>(menuValue.ALL);
 
   const router = useRouter();
-  const { logClickEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent } = useEventLogger();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
