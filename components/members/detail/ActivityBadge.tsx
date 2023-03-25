@@ -6,16 +6,11 @@ import { textStyles } from '@/styles/typography';
 
 interface ActivityBadgeProps {
   category?: string;
-  children: string;
+  name: string;
 }
 
-const ActivityBadge: FC<ActivityBadgeProps> = ({ category, children }) => {
-  return (
-    <Container>
-      {category && <Category>{category}</Category>}
-      {children}
-    </Container>
-  );
+const ActivityBadge: FC<ActivityBadgeProps> = ({ category, name }) => {
+  return <Container>{`${category} ${name}`}</Container>;
 };
 
 const Container = styled.div`
@@ -29,17 +24,12 @@ const Container = styled.div`
   font-size: 14px;
   font-weight: 500;
   ${textStyles.SUIT_14_M}
+
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
     width: fit-content;
     white-space: nowrap;
   }
-`;
-
-const Category = styled.span`
-  ${textStyles.SUIT_14_B}
-
-  margin-right: 4px;
 `;
 
 export default ActivityBadge;
