@@ -184,8 +184,6 @@ const StyledContent = styled(Select.Content)`
   &::-webkit-scrollbar {
     display: none;
   }
-
-  ${({ width }) => width && buildCSSWithLength('width', width)}
 `;
 
 const StyledIconArrow = styled(Select.Icon)`
