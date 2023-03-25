@@ -65,7 +65,12 @@ export default function TmiSection() {
         </MbtiWrapper>
       </StyledMemberFormItem>
 
-      <StyledMemberFormItem title='소주, 어디까지 마셔봤니?'>
+      <StyledMemberFormItem
+        css={css`
+          padding-top: 14px;
+        `}
+        title='소주, 어디까지 마셔봤니?'
+      >
         <Controller
           control={control}
           name='sojuCapacity'

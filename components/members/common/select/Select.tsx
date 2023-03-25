@@ -69,8 +69,8 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
       }}
     >
       <Select.Root onValueChange={onChange} {...props} open={open} onOpenChange={onOpenChange}>
-        <StyledWrapper className={className} allowClear={allowClear && hasValue}>
-          <Select.Trigger asChild>
+        <StyledWrapper allowClear={allowClear && hasValue}>
+          <Select.Trigger className={className} asChild>
             <StyledTrigger error={error}>
               {props.value === undefined ? placeholder : label}
               <StyledIconArrow className='icon-arrow'>
