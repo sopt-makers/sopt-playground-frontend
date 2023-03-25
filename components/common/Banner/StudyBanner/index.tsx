@@ -11,11 +11,11 @@ const CountdownTimer = dynamic(() => import('@/components/common/Banner/StudyBan
   ssr: false,
 });
 
-interface RecruitingBannerProps {
+interface StudyBannerProps {
   className?: string;
 }
 
-export default function StudyBanner({ className }: RecruitingBannerProps) {
+export default function StudyBanner({ className }: StudyBannerProps) {
   return (
     <>
       <Responsive only='mobile' asChild>
