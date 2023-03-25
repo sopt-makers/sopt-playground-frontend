@@ -5,6 +5,7 @@ import * as Select from '@radix-ui/react-select';
 import dynamic from 'next/dynamic';
 import { createContext, FC, PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'react';
 
+import { Overlay } from '@/components/members/common/select/Overlay';
 import IconClear from '@/public/icons/icon-search-clear.svg';
 import IconSelectArrow from '@/public/icons/icon-select-arrow.svg';
 import { colors } from '@/styles/colors';
@@ -57,6 +58,7 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
 }) => {
   const hasValue = !!props.value;
   const [label, onChangeLabel] = useState<ReactNode>();
+  const [open, onOpenChange] = useState<boolean>(false);
 
   return (
     <SelectContext.Provider
@@ -66,7 +68,7 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
         onChangeLabel,
       }}
     >
-      <Select.Root onValueChange={onChange} {...props}>
+      <Select.Root onValueChange={onChange} {...props} open={open} onOpenChange={onOpenChange}>
         <StyledWrapper allowClear={allowClear && hasValue}>
           <Select.Trigger asChild>
             <StyledTrigger className={className} error={error}>
@@ -90,23 +92,26 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
           )}
         </StyledWrapper>
         <SelectPortal>
-          <ScrollArea.Root>
-            <StyledContent position='popper'>
-              <StyledScrollUpButton>
-                <IconSelectArrow width={18} height={18} alt='select-arrow-up' />
-              </StyledScrollUpButton>
-              <Select.Viewport asChild>
-                <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
-              </Select.Viewport>
-              <StyledScrollDownButton>
-                <IconSelectArrow width={18} height={18} alt='select-arrow-down' />
-              </StyledScrollDownButton>
+          <>
+            <Overlay open={open} />
+            <ScrollArea.Root>
+              <StyledContent position='popper'>
+                <StyledScrollUpButton>
+                  <IconSelectArrow width={18} height={18} alt='select-arrow-up' />
+                </StyledScrollUpButton>
+                <Select.Viewport asChild>
+                  <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
+                </Select.Viewport>
+                <StyledScrollDownButton>
+                  <IconSelectArrow width={18} height={18} alt='select-arrow-down' />
+                </StyledScrollDownButton>
 
-              <StyledScrollbar orientation='vertical'>
-                <StyledThumb />
-              </StyledScrollbar>
-            </StyledContent>
-          </ScrollArea.Root>
+                <StyledScrollbar orientation='vertical'>
+                  <StyledThumb />
+                </StyledScrollbar>
+              </StyledContent>
+            </ScrollArea.Root>
+          </>
         </SelectPortal>
       </Select.Root>
     </SelectContext.Provider>
@@ -259,7 +264,7 @@ const SelectItem: FC<PropsWithChildren<SelectItemProps>> = ({ value: valueProp, 
   }, [value, valueProp, children, onChangeLabel]);
 
   return (
-    <StyledItem value={valueProp} disabled={disabled}>
+    <StyledItem value={valueProp} disabled={disabled} onClick={(e) => e.stopPropagation()}>
       <Select.ItemText>{children}</Select.ItemText>
     </StyledItem>
   );
