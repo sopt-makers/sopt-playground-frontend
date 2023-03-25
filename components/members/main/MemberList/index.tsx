@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/api/hooks';
 import { Profile } from '@/api/members/type';
@@ -10,11 +10,10 @@ import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
+import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
+import { MemberRoleMenu, MemberRoleSelect, menuValue } from '@/components/members/main/MemberList/MemberRoleMenu';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
-import MemberRoleMenu, { MenuValue } from '@/components/members/main/MemberRoleMenu';
-import MemberRoleDropdown from '@/components/members/main/MemberRoleMenu/MemberRoleDropdown';
-import useMemberRoleMenu from '@/components/members/main/MemberRoleMenu/useMemberRoleMenu';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -25,10 +24,12 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const PAGE_LIMIT = 30;
 
 const MemberList: FC = () => {
-  const { logClickEvent, logSubmitEvent } = useEventLogger();
-  const { menuValue: filter, onSelect } = useMemberRoleMenu();
-  const { data: memberOfMeData } = useGetMemberOfMe();
+  const [generation, setGeneration] = useState<string | undefined>(undefined);
+  const [filter, setFilter] = useState<string>(menuValue.ALL);
+
   const router = useRouter();
+  const { logClickEvent, logSubmitEvent } = useEventLogger();
+  const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
@@ -51,42 +52,68 @@ const MemberList: FC = () => {
   );
 
   const hasProfile = !!memberOfMeData?.hasProfile;
-
-  const handleSelect = (value: MenuValue) => {
-    onSelect(value);
-    addQueryParamsToUrl({ filter: value.toString() });
-  };
-
-  const handleSearch = (searchQuery: string) => {
-    addQueryParamsToUrl({ name: searchQuery });
-    logSubmitEvent('searchMember', { content: 'searchQuery' });
-  };
-
-  const handleClickCard = (profile: Profile) => {
-    logClickEvent('memberCard', { id: profile.id, name: profile.name });
-  };
-
   useEffect(() => {
     if (isVisible) {
       fetchNextPage();
     }
   }, [isVisible, fetchNextPage]);
 
+  useEffect(() => {
+    if (router.isReady) {
+      const { generation, filter } = router.query;
+      if (typeof generation === 'string' || generation === undefined) {
+        setGeneration(generation);
+      }
+      if (typeof filter === 'string') {
+        setFilter(filter);
+      }
+    }
+  }, [router.isReady, router.query, router]);
+
+  const handleSelectFilter = (filter: string) => {
+    addQueryParamsToUrl({ filter });
+  };
+  const handleSelectGeneration = (generation: string | undefined) => {
+    addQueryParamsToUrl({ generation });
+  };
+  const handleClearGeneration = () => {
+    addQueryParamsToUrl({ generation: undefined });
+  };
+  const handleSearch = (searchQuery: string) => {
+    addQueryParamsToUrl({ name: searchQuery });
+    logSubmitEvent('searchMember', { content: 'searchQuery' });
+  };
+  const handleClickCard = (profile: Profile) => {
+    logClickEvent('memberCard', { id: profile.id, name: profile.name });
+  };
+
   return (
     <StyledContainer>
       <StyledContent>
         {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />}
-
         <StyledMain>
           {!hasProfile && <StyledDivider />}
           <Responsive only='desktop'>
-            <StyledMemberRoleMenu value={filter} onSelect={handleSelect} />
+            <StyledMemberRoleMenu value={filter} onSelect={handleSelectFilter} />
           </Responsive>
           <Responsive only='mobile'>
-            <StyledMemberRoleDropdown value={filter} onSelect={handleSelect} />
+            <StyledMobileFilterWrapper>
+              <StyledMemberRoleSelect value={filter} onChange={handleSelectFilter} />
+              <GenerationSelect value={generation} onChange={handleSelectGeneration} onClear={handleClearGeneration} />
+            </StyledMobileFilterWrapper>
+            <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
           </Responsive>
           <StyledRightWrapper>
-            <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+            <Responsive only='desktop'>
+              <StyledFilterWrapper>
+                <GenerationSelect
+                  value={generation}
+                  onChange={handleSelectGeneration}
+                  onClear={handleClearGeneration}
+                />
+                <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+              </StyledFilterWrapper>
+            </Responsive>
             <StyledCardWrapper>
               {profiles?.map((profiles, index) => (
                 <React.Fragment key={index}>
@@ -160,12 +187,27 @@ const StyledRightWrapper = styled.div`
   width: 100%;
 `;
 
+const StyledMobileFilterWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  height: 54px;
+
+  & > * {
+    flex: 1;
+  }
+`;
+
+const StyledFilterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const StyledMemberSearch = styled(MemberSearch)`
-  align-self: flex-end;
   max-width: 330px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    align-self: stretch;
+    margin-top: 16px;
+    width: 100%;
     max-width: 100%;
   }
 `;
@@ -210,9 +252,12 @@ const StyledMemberRoleMenu = styled(MemberRoleMenu)`
   min-width: 225px;
 `;
 
-const StyledMemberRoleDropdown = styled(MemberRoleDropdown)`
-  margin-bottom: 16px;
-  max-width: 505px;
+const StyledMemberRoleSelect = styled(MemberRoleSelect)`
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+
+  /* height: 54px; */
 `;
 
 const Target = styled.div`

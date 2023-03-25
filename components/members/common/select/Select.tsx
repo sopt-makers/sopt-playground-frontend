@@ -2,71 +2,154 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import * as Select from '@radix-ui/react-select';
-import { FC, PropsWithChildren } from 'react';
+import dynamic from 'next/dynamic';
+import { createContext, FC, PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'react';
 
+import { Overlay } from '@/components/members/common/select/Overlay';
+import IconClear from '@/public/icons/icon-search-clear.svg';
 import IconSelectArrow from '@/public/icons/icon-select-arrow.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-import { buildCSSWithLength, CSSValueWithLength } from '@/utils';
+
+const SelectPortal = dynamic<Select.SelectPortalProps>(
+  () => import('@radix-ui/react-select').then((r) => r.SelectPortal),
+  {
+    ssr: false,
+  },
+);
+
+type SelectContextValue = {
+  value?: string;
+  label?: ReactNode;
+  onChangeLabel: (label?: ReactNode) => void;
+};
+const SelectContext = createContext<SelectContextValue>({
+  value: undefined,
+  label: undefined,
+  onChangeLabel: () => undefined,
+});
+
+function useSelectContext() {
+  const context = useContext(SelectContext);
+  if (context == null) {
+    throw new Error('<Select/> 컴포넌트와 관련된 컴포넌트를 사용해주세요');
+  }
+  return context;
+}
 
 interface SelectProps extends Omit<Select.SelectProps, 'onValueChange'> {
+  allowClear?: boolean;
   className?: string;
   placeholder?: string;
-  width?: CSSValueWithLength;
   error?: boolean;
   onChange?: Select.SelectProps['onValueChange'];
+  onClear?: () => void;
 }
 
 const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
+  allowClear = false,
   className,
   children,
-  width = 200,
   placeholder,
   onChange,
+  onClear,
   error,
   ...props
 }) => {
-  return (
-    <Select.Root onValueChange={onChange} {...props}>
-      <StyledTrigger className={className} width={width} error={error}>
-        <Select.Value placeholder={placeholder} />
-        <Select.Icon>
-          <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
-        </Select.Icon>
-      </StyledTrigger>
-      <Select.Portal>
-        <ScrollArea.Root>
-          <StyledContent position='popper' width={width}>
-            <StyledScrollUpButton>
-              <IconSelectArrow width={18} height={18} alt='select-arrow-up' />
-            </StyledScrollUpButton>
-            <Select.Viewport asChild>
-              <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
-            </Select.Viewport>
-            <StyledScrollDownButton>
-              <IconSelectArrow width={18} height={18} alt='select-arrow-down' />
-            </StyledScrollDownButton>
+  const hasValue = !!props.value;
+  const [label, onChangeLabel] = useState<ReactNode>();
+  const [open, onOpenChange] = useState<boolean>(false);
 
-            <StyledScrollbar orientation='vertical'>
-              <StyledThumb />
-            </StyledScrollbar>
-          </StyledContent>
-        </ScrollArea.Root>
-      </Select.Portal>
-    </Select.Root>
+  return (
+    <SelectContext.Provider
+      value={{
+        value: props.value,
+        label,
+        onChangeLabel,
+      }}
+    >
+      <Select.Root onValueChange={onChange} {...props} open={open} onOpenChange={onOpenChange}>
+        <StyledWrapper allowClear={allowClear && hasValue}>
+          <Select.Trigger className={className} asChild>
+            <StyledTrigger error={error}>
+              {props.value === undefined ? placeholder : label}
+              <StyledIconArrow className='icon-arrow'>
+                <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
+              </StyledIconArrow>
+            </StyledTrigger>
+          </Select.Trigger>
+          {allowClear && hasValue && (
+            <StyledIconClear
+              className='icon-clear'
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onClear?.();
+              }}
+            >
+              <IconClear width={18} height={18} alt='clear-icon' />
+            </StyledIconClear>
+          )}
+        </StyledWrapper>
+        <SelectPortal>
+          <>
+            <Overlay open={open} />
+            <ScrollArea.Root>
+              <StyledContent position='popper'>
+                <StyledScrollUpButton>
+                  <IconSelectArrow width={18} height={18} alt='select-arrow-up' />
+                </StyledScrollUpButton>
+                <Select.Viewport asChild>
+                  <ScrollArea.Viewport>{children}</ScrollArea.Viewport>
+                </Select.Viewport>
+                <StyledScrollDownButton>
+                  <IconSelectArrow width={18} height={18} alt='select-arrow-down' />
+                </StyledScrollDownButton>
+
+                <StyledScrollbar orientation='vertical'>
+                  <StyledThumb />
+                </StyledScrollbar>
+              </StyledContent>
+            </ScrollArea.Root>
+          </>
+        </SelectPortal>
+      </Select.Root>
+    </SelectContext.Provider>
   );
 };
 
-const StyledTrigger = styled(Select.Trigger)<Pick<SelectProps, 'width' | 'error'>>`
+const StyledWrapper = styled.div<{ allowClear: boolean }>`
+  display: inline-block;
+  position: relative;
+
+  &:hover {
+    ${({ allowClear }) =>
+      allowClear &&
+      css`
+        & .icon-arrow {
+          opacity: 0;
+        }
+
+        & .icon-clear {
+          opacity: 1;
+        }
+      `}
+  }
+`;
+
+const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: space-between;
   border: 1px solid transparent;
   border-radius: 12px;
   background-color: ${colors.black60};
+  cursor: pointer;
   padding: 14px 20px;
+  width: 100%;
+  color: ${colors.gray80};
 
-  ${({ width }) => width && buildCSSWithLength('width', width)}
   ${({ error }) =>
     error &&
     css`
@@ -76,19 +159,29 @@ const StyledTrigger = styled(Select.Trigger)<Pick<SelectProps, 'width' | 'error'
         outline: none;
         border-color: ${colors.red100};
       }
-    `}
+    `};
 
   &[data-placeholder] {
-    color: ${colors.gray80};
     ${textStyles.SUIT_16_M};
+  }
+
+  & .icon-arrow {
+    transition: transform 0.3s;
+  }
+
+  &[data-state='open'] {
+    .icon-arrow {
+      transform: rotate(-180deg);
+    }
   }
 `;
 
-const StyledContent = styled(Select.Content)<Pick<SelectProps, 'width'>>`
+const StyledContent = styled(Select.Content)`
   margin-top: 4px;
   border-radius: 12px;
   background: ${colors.black60};
   padding: 8px;
+  width: var(--radix-select-trigger-width);
   max-height: 262px;
   overflow: scroll;
   scrollbar-width: none;
@@ -96,8 +189,24 @@ const StyledContent = styled(Select.Content)<Pick<SelectProps, 'width'>>`
   &::-webkit-scrollbar {
     display: none;
   }
+`;
 
-  ${({ width }) => width && buildCSSWithLength('width', width)}
+const StyledIconArrow = styled(Select.Icon)`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledIconClear = styled(Select.Icon)`
+  display: flex;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  transition: opacity 0.2s;
+  opacity: 0;
+  cursor: pointer;
 `;
 
 const StyledScrollUpButton = styled(Select.ScrollUpButton)`
@@ -145,9 +254,17 @@ interface SelectItemProps {
   value: string;
   disabled?: boolean;
 }
-const SelectItem: FC<PropsWithChildren<SelectItemProps>> = ({ value, children, disabled }) => {
+const SelectItem: FC<PropsWithChildren<SelectItemProps>> = ({ value: valueProp, children, disabled }) => {
+  const { value, onChangeLabel } = useSelectContext();
+
+  useEffect(() => {
+    if (value === valueProp) {
+      onChangeLabel(children);
+    }
+  }, [value, valueProp, children, onChangeLabel]);
+
   return (
-    <StyledItem value={value} disabled={disabled}>
+    <StyledItem value={valueProp} disabled={disabled} onClick={(e) => e.stopPropagation()}>
       <Select.ItemText>{children}</Select.ItemText>
     </StyledItem>
   );
@@ -157,6 +274,7 @@ const StyledItem = styled(Select.Item)`
   transition: color 0.2s background-color 0.2s;
   outline: none;
   border-radius: 6px;
+  cursor: pointer;
   padding: 5px 10px;
   width: 100%;
   color: ${colors.gray80};
