@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
 
+import { PHONE_REGEX, PHONE_REGEX_SHORT } from '@/components/auth/register/verify/regex';
 import VerifySubmitButton from '@/components/auth/register/verify/VerifySubmitButton';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
@@ -37,22 +38,18 @@ type ByPhoneProps = {
   onSubmitCode?: (code: string) => void;
 } & ByPhoneStates;
 
-const PHONE_REGEX = /^01\d-\d{3,4}-\d{4}$/;
-
 const ByPhoneView: FC<ByPhoneProps> = (props) => {
   const { type, onSubmitPhone, onSubmitCode } = props;
 
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
 
-  const isPhoneValid = phone.length > 0 && PHONE_REGEX.test(phone);
+  const isPhoneValid = phone.length > 0 && (PHONE_REGEX.test(phone) || PHONE_REGEX_SHORT.test(phone));
 
   function handleSubmitPhone(e: FormEvent) {
     e.preventDefault();
 
-    if (isPhoneValid) {
-      onSubmitPhone?.(phone);
-    }
+    onSubmitPhone?.(phone);
   }
 
   function handleSubmitCode(e: FormEvent) {

@@ -78,7 +78,7 @@ const LoginPage: FC = () => {
           {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
         </LinkContainer>
         <RegisterInfo>
-          Playground가 처음이신가요?
+          Playground가 처음이신가요?{' '}
           <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink', {})}>
             회원가입하기
           </RegisterLink>
