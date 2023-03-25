@@ -13,7 +13,7 @@ interface GenerationSelectProps {
   value?: string;
   onChange?: (value?: string) => void;
 }
-const GenerationSelect: FC<GenerationSelectProps> = ({ className, value, onChange, onClear }) => {
+const GenerationSelect: FC<GenerationSelectProps> = ({ className, value, onChange }) => {
   return (
     <StyledSelect className={className} placeholder='기수' value={value} onChange={onChange} selected={!!value}>
       <Select.Item value=''>전체 기수</Select.Item>
