@@ -65,12 +65,9 @@ export default function TmiSection() {
         </MbtiWrapper>
       </StyledMemberFormItem>
 
-      <StyledMemberFormItem
-        css={css`
-          padding-top: 14px;
-        `}
-        title='소주, 어디까지 마셔봤니?'
-      >
+      <StyledMemberFormItem title='소주, 어디까지 마셔봤니?'>
+        {/* TODO(@jun): Select 스타일 이슈로 임시 처리한 div태그 */}
+        <div style={{ marginTop: '14px' }} />
         <Controller
           control={control}
           name='sojuCapacity'
@@ -225,7 +222,6 @@ const FavorWrapper = styled.div`
 `;
 
 const StyledSelect = styled(Select)`
-  margin-top: 14px;
   width: 130px;
 
   @media ${MOBILE_MEDIA_QUERY} {
