@@ -3,9 +3,10 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import Responsive from '@/components/common/Responsive';
+import { playgroundLink } from '@/constants/links';
 import { textStyles } from '@/styles/typography';
 
-import { CLOSE_DATE, CREW_LINK, OPEN_DATE, TERM } from './constants';
+import { CLOSE_DATE, OPEN_DATE, TERM } from './constants';
 import MobileStudyBanner from './MobileStudyBanner';
 const CountdownTimer = dynamic(() => import('@/components/common/Banner/StudyBanner/CountdownTimer'), {
   ssr: false,
@@ -24,7 +25,7 @@ export default function StudyBanner({ className }: StudyBannerProps) {
         </Link>
       </Responsive>
       <Responsive only='desktop' asChild>
-        <Link href={CREW_LINK} className={className}>
+        <Link href={playgroundLink.groupList()} className={className}>
           <Container>
             <RecruitmentText>{`📝 ${TERM}기 스터디 모집`}</RecruitmentText>
             <CountdownTimer openDate={OPEN_DATE} closeDate={CLOSE_DATE} />
