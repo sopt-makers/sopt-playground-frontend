@@ -12,7 +12,8 @@ interface UseMemberProfileQueryVariables {
 
 export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQueryVariables) => {
   const _queryKey = (typeof queryKey === 'string' ? [queryKey] : queryKey) ?? [];
-  const { query } = useRouter();
+  const { query, isReady } = useRouter();
+
   return useInfiniteQuery({
     queryKey: ['getMemberProfile', limit, ..._queryKey],
     queryFn: async ({ pageParam: cursor = 0 }) => {
@@ -31,6 +32,7 @@ export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQuery
     onError: (error: { message: string }) => {
       console.error(error.message);
     },
+    enabled: isReady,
     keepPreviousData: true,
   });
 };
