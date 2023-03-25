@@ -45,7 +45,7 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
     css`
       background-color: ${colors.purple100};
       color: ${colors.white};
-    `}
+    `};
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 14px;
