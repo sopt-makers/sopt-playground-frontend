@@ -120,7 +120,14 @@ const StyledInterestSection = styled.div`
   row-gap: 35px;
 `;
 
-const MBTI = styled(Text)`
+const StyledText = styled(Text)`
+  line-height: 160%;
+  @media ${MOBILE_MEDIA_QUERY} {
+    line-height: 140%;
+  }
+`;
+
+const MBTI = styled(StyledText)`
   display: block;
   margin-top: 16px;
   ${textStyles.SUIT_18_B};
@@ -131,7 +138,7 @@ const MBTI = styled(Text)`
   }
 `;
 
-const MBTIDescription = styled(Text)`
+const MBTIDescription = styled(StyledText)`
   display: block;
   margin-top: 10px;
   ${textStyles.SUIT_18_M};
@@ -142,7 +149,7 @@ const MBTIDescription = styled(Text)`
   }
 `;
 
-const Description = styled(Text)`
+const Description = styled(StyledText)`
   margin-top: 16px;
   ${textStyles.SUIT_18_M};
 
@@ -153,12 +160,7 @@ const Description = styled(Text)`
 `;
 
 const SelfIntroductionDescription = styled(Description)`
-  line-height: 160%;
   white-space: pre-line;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    line-height: 140%;
-  }
 `;
 
 const BalanceGame = styled.div`
@@ -166,11 +168,13 @@ const BalanceGame = styled.div`
   align-items: center;
   column-gap: 20px;
   margin-top: 16px;
+  line-height: 160%;
   ${textStyles.SUIT_18_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     column-gap: 12px;
     margin-top: 12px;
+    line-height: 140%;
     ${textStyles.SUIT_16_M};
   }
 `;
