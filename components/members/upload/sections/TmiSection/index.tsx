@@ -216,6 +216,7 @@ const FavorWrapper = styled.div`
 
 const StyledSelect = styled(Select)`
   margin-top: 14px;
+  width: 122px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     background-color: ${colors.black80};
