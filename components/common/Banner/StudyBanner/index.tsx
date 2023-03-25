@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Responsive from '@/components/common/Responsive';
 import { textStyles } from '@/styles/typography';
 
-import { CLOSE_DATE, CREW_LINK, OPEN_DATE, TERM } from './contants';
+import { CLOSE_DATE, CREW_LINK, OPEN_DATE, TERM } from './constants';
 import MobileStudyBanner from './MobileStudyBanner';
 const CountdownTimer = dynamic(() => import('@/components/common/Banner/StudyBanner/CountdownTimer'), {
   ssr: false,

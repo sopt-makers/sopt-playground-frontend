@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { textStyles } from '@/styles/typography';
 
-import { TERM } from './contants';
+import { TERM } from './constants';
 
 export default function MobileStudyBanner() {
   return (
