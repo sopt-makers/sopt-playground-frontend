@@ -11,8 +11,8 @@ interface UseMemberProfileQueryVariables {
 }
 
 export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQueryVariables) => {
-  const _queryKey = (typeof queryKey === 'string' ? [queryKey] : queryKey) ?? [];
   const { query, isReady } = useRouter();
+  const _queryKey = (typeof queryKey === 'string' ? [queryKey] : queryKey) ?? [];
 
   return useInfiniteQuery({
     queryKey: ['getMemberProfile', limit, ..._queryKey],
