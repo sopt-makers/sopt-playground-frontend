@@ -69,9 +69,9 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
       }}
     >
       <Select.Root onValueChange={onChange} {...props} open={open} onOpenChange={onOpenChange}>
-        <StyledWrapper allowClear={allowClear && hasValue}>
+        <StyledWrapper className={className} allowClear={allowClear && hasValue}>
           <Select.Trigger asChild>
-            <StyledTrigger className={className} error={error}>
+            <StyledTrigger error={error}>
               {props.value === undefined ? placeholder : label}
               <StyledIconArrow className='icon-arrow'>
                 <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
@@ -121,7 +121,6 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
 const StyledWrapper = styled.div<{ allowClear: boolean }>`
   display: inline-block;
   position: relative;
-  height: fit-content;
 
   &:hover {
     ${({ allowClear }) =>
@@ -148,6 +147,7 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
   background-color: ${colors.black60};
   cursor: pointer;
   padding: 14px 20px;
+  width: 100%;
   color: ${colors.gray80};
 
   ${({ error }) =>
@@ -159,7 +159,7 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
         outline: none;
         border-color: ${colors.red100};
       }
-    `}
+    `};
 
   &[data-placeholder] {
     ${textStyles.SUIT_16_M};
