@@ -19,7 +19,7 @@ export default function StudyBanner({ className }: StudyBannerProps) {
   return (
     <>
       <Responsive only='mobile' asChild>
-        <Link href={CREW_LINK} className={className}>
+        <Link href={playgroundLink.groupList()} className={className}>
           <MobileStudyBanner />
         </Link>
       </Responsive>
