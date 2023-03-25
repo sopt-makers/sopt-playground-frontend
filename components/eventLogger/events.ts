@@ -31,6 +31,12 @@ export interface ClickEvents {
   aboutMakers: {
     //
   };
+  filterGeneration: {
+    generation: string;
+  };
+  filterPart: {
+    part: string;
+  };
 }
 
 export interface SubmitEvents {
