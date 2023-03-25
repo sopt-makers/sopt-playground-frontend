@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { useRef, useState } from 'react';
 
 import { postSMSCode, postSMSToken } from '@/api/auth';
+import { PHONE_REGEX, PHONE_REGEX_SHORT } from '@/components/auth/register/verify/regex';
 import { ByPhoneStates } from '@/components/auth/register/verify/view/ByPhoneView';
 
 interface ErrorResponse {
@@ -30,6 +31,15 @@ const useByPhone = ({ onCodeSuccess }: { onCodeSuccess?: (registerToken: string)
   const timeoutIdRef = useRef<ReturnType<typeof setTimeout>>();
 
   async function submitPhone(phone: string) {
+    if (!PHONE_REGEX.test(phone) && !PHONE_REGEX_SHORT.test(phone)) {
+      setState({
+        type: 'phoneError',
+        message: "'-'를 넣어 휴대폰 번호 양식에 맞게 입력해주세요.",
+      });
+
+      return;
+    }
+
     setState({
       type: 'phoneLoading',
     });
