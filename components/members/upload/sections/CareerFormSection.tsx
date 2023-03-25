@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import { FormEvent } from 'react';
+import { FormEvent, ReactNode } from 'react';
 import { FieldError, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import EditableSelect from '@/components/common/EditableSelect';
@@ -12,7 +12,6 @@ import TextArea from '@/components/common/TextArea';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
 import { DEFAULT_CAREER, DEFAULT_LINK, LINK_TITLES } from '@/components/members/upload/constants';
-import FormHeader from '@/components/members/upload/forms/FormHeader';
 import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import MemberSelectOptions from '@/components/members/upload/forms/SelectOptions';
@@ -21,7 +20,10 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function CareerFormSection() {
+interface CareerFormSectionProps {
+  header?: ReactNode;
+}
+export default function CareerFormSection({ header }: CareerFormSectionProps) {
   const {
     control,
     register,
@@ -98,7 +100,7 @@ export default function CareerFormSection() {
 
   return (
     <FormSection>
-      <FormHeader title='나의 커리어' />
+      {header}
       <FormItems>
         <StyledCareerAddableWrapper onAppend={handleAppendCareer}>
           {careerFields.map((field, index) => (
