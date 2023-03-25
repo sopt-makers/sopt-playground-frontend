@@ -27,6 +27,7 @@ const FormAccordion: FC<PropsWithChildren<FormAccordionProps>> = ({ description,
       <Text mt={8} typography='SUIT_14_M' color={colors.gray80}>
         {description}
       </Text>
+      <StyledDivder />
       <AnimatePresence initial={false}>
         {open && (
           <StyledContent
@@ -51,7 +52,6 @@ const FormAccordion: FC<PropsWithChildren<FormAccordionProps>> = ({ description,
 export default FormAccordion;
 
 const StyledRoot = styled(Collapsible.Root)`
-  border-bottom: 1px solid ${colors.black60};
   padding-bottom: 16px;
 `;
 
@@ -59,6 +59,11 @@ const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const StyledDivder = styled.div`
+  margin-top: 16px;
+  border: 0.5px solid ${colors.black60};
 `;
 
 const StyledTitleWrapper = styled.div`
