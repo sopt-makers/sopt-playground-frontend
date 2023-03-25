@@ -26,6 +26,7 @@ const PAGE_LIMIT = 30;
 const MemberList: FC = () => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [filter, setFilter] = useState<string>(menuValue.ALL);
+  const [name, setName] = useState<string>('');
 
   const router = useRouter();
   const { logClickEvent, logSubmitEvent } = useEventLogger();
@@ -60,12 +61,15 @@ const MemberList: FC = () => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, filter } = router.query;
+      const { generation, filter, name } = router.query;
       if (typeof generation === 'string' || generation === undefined) {
         setGeneration(generation);
       }
       if (typeof filter === 'string') {
         setFilter(filter);
+      }
+      if (typeof name === 'string') {
+        setName(name);
       }
     }
   }, [router.isReady, router.query, router]);
@@ -75,9 +79,6 @@ const MemberList: FC = () => {
   };
   const handleSelectGeneration = (generation: string | undefined) => {
     addQueryParamsToUrl({ generation });
-  };
-  const handleClearGeneration = () => {
-    addQueryParamsToUrl({ generation: undefined });
   };
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ name: searchQuery });
@@ -99,19 +100,15 @@ const MemberList: FC = () => {
           <Responsive only='mobile'>
             <StyledMobileFilterWrapper>
               <StyledMemberRoleSelect value={filter} onChange={handleSelectFilter} />
-              <GenerationSelect value={generation} onChange={handleSelectGeneration} onClear={handleClearGeneration} />
+              <GenerationSelect value={generation} onChange={handleSelectGeneration} />
             </StyledMobileFilterWrapper>
-            <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+            <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
           </Responsive>
           <StyledRightWrapper>
             <Responsive only='desktop'>
               <StyledFilterWrapper>
-                <GenerationSelect
-                  value={generation}
-                  onChange={handleSelectGeneration}
-                  onClear={handleClearGeneration}
-                />
-                <StyledMemberSearch placeholder='멤버 검색' onSearch={handleSearch} />
+                <GenerationSelect value={generation} onChange={handleSelectGeneration} />
+                <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
               </StyledFilterWrapper>
             </Responsive>
             <StyledCardWrapper>

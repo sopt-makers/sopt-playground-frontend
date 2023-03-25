@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { InputProps } from '@/components/common/Input';
 import SearchIcon from '@/public/icons/icon-member-search.svg';
@@ -7,16 +7,17 @@ import SearchClearIcon from '@/public/icons/icon-search-clear.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface MemberSearchProps extends InputProps {
+interface MemberSearchProps extends Omit<InputProps, 'value' | 'onChange'> {
+  value: string;
+  onChange: (value: string) => void;
   onSearch?: (searchQuery: string) => void;
 }
-const MemberSearch: FC<MemberSearchProps> = ({ className, onSearch, ...props }) => {
-  const [value, setValue] = useState<string>('');
+const MemberSearch: FC<MemberSearchProps> = ({ value, onChange, className, onSearch, ...props }) => {
   const handleSearch = () => {
     onSearch?.(value);
   };
   const handleClear = () => {
-    setValue('');
+    onChange('');
     onSearch?.('');
   };
 
@@ -28,7 +29,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ className, onSearch, ...props }) 
         handleSearch();
       }}
     >
-      <StyledInput type='text' value={value} onChange={(e) => setValue(e.target.value)} {...props} />
+      <StyledInput type='text' value={value} onChange={(e) => onChange(e.target.value)} {...props} />
       <StyledSearchIcon onClick={handleSearch} alt='검색 아이콘' />
       {value !== '' && <StyledSearchClearIcon onClick={handleClear} alt='검색어 삭제 아이콘' />}
     </StyledMemberSearch>

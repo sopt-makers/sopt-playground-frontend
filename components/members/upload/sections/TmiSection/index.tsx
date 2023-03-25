@@ -66,19 +66,12 @@ export default function TmiSection() {
       </StyledMemberFormItem>
 
       <StyledMemberFormItem title='소주, 어디까지 마셔봤니?'>
-        {/* TODO(@jun): Select 스타일 이슈로 임시 처리한 div태그 */}
-        <div style={{ marginTop: '14px' }} />
         <Controller
           control={control}
           name='sojuCapacity'
           render={({ field }) => (
-            <StyledSelect
-              allowClear
-              onClear={() => field.onChange(undefined)}
-              placeholder='주량 선택'
-              value={field.value}
-              onChange={field.onChange}
-            >
+            <StyledSelect placeholder='주량 선택' value={field.value} onChange={field.onChange}>
+              <Select.Item value=''>선택 안 함</Select.Item>
               {SOJU_CAPACITY_RANGE.map((capacity) => (
                 <Select.Item key={capacity} value={capacity}>
                   {capacity}
@@ -222,6 +215,7 @@ const FavorWrapper = styled.div`
 `;
 
 const StyledSelect = styled(Select)`
+  margin-top: 14px;
   width: 130px;
 
   @media ${MOBILE_MEDIA_QUERY} {
