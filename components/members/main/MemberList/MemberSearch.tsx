@@ -37,7 +37,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ className, onSearch, ...props }) 
 
 export default MemberSearch;
 
-const StyledMemberSearch = styled.div`
+const StyledMemberSearch = styled.form`
   position: relative;
 `;
 
