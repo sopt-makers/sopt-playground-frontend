@@ -7,7 +7,9 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const getBalanceGameResults = (balanceGame: BalanceGame): string[] => {
+const getBalanceGameResults = (balanceGame: BalanceGame): string[] | null => {
+  if (balanceGame === null) return null;
+
   const BALANCE_GAME_OPTIONS = {
     isPourSauceLover: ['부먹', '찍먹'],
     isHardPeachLover: ['딱복', '물복'],
@@ -44,7 +46,7 @@ type BalanceGame = {
   isRedBeanFishBreadLover: boolean | null;
   isSojuLover: boolean | null;
   isRiceTteokLover: boolean | null;
-};
+} | null;
 
 interface InterestSectionProps {
   mbti: {
@@ -66,7 +68,7 @@ const InterestSection: FC<InterestSectionProps> = ({
   selfIntroduction,
 }) => {
   const balanceGameResults = getBalanceGameResults(balanceGame);
-  const isBalanceGameAvailable = Object.values(balanceGame).some((value) => value !== null);
+  const isBalanceGameAvailable = balanceGame && Object.values(balanceGame).some((value) => value !== null);
 
   return (
     <StyledInterestSection>
@@ -89,7 +91,7 @@ const InterestSection: FC<InterestSectionProps> = ({
       {isBalanceGameAvailable && (
         <InfoItem label='나는 어느 쪽?'>
           <BalanceGame>
-            {balanceGameResults.map((balanceGameResult, index) => (
+            {balanceGameResults?.map((balanceGameResult, index) => (
               <React.Fragment key={index}>
                 {balanceGameResult}
                 {index !== balanceGameResults.length - 1 && <VerticalLine />}

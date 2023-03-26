@@ -211,14 +211,18 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 name: profile.mbti,
                 description: profile.mbtiDescription,
               }}
-              balanceGame={{
-                isSojuLover: profile.userFavor?.isSojuLover,
-                isHardPeachLover: profile.userFavor?.isHardPeachLover,
-                isMintChocoLover: profile.userFavor?.isMintChocoLover,
-                isPourSauceLover: profile.userFavor?.isPourSauceLover,
-                isRedBeanFishBreadLover: profile.userFavor?.isRedBeanFishBreadLover,
-                isRiceTteokLover: profile.userFavor?.isRiceTteokLover,
-              }}
+              balanceGame={
+                profile.userFavor
+                  ? {
+                      isSojuLover: profile.userFavor.isSojuLover,
+                      isHardPeachLover: profile.userFavor.isHardPeachLover,
+                      isMintChocoLover: profile.userFavor.isMintChocoLover,
+                      isPourSauceLover: profile.userFavor.isPourSauceLover,
+                      isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
+                      isRiceTteokLover: profile.userFavor.isRiceTteokLover,
+                    }
+                  : null
+              }
               idealType={profile.idealType}
               interest={profile.interest}
               selfIntroduction={profile.selfIntroduction}
