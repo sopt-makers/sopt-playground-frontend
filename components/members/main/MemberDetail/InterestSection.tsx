@@ -70,8 +70,6 @@ const InterestSection: FC<InterestSectionProps> = ({
   const balanceGameResults = getBalanceGameResults(balanceGame);
   const isBalanceGameAvailable = balanceGame && Object.values(balanceGame).some((value) => value !== null);
 
-  console.log('balanceGame', balanceGame);
-
   return (
     <StyledInterestSection>
       {mbti.name && (
