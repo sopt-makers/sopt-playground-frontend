@@ -7,8 +7,8 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const getBalanceGameResults = (balanceGame: BalanceGame): string[] | undefined => {
-  if (balanceGame === null) return;
+const getBalanceGameResults = (balanceGame: BalanceGame): string[] | null => {
+  if (balanceGame === null) return null;
 
   const BALANCE_GAME_OPTIONS = {
     isPourSauceLover: ['부먹', '찍먹'],
