@@ -102,44 +102,47 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
     <FormSection>
       {header}
       <FormItems>
-        <StyledCareerAddableWrapper onAppend={handleAppendCareer}>
-          {careerFields.map((field, index) => (
-            <AddableItem
-              errorMessage={getCareerErrorMessage(errors.careers?.[index])}
-              onRemove={() => handleRemoveCareer(index)}
-              key={field.id}
-            >
-              <CareerItem>
-                <CareerTitle>{`회사정보 ${index + 1}`}</CareerTitle>
-                <Input {...register(`careers.${index}.companyName`)} placeholder='회사 입력' />
-                <Input {...register(`careers.${index}.title`)} placeholder='직무 입력' />
-                <IsCurrent>
-                  현재 재직 중
-                  <Switch
-                    {...register(`careers.${index}.isCurrent`)}
-                    onChange={(e) => handleChangeIsCurrent(e, index)}
-                  />
-                </IsCurrent>
-                {careers.length && (
-                  <>
-                    <MonthPicker
-                      value={careers[index]?.startDate ? new Date(careers[index]?.startDate) : null}
-                      onChange={(date: Date) => handleChangeStartDate(date, index)}
-                      placeholder='근무 시작일'
+        <div>
+          <CareerTitle>커리어</CareerTitle>
+          <StyledCareerAddableWrapper onAppend={handleAppendCareer}>
+            {careerFields.map((field, index) => (
+              <AddableItem
+                errorMessage={getCareerErrorMessage(errors.careers?.[index])}
+                onRemove={() => handleRemoveCareer(index)}
+                key={field.id}
+              >
+                <CareerItem>
+                  <Input {...register(`careers.${index}.companyName`)} placeholder='회사 입력' />
+                  <Input {...register(`careers.${index}.title`)} placeholder='직무 입력' />
+                  <IsCurrent>
+                    현재 재직 중
+                    <Switch
+                      {...register(`careers.${index}.isCurrent`)}
+                      onChange={(e) => handleChangeIsCurrent(e, index)}
                     />
-                    <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
+                  </IsCurrent>
+                  {careers.length && (
+                    <>
                       <MonthPicker
-                        value={careers[index]?.endDate ? new Date(careers[index]?.endDate ?? '') : null}
-                        onChange={(date: Date) => handleChangeEndDate(date, index)}
-                        placeholder='근무 종료일'
+                        value={careers[index]?.startDate ? new Date(careers[index]?.startDate) : null}
+                        onChange={(date: Date) => handleChangeStartDate(date, index)}
+                        placeholder='근무 시작일'
                       />
-                    </EndDateWrapper>
-                  </>
-                )}
-              </CareerItem>
-            </AddableItem>
-          ))}
-        </StyledCareerAddableWrapper>
+                      <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
+                        <MonthPicker
+                          value={careers[index]?.endDate ? new Date(careers[index]?.endDate ?? '') : null}
+                          onChange={(date: Date) => handleChangeEndDate(date, index)}
+                          placeholder='근무 종료일'
+                        />
+                      </EndDateWrapper>
+                    </>
+                  )}
+                </CareerItem>
+              </AddableItem>
+            ))}
+          </StyledCareerAddableWrapper>
+        </div>
+
         <Responsive only='desktop' asChild>
           <>
             <MemberFormItem
@@ -266,9 +269,13 @@ const CareerItem = styled.div`
 
 const CareerTitle = styled.div`
   grid-column: 1 / span 2;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 
   ${textStyles.SUIT_18_SB}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 14px;
+  }
 `;
 
 const EndDateWrapper = styled.div`
@@ -341,6 +348,7 @@ const StyledTextArea = styled(TextArea)`
 const StyledAddableWrapper = styled(AddableWrapper)`
   margin-top: 13px;
   width: 683px;
+
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
   }
@@ -350,6 +358,10 @@ const StyledCareerAddableWrapper = styled(AddableWrapper)`
   display: flex;
   flex-direction: column;
   gap: 36px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 20px;
+  }
 `;
 
 const FormItems = styled.div`
