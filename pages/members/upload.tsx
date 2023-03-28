@@ -34,9 +34,45 @@ export default function MemberUploadPage() {
   const { handleSubmit } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
-    const { birthday, links, careers, mbti, sojuCapacity, favor, longIntroduction } = formData;
+    const {
+      birthday,
+      links,
+      careers,
+      mbti,
+      sojuCapacity,
+      favor,
+      longIntroduction,
+      name,
+      profileImage,
+      phone,
+      email,
+      address,
+      university,
+      major,
+      introduction,
+      skill,
+      activities,
+      allowOfficial,
+      mbtiDescription,
+      interest,
+      idealType,
+    } = formData;
+
     const requestBody: ProfileRequest = {
-      ...formData,
+      name,
+      profileImage,
+      phone,
+      email,
+      address,
+      university,
+      major,
+      introduction,
+      skill,
+      activities,
+      allowOfficial,
+      mbtiDescription,
+      interest,
+      idealType,
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
       careers: careers
@@ -45,12 +81,12 @@ export default function MemberUploadPage() {
       mbti: mbti ? mbti.join('') : mbti,
       sojuCapacity: getSojuCapacityApiValue(sojuCapacity) ?? null,
       userFavor: {
-        isPourSauceLover: favor.sweetAndSourPork === '부먹',
-        isHardPeachLover: favor.peach === '딱복',
-        isMintChocoLover: favor.mintChocolate === '민초',
-        isRedBeanFishBreadLover: favor.fishBread === '팥붕',
-        isSojuLover: favor.alcohol === '소주',
-        isRiceTteokLover: favor.tteokbokki === '쌀떡',
+        isPourSauceLover: favor.sweetAndSourPork === null ? null : favor.sweetAndSourPork === '부먹',
+        isHardPeachLover: favor.peach === null ? null : favor.peach === '딱복',
+        isMintChocoLover: favor.mintChocolate === null ? null : favor.mintChocolate === '민초',
+        isRedBeanFishBreadLover: favor.fishBread === null ? null : favor.fishBread === '팥붕',
+        isSojuLover: favor.alcohol === null ? null : favor.alcohol === '소주',
+        isRiceTteokLover: favor.tteokbokki === null ? null : favor.tteokbokki === '쌀떡',
       },
       selfIntroduction: longIntroduction,
     };
