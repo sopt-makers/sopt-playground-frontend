@@ -51,6 +51,7 @@ export const PARTS = [
   '웹 파트장',
   '안드로이드 파트장',
   'iOS 파트장',
+  '메이커스 리드',
 ];
 
 export const TEAMS = ['운영팀', '미디어팀', '해당 없음'];
