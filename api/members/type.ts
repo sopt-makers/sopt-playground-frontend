@@ -57,6 +57,17 @@ export type ProfileDetail = {
     cardinalInfo: string;
     cardinalActivities: Activity[];
   }[];
+  soptActivities: {
+    generation: number;
+    part: string;
+    team: string | null;
+    projects: {
+      id: number;
+      generation: number;
+      name: string;
+      category: 'APPJAM' | 'SOPKATHON' | null;
+    }[];
+  }[];
   links: Link[];
   projects: MemberProject[];
   careers: Career[];
