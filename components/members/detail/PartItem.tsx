@@ -1,85 +1,68 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { FC } from 'react';
 
-import { Activity } from '@/api/members/type';
 import ActivityBadge from '@/components/members/detail/ActivityBadge';
+import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
-const getPartLabel = (part: string) => {
-  const NORMAL_PARTS = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
-  return `${part} ${NORMAL_PARTS.includes(part) ? '파트' : ''}`;
-};
+const NORMAL_PARTS = ['기획', '디자인', '서버', '안드로이드', '웹', 'iOS'];
 
 type PartItemProps = {
-  cardinalActivities: Activity[];
   generation: string;
   part: string;
-  imgSrc?: string;
+  teams?: string[];
+  activities: { type: string; name: string; href: string }[];
 };
 
-const PartItem: FC<PartItemProps> = (project) => {
-  const { cardinalActivities, generation, part } = project;
+const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities }) => {
+  const partLabel = `${part} ${NORMAL_PARTS.includes(part) ? '파트' : ''}`;
+  const soptLogoSrc = Number(generation) < 12 ? '/icons/logo/time=1-11.svg' : `/icons/logo/time=${generation}.svg`;
 
   return (
-    <>
-      <Container className='pc-only'>
-        <Thumbnail>
-          {Number(generation) < 12 ? (
-            <img alt='generation-logo' src='/icons/logo/time=1-11.svg' />
-          ) : (
-            <img alt='generation-logo' src={`/icons/logo/time=${generation}.svg`} />
-          )}
-        </Thumbnail>
-        <Contents>
-          <Title>
-            <div className='year'>{generation}기</div>
-            <div className='part'>{getPartLabel(part)}</div>
-          </Title>
-          <Badges>
-            {cardinalActivities.map(
-              (activity) => activity.team !== '해당 없음' && <ActivityBadge key={activity.id} {...activity} />,
-            )}
-          </Badges>
-        </Contents>
-      </Container>
-
-      <Container className='mobile-only'>
-        <Contents>
-          <Thumbnail>
-            {Number(generation) < 12 ? (
-              <img alt='generation-logo' src='/icons/logo/time=1-11.svg' />
-            ) : (
-              <img alt='generation-logo' src={`/icons/logo/time=${generation}.svg`} />
-            )}
-          </Thumbnail>
-          <Title>
-            <div className='year'>{generation}기</div>
-            <div className='part'>{getPartLabel(part)}</div>
-          </Title>
-        </Contents>
-        <Badges>
-          {cardinalActivities.map(
-            (activity) => activity.team !== '해당 없음' && <ActivityBadge key={activity.id} {...activity} />,
-          )}
-        </Badges>
-      </Container>
-    </>
+    <Container>
+      <Thumbnail>
+        <img alt={`${generation}기 SOPT`} src={soptLogoSrc} />
+      </Thumbnail>
+      <Generation>{generation}기</Generation>
+      <BelongArea>
+        {partLabel} {teams?.map((team) => `| ${team}`)}
+      </BelongArea>
+      <Badges>
+        {activities.map((activity, idx) => (
+          <Link key={idx} href={activity.href}>
+            <ActivityBadge category={activity.type} name={activity.name} />
+          </Link>
+        ))}
+      </Badges>
+    </Container>
   );
 };
 
 const Container = styled.div`
-  display: flex;
-  gap: 29px;
+  display: grid;
+  grid:
+    [row1-start] 'thumbnail generation belongs' 1fr [row1-end]
+    [row2-start] 'thumbnail activities activities' 1fr [row2-end]
+    / auto auto 1fr;
   align-items: center;
+
   @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
+    grid:
+      [row1-start] 'thumbnail generation' 1fr [row1-end]
+      [row2-start] 'thumbnail belongs' 1fr [row2-end]
+      [row2-start] 'activities activities' auto [row2-end]
+      / auto 1fr;
   }
 `;
 
 const Thumbnail = styled.div`
   display: flex;
+  grid-area: thumbnail;
   align-items: center;
   justify-content: center;
+  margin-right: 30px;
   border-radius: 14px;
   background: #000;
   width: 84px;
@@ -90,54 +73,49 @@ const Thumbnail = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    margin-right: 14px;
     width: 60px;
     height: 60px;
   }
 `;
 
-const Contents = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 60px;
+const Generation = styled.div`
+  grid-area: generation;
+  margin-right: 12px;
+  color: ${colors.white};
+
+  ${textStyles.SUIT_18_B}
+
   @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
+    align-self: end;
+    margin-bottom: 2px;
+
+    ${textStyles.SUIT_16_B}
   }
 `;
 
-const Title = styled.div`
-  display: flex;
-  gap: 11px;
-  line-height: 100%;
-  letter-spacing: -0.01em;
-  font-size: 18px;
+const BelongArea = styled.div`
+  grid-area: belongs;
+  color: ${colors.gray30};
 
-  .year {
-    color: #fff;
-    font-weight: 700;
-  }
-
-  .part {
-    color: #ced1d2;
-    font-weight: 500;
-  }
+  ${textStyles.SUIT_18_M}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-    gap: 8px;
-    margin-left: 14px;
-    font-size: 16px;
+    align-self: start;
+    margin-top: 2px;
+
+    ${textStyles.SUIT_16_M}
   }
 `;
 
 const Badges = styled.div`
   display: flex;
+  grid-area: activities;
   gap: 8px;
+  align-self: start;
+  margin-top: 2px;
+
   @media ${MOBILE_MEDIA_QUERY} {
-    flex-wrap: wrap;
-    gap: 12px 8px;
     margin-top: 12px;
   }
 `;
