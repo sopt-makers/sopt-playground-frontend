@@ -8,7 +8,7 @@ import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
@@ -48,16 +48,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
 
-  const sortedActivities = useMemo(
-    () =>
-      profile?.activities.sort((a, b) => {
-        const aGen = Number(a.cardinalInfo.split(',')[0]);
-        const bGen = Number(b.cardinalInfo.split(',')[0]);
-        return bGen - aGen;
-      }) ?? [],
-    [profile?.activities],
-  );
-
   if (error?.response?.status === 400) {
     return <EmptyProfile />;
   }
@@ -85,16 +75,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             <div>
               <NameWrapper>
                 <div className='name'>{profile?.name}</div>
-                <div className='part'>
-                  {uniq(
-                    profile?.activities.map((item) => {
-                      const [_, part] = item.cardinalInfo.split(',');
-                      return part;
-                    }),
-                  )
-                    .filter((part) => part.length)
-                    .join('/')}
-                </div>
+                <div className='part'>{uniq(profile?.soptActivities.map(({ part }) => part)).join('/')}</div>
               </NameWrapper>
               <div className='intro'>{profile?.introduction}</div>
             </div>
@@ -180,17 +161,19 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         )}
 
         <InfoContainer style={{ gap: '34px' }}>
-          {sortedActivities.map((item, idx) => {
-            const [generation, part] = item.cardinalInfo.split(',');
-            return (
-              <PartItem
-                key={idx}
-                generation={generation}
-                part={part}
-                cardinalActivities={item.cardinalActivities.filter((act) => act.generation.toString() === generation)}
-              />
-            );
-          })}
+          {profile.soptActivities.map(({ generation, part, projects, team }, idx) => (
+            <PartItem
+              key={idx}
+              generation={`${generation}`}
+              part={part}
+              activities={projects.map((project) => ({
+                name: project.name,
+                type: convertProjectType(project.category),
+                href: playgroundLink.projectDetail(project.id),
+              }))}
+              teams={team !== null ? [team] : []}
+            />
+          ))}
         </InfoContainer>
 
         {(profile.sojuCapacity ||
@@ -272,6 +255,17 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     </Container>
   );
 };
+
+function convertProjectType(typeCode: 'APPJAM' | 'SOPKATHON' | null) {
+  if (typeCode === 'APPJAM') {
+    return '앱잼';
+  }
+  if (typeCode === 'SOPKATHON') {
+    return '솝커톤';
+  }
+
+  return '';
+}
 
 const Container = styled.div`
   display: flex;

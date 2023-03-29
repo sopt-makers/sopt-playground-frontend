@@ -136,14 +136,11 @@ export default function MemberEditPage() {
         introduction: myProfile.introduction,
         skill: myProfile.skill,
         links: myProfile.links.length ? myProfile.links : [DEFAULT_LINK],
-        activities: myProfile.activities.map((act) => {
-          const [generation, part] = act.cardinalInfo.split(',');
-          return {
-            generation,
-            part,
-            team: act.cardinalActivities[0].team,
-          };
-        }),
+        activities: myProfile.soptActivities.map(({ generation, team, part }) => ({
+          generation: `${generation}`,
+          part,
+          team: team ?? undefined,
+        })),
         allowOfficial: myProfile.allowOfficial,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
