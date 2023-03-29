@@ -8,6 +8,9 @@ import { useGetMemberProfileOfMe } from '@/api/hooks';
 import { putMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
+import FormAccordion from '@/components/common/form/FormCollapsible';
+import Responsive from '@/components/common/Responsive';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   DEFAULT_CAREER,
   DEFAULT_FAVOR,
@@ -21,6 +24,7 @@ import {
   getSojuCapacityFromApiValue,
 } from '@/components/members/upload/format';
 import MemberForm from '@/components/members/upload/forms/Form';
+import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import { memberFormSchema } from '@/components/members/upload/schema';
 import BasicFormSection from '@/components/members/upload/sections/BasicFormSection';
 import CareerFormSection from '@/components/members/upload/sections/CareerFormSection';
@@ -32,6 +36,7 @@ import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
 export default function MemberEditPage() {
+  const { logSubmitEvent } = useEventLogger();
   const formMethods = useForm<MemberUploadForm>({
     defaultValues: MEMBER_DEFAULT_VALUES,
     mode: 'onChange',
@@ -108,6 +113,8 @@ export default function MemberEditPage() {
     queryClient.invalidateQueries(['getMemberProfile']);
 
     router.push(playgroundLink.memberDetail(response.id));
+
+    logSubmitEvent('editProfile', {});
   };
 
   useEffect(() => {
@@ -198,7 +205,14 @@ export default function MemberEditPage() {
           <BasicFormSection />
           <SoptActivityFormSection />
           <TmiSection />
-          <CareerFormSection />
+          <Responsive only='desktop'>
+            <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
+          </Responsive>
+          <Responsive only='mobile'>
+            <FormAccordion title='나의 커리어' description='나의 경력, 스킬 등을 작성해 볼 수 있어요.'>
+              <CareerFormSection />
+            </FormAccordion>
+          </Responsive>
           <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>

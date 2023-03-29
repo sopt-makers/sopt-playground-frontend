@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import useInterval from '@/hooks/useInterval';
 import { convertMillisecondsIntoDateValues } from '@/utils';
@@ -11,9 +11,13 @@ export default function useCountdown(targetDate: Date) {
 
   const [countdown, setCountdown] = useState<number>(getCountdownMilliseconds());
 
-  useInterval(() => {
+  const { clear } = useInterval(() => {
     setCountdown(getCountdownMilliseconds());
   }, 1000);
+
+  useEffect(() => {
+    if (countdown <= 0) clear();
+  }, [clear, countdown]);
 
   return convertMillisecondsIntoDateValues(countdown);
 }

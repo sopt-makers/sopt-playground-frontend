@@ -6,9 +6,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { postMemberProfile } from '@/api/members';
 import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
+import FormAccordion from '@/components/common/form/FormCollapsible';
+import Responsive from '@/components/common/Responsive';
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
 import { formatBirthday, getSojuCapacityApiValue } from '@/components/members/upload/format';
 import MemberForm from '@/components/members/upload/forms/Form';
+import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import { memberFormSchema } from '@/components/members/upload/schema';
 import BasicFormSection from '@/components/members/upload/sections/BasicFormSection';
 import CareerFormSection from '@/components/members/upload/sections/CareerFormSection';
@@ -68,7 +71,14 @@ export default function MemberUploadPage() {
           <BasicFormSection />
           <SoptActivityFormSection />
           <TmiSection />
-          <CareerFormSection />
+          <Responsive only='desktop'>
+            <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
+          </Responsive>
+          <Responsive only='mobile'>
+            <FormAccordion title='나의 커리어' description='나의 경력, 스킬 등을 작성해 볼 수 있어요.'>
+              <CareerFormSection />
+            </FormAccordion>
+          </Responsive>
           <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>

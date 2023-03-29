@@ -7,7 +7,9 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const getBalanceGameResults = (balanceGame: BalanceGame): string[] => {
+const getBalanceGameResults = (balanceGame: BalanceGame): string[] | null => {
+  if (balanceGame === null) return null;
+
   const BALANCE_GAME_OPTIONS = {
     isPourSauceLover: ['부먹', '찍먹'],
     isHardPeachLover: ['딱복', '물복'],
@@ -44,7 +46,7 @@ type BalanceGame = {
   isRedBeanFishBreadLover: boolean | null;
   isSojuLover: boolean | null;
   isRiceTteokLover: boolean | null;
-};
+} | null;
 
 interface InterestSectionProps {
   mbti: {
@@ -66,7 +68,7 @@ const InterestSection: FC<InterestSectionProps> = ({
   selfIntroduction,
 }) => {
   const balanceGameResults = getBalanceGameResults(balanceGame);
-  const isBalanceGameAvailable = Object.values(balanceGame).some((value) => value !== null);
+  const isBalanceGameAvailable = balanceGame && Object.values(balanceGame).some((value) => value !== null);
 
   return (
     <StyledInterestSection>
@@ -89,7 +91,7 @@ const InterestSection: FC<InterestSectionProps> = ({
       {isBalanceGameAvailable && (
         <InfoItem label='나는 어느 쪽?'>
           <BalanceGame>
-            {balanceGameResults.map((balanceGameResult, index) => (
+            {balanceGameResults?.map((balanceGameResult, index) => (
               <React.Fragment key={index}>
                 {balanceGameResult}
                 {index !== balanceGameResults.length - 1 && <VerticalLine />}
@@ -120,7 +122,14 @@ const StyledInterestSection = styled.div`
   row-gap: 35px;
 `;
 
-const MBTI = styled(Text)`
+const StyledText = styled(Text)`
+  line-height: 160%;
+  @media ${MOBILE_MEDIA_QUERY} {
+    line-height: 140%;
+  }
+`;
+
+const MBTI = styled(StyledText)`
   display: block;
   margin-top: 16px;
   ${textStyles.SUIT_18_B};
@@ -131,7 +140,7 @@ const MBTI = styled(Text)`
   }
 `;
 
-const MBTIDescription = styled(Text)`
+const MBTIDescription = styled(StyledText)`
   display: block;
   margin-top: 10px;
   ${textStyles.SUIT_18_M};
@@ -142,7 +151,7 @@ const MBTIDescription = styled(Text)`
   }
 `;
 
-const Description = styled(Text)`
+const Description = styled(StyledText)`
   margin-top: 16px;
   ${textStyles.SUIT_18_M};
 
@@ -153,12 +162,7 @@ const Description = styled(Text)`
 `;
 
 const SelfIntroductionDescription = styled(Description)`
-  line-height: 160%;
   white-space: pre-line;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    line-height: 140%;
-  }
 `;
 
 const BalanceGame = styled.div`
@@ -166,11 +170,13 @@ const BalanceGame = styled.div`
   align-items: center;
   column-gap: 20px;
   margin-top: 16px;
+  line-height: 160%;
   ${textStyles.SUIT_18_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     column-gap: 12px;
     margin-top: 12px;
+    line-height: 140%;
     ${textStyles.SUIT_16_M};
   }
 `;

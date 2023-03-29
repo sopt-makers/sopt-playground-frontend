@@ -7,6 +7,7 @@ const useEventLogger = () => {
 
   return {
     logClickEvent: controller.clickEvent,
+    logSubmitEvent: controller.submitEvent,
   };
 };
 

@@ -31,9 +31,12 @@ export const WithState = () => {
   const onSelect = (value: string) => {
     setValue(value);
   };
+  const onClear = () => {
+    setValue(undefined);
+  };
 
   return (
-    <Select placeholder='기수 선택' value={value} onChange={(value) => onSelect(value)}>
+    <Select placeholder='기수 선택' value={value} onChange={(value) => onSelect(value)} allowClear onClear={onClear}>
       {GENERATIONS.map((generation) => (
         <Select.Item key={generation} value={generation}>
           {`${generation} 기`}

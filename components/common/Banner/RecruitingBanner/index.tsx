@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { DEADLINE_DATE, RECRUITING_LINK, TERM } from '@/components/common/Banner/RecruitingBanner/contants';
+import { DEADLINE_DATE, RECRUITING_LINK, TERM } from '@/components/common/Banner/RecruitingBanner/constants';
 import CountdownTimer from '@/components/common/Banner/RecruitingBanner/CountdownTimer';
 import MobileRecruitingBanner from '@/components/common/Banner/RecruitingBanner/MobileRecruitingBanner';
 import Responsive from '@/components/common/Responsive';

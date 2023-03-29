@@ -7,5 +7,8 @@ export function createStorybookActionController(): EventLoggerController {
     clickEvent(key, params) {
       action('EventLogger.clickEvent')(key, params);
     },
+    submitEvent(key, params) {
+      action('EventLogger.submitEvent')(key, params);
+    },
   };
 }
