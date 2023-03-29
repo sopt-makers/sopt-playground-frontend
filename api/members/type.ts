@@ -53,10 +53,6 @@ export type ProfileDetail = {
   };
   idealType: string;
   selfIntroduction: string;
-  activities: {
-    cardinalInfo: string;
-    cardinalActivities: Activity[];
-  }[];
   soptActivities: {
     generation: number;
     part: string;

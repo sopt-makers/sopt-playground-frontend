@@ -75,16 +75,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             <div>
               <NameWrapper>
                 <div className='name'>{profile?.name}</div>
-                <div className='part'>
-                  {uniq(
-                    profile?.activities.map((item) => {
-                      const [_, part] = item.cardinalInfo.split(',');
-                      return part;
-                    }),
-                  )
-                    .filter((part) => part.length)
-                    .join('/')}
-                </div>
+                <div className='part'>{uniq(profile?.soptActivities.map(({ part }) => part)).join('/')}</div>
               </NameWrapper>
               <div className='intro'>{profile?.introduction}</div>
             </div>
