@@ -8,7 +8,7 @@ import { ProfileRequest } from '@/api/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';
-import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
+import { MEMBER_DEFAULT_VALUES, UNSELECTED } from '@/components/members/upload/constants';
 import { formatBirthday, getSojuCapacityApiValue } from '@/components/members/upload/format';
 import MemberForm from '@/components/members/upload/forms/Form';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
@@ -18,7 +18,7 @@ import CareerFormSection from '@/components/members/upload/sections/CareerFormSe
 import PublicQuestionFormSection from '@/components/members/upload/sections/PublicQuestionFormSection';
 import SoptActivityFormSection from '@/components/members/upload/sections/SoptActivityFormSection';
 import TmiSection from '@/components/members/upload/sections/TmiSection';
-import { MemberUploadForm } from '@/components/members/upload/types';
+import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
@@ -68,11 +68,17 @@ export default function MemberUploadPage() {
       major,
       introduction,
       skill,
-      activities,
       allowOfficial,
       mbtiDescription,
       interest,
       idealType,
+      activities: activities.map((activity) => {
+        if (activity.team === UNSELECTED || activity.team === '') {
+          const newActivity: SoptActivity = { ...activity, team: null };
+          return newActivity;
+        }
+        return activity;
+      }),
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
       careers: careers

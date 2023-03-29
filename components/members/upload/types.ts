@@ -34,10 +34,10 @@ export interface MemberUploadForm {
   longIntroduction: string;
 }
 
-interface SoptActivity {
+export interface SoptActivity {
   generation: string;
   part: string;
-  team: string;
+  team: string | null;
 }
 
 export interface Link {

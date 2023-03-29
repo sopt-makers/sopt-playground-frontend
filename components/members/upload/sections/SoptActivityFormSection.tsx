@@ -70,7 +70,7 @@ export default function MemberSoptActivityFormSection() {
               <StyledSelect
                 {...register(`activities.${index}.team`)}
                 error={errors?.activities?.[index]?.hasOwnProperty('team')}
-                placeholder='운팀/미팀'
+                placeholder='운팀/미팀 여부'
                 className='team'
               >
                 <SelectOptions options={TEAMS} />

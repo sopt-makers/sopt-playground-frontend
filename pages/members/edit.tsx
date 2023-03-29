@@ -16,6 +16,7 @@ import {
   DEFAULT_FAVOR,
   DEFAULT_LINK,
   MEMBER_DEFAULT_VALUES,
+  UNSELECTED,
 } from '@/components/members/upload/constants';
 import {
   formatBirthday,
@@ -31,7 +32,7 @@ import CareerFormSection from '@/components/members/upload/sections/CareerFormSe
 import PublicQuestionFormSection from '@/components/members/upload/sections/PublicQuestionFormSection';
 import SoptActivityFormSection from '@/components/members/upload/sections/SoptActivityFormSection';
 import TmiSection from '@/components/members/upload/sections/TmiSection';
-import { MemberUploadForm } from '@/components/members/upload/types';
+import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
@@ -83,11 +84,17 @@ export default function MemberEditPage() {
       major,
       introduction,
       skill,
-      activities,
       allowOfficial,
       mbtiDescription,
       interest,
       idealType,
+      activities: activities.map((activity) => {
+        if (activity.team === UNSELECTED || activity.team === '') {
+          const newActivity: SoptActivity = { ...activity, team: null };
+          return newActivity;
+        }
+        return activity;
+      }),
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
       careers: careers
@@ -139,7 +146,7 @@ export default function MemberEditPage() {
         activities: myProfile.soptActivities.map(({ generation, team, part }) => ({
           generation: `${generation}`,
           part,
-          team: team ?? undefined,
+          team: team ?? UNSELECTED,
         })),
         allowOfficial: myProfile.allowOfficial,
         profileImage: myProfile.profileImage,

@@ -3,7 +3,7 @@ import { DefaultValues } from 'react-hook-form';
 import { MemberUploadForm } from '@/components/members/upload/types';
 
 export const DEFAULT_CAREER = { title: '', companyName: '', isCurrent: false, startDate: '', endDate: '' };
-export const DEFAULT_ACTIVITY = { generation: '', part: '', team: '해당 없음' };
+export const DEFAULT_ACTIVITY = { generation: '', part: '', team: '' };
 export const DEFAULT_LINK = { title: '', url: '' };
 export const DEFAULT_FAVOR = {
   sweetAndSourPork: null,
@@ -54,7 +54,9 @@ export const PARTS = [
   '메이커스 리드',
 ];
 
-export const TEAMS = ['운영팀', '미디어팀', '해당 없음'];
+export const UNSELECTED = '선택 안 함';
+
+export const TEAMS = [UNSELECTED, '운영팀', '미디어팀'];
 
 export const LINK_TITLES = ['Facebook', 'Instagram', 'LinkedIn', 'GitHub', 'Behance'];
 
