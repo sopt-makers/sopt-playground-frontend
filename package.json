@@ -111,6 +111,7 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-config-styled-components": "^0.1.1",
+    "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "tsup": "^6.5.0",
     "typescript": "^5.0.2",
