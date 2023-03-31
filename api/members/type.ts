@@ -127,7 +127,7 @@ export interface ProfileRequest {
   activities: {
     generation: string;
     part: string;
-    team: string;
+    team: string | null;
   }[];
   links: Omit<Link, 'id'>[] | null;
   allowOfficial: boolean;
