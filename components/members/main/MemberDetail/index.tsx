@@ -8,7 +8,7 @@ import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
@@ -47,6 +47,15 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+
+  const sortedSoptActivities = useMemo(() => {
+    if (!profile?.soptActivities) {
+      return [];
+    }
+    const sorted = [...profile.soptActivities];
+    sorted.sort((a, b) => b.generation - a.generation);
+    return sorted;
+  }, [profile?.soptActivities]);
 
   if (error?.response?.status === 400) {
     return <EmptyProfile />;
@@ -161,7 +170,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         )}
 
         <InfoContainer style={{ gap: '34px' }}>
-          {profile.soptActivities.map(({ generation, part, projects, team }, idx) => (
+          {sortedSoptActivities.map(({ generation, part, projects, team }, idx) => (
             <PartItem
               key={idx}
               generation={`${generation}`}
