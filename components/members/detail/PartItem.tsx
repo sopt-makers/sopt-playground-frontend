@@ -110,13 +110,13 @@ const BelongArea = styled.div`
 
 const Badges = styled.div`
   display: flex;
+  flex-wrap: wrap;
   grid-area: activities;
   gap: 8px;
   align-self: start;
   margin-top: 2px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    flex-wrap: wrap;
     margin-top: 12px;
   }
 `;
