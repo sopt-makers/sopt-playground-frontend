@@ -116,6 +116,7 @@ const Badges = styled.div`
   margin-top: 2px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    flex-wrap: wrap;
     margin-top: 12px;
   }
 `;
