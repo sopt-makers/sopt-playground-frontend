@@ -110,6 +110,7 @@ const BelongArea = styled.div`
 
 const Badges = styled.div`
   display: flex;
+  flex-wrap: wrap;
   grid-area: activities;
   gap: 8px;
   align-self: start;
