@@ -248,15 +248,26 @@ const IsCurrent = styled.div`
 
 const CareerItem = styled.div`
   display: grid;
+  position: relative;
   grid-template-columns: 1fr 1fr;
   column-gap: 18px;
   width: 630px;
 
   /* stylelint-disable-next-line selector-class-pattern */
   .react-datepicker__tab-loop {
+    position: absolute;
+    bottom: 0;
     grid-row-start: 3;
     grid-column-start: 1;
   }
+
+  .react-datepicker {
+    position: absolute;
+    bottom: -126px;
+    left: 0;
+    width: max-content;
+  }
+
   /* stylelint-disable-next-line selector-class-pattern */
   .react-datepicker__triangle {
     display: none !important;
