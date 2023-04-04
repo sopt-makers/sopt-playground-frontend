@@ -12,12 +12,12 @@ import { MEMBER_DEFAULT_VALUES, UNSELECTED } from '@/components/members/upload/c
 import { formatBirthday, getSojuCapacityApiValue } from '@/components/members/upload/format';
 import MemberForm from '@/components/members/upload/forms/Form';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
+import BasicFormSection from '@/components/members/upload/FormSection/Basic';
+import CareerFormSection from '@/components/members/upload/FormSection/Career';
+import PublicQuestionFormSection from '@/components/members/upload/FormSection/PublicQuestion';
+import SoptActivityFormSection from '@/components/members/upload/FormSection/SoptActivity';
+import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
-import BasicFormSection from '@/components/members/upload/sections/BasicFormSection';
-import CareerFormSection from '@/components/members/upload/sections/CareerFormSection';
-import PublicQuestionFormSection from '@/components/members/upload/sections/PublicQuestionFormSection';
-import SoptActivityFormSection from '@/components/members/upload/sections/SoptActivityFormSection';
-import TmiSection from '@/components/members/upload/sections/TmiSection';
 import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
@@ -112,7 +112,7 @@ export default function MemberUploadPage() {
         <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)}>
           <BasicFormSection />
           <SoptActivityFormSection />
-          <TmiSection />
+          <TmiFormSection />
           <Responsive only='desktop'>
             <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
           </Responsive>

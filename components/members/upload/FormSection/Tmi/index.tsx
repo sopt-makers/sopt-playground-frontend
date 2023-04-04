@@ -11,8 +11,8 @@ import MemberCountableTextArea from '@/components/members/upload/forms/Countable
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection } from '@/components/members/upload/forms/FormSection';
-import FavorToggle from '@/components/members/upload/sections/TmiSection/FavorToggle';
-import MbtiSelector from '@/components/members/upload/sections/TmiSection/MbtiSelector';
+import FavorToggle from '@/components/members/upload/FormSection/Tmi/FavorToggle';
+import MbtiSelector from '@/components/members/upload/FormSection/Tmi/MbtiSelector';
 import {
   FavorAlcohol,
   FavorFishBread,
@@ -21,12 +21,12 @@ import {
   FavorSweetAndSourPork,
   FavorTteokbokki,
   Mbti,
-} from '@/components/members/upload/sections/TmiSection/types';
+} from '@/components/members/upload/FormSection/Tmi/types';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-export default function TmiSection() {
+export default function TmiFormSection() {
   const {
     control,
     formState: { errors },
