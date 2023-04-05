@@ -54,7 +54,7 @@ export interface SubmitEvents {
   };
 }
 
-export interface PageviewEvents {
+export interface PageViewEvents {
   mamberPageList: {
     //
   };

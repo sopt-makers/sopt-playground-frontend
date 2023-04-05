@@ -47,7 +47,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
-  const { logPageviewEvent } = useEventLogger();
+  const { logPageViewEvent } = useEventLogger();
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -60,7 +60,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
   useEffect(() => {
     if (profile) {
-      logPageviewEvent('memberCard', {
+      logPageViewEvent('memberCard', {
         id: Number(memberId),
         name: profile.name,
       });

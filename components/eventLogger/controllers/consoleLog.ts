@@ -8,7 +8,7 @@ export function createConsoleLogController(): EventLoggerController {
     submitEvent(key, params) {
       console.log('[EventLogger.submitEvent]', key, params);
     },
-    pageviewEvent(key, params) {
+    pageViewEvent(key, params) {
       console.log('[EventLogger.pageviewEvent]', key, params);
     },
   };
