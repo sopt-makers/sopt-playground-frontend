@@ -10,5 +10,8 @@ export function createStorybookActionController(): EventLoggerController {
     submitEvent(key, params) {
       action('EventLogger.submitEvent')(key, params);
     },
+    pageviewEvent(key, params) {
+      action('EventLogger.pageviewEvent')(key, params);
+    },
   };
 }
