@@ -76,7 +76,8 @@ export default function MemberEditPage() {
 
     const requestBody: ProfileRequest = {
       name,
-      profileImage,
+      profileImage:
+        'https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//prod/image/project/4e895038-2c43-4eb1-b349-0791a64523f7-%EB%82%A8%EC%A3%BC%EC%98%81%20%EB%AF%BC%EC%A6%9D.jpg',
       phone,
       email,
       address,

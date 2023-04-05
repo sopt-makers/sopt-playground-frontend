@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 
 import useEnterScreen from '@/hooks/useEnterScreen';
 
@@ -16,9 +16,10 @@ interface ImageProps {
   alt?: string;
 
   onLoad?: () => void;
+  onError?: (e: React.SyntheticEvent<HTMLImageElement, Event>) => void;
 }
 
-const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) => {
+const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad, onError }) => {
   const [isUsingOriginal, setIsUsingOriginal] = useState(false);
 
   const timeoutTokenRef = useRef<ReturnType<typeof setTimeout>>();
@@ -29,8 +30,9 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) =>
     }
   };
 
-  const handleResizedLoadError = () => {
-    setIsUsingOriginal(true);
+  const handleResizedLoadError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    // setIsUsingOriginal(true);
+    onError?.(e);
   };
 
   const handleResizedLoaded = () => {
