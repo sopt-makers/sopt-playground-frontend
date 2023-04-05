@@ -8,7 +8,7 @@ import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
@@ -47,6 +47,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const { logPageviewEvent } = useEventLogger();
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -56,6 +57,16 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     sorted.sort((a, b) => b.generation - a.generation);
     return sorted;
   }, [profile?.soptActivities]);
+
+  useEffect(() => {
+    if (profile) {
+      logPageviewEvent('memberCard', {
+        id: Number(memberId),
+        name: profile.name,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile, memberId]);
 
   if (error?.response?.status === 400) {
     return <EmptyProfile />;

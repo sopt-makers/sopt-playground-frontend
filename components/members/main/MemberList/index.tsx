@@ -29,7 +29,7 @@ const MemberList: FC = () => {
   const [name, setName] = useState<string>('');
 
   const router = useRouter();
-  const { logClickEvent, logSubmitEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent, logPageviewEvent } = useEventLogger();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
@@ -53,6 +53,12 @@ const MemberList: FC = () => {
   );
 
   const hasProfile = !!memberOfMeData?.hasProfile;
+
+  useEffect(() => {
+    logPageviewEvent('mamberPageList', {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (isVisible) {
       fetchNextPage();
