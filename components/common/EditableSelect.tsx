@@ -74,6 +74,7 @@ const StyledInput = styled.input`
   left: 1.5px;
   border: none;
   background-color: transparent;
+  padding: 11.5px;
   width: calc(100% - 40px);
   height: 100%;
   color: ${colors.gray30};

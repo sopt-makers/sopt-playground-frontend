@@ -308,6 +308,7 @@ const StyledInput = styled(Input)`
   width: 632px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
     width: 100%;
   }
 `;
@@ -324,16 +325,11 @@ const StyledSelectWrapper = styled.div`
 
   .link {
     flex: 2;
-
-    @media ${MOBILE_MEDIA_QUERY} {
-      flex: 1;
-    }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     gap: 11px;
-    height: 111px;
   }
 `;
 
@@ -341,13 +337,25 @@ const StyledEditableSelect = styled(EditableSelect)`
   border-width: 1.5px;
   border-radius: 14px;
   padding: 16px 34px 16px 20px;
-  height: 50px;
 
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
+    box-sizing: border-box;
+    position: relative;
     border-radius: 12px;
     background-color: ${colors.black80};
+    padding: 0;
+
+    select {
+      padding: 16px 34px 16px 20px;
+    }
+
+    input {
+      top: 50%;
+      transform: translateY(-50%);
+      height: calc(100% - 4px);
+    }
   }
 `;
 
