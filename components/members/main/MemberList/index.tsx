@@ -18,6 +18,7 @@ import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
+import { useRunOnce } from '@/hooks/useRunOnce';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -54,9 +55,8 @@ const MemberList: FC = () => {
 
   const hasProfile = !!memberOfMeData?.hasProfile;
 
-  useEffect(() => {
+  useRunOnce(() => {
     logPageViewEvent('mamberPageList', {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

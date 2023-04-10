@@ -8,7 +8,7 @@ import EditIcon from 'public/icons/icon-edit.svg';
 import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
@@ -23,6 +23,7 @@ import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatMo
 import InterestSection from '@/components/members/main/MemberDetail/InterestSection';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
+import { useRunOnce } from '@/hooks/useRunOnce';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -58,14 +59,13 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     return sorted;
   }, [profile?.soptActivities]);
 
-  useEffect(() => {
+  useRunOnce(() => {
     if (profile) {
       logPageViewEvent('memberCard', {
         id: Number(memberId),
         name: profile.name,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile, memberId]);
 
   if (error?.response?.status === 400) {
