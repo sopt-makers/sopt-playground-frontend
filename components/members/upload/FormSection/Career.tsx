@@ -341,7 +341,6 @@ const StyledEditableSelect = styled(EditableSelect)`
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    box-sizing: border-box;
     position: relative;
     border-radius: 12px;
     background-color: ${colors.black80};
