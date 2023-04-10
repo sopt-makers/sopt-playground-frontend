@@ -1,12 +1,15 @@
+type MemberCard = {
+  id: number;
+  name: string;
+};
+type ProjectCard = {
+  id: number;
+  name: string;
+};
+
 export interface ClickEvents {
-  memberCard: {
-    id: number;
-    name: string;
-  };
-  projectCard: {
-    id: number;
-    name: string;
-  };
+  memberCard: MemberCard;
+  projectCard: ProjectCard;
   registerLink: {
     //
   };
@@ -49,4 +52,12 @@ export interface SubmitEvents {
   verify: {
     by: 'phone' | 'email';
   };
+}
+
+export interface PageViewEvents {
+  mamberPageList: {
+    //
+  };
+  memberCard: MemberCard;
+  projectCard: ProjectCard;
 }

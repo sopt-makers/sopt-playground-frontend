@@ -23,6 +23,7 @@ import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatMo
 import InterestSection from '@/components/members/main/MemberDetail/InterestSection';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
+import { useRunOnce } from '@/hooks/useRunOnce';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -47,6 +48,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const { logPageViewEvent } = useEventLogger();
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -56,6 +58,15 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     sorted.sort((a, b) => b.generation - a.generation);
     return sorted;
   }, [profile?.soptActivities]);
+
+  useRunOnce(() => {
+    if (profile) {
+      logPageViewEvent('memberCard', {
+        id: Number(memberId),
+        name: profile.name,
+      });
+    }
+  }, [profile, memberId]);
 
   if (error?.response?.status === 400) {
     return <EmptyProfile />;

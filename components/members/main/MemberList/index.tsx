@@ -18,6 +18,7 @@ import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
+import { useRunOnce } from '@/hooks/useRunOnce';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -29,7 +30,7 @@ const MemberList: FC = () => {
   const [name, setName] = useState<string>('');
 
   const router = useRouter();
-  const { logClickEvent, logSubmitEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
   const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
@@ -53,6 +54,11 @@ const MemberList: FC = () => {
   );
 
   const hasProfile = !!memberOfMeData?.hasProfile;
+
+  useRunOnce(() => {
+    logPageViewEvent('mamberPageList', {});
+  }, []);
+
   useEffect(() => {
     if (isVisible) {
       fetchNextPage();

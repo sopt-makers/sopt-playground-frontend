@@ -15,5 +15,8 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
     submitEvent(key, params) {
       instance.track(`Submit-${key}`, params);
     },
+    pageViewEvent(key, params) {
+      instance.track(`Pageview-${key}`, params);
+    },
   };
 }
