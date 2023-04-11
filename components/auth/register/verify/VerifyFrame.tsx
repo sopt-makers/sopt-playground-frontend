@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import * as Tabs from '@radix-ui/react-tabs';
 import { FC, ReactNode } from 'react';
 
 import Stepper from '@/components/auth/register/Stepper';
@@ -9,10 +8,9 @@ import { textStyles } from '@/styles/typography';
 
 interface VerifyByPhoneProps {
   byPhone: ReactNode;
-  byEmail: ReactNode;
 }
 
-const VerifyFrame: FC<VerifyByPhoneProps> = ({ byPhone, byEmail }) => {
+const VerifyFrame: FC<VerifyByPhoneProps> = ({ byPhone }) => {
   return (
     <StyledVerifyFrame>
       <StyledStepper step={1} />
@@ -22,18 +20,7 @@ const VerifyFrame: FC<VerifyByPhoneProps> = ({ byPhone, byEmail }) => {
         <br />
         SOPT 회원임을 인증하기 위해 전화번호를 입력해 주세요.
       </Description>
-      <TabsRoot defaultValue='byPhone'>
-        <TabsList>
-          <TabsTrigger value='byPhone'>전화번호 인증</TabsTrigger>
-          <TabsTrigger value='byEmail'>이메일 인증</TabsTrigger>
-        </TabsList>
-        <TabsContent key='byPhone' value='byPhone'>
-          {byPhone}
-        </TabsContent>
-        <TabsContent key='byEmail' value='byEmail'>
-          {byEmail}
-        </TabsContent>
-      </TabsRoot>
+      <TabsContent key='byPhone'>{byPhone}</TabsContent>
     </StyledVerifyFrame>
   );
 };
@@ -80,41 +67,6 @@ const Description = styled.p`
   }
 `;
 
-const TabsRoot = styled(Tabs.Root)`
-  margin-top: 48px;
-`;
-
-const TabsList = styled(Tabs.List)`
-  display: flex;
-  gap: 12px;
-`;
-
-const TabsTrigger = styled(Tabs.Trigger)`
-  flex-grow: 1;
-  transition: 0.2s background-color, 0.2s color;
-  border-radius: 10px;
-  background-color: ${colors.black60};
-  cursor: pointer;
-  height: 48px;
-  color: ${colors.gray30};
-
-  ${textStyles.SUIT_15_SB}
-
-  &[data-state='active'] {
-    background-color: ${colors.purpledim100};
-    color: ${colors.purple40};
-  }
-
-  &[data-state='inactive']:hover {
-    background-color: ${colors.black60};
-    color: ${colors.white};
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_14_SB}
-  }
-`;
-
-const TabsContent = styled(Tabs.Content)`
+const TabsContent = styled.div`
   margin-top: 48px;
 `;
