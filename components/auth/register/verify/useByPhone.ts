@@ -26,7 +26,13 @@ const codeErrorMap: Record<string, string> = {
   expiredCode: '인증번호가 만료되었어요. 인증번호를 다시 받아주세요.',
 };
 
-const useByPhone = ({ onCodeSuccess }: { onCodeSuccess?: (registerToken: string) => void }) => {
+const useByPhone = ({
+  onCodeSuccess,
+  onSkip,
+}: {
+  onCodeSuccess?: (registerToken: string) => void;
+  onSkip?: (registerToken: string) => void;
+}) => {
   const [state, setState] = useState<ByPhoneStates>({ type: 'phoneReady' });
   const timeoutIdRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -44,7 +50,7 @@ const useByPhone = ({ onCodeSuccess }: { onCodeSuccess?: (registerToken: string)
       type: 'phoneLoading',
     });
 
-    const [err, _] = await to(postSMSCode({ phone: phone.replace(/-/g, '') }));
+    const [err, result] = await to(postSMSCode({ phone: phone.replace(/-/g, '') }));
 
     if (err) {
       if (axios.isAxiosError(err)) {
@@ -71,6 +77,10 @@ const useByPhone = ({ onCodeSuccess }: { onCodeSuccess?: (registerToken: string)
         message: '알 수 없는 오류에요.',
       });
       return;
+    }
+
+    if (result.isSkipped) {
+      onSkip?.(result.registerToken);
     }
 
     setState({

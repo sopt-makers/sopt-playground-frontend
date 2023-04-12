@@ -30,6 +30,14 @@ const Verify: FC<VerifyProps> = ({}) => {
       });
       logSubmitEvent('verify', { by: 'phone' });
     },
+    onSkip: (registerToken) => {
+      router.push({
+        pathname: playgroundLink.connectSocialAuth(),
+        query: {
+          token: registerToken,
+        },
+      });
+    },
   });
   return (
     <div>

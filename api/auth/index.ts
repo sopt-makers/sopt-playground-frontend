@@ -67,10 +67,30 @@ export const postSSOCode = async ({ accessToken }: { accessToken: string }) => {
   };
 };
 
-export const postSMSCode = async ({ phone }: { phone: string }) => {
-  await axiosInstance.post<string>('/api/v1/registration/sms/code', {
+export const postSMSCode = async ({
+  phone,
+}: {
+  phone: string;
+}): Promise<{ isSkipped: false } | { isSkipped: true; registerToken: string }> => {
+  const { data } = await axiosInstance.post<{
+    success: boolean;
+    message: string;
+    isSkipped: boolean;
+    registerToken: string;
+  }>('/api/v1/registration/sms/code', {
     phone,
   });
+
+  if (data.isSkipped) {
+    return {
+      isSkipped: true,
+      registerToken: data.registerToken,
+    };
+  }
+
+  return {
+    isSkipped: false,
+  };
 };
 
 export const postSMSToken = async ({ code }: { code: string }) => {
