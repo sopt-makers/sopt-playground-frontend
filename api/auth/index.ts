@@ -57,6 +57,23 @@ export const postGoogleAuth = async ({ code }: { code: string }) => {
   return data;
 };
 
+export const postAppleRegistration = async ({ code, registerToken }: { code: string; registerToken: string }) => {
+  const { data } = await axiosInstance.post<{ accessToken: string }>(`api/v1/idp/apple/register`, {
+    code,
+    registerToken,
+  });
+
+  return data;
+};
+
+export const postAppleAuth = async ({ code }: { code: string }) => {
+  const { data } = await axiosInstance.post<{ accessToken: string }>(`api/v1/idp/apple/auth`, {
+    code,
+  });
+
+  return data;
+};
+
 export const postSSOCode = async ({ accessToken }: { accessToken: string }) => {
   const { data } = await axiosInstance.post<{ code: string }>(`api/v1/idp/sso/code`, {
     accessToken,
