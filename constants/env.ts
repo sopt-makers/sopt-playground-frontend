@@ -6,6 +6,10 @@ export const GOOGLE_OAUTH_CLIENT_ID = required(
   'NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID',
   process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
 );
+export const APPLE_OAUTH_APP_ID = required(
+  'NEXT_PUBLIC_APPLE_OAUTH_APP_ID',
+  process.env.NEXT_PUBLIC_APPLE_OAUTH_APP_ID,
+);
 export const GTM_ID = required('NEXT_PUBLIC_GTM_ID', process.env.NEXT_PUBLIC_GTM_ID);
 export const AMPLITUDE_API_KEY = required('AMPLITUDE_API_KEY', process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY);
 

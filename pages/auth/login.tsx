@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
+import AppleAuthButton from '@/components/auth/identityProvider/apple/AppleAuthButton';
+import useAppleAuth from '@/components/auth/identityProvider/apple/useAppleAuth';
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
@@ -47,6 +49,7 @@ const LoginPage: FC = () => {
 
   const facebookAuth = useFacebookAuth();
   const googleAuth = useGoogleAuth();
+  const appleAuth = useAppleAuth();
 
   const [lastLoginMessage, setLastLoginMessage] = useState<null | string>(null);
 
@@ -76,6 +79,7 @@ const LoginPage: FC = () => {
         <LinkContainer>
           <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
           {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
+          {appleAuth.isAvailable && <AppleAuthButton onClick={appleAuth.login}>Apple로 로그인</AppleAuthButton>}
         </LinkContainer>
         <RegisterInfo>
           Playground가 처음이신가요?{' '}

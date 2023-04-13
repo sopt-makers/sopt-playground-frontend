@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 import { isClientSide } from '@/utils';
 
-type LoginMethods = null | 'facebook' | 'google';
+type LoginMethods = null | 'facebook' | 'google' | 'apple';
 
 const LAST_REGISTER_KEY = 'pg-lastRegister';
 
