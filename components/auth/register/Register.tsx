@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
+import AppleAuthButton from '@/components/auth/identityProvider/apple/AppleAuthButton';
+import useAppleAuth from '@/components/auth/identityProvider/apple/useAppleAuth';
 import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
 import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
@@ -21,6 +23,7 @@ export const Register: FC<RegisterProps> = (props) => {
 
   const facebookAuth = useFacebookAuth();
   const googleAuth = useGoogleAuth();
+  const appleAuth = useAppleAuth();
 
   return (
     <StyledRegister>
@@ -49,6 +52,16 @@ export const Register: FC<RegisterProps> = (props) => {
           >
             Google로 로그인
           </GoogleAuthButton>
+        )}
+        {appleAuth.isAvailable && (
+          <AppleAuthButton
+            onClick={() => {
+              appleAuth.register();
+              logClickEvent('registerWith', { method: 'apple' });
+            }}
+          >
+            Apple로 로그인
+          </AppleAuthButton>
         )}
       </Container>
     </StyledRegister>

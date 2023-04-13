@@ -14,7 +14,7 @@ export interface ClickEvents {
     //
   };
   registerWith: {
-    method: 'facebook' | 'google';
+    method: 'facebook' | 'google' | 'apple';
   };
   onboardingBannerProjectUpload: {
     //
