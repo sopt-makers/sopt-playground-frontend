@@ -16,7 +16,7 @@ export default function MobileEventBanner() {
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  background: linear-gradient(164.77deg, #010101 19.93%, #2b26ff 141.3%), #000000;
+  background: linear-gradient(164.77deg, #010101 19.93%, #2b26ff 141.3%), #000;
   padding: 14px 16px;
 `;
 
