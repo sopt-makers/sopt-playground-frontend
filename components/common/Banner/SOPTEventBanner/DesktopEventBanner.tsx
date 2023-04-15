@@ -40,7 +40,7 @@ const Container = styled.div`
   flex-direction: column;
   gap: 10px;
   align-items: center;
-  background: linear-gradient(164.77deg, #010101 19.93%, #2b26ff 141.3%), #000000;
+  background: linear-gradient(164.77deg, #010101 19.93%, #2b26ff 141.3%), #000;
   padding: 26px 0 20px;
 `;
 
