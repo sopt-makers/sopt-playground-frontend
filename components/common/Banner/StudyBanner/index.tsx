@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Responsive from '@/components/common/Responsive';
 import { playgroundLink } from '@/constants/links';
 
-import { CLOSE_DATE, OPEN_DATE, TERM } from './constants';
+import { CLOSE_DATE, OPEN_DATE } from './constants';
 import MobileStudyBanner from './MobileStudyBanner';
 const DesktopStudyBanner = dynamic(() => import('@/components/common/Banner/StudyBanner/DesktopStudyBanner'), {
   ssr: false,
