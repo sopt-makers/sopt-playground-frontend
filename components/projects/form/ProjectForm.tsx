@@ -78,7 +78,10 @@ const ProjectForm: FC<ProjectFormProps> = ({
           />
         </FormEntry>
         <FormEntry title='팀원' required>
-          <Controller />
+          {/* <Controller
+            control={control}
+            name='members'
+          /> */}
         </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>

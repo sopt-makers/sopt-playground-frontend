@@ -1,87 +1,78 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Command } from 'cmdk';
-import { FC, HTMLAttributes, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
 
-import { Member } from '@/api/members/type';
 import Text from '@/components/common/Text';
+import { Member, useMemberSearch } from '@/components/projects/form/fields/member/MemberSearchContext';
 import IconClear from '@/public/icons/icon-member-search-clear.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const getProfileImage = (profileImage: Member['profileImage']) => {
+const getProfileImage = (profileImage: string) => {
   if (profileImage == null || profileImage === '') {
     return '/icons/icon-member-search-default.svg';
   }
   return profileImage;
 };
 
-/**
- * // 서버를 위한 데이터
- * id
- * generation
- * name
- *
- * // ui를 위한 데이터
- * profileImage
- */
+export type SelectedMemberData = {
+  memberId: number | undefined;
+  memberRole: string | undefined;
+  memberDescription: string | undefined;
+};
 
-interface MemberSearchProps extends HTMLAttributes<HTMLInputElement> {
+interface NewMemberSearchProps {
   isError?: boolean;
-  searchedMembers: Member[];
-  onSearch?: (searchQuery: string) => void;
-  onClear?: () => void;
+  value: SelectedMemberData;
+  onChange: (selectedData: SelectedMemberData) => void;
 }
 
-const MemberSearch: FC<MemberSearchProps> = ({ searchedMembers, isError, onSearch, onClear, ...props }) => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+const MemberSearch: FC<NewMemberSearchProps> = ({ isError, value, onChange }) => {
+  const { name, onValueChange, searchedMemberList } = useMemberSearch();
+  const [selectedMember, setSelectedMember] = useState<Member | undefined>(undefined);
 
-  const memberMap = useMemo(
-    () => new Map(searchedMembers.map((member) => [String(member.id), member])),
-    [searchedMembers],
-  );
-  const memberList = selectedId ? [] : searchedMembers;
-
-  const handleSelect = (id: string) => {
-    setSelectedId(id);
-    setSearchQuery('');
+  const onSelect = (memberId: string) => {
+    onChange({
+      ...value,
+      memberId: Number(memberId),
+    });
   };
 
-  const handleClear = () => {
-    setSelectedId(null);
-    onClear?.();
+  const onClear = () => {
+    onChange({
+      ...value,
+      memberId: undefined,
+    });
+    setSelectedMember(undefined);
   };
 
   return (
     <StyledSearch shouldFilter={false}>
-      <StyledInput
-        isError={isError}
-        {...props}
-        value={searchQuery}
-        onValueChange={(value) => {
-          setSearchQuery(value);
-          onSearch?.(value);
-        }}
-        placeholder={!selectedId ? 'SOPT 멤버 검색' : ''}
-        readOnly={!!selectedId}
-      />
-      {selectedId && (
+      <StyledInput isError={isError} value={name} onValueChange={onValueChange} />
+      {selectedMember && (
         <StyledLabel>
           <ProfileImageWrapper>
-            <ProfileImage width={24} height={24} src={getProfileImage(memberMap.get(selectedId)?.profileImage)} />
-            <Text>{memberMap.get(selectedId)?.name}</Text>
+            <ProfileImage width={24} height={24} src={getProfileImage(selectedMember.profileImage)} />
+            <Text>{selectedMember.name}</Text>
           </ProfileImageWrapper>
-          <StyledIconClear onClick={handleClear} alt='검색된 멤버 제거 아이콘' />
+          <StyledIconClear onClick={onClear} alt='검색된 멤버 제거 아이콘' />
         </StyledLabel>
       )}
-      {memberList.length > 0 && (
+      {searchedMemberList && searchedMemberList.length > 0 && (
         <StyledList>
-          {memberList.map((member) => (
-            <StyledItem key={member.id} value={String(member.id)} onSelect={handleSelect}>
+          {searchedMemberList?.map((member) => (
+            <StyledItem
+              key={member.id}
+              value={String(member.id)}
+              onSelect={(memberId) => {
+                onSelect(memberId);
+                setSelectedMember(member);
+              }}
+            >
               <MemberInfo>
-                <ProfileImage src={getProfileImage(member.profileImage)} alt='멤버의 프로필 이미지' />
+                <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
                 <Text>{member.name}</Text>
               </MemberInfo>
               <Text>{`${member.generation}기`}</Text>
