@@ -87,6 +87,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileContainer>
+          {/* TODO 필요 없는 옵셔널 체이닝 삭제 */}
           {profile?.profileImage ? (
             <ProfileImage src={profile.profileImage} />
           ) : (
@@ -135,14 +136,16 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           )}
         </ProfileContainer>
 
-        {!profile.isMine && profile.email && (
+        {!profile.isMine && (
           <>
             <AskContainer>
               <div>
                 <AskTitle>{profile.name}에게 하고 싶은 질문이 있나요?</AskTitle>
                 <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
               </div>
-              <AskButton onClick={onOpenCoffeeChatModal}>쪽지 보내기</AskButton>
+              <AskButton onClick={onOpenCoffeeChatModal} disabled={profile.email.length < 1}>
+                쪽지 보내기
+              </AskButton>
             </AskContainer>
             {isOpenCoffeeChatModal && (
               <CoffeeChatModal
@@ -527,12 +530,12 @@ const AskSubtitle = styled.div`
   }
 `;
 
-const AskButton = styled.div`
+const AskButton = styled.div<{ disabled: boolean }>`
   border-radius: 14px;
-  background-color: ${colors.purple100};
+  background-color: ${({ disabled }) => (disabled ? colors.black60 : colors.purple100)};
   cursor: pointer;
   padding: 15px 36px;
-  color: ${colors.white100};
+  color: ${({ disabled }) => (disabled ? colors.gray60 : colors.white100)};
   ${textStyles.SUIT_15_SB}
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 34px;
