@@ -46,7 +46,11 @@ const convertBirthdayFormat = (birthday?: string) => {
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { logClickEvent } = useEventLogger();
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useModalState();
+  const {
+    isOpen: isOpenCoffeeChatModal,
+    onOpen: onOpenCoffeeChatModal,
+    onClose: onCloseCoffeeChatModal,
+  } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
   const { logPageViewEvent } = useEventLogger();
 
@@ -138,9 +142,9 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 <AskTitle>{profile.name}에게 하고 싶은 질문이 있나요?</AskTitle>
                 <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
               </div>
-              <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
+              <AskButton onClick={onOpenCoffeeChatModal}>쪽지 보내기</AskButton>
             </AskContainer>
-            {isOpen && (
+            {isOpenCoffeeChatModal && (
               <CoffeeChatModal
                 receiverId={memberId}
                 name={profile.name ?? ''}
@@ -158,7 +162,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     )}
                   </>
                 }
-                onClose={onClose}
+                onClose={onCloseCoffeeChatModal}
               />
             )}
           </>
