@@ -4,11 +4,10 @@ import Link from 'next/link';
 
 import Responsive from '@/components/common/Responsive';
 import { playgroundLink } from '@/constants/links';
-import { textStyles } from '@/styles/typography';
 
-import { CLOSE_DATE, OPEN_DATE, TERM } from './constants';
+import { CLOSE_DATE, OPEN_DATE } from './constants';
 import MobileStudyBanner from './MobileStudyBanner';
-const CountdownTimer = dynamic(() => import('@/components/common/Banner/StudyBanner/CountdownTimer'), {
+const DesktopStudyBanner = dynamic(() => import('@/components/common/Banner/StudyBanner/DesktopStudyBanner'), {
   ssr: false,
 });
 
@@ -26,28 +25,16 @@ export default function StudyBanner({ className }: StudyBannerProps) {
       </Responsive>
       <Responsive only='desktop' asChild>
         <Link href={playgroundLink.groupList()} className={className}>
-          <Container>
-            <RecruitmentText>{`📝 ${TERM}기 스터디 모집`}</RecruitmentText>
-            <CountdownTimer openDate={OPEN_DATE} closeDate={CLOSE_DATE} />
-          </Container>
+          <DesktopBannerContainer>
+            <DesktopStudyBanner openDate={OPEN_DATE} closeDate={CLOSE_DATE} />
+          </DesktopBannerContainer>
         </Link>
       </Responsive>
     </>
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  background: linear-gradient(164.77deg, #010101 19.93%, #2b26ff 141.3%), #000;
-  padding: 25px 0 19px;
-`;
-
-const RecruitmentText = styled.div`
-  line-height: 100%;
-  color: #fff;
-
-  ${textStyles.SUIT_26_B}
+const DesktopBannerContainer = styled.section`
+  width: 100%;
+  height: 98px;
 `;
