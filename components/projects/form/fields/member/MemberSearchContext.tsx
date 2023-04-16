@@ -103,10 +103,16 @@ export function useMemberSearch() {
   const { searchMember, getMemberById } = useContext(MemberSearchContext);
 
   // TODO: debounce
-  const { data: searchedMemberData } = useQuery(['searchMember', name], async () => {
-    const data = await searchMember(name);
-    return data;
-  });
+  const { data: searchedMemberData } = useQuery(
+    ['searchMember', name],
+    async () => {
+      const data = await searchMember(name);
+      return data;
+    },
+    {
+      enabled: !!name,
+    },
+  );
 
   return {
     name,

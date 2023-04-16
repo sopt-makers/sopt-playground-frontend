@@ -38,6 +38,7 @@ const MemberSearch: FC<NewMemberSearchProps> = ({ isError, value, onChange }) =>
       ...value,
       memberId: Number(memberId),
     });
+    onValueChange('');
   };
 
   const onClear = () => {
@@ -45,6 +46,7 @@ const MemberSearch: FC<NewMemberSearchProps> = ({ isError, value, onChange }) =>
       ...value,
       memberId: undefined,
     });
+    onValueChange('');
     setSelectedMember(undefined);
   };
 
@@ -89,6 +91,11 @@ export default MemberSearch;
 const StyledSearch = styled(Command)`
   position: relative;
   ${textStyles.SUIT_14_M};
+
+  & input {
+    width: 100%;
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     z-index: 1;
     max-width: 135px;
