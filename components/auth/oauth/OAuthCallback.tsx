@@ -58,13 +58,17 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
       callback.searchParams.set('state', state);
       callback.searchParams.set('code', code);
 
-      location.href = callback.href;
+      const link = document.createElement('a');
+      link.href = callback.href;
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        document.body.removeChild(link);
+      }, 0);
 
-      if (!['http:', 'https:'].includes(callback.protocol)) {
-        setTimeout(() => {
-          location.href = '/';
-        }, 0);
-      }
+      setTimeout(() => {
+        location.href = '/';
+      }, 0);
     })();
   }, [url, accessToken, router, lastUnauthorized]);
 
