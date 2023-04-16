@@ -87,8 +87,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileContainer>
-          {/* TODO 필요 없는 옵셔널 체이닝 삭제 */}
-          {profile?.profileImage ? (
+          {profile.profileImage ? (
             <ProfileImage src={profile.profileImage} />
           ) : (
             <EmptyProfileImage>
@@ -99,25 +98,25 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           <ProfileContents>
             <div>
               <NameWrapper>
-                <div className='name'>{profile?.name}</div>
-                <div className='part'>{uniq(profile?.soptActivities.map(({ part }) => part)).join('/')}</div>
+                <div className='name'>{profile.name}</div>
+                <div className='part'>{uniq(profile.soptActivities.map(({ part }) => part)).join('/')}</div>
               </NameWrapper>
-              <div className='intro'>{profile?.introduction}</div>
+              <div className='intro'>{profile.introduction}</div>
             </div>
-            <ContactWrapper shouldDivide={!!profile?.phone && !!profile?.email}>
+            <ContactWrapper shouldDivide={!!profile.phone && !!profile.email}>
               {profile.phone && (
-                <Link passHref href={`tel:${profile?.phone}`} legacyBehavior>
+                <Link passHref href={`tel:${profile.phone}`} legacyBehavior>
                   <div style={{ cursor: 'pointer' }}>
                     <CallIcon />
-                    <div className='phone'>{profile?.phone}</div>
+                    <div className='phone'>{profile.phone}</div>
                   </div>
                 </Link>
               )}
               {profile.email && (
-                <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
+                <Link passHref href={`mailto:${profile.email}`} legacyBehavior>
                   <div style={{ cursor: 'pointer' }}>
                     <MailIcon />
-                    <div className='email'>{profile?.email}</div>
+                    <div className='email'>{profile.email}</div>
                   </div>
                 </Link>
               )}
