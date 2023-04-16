@@ -16,12 +16,12 @@ export default function SOPTEventBanner({ className }: SOPTEventBannerProps) {
   return (
     <>
       <Responsive only='mobile' asChild>
-        <Link href={playgroundLink.groupList()} target='_blank' className={className}>
+        <Link href={playgroundLink.groupList()} className={className}>
           <MobileEventBanner />
         </Link>
       </Responsive>
       <Responsive only='desktop' asChild>
-        <Link href={playgroundLink.groupList()} target='_blank' className={className}>
+        <Link href={playgroundLink.groupList()} className={className}>
           <DesktopBannerContainer>
             <DesktopEventBanner />
           </DesktopBannerContainer>
