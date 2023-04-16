@@ -5,7 +5,7 @@ export type Member = {
   generation: number;
   id: number;
   name: string;
-  profileImage: string;
+  profileImage: string | null;
 };
 
 interface MemberSearchContextType {

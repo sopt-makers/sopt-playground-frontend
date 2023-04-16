@@ -5,31 +5,27 @@ import { FC, useState } from 'react';
 
 import Text from '@/components/common/Text';
 import { Member, useMemberSearch } from '@/components/projects/form/fields/member/MemberSearchContext';
+import { Value } from '@/components/projects/form/fields/MemberField';
 import IconClear from '@/public/icons/icon-member-search-clear.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const getProfileImage = (profileImage: string) => {
+const getProfileImage = (profileImage: Member['profileImage']) => {
   if (profileImage == null || profileImage === '') {
     return '/icons/icon-member-search-default.svg';
   }
   return profileImage;
 };
 
-export type SelectedMemberData = {
-  memberId: number | undefined;
-  memberRole: string | undefined;
-  memberDescription: string | undefined;
-};
-
-interface NewMemberSearchProps {
+interface MemberSearchProps {
   isError?: boolean;
-  value: SelectedMemberData;
-  onChange: (selectedData: SelectedMemberData) => void;
+  placeholder?: string;
+  value: Value;
+  onChange: (selectedData: Value) => void;
 }
 
-const MemberSearch: FC<NewMemberSearchProps> = ({ isError, value, onChange }) => {
+const MemberSearch: FC<MemberSearchProps> = ({ placeholder, isError, value, onChange }) => {
   const { name, onValueChange, searchedMemberList } = useMemberSearch();
   const [selectedMember, setSelectedMember] = useState<Member | undefined>(undefined);
 
@@ -52,7 +48,7 @@ const MemberSearch: FC<NewMemberSearchProps> = ({ isError, value, onChange }) =>
 
   return (
     <StyledSearch shouldFilter={false}>
-      <StyledInput isError={isError} value={name} onValueChange={onValueChange} />
+      <StyledInput placeholder={placeholder} isError={isError} value={name} onValueChange={onValueChange} />
       {selectedMember && (
         <StyledLabel>
           <ProfileImageWrapper>

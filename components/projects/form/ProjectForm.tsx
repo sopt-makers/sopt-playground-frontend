@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, ReactNode } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import CategoryField from '@/components/projects/form/fields/CategoryField';
 import GenerationField from '@/components/projects/form/fields/GenerationField';
+import MemberField from '@/components/projects/form/fields/MemberField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
@@ -32,6 +33,10 @@ const ProjectForm: FC<ProjectFormProps> = ({
     resolver: zodResolver(uploadSchema),
     defaultValues,
     mode: 'all',
+  });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'members',
   });
 
   const { errors } = formState;
@@ -78,10 +83,16 @@ const ProjectForm: FC<ProjectFormProps> = ({
           />
         </FormEntry>
         <FormEntry title='팀원' required>
-          {/* <Controller
-            control={control}
-            name='members'
-          /> */}
+          {fields.map((field, index) => (
+            <Controller
+              key={field.id}
+              control={control}
+              name={`members.${index}`}
+              render={({ field }) => (
+                <MemberField value={field.value} onChange={field.onChange} onRemove={() => remove(index)} />
+              )}
+            />
+          ))}
         </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>

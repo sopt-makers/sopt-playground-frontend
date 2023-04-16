@@ -3,7 +3,8 @@ import { useState } from 'react';
 
 import { DummyMemberSeacrhProvider } from '@/components/projects/form/fields/member/MemberSearchContext';
 
-import MemberSearch, { SelectedMemberData } from './MemberSearch';
+import type { Value } from '../MemberField';
+import MemberSearch from './MemberSearch';
 
 export default {
   component: MemberSearch,
@@ -23,7 +24,7 @@ Default.args = {};
 Default.storyName = '기본';
 
 export const WithState = () => {
-  const [value, setValue] = useState<SelectedMemberData>({
+  const [value, setValue] = useState<Value>({
     memberId: undefined,
     memberRole: undefined,
     memberDescription: undefined,

@@ -1,13 +1,23 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { ComponentMeta } from '@storybook/react';
+import { useState } from 'react';
 
-import MemberField from './MemberField';
+import MemberField, { Value } from './MemberField';
 
 export default {
   component: MemberField,
 } as ComponentMeta<typeof MemberField>;
 
-const Template: ComponentStory<typeof MemberField> = (args) => <MemberField {...args} />;
+export const WithState = () => {
+  const [value, onChange] = useState<Value>({ memberId: undefined, memberDescription: '', memberRole: undefined });
+  console.log('[value]: ', value);
 
-export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+  return (
+    <MemberField
+      value={value}
+      onChange={onChange}
+      onRemove={() => {
+        //
+      }}
+    />
+  );
+};
