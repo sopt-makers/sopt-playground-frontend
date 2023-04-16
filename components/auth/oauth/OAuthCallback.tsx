@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -9,12 +10,13 @@ import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import Loading from '@/components/common/Loading';
 import { playgroundLink } from '@/constants/links';
+import { colors } from '@/styles/colors';
 
 interface OAuthCallbackProps {
   url: URL;
 }
 
-type Modes = { type: 'loading' } | { type: 'error'; message: string };
+type Modes = { type: 'loading' } | { type: 'error'; message: string } | { type: 'success'; redirect: string };
 
 const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
   const router = useRouter();
@@ -41,7 +43,6 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
 
       if (!accessToken) {
         lastUnauthorized.setPath(url.href);
-        // router.replace('/auth/login');
         location.href = playgroundLink.login();
         return;
       }
@@ -60,22 +61,22 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
       callback.searchParams.set('state', state);
       callback.searchParams.set('code', code);
 
-      const link = document.createElement('a');
-      link.href = callback.href;
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(() => {
-        document.body.removeChild(link);
-      }, 0);
+      setMode({ type: 'success', redirect: callback.href });
 
-      setTimeout(() => {
-        location.href = '/';
-      }, 0);
+      location.href = callback.href;
     })();
   }, [url, accessToken, router, lastUnauthorized]);
 
   if (mode.type === 'error') {
     return <ErrorMessage>OAuth Error: {mode.message}</ErrorMessage>;
+  }
+
+  if (mode.type === 'success') {
+    return (
+      <SuccessMessage>
+        <ReturnToHomeLink href={playgroundLink.memberList()}>홈으로 돌아가기</ReturnToHomeLink>
+      </SuccessMessage>
+    );
   }
 
   return <Loading />;
@@ -88,4 +89,17 @@ const ErrorMessage = styled.div`
   align-items: center;
   justify-content: center;
   white-space: pre;
+`;
+
+const SuccessMessage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  white-space: pre;
+`;
+
+const ReturnToHomeLink = styled(Link)`
+  text-decoration: underline;
+  color: ${colors.purple80};
 `;
