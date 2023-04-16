@@ -64,7 +64,7 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
       link.click();
       setTimeout(() => {
         document.body.removeChild(link);
-      });
+      }, 0);
 
       setTimeout(() => {
         location.href = '/';
