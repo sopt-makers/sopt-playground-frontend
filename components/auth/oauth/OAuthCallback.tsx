@@ -28,13 +28,13 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
 
       if (!redirectUri) {
         console.error('redirect_uri 가 설정되지 않았습니다.');
-        setMode({ type: 'error', message: 'redirect_uri 가 설정되지 않았습니다.' });
+        setMode({ type: 'error', message: `redirect_uri 가 설정되지 않았습니다.\nReceived: ${url.href}` });
         return;
       }
 
       if (!REDIRECT_URI_WHITELISTS.includes(redirectUri)) {
         console.error('허용되지 않은 redirect_uri 입니다.');
-        setMode({ type: 'error', message: '허용되지 않은 redirect_uri 입니다.' });
+        setMode({ type: 'error', message: `허용되지 않은 redirect_uri 입니다.\nReceived: ${redirectUri}` });
         return;
       }
 
@@ -85,4 +85,5 @@ const ErrorMessage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: pre;
 `;
