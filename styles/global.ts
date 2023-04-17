@@ -57,4 +57,8 @@ export const global = css`
       -webkit-text-fill-color: ${colors.white};
     }
   }
+
+  button {
+    cursor: pointer;
+  }
 `;
