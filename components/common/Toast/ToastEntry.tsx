@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import IconCheck from '@/public/icons/icon-check.svg';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export interface ToastEntryProps {
@@ -31,6 +32,11 @@ const StyledToastEntry = styled.div`
   border-radius: 18px;
   background: ${colors.black60};
   padding: 16px;
+  width: fit-content;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: calc(100vw - 72px);
+  }
 `;
 
 const HeaderBox = styled.div`
