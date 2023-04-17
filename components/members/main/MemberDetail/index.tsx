@@ -156,6 +156,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         {!profile.isMine && (
           <>
             <MessageSection name={profile.name} email={profile.email} onClick={handleMessageClick} />
+            {/* TODO 모달들 MessageSection 안으로 숨기기 */}
             {isOpenCoffeeChatModal && (
               <CoffeeChatModal
                 receiverId={memberId}
