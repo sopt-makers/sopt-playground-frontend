@@ -13,6 +13,7 @@ import { FC, useMemo } from 'react';
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
 import useModalState from '@/components/common/Modal/useModalState';
+import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CareerItem from '@/components/members/detail/CareerItem';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
@@ -22,6 +23,7 @@ import PartItem from '@/components/members/detail/PartItem';
 import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
 import InterestSection from '@/components/members/main/MemberDetail/InterestSection';
 import MessageSection from '@/components/members/main/MemberDetail/MessageSection';
+import NoMessageModal from '@/components/members/main/MemberDetail/NoMessageModal';
 import MemberDetailSection from '@/components/members/main/MemberDetail/Section';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
@@ -53,6 +55,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     onOpen: onOpenCoffeeChatModal,
     onClose: onCloseCoffeeChatModal,
   } = useModalState();
+  const {
+    isOpen: isOpenNoMessageModal,
+    onOpen: onOpenNoMessageModal,
+    onClose: onCloseNoMessageModal,
+  } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
   const { logPageViewEvent } = useEventLogger();
 
@@ -64,6 +71,15 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     sorted.sort((a, b) => b.generation - a.generation);
     return sorted;
   }, [profile?.soptActivities]);
+
+  const handleMessageClick = () => {
+    // FIXME 현재 빈 값일 경우 빈 string과 null 둘 다 올 수 있어서 둘 다 체크를 하는데, 추후 API 타입과 컴포넌트 타입을 분리한 후 하나로 통일할 것.
+    if (profile && (profile.email.length < 1 || profile.email === null)) {
+      onOpenNoMessageModal();
+    } else {
+      onOpenCoffeeChatModal();
+    }
+  };
 
   useRunOnce(() => {
     if (profile) {
@@ -139,7 +155,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
         {!profile.isMine && (
           <>
-            <MessageSection name={profile.name} email={profile.email} onClick={onOpenCoffeeChatModal} />
+            <MessageSection name={profile.name} email={profile.email} onClick={handleMessageClick} />
             {isOpenCoffeeChatModal && (
               <CoffeeChatModal
                 receiverId={memberId}
@@ -160,6 +176,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 }
                 onClose={onCloseCoffeeChatModal}
               />
+            )}
+            {isOpenNoMessageModal && (
+              <Responsive only='mobile' asChild>
+                <NoMessageModal isOpen={isOpenNoMessageModal} onClose={onCloseNoMessageModal} />
+              </Responsive>
             )}
           </>
         )}

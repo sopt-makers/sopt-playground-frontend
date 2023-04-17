@@ -7,6 +7,7 @@ import useOnClickOutside from '@/hooks/useOnClickOutside';
 import IconModalCheck from '@/public/icons/icon-modal-check.svg';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
@@ -15,6 +16,7 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
   content?: ReactNode;
   isOpen?: boolean;
   width?: number;
+  className?: string;
   onClose: () => void;
 }
 const Modal: FC<ModalProps> = (props) => {
@@ -94,6 +96,11 @@ const StyledCloseButton = styled.button`
   justify-content: center;
   cursor: pointer;
   padding: 4px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    top: 18px;
+    right: 18px;
+  }
 `;
 
 const StyledIconClose = styled(IconModalClose)``;
