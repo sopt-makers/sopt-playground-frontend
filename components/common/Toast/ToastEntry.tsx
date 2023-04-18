@@ -27,6 +27,8 @@ const ToastEntry: FC<ToastEntryProps> = ({ title, message }) => {
 
 export default ToastEntry;
 
+const TOAST_CONTAINER_LEFT = 36;
+
 const StyledToastEntry = styled.div`
   display: flex;
   border-radius: 18px;
@@ -35,7 +37,7 @@ const StyledToastEntry = styled.div`
   width: fit-content;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    max-width: calc(100vw - 72px);
+    max-width: calc(100vw - ${TOAST_CONTAINER_LEFT * 2}px);
   }
 `;
 
