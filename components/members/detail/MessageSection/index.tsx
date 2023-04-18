@@ -3,8 +3,8 @@ import { ReactNode } from 'react';
 
 import useModalState from '@/components/common/Modal/useModalState';
 import useToast from '@/components/common/Toast/useToast';
-import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
-import MemberDetailSection from '@/components/members/main/MemberDetail/Section';
+import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
+import CoffeeChatModal from '@/components/members/detail/MessageSection/CoffeeChatModal';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';

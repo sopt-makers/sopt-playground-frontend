@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
-import MessageSection from '@/components/members/main/MemberDetail/Section/Message';
+import MessageSection from '@/components/members/detail/MessageSection';
 import { colors } from '@/styles/colors';
 
 export default {
