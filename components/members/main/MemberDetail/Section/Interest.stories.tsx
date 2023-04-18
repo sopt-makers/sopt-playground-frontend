@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-import InterestSection from './InterestSection';
+import InterestSection from './Interest';
 
 const InfoContainer = styled.div`
   display: flex;

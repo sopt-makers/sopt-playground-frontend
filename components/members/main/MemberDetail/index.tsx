@@ -12,15 +12,15 @@ import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
-import useModalState from '@/components/common/Modal/useModalState';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CareerItem from '@/components/members/detail/CareerItem';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import PartItem from '@/components/members/detail/PartItem';
-import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
-import InterestSection from '@/components/members/main/MemberDetail/InterestSection';
+import MemberDetailSection from '@/components/members/main/MemberDetail/Section';
+import InterestSection from '@/components/members/main/MemberDetail/Section/Interest';
+import MessageSection from '@/components/members/main/MemberDetail/Section/Message';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
@@ -46,7 +46,6 @@ const convertBirthdayFormat = (birthday?: string) => {
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { logClickEvent } = useEventLogger();
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
   const { logPageViewEvent } = useEventLogger();
 
@@ -83,7 +82,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileContainer>
-          {profile?.profileImage ? (
+          {profile.profileImage ? (
             <ProfileImage src={profile.profileImage} />
           ) : (
             <EmptyProfileImage>
@@ -94,25 +93,25 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           <ProfileContents>
             <div>
               <NameWrapper>
-                <div className='name'>{profile?.name}</div>
-                <div className='part'>{uniq(profile?.soptActivities.map(({ part }) => part)).join('/')}</div>
+                <div className='name'>{profile.name}</div>
+                <div className='part'>{uniq(profile.soptActivities.map(({ part }) => part)).join('/')}</div>
               </NameWrapper>
-              <div className='intro'>{profile?.introduction}</div>
+              <div className='intro'>{profile.introduction}</div>
             </div>
-            <ContactWrapper shouldDivide={!!profile?.phone && !!profile?.email}>
+            <ContactWrapper shouldDivide={!!profile.phone && !!profile.email}>
               {profile.phone && (
-                <Link passHref href={`tel:${profile?.phone}`} legacyBehavior>
+                <Link passHref href={`tel:${profile.phone}`} legacyBehavior>
                   <div style={{ cursor: 'pointer' }}>
                     <CallIcon />
-                    <div className='phone'>{profile?.phone}</div>
+                    <div className='phone'>{profile.phone}</div>
                   </div>
                 </Link>
               )}
               {profile.email && (
-                <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
+                <Link passHref href={`mailto:${profile.email}`} legacyBehavior>
                   <div style={{ cursor: 'pointer' }}>
                     <MailIcon />
-                    <div className='email'>{profile?.email}</div>
+                    <div className='email'>{profile.email}</div>
                   </div>
                 </Link>
               )}
@@ -131,40 +130,30 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           )}
         </ProfileContainer>
 
-        {!profile.isMine && profile.email && (
+        {!profile.isMine && (
           <>
-            <AskContainer>
-              <div>
-                <AskTitle>{profile.name}에게 하고 싶은 질문이 있나요?</AskTitle>
-                <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
-              </div>
-              <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
-            </AskContainer>
-            {isOpen && (
-              <CoffeeChatModal
-                receiverId={memberId}
-                name={profile.name ?? ''}
-                profile={
-                  <>
-                    {profile.profileImage ? (
-                      <ProfileImage
-                        src={profile.profileImage}
-                        style={{ width: '84px', height: '84px', borderRadius: '20px' }}
-                      />
-                    ) : (
-                      <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
-                        <ProfileIcon />
-                      </EmptyProfileImage>
-                    )}
-                  </>
-                }
-                onClose={onClose}
-              />
-            )}
+            <MessageSection
+              name={profile.name}
+              email={profile.email}
+              profileImage={
+                profile.profileImage ? (
+                  <ProfileImage
+                    src={profile.profileImage}
+                    style={{ width: '84px', height: '84px', borderRadius: '20px' }}
+                  />
+                ) : (
+                  <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
+                    <ProfileIcon />
+                  </EmptyProfileImage>
+                )
+              }
+              memberId={memberId}
+            />
           </>
         )}
+
         {(profile.birthday || profile.address || profile.university || profile.address) && (
-          <InfoContainer style={{ gap: '30px' }}>
+          <MemberDetailSection style={{ gap: '30px' }}>
             {profile.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile.birthday)} />}
             {profile.university && <InfoItem label='학교'>{profile.university}</InfoItem>}
             {profile.major && <InfoItem label='전공'>{profile.major}</InfoItem>}
@@ -177,10 +166,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 </StyledAddressBadgeWrapper>
               </InfoItem>
             )}
-          </InfoContainer>
+          </MemberDetailSection>
         )}
 
-        <InfoContainer style={{ gap: '34px' }}>
+        <MemberDetailSection style={{ gap: '34px' }}>
           {sortedSoptActivities.map(({ generation, part, projects, team }, idx) => (
             <PartItem
               key={idx}
@@ -194,7 +183,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               teams={team !== null ? [team] : []}
             />
           ))}
-        </InfoContainer>
+        </MemberDetailSection>
 
         {(profile.sojuCapacity ||
           profile.mbti ||
@@ -207,7 +196,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           profile.userFavor?.isPourSauceLover ||
           profile.userFavor?.isRedBeanFishBreadLover ||
           profile.userFavor?.isRiceTteokLover) && (
-          <InfoContainer>
+          <MemberDetailSection>
             <InterestSection
               sojuCapacity={profile.sojuCapacity}
               mbti={{
@@ -230,19 +219,19 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               interest={profile.interest}
               selfIntroduction={profile.selfIntroduction}
             />
-          </InfoContainer>
+          </MemberDetailSection>
         )}
 
         {profile.careers && profile.careers.length > 0 && (
-          <InfoContainer style={{ gap: '20px' }}>
+          <MemberDetailSection style={{ gap: '20px' }}>
             {profile.careers.map((career, idx) => (
               <CareerItem key={idx} career={career} />
             ))}
-          </InfoContainer>
+          </MemberDetailSection>
         )}
 
         {(profile.skill || (profile.links && profile.links.length > 0)) && (
-          <InfoContainer style={{ gap: '30px' }}>
+          <MemberDetailSection style={{ gap: '30px' }}>
             {profile.skill && <InfoItem label='스킬' content={profile.skill ?? ''} />}
             {profile.links.length > 0 && (
               <InfoItem
@@ -259,7 +248,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 }
               />
             )}
-          </InfoContainer>
+          </MemberDetailSection>
         )}
 
         <ProjectContainer>
@@ -477,66 +466,6 @@ const AddressBadge = styled.div`
   padding: 6px 14px;
   color: ${colors.white};
   ${textStyles.SUIT_14_M};
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 30px;
-  background: #1c1d1e;
-  padding: 40px;
-  width: 100%;
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 18px;
-    padding: 30px 20px;
-  }
-`;
-
-const AskContainer = styled(InfoContainer)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 36px;
-  padding-bottom: 36px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-    align-items: flex-start;
-    padding-bottom: 24px;
-  }
-`;
-
-const AskTitle = styled.div`
-  color: ${colors.white100};
-  ${textStyles.SUIT_18_SB}
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_16_SB}
-  }
-`;
-
-const AskSubtitle = styled.div`
-  margin-top: 12px;
-  color: ${colors.gray60};
-  ${textStyles.SUIT_16_M}
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_14_M}
-  }
-`;
-
-const AskButton = styled.div`
-  border-radius: 14px;
-  background-color: ${colors.purple100};
-  cursor: pointer;
-  padding: 15px 36px;
-  color: ${colors.white100};
-  ${textStyles.SUIT_15_SB}
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 34px;
-    padding: 15px;
-    width: 100%;
-    text-align: center;
-    ${textStyles.SUIT_16_SB}
-  }
 `;
 
 const LinkItems = styled.div`
