@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import MobileHeader from '@/components/common/MobileHeader';
-import MemberDetail from '@/components/members/main/MemberDetail';
+import MemberDetail from '@/components/members/detail/MemberDetail';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
 
