@@ -101,10 +101,6 @@ const MotionMemberCard = styled(m.div)`
   padding: 24px;
   row-gap: 24px;
 
-  /* &:hover {
-    box-shadow: 0 0 16px -8px #fff;
-  } */
-
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
       [row1-start] 'image content' 1fr [row1-end]
@@ -148,7 +144,7 @@ const Image = styled(ResizedImage)`
 `;
 
 const DefaultImage = styled.img`
-  margin: 30%;
+  width: 40%;
 `;
 
 const TitleBox = styled.div`
