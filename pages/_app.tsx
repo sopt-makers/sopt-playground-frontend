@@ -16,6 +16,7 @@ import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
 import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
 import { colors } from '@/styles/colors';
+import { SUIT } from '@/styles/font';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
 
@@ -54,7 +55,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <GlobalStyle />
               <ResponsiveProvider>
                 <Layout>
-                  <Component {...pageProps} />
+                  <main className={SUIT.className}>
+                    <Component {...pageProps} />
+                  </main>
                 </Layout>
               </ResponsiveProvider>
               {DEBUG && <Debugger />}

@@ -1,30 +1,26 @@
-import { css } from '@emotion/react';
+import localFont from 'next/font/local';
 
-const font = css`
-  @font-face {
-    font-family: SUIT;
-    src: url('/fonts/SUIT-ExtraBold.ttf') format('truetype');
-    font-weight: 800;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: SUIT;
-    src: url('/fonts/SUIT-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: SUIT;
-    src: url('/fonts/SUIT-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: SUIT;
-    src: url('/fonts/SUIT-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-display: swap;
-  }
-`;
-
-export default font;
+export const SUIT = localFont({
+  src: [
+    {
+      path: '../public/fonts/SUIT-ExtraBold.ttf',
+      weight: '800',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/SUIT-Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/SUIT-SemiBold.ttf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/SUIT-Medium.ttf',
+      weight: '500',
+      style: 'normal',
+    },
+  ],
+});
