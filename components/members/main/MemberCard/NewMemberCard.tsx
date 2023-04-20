@@ -17,7 +17,7 @@ interface MemberCardProps {
   imageUrl?: string;
 }
 
-const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl }) => {
+const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl }) => {
   return (
     <StyledMemberCard>
       <ImageArea>
@@ -38,21 +38,23 @@ const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUr
           <Name>{name}</Name>
           <Belongs>{belongs}</Belongs>
         </TitleBox>
-        <Badges>
-          {badges.map((badge, idx) => (
-            <Badge key={idx}>
-              {badge.isActive && <BadgeActiveDot />}
-              {badge.content}
-            </Badge>
-          ))}
-        </Badges>
+        <BadgesBox>
+          <Badges>
+            {badges.map((badge, idx) => (
+              <Badge key={idx}>
+                {badge.isActive && <BadgeActiveDot />}
+                {badge.content}
+              </Badge>
+            ))}
+          </Badges>
+        </BadgesBox>
         <Intro>{intro}</Intro>
       </ContentArea>
     </StyledMemberCard>
   );
 };
 
-export default MemberCard;
+export default NewMemberCard;
 
 const StyledMemberCard = styled.div`
   display: grid;
@@ -78,16 +80,19 @@ const StyledMemberCard = styled.div`
 `;
 
 const ImageArea = styled.div`
+  display: flex;
   grid-area: image;
+  align-items: center;
+  justify-content: center;
   transform: translateZ(0);
   margin: 0 auto;
   max-width: 180px;
-  max-height: 180px;
+  height: 180px;
   clip-path: circle(50%);
 
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 80px;
-    max-height: 80px;
+    height: 80px;
   }
 `;
 
@@ -102,9 +107,7 @@ const ContentArea = styled.div`
 
 const Image = styled(ResizedImage)``;
 
-const DefaultImage = styled.img`
-  width: 56px;
-`;
+const DefaultImage = styled.img``;
 
 const TitleBox = styled.div`
   display: flex;
@@ -124,10 +127,14 @@ const Belongs = styled.span`
   ${textStyles.SUIT_12_M}
 `;
 
+const BadgesBox = styled.div`
+  margin-top: 10px;
+  overflow-x: hidden;
+`;
+
 const Badges = styled.div`
   display: flex;
   gap: 4px;
-  margin-top: 10px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
@@ -137,6 +144,7 @@ const Badges = styled.div`
 const Badge = styled.div`
   display: flex;
   flex-direction: row;
+  flex-shrink: 0;
   gap: 6px;
   align-items: center;
   border-radius: 6px;

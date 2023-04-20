@@ -2,36 +2,36 @@ import styled from '@emotion/styled';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
-import { useGetMemberOfMe } from '@/api/hooks';
 import { Profile } from '@/api/members/type';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
-import MemberCard from '@/components/members/main/MemberCard';
+import NewMemberCard from '@/components/members/main/MemberCard/NewMemberCard';
 import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
 import { MemberRoleMenu, MemberRoleSelect, menuValue } from '@/components/members/main/MemberList/MemberRoleMenu';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
-import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const PAGE_LIMIT = 30;
 
-const MemberList: FC = () => {
+interface MemberListProps {
+  banner: ReactNode;
+}
+
+const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [filter, setFilter] = useState<string>(menuValue.ALL);
   const [name, setName] = useState<string>('');
 
   const router = useRouter();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
-  const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
@@ -52,8 +52,6 @@ const MemberList: FC = () => {
       ),
     [memberProfileData],
   );
-
-  const hasProfile = !!memberOfMeData?.hasProfile;
 
   useRunOnce(() => {
     logPageViewEvent('mamberPageList', {});
@@ -99,9 +97,8 @@ const MemberList: FC = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />}
+        {banner}
         <StyledMain>
-          {!hasProfile && <StyledDivider />}
           <Responsive only='desktop'>
             <StyledMemberRoleMenu value={filter} onSelect={handleSelectFilter} />
           </Responsive>
@@ -122,21 +119,29 @@ const MemberList: FC = () => {
             <StyledCardWrapper>
               {profiles?.map((profiles, index) => (
                 <React.Fragment key={index}>
-                  {profiles.map((profile) => (
-                    <Link
-                      key={profile.id}
-                      href={playgroundLink.memberDetail(profile.id)}
-                      onClick={() => handleClickCard(profile)}
-                    >
-                      <MemberCard
-                        name={profile.name}
-                        part={profile.part}
-                        isActiveGeneration={profile.isActive}
-                        introduction={profile.introduction}
-                        image={profile.profileImage}
-                      />
-                    </Link>
-                  ))}
+                  {profiles.map((profile) => {
+                    const sorted = [...profile.activities].sort((a, b) => b.generation - a.generation);
+                    const badges = sorted.map((activity) => ({
+                      content: `${activity.generation}기 ${activity.part}`,
+                      isActive: activity.generation === LATEST_GENERATION,
+                    }));
+
+                    return (
+                      <Link
+                        key={profile.id}
+                        href={playgroundLink.memberDetail(profile.id)}
+                        onClick={() => handleClickCard(profile)}
+                      >
+                        <StyledMemberCard
+                          name={profile.name}
+                          belongs={profile.university}
+                          badges={badges}
+                          intro={profile.introduction}
+                          imageUrl={profile.profileImage}
+                        />
+                      </Link>
+                    );
+                  })}
                 </React.Fragment>
               ))}
             </StyledCardWrapper>
@@ -161,14 +166,6 @@ const StyledContainer = styled.div`
 const StyledContent = styled.div`
   width: 100%;
   max-width: 1000px;
-`;
-
-const StyledOnBoardingBanner = styled(OnBoardingBanner)`
-  margin-top: 120px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 45px;
-  }
 `;
 
 const StyledMain = styled.main`
@@ -217,18 +214,6 @@ const StyledMemberSearch = styled(MemberSearch)`
   }
 `;
 
-const StyledDivider = styled.div`
-  display: none;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: block;
-    margin: 23.5px 0 32.5px;
-    border: 0.5px solid ${colors.black80};
-    width: 100%;
-  }
-`;
-
-const IPHONE_XR = 414;
 const StyledCardWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -242,15 +227,18 @@ const StyledCardWrapper = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    grid-template-columns: repeat(1, 1fr);
     gap: 12px 8px;
+    justify-items: stretch;
 
     & > div {
       width: 100%;
     }
   }
-  @media screen and (max-width: ${IPHONE_XR}px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+`;
+
+const StyledMemberCard = styled(NewMemberCard)`
+  width: 100%;
 `;
 
 const StyledMemberRoleMenu = styled(MemberRoleMenu)`
