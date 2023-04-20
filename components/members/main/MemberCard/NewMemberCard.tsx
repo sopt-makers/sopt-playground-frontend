@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
@@ -20,19 +21,21 @@ interface MemberCardProps {
 const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl }) => {
   return (
     <StyledMemberCard>
-      <ImageArea>
-        {imageUrl ? (
-          <Image className='image' src={imageUrl} width={235} alt='member_image' />
-        ) : (
-          <DefaultImage
-            className='image'
-            src='/icons/icon-member-default.svg'
-            alt='default_member_image'
-            loading='lazy'
-            decoding='async'
-          />
-        )}
-      </ImageArea>
+      <StyledAspectRatio ratio={1 / 1}>
+        <ImageArea>
+          {imageUrl ? (
+            <Image className='image' src={imageUrl} width={235} alt='member_image' />
+          ) : (
+            <DefaultImage
+              className='image'
+              src='/icons/icon-member-default.svg'
+              alt='default_member_image'
+              loading='lazy'
+              decoding='async'
+            />
+          )}
+        </ImageArea>
+      </StyledAspectRatio>
       <ContentArea>
         <TitleBox>
           <Name>{name}</Name>
@@ -79,16 +82,21 @@ const StyledMemberCard = styled.div`
   }
 `;
 
+const StyledAspectRatio = styled(AspectRatio.Root)`
+  grid-area: image;
+`;
+
 const ImageArea = styled.div`
   display: flex;
-  grid-area: image;
   align-items: center;
   justify-content: center;
   transform: translateZ(0);
   margin: 0 auto;
-  max-width: 180px;
-  height: 180px;
-  clip-path: circle(50%);
+  border-radius: 50%;
+  background-color: ${colors.black60};
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 80px;
@@ -105,9 +113,15 @@ const ContentArea = styled.div`
   }
 `;
 
-const Image = styled(ResizedImage)``;
+const Image = styled(ResizedImage)`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+`;
 
-const DefaultImage = styled.img``;
+const DefaultImage = styled.img`
+  width: 56px;
+`;
 
 const TitleBox = styled.div`
   display: flex;
@@ -171,8 +185,13 @@ const BadgeActiveDot = styled.span`
 `;
 
 const Intro = styled.p`
+  display: ${'-webkit-box'};
   margin-top: 16px;
+  width: 100%;
+  overflow: hidden;
   color: ${colors.gray60};
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 
   ${textStyles.SUIT_12_M};
 

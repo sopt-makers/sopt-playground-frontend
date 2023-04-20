@@ -4200,6 +4200,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-aspect-ratio@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@radix-ui/react-aspect-ratio@npm:1.0.2"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/react-primitive": 1.0.2
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  checksum: cbad29a82b9bdb2a3f30d50b3ac7d5710ecee1fd34fcfbf2c1bec4f10983714b0ce48dbbc2ee4e87fe3106c5fa606ab48328830d474272870bf92838e4221e1d
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-collapsible@npm:^1.0.2":
   version: 1.0.2
   resolution: "@radix-ui/react-collapsible@npm:1.0.2"
@@ -20833,6 +20846,7 @@ __metadata:
     "@hookform/resolvers": ^2.9.1
     "@mdx-js/react": ^1.6.22
     "@next/bundle-analyzer": ^13.1.1
+    "@radix-ui/react-aspect-ratio": ^1.0.2
     "@radix-ui/react-collapsible": ^1.0.2
     "@radix-ui/react-dialog": ^1.0.2
     "@radix-ui/react-dropdown-menu": ^2.0.2

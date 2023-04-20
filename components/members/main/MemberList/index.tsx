@@ -218,8 +218,8 @@ const StyledCardWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  align-items: start;
-  justify-items: center;
+  align-items: center;
+  justify-items: stretch;
   margin-top: 28px;
 
   @media screen and (max-width: 1000px) {
