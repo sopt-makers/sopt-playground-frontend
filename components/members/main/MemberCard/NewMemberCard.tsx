@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
+import { m } from 'framer-motion';
 import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
@@ -20,9 +21,36 @@ interface MemberCardProps {
 
 const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl }) => {
   return (
-    <StyledMemberCard>
+    <MotionMemberCard
+      initial='init'
+      whileHover='hover'
+      whileTap='press'
+      variants={{
+        init: {
+          scale: 1,
+          y: '0px',
+        },
+        hover: {
+          scale: 1,
+          y: '-3px',
+        },
+        press: {
+          scale: 0.96,
+          y: '0px',
+        },
+      }}
+    >
       <StyledAspectRatio ratio={1 / 1}>
-        <ImageArea>
+        <ImageArea
+          variants={{
+            init: {
+              borderRadius: '50%',
+            },
+            hover: {
+              borderRadius: '20%',
+            },
+          }}
+        >
           {imageUrl ? (
             <Image className='image' src={imageUrl} width={235} alt='member_image' />
           ) : (
@@ -53,13 +81,13 @@ const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imag
         </BadgesBox>
         <Intro>{intro}</Intro>
       </ContentArea>
-    </StyledMemberCard>
+    </MotionMemberCard>
   );
 };
 
 export default NewMemberCard;
 
-const StyledMemberCard = styled.div`
+const MotionMemberCard = styled(m.div)`
   display: grid;
   grid:
     [row1-start] 'image' auto [row1-end]
@@ -67,15 +95,20 @@ const StyledMemberCard = styled.div`
     / 1fr;
   align-items: center;
   column-gap: 16px;
+  transition: box-shadow 0.3s;
   border-radius: 16px;
   background-color: ${colors.black90};
   padding: 24px;
   row-gap: 24px;
 
+  /* &:hover {
+    box-shadow: 0 0 16px -8px #fff;
+  } */
+
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
       [row1-start] 'image content' 1fr [row1-end]
-      / auto 1fr;
+      / 80px 1fr;
     border-radius: 0;
     background-color: transparent;
     padding: 20px;
@@ -86,7 +119,7 @@ const StyledAspectRatio = styled(AspectRatio.Root)`
   grid-area: image;
 `;
 
-const ImageArea = styled.div`
+const ImageArea = styled(m.div)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,11 +130,6 @@ const ImageArea = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 80px;
-    height: 80px;
-  }
 `;
 
 const ContentArea = styled.div`
@@ -120,7 +148,7 @@ const Image = styled(ResizedImage)`
 `;
 
 const DefaultImage = styled.img`
-  width: 56px;
+  margin: 30%;
 `;
 
 const TitleBox = styled.div`
@@ -149,10 +177,6 @@ const BadgesBox = styled.div`
 const Badges = styled.div`
   display: flex;
   gap: 4px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 8px;
-  }
 `;
 
 const Badge = styled.div`
