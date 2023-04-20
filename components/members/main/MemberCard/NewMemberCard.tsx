@@ -61,14 +61,19 @@ const StyledMemberCard = styled.div`
     [row2-start] 'content' auto [row2-end]
     / 1fr;
   align-items: center;
+  column-gap: 16px;
   border-radius: 16px;
   background-color: ${colors.black90};
   padding: 24px;
+  row-gap: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
       [row1-start] 'image content' 1fr [row1-end]
       / auto 1fr;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 20px;
   }
 `;
 
@@ -79,12 +84,20 @@ const ImageArea = styled.div`
   max-width: 180px;
   max-height: 180px;
   clip-path: circle(50%);
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 80px;
+    max-height: 80px;
+  }
 `;
 
 const ContentArea = styled.div`
   grid-area: content;
-  margin-top: 24px;
   min-height: 120px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    min-height: unset;
+  }
 `;
 
 const Image = styled(ResizedImage)``;
@@ -114,6 +127,11 @@ const Belongs = styled.span`
 const Badges = styled.div`
   display: flex;
   gap: 4px;
+  margin-top: 10px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+  }
 `;
 
 const Badge = styled.div`
@@ -121,13 +139,20 @@ const Badge = styled.div`
   flex-direction: row;
   gap: 6px;
   align-items: center;
-  margin-top: 10px;
   border-radius: 6px;
   background-color: ${colors.black60};
-  padding: 6px 6px 6px 8px;
+  padding: 6px 8px;
   color: ${colors.gray30};
 
-  ${textStyles.SUIT_12_M};
+  ${textStyles.SUIT_11_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    background-color: ${colors.black80};
+    padding: 4px 6px;
+    color: ${colors.gray30};
+
+    ${textStyles.SUIT_11_M};
+  }
 `;
 
 const BadgeActiveDot = styled.span`
@@ -141,5 +166,10 @@ const Intro = styled.p`
   margin-top: 16px;
   color: ${colors.gray60};
 
-  ${textStyles.SUIT_14_M};
+  ${textStyles.SUIT_12_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    color: ${colors.gray100};
+  }
 `;
