@@ -21,7 +21,8 @@ export type ProjectDetail = {
     isTeamMember: boolean;
     memberName: string;
     memberGeneration: number;
-    memberHasProfile?: boolean;
+    memberProfileImage: string | null;
+    memberGenerations: number[];
   }[];
   links: {
     linkId: number;

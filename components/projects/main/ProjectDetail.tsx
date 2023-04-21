@@ -48,6 +48,8 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
     }
   };
 
+  console.log(sortedMembers);
+
   return (
     <Container>
       <Header>
@@ -111,30 +113,22 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           </UserInfoWrapper>
           <UserList>
             <UserNameList>
-              {sortedMembers.map((member) => (
-                <WithMemberMetadata
-                  key={member.memberId}
-                  memberId={member.memberId}
-                  render={(metadata) => {
-                    const badges = [];
-                    if (metadata && metadata.generations.length > 0) {
-                      badges.push(metadata.generations.map(String).join(', ') + '기');
-                    }
-                    const memberBlock = (
-                      <MemberBlock
-                        name={member.memberName}
-                        position={MemberRoleInfo[member.memberRole]}
-                        imageUrl={metadata?.profileImage}
-                        badges={badges}
-                      />
-                    );
-                    if (member.memberHasProfile) {
-                      return <Link href={playgroundLink.memberDetail(member.memberId)}>{memberBlock}</Link>;
-                    }
-                    return memberBlock;
-                  }}
-                />
-              ))}
+              {sortedMembers.map((member) => {
+                const badges = [];
+                if (member.memberGenerations.length > 0) {
+                  badges.push(member.memberGenerations.map(String).join(', ') + '기');
+                }
+                return (
+                  <Link key={member.memberId} href={playgroundLink.memberDetail(member.memberId)}>
+                    <MemberBlock
+                      name={member.memberName}
+                      position={MemberRoleInfo[member.memberRole]}
+                      imageUrl={member.memberProfileImage ?? undefined}
+                      badges={badges}
+                    />
+                  </Link>
+                );
+              })}
             </UserNameList>
           </UserList>
         </UserWrapper>
