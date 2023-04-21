@@ -8,7 +8,6 @@ import { useGetMemberOfMe } from '@/api/hooks';
 import { deleteProject } from '@/api/projects';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
-import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';

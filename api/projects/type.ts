@@ -15,14 +15,14 @@ export type ProjectDetail = {
   thumbnailImage: string;
   images: string[];
   members: {
-    memberId: number;
-    memberRole: MemberRole;
-    memberDescription: string;
     isTeamMember: boolean;
-    memberName: string;
-    memberGeneration: number;
-    memberProfileImage: string | null;
+    memberDescription: string;
     memberGenerations: number[];
+    memberHasProfile: boolean;
+    memberId: number;
+    memberName: string;
+    memberProfileImage: string | null;
+    memberRole: MemberRole;
   }[];
   links: {
     linkId: number;
