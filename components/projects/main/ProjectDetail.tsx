@@ -47,8 +47,6 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
     }
   };
 
-  console.log(sortedMembers);
-
   return (
     <Container>
       <Header>
