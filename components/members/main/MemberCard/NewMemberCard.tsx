@@ -21,36 +21,9 @@ interface MemberCardProps {
 
 const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl }) => {
   return (
-    <MotionMemberCard
-      initial='init'
-      whileHover='hover'
-      whileTap='press'
-      variants={{
-        init: {
-          scale: 1,
-          y: '0px',
-        },
-        hover: {
-          scale: 1,
-          y: '-3px',
-        },
-        press: {
-          scale: 0.96,
-          y: '0px',
-        },
-      }}
-    >
+    <MotionMemberCard initial='init' whileHover='hover' whileTap='press' variants={variants.card}>
       <StyledAspectRatio ratio={1 / 1}>
-        <ImageArea
-          variants={{
-            init: {
-              borderRadius: '50%',
-            },
-            hover: {
-              borderRadius: '20%',
-            },
-          }}
-        >
+        <MotionImageArea variants={variants.image}>
           {imageUrl ? (
             <Image className='image' src={imageUrl} width={235} alt='member_image' />
           ) : (
@@ -62,11 +35,11 @@ const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imag
               decoding='async'
             />
           )}
-        </ImageArea>
+        </MotionImageArea>
       </StyledAspectRatio>
       <ContentArea>
         <TitleBox>
-          <Name>{name}</Name>
+          <MotionName variants={variants.name}>{name}</MotionName>
           <Belongs>{belongs}</Belongs>
         </TitleBox>
         <BadgesBox>
@@ -86,6 +59,35 @@ const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imag
 };
 
 export default NewMemberCard;
+
+const variants = {
+  card: {
+    init: {
+      scale: 1,
+      y: '0px',
+    },
+    hover: {
+      scale: 1,
+      y: '-2px',
+    },
+    press: {
+      scale: 0.96,
+      y: '0px',
+    },
+  },
+  image: {
+    init: {
+      borderRadius: '50%',
+    },
+    hover: {
+      borderRadius: '16px',
+    },
+  },
+  name: {
+    init: {},
+    hover: { fontSize: '20px' },
+  },
+};
 
 const MotionMemberCard = styled(m.div)`
   display: grid;
@@ -115,7 +117,7 @@ const StyledAspectRatio = styled(AspectRatio.Root)`
   grid-area: image;
 `;
 
-const ImageArea = styled(m.div)`
+const MotionImageArea = styled(m.div)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -147,12 +149,12 @@ const DefaultImage = styled.img`
   width: 40%;
 `;
 
-const TitleBox = styled.div`
+const TitleBox = styled(m.div)`
   display: flex;
   align-items: center;
 `;
 
-const Name = styled.h3`
+const MotionName = styled(m.h3)`
   color: ${colors.gray10};
 
   ${textStyles.SUIT_18_B}
