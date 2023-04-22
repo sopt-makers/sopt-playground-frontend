@@ -15,7 +15,7 @@ import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { colors } from '@/styles/colors';
 
-enum CoffeChatCategory {
+enum MessageCategory {
   COFFEE_CHAT = '커피챗',
   MENTORING = '멘토링',
   NETWORK = '친목',
@@ -25,33 +25,33 @@ enum CoffeChatCategory {
 }
 interface Category {
   icon: string;
-  value: CoffeChatCategory;
+  value: MessageCategory;
 }
 const CATEGORY: Category[] = [
   {
     icon: '/icons/icon-coffeechat.svg',
-    value: CoffeChatCategory.COFFEE_CHAT,
+    value: MessageCategory.COFFEE_CHAT,
   },
   {
     icon: '/icons/icon-mentoring.svg',
-    value: CoffeChatCategory.MENTORING,
+    value: MessageCategory.MENTORING,
   },
   {
     icon: '/icons/icon-network.svg',
-    value: CoffeChatCategory.NETWORK,
+    value: MessageCategory.NETWORK,
   },
 
   {
     icon: '/icons/icon-project-suggest.svg',
-    value: CoffeChatCategory.PROJECT_SUGGESTION,
+    value: MessageCategory.PROJECT_SUGGESTION,
   },
   {
     icon: '/icons/icon-appjam-build.svg',
-    value: CoffeChatCategory.APPJAM_TEAM_BUILDING,
+    value: MessageCategory.APPJAM_TEAM_BUILDING,
   },
   {
     icon: '/icons/icon-postnote-etc.svg',
-    value: CoffeChatCategory.ETC,
+    value: MessageCategory.ETC,
   },
 ];
 
@@ -60,34 +60,34 @@ const schema = yup.object().shape({
   content: yup.string().required('내용을 입력해주세요.'),
 });
 
-interface CoffeeChatForm {
+interface MessageForm {
   email: string;
   content: string;
 }
 
-interface CoffeeChatModalProps extends ModalProps {
+interface MessageModalProps extends ModalProps {
   profile: ReactNode;
   name: string;
   receiverId: string;
 }
 
-const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, ...props }) => {
-  const [selectedCategory, setSelectedCategory] = useState<CoffeChatCategory | null>(null);
+const MessageModal: FC<MessageModalProps> = ({ receiverId, profile, name, ...props }) => {
+  const [selectedCategory, setSelectedCategory] = useState<MessageCategory | null>(null);
   const {
     handleSubmit,
     control,
     formState: { isValid: _isValid },
-  } = useForm<CoffeeChatForm>({
+  } = useForm<MessageForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
   const isValid = _isValid && Boolean(selectedCategory);
   const { mutateAsync, isLoading } = usePostCoffeeChatMutation();
 
-  const onClickCategory = (category: CoffeChatCategory) => {
+  const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
   };
-  const onSubmit = async ({ content, email }: CoffeeChatForm) => {
+  const onSubmit = async ({ content, email }: MessageForm) => {
     const confirm = window.confirm('쪽지를 보내시겠습니까?');
     try {
       if (!selectedCategory) {
@@ -126,7 +126,7 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, 
             <StyledCategoryItem
               key={index}
               onClick={() => onClickCategory(category.value)}
-              isSelected={category.value === (selectedCategory as CoffeChatCategory | null)}
+              isSelected={category.value === (selectedCategory as MessageCategory | null)}
             >
               <StyledIcon src={category.icon} alt={category.value} />
               <Text typography='SUIT_15_SB' color={colors.gray40}>
@@ -168,7 +168,7 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, 
   );
 };
 
-export default CoffeeChatModal;
+export default MessageModal;
 
 const StyledModal = styled(Modal)`
   padding-top: 20px;

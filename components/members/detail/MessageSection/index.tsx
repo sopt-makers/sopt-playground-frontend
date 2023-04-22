@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import useModalState from '@/components/common/Modal/useModalState';
 import useToast from '@/components/common/Toast/useToast';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
-import CoffeeChatModal from '@/components/members/detail/MessageSection/CoffeeChatModal';
+import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -46,7 +46,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
         </MessageButton>
       </Container>
       {isOpenCoffeeChatModal && (
-        <CoffeeChatModal receiverId={memberId} name={name} profile={profileImage} onClose={onCloseCoffeeChatModal} />
+        <MessageModal receiverId={memberId} name={name} profile={profileImage} onClose={onCloseCoffeeChatModal} />
       )}
     </>
   );
