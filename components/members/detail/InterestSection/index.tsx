@@ -72,7 +72,7 @@ const InterestSection: FC<InterestSectionProps> = ({
   const isBalanceGameAvailable = balanceGame && Object.values(balanceGame).some((value) => value !== null);
 
   return (
-    <Container>
+    <StyledMemberDetailSection>
       {mbti.name && (
         <InfoItem label='MBTI + 제 성격은요...'>
           <MBTI>{mbti.name}</MBTI>
@@ -111,13 +111,13 @@ const InterestSection: FC<InterestSectionProps> = ({
           <SelfIntroductionDescription>{selfIntroduction}</SelfIntroductionDescription>
         </InfoItem>
       )}
-    </Container>
+    </StyledMemberDetailSection>
   );
 };
 
 export default InterestSection;
 
-const Container = styled(MemberDetailSection)`
+const StyledMemberDetailSection = styled(MemberDetailSection)`
   row-gap: 35px;
 `;
 

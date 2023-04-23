@@ -36,7 +36,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
 
   return (
     <>
-      <Container>
+      <StyledMemberDetailSection>
         <div>
           <Title>{name}에게 하고 싶은 질문이 있나요?</Title>
           <Subtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</Subtitle>
@@ -44,7 +44,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
         <MessageButton onClick={handleClickMessageButton} disabled={isEmptyEmail}>
           쪽지 보내기
         </MessageButton>
-      </Container>
+      </StyledMemberDetailSection>
       {isOpenCoffeeChatModal && (
         <MessageModal receiverId={memberId} name={name} profile={profileImage} onClose={onCloseCoffeeChatModal} />
       )}
@@ -52,7 +52,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
   );
 }
 
-const Container = styled(MemberDetailSection)`
+const StyledMemberDetailSection = styled(MemberDetailSection)`
   display: flex;
   flex-direction: row;
   align-items: center;
