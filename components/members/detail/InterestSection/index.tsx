@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 
 import Text from '@/components/common/Text';
 import InfoItem from '@/components/members/detail/InfoItem';
+import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -71,7 +72,7 @@ const InterestSection: FC<InterestSectionProps> = ({
   const isBalanceGameAvailable = balanceGame && Object.values(balanceGame).some((value) => value !== null);
 
   return (
-    <StyledInterestSection>
+    <Container>
       {mbti.name && (
         <InfoItem label='MBTI + 제 성격은요...'>
           <MBTI>{mbti.name}</MBTI>
@@ -110,15 +111,13 @@ const InterestSection: FC<InterestSectionProps> = ({
           <SelfIntroductionDescription>{selfIntroduction}</SelfIntroductionDescription>
         </InfoItem>
       )}
-    </StyledInterestSection>
+    </Container>
   );
 };
 
 export default InterestSection;
 
-const StyledInterestSection = styled.div`
-  display: flex;
-  flex-direction: column;
+const Container = styled(MemberDetailSection)`
   row-gap: 35px;
 `;
 

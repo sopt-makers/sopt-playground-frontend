@@ -196,30 +196,28 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           profile.userFavor?.isPourSauceLover ||
           profile.userFavor?.isRedBeanFishBreadLover ||
           profile.userFavor?.isRiceTteokLover) && (
-          <MemberDetailSection>
-            <InterestSection
-              sojuCapacity={profile.sojuCapacity}
-              mbti={{
-                name: profile.mbti,
-                description: profile.mbtiDescription,
-              }}
-              balanceGame={
-                profile.userFavor
-                  ? {
-                      isSojuLover: profile.userFavor.isSojuLover,
-                      isHardPeachLover: profile.userFavor.isHardPeachLover,
-                      isMintChocoLover: profile.userFavor.isMintChocoLover,
-                      isPourSauceLover: profile.userFavor.isPourSauceLover,
-                      isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
-                      isRiceTteokLover: profile.userFavor.isRiceTteokLover,
-                    }
-                  : null
-              }
-              idealType={profile.idealType}
-              interest={profile.interest}
-              selfIntroduction={profile.selfIntroduction}
-            />
-          </MemberDetailSection>
+          <InterestSection
+            sojuCapacity={profile.sojuCapacity}
+            mbti={{
+              name: profile.mbti,
+              description: profile.mbtiDescription,
+            }}
+            balanceGame={
+              profile.userFavor
+                ? {
+                    isSojuLover: profile.userFavor.isSojuLover,
+                    isHardPeachLover: profile.userFavor.isHardPeachLover,
+                    isMintChocoLover: profile.userFavor.isMintChocoLover,
+                    isPourSauceLover: profile.userFavor.isPourSauceLover,
+                    isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
+                    isRiceTteokLover: profile.userFavor.isRiceTteokLover,
+                  }
+                : null
+            }
+            idealType={profile.idealType}
+            interest={profile.interest}
+            selfIntroduction={profile.selfIntroduction}
+          />
         )}
 
         {profile.careers && profile.careers.length > 0 && (
