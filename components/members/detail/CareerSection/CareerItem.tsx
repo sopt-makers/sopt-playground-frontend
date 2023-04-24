@@ -12,56 +12,24 @@ type CareerItemProps = {
 
 const CareerItem: FC<CareerItemProps> = ({ career }) => {
   return (
-    <Container>
-      <LineBetween>
-        <div className='circle' />
-        <div className='line' />
-      </LineBetween>
-      <div>
-        <CompanyName>{career.companyName}</CompanyName>
-        <SubContent>
-          <div className='job-position'>{career.title}</div>
-          <Divider />
-          <div>{`${dayjs(career.startDate).format('YYYY.MM')}${' - '}${
-            career.isCurrent ? 'NOW' : dayjs(career.endDate).format('YYYY.MM')
-          }`}</div>
-        </SubContent>
-      </div>
-    </Container>
+    <div>
+      <CompanyName>{career.companyName}</CompanyName>
+      <SubContent>
+        <div className='job-position'>{career.title}</div>
+        <Divider />
+        <div>{`${dayjs(career.startDate).format('YYYY.MM')}${' - '}${
+          career.isCurrent ? 'NOW' : dayjs(career.endDate).format('YYYY.MM')
+        }`}</div>
+      </SubContent>
+    </div>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  gap: 12px;
-`;
-
-const LineBetween = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  & > .circle {
-    margin-top: 6px;
-    border-radius: 50%;
-    background-color: ${colors.gray60};
-    width: 6px;
-    height: 6px;
-  }
-
-  & > .line {
-    margin-top: 3.5px;
-    border-radius: 1px;
-    background-color: ${colors.gray60};
-    width: 1px;
-    height: 52px;
-  }
-`;
 
 const SubContent = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
+  line-height: 100%;
   color: ${colors.gray60};
 
   ${textStyles.SUIT_14_M};
