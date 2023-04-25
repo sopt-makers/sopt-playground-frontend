@@ -39,7 +39,7 @@ const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imag
       </StyledAspectRatio>
       <ContentArea>
         <TitleBox>
-          <MotionName variants={variants.name}>{name}</MotionName>
+          <Name>{name}</Name>
           <Belongs>{belongs}</Belongs>
         </TitleBox>
         <BadgesBox>
@@ -51,6 +51,7 @@ const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imag
               </Badge>
             ))}
           </Badges>
+          <DimShadow />
         </BadgesBox>
         <Intro>{intro}</Intro>
       </ContentArea>
@@ -64,15 +65,12 @@ const variants = {
   card: {
     init: {
       scale: 1,
-      y: '0px',
     },
     hover: {
       scale: 1,
-      y: '-2px',
     },
     press: {
       scale: 0.96,
-      y: '0px',
     },
   },
   image: {
@@ -82,10 +80,6 @@ const variants = {
     hover: {
       borderRadius: '16px',
     },
-  },
-  name: {
-    init: {},
-    hover: { fontSize: '20px' },
   },
 };
 
@@ -154,7 +148,7 @@ const TitleBox = styled(m.div)`
   align-items: center;
 `;
 
-const MotionName = styled(m.h3)`
+const Name = styled.h3`
   color: ${colors.gray10};
 
   ${textStyles.SUIT_18_B}
@@ -168,6 +162,7 @@ const Belongs = styled.span`
 `;
 
 const BadgesBox = styled.div`
+  position: relative;
   margin-top: 10px;
   overflow-x: hidden;
 `;
@@ -175,6 +170,15 @@ const BadgesBox = styled.div`
 const Badges = styled.div`
   display: flex;
   gap: 4px;
+`;
+
+const DimShadow = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black90} 100%);
+  width: 20px;
 `;
 
 const Badge = styled.div`
