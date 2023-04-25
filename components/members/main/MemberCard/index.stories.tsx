@@ -1,31 +1,31 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Card from './index';
+import NewMemberCard from '.';
 
 export default {
-  component: Card,
-} as ComponentMeta<typeof Card>;
+  component: NewMemberCard,
+  parameters: {},
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '300px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} as ComponentMeta<typeof NewMemberCard>;
 
-const Template: ComponentStory<typeof Card> = (args) => <Card {...args} />;
-
-const yerinImage =
-  'https://user-images.githubusercontent.com/26808056/198195477-82df28fe-acb7-46b4-be0f-0610c62a8a72.png';
+const Template: ComponentStory<typeof NewMemberCard> = (args) => <NewMemberCard {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  name: '유예린',
-  part: '디자인 / 기획',
-  introduction: '인왕산 야간등산을 좋아해요. 그러다 도루리 집을 멤돌았다는건 안 비밀^^',
-  isActiveGeneration: true,
+  name: '박건영',
+  imageUrl:
+    'https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//prod/image/project/45a0271c-895c-427b-9ff2-a2efb4daa7ce-1679161408215.jpg',
+  belongs: 'Google',
+  badges: [
+    { content: '29기 웹', isActive: false },
+    { content: '2기 메이커스', isActive: true },
+  ],
+  intro: '안녕하세요!',
 };
 Default.storyName = '기본';
-
-export const Active = Template.bind({});
-Active.args = {
-  name: '유예린',
-  part: '디자인 / 기획',
-  introduction: '인왕산 야간등산을 좋아해요. 그러다 도루리 집을 멤돌았다는건 안 비밀^^',
-  image: yerinImage,
-  isActiveGeneration: false,
-};
-Active.storyName = '활동 기수';

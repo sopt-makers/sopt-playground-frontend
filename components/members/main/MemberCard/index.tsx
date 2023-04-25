@@ -1,162 +1,244 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import * as AspectRatio from '@radix-ui/react-aspect-ratio';
+import { m } from 'framer-motion';
+import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
-import { LATEST_GENERATION } from '@/constants/generation';
+import MessageButton from '@/components/members/main/MemberCard/MessageButton';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MemberCardProps {
   name: string;
-  part: string;
-  introduction: string;
-  image?: string;
-  isActiveGeneration: boolean;
+  belongs: string;
+  intro: string;
+  badges: {
+    content: string;
+    isActive: boolean;
+  }[];
+  imageUrl?: string;
+
+  onMessage?: (e: SyntheticEvent) => void;
 }
 
-const MemberCard: FC<MemberCardProps> = ({ name, part, introduction, image, isActiveGeneration }) => {
+const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl, onMessage }) => {
   return (
-    <StyledCard>
-      <CardHeader>
-        {isActiveGeneration && <ActiveGenerationBadge>{`${LATEST_GENERATION}기 활동중`}</ActiveGenerationBadge>}
-        {image ? (
-          <Image className='image' src={image} width={235} alt='member_image' />
-        ) : (
-          <DefaultImage
-            className='image'
-            src='/icons/icon-member-default.svg'
-            alt='default_member_image'
-            loading='lazy'
-            decoding='async'
-          />
-        )}
-      </CardHeader>
-      <CardContent>
-        <Name>{name}</Name>
-        <Part>{part}</Part>
-        <Introduction>{introduction}</Introduction>
-      </CardContent>
-    </StyledCard>
+    <MotionMemberCard initial='init' whileHover='hover' whileTap='press' variants={variants.card}>
+      <StyledAspectRatio ratio={1 / 1}>
+        <MotionImageArea variants={variants.image}>
+          {imageUrl ? (
+            <Image className='image' src={imageUrl} width={235} alt='member_image' />
+          ) : (
+            <DefaultImage
+              className='image'
+              src='/icons/icon-member-default.svg'
+              alt='default_member_image'
+              loading='lazy'
+              decoding='async'
+            />
+          )}
+        </MotionImageArea>
+      </StyledAspectRatio>
+      <ContentArea>
+        <TitleBox>
+          <Name>{name}</Name>
+          <Belongs>{belongs}</Belongs>
+        </TitleBox>
+        <BadgesBox>
+          <Badges>
+            {badges.map((badge, idx) => (
+              <Badge key={idx}>
+                {badge.isActive && <BadgeActiveDot />}
+                {badge.content}
+              </Badge>
+            ))}
+          </Badges>
+          <DimShadow />
+        </BadgesBox>
+        <Intro>{intro}</Intro>
+      </ContentArea>
+      <StyledTooltip name={name} onClick={onMessage} />
+    </MotionMemberCard>
   );
 };
 
-export default MemberCard;
+export default NewMemberCard;
 
-const StyledCard = styled.div`
-  transition: background-color 0.3s;
-  border-radius: 30px;
-  background-color: ${colors.black80};
-  cursor: pointer;
-  width: 235px;
-  height: 370px;
+const variants = {
+  card: {
+    init: {
+      scale: 1,
+    },
+    hover: {
+      scale: 1,
+    },
+    press: {
+      scale: 0.96,
+    },
+  },
+  image: {
+    init: {
+      borderRadius: '50%',
+    },
+    hover: {
+      borderRadius: '16px',
+    },
+  },
+};
 
-  &:hover {
-    background-color: ${colors.black60};
-
-    .image {
-      transform: scale(1.1);
-      transition: transform 0.3s;
-    }
-  }
+const MotionMemberCard = styled(m.div)`
+  display: grid;
+  position: relative;
+  grid:
+    [row1-start] 'image' auto [row1-end]
+    [row2-start] 'content' auto [row2-end]
+    / 1fr;
+  align-items: center;
+  column-gap: 16px;
+  transition: box-shadow 0.3s;
+  border-radius: 16px;
+  background-color: ${colors.black90};
+  padding: 24px;
+  row-gap: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 20px;
-    width: 163px;
-    height: 272px;
+    grid:
+      [row1-start] 'image content' 1fr [row1-end]
+      / 80px 1fr;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 20px;
   }
 `;
 
-const CardHeader = styled.div`
+const StyledAspectRatio = styled(AspectRatio.Root)`
+  grid-area: image;
+`;
+
+const MotionImageArea = styled(m.div)`
   display: flex;
-  position: relative;
   align-items: center;
   justify-content: center;
-  border-radius: 30px 30px 0 0;
-  background-color: rgb(255 255 255 / 5%);
+  transform: translateZ(0);
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: ${colors.black60};
   width: 100%;
-  height: 234px;
+  height: 100%;
   overflow: hidden;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 20px 20px 0 0;
-    height: 163px;
-  }
 `;
 
-const ActiveGenerationBadge = styled.div`
-  position: absolute;
-  top: 17px;
-  left: 17px;
-  border-radius: 33px;
-  background-color: ${colors.black100};
-  padding: 10px 14.5px;
-
-  ${textStyles.SUIT_14_M}
+const ContentArea = styled.div`
+  grid-area: content;
+  min-height: 120px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_12_M}
-
-    top: 8px;
-    left: 8px;
+    min-height: unset;
   }
-`;
-
-const DefaultImage = styled.img`
-  width: 56px;
 `;
 
 const Image = styled(ResizedImage)`
+  object-fit: cover;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 `;
 
-const CardContent = styled.div`
-  padding: 19px 27px 30px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 13px 19px 18px;
-  }
+const DefaultImage = styled.img`
+  width: 40%;
 `;
 
-const Name = styled.h1`
-  ${textStyles.SUIT_20_B};
+const TitleBox = styled(m.div)`
+  display: flex;
+  align-items: center;
+`;
 
-  line-height: 24px;
+const Name = styled.h3`
   color: ${colors.gray10};
 
+  ${textStyles.SUIT_18_B}
+`;
+
+const Belongs = styled.span`
+  margin-left: 5px;
+  color: ${colors.gray60};
+
+  ${textStyles.SUIT_12_M}
+`;
+
+const BadgesBox = styled.div`
+  position: relative;
+  margin-top: 10px;
+  overflow-x: hidden;
+`;
+
+const Badges = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
+const DimShadow = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black90} 100%);
+  width: 20px;
+`;
+
+const Badge = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  gap: 6px;
+  align-items: center;
+  border-radius: 6px;
+  background-color: ${colors.black60};
+  padding: 6px 8px;
+  color: ${colors.gray30};
+
+  ${textStyles.SUIT_11_M};
+
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_18_SB}
+    background-color: ${colors.black80};
+    padding: 4px 6px;
+    color: ${colors.gray30};
+
+    ${textStyles.SUIT_11_M};
   }
 `;
 
-const Part = styled.span`
-  ${textStyles.SUIT_14_M};
+const BadgeActiveDot = styled.span`
+  border-radius: 50%;
+  background-color: #cdf47c;
+  width: 6px;
+  height: 6px;
+`;
 
-  display: block;
-  margin-top: 12px;
-  line-height: 16px;
-  color: ${colors.gray40};
+const Intro = styled.p`
+  display: ${'-webkit-box'};
+  margin-top: 16px;
+  width: 100%;
+  overflow: hidden;
+  color: ${colors.gray60};
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  ${textStyles.SUIT_12_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
+    color: ${colors.gray100};
+    -webkit-line-clamp: 1;
   }
 `;
 
-const Introduction = styled.span`
-  ${textStyles.SUIT_14_M};
-
-  display: block;
-  margin-top: 20px;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 16px;
-  white-space: nowrap;
-  color: ${colors.gray80};
+const StyledTooltip = styled(MessageButton)`
+  position: absolute;
+  top: 17px;
+  right: 19px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 14px;
+    display: none;
   }
 `;

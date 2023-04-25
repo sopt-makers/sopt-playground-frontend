@@ -9,7 +9,7 @@ import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CoffeeChatModal from '@/components/members/detail/MessageSection/MessageModal';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
-import NewMemberCard from '@/components/members/main/MemberCard/NewMemberCard';
+import NewMemberCard from '@/components/members/main/MemberCard';
 import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
 import { MemberRoleMenu, MemberRoleSelect, menuValue } from '@/components/members/main/MemberList/MemberRoleMenu';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
