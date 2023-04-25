@@ -126,6 +126,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                       isActive: activity.generation === LATEST_GENERATION,
                     }));
 
+                    const belongs =
+                      profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
+
                     return (
                       <Link
                         key={profile.id}
@@ -134,7 +137,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                       >
                         <StyledMemberCard
                           name={profile.name}
-                          belongs={profile.university}
+                          belongs={belongs}
                           badges={badges}
                           intro={profile.introduction}
                           imageUrl={profile.profileImage}
