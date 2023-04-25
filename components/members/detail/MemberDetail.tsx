@@ -135,18 +135,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             <MessageSection
               name={profile.name}
               email={profile.email}
-              profileImage={
-                profile.profileImage ? (
-                  <ProfileImage
-                    src={profile.profileImage}
-                    style={{ width: '84px', height: '84px', borderRadius: '20px' }}
-                  />
-                ) : (
-                  <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
-                    <ProfileIcon />
-                  </EmptyProfileImage>
-                )
-              }
+              profileImage={profile.profileImage}
               memberId={memberId}
             />
           </>

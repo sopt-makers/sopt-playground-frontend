@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { m } from 'framer-motion';
-import { FC } from 'react';
+import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
-import TooltipButton from '@/components/members/main/MemberCard/Tooltip';
+import MessageButton from '@/components/members/main/MemberCard/MessageButton';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -18,9 +18,11 @@ interface MemberCardProps {
     isActive: boolean;
   }[];
   imageUrl?: string;
+
+  onMessage?: (e: SyntheticEvent) => void;
 }
 
-const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl }) => {
+const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl, onMessage }) => {
   return (
     <MotionMemberCard initial='init' whileHover='hover' whileTap='press' variants={variants.card}>
       <StyledAspectRatio ratio={1 / 1}>
@@ -56,7 +58,7 @@ const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imag
         </BadgesBox>
         <Intro>{intro}</Intro>
       </ContentArea>
-      <StyledTooltip name={name} />
+      <StyledTooltip name={name} onClick={onMessage} />
     </MotionMemberCard>
   );
 };
@@ -231,7 +233,7 @@ const Intro = styled.p`
   }
 `;
 
-const StyledTooltip = styled(TooltipButton)`
+const StyledTooltip = styled(MessageButton)`
   position: absolute;
   top: 17px;
   right: 19px;

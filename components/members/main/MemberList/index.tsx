@@ -7,6 +7,7 @@ import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Profile } from '@/api/members/type';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import CoffeeChatModal from '@/components/members/detail/MessageSection/CoffeeChatModal';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import NewMemberCard from '@/components/members/main/MemberCard/NewMemberCard';
 import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
@@ -25,10 +26,24 @@ interface MemberListProps {
   banner: ReactNode;
 }
 
+type MessageModalState =
+  | {
+      show: false;
+    }
+  | {
+      show: true;
+      data: {
+        targetId: string;
+        name: string;
+        profileUrl: string;
+      };
+    };
+
 const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [filter, setFilter] = useState<string>(menuValue.ALL);
   const [name, setName] = useState<string>('');
+  const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
   const router = useRouter();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
@@ -141,6 +156,17 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                           badges={badges}
                           intro={profile.introduction}
                           imageUrl={profile.profileImage}
+                          onMessage={(e) => {
+                            e.preventDefault();
+                            setMessageModalState({
+                              show: true,
+                              data: {
+                                targetId: `${profile.id}`,
+                                name: profile.name,
+                                profileUrl: profile.profileImage,
+                              },
+                            });
+                          }}
                         />
                       </Link>
                     );
@@ -152,6 +178,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         </StyledMain>
       </StyledContent>
       <Target ref={ref} />
+      {messageModalState.show && (
+        <CoffeeChatModal
+          receiverId={messageModalState.data.targetId}
+          name={messageModalState.data.name}
+          profileImageUrl={messageModalState.data.profileUrl}
+          onClose={() => setMessageModalState({ show: false })}
+        />
+      )}
     </StyledContainer>
   );
 };

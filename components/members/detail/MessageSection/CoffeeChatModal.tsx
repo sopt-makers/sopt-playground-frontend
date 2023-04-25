@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FC, ReactNode, useState } from 'react';
+import ProfileIcon from 'public/icons/icon-profile.svg';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -14,6 +15,7 @@ import { Alert } from '@/components/common/Modal/Alert';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 enum CoffeChatCategory {
   COFFEE_CHAT = '커피챗',
@@ -66,12 +68,12 @@ interface CoffeeChatForm {
 }
 
 interface CoffeeChatModalProps extends ModalProps {
-  profile: ReactNode;
+  profileImageUrl: string;
   name: string;
   receiverId: string;
 }
 
-const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, ...props }) => {
+const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profileImageUrl, name, ...props }) => {
   const [selectedCategory, setSelectedCategory] = useState<CoffeChatCategory | null>(null);
   const {
     handleSubmit,
@@ -114,7 +116,13 @@ const CoffeeChatModal: FC<CoffeeChatModalProps> = ({ receiverId, profile, name, 
   return (
     <StyledModal isOpen {...props}>
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        {profile}
+        {profileImageUrl ? (
+          <ProfileImage src={profileImageUrl} style={{ width: '84px', height: '84px', borderRadius: '20px' }} />
+        ) : (
+          <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
+            <ProfileIcon />
+          </EmptyProfileImage>
+        )}
         <Text mt={30} typography='SUIT_26_B'>
           {name}님에게 쪽지 보내기
         </Text>
@@ -180,6 +188,28 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 36px;
+  width: 171px;
+  height: 171px;
+  object-fit: cover;
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 20px;
+    width: 88px;
+    height: 88px;
+  }
+`;
+
+const EmptyProfileImage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 36px;
+  background: ${colors.black60};
+  width: 171px;
+  height: 171px;
 `;
 
 const StyledCategory = styled.section`

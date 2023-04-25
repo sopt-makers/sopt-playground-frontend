@@ -1,25 +1,25 @@
 import styled from '@emotion/styled';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 
 import IconMessage from '@/public/icons/icon-message.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface TooltipButtonProps {
+interface MessageButtonProps {
   className?: string;
   name: string;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent) => void;
 }
 
-const TooltipButton: FC<TooltipButtonProps> = ({ className, name, onClick }) => {
+const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => {
   return (
     <Tooltip.Provider>
       <Tooltip.Root delayDuration={300}>
         <Tooltip.Trigger asChild>
-          <MessageButton className={className} onClick={onClick}>
+          <Button className={className} onClick={onClick}>
             <IconMessage />
-          </MessageButton>
+          </Button>
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <TooltipContent sideOffset={5}>
@@ -34,9 +34,9 @@ const TooltipButton: FC<TooltipButtonProps> = ({ className, name, onClick }) => 
   );
 };
 
-export default TooltipButton;
+export default MessageButton;
 
-const MessageButton = styled.div`
+const Button = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
