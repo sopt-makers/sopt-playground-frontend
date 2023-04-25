@@ -1,12 +1,12 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import CoffeeChatModal from './MessageModal';
+import MessageModal from './MessageModal';
 
 export default {
-  component: CoffeeChatModal,
-} as ComponentMeta<typeof CoffeeChatModal>;
+  component: MessageModal,
+} as ComponentMeta<typeof MessageModal>;
 
-const Template: ComponentStory<typeof CoffeeChatModal> = (args) => <CoffeeChatModal {...args} />;
+const Template: ComponentStory<typeof MessageModal> = (args) => <MessageModal {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
