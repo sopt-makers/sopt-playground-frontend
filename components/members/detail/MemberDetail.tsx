@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
-import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
@@ -13,7 +12,7 @@ import { FC, useMemo } from 'react';
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import CareerItem from '@/components/members/detail/CareerItem';
+import CareerSection from '@/components/members/detail/CareerSection';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
@@ -220,33 +219,8 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           />
         )}
 
-        {profile.careers && profile.careers.length > 0 && (
-          <MemberDetailSection style={{ gap: '20px' }}>
-            {profile.careers.map((career, idx) => (
-              <CareerItem key={idx} career={career} />
-            ))}
-          </MemberDetailSection>
-        )}
-
-        {(profile.skill || (profile.links && profile.links.length > 0)) && (
-          <MemberDetailSection style={{ gap: '30px' }}>
-            {profile.skill && <InfoItem label='스킬' content={profile.skill ?? ''} />}
-            {profile.links.length > 0 && (
-              <InfoItem
-                label='링크'
-                content={
-                  <LinkItems>
-                    {profile.links.map((item, idx) => (
-                      <Link passHref href={item.url} key={idx} target='_blank'>
-                        <LinkIcon />
-                        <span>{item.title}</span>
-                      </Link>
-                    ))}
-                  </LinkItems>
-                }
-              />
-            )}
-          </MemberDetailSection>
+        {(profile.careers.length > 0 || profile.skill || profile.links.length > 0) && (
+          <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
         )}
 
         <ProjectContainer>
@@ -464,37 +438,6 @@ const AddressBadge = styled.div`
   padding: 6px 14px;
   color: ${colors.white};
   ${textStyles.SUIT_14_M};
-`;
-
-const LinkItems = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  & > a {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    cursor: pointer;
-    @media ${MOBILE_MEDIA_QUERY} {
-      gap: 6px;
-
-      span {
-        box-sizing: border-box;
-        border-bottom: 1.5px solid #3c3d40;
-        padding: 5px 0;
-      }
-    }
-  }
-
-  svg {
-    width: 26px;
-    height: auto;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    gap: 21px;
-  }
 `;
 
 const ProjectContainer = styled.div`

@@ -18,7 +18,7 @@ export type Profile = {
     part: string;
     team: string;
   }[];
-  links: Link[];
+  links: MemberLink[];
   allowOfficial: boolean;
   careers: Career[];
 };
@@ -64,7 +64,7 @@ export type ProfileDetail = {
       category: 'APPJAM' | 'SOPKATHON' | null;
     }[];
   }[];
-  links: Link[];
+  links: MemberLink[];
   projects: MemberProject[];
   careers: Career[];
   allowOfficial: boolean;
@@ -79,7 +79,7 @@ export type Activity = {
   isProject: boolean;
 };
 
-type Link = {
+export type MemberLink = {
   id: number;
   title: string;
   url: string;
@@ -129,7 +129,7 @@ export interface ProfileRequest {
     part: string;
     team: string | null;
   }[];
-  links: Omit<Link, 'id'>[] | null;
+  links: Omit<MemberLink, 'id'>[] | null;
   allowOfficial: boolean;
   careers: Omit<Career, 'id'>[];
   mbti: string | null;
