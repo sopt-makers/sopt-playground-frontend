@@ -224,5 +224,6 @@ const Intro = styled.p`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
     color: ${colors.gray100};
+    -webkit-line-clamp: 1;
   }
 `;
