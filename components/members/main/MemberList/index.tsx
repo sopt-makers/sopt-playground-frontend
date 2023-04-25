@@ -7,7 +7,7 @@ import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Profile } from '@/api/members/type';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import CoffeeChatModal from '@/components/members/detail/MessageSection/CoffeeChatModal';
+import CoffeeChatModal from '@/components/members/detail/MessageSection/MessageModal';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import NewMemberCard from '@/components/members/main/MemberCard/NewMemberCard';
 import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';

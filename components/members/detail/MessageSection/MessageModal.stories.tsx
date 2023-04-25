@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import CoffeeChatModal from './CoffeeChatModal';
+import CoffeeChatModal from './MessageModal';
 
 export default {
   component: CoffeeChatModal,
@@ -11,6 +11,5 @@ const Template: ComponentStory<typeof CoffeeChatModal> = (args) => <CoffeeChatMo
 export const Default = Template.bind({});
 Default.args = {
   name: '춘식이',
-  profile: <img width={84} height={84} src={'/icons/icon-member.svg'} alt='profile' />,
 };
 Default.storyName = '기본';
