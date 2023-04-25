@@ -18,6 +18,7 @@ import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
+import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const PAGE_LIMIT = 30;
@@ -168,6 +169,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                             });
                           }}
                         />
+                        <HLine />
                       </Link>
                     );
                   })}
@@ -276,6 +278,13 @@ const StyledCardWrapper = styled.div`
 
 const StyledMemberCard = styled(MemberCard)`
   width: 100%;
+`;
+
+const HLine = styled.hr`
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid ${colors.gray100};
+  padding: 0;
 `;
 
 const StyledMemberRoleMenu = styled(MemberRoleMenu)`
