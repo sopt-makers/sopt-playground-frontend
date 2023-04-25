@@ -169,7 +169,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                             });
                           }}
                         />
-                        <HLine />
+                        <Responsive only='mobile'>
+                          <HLine />
+                        </Responsive>
                       </Link>
                     );
                   })}
