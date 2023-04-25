@@ -19,7 +19,7 @@ interface CareerSectionProps {
 export default function CareerSection({ careers, links, skill }: CareerSectionProps) {
   return (
     <StyledMemberDetailSection>
-      {careers.length > 0 && (
+      {careers?.length > 0 && (
         <InfoItem label='커리어'>
           <CareerItems>
             {careers.map((career, idx) => (
@@ -34,8 +34,8 @@ export default function CareerSection({ careers, links, skill }: CareerSectionPr
           </CareerItems>
         </InfoItem>
       )}
-      {skill.length > 0 && <InfoItem label='스킬' content={skill} />}
-      {links.length > 0 && (
+      {skill?.length > 0 && <InfoItem label='스킬' content={skill} />}
+      {links?.length > 0 && (
         <InfoItem
           label='링크'
           content={

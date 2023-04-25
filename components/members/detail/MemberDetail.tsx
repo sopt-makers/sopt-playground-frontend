@@ -219,7 +219,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           />
         )}
 
-        {(profile.careers.length > 0 || profile.skill || profile.links.length > 0) && (
+        {(profile.careers?.length > 0 || profile.skill || profile.links?.length > 0) && (
           <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
         )}
 
