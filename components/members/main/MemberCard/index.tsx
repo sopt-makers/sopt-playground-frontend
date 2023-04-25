@@ -22,7 +22,7 @@ interface MemberCardProps {
   onMessage?: (e: SyntheticEvent) => void;
 }
 
-const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl, onMessage }) => {
+const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl, onMessage }) => {
   return (
     <MotionMemberCard initial='init' whileHover='hover' whileTap='press' variants={variants.card}>
       <StyledAspectRatio ratio={1 / 1}>
@@ -63,7 +63,7 @@ const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imag
   );
 };
 
-export default NewMemberCard;
+export default MemberCard;
 
 const variants = {
   card: {
@@ -108,7 +108,7 @@ const MotionMemberCard = styled(m.div)`
       / 80px 1fr;
     border-radius: 0;
     background-color: transparent;
-    padding: 20px;
+    padding: 20px 0;
   }
 `;
 

@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import NewMemberCard from '.';
+import MemberCard from '.';
 
 export default {
-  component: NewMemberCard,
+  component: MemberCard,
   parameters: {},
   decorators: [
     (Story) => (
@@ -12,9 +12,9 @@ export default {
       </div>
     ),
   ],
-} as ComponentMeta<typeof NewMemberCard>;
+} as ComponentMeta<typeof MemberCard>;
 
-const Template: ComponentStory<typeof NewMemberCard> = (args) => <NewMemberCard {...args} />;
+const Template: ComponentStory<typeof MemberCard> = (args) => <MemberCard {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
