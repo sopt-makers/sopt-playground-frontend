@@ -74,7 +74,7 @@ const variants = {
       scale: 1,
     },
     press: {
-      scale: 0.96,
+      scale: 0.98,
     },
   },
   image: {
