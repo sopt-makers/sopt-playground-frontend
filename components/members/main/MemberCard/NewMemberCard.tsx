@@ -4,6 +4,7 @@ import { m } from 'framer-motion';
 import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
+import TooltipButton from '@/components/members/main/MemberCard/Tooltip';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -55,6 +56,7 @@ const NewMemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imag
         </BadgesBox>
         <Intro>{intro}</Intro>
       </ContentArea>
+      <StyledTooltip name={name} />
     </MotionMemberCard>
   );
 };
@@ -85,6 +87,7 @@ const variants = {
 
 const MotionMemberCard = styled(m.div)`
   display: grid;
+  position: relative;
   grid:
     [row1-start] 'image' auto [row1-end]
     [row2-start] 'content' auto [row2-end]
@@ -225,5 +228,15 @@ const Intro = styled.p`
     margin-top: 8px;
     color: ${colors.gray100};
     -webkit-line-clamp: 1;
+  }
+`;
+
+const StyledTooltip = styled(TooltipButton)`
+  position: absolute;
+  top: 17px;
+  right: 19px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
   }
 `;
