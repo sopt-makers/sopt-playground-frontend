@@ -245,7 +245,8 @@ function convertProjectType(typeCode: Category) {
     case 'STUDY':
       return '스터디';
     default:
-      const _exhaustiveCheck: never = typeCode;
+      const exhaustiveCheck: never = typeCode;
+      throw new Error(`project category ${exhaustiveCheck} type error`);
   }
 }
 
