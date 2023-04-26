@@ -4200,6 +4200,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-aspect-ratio@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@radix-ui/react-aspect-ratio@npm:1.0.2"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/react-primitive": 1.0.2
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  checksum: cbad29a82b9bdb2a3f30d50b3ac7d5710ecee1fd34fcfbf2c1bec4f10983714b0ce48dbbc2ee4e87fe3106c5fa606ab48328830d474272870bf92838e4221e1d
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-collapsible@npm:^1.0.2":
   version: 1.0.2
   resolution: "@radix-ui/react-collapsible@npm:1.0.2"
@@ -4675,6 +4688,30 @@ __metadata:
     react: ^16.8 || ^17.0 || ^18.0
     react-dom: ^16.8 || ^17.0 || ^18.0
   checksum: 135f1663830f0e2ccdd04bac38bfef2460ba8b950e331ce37100a9850ee1f4249c7e912d2893893faa9df2596a3c0d15027c742b345823b1c2caef86d435e9b2
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-tooltip@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@radix-ui/react-tooltip@npm:1.0.5"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/primitive": 1.0.0
+    "@radix-ui/react-compose-refs": 1.0.0
+    "@radix-ui/react-context": 1.0.0
+    "@radix-ui/react-dismissable-layer": 1.0.3
+    "@radix-ui/react-id": 1.0.0
+    "@radix-ui/react-popper": 1.1.1
+    "@radix-ui/react-portal": 1.0.2
+    "@radix-ui/react-presence": 1.0.0
+    "@radix-ui/react-primitive": 1.0.2
+    "@radix-ui/react-slot": 1.0.1
+    "@radix-ui/react-use-controllable-state": 1.0.0
+    "@radix-ui/react-visually-hidden": 1.0.2
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  checksum: 621929e92d93e8a6b41fdb780ccf4213578966ff802e06fca005843ba0ea137450035d8ba32acbfb593700cecf608250082f25ec36dd36b4106b3aaae9e7f3f4
   languageName: node
   linkType: hard
 
@@ -20833,6 +20870,7 @@ __metadata:
     "@hookform/resolvers": ^2.9.1
     "@mdx-js/react": ^1.6.22
     "@next/bundle-analyzer": ^13.1.1
+    "@radix-ui/react-aspect-ratio": ^1.0.2
     "@radix-ui/react-collapsible": ^1.0.2
     "@radix-ui/react-dialog": ^1.0.2
     "@radix-ui/react-dropdown-menu": ^2.0.2
@@ -20841,6 +20879,7 @@ __metadata:
     "@radix-ui/react-select": ^1.2.1
     "@radix-ui/react-slot": ^1.0.1
     "@radix-ui/react-tabs": ^1.0.2
+    "@radix-ui/react-tooltip": ^1.0.5
     "@storybook/addon-actions": ^6.5.5
     "@storybook/addon-docs": ^6.5.5
     "@storybook/addon-essentials": ^6.5.5
