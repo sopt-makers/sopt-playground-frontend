@@ -5,24 +5,24 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
-import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/api/hooks';
 import Loading from '@/components/common/Loading';
-import useModalState from '@/components/common/Modal/useModalState';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import CareerItem from '@/components/members/detail/CareerItem';
+import CareerSection from '@/components/members/detail/CareerSection';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
+import InterestSection from '@/components/members/detail/InterestSection';
+import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
+import MessageSection from '@/components/members/detail/MessageSection';
 import PartItem from '@/components/members/detail/PartItem';
-import CoffeeChatModal from '@/components/members/main/MemberDetail/CoffeeChatModal';
-import InterestSection from '@/components/members/main/MemberDetail/InterestSection';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
+import { useRunOnce } from '@/hooks/useRunOnce';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -45,8 +45,26 @@ const convertBirthdayFormat = (birthday?: string) => {
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { logClickEvent } = useEventLogger();
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useModalState();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const { logPageViewEvent } = useEventLogger();
+
+  const sortedSoptActivities = useMemo(() => {
+    if (!profile?.soptActivities) {
+      return [];
+    }
+    const sorted = [...profile.soptActivities];
+    sorted.sort((a, b) => b.generation - a.generation);
+    return sorted;
+  }, [profile?.soptActivities]);
+
+  useRunOnce(() => {
+    if (profile) {
+      logPageViewEvent('memberCard', {
+        id: Number(memberId),
+        name: profile.name,
+      });
+    }
+  }, [profile, memberId]);
 
   if (error?.response?.status === 400) {
     return <EmptyProfile />;
@@ -63,7 +81,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileContainer>
-          {profile?.profileImage ? (
+          {profile.profileImage ? (
             <ProfileImage src={profile.profileImage} />
           ) : (
             <EmptyProfileImage>
@@ -74,25 +92,25 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           <ProfileContents>
             <div>
               <NameWrapper>
-                <div className='name'>{profile?.name}</div>
-                <div className='part'>{uniq(profile?.soptActivities.map(({ part }) => part)).join('/')}</div>
+                <div className='name'>{profile.name}</div>
+                <div className='part'>{uniq(profile.soptActivities.map(({ part }) => part)).join('/')}</div>
               </NameWrapper>
-              <div className='intro'>{profile?.introduction}</div>
+              <div className='intro'>{profile.introduction}</div>
             </div>
-            <ContactWrapper shouldDivide={!!profile?.phone && !!profile?.email}>
+            <ContactWrapper shouldDivide={!!profile.phone && !!profile.email}>
               {profile.phone && (
-                <Link passHref href={`tel:${profile?.phone}`} legacyBehavior>
+                <Link passHref href={`tel:${profile.phone}`} legacyBehavior>
                   <div style={{ cursor: 'pointer' }}>
                     <CallIcon />
-                    <div className='phone'>{profile?.phone}</div>
+                    <div className='phone'>{profile.phone}</div>
                   </div>
                 </Link>
               )}
               {profile.email && (
-                <Link passHref href={`mailto:${profile?.email}`} legacyBehavior>
+                <Link passHref href={`mailto:${profile.email}`} legacyBehavior>
                   <div style={{ cursor: 'pointer' }}>
                     <MailIcon />
-                    <div className='email'>{profile?.email}</div>
+                    <div className='email'>{profile.email}</div>
                   </div>
                 </Link>
               )}
@@ -111,40 +129,19 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           )}
         </ProfileContainer>
 
-        {!profile.isMine && profile.email && (
+        {!profile.isMine && (
           <>
-            <AskContainer>
-              <div>
-                <AskTitle>{profile.name}에게 하고 싶은 질문이 있나요?</AskTitle>
-                <AskSubtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</AskSubtitle>
-              </div>
-              <AskButton onClick={onOpen}>쪽지 보내기</AskButton>
-            </AskContainer>
-            {isOpen && (
-              <CoffeeChatModal
-                receiverId={memberId}
-                name={profile.name ?? ''}
-                profile={
-                  <>
-                    {profile.profileImage ? (
-                      <ProfileImage
-                        src={profile.profileImage}
-                        style={{ width: '84px', height: '84px', borderRadius: '20px' }}
-                      />
-                    ) : (
-                      <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
-                        <ProfileIcon />
-                      </EmptyProfileImage>
-                    )}
-                  </>
-                }
-                onClose={onClose}
-              />
-            )}
+            <MessageSection
+              name={profile.name}
+              email={profile.email}
+              profileImage={profile.profileImage}
+              memberId={memberId}
+            />
           </>
         )}
+
         {(profile.birthday || profile.address || profile.university || profile.address) && (
-          <InfoContainer style={{ gap: '30px' }}>
+          <MemberDetailSection style={{ gap: '30px' }}>
             {profile.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile.birthday)} />}
             {profile.university && <InfoItem label='학교'>{profile.university}</InfoItem>}
             {profile.major && <InfoItem label='전공'>{profile.major}</InfoItem>}
@@ -157,11 +154,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 </StyledAddressBadgeWrapper>
               </InfoItem>
             )}
-          </InfoContainer>
+          </MemberDetailSection>
         )}
 
-        <InfoContainer style={{ gap: '34px' }}>
-          {profile.soptActivities.map(({ generation, part, projects, team }, idx) => (
+        <MemberDetailSection style={{ gap: '34px' }}>
+          {sortedSoptActivities.map(({ generation, part, projects, team }, idx) => (
             <PartItem
               key={idx}
               generation={`${generation}`}
@@ -174,7 +171,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               teams={team !== null ? [team] : []}
             />
           ))}
-        </InfoContainer>
+        </MemberDetailSection>
 
         {(profile.sojuCapacity ||
           profile.mbti ||
@@ -187,59 +184,32 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           profile.userFavor?.isPourSauceLover ||
           profile.userFavor?.isRedBeanFishBreadLover ||
           profile.userFavor?.isRiceTteokLover) && (
-          <InfoContainer>
-            <InterestSection
-              sojuCapacity={profile.sojuCapacity}
-              mbti={{
-                name: profile.mbti,
-                description: profile.mbtiDescription,
-              }}
-              balanceGame={
-                profile.userFavor
-                  ? {
-                      isSojuLover: profile.userFavor.isSojuLover,
-                      isHardPeachLover: profile.userFavor.isHardPeachLover,
-                      isMintChocoLover: profile.userFavor.isMintChocoLover,
-                      isPourSauceLover: profile.userFavor.isPourSauceLover,
-                      isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
-                      isRiceTteokLover: profile.userFavor.isRiceTteokLover,
-                    }
-                  : null
-              }
-              idealType={profile.idealType}
-              interest={profile.interest}
-              selfIntroduction={profile.selfIntroduction}
-            />
-          </InfoContainer>
+          <InterestSection
+            sojuCapacity={profile.sojuCapacity}
+            mbti={{
+              name: profile.mbti,
+              description: profile.mbtiDescription,
+            }}
+            balanceGame={
+              profile.userFavor
+                ? {
+                    isSojuLover: profile.userFavor.isSojuLover,
+                    isHardPeachLover: profile.userFavor.isHardPeachLover,
+                    isMintChocoLover: profile.userFavor.isMintChocoLover,
+                    isPourSauceLover: profile.userFavor.isPourSauceLover,
+                    isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
+                    isRiceTteokLover: profile.userFavor.isRiceTteokLover,
+                  }
+                : null
+            }
+            idealType={profile.idealType}
+            interest={profile.interest}
+            selfIntroduction={profile.selfIntroduction}
+          />
         )}
 
-        {profile.careers && profile.careers.length > 0 && (
-          <InfoContainer style={{ gap: '20px' }}>
-            {profile.careers.map((career, idx) => (
-              <CareerItem key={idx} career={career} />
-            ))}
-          </InfoContainer>
-        )}
-
-        {(profile.skill || (profile.links && profile.links.length > 0)) && (
-          <InfoContainer style={{ gap: '30px' }}>
-            {profile.skill && <InfoItem label='스킬' content={profile.skill ?? ''} />}
-            {profile.links.length > 0 && (
-              <InfoItem
-                label='링크'
-                content={
-                  <LinkItems>
-                    {profile.links.map((item, idx) => (
-                      <Link passHref href={item.url} key={idx} target='_blank'>
-                        <LinkIcon />
-                        <span>{item.title}</span>
-                      </Link>
-                    ))}
-                  </LinkItems>
-                }
-              />
-            )}
-          </InfoContainer>
+        {(profile.careers?.length > 0 || profile.skill || profile.links?.length > 0) && (
+          <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
         )}
 
         <ProjectContainer>
@@ -457,97 +427,6 @@ const AddressBadge = styled.div`
   padding: 6px 14px;
   color: ${colors.white};
   ${textStyles.SUIT_14_M};
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 30px;
-  background: #1c1d1e;
-  padding: 40px;
-  width: 100%;
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 18px;
-    padding: 30px 20px;
-  }
-`;
-
-const AskContainer = styled(InfoContainer)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 36px;
-  padding-bottom: 36px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-    align-items: flex-start;
-    padding-bottom: 24px;
-  }
-`;
-
-const AskTitle = styled.div`
-  color: ${colors.white100};
-  ${textStyles.SUIT_18_SB}
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_16_SB}
-  }
-`;
-
-const AskSubtitle = styled.div`
-  margin-top: 12px;
-  color: ${colors.gray60};
-  ${textStyles.SUIT_16_M}
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_14_M}
-  }
-`;
-
-const AskButton = styled.div`
-  border-radius: 14px;
-  background-color: ${colors.purple100};
-  cursor: pointer;
-  padding: 15px 36px;
-  color: ${colors.white100};
-  ${textStyles.SUIT_15_SB}
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 34px;
-    padding: 15px;
-    width: 100%;
-    text-align: center;
-    ${textStyles.SUIT_16_SB}
-  }
-`;
-
-const LinkItems = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  & > a {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    cursor: pointer;
-    @media ${MOBILE_MEDIA_QUERY} {
-      gap: 6px;
-
-      span {
-        box-sizing: border-box;
-        border-bottom: 1.5px solid #3c3d40;
-        padding: 5px 0;
-      }
-    }
-  }
-
-  svg {
-    width: 26px;
-    height: auto;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    gap: 21px;
-  }
 `;
 
 const ProjectContainer = styled.div`

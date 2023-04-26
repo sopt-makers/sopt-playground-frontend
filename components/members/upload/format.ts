@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
-import { isMbti } from '@/components/members/upload/sections/TmiSection/types';
+import { isMbti } from '@/components/members/upload/FormSection/Tmi/types';
 import { Birthday } from '@/components/members/upload/types';
 
 export const formatBirthday = (birthday: Birthday) => {

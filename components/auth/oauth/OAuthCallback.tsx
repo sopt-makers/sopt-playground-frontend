@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -8,12 +9,14 @@ import { REDIRECT_URI_WHITELISTS } from '@/components/auth/oauth/whitelists';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import Loading from '@/components/common/Loading';
+import { playgroundLink } from '@/constants/links';
+import { colors } from '@/styles/colors';
 
 interface OAuthCallbackProps {
   url: URL;
 }
 
-type Modes = { type: 'loading' } | { type: 'error'; message: string };
+type Modes = { type: 'loading' } | { type: 'error'; message: string } | { type: 'success'; redirect: string };
 
 const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
   const router = useRouter();
@@ -28,19 +31,19 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
 
       if (!redirectUri) {
         console.error('redirect_uri 가 설정되지 않았습니다.');
-        setMode({ type: 'error', message: 'redirect_uri 가 설정되지 않았습니다.' });
+        setMode({ type: 'error', message: `redirect_uri 가 설정되지 않았습니다.\nReceived: ${url.href}` });
         return;
       }
 
       if (!REDIRECT_URI_WHITELISTS.includes(redirectUri)) {
         console.error('허용되지 않은 redirect_uri 입니다.');
-        setMode({ type: 'error', message: '허용되지 않은 redirect_uri 입니다.' });
+        setMode({ type: 'error', message: `허용되지 않은 redirect_uri 입니다.\nReceived: ${redirectUri}` });
         return;
       }
 
       if (!accessToken) {
         lastUnauthorized.setPath(url.href);
-        router.replace('/auth/login');
+        location.href = playgroundLink.login();
         return;
       }
 
@@ -58,18 +61,22 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
       callback.searchParams.set('state', state);
       callback.searchParams.set('code', code);
 
-      location.href = callback.href;
+      setMode({ type: 'success', redirect: callback.href });
 
-      if (!['http:', 'https:'].includes(callback.protocol)) {
-        setTimeout(() => {
-          location.href = '/';
-        }, 0);
-      }
+      location.href = callback.href;
     })();
   }, [url, accessToken, router, lastUnauthorized]);
 
   if (mode.type === 'error') {
     return <ErrorMessage>OAuth Error: {mode.message}</ErrorMessage>;
+  }
+
+  if (mode.type === 'success') {
+    return (
+      <SuccessMessage>
+        <ReturnToHomeLink href={playgroundLink.memberList()}>홈으로 돌아가기</ReturnToHomeLink>
+      </SuccessMessage>
+    );
   }
 
   return <Loading />;
@@ -81,4 +88,18 @@ const ErrorMessage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: pre;
+`;
+
+const SuccessMessage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  white-space: pre;
+`;
+
+const ReturnToHomeLink = styled(Link)`
+  text-decoration: underline;
+  color: ${colors.purple80};
 `;

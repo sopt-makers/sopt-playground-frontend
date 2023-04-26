@@ -3,8 +3,8 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
+import MemberBasicFormSection from '@/components/members/upload/FormSection/Basic';
 import { memberFormSchema } from '@/components/members/upload/schema';
-import MemberBasicFormSection from '@/components/members/upload/sections/BasicFormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
 
 type PickBasicForm = Pick<

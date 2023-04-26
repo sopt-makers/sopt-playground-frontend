@@ -51,7 +51,7 @@ export default ToastProvider;
 
 const ToastContainer = styled.div<{ animation: string }>`
   position: fixed;
-  bottom: 59px;
+  bottom: 80px;
   left: 36px;
   transform: translateY(300%);
   z-index: 100;

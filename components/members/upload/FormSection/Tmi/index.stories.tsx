@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
-import TmiSection from '@/components/members/upload/sections/TmiSection';
+import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { MemberUploadForm } from '@/components/members/upload/types';
 
 const tmiSectionSchema = yup.object().shape({
@@ -20,7 +20,7 @@ const tmiSectionSchema = yup.object().shape({
 });
 
 export default {
-  component: TmiSection,
+  component: TmiFormSection,
   decorators: [
     (Story) => {
       const formMethods = useForm<Pick<MemberUploadForm, 'mbti'>>({
@@ -38,9 +38,9 @@ export default {
       );
     },
   ],
-} as ComponentMeta<typeof TmiSection>;
+} as ComponentMeta<typeof TmiFormSection>;
 
-const Template: ComponentStory<typeof TmiSection> = () => <TmiSection />;
+const Template: ComponentStory<typeof TmiFormSection> = () => <TmiFormSection />;
 
 export const Default = Template.bind({});
 Default.storyName = 'TMI 섹션';

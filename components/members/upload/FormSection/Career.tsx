@@ -248,15 +248,26 @@ const IsCurrent = styled.div`
 
 const CareerItem = styled.div`
   display: grid;
+  position: relative;
   grid-template-columns: 1fr 1fr;
   column-gap: 18px;
   width: 630px;
 
   /* stylelint-disable-next-line selector-class-pattern */
   .react-datepicker__tab-loop {
+    position: absolute;
+    bottom: 0;
     grid-row-start: 3;
     grid-column-start: 1;
   }
+
+  .react-datepicker {
+    position: absolute;
+    bottom: -126px;
+    left: 0;
+    width: max-content;
+  }
+
   /* stylelint-disable-next-line selector-class-pattern */
   .react-datepicker__triangle {
     display: none !important;
@@ -297,6 +308,7 @@ const StyledInput = styled(Input)`
   width: 632px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
     width: 100%;
   }
 `;
@@ -313,16 +325,11 @@ const StyledSelectWrapper = styled.div`
 
   .link {
     flex: 2;
-
-    @media ${MOBILE_MEDIA_QUERY} {
-      flex: 1;
-    }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     gap: 11px;
-    height: 111px;
   }
 `;
 
@@ -330,13 +337,24 @@ const StyledEditableSelect = styled(EditableSelect)`
   border-width: 1.5px;
   border-radius: 14px;
   padding: 16px 34px 16px 20px;
-  height: 50px;
 
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
+    position: relative;
     border-radius: 12px;
     background-color: ${colors.black80};
+    padding: 0;
+
+    select {
+      padding: 16px 34px 16px 20px;
+    }
+
+    input {
+      top: 50%;
+      transform: translateY(-50%);
+      height: calc(100% - 4px);
+    }
   }
 `;
 

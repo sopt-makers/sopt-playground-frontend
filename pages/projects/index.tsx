@@ -2,14 +2,12 @@ import { uniqBy as _uniqBy } from 'lodash-es';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import StudyBanner from '@/components/common/Banner/StudyBanner';
 import ProjectList from '@/components/projects/main/ProjectList';
 import { setLayout } from '@/utils/layout';
 
 const ProjectPage: FC = () => {
   return (
     <AuthRequired>
-      <StudyBanner />
       <ProjectList />
     </AuthRequired>
   );
