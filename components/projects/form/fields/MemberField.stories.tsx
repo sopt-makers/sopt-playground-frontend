@@ -9,7 +9,6 @@ export default {
 
 export const WithState = () => {
   const [value, onChange] = useState<Value>({ memberId: undefined, memberDescription: '', memberRole: undefined });
-  console.log('[value]: ', value);
 
   return (
     <MemberField
