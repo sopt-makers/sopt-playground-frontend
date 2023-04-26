@@ -2,8 +2,8 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 
 import { DummyMemberSeacrhProvider } from '@/components/projects/form/fields/member/MemberSearchContext';
+import { Member } from '@/components/projects/form/fields/member/MemberSearchContext';
 
-import type { Value } from '../MemberField';
 import MemberSearch from './MemberSearch';
 
 export default {
@@ -23,14 +23,23 @@ export const Default = Template.bind({});
 Default.args = {};
 Default.storyName = '기본';
 
+const dummyMember = {
+  generation: 18,
+  id: 1,
+  name: '이지은',
+  profileImage: '',
+};
+
 export const WithState = () => {
-  const [value, setValue] = useState<Value>({
-    memberId: undefined,
-    memberRole: undefined,
-    memberDescription: undefined,
-  });
+  const [selectedMember, setSelectedMember] = useState<Member | undefined>();
+  const onSelect = () => {
+    setSelectedMember(dummyMember);
+  };
+  const onClear = () => {
+    setSelectedMember(undefined);
+  };
 
-  console.log('[value]: ', value);
-
-  return <MemberSearch value={value} onChange={setValue} />;
+  return (
+    <MemberSearch placeholder='SOPT 회원 검색' selectedMember={selectedMember} onSelect={onSelect} onClear={onClear} />
+  );
 };

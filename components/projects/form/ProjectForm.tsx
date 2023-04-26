@@ -10,7 +10,7 @@ import GenerationField from '@/components/projects/form/fields/GenerationField';
 import MemberField from '@/components/projects/form/fields/MemberField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
-import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
+import { DEFAULT_MEMBER, defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import UploadProjectProgress from '@/components/projects/form/UploadProjectProgress';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -83,16 +83,28 @@ const ProjectForm: FC<ProjectFormProps> = ({
           />
         </FormEntry>
         <FormEntry title='팀원' required>
-          {fields.map((field, index) => (
-            <Controller
-              key={field.id}
-              control={control}
-              name={`members.${index}`}
-              render={({ field }) => (
-                <MemberField value={field.value} onChange={field.onChange} onRemove={() => remove(index)} />
-              )}
-            />
-          ))}
+          <StyledMemberFieldWrapper>
+            {fields.map((field, index) => (
+              <Controller
+                key={field.id}
+                control={control}
+                name={`members.${index}`}
+                render={({ field }) => (
+                  <MemberField value={field.value} onChange={field.onChange} onRemove={() => remove(index)} />
+                )}
+              />
+            ))}
+          </StyledMemberFieldWrapper>
+          <StyledMemberAddButton
+            type='button'
+            onClick={() => {
+              // @ts-ignore: append에도 defaultValues와 동일하게 undefined 값을 할당하고 싶은데, 이게 불가능하여 ts-ignore 처리 */
+              append(DEFAULT_MEMBER);
+              console.log(fields);
+            }}
+          >
+            + 추가
+          </StyledMemberAddButton>
         </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>
@@ -143,4 +155,19 @@ const SubmitContainer = styled.div`
   & > button {
     ${textStyles.SUIT_14_M};
   }
+`;
+
+const StyledMemberFieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
+
+const StyledMemberAddButton = styled.button`
+  align-self: start;
+  margin: 8px 0 0 20px;
+  cursor: pointer;
+  color: ${colors.gray100};
+
+  ${textStyles.SUIT_16_M};
 `;
