@@ -171,3 +171,5 @@ export const PROJECT_DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   summary: '',
   detail: '',
 };
+
+export const PROJECT_CATEGORY = ['APPJAM', 'SOPKATHON', 'SOPTERM', 'STUDY', 'JOINTSEMINAR', 'ETC'] as const;
