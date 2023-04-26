@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { debounce } from 'lodash-es';
 import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
 
 export type Member = {
@@ -100,23 +101,30 @@ export const DummyMemberSeacrhProvider: FC<PropsWithChildren<unknown>> = ({ chil
 
 export function useMemberSearch() {
   const [name, setName] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const { searchMember, getMemberById } = useContext(MemberSearchContext);
 
-  // TODO: debounce
   const { data: searchedMemberData } = useQuery(
-    ['searchMember', name],
+    ['searchMember', searchQuery],
     async () => {
-      const data = await searchMember(name);
+      const data = await searchMember(searchQuery);
       return data;
     },
     {
-      enabled: !!name,
+      enabled: !!searchQuery,
     },
   );
 
+  const onValueChange = (value: string) => {
+    setName(value);
+    debounce((value: string) => {
+      setSearchQuery(value);
+    }, 500)(value);
+  };
+
   return {
     name,
-    onValueChange: setName,
+    onValueChange,
     searchedMemberList: searchedMemberData,
     getMemberById,
   };
