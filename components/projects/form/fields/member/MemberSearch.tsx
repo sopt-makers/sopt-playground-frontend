@@ -18,6 +18,7 @@ const getProfileImage = (profileImage: Member['profileImage']) => {
 };
 
 interface MemberSearchProps {
+  className?: string;
   isError?: boolean;
   placeholder?: string;
   selectedMember?: Member;
@@ -25,21 +26,28 @@ interface MemberSearchProps {
   onClear: () => void;
 }
 
-const MemberSearch: FC<MemberSearchProps> = ({ placeholder, selectedMember, isError, onSelect, onClear }) => {
-  const { name, onValueChange, searchedMemberList } = useMemberSearch();
+const MemberSearch: FC<MemberSearchProps> = ({
+  className,
+  placeholder,
+  selectedMember,
+  isError,
+  onSelect,
+  onClear,
+}) => {
+  const { name, onValueChange, onValueClear, searchedMemberList } = useMemberSearch();
 
   const handleSelect = (member: Member) => {
     onSelect(member);
-    onValueChange('');
+    onValueClear();
   };
 
   const handleClear = () => {
     onClear();
-    onValueChange('');
+    onValueClear();
   };
 
   return (
-    <StyledSearch shouldFilter={false}>
+    <StyledSearch className={className} shouldFilter={false}>
       <StyledInput
         placeholder={!selectedMember ? placeholder : ''}
         isError={isError}
@@ -57,7 +65,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ placeholder, selectedMember, isEr
       )}
       {searchedMemberList && searchedMemberList.length > 0 && (
         <StyledList>
-          {searchedMemberList?.map((member) => (
+          {searchedMemberList.map((member) => (
             <StyledItem
               key={member.id}
               value={String(member.id)}
@@ -82,7 +90,6 @@ export default MemberSearch;
 
 const StyledSearch = styled(Command)`
   position: relative;
-  border: 1px solid ${colors.black40};
   border-radius: 6px;
 
   ${textStyles.SUIT_14_M};
@@ -99,7 +106,7 @@ const StyledSearch = styled(Command)`
 
 const StyledInput = styled(Command.Input)<{ isError?: boolean }>`
   transition: all 0.2s;
-  border: 1px solid ${colors.black60};
+  border: 1px solid ${colors.black40};
   border-radius: 6px;
   background: ${colors.black60};
   padding: 14px 20px;
@@ -120,10 +127,6 @@ const StyledInput = styled(Command.Input)<{ isError?: boolean }>`
         border-color: ${colors.red100};
       }
     `}
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border: 1px solid ${colors.black40};
-  }
 `;
 
 const StyledLabel = styled.label`
@@ -162,11 +165,13 @@ const ProfileImageWrapper = styled.div`
 
 const StyledList = styled(Command.List)`
   display: flex;
+  position: absolute;
   flex-direction: column;
   gap: 8px;
   border-radius: 6px;
   background: ${colors.black60};
   padding: 8px 0;
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: absolute;
