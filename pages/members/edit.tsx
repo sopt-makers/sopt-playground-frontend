@@ -151,10 +151,14 @@ export default function MemberEditPage() {
         allowOfficial: myProfile.allowOfficial,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
-          ? myProfile.careers.map((career) => ({
-              ...career,
-              endDate: career.endDate ?? '',
-            }))
+          ? myProfile.careers.map((career) =>
+              career.isCurrent
+                ? {
+                    ...career,
+                    endDate: null,
+                  }
+                : career,
+            )
           : [DEFAULT_CAREER],
         mbti: getMbtiFromApiValue(myProfile.mbti),
         mbtiDescription: myProfile.mbtiDescription,

@@ -104,14 +104,23 @@ export type MemberProject = {
   thumbnailImage: string;
 };
 
-type Career = {
-  id: number;
-  companyName: string;
-  title: string;
-  startDate: string;
-  endDate: string | null;
-  isCurrent: boolean;
-};
+type Career =
+  | {
+      id: number;
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: null;
+      isCurrent: true;
+    }
+  | {
+      id: number;
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: string;
+      isCurrent: false;
+    };
 
 export interface ProfileRequest {
   name: string;
