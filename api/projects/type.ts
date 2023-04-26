@@ -5,7 +5,7 @@ export type ProjectDetail = {
   name: string;
   writerId: number;
   generation: number;
-  category: Category;
+  category: ProjectCategory;
   startAt: string;
   endAt?: string;
   serviceType: ServiceType[];
@@ -35,7 +35,7 @@ export type ProjectDetail = {
 export type ProjectInput = {
   name: string;
   writerId: number;
-  category: Category;
+  category: ProjectCategory;
   startAt: string;
   endAt?: string;
   serviceType: ServiceType[];
@@ -62,9 +62,9 @@ export type ProjectInput = {
 
 type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
 
-export type Category = typeof PROJECT_CATEGORY[number];
-export function isCategory(category: unknown): category is Category {
-  return PROJECT_CATEGORY.includes(category as Category);
+export type ProjectCategory = typeof PROJECT_CATEGORY[number];
+export function isProjectCategory(category: unknown): category is ProjectCategory {
+  return PROJECT_CATEGORY.includes(category as ProjectCategory);
 }
 
 const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;

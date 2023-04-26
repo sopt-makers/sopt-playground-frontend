@@ -10,7 +10,7 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/api/hooks';
-import { isCategory } from '@/api/projects/type';
+import { isProjectCategory } from '@/api/projects/type';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CareerSection from '@/components/members/detail/CareerSection';
@@ -229,7 +229,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 };
 
 function convertProjectType(typeCode: Category) {
-  if (!isCategory(typeCode)) throw new Error('project category type error');
+  if (!isProjectCategory(typeCode)) throw new Error('project category type error');
 
   switch (typeCode) {
     case 'APPJAM':
