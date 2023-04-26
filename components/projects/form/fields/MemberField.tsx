@@ -10,6 +10,7 @@ import { Member, MemberSearchContext } from '@/components/projects/form/fields/m
 import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import IconTrash from '@/public/icons/icon-trash.svg';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export type Value = {
@@ -69,7 +70,7 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, onChange, onRemov
           <MemberSearchContext.Provider
             value={{
               searchMember,
-              // TODO: 실제 API로 변경
+              // TODO: 수정 작업 시 실제 API로 변경
               getMemberById: async () => {
                 return new Promise((resolve, reject) => {
                   resolve({ id: 3, generation: 30, name: '이준호', profileImage: '' });
@@ -78,7 +79,7 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, onChange, onRemov
               },
             }}
           >
-            <MemberSearch
+            <StyledMemberSearch
               selectedMember={selectedMember}
               placeholder='SOPT 멤버 검색'
               onSelect={onSelectMember}
@@ -122,7 +123,7 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, onChange, onRemov
       ) : (
         <StyledMemberView>
           <span className='name'>{selectedMember?.name}</span>
-          <span>{value.memberRole}</span>
+          <span className='role'>{value.memberRole}</span>
           <span>{value.memberDescription}</span>
         </StyledMemberView>
       )}
@@ -139,36 +140,6 @@ const StyledMemberField = styled.div`
   width: 100%;
 `;
 
-const StyledSelect = styled(Select)`
-  border: 1px solid ${colors.black40};
-  border-radius: 6px;
-`;
-
-const StyledInput = styled(Input)`
-  flex: 1 1 330px;
-  border: 1px solid ${colors.black40};
-  border-radius: 6px;
-`;
-
-const StyledEditCompleteButton = styled.button`
-  border-radius: 4px;
-  background-color: ${colors.black40};
-  padding: 12px 36px;
-  white-space: nowrap;
-  color: ${colors.gray100};
-
-  ${textStyles.SUIT_14_M};
-`;
-
-const IconDeleteWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  min-width: 42px;
-  min-height: 42px;
-`;
-
 const StyledMemberEditView = styled.div`
   display: flex;
   column-gap: 10px;
@@ -176,6 +147,16 @@ const StyledMemberEditView = styled.div`
   background-color: ${colors.black60};
   padding: 10px;
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: grid;
+    grid-template-areas:
+      'member role'
+      'description description';
+    grid-template-columns: 135px 1fr;
+    grid-row-gap: 10px;
+    padding: 12px;
+  }
 `;
 
 const StyledMemberView = styled.div`
@@ -187,11 +168,81 @@ const StyledMemberView = styled.div`
   padding: 14px 30px;
   width: 100%;
   min-height: 42px;
+  white-space: nowrap;
   color: ${colors.gray100};
 
   ${textStyles.SUIT_14_M};
 
   & > .name {
     flex-basis: 105px;
+  }
+
+  & > .role {
+    flex-basis: 126px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 15px 20px;
+    ${textStyles.SUIT_12_M};
+  }
+`;
+
+const StyledMemberSearch = styled(MemberSearch)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid-area: member;
+  }
+`;
+
+const StyledSelect = styled(Select)`
+  border: 1px solid ${colors.black40};
+  border-radius: 6px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid-area: role;
+    max-width: 158px;
+  }
+`;
+
+const StyledInput = styled(Input)`
+  flex: 1 1 330px;
+  border-radius: 6px;
+
+  & > input {
+    border: 1px solid ${colors.black40};
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid-area: description;
+  }
+`;
+
+const StyledEditCompleteButton = styled.button`
+  border-radius: 4px;
+  background-color: ${colors.black40};
+  padding: 12px 36px;
+  white-space: nowrap;
+  color: ${colors.gray100};
+
+  ${textStyles.SUIT_14_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    align-self: center;
+    justify-self: end;
+    order: 2;
+    padding: 6.5px 30px;
+  }
+`;
+
+const IconDeleteWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-width: 42px;
+  min-height: 42px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    justify-self: start;
+    order: 1;
   }
 `;

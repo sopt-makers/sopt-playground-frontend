@@ -97,13 +97,12 @@ const ProjectForm: FC<ProjectFormProps> = ({
           </StyledMemberFieldWrapper>
           <StyledMemberAddButton
             type='button'
-            onClick={() => {
-              // @ts-ignore: append에도 defaultValues와 동일하게 undefined 값을 할당하고 싶은데, 이게 불가능하여 ts-ignore 처리 */
-              append(DEFAULT_MEMBER);
-              console.log(fields);
-            }}
+            onClick={() =>
+              // @ts-ignore: append에도 defaultValues와 동일하게 undefined 값을 할당하고 싶은데, 이게 불가능하여 해당 line만 ts-ignore 처리 */
+              append(DEFAULT_MEMBER)
+            }
           >
-            + 추가
+            + 추가하기
           </StyledMemberAddButton>
         </FormEntry>
         <SubmitContainer>
@@ -164,10 +163,23 @@ const StyledMemberFieldWrapper = styled.div`
 `;
 
 const StyledMemberAddButton = styled.button`
+  display: flex;
+  align-items: center;
   align-self: start;
-  margin: 8px 0 0 20px;
+  justify-content: center;
+  margin: 14px 0 0 20px;
   cursor: pointer;
   color: ${colors.gray100};
 
   ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 12px 0 0;
+    border: 1px solid ${colors.black40};
+    border-radius: 6px;
+    background-color: ${colors.black60};
+    padding: 14px 16px;
+    width: 100%;
+    ${textStyles.SUIT_14_M};
+  }
 `;
