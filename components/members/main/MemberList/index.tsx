@@ -7,7 +7,7 @@ import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Profile } from '@/api/members/type';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import CoffeeChatModal from '@/components/members/detail/MessageSection/MessageModal';
+import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
@@ -183,7 +183,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       </StyledContent>
       <Target ref={ref} />
       {messageModalState.show && (
-        <CoffeeChatModal
+        <MessageModal
           receiverId={messageModalState.data.targetId}
           name={messageModalState.data.name}
           profileImageUrl={messageModalState.data.profileUrl}

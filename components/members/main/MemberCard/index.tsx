@@ -30,13 +30,7 @@ const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUr
           {imageUrl ? (
             <Image className='image' src={imageUrl} width={235} alt='member_image' />
           ) : (
-            <DefaultImage
-              className='image'
-              src='/icons/icon-member-default.svg'
-              alt='default_member_image'
-              loading='lazy'
-              decoding='async'
-            />
+            <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
           )}
         </MotionImageArea>
       </StyledAspectRatio>
