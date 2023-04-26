@@ -1,11 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Command } from 'cmdk';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import Text from '@/components/common/Text';
 import { Member, useMemberSearch } from '@/components/projects/form/fields/member/MemberSearchContext';
-import { Value } from '@/components/projects/form/fields/MemberField';
 import IconClear from '@/public/icons/icon-member-search-clear.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -21,41 +20,39 @@ const getProfileImage = (profileImage: Member['profileImage']) => {
 interface MemberSearchProps {
   isError?: boolean;
   placeholder?: string;
-  value: Value;
-  onChange: (selectedData: Value) => void;
+  selectedMember?: Member;
+  onSelect: (member: Member) => void;
+  onClear: () => void;
 }
 
-const MemberSearch: FC<MemberSearchProps> = ({ placeholder, isError, value, onChange }) => {
+const MemberSearch: FC<MemberSearchProps> = ({ placeholder, selectedMember, isError, onSelect, onClear }) => {
   const { name, onValueChange, searchedMemberList } = useMemberSearch();
-  const [selectedMember, setSelectedMember] = useState<Member | undefined>(undefined);
 
-  const onSelect = (memberId: string) => {
-    onChange({
-      ...value,
-      memberId: Number(memberId),
-    });
+  const handleSelect = (member: Member) => {
+    onSelect(member);
     onValueChange('');
   };
 
-  const onClear = () => {
-    onChange({
-      ...value,
-      memberId: undefined,
-    });
+  const handleClear = () => {
+    onClear();
     onValueChange('');
-    setSelectedMember(undefined);
   };
 
   return (
     <StyledSearch shouldFilter={false}>
-      <StyledInput placeholder={placeholder} isError={isError} value={name} onValueChange={onValueChange} />
+      <StyledInput
+        placeholder={!selectedMember ? placeholder : ''}
+        isError={isError}
+        value={name}
+        onValueChange={onValueChange}
+      />
       {selectedMember && (
         <StyledLabel>
           <ProfileImageWrapper>
             <ProfileImage width={24} height={24} src={getProfileImage(selectedMember.profileImage)} />
             <Text>{selectedMember.name}</Text>
           </ProfileImageWrapper>
-          <StyledIconClear onClick={onClear} alt='검색된 멤버 제거 아이콘' />
+          <StyledIconClear onClick={handleClear} alt='검색된 멤버 제거 아이콘' />
         </StyledLabel>
       )}
       {searchedMemberList && searchedMemberList.length > 0 && (
@@ -64,9 +61,8 @@ const MemberSearch: FC<MemberSearchProps> = ({ placeholder, isError, value, onCh
             <StyledItem
               key={member.id}
               value={String(member.id)}
-              onSelect={(memberId) => {
-                onSelect(memberId);
-                setSelectedMember(member);
+              onSelect={() => {
+                handleSelect(member);
               }}
             >
               <MemberInfo>
@@ -86,6 +82,9 @@ export default MemberSearch;
 
 const StyledSearch = styled(Command)`
   position: relative;
+  border: 1px solid ${colors.black40};
+  border-radius: 6px;
+
   ${textStyles.SUIT_14_M};
 
   & input {
