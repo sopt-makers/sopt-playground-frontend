@@ -1,3 +1,5 @@
+import { PROJECT_CATEGORY } from '@/components/projects/upload/constants';
+
 export type ProjectDetail = {
   id: number;
   name: string;
@@ -59,7 +61,11 @@ export type ProjectInput = {
 };
 
 type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
-type Category = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'JOINTSEMINAR' | 'ETC';
+
+export type Category = typeof PROJECT_CATEGORY[number];
+export function isCategory(category: unknown): category is Category {
+  return PROJECT_CATEGORY.includes(category as Category);
+}
 
 const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
 export type LinkTitle = typeof LINK_TITLES[number];

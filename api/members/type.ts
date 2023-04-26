@@ -1,4 +1,5 @@
-import { Category, ServiceType } from '@/components/projects/upload/types';
+import { Category } from '@/api/projects/type';
+import { ServiceType } from '@/components/projects/upload/types';
 
 export type Profile = {
   id: number;
@@ -61,7 +62,7 @@ export type ProfileDetail = {
       id: number;
       generation: number;
       name: string;
-      category: 'APPJAM' | 'SOPKATHON' | null;
+      category: Category;
     }[];
   }[];
   links: MemberLink[];
