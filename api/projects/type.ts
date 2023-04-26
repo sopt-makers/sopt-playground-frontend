@@ -63,7 +63,7 @@ export type ProjectInput = {
 type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
 
 export type ProjectCategory = typeof PROJECT_CATEGORY[number];
-export function isProjectCategory(category: unknown): category is ProjectCategory {
+export function isProjectCategory(category: string): category is ProjectCategory {
   return PROJECT_CATEGORY.includes(category as ProjectCategory);
 }
 
