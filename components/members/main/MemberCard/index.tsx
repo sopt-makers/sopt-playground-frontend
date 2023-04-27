@@ -24,15 +24,15 @@ interface MemberCardProps {
 
 const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl, onMessage }) => {
   return (
-    <MotionMemberCard initial='init' whileHover='hover' whileTap='press' variants={variants.card}>
+    <StyledMemberCard>
       <StyledAspectRatio ratio={1 / 1}>
-        <MotionImageArea variants={variants.image}>
+        <StyledImageArea>
           {imageUrl ? (
             <Image className='image' src={imageUrl} width={235} alt='member_image' />
           ) : (
             <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
           )}
-        </MotionImageArea>
+        </StyledImageArea>
       </StyledAspectRatio>
       <ContentArea>
         <TitleBox>
@@ -53,35 +53,13 @@ const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUr
         <Intro>{intro}</Intro>
       </ContentArea>
       <StyledTooltip name={name} onClick={onMessage} />
-    </MotionMemberCard>
+    </StyledMemberCard>
   );
 };
 
 export default MemberCard;
 
-const variants = {
-  card: {
-    init: {
-      scale: 1,
-    },
-    hover: {
-      scale: 1,
-    },
-    press: {
-      scale: 0.98,
-    },
-  },
-  image: {
-    init: {
-      borderRadius: '50%',
-    },
-    hover: {
-      borderRadius: '16px',
-    },
-  },
-};
-
-const MotionMemberCard = styled(m.div)`
+const StyledMemberCard = styled.div`
   display: grid;
   position: relative;
   grid:
@@ -90,11 +68,15 @@ const MotionMemberCard = styled(m.div)`
     / 1fr;
   align-items: center;
   column-gap: 16px;
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, background-color 0.2s;
   border-radius: 16px;
   background-color: ${colors.black90};
   padding: 24px;
   row-gap: 24px;
+
+  &:hover {
+    background-color: ${colors.black80};
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
@@ -103,6 +85,10 @@ const MotionMemberCard = styled(m.div)`
     border-radius: 0;
     background-color: transparent;
     padding: 20px 0;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 `;
 
@@ -110,7 +96,7 @@ const StyledAspectRatio = styled(AspectRatio.Root)`
   grid-area: image;
 `;
 
-const MotionImageArea = styled(m.div)`
+const StyledImageArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
