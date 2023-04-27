@@ -45,12 +45,14 @@ const ProjectForm: FC<ProjectFormProps> = ({
     onSubmit?.(getValues());
   };
 
+  console.log(errors);
+
   return (
     <StyledFormContainer>
       {!hideProgress && <StyledFormProgress formState={formState} />}
       <StyledForm onSubmit={handleSubmit(submit)}>
         <FormEntry title='프로젝트 이름' required>
-          <Input {...register('name')} errorMessage={errors.name?.message ?? ''} />
+          <Input {...register('name')} placeholder='프로젝트' errorMessage={errors.name?.message ?? ''} />
         </FormEntry>
         <FormEntry title='프로젝트 기간' required>
           <Controller
@@ -90,7 +92,18 @@ const ProjectForm: FC<ProjectFormProps> = ({
                 control={control}
                 name={`members.${index}`}
                 render={({ field }) => (
-                  <MemberField value={field.value} onChange={field.onChange} onRemove={() => remove(index)} />
+                  <MemberField
+                    errorMessage={{
+                      ...(errors.members && {
+                        memberId: errors.members[index]?.memberId?.message,
+                        memberRole: errors.members[index]?.memberRole?.message,
+                        memberDescription: errors.members[index]?.memberDescription?.message,
+                      }),
+                    }}
+                    value={field.value}
+                    onChange={field.onChange}
+                    onRemove={() => remove(index)}
+                  />
                 )}
               />
             ))}

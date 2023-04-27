@@ -4,7 +4,9 @@ import { FC, useState } from 'react';
 
 import { getMembersSearchByName } from '@/api/members';
 import Input from '@/components/common/Input';
+import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
+import useToast from '@/components/common/Toast/useToast';
 import MemberSearch from '@/components/projects/form/fields/member/MemberSearch';
 import { Member, MemberSearchContext } from '@/components/projects/form/fields/member/MemberSearchContext';
 import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
@@ -19,17 +21,25 @@ export type Value = {
   memberDescription: string | undefined;
 };
 
+type ErrorMessage = {
+  memberId?: string;
+  memberRole?: string;
+  memberDescription?: string;
+};
+
 interface MemberFieldProps {
   className?: string;
   value: Value;
   onChange: (value: Value) => void;
   onRemove: () => void;
-  // TODO: Error 추가
+  errorMessage?: ErrorMessage;
 }
 
-const MemberField: FC<MemberFieldProps> = ({ className, value, onChange, onRemove }) => {
+const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onChange, onRemove }) => {
   const [isEdit, setIsEdit] = useState<boolean>(true);
   const [selectedMember, setSelcetedMember] = useState<Member | undefined>();
+  const toast = useToast();
+
   const searchMember = async (name: string) => {
     const members = await getMembersSearchByName(name);
     return members.map((member) => omit(member, 'hasProfile'));
@@ -56,8 +66,11 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, onChange, onRemov
   };
 
   const onClickEditComplete = () => {
-    if (selectedMember === undefined) {
-      // TODO: 필드 모두 채워주세요! 에러처리
+    if (errorMessage) {
+      toast.show({
+        title: '알림',
+        message: '멤버 필드를 모두 채워주세요.',
+      });
       return;
     }
     setIsEdit(false);
@@ -79,25 +92,35 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, onChange, onRemov
               },
             }}
           >
-            <StyledMemberSearch
-              selectedMember={selectedMember}
-              placeholder='SOPT 멤버 검색'
-              onSelect={onSelectMember}
-              onClear={onClearMember}
-            />
+            <StyledFormWrapper>
+              <StyledMemberSearch
+                isError={!!errorMessage?.memberId}
+                selectedMember={selectedMember}
+                placeholder='SOPT 멤버 검색'
+                onSelect={onSelectMember}
+                onClear={onClearMember}
+              />
+              {errorMessage?.memberId && <ErrorMessage message={errorMessage?.memberId} />}
+            </StyledFormWrapper>
           </MemberSearchContext.Provider>
-          <StyledSelect
-            placeholder='역할'
-            value={value.memberRole ?? ''}
-            onChange={(e) => onChange({ ...value, memberRole: e.target.value })}
-          >
-            {Object.entries(MemberRoleInfo).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </StyledSelect>
+          <StyledFormWrapper>
+            <StyledSelect
+              error={!!errorMessage?.memberRole}
+              placeholder='역할'
+              value={value.memberRole ?? ''}
+              onChange={(e) => onChange({ ...value, memberRole: e.target.value })}
+            >
+              {Object.entries(MemberRoleInfo).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </StyledSelect>
+            {errorMessage?.memberRole && <ErrorMessage message={errorMessage?.memberRole} />}
+          </StyledFormWrapper>
           <StyledInput
+            error={!!errorMessage?.memberDescription}
+            errorMessage={errorMessage && errorMessage.memberDescription}
             placeholder='어떤 역할을 맡았는지 적어주세요.'
             value={value.memberDescription}
             onChange={(e) =>
@@ -140,8 +163,14 @@ const StyledMemberField = styled.div`
   width: 100%;
 `;
 
+const StyledFormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
 const StyledMemberEditView = styled.div`
   display: flex;
+  align-items: center;
   column-gap: 10px;
   border-radius: 6px;
   background-color: ${colors.black60};
@@ -219,7 +248,7 @@ const StyledInput = styled(Input)`
 const StyledEditCompleteButton = styled.button`
   border-radius: 4px;
   background-color: ${colors.black40};
-  padding: 12px 36px;
+  padding: 14px 36px;
   white-space: nowrap;
   color: ${colors.gray100};
 
