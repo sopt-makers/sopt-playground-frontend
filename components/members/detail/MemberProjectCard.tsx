@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { MemberProject } from '@/api/members/type';
+import { MemberProject } from '@/api/endpoint_LEGACY/members/type';
 import { PROJECT_CATEGORY_LABEL } from '@/components/members/detail/constants';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
