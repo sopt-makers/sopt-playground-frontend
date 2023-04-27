@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import { FC } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
-import { getMakersProfile } from '@/api/endpoint_LEGACY/makers';
+import { getMakersProfile } from '@/api/endpoint/makers';
 import Footer from '@/components/common/Footer';
 import SwitchableHeader from '@/components/common/Header/SwitchableHeader';
 import AboutMakers from '@/components/makers/AboutMakers';
@@ -32,11 +32,10 @@ const MakersPage: FC<MakersPageProps> = ({ memberMetadataList }) => {
 };
 
 export const getStaticProps: GetStaticProps<MakersPageProps> = async () => {
-  const memberList = await getMakersProfile();
+  const memberList = await getMakersProfile.request();
 
   const memberMetadataList = memberList.map((member) => {
     const sortedCareers = member.careers.filter((career) => career.isCurrent);
-    sortedCareers.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
     const currentCompany = sortedCareers.length > 0 ? sortedCareers.at(-1)?.companyName ?? null : null;
     const generations = member.activities.map((value) => value.generation).sort((a, b) => a - b);
 

@@ -32,8 +32,9 @@ export function createEndpoint<
       const res = config.serverResponse.safeParse(data);
 
       if (!res.success) {
-        const message = `서버 타입 검증에 실패했습니다. (${axiosConfig.method} ${axiosConfig.url})`;
-        console.error(message);
+        const zodError = String(res.error).slice(0, 1000) + '\n...';
+        const message = `서버 타입 검증에 실패했습니다. (${axiosConfig.method} ${axiosConfig.url})\n${zodError}`;
+        console.error(zodError);
         throw new Error(message);
       }
 
