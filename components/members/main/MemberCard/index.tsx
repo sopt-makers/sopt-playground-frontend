@@ -148,13 +148,18 @@ const TitleBox = styled(m.div)`
 `;
 
 const Name = styled.h3`
+  flex-shrink: 0;
   color: ${colors.gray10};
 
   ${textStyles.SUIT_18_B}
 `;
 
 const Belongs = styled.span`
+  flex-grow: 1;
   margin-left: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: ${colors.gray60};
 
   ${textStyles.SUIT_12_M}
