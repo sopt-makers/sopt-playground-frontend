@@ -169,6 +169,10 @@ const DimShadow = styled.span`
   bottom: 0;
   background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black90} 100%);
   width: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black100} 100%);
+  }
 `;
 
 const Badge = styled.div`
