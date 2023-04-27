@@ -2,7 +2,7 @@ import { DefaultValues } from 'react-hook-form';
 
 import { MemberUploadForm } from '@/components/members/upload/types';
 
-export const DEFAULT_CAREER = { title: '', companyName: '', isCurrent: false, startDate: '', endDate: '' };
+export const DEFAULT_CAREER = { title: '', companyName: '', isCurrent: false, startDate: '', endDate: '' } as const;
 export const DEFAULT_ACTIVITY = { generation: '', part: '', team: '' };
 export const DEFAULT_LINK = { title: '', url: '' };
 export const DEFAULT_FAVOR = {

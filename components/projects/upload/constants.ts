@@ -1,6 +1,6 @@
 import { DefaultValues } from 'react-hook-form';
 
-import { LinkTitle } from '@/api/projects/type';
+import { LinkTitle } from '@/api/endpoint_LEGACY/projects/type';
 import { DEFAULT_MEMBER } from '@/components/projects/upload/MemberForm/constants';
 import { Category, FormItem } from '@/components/projects/upload/types';
 import { ProjectUploadForm } from '@/pages/projects/upload';
@@ -11,7 +11,7 @@ export const categoryLabel: Record<Category, string> = {
   SOPTERM: '솝텀 프로젝트',
   STUDY: '스터디',
   JOINTSEMINAR: '합동 세미나',
-  ETC: '기타',
+  ETC: '사이드 프로젝트',
 };
 
 export const FORM_ITEMS: FormItem[] = [
@@ -171,3 +171,5 @@ export const PROJECT_DEFAULT_VALUES: DefaultValues<ProjectUploadForm> = {
   summary: '',
   detail: '',
 };
+
+export const PROJECT_CATEGORY = ['APPJAM', 'SOPKATHON', 'SOPTERM', 'STUDY', 'JOINTSEMINAR', 'ETC'] as const;

@@ -2,8 +2,8 @@ import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import qs from 'qs';
 
-import { getMemberProfile } from '@/api/members';
-import type { PagedMemberProfile } from '@/api/members/type';
+import { getMemberProfile } from '@/api/endpoint_LEGACY/members';
+import type { PagedMemberProfile } from '@/api/endpoint_LEGACY/members/type';
 
 interface UseMemberProfileQueryVariables {
   limit?: number;

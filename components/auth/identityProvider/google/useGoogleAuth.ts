@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { postGoogleAuth, postGoogleRegistration } from '@/api/auth';
+import { postGoogleAuth, postGoogleRegistration } from '@/api/endpoint_LEGACY/auth';
 import useStateParam from '@/components/auth/util/useStateParam';
 import { GOOGLE_OAUTH_CLIENT_ID, ORIGIN } from '@/constants/env';
 

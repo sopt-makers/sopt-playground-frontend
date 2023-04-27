@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useGetMemberProfileOfMe } from '@/api/hooks';
-import { putMemberProfile } from '@/api/members';
-import { ProfileRequest } from '@/api/members/type';
+import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
+import { putMemberProfile } from '@/api/endpoint_LEGACY/members';
+import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';
@@ -151,10 +151,14 @@ export default function MemberEditPage() {
         allowOfficial: myProfile.allowOfficial,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
-          ? myProfile.careers.map((career) => ({
-              ...career,
-              endDate: career.endDate ?? '',
-            }))
+          ? myProfile.careers.map((career) =>
+              career.isCurrent
+                ? {
+                    ...career,
+                    endDate: null,
+                  }
+                : career,
+            )
           : [DEFAULT_CAREER],
         mbti: getMbtiFromApiValue(myProfile.mbti),
         mbtiDescription: myProfile.mbtiDescription,

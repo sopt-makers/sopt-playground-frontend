@@ -9,7 +9,8 @@ import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
 
-import { useGetMemberProfileById } from '@/api/hooks';
+import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
+import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CareerSection from '@/components/members/detail/CareerSection';
@@ -21,6 +22,7 @@ import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import MessageSection from '@/components/members/detail/MessageSection';
 import PartItem from '@/components/members/detail/PartItem';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
+import { Category } from '@/components/projects/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import { colors } from '@/styles/colors';
@@ -165,7 +167,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               part={part}
               activities={projects.map((project) => ({
                 name: project.name,
-                type: convertProjectType(project.category),
+                type: convertProjectType(project.category) ?? '',
                 href: playgroundLink.projectDetail(project.id),
               }))}
               teams={team !== null ? [team] : []}
@@ -226,15 +228,26 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   );
 };
 
-function convertProjectType(typeCode: 'APPJAM' | 'SOPKATHON' | null) {
-  if (typeCode === 'APPJAM') {
-    return '앱잼';
-  }
-  if (typeCode === 'SOPKATHON') {
-    return '솝커톤';
-  }
+function convertProjectType(typeCode: Category) {
+  if (!isProjectCategory(typeCode)) throw new Error('project category type error');
 
-  return '';
+  switch (typeCode) {
+    case 'APPJAM':
+      return '앱잼';
+    case 'ETC':
+      return '사이드 프로젝트';
+    case 'JOINTSEMINAR':
+      return '합동 세미나';
+    case 'SOPKATHON':
+      return '솝커톤';
+    case 'SOPTERM':
+      return '솝텀 프로젝트';
+    case 'STUDY':
+      return '스터디';
+    default:
+      const exhaustiveCheck: never = typeCode;
+      throw new Error(`project category ${exhaustiveCheck} type error`);
+  }
 }
 
 const Container = styled.div`

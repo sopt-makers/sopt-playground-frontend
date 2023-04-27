@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { getPresignedUrl } from '@/api/image';
+import { getPresignedUrl } from '@/api/endpoint_LEGACY/image';
 import IconImage from '@/public/icons/icon-image.svg';
 import { colors } from '@/styles/colors';
 

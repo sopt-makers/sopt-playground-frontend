@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
-import { Profile } from '@/api/members/type';
+import { Profile } from '@/api/endpoint_LEGACY/members/type';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
@@ -285,7 +285,7 @@ const StyledMemberCard = styled(MemberCard)`
 const HLine = styled.hr`
   margin: 0;
   border: 0;
-  border-bottom: 1px solid ${colors.gray100};
+  border-bottom: 1px solid ${colors.black80};
   padding: 0;
 `;
 

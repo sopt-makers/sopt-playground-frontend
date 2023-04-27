@@ -1,4 +1,5 @@
-import { Category, ServiceType } from '@/components/projects/upload/types';
+import { ProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
+import { ServiceType } from '@/components/projects/upload/types';
 
 export type Profile = {
   id: number;
@@ -61,7 +62,7 @@ export type ProfileDetail = {
       id: number;
       generation: number;
       name: string;
-      category: 'APPJAM' | 'SOPKATHON' | null;
+      category: ProjectCategory;
     }[];
   }[];
   links: MemberLink[];
@@ -94,7 +95,7 @@ export type Member = {
 };
 
 export type MemberProject = {
-  category: Category;
+  category: ProjectCategory;
   generation: number;
   id: number;
   serviceType: ServiceType[];
@@ -104,14 +105,23 @@ export type MemberProject = {
   thumbnailImage: string;
 };
 
-type Career = {
-  id: number;
-  companyName: string;
-  title: string;
-  startDate: string;
-  endDate: string | null;
-  isCurrent: boolean;
-};
+type Career =
+  | {
+      id: number;
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: null;
+      isCurrent: true;
+    }
+  | {
+      id: number;
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: string;
+      isCurrent: false;
+    };
 
 export interface ProfileRequest {
   name: string;
