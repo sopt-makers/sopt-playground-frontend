@@ -22,9 +22,11 @@ export const uploadSchema = z.object({
       memberRole: z.string({
         required_error: '역할을 선택해주세요.',
       }),
-      memberDescription: z.string({
-        required_error: '어떤 역할을 맡았는지 입력해주세요.',
-      }),
+      memberDescription: z
+        .string({
+          required_error: '어떤 역할을 맡았는지 입력해주세요.',
+        })
+        .min(1, '어떤 역할을 맡았는지 입력해주세요.'),
     }),
   ),
 });

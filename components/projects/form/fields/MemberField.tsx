@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { omit } from 'lodash-es';
-import { FC, useState } from 'react';
+import { isEmpty } from 'lodash-es';
+import { FC, useMemo, useState } from 'react';
 
 import { getMembersSearchByName } from '@/api/members';
 import Input from '@/components/common/Input';
@@ -38,6 +39,7 @@ interface MemberFieldProps {
 const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onChange, onRemove }) => {
   const [isEdit, setIsEdit] = useState<boolean>(true);
   const [selectedMember, setSelcetedMember] = useState<Member | undefined>();
+  const isError = useMemo(() => !isEmpty(errorMessage), [errorMessage]);
   const toast = useToast();
 
   const searchMember = async (name: string) => {
@@ -66,7 +68,7 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onC
   };
 
   const onClickEditComplete = () => {
-    if (errorMessage) {
+    if (isError) {
       toast.show({
         title: '알림',
         message: '멤버 필드를 모두 채워주세요.',
@@ -79,7 +81,7 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onC
   return (
     <StyledMemberField className={className} onClick={onClickEdit}>
       {isEdit ? (
-        <StyledMemberEditView>
+        <StyledMemberEditView isError={isError}>
           <MemberSearchContext.Provider
             value={{
               searchMember,
@@ -168,9 +170,9 @@ const StyledFormWrapper = styled.div`
   flex-direction: column;
   row-gap: 10px;
 `;
-const StyledMemberEditView = styled.div`
+const StyledMemberEditView = styled.div<{ isError: boolean }>`
   display: flex;
-  align-items: center;
+  align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   column-gap: 10px;
   border-radius: 6px;
   background-color: ${colors.black60};
@@ -248,7 +250,7 @@ const StyledInput = styled(Input)`
 const StyledEditCompleteButton = styled.button`
   border-radius: 4px;
   background-color: ${colors.black40};
-  padding: 14px 36px;
+  padding: 16px 36px;
   white-space: nowrap;
   color: ${colors.gray100};
 
