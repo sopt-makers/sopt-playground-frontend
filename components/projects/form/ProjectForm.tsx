@@ -45,8 +45,6 @@ const ProjectForm: FC<ProjectFormProps> = ({
     onSubmit?.(getValues());
   };
 
-  console.log(errors);
-
   return (
     <StyledFormContainer>
       {!hideProgress && <StyledFormProgress formState={formState} />}
