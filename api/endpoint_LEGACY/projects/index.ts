@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/api';
-import { ProjectDetail, ProjectInput } from '@/api/legacy/projects/type';
+import { ProjectDetail, ProjectInput } from '@/api/endpoint_LEGACY/projects/type';
 
 // project id로 조회
 export const getProjectById = async (id: string) => {

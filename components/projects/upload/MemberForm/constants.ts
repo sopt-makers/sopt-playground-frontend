@@ -1,4 +1,4 @@
-import { Member } from '@/api/legacy/members/type';
+import { Member } from '@/api/endpoint_LEGACY/members/type';
 
 export type MemberFormType = {
   memberId: number;

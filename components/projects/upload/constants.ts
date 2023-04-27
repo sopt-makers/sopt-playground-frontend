@@ -1,6 +1,6 @@
 import { DefaultValues } from 'react-hook-form';
 
-import { LinkTitle } from '@/api/legacy/projects/type';
+import { LinkTitle } from '@/api/endpoint_LEGACY/projects/type';
 import { DEFAULT_MEMBER } from '@/components/projects/upload/MemberForm/constants';
 import { Category, FormItem } from '@/components/projects/upload/types';
 import { ProjectUploadForm } from '@/pages/projects/upload';

@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
 import { selector, selectorFamily, useRecoilValueLoadable } from 'recoil';
 
-import { getMemberProfile } from '@/api/legacy/members';
+import { getMemberProfile } from '@/api/endpoint_LEGACY/members';
 
 interface WithMemberMetadataProps {
   memberId: number;

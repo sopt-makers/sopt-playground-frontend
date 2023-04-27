@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getProjects } from '@/api/legacy/projects';
+import { getProjects } from '@/api/endpoint_LEGACY/projects';
 
 const useGetProjectListQuery = () => {
   return useQuery(

@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { Combobox } from '@headlessui/react';
 import React, { forwardRef } from 'react';
 
-import { Member } from '@/api/legacy/members/type';
+import { Member } from '@/api/endpoint_LEGACY/members/type';
 import Text from '@/components/common/Text';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';

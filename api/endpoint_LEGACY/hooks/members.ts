@@ -7,8 +7,8 @@ import {
   getMemberProfileOfMe,
   getMembersSearchByName,
   postMemberCoffeeChat,
-} from '@/api/legacy/members';
-import { PostMemberCoffeeChatVariables, ProfileDetail } from '@/api/legacy/members/type';
+} from '@/api/endpoint_LEGACY/members';
+import { PostMemberCoffeeChatVariables, ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
 
 // 멤버 프로필 조회
 export const useGetMemberOfMe = () => {

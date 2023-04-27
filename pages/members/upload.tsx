@@ -3,8 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { postMemberProfile } from '@/api/legacy/members';
-import { ProfileRequest } from '@/api/legacy/members/type';
+import { postMemberProfile } from '@/api/endpoint_LEGACY/members';
+import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';
