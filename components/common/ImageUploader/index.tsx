@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { getPresignedUrl } from '@/api/image';
+import { getPresignedUrl } from '@/api/legacy/image';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconImage from '@/public/icons/icon-image.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';

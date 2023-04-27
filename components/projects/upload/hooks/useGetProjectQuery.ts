@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { uniqBy as _uniqBy } from 'lodash-es';
 
-import { getProjectById } from '@/api/projects';
+import { getProjectById } from '@/api/legacy/projects';
 
 interface GetProjectQueryVariables {
   id: string;

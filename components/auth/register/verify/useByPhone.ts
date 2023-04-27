@@ -2,7 +2,7 @@ import { to } from 'await-to-js';
 import axios, { AxiosError } from 'axios';
 import { useRef, useState } from 'react';
 
-import { postSMSCode, postSMSToken } from '@/api/auth';
+import { postSMSCode, postSMSToken } from '@/api/legacy/auth';
 import { PHONE_REGEX, PHONE_REGEX_SHORT } from '@/components/auth/register/verify/regex';
 import { ByPhoneStates } from '@/components/auth/register/verify/view/ByPhoneView';
 

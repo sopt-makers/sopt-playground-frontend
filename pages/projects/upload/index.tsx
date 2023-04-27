@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useGetMemberOfMe, useGetProjectById } from '@/api/hooks';
-import { putProject } from '@/api/projects';
+import { useGetMemberOfMe, useGetProjectById } from '@/api/legacy/hooks';
+import { putProject } from '@/api/legacy/projects';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
 import useToast from '@/components/common/Toast/useToast';

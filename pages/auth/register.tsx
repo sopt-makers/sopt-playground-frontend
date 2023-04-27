@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FC, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { postRegistrationInfo } from '@/api/auth';
+import { postRegistrationInfo } from '@/api/legacy/auth';
 import Register from '@/components/auth/register/Register';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';

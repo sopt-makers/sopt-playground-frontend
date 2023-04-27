@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { postSSOCode } from '@/api/auth';
+import { postSSOCode } from '@/api/legacy/auth';
 import { REDIRECT_URI_WHITELISTS } from '@/components/auth/oauth/whitelists';
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';

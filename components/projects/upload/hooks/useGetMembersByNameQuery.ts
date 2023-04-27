@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getMembersSearchByName } from '@/api/members';
+import { getMembersSearchByName } from '@/api/legacy/members';
 interface GetMembersByNameQueryVariables {
   name: string;
 }

@@ -1,4 +1,4 @@
-import { ProjectCategory } from '@/api/projects/type';
+import { ProjectCategory } from '@/api/legacy/projects/type';
 import { ServiceType } from '@/components/projects/upload/types';
 
 export type Profile = {

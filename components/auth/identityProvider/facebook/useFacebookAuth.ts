@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { postFacebookAuth, postFacebookRegistration } from '@/api/auth';
+import { postFacebookAuth, postFacebookRegistration } from '@/api/legacy/auth';
 import useStateParam from '@/components/auth/util/useStateParam';
 import { FACEBOOK_APP_ID, ORIGIN } from '@/constants/env';
 

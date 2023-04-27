@@ -6,7 +6,7 @@ import {
   Profile,
   ProfileDetail,
   ProfileRequest,
-} from '@/api/members/type';
+} from '@/api/legacy/members/type';
 
 // 멤버 프로필 전체 조회
 export const getMemberProfile = async (input: string) => {

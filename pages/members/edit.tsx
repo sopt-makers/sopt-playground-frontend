@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { useGetMemberProfileOfMe } from '@/api/hooks';
-import { putMemberProfile } from '@/api/members';
-import { ProfileRequest } from '@/api/members/type';
+import { useGetMemberProfileOfMe } from '@/api/legacy/hooks';
+import { putMemberProfile } from '@/api/legacy/members';
+import { ProfileRequest } from '@/api/legacy/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';

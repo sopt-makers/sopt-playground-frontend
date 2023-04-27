@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
-import { Profile } from '@/api/members/type';
+import { Profile } from '@/api/legacy/members/type';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';

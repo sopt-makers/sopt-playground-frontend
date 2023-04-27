@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { postAppleAuth, postAppleRegistration } from '@/api/auth';
+import { postAppleAuth, postAppleRegistration } from '@/api/legacy/auth';
 import useStateParam from '@/components/auth/util/useStateParam';
 import { APPLE_OAUTH_APP_ID, ORIGIN } from '@/constants/env';
 

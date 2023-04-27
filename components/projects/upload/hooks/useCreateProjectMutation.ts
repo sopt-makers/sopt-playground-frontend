@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { postProject } from '@/api/projects';
-import { ProjectInput } from '@/api/projects/type';
+import { postProject } from '@/api/legacy/projects';
+import { ProjectInput } from '@/api/legacy/projects/type';
 
 const useCreateProjectMutation = () => {
   return useMutation({

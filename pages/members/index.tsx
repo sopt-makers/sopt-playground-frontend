@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { useGetMemberOfMe } from '@/api/hooks';
+import { useGetMemberOfMe } from '@/api/legacy/hooks';
 import AuthRequired from '@/components/auth/AuthRequired';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';

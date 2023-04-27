@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getMemberProfileById } from '@/api/members';
-import { getProjectById, getProjects } from '@/api/projects';
+import { getMemberProfileById } from '@/api/legacy/members';
+import { getProjectById, getProjects } from '@/api/legacy/projects';
 
 // project id로 조회
 export const useGetProjectById = (id?: string) => {
