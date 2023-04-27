@@ -285,7 +285,7 @@ const StyledMemberCard = styled(MemberCard)`
 const HLine = styled.hr`
   margin: 0;
   border: 0;
-  border-bottom: 1px solid ${colors.gray100};
+  border-bottom: 1px solid ${colors.black80};
   padding: 0;
 `;
 
