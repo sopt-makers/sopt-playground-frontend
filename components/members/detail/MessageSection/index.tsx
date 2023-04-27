@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
 
 import useModalState from '@/components/common/Modal/useModalState';
 import useToast from '@/components/common/Toast/useToast';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
-import CoffeeChatModal from '@/components/members/detail/MessageSection/CoffeeChatModal';
+import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -12,7 +11,7 @@ import { textStyles } from '@/styles/typography';
 interface MessageSectionProps {
   name: string;
   email: string;
-  profileImage: ReactNode;
+  profileImage: string;
   memberId: string;
 }
 
@@ -36,7 +35,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
 
   return (
     <>
-      <Container>
+      <StyledMemberDetailSection>
         <div>
           <Title>{name}에게 하고 싶은 질문이 있나요?</Title>
           <Subtitle>“저에게 궁금한게 있다면 편하게 남겨주세요~”</Subtitle>
@@ -44,15 +43,20 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
         <MessageButton onClick={handleClickMessageButton} disabled={isEmptyEmail}>
           쪽지 보내기
         </MessageButton>
-      </Container>
+      </StyledMemberDetailSection>
       {isOpenCoffeeChatModal && (
-        <CoffeeChatModal receiverId={memberId} name={name} profile={profileImage} onClose={onCloseCoffeeChatModal} />
+        <MessageModal
+          receiverId={memberId}
+          name={name}
+          profileImageUrl={profileImage}
+          onClose={onCloseCoffeeChatModal}
+        />
       )}
     </>
   );
 }
 
-const Container = styled(MemberDetailSection)`
+const StyledMemberDetailSection = styled(MemberDetailSection)`
   display: flex;
   flex-direction: row;
   align-items: center;

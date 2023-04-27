@@ -1,4 +1,5 @@
-import { Category, ServiceType } from '@/components/projects/upload/types';
+import { ProjectCategory } from '@/api/projects/type';
+import { ServiceType } from '@/components/projects/upload/types';
 
 export type Profile = {
   id: number;
@@ -18,7 +19,7 @@ export type Profile = {
     part: string;
     team: string;
   }[];
-  links: Link[];
+  links: MemberLink[];
   allowOfficial: boolean;
   careers: Career[];
 };
@@ -61,10 +62,10 @@ export type ProfileDetail = {
       id: number;
       generation: number;
       name: string;
-      category: 'APPJAM' | 'SOPKATHON' | null;
+      category: ProjectCategory;
     }[];
   }[];
-  links: Link[];
+  links: MemberLink[];
   projects: MemberProject[];
   careers: Career[];
   allowOfficial: boolean;
@@ -79,7 +80,7 @@ export type Activity = {
   isProject: boolean;
 };
 
-type Link = {
+export type MemberLink = {
   id: number;
   title: string;
   url: string;
@@ -94,7 +95,7 @@ export type Member = {
 };
 
 export type MemberProject = {
-  category: Category;
+  category: ProjectCategory;
   generation: number;
   id: number;
   serviceType: ServiceType[];
@@ -104,14 +105,23 @@ export type MemberProject = {
   thumbnailImage: string;
 };
 
-type Career = {
-  id: number;
-  companyName: string;
-  title: string;
-  startDate: string;
-  endDate: string | null;
-  isCurrent: boolean;
-};
+type Career =
+  | {
+      id: number;
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: null;
+      isCurrent: true;
+    }
+  | {
+      id: number;
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: string;
+      isCurrent: false;
+    };
 
 export interface ProfileRequest {
   name: string;
@@ -129,7 +139,7 @@ export interface ProfileRequest {
     part: string;
     team: string | null;
   }[];
-  links: Omit<Link, 'id'>[] | null;
+  links: Omit<MemberLink, 'id'>[] | null;
   allowOfficial: boolean;
   careers: Omit<Career, 'id'>[];
   mbti: string | null;

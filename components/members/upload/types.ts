@@ -51,10 +51,18 @@ export interface Birthday {
   day: string;
 }
 
-export interface Career {
-  companyName: string;
-  title: string;
-  startDate: string;
-  endDate: string | null;
-  isCurrent: boolean;
-}
+export type Career =
+  | {
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: null;
+      isCurrent: true;
+    }
+  | {
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: string;
+      isCurrent: false;
+    };

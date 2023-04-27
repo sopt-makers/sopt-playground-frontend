@@ -2,18 +2,17 @@ import styled from '@emotion/styled';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
-import { useGetMemberOfMe } from '@/api/hooks';
 import { Profile } from '@/api/members/type';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
 import { MemberRoleMenu, MemberRoleSelect, menuValue } from '@/components/members/main/MemberList/MemberRoleMenu';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
-import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -24,14 +23,31 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const PAGE_LIMIT = 30;
 
-const MemberList: FC = () => {
+interface MemberListProps {
+  banner: ReactNode;
+}
+
+type MessageModalState =
+  | {
+      show: false;
+    }
+  | {
+      show: true;
+      data: {
+        targetId: string;
+        name: string;
+        profileUrl: string;
+      };
+    };
+
+const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [filter, setFilter] = useState<string>(menuValue.ALL);
   const [name, setName] = useState<string>('');
+  const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
   const router = useRouter();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
-  const { data: memberOfMeData } = useGetMemberOfMe();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
@@ -52,8 +68,6 @@ const MemberList: FC = () => {
       ),
     [memberProfileData],
   );
-
-  const hasProfile = !!memberOfMeData?.hasProfile;
 
   useRunOnce(() => {
     logPageViewEvent('mamberPageList', {});
@@ -99,9 +113,8 @@ const MemberList: FC = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        {memberOfMeData && !hasProfile && <StyledOnBoardingBanner name={memberOfMeData.name ?? ''} />}
+        {banner}
         <StyledMain>
-          {!hasProfile && <StyledDivider />}
           <Responsive only='desktop'>
             <StyledMemberRoleMenu value={filter} onSelect={handleSelectFilter} />
           </Responsive>
@@ -122,21 +135,46 @@ const MemberList: FC = () => {
             <StyledCardWrapper>
               {profiles?.map((profiles, index) => (
                 <React.Fragment key={index}>
-                  {profiles.map((profile) => (
-                    <Link
-                      key={profile.id}
-                      href={playgroundLink.memberDetail(profile.id)}
-                      onClick={() => handleClickCard(profile)}
-                    >
-                      <MemberCard
-                        name={profile.name}
-                        part={profile.part}
-                        isActiveGeneration={profile.isActive}
-                        introduction={profile.introduction}
-                        image={profile.profileImage}
-                      />
-                    </Link>
-                  ))}
+                  {profiles.map((profile) => {
+                    const sorted = [...profile.activities].sort((a, b) => b.generation - a.generation);
+                    const badges = sorted.map((activity) => ({
+                      content: `${activity.generation}기 ${activity.part}`,
+                      isActive: activity.generation === LATEST_GENERATION,
+                    }));
+
+                    const belongs =
+                      profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
+
+                    return (
+                      <Link
+                        key={profile.id}
+                        href={playgroundLink.memberDetail(profile.id)}
+                        onClick={() => handleClickCard(profile)}
+                      >
+                        <StyledMemberCard
+                          name={profile.name}
+                          belongs={belongs}
+                          badges={badges}
+                          intro={profile.introduction}
+                          imageUrl={profile.profileImage}
+                          onMessage={(e) => {
+                            e.preventDefault();
+                            setMessageModalState({
+                              show: true,
+                              data: {
+                                targetId: `${profile.id}`,
+                                name: profile.name,
+                                profileUrl: profile.profileImage,
+                              },
+                            });
+                          }}
+                        />
+                        <Responsive only='mobile'>
+                          <HLine />
+                        </Responsive>
+                      </Link>
+                    );
+                  })}
                 </React.Fragment>
               ))}
             </StyledCardWrapper>
@@ -144,6 +182,14 @@ const MemberList: FC = () => {
         </StyledMain>
       </StyledContent>
       <Target ref={ref} />
+      {messageModalState.show && (
+        <MessageModal
+          receiverId={messageModalState.data.targetId}
+          name={messageModalState.data.name}
+          profileImageUrl={messageModalState.data.profileUrl}
+          onClose={() => setMessageModalState({ show: false })}
+        />
+      )}
     </StyledContainer>
   );
 };
@@ -161,14 +207,6 @@ const StyledContainer = styled.div`
 const StyledContent = styled.div`
   width: 100%;
   max-width: 1000px;
-`;
-
-const StyledOnBoardingBanner = styled(OnBoardingBanner)`
-  margin-top: 120px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 45px;
-  }
 `;
 
 const StyledMain = styled.main`
@@ -217,24 +255,12 @@ const StyledMemberSearch = styled(MemberSearch)`
   }
 `;
 
-const StyledDivider = styled.div`
-  display: none;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: block;
-    margin: 23.5px 0 32.5px;
-    border: 0.5px solid ${colors.black80};
-    width: 100%;
-  }
-`;
-
-const IPHONE_XR = 414;
 const StyledCardWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  align-items: start;
-  justify-items: center;
+  align-items: center;
+  justify-items: stretch;
   margin-top: 28px;
 
   @media screen and (max-width: 1000px) {
@@ -242,15 +268,25 @@ const StyledCardWrapper = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    grid-template-columns: repeat(1, 1fr);
     gap: 12px 8px;
+    justify-items: stretch;
 
     & > div {
       width: 100%;
     }
   }
-  @media screen and (max-width: ${IPHONE_XR}px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+`;
+
+const StyledMemberCard = styled(MemberCard)`
+  width: 100%;
+`;
+
+const HLine = styled.hr`
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid ${colors.black80};
+  padding: 0;
 `;
 
 const StyledMemberRoleMenu = styled(MemberRoleMenu)`

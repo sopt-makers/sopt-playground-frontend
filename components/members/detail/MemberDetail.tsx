@@ -5,15 +5,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
-import LinkIcon from 'public/icons/icon-link.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberProfileById } from '@/api/hooks';
+import { isProjectCategory } from '@/api/projects/type';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import CareerItem from '@/components/members/detail/CareerItem';
+import CareerSection from '@/components/members/detail/CareerSection';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
@@ -22,6 +22,7 @@ import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import MessageSection from '@/components/members/detail/MessageSection';
 import PartItem from '@/components/members/detail/PartItem';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
+import { Category } from '@/components/projects/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import { colors } from '@/styles/colors';
@@ -135,18 +136,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             <MessageSection
               name={profile.name}
               email={profile.email}
-              profileImage={
-                profile.profileImage ? (
-                  <ProfileImage
-                    src={profile.profileImage}
-                    style={{ width: '84px', height: '84px', borderRadius: '20px' }}
-                  />
-                ) : (
-                  <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
-                    <ProfileIcon />
-                  </EmptyProfileImage>
-                )
-              }
+              profileImage={profile.profileImage}
               memberId={memberId}
             />
           </>
@@ -177,7 +167,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               part={part}
               activities={projects.map((project) => ({
                 name: project.name,
-                type: convertProjectType(project.category),
+                type: convertProjectType(project.category) ?? '',
                 href: playgroundLink.projectDetail(project.id),
               }))}
               teams={team !== null ? [team] : []}
@@ -196,59 +186,32 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           profile.userFavor?.isPourSauceLover ||
           profile.userFavor?.isRedBeanFishBreadLover ||
           profile.userFavor?.isRiceTteokLover) && (
-          <MemberDetailSection>
-            <InterestSection
-              sojuCapacity={profile.sojuCapacity}
-              mbti={{
-                name: profile.mbti,
-                description: profile.mbtiDescription,
-              }}
-              balanceGame={
-                profile.userFavor
-                  ? {
-                      isSojuLover: profile.userFavor.isSojuLover,
-                      isHardPeachLover: profile.userFavor.isHardPeachLover,
-                      isMintChocoLover: profile.userFavor.isMintChocoLover,
-                      isPourSauceLover: profile.userFavor.isPourSauceLover,
-                      isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
-                      isRiceTteokLover: profile.userFavor.isRiceTteokLover,
-                    }
-                  : null
-              }
-              idealType={profile.idealType}
-              interest={profile.interest}
-              selfIntroduction={profile.selfIntroduction}
-            />
-          </MemberDetailSection>
+          <InterestSection
+            sojuCapacity={profile.sojuCapacity}
+            mbti={{
+              name: profile.mbti,
+              description: profile.mbtiDescription,
+            }}
+            balanceGame={
+              profile.userFavor
+                ? {
+                    isSojuLover: profile.userFavor.isSojuLover,
+                    isHardPeachLover: profile.userFavor.isHardPeachLover,
+                    isMintChocoLover: profile.userFavor.isMintChocoLover,
+                    isPourSauceLover: profile.userFavor.isPourSauceLover,
+                    isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
+                    isRiceTteokLover: profile.userFavor.isRiceTteokLover,
+                  }
+                : null
+            }
+            idealType={profile.idealType}
+            interest={profile.interest}
+            selfIntroduction={profile.selfIntroduction}
+          />
         )}
 
-        {profile.careers && profile.careers.length > 0 && (
-          <MemberDetailSection style={{ gap: '20px' }}>
-            {profile.careers.map((career, idx) => (
-              <CareerItem key={idx} career={career} />
-            ))}
-          </MemberDetailSection>
-        )}
-
-        {(profile.skill || (profile.links && profile.links.length > 0)) && (
-          <MemberDetailSection style={{ gap: '30px' }}>
-            {profile.skill && <InfoItem label='스킬' content={profile.skill ?? ''} />}
-            {profile.links.length > 0 && (
-              <InfoItem
-                label='링크'
-                content={
-                  <LinkItems>
-                    {profile.links.map((item, idx) => (
-                      <Link passHref href={item.url} key={idx} target='_blank'>
-                        <LinkIcon />
-                        <span>{item.title}</span>
-                      </Link>
-                    ))}
-                  </LinkItems>
-                }
-              />
-            )}
-          </MemberDetailSection>
+        {(profile.careers?.length > 0 || profile.skill || profile.links?.length > 0) && (
+          <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
         )}
 
         <ProjectContainer>
@@ -265,15 +228,26 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   );
 };
 
-function convertProjectType(typeCode: 'APPJAM' | 'SOPKATHON' | null) {
-  if (typeCode === 'APPJAM') {
-    return '앱잼';
-  }
-  if (typeCode === 'SOPKATHON') {
-    return '솝커톤';
-  }
+function convertProjectType(typeCode: Category) {
+  if (!isProjectCategory(typeCode)) throw new Error('project category type error');
 
-  return '';
+  switch (typeCode) {
+    case 'APPJAM':
+      return '앱잼';
+    case 'ETC':
+      return '사이드 프로젝트';
+    case 'JOINTSEMINAR':
+      return '합동 세미나';
+    case 'SOPKATHON':
+      return '솝커톤';
+    case 'SOPTERM':
+      return '솝텀 프로젝트';
+    case 'STUDY':
+      return '스터디';
+    default:
+      const exhaustiveCheck: never = typeCode;
+      throw new Error(`project category ${exhaustiveCheck} type error`);
+  }
 }
 
 const Container = styled.div`
@@ -466,37 +440,6 @@ const AddressBadge = styled.div`
   padding: 6px 14px;
   color: ${colors.white};
   ${textStyles.SUIT_14_M};
-`;
-
-const LinkItems = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  & > a {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    cursor: pointer;
-    @media ${MOBILE_MEDIA_QUERY} {
-      gap: 6px;
-
-      span {
-        box-sizing: border-box;
-        border-bottom: 1.5px solid #3c3d40;
-        padding: 5px 0;
-      }
-    }
-  }
-
-  svg {
-    width: 26px;
-    height: auto;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    gap: 21px;
-  }
 `;
 
 const ProjectContainer = styled.div`
