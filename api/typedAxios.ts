@@ -13,7 +13,7 @@ export function createEndpoint<
   Transformed = z.infer<Validator>,
 >(config: {
   request: AxiosRequestConfig | ((...params: Param) => AxiosRequestConfig);
-  serverResponse: Validator;
+  serverResponseScheme: Validator;
   transformer?: (original: z.infer<Validator>) => Transformed;
 }): Endpoint<Transformed, Param> {
   return {
@@ -29,7 +29,7 @@ export function createEndpoint<
 
       const { data } = await axiosInstance.request<unknown>(axiosConfig);
 
-      const res = config.serverResponse.safeParse(data);
+      const res = config.serverResponseScheme.safeParse(data);
 
       if (!res.success) {
         const zodError = String(res.error).slice(0, 1000) + '\n...';

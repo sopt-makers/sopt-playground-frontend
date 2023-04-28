@@ -7,7 +7,7 @@ export const getMembersSearchByName = createEndpoint({
     method: 'GET',
     url: `api/v1/members/search?name=${encodeURIComponent(name)}`,
   }),
-  serverResponse: z.array(
+  serverResponseScheme: z.array(
     z.object({
       id: z.number(),
       name: z.string(),
@@ -15,7 +15,6 @@ export const getMembersSearchByName = createEndpoint({
       hasProfile: z.boolean(),
       profileImage: z
         .string()
-        .optional()
         .nullable()
         .transform((str) => str ?? ''),
     }),

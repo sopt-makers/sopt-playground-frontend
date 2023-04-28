@@ -7,7 +7,7 @@ export const getMakersProfile = createEndpoint({
     method: 'GET',
     url: `makers/profile`,
   },
-  serverResponse: z.array(
+  serverResponseScheme: z.array(
     z.object({
       id: z.number(),
       name: z.string(),
