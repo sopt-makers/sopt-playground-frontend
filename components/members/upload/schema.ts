@@ -104,6 +104,7 @@ export const memberFormSchema = yup.object().shape({
                 is: (title: string, startDate: string, companyName: string) => title || startDate || companyName,
                 then: (schema) => schema.required('근무 종료일을 입력해주세요.'),
               }),
+            otherwise: (schema) => schema.nullable(),
           }),
         ),
       }),
