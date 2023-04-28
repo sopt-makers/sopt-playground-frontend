@@ -1,11 +1,11 @@
 import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
+import { getMembersSearchByName } from '@/api/endpoint/members';
 import {
   getMemberOfMe,
   getMemberProfileById,
   getMemberProfileOfMe,
-  getMembersSearchByName,
   postMemberCoffeeChat,
 } from '@/api/endpoint_LEGACY/members';
 import { PostMemberCoffeeChatVariables, ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
@@ -74,7 +74,7 @@ export const useGetMembersSearchByName = (name: string) => {
   return useQuery(
     ['getMembersSearchByName', name],
     async () => {
-      const data = await getMembersSearchByName(name);
+      const data = await getMembersSearchByName.request(name);
       return data;
     },
     {
