@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { isEmpty } from 'lodash-es';
 import { FC, useMemo, useState } from 'react';
 
-import { getMembersSearchByName } from '@/api/members';
+import { getMembersSearchByName } from '@/api/endpoint/members';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
@@ -42,7 +42,7 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onC
   const toast = useToast();
 
   const searchMember = async (name: string) => {
-    const members = await getMembersSearchByName(name);
+    const members = await getMembersSearchByName.request(name);
     return members.map((member) => ({
       id: String(member.id),
       name: member.name,
