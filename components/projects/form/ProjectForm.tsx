@@ -106,13 +106,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
               />
             ))}
           </StyledMemberFieldWrapper>
-          <StyledMemberAddButton
-            type='button'
-            onClick={() =>
-              // @ts-ignore: append에도 defaultValues와 동일하게 undefined 값을 할당하고 싶은데, 이게 불가능하여 해당 line만 ts-ignore 처리 */
-              append(DEFAULT_MEMBER)
-            }
-          >
+          <StyledMemberAddButton type='button' onClick={() => append(DEFAULT_MEMBER)}>
             + 추가하기
           </StyledMemberAddButton>
         </FormEntry>

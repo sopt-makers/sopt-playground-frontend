@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from 'react';
 
 export type Member = {
   generation: number;
-  id: number;
+  id: string;
   name: string;
   profileImage: string | null;
 };
@@ -12,7 +12,7 @@ export type Member = {
 interface MemberSearchContextType {
   searchMember: (name: string) => Promise<Member[]>;
   // for edit
-  getMemberById: (id: number) => Promise<Member | undefined>;
+  getMemberById: (id: string) => Promise<Member | undefined>;
 }
 
 export const MemberSearchContext = createContext(

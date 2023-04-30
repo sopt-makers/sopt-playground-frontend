@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { isEmpty,omit } from 'lodash-es';
+import { isEmpty } from 'lodash-es';
 import { FC, useMemo, useState } from 'react';
 
 import { getMembersSearchByName } from '@/api/members';
@@ -16,7 +16,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export type Value = {
-  memberId: number | undefined;
+  memberId: string | undefined;
   memberRole: string | undefined;
   memberDescription: string | undefined;
 };
@@ -43,13 +43,18 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onC
 
   const searchMember = async (name: string) => {
     const members = await getMembersSearchByName(name);
-    return members.map((member) => omit(member, 'hasProfile'));
+    return members.map((member) => ({
+      id: String(member.id),
+      name: member.name,
+      generation: member.generation,
+      profileImage: member.profileImage,
+    }));
   };
 
   const onSelectMember = (member: Member) => {
     onChange({
       ...value,
-      memberId: Number(member.id),
+      memberId: member.id,
     });
     setSelcetedMember(member);
   };
@@ -87,7 +92,7 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onC
               // TODO: 수정 작업 시 실제 API로 변경
               getMemberById: async () => {
                 return new Promise((resolve, reject) => {
-                  resolve({ id: 3, generation: 30, name: '이준호', profileImage: '' });
+                  resolve({ id: '3', generation: 30, name: '이준호', profileImage: '' });
                   reject(undefined);
                 });
               },
