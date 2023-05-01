@@ -3,17 +3,9 @@ import React, { FC } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
+import { categoryLabel } from '@/components/projects/form/contants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-
-const categoryLabel = {
-  APPJAM: '앱잼',
-  SOPKATHON: '솝커톤',
-  SOPTERM: '솝텀 프로젝트',
-  STUDY: '스터디',
-  JOINTSEMINAR: '합동 세미나',
-  ETC: '사이드 프로젝트',
-} as const;
 
 interface CategoryFieldProps {
   value: string | undefined;
