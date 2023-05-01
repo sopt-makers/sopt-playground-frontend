@@ -12,3 +12,7 @@ export const Basic = Template.bind({});
 Basic.args = {
   submitButtonContent: '프로젝트 등록하기',
 };
+
+export const Default = () => {
+  return <ProjectForm submitButtonContent='프로젝트 등록하기' />;
+};

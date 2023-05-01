@@ -11,7 +11,7 @@ export interface FormEntryProps {
   children: ReactNode;
   required?: boolean;
   comment?: string;
-  description?: string;
+  description?: ReactNode;
 }
 
 const FormEntry: FC<FormEntryProps> = ({ className, title, required, comment, children, description }) => {

@@ -91,7 +91,7 @@ export type Member = {
   name: string;
   generation: number;
   hasProfile: true;
-  profileImage?: string | null;
+  profileImage: string | null;
 };
 
 export type MemberProject = {

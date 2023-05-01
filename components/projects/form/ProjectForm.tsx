@@ -1,15 +1,16 @@
 import styled from '@emotion/styled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, ReactNode } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import CategoryField from '@/components/projects/form/fields/CategoryField';
 import GenerationField from '@/components/projects/form/fields/GenerationField';
+import MemberField from '@/components/projects/form/fields/MemberField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
-import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
+import { DEFAULT_MEMBER, defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import UploadProjectProgress from '@/components/projects/form/UploadProjectProgress';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -33,6 +34,10 @@ const ProjectForm: FC<ProjectFormProps> = ({
     defaultValues,
     mode: 'all',
   });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'members',
+  });
 
   const { errors } = formState;
 
@@ -45,7 +50,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
       {!hideProgress && <StyledFormProgress formState={formState} />}
       <StyledForm onSubmit={handleSubmit(submit)}>
         <FormEntry title='프로젝트 이름' required>
-          <Input {...register('name')} errorMessage={errors.name?.message ?? ''} />
+          <Input {...register('name')} placeholder='프로젝트' errorMessage={errors.name?.message ?? ''} />
         </FormEntry>
         <FormEntry title='프로젝트 기간' required>
           <Controller
@@ -76,6 +81,34 @@ const ProjectForm: FC<ProjectFormProps> = ({
               <CategoryField {...field} errorMessage={errors.category?.message} isError={!!errors.category} />
             )}
           />
+        </FormEntry>
+        <FormEntry title='팀원' required>
+          <StyledMemberFieldWrapper>
+            {fields.map((field, index) => (
+              <Controller
+                key={field.id}
+                control={control}
+                name={`members.${index}`}
+                render={({ field }) => (
+                  <MemberField
+                    errorMessage={{
+                      ...(errors.members && {
+                        memberId: errors.members[index]?.memberId?.message,
+                        memberRole: errors.members[index]?.memberRole?.message,
+                        memberDescription: errors.members[index]?.memberDescription?.message,
+                      }),
+                    }}
+                    value={field.value}
+                    onChange={field.onChange}
+                    onRemove={() => remove(index)}
+                  />
+                )}
+              />
+            ))}
+          </StyledMemberFieldWrapper>
+          <StyledMemberAddButton type='button' onClick={() => append(DEFAULT_MEMBER)}>
+            + 추가하기
+          </StyledMemberAddButton>
         </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>
@@ -124,6 +157,34 @@ const SubmitContainer = styled.div`
   margin-top: 60px;
 
   & > button {
+    ${textStyles.SUIT_14_M};
+  }
+`;
+
+const StyledMemberFieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
+
+const StyledMemberAddButton = styled.button`
+  display: flex;
+  align-items: center;
+  align-self: start;
+  justify-content: center;
+  margin: 14px 0 0 20px;
+  cursor: pointer;
+  color: ${colors.gray100};
+
+  ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 12px 0 0;
+    border: 1px solid ${colors.black40};
+    border-radius: 6px;
+    background-color: ${colors.black60};
+    padding: 14px 16px;
+    width: 100%;
     ${textStyles.SUIT_14_M};
   }
 `;
