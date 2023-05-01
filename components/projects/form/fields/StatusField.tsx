@@ -18,10 +18,10 @@ interface StatusFieldProps {
 }
 
 const StatusField: FC<StatusFieldProps> = ({ className, value, onChange }) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (name: keyof Status) => (e: ChangeEvent<HTMLInputElement>) => {
     onChange({
       ...value,
-      [e.target.name]: e.target.checked,
+      [name]: e.target.checked,
     });
   };
 
@@ -29,11 +29,11 @@ const StatusField: FC<StatusFieldProps> = ({ className, value, onChange }) => {
     <StyledStatusField className={className}>
       <StyledWrapper>
         <StyledSubTitle>현재 이 서비스를 이용할 수 있나요?</StyledSubTitle>
-        <Switch name='isAvailable' checked={value.isAvailable} onChange={handleChange} />
+        <Switch checked={value.isAvailable} onChange={handleChange('isAvailable')} />
       </StyledWrapper>
       <StyledWrapper>
         <StyledSubTitle>현재 이 프로젝트로 창업을 진행하고 있나요?</StyledSubTitle>
-        <Switch name='isFounding' checked={value.isFounding} onChange={handleChange} />
+        <Switch checked={value.isFounding} onChange={handleChange('isFounding')} />
       </StyledWrapper>
     </StyledStatusField>
   );
