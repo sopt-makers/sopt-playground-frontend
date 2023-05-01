@@ -168,6 +168,7 @@ const StyledList = styled(Command.List)`
   position: absolute;
   flex-direction: column;
   gap: 8px;
+  z-index: 1;
   border-radius: 6px;
   background: ${colors.black60};
   padding: 8px 0;
