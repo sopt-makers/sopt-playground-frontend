@@ -1,14 +1,16 @@
 import { ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 
-import MemberField, { Value } from './MemberField';
+import { DEFAULT_MEMBER } from '@/components/projects/form/schema';
+
+import MemberField from './MemberField';
 
 export default {
   component: MemberField,
 } as ComponentMeta<typeof MemberField>;
 
 export const WithState = () => {
-  const [value, onChange] = useState<Value>({ memberId: undefined, memberDescription: '', memberRole: undefined });
+  const [value, onChange] = useState(DEFAULT_MEMBER);
 
   return (
     <MemberField

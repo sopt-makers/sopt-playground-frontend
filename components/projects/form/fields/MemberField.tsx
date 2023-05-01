@@ -15,10 +15,10 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export type Value = {
-  memberId: string | undefined;
-  memberRole: string | undefined;
-  memberDescription: string | undefined;
+type Value = {
+  memberId: string;
+  memberRole: string;
+  memberDescription: string;
 };
 
 type ErrorMessage = {
@@ -62,7 +62,7 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onC
   const onClearMember = () => {
     onChange({
       ...value,
-      memberId: undefined,
+      memberId: '',
     });
     setSelcetedMember(undefined);
   };
