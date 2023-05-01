@@ -10,6 +10,7 @@ import GenerationField from '@/components/projects/form/fields/GenerationField';
 import MemberField from '@/components/projects/form/fields/MemberField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import ServiceTypeField from '@/components/projects/form/fields/ServiceTypeField';
+import StatusField from '@/components/projects/form/fields/StatusField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { DEFAULT_MEMBER, defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import UploadProjectProgress from '@/components/projects/form/UploadProjectProgress';
@@ -82,6 +83,9 @@ const ProjectForm: FC<ProjectFormProps> = ({
               <CategoryField {...field} errorMessage={errors.category?.message} isError={!!errors.category} />
             )}
           />
+        </FormEntry>
+        <FormEntry title='프로젝트 현재 상태'>
+          <Controller control={control} name='status' render={({ field }) => <StatusField {...field} />} />
         </FormEntry>
         <FormEntry title='팀원' required>
           <StyledMemberFieldWrapper>
