@@ -13,6 +13,10 @@ export const uploadSchema = z.object({
     endAt: dateStringSchema.nullable(),
   }),
   category: z.string({ required_error: '프로젝트를 어디서 진행했는지 선택해주세요.' }),
+  status: z.object({
+    isAvailable: z.boolean(),
+    isFounding: z.boolean(),
+  }),
   members: z.array(
     z.object({
       memberId: z.string().min(1, '유저를 선택해주세요.'),
@@ -39,6 +43,10 @@ export const defaultUploadValues: DefaultValues<ProjectFormType> = {
     endAt: '',
   },
   category: undefined,
+  status: {
+    isAvailable: false,
+    isFounding: false,
+  },
   members: [DEFAULT_MEMBER],
   serviceType: [],
 };

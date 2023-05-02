@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
-import { FC, forwardRef, HTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes } from 'react';
 
 import { colors } from '@/styles/colors';
 
-interface SwitchProps extends HTMLAttributes<HTMLInputElement> {
+interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   size?: { labelWidth: string; labelHeight: string; sliderWidth: string; sliderHeight: string };
 }
 
-const Switch: FC<SwitchProps> = forwardRef<HTMLInputElement, SwitchProps>(
+const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   (
     {
       size = { labelWidth: '30px', labelHeight: '18px', sliderWidth: '16.15px', sliderHeight: '15.75px' },
