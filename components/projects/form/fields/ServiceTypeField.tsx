@@ -7,10 +7,12 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const serviceType = {
+export const serviceType = {
   WEB: 'WEB',
   APP: 'APP',
 } as const;
+
+type ServiceType = keyof typeof serviceType;
 
 interface ServiceTypeFieldProps {
   className?: string;
@@ -21,7 +23,7 @@ interface ServiceTypeFieldProps {
 
 const ServiceTypeField: FC<ServiceTypeFieldProps> = ({ className, value, onChange, errorMessage }) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const serviceType = e.target.value;
+    const serviceType = e.target.value as ServiceType;
     if (e.target.checked) {
       const newValue = [...value, serviceType];
       onChange(newValue);
