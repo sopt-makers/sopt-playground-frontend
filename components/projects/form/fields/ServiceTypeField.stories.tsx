@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { useState } from 'react';
 
-import ServiceTypeField from './ServiceTypeField';
+import ServiceTypeField, { serviceType } from './ServiceTypeField';
 
 export default {
   component: ServiceTypeField,
@@ -9,5 +10,16 @@ export default {
 const Template: ComponentStory<typeof ServiceTypeField> = (args) => <ServiceTypeField {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  value: [serviceType.APP],
+  onChange: () => {
+    //
+  },
+};
 Default.storyName = '기본';
+
+export const WithState = () => {
+  const [value, onChange] = useState<string[]>([]);
+
+  return <ServiceTypeField value={value} onChange={onChange} />;
+};
