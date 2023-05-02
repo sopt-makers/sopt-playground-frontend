@@ -9,6 +9,7 @@ import CategoryField from '@/components/projects/form/fields/CategoryField';
 import GenerationField from '@/components/projects/form/fields/GenerationField';
 import MemberField from '@/components/projects/form/fields/MemberField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
+import ServiceTypeField from '@/components/projects/form/fields/ServiceTypeField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { DEFAULT_MEMBER, defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import UploadProjectProgress from '@/components/projects/form/UploadProjectProgress';
@@ -109,6 +110,13 @@ const ProjectForm: FC<ProjectFormProps> = ({
           <StyledMemberAddButton type='button' onClick={() => append(DEFAULT_MEMBER)}>
             + 추가하기
           </StyledMemberAddButton>
+        </FormEntry>
+        <FormEntry title='서비스 형태' required comment='복수 선택 가능'>
+          <Controller
+            control={control}
+            name='serviceType'
+            render={({ field }) => <ServiceTypeField {...field} errorMessage={errors.serviceType?.message} />}
+          />
         </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>

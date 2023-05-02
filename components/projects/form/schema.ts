@@ -20,6 +20,7 @@ export const uploadSchema = z.object({
       memberDescription: z.string().min(1, '어떤 역할을 맡았는지 입력해주세요.'),
     }),
   ),
+  serviceType: z.array(z.string()).nonempty('서비스 형태를 선택해주세요.'),
 });
 
 export type ProjectFormType = z.infer<typeof uploadSchema>;
@@ -39,4 +40,5 @@ export const defaultUploadValues: DefaultValues<ProjectFormType> = {
   },
   category: undefined,
   members: [DEFAULT_MEMBER],
+  serviceType: [],
 };
