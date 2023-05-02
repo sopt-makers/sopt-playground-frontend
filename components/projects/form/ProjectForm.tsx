@@ -95,7 +95,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
           />
         </FormEntry>
         <FormEntry title='팀원' required>
-          <StyledMemberFieldWrapper>
+          <StyledFieldsWrapper>
             {fields.map((field, index) => (
               <Controller
                 key={field.id}
@@ -117,7 +117,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
                 )}
               />
             ))}
-          </StyledMemberFieldWrapper>
+          </StyledFieldsWrapper>
           <StyledAddButton type='button' onClick={() => append(DEFAULT_MEMBER)}>
             + 추가하기
           </StyledAddButton>
@@ -141,25 +141,27 @@ const ProjectForm: FC<ProjectFormProps> = ({
             </>
           }
         >
-          {linkFields.map((field, index) => (
-            <Controller
-              key={field.id}
-              control={control}
-              name={`links.${index}`}
-              render={({ field }) => (
-                <LinkField
-                  {...field}
-                  onRemove={() => removeLink(index)}
-                  errorMessage={{
-                    ...(errors.links && {
-                      linkTitle: errors.links[index]?.linkTitle?.message,
-                      linkUrl: errors.links[index]?.linkUrl?.message,
-                    }),
-                  }}
-                />
-              )}
-            />
-          ))}
+          <StyledFieldsWrapper>
+            {linkFields.map((field, index) => (
+              <Controller
+                key={field.id}
+                control={control}
+                name={`links.${index}`}
+                render={({ field }) => (
+                  <LinkField
+                    {...field}
+                    onRemove={() => removeLink(index)}
+                    errorMessage={{
+                      ...(errors.links && {
+                        linkTitle: errors.links[index]?.linkTitle?.message,
+                        linkUrl: errors.links[index]?.linkUrl?.message,
+                      }),
+                    }}
+                  />
+                )}
+              />
+            ))}
+          </StyledFieldsWrapper>
           <StyledAddButton type='button' onClick={() => appendLink(DEFAULT_LINK)}>
             + 추가하기
           </StyledAddButton>
@@ -215,7 +217,7 @@ const SubmitContainer = styled.div`
   }
 `;
 
-const StyledMemberFieldWrapper = styled.div`
+const StyledFieldsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 10px;

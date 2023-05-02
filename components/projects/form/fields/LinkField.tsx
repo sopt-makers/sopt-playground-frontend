@@ -46,6 +46,13 @@ const LinkField: FC<LinkFieldProps> = ({ className, value, onChange, onRemove, e
     });
   };
 
+  const onChangeLinkUrl = (linkUrl: string) => {
+    onChange({
+      ...value,
+      linkUrl,
+    });
+  };
+
   const onEdit = () => {
     setIsEdit(true);
   };
@@ -81,6 +88,8 @@ const LinkField: FC<LinkFieldProps> = ({ className, value, onChange, onRemove, e
           </StyledFormWrapper>
           <StyledInput
             placeholder={HTTPS_PREFIX}
+            value={value.linkUrl}
+            onChange={(e) => onChangeLinkUrl(e.target.value)}
             onBlur={onBlur}
             error={!!errorMessage?.linkUrl}
             errorMessage={errorMessage?.linkUrl}
