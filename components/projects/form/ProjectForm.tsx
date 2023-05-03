@@ -5,14 +5,17 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import Responsive from '@/components/common/Responsive';
+import { DEFAULT_LINK, DEFAULT_MEMBER } from '@/components/projects/form/constants';
 import CategoryField from '@/components/projects/form/fields/CategoryField';
 import GenerationField from '@/components/projects/form/fields/GenerationField';
+import LinkField from '@/components/projects/form/fields/LinkField';
 import MemberField from '@/components/projects/form/fields/MemberField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import ServiceTypeField from '@/components/projects/form/fields/ServiceTypeField';
 import StatusField from '@/components/projects/form/fields/StatusField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
-import { DEFAULT_MEMBER, defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
+import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import UploadProjectProgress from '@/components/projects/form/UploadProjectProgress';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -39,6 +42,14 @@ const ProjectForm: FC<ProjectFormProps> = ({
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'members',
+  });
+  const {
+    fields: linkFields,
+    append: appendLink,
+    remove: removeLink,
+  } = useFieldArray({
+    control,
+    name: 'links',
   });
 
   const { errors } = formState;
@@ -88,7 +99,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
           <Controller control={control} name='status' render={({ field }) => <StatusField {...field} />} />
         </FormEntry>
         <FormEntry title='팀원' required>
-          <StyledMemberFieldWrapper>
+          <StyledFieldsWrapper>
             {fields.map((field, index) => (
               <Controller
                 key={field.id}
@@ -110,10 +121,10 @@ const ProjectForm: FC<ProjectFormProps> = ({
                 )}
               />
             ))}
-          </StyledMemberFieldWrapper>
-          <StyledMemberAddButton type='button' onClick={() => append(DEFAULT_MEMBER)}>
+          </StyledFieldsWrapper>
+          <StyledAddButton type='button' onClick={() => append(DEFAULT_MEMBER)}>
             + 추가하기
-          </StyledMemberAddButton>
+          </StyledAddButton>
         </FormEntry>
         <FormEntry title='서비스 형태' required comment='복수 선택 가능'>
           <Controller
@@ -121,6 +132,43 @@ const ProjectForm: FC<ProjectFormProps> = ({
             name='serviceType'
             render={({ field }) => <ServiceTypeField {...field} errorMessage={errors.serviceType?.message} />}
           />
+        </FormEntry>
+        <FormEntry
+          title='링크'
+          description={
+            <>
+              <Responsive only='desktop'>
+                웹사이트, 구글 플레이스토어, 앱스토어, Github, 발표영상, 관련자료, instagram 등을 자유롭게
+                업로드해주세요
+              </Responsive>
+              <Responsive only='mobile'>관련 자료를 자유롭게 업로드해주세요</Responsive>
+            </>
+          }
+        >
+          <StyledFieldsWrapper>
+            {linkFields.map((field, index) => (
+              <Controller
+                key={field.id}
+                control={control}
+                name={`links.${index}`}
+                render={({ field }) => (
+                  <LinkField
+                    {...field}
+                    onRemove={() => removeLink(index)}
+                    errorMessage={{
+                      ...(errors.links && {
+                        linkTitle: errors.links[index]?.linkTitle?.message,
+                        linkUrl: errors.links[index]?.linkUrl?.message,
+                      }),
+                    }}
+                  />
+                )}
+              />
+            ))}
+          </StyledFieldsWrapper>
+          <StyledAddButton type='button' onClick={() => appendLink(DEFAULT_LINK)}>
+            + 추가하기
+          </StyledAddButton>
         </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>
@@ -173,13 +221,13 @@ const SubmitContainer = styled.div`
   }
 `;
 
-const StyledMemberFieldWrapper = styled.div`
+const StyledFieldsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 10px;
 `;
 
-const StyledMemberAddButton = styled.button`
+const StyledAddButton = styled.button`
   display: flex;
   align-items: center;
   align-self: start;

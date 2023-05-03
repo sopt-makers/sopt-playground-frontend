@@ -1,7 +1,7 @@
 import { ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 
-import { DEFAULT_MEMBER } from '@/components/projects/form/schema';
+import { DEFAULT_MEMBER } from '@/components/projects/form/constants';
 
 import MemberField from './MemberField';
 
