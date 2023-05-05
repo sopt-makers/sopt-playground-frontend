@@ -269,7 +269,7 @@ const StyledCardWrapper = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid-template-columns: repeat(1, 1fr);
-    gap: 12px 8px;
+    gap: 0 8px;
     justify-items: stretch;
 
     & > div {
