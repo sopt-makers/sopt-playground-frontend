@@ -117,6 +117,11 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
     height: 52px;
 
     ${({ isEnd }) => isEnd && 'display: none;'}
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      top: 16px;
+      height: 67px;
+    }
   }
 `;
 
