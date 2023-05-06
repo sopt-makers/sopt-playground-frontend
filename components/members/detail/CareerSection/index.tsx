@@ -109,7 +109,7 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
 
   & > .line {
     position: absolute;
-    bottom: -62px;
+    top: 16px;
     left: 2.5px;
     border-radius: 1px;
     background-color: ${colors.gray60};
@@ -117,6 +117,10 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
     height: 52px;
 
     ${({ isEnd }) => isEnd && 'display: none;'}
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      height: 67px;
+    }
   }
 `;
 
