@@ -40,10 +40,15 @@ const Button = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.2s;
   border-radius: 50%;
   background-color: ${colors.gray100};
   width: 32px;
   height: 32px;
+
+  &:hover {
+    background-color: ${colors.gray80};
+  }
 
   & svg {
     fill: ${colors.gray30};

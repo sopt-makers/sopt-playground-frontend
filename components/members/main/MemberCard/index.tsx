@@ -22,16 +22,24 @@ interface MemberCardProps {
   onMessage?: (e: SyntheticEvent) => void;
 }
 
+const imageVariants = {
+  hover: {
+    scale: 1.1,
+  },
+};
+
 const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl, onMessage }) => {
   return (
-    <StyledMemberCard>
+    <MotionMemberCard whileHover='hover'>
       <StyledAspectRatio ratio={1 / 1}>
         <StyledImageArea>
-          {imageUrl ? (
-            <Image className='image' src={imageUrl} width={235} alt='member_image' />
-          ) : (
-            <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
-          )}
+          <ImageHolder variants={imageVariants}>
+            {imageUrl ? (
+              <Image className='image' src={imageUrl} width={235} alt='member_image' />
+            ) : (
+              <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
+            )}
+          </ImageHolder>
         </StyledImageArea>
       </StyledAspectRatio>
       <ContentArea>
@@ -53,13 +61,13 @@ const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUr
         <Intro>{intro}</Intro>
       </ContentArea>
       <StyledTooltip name={name} onClick={onMessage} />
-    </StyledMemberCard>
+    </MotionMemberCard>
   );
 };
 
 export default MemberCard;
 
-const StyledMemberCard = styled.div`
+const MotionMemberCard = styled(m.div)`
   display: grid;
   position: relative;
   grid:
@@ -68,15 +76,11 @@ const StyledMemberCard = styled.div`
     / 1fr;
   align-items: center;
   column-gap: 16px;
-  transition: box-shadow 0.3s, background-color 0.2s;
+  transition: box-shadow 0.3s;
   border-radius: 16px;
   background-color: ${colors.black90};
   padding: 24px;
   row-gap: 24px;
-
-  &:hover {
-    background-color: ${colors.black80};
-  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
@@ -97,16 +101,20 @@ const StyledAspectRatio = styled(AspectRatio.Root)`
 `;
 
 const StyledImageArea = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transform: translateZ(0);
-  margin: 0 auto;
   border-radius: 50%;
   background-color: ${colors.black60};
   width: 100%;
   height: 100%;
   overflow: hidden;
+`;
+
+const ImageHolder = styled(m.div)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  height: 100%;
 `;
 
 const ContentArea = styled.div`
