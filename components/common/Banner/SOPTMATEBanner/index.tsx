@@ -17,7 +17,10 @@ const SOPTMATEBanner: FC<SOPTMATEBannerProps> = ({}) => {
     <Container href={LINK} target='_blank'>
       <Responsive only='desktop'>
         <DesktopFrame>
-          <Title>🏃 솝커톤 SOPTMATE 모집 - YB들에게 도움을 줄 수 있는 명예회원분들을 찾고 있습니다️</Title>
+          <Title>
+            <span>🏃 솝커톤 SOPTMATE 모집 - </span>
+            <span>YB들에게 도움을 줄 수 있는 명예회원분들을 찾고 있습니다️</span>
+          </Title>
           <SubTitle>
             <Timer targetDate={TARGET_DATE} prefix='멘토 모집 마감까지 ' endMessage='☑️ 현재 모집이 마감되었습니다' />
           </SubTitle>
@@ -42,12 +45,15 @@ const Container = styled.a`
 
 const Title = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 10px;
 
   ${textStyles.SUIT_26_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
+    justify-content: space-between;
     margin-bottom: 0;
 
     ${textStyles.SUIT_20_B}
@@ -55,7 +61,6 @@ const Title = styled.div`
 `;
 
 const SubTitle = styled.div`
-  /* height: 20px; */
   white-space: pre-wrap;
 
   ${textStyles.SUIT_16_M}
