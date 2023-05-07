@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint_LEGACY/hooks';
 import AuthRequired from '@/components/auth/AuthRequired';
+import SOPTKATONBanner from '@/components/common/Banner/SOPTKATONBanner';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -16,6 +17,7 @@ const UserPage: FC = () => {
 
   return (
     <AuthRequired>
+      <SOPTKATONBanner />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
   );
