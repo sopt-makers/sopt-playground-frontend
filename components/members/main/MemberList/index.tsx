@@ -22,6 +22,8 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const PAGE_LIMIT = 30;
+const DESKTOP_ONE_MEDIA_QUERY = 'screen and (max-width: 1542px)';
+const DESKTOP_TWO_MEDIA_QUERY = 'screen and (max-width: 1200px)';
 
 interface MemberListProps {
   banner: ReactNode;
@@ -112,75 +114,72 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   return (
     <StyledContainer>
-      <StyledContent>
-        {banner}
-        <StyledMain>
+      {banner}
+      <StyledMain>
+        <Responsive only='mobile'>
+          <StyledMobileFilterWrapper>
+            <StyledMemberRoleSelect value={filter} onChange={handleSelectFilter} />
+            <GenerationSelect value={generation} onChange={handleSelectGeneration} />
+          </StyledMobileFilterWrapper>
+          <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+        </Responsive>
+        <StyledRightWrapper>
           <Responsive only='desktop'>
-            <StyledMemberRoleMenu value={filter} onSelect={handleSelectFilter} />
-          </Responsive>
-          <Responsive only='mobile'>
-            <StyledMobileFilterWrapper>
-              <StyledMemberRoleSelect value={filter} onChange={handleSelectFilter} />
-              <GenerationSelect value={generation} onChange={handleSelectGeneration} />
-            </StyledMobileFilterWrapper>
-            <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
-          </Responsive>
-          <StyledRightWrapper>
-            <Responsive only='desktop'>
+            <StyledTopWrapper>
               <StyledFilterWrapper>
                 <GenerationSelect value={generation} onChange={handleSelectGeneration} />
-                <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
               </StyledFilterWrapper>
-            </Responsive>
-            <StyledCardWrapper>
-              {profiles?.map((profiles, index) => (
-                <React.Fragment key={index}>
-                  {profiles.map((profile) => {
-                    const sorted = [...profile.activities].sort((a, b) => b.generation - a.generation);
-                    const badges = sorted.map((activity) => ({
-                      content: `${activity.generation}기 ${activity.part}`,
-                      isActive: activity.generation === LATEST_GENERATION,
-                    }));
+              <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+            </StyledTopWrapper>
+          </Responsive>
 
-                    const belongs =
-                      profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
+          <StyledCardWrapper>
+            {profiles?.map((profiles, index) => (
+              <React.Fragment key={index}>
+                {profiles.map((profile) => {
+                  const sorted = [...profile.activities].sort((a, b) => b.generation - a.generation);
+                  const badges = sorted.map((activity) => ({
+                    content: `${activity.generation}기 ${activity.part}`,
+                    isActive: activity.generation === LATEST_GENERATION,
+                  }));
 
-                    return (
-                      <Link
-                        key={profile.id}
-                        href={playgroundLink.memberDetail(profile.id)}
-                        onClick={() => handleClickCard(profile)}
-                      >
-                        <StyledMemberCard
-                          name={profile.name}
-                          belongs={belongs}
-                          badges={badges}
-                          intro={profile.introduction}
-                          imageUrl={profile.profileImage}
-                          onMessage={(e) => {
-                            e.preventDefault();
-                            setMessageModalState({
-                              show: true,
-                              data: {
-                                targetId: `${profile.id}`,
-                                name: profile.name,
-                                profileUrl: profile.profileImage,
-                              },
-                            });
-                          }}
-                        />
-                        <Responsive only='mobile'>
-                          <HLine />
-                        </Responsive>
-                      </Link>
-                    );
-                  })}
-                </React.Fragment>
-              ))}
-            </StyledCardWrapper>
-          </StyledRightWrapper>
-        </StyledMain>
-      </StyledContent>
+                  const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
+
+                  return (
+                    <Link
+                      key={profile.id}
+                      href={playgroundLink.memberDetail(profile.id)}
+                      onClick={() => handleClickCard(profile)}
+                    >
+                      <MemberCard
+                        name={profile.name}
+                        belongs={belongs}
+                        badges={badges}
+                        intro={profile.introduction}
+                        imageUrl={profile.profileImage}
+                        onMessage={(e) => {
+                          e.preventDefault();
+                          setMessageModalState({
+                            show: true,
+                            data: {
+                              targetId: `${profile.id}`,
+                              name: profile.name,
+                              profileUrl: profile.profileImage,
+                            },
+                          });
+                        }}
+                      />
+                      <Responsive only='mobile'>
+                        <HLine />
+                      </Responsive>
+                    </Link>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+          </StyledCardWrapper>
+        </StyledRightWrapper>
+      </StyledMain>
       <Target ref={ref} />
       {messageModalState.show && (
         <MessageModal
@@ -200,13 +199,9 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding-bottom: 100px;
   overflow: scroll;
-`;
-
-const StyledContent = styled.div`
-  width: 100%;
-  max-width: 1000px;
 `;
 
 const StyledMain = styled.main`
@@ -240,31 +235,59 @@ const StyledMobileFilterWrapper = styled.div`
   }
 `;
 
-const StyledFilterWrapper = styled.div`
+const StyledTopWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    display: grid;
+    grid:
+      [row1-start] 'search' [row1-end]
+      [row2-start] 'filter' [row2-end]
+      / 1fr;
+  }
+`;
+
+const StyledFilterWrapper = styled.div`
+  display: flex;
+  column-gap: 10px;
+
+  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    grid-area: 'filter';
+    order: 2;
+    margin-top: 35px;
+  }
 `;
 
 const StyledMemberSearch = styled(MemberSearch)`
   max-width: 330px;
 
+  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    grid-area: 'search';
+    order: 1;
+    max-width: 100%;
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
     width: 100%;
-    max-width: 100%;
   }
 `;
 
 const StyledCardWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(auto, 303px));
+  gap: 30px;
   align-items: center;
   justify-items: stretch;
   margin-top: 28px;
 
-  @media screen and (max-width: 1000px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media ${DESKTOP_ONE_MEDIA_QUERY} {
+    grid-template-columns: repeat(3, minmax(auto, 303px));
+  }
+
+  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    grid-template-columns: repeat(2, minmax(auto, 303px));
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -278,10 +301,6 @@ const StyledCardWrapper = styled.div`
   }
 `;
 
-const StyledMemberCard = styled(MemberCard)`
-  width: 100%;
-`;
-
 const HLine = styled.hr`
   margin: 0;
   border: 0;
@@ -289,16 +308,10 @@ const HLine = styled.hr`
   padding: 0;
 `;
 
-const StyledMemberRoleMenu = styled(MemberRoleMenu)`
-  min-width: 225px;
-`;
-
 const StyledMemberRoleSelect = styled(MemberRoleSelect)`
   flex: 1;
   width: 100%;
   min-width: 0;
-
-  /* height: 54px; */
 `;
 
 const Target = styled.div`
