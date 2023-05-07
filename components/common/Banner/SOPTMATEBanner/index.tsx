@@ -7,12 +7,12 @@ import Responsive from '@/components/common/Responsive';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface SOPKathonBannerProps {}
+interface SOPTMATEBannerProps {}
 
 const LINK = 'GOOGLE_FORM_LINK';
 const TARGET_DATE = dayjs('2023-05-11T15:00:00.000Z').toDate(); // 한국시간 2023-05-12 00:00
 
-const SOPKathonBanner: FC<SOPKathonBannerProps> = ({}) => {
+const SOPTMATEBanner: FC<SOPTMATEBannerProps> = ({}) => {
   return (
     <Container href={LINK} target='_blank'>
       <Responsive only='desktop'>
@@ -33,7 +33,7 @@ const SOPKathonBanner: FC<SOPKathonBannerProps> = ({}) => {
   );
 };
 
-export default SOPKathonBanner;
+export default SOPTMATEBanner;
 
 const Container = styled.a`
   display: block;
