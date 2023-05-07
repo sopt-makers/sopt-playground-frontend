@@ -201,7 +201,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 100px;
-  min-height: 101vh;
+  overflow: scroll;
 `;
 
 const StyledContent = styled.div`
