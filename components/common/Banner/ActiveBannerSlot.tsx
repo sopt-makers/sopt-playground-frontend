@@ -9,7 +9,7 @@ const ActiveBannerSlot: FC<ActiveBannerSlotProps> = ({}) => {
   return (
     <StyledActiveBanner>
       {/* 이 안에 노출할 배너를 넣으세요. */}
-      <SOPTMATEBanner />
+      {/* <SOPTMATEBanner /> */}
       {/* ==== */}
     </StyledActiveBanner>
   );
