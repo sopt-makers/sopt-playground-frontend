@@ -23,7 +23,10 @@ const SOPTMATEBanner: FC<SOPTMATEBannerProps> = ({}) => {
             <span>YB들에게 도움을 줄 수 있는 명예회원분들을 찾고 있습니다️</span>
           </Title>
           <SubTitle>
-            <Timer targetDate={TARGET_DATE} prefix='멘토 모집 마감까지 ' endMessage='☑️ 현재 모집이 마감되었습니다' />
+            <span>
+              <Timer targetDate={TARGET_DATE} prefix='멘토 모집 마감까지 ' endMessage='☑️ 현재 모집이 마감되었습니다' />
+            </span>
+            <span>{'>'}</span>
           </SubTitle>
         </DesktopFrame>
       </Responsive>
@@ -62,6 +65,9 @@ const Title = styled.div`
 `;
 
 const SubTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 230px;
   white-space: pre-wrap;
 
   ${textStyles.SUIT_16_M}
