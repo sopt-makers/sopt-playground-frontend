@@ -10,14 +10,27 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
-import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
-import { MemberRoleMenu, MemberRoleSelect, menuValue } from '@/components/members/main/MemberList/MemberRoleMenu';
+import {
+  GENERATION_DEFAULT_OPTION,
+  GENERATION_OPTIONS,
+  MBTI_OPTIONS,
+  SOJU_CAPACITY_OPTIONS,
+  TEAM_OPTIONS,
+} from '@/components/members/main/MemberList/filters/constants';
+import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
+import {
+  MemberRoleMenu,
+  MemberRoleSelect,
+  MENUS,
+  menuValue,
+} from '@/components/members/main/MemberList/MemberRoleMenu';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
+import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -119,7 +132,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         <Responsive only='mobile'>
           <StyledMobileFilterWrapper>
             <StyledMemberRoleSelect value={filter} onChange={handleSelectFilter} />
-            <GenerationSelect value={generation} onChange={handleSelectGeneration} />
+            <MemberListFilter
+              placeholder='기수'
+              defaultOption={GENERATION_DEFAULT_OPTION}
+              options={GENERATION_OPTIONS}
+              value={generation}
+              onChange={handleSelectGeneration}
+            />
           </StyledMobileFilterWrapper>
           <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
         </Responsive>
@@ -127,7 +146,24 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           <Responsive only='desktop'>
             <StyledTopWrapper>
               <StyledFilterWrapper>
-                <GenerationSelect value={generation} onChange={handleSelectGeneration} />
+                <MemberListFilter
+                  placeholder='기수'
+                  defaultOption={GENERATION_DEFAULT_OPTION}
+                  options={GENERATION_OPTIONS}
+                  value={generation}
+                  onChange={handleSelectGeneration}
+                />
+                <MemberListFilter placeholder='파트' options={MENUS.map(({ label, value }) => ({ label, value }))} />
+                <MemberListFilter placeholder='활동' options={TEAM_OPTIONS}>
+                  <Link href={playgroundLink.makers()}>
+                    <StyledMakersLink>
+                      메이커스
+                      <IconDiagonalArrow />
+                    </StyledMakersLink>
+                  </Link>
+                </MemberListFilter>
+                <MemberListFilter placeholder='MBTI' options={MBTI_OPTIONS} />
+                <MemberListFilter placeholder='주량' options={SOJU_CAPACITY_OPTIONS} />
               </StyledFilterWrapper>
               <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
             </StyledTopWrapper>
@@ -256,6 +292,24 @@ const StyledFilterWrapper = styled.div`
     grid-area: 'filter';
     order: 2;
     margin-top: 35px;
+  }
+`;
+
+const StyledMakersLink = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.2s background-color 0.2s;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: ${colors.gray40};
+
+  &:hover {
+    outline: none;
+    background-color: ${colors.black40};
+    color: ${colors.white};
   }
 `;
 
