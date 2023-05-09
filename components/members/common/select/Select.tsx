@@ -148,7 +148,7 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
   cursor: pointer;
   padding: 14px 20px;
   width: 100%;
-  color: ${colors.gray80};
+  color: ${colors.gray40};
 
   ${({ error }) =>
     error &&
@@ -180,7 +180,7 @@ const StyledContent = styled(Select.Content)`
   margin-top: 4px;
   border-radius: 12px;
   background: ${colors.black60};
-  padding: 8px;
+  padding: 7px;
   width: var(--radix-select-trigger-width);
   max-height: 262px;
   overflow: scroll;
@@ -250,11 +250,11 @@ const StyledThumb = styled(ScrollArea.Thumb)`
   }
 `;
 
-interface SelectItemProps {
+interface SelectItemProps extends Select.SelectItemTextProps {
   value: string;
   disabled?: boolean;
 }
-const SelectItem: FC<PropsWithChildren<SelectItemProps>> = ({ value: valueProp, children, disabled }) => {
+const SelectItem: FC<PropsWithChildren<SelectItemProps>> = ({ value: valueProp, children, disabled, ...props }) => {
   const { value, onChangeLabel } = useSelectContext();
 
   useEffect(() => {
@@ -264,7 +264,7 @@ const SelectItem: FC<PropsWithChildren<SelectItemProps>> = ({ value: valueProp, 
   }, [value, valueProp, children, onChangeLabel]);
 
   return (
-    <StyledItem value={valueProp} disabled={disabled} onClick={(e) => e.stopPropagation()}>
+    <StyledItem value={valueProp} disabled={disabled} onClick={(e) => e.stopPropagation()} {...props}>
       <Select.ItemText>{children}</Select.ItemText>
     </StyledItem>
   );
@@ -277,7 +277,7 @@ const StyledItem = styled(Select.Item)`
   cursor: pointer;
   padding: 5px 10px;
   width: 100%;
-  color: ${colors.gray80};
+  color: ${colors.gray40};
 
   &[data-highlighted] {
     outline: none;
