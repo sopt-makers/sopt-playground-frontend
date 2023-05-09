@@ -9,7 +9,8 @@ import { textStyles } from '@/styles/typography';
 
 interface SOPTMATEBannerProps {}
 
-const LINK = 'GOOGLE_FORM_LINK';
+const LINK =
+  'https://docs.google.com/forms/d/e/1FAIpQLScrbpnL6Fas7hzHoKLFCoeQw4I-XYO5V8S_lpP7v5rzU64BfA/viewform?usp=sf_link';
 const TARGET_DATE = dayjs('2023-05-11T15:00:00.000Z').toDate(); // 한국시간 2023-05-12 00:00
 
 const SOPTMATEBanner: FC<SOPTMATEBannerProps> = ({}) => {
