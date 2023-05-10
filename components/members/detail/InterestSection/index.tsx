@@ -91,11 +91,11 @@ const InterestSection: FC<InterestSectionProps> = ({
       )}
       {isBalanceGameAvailable && (
         <InfoItem label='나는 어느 쪽?'>
-          <BalanceGame>
+          <BalanceGameWrapper>
             {balanceGameResults?.map((balanceGameResult, index) => (
               <BalanceGameItem key={index}>{balanceGameResult}</BalanceGameItem>
             ))}
-          </BalanceGame>
+          </BalanceGameWrapper>
         </InfoItem>
       )}
       {idealType && (
@@ -161,7 +161,7 @@ const SelfIntroductionDescription = styled(Description)`
   white-space: pre-line;
 `;
 
-const BalanceGame = styled.div`
+const BalanceGameWrapper = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
