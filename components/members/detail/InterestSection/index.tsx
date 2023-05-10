@@ -163,12 +163,14 @@ const SelfIntroductionDescription = styled(Description)`
 
 const BalanceGameWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
   margin-top: 16px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 12px;
+    max-width: 236px;
   }
 `;
 
