@@ -436,9 +436,11 @@ const StyledAddressBadgeWrapper = styled.div`
 
 const AddressBadge = styled.div`
   border-radius: 13px;
-  background: ${colors.black40};
+  background-color: ${colors.black40};
   padding: 6px 14px;
+  line-height: 16px;
   color: ${colors.white};
+
   ${textStyles.SUIT_14_M};
 `;
 
