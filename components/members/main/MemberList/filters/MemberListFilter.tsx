@@ -18,7 +18,7 @@ interface MemberListFilterProps<T> {
   defaultOption?: Option<T>;
   placeholder?: string;
   options: Option<T>[];
-  onChange?: (value?: string) => void;
+  onChange?: (value: string) => void;
 }
 export function MemberListFilter<T extends string>({
   className,
