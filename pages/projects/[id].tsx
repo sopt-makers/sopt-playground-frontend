@@ -1,4 +1,3 @@
-import _uniqBy from 'lodash/uniqBy';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
