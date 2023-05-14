@@ -21,6 +21,7 @@ import {
   TEAM_OPTIONS,
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
+import { useHorizontalScroll } from '@/components/members/main/MemberList/filters/useHorizontalScroll';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
@@ -37,18 +38,9 @@ const PAGE_LIMIT = 30;
 const DESKTOP_ONE_MEDIA_QUERY = 'screen and (max-width: 1542px)';
 const DESKTOP_TWO_MEDIA_QUERY = 'screen and (max-width: 1200px)';
 
-const MemberListFilterRoot = dynamic(() => import('./filters/MemberListFilterSheet').then((comp) => comp.default), {
+const MemberListFilterSheet = dynamic(() => import('./filters/MemberListFilterSheet').then((comp) => comp.default), {
   ssr: false,
 });
-const MemberListFilterSheet = dynamic(
-  () => import('./filters/MemberListFilterSheet').then((comp) => comp.default.Sheet),
-  { ssr: false },
-);
-const MemberListFilterTrigger = dynamic(
-  () => import('./filters/MemberListFilterSheet').then((comp) => comp.default.Trigger),
-  { ssr: false },
-);
-
 interface MemberListProps {
   banner: ReactNode;
 }
@@ -75,6 +67,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   const [name, setName] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
+  const horizontalScrollProps = useHorizontalScroll();
 
   const router = useRouter();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
@@ -164,23 +157,71 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       <StyledMain>
         <Responsive only='mobile'>
           <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
-          <StyledMobileFilterWrapper>
-            <StyledMobileFilter>
-              <MemberListFilterTrigger
-                render={(placeholder) => (
-                  <SelectButton>
-                    {placeholder ?? '기수'}
-                    <IconExpand />
-                  </SelectButton>
-                )}
-              />
-              <MemberListFilterSheet
-                value={generation}
-                onChange={handleSelectGeneration}
-                options={GENERATION_OPTIONS}
-                defaultOption={GENERATION_DEFAULT_OPTION}
-              />
-            </StyledMobileFilter>
+          <StyledMobileFilterWrapper {...horizontalScrollProps}>
+            <StyledMobileFilter
+              value={generation}
+              onChange={handleSelectGeneration}
+              options={GENERATION_OPTIONS}
+              defaultOption={GENERATION_DEFAULT_OPTION}
+              placeholder='기수'
+              trigger={(placeholder) => (
+                <SelectButton>
+                  {placeholder}
+                  <IconExpand />
+                </SelectButton>
+              )}
+            />
+            <StyledMobileFilter
+              placeholder='파트'
+              value={part}
+              onChange={handleSelectPart}
+              options={PART_OPTIONS}
+              trigger={(placeholder) => (
+                <SelectButton>
+                  {placeholder}
+                  <IconExpand />
+                </SelectButton>
+              )}
+            />
+            <StyledMobileFilter
+              options={TEAM_OPTIONS}
+              value={team}
+              onChange={handleSelectTeam}
+              defaultOption={FILTER_DEFAULT_OPTION}
+              placeholder='활동'
+              trigger={(placeholder) => (
+                <SelectButton>
+                  {placeholder}
+                  <IconExpand />
+                </SelectButton>
+              )}
+            />
+            <StyledMobileFilter
+              placeholder='MBTI'
+              defaultOption={FILTER_DEFAULT_OPTION}
+              options={MBTI_OPTIONS}
+              value={mbti}
+              onChange={handleSelectMbti}
+              trigger={(placeholder) => (
+                <SelectButton>
+                  {placeholder}
+                  <IconExpand />
+                </SelectButton>
+              )}
+            />
+            <StyledMobileFilter
+              placeholder='주량'
+              defaultOption={FILTER_DEFAULT_OPTION}
+              options={SOJU_CAPACITY_OPTIONS}
+              value={sojuCapactiy}
+              onChange={handleSelectSojuCapacity}
+              trigger={(placeholder) => (
+                <SelectButton>
+                  {placeholder}
+                  <IconExpand />
+                </SelectButton>
+              )}
+            />
           </StyledMobileFilterWrapper>
         </Responsive>
         <StyledRightWrapper>
@@ -325,9 +366,16 @@ const StyledMobileFilterWrapper = styled.div`
   gap: 10px;
   align-items: center;
   margin-top: 17px;
+  max-width: 355px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
 
-  & > * {
-    flex: 1;
+  /* to disable scroll bar */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
   }
 `;
 
@@ -427,7 +475,7 @@ const Target = styled.div`
   height: 40px;
 `;
 
-const StyledMobileFilter = styled(MemberListFilterRoot)`
+const StyledMobileFilter = styled(MemberListFilterSheet)`
   flex: none;
 `;
 
@@ -439,7 +487,7 @@ const SelectButton = styled.button`
   border-radius: 20.5px;
   background: ${colors.black60};
   padding: 8px 12px;
-  width: 76px;
+  min-width: 76px;
   height: 32px;
   color: ${colors.gray40};
 
