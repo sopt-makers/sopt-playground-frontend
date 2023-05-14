@@ -366,7 +366,7 @@ const StyledMobileFilterWrapper = styled.div`
   gap: 10px;
   align-items: center;
   margin-top: 17px;
-  max-width: 355px;
+  max-width: 375px;
   overflow-x: auto;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
