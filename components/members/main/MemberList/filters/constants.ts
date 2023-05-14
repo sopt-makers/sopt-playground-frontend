@@ -1,10 +1,8 @@
-import { ReactNode } from 'react';
-
 import { GENERATIONS } from '@/constants/generation';
 
 type Option<T = string> = {
   value: T;
-  label: ReactNode;
+  label: string;
 };
 export const partValue = {
   PM: '1',
@@ -15,7 +13,7 @@ export const partValue = {
   iOS: '6',
 } as const;
 
-export const FILTER_DEFAULT_OPTION = {
+export const FILTER_DEFAULT_OPTION: Option = {
   value: '',
   label: '전체',
 };
