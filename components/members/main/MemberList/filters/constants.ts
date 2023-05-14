@@ -6,7 +6,7 @@ type Option<T = string> = {
   value: T;
   label: ReactNode;
 };
-export const partValue = {
+const PART_VALUE = {
   PM: '1',
   DESIGN: '2',
   WEB: '3',
@@ -27,27 +27,27 @@ export const PART_OPTIONS: Option[] = [
   },
   {
     label: 'PM',
-    value: partValue.PM,
+    value: PART_VALUE.PM,
   },
   {
     label: '디자인',
-    value: partValue.DESIGN,
+    value: PART_VALUE.DESIGN,
   },
   {
     label: 'WEB',
-    value: partValue.WEB,
+    value: PART_VALUE.WEB,
   },
   {
     label: 'SERVER',
-    value: partValue.SERVER,
+    value: PART_VALUE.SERVER,
   },
   {
     label: 'Android',
-    value: partValue.ANDROID,
+    value: PART_VALUE.ANDROID,
   },
   {
     label: 'iOS',
-    value: partValue.iOS,
+    value: PART_VALUE.iOS,
   },
 ];
 
