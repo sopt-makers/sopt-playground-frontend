@@ -337,7 +337,7 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding-bottom: 100px;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const StyledMain = styled.main`
