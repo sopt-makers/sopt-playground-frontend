@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
-import { FC, PropsWithChildren, ReactNode, useState } from 'react';
+import { FC, PropsWithChildren, ReactNode, useMemo, useState } from 'react';
 import ReactModalSheet from 'react-modal-sheet';
 
 import IconCheck from '@/public/icons/icon-filter-check.svg';
@@ -30,7 +30,7 @@ const MemberListFilterSheet: FC<PropsWithChildren<MemberListFilterSheetProps>> =
   onChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [label, onChangeLabel] = useState<Option['label']>();
+  const currentOption = useMemo(() => options.find((option) => option.value === value), [options, value]);
 
   const onClose = () => {
     setIsOpen(false);
@@ -42,13 +42,12 @@ const MemberListFilterSheet: FC<PropsWithChildren<MemberListFilterSheetProps>> =
 
   const onSelect = (option: Option) => {
     onChange(option.value);
-    onChangeLabel(option.label);
     onClose();
   };
 
   return (
     <>
-      {<Slot onClick={onOpen}>{trigger(label || placeholder)}</Slot>}
+      {<Slot onClick={onOpen}>{trigger(currentOption?.label ?? placeholder)}</Slot>}
       <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height'>
         <ReactModalSheet.Container>
           <ReactModalSheet.Header />
