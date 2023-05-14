@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { uniq } from 'lodash-es';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
@@ -27,12 +28,26 @@ import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
+import IconExpand from '@/public/icons/icon-expand-less.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 const PAGE_LIMIT = 30;
 const DESKTOP_ONE_MEDIA_QUERY = 'screen and (max-width: 1542px)';
 const DESKTOP_TWO_MEDIA_QUERY = 'screen and (max-width: 1200px)';
+
+const MemberListFilterRoot = dynamic(() => import('./filters/MemberListFilterSheet').then((comp) => comp.default), {
+  ssr: false,
+});
+const MemberListFilterSheet = dynamic(
+  () => import('./filters/MemberListFilterSheet').then((comp) => comp.default.Sheet),
+  { ssr: false },
+);
+const MemberListFilterTrigger = dynamic(
+  () => import('./filters/MemberListFilterSheet').then((comp) => comp.default.Trigger),
+  { ssr: false },
+);
 
 interface MemberListProps {
   banner: ReactNode;
@@ -148,16 +163,25 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       {banner}
       <StyledMain>
         <Responsive only='mobile'>
-          <StyledMobileFilterWrapper>
-            <MemberListFilter
-              placeholder='기수'
-              defaultOption={GENERATION_DEFAULT_OPTION}
-              options={GENERATION_OPTIONS}
-              value={generation}
-              onChange={handleSelectGeneration}
-            />
-          </StyledMobileFilterWrapper>
           <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+          <StyledMobileFilterWrapper>
+            <StyledMobileFilter>
+              <MemberListFilterTrigger
+                render={(placeholder) => (
+                  <SelectButton>
+                    {placeholder ?? '기수'}
+                    <IconExpand />
+                  </SelectButton>
+                )}
+              />
+              <MemberListFilterSheet
+                value={generation}
+                onChange={handleSelectGeneration}
+                options={GENERATION_OPTIONS}
+                defaultOption={GENERATION_DEFAULT_OPTION}
+              />
+            </StyledMobileFilter>
+          </StyledMobileFilterWrapper>
         </Responsive>
         <StyledRightWrapper>
           <Responsive only='desktop'>
@@ -299,7 +323,8 @@ const StyledRightWrapper = styled.div`
 const StyledMobileFilterWrapper = styled.div`
   display: flex;
   gap: 10px;
-  height: 54px;
+  align-items: center;
+  margin-top: 17px;
 
   & > * {
     flex: 1;
@@ -400,4 +425,23 @@ const HLine = styled.hr`
 const Target = styled.div`
   width: 100%;
   height: 40px;
+`;
+
+const StyledMobileFilter = styled(MemberListFilterRoot)`
+  flex: none;
+`;
+
+const SelectButton = styled.button`
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20.5px;
+  background: ${colors.black60};
+  padding: 8px 12px;
+  width: 76px;
+  height: 32px;
+  color: ${colors.gray40};
+
+  ${textStyles.SUIT_13_M};
 `;
