@@ -165,10 +165,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               defaultOption={GENERATION_DEFAULT_OPTION}
               placeholder='기수'
               trigger={(placeholder) => (
-                <SelectButton>
+                <MobileFilterTrigger>
                   {placeholder}
                   <IconExpand />
-                </SelectButton>
+                </MobileFilterTrigger>
               )}
             />
             <StyledMobileFilter
@@ -177,10 +177,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               onChange={handleSelectPart}
               options={PART_OPTIONS}
               trigger={(placeholder) => (
-                <SelectButton>
+                <MobileFilterTrigger>
                   {placeholder}
                   <IconExpand />
-                </SelectButton>
+                </MobileFilterTrigger>
               )}
             />
             <StyledMobileFilter
@@ -190,10 +190,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               defaultOption={FILTER_DEFAULT_OPTION}
               placeholder='활동'
               trigger={(placeholder) => (
-                <SelectButton>
+                <MobileFilterTrigger>
                   {placeholder}
                   <IconExpand />
-                </SelectButton>
+                </MobileFilterTrigger>
               )}
             />
             <StyledMobileFilter
@@ -203,10 +203,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               value={mbti}
               onChange={handleSelectMbti}
               trigger={(placeholder) => (
-                <SelectButton>
+                <MobileFilterTrigger>
                   {placeholder}
                   <IconExpand />
-                </SelectButton>
+                </MobileFilterTrigger>
               )}
             />
             <StyledMobileFilter
@@ -216,10 +216,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               value={sojuCapactiy}
               onChange={handleSelectSojuCapacity}
               trigger={(placeholder) => (
-                <SelectButton>
+                <MobileFilterTrigger>
                   {placeholder}
                   <IconExpand />
-                </SelectButton>
+                </MobileFilterTrigger>
               )}
             />
           </StyledMobileFilterWrapper>
@@ -479,7 +479,7 @@ const StyledMobileFilter = styled(MemberListFilterSheet)`
   flex: none;
 `;
 
-const SelectButton = styled.button`
+const MobileFilterTrigger = styled.button`
   display: flex;
   flex: none;
   align-items: center;
