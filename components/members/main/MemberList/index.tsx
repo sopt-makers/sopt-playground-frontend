@@ -10,14 +10,23 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
-import GenerationSelect from '@/components/members/main/MemberList/GenerationSelect';
-import { MemberRoleMenu, MemberRoleSelect, menuValue } from '@/components/members/main/MemberList/MemberRoleMenu';
+import {
+  FILTER_DEFAULT_OPTION,
+  GENERATION_DEFAULT_OPTION,
+  GENERATION_OPTIONS,
+  MBTI_OPTIONS,
+  PART_OPTIONS,
+  SOJU_CAPACITY_OPTIONS,
+  TEAM_OPTIONS,
+} from '@/components/members/main/MemberList/filters/constants';
+import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
+import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -44,7 +53,11 @@ type MessageModalState =
 
 const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
-  const [filter, setFilter] = useState<string>(menuValue.ALL);
+  const [part, setPart] = useState<string | undefined>(undefined);
+  const [sojuCapactiy, setSojuCapactiy] = useState<string | undefined>(undefined);
+  const [team, setTeam] = useState<string | undefined>(undefined);
+  const [mbti, setMbti] = useState<string | undefined>(undefined);
+
   const [name, setName] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
@@ -83,26 +96,44 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, filter, name } = router.query;
+      const { generation, filter, name, sojuCapactiy, team, mbti } = router.query;
       if (typeof generation === 'string' || generation === undefined) {
         setGeneration(generation);
       }
-      if (typeof filter === 'string') {
-        setFilter(filter);
+      if (typeof filter === 'string' || filter === undefined) {
+        setPart(filter);
       }
       if (typeof name === 'string') {
         setName(name);
       }
+      if (typeof team === 'string' || team === undefined) {
+        setTeam(team);
+      }
+      if (typeof mbti === 'string' || mbti === undefined) {
+        setMbti(mbti);
+      }
+      if (typeof sojuCapactiy === 'string' || sojuCapactiy === undefined) {
+        setSojuCapactiy(sojuCapactiy);
+      }
     }
   }, [router.isReady, router.query, router]);
 
-  const handleSelectFilter = (filter: string) => {
+  const handleSelectPart = (filter: string) => {
     addQueryParamsToUrl({ filter });
     logClickEvent('filterPart', { part: filter });
   };
   const handleSelectGeneration = (generation: string | undefined) => {
     addQueryParamsToUrl({ generation });
     logClickEvent('filterGeneration', { generation: generation ?? 'all' });
+  };
+  const handleSelectTeam = (team: string) => {
+    addQueryParamsToUrl({ team });
+  };
+  const handleSelectMbti = (mbti: string) => {
+    addQueryParamsToUrl({ mbti });
+  };
+  const handleSelectSojuCapacity = (sojuCapactiy: string) => {
+    addQueryParamsToUrl({ sojuCapactiy });
   };
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ name: searchQuery });
@@ -118,8 +149,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       <StyledMain>
         <Responsive only='mobile'>
           <StyledMobileFilterWrapper>
-            <StyledMemberRoleSelect value={filter} onChange={handleSelectFilter} />
-            <GenerationSelect value={generation} onChange={handleSelectGeneration} />
+            <MemberListFilter
+              placeholder='기수'
+              defaultOption={GENERATION_DEFAULT_OPTION}
+              options={GENERATION_OPTIONS}
+              value={generation}
+              onChange={handleSelectGeneration}
+            />
           </StyledMobileFilterWrapper>
           <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
         </Responsive>
@@ -127,7 +163,42 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           <Responsive only='desktop'>
             <StyledTopWrapper>
               <StyledFilterWrapper>
-                <GenerationSelect value={generation} onChange={handleSelectGeneration} />
+                <MemberListFilter
+                  placeholder='기수'
+                  defaultOption={GENERATION_DEFAULT_OPTION}
+                  options={GENERATION_OPTIONS}
+                  value={generation}
+                  onChange={handleSelectGeneration}
+                />
+                <MemberListFilter placeholder='파트' value={part} onChange={handleSelectPart} options={PART_OPTIONS} />
+                <MemberListFilter
+                  placeholder='활동'
+                  options={TEAM_OPTIONS}
+                  value={team}
+                  onChange={handleSelectTeam}
+                  defaultOption={FILTER_DEFAULT_OPTION}
+                >
+                  <Link href={playgroundLink.makers()}>
+                    <StyledMakersLink>
+                      메이커스
+                      <IconDiagonalArrow />
+                    </StyledMakersLink>
+                  </Link>
+                </MemberListFilter>
+                <MemberListFilter
+                  placeholder='MBTI'
+                  defaultOption={FILTER_DEFAULT_OPTION}
+                  options={MBTI_OPTIONS}
+                  value={mbti}
+                  onChange={handleSelectMbti}
+                />
+                <MemberListFilter
+                  placeholder='주량'
+                  defaultOption={FILTER_DEFAULT_OPTION}
+                  options={SOJU_CAPACITY_OPTIONS}
+                  value={sojuCapactiy}
+                  onChange={handleSelectSojuCapacity}
+                />
               </StyledFilterWrapper>
               <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
             </StyledTopWrapper>
@@ -259,6 +330,24 @@ const StyledFilterWrapper = styled.div`
   }
 `;
 
+const StyledMakersLink = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.2s background-color 0.2s;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: ${colors.gray40};
+
+  &:hover {
+    outline: none;
+    background-color: ${colors.black40};
+    color: ${colors.white};
+  }
+`;
+
 const StyledMemberSearch = styled(MemberSearch)`
   max-width: 330px;
 
@@ -306,12 +395,6 @@ const HLine = styled.hr`
   border: 0;
   border-bottom: 1px solid ${colors.black80};
   padding: 0;
-`;
-
-const StyledMemberRoleSelect = styled(MemberRoleSelect)`
-  flex: 1;
-  width: 100%;
-  min-width: 0;
 `;
 
 const Target = styled.div`
