@@ -113,3 +113,22 @@ export const SOJU_CAPACITY_OPTIONS: Option[] = [
   { value: '2.5', label: '2.5병' },
   { value: '3', label: '3병 이상' },
 ];
+
+export const ORDER_OPTIONS: Option[] = [
+  {
+    value: '1',
+    label: '최근에 등록했순',
+  },
+  {
+    value: '2',
+    label: '예전에 등록했순',
+  },
+  {
+    value: '3',
+    label: '최근에 활동했순',
+  },
+  {
+    value: '4',
+    label: '예전에 활동했순',
+  },
+];

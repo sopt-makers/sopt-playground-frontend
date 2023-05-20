@@ -27,6 +27,7 @@ export type Profile = {
 export type PagedMemberProfile = {
   members: Profile[];
   hasNext: boolean;
+  totalMembersCount: number;
 };
 
 export type ProfileDetail = {

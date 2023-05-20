@@ -8,7 +8,9 @@ import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { Profile } from '@/api/endpoint_LEGACY/members/type';
 import Responsive from '@/components/common/Responsive';
+import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import OrderBySelect from '@/components/members/common/select/OrderBySelect';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
@@ -17,6 +19,7 @@ import {
   GENERATION_DEFAULT_OPTION,
   GENERATION_OPTIONS,
   MBTI_OPTIONS,
+  ORDER_OPTIONS,
   PART_OPTIONS,
   SOJU_CAPACITY_OPTIONS,
   TEAM_OPTIONS,
@@ -29,6 +32,7 @@ import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
+import IconArrowUpDown from '@/public/icons/icon-arrow-up-down.svg';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import IconExpand from '@/public/icons/icon-expand-less.svg';
 import { colors } from '@/styles/colors';
@@ -65,6 +69,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [sojuCapactiy, setSojuCapactiy] = useState<string | undefined>(undefined);
   const [team, setTeam] = useState<string | undefined>(undefined);
   const [mbti, setMbti] = useState<string | undefined>(undefined);
+  const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
 
   const [name, setName] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
@@ -105,7 +110,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, filter, name, sojuCapactiy, team, mbti } = router.query;
+      const { generation, filter, name, sojuCapactiy, team, mbti, orderBy } = router.query;
       if (typeof generation === 'string' || generation === undefined) {
         setGeneration(generation);
       }
@@ -123,6 +128,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       }
       if (typeof sojuCapactiy === 'string' || sojuCapactiy === undefined) {
         setSojuCapactiy(sojuCapactiy);
+      }
+      if (typeof orderBy === 'string') {
+        setOrderBy(orderBy);
       }
     }
   }, [router.isReady, router.query, router]);
@@ -151,6 +159,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const handleClickCard = (profile: Profile) => {
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
+  const handleSelectOrderBy = (orderBy: string) => {
+    addQueryParamsToUrl({ orderBy });
+  };
+
+  if (!memberProfileData) {
+    return null;
+  }
 
   return (
     <StyledContainer>
@@ -229,51 +244,112 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             />
           </StyledMobileFilterWrapper>
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+              margin-top: 30px;
+            `}
+          >
+            <Text>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+            <StyledMobileFilter
+              placeholder=''
+              options={ORDER_OPTIONS}
+              value={orderBy}
+              onChange={handleSelectOrderBy}
+              trigger={(placeholder) => (
+                <div
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                    cursor: pointer;
+                  `}
+                >
+                  <IconArrowUpDown />
+                  <Text typography='SUIT_12_M' color={colors.gray80}>
+                    {placeholder}
+                  </Text>
+                </div>
+              )}
+            />
+          </div>
         </Responsive>
       </div>
       <StyledMain>
         <StyledRightWrapper>
           <Responsive only='desktop'>
             <StyledTopWrapper>
-              <StyledFilterWrapper>
-                <MemberListFilter
-                  placeholder='기수'
-                  defaultOption={GENERATION_DEFAULT_OPTION}
-                  options={GENERATION_OPTIONS}
-                  value={generation}
-                  onChange={handleSelectGeneration}
-                />
-                <MemberListFilter placeholder='파트' value={part} onChange={handleSelectPart} options={PART_OPTIONS} />
-                <MemberListFilter
-                  placeholder='활동'
-                  options={TEAM_OPTIONS}
-                  value={team}
-                  onChange={handleSelectTeam}
-                  defaultOption={FILTER_DEFAULT_OPTION}
-                >
-                  <Link href={playgroundLink.makers()}>
-                    <StyledMakersLink>
-                      메이커스
-                      <IconDiagonalArrow />
-                    </StyledMakersLink>
-                  </Link>
-                </MemberListFilter>
-                <MemberListFilter
-                  placeholder='MBTI'
-                  defaultOption={FILTER_DEFAULT_OPTION}
-                  options={MBTI_OPTIONS}
-                  value={mbti}
-                  onChange={handleSelectMbti}
-                />
-                <MemberListFilter
-                  placeholder='주량'
-                  defaultOption={FILTER_DEFAULT_OPTION}
-                  options={SOJU_CAPACITY_OPTIONS}
-                  value={sojuCapactiy}
-                  onChange={handleSelectSojuCapacity}
-                />
-              </StyledFilterWrapper>
-              <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+              <div
+                css={css`
+                  display: flex;
+                  justify-content: space-between;
+                  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+                    display: grid;
+                    grid:
+                      [row1-start] 'search' [row1-end]
+                      [row2-start] 'filter' [row2-end]
+                      [row3-start] 'orderBy' [row3-end]
+                      / 1fr;
+                  }
+                `}
+              >
+                <StyledFilterWrapper>
+                  <MemberListFilter
+                    placeholder='기수'
+                    defaultOption={GENERATION_DEFAULT_OPTION}
+                    options={GENERATION_OPTIONS}
+                    value={generation}
+                    onChange={handleSelectGeneration}
+                  />
+                  <MemberListFilter
+                    placeholder='파트'
+                    value={part}
+                    onChange={handleSelectPart}
+                    options={PART_OPTIONS}
+                  />
+                  <MemberListFilter
+                    placeholder='활동'
+                    options={TEAM_OPTIONS}
+                    value={team}
+                    onChange={handleSelectTeam}
+                    defaultOption={FILTER_DEFAULT_OPTION}
+                  >
+                    <Link href={playgroundLink.makers()}>
+                      <StyledMakersLink>
+                        메이커스
+                        <IconDiagonalArrow />
+                      </StyledMakersLink>
+                    </Link>
+                  </MemberListFilter>
+                  <MemberListFilter
+                    placeholder='MBTI'
+                    defaultOption={FILTER_DEFAULT_OPTION}
+                    options={MBTI_OPTIONS}
+                    value={mbti}
+                    onChange={handleSelectMbti}
+                  />
+                  <MemberListFilter
+                    placeholder='주량'
+                    defaultOption={FILTER_DEFAULT_OPTION}
+                    options={SOJU_CAPACITY_OPTIONS}
+                    value={sojuCapactiy}
+                    onChange={handleSelectSojuCapacity}
+                  />
+                </StyledFilterWrapper>
+                <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+              </div>
+              <div
+                css={css`
+                  display: flex;
+                  grid-area: 'orderBy';
+                  justify-content: space-between;
+                  order: 3;
+                  margin-top: 30px;
+                `}
+              >
+                <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+                <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
+              </div>
             </StyledTopWrapper>
           </Responsive>
 
@@ -386,15 +462,7 @@ const StyledMobileFilterWrapper = styled.div`
 
 const StyledTopWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-
-  @media ${DESKTOP_TWO_MEDIA_QUERY} {
-    display: grid;
-    grid:
-      [row1-start] 'search' [row1-end]
-      [row2-start] 'filter' [row2-end]
-      / 1fr;
-  }
+  flex-direction: column;
 `;
 
 const StyledFilterWrapper = styled.div`
