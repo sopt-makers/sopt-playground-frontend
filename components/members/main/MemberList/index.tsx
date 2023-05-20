@@ -66,7 +66,7 @@ type MessageModalState =
 const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [part, setPart] = useState<string | undefined>(undefined);
-  const [sojuCapactiy, setSojuCapactiy] = useState<string | undefined>(undefined);
+  const [sojuCapacity, setSojuCapacity] = useState<string | undefined>(undefined);
   const [team, setTeam] = useState<string | undefined>(undefined);
   const [mbti, setMbti] = useState<string | undefined>(undefined);
   const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
@@ -110,7 +110,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, filter, name, sojuCapactiy, team, mbti, orderBy } = router.query;
+      const { generation, filter, name, sojuCapacity, team, mbti, orderBy } = router.query;
       if (typeof generation === 'string' || generation === undefined) {
         setGeneration(generation);
       }
@@ -126,8 +126,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       if (typeof mbti === 'string' || mbti === undefined) {
         setMbti(mbti);
       }
-      if (typeof sojuCapactiy === 'string' || sojuCapactiy === undefined) {
-        setSojuCapactiy(sojuCapactiy);
+      if (typeof sojuCapacity === 'string' || sojuCapacity === undefined) {
+        setSojuCapacity(sojuCapacity);
       }
       if (typeof orderBy === 'string') {
         setOrderBy(orderBy);
@@ -145,12 +145,19 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   };
   const handleSelectTeam = (team: string) => {
     addQueryParamsToUrl({ team });
+    logClickEvent('filterTeam', { team });
   };
   const handleSelectMbti = (mbti: string) => {
     addQueryParamsToUrl({ mbti });
+    logClickEvent('filterMbti', { mbti });
   };
-  const handleSelectSojuCapacity = (sojuCapactiy: string) => {
-    addQueryParamsToUrl({ sojuCapactiy });
+  const handleSelectSojuCapacity = (sojuCapacity: string) => {
+    addQueryParamsToUrl({ sojuCapacity });
+    logClickEvent('filterSojuCapacity', { sojuCapacity });
+  };
+  const handleSelectOrderBy = (orderBy: string) => {
+    addQueryParamsToUrl({ orderBy });
+    logClickEvent('filterOrderBy', { orderBy });
   };
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ name: searchQuery });
@@ -158,9 +165,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   };
   const handleClickCard = (profile: Profile) => {
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
-  };
-  const handleSelectOrderBy = (orderBy: string) => {
-    addQueryParamsToUrl({ orderBy });
   };
 
   if (!memberProfileData) {
@@ -234,7 +238,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               placeholder='주량'
               defaultOption={FILTER_DEFAULT_OPTION}
               options={SOJU_CAPACITY_OPTIONS}
-              value={sojuCapactiy}
+              value={sojuCapacity}
               onChange={handleSelectSojuCapacity}
               trigger={(placeholder) => (
                 <MobileFilterTrigger>
@@ -332,7 +336,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     placeholder='주량'
                     defaultOption={FILTER_DEFAULT_OPTION}
                     options={SOJU_CAPACITY_OPTIONS}
-                    value={sojuCapactiy}
+                    value={sojuCapacity}
                     onChange={handleSelectSojuCapacity}
                   />
                 </StyledFilterWrapper>
