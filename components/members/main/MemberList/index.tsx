@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { uniq } from 'lodash-es';
 import dynamic from 'next/dynamic';
@@ -154,7 +155,12 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   return (
     <StyledContainer>
       {banner}
-      <StyledMain>
+      <div
+        css={css`
+          padding: 0 20px;
+          width: 100%;
+        `}
+      >
         <Responsive only='mobile'>
           <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
           <StyledMobileFilterWrapper {...horizontalScrollProps}>
@@ -224,6 +230,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             />
           </StyledMobileFilterWrapper>
         </Responsive>
+      </div>
+      <StyledMain>
         <StyledRightWrapper>
           <Responsive only='desktop'>
             <StyledTopWrapper>
@@ -347,11 +355,9 @@ const StyledMain = styled.main`
   margin-top: 90px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    margin-top: 56px;
+    margin-top: 0;
     padding: 0 20px;
+    width: 100%;
   }
 `;
 
@@ -366,7 +372,6 @@ const StyledMobileFilterWrapper = styled.div`
   gap: 10px;
   align-items: center;
   margin-top: 17px;
-  max-width: 375px;
   overflow-x: auto;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
@@ -422,8 +427,6 @@ const StyledMakersLink = styled.div`
 `;
 
 const StyledMemberSearch = styled(MemberSearch)`
-  max-width: 330px;
-
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
     grid-area: 'search';
     order: 1;
