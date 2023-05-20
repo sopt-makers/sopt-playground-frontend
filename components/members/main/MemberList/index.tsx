@@ -505,6 +505,16 @@ const StyledMemberSearch = styled(MemberSearch)`
     order: none;
     margin-top: 16px;
     width: 100%;
+
+    & > input {
+      padding: 14px 18px 14px 46px;
+      ${textStyles.SUIT_15_M};
+    }
+
+    & > svg {
+      top: 14px;
+      left: 18px;
+    }
   }
 `;
 
