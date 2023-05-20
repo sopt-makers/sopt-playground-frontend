@@ -25,7 +25,6 @@ import {
   TEAM_OPTIONS,
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
-import { useHorizontalScroll } from '@/components/members/main/MemberList/filters/useHorizontalScroll';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
@@ -73,7 +72,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   const [name, setName] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
-  const horizontalScrollProps = useHorizontalScroll();
 
   const router = useRouter();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
@@ -182,7 +180,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       >
         <Responsive only='mobile'>
           <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
-          <StyledMobileFilterWrapper {...horizontalScrollProps}>
+          <StyledMobileFilterWrapper>
             <StyledMobileFilter
               value={generation}
               onChange={handleSelectGeneration}
@@ -453,8 +451,6 @@ const StyledMobileFilterWrapper = styled.div`
   align-items: center;
   margin-top: 17px;
   overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
 
   /* to disable scroll bar */
   -ms-overflow-style: none; /* IE and Edge */
@@ -506,6 +502,7 @@ const StyledMemberSearch = styled(MemberSearch)`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    order: none;
     margin-top: 16px;
     width: 100%;
   }
