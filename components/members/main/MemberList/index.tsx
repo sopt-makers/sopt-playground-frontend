@@ -400,6 +400,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               </React.Fragment>
             ))}
           </StyledCardWrapper>
+          {profiles?.length === 0 && (
+            <StyledEmpty>
+              <Text typography='SUIT_32_B'>OMG... 검색 결과가 없어요.</Text>
+              <Text mt={24} typography='SUIT_16_M' color={colors.gray80}>
+                검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.
+              </Text>
+            </StyledEmpty>
+          )}
         </StyledRightWrapper>
       </StyledMain>
       <Target ref={ref} />
@@ -542,6 +550,19 @@ const StyledCardWrapper = styled.div`
     & > div {
       width: 100%;
     }
+  }
+`;
+
+const StyledEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 100%;
+
+  & > span {
+    display: block;
   }
 `;
 
