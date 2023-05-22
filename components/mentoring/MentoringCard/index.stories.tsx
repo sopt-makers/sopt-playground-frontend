@@ -22,4 +22,4 @@ LongData.args = {
   keywords: ['코드 리뷰', '아무거나 물어보세용', '취업 준비 과정에서 우선 순위 정하기'],
   title: '하둘셋넷다여일여아열하둘셋넷다여일여아열하둘셋넷다여일여아열',
 };
-LongData.storyName = '최대 길이';
+LongData.storyName = '긴 제목, 키워드';
