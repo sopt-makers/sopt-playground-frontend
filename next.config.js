@@ -41,6 +41,9 @@ const nextConfig = {
 
     return config;
   },
+  experimental: {
+    scrollRestoration: true,
+  },
   eslint: {
     dirs: ['api', 'components', 'constants', 'hooks', 'pages', 'styles', 'types', 'utils'],
   },
