@@ -12,7 +12,7 @@ export type MemberFormType = {
   searchedMember?: Member;
 };
 
-type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
+type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'TEAMIMPROVEMENT' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
 
 export const DEFAULT_MEMBER: Partial<MemberFormType> = {
   memberRole: undefined,
@@ -27,9 +27,10 @@ export const MemberRoleInfo: Record<MemberRole, string> = {
   TEAMLEADER: 'Team Leader',
   MAINPM: 'Main PM',
   PM: 'PM',
-  DESIGN: 'Design',
-  WEB: 'Web',
-  ANDROID: 'Android',
-  SERVER: 'Server',
-  IOS: 'iOS',
+  TEAMIMPROVEMENT: 'Team Improvement',
+  DESIGN: 'Designer',
+  WEB: '웹 프론트엔드 개발자',
+  ANDROID: 'Android 개발자',
+  SERVER: '서버 개발자',
+  IOS: 'iOS 개발자',
 };
