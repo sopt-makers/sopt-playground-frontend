@@ -12,6 +12,7 @@ import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import OrderBySelect from '@/components/members/common/select/OrderBySelect';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
+import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import {
@@ -39,8 +40,6 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const PAGE_LIMIT = 30;
-const DESKTOP_ONE_MEDIA_QUERY = 'screen and (max-width: 1542px)';
-const DESKTOP_TWO_MEDIA_QUERY = 'screen and (max-width: 1200px)';
 
 const MemberListFilterSheet = dynamic(() => import('./filters/MemberListFilterSheet').then((comp) => comp.default), {
   ssr: false,
@@ -171,13 +170,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   return (
     <StyledContainer>
-      {banner}
       <div
         css={css`
           padding: 0 20px;
           width: 100%;
         `}
       >
+        <Responsive only='mobile'>{banner}</Responsive>
         <Responsive only='mobile'>
           <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
           <StyledMobileFilterWrapper>
@@ -278,6 +277,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         </Responsive>
       </div>
       <StyledMain>
+        <Responsive
+          only='desktop'
+          css={css`
+            width: 100%;
+          `}
+        >
+          {banner}
+        </Responsive>
         <StyledRightWrapper>
           <Responsive only='desktop'>
             <StyledTopWrapper>
@@ -437,11 +444,11 @@ const StyledContainer = styled.div`
 const StyledMain = styled.main`
   display: flex;
   position: relative;
+  flex-direction: column;
+  align-items: center;
   column-gap: 30px;
-  margin-top: 90px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 0;
     padding: 0 20px;
     width: 100%;
   }
