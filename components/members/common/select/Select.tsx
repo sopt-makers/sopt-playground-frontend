@@ -5,6 +5,7 @@ import * as Select from '@radix-ui/react-select';
 import dynamic from 'next/dynamic';
 import { createContext, FC, PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'react';
 
+import { SelectContext, useSelectContext } from '@/components/members/common/select/context';
 import { Overlay } from '@/components/members/common/select/Overlay';
 import IconClear from '@/public/icons/icon-search-clear.svg';
 import IconSelectArrow from '@/public/icons/icon-select-arrow.svg';
@@ -17,25 +18,6 @@ const SelectPortal = dynamic<Select.SelectPortalProps>(
     ssr: false,
   },
 );
-
-type SelectContextValue = {
-  value?: string;
-  label?: ReactNode;
-  onChangeLabel: (label?: ReactNode) => void;
-};
-const SelectContext = createContext<SelectContextValue>({
-  value: undefined,
-  label: undefined,
-  onChangeLabel: () => undefined,
-});
-
-function useSelectContext() {
-  const context = useContext(SelectContext);
-  if (context == null) {
-    throw new Error('<Select/> 컴포넌트와 관련된 컴포넌트를 사용해주세요');
-  }
-  return context;
-}
 
 interface SelectProps extends Omit<Select.SelectProps, 'onValueChange'> {
   allowClear?: boolean;

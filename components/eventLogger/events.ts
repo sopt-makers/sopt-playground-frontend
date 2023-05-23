@@ -40,6 +40,18 @@ export interface ClickEvents {
   filterPart: {
     part: string;
   };
+  filterTeam: {
+    team: string;
+  };
+  filterMbti: {
+    mbti: string;
+  };
+  filterSojuCapacity: {
+    sojuCapacity: string;
+  };
+  filterOrderBy: {
+    orderBy: string;
+  };
 }
 
 export interface SubmitEvents {

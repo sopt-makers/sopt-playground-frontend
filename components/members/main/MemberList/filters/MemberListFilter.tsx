@@ -47,7 +47,7 @@ export default MemberListFilter;
 const StyledSelect = styled(Select)<{ selected: boolean }>`
   transition: background-color 0.2s;
   border-radius: 20px;
-  padding: 9px 18px 9px 22px;
+  padding: 9px 26px 9px 22px;
   min-width: 110px;
 
   ${({ selected }) =>

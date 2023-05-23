@@ -56,6 +56,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-markdown": "^8.0.4",
+    "react-modal-sheet": "^1.10.2",
     "react-remove-scroll": "^2.5.5",
     "recoil": "^0.7.2",
     "storybook-addon-next-router": "^4.0.0",

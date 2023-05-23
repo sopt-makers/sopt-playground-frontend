@@ -47,8 +47,7 @@ const StyledInput = styled.input`
   border: 1px solid transparent;
   border-radius: 14px;
   background-color: ${colors.black80};
-  padding: 18px 24px;
-  padding-left: 56px;
+  padding: 18px 24px 18px 56px;
   width: 100%;
   color: ${colors.white};
 

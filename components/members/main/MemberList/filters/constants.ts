@@ -1,11 +1,15 @@
-import { ReactNode } from 'react';
-
 import { GENERATIONS } from '@/constants/generation';
 
 type Option<T = string> = {
   value: T;
-  label: ReactNode;
+  label: string;
 };
+
+export const FILTER_DEFAULT_OPTION: Option = {
+  value: '',
+  label: '전체',
+};
+
 const PART_VALUE = {
   PM: '1',
   DESIGN: '2',
@@ -14,12 +18,6 @@ const PART_VALUE = {
   ANDROID: '5',
   iOS: '6',
 } as const;
-
-export const FILTER_DEFAULT_OPTION = {
-  value: '',
-  label: '전체',
-};
-
 export const PART_OPTIONS: Option[] = [
   {
     label: '전체',
@@ -114,4 +112,23 @@ export const SOJU_CAPACITY_OPTIONS: Option[] = [
   { value: '2', label: '2병' },
   { value: '2.5', label: '2.5병' },
   { value: '3', label: '3병 이상' },
+];
+
+export const ORDER_OPTIONS: Option[] = [
+  {
+    value: '1',
+    label: '최근에 등록했순',
+  },
+  {
+    value: '2',
+    label: '예전에 등록했순',
+  },
+  {
+    value: '3',
+    label: '최근에 활동했순',
+  },
+  {
+    value: '4',
+    label: '예전에 활동했순',
+  },
 ];
