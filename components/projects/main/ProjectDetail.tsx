@@ -19,7 +19,17 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const memberRoleOrder = ['TEAMLEADER', 'MAINPM', 'PM', 'DESIGN', 'WEB', 'SERVER', 'ANDROID', 'IOS'] as const;
+const memberRoleOrder = [
+  'TEAMLEADER',
+  'MAINPM',
+  'PM',
+  'TEAMIMPROVEMENT',
+  'DESIGN',
+  'WEB',
+  'SERVER',
+  'ANDROID',
+  'IOS',
+] as const;
 const sortByRole = <T extends { memberRole: typeof memberRoleOrder[number] }>(projectMembers: T[]): T[] =>
   [...projectMembers].sort((x, y) => memberRoleOrder.indexOf(x.memberRole) - memberRoleOrder.indexOf(y.memberRole));
 
