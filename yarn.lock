@@ -21172,12 +21172,8 @@ __metadata:
     react-dom: ^18.2.0
     react-hook-form: ^7.43.9
     react-markdown: ^8.0.4
-<<<<<<< refs/remotes/origin/main
     react-modal-sheet: ^1.10.2
-    react-remove-scroll: ^2.5.5
-=======
     react-remove-scroll: ^2.5.6
->>>>>>> feat: react-remove-scroll 라이브러리 추가하여 모달 스크롤 방지
     recoil: ^0.7.2
     sass-loader: ^12.6.0
     storybook: ^6.5.5
