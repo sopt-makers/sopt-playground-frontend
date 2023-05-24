@@ -48,7 +48,7 @@ const MemberListFilterSheet: FC<PropsWithChildren<MemberListFilterSheetProps>> =
   return (
     <>
       {<Slot onClick={onOpen}>{trigger(currentOption?.label ?? placeholder)}</Slot>}
-      <CustomSheet isOpen={isOpen} onClose={onClose} springConfig={{ stiffness: 150, damping: 20, mass: 1 }}>
+      <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height'>
         <ReactModalSheet.Container>
           <ReactModalSheet.Header />
           <ReactModalSheet.Content>
