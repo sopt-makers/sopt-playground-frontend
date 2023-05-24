@@ -8,21 +8,16 @@ import LeftArrowIcon from '@/public/icons/icon-arrow-purple.svg';
 import { colors } from '@/styles/colors';
 
 interface CarouselProps {
-  totalItemList: ReactNode[];
+  itemList: ReactNode[];
   limit: number;
   className?: string;
   renderItemContainer: (children: ReactNode) => ReactNode;
 }
 
-export default function Carousel({
-  totalItemList,
-  limit,
-  className,
-  renderItemContainer: renderListContainer,
-}: CarouselProps) {
+export default function Carousel({ itemList, limit, className, renderItemContainer }: CarouselProps) {
   const { page, direction, moveNext, movePrevious, currentItemList, totalPageSize } = useCarousel({
     limit,
-    totalItemList,
+    itemList,
   });
 
   return (
@@ -40,7 +35,7 @@ export default function Carousel({
             opacity: { duration: 0.2 },
           }}
         >
-          <CarouselBody currentItemList={currentItemList} renderContainer={renderListContainer} />
+          <CarouselBody currentItemList={currentItemList} renderContainer={renderItemContainer} />
         </m.div>
       </AnimatePresence>
       <LeftControl onClick={movePrevious}>

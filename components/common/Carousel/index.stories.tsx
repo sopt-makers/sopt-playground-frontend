@@ -56,7 +56,7 @@ const CardContainer = styled.div`
 
 export const Basic = Template.bind({});
 Basic.args = {
-  totalItemList: MENTORING_DUMMY_DATA.map((dummy, index) => <MentoringCard {...dummy} key={index} />),
+  itemList: MENTORING_DUMMY_DATA.map((dummy, index) => <MentoringCard {...dummy} key={index} />),
   limit: 3,
   renderItemContainer: (children: ReactNode) => <CardContainer>{children}</CardContainer>,
 };
