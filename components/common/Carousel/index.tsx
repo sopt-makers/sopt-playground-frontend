@@ -44,13 +44,13 @@ export default function Carousel({ itemList, limit, className, renderItemContain
       <RightControl onClick={moveNext}>
         <RightArrowIcon />
       </RightControl>
-      <Indicator>
+      <Indicators>
         {Array(totalPageSize)
           .fill(null)
           .map((_, index) => (
-            <Circle onClick={() => move(index + 1)} isColored={index + 1 === page} key={`${index}`} />
+            <Indicator onClick={() => move(index + 1)} isActive={index + 1 === page} key={`${index}`} />
           ))}
-      </Indicator>
+      </Indicators>
     </Container>
   );
 }
@@ -108,7 +108,7 @@ const RightArrowIcon = styled(LeftArrowIcon)`
   transform: rotate(180deg);
 `;
 
-const Indicator = styled.div`
+const Indicators = styled.div`
   display: flex;
   position: absolute;
   bottom: -32px;
@@ -117,10 +117,10 @@ const Indicator = styled.div`
   transform: translateX(-50%);
 `;
 
-const Circle = styled.div<{ isColored?: boolean }>`
+const Indicator = styled.div<{ isActive?: boolean }>`
   border-radius: 50%;
-  background-color: ${({ isColored }) => (isColored ? colors.purple100 : colors.black40)};
-  cursor: pointer;
+  background-color: ${({ isActive }) => (isActive ? colors.purple100 : colors.black40)};
+  cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
   width: 8px;
   height: 8px;
 `;
