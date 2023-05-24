@@ -85,6 +85,7 @@ const Container = styled.div`
   column-gap: 16px;
   width: 100%;
   row-gap: 24px;
+  overflow: hidden;
 `;
 
 const Control = styled.button<{ isActive: boolean }>`
