@@ -81,7 +81,7 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Control = styled.div`
+const Control = styled.button`
   border-radius: 50%;
   background-color: ${colors.purpledim100};
   width: 40px;
