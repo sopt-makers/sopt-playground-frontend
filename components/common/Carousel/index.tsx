@@ -23,7 +23,7 @@ export default function Carousel({ itemList, limit, className, renderItemContain
   return (
     <Container className={className}>
       <AnimatePresence initial={false} custom={direction}>
-        <m.div
+        <StyledMotionDiv
           key={page}
           custom={direction}
           variants={variants}
@@ -36,7 +36,7 @@ export default function Carousel({ itemList, limit, className, renderItemContain
           }}
         >
           <CarouselBody currentItemList={currentItemList} renderContainer={renderItemContainer} />
-        </m.div>
+        </StyledMotionDiv>
       </AnimatePresence>
       <LeftControl onClick={movePrevious} isActive={page - 1 >= 1}>
         <LeftArrowIcon />
@@ -77,11 +77,18 @@ const variants = {
 };
 
 const Container = styled.div`
-  position: relative;
+  display: grid;
+  grid:
+    [row1-start] 'left-control list right-control' max-content [row1-end]
+    [row2-start] 'indicators indicators indicators' max-content [row2-end]
+    / min-content auto min-content;
+  column-gap: 16px;
   width: 100%;
+  row-gap: 24px;
 `;
 
 const Control = styled.button<{ isActive: boolean }>`
+  align-self: center;
   border-radius: 50%;
   background-color: ${colors.purpledim100};
   cursor: ${({ isActive }) => (isActive ? 'pointer' : 'default')};
@@ -90,18 +97,12 @@ const Control = styled.button<{ isActive: boolean }>`
 `;
 
 const LeftControl = styled(Control)`
-  position: absolute;
-  top: 50%;
-  left: -56px;
-  transform: translateY(-50%);
+  grid-area: left-control;
   padding: 11px 17px 11px 14px;
 `;
 
 const RightControl = styled(Control)`
-  position: absolute;
-  top: 50%;
-  right: -56px;
-  transform: translateY(-50%);
+  grid-area: right-control;
   padding: 11px 14px 11px 17px;
 `;
 
@@ -111,11 +112,9 @@ const RightArrowIcon = styled(LeftArrowIcon)`
 
 const Indicators = styled.div`
   display: flex;
-  position: absolute;
-  bottom: -32px;
-  left: 50%;
+  grid-area: indicators;
   gap: 12px;
-  transform: translateX(-50%);
+  justify-self: center;
 `;
 
 const Indicator = styled.div<{ isActive?: boolean }>`
@@ -124,4 +123,8 @@ const Indicator = styled.div<{ isActive?: boolean }>`
   cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
   width: 8px;
   height: 8px;
+`;
+
+const StyledMotionDiv = styled(m.div)`
+  grid-area: list;
 `;

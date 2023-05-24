@@ -9,10 +9,8 @@ export default {
   components: Carousel,
   decorators: [
     (Story) => (
-      <div style={{ width: '1440px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: '1302px' }}>
-          <Story />
-        </div>
+      <div style={{ width: '1414px' }}>
+        <Story />
       </div>
     ),
   ],
