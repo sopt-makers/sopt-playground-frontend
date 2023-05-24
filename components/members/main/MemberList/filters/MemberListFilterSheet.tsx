@@ -48,17 +48,19 @@ const MemberListFilterSheet: FC<PropsWithChildren<MemberListFilterSheetProps>> =
   return (
     <>
       {<Slot onClick={onOpen}>{trigger(currentOption?.label ?? placeholder)}</Slot>}
-      <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height'>
+      <CustomSheet isOpen={isOpen} onClose={onClose} springConfig={{ stiffness: 150, damping: 20, mass: 1 }}>
         <ReactModalSheet.Container>
           <ReactModalSheet.Header />
           <ReactModalSheet.Content>
-            {defaultOption && <StyledItem onClick={() => onSelect(defaultOption)}>{defaultOption.label}</StyledItem>}
-            {options.map((option) => (
-              <StyledItem key={option.value} onClick={() => onSelect(option)}>
-                {option.label}
-                {option.value === value && <IconCheck />}
-              </StyledItem>
-            ))}
+            <StyledItemWrapper>
+              {defaultOption && <StyledItem onClick={() => onSelect(defaultOption)}>{defaultOption.label}</StyledItem>}
+              {options.map((option) => (
+                <StyledItem key={option.value} onClick={() => onSelect(option)}>
+                  {option.label}
+                  {option.value === value && <IconCheck />}
+                </StyledItem>
+              ))}
+            </StyledItemWrapper>
           </ReactModalSheet.Content>
         </ReactModalSheet.Container>
         <ReactModalSheet.Backdrop onTap={onClose} />
@@ -84,8 +86,15 @@ const CustomSheet = styled(ReactModalSheet)`
 
   .react-modal-sheet-content {
     background-color: ${colors.black60};
-    padding: 16px 24px 24px;
+    padding: 16px 16px 24px 24px;
   }
+`;
+
+const StyledItemWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
 `;
 
 const StyledItem = styled.div`
