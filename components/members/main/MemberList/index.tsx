@@ -67,7 +67,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [sojuCapacity, setSojuCapacity] = useState<string | undefined>(undefined);
   const [team, setTeam] = useState<string | undefined>(undefined);
   const [mbti, setMbti] = useState<string | undefined>(undefined);
-  const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
+  // const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
 
   const [name, setName] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
@@ -126,9 +126,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       if (typeof sojuCapacity === 'string' || sojuCapacity === undefined) {
         setSojuCapacity(sojuCapacity);
       }
-      if (typeof orderBy === 'string') {
-        setOrderBy(orderBy);
-      }
+      // if (typeof orderBy === 'string') {
+      //   setOrderBy(orderBy);
+      // }
     }
   }, [router.isReady, router.query, router]);
 
@@ -152,10 +152,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     addQueryParamsToUrl({ sojuCapacity });
     logClickEvent('filterSojuCapacity', { sojuCapacity });
   };
-  const handleSelectOrderBy = (orderBy: string) => {
-    addQueryParamsToUrl({ orderBy });
-    logClickEvent('filterOrderBy', { orderBy });
-  };
+  // const handleSelectOrderBy = (orderBy: string) => {
+  //   addQueryParamsToUrl({ orderBy });
+  //   logClickEvent('filterOrderBy', { orderBy });
+  // };
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ name: searchQuery });
     logSubmitEvent('searchMember', { content: 'searchQuery' });
@@ -250,7 +250,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               `}
             >
               <Text>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-              <StyledMobileFilter
+              {/* <StyledMobileFilter
                 placeholder=''
                 options={ORDER_OPTIONS}
                 value={orderBy}
@@ -269,7 +269,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     </Text>
                   </div>
                 )}
-              />
+              /> */}
             </div>
           )}
         </Responsive>
@@ -356,7 +356,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   `}
                 >
                   <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                  <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
+                  {/* <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} /> */}
                 </div>
               )}
             </StyledTopWrapper>
