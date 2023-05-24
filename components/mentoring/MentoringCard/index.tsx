@@ -55,6 +55,7 @@ const Keyword = styled.span`
 `;
 
 const Title = styled.div`
+  display: ${'-webkit-box'};
   margin-bottom: 24px;
   width: 234px;
   overflow: hidden;
@@ -63,10 +64,6 @@ const Title = styled.div`
   color: ${colors.gray10};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  ${
-    // style lint가 -webkit-box를 box로 자동 변환하여 아래와 같이 조치
-    `display: -webkit-box;`
-  }
 
   ${textStyles.SUIT_18_B};
 `;
