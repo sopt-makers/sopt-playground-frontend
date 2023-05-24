@@ -28,7 +28,7 @@ setLayout(UserPage, 'headerFooter');
 export default UserPage;
 
 const StyledOnBoardingBanner = styled(OnBoardingBanner)`
-  margin: 120px 0 90px;
+  margin-bottom: 90px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 45px 0;

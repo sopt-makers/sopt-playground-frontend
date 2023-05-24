@@ -164,10 +164,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
 
-  if (!memberProfileData) {
-    return null;
-  }
-
   return (
     <StyledContainer>
       <div
@@ -245,35 +241,37 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             />
           </StyledMobileFilterWrapper>
-          <div
-            css={css`
-              display: flex;
-              justify-content: space-between;
-              margin-top: 30px;
-            `}
-          >
-            <Text>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-            <StyledMobileFilter
-              placeholder=''
-              options={ORDER_OPTIONS}
-              value={orderBy}
-              onChange={handleSelectOrderBy}
-              trigger={(placeholder) => (
-                <div
-                  css={css`
-                    display: flex;
-                    align-items: center;
-                    cursor: pointer;
-                  `}
-                >
-                  <IconArrowUpDown />
-                  <Text typography='SUIT_12_M' color={colors.gray80}>
-                    {placeholder}
-                  </Text>
-                </div>
-              )}
-            />
-          </div>
+          {memberProfileData && (
+            <div
+              css={css`
+                display: flex;
+                justify-content: space-between;
+                margin-top: 30px;
+              `}
+            >
+              <Text>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+              <StyledMobileFilter
+                placeholder=''
+                options={ORDER_OPTIONS}
+                value={orderBy}
+                onChange={handleSelectOrderBy}
+                trigger={(placeholder) => (
+                  <div
+                    css={css`
+                      display: flex;
+                      align-items: center;
+                      cursor: pointer;
+                    `}
+                  >
+                    <IconArrowUpDown />
+                    <Text typography='SUIT_12_M' color={colors.gray80}>
+                      {placeholder}
+                    </Text>
+                  </div>
+                )}
+              />
+            </div>
+          )}
         </Responsive>
       </div>
       <StyledMain>
@@ -347,18 +345,20 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 </StyledFilterWrapper>
                 <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
               </div>
-              <div
-                css={css`
-                  display: flex;
-                  grid-area: 'orderBy';
-                  justify-content: space-between;
-                  order: 3;
-                  margin-top: 30px;
-                `}
-              >
-                <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
-              </div>
+              {memberProfileData && (
+                <div
+                  css={css`
+                    display: flex;
+                    grid-area: 'orderBy';
+                    justify-content: space-between;
+                    order: 3;
+                    margin-top: 30px;
+                  `}
+                >
+                  <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+                  <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
+                </div>
+              )}
             </StyledTopWrapper>
           </Responsive>
 
@@ -437,8 +437,13 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 180px;
   padding-bottom: 100px;
   overflow-y: scroll;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
+  }
 `;
 
 const StyledMain = styled.main`
