@@ -7,10 +7,14 @@ export default function usePagination({ limit, length }: { limit: number; length
   const startIndex = (page - 1) * limit;
 
   const paginate = (newPage: number) => {
-    setPage(newPage);
+    if (newPage <= totalPageSize && newPage >= 1) {
+      setPage(newPage);
+      return true;
+    }
+    return false;
   };
-  const moveNext = () => page + 1 <= totalPageSize && paginate(page + 1);
-  const movePrevious = () => page - 1 >= 1 && paginate(page - 1);
+  const moveNext = () => paginate(page + 1);
+  const movePrevious = () => paginate(page - 1);
 
   return { page, paginate, moveNext, movePrevious, totalPageSize, startIndex };
 }

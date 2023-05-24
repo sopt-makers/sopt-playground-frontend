@@ -15,7 +15,7 @@ interface CarouselProps {
 }
 
 export default function Carousel({ itemList, limit, className, renderItemContainer }: CarouselProps) {
-  const { page, direction, moveNext, movePrevious, currentItemList, totalPageSize } = useCarousel({
+  const { page, direction, moveNext, movePrevious, currentItemList, totalPageSize, move } = useCarousel({
     limit,
     itemList,
   });
@@ -48,7 +48,7 @@ export default function Carousel({ itemList, limit, className, renderItemContain
         {Array(totalPageSize)
           .fill(null)
           .map((_, index) => (
-            <Circle isColored={index + 1 === page} key={`${index}`} />
+            <Circle onClick={() => move(index + 1)} isColored={index + 1 === page} key={`${index}`} />
           ))}
       </Indicator>
     </Container>
@@ -120,6 +120,7 @@ const Indicator = styled.div`
 const Circle = styled.div<{ isColored?: boolean }>`
   border-radius: 50%;
   background-color: ${({ isColored }) => (isColored ? colors.purple100 : colors.black40)};
+  cursor: pointer;
   width: 8px;
   height: 8px;
 `;

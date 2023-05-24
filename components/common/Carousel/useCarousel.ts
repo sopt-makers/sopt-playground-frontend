@@ -9,6 +9,7 @@ export default function useCarousel({ limit, itemList }: { limit: number; itemLi
     movePrevious: movePreviousPage,
     startIndex,
     totalPageSize,
+    paginate,
   } = usePagination({ limit, length: itemList.length });
   const [direction, setDirection] = useState<-1 | 1>(1);
 
@@ -22,6 +23,18 @@ export default function useCarousel({ limit, itemList }: { limit: number; itemLi
     movePreviousPage();
     setDirection(-1);
   };
+  const move = (newPage: number) => {
+    if (page === newPage) {
+      return;
+    }
+    if (paginate(newPage)) {
+      if (page < newPage) {
+        setDirection(1);
+      } else {
+        setDirection(-1);
+      }
+    }
+  };
 
-  return { page, direction, moveNext, movePrevious, currentItemList, totalPageSize };
+  return { page, direction, moveNext, movePrevious, currentItemList, totalPageSize, move };
 }
