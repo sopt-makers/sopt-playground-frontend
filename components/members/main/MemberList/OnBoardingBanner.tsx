@@ -6,6 +6,7 @@ import { FC } from 'react';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -61,6 +62,13 @@ const IntroducePanel = styled.section`
   padding: 59px 64px;
   width: 100%;
   height: 208px;
+
+  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    flex-direction: column;
+    padding: 30px;
+    row-gap: 30px;
+    height: auto;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;

@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <GoogleTagManagerScript />
       <RecoilRoot>
         <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
-          <LazyMotion strict features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
+          <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
             <ToastProvider>
               <GlobalStyle />
               <ResponsiveProvider>
