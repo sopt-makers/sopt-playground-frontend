@@ -38,10 +38,10 @@ export default function Carousel({ itemList, limit, className, renderItemContain
           <CarouselBody currentItemList={currentItemList} renderContainer={renderItemContainer} />
         </m.div>
       </AnimatePresence>
-      <LeftControl onClick={movePrevious}>
+      <LeftControl onClick={movePrevious} isActive={page - 1 >= 1}>
         <LeftArrowIcon />
       </LeftControl>
-      <RightControl onClick={moveNext}>
+      <RightControl onClick={moveNext} isActive={page + 1 <= totalPageSize}>
         <RightArrowIcon />
       </RightControl>
       <Indicators>
@@ -81,9 +81,10 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Control = styled.button`
+const Control = styled.button<{ isActive: boolean }>`
   border-radius: 50%;
   background-color: ${colors.purpledim100};
+  cursor: ${({ isActive }) => (isActive ? 'pointer' : 'default')};
   width: 40px;
   height: 40px;
 `;
