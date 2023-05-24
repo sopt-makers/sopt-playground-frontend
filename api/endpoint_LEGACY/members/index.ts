@@ -12,7 +12,7 @@ import {
 export const getMemberProfile = async (input: string) => {
   const { data } = await axiosInstance.request<PagedMemberProfile>({
     method: 'GET',
-    url: `api/v1/members/profile${input}`,
+    url: `api/v1/members/profile${input}&orderBy=2`,
   });
 
   return data;
