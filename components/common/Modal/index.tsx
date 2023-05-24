@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import FocusTrap from 'focus-trap-react';
 import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
+import { RemoveScroll } from 'react-remove-scroll';
 
 import Portal from '@/components/common/Portal';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
@@ -46,17 +47,19 @@ const Modal: FC<ModalProps> = (props) => {
     <Portal>
       <StyledBackground>
         <FocusTrap>
-          <StyledModal ref={modalRef} role='dialog' width={width} {...restProps}>
-            <StyledCloseButton type='button' onClick={onClose}>
-              <StyledIconClose />
-            </StyledCloseButton>
-            <ModalContent>
-              {confirmIcon && <StyledIconCheck />}
-              {title && <StyledTitle>{title}</StyledTitle>}
-              {content && <StyledContent>{content}</StyledContent>}
-              {children}
-            </ModalContent>
-          </StyledModal>
+          <RemoveScroll>
+            <StyledModal ref={modalRef} role='dialog' width={width} {...restProps}>
+              <StyledCloseButton type='button' onClick={onClose}>
+                <StyledIconClose />
+              </StyledCloseButton>
+              <ModalContent>
+                {confirmIcon && <StyledIconCheck />}
+                {title && <StyledTitle>{title}</StyledTitle>}
+                {content && <StyledContent>{content}</StyledContent>}
+                {children}
+              </ModalContent>
+            </StyledModal>
+          </RemoveScroll>
         </FocusTrap>
       </StyledBackground>
     </Portal>
