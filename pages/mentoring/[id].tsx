@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
 import MentoringDetail from '@/components/mentoring/MentoringDetail';
+import { isMentoringId } from '@/components/mentoring/MentoringDetail/types';
 import { setLayout } from '@/utils/layout';
 
 import useStringRouterQuery from '../../hooks/useStringRouterQuery';
@@ -25,12 +26,15 @@ export default function MentoringDetailPage() {
     return null;
   }
 
-  if (status === 'success' && isNaN(+query.id)) {
-    return (
-      <AuthRequired>
-        <MentoringDetail mentorId={+query.id} />
-      </AuthRequired>
-    );
+  if (status === 'success') {
+    const mentorId = +query.id;
+    if (isMentoringId(mentorId)) {
+      return (
+        <AuthRequired>
+          <MentoringDetail mentorId={mentorId} />
+        </AuthRequired>
+      );
+    }
   }
 
   router.push('/404');
