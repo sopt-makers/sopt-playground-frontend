@@ -1,5 +1,9 @@
-import { MentorData, MentoringData } from '@/components/mentoring/MentoringDetail/types';
+import { MentorCareer, MentorData, MentoringData } from '@/components/mentoring/MentoringDetail/types';
 
+export const DUMMY_MENTOR_DATA = [{ id: 1, name: '송정우' }] as const;
+export const DUMMY_MENTOR_ID_DATA = DUMMY_MENTOR_DATA.map((mentorData: MentorData) => mentorData.id);
+
+// 더미 데이터, 변수명으로 표시 안 한 이유: 실제로도 하드로 넣을 데이터여서 쓸 변수명 미리 지어놓음.
 export const MENTORING_DATA_BY_MENTOR_ID: MentoringData<MentorData> = {
   '1': {
     mentorName: '송정우',
@@ -17,4 +21,10 @@ export const MENTORING_DATA_BY_MENTOR_ID: MentoringData<MentorData> = {
     nonTarget: `- 지속적으로 성장하고 싶은 욕구가 부족한 분에게는 권장하지 않습니다.
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
   },
+};
+
+export const CAREER_DUMMY_DATA: MentorCareer = {
+  careers: [{ companyName: 'LINE PLUS', period: '2022.02 - 2022.08', title: 'Product Designer' }],
+  links: [{ title: 'Linkedin', url: 'https://playground.sopt.org' }],
+  skill: 'Node, Product Managing, Branding, UI',
 };

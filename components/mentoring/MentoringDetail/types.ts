@@ -1,5 +1,5 @@
-const DUMMY_MENTOR_DATA = [{ id: 1, name: '송정우' }] as const;
-const DUMMY_MENTOR_ID_DATA = DUMMY_MENTOR_DATA.map((mentorData: MentorData) => mentorData.id);
+import { DUMMY_MENTOR_DATA, DUMMY_MENTOR_ID_DATA } from '@/components/mentoring/data';
+
 export type MentorData = typeof DUMMY_MENTOR_DATA[number];
 export type MentorId = typeof DUMMY_MENTOR_ID_DATA[number];
 export function isMentoringId(id: number): id is MentorId {
