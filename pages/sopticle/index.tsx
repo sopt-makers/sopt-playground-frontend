@@ -1,16 +1,19 @@
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { uploadSopticle } from '@/api/endpoint/sopticles/uploadSopticle';
 import { useGetMemberOfMe } from '@/api/endpoint_LEGACY/hooks';
 import UploadSopticle from '@/components/sopticle/UploadSopticle';
+import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
 const SopticlePage: FC = () => {
+  const router = useRouter();
   const { data } = useGetMemberOfMe();
-  const { mutate, status, error } = useMutation({
-    mutationFn: async (url: string) => {
+  const { mutate, status, error } = useMutation(
+    async (url: string) => {
       if (!data) {
         throw new Error('로그인 정보를 찾을 수 없습니다.');
       }
@@ -19,7 +22,12 @@ const SopticlePage: FC = () => {
       }
       return uploadSopticle.request(url, [data.id]);
     },
-  });
+    {
+      onSuccess() {
+        router.push(playgroundLink.sopticleSuccess());
+      },
+    },
+  );
 
   return (
     <StyledSopticlePage>

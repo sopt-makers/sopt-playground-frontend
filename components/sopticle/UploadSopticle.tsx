@@ -143,6 +143,8 @@ const Button = styled.button`
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 6px;
+
     ${textStyles.SUIT_14_M};
   }
 `;

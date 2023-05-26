@@ -17,4 +17,5 @@ export const playgroundLink = {
   connectSocialAuth: () => `/auth/register`,
   makers: () => `/makers`,
   sopticle: () => `/sopticle`,
+  sopticleSuccess: () => `/sopticle/success`,
 };
