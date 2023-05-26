@@ -144,7 +144,7 @@ const Section = styled.section`
 const MentoringTitle = styled.h1`
   grid-area: title;
   width: 100%;
-  line-height: 48px;
+  line-height: 50px;
   color: ${colors.white};
 
   ${textStyles.SUIT_40_B};
