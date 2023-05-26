@@ -99,7 +99,15 @@ const Header = styled.div`
   row-gap: 48px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    grid:
+      [row1-start] 'title' auto [row1-end]
+      [row2-start] 'profileButton' auto [row2-end]
+      [row3-start] 'messageButton' auto [row3-end]
+      / 100%;
+    margin-top: 36px;
+    padding: 0 20px;
     width: 100%;
+    row-gap: 0;
   }
 `;
 
@@ -109,6 +117,12 @@ const Main = styled.main`
   gap: 48px;
   margin-top: 82px;
   margin-bottom: 270px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 48px;
+    margin-bottom: 78px;
+    padding: 20px;
+  }
 `;
 
 const Section = styled.section`
@@ -119,6 +133,12 @@ const Section = styled.section`
   background-color: ${colors.black80};
   padding: 48px 39px;
   width: 790px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 40px;
+    padding: 30px 20px;
+    width: 100%;
+  }
 `;
 
 const MentoringTitle = styled.h1`
@@ -128,6 +148,10 @@ const MentoringTitle = styled.h1`
   color: ${colors.white};
 
   ${textStyles.SUIT_40_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_24_B};
+  }
 `;
 
 const ProfileButton = styled.div`
@@ -136,6 +160,11 @@ const ProfileButton = styled.div`
   gap: 16px;
   align-items: center;
   cursor: pointer;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 8px;
+    margin-top: 16px;
+  }
 `;
 
 const EmptyProfileImage = styled.div`
@@ -148,8 +177,18 @@ const EmptyProfileImage = styled.div`
   height: 60px;
 
   & > svg {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 24px;
+    height: 24px;
+
+    & > svg {
+      width: 14px;
+      height: 14px;
+    }
   }
 `;
 
@@ -158,6 +197,12 @@ const MentorName = styled.div`
   color: ${colors.white};
 
   ${textStyles.SUIT_20_SB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    color: ${colors.gray40};
+
+    ${textStyles.SUIT_14_M};
+  }
 `;
 
 const MessageButton = styled.button`
@@ -180,17 +225,33 @@ const MessageButton = styled.button`
     width: 16px;
     height: 16px;
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 29px;
+    border-radius: 10px;
+    width: 100%;
+    height: 46px;
+  }
 `;
 
 const StyledArrowRightIcon = styled(ArrowRightIcon)`
   width: 16px;
   height: 16px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 14px;
+    height: 14px;
+  }
 `;
 
 const KeywordList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 4px;
+  }
 `;
 
 const Keyword = styled.div`
@@ -198,9 +259,13 @@ const Keyword = styled.div`
   background-color: ${colors.black60};
   padding: 8px 15px;
   line-height: 120%;
-  color: ${colors.gray30};
+  color: ${colors.white};
 
   ${textStyles.SUIT_14_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    background-color: ${colors.black40};
+  }
 `;
 
 const Content = styled.div`
@@ -209,6 +274,13 @@ const Content = styled.div`
   color: ${colors.white};
 
   ${textStyles.SUIT_18_M}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    line-height: 120%;
+    color: ${colors.gray40};
+
+    ${textStyles.SUIT_14_M};
+  }
 `;
 
 const Career = {
@@ -225,6 +297,10 @@ const Career = {
     color: ${colors.white};
 
     ${textStyles.SUIT_24_B};
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      ${textStyles.SUIT_16_B};
+    }
   `,
   ProfileButton: styled.button`
     display: flex;
@@ -241,6 +317,22 @@ const Career = {
 
       & > path {
         fill: ${colors.white};
+      }
+    }
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      gap: 4px;
+      color: ${colors.gray80};
+
+      ${textStyles.SUIT_12_M}
+
+      & > svg {
+        width: 12px;
+        height: 12px;
+
+        & > path {
+          fill: ${colors.gray80};
+        }
       }
     }
   `,

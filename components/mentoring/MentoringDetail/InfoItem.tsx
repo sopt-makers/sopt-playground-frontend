@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface InfoItemProps {
@@ -21,7 +22,7 @@ export default function InfoItem({ label, children }: InfoItemProps) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
 `;
 
 const Label = styled.div`
@@ -29,4 +30,8 @@ const Label = styled.div`
   color: ${colors.white};
 
   ${textStyles.SUIT_24_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_16_B};
+  }
 `;
