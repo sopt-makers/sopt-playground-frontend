@@ -11,17 +11,17 @@ export default function useCarousel({ limit, itemList }: { limit: number; itemLi
     totalPageSize,
     paginate,
   } = usePagination({ limit, length: itemList.length });
-  const [direction, setDirection] = useState<-1 | 1>(1);
+  const [direction, setDirection] = useState<CarouselDirection>('next');
 
   const currentItemList = useMemo(() => itemList.slice(startIndex, startIndex + limit), [startIndex, itemList, limit]);
 
   const moveNext = () => {
     moveNextPage();
-    setDirection(1);
+    setDirection('next');
   };
   const movePrevious = () => {
     movePreviousPage();
-    setDirection(-1);
+    setDirection('previous');
   };
   const move = (newPage: number) => {
     if (page === newPage) {
@@ -29,12 +29,14 @@ export default function useCarousel({ limit, itemList }: { limit: number; itemLi
     }
     if (paginate(newPage)) {
       if (page < newPage) {
-        setDirection(1);
+        setDirection('next');
       } else {
-        setDirection(-1);
+        setDirection('previous');
       }
     }
   };
 
   return { page, direction, moveNext, movePrevious, currentItemList, totalPageSize, move };
 }
+
+export type CarouselDirection = 'previous' | 'next';

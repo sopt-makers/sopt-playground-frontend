@@ -3,7 +3,7 @@ import { AnimatePresence, m } from 'framer-motion';
 import { ReactNode } from 'react';
 
 import CarouselBody from '@/components/common/Carousel/Body';
-import useCarousel from '@/components/common/Carousel/useCarousel';
+import useCarousel, { CarouselDirection } from '@/components/common/Carousel/useCarousel';
 import LeftArrowIcon from '@/public/icons/icon-arrow-purple.svg';
 import { colors } from '@/styles/colors';
 
@@ -56,9 +56,9 @@ export default function Carousel({ itemList, limit, className, renderItemContain
 }
 
 const variants = {
-  enter: (direction: number) => {
+  enter: (direction: CarouselDirection) => {
     return {
-      x: direction > 0 ? 1000 : -1000,
+      x: direction === 'next' ? 1000 : -1000,
       opacity: 0,
     };
   },
@@ -67,10 +67,10 @@ const variants = {
     x: 0,
     opacity: 1,
   },
-  exit: (direction: number) => {
+  exit: (direction: CarouselDirection) => {
     return {
       zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+      x: direction === 'previous' ? 1000 : -1000,
       opacity: 0,
     };
   },
