@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Slot } from '@radix-ui/react-slot';
 import Link from 'next/link';
 import LinkIcon from 'public/icons/icon-link.svg';
 
@@ -14,43 +15,47 @@ interface CareerSectionProps {
   careers: Career[];
   links: MemberLink[];
   skill: string;
+  shouldNeedOnlyItems?: boolean;
 }
 
-export default function CareerSection({ careers, links, skill }: CareerSectionProps) {
+export default function CareerSection({ careers, links, skill, shouldNeedOnlyItems = false }: CareerSectionProps) {
+  const Container = shouldNeedOnlyItems ? Slot : StyledMemberDetailSection;
   return (
-    <StyledMemberDetailSection>
-      {careers?.length > 0 && (
-        <InfoItem label='커리어'>
-          <CareerItems>
-            {careers.map((career, idx) => (
-              <CareerWrapper key={idx}>
-                <CareerItemDecoration isCurrent={career.isCurrent} isEnd={idx === careers.length - 1}>
-                  <div className='circle' />
-                  <div className='line' />
-                </CareerItemDecoration>
-                <CareerItem career={career} />
-              </CareerWrapper>
-            ))}
-          </CareerItems>
-        </InfoItem>
-      )}
-      {skill?.length > 0 && <InfoItem label='스킬' content={skill} />}
-      {links?.length > 0 && (
-        <InfoItem
-          label='링크'
-          content={
-            <LinkItems>
-              {links.map((item, idx) => (
-                <Link passHref href={item.url} key={idx} target='_blank'>
-                  <LinkIcon />
-                  <span>{item.title}</span>
-                </Link>
+    <Container>
+      <>
+        {careers?.length > 0 && (
+          <InfoItem label='커리어'>
+            <CareerItems>
+              {careers.map((career, idx) => (
+                <CareerWrapper key={idx}>
+                  <CareerItemDecoration isCurrent={career.isCurrent} isEnd={idx === careers.length - 1}>
+                    <div className='circle' />
+                    <div className='line' />
+                  </CareerItemDecoration>
+                  <CareerItem career={career} />
+                </CareerWrapper>
               ))}
-            </LinkItems>
-          }
-        />
-      )}
-    </StyledMemberDetailSection>
+            </CareerItems>
+          </InfoItem>
+        )}
+        {skill?.length > 0 && <InfoItem label='스킬' content={skill} />}
+        {links?.length > 0 && (
+          <InfoItem
+            label='링크'
+            content={
+              <LinkItems>
+                {links.map((item, idx) => (
+                  <Link passHref href={item.url} key={idx} target='_blank'>
+                    <LinkIcon />
+                    <span>{item.title}</span>
+                  </Link>
+                ))}
+              </LinkItems>
+            }
+          />
+        )}
+      </>
+    </Container>
   );
 }
 

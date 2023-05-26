@@ -24,7 +24,9 @@ export const MENTORING_DATA_BY_MENTOR_ID: MentoringData<MentorData> = {
 };
 
 export const CAREER_DUMMY_DATA: MentorCareer = {
-  careers: [{ companyName: 'LINE PLUS', period: '2022.02 - 2022.08', title: 'Product Designer' }],
-  links: [{ title: 'Linkedin', url: 'https://playground.sopt.org' }],
+  careers: [
+    { companyName: 'LINE PLUS', startDate: '2022.02', endDate: '2022.08', isCurrent: false, title: 'Product Designer' },
+  ],
+  links: [{ title: 'Linkedin', url: 'https://playground.sopt.org', id: 1 }],
   skill: 'Node, Product Managing, Branding, UI',
 };

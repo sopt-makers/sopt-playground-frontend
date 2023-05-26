@@ -17,15 +17,26 @@ export type MentoringData<Mentor extends MentorData> = {
   };
 };
 
-interface Career {
-  companyName: string;
-  title: string;
-  period: string;
-}
+type Career =
+  | {
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: null;
+      isCurrent: true;
+    }
+  | {
+      companyName: string;
+      title: string;
+      startDate: string;
+      endDate: string;
+      isCurrent: false;
+    };
 
 interface Link {
   title: string;
   url: string;
+  id: number;
 }
 
 export interface MentorCareer {
