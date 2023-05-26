@@ -11,5 +11,17 @@ export default {
 const Template: ComponentStory<typeof UploadSopticle> = (args) => <UploadSopticle {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+Default.args = {
+  state: 'idle',
+};
+
+export const Loading = Template.bind({});
+Loading.args = {
+  state: 'loading',
+};
+
+export const Error = Template.bind({});
+Error.args = {
+  state: 'error',
+  errorMessage: '에러메시지',
+};

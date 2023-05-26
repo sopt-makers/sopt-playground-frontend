@@ -1,15 +1,27 @@
 import styled from '@emotion/styled';
-import { FC, useState } from 'react';
+import { AnimatePresence, m } from 'framer-motion';
+import { FC, FormEvent, useState } from 'react';
 
 import Input from '@/components/common/Input';
+import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface UploadSopticleProps {}
+interface UploadSopticleProps {
+  state: 'idle' | 'loading' | 'error' | 'success';
+  errorMessage?: string;
+  onSubmit: (url: string) => void;
+}
 
-const UploadSopticle: FC<UploadSopticleProps> = ({}) => {
+const UploadSopticle: FC<UploadSopticleProps> = ({ state, errorMessage, onSubmit }) => {
   const [url, setUrl] = useState('');
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+
+    onSubmit(url);
+  }
 
   return (
     <Container>
@@ -17,9 +29,28 @@ const UploadSopticle: FC<UploadSopticleProps> = ({}) => {
         <Title>SOPT 공홈에 솝티클 올리기</Title>
         <SubTitle>삭제가 어려우니 정확한 링크인지 꼭 확인해주세요.</SubTitle>
       </TitleBox>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Label>아티클 링크</Label>
-        <StyledInput placeholder='https://' value={url} onChange={(e) => setUrl(e.target.value)} />
+        <StyledInput
+          placeholder='https://'
+          disabled={state === 'loading'}
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+
+        <AnimatePresence initial={false}>
+          {state === 'error' && (
+            <ErrorMessageHolder
+              initial='hide'
+              animate='show'
+              exit='hide'
+              variants={{ hide: { height: 0, opacity: 0 }, show: { height: 'auto', opacity: 1 } }}
+            >
+              <ErrorMessage message={errorMessage} />
+            </ErrorMessageHolder>
+          )}
+        </AnimatePresence>
+
         <Button>솝티클 업로드하기</Button>
       </Form>
     </Container>
@@ -93,6 +124,13 @@ const Label = styled.label`
 const StyledInput = styled(Input)`
   & input {
     border-radius: 10px;
+  }
+`;
+
+const ErrorMessageHolder = styled(m.div)`
+  & > * {
+    padding-top: 10px;
+    padding-left: 2px;
   }
 `;
 
