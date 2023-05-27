@@ -13,10 +13,7 @@ interface UploadSuccessProps {}
 const UploadSuccess: FC<UploadSuccessProps> = ({}) => {
   return (
     <Container>
-      <CheckCircle>
-        {/* <MotionIconCircle /> */}
-        {checkSvg}
-      </CheckCircle>
+      <CheckCircle>{checkSvg}</CheckCircle>
 
       <Title>솝티클이 업로드 되었어요.</Title>
       <SubTitle>등록하신 솝티클은 SOPT 공식 홈페이지에서 확인할 수 있어요.</SubTitle>
