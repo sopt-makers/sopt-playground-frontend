@@ -1,7 +1,7 @@
 import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { getMembersSearchByName } from '@/api/endpoint/members';
+import { getMembersSearchByName } from '@/api/endpoint/members/getMembersSearchByName';
 import {
   getMemberOfMe,
   getMemberProfileById,
