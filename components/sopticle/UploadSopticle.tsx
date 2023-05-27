@@ -41,14 +41,14 @@ const UploadSopticle: FC<UploadSopticleProps> = ({ state, errorMessage, onSubmit
 
         <AnimatePresence initial={false}>
           {state === 'error' && (
-            <ErrorMessageHolder
+            <MotionErrorMessageHolder
               initial='hide'
               animate='show'
               exit='hide'
               variants={{ hide: { height: 0, opacity: 0 }, show: { height: 'auto', opacity: 1 } }}
             >
               <ErrorMessage message={errorMessage} />
-            </ErrorMessageHolder>
+            </MotionErrorMessageHolder>
           )}
         </AnimatePresence>
 
@@ -134,7 +134,7 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const ErrorMessageHolder = styled(m.div)`
+const MotionErrorMessageHolder = styled(m.div)`
   & > * {
     padding-top: 10px;
     padding-left: 2px;
