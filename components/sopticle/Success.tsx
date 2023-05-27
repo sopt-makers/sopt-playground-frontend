@@ -22,7 +22,7 @@ const UploadSuccess: FC<UploadSuccessProps> = ({}) => {
       <SubTitle>등록하신 솝티클은 SOPT 공식 홈페이지에서 확인할 수 있어요.</SubTitle>
 
       <ButtonGroup>
-        <ViewButton href={playgroundLink.sopticle()} target='_blank'>
+        <ViewButton href={'https://sopt.org/article'} target='_blank'>
           {goSvg} 솝티클 보러가기
         </ViewButton>
         <UploadMoreButton href={playgroundLink.sopticle()}>{plusSvg} 추가로 업로드하기</UploadMoreButton>
@@ -49,35 +49,6 @@ const checkSvg = (
           transition: {
             duration: 0.8,
             delay: 0.3,
-          },
-        },
-      }}
-    />
-  </m.svg>
-);
-
-const checkSvgx = (
-  <m.svg
-    width='16'
-    height='16'
-    viewBox='0 0 14 11'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-    initial='inactive'
-    animate='active'
-  >
-    <m.path
-      d='M1 5L5.66667 9L13 1'
-      stroke='white'
-      stroke-width='3'
-      variants={{
-        inactive: {
-          pathLength: 0,
-        },
-        active: {
-          pathLength: 1,
-          transition: {
-            duration: 0.4,
           },
         },
       }}

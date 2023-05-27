@@ -4,6 +4,7 @@ import { FC, FormEvent, useState } from 'react';
 
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
+import HelpCard from '@/components/sopticle/HelpCard';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -53,6 +54,12 @@ const UploadSopticle: FC<UploadSopticleProps> = ({ state, errorMessage, onSubmit
 
         <Button>솝티클 업로드하기</Button>
       </Form>
+      <StyledHelpCard
+        title='SOPT 공식 홈페이지에 솝티클 보러가기'
+        content='앗! 업로드가 아니라 솝티클을 읽고 싶으신가요?
+솝트 회원들이 직접 작성한 솝티클은 공홈에서 확인할 수 있어요.'
+        href='https://sopt.org/article'
+      />
     </Container>
   );
 };
@@ -146,5 +153,13 @@ const Button = styled.button`
     border-radius: 6px;
 
     ${textStyles.SUIT_14_M};
+  }
+`;
+
+const StyledHelpCard = styled(HelpCard)`
+  margin-top: 35px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 40px;
   }
 `;
