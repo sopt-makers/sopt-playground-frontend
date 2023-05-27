@@ -5,6 +5,7 @@ import { FC } from 'react';
 
 import { uploadSopticle } from '@/api/endpoint/sopticles/uploadSopticle';
 import { useGetMemberOfMe } from '@/api/endpoint_LEGACY/hooks';
+import AuthRequired from '@/components/auth/AuthRequired';
 import UploadSopticle from '@/components/sopticle/UploadSopticle';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
@@ -30,9 +31,11 @@ const SopticlePage: FC = () => {
   );
 
   return (
-    <StyledSopticlePage>
-      <UploadSopticle state={status} errorMessage={`${error}`} onSubmit={(url) => mutate(url)} />
-    </StyledSopticlePage>
+    <AuthRequired>
+      <StyledSopticlePage>
+        <UploadSopticle state={status} errorMessage={`${error}`} onSubmit={(url) => mutate(url)} />
+      </StyledSopticlePage>
+    </AuthRequired>
   );
 };
 
