@@ -45,7 +45,7 @@ export default function CareerSection({ careers, links, skill, shouldNeedOnlyIte
             content={
               <LinkItems>
                 {links.map((item, idx) => (
-                  <Link passHref href={item.url} key={idx} target='_blank'>
+                  <Link href={item.url} key={idx} target='_blank'>
                     <LinkIcon />
                     <span>{item.title}</span>
                   </Link>
