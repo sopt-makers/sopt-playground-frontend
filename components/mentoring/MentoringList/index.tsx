@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash-es';
+import Link from 'next/link';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import Carousel from '@/components/common/Carousel';
 import { mentoringProvider } from '@/components/mentoring/data';
 import MentoringCard from '@/components/mentoring/MentoringCard';
+import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
@@ -49,15 +51,6 @@ export default function MentoringList() {
     { staleTime: Infinity, cacheTime: Infinity },
   );
 
-  const mentoringCardList = getMentoringList().map(({ mentor, keywords, title }) => (
-    <MentoringCard
-      mentor={{ name: mentor.name, career: mentorCareerById?.get(mentor.id) }}
-      keywords={keywords}
-      title={title}
-      key={mentor.id}
-    />
-  ));
-
   const initListType = () => setListType(getListType());
 
   const handleResize = useMemo(
@@ -70,6 +63,16 @@ export default function MentoringList() {
       }, 1000),
     [listType],
   );
+
+  const mentoringCardList = getMentoringList().map(({ mentor, keywords, title }) => (
+    <Link href={playgroundLink.mentoringDetail(mentor.id)} key={mentor.id}>
+      <MentoringCard
+        mentor={{ name: mentor.name, career: mentorCareerById?.get(mentor.id) }}
+        keywords={keywords}
+        title={title}
+      />
+    </Link>
+  ));
 
   useEffect(() => {
     initListType();
