@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { debounce } from 'lodash-es';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import Carousel from '@/components/common/Carousel';
 import MentoringCard from '@/components/mentoring/MentoringCard';
@@ -36,12 +36,20 @@ export default function MentoringList() {
     />
   ));
 
-  const handleResize = debounce(() => {
-    const newListType = getListType();
-    if (newListType !== listType) {
-      setListType(newListType);
-    }
-  }, 1000);
+  const memorizedDebounceSetListType = useMemo(
+    () =>
+      debounce(() => {
+        const newListType = getListType();
+        if (newListType !== listType) {
+          setListType(newListType);
+        }
+      }, 1000),
+    // useEffect에서 사용 중인 handleResize로 인한 리렌더링 방지
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const handleResize = memorizedDebounceSetListType;
 
   useEffect(() => {
     setListType(getListType());
