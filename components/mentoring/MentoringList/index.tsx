@@ -55,7 +55,7 @@ export default function MentoringList() {
 
   return (
     <Container>
-      <Title>✨ NEW! 아래의 멘토들이 멘티를 기다리고 있어요</Title>
+      <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
       {listType &&
         (listType === 'scroll' ? (
           <MentoringScrollWrapper>
@@ -109,7 +109,9 @@ const Title = styled.div`
   }
 
   @media ${TABLET_MEDIA_QUERY} {
+    padding: 0 20px;
     width: 100%;
+    white-space: pre-line;
   }
 `;
 
@@ -128,6 +130,10 @@ const MentoringCardContainer = styled.div`
 
 const MentoringScrollWrapper = styled.div`
   width: 636px;
+
+  @media ${TABLET_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const MentoringScrollList = styled.div`
