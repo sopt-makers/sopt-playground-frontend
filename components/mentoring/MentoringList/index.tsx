@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash-es';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 
+import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import Carousel from '@/components/common/Carousel';
+import { mentoringProvider } from '@/components/mentoring/data';
 import MentoringCard from '@/components/mentoring/MentoringCard';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
@@ -23,40 +26,32 @@ const getListType = (): ListType => {
   }
 };
 
-const MENTORING_CARD_DUMMY_DATA = [
-  {
-    mentor: { id: 8, name: '남주영', career: '나사' },
-    keywords: ['별자리 찾기', '우주의 탄생 과정에 대해 알아보기'],
-    title: '정우와 함께하는 CGP Review',
-  },
-  {
-    mentor: { id: 1, name: '송정우', career: 'AWS' },
-    keywords: ['코드 리뷰', '아무거나 물어보세용', '취업 준비 과정에서 우선 순위 정하기'],
-    title: '하둘셋넷다여일여아열하둘셋넷다여일여아열하둘셋넷다여일여아열',
-  },
-  {
-    mentor: { id: 15, name: '백지연', career: '어둠의 커비단' },
-    keywords: ['코드 리뷰', '취업 준비 과정에서 우선 순위 정하기', '노동요추천-에스파스파이씨'],
-    title: '개발 천재 되는 법',
-  },
-  {
-    mentor: { id: 24, name: '김은수', career: '당근마켓' },
-    keywords: ['개자이피엠'],
-    title: '개발 천재 되는 법',
-  },
-  {
-    mentor: { id: 7, name: '이준호', career: '고수수현' },
-    keywords: ['고수수현', '중수수현', '하수수현'],
-    title: '개발 천재 되는 법',
-  },
-];
-
 export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
 
-  const mentoringCardList = MENTORING_CARD_DUMMY_DATA.map(({ mentor, keywords, title }) => (
+  const { getMentorIdList, getMentoringList } = mentoringProvider;
+  const { data: mentorCareerById } = useQuery(
+    ['getMentorCareerList'],
+    async () => {
+      const mentorCareerById = new Map<number, string>();
+      await Promise.all(
+        getMentorIdList().map(async (id: number) => {
+          try {
+            const profile = await getMemberProfileById(id);
+            mentorCareerById.set(id, profile.careers.find((career) => career.isCurrent)?.companyName ?? '');
+          } catch {
+            mentorCareerById.set(id, '');
+          }
+        }),
+      );
+      return mentorCareerById;
+    },
+    { staleTime: Infinity, cacheTime: Infinity },
+  );
+
+  const mentoringCardList = getMentoringList().map(({ mentor, keywords, title }) => (
     <MentoringCard
-      mentor={{ name: mentor.name, career: mentor.career }}
+      mentor={{ name: mentor.name, career: mentorCareerById?.get(mentor.id) }}
       keywords={keywords}
       title={title}
       key={mentor.id}
