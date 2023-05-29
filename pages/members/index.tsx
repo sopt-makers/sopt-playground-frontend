@@ -6,6 +6,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import ActiveBannerSlot from '@/components/common/Banner/ActiveBannerSlot';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
+import MentoringList from '@/components/mentoring/MentoringList';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -18,6 +19,7 @@ const MemberPage: FC = () => {
   return (
     <AuthRequired>
       <ActiveBannerSlot />
+      <MentoringList />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
   );
