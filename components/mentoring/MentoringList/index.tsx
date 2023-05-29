@@ -3,15 +3,26 @@ import { debounce } from 'lodash-es';
 import { ReactNode, useEffect, useState } from 'react';
 
 import Carousel from '@/components/common/Carousel';
-import Responsive from '@/components/common/Responsive';
 import MentoringCard from '@/components/mentoring/MentoringCard';
 import { MENTORING_CARD_DUMMY_DATA } from '@/components/mentoring/temp';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
+type ListType = 'carousel-large' | 'carousel-small' | 'normal' | undefined;
+
+const getListType = (): ListType => {
+  if (window.innerWidth >= SCREEN_SIZE.DESKTOP_LARGE) {
+    return 'carousel-large';
+  } else if (window.innerWidth >= SCREEN_SIZE.DESKTOP_SMALL) {
+    return 'carousel-small';
+  } else {
+    return 'normal';
+  }
+};
+
 export default function MentoringList() {
-  const [carouselLimit, setCarouselLimit] = useState<2 | 3>(2);
+  const [listType, setListType] = useState<ListType>();
 
   const carouselItemList = MENTORING_CARD_DUMMY_DATA.map(({ mentor, keywords, title }) => (
     <MentoringCard
@@ -22,20 +33,15 @@ export default function MentoringList() {
     />
   ));
 
-  const checkScreenSize = () => {
-    if (window.innerWidth >= SCREEN_SIZE.DESKTOP_LARGE) {
-      setCarouselLimit(3);
-    } else {
-      setCarouselLimit(2);
-    }
-  };
-
   const handleResize = debounce(() => {
-    checkScreenSize();
+    const newListType = getListType();
+    if (newListType !== listType) {
+      setListType(newListType);
+    }
   }, 1000);
 
   useEffect(() => {
-    checkScreenSize();
+    setListType(getListType());
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
@@ -43,13 +49,16 @@ export default function MentoringList() {
   return (
     <Container>
       <Title>✨ NEW! 아래의 멘토들이 멘티를 기다리고 있어요</Title>
-      <Responsive only='desktop'>
-        <Carousel
-          itemList={carouselItemList}
-          limit={carouselLimit}
-          renderItemContainer={(children: ReactNode) => <MentoringCardContainer>{children}</MentoringCardContainer>}
-        />
-      </Responsive>
+      {listType &&
+        (listType === 'normal' ? (
+          <></>
+        ) : (
+          <StyledCarousel
+            itemList={carouselItemList}
+            limit={listType === 'carousel-large' ? 3 : 2}
+            renderItemContainer={(children: ReactNode) => <MentoringCardContainer>{children}</MentoringCardContainer>}
+          />
+        ))}
     </Container>
   );
 }
@@ -95,12 +104,15 @@ const Title = styled.div`
   }
 `;
 
+const StyledCarousel = styled(Carousel)`
+  width: 1414px;
+
+  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
+    width: 975px;
+  }
+`;
+
 const MentoringCardContainer = styled.div`
   display: flex;
   gap: 15px;
-  width: 1302px;
-
-  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-    width: 863px;
-  }
 `;
