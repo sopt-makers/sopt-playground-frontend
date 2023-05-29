@@ -9,7 +9,7 @@ import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBan
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
-const UserPage: FC = () => {
+const MemberPage: FC = () => {
   const { data: memberOfMeData } = useGetMemberOfMe();
 
   const hasProfile = !!memberOfMeData?.hasProfile;
@@ -23,9 +23,9 @@ const UserPage: FC = () => {
   );
 };
 
-setLayout(UserPage, 'headerFooter');
+setLayout(MemberPage, 'headerFooter');
 
-export default UserPage;
+export default MemberPage;
 
 const StyledOnBoardingBanner = styled(OnBoardingBanner)`
   margin-bottom: 90px;
