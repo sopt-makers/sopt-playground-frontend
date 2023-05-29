@@ -90,6 +90,17 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 100px;
+  margin-bottom: 103px;
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    margin-top: 104px;
+    margin-bottom: 48px;
+  }
+
+  @media ${TABLET_MEDIA_QUERY} {
+    margin-top: 24px;
+    margin-bottom: 40px;
+  }
 `;
 
 const Title = styled.div`
