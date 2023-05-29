@@ -21,8 +21,8 @@ interface MentoringDetailProps {
 
 export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
   const { data: mentorCareerInfo } = useQuery(['getMentorCareerInfoByMentorId', mentorId], async () => {
-    const { careers, links, skill } = await getMemberProfileById(mentorId);
-    return { careers, links, skill };
+    const { careers, links, skill, profileImage } = await getMemberProfileById(mentorId);
+    return { careers, links, skill, profileImage };
   });
 
   const { getMentoringById } = mentoringProvider;
@@ -33,9 +33,13 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
         <MentoringTitle>{title}</MentoringTitle>
         <Link href={playgroundLink.memberDetail(mentorId)}>
           <ProfileButton>
-            <EmptyProfileImage>
-              <ProfileIcon />
-            </EmptyProfileImage>
+            {mentorCareerInfo?.profileImage ? (
+              <ProfileImage src={mentorCareerInfo.profileImage} />
+            ) : (
+              <EmptyProfileImage>
+                <ProfileIcon />
+              </EmptyProfileImage>
+            )}
             <MentorName>{mentorName}</MentorName>
             <StyledArrowRightIcon />
           </ProfileButton>
@@ -297,6 +301,18 @@ const Content = styled.div`
     color: ${colors.gray40};
 
     ${textStyles.SUIT_14_M};
+  }
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 24px;
+    height: 24px;
   }
 `;
 
