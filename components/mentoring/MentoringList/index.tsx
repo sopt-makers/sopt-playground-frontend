@@ -9,7 +9,7 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
-type ListType = 'carousel-large' | 'carousel-small' | 'normal' | undefined;
+type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
 const getListType = (): ListType => {
   if (typeof window === 'undefined') {
@@ -20,14 +20,14 @@ const getListType = (): ListType => {
   } else if (window.innerWidth >= SCREEN_SIZE.DESKTOP_SMALL) {
     return 'carousel-small';
   } else {
-    return 'normal';
+    return 'scroll';
   }
 };
 
 export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
 
-  const carouselItemList = MENTORING_CARD_DUMMY_DATA.map(({ mentor, keywords, title }) => (
+  const mentoringCardList = MENTORING_CARD_DUMMY_DATA.map(({ mentor, keywords, title }) => (
     <MentoringCard
       mentor={{ name: mentor.name, career: mentor.career }}
       keywords={keywords}
@@ -36,7 +36,7 @@ export default function MentoringList() {
     />
   ));
 
-  const memorizedDebounceSetListType = useMemo(
+  const handleResize = useMemo(
     () =>
       debounce(() => {
         const newListType = getListType();
@@ -44,12 +44,8 @@ export default function MentoringList() {
           setListType(newListType);
         }
       }, 1000),
-    // useEffect에서 사용 중인 handleResize로 인한 리렌더링 방지
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [listType],
   );
-
-  const handleResize = memorizedDebounceSetListType;
 
   useEffect(() => {
     setListType(getListType());
@@ -61,11 +57,13 @@ export default function MentoringList() {
     <Container>
       <Title>✨ NEW! 아래의 멘토들이 멘티를 기다리고 있어요</Title>
       {listType &&
-        (listType === 'normal' ? (
-          <></>
+        (listType === 'scroll' ? (
+          <MentoringScrollWrapper>
+            <MentoringScrollList>{mentoringCardList}</MentoringScrollList>
+          </MentoringScrollWrapper>
         ) : (
           <StyledCarousel
-            itemList={carouselItemList}
+            itemList={mentoringCardList}
             limit={listType === 'carousel-large' ? 3 : 2}
             renderItemContainer={(children: ReactNode) => <MentoringCardContainer>{children}</MentoringCardContainer>}
           />
@@ -126,4 +124,18 @@ const StyledCarousel = styled(Carousel)`
 const MentoringCardContainer = styled.div`
   display: flex;
   gap: 15px;
+`;
+
+const MentoringScrollWrapper = styled.div`
+  width: 636px;
+`;
+
+const MentoringScrollList = styled.div`
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
