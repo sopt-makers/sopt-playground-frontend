@@ -12,6 +12,9 @@ import { getScreenMaxWidthMediaQuery } from '@/utils';
 type ListType = 'carousel-large' | 'carousel-small' | 'normal' | undefined;
 
 const getListType = (): ListType => {
+  if (typeof window === 'undefined') {
+    return;
+  }
   if (window.innerWidth >= SCREEN_SIZE.DESKTOP_LARGE) {
     return 'carousel-large';
   } else if (window.innerWidth >= SCREEN_SIZE.DESKTOP_SMALL) {
