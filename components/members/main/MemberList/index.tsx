@@ -439,7 +439,7 @@ const StyledContainer = styled.div`
   justify-content: center;
   margin-top: 180px;
   padding-bottom: 100px;
-  overflow-y: scroll;
+  min-height: 101vh;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 0;
