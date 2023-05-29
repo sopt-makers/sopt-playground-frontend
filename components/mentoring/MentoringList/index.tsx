@@ -8,6 +8,7 @@ import MentoringCard from '@/components/mentoring/MentoringCard';
 import { MENTORING_CARD_DUMMY_DATA } from '@/components/mentoring/temp';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
+import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 export default function MentoringList() {
   const [carouselLimit, setCarouselLimit] = useState<2 | 3>(2);
@@ -60,6 +61,10 @@ const SCREEN_SIZE = {
   MOBILE: 375,
 };
 
+const DESKTOP_LARGE_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.DESKTOP_LARGE}px`);
+const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.DESKTOP_SMALL}px`);
+const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.TABLET}px`);
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -71,14 +76,31 @@ const Container = styled.div`
 
 const Title = styled.div`
   width: 1302px;
+  text-align: start;
   line-height: 100%;
   color: ${colors.white};
 
   ${textStyles.SUIT_24_B}
+
+  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
+    width: 969px;
+  }
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    width: 636px;
+  }
+
+  @media ${TABLET_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const MentoringCardContainer = styled.div`
   display: flex;
   gap: 15px;
-  width: fit-content;
+  width: 1302px;
+
+  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
+    width: 863px;
+  }
 `;
