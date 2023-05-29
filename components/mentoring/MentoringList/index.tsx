@@ -63,6 +63,8 @@ export default function MentoringList() {
     />
   ));
 
+  const initListType = () => setListType(getListType());
+
   const handleResize = useMemo(
     () =>
       debounce(() => {
@@ -75,7 +77,7 @@ export default function MentoringList() {
   );
 
   useEffect(() => {
-    setListType(getListType());
+    initListType();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
