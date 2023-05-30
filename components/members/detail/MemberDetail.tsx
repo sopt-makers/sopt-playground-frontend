@@ -12,6 +12,7 @@ import { FC, useMemo } from 'react';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
 import Loading from '@/components/common/Loading';
+import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CareerSection from '@/components/members/detail/CareerSection';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
@@ -215,12 +216,29 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
         <ProjectContainer>
           <ProjectTitle>{profile.name}님이 참여한 프로젝트</ProjectTitle>
-          <ProjectSub>{profile.projects.length}개의 프로젝트에 참여</ProjectSub>
-          <ProjectDisplay>
-            {profile.projects.map((project) => (
-              <MemberProjectCard key={project.id} {...project} />
-            ))}
-          </ProjectDisplay>
+          {profile.projects.length > 0 && (
+            <>
+              <ProjectSub>{profile.projects.length}개의 프로젝트에 참여</ProjectSub>
+              <ProjectDisplay>
+                {profile.projects.map((project) => (
+                  <MemberProjectCard key={project.id} {...project} />
+                ))}
+              </ProjectDisplay>
+            </>
+          )}
+          {profile.projects.length === 0 && (
+            <>
+              <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>
+              <ProjectUploadNudge>
+                <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
+                  참여한 프로젝트를 등록하면 <br />
+                  공식 홈페이지에도 프로젝트가 업로드 돼요!
+                </Text>
+                <ProjectUploadButton href={playgroundLink.projectUpload()}>+ 내 프로젝트 올리기</ProjectUploadButton>
+                <ProjectUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' />
+              </ProjectUploadNudge>
+            </>
+          )}
         </ProjectContainer>
       </Wrapper>
     </Container>
@@ -482,6 +500,53 @@ const ProjectDisplay = styled.div`
     flex-direction: column;
     gap: 26px;
     margin-top: 26px;
+  }
+`;
+
+const ProjectUploadNudge = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
+  border-radius: 30px;
+  background-color: ${colors.black80};
+  height: 317px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 20px;
+    height: 212px;
+  }
+`;
+
+const ProjectUploadMaskImg = styled.img`
+  position: absolute;
+  max-height: 317px;
+  object-fit: cover;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    top: 0;
+    max-height: 134px;
+  }
+`;
+
+const ProjectUploadButton = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  margin-top: 24px;
+  border-radius: 14px;
+  background-color: ${colors.white};
+  padding: 14px 48px;
+  color: ${colors.black80};
+
+  ${textStyles.SUIT_15_SB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 50px;
+    width: 100%;
   }
 `;
 
