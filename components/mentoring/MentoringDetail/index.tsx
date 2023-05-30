@@ -7,7 +7,9 @@ import MessageIcon from 'public/icons/icon-message.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
+import useModalState from '@/components/common/Modal/useModalState';
 import CareerItems from '@/components/members/detail/CareerSection';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { mentoringProvider } from '@/components/mentoring/data';
 import InfoItem from '@/components/mentoring/MentoringDetail/InfoItem';
 import { playgroundLink } from '@/constants/links';
@@ -24,80 +26,92 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
     const { careers, links, skill, profileImage } = await getMemberProfileById(mentorId);
     return { careers, links, skill, profileImage };
   });
+  const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
 
   const { getMentoringById } = mentoringProvider;
   const { title, mentorName, keywords, introduce, howTo, target, nonTarget } = getMentoringById(mentorId);
   return (
-    <Container>
-      <Header>
-        <MentoringTitle>{title}</MentoringTitle>
-        <Link href={playgroundLink.memberDetail(mentorId)}>
-          <ProfileButton>
-            {mentorCareerInfo?.profileImage ? (
-              <ProfileImage src={mentorCareerInfo.profileImage} />
-            ) : (
-              <EmptyProfileImage>
-                <ProfileIcon />
-              </EmptyProfileImage>
-            )}
-            <MentorName>{mentorName}</MentorName>
-            <StyledArrowRightIcon />
-          </ProfileButton>
-        </Link>
-        <MessageButton>
-          <MessageIcon />
-          <div>신청 쪽지 보내기</div>
-        </MessageButton>
-      </Header>
-      <Main>
-        <Section>
-          <InfoItem label='🔍 전문분야'>
-            <KeywordList>
-              {keywords.map((keyword, index) => (
-                <Keyword key={`${index}-${keyword}`}>{keyword}</Keyword>
-              ))}
-            </KeywordList>
-          </InfoItem>
-          <InfoItem label='📓 멘토링 소개'>
-            <Content>{introduce}</Content>
-          </InfoItem>
-          <InfoItem label='💡 진행 방식'>
-            <Content>{howTo}</Content>
-          </InfoItem>
-        </Section>
-        {((mentorCareerInfo?.careers && mentorCareerInfo.careers.length > 0) ||
-          (mentorCareerInfo?.links && mentorCareerInfo.links.length > 0) ||
-          mentorCareerInfo?.skill) && (
-          <Career.Section>
-            <Career.Header>
-              <Career.Title>💼 멘토의 커리어</Career.Title>
-              <Link href={playgroundLink.memberDetail(mentorId)}>
-                <Career.ProfileButton>
-                  <ArrowDiagonalIcon />
-                  <div>멘토 프로필 보러가기</div>
-                </Career.ProfileButton>
-              </Link>
-            </Career.Header>
-            <Career.InfoItemWrapper>
-              <CareerItems
-                careers={mentorCareerInfo?.careers ?? []}
-                links={mentorCareerInfo?.links ?? []}
-                skill={mentorCareerInfo?.skill ?? ''}
-                shouldNeedOnlyItems
-              />
-            </Career.InfoItemWrapper>
-          </Career.Section>
-        )}
-        <Section>
-          <InfoItem label='🙆 이런 분들에게 추천해요!'>
-            <Content>{target}</Content>
-          </InfoItem>
-          <InfoItem label='🙅 이런 분들에게 추천하지 않아요!'>
-            <Content>{nonTarget}</Content>
-          </InfoItem>
-        </Section>
-      </Main>
-    </Container>
+    <>
+      <Container>
+        <Header>
+          <MentoringTitle>{title}</MentoringTitle>
+          <Link href={playgroundLink.memberDetail(mentorId)}>
+            <ProfileButton>
+              {mentorCareerInfo?.profileImage ? (
+                <ProfileImage src={mentorCareerInfo.profileImage} />
+              ) : (
+                <EmptyProfileImage>
+                  <ProfileIcon />
+                </EmptyProfileImage>
+              )}
+              <MentorName>{mentorName}</MentorName>
+              <StyledArrowRightIcon />
+            </ProfileButton>
+          </Link>
+          <MessageButton onClick={() => onOpenMessageModal()}>
+            <MessageIcon />
+            <div>신청 쪽지 보내기</div>
+          </MessageButton>
+        </Header>
+        <Main>
+          <Section>
+            <InfoItem label='🔍 전문분야'>
+              <KeywordList>
+                {keywords.map((keyword, index) => (
+                  <Keyword key={`${index}-${keyword}`}>{keyword}</Keyword>
+                ))}
+              </KeywordList>
+            </InfoItem>
+            <InfoItem label='📓 멘토링 소개'>
+              <Content>{introduce}</Content>
+            </InfoItem>
+            <InfoItem label='💡 진행 방식'>
+              <Content>{howTo}</Content>
+            </InfoItem>
+          </Section>
+          {((mentorCareerInfo?.careers && mentorCareerInfo.careers.length > 0) ||
+            (mentorCareerInfo?.links && mentorCareerInfo.links.length > 0) ||
+            mentorCareerInfo?.skill) && (
+            <Career.Section>
+              <Career.Header>
+                <Career.Title>💼 멘토의 커리어</Career.Title>
+                <Link href={playgroundLink.memberDetail(mentorId)}>
+                  <Career.ProfileButton>
+                    <ArrowDiagonalIcon />
+                    <div>멘토 프로필 보러가기</div>
+                  </Career.ProfileButton>
+                </Link>
+              </Career.Header>
+              <Career.InfoItemWrapper>
+                <CareerItems
+                  careers={mentorCareerInfo?.careers ?? []}
+                  links={mentorCareerInfo?.links ?? []}
+                  skill={mentorCareerInfo?.skill ?? ''}
+                  shouldNeedOnlyItems
+                />
+              </Career.InfoItemWrapper>
+            </Career.Section>
+          )}
+          <Section>
+            <InfoItem label='🙆 이런 분들에게 추천해요!'>
+              <Content>{target}</Content>
+            </InfoItem>
+            <InfoItem label='🙅 이런 분들에게 추천하지 않아요!'>
+              <Content>{nonTarget}</Content>
+            </InfoItem>
+          </Section>
+        </Main>
+      </Container>
+      {isOpenMessageModal && (
+        <MessageModal
+          receiverId={mentorId.toString()}
+          name={mentorName}
+          profileImageUrl={mentorCareerInfo?.profileImage ?? ''}
+          onClose={onCloseMessageModal}
+          initialCategory={MessageCategory.MENTORING}
+        />
+      )}
+    </>
   );
 }
 
