@@ -31,6 +31,11 @@ export default function Carousel({ itemList, limit, className, renderItemContain
     onMove?.();
   };
 
+  const handleClickIndicator = (page: number) => {
+    move(page);
+    onMove?.();
+  };
+
   return (
     <Container className={className}>
       <AnimatePresence initial={false} custom={direction}>
@@ -59,7 +64,7 @@ export default function Carousel({ itemList, limit, className, renderItemContain
         {Array(totalPageSize)
           .fill(null)
           .map((_, index) => (
-            <Indicator onClick={() => move(index + 1)} isActive={index + 1 === page} key={`${index}`} />
+            <Indicator onClick={() => handleClickIndicator(index + 1)} isActive={index + 1 === page} key={`${index}`} />
           ))}
       </Indicators>
     </Container>
