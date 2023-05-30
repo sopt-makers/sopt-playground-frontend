@@ -40,6 +40,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
     clickMentoringApplicationButton: () => logClickEvent('mentoringApplicationButton', { mentorId }),
     submitMentoringApplication: (receiverId: number, category: string) =>
       logSubmitEvent('sendMessage', { receiverId, category, referral: 'mentoringDetail' }),
+    pageView: () => logPageViewEvent('mentoringDetail', { mentorId }),
   };
 
   const handleClickMessageButton = () => {
@@ -48,7 +49,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
   };
 
   useRunOnce(() => {
-    logPageViewEvent('mentoringDetail', { mentorId });
+    amplitude.pageView();
   }, [mentorId]);
 
   return (
