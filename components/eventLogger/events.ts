@@ -52,6 +52,21 @@ export interface ClickEvents {
   filterOrderBy: {
     orderBy: string;
   };
+  mentoringCarouselButton: {
+    //
+  };
+  mentoringCard: {
+    mentorId: number;
+  };
+  mentorProfile: {
+    mentorId: number;
+  };
+  mentorProfileCareer: {
+    mentorId: number;
+  };
+  mentoringApplicationButton: {
+    mentorId: number;
+  };
 }
 
 export interface SubmitEvents {

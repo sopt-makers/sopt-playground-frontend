@@ -12,13 +12,24 @@ interface CarouselProps {
   limit: number;
   className?: string;
   renderItemContainer: (children: ReactNode) => ReactNode;
+  onMove?: () => void;
 }
 
-export default function Carousel({ itemList, limit, className, renderItemContainer }: CarouselProps) {
+export default function Carousel({ itemList, limit, className, renderItemContainer, onMove }: CarouselProps) {
   const { page, direction, moveNext, movePrevious, currentItemList, totalPageSize, move } = useCarousel({
     limit,
     itemList,
   });
+
+  const handleClickLeftControl = () => {
+    movePrevious();
+    onMove?.();
+  };
+
+  const handleClickRightControl = () => {
+    moveNext();
+    onMove?.();
+  };
 
   return (
     <Container className={className}>
@@ -38,10 +49,10 @@ export default function Carousel({ itemList, limit, className, renderItemContain
           <CarouselBody currentItemList={currentItemList} renderContainer={renderItemContainer} />
         </StyledMotionDiv>
       </AnimatePresence>
-      <LeftControl onClick={movePrevious} isActive={page - 1 >= 1}>
+      <LeftControl onClick={handleClickLeftControl} isActive={page - 1 >= 1}>
         <LeftArrowIcon />
       </LeftControl>
-      <RightControl onClick={moveNext} isActive={page + 1 <= totalPageSize}>
+      <RightControl onClick={handleClickRightControl} isActive={page + 1 <= totalPageSize}>
         <RightArrowIcon />
       </RightControl>
       <Indicators>

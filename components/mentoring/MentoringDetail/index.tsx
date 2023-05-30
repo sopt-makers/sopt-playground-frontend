@@ -8,6 +8,7 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import useModalState from '@/components/common/Modal/useModalState';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CareerItems from '@/components/members/detail/CareerSection';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { mentoringProvider } from '@/components/mentoring/data';
@@ -27,16 +28,29 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
     return { careers, links, skill, profileImage };
   });
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
+  const { logClickEvent } = useEventLogger();
 
   const { getMentoringById } = mentoringProvider;
   const { title, mentorName, keywords, introduce, howTo, target, nonTarget } = getMentoringById(mentorId);
+
+  const amplitude = {
+    clickMentorProfile: () => logClickEvent('mentorProfile', { mentorId }),
+    clickMentorProfileCareer: () => logClickEvent('mentorProfileCareer', { mentorId }),
+    clickMentoringApplicationButton: () => logClickEvent('mentoringApplicationButton', { mentorId }),
+  };
+
+  const handleClickMessageButton = () => {
+    onOpenMessageModal();
+    amplitude.clickMentoringApplicationButton();
+  };
+
   return (
     <>
       <Container>
         <Header>
           <MentoringTitle>{title}</MentoringTitle>
           <Link href={playgroundLink.memberDetail(mentorId)}>
-            <ProfileButton>
+            <ProfileButton onClick={amplitude.clickMentorProfile}>
               {mentorProfile?.profileImage ? (
                 <ProfileImage src={mentorProfile.profileImage} />
               ) : (
@@ -48,7 +62,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
               <StyledArrowRightIcon />
             </ProfileButton>
           </Link>
-          <MessageButton onClick={() => onOpenMessageModal()}>
+          <MessageButton onClick={handleClickMessageButton}>
             <MessageIcon />
             <div>신청 쪽지 보내기</div>
           </MessageButton>
@@ -76,7 +90,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
               <Career.Header>
                 <Career.Title>💼 멘토의 커리어</Career.Title>
                 <Link href={playgroundLink.memberDetail(mentorId)}>
-                  <Career.ProfileButton>
+                  <Career.ProfileButton onClick={amplitude.clickMentorProfileCareer}>
                     <ArrowDiagonalIcon />
                     <div>멘토 프로필 보러가기</div>
                   </Career.ProfileButton>

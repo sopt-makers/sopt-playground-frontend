@@ -6,6 +6,7 @@ import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import Carousel from '@/components/common/Carousel';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { mentoringProvider } from '@/components/mentoring/data';
 import MentoringCard from '@/components/mentoring/MentoringCard';
 import { playgroundLink } from '@/constants/links';
@@ -30,6 +31,7 @@ const getListType = (): ListType => {
 
 export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
+  const { logClickEvent } = useEventLogger();
 
   const { getMentorIdList, getMentoringList } = mentoringProvider;
   const { data: mentorCareerById } = useQuery(
@@ -64,12 +66,18 @@ export default function MentoringList() {
     [listType],
   );
 
+  const amplitude = {
+    moveCarousel: () => logClickEvent('mentoringCarouselButton', {}),
+    clickCarouselCard: (mentorId: number) => logClickEvent('mentoringCard', { mentorId }),
+  };
+
   const mentoringCardList = getMentoringList().map(({ mentor, keywords, title }) => (
     <Link href={playgroundLink.mentoringDetail(mentor.id)} key={mentor.id}>
       <MentoringCard
         mentor={{ name: mentor.name, career: mentorCareerById?.get(mentor.id) }}
         keywords={keywords}
         title={title}
+        onClick={() => amplitude.clickCarouselCard(mentor.id)}
       />
     </Link>
   ));
@@ -93,6 +101,7 @@ export default function MentoringList() {
             itemList={mentoringCardList}
             limit={listType === 'carousel-large' ? 3 : 2}
             renderItemContainer={(children: ReactNode) => <MentoringCardContainer>{children}</MentoringCardContainer>}
+            onMove={amplitude.moveCarousel}
           />
         ))}
     </Container>
