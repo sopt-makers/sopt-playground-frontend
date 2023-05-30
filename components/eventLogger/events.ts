@@ -79,6 +79,11 @@ export interface SubmitEvents {
   verify: {
     by: 'phone' | 'email';
   };
+  sendMessage: {
+    category: string;
+    receiverId: number;
+    referral: 'mentoringDetail' | 'memberDetail' | 'memberList';
+  };
 }
 
 export interface PageViewEvents {

@@ -28,7 +28,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
     return { careers, links, skill, profileImage };
   });
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
-  const { logClickEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent } = useEventLogger();
 
   const { getMentoringById } = mentoringProvider;
   const { title, mentorName, keywords, introduce, howTo, target, nonTarget } = getMentoringById(mentorId);
@@ -37,6 +37,8 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
     clickMentorProfile: () => logClickEvent('mentorProfile', { mentorId }),
     clickMentorProfileCareer: () => logClickEvent('mentorProfileCareer', { mentorId }),
     clickMentoringApplicationButton: () => logClickEvent('mentoringApplicationButton', { mentorId }),
+    submitMentoringApplication: (receiverId: number, category: string) =>
+      logSubmitEvent('sendMessage', { receiverId, category, referral: 'mentoringDetail' }),
   };
 
   const handleClickMessageButton = () => {
@@ -123,6 +125,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
           profileImageUrl={mentorProfile?.profileImage ?? ''}
           onClose={onCloseMessageModal}
           defaultCategory={MessageCategory.MENTORING}
+          onLog={(options) => amplitude.submitMentoringApplication(mentorId, options?.category?.toString() ?? '')}
         />
       )}
     </>

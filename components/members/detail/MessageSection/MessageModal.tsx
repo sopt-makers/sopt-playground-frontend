@@ -71,9 +71,17 @@ interface MessageModalProps extends ModalProps {
   name: string;
   receiverId: string;
   defaultCategory: MessageCategory;
+  onLog?: (options?: { category?: MessageCategory }) => void;
 }
 
-const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name, defaultCategory, ...props }) => {
+const MessageModal: FC<MessageModalProps> = ({
+  receiverId,
+  profileImageUrl,
+  name,
+  defaultCategory,
+  onLog,
+  ...props
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<MessageCategory | null>(defaultCategory ?? null);
   const {
     handleSubmit,
@@ -89,7 +97,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
   };
-  const onSubmit = async ({ content, email }: MessageForm) => {
+  const submit = async ({ content, email }: MessageForm) => {
     const confirm = window.confirm('쪽지를 보내시겠습니까?');
     try {
       if (!selectedCategory) {
@@ -106,6 +114,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name
           title: '쪽지 보내기',
           content: '성공적으로 전송되었어요!',
         });
+        onLog?.({ category: selectedCategory });
         props.onClose();
       }
     } catch (error) {
@@ -115,7 +124,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name
 
   return (
     <StyledModal isOpen {...props}>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledForm onSubmit={handleSubmit(submit)}>
         {profileImageUrl ? (
           <ProfileImage src={profileImageUrl} style={{ width: '84px', height: '84px', borderRadius: '20px' }} />
         ) : (
