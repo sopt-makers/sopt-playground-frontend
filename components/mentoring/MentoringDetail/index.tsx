@@ -22,7 +22,7 @@ interface MentoringDetailProps {
 }
 
 export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
-  const { data: mentorCareerInfo } = useQuery(['getMentorCareerInfoByMentorId', mentorId], async () => {
+  const { data: mentorProfile } = useQuery(['getMentorProfile', mentorId], async () => {
     const { careers, links, skill, profileImage } = await getMemberProfileById(mentorId);
     return { careers, links, skill, profileImage };
   });
@@ -37,8 +37,8 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
           <MentoringTitle>{title}</MentoringTitle>
           <Link href={playgroundLink.memberDetail(mentorId)}>
             <ProfileButton>
-              {mentorCareerInfo?.profileImage ? (
-                <ProfileImage src={mentorCareerInfo.profileImage} />
+              {mentorProfile?.profileImage ? (
+                <ProfileImage src={mentorProfile.profileImage} />
               ) : (
                 <EmptyProfileImage>
                   <ProfileIcon />
@@ -69,9 +69,9 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
               <Content>{howTo}</Content>
             </InfoItem>
           </Section>
-          {((mentorCareerInfo?.careers && mentorCareerInfo.careers.length > 0) ||
-            (mentorCareerInfo?.links && mentorCareerInfo.links.length > 0) ||
-            mentorCareerInfo?.skill) && (
+          {((mentorProfile?.careers && mentorProfile.careers.length > 0) ||
+            (mentorProfile?.links && mentorProfile.links.length > 0) ||
+            mentorProfile?.skill) && (
             <Career.Section>
               <Career.Header>
                 <Career.Title>💼 멘토의 커리어</Career.Title>
@@ -84,9 +84,9 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
               </Career.Header>
               <Career.InfoItemWrapper>
                 <CareerItems
-                  careers={mentorCareerInfo?.careers ?? []}
-                  links={mentorCareerInfo?.links ?? []}
-                  skill={mentorCareerInfo?.skill ?? ''}
+                  careers={mentorProfile?.careers ?? []}
+                  links={mentorProfile?.links ?? []}
+                  skill={mentorProfile?.skill ?? ''}
                   shouldNeedOnlyItems
                 />
               </Career.InfoItemWrapper>
@@ -106,7 +106,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
         <MessageModal
           receiverId={mentorId.toString()}
           name={mentorName}
-          profileImageUrl={mentorCareerInfo?.profileImage ?? ''}
+          profileImageUrl={mentorProfile?.profileImage ?? ''}
           onClose={onCloseMessageModal}
           initialCategory={MessageCategory.MENTORING}
         />
