@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import useModalState from '@/components/common/Modal/useModalState';
 import useToast from '@/components/common/Toast/useToast';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
-import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -50,6 +50,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
           name={name}
           profileImageUrl={profileImage}
           onClose={onCloseCoffeeChatModal}
+          initialCategory={MessageCategory.COFFEE_CHAT}
         />
       )}
     </>
