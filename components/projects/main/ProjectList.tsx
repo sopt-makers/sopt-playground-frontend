@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
 import { uniqBy as _uniqBy } from 'lodash-es';
+import Link from 'next/link';
 
 import Text from '@/components/common/Text';
 import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
+import { playgroundLink } from '@/constants/links';
+import IconPlusWhite from '@/public/icons/icon-plus-white.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -24,7 +27,16 @@ const ProjectList = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        {uniqueProjects && <StyledLength typography='SUIT_22_B'>{uniqueProjects.length} Projects</StyledLength>}
+        <TopWrapper>
+          <Text as='h1' typography='SUIT_32_B'>
+            ✨ 솝트에서 진행된 프로젝트 둘러보기
+          </Text>
+          <ProjectUploadButton href={playgroundLink.projectUpload()}>
+            <IconPlusWhite />
+            <Text typography='SUIT_18_B'>내 프로젝트 올리기</Text>
+          </ProjectUploadButton>
+        </TopWrapper>
+        {uniqueProjects && <StyledLength typography='SUIT_18_M'>{uniqueProjects.length}개의 프로젝트</StyledLength>}
         {!isLoading && uniqueProjects == null ? (
           <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
         ) : (
@@ -66,7 +78,25 @@ const StyledContent = styled.div`
   }
 `;
 
+const TopWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const ProjectUploadButton = styled(Link)`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border-radius: 10px;
+  background-color: ${colors.purple100};
+  padding: 18px 24px 18px 20px;
+`;
+
 const StyledLength = styled(Text)`
+  display: block;
+  margin-top: 48px;
+
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
