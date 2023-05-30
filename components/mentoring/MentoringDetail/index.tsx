@@ -14,6 +14,7 @@ import MessageModal, { MessageCategory } from '@/components/members/detail/Messa
 import { mentoringProvider } from '@/components/mentoring/data';
 import InfoItem from '@/components/mentoring/MentoringDetail/InfoItem';
 import { playgroundLink } from '@/constants/links';
+import { useRunOnce } from '@/hooks/useRunOnce';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -28,7 +29,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
     return { careers, links, skill, profileImage };
   });
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
-  const { logClickEvent, logSubmitEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
 
   const { getMentoringById } = mentoringProvider;
   const { title, mentorName, keywords, introduce, howTo, target, nonTarget } = getMentoringById(mentorId);
@@ -45,6 +46,10 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
     onOpenMessageModal();
     amplitude.clickMentoringApplicationButton();
   };
+
+  useRunOnce(() => {
+    logPageViewEvent('mentoringDetail', { mentorId });
+  }, [mentorId]);
 
   return (
     <>

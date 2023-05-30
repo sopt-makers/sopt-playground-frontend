@@ -92,4 +92,7 @@ export interface PageViewEvents {
   };
   memberCard: MemberCard;
   projectCard: ProjectCard;
+  mentoringDetail: {
+    mentorId: number;
+  };
 }
