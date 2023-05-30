@@ -46,7 +46,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
           name={name}
           profileImageUrl={profileImage}
           onClose={onCloseMessageModal}
-          initialCategory={MessageCategory.COFFEE_CHAT}
+          defaultCategory={MessageCategory.COFFEE_CHAT}
         />
       )}
     </>

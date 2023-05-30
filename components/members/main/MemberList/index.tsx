@@ -11,7 +11,7 @@ import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import OrderBySelect from '@/components/members/common/select/OrderBySelect';
-import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
@@ -424,6 +424,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           name={messageModalState.data.name}
           profileImageUrl={messageModalState.data.profileUrl}
           onClose={() => setMessageModalState({ show: false })}
+          defaultCategory={MessageCategory.COFFEE_CHAT}
         />
       )}
     </StyledContainer>

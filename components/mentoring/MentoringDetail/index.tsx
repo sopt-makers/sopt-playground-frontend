@@ -108,7 +108,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
           name={mentorName}
           profileImageUrl={mentorProfile?.profileImage ?? ''}
           onClose={onCloseMessageModal}
-          initialCategory={MessageCategory.MENTORING}
+          defaultCategory={MessageCategory.MENTORING}
         />
       )}
     </>

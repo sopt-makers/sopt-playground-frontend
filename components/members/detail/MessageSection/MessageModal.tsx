@@ -70,11 +70,11 @@ interface MessageModalProps extends ModalProps {
   profileImageUrl: string;
   name: string;
   receiverId: string;
-  initialCategory?: MessageCategory;
+  defaultCategory: MessageCategory;
 }
 
-const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name, initialCategory, ...props }) => {
-  const [selectedCategory, setSelectedCategory] = useState<MessageCategory | null>(initialCategory ?? null);
+const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name, defaultCategory, ...props }) => {
+  const [selectedCategory, setSelectedCategory] = useState<MessageCategory | null>(defaultCategory ?? null);
   const {
     handleSubmit,
     control,
