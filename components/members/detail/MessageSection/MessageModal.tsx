@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ProfileIcon from 'public/icons/icon-profile.svg';
@@ -17,7 +16,7 @@ import TextArea from '@/components/common/TextArea';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-enum MessageCategory {
+export enum MessageCategory {
   COFFEE_CHAT = '커피챗',
   MENTORING = '멘토링',
   NETWORK = '친목',
@@ -71,10 +70,11 @@ interface MessageModalProps extends ModalProps {
   profileImageUrl: string;
   name: string;
   receiverId: string;
+  defaultCategory: MessageCategory;
 }
 
-const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name, ...props }) => {
-  const [selectedCategory, setSelectedCategory] = useState<MessageCategory | null>(null);
+const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name, defaultCategory, ...props }) => {
+  const [selectedCategory, setSelectedCategory] = useState<MessageCategory | null>(defaultCategory ?? null);
   const {
     handleSubmit,
     control,
@@ -228,16 +228,12 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   align-items: center;
   justify-content: center;
   transition: border all 0.2s;
+  opacity: ${({ isSelected }) => (isSelected ? 1 : 0.2)};
+  border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.black60)};
   border-radius: 20px;
   background-color: ${colors.black60};
   cursor: pointer;
   padding: 6px 16px 6px 10px;
-
-  ${({ isSelected }) =>
-    isSelected &&
-    css`
-      border: 1.5px solid #606265;
-    `}
 `;
 
 const StyledIcon = styled.img`

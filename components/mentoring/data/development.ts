@@ -3,7 +3,7 @@ import { Mentor, Mentoring, MentoringData } from '@/components/mentoring/data/ty
 const MENTOR_LIST = [
   { id: 1, name: '송정우' },
   { id: 8, name: '남주영' },
-  { id: 15, name: '백지연' },
+  { id: 25, name: '이화정' },
   { id: 24, name: '김은수' },
   { id: 7, name: '이준호' },
 ] as const;
@@ -51,9 +51,9 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     nonTarget: `- 지속적으로 성장하고 싶은 욕구가 부족한 분에게는 권장하지 않습니다.
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
   },
-  '15': {
-    mentorName: '백지연',
-    title: '지연과 함께하는 CGP Review',
+  '25': {
+    mentorName: '이화정',
+    title: '화정이와 함께하는 CGP Review',
     keywords: ['백엔드 커리어패스 상담', '개발 실력을 키우기 위한 방법'],
     introduce: '성장에 대한 고민, 커리어/이직에 대한 고민을 듣고 이에 대한 도움을 드릴 수 있을 거 같습니다.',
     howTo: `- 대면 혹은 비대면으로 진행됩니다. 대면으로 진행 시 강남, 선릉 방면에서 진행 예정입니다.

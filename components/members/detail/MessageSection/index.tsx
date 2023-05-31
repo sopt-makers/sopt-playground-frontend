@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import useModalState from '@/components/common/Modal/useModalState';
 import useToast from '@/components/common/Toast/useToast';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
-import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -16,11 +16,7 @@ interface MessageSectionProps {
 }
 
 export default function MessageSection({ name, email, profileImage, memberId }: MessageSectionProps) {
-  const {
-    isOpen: isOpenCoffeeChatModal,
-    onOpen: onOpenCoffeeChatModal,
-    onClose: onCloseCoffeeChatModal,
-  } = useModalState();
+  const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const toast = useToast();
 
   const isEmptyEmail = email.length < 1 || email === null;
@@ -29,7 +25,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
     if (isEmptyEmail) {
       toast.show({ message: `해당 유저는 이메일을 등록하지 않아 쪽지를 보낼 수 없어요.` });
     } else {
-      onOpenCoffeeChatModal();
+      onOpenMessageModal();
     }
   };
 
@@ -44,12 +40,13 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
           쪽지 보내기
         </MessageButton>
       </StyledMemberDetailSection>
-      {isOpenCoffeeChatModal && (
+      {isOpenMessageModal && (
         <MessageModal
           receiverId={memberId}
           name={name}
           profileImageUrl={profileImage}
-          onClose={onCloseCoffeeChatModal}
+          onClose={onCloseMessageModal}
+          defaultCategory={MessageCategory.COFFEE_CHAT}
         />
       )}
     </>
