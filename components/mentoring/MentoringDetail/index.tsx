@@ -34,7 +34,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
   const { getMentoringById } = mentoringProvider;
   const { title, mentorName, keywords, introduce, howTo, target, nonTarget } = getMentoringById(mentorId);
 
-  const amplitude = {
+  const eventLogger = {
     clickMentorProfile: () => logClickEvent('mentorProfile', { mentorId }),
     clickMentorProfileCareer: () => logClickEvent('mentorProfileCareer', { mentorId }),
     clickMentoringApplicationButton: () => logClickEvent('mentoringApplicationButton', { mentorId }),
@@ -45,11 +45,11 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
 
   const handleClickMessageButton = () => {
     onOpenMessageModal();
-    amplitude.clickMentoringApplicationButton();
+    eventLogger.clickMentoringApplicationButton();
   };
 
   useRunOnce(() => {
-    amplitude.pageView();
+    eventLogger.pageView();
   }, [mentorId]);
 
   return (
@@ -58,7 +58,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
         <Header>
           <MentoringTitle>{title}</MentoringTitle>
           <Link href={playgroundLink.memberDetail(mentorId)}>
-            <ProfileButton onClick={amplitude.clickMentorProfile}>
+            <ProfileButton onClick={eventLogger.clickMentorProfile}>
               {mentorProfile?.profileImage ? (
                 <ProfileImage src={mentorProfile.profileImage} />
               ) : (
@@ -98,7 +98,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
               <Career.Header>
                 <Career.Title>💼 멘토의 커리어</Career.Title>
                 <Link href={playgroundLink.memberDetail(mentorId)}>
-                  <Career.ProfileButton onClick={amplitude.clickMentorProfileCareer}>
+                  <Career.ProfileButton onClick={eventLogger.clickMentorProfileCareer}>
                     <ArrowDiagonalIcon />
                     <div>멘토 프로필 보러가기</div>
                   </Career.ProfileButton>
@@ -131,7 +131,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
           profileImageUrl={mentorProfile?.profileImage ?? ''}
           onClose={onCloseMessageModal}
           defaultCategory={MessageCategory.MENTORING}
-          onLog={(options) => amplitude.submitMentoringApplication(mentorId, options?.category?.toString() ?? '')}
+          onLog={(options) => eventLogger.submitMentoringApplication(mentorId, options?.category?.toString() ?? '')}
         />
       )}
     </>

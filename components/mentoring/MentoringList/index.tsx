@@ -66,7 +66,7 @@ export default function MentoringList() {
     [listType],
   );
 
-  const amplitude = {
+  const eventLogger = {
     moveCarousel: () => logClickEvent('mentoringCarouselButton', {}),
     clickCarouselCard: (mentorId: number) => logClickEvent('mentoringCard', { mentorId }),
   };
@@ -77,7 +77,7 @@ export default function MentoringList() {
         mentor={{ name: mentor.name, career: mentorCareerById?.get(mentor.id) }}
         keywords={keywords}
         title={title}
-        onClick={() => amplitude.clickCarouselCard(mentor.id)}
+        onClick={() => eventLogger.clickCarouselCard(mentor.id)}
       />
     </Link>
   ));
@@ -101,7 +101,7 @@ export default function MentoringList() {
             itemList={mentoringCardList}
             limit={listType === 'carousel-large' ? 3 : 2}
             renderItemContainer={(children: ReactNode) => <MentoringCardContainer>{children}</MentoringCardContainer>}
-            onMove={amplitude.moveCarousel}
+            onMove={eventLogger.moveCarousel}
           />
         ))}
     </Container>
