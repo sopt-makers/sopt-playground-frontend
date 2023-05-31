@@ -7,11 +7,12 @@ interface MentoringCardProps {
   mentor: { name: string; career?: string };
   keywords: string[];
   title: string;
+  onClick?: () => void;
 }
 
-export default function MentoringCard({ mentor, keywords, title }: MentoringCardProps) {
+export default function MentoringCard({ mentor, keywords, title, onClick }: MentoringCardProps) {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Keywords>
         {keywords.map((keyword, index) => (
           <Keyword key={`${index}-${keyword}`}>{keyword}</Keyword>

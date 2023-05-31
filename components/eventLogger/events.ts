@@ -52,6 +52,21 @@ export interface ClickEvents {
   filterOrderBy: {
     orderBy: string;
   };
+  mentoringCarouselButton: {
+    //
+  };
+  mentoringCard: {
+    mentorId: number;
+  };
+  mentorProfile: {
+    mentorId: number;
+  };
+  mentorProfileCareer: {
+    mentorId: number;
+  };
+  mentoringApplicationButton: {
+    mentorId: number;
+  };
 }
 
 export interface SubmitEvents {
@@ -64,6 +79,11 @@ export interface SubmitEvents {
   verify: {
     by: 'phone' | 'email';
   };
+  sendMessage: {
+    category: string;
+    receiverId: number;
+    referral: 'mentoringDetail' | 'memberDetail' | 'memberList';
+  };
 }
 
 export interface PageViewEvents {
@@ -72,4 +92,7 @@ export interface PageViewEvents {
   };
   memberCard: MemberCard;
   projectCard: ProjectCard;
+  mentoringDetail: {
+    mentorId: number;
+  };
 }

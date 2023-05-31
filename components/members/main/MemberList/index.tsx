@@ -425,6 +425,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           profileImageUrl={messageModalState.data.profileUrl}
           onClose={() => setMessageModalState({ show: false })}
           defaultCategory={MessageCategory.COFFEE_CHAT}
+          onLog={(options) =>
+            logSubmitEvent('sendMessage', {
+              category: options?.category?.toString() ?? '',
+              receiverId: +messageModalState.data.targetId,
+              referral: 'memberList',
+            })
+          }
         />
       )}
     </StyledContainer>

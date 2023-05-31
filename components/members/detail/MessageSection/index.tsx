@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 import useModalState from '@/components/common/Modal/useModalState';
 import useToast from '@/components/common/Toast/useToast';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { colors } from '@/styles/colors';
@@ -18,6 +19,7 @@ interface MessageSectionProps {
 export default function MessageSection({ name, email, profileImage, memberId }: MessageSectionProps) {
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const toast = useToast();
+  const { logSubmitEvent } = useEventLogger();
 
   const isEmptyEmail = email.length < 1 || email === null;
 
@@ -47,6 +49,13 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
           profileImageUrl={profileImage}
           onClose={onCloseMessageModal}
           defaultCategory={MessageCategory.COFFEE_CHAT}
+          onLog={(options) =>
+            logSubmitEvent('sendMessage', {
+              category: options?.category?.toString() ?? '',
+              receiverId: +memberId,
+              referral: 'memberDetail',
+            })
+          }
         />
       )}
     </>
