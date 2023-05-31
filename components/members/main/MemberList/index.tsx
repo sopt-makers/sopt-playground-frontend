@@ -437,7 +437,6 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 103px;
   padding-bottom: 100px;
   overflow-y: scroll;
 

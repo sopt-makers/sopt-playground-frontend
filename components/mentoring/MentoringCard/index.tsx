@@ -29,6 +29,7 @@ const Container = styled.div`
   padding-top: 35px;
   padding-left: 45px;
   width: 424px;
+  min-width: 424px;
   height: 224px;
 `;
 
