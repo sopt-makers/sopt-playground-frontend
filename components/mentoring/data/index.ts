@@ -14,4 +14,10 @@ const mentoringData = getMentoringData();
 
 export const mentoringProvider = {
   getMentoringById: (id: number) => mentoringData.mentoringByMentorId[id],
+  getMentorIdList: () => mentoringData.mentorList.map(({ id }) => id),
+  getMentoringList: () =>
+    mentoringData.mentorList.map(({ id }) => {
+      const { mentorName, title, keywords } = mentoringData.mentoringByMentorId[id];
+      return { mentor: { id, name: mentorName }, title, keywords };
+    }),
 };

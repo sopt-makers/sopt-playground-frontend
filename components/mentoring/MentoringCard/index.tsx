@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MentoringCardProps {
-  mentor: { name: string; career: string };
+  mentor: { name: string; career?: string };
   keywords: string[];
   title: string;
 }
@@ -18,7 +18,7 @@ export default function MentoringCard({ mentor, keywords, title }: MentoringCard
         ))}
       </Keywords>
       <Title>{title}</Title>
-      <Mentor>{`${mentor.name} · ${mentor.career}`}</Mentor>
+      <Mentor>{mentor.career ? `${mentor.name} · ${mentor.career}` : mentor.name}</Mentor>
     </Container>
   );
 }

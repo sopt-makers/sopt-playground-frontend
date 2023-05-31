@@ -1,34 +1,49 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import ArrowRightIcon from 'public/icons/icon-arrow-right.svg';
 import ArrowDiagonalIcon from 'public/icons/icon-diagonal-arrow.svg';
 import MessageIcon from 'public/icons/icon-message.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
+import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import CareerItems from '@/components/members/detail/CareerSection';
-import { CAREER_DUMMY_DATA, MENTORING_DATA_BY_MENTOR_ID } from '@/components/mentoring/data';
+import { mentoringProvider } from '@/components/mentoring/data';
 import InfoItem from '@/components/mentoring/MentoringDetail/InfoItem';
-import { MentorId } from '@/components/mentoring/MentoringDetail/types';
+import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MentoringDetailProps {
-  mentorId: MentorId;
+  mentorId: number;
 }
 
 export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
-  const { title, mentorName, keywords, introduce, howTo, target, nonTarget } = MENTORING_DATA_BY_MENTOR_ID[mentorId];
+  const { data: mentorCareerInfo } = useQuery(['getMentorCareerInfoByMentorId', mentorId], async () => {
+    const { careers, links, skill, profileImage } = await getMemberProfileById(mentorId);
+    return { careers, links, skill, profileImage };
+  });
+
+  const { getMentoringById } = mentoringProvider;
+  const { title, mentorName, keywords, introduce, howTo, target, nonTarget } = getMentoringById(mentorId);
   return (
     <Container>
       <Header>
         <MentoringTitle>{title}</MentoringTitle>
-        <ProfileButton>
-          <EmptyProfileImage>
-            <ProfileIcon />
-          </EmptyProfileImage>
-          <MentorName>{mentorName}</MentorName>
-          <StyledArrowRightIcon />
-        </ProfileButton>
+        <Link href={playgroundLink.memberDetail(mentorId)}>
+          <ProfileButton>
+            {mentorCareerInfo?.profileImage ? (
+              <ProfileImage src={mentorCareerInfo.profileImage} />
+            ) : (
+              <EmptyProfileImage>
+                <ProfileIcon />
+              </EmptyProfileImage>
+            )}
+            <MentorName>{mentorName}</MentorName>
+            <StyledArrowRightIcon />
+          </ProfileButton>
+        </Link>
         <MessageButton>
           <MessageIcon />
           <div>신청 쪽지 보내기</div>
@@ -50,23 +65,29 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
             <Content>{howTo}</Content>
           </InfoItem>
         </Section>
-        <Career.Section>
-          <Career.Header>
-            <Career.Title>💼 멘토의 커리어</Career.Title>
-            <Career.ProfileButton>
-              <ArrowDiagonalIcon />
-              <div>멘토 프로필 보러가기</div>
-            </Career.ProfileButton>
-          </Career.Header>
-          <Career.InfoItemWrapper>
-            <CareerItems
-              careers={CAREER_DUMMY_DATA.careers}
-              links={CAREER_DUMMY_DATA.links}
-              skill={CAREER_DUMMY_DATA.skill}
-              shouldNeedOnlyItems
-            />
-          </Career.InfoItemWrapper>
-        </Career.Section>
+        {((mentorCareerInfo?.careers && mentorCareerInfo.careers.length > 0) ||
+          (mentorCareerInfo?.links && mentorCareerInfo.links.length > 0) ||
+          mentorCareerInfo?.skill) && (
+          <Career.Section>
+            <Career.Header>
+              <Career.Title>💼 멘토의 커리어</Career.Title>
+              <Link href={playgroundLink.memberDetail(mentorId)}>
+                <Career.ProfileButton>
+                  <ArrowDiagonalIcon />
+                  <div>멘토 프로필 보러가기</div>
+                </Career.ProfileButton>
+              </Link>
+            </Career.Header>
+            <Career.InfoItemWrapper>
+              <CareerItems
+                careers={mentorCareerInfo?.careers ?? []}
+                links={mentorCareerInfo?.links ?? []}
+                skill={mentorCareerInfo?.skill ?? ''}
+                shouldNeedOnlyItems
+              />
+            </Career.InfoItemWrapper>
+          </Career.Section>
+        )}
         <Section>
           <InfoItem label='🙆 이런 분들에게 추천해요!'>
             <Content>{target}</Content>
@@ -280,6 +301,18 @@ const Content = styled.div`
     color: ${colors.gray40};
 
     ${textStyles.SUIT_14_M};
+  }
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 24px;
+    height: 24px;
   }
 `;
 
