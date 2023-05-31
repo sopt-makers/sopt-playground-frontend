@@ -6,10 +6,11 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import ActiveBannerSlot from '@/components/common/Banner/ActiveBannerSlot';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
+import MentoringList from '@/components/mentoring/MentoringList';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
-const UserPage: FC = () => {
+const MemberPage: FC = () => {
   const { data: memberOfMeData } = useGetMemberOfMe();
 
   const hasProfile = !!memberOfMeData?.hasProfile;
@@ -18,14 +19,15 @@ const UserPage: FC = () => {
   return (
     <AuthRequired>
       <ActiveBannerSlot />
+      <MentoringList />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
   );
 };
 
-setLayout(UserPage, 'headerFooter');
+setLayout(MemberPage, 'headerFooter');
 
-export default UserPage;
+export default MemberPage;
 
 const StyledOnBoardingBanner = styled(OnBoardingBanner)`
   margin-bottom: 90px;

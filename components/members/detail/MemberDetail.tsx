@@ -45,10 +45,9 @@ const convertBirthdayFormat = (birthday?: string) => {
 };
 
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
-  const { logClickEvent } = useEventLogger();
+  const { logClickEvent, logPageViewEvent } = useEventLogger();
   const router = useRouter();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
-  const { logPageViewEvent } = useEventLogger();
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {

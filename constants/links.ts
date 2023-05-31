@@ -16,4 +16,5 @@ export const playgroundLink = {
   register: () => `/auth/verify`,
   connectSocialAuth: () => `/auth/register`,
   makers: () => `/makers`,
+  mentoringDetail: (id: number) => `/mentoring/${id}`,
 };

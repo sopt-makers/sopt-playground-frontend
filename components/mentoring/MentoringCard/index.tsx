@@ -4,21 +4,22 @@ import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MentoringCardProps {
-  mentor: { name: string; career: string };
+  mentor: { name: string; career?: string };
   keywords: string[];
   title: string;
+  onClick?: () => void;
 }
 
-export default function MentoringCard({ mentor, keywords, title }: MentoringCardProps) {
+export default function MentoringCard({ mentor, keywords, title, onClick }: MentoringCardProps) {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Keywords>
         {keywords.map((keyword, index) => (
           <Keyword key={`${index}-${keyword}`}>{keyword}</Keyword>
         ))}
       </Keywords>
       <Title>{title}</Title>
-      <Mentor>{`${mentor.name} · ${mentor.career}`}</Mentor>
+      <Mentor>{mentor.career ? `${mentor.name} · ${mentor.career}` : mentor.name}</Mentor>
     </Container>
   );
 }
@@ -29,6 +30,7 @@ const Container = styled.div`
   padding-top: 35px;
   padding-left: 45px;
   width: 424px;
+  min-width: 424px;
   height: 224px;
 `;
 
