@@ -32,21 +32,19 @@ const getListType = (): ListType => {
 export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
   const { logClickEvent } = useEventLogger();
-
   const { getMentorIdList, getMentoringList } = mentoringProvider;
   const { data: mentorCareerById } = useQuery(
-    ['getMentorCareerList'],
+    ['getMentorCareerById'],
     async () => {
-      const mentorCareerById = new Map<number, string>();
-      await Promise.all(
+      const mentorProfileList = await Promise.all(
         getMentorIdList().map(async (id: number) => {
-          try {
-            const profile = await getMemberProfileById(id);
-            mentorCareerById.set(id, profile.careers.find((career) => career.isCurrent)?.companyName ?? '');
-          } catch {
-            mentorCareerById.set(id, '');
-          }
+          const profile = await getMemberProfileById(id);
+          return { ...profile, id };
         }),
+      );
+      const mentorCareerById = new Map<number, string>();
+      mentorProfileList.forEach(({ id, careers }) =>
+        mentorCareerById.set(id, careers.find((career) => career.isCurrent)?.companyName ?? ''),
       );
       return mentorCareerById;
     },
