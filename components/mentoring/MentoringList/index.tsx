@@ -33,8 +33,8 @@ export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
   const { logClickEvent } = useEventLogger();
   const { getMentorIdList, getMentoringList } = mentoringProvider;
-  const { data: mentorCareerById } = useQuery(
-    ['getMentorCareerById'],
+  const { data: mentorProfileById } = useQuery(
+    ['getMentorProfile'],
     async () => {
       const mentorProfileList = await Promise.all(
         getMentorIdList().map(async (id: number) => {
@@ -42,11 +42,14 @@ export default function MentoringList() {
           return { ...profile, id };
         }),
       );
-      const mentorCareerById = new Map<number, string>();
-      mentorProfileList.forEach(({ id, careers }) =>
-        mentorCareerById.set(id, careers.find((career) => career.isCurrent)?.companyName ?? ''),
+      const mentorProfileById = new Map<number, { career?: string; profileImage?: string }>();
+      mentorProfileList.forEach(({ id, careers, profileImage }) =>
+        mentorProfileById.set(id, {
+          career: careers.find((career) => career.isCurrent)?.companyName,
+          profileImage,
+        }),
       );
-      return mentorCareerById;
+      return mentorProfileById;
     },
     { staleTime: Infinity, cacheTime: Infinity },
   );
@@ -72,7 +75,11 @@ export default function MentoringList() {
   const mentoringCardList = getMentoringList().map(({ mentor, keywords, title }) => (
     <Link href={playgroundLink.mentoringDetail(mentor.id)} key={mentor.id}>
       <MentoringCard
-        mentor={{ name: mentor.name, career: mentorCareerById?.get(mentor.id) }}
+        mentor={{
+          name: mentor.name,
+          career: mentorProfileById?.get(mentor.id)?.career,
+          profileImage: mentorProfileById?.get(mentor.id)?.profileImage,
+        }}
         keywords={keywords}
         title={title}
         onClick={() => eventLogger.clickCarouselCard(mentor.id)}

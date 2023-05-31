@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
+import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
+import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 interface MentoringCardProps {
-  mentor: { name: string; career?: string };
+  mentor: { name: string; career?: string; profileImage?: string };
   keywords: string[];
   title: string;
   onClick?: () => void;
@@ -20,29 +22,103 @@ export default function MentoringCard({ mentor, keywords, title, onClick }: Ment
       </Keywords>
       <Title>{title}</Title>
       <Mentor>{mentor.career ? `${mentor.name} · ${mentor.career}` : mentor.name}</Mentor>
+      {mentor.profileImage ? (
+        <ProfileImage src={mentor.profileImage} />
+      ) : (
+        <EmptyProfileImage>
+          <ProfileIcon />
+        </EmptyProfileImage>
+      )}
     </Container>
   );
 }
 
+const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery('1200px');
+
 const Container = styled.div`
+  display: grid;
+  grid:
+    [row1-start] 'keywords profileImage' min-content [row1-end]
+    [row2-start] 'title profileImage' min-content [row2-end]
+    [row3-start] 'mentor mentor' min-content [row3-end]
+    / 234px auto;
+  align-content: center;
+  column-gap: 37px;
   border-radius: 16px;
   background-color: ${colors.black90};
-  padding-top: 35px;
-  padding-left: 45px;
+  padding: 35px 40px 36px 45px;
   width: 424px;
   min-width: 424px;
-  height: 224px;
+  min-height: 224px;
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    grid:
+      [row1-start] 'keywords keywords' min-content [row1-end]
+      [row2-start] 'title title' min-content [row2-end]
+      [row3-start] 'profileImage mentor' min-content [row3-end]
+      / 20px auto;
+    align-items: center;
+    column-gap: 12px;
+    padding: 28px;
+    width: 335px;
+    min-width: 335px;
+    min-height: 189px;
+  }
 `;
 
-// TODO: 다양한 키워드 케이스(ex 하나의 키워드가 너무 김. 키워드 개수가 많음.)에 대응할 수 있는 스타일링. (현재는 소수의 노운 케이스를 하드 코딩할 예정이라 일단 고려하지 않았으며, 추후에 디자이너와 논의하기로 함.)
 const Keywords = styled.div`
   display: flex;
   flex-wrap: wrap;
+  grid-area: keywords;
   gap: 6px;
   align-content: flex-end;
   margin-bottom: 12px;
   width: 234px;
-  height: 56px;
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    margin-bottom: 8px;
+  }
+`;
+
+const ProfileImage = styled.img`
+  grid-area: profileImage;
+  align-self: center;
+  border-radius: 50%;
+  width: 68px;
+  height: 68px;
+  object-fit: cover;
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const EmptyProfileImage = styled.div`
+  display: flex;
+  grid-area: profileImage;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: ${colors.black60};
+  width: 68px;
+  height: 68px;
+
+  & > svg {
+    width: 34px;
+    height: 34px;
+  }
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    width: 20px;
+    height: 20px;
+
+    & > svg {
+      width: 10px;
+      height: 10px;
+    }
+  }
 `;
 
 const Keyword = styled.span`
@@ -58,6 +134,7 @@ const Keyword = styled.span`
 
 const Title = styled.div`
   display: ${'-webkit-box'};
+  grid-area: title;
   margin-bottom: 24px;
   width: 234px;
   overflow: hidden;
@@ -68,9 +145,17 @@ const Title = styled.div`
   -webkit-box-orient: vertical;
 
   ${textStyles.SUIT_18_B};
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    margin-bottom: 10px;
+    line-height: 20px;
+
+    ${textStyles.SUIT_16_SB};
+  }
 `;
 
 const Mentor = styled.div`
+  grid-area: mentor;
   line-height: 120%;
   color: ${colors.gray60};
 
