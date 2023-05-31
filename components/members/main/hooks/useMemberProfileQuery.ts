@@ -6,7 +6,7 @@ import { getMemberProfile } from '@/api/endpoint_LEGACY/members';
 import type { PagedMemberProfile } from '@/api/endpoint_LEGACY/members/type';
 
 interface UseMemberProfileQueryVariables {
-  limit?: number;
+  limit: number;
   queryKey?: QueryKey;
 }
 
@@ -21,13 +21,12 @@ export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQuery
       const data = await getMemberProfile(qs.stringify(searchParams, { addQueryPrefix: true }));
       return data;
     },
-    getNextPageParam: (lastPage: PagedMemberProfile) => {
+    getNextPageParam: (lastPage: PagedMemberProfile, pages) => {
       if (!lastPage.hasNext) {
         return undefined;
       }
-      const lastIndex = lastPage.members.length - 1;
-      const lastMemberId = lastPage.members[lastIndex].id;
-      return lastMemberId;
+      const totalPageNum = pages.length * limit;
+      return totalPageNum;
     },
     onError: (error: { message: string }) => {
       console.error(error.message);
