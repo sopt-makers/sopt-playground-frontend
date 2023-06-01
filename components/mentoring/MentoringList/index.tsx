@@ -73,7 +73,7 @@ export default function MentoringList() {
   };
 
   const mentoringCardList = getMentoringList().map(({ mentor, keywords, title }) => (
-    <Link href={playgroundLink.mentoringDetail(mentor.id)} key={mentor.id}>
+    <Link href={playgroundLink.mentoringDetail(mentor.id)} key={mentor.id} className='card'>
       <MentoringCard
         mentor={{
           name: mentor.name,
@@ -195,5 +195,13 @@ const MentoringScrollList = styled.div`
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  & > .card:first-child {
+    margin-left: 20px;
+  }
+
+  & > .card:last-child {
+    margin-right: 20px;
   }
 `;
