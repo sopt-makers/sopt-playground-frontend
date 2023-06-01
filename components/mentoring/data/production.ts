@@ -54,8 +54,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 
   '183': {
     mentorName: '김의진',
-    title:
-      '비전공자에서 토스 프론트엔드 개발자가 되기까지. 학습방법을 많이 고민했고, 가장 효율적인 학습법을 제안해드려요.',
+    title: '프론트엔드, 한단계 깊어지고 싶다면?',
     keywords: ['프론트엔드', '학습전략', '취업전략'],
     introduce: `안녕하세요. 토스에서 프론트엔드 엔지니어로 일하고 있습니다.
 
