@@ -149,7 +149,7 @@ const Header = styled.div`
   grid:
     [row1-start] 'title title' max-content [row1-end]
     [row2-start] 'profileButton messageButton' max-content [row2-end]
-    / max-content min-content;
+    / 1fr 1fr;
   align-items: center;
   justify-content: space-between;
   margin-top: 137px;
@@ -208,6 +208,8 @@ const MentoringTitle = styled.h1`
   ${textStyles.SUIT_40_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
+    line-height: 100%;
+
     ${textStyles.SUIT_24_B};
   }
 `;
@@ -269,6 +271,7 @@ const MessageButton = styled.button`
   gap: 6px;
   align-items: center;
   justify-content: center;
+  justify-self: end;
   border-radius: 6px;
   background-color: ${colors.purple100};
   width: 180px;
