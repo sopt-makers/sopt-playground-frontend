@@ -189,7 +189,7 @@ export default MessageModal;
 
 const StyledModal = styled(Modal)`
   padding-top: 20px;
-  max-height: 100%;
+  max-height: 100vh;
   overflow-y: auto;
 `;
 
