@@ -110,6 +110,10 @@ const Control = styled.button`
   background-color: ${colors.purpledim100};
   width: 40px;
   height: 40px;
+
+  &:hover {
+    background-color: #36364d;
+  }
 `;
 
 const LeftControl = styled(Control)`
