@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import usePagination from '@/hooks/usePagination';
 
@@ -23,18 +23,27 @@ export default function useCarousel({ limit, itemList }: { limit: number; itemLi
     movePreviousPage();
     setDirection('previous');
   };
-  const move = (newPage: number) => {
-    if (page === newPage) {
-      return;
-    }
-    if (paginate(newPage)) {
-      if (page < newPage) {
-        setDirection('next');
-      } else {
-        setDirection('previous');
+  const move = useMemo(
+    () => (newPage: number) => {
+      if (page === newPage) {
+        return;
       }
+      if (paginate(newPage)) {
+        if (page < newPage) {
+          setDirection('next');
+        } else {
+          setDirection('previous');
+        }
+      }
+    },
+    [page, paginate],
+  );
+
+  useEffect(() => {
+    if (totalPageSize < page) {
+      move(totalPageSize);
     }
-  };
+  }, [totalPageSize, page, move]);
 
   return { page, direction, moveNext, movePrevious, currentItemList, totalPageSize, move };
 }
