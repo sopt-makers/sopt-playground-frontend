@@ -114,12 +114,12 @@ const Control = styled.button`
 
 const LeftControl = styled(Control)`
   grid-area: left-control;
-  padding: 11px 17px 11px 14px;
+  padding: 11px 17px 11px 12px;
 `;
 
 const RightControl = styled(Control)`
   grid-area: right-control;
-  padding: 11px 14px 11px 17px;
+  padding: 11px 12px 11px 17px;
 `;
 
 const RightArrowIcon = styled(LeftArrowIcon)`
