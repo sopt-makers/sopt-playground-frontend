@@ -54,10 +54,10 @@ export default function Carousel({ itemList, limit, className, renderItemContain
           <CarouselBody currentItemList={currentItemList} renderContainer={renderItemContainer} />
         </StyledMotionDiv>
       </AnimatePresence>
-      <LeftControl onClick={handleClickLeftControl} isActive={page - 1 >= 1}>
+      <LeftControl onClick={handleClickLeftControl}>
         <LeftArrowIcon />
       </LeftControl>
-      <RightControl onClick={handleClickRightControl} isActive={page + 1 <= totalPageSize}>
+      <RightControl onClick={handleClickRightControl}>
         <RightArrowIcon />
       </RightControl>
       <Indicators>
@@ -104,11 +104,10 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const Control = styled.button<{ isActive: boolean }>`
+const Control = styled.button`
   align-self: center;
   border-radius: 50%;
   background-color: ${colors.purpledim100};
-  cursor: ${({ isActive }) => (isActive ? 'pointer' : 'default')};
   width: 40px;
   height: 40px;
 `;
