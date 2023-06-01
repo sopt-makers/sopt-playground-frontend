@@ -45,7 +45,6 @@ export default function Carousel({ itemList, limit, className, renderItemContain
           variants={variants}
           initial='enter'
           animate='center'
-          exit='exit'
           transition={{
             x: { type: 'spring', stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 },
@@ -79,16 +78,8 @@ const variants = {
     };
   },
   center: {
-    zIndex: 1,
     x: 0,
     opacity: 1,
-  },
-  exit: (direction: CarouselDirection) => {
-    return {
-      zIndex: 0,
-      x: direction === 'previous' ? 1000 : -1000,
-      opacity: 0,
-    };
   },
 };
 
