@@ -173,7 +173,7 @@ const MessageModal: FC<MessageModalProps> = ({
         />
         <StyledButton isDisabled={!isValid}>
           {isLoading ? (
-            <Loading />
+            <Loading color='white' />
           ) : (
             <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
               쪽지 보내기
