@@ -3,11 +3,11 @@ import { useState } from 'react';
 export default function usePagination({
   limit,
   length,
-  isCircular = false,
+  isLoop = false,
 }: {
   limit: number;
   length: number;
-  isCircular?: boolean;
+  isLoop?: boolean;
 }) {
   const [page, setPage] = useState(1);
 
@@ -15,7 +15,7 @@ export default function usePagination({
   const startIndex = (page - 1) * limit;
 
   const paginate = (newPage: number) => {
-    if (isCircular) {
+    if (isLoop) {
       if (newPage === totalPageSize + 1) {
         setPage(1);
         return true;
