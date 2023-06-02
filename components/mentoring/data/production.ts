@@ -35,6 +35,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 주기적으로 상황을 공유하고 이에 대한 피드백을 받고 싶은 개발자`,
     nonTarget: `- 지속적으로 성장하고 싶은 욕구가 부족한 분에게는 권장하지 않습니다.
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
+    isOpened: true,
   },
   '13': {
     mentorName: '김은수',
@@ -50,6 +51,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 웹 프론트엔드 개발자로 현업에서 일하시고 계신 분`,
     nonTarget: `- 웹 프론트엔드와 다른 분야 중 커리어로 시작할 분야를 아직 결정하지 않으신 분
 - 현업에서 웹 프론트엔드 개발을 하고있으나 다른 분야로의 전환을 고민하고 계신 분`,
+    isOpened: true,
   },
 
   '183': {
@@ -76,6 +78,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 	- 기타 진로/개발 관련 고민이 있는 사람`,
     nonTarget:
       '- SOPT 웹파트 세미나를 따라가기 어렵다면, 추천하지 않아요. 그것을 일단 열심히 하면 됩니다! 다른 고민이라면 상관없어요.',
+    isOpened: true,
   },
   '534': {
     mentorName: '김성윤',
@@ -100,6 +103,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 		평일 9시 이후 진행 예정이며, 구체적인 시간은 쪽지를 통해 조율하도록 하겠습니다. :) (온라인 화상 30분 ~1시간진행 예정입니다),`,
     target: '백엔드 공부를 시작하려고 하거나 시작한 지 얼마 지나지 않은 입문자 분',
     nonTarget: '이미 경험이 있으신 입문자 이상 분들께는 도움이 되지 못할 수도 있습니다',
+    isOpened: true,
   },
   '536': {
     mentorName: '윤희성',
@@ -117,6 +121,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     멘토링 시간은 평일 밤 시간 혹은 주말 오전 시간에 진행 가능 하며, 이 시간 중 안되는 시간이 있는 경우는 신청 시 공유 해주세요.`,
     target: '다양한 개발 분야에 대해서 호기심이 있는 사람에게 추천 드립니다 :)',
     nonTarget: '프레임워크 개발이다 보니 서비스 개발 도메인 관점에서는 크게 도움을 드리지는 못할 거 같아요',
+    isOpened: true,
   },
   '539': {
     mentorName: '이희원',
@@ -145,6 +150,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     PM을 희망하진 않더라고 PM이 실제 어떤 역할을 하는지 궁금한 분들께 도움이 될 수 있어요.`,
     nonTarget: `PM이 아닌 '기획'에만 관심이 있는 분은 도움을 드리기 힘들어요.
     현업에서 PM 업무를 경험해보신 분은 멘토링이 부족하다고 느낄 수 있어요.`,
+    isOpened: true,
   },
 };
 

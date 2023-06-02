@@ -10,6 +10,7 @@ export interface Mentoring {
   howTo: string;
   target: string;
   nonTarget: string;
+  isOpened: boolean;
 }
 
 export interface MentoringData {

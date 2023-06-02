@@ -34,6 +34,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 주기적으로 상황을 공유하고 이에 대한 피드백을 받고 싶은 개발자`,
     nonTarget: `- 지속적으로 성장하고 싶은 욕구가 부족한 분에게는 권장하지 않습니다.
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
+    isOpened: true,
   },
   '8': {
     mentorName: '남주영',
@@ -50,6 +51,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 주기적으로 상황을 공유하고 이에 대한 피드백을 받고 싶은 개발자`,
     nonTarget: `- 지속적으로 성장하고 싶은 욕구가 부족한 분에게는 권장하지 않습니다.
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
+    isOpened: true,
   },
   '25': {
     mentorName: '이화정',
@@ -66,6 +68,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 주기적으로 상황을 공유하고 이에 대한 피드백을 받고 싶은 개발자`,
     nonTarget: `- 지속적으로 성장하고 싶은 욕구가 부족한 분에게는 권장하지 않습니다.
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
+    isOpened: true,
   },
   '24': {
     mentorName: '김은수',
@@ -82,6 +85,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 주기적으로 상황을 공유하고 이에 대한 피드백을 받고 싶은 개발자`,
     nonTarget: `- 지속적으로 성장하고 싶은 욕구가 부족한 분에게는 권장하지 않습니다.
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
+    isOpened: true,
   },
   '7': {
     mentorName: '이준호',
@@ -98,6 +102,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 주기적으로 상황을 공유하고 이에 대한 피드백을 받고 싶은 개발자`,
     nonTarget: `- 지속적으로 성장하고 싶은 욕구가 부족한 분에게는 권장하지 않습니다.
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
+    isOpened: true,
   },
 };
 
