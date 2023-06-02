@@ -58,7 +58,7 @@ const CATEGORY: Category[] = [
 
 const schema = yup.object().shape({
   email: yup.string().email('올바른 이메일 형태를 입력해주세요.').required('이메일을 입력해주세요.'),
-  content: yup.string().required('내용을 입력해주세요.').length(750, '750자 이내로 입력해주세요.'),
+  content: yup.string().required('내용을 입력해주세요.').max(750, '750자 이내로 입력해주세요.'),
 });
 
 interface MessageForm {
