@@ -52,7 +52,7 @@ const Container = styled.div`
   padding: 35px 40px 36px 45px;
   width: 424px;
   min-width: 424px;
-  min-height: 224px;
+  height: 224px;
 
   @media ${DESKTOP_SMALL_MEDIA_QUERY} {
     grid:
@@ -65,7 +65,7 @@ const Container = styled.div`
     padding: 28px;
     width: 335px;
     min-width: 335px;
-    min-height: 189px;
+    height: 189px;
   }
 `;
 
