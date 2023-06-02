@@ -78,7 +78,7 @@ export default function MentoringList() {
     ...mentoringList.filter(({ isOpened }) => !isOpened),
   ];
   const mentoringCardList = sortedMentoringList.map(({ mentor, keywords, title, isOpened }) => (
-    <Link href={playgroundLink.mentoringDetail(mentor.id)} key={mentor.id}>
+    <Link href={playgroundLink.mentoringDetail(mentor.id)} key={mentor.id} className='card'>
       <MentoringCard
         mentor={{
           name: mentor.name,
@@ -201,5 +201,13 @@ const MentoringScrollList = styled.div`
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  & > .card:first-child {
+    margin-left: 20px;
+  }
+
+  & > .card:last-child {
+    margin-right: 20px;
   }
 `;
