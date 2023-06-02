@@ -143,6 +143,7 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 22px;
+  white-space: pre-line;
   color: ${colors.gray10};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
