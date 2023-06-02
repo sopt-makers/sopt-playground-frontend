@@ -72,7 +72,7 @@ export default function MentoringList() {
     clickCarouselCard: (mentorId: number) => logClickEvent('mentoringCard', { mentorId }),
   };
 
-  const mentoringCardList = getMentoringList().map(({ mentor, keywords, title }) => (
+  const mentoringCardList = getMentoringList().map(({ mentor, keywords, title, isOpened }) => (
     <Link href={playgroundLink.mentoringDetail(mentor.id)} key={mentor.id}>
       <MentoringCard
         mentor={{
@@ -82,6 +82,7 @@ export default function MentoringList() {
         }}
         keywords={keywords}
         title={title}
+        isOpened={isOpened}
         onClick={() => eventLogger.clickCarouselCard(mentor.id)}
       />
     </Link>
