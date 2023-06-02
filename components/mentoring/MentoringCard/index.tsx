@@ -175,7 +175,16 @@ const Closed = styled.div<{ isActive: boolean }>`
   background-color: ${colors.black100};
   width: 424px;
   height: 224px;
+  line-height: 20px;
   color: #fff;
 
   ${textStyles.SUIT_16_SB}
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    width: 335px;
+    height: 189px;
+    line-height: 17px;
+
+    ${textStyles.SUIT_14_SB}
+  }
 `;
