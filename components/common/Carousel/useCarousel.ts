@@ -10,7 +10,7 @@ export default function useCarousel({ limit, itemList }: { limit: number; itemLi
     startIndex,
     totalPageSize,
     paginate,
-  } = usePagination({ limit, length: itemList.length });
+  } = usePagination({ limit, length: itemList.length, isLoop: true });
   const [direction, setDirection] = useState<CarouselDirection>('next');
 
   const currentItemList = useMemo(() => itemList.slice(startIndex, startIndex + limit), [startIndex, itemList, limit]);
