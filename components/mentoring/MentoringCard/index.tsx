@@ -176,7 +176,7 @@ const Closed = styled.div<{ isActive: boolean }>`
   width: 424px;
   height: 224px;
   line-height: 20px;
-  color: #fff;
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_SB}
 
