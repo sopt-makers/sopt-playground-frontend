@@ -2,10 +2,12 @@ import styled from '@emotion/styled';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
 
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
+import IconPen from '@/public/icons/icon-pen.svg';
 import IconPlusWhite from '@/public/icons/icon-plus-white.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -28,15 +30,22 @@ const ProjectList = () => {
     <StyledContainer>
       <StyledContent>
         <TopWrapper>
-          <Text as='h1' typography='SUIT_32_B'>
+          <Title as='h1' typography='SUIT_32_B'>
             ✨ 솝트에서 진행된 프로젝트 둘러보기
-          </Text>
-          <ProjectUploadButton href={playgroundLink.projectUpload()}>
-            <IconPlusWhite />
-            <Text typography='SUIT_18_B'>내 프로젝트 올리기</Text>
-          </ProjectUploadButton>
+          </Title>
+          <DesktopResponsive only='desktop'>
+            <ProjectUploadButton href={playgroundLink.projectUpload()}>
+              <IconPlusWhite />
+              <Text typography='SUIT_18_B'>내 프로젝트 올리기</Text>
+            </ProjectUploadButton>
+          </DesktopResponsive>
         </TopWrapper>
-        {uniqueProjects && <StyledLength typography='SUIT_18_M'>{uniqueProjects.length}개의 프로젝트</StyledLength>}
+        <LengthWrapper>
+          {uniqueProjects && <StyledLength typography='SUIT_18_M'>{uniqueProjects.length}개의 프로젝트</StyledLength>}
+          <ProjectMobileUploadButton href={playgroundLink.projectUpload()}>
+            <IconPen />
+          </ProjectMobileUploadButton>
+        </LengthWrapper>
         {!isLoading && uniqueProjects == null ? (
           <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
         ) : (
@@ -78,10 +87,34 @@ const StyledContent = styled.div`
   }
 `;
 
+const Title = styled(Text)`
+  ${textStyles.SUIT_32_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 0 6px;
+    ${textStyles.SUIT_20_B};
+  }
+`;
+
+const DesktopResponsive = styled(Responsive)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const TopWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const ProjectMobileUploadButton = styled(Link)`
+  display: none;
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const ProjectUploadButton = styled(Link)`
@@ -93,12 +126,22 @@ const ProjectUploadButton = styled(Link)`
   padding: 18px 24px 18px 20px;
 `;
 
-const StyledLength = styled(Text)`
-  display: block;
+const LengthWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 48px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
+    margin: 30px 6px 0;
+  }
+`;
+
+const StyledLength = styled(Text)`
+  ${textStyles.SUIT_18_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_16_M};
   }
 `;
 
