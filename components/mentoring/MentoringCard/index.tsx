@@ -9,10 +9,11 @@ interface MentoringCardProps {
   mentor: { name: string; career?: string; profileImage?: string };
   keywords: string[];
   title: string;
+  isOpened: boolean;
   onClick?: () => void;
 }
 
-export default function MentoringCard({ mentor, keywords, title, onClick }: MentoringCardProps) {
+export default function MentoringCard({ mentor, keywords, title, isOpened, onClick }: MentoringCardProps) {
   return (
     <Container onClick={onClick}>
       <Keywords>
@@ -29,6 +30,7 @@ export default function MentoringCard({ mentor, keywords, title, onClick }: Ment
           <ProfileIcon />
         </EmptyProfileImage>
       )}
+      <Closed isActive={!isOpened}>현재는 멘토링 신청을 받고 있지 않아요</Closed>
     </Container>
   );
 }
@@ -37,6 +39,7 @@ const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery('1200px');
 
 const Container = styled.div`
   display: grid;
+  position: relative;
   grid:
     [row1-start] 'keywords profileImage' min-content [row1-end]
     [row2-start] 'title profileImage' min-content [row2-end]
@@ -160,4 +163,28 @@ const Mentor = styled.div`
   color: ${colors.gray60};
 
   ${textStyles.SUIT_14_M};
+`;
+
+const Closed = styled.div<{ isActive: boolean }>`
+  display: ${({ isActive }) => (isActive ? 'flex' : 'none')};
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  border-radius: 16px;
+  background-color: ${colors.black100};
+  width: 424px;
+  height: 224px;
+  line-height: 20px;
+  color: ${colors.white100};
+
+  ${textStyles.SUIT_16_SB}
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    width: 335px;
+    height: 189px;
+    line-height: 17px;
+
+    ${textStyles.SUIT_14_SB}
+  }
 `;

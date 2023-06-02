@@ -32,7 +32,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
 
   const { getMentoringById } = mentoringProvider;
-  const { title, mentorName, keywords, introduce, howTo, target, nonTarget } = getMentoringById(mentorId);
+  const { title, mentorName, keywords, introduce, howTo, target, nonTarget, isOpened } = getMentoringById(mentorId);
 
   const eventLogger = {
     clickMentorProfile: () => logClickEvent('mentorProfile', { mentorId }),
@@ -70,10 +70,14 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
               <StyledArrowRightIcon />
             </ProfileButton>
           </Link>
-          <MessageButton onClick={handleClickMessageButton}>
-            <MessageIcon />
-            <div>신청 쪽지 보내기</div>
-          </MessageButton>
+          {isOpened ? (
+            <MessageButton onClick={handleClickMessageButton}>
+              <MessageIcon />
+              <div>신청 쪽지 보내기</div>
+            </MessageButton>
+          ) : (
+            <ClosedMessageButton>현재는 멘토링을 받고 있지 않아요</ClosedMessageButton>
+          )}
         </Header>
         <Main>
           <Section>
@@ -288,7 +292,30 @@ const MessageButton = styled.button`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 29px;
+    margin-top: 24px;
+    border-radius: 10px;
+    width: 100%;
+    height: 46px;
+  }
+`;
+
+const ClosedMessageButton = styled.div`
+  display: flex;
+  grid-area: messageButton;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  border-radius: 6px;
+  background-color: ${colors.purpledim100};
+  width: 249px;
+  height: 48px;
+  line-height: 135%;
+  color: ${colors.gray60};
+
+  ${textStyles.SUIT_14_B}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 24px;
     border-radius: 10px;
     width: 100%;
     height: 46px;
