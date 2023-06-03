@@ -118,6 +118,10 @@ const MessageModal: FC<MessageModalProps> = ({
         props.onClose();
       }
     } catch (error) {
+      await Alert({
+        title: '쪽지 전송 실패',
+        content: '문제가 발생했습니다.',
+      });
       throw error;
     }
   };
