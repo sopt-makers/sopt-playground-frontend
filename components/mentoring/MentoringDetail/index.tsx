@@ -76,7 +76,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
               <div>신청 쪽지 보내기</div>
             </MessageButton>
           ) : (
-            <ClosedMessageButton>현재는 멘토링을 받고 있지 않아요</ClosedMessageButton>
+            <ClosedMessageButton disabled>현재는 멘토링을 받고 있지 않아요</ClosedMessageButton>
           )}
         </Header>
         <Main>
@@ -299,7 +299,7 @@ const MessageButton = styled.button`
   }
 `;
 
-const ClosedMessageButton = styled.div`
+const ClosedMessageButton = styled.button`
   display: flex;
   grid-area: messageButton;
   align-items: center;
