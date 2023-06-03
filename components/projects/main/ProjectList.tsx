@@ -33,12 +33,12 @@ const ProjectList = () => {
           <Title as='h1' typography='SUIT_32_B'>
             ✨ 솝트에서 진행된 프로젝트 둘러보기
           </Title>
-          <DesktopResponsive only='desktop'>
+          <Responsive only='desktop'>
             <ProjectUploadButton href={playgroundLink.projectUpload()}>
               <IconPlusWhite />
               <Text typography='SUIT_18_B'>내 프로젝트 올리기</Text>
             </ProjectUploadButton>
-          </DesktopResponsive>
+          </Responsive>
         </TopWrapper>
         <LengthWrapper>
           {uniqueProjects && <StyledLength typography='SUIT_18_M'>{uniqueProjects.length}개의 프로젝트</StyledLength>}
@@ -96,12 +96,6 @@ const Title = styled(Text)`
   }
 `;
 
-const DesktopResponsive = styled(Responsive)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const TopWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -150,11 +144,13 @@ const StyledGridContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   column-gap: 30px;
   margin-top: 22px;
+  min-width: 1200px;
   row-gap: 64px;
 
   @media screen and (max-width: 1250px) {
     grid-template-columns: repeat(2, 1fr);
     justify-content: start;
+    min-width: 0;
   }
 
   @media screen and (max-width: 850px) {
