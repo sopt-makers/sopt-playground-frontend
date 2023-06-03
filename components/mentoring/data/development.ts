@@ -2,10 +2,10 @@ import { Mentor, Mentoring, MentoringData } from '@/components/mentoring/data/ty
 
 const MENTOR_LIST = [
   { id: 1, name: '송정우' },
-  { id: 8, name: '남주영' },
-  { id: 25, name: '이화정' },
-  { id: 24, name: '김은수' },
-  { id: 7, name: '이준호' },
+  { id: 4, name: '남주영' },
+  { id: 7, name: '이화정' },
+  { id: 8, name: '김은수' },
+  { id: 9, name: '이준호' },
 ] as const;
 // FIXME: satisfies 사용 위해 스토리북 7.0 업데이트 필요
 // satisfies readonly Mentor[];
@@ -36,7 +36,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
     isOpened: true,
   },
-  '8': {
+  '4': {
     mentorName: '남주영',
     title: '주영과 함께하는 CGP Review',
     keywords: ['웹 프론트엔드 개발자의 커리어/개발 지식/업무 경험'],
@@ -53,7 +53,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
     isOpened: true,
   },
-  '25': {
+  '7': {
     mentorName: '이화정',
     title: '안드로이드 프레임워크 개발을 하고 있는 이화정 입니다 :)',
     keywords: ['백엔드 입문', '취업 준비'],
@@ -70,7 +70,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
     isOpened: true,
   },
-  '24': {
+  '8': {
     mentorName: '김은수',
     title: '은수와 함께하는 CGP Review',
     keywords: ['백엔드 커리어패스 상담', '개발 실력을 키우기 위한 방법'],
@@ -87,7 +87,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
 - 안타깝게도 간편하게 성장할 수 있는 방법은 제시하지 않습니다. 따라서 쉽게 취업하기 위한 방법으로 본 멘토링을 택하시는 것은 큰 도움이 되지 않을 수 있습니다.`,
     isOpened: false,
   },
-  '7': {
+  '9': {
     mentorName: '이준호',
     title: '준호와 함께하는 CGP Review',
     keywords: ['백엔드 커리어패스 상담', '개발 실력을 키우기 위한 방법'],
