@@ -39,7 +39,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
   '8': {
     mentorName: '남주영',
     title: '주영과 함께하는 CGP Review',
-    keywords: ['개발 실력을 키우기 위한 방법'],
+    keywords: ['웹 프론트엔드 개발자의 커리어/개발 지식/업무 경험'],
     introduce: '성장에 대한 고민, 커리어/이직에 대한 고민을 듣고 이에 대한 도움을 드릴 수 있을 거 같습니다.',
     howTo: `- 대면 혹은 비대면으로 진행됩니다. 대면으로 진행 시 강남, 선릉 방면에서 진행 예정입니다.
 - 진행 시간은 약 1시간 정도를 생각하고 있으며, 주기적으로 진행할지는 멘티와 논의를 통해 결정할 생각입니다.

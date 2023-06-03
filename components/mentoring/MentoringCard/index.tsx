@@ -18,7 +18,9 @@ export default function MentoringCard({ mentor, keywords, title, isOpened, onCli
     <Container onClick={onClick}>
       <Keywords>
         {keywords.map((keyword, index) => (
-          <Keyword key={`${index}-${keyword}`}>{keyword}</Keyword>
+          <KeywordBox key={`${index}-${keyword}`}>
+            <KeywordContent>{keyword}</KeywordContent>
+          </KeywordBox>
         ))}
       </Keywords>
       <Title>{title}</Title>
@@ -124,13 +126,21 @@ const EmptyProfileImage = styled.div`
   }
 `;
 
-const Keyword = styled.span`
+const KeywordBox = styled.span`
   border-radius: 6px;
   background-color: ${colors.black60};
   padding: 6px;
   height: fit-content;
+`;
+
+const KeywordContent = styled.div`
+  display: ${'-webkit-box'};
+  overflow: hidden;
+  text-overflow: ellipsis;
   line-height: 14px;
   color: ${colors.gray30};
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 
   ${textStyles.SUIT_11_M};
 `;
