@@ -2,10 +2,10 @@ import { Mentor, Mentoring, MentoringData } from '@/components/mentoring/data/ty
 
 const MENTOR_LIST = [
   { id: 1, name: '송정우' },
-  { id: 4, name: '남주영' },
-  { id: 7, name: '이화정' },
-  { id: 8, name: '김은수' },
-  { id: 9, name: '이준호' },
+  { id: 4, name: '이정민' },
+  { id: 7, name: '이준호' },
+  { id: 8, name: '남주영' },
+  { id: 9, name: '이정연' },
 ] as const;
 // FIXME: satisfies 사용 위해 스토리북 7.0 업데이트 필요
 // satisfies readonly Mentor[];
@@ -37,8 +37,8 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     isOpened: true,
   },
   '4': {
-    mentorName: '남주영',
-    title: '주영과 함께하는 CGP Review',
+    mentorName: '이정민',
+    title: '정민과 함께하는 CGP Review',
     keywords: ['웹 프론트엔드 개발자의 커리어/개발 지식/업무 경험'],
     introduce: '성장에 대한 고민, 커리어/이직에 대한 고민을 듣고 이에 대한 도움을 드릴 수 있을 거 같습니다.',
     howTo: `- 대면 혹은 비대면으로 진행됩니다. 대면으로 진행 시 강남, 선릉 방면에서 진행 예정입니다.
@@ -54,8 +54,8 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     isOpened: true,
   },
   '7': {
-    mentorName: '이화정',
-    title: '안드로이드 프레임워크 개발을 하고 있는 이화정 입니다 :)',
+    mentorName: '이준호',
+    title: '안드로이드 프레임워크 개발을 하고 있는 이준호 입니다 :)',
     keywords: ['백엔드 입문', '취업 준비'],
     introduce: '성장에 대한 고민, 커리어/이직에 대한 고민을 듣고 이에 대한 도움을 드릴 수 있을 거 같습니다.',
     howTo: `- 대면 혹은 비대면으로 진행됩니다. 대면으로 진행 시 강남, 선릉 방면에서 진행 예정입니다.
@@ -71,8 +71,8 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     isOpened: true,
   },
   '8': {
-    mentorName: '김은수',
-    title: '은수와 함께하는 CGP Review',
+    mentorName: '남주영',
+    title: '주영과 함께하는 CGP Review',
     keywords: ['백엔드 커리어패스 상담', '개발 실력을 키우기 위한 방법'],
     introduce: '성장에 대한 고민, 커리어/이직에 대한 고민을 듣고 이에 대한 도움을 드릴 수 있을 거 같습니다.',
     howTo: `- 대면 혹은 비대면으로 진행됩니다. 대면으로 진행 시 강남, 선릉 방면에서 진행 예정입니다.
@@ -88,8 +88,8 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     isOpened: false,
   },
   '9': {
-    mentorName: '이준호',
-    title: '준호와 함께하는 CGP Review',
+    mentorName: '이정연',
+    title: '정연과 함께하는 CGP Review',
     keywords: ['백엔드 커리어패스 상담', '개발 실력을 키우기 위한 방법'],
     introduce: '성장에 대한 고민, 커리어/이직에 대한 고민을 듣고 이에 대한 도움을 드릴 수 있을 거 같습니다.',
     howTo: `- 대면 혹은 비대면으로 진행됩니다. 대면으로 진행 시 강남, 선릉 방면에서 진행 예정입니다.
