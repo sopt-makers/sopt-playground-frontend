@@ -307,6 +307,7 @@ const ClosedMessageButton = styled.div`
   justify-self: end;
   border-radius: 6px;
   background-color: ${colors.purpledim100};
+  cursor: default;
   width: 249px;
   height: 48px;
   line-height: 135%;
