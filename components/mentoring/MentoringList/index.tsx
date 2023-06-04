@@ -203,11 +203,13 @@ const MentoringScrollList = styled.div`
     display: none;
   }
 
-  & > .card:first-child {
-    margin-left: 20px;
-  }
+  @media ${TABLET_MEDIA_QUERY} {
+    & > .card:first-child {
+      margin-left: 20px;
+    }
 
-  & > .card:last-child {
-    margin-right: 20px;
+    & > .card:last-child {
+      margin-right: 20px;
+    }
   }
 `;
