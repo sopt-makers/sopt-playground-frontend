@@ -39,12 +39,10 @@ const OnBoardingBanner: FC<OnBoardingBannerProps> = ({ className, name }) => {
       </LeftContainer>
       <ButtonContainer>
         <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
-          <UploadButton onClick={() => logClickEvent('onboardingBannerProjectUpload', {})}>
-            프로젝트 업로드
-          </UploadButton>
+          <UploadButton onClick={() => logClickEvent('onboardingBannerProjectUpload')}>프로젝트 업로드</UploadButton>
         </Link>
         <Link href={playgroundLink.memberUpload()} passHref legacyBehavior>
-          <ProfileButton onClick={() => logClickEvent('onboardingBannerProfileUpload', {})}>프로필 추가</ProfileButton>
+          <ProfileButton onClick={() => logClickEvent('onboardingBannerProfileUpload')}>프로필 추가</ProfileButton>
         </Link>
       </ButtonContainer>
     </IntroducePanel>

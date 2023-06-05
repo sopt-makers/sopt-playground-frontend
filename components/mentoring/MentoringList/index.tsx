@@ -68,7 +68,7 @@ export default function MentoringList() {
   );
 
   const eventLogger = {
-    moveCarousel: () => logClickEvent('mentoringCarouselButton', {}),
+    moveCarousel: () => logClickEvent('mentoringCarouselButton'),
     clickCarouselCard: (mentorId: number) => logClickEvent('mentoringCard', { mentorId }),
   };
 

@@ -26,7 +26,7 @@ const Header: FC = () => {
     }
     if (me && href.includes(playgroundLink.memberDetail(`${me.id}`))) {
       return (
-        <Link href={href} onClick={() => logClickEvent('myProfile', {})}>
+        <Link href={href} onClick={() => logClickEvent('myProfile')}>
           {children}
         </Link>
       );

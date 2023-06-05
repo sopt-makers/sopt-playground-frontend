@@ -10,30 +10,16 @@ type ProjectCard = {
 export interface ClickEvents {
   memberCard: MemberCard;
   projectCard: ProjectCard;
-  registerLink: {
-    //
-  };
+  registerLink: undefined;
   registerWith: {
     method: 'facebook' | 'google' | 'apple';
   };
-  onboardingBannerProjectUpload: {
-    //
-  };
-  onboardingBannerProfileUpload: {
-    //
-  };
-  myProfile: {
-    //
-  };
-  editProfile: {
-    //
-  };
-  submitProfile: {
-    //
-  };
-  aboutMakers: {
-    //
-  };
+  onboardingBannerProjectUpload: undefined;
+  onboardingBannerProfileUpload: undefined;
+  myProfile: undefined;
+  editProfile: undefined;
+  submitProfile: undefined;
+  aboutMakers: undefined;
   filterGeneration: {
     generation: string;
   };
@@ -52,9 +38,7 @@ export interface ClickEvents {
   filterOrderBy: {
     orderBy: string;
   };
-  mentoringCarouselButton: {
-    //
-  };
+  mentoringCarouselButton: undefined;
   mentoringCard: {
     mentorId: number;
   };
@@ -73,9 +57,7 @@ export interface SubmitEvents {
   searchMember: {
     content: string;
   };
-  editProfile: {
-    //
-  };
+  editProfile: undefined;
   verify: {
     by: 'phone' | 'email';
   };
@@ -87,9 +69,7 @@ export interface SubmitEvents {
 }
 
 export interface PageViewEvents {
-  mamberPageList: {
-    //
-  };
+  mamberPageList: undefined;
   memberCard: MemberCard;
   projectCard: ProjectCard;
   mentoringDetail: {

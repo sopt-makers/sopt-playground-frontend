@@ -83,7 +83,7 @@ const LoginPage: FC = () => {
         </LinkContainer>
         <RegisterInfo>
           Playground가 처음이신가요?{' '}
-          <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink', {})}>
+          <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink')}>
             회원가입하기
           </RegisterLink>
         </RegisterInfo>
