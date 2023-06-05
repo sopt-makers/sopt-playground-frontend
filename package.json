@@ -24,7 +24,7 @@
     "typecheck": "tsc --noemit -p ."
   },
   "dependencies": {
-    "@amplitude/analytics-browser": "^1.6.7",
+    "@amplitude/analytics-browser": "^1.10.4",
     "@badrap/bar-of-progress": "^0.2.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
