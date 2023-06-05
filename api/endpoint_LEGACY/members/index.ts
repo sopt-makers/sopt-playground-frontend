@@ -28,16 +28,6 @@ export const getMemberById = async (id: number) => {
   return data;
 };
 
-// 자신의 토큰으로 조회
-export const getMemberOfMe = async () => {
-  const data = await axiosInstance.request<Member>({
-    method: 'GET',
-    url: `api/v1/members/me`,
-  });
-
-  return data.data;
-};
-
 // 멤버 프로필 조회
 export const getMemberProfileById = async (id: number | undefined) => {
   if (typeof id === 'undefined') throw new Error('Invalid id');
