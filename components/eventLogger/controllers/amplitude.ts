@@ -6,6 +6,10 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
   const instance = createInstance();
   instance.init(apiKey, userId, {
     minIdLength: 1,
+    defaultTracking: {
+      pageViews: true,
+      sessions: true,
+    },
   });
 
   return {
