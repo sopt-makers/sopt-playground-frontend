@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
 
-import { useGetMemberOfMe } from '@/api/endpoint_LEGACY/hooks';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { EventLoggerContext } from '@/components/eventLogger/context';
 import { createConsoleLogController } from '@/components/eventLogger/controllers/consoleLog';
 

@@ -2,29 +2,9 @@ import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { getMembersSearchByName } from '@/api/endpoint/members/getMembersSearchByName';
-import {
-  getMemberOfMe,
+import { getMemberProfileById, postMemberCoffeeChat } from '@/api/endpoint_LEGACY/members';
   getMemberProfileById,
-  getMemberProfileOfMe,
-  postMemberCoffeeChat,
-} from '@/api/endpoint_LEGACY/members';
 import { PostMemberCoffeeChatVariables, ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
-
-// 멤버 프로필 조회
-export const useGetMemberOfMe = () => {
-  return useQuery(
-    ['getMemberOfMe'],
-    async () => {
-      const data = await getMemberOfMe();
-      return data;
-    },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-    },
-  );
-};
 
 // 멤버 프로필 조회
 export const useGetMemberProfileById = (

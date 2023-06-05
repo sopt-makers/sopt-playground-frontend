@@ -9,6 +9,7 @@ import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
 import Loading from '@/components/common/Loading';
@@ -49,6 +50,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { logClickEvent, logPageViewEvent } = useEventLogger();
   const router = useRouter();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const { data: me } = useGetMemberOfMe();
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -229,14 +231,16 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           {profile.projects.length === 0 && (
             <>
               <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>
-              <ProjectUploadNudge>
-                <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
-                  참여한 프로젝트를 등록하면 <br />
-                  공식 홈페이지에도 프로젝트가 업로드 돼요!
-                </Text>
-                <ProjectUploadButton href={playgroundLink.projectUpload()}>+ 내 프로젝트 올리기</ProjectUploadButton>
-                <ProjectUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' />
-              </ProjectUploadNudge>
+              {String(me?.id) === memberId && (
+                <ProjectUploadNudge>
+                  <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
+                    참여한 프로젝트를 등록하면 <br />
+                    공식 홈페이지에도 프로젝트가 업로드 돼요!
+                  </Text>
+                  <ProjectUploadButton href={playgroundLink.projectUpload()}>+ 내 프로젝트 올리기</ProjectUploadButton>
+                  <ProjectUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' />
+                </ProjectUploadNudge>
+              )}
             </>
           )}
         </ProjectContainer>
