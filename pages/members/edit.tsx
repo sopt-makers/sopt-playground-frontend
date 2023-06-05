@@ -121,7 +121,7 @@ export default function MemberEditPage() {
 
     router.push(playgroundLink.memberDetail(response.id));
 
-    logSubmitEvent('editProfile', {});
+    logSubmitEvent('editProfile');
   };
 
   useEffect(() => {

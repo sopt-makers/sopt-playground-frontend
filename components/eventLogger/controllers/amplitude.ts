@@ -9,14 +9,14 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
   });
 
   return {
-    clickEvent(key, params) {
-      instance.track(`Click-${key}`, params);
+    clickEvent(key, ...params) {
+      instance.track(`Click-${key}`, ...params);
     },
-    submitEvent(key, params) {
-      instance.track(`Submit-${key}`, params);
+    submitEvent(key, ...params) {
+      instance.track(`Submit-${key}`, ...params);
     },
-    pageViewEvent(key, params) {
-      instance.track(`Pageview-${key}`, params);
+    pageViewEvent(key, ...params) {
+      instance.track(`Pageview-${key}`, ...params);
     },
   };
 }

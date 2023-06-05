@@ -123,7 +123,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             <EditButton
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
-                logClickEvent('editProfile', {});
+                logClickEvent('editProfile');
               }}
             >
               <EditIcon />

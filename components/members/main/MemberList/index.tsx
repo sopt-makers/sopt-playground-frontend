@@ -96,7 +96,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   );
 
   useRunOnce(() => {
-    logPageViewEvent('mamberPageList', {});
+    logPageViewEvent('mamberPageList');
   }, []);
 
   useEffect(() => {
