@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
@@ -15,6 +16,7 @@ import { textStyles } from '@/styles/typography';
 
 const ProjectList = () => {
   const { data: projects, isLoading } = useGetProjectListQuery();
+  const { logClickEvent } = useEventLogger();
 
   // 최신순
   const sortedProjects = projects && [...projects].sort((a, b) => b.id - a.id);
@@ -34,7 +36,14 @@ const ProjectList = () => {
             ✨ 솝트에서 진행된 프로젝트 둘러보기
           </Title>
           <Responsive only='desktop'>
-            <ProjectUploadButton href={playgroundLink.projectUpload()}>
+            <ProjectUploadButton
+              href={playgroundLink.projectUpload()}
+              onClick={() =>
+                logClickEvent('projectUpload', {
+                  referral: 'projectPage',
+                })
+              }
+            >
               <IconPlusWhite />
               <Text typography='SUIT_18_B'>내 프로젝트 올리기</Text>
             </ProjectUploadButton>
@@ -42,7 +51,14 @@ const ProjectList = () => {
         </TopWrapper>
         <LengthWrapper>
           {uniqueProjects && <StyledLength typography='SUIT_18_M'>{uniqueProjects.length}개의 프로젝트</StyledLength>}
-          <ProjectMobileUploadButton href={playgroundLink.projectUpload()}>
+          <ProjectMobileUploadButton
+            onClick={() =>
+              logClickEvent('projectUpload', {
+                referral: 'projectPage',
+              })
+            }
+            href={playgroundLink.projectUpload()}
+          >
             <IconPen />
           </ProjectMobileUploadButton>
         </LengthWrapper>

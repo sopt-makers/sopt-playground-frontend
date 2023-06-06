@@ -16,6 +16,9 @@ export interface ClickEvents {
   };
   onboardingBannerProjectUpload: undefined;
   onboardingBannerProfileUpload: undefined;
+  projectUpload: {
+    referral: string;
+  };
   myProfile: undefined;
   editProfile: undefined;
   submitProfile: undefined;

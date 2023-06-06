@@ -237,7 +237,16 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     참여한 프로젝트를 등록하면 <br />
                     공식 홈페이지에도 프로젝트가 업로드 돼요!
                   </Text>
-                  <ProjectUploadButton href={playgroundLink.projectUpload()}>+ 내 프로젝트 올리기</ProjectUploadButton>
+                  <ProjectUploadButton
+                    onClick={() =>
+                      logClickEvent('projectUpload', {
+                        referral: 'myPage',
+                      })
+                    }
+                    href={playgroundLink.projectUpload()}
+                  >
+                    + 내 프로젝트 올리기
+                  </ProjectUploadButton>
                   <ProjectUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' />
                 </ProjectUploadNudge>
               )}
