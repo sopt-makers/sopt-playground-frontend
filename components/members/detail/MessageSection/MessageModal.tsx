@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { usePostCoffeeChatMutation } from '@/api/endpoint_LEGACY/hooks';
+import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
@@ -92,7 +92,7 @@ const MessageModal: FC<MessageModalProps> = ({
     mode: 'onChange',
   });
   const isValid = _isValid && Boolean(selectedCategory);
-  const { mutateAsync, isLoading } = usePostCoffeeChatMutation();
+  const { mutateAsync, isLoading } = usePostMemberMessageMutation();
 
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
