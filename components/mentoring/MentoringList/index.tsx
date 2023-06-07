@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash-es';
 import Link from 'next/link';
+import ArrowDiagonalIcon from 'public/icons/icon-diagonal-arrow.svg';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
@@ -9,7 +10,7 @@ import Carousel from '@/components/common/Carousel';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { mentoringProvider } from '@/components/mentoring/data';
 import MentoringCard from '@/components/mentoring/MentoringCard';
-import { playgroundLink } from '@/constants/links';
+import { MENTOR_APPLICATION, playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
@@ -101,7 +102,13 @@ export default function MentoringList() {
 
   return (
     <Container>
-      <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
+      <Header>
+        <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
+        <MentorApplicationButton href={MENTOR_APPLICATION} target='_blank'>
+          멘토 등록을 하고싶다면?
+          <ArrowDiagonalIcon />
+        </MentorApplicationButton>
+      </Header>
       {listType &&
         (listType === 'scroll' ? (
           <MentoringScrollWrapper>
@@ -140,35 +147,26 @@ const Container = styled.div`
   margin-bottom: 103px;
 
   @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    gap: 36px;
     margin-top: 104px;
     margin-bottom: 48px;
   }
 
   @media ${TABLET_MEDIA_QUERY} {
+    gap: 24px;
     margin-top: 24px;
     margin-bottom: 40px;
   }
 `;
 
 const Title = styled.div`
-  width: 1302px;
   text-align: start;
   line-height: 100%;
   color: ${colors.white};
 
   ${textStyles.SUIT_24_B}
 
-  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-    width: 969px;
-  }
-
-  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
-    width: 636px;
-  }
-
   @media ${TABLET_MEDIA_QUERY} {
-    padding: 0 20px;
-    width: 100%;
     white-space: pre-line;
   }
 `;
@@ -211,5 +209,60 @@ const MentoringScrollList = styled.div`
     & > .card:last-child {
       margin-right: 20px;
     }
+  }
+`;
+
+const MentorApplicationButton = styled.a`
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  line-height: 100%;
+  color: ${colors.gray80};
+
+  ${textStyles.SUIT_18_M}
+
+  & > svg {
+    width: 20px;
+    height: 20px;
+
+    & > path {
+      fill: ${colors.gray80};
+    }
+  }
+
+  @media ${TABLET_MEDIA_QUERY} {
+    gap: 4px;
+    line-height: 15px;
+
+    ${textStyles.SUIT_12_M}
+
+    & > svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1302px;
+
+  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
+    width: 969px;
+  }
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    width: 636px;
+  }
+
+  @media ${TABLET_MEDIA_QUERY} {
+    gap: 12px;
+    padding: 0 20px;
+    width: 100%;
   }
 `;
