@@ -54,6 +54,7 @@ export interface ClickEvents {
   mentoringApplicationButton: {
     mentorId: number;
   };
+  mentorApplicationButton: undefined;
 }
 
 export interface SubmitEvents {

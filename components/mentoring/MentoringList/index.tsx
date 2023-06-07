@@ -57,6 +57,12 @@ export default function MentoringList() {
 
   const initListType = () => setListType(getListType());
 
+  const eventLogger = {
+    moveCarousel: () => logClickEvent('mentoringCarouselButton'),
+    clickCarouselCard: (mentorId: number) => logClickEvent('mentoringCard', { mentorId }),
+    clickMentorApplicationButton: () => logClickEvent('mentorApplicationButton'),
+  };
+
   const handleResize = useMemo(
     () =>
       debounce(() => {
@@ -68,9 +74,8 @@ export default function MentoringList() {
     [listType],
   );
 
-  const eventLogger = {
-    moveCarousel: () => logClickEvent('mentoringCarouselButton'),
-    clickCarouselCard: (mentorId: number) => logClickEvent('mentoringCard', { mentorId }),
+  const handleClickMentorApplicationButton = () => {
+    eventLogger.clickMentorApplicationButton();
   };
 
   const mentoringList = getMentoringList();
@@ -104,7 +109,7 @@ export default function MentoringList() {
     <Container>
       <Header>
         <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
-        <MentorApplicationButton href={MENTOR_APPLICATION} target='_blank'>
+        <MentorApplicationButton href={MENTOR_APPLICATION} target='_blank' onClick={handleClickMentorApplicationButton}>
           멘토 등록을 하고싶다면?
           <ArrowDiagonalIcon />
         </MentorApplicationButton>
