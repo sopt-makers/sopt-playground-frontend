@@ -61,6 +61,12 @@ const schema = yup.object().shape({
   content: yup.string().required('내용을 입력해주세요.').max(750, '750자 이내로 입력해주세요.'),
 });
 
+const MENTORING_PLACEHOLDER = `멘토링을 통해 어떤 것을 얻고 싶은지
+자세히 적으면 더욱 알찬 멘토링이 될 거예요.
+
+예시) 취업을 준비하면서 제가 하고 있는 일들의 
+우선순위를 정하는 것이 어려워요.`;
+
 interface MessageForm {
   email: string;
   content: string;
@@ -169,7 +175,9 @@ const MessageModal: FC<MessageModalProps> = ({
           control={control}
           name='content'
           component={StyledTextArea}
-          placeholder='전달할 내용을 입력해주세요!'
+          placeholder={
+            selectedCategory === MessageCategory.MENTORING ? MENTORING_PLACEHOLDER : '전달할 내용을 입력해주세요!'
+          }
         />
         <StyledButton isDisabled={!isValid}>
           {isLoading ? (
