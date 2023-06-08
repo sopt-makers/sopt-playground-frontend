@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
+import Responsive from '@/components/common/Responsive';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -23,16 +24,20 @@ export default function MemberForm({ type, children, onSubmit }: MemberFormProps
       </StyledHeader>
       <StyledForm onSubmit={(e) => e.preventDefault()}>
         {children}
-        <MobileSubmitButton onClick={onSubmit} className='mobile-only'>
-          완료
-        </MobileSubmitButton>
-        <StyledFooter className='pc-only'>
-          <div className='button-wrapper'>
-            <button onClick={onSubmit} className='submit'>
-              프로필 {TYPE_MAP[type]}하기
-            </button>
-          </div>
-        </StyledFooter>
+        <Responsive only='desktop'>
+          <StyledFooter className='pc-only'>
+            <div className='button-wrapper'>
+              <button onClick={onSubmit} className='submit'>
+                프로필 {TYPE_MAP[type]}하기
+              </button>
+            </div>
+          </StyledFooter>
+        </Responsive>
+        <Responsive only='mobile' asChild>
+          <MobileSubmitButton onClick={onSubmit} className='mobile-only'>
+            완료
+          </MobileSubmitButton>
+        </Responsive>
       </StyledForm>
     </StyledContainer>
   );
