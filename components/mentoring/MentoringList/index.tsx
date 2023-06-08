@@ -10,7 +10,7 @@ import Carousel from '@/components/common/Carousel';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { mentoringProvider } from '@/components/mentoring/data';
 import MentoringCard from '@/components/mentoring/MentoringCard';
-import { MENTOR_APPLICATION, playgroundLink } from '@/constants/links';
+import { MENTOR_APPLICATION_URL, playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
@@ -109,7 +109,11 @@ export default function MentoringList() {
     <Container>
       <Header>
         <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
-        <MentorApplicationButton href={MENTOR_APPLICATION} target='_blank' onClick={handleClickMentorApplicationButton}>
+        <MentorApplicationButton
+          href={MENTOR_APPLICATION_URL}
+          target='_blank'
+          onClick={handleClickMentorApplicationButton}
+        >
           멘토 등록을 하고싶다면?
           <ArrowDiagonalIcon />
         </MentorApplicationButton>
