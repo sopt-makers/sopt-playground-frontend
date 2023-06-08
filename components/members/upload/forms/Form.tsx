@@ -26,21 +26,20 @@ export default function MemberForm({ type, children, onSubmit }: MemberFormProps
         <MobileSubmitButton onClick={onSubmit} className='mobile-only'>
           완료
         </MobileSubmitButton>
+        <StyledFooter className='pc-only'>
+          <div className='button-wrapper'>
+            <button onClick={onSubmit} className='submit'>
+              프로필 {TYPE_MAP[type]}하기
+            </button>
+          </div>
+        </StyledFooter>
       </StyledForm>
-      <StyledFooter className='pc-only'>
-        <div className='button-wrapper'>
-          <button onClick={onSubmit} className='submit'>
-            프로필 {TYPE_MAP[type]}하기
-          </button>
-        </div>
-      </StyledFooter>
     </StyledContainer>
   );
 }
 
 const StyledContainer = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: center;
   padding-bottom: 375px;
@@ -117,6 +116,7 @@ const StyledFooter = styled.div`
   display: flex;
   position: fixed;
   bottom: 0;
+  left: 0;
   align-items: center;
   justify-content: center;
   background-color: ${colors.black80};
