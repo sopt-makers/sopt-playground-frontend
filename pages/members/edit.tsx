@@ -47,7 +47,11 @@ export default function MemberEditPage() {
   const queryClient = useQueryClient();
   const { data: myProfile } = useGetMemberProfileOfMe({ cacheTime: Infinity, staleTime: Infinity });
 
-  const { handleSubmit, reset } = formMethods;
+  const {
+    handleSubmit,
+    reset,
+    formState: { isValid },
+  } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
     const {
@@ -209,7 +213,7 @@ export default function MemberEditPage() {
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
-        <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)}>
+        <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={isValid}>
           <BasicFormSection />
           <SoptActivityFormSection />
           <TmiFormSection />
