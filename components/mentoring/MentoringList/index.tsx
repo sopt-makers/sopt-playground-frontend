@@ -113,6 +113,7 @@ export default function MentoringList() {
           href={MENTOR_APPLICATION_URL}
           target='_blank'
           onClick={handleClickMentorApplicationButton}
+          rel='noopener'
         >
           멘토 등록을 하고싶다면?
           <ArrowDiagonalIcon />
