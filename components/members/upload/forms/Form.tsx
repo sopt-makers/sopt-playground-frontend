@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
+import Responsive from '@/components/common/Responsive';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -12,9 +13,10 @@ interface MemberFormProps {
   type: FormType;
   children: ReactNode;
   onSubmit: () => void;
+  isValid: boolean;
 }
 
-export default function MemberForm({ type, children, onSubmit }: MemberFormProps) {
+export default function MemberForm({ type, children, onSubmit, isValid }: MemberFormProps) {
   return (
     <StyledContainer>
       <StyledHeader>
@@ -23,24 +25,27 @@ export default function MemberForm({ type, children, onSubmit }: MemberFormProps
       </StyledHeader>
       <StyledForm onSubmit={(e) => e.preventDefault()}>
         {children}
-        <MobileSubmitButton onClick={onSubmit} className='mobile-only'>
-          완료
-        </MobileSubmitButton>
+        <Responsive only='desktop'>
+          <StyledFooter>
+            <div className='button-wrapper'>
+              <DesktopSubmitButton onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
+                프로필 {TYPE_MAP[type]}하기
+              </DesktopSubmitButton>
+            </div>
+          </StyledFooter>
+        </Responsive>
+        <Responsive only='mobile' asChild>
+          <MobileSubmitButton onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
+            완료
+          </MobileSubmitButton>
+        </Responsive>
       </StyledForm>
-      <StyledFooter className='pc-only'>
-        <div className='button-wrapper'>
-          <button onClick={onSubmit} className='submit'>
-            프로필 {TYPE_MAP[type]}하기
-          </button>
-        </div>
-      </StyledFooter>
     </StyledContainer>
   );
 }
 
 const StyledContainer = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: center;
   padding-bottom: 375px;
@@ -103,33 +108,16 @@ const StyledForm = styled.form`
   }
 `;
 
-const MobileSubmitButton = styled.button`
-  margin-top: 18px;
-  border-radius: 12px;
-  background-color: ${colors.purple100};
-  padding: 18px 0;
-  color: ${colors.white100};
-  font-size: 16px;
-  font-weight: 600;
-`;
-
 const StyledFooter = styled.div`
   display: flex;
   position: fixed;
   bottom: 0;
+  left: 0;
   align-items: center;
   justify-content: center;
   background-color: ${colors.black80};
   width: 100vw;
   height: 90px;
-
-  .submit {
-    border-radius: 100px;
-    background-color: ${colors.purple100};
-    padding: 18px 50px;
-
-    ${textStyles.SUIT_14_M}
-  }
 
   .button-wrapper {
     display: flex;
@@ -137,12 +125,28 @@ const StyledFooter = styled.div`
     justify-content: flex-end;
     width: 790px;
 
-    button {
-      cursor: pointer;
-    }
-
     @media (max-width: 790px) {
       width: 100%;
     }
   }
+`;
+
+const SubmitButton = styled.button<{ isDisabled: boolean }>`
+  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
+  color: ${({ isDisabled }) => (isDisabled ? colors.gray80 : colors.white100)};
+`;
+
+const DesktopSubmitButton = styled(SubmitButton)`
+  border-radius: 100px;
+  padding: 18px 50px;
+
+  ${textStyles.SUIT_14_M}
+`;
+
+const MobileSubmitButton = styled(SubmitButton)`
+  margin-top: 18px;
+  border-radius: 12px;
+  padding: 18px 0;
+
+  ${textStyles.SUIT_16_SB}
 `;
