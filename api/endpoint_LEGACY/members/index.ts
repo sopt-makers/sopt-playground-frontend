@@ -2,7 +2,7 @@ import { axiosInstance } from '@/api';
 import {
   Member,
   PagedMemberProfile,
-  PostMemberCoffeeChatVariables,
+  PostMemberMessageVariables,
   Profile,
   ProfileDetail,
   ProfileRequest,
@@ -67,7 +67,7 @@ export const getMembersSearchByName = async (name: string) => {
   return data;
 };
 
-export const postMemberCoffeeChat = async (variables: PostMemberCoffeeChatVariables) => {
+export const postMemberMessage = async (variables: PostMemberMessageVariables) => {
   const { data } = await axiosInstance.request<{
     success: boolean;
     message: string;
