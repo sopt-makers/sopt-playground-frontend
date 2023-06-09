@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
-import Responsive from '@/components/common/Responsive';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -25,20 +24,9 @@ export default function MemberForm({ type, children, onSubmit, isValid }: Member
       </StyledHeader>
       <StyledForm onSubmit={(e) => e.preventDefault()}>
         {children}
-        <Responsive only='desktop'>
-          <StyledFooter>
-            <div className='button-wrapper'>
-              <DesktopSubmitButton onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
-                프로필 {TYPE_MAP[type]}하기
-              </DesktopSubmitButton>
-            </div>
-          </StyledFooter>
-        </Responsive>
-        <Responsive only='mobile' asChild>
-          <MobileSubmitButton onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
-            완료
-          </MobileSubmitButton>
-        </Responsive>
+        <SubmitButton onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
+          프로필 {TYPE_MAP[type]}하기
+        </SubmitButton>
       </StyledForm>
     </StyledContainer>
   );
@@ -48,7 +36,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 375px;
+  padding-bottom: 257px;
 
   & > * {
     width: 790px;
@@ -58,7 +46,7 @@ const StyledContainer = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding-bottom: 0;
+    padding-bottom: 222px;
   }
 `;
 
@@ -108,45 +96,27 @@ const StyledForm = styled.form`
   }
 `;
 
-const StyledFooter = styled.div`
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  align-items: center;
-  justify-content: center;
-  background-color: ${colors.black80};
-  width: 100vw;
-  height: 90px;
-
-  .button-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 790px;
-
-    @media (max-width: 790px) {
-      width: 100%;
-    }
-  }
-`;
-
 const SubmitButton = styled.button<{ isDisabled: boolean }>`
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  justify-content: center;
+  margin-top: 30px;
+  border-radius: 31px;
   background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
+  width: 163px;
+  height: 42px;
+  line-height: 120%;
   color: ${({ isDisabled }) => (isDisabled ? colors.gray80 : colors.white100)};
-`;
-
-const DesktopSubmitButton = styled(SubmitButton)`
-  border-radius: 100px;
-  padding: 18px 50px;
 
   ${textStyles.SUIT_14_M}
-`;
 
-const MobileSubmitButton = styled(SubmitButton)`
-  margin-top: 18px;
-  border-radius: 12px;
-  padding: 18px 0;
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 12px;
+    width: 100%;
+    height: 52px;
+    line-height: 100%;
 
-  ${textStyles.SUIT_16_SB}
+    ${textStyles.SUIT_16_SB}
+  }
 `;
