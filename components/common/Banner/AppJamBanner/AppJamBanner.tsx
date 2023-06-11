@@ -32,12 +32,12 @@ const AppJamBanner: FC = () => {
               🗯&nbsp;
               <StyledSOPT>GO SOPT</StyledSOPT> 기획 자료를 공개합니다&nbsp;🗯
             </Text>
-            <StyledLink href={APPJAM_LINK} target='_blank' rel='noreferer noopener'>{`바로 보기 >`}</StyledLink>
+            <StyledLink href={APPJAM_LINK} target='_blank' rel='noopener noreferrer'>{`바로 보기 >`}</StyledLink>
           </TextWrapper>
         </StyledBanner>
       </Responsive>
       <Responsive only='mobile'>
-        <a href={APPJAM_LINK} target='_blank' rel='noreferer noopener noreferrer'>
+        <a href={APPJAM_LINK} target='_blank' rel='noopener noreferrer'>
           <StyledBanner>
             <MobileRightImage />
             <Text typography='SUIT_15_B'>
