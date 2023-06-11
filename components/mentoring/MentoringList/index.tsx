@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash-es';
 import Link from 'next/link';
 import ArrowDiagonalIcon from 'public/icons/icon-diagonal-arrow.svg';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, startTransition, useEffect, useMemo, useState } from 'react';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import Carousel from '@/components/common/Carousel';
@@ -17,13 +17,20 @@ import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
+const SCREEN_SIZE = {
+  desktopLarge: { size: 1542, className: 'large-desktop-only' },
+  desktopSmall: { size: 1200, className: 'small-desktop-only' },
+  tablet: { size: 768, className: 'tablet-only' },
+  mobile: { size: 375, className: 'mobile-only' },
+};
+
 const getListType = (): ListType => {
   if (typeof window === 'undefined') {
     return;
   }
-  if (window.innerWidth >= SCREEN_SIZE.DESKTOP_LARGE) {
+  if (window.innerWidth >= SCREEN_SIZE.desktopLarge.size) {
     return 'carousel-large';
-  } else if (window.innerWidth >= SCREEN_SIZE.DESKTOP_SMALL) {
+  } else if (window.innerWidth >= SCREEN_SIZE.desktopSmall.size) {
     return 'carousel-small';
   } else {
     return 'scroll';
@@ -100,8 +107,12 @@ export default function MentoringList() {
   ));
 
   useEffect(() => {
-    initListType();
     window.addEventListener('resize', handleResize);
+
+    startTransition(() => {
+      initListType();
+    });
+
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
@@ -119,33 +130,36 @@ export default function MentoringList() {
           <ArrowDiagonalIcon />
         </MentorApplicationButton>
       </Header>
-      {listType &&
-        (listType === 'scroll' ? (
-          <MentoringScrollWrapper>
-            <MentoringScrollList>{mentoringCardList}</MentoringScrollList>
-          </MentoringScrollWrapper>
-        ) : (
-          <StyledCarousel
-            itemList={mentoringCardList}
-            limit={listType === 'carousel-large' ? 3 : 2}
-            renderItemContainer={(children: ReactNode) => <MentoringCardContainer>{children}</MentoringCardContainer>}
-            onMove={eventLogger.moveCarousel}
-          />
-        ))}
+      {(listType === undefined || listType === 'carousel-large') && (
+        <StyledCarousel
+          itemList={mentoringCardList}
+          limit={3}
+          renderItemContainer={(children: ReactNode) => <MentoringCardContainer>{children}</MentoringCardContainer>}
+          onMove={eventLogger.moveCarousel}
+          className={SCREEN_SIZE.desktopLarge.className}
+        />
+      )}
+      {(listType === undefined || listType === 'carousel-small') && (
+        <StyledCarousel
+          itemList={mentoringCardList}
+          limit={2}
+          renderItemContainer={(children: ReactNode) => <MentoringCardContainer>{children}</MentoringCardContainer>}
+          onMove={eventLogger.moveCarousel}
+          className={SCREEN_SIZE.desktopSmall.className}
+        />
+      )}
+      {(listType === undefined || listType === 'scroll') && (
+        <MentoringScrollWrapper className={SCREEN_SIZE.tablet.className}>
+          <MentoringScrollList>{mentoringCardList}</MentoringScrollList>
+        </MentoringScrollWrapper>
+      )}
     </Container>
   );
 }
 
-const SCREEN_SIZE = {
-  DESKTOP_LARGE: 1542,
-  DESKTOP_SMALL: 1200,
-  TABLET: 768,
-  MOBILE: 375,
-};
-
-const DESKTOP_LARGE_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.DESKTOP_LARGE}px`);
-const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.DESKTOP_SMALL}px`);
-const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.TABLET}px`);
+const DESKTOP_LARGE_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopLarge.size}px`);
+const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopSmall.size}px`);
+const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.size}px`);
 
 const Container = styled.div`
   display: flex;
@@ -156,16 +170,48 @@ const Container = styled.div`
   margin-top: 100px;
   margin-bottom: 103px;
 
+  .${SCREEN_SIZE.desktopSmall.className} {
+    display: none;
+  }
+
+  .${SCREEN_SIZE.tablet.className} {
+    display: none;
+  }
+
   @media ${DESKTOP_SMALL_MEDIA_QUERY} {
     gap: 36px;
     margin-top: 104px;
     margin-bottom: 48px;
+
+    .${SCREEN_SIZE.desktopLarge.className} {
+      display: none;
+    }
+
+    .${SCREEN_SIZE.desktopSmall.className} {
+      display: grid;
+    }
+
+    .${SCREEN_SIZE.tablet.className} {
+      display: none;
+    }
   }
 
   @media ${TABLET_MEDIA_QUERY} {
     gap: 24px;
     margin-top: 24px;
     margin-bottom: 40px;
+
+    .${SCREEN_SIZE.desktopLarge.className} {
+      display: none;
+    }
+
+    .${SCREEN_SIZE.desktopSmall.className} {
+      display: none;
+    }
+
+    .${SCREEN_SIZE.tablet.className} {
+      display: flex;
+    }
   }
 `;
 
