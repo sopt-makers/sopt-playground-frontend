@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
-import { debounce } from 'lodash-es';
 import Link from 'next/link';
 import ArrowDiagonalIcon from 'public/icons/icon-diagonal-arrow.svg';
-import { ReactNode, startTransition, useEffect, useMemo, useState } from 'react';
+import { ReactNode, startTransition, useEffect, useState } from 'react';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import Carousel from '@/components/common/Carousel';
@@ -24,18 +23,9 @@ const SCREEN_SIZE = {
   mobile: { size: 375, className: 'mobile-only' },
 };
 
-const getListType = (): ListType => {
-  if (typeof window === 'undefined') {
-    return;
-  }
-  if (window.innerWidth >= SCREEN_SIZE.desktopLarge.size) {
-    return 'carousel-large';
-  } else if (window.innerWidth >= SCREEN_SIZE.desktopSmall.size) {
-    return 'carousel-small';
-  } else {
-    return 'scroll';
-  }
-};
+const DESKTOP_LARGE_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopLarge.size}px`);
+const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopSmall.size}px`);
+const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.size}px`);
 
 export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
@@ -62,24 +52,11 @@ export default function MentoringList() {
     { staleTime: Infinity, cacheTime: Infinity },
   );
 
-  const initListType = () => setListType(getListType());
-
   const eventLogger = {
     moveCarousel: () => logClickEvent('mentoringCarouselButton'),
     clickCarouselCard: (mentorId: number) => logClickEvent('mentoringCard', { mentorId }),
     clickMentorApplicationButton: () => logClickEvent('mentorApplicationButton'),
   };
-
-  const handleResize = useMemo(
-    () =>
-      debounce(() => {
-        const newListType = getListType();
-        if (newListType !== listType) {
-          setListType(newListType);
-        }
-      }, 1000),
-    [listType],
-  );
 
   const handleClickMentorApplicationButton = () => {
     eventLogger.clickMentorApplicationButton();
@@ -107,14 +84,34 @@ export default function MentoringList() {
   ));
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
+    const desktopLargeMedia = window.matchMedia(DESKTOP_LARGE_MEDIA_QUERY);
+    const desktopSmallMedia = window.matchMedia(DESKTOP_SMALL_MEDIA_QUERY);
+
+    const handleChangeDesktopLargeMedia = (e: MediaQueryListEvent) => {
+      setListType(e.matches ? 'carousel-small' : 'carousel-large');
+    };
+    const handleChangeDesktopSmallMedia = (e: MediaQueryListEvent) => {
+      setListType(e.matches ? 'scroll' : 'carousel-small');
+    };
+
+    desktopLargeMedia.addEventListener('change', handleChangeDesktopLargeMedia);
+    desktopSmallMedia.addEventListener('change', handleChangeDesktopSmallMedia);
 
     startTransition(() => {
-      initListType();
+      if (desktopSmallMedia.matches) {
+        setListType('scroll');
+      } else if (desktopLargeMedia.matches) {
+        setListType('carousel-small');
+      } else {
+        setListType('carousel-large');
+      }
     });
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, [handleResize]);
+    return () => {
+      desktopLargeMedia.removeEventListener('change', handleChangeDesktopLargeMedia);
+      desktopSmallMedia.removeEventListener('change', handleChangeDesktopSmallMedia);
+    };
+  }, []);
 
   return (
     <Container>
@@ -156,10 +153,6 @@ export default function MentoringList() {
     </Container>
   );
 }
-
-const DESKTOP_LARGE_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopLarge.size}px`);
-const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopSmall.size}px`);
-const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.size}px`);
 
 const Container = styled.div`
   display: flex;
