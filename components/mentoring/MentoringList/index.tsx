@@ -178,11 +178,7 @@ const Container = styled.div`
     display: none;
   }
 
-  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
-    gap: 36px;
-    margin-top: 104px;
-    margin-bottom: 48px;
-
+  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
     .${SCREEN_SIZE.desktopLarge.className} {
       display: none;
     }
@@ -196,10 +192,10 @@ const Container = styled.div`
     }
   }
 
-  @media ${TABLET_MEDIA_QUERY} {
-    gap: 24px;
-    margin-top: 24px;
-    margin-bottom: 40px;
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    gap: 36px;
+    margin-top: 104px;
+    margin-bottom: 48px;
 
     .${SCREEN_SIZE.desktopLarge.className} {
       display: none;
@@ -212,6 +208,12 @@ const Container = styled.div`
     .${SCREEN_SIZE.tablet.className} {
       display: flex;
     }
+  }
+
+  @media ${TABLET_MEDIA_QUERY} {
+    gap: 24px;
+    margin-top: 24px;
+    margin-bottom: 40px;
   }
 `;
 
