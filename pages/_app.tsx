@@ -9,16 +9,15 @@ import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 
-import { getMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
 import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
-import { AMPLITUDE_API_KEY, CHANNEL_TALK_PLUGIN_KEY, DEBUG } from '@/constants/env';
+import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
+import { useChannelService } from '@/hooks/useChannelService';
 import { colors } from '@/styles/colors';
 import GlobalStyle from '@/styles/GlobalStyle';
-import ChannelService from '@/utils/channelService';
 import { getLayout } from '@/utils/layout';
 
 const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
@@ -42,34 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', gtm.pageview);
     };
   }, [router.events]);
-
-  useEffect(() => {
-    const channelTalk = new ChannelService();
-
-    async function bootChannelTalk() {
-      const pluginKey = CHANNEL_TALK_PLUGIN_KEY;
-      try {
-        const user = await getMemberOfMe.request();
-        channelTalk.boot({
-          pluginKey,
-          memberId: String(user.id),
-          profile: {
-            name: user.name,
-            avatarUrl: user.profileImage ?? null,
-          },
-        });
-      } catch (_error) {
-        channelTalk.boot({
-          pluginKey,
-        });
-      }
-    }
-    bootChannelTalk();
-
-    return () => {
-      channelTalk.shutdown();
-    };
-  }, []);
+  useChannelService();
 
   return (
     <QueryClientProvider client={queryClient}>
