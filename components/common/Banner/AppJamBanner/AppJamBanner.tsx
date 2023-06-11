@@ -42,7 +42,7 @@ const AppJamBanner: FC = () => {
             <MobileRightImage />
             <Text typography='SUIT_15_B'>
               🗯&nbsp;
-              <StyledSOPT>GO SOPT</StyledSOPT> 기획 자료를 공개&nbsp;🗯
+              <StyledSOPT>GO SOPT</StyledSOPT> 기획 자료 공개&nbsp;🗯
             </Text>
           </StyledBanner>
         </a>
