@@ -12,6 +12,10 @@ export const APPLE_OAUTH_APP_ID = required(
 );
 export const GTM_ID = required('NEXT_PUBLIC_GTM_ID', process.env.NEXT_PUBLIC_GTM_ID);
 export const AMPLITUDE_API_KEY = required('AMPLITUDE_API_KEY', process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY);
+export const CHANNEL_TALK_PLUGIN_KEY = required(
+  'NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY',
+  process.env.NEXT_PUBLIC_CHANNEL_TALK_PLUGIN_KEY,
+);
 
 function required(key: string, value: string | undefined): string {
   if (value === undefined) {
