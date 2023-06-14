@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { getMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { CHANNEL_TALK_PLUGIN_KEY } from '@/constants/env';
-import ChannelService from '@/utils/channelService';
+import ChannelService from '@/utils/channelService/channelService';
 
 export const useChannelService = () => {
   useEffect(() => {
