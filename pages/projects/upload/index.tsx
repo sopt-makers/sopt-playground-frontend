@@ -11,6 +11,7 @@ import { putProject } from '@/api/endpoint_LEGACY/projects';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Button from '@/components/common/Button';
 import useToast from '@/components/common/Toast/useToast';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { categoryLabel, FORM_ITEMS, PROJECT_DEFAULT_VALUES } from '@/components/projects/upload/constants';
 import FormStatus from '@/components/projects/upload/FormStatus';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
@@ -57,8 +58,9 @@ export interface ProjectUploadForm {
 
 const ProjectUploadPage: FC = () => {
   const { data: myProfileData } = useGetMemberOfMe();
-  const { mutate } = useCreateProjectMutation();
+  const { mutate: createProjectMutate } = useCreateProjectMutation();
   const queryClient = useQueryClient();
+  const { logSubmitEvent } = useEventLogger();
   const methods = useForm<ProjectUploadForm>({
     resolver: yupResolver(projectSchema),
     defaultValues: PROJECT_DEFAULT_VALUES,
@@ -129,12 +131,19 @@ const ProjectUploadPage: FC = () => {
         router.push(playgroundLink.projectList());
         queryClient.invalidateQueries(['getProjectListQuery']);
         queryClient.invalidateQueries(['getProjectQuery']);
+        logSubmitEvent('projectEdit', {
+          projectId: postId,
+          editorId: String(myProfileData.id),
+        });
       } else if (!isEditPage && !postId) {
-        mutate(input, {
+        createProjectMutate(input, {
           onSuccess: () => {
             toast.show({ message: '프로젝트가 성공적으로 업로드 되었습니다.' });
             router.push(playgroundLink.projectList());
             queryClient.invalidateQueries(['getProjectListQuery']);
+            logSubmitEvent('projectUpload', {
+              writerId: String(myProfileData.id),
+            });
           },
         });
       }
