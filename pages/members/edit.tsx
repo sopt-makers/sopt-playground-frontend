@@ -48,8 +48,11 @@ export default function MemberEditPage() {
   });
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: myProfile } = useGetMemberProfileOfMe({ cacheTime: Infinity, staleTime: Infinity });
-  const { data: me } = useGetMemberOfMe();
+  const { data: myProfile, isLoading: isLoadingMemberProfileOfMe } = useGetMemberProfileOfMe({
+    cacheTime: Infinity,
+    staleTime: Infinity,
+  });
+  const { data: me, isLoading: isLoadingMe } = useGetMemberOfMe();
   const toast = useToast();
 
   const {
@@ -59,12 +62,13 @@ export default function MemberEditPage() {
   } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
+    if (isLoadingMe || isLoadingMemberProfileOfMe) {
+      toast.show({ message: '다시 시도해주세요.' });
+      return;
+    }
+
     if (!isDirty) {
-      if (me) {
-        router.push(playgroundLink.memberDetail(me.id.toString()));
-      } else {
-        toast.show({ message: '다시 시도해주세요.' });
-      }
+      me && router.push(playgroundLink.memberDetail(me.id.toString()));
       return;
     }
 
