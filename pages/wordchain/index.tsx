@@ -19,7 +19,7 @@ const WordchainPage = () => {
             <WordchainRules
               trigger={
                 <RuleTrigger>
-                  <Text typography='SUIT_16_M'>상세 이용규칙 펼쳐보기</Text>
+                  <Text typography='SUIT_16_M'>상세 이용규칙 보기</Text>
                   <IconArrow />
                 </RuleTrigger>
               }
