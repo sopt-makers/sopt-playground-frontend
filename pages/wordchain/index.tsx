@@ -67,6 +67,7 @@ const WordchainPage = () => {
                 👑 역대 우승자 명예의 전당 👑
               </Text>
             </Winners>
+            {/* TODO: mobile <StyledWordchainChatting/>  */}
           </Wrapper>
         </MobileResponsive>
       </Container>
