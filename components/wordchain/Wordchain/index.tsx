@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import TrophyIcon from 'public/icons/icon-trophy.svg';
 
 import StartWordChatMessage from '@/components/wordchain/StartWordChatMessage';
 import { Word } from '@/components/wordchain/types';
@@ -6,16 +7,29 @@ import WordChatMessage from '@/components/wordchain/WordChatMessage';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface WordchainProps {
-  count: number;
-  start: {
-    word: string;
-    userName: string;
-  };
-  wordList: Word[];
-}
+type WordchainProps =
+  | {
+      isProgress: true;
+      count: number;
+      start: {
+        word: string;
+        userName: string;
+      };
+      wordList: Word[];
+      winnerName: null;
+    }
+  | {
+      isProgress: false;
+      count: number;
+      start: {
+        word: string;
+        userName: string;
+      };
+      wordList: Word[];
+      winnerName: string;
+    };
 
-export default function Wordchain({ start, count, wordList }: WordchainProps) {
+export default function Wordchain({ start, count, wordList, isProgress, winnerName }: WordchainProps) {
   return (
     <Container>
       <InitMessage>
@@ -27,7 +41,16 @@ export default function Wordchain({ start, count, wordList }: WordchainProps) {
           <WordChatMessage word={content} user={user} key={`${count}-${content}`} />
         ))}
       </WordChatMessageList>
-      <GiveUpButton> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
+      {isProgress ? (
+        <GiveUpButton> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
+      ) : (
+        <WinnerMessage>
+          <TrophyIconWrapper>
+            <TrophyIcon />
+          </TrophyIconWrapper>
+          {`25번째 우승자는 ‘${winnerName}'님 입니다!`}
+        </WinnerMessage>
+      )}
     </Container>
   );
 }
@@ -64,4 +87,24 @@ const GiveUpButton = styled.button`
   color: ${colors.gray60};
 
   ${textStyles.SUIT_16_M}
+`;
+
+const WinnerMessage = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  line-height: 100%;
+  color: ${colors.purple100};
+
+  ${textStyles.SUIT_16_M}
+`;
+
+const TrophyIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: ${colors.purple100};
+  width: 20px;
+  height: 20px;
 `;
