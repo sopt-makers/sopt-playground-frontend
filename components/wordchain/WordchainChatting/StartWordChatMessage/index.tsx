@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import MakersLogoCircle from 'public/logos/logo-makers-circle.svg';
 
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
@@ -12,7 +11,7 @@ export default function StartWordChatMessage({ word }: StartWordChatMessageProps
   return (
     <Container>
       <Makers.Container>
-        <Makers.Logo />
+        <Makers.Logo src={'/logos/img/logo-makers-circle.png'} alt='makers-logo' />
         <Makers.Title>sopt makers</Makers.Title>
       </Makers.Container>
       <StartWord>
@@ -31,7 +30,10 @@ const Container = styled.div`
 `;
 
 const Makers = {
-  Logo: MakersLogoCircle,
+  Logo: styled.img`
+    width: 60px;
+    height: 60px;
+  `,
   Title: styled.div`
     line-height: 100%;
     color: ${colors.white};
