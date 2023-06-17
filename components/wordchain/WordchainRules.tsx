@@ -4,6 +4,7 @@ import { FC, ReactNode, useState } from 'react';
 import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
 import MessageIcon from '@/public/icons/icon-wordchain-message.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface WordchainRulesProps {
@@ -23,9 +24,9 @@ const WordchainRules: FC<WordchainRulesProps> = ({ trigger }) => {
   return (
     <>
       <StyledButton onClick={handleOpen}>{trigger}</StyledButton>
-      <Modal isOpen={isOpen} onClose={handleClose}>
+      <StyledModal isOpen={isOpen} onClose={handleClose}>
         <MessageIcon />
-        <StyledTitle typography='SUIT_20_B'>SOPT와 함께하는 끝말잇기는</StyledTitle>
+        <StyledTitle>SOPT와 함께하는 끝말잇기</StyledTitle>
         <Content>
           · 표준국어대사전에 있는 단어만 사용할 수 있어요. <br />
           &nbsp;&nbsp;&nbsp;시작 단어에는 적용하지 않았어요 :) <br />
@@ -35,7 +36,7 @@ const WordchainRules: FC<WordchainRulesProps> = ({ trigger }) => {
           &nbsp;&nbsp;&nbsp;해당 회차 우승자가 되어 명예의 전당에 올라갈 수 있어요 💪🏻 <br />
           · 두음법칙은 아직 적용되지 않아요. 조금만 기다려주세요 🙏🏻 <br />
         </Content>
-      </Modal>
+      </StyledModal>
     </>
   );
 };
@@ -52,9 +53,22 @@ const Content = styled.div`
   line-height: 130%;
 
   ${textStyles.SUIT_15_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_M};
+  }
 `;
 
 const StyledTitle = styled(Text)`
   display: block;
   margin-top: 8px;
+  ${textStyles.SUIT_20_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_16_B};
+  }
+`;
+
+const StyledModal = styled(Modal)`
+  /* TODO: 모바일 대응 */
 `;
