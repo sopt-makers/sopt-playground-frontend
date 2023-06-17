@@ -22,10 +22,6 @@ import { getLayout } from '@/utils/layout';
 
 const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
 
-if (process.env.MOCKING === 'true') {
-  require('../mocks');
-}
-
 const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
@@ -39,6 +35,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   const Layout = getLayout(Component);
 
   const router = useRouter();
+  useEffect(() => {
+    if (process.env.MOCKING === 'true') {
+      (async () => {
+        const { worker } = await import('../mocks/browser');
+        worker.start();
+      })();
+    }
+  }, []);
+
   useEffect(() => {
     router.events.on('routeChangeComplete', gtm.pageview);
     return () => {
