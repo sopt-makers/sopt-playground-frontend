@@ -4,15 +4,13 @@ import { FC, ReactNode, useState } from 'react';
 import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
 import MessageIcon from '@/public/icons/icon-wordchain-message.svg';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface WordchainRulesProps {
-  className?: string;
   trigger: ReactNode;
 }
 
-const WordchainRules: FC<WordchainRulesProps> = ({ className, trigger }) => {
+const WordchainRules: FC<WordchainRulesProps> = ({ trigger }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
@@ -23,10 +21,7 @@ const WordchainRules: FC<WordchainRulesProps> = ({ className, trigger }) => {
   };
 
   return (
-    <StyledRules className={className}>
-      <Text typography='SUIT_24_B' as='h2'>
-        끝말잇기 게임 규칙
-      </Text>
+    <>
       <StyledButton onClick={handleOpen}>{trigger}</StyledButton>
       <Modal isOpen={isOpen} onClose={handleClose}>
         <MessageIcon />
@@ -41,23 +36,15 @@ const WordchainRules: FC<WordchainRulesProps> = ({ className, trigger }) => {
           · 두음법칙은 아직 적용되지 않아요. 조금만 기다려주세요 🙏🏻 <br />
         </Content>
       </Modal>
-    </StyledRules>
+    </>
   );
 };
 
 export default WordchainRules;
 
-const StyledRules = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 20px;
-  background-color: ${colors.black80};
-  padding: 38px 30px;
-  row-gap: 16px;
-`;
-
 const StyledButton = styled.button`
   display: flex;
+  width: 100%;
 `;
 
 const Content = styled.div`
