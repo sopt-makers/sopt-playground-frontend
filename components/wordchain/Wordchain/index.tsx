@@ -17,6 +17,7 @@ type WordchainProps =
       };
       wordList: Word[];
       winnerName: null;
+      className?: string;
     }
   | {
       isProgress: false;
@@ -27,11 +28,12 @@ type WordchainProps =
       };
       wordList: Word[];
       winnerName: string;
+      className?: string;
     };
 
-export default function Wordchain({ start, count, wordList, isProgress, winnerName }: WordchainProps) {
+export default function Wordchain({ start, count, wordList, isProgress, winnerName, className }: WordchainProps) {
   return (
-    <Container>
+    <Container className={className}>
       <InitMessage>
         ‘{start.userName}’님이 {count}번째 끝말잇기를 시작했어요!
       </InitMessage>
