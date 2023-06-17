@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Wordchain from '@/components/wordchain/Wordchain';
+import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 
 export default {
   components: Wordchain,

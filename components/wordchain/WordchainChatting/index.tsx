@@ -2,10 +2,9 @@ import styled from '@emotion/styled';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
 import { FormEvent } from 'react';
 
-import { Word } from '@/components/wordchain/types';
+import { Word } from '@/components/wordchain/WordchainChatting/types';
+import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import { colors } from '@/styles/colors';
-
-import Wordchain from './Wordchain';
 
 export default function WordchainChatting() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

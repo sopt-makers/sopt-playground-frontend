@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import StartWordChatMessage from '@/components/wordchain/StartWordChatMessage';
+import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
 
 export default {
   components: StartWordChatMessage,

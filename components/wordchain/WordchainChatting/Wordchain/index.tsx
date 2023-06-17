@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import TrophyIcon from 'public/icons/icon-trophy.svg';
 
-import StartWordChatMessage from '@/components/wordchain/StartWordChatMessage';
-import { Word } from '@/components/wordchain/types';
-import WordChatMessage from '@/components/wordchain/WordChatMessage';
+import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
+import { Word } from '@/components/wordchain/WordchainChatting/types';
+import WordChatMessage from '@/components/wordchain/WordchainChatting/WordChatMessage';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
