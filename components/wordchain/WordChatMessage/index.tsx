@@ -42,6 +42,8 @@ const Container = styled.div`
   display: flex;
   gap: 14px;
   align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 const MessageBox = styled.div`
