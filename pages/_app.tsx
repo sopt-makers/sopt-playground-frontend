@@ -22,6 +22,10 @@ import { getLayout } from '@/utils/layout';
 
 const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
 
+if (process.env.MOCKING === 'true') {
+  require('../mocks');
+}
+
 const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });

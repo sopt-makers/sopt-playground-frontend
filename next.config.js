@@ -11,6 +11,9 @@ const nextConfig = {
   reactStrictMode: true,
   // https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  env: {
+    MOCKING: process.env.MOCKING,
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/i,
