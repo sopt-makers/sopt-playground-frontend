@@ -6,6 +6,7 @@ import Text from '@/components/common/Text';
 import WordchainChatting from '@/components/wordchain/WordchainChatting';
 import WordchainRules from '@/components/wordchain/WordchainRules';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
+import IconWordChainMessage from '@/public/icons/icon-wordchain-message.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -16,7 +17,9 @@ const WordchainPage = () => {
     <AuthRequired>
       <Container>
         <Responsive only='desktop'>
-          <Title>💬 SOPT와 함께하는 끝말잇기</Title>
+          <Title>
+            <IconWordChainMessage /> SOPT와 함께하는 끝말잇기
+          </Title>
           <Wrapper>
             <StyledWordchainChatting />
             <Sidebar>
@@ -47,7 +50,9 @@ const WordchainPage = () => {
 
         <MobileResponsive only='mobile'>
           <Wrapper>
-            <Title>💬 SOPT와 함께하는 끝말잇기</Title>
+            <Title>
+              <IconWordChainMessage /> SOPT와 함께하는 끝말잇기
+            </Title>
             <WordchainRules
               trigger={
                 <RuleTrigger>
@@ -105,6 +110,8 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
+  display: flex;
+  align-items: center;
   align-self: flex-start;
   ${textStyles.SUIT_40_B};
 
