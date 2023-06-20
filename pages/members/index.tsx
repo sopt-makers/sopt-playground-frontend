@@ -7,6 +7,7 @@ import ActiveBannerSlot from '@/components/common/Banner/ActiveBannerSlot';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MentoringList from '@/components/mentoring/MentoringList';
+import WordChainEntry from '@/components/wordchain/WordChainEntry';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -19,6 +20,7 @@ const MemberPage: FC = () => {
   return (
     <AuthRequired>
       <ActiveBannerSlot />
+      <StyledWordChainEntry />
       <MentoringList />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
@@ -28,6 +30,15 @@ const MemberPage: FC = () => {
 setLayout(MemberPage, 'headerFooter');
 
 export default MemberPage;
+
+const StyledWordChainEntry = styled(WordChainEntry)`
+  margin-top: 106px;
+  width: 1302px;
+
+  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
+    width: 969px;
+  }
+`;
 
 const StyledOnBoardingBanner = styled(OnBoardingBanner)`
   margin-bottom: 90px;
