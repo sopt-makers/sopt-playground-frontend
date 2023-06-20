@@ -50,7 +50,6 @@ export default function WordchainChatting() {
     }
     const wordchainList = wordchainData.pages;
     await mutatePostWord({ wordchainId: wordchainList[wordchainList.length - 1].id, word });
-    setWord('');
   };
 
   const handleChange = (value: string) => {
