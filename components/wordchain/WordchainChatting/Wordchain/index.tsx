@@ -2,45 +2,27 @@ import styled from '@emotion/styled';
 import TrophyIcon from 'public/icons/icon-trophy.svg';
 
 import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
-import { Word } from '@/components/wordchain/WordchainChatting/types';
+import { WordchainInfo } from '@/components/wordchain/WordchainChatting/types';
 import WordChatMessage from '@/components/wordchain/WordchainChatting/WordChatMessage';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-type WordchainProps =
-  | {
-      isProgress: true;
-      count: number;
-      start: {
-        word: string;
-        userName: string;
-      };
-      wordList: Word[];
-      winnerName: null;
-      className?: string;
-    }
-  | {
-      isProgress: false;
-      count: number;
-      start: {
-        word: string;
-        userName: string;
-      };
-      wordList: Word[];
-      winnerName: string;
-      className?: string;
-    };
+interface WordchainProps {
+  wordchain: WordchainInfo;
+  className?: string;
+}
 
-export default function Wordchain({ start, count, wordList, isProgress, winnerName, className }: WordchainProps) {
+export default function Wordchain({ wordchain, className }: WordchainProps) {
+  const { initial, order, wordList, isProgress, winnerName } = wordchain;
   return (
     <Container className={className}>
       <InitMessage>
-        ‘{start.userName}’님이 {count}번째 끝말잇기를 시작했어요!
+        ‘{initial.userName}’님이 {order}번째 끝말잇기를 시작했어요!
       </InitMessage>
       <StartWordChatMessage word='버디버디' />
       <WordChatMessageList>
         {wordList.map(({ user, content }) => (
-          <WordChatMessage word={content} user={user} key={`${count}-${content}`} />
+          <WordChatMessage word={content} user={user} key={`${order}-${content}`} />
         ))}
       </WordChatMessageList>
       {isProgress ? (
