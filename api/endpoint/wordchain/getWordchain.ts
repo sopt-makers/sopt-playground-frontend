@@ -36,7 +36,7 @@ export const getWordchain = createEndpoint({
   }),
 });
 
-type Response = { hasNext: boolean; wordchainList: WordchainInfo[] };
+export type UseGetWordchainResponse = { hasNext: boolean; wordchainList: WordchainInfo[] };
 
 export const useGetWordchain = ({
   limit,
@@ -44,11 +44,11 @@ export const useGetWordchain = ({
 }: {
   limit: number;
   queryOptions?: Omit<
-    UseInfiniteQueryOptions<Response, unknown, WordchainInfo, Response, QueryKey>,
+    UseInfiniteQueryOptions<UseGetWordchainResponse, unknown, WordchainInfo, UseGetWordchainResponse, QueryKey>,
     'queryKey' | 'queryFn'
   >;
 }) =>
-  useInfiniteQuery<Response, unknown, WordchainInfo>(
+  useInfiniteQuery<UseGetWordchainResponse, unknown, WordchainInfo>(
     ['getWordchain', limit],
     async ({ pageParam: cursor = 0 }) => {
       const { rooms, hasNext } = await getWordchain.request({ limit, cursor });
