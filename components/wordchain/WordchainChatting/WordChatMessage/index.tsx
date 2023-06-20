@@ -85,9 +85,13 @@ const ProfileImage = styled.img`
 `;
 
 const EmptyProfileImage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
+  background-color: ${colors.black60};
   width: 40px;
-  height: 40px;
+  height: 40px;;
 
   & > svg {
     width: 20px;
