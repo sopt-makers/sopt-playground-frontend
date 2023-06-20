@@ -14,7 +14,7 @@ export default function WordchainChatting() {
   const { data: wordchainData } = useGetWordchain({ limit: LIMIT });
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
-  const { mutate: postWord } = usePostWord({
+  const { mutate: mutatePostWord } = usePostWord({
     onSuccess: ({ word, user }) => {
       setWord('');
       queryClient.setQueryData<InfiniteData<UseGetWordchainResponse>>(['getWordchain', LIMIT], (old) => {
@@ -49,7 +49,7 @@ export default function WordchainChatting() {
       return;
     }
     const wordchainList = wordchainData.pages;
-    await postWord({ wordchainId: wordchainList[wordchainList.length - 1].id, word });
+    await mutatePostWord({ wordchainId: wordchainList[wordchainList.length - 1].id, word });
     setWord('');
   };
 
