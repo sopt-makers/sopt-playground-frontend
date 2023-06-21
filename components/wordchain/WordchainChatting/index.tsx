@@ -3,7 +3,7 @@ import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
-import { useGetWordchain, UseGetWordchainResponse } from '@/api/endpoint/wordchain/getWordchain';
+import { useGetWordchain, UseGetWordchainResponse, wordChainQueryKey } from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import { colors } from '@/styles/colors';
@@ -19,29 +19,33 @@ export default function WordchainChatting() {
   const { mutate: mutatePostWord } = usePostWord({
     onSuccess: ({ word, user }) => {
       setWord('');
-      queryClient.setQueryData<InfiniteData<UseGetWordchainResponse>>(['getWordchain', LIMIT], (old) => {
-        return old
-          ? {
-              ...old,
-              pages: [
-                {
-                  ...old.pages[0],
-                  wordchainList: [
-                    ...old.pages[0].wordchainList.slice(0, old.pages[0].wordchainList.length - 1),
-                    {
-                      ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1],
-                      wordList: [
-                        ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1].wordList,
-                        { content: word, user },
-                      ],
-                    },
-                  ],
-                },
-                ...old.pages.slice(1),
-              ],
-            }
-          : old;
-      });
+      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
+      queryClient.setQueryData<InfiniteData<UseGetWordchainResponse>>(
+        [wordChainQueryKey.getWordchain, LIMIT],
+        (old) => {
+          return old
+            ? {
+                ...old,
+                pages: [
+                  {
+                    ...old.pages[0],
+                    wordchainList: [
+                      ...old.pages[0].wordchainList.slice(0, old.pages[0].wordchainList.length - 1),
+                      {
+                        ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1],
+                        wordList: [
+                          ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1].wordList,
+                          { content: word, user },
+                        ],
+                      },
+                    ],
+                  },
+                  ...old.pages.slice(1),
+                ],
+              }
+            : old;
+        },
+      );
       scrollToBottom();
     },
   });

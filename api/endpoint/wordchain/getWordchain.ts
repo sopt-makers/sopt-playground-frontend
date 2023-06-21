@@ -95,7 +95,7 @@ const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): Wordchai
 
 export const useGetRecentWordchain = () => {
   return useQuery(
-    ['useGetRecentWordchain'],
+    ['getRecentWordchain'],
     async () => {
       const data = await getWordchain.request({
         limit: 0,
@@ -115,4 +115,9 @@ export const useGetRecentWordchain = () => {
       },
     },
   );
+};
+
+export const wordChainQueryKey = {
+  getWordchain: 'getWordchain',
+  getRecentWordchain: 'getRecentWordchain',
 };
