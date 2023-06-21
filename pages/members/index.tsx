@@ -35,8 +35,8 @@ const StyledWordChainEntry = styled(WordChainEntry)`
   margin-top: 106px;
   width: 1302px;
 
-  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-    width: 969px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
   }
 `;
 
