@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 import { useGetWordchain, UseGetWordchainResponse } from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
@@ -11,10 +11,12 @@ import { colors } from '@/styles/colors';
 const LIMIT = 50;
 
 export default function WordchainChatting() {
-  const { data: wordchainData } = useGetWordchain({ limit: LIMIT });
+  const { data: wordchainData } = useGetWordchain({
+    limit: LIMIT,
+  });
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
-  const { mutate: postWord } = usePostWord({
+  const { mutate: mutatePostWord } = usePostWord({
     onSuccess: ({ word, user }) => {
       setWord('');
       queryClient.setQueryData<InfiniteData<UseGetWordchainResponse>>(['getWordchain', LIMIT], (old) => {
@@ -40,8 +42,10 @@ export default function WordchainChatting() {
             }
           : old;
       });
+      scrollToBottom();
     },
   });
+  const wordchainListRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,17 +53,26 @@ export default function WordchainChatting() {
       return;
     }
     const wordchainList = wordchainData.pages;
-    await postWord({ wordchainId: wordchainList[wordchainList.length - 1].id, word });
-    setWord('');
+    await mutatePostWord({ wordchainId: wordchainList[wordchainList.length - 1].id, word });
   };
 
   const handleChange = (value: string) => {
     setWord(value);
   };
 
+  const scrollToBottom = () => {
+    if (wordchainListRef.current) {
+      wordchainListRef.current.scrollTop = wordchainListRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [wordchainData]);
+
   return (
     <Container>
-      <WordchainList>
+      <WordchainList ref={wordchainListRef}>
         {wordchainData?.pages.map((wordchain) => (
           <Wordchain wordchain={wordchain} key={wordchain.order} className='wordchain' />
         ))}
