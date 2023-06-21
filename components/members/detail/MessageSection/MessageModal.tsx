@@ -9,10 +9,10 @@ import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
-import Modal, { ModalProps } from '@/components/common/Modal';
 import { Alert } from '@/components/common/Modal/Alert';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
+import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
