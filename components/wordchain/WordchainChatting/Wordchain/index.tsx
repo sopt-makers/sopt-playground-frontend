@@ -35,7 +35,9 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
   return (
     <Container className={className}>
       <InitMessage>
-        ‘{initial.userName}’님이 {order}번째 끝말잇기를 시작했어요!
+        {order === 1
+          ? `${order}번째 끝말잇기가 시작됐어요!`
+          : `‘${initial.userName}’님이 ${order}번째 끝말잇기를 시작했어요!`}
       </InitMessage>
       <StartWordChatMessage word='버디버디' />
       <WordChatMessageList>
@@ -45,13 +47,15 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
       </WordChatMessageList>
       {isProgress ? (
         <GiveUpButton onClick={onClickGiveUp}> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
-      ) : (
+      ) : winnerName.length ? (
         <WinnerMessage>
           <TrophyIconWrapper>
             <TrophyIcon />
           </TrophyIconWrapper>
           {`25번째 우승자는 ‘${winnerName}'님 입니다!`}
         </WinnerMessage>
+      ) : (
+        <></>
       )}
     </Container>
   );
@@ -95,6 +99,7 @@ const WinnerMessage = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
+  margin-top: 12px;
   line-height: 100%;
   color: ${colors.purple100};
 

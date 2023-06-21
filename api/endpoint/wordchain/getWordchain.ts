@@ -56,7 +56,7 @@ export const useGetWordchain = ({
         const finishedWordchainList: WordchainInfo[] = mapFinishedWordchainList(rooms.slice(1)).reverse();
         const currentWordchain: WordchainInfo = {
           id: rooms[0].roomId,
-          initial: { userName: rooms[0].words[0].user.name, word: rooms[0].words[0].word },
+          initial: { userName: rooms[0].startUser.name, word: rooms[0].startWord },
           isProgress: true,
           winnerName: null,
           order: rooms[0].roomId,
@@ -86,10 +86,10 @@ export const useGetWordchain = ({
 const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): WordchainInfo[] =>
   rooms.map(({ roomId, words }) => ({
     id: roomId,
-    initial: { userName: words[0].user.name, word: words[0].word },
+    initial: { userName: rooms[0].startUser.name, word: rooms[0].startWord },
     isProgress: false,
     order: roomId,
-    winnerName: words[words.length - 1].user.name,
+    winnerName: words.length ? words[words.length - 1].user.name : '',
     wordList: words.map(({ word, user }) => ({ user, content: word })),
   }));
 
