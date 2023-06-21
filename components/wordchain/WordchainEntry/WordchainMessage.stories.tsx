@@ -26,5 +26,5 @@ Default.storyName = '기본';
 export const Helper = Template.bind({});
 Helper.args = {
   isHelper: true,
-  word: `'서'로 시작하는 단어는?`,
+  word: `'과'로 시작하는 단어는?`,
 };

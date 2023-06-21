@@ -110,7 +110,7 @@ export const useGetRecentWordchain = () => {
         return {
           words: firstGameWords.slice(-2),
           currentWinner: lastWord.user,
-          nextStartWord: lastWord.word.charAt(0),
+          nextStartWord: lastWord.word.charAt(lastWord.word.length - 1),
         };
       },
     },
