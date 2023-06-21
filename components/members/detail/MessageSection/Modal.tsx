@@ -11,6 +11,9 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+/**
+ * @deprecated MessageModal 만을 위한 임시 모달 입니다. 모바일 화면에 대응하기 위해 임시로 사용돼요.
+ */
 export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   confirmIcon?: boolean;
   title?: string;
@@ -101,8 +104,8 @@ const StyledCloseButton = styled.button`
   padding: 4px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    top: 18px;
-    right: 18px;
+    top: 60px;
+    right: 40px;
   }
 `;
 
@@ -118,6 +121,10 @@ const ModalContent = styled.div`
   align-items: center;
   justify-content: center;
   padding: 40px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 80px;
+  }
 `;
 
 const StyledTitle = styled.h1`
