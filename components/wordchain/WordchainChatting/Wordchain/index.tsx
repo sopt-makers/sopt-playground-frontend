@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import TrophyIcon from 'public/icons/icon-trophy.svg';
 
+import { useGetRecentWordchain } from '@/api/endpoint/wordchain/getWordchain';
+import { Confirm } from '@/components/common/Modal/Confirm';
 import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
 import { WordchainInfo } from '@/components/wordchain/WordchainChatting/types';
 import WordChatMessage from '@/components/wordchain/WordchainChatting/WordChatMessage';
@@ -14,6 +16,21 @@ interface WordchainProps {
 
 export default function Wordchain({ wordchain, className }: WordchainProps) {
   const { initial, order, wordList, isProgress, winnerName } = wordchain;
+  const { data } = useGetRecentWordchain();
+
+  const onClickGiveUp = async () => {
+    const result = await Confirm({
+      title: '정말 포기하시겠어요?',
+      content: `지금 포기하면 '${data?.currentWinner.name}'님이 우승자가 돼요.`,
+      cancelText: '돌아가기',
+      okText: '새로 시작하기',
+    });
+    if (result) {
+      // TODO: 종료 로직
+      console.log('new Game!');
+    }
+  };
+
   return (
     <Container className={className}>
       <InitMessage>
@@ -26,7 +43,7 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
         ))}
       </WordChatMessageList>
       {isProgress ? (
-        <GiveUpButton> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
+        <GiveUpButton onClick={onClickGiveUp}> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
       ) : (
         <WinnerMessage>
           <TrophyIconWrapper>
