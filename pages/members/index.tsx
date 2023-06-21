@@ -7,7 +7,7 @@ import ActiveBannerSlot from '@/components/common/Banner/ActiveBannerSlot';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MentoringList from '@/components/mentoring/MentoringList';
-import WordChainEntry from '@/components/wordchain/WordChainEntry';
+import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 

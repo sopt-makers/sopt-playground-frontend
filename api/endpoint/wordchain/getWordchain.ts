@@ -1,4 +1,4 @@
-import { InfiniteData, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { InfiniteData, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions, useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
@@ -92,3 +92,27 @@ const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): Wordchai
     winnerName: words[words.length - 1].user.name,
     wordList: words.map(({ word, user }) => ({ user, content: word })),
   }));
+
+export const useGetRecentWordchain = () => {
+  return useQuery(
+    ['useGetRecentWordchain'],
+    async () => {
+      const data = await getWordchain.request({
+        limit: 0,
+        cursor: 0,
+      });
+      return data;
+    },
+    {
+      select: ({ rooms }) => {
+        const firstGameWords = rooms[0].words;
+        const lastWord = firstGameWords[firstGameWords.length - 1];
+        return {
+          words: firstGameWords.slice(-2),
+          currentWinner: lastWord.user,
+          nextStartWord: lastWord.word.charAt(0),
+        };
+      },
+    },
+  );
+};

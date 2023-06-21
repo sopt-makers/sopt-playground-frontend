@@ -2,7 +2,10 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import React, { FC } from 'react';
 
+import { useGetRecentWordchain } from '@/api/endpoint/wordchain/getWordchain';
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
 import { playgroundLink } from '@/constants/links';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordchainMessage from '@/public/icons/icon-wordchain-message.svg';
@@ -15,22 +18,50 @@ interface WordChainEntryProps {
 }
 
 const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
+  const { data, isLoading } = useGetRecentWordchain();
+
+  if (!data || isLoading) {
+    return null;
+  }
+  const words = data.words;
+  const lastWord = data.words[data.words.length - 1];
+
   return (
     <Container className={className}>
       <LeftSection>
         <TitleWrapper>
           <StyledIconWordchainMessage />
           <StyledTitle>
-            현재 {'한유진'}님이 <br />
+            현재 {`'${data.currentWinner.name}'`}님이 <br />
             끝말잇기를 이기고 있어요!
           </StyledTitle>
         </TitleWrapper>
-        <StyledLink href={playgroundLink.wordchain()}>
+        <Responsive only='desktop'>
+          <WordchainLink href={playgroundLink.wordchain()}>
+            SOPT 회원들과 끝말잇기 하러 가기
+            <IconArrow />
+          </WordchainLink>
+        </Responsive>
+      </LeftSection>
+      <RightSection>
+        <Responsive only='desktop'>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {words.map(({ word, user }, index) => (
+              <WordchainMessage key={index} word={word} user={user} />
+            ))}
+          </div>
+        </Responsive>
+        <Responsive only='mobile'>
+          <WordchainMessage word={lastWord.word} user={lastWord.user} />
+        </Responsive>
+        <WordchainMessage isHelper word={`'${data.nextStartWord}'로 시작하는 단어는?`} />
+      </RightSection>
+      <MobileResponsive only='mobile'>
+        <WordchainLink href={playgroundLink.wordchain()}>
           SOPT 회원들과 끝말잇기 하러 가기
           <IconArrow />
-        </StyledLink>
-      </LeftSection>
-      <RightSection></RightSection>
+        </WordchainLink>
+      </MobileResponsive>
     </Container>
   );
 };
@@ -60,6 +91,10 @@ const Container = styled.div`
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 4px;
+  }
 `;
 
 const StyledIconWordchainMessage = styled(IconWordchainMessage)`
@@ -84,7 +119,7 @@ const StyledTitle = styled(Text)`
   }
 `;
 
-const StyledLink = styled(Link)`
+const WordchainLink = styled(Link)`
   display: flex;
   align-items: center;
   column-gap: 8px;
@@ -104,4 +139,18 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const RightSection = styled.div``;
+const MobileResponsive = styled(Responsive)`
+  width: 100%;
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 10px;
+    margin-top: 16px;
+  }
+`;
