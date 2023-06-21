@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { FC } from 'react';
 
 import { useGetRecentWordchain } from '@/api/endpoint/wordchain/getWordchain';
+import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
@@ -19,54 +20,67 @@ interface WordChainEntryProps {
 
 const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { data, isLoading } = useGetRecentWordchain();
-
-  if (!data || isLoading) {
-    return null;
-  }
-  const words = data.words;
-  const lastWord = data.words[data.words.length - 1];
+  const words = data?.words;
+  const lastWord = data?.words[data?.words.length - 1];
 
   return (
     <Container className={className}>
-      <LeftSection>
-        <TitleWrapper>
-          <StyledIconWordchainMessage />
-          <StyledTitle>
-            현재 {`'${data.currentWinner.name}'`}님이 <br />
-            끝말잇기를 이기고 있어요!
-          </StyledTitle>
-        </TitleWrapper>
-        <Responsive only='desktop'>
-          <WordchainLink href={playgroundLink.wordchain()}>
-            SOPT 회원들과 끝말잇기 하러 가기
-            <IconArrow />
-          </WordchainLink>
-        </Responsive>
-      </LeftSection>
-      <RightSection>
-        <Responsive only='desktop'>
-          <WordWrapper>
-            {words.map(({ word, user }, index) => (
-              <WordchainMessage key={index} word={word} user={user} />
-            ))}
-          </WordWrapper>
-        </Responsive>
-        <Responsive only='mobile'>
-          <WordchainMessage word={lastWord.word} user={lastWord.user} />
-        </Responsive>
-        <WordchainMessage isHelper word={`'${data.nextStartWord}'로 시작하는 단어는?`} />
-      </RightSection>
-      <MobileResponsive only='mobile'>
-        <WordchainLink href={playgroundLink.wordchain()}>
-          SOPT 회원들과 끝말잇기 하러 가기
-          <IconArrow />
-        </WordchainLink>
-      </MobileResponsive>
+      {isLoading && (
+        <LoadingContainer>
+          <Loading />
+        </LoadingContainer>
+      )}
+      {words && lastWord && (
+        <>
+          <LeftSection>
+            <TitleWrapper>
+              <StyledIconWordchainMessage />
+              <StyledTitle>
+                현재 {`'${data.currentWinner.name}'`}님이 <br />
+                끝말잇기를 이기고 있어요!
+              </StyledTitle>
+            </TitleWrapper>
+            <Responsive only='desktop'>
+              <WordchainLink href={playgroundLink.wordchain()}>
+                SOPT 회원들과 끝말잇기 하러 가기
+                <IconArrow />
+              </WordchainLink>
+            </Responsive>
+          </LeftSection>
+          <RightSection>
+            <Responsive only='desktop'>
+              <WordWrapper>
+                {words.map(({ word, user }, index) => (
+                  <WordchainMessage key={index} word={word} user={user} />
+                ))}
+              </WordWrapper>
+            </Responsive>
+            <Responsive only='mobile'>
+              <WordchainMessage word={lastWord.word} user={lastWord.user} />
+            </Responsive>
+            <WordchainMessage isHelper word={`'${data.nextStartWord}'로 시작하는 단어는?`} />
+          </RightSection>
+          <MobileResponsive only='mobile'>
+            <WordchainLink href={playgroundLink.wordchain()}>
+              SOPT 회원들과 끝말잇기 하러 가기
+              <IconArrow />
+            </WordchainLink>
+          </MobileResponsive>
+        </>
+      )}
     </Container>
   );
 };
 
 export default WordChainEntry;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 170px;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -75,6 +89,7 @@ const Container = styled.div`
   background-color: ${colors.black90};
   padding: 39px 45px 39px 70px;
   width: 100%;
+  height: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;

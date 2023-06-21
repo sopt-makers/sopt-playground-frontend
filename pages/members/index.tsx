@@ -41,6 +41,10 @@ export default MemberPage;
 
 const StyledWordChainEntry = styled(WordChainEntry)`
   margin-top: 106px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 16px;
+  }
 `;
 
 const StyledOnBoardingBanner = styled(OnBoardingBanner)`
