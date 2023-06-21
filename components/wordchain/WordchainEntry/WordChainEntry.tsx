@@ -45,11 +45,11 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
       </LeftSection>
       <RightSection>
         <Responsive only='desktop'>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <WordWrapper>
             {words.map(({ word, user }, index) => (
               <WordchainMessage key={index} word={word} user={user} />
             ))}
-          </div>
+          </WordWrapper>
         </Responsive>
         <Responsive only='mobile'>
           <WordchainMessage word={lastWord.word} user={lastWord.user} />
@@ -89,11 +89,10 @@ const Container = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
   @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
     gap: 4px;
+    align-items: center;
   }
 `;
 
@@ -153,4 +152,10 @@ const RightSection = styled.div`
     gap: 10px;
     margin-top: 16px;
   }
+`;
+
+const WordWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
