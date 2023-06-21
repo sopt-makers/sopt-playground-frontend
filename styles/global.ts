@@ -9,6 +9,10 @@ export const global = css`
   ${reset};
   ${font}
 
+  :root {
+    color-scheme: dark;
+  }
+
   html,
   body {
     background-color: ${colors.black100};
