@@ -22,7 +22,11 @@ export default function InfoItem({ label, children }: InfoItemProps) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 12px;
+  }
 `;
 
 const Label = styled.div`
