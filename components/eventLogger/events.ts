@@ -79,4 +79,5 @@ export interface PageViewEvents {
   mentoringDetail: {
     mentorId: number;
   };
+  common: Record<string, unknown>;
 }

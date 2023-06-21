@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
+import PageViewLogger from '@/components/eventLogger/PageViewLogger';
 import MemberDetail from '@/components/members/detail/MemberDetail';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
@@ -19,6 +20,7 @@ const UserPage: FC = () => {
   if (status === 'success') {
     return (
       <AuthRequired>
+        <PageViewLogger name='member' />
         <MemberDetail memberId={query.id} />
       </AuthRequired>
     );

@@ -7,7 +7,6 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
   instance.init(apiKey, userId, {
     minIdLength: 1,
     defaultTracking: {
-      pageViews: true,
       sessions: true,
     },
   });
