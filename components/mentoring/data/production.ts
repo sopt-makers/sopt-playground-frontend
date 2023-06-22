@@ -184,7 +184,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     PM을 희망하진 않더라고 PM이 실제 어떤 역할을 하는지 궁금한 분들께 도움이 될 수 있어요.`,
     nonTarget: `PM이 아닌 '기획'에만 관심이 있는 분은 도움을 드리기 힘들어요.
     현업에서 PM 업무를 경험해보신 분은 멘토링이 부족하다고 느낄 수 있어요.`,
-    isOpened: true,
+    isOpened: false,
   },
 };
 
