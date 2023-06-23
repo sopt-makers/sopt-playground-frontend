@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ProfileIcon from 'public/icons/icon-profile.svg';
@@ -6,7 +5,7 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { usePostCoffeeChatMutation } from '@/api/endpoint_LEGACY/hooks';
+import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
@@ -17,7 +16,7 @@ import TextArea from '@/components/common/TextArea';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-enum MessageCategory {
+export enum MessageCategory {
   COFFEE_CHAT = '커피챗',
   MENTORING = '멘토링',
   NETWORK = '친목',
@@ -59,8 +58,14 @@ const CATEGORY: Category[] = [
 
 const schema = yup.object().shape({
   email: yup.string().email('올바른 이메일 형태를 입력해주세요.').required('이메일을 입력해주세요.'),
-  content: yup.string().required('내용을 입력해주세요.'),
+  content: yup.string().required('내용을 입력해주세요.').max(750, '750자 이내로 입력해주세요.'),
 });
+
+const MENTORING_PLACEHOLDER = `멘토링을 통해 어떤 것을 얻고 싶은지
+자세히 적으면 더욱 알찬 멘토링이 될 거예요.
+
+예시) 취업을 준비하면서 제가 하고 있는 일들의 
+우선순위를 정하는 것이 어려워요.`;
 
 interface MessageForm {
   email: string;
@@ -71,10 +76,19 @@ interface MessageModalProps extends ModalProps {
   profileImageUrl: string;
   name: string;
   receiverId: string;
+  defaultCategory: MessageCategory;
+  onLog?: (options?: { category?: MessageCategory }) => void;
 }
 
-const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name, ...props }) => {
-  const [selectedCategory, setSelectedCategory] = useState<MessageCategory | null>(null);
+const MessageModal: FC<MessageModalProps> = ({
+  receiverId,
+  profileImageUrl,
+  name,
+  defaultCategory,
+  onLog,
+  ...props
+}) => {
+  const [selectedCategory, setSelectedCategory] = useState<MessageCategory | null>(defaultCategory ?? null);
   const {
     handleSubmit,
     control,
@@ -84,12 +98,12 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name
     mode: 'onChange',
   });
   const isValid = _isValid && Boolean(selectedCategory);
-  const { mutateAsync, isLoading } = usePostCoffeeChatMutation();
+  const { mutateAsync, isLoading } = usePostMemberMessageMutation();
 
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
   };
-  const onSubmit = async ({ content, email }: MessageForm) => {
+  const submit = async ({ content, email }: MessageForm) => {
     const confirm = window.confirm('쪽지를 보내시겠습니까?');
     try {
       if (!selectedCategory) {
@@ -106,6 +120,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name
           title: '쪽지 보내기',
           content: '성공적으로 전송되었어요!',
         });
+        onLog?.({ category: selectedCategory });
         props.onClose();
       }
     } catch (error) {
@@ -115,7 +130,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name
 
   return (
     <StyledModal isOpen {...props}>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledForm onSubmit={handleSubmit(submit)}>
         {profileImageUrl ? (
           <ProfileImage src={profileImageUrl} style={{ width: '84px', height: '84px', borderRadius: '20px' }} />
         ) : (
@@ -160,11 +175,13 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, profileImageUrl, name
           control={control}
           name='content'
           component={StyledTextArea}
-          placeholder='전달할 내용을 입력해주세요!'
+          placeholder={
+            selectedCategory === MessageCategory.MENTORING ? MENTORING_PLACEHOLDER : '전달할 내용을 입력해주세요!'
+          }
         />
         <StyledButton isDisabled={!isValid}>
           {isLoading ? (
-            <Loading />
+            <Loading color='white' />
           ) : (
             <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
               쪽지 보내기
@@ -180,7 +197,7 @@ export default MessageModal;
 
 const StyledModal = styled(Modal)`
   padding-top: 20px;
-  max-height: 100%;
+  max-height: 100vh;
   overflow-y: auto;
 `;
 
@@ -228,16 +245,12 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   align-items: center;
   justify-content: center;
   transition: border all 0.2s;
+  opacity: ${({ isSelected }) => (isSelected ? 1 : 0.2)};
+  border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.black60)};
   border-radius: 20px;
   background-color: ${colors.black60};
   cursor: pointer;
   padding: 6px 16px 6px 10px;
-
-  ${({ isSelected }) =>
-    isSelected &&
-    css`
-      border: 1.5px solid #606265;
-    `}
 `;
 
 const StyledIcon = styled.img`

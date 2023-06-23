@@ -11,7 +11,7 @@ import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import OrderBySelect from '@/components/members/common/select/OrderBySelect';
-import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
@@ -67,7 +67,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [sojuCapacity, setSojuCapacity] = useState<string | undefined>(undefined);
   const [team, setTeam] = useState<string | undefined>(undefined);
   const [mbti, setMbti] = useState<string | undefined>(undefined);
-  // const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
+  const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
 
   const [name, setName] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
@@ -96,7 +96,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   );
 
   useRunOnce(() => {
-    logPageViewEvent('mamberPageList', {});
+    logPageViewEvent('mamberPageList');
   }, []);
 
   useEffect(() => {
@@ -126,9 +126,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       if (typeof sojuCapacity === 'string' || sojuCapacity === undefined) {
         setSojuCapacity(sojuCapacity);
       }
-      // if (typeof orderBy === 'string') {
-      //   setOrderBy(orderBy);
-      // }
+      if (typeof orderBy === 'string') {
+        setOrderBy(orderBy);
+      }
     }
   }, [router.isReady, router.query, router]);
 
@@ -152,10 +152,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     addQueryParamsToUrl({ sojuCapacity });
     logClickEvent('filterSojuCapacity', { sojuCapacity });
   };
-  // const handleSelectOrderBy = (orderBy: string) => {
-  //   addQueryParamsToUrl({ orderBy });
-  //   logClickEvent('filterOrderBy', { orderBy });
-  // };
+  const handleSelectOrderBy = (orderBy: string) => {
+    addQueryParamsToUrl({ orderBy });
+    logClickEvent('filterOrderBy', { orderBy });
+  };
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ name: searchQuery });
     logSubmitEvent('searchMember', { content: 'searchQuery' });
@@ -250,7 +250,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               `}
             >
               <Text>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-              {/* <StyledMobileFilter
+              <StyledMobileFilter
                 placeholder=''
                 options={ORDER_OPTIONS}
                 value={orderBy}
@@ -269,7 +269,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     </Text>
                   </div>
                 )}
-              /> */}
+              />
             </div>
           )}
         </Responsive>
@@ -356,7 +356,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   `}
                 >
                   <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                  {/* <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} /> */}
+                  <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
                 </div>
               )}
             </StyledTopWrapper>
@@ -424,6 +424,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           name={messageModalState.data.name}
           profileImageUrl={messageModalState.data.profileUrl}
           onClose={() => setMessageModalState({ show: false })}
+          defaultCategory={MessageCategory.COFFEE_CHAT}
+          onLog={(options) =>
+            logSubmitEvent('sendMessage', {
+              category: options?.category?.toString() ?? '',
+              receiverId: +messageModalState.data.targetId,
+              referral: 'memberList',
+            })
+          }
         />
       )}
     </StyledContainer>
@@ -437,9 +445,8 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 180px;
   padding-bottom: 100px;
-  overflow-y: scroll;
+  min-height: 101vh;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 0;

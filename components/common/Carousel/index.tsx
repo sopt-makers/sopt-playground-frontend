@@ -12,13 +12,29 @@ interface CarouselProps {
   limit: number;
   className?: string;
   renderItemContainer: (children: ReactNode) => ReactNode;
+  onMove?: () => void;
 }
 
-export default function Carousel({ itemList, limit, className, renderItemContainer }: CarouselProps) {
+export default function Carousel({ itemList, limit, className, renderItemContainer, onMove }: CarouselProps) {
   const { page, direction, moveNext, movePrevious, currentItemList, totalPageSize, move } = useCarousel({
     limit,
     itemList,
   });
+
+  const handleClickLeftControl = () => {
+    movePrevious();
+    onMove?.();
+  };
+
+  const handleClickRightControl = () => {
+    moveNext();
+    onMove?.();
+  };
+
+  const handleClickIndicator = (page: number) => {
+    move(page);
+    onMove?.();
+  };
 
   return (
     <Container className={className}>
@@ -29,7 +45,6 @@ export default function Carousel({ itemList, limit, className, renderItemContain
           variants={variants}
           initial='enter'
           animate='center'
-          exit='exit'
           transition={{
             x: { type: 'spring', stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 },
@@ -38,17 +53,17 @@ export default function Carousel({ itemList, limit, className, renderItemContain
           <CarouselBody currentItemList={currentItemList} renderContainer={renderItemContainer} />
         </StyledMotionDiv>
       </AnimatePresence>
-      <LeftControl onClick={movePrevious} isActive={page - 1 >= 1}>
+      <LeftControl onClick={handleClickLeftControl}>
         <LeftArrowIcon />
       </LeftControl>
-      <RightControl onClick={moveNext} isActive={page + 1 <= totalPageSize}>
+      <RightControl onClick={handleClickRightControl}>
         <RightArrowIcon />
       </RightControl>
       <Indicators>
         {Array(totalPageSize)
           .fill(null)
           .map((_, index) => (
-            <Indicator onClick={() => move(index + 1)} isActive={index + 1 === page} key={`${index}`} />
+            <Indicator onClick={() => handleClickIndicator(index + 1)} isActive={index + 1 === page} key={`${index}`} />
           ))}
       </Indicators>
     </Container>
@@ -63,16 +78,8 @@ const variants = {
     };
   },
   center: {
-    zIndex: 1,
     x: 0,
     opacity: 1,
-  },
-  exit: (direction: CarouselDirection) => {
-    return {
-      zIndex: 0,
-      x: direction === 'previous' ? 1000 : -1000,
-      opacity: 0,
-    };
   },
 };
 
@@ -88,23 +95,26 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const Control = styled.button<{ isActive: boolean }>`
+const Control = styled.button`
   align-self: center;
   border-radius: 50%;
   background-color: ${colors.purpledim100};
-  cursor: ${({ isActive }) => (isActive ? 'pointer' : 'default')};
   width: 40px;
   height: 40px;
+
+  &:hover {
+    background-color: #36364d;
+  }
 `;
 
 const LeftControl = styled(Control)`
   grid-area: left-control;
-  padding: 11px 17px 11px 14px;
+  padding: 11px 17px 11px 12px;
 `;
 
 const RightControl = styled(Control)`
   grid-area: right-control;
-  padding: 11px 14px 11px 17px;
+  padding: 11px 12px 11px 17px;
 `;
 
 const RightArrowIcon = styled(LeftArrowIcon)`

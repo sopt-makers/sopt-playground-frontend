@@ -10,6 +10,7 @@ import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';
+import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   DEFAULT_CAREER,
@@ -36,6 +37,8 @@ import { MemberUploadForm, SoptActivity } from '@/components/members/upload/type
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
+import { useGetMemberOfMe } from '../../api/endpoint/members/getMemberOfMe';
+
 export default function MemberEditPage() {
   const { logSubmitEvent } = useEventLogger();
   const formMethods = useForm<MemberUploadForm>({
@@ -45,11 +48,30 @@ export default function MemberEditPage() {
   });
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: myProfile } = useGetMemberProfileOfMe({ cacheTime: Infinity, staleTime: Infinity });
+  const { data: myProfile, isLoading: isLoadingMemberProfileOfMe } = useGetMemberProfileOfMe({
+    cacheTime: Infinity,
+    staleTime: Infinity,
+  });
+  const { data: me, isLoading: isLoadingMe } = useGetMemberOfMe();
+  const toast = useToast();
 
-  const { handleSubmit, reset } = formMethods;
+  const {
+    handleSubmit,
+    reset,
+    formState: { isValid, isDirty },
+  } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
+    if (isLoadingMe || isLoadingMemberProfileOfMe) {
+      toast.show({ message: '다시 시도해주세요.' });
+      return;
+    }
+
+    if (!isDirty) {
+      me && router.push(playgroundLink.memberDetail(me.id.toString()));
+      return;
+    }
+
     const {
       birthday,
       links,
@@ -121,7 +143,7 @@ export default function MemberEditPage() {
 
     router.push(playgroundLink.memberDetail(response.id));
 
-    logSubmitEvent('editProfile', {});
+    logSubmitEvent('editProfile');
   };
 
   useEffect(() => {
@@ -209,7 +231,7 @@ export default function MemberEditPage() {
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
-        <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)}>
+        <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={isValid}>
           <BasicFormSection />
           <SoptActivityFormSection />
           <TmiFormSection />

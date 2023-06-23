@@ -48,10 +48,6 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
         })}
       </NavArea>
       <ActionArea>
-        {renderLink({
-          href: playgroundLink.projectUpload(),
-          children: <StyledUploadButton>+ 내 프로젝트 올리기</StyledUploadButton>,
-        })}
         <ProfileButtonHolder>
           <ProfileDropdown
             myProfileHref={user ? playgroundLink.memberDetail(user.id) : ''}

@@ -6,17 +6,21 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
   const instance = createInstance();
   instance.init(apiKey, userId, {
     minIdLength: 1,
+    defaultTracking: {
+      pageViews: true,
+      sessions: true,
+    },
   });
 
   return {
-    clickEvent(key, params) {
-      instance.track(`Click-${key}`, params);
+    clickEvent(key, ...params) {
+      instance.track(`Click-${key}`, ...params);
     },
-    submitEvent(key, params) {
-      instance.track(`Submit-${key}`, params);
+    submitEvent(key, ...params) {
+      instance.track(`Submit-${key}`, ...params);
     },
-    pageViewEvent(key, params) {
-      instance.track(`Pageview-${key}`, params);
+    pageViewEvent(key, ...params) {
+      instance.track(`Pageview-${key}`, ...params);
     },
   };
 }

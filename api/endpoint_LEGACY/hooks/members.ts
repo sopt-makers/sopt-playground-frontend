@@ -3,28 +3,11 @@ import { AxiosError } from 'axios';
 
 import { getMembersSearchByName } from '@/api/endpoint/members/getMembersSearchByName';
 import {
-  getMemberOfMe,
   getMemberProfileById,
   getMemberProfileOfMe,
-  postMemberCoffeeChat,
+  postMemberMessage as postMemberMessage,
 } from '@/api/endpoint_LEGACY/members';
-import { PostMemberCoffeeChatVariables, ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
-
-// 멤버 프로필 조회
-export const useGetMemberOfMe = () => {
-  return useQuery(
-    ['getMemberOfMe'],
-    async () => {
-      const data = await getMemberOfMe();
-      return data;
-    },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-    },
-  );
-};
+import { PostMemberMessageVariables, ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
 
 // 멤버 프로필 조회
 export const useGetMemberProfileById = (
@@ -85,8 +68,8 @@ export const useGetMembersSearchByName = (name: string) => {
   );
 };
 
-export const usePostCoffeeChatMutation = () => {
-  return useMutation(async (variables: PostMemberCoffeeChatVariables) => await postMemberCoffeeChat(variables), {
+export const usePostMemberMessageMutation = () => {
+  return useMutation(async (variables: PostMemberMessageVariables) => await postMemberMessage(variables), {
     onError: (error: { message: string }) => {
       console.error(error.message);
     },
