@@ -3,8 +3,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { uploadSopticle } from '@/api/endpoint/sopticles/uploadSopticle';
-import { useGetMemberOfMe } from '@/api/endpoint_LEGACY/hooks';
 import AuthRequired from '@/components/auth/AuthRequired';
 import UploadSopticle from '@/components/sopticle/UploadSopticle';
 import { playgroundLink } from '@/constants/links';
