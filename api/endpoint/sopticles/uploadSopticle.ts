@@ -3,11 +3,11 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 
 export const uploadSopticle = createEndpoint({
-  request: (url: string, writerIds: number[]) => ({
+  request: (link: string, writerIds: number[]) => ({
     method: 'POST',
     url: `api/v1/sopticles`,
     data: {
-      url,
+      link,
       writerIds,
     },
   }),
