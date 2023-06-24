@@ -1,7 +1,4 @@
 import type { StorybookConfig } from '@storybook/nextjs';
-import path from 'path';
-
-// const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const config: StorybookConfig = {
   stories: ['../**/*.stories.@(js|jsx|ts|tsx|mdx)'],
@@ -16,33 +13,30 @@ const config: StorybookConfig = {
     options: {},
   },
   webpackFinal: async (config) => {
-    if (!config.resolve) {
+    if (!config.resolve || !config.module || !config.module.rules) {
       throw new Error('Webpack Error');
     }
 
-    // config.resolve.plugins = [
-    //   ...(config.resolve.plugins || []),
-    //   new TsconfigPathsPlugin({
-    //     extensions: config.resolve.extensions,
-    //   }),
-    // ];
+    /// Storybook 에서 SVG 다루기 위한 설정
+    const imageRule = config.module?.rules?.find((rule) => {
+      const test = (rule as { test: RegExp }).test;
 
-    // config.module.rules.push({
-    //   test: /\.(css|scss)$/,
-    //   use: ['style-loader', 'css-loader', 'sass-loader'],
-    // });
+      if (!test) {
+        return false;
+      }
 
-    // MEMO: 스토리북에선 svg를 file-loader로 읽어오는데, 이를 svgr로 읽어오도록 설정
-    // const fileLoaderRule = config.module.rules.find((rule) => rule.test.test('.svg'));
-    // fileLoaderRule.exclude = /\.svg$/;
-    // config.module.rules.push({
-    //   test: /\.svg$/,
-    //   use: ['@svgr/webpack'],
-    // });
+      return test.test('.svg');
+    }) as { [key: string]: any };
 
-    config.resolve.alias = {
-      '@': path.resolve(__dirname),
-    };
+    imageRule.exclude = /\.svg$/;
+
+    config.module?.rules?.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+
+    ///
+
     return config;
   },
   staticDirs: ['../public'],
