@@ -232,11 +232,11 @@ const EmptyProfileImage = styled.div`
 const StyledCategory = styled.section`
   display: flex;
   flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 12px;
   align-items: center;
   justify-content: center;
-  column-gap: 12px;
   margin-top: 46px;
-  row-gap: 10px;
 `;
 
 const StyledCategoryItem = styled.div<{ isSelected: boolean }>`

@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { MEMBER_DEFAULT_VALUES } from '@/components/members/upload/constants';
@@ -31,9 +31,11 @@ export default {
       );
     },
   ],
-} as ComponentMeta<typeof MemberBasicFormSection>;
+} as Meta<typeof MemberBasicFormSection>;
 
-const Template: ComponentStory<typeof MemberBasicFormSection> = () => <MemberBasicFormSection />;
+const Template: StoryFn<typeof MemberBasicFormSection> = () => <MemberBasicFormSection />;
 
-export const Default = Template.bind({});
-Default.storyName = '기본정보 섹션';
+export const Default = {
+  render: Template,
+  name: '기본정보 섹션',
+};

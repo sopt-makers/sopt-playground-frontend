@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import AppJamBanner from './AppJamBanner';
 
@@ -6,10 +6,9 @@ export default {
   component: AppJamBanner,
   parameters: {},
   decorators: [],
-} as ComponentMeta<typeof AppJamBanner>;
+} as Meta<typeof AppJamBanner>;
 
-const Template: ComponentStory<typeof AppJamBanner> = (args) => <AppJamBanner {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+export const Default = {
+  args: {},
+  name: '기본',
+};

@@ -1,15 +1,15 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import FullScreenLayout from '@/components/layout/FullScreenLayout';
 
 export default {
   component: FullScreenLayout,
-} as ComponentMeta<typeof FullScreenLayout>;
+} as Meta<typeof FullScreenLayout>;
 
-const Template: ComponentStory<typeof FullScreenLayout> = (args) => <FullScreenLayout {...args} />;
+export const Default = {
+  args: {
+    children: <div style={{ backgroundColor: '#7d7d7d', textAlign: 'center', height: '100%' }}>Page Content</div>,
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  children: <div style={{ backgroundColor: '#7d7d7d', textAlign: 'center', height: '100%' }}>Page Content</div>,
+  name: '기본',
 };
-Default.storyName = '기본';

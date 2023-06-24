@@ -47,8 +47,8 @@ const Container = styled.div`
     [row2-start] 'title profileImage' min-content [row2-end]
     [row3-start] 'mentor mentor' min-content [row3-end]
     / 234px auto;
-  align-content: center;
   column-gap: 37px;
+  align-content: center;
   border-radius: 16px;
   background-color: ${colors.black90};
   padding: 35px 40px 36px 45px;
@@ -62,8 +62,8 @@ const Container = styled.div`
       [row2-start] 'title title' min-content [row2-end]
       [row3-start] 'profileImage mentor' min-content [row3-end]
       / 20px auto;
-    align-items: center;
     column-gap: 12px;
+    align-items: center;
     padding: 28px;
     width: 335px;
     min-width: 335px;

@@ -66,8 +66,8 @@ const StyledSelect = styled(Select)`
 
 const StyledCheckboxWrapper = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 10px;
+  align-items: center;
   margin: 13px 0;
 `;
 

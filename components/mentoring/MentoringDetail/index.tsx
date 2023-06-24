@@ -154,11 +154,11 @@ const Header = styled.div`
     [row1-start] 'title title' max-content [row1-end]
     [row2-start] 'profileButton messageButton' max-content [row2-end]
     / 1fr 1fr;
+  row-gap: 48px;
   align-items: center;
   justify-content: space-between;
   margin-top: 137px;
   width: 790px;
-  row-gap: 48px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
@@ -166,10 +166,10 @@ const Header = styled.div`
       [row2-start] 'profileButton' auto [row2-end]
       [row3-start] 'messageButton' auto [row3-end]
       / 100%;
+    row-gap: 0;
     margin-top: 36px;
     padding: 0 20px;
     width: 100%;
-    row-gap: 0;
   }
 `;
 

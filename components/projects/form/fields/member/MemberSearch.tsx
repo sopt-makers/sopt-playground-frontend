@@ -133,9 +133,9 @@ const StyledLabel = styled.label`
   display: flex;
   position: absolute;
   top: 0;
+  column-gap: 6px;
   align-items: center;
   justify-content: space-between;
-  column-gap: 6px;
   z-index: 1;
   padding: 12px 20px;
   width: 100%;
@@ -159,8 +159,8 @@ const StyledIconClear = styled(IconClear)`
 
 const ProfileImageWrapper = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 6px;
+  align-items: center;
 `;
 
 const StyledList = styled(Command.List)`

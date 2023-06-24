@@ -54,6 +54,6 @@ const StyledSubTitle = styled(Text)`
 
 const StyledWrapper = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 8px;
+  align-items: center;
 `;

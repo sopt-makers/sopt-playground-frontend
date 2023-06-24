@@ -1,13 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import Link from 'next/link';
 
 import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
 
 export default {
   component: DesktopHeader,
-} as ComponentMeta<typeof DesktopHeader>;
+} as Meta<typeof DesktopHeader>;
 
-const Template: ComponentStory<typeof DesktopHeader> = (args) => (
+const Template: StoryFn<typeof DesktopHeader> = (args) => (
   <DesktopHeader
     {...args}
     renderLink={({ href, children }) => {
@@ -19,11 +19,15 @@ const Template: ComponentStory<typeof DesktopHeader> = (args) => (
   />
 );
 
-export const Basic = Template.bind({});
-Basic.args = {
-  user: {
-    name: '박건영',
-    id: '1',
+export const Basic = {
+  render: Template,
+
+  args: {
+    user: {
+      name: '박건영',
+      id: '1',
+    },
   },
+
+  name: '기본',
 };
-Basic.storyName = '기본';

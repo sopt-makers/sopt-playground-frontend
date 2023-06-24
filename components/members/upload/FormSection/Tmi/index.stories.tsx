@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -38,9 +38,11 @@ export default {
       );
     },
   ],
-} as ComponentMeta<typeof TmiFormSection>;
+} as Meta<typeof TmiFormSection>;
 
-const Template: ComponentStory<typeof TmiFormSection> = () => <TmiFormSection />;
+const Template: StoryFn<typeof TmiFormSection> = () => <TmiFormSection />;
 
-export const Default = Template.bind({});
-Default.storyName = 'TMI 섹션';
+export const Default = {
+  render: Template,
+  name: 'TMI 섹션',
+};

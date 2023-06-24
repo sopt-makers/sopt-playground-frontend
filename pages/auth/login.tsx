@@ -171,13 +171,13 @@ export const LoginDescription = styled.p`
 const LinkContainer = styled.div`
   display: flex;
   flex-direction: column;
+  row-gap: 20px;
   margin-top: 50px;
   width: 420px;
-  row-gap: 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
     row-gap: 10px;
+    width: 100%;
   }
 `;
 

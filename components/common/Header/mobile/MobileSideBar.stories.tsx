@@ -1,13 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import Link from 'next/link';
 
 import MobileSideBar from '@/components/common/Header/mobile/MobileSideBar';
 
 export default {
   component: MobileSideBar,
-} as ComponentMeta<typeof MobileSideBar>;
+} as Meta<typeof MobileSideBar>;
 
-const Template: ComponentStory<typeof MobileSideBar> = (args) => (
+const Template: StoryFn<typeof MobileSideBar> = (args) => (
   <MobileSideBar
     {...args}
     renderLink={({ href, children }) => {
@@ -21,7 +21,10 @@ const Template: ComponentStory<typeof MobileSideBar> = (args) => (
   </MobileSideBar>
 );
 
-export const Basic = Template.bind({});
-Basic.args = {
-  name: '박건영',
+export const Basic = {
+  render: Template,
+
+  args: {
+    name: '박건영',
+  },
 };

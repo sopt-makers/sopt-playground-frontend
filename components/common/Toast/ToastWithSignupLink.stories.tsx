@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import SignUpLink from '@/components/projects/upload/SignUpLink';
 
@@ -8,9 +8,11 @@ const ToastWithSignUpLink = () => {
 
 export default {
   component: ToastWithSignUpLink,
-} as ComponentMeta<typeof ToastWithSignUpLink>;
+} as Meta<typeof ToastWithSignUpLink>;
 
-const Template: ComponentStory<typeof ToastWithSignUpLink> = () => <ToastWithSignUpLink />;
+const Template: StoryFn<typeof ToastWithSignUpLink> = () => <ToastWithSignUpLink />;
 
-export const Default = Template.bind({});
-Default.storyName = '기본';
+export const Default = {
+  render: Template,
+  name: '기본',
+};
