@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { LINK_TITLES } from '@/components/members/upload/constants';
 import MemberSelectOptions from '@/components/members/upload/forms/SelectOptions';

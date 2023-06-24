@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Link from 'next/link';
 
 import MobileHeader from '@/components/common/Header/mobile/MobileHeader';

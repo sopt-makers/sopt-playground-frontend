@@ -40,9 +40,6 @@ export default {
   ],
 } as Meta<typeof TmiFormSection>;
 
-const Template: StoryFn<typeof TmiFormSection> = () => <TmiFormSection />;
-
 export const Default = {
-  render: Template,
   name: 'TMI 섹션',
 };

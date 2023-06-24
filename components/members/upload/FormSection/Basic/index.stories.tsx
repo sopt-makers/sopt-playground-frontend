@@ -33,9 +33,6 @@ export default {
   ],
 } as Meta<typeof MemberBasicFormSection>;
 
-const Template: StoryFn<typeof MemberBasicFormSection> = () => <MemberBasicFormSection />;
-
 export const Default = {
-  render: Template,
   name: '기본정보 섹션',
 };
