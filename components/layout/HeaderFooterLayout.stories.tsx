@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import HeaderFooterLayout from '@/components/layout/HeaderFooterLayout';
 
 export default {
-  components: HeaderFooterLayout,
+  component: HeaderFooterLayout,
 } as ComponentMeta<typeof HeaderFooterLayout>;
 
 const Template: ComponentStory<typeof HeaderFooterLayout> = (args) => <HeaderFooterLayout {...args} />;

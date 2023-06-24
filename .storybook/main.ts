@@ -1,6 +1,9 @@
-const path = require('path');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-module.exports = {
+import type { StorybookConfig } from '@storybook/nextjs';
+import path from 'path';
+
+// const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+
+const config: StorybookConfig = {
   stories: ['../**/*.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: [
     '@storybook/addon-links',
@@ -13,6 +16,10 @@ module.exports = {
     options: {},
   },
   webpackFinal: async (config) => {
+    if (!config.resolve) {
+      throw new Error('Webpack Error');
+    }
+
     // config.resolve.plugins = [
     //   ...(config.resolve.plugins || []),
     //   new TsconfigPathsPlugin({
@@ -33,13 +40,15 @@ module.exports = {
     //   use: ['@svgr/webpack'],
     // });
 
-    // config.resolve.alias = {
-    //   '@': path.resolve(__dirname),
-    // };
+    config.resolve.alias = {
+      '@': path.resolve(__dirname),
+    };
     return config;
   },
   staticDirs: ['../public'],
   docs: {
-    autodocs: true,
+    autodocs: 'tag',
   },
 };
+
+export default config;

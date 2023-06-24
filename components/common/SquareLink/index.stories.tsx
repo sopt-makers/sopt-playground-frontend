@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import SquareLink from '@/components/common/SquareLink';
 
 export default {
-  components: SquareLink,
+  component: SquareLink,
 } as ComponentMeta<typeof SquareLink>;
 
 const Template: ComponentStory<typeof SquareLink> = (args) => <SquareLink {...args} />;

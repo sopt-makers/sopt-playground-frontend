@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import ToastEntry from '@/components/common/Toast/ToastEntry';
 
 export default {
-  components: ToastEntry,
+  component: ToastEntry,
 } as ComponentMeta<typeof ToastEntry>;
 
 const Template: ComponentStory<typeof ToastEntry> = (args) => <ToastEntry {...args} />;

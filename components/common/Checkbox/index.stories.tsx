@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Checkbox from '@/components/common/Checkbox';
 
 export default {
-  components: Checkbox,
+  component: Checkbox,
 } as ComponentMeta<typeof Checkbox>;
 
 export const Basic: Story = () => {

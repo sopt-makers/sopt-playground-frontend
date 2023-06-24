@@ -6,7 +6,7 @@ import Carousel from '@/components/common/Carousel';
 import MentoringCard from '@/components/mentoring/MentoringCard';
 
 export default {
-  components: Carousel,
+  component: Carousel,
   decorators: [
     (Story) => (
       <div style={{ width: '1414px' }}>

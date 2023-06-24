@@ -3,7 +3,7 @@ import { ComponentMeta, Story } from '@storybook/react';
 import Select from '@/components/common/Select';
 
 export default {
-  components: Select,
+  component: Select,
 } as ComponentMeta<typeof Select>;
 
 const 기수 = [30, 29, 28, 27, 26, 25, 24];

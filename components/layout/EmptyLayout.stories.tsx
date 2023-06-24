@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import EmptyLayout from '@/components/layout/EmptyLayout';
 
 export default {
-  components: EmptyLayout,
+  component: EmptyLayout,
 } as ComponentMeta<typeof EmptyLayout>;
 
 const Template: ComponentStory<typeof EmptyLayout> = (args) => <EmptyLayout {...args} />;
