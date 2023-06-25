@@ -441,9 +441,9 @@ export default MemberList;
 
 const StyledContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding-bottom: 100px;
   min-height: 101vh;
 
@@ -455,6 +455,7 @@ const StyledContainer = styled.div`
 const StyledMain = styled.main`
   display: flex;
   position: relative;
+  flex: 1;
   flex-direction: column;
   align-items: center;
   column-gap: 30px;
@@ -467,6 +468,7 @@ const StyledMain = styled.main`
 
 const StyledRightWrapper = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   width: 100%;
 `;
@@ -575,6 +577,7 @@ const StyledEmpty = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  gap: 24px;
   align-items: center;
   justify-content: center;
   width: 100%;
