@@ -82,6 +82,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const { addQueryParamsToUrl } = usePageQueryParams({
     skipNull: true,
   });
+  const isEmpty = memberProfileData?.pages[0].members.length === 0;
 
   const profiles = useMemo(
     () =>
@@ -407,12 +408,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               </React.Fragment>
             ))}
           </StyledCardWrapper>
-          {profiles?.length === 0 && (
+          {isEmpty && (
             <StyledEmpty>
-              <Text typography='SUIT_32_B'>OMG... 검색 결과가 없어요.</Text>
-              <Text mt={24} typography='SUIT_16_M' color={colors.gray80}>
-                검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.
-              </Text>
+              <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
+              <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
             </StyledEmpty>
           )}
         </StyledRightWrapper>
@@ -442,9 +441,9 @@ export default MemberList;
 
 const StyledContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding-bottom: 100px;
   min-height: 101vh;
 
@@ -456,6 +455,7 @@ const StyledContainer = styled.div`
 const StyledMain = styled.main`
   display: flex;
   position: relative;
+  flex: 1;
   flex-direction: column;
   align-items: center;
   column-gap: 30px;
@@ -468,6 +468,7 @@ const StyledMain = styled.main`
 
 const StyledRightWrapper = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   width: 100%;
 `;
@@ -540,7 +541,7 @@ const StyledMemberSearch = styled(MemberSearch)`
 
     & > svg {
       top: 14px;
-      left: 18px;
+      right: 18px;
     }
   }
 `;
@@ -574,7 +575,9 @@ const StyledCardWrapper = styled.div`
 
 const StyledEmpty = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
+  gap: 24px;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -582,6 +585,27 @@ const StyledEmpty = styled.div`
 
   & > span {
     display: block;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 12px;
+  }
+`;
+
+const EmptyTitle = styled.span`
+  ${textStyles.SUIT_32_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_24_B};
+  }
+`;
+
+const EmptyDescription = styled.span`
+  color: ${colors.gray80};
+  ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_M}
   }
 `;
 
