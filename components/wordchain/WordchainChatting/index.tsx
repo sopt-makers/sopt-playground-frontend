@@ -7,6 +7,7 @@ import { useGetWordchain, UseGetWordchainResponse, wordChainQueryKey } from '@/a
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
 const LIMIT = 50;
 
@@ -48,8 +49,26 @@ export default function WordchainChatting() {
       );
       scrollToBottom();
     },
+    onError: (error) => {
+      if (typeof error.response?.data !== 'string') {
+        return;
+      }
+      const split = error.response.data.split(' : ');
+      if (split.length !== 2) {
+        return;
+      }
+      setError({ isError: true, errorMessage: split[1] });
+      const timer = setTimeout(() => {
+        setError((prev) => ({ ...prev, isError: false }));
+        clearTimeout(timer);
+      }, 2000);
+    },
   });
   const wordchainListRef = useRef<HTMLDivElement>(null);
+  const [{ isError, errorMessage }, setError] = useState({
+    isError: false,
+    errorMessage: '',
+  });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -90,6 +109,11 @@ export default function WordchainChatting() {
         <SubmitButton>
           <PaperAirplaneIcon />
         </SubmitButton>
+        <ErrorMessage isVisible={isError}>
+          {WaringIconSvg}
+          {errorMessage}
+        </ErrorMessage>
+        <Triangle isVisible={isError} />
       </Form>
     </Container>
   );
@@ -159,3 +183,49 @@ const SubmitButton = styled.button`
   width: 20px;
   height: 20px;
 `;
+
+const ErrorMessage = styled.div<{ isVisible: boolean }>`
+  display: flex;
+  position: absolute;
+  right: 0;
+  bottom: -52px;
+  gap: 6px;
+  align-items: center;
+  transition: opacity 0.5s ease-in;
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  border-radius: 10px;
+  background-color: ${colors.red100};
+  padding: 10px;
+  width: fit-content;
+  line-height: 130%;
+  color: ${colors.white};
+
+  ${textStyles.SUIT_14_M}
+`;
+
+const Triangle = styled.div<{ isVisible: boolean }>`
+  position: absolute;
+  right: 24px;
+  bottom: -24px;
+  transition: opacity 0.5s ease-in;
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  border-right: 12px solid transparent;
+  border-bottom: calc(12px * 1.732) solid ${colors.red100};
+  border-left: 12px solid transparent;
+  width: 0;
+  height: 0;
+`;
+
+const WaringIconSvg = (
+  <svg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <rect width='14' height='14' rx='7' fill='#FCFCFC' />
+    <path d='M7.00586 4L7.00586 7' stroke='#D33A3A' stroke-linecap='round' stroke-linejoin='round' />
+    <path
+      d='M7.00586 10L6.99919 10'
+      stroke='#D33A3A'
+      stroke-width='1.2'
+      stroke-linecap='round'
+      stroke-linejoin='round'
+    />
+  </svg>
+);
