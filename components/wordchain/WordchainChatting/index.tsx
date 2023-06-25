@@ -105,6 +105,7 @@ export default function WordchainChatting() {
           value={word}
           onChange={(e) => handleChange(e.target.value)}
           placeholder='단어를 입력해주세요. (단, 표준국어대사전에 있는 단어만 사용할 수 있어요.)'
+          isError={isError}
         />
         <SubmitButton>
           <PaperAirplaneIcon />
@@ -156,7 +157,7 @@ const Form = styled.form`
   width: 100%;
 `;
 
-const StyledInput = styled.input<{ isError?: boolean }>`
+const StyledInput = styled.input<{ isError: boolean }>`
   margin-top: 32px;
   border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black90)};
   border-radius: 14px;
@@ -172,7 +173,7 @@ const StyledInput = styled.input<{ isError?: boolean }>`
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
+    border-color: ${({ isError }) => (isError ? colors.red100 : colors.purple100)};
   }
 `;
 
