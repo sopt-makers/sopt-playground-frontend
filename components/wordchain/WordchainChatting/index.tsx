@@ -158,6 +158,7 @@ const Form = styled.form`
 `;
 
 const StyledInput = styled.input<{ isError: boolean }>`
+  transition: border-color 0.5s ease-in;
   margin-top: 32px;
   border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black90)};
   border-radius: 14px;
@@ -189,7 +190,7 @@ const ErrorMessage = styled.div<{ isVisible: boolean }>`
   display: flex;
   position: absolute;
   right: 0;
-  bottom: -52px;
+  bottom: -54px;
   gap: 6px;
   align-items: center;
   transition: opacity 0.5s ease-in;
@@ -206,13 +207,13 @@ const ErrorMessage = styled.div<{ isVisible: boolean }>`
 
 const Triangle = styled.div<{ isVisible: boolean }>`
   position: absolute;
-  right: 24px;
-  bottom: -24px;
+  right: 26px;
+  bottom: -16px;
   transition: opacity 0.5s ease-in;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
-  border-right: 12px solid transparent;
-  border-bottom: calc(12px * 1.732) solid ${colors.red100};
-  border-left: 12px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: calc(8px * 1.6) solid ${colors.red100};
+  border-left: 8px solid transparent;
   width: 0;
   height: 0;
 `;
