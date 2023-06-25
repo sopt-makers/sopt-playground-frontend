@@ -541,7 +541,7 @@ const StyledMemberSearch = styled(MemberSearch)`
 
     & > svg {
       top: 14px;
-      left: 18px;
+      right: 18px;
     }
   }
 `;
