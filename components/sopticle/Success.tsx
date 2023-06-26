@@ -99,9 +99,9 @@ const SubTitle = styled.h2`
 const ButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
+  row-gap: 16px;
   align-self: stretch;
   margin-top: 48px;
-  row-gap: 16px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     row-gap: 12px;

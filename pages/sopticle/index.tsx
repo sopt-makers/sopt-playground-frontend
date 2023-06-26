@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { z } from 'zod';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { uploadSopticle } from '@/api/endpoint/sopticles/uploadSopticle';
@@ -30,10 +32,21 @@ const SopticlePage: FC = () => {
     },
   );
 
+  const errorMessage = (() => {
+    if (axios.isAxiosError(error)) {
+      const parsed = z.object({ code: z.string() }).safeParse(error.response?.data);
+
+      if (parsed.success) {
+        return parsed.data.code;
+      }
+    }
+    return `${error}`;
+  })();
+
   return (
     <AuthRequired>
       <StyledSopticlePage>
-        <UploadSopticle state={status} errorMessage={`${error}`} onSubmit={(url) => mutate(url)} />
+        <UploadSopticle state={status} errorMessage={errorMessage} onSubmit={(url) => mutate(url)} />
       </StyledSopticlePage>
     </AuthRequired>
   );
