@@ -1,0 +1,139 @@
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { FC } from 'react';
+
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
+
+import soulmateIcon from '../soulmateIcon.png';
+
+interface EntryCardProps {
+  entryUrl: string;
+  hints?: string[];
+}
+
+const EntryCard: FC<EntryCardProps> = ({ entryUrl, hints }) => {
+  return (
+    <StyledEntryCard>
+      <ImageArea>
+        <img src={soulmateIcon.src} alt='soulmateIcon' width={soulmateIcon.width} height={soulmateIcon.height} />
+      </ImageArea>
+      <TitleArea>
+        너와 나 궁합
+        <br />
+        어쩌면 99%일지도?
+      </TitleArea>
+      <EntryLink href={entryUrl}>소울메이트 신청하러 가기 {goIcon}</EntryLink>
+      <HintArea>
+        {hints && (
+          <>
+            <HintChip>소울메이트의 힌트가 공개되었어요!</HintChip>
+            <HintDetails>
+              {hints.map((hint, idx) => (
+                <HintChip key={idx}>{hint}</HintChip>
+              ))}
+            </HintDetails>
+          </>
+        )}
+      </HintArea>
+    </StyledEntryCard>
+  );
+};
+
+export default EntryCard;
+
+const StyledEntryCard = styled.div`
+  display: grid;
+  grid:
+    [row1-start] 'icon hint' auto [row1-end]
+    [row2-start] 'title hint' auto [row2-end]
+    [row3-start] 'entry hint' auto [row3-end]
+    / auto auto;
+  justify-content: space-between;
+  border-radius: 16px;
+  background-color: ${colors.black90};
+  padding: 45px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid:
+      [row1-start] 'icon title' 1fr [row1-end]
+      [row2-start] 'hint hint' 1fr [row2-end]
+      [row3-start] 'entry entry' 1fr [row3-end]
+      / auto auto 1fr;
+    background-color: unset;
+    padding: 16px 20px;
+  }
+`;
+
+const ImageArea = styled.div`
+  display: flex;
+  grid-area: icon;
+  justify-self: flex-start;
+  height: 36px;
+
+  & > img {
+    height: 100%;
+  }
+`;
+
+const TitleArea = styled.div`
+  grid-area: title;
+  margin-top: 8px;
+  line-height: 30px;
+  letter-spacing: -0.24px;
+
+  ${textStyles.SUIT_24_B};
+`;
+
+const EntryLink = styled(Link)`
+  display: flex;
+  grid-area: entry;
+  align-items: center;
+  padding-top: 16px;
+  line-height: 100%;
+  letter-spacing: -0.16px;
+
+  ${textStyles.SUIT_16_SB};
+
+  & > svg {
+    margin-left: 9px;
+  }
+`;
+
+const HintArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  grid-area: hint;
+  gap: 12px;
+  align-items: flex-end;
+  align-self: center;
+`;
+
+const HintChip = styled.div`
+  border-radius: 8px;
+  background-color: ${colors.black60};
+  padding: 12px 20px;
+  line-height: 120%;
+  letter-spacing: -0.16px;
+
+  ${textStyles.SUIT_16_M};
+`;
+
+const HintDetails = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+`;
+
+const goIcon = (
+  <svg width='7' height='13' viewBox='0 0 7 13' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <path
+      d='M1 1.66797L6 6.66797L1 11.668'
+      stroke='#FCFCFC'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+  </svg>
+);
