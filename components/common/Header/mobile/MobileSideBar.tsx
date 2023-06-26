@@ -94,6 +94,14 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
                 </NavItem>
               ),
             })}
+            {renderLink({
+              href: playgroundLink.sopticle(),
+              children: (
+                <NavItem isActive={activePathMatcher(playgroundLink.sopticle())} onClick={close}>
+                  솝티클
+                </NavItem>
+              ),
+            })}
             <Divider />
             {renderLink({
               href: playgroundLink.makers(),
