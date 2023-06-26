@@ -114,7 +114,7 @@
     "stylelint-config-styled-components": "^0.1.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
-    "tsup": "^6.5.0",
+    "tsup": "^7.1.0",
     "typescript": "^4.9.5",
     "url-loader": "^4.1.1",
     "webpack": "^5.72.0"
