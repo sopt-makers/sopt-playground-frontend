@@ -11,49 +11,58 @@ export default {
   component: Modal,
 } as Meta;
 
-export const Default = () => {
-  const { isOpen, onClose, onOpen } = useModalState();
+export const Default = {
+  render: function Render() {
+    const { isOpen, onClose, onOpen } = useModalState();
 
-  return (
-    <>
-      <Button onClick={onOpen}>클릭하여 모달 열기</Button>
-      <Modal title='모달 예시' isOpen={isOpen} onClose={onClose} />
-    </>
-  );
+    return (
+      <>
+        <Button onClick={onOpen}>클릭하여 모달 열기</Button>
+        <Modal title='모달 예시' isOpen={isOpen} onClose={onClose} />
+      </>
+    );
+  },
+
+  name: '기본',
 };
-Default.storyName = '기본';
 
-export const ConfirmModal = () => {
-  const onConfirm = async () => {
-    const result = await Confirm({
-      title: '컨펌 모달',
-    });
-    if (result) {
-      alert('confirm!');
-    }
-  };
+export const ConfirmModal = {
+  render: () => {
+    const onConfirm = async () => {
+      const result = await Confirm({
+        title: '컨펌 모달',
+      });
+      if (result) {
+        alert('confirm!');
+      }
+    };
 
-  return (
-    <>
-      <Button onClick={onConfirm}>클릭하여 모달 열기</Button>
-    </>
-  );
+    return (
+      <>
+        <Button onClick={onConfirm}>클릭하여 모달 열기</Button>
+      </>
+    );
+  },
+
+  name: '컨펌',
 };
-ConfirmModal.storyName = '컨펌';
 
-export const AlertModal = () => {
-  return (
-    <>
-      <Button
-        onClick={() => {
-          Alert({
-            title: '알럿 모달',
-          });
-        }}
-      >
-        클릭하여 모달 열기
-      </Button>
-    </>
-  );
+export const AlertModal = {
+  render: () => {
+    return (
+      <>
+        <Button
+          onClick={() => {
+            Alert({
+              title: '알럿 모달',
+            });
+          }}
+        >
+          클릭하여 모달 열기
+        </Button>
+      </>
+    );
+  },
+
+  name: '알럿',
 };
-AlertModal.storyName = '알럿';

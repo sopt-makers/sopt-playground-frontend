@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { rest } from 'msw';
 
 import Example, { API_PATH } from '@/components/common/Example';
@@ -9,14 +9,17 @@ export default {
   component: Example,
 } as Meta;
 
-export const Default: Story = () => <Example />;
-Default.storyName = 'msw 예시';
-Default.parameters = {
-  msw: {
-    handlers: [
-      rest.get(API_PATH, (_req, res, ctx) => {
-        return res(ctx.json({ data: random }));
-      }),
-    ],
+export const Default: StoryObj = {
+  render: () => <Example />,
+  name: 'msw 예시',
+
+  parameters: {
+    msw: {
+      handlers: [
+        rest.get(API_PATH, (_req, res, ctx) => {
+          return res(ctx.json({ data: random }));
+        }),
+      ],
+    },
   },
 };

@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import ByPhoneView from './ByPhoneView';
 
@@ -12,14 +12,14 @@ export default {
       </div>
     ),
   ],
-} as ComponentMeta<typeof ByPhoneView>;
+} as Meta<typeof ByPhoneView>;
 
-const Template: ComponentStory<typeof ByPhoneView> = (args) => <ByPhoneView {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  type: 'phoneReady',
+export const Default = {
+  args: {
+    type: 'phoneReady',
+  },
 };
 
-export const Sent = Template.bind({});
-Sent.args = {};
+export const Sent = {
+  args: {},
+};

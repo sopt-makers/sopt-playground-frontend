@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import { linkTitles } from '@/components/projects/form/constants';
 
@@ -6,18 +6,18 @@ import LinkField from './LinkField';
 
 export default {
   component: LinkField,
-} as ComponentMeta<typeof LinkField>;
+} as Meta<typeof LinkField>;
 
-const Template: ComponentStory<typeof LinkField> = (args) => <LinkField {...args} />;
+export const Default = {
+  args: {
+    value: {
+      linkTitle: linkTitles[0],
+      linkUrl: '',
+    },
+    onChange: () => {
+      //
+    },
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  value: {
-    linkTitle: linkTitles[0],
-    linkUrl: '',
-  },
-  onChange: () => {
-    //
-  },
+  name: '기본',
 };
-Default.storyName = '기본';

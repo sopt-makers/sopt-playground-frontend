@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { FC, PropsWithChildren, useState } from 'react';
 
 import { Member, MemberSearchContext } from '@/components/projects/form/fields/member/MemberSearchContext';
@@ -90,13 +90,12 @@ export default {
       </DummyMemberSeacrhProvider>
     ),
   ],
-} as ComponentMeta<typeof MemberSearch>;
+} as Meta<typeof MemberSearch>;
 
-const Template: ComponentStory<typeof MemberSearch> = (args) => <MemberSearch {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+export const Default = {
+  args: {},
+  name: '기본',
+};
 
 const dummyMember = {
   generation: 18,

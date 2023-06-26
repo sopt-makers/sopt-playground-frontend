@@ -94,6 +94,14 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
                 </NavItem>
               ),
             })}
+            {renderLink({
+              href: playgroundLink.sopticle(),
+              children: (
+                <NavItem isActive={activePathMatcher(playgroundLink.sopticle())} onClick={close}>
+                  솝티클
+                </NavItem>
+              ),
+            })}
             <Divider />
             {renderLink({
               href: playgroundLink.makers(),
@@ -125,9 +133,9 @@ export default MobileSideBar;
 
 const Overlay = styled.div`
   position: fixed;
+  inset: 0;
   background-color: rgb(0 0 0 / 70%);
   animation: overlay-show 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  inset: 0;
 
   @keyframes overlay-show {
     from {

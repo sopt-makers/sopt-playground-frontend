@@ -70,6 +70,13 @@ export interface SubmitEvents {
     receiverId: number;
     referral: 'mentoringDetail' | 'memberDetail' | 'memberList';
   };
+  projectUpload: {
+    writerId: string;
+  };
+  projectEdit: {
+    projectId: string;
+    editorId: string;
+  };
 }
 
 export interface PageViewEvents {
