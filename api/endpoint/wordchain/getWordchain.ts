@@ -44,16 +44,22 @@ export const useGetWordchain = ({
 }: {
   limit: number;
   queryOptions?: Omit<
-    UseInfiniteQueryOptions<UseGetWordchainResponse, unknown, WordchainInfo, UseGetWordchainResponse, QueryKey>,
+    UseInfiniteQueryOptions<
+      UseGetWordchainResponse,
+      unknown,
+      UseGetWordchainResponse,
+      UseGetWordchainResponse,
+      QueryKey
+    >,
     'queryKey' | 'queryFn'
   >;
 }) =>
-  useInfiniteQuery<UseGetWordchainResponse, unknown, WordchainInfo>(
+  useInfiniteQuery<UseGetWordchainResponse, unknown, UseGetWordchainResponse>(
     ['getWordchain', limit],
     async ({ pageParam: cursor = 0 }) => {
       const { rooms, hasNext } = await getWordchain.request({ limit, cursor });
       if (cursor === 0) {
-        const finishedWordchainList: WordchainInfo[] = mapFinishedWordchainList(rooms.slice(1)).reverse();
+        const finishedWordchainList: WordchainInfo[] = mapFinishedWordchainList(rooms.slice(1));
         const currentWordchain: WordchainInfo = {
           id: rooms[0].roomId,
           initial: { userName: rooms[0].startUser.name, word: rooms[0].startWord },
@@ -62,9 +68,9 @@ export const useGetWordchain = ({
           order: rooms[0].roomId,
           wordList: rooms[0].words.map(({ word, user }) => ({ user, content: word })),
         };
-        return { hasNext, wordchainList: [...finishedWordchainList, currentWordchain] };
+        return { hasNext, wordchainList: [currentWordchain, ...finishedWordchainList] };
       }
-      const wordchainList: WordchainInfo[] = mapFinishedWordchainList(rooms).reverse();
+      const wordchainList: WordchainInfo[] = mapFinishedWordchainList(rooms);
       return { hasNext, wordchainList };
     },
     {
@@ -76,9 +82,17 @@ export const useGetWordchain = ({
         const totalPageNum = allPages.length * limit;
         return totalPageNum;
       },
-      select: (data): InfiniteData<WordchainInfo> => ({
+      select: (data): InfiniteData<UseGetWordchainResponse> => ({
         ...data,
-        pages: data.pages.map(({ wordchainList }) => wordchainList).flat(),
+        pages: [
+          {
+            wordchainList: data.pages
+              .map(({ wordchainList }) => wordchainList)
+              .flat()
+              .reverse(),
+            hasNext: data.pages[data.pages.length - 1].hasNext,
+          },
+        ],
       }),
     },
   );
