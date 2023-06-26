@@ -54,8 +54,8 @@ export default ServiceTypeField;
 
 const StyledServiceTypeField = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 10px;
+  align-items: center;
 `;
 
 const StyledLabel = styled.label<{ checked?: boolean }>`

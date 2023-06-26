@@ -1,13 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Link from 'next/link';
 
 import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown';
 
 export default {
   component: ProfileDropdown,
-} as ComponentMeta<typeof ProfileDropdown>;
+} as Meta<typeof ProfileDropdown>;
 
-const Template: ComponentStory<typeof ProfileDropdown> = (args) => (
+const Template: StoryFn<typeof ProfileDropdown> = (args) => (
   <ProfileDropdown
     {...args}
     renderLink={({ href, children }) => {
@@ -18,5 +18,7 @@ const Template: ComponentStory<typeof ProfileDropdown> = (args) => (
   </ProfileDropdown>
 );
 
-export const Basic = Template.bind({});
-Basic.args = {};
+export const Basic = {
+  render: Template,
+  args: {},
+};

@@ -1,15 +1,15 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import Text from '@/components/common/Text';
 
 export default {
   component: Text,
-} as ComponentMeta<typeof Text>;
+} as Meta<typeof Text>;
 
-const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />;
+export const Default = {
+  args: {
+    children: '텍스트',
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  children: '텍스트',
+  name: '기본',
 };
-Default.storyName = '기본';

@@ -1,15 +1,15 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import EmptyLayout from '@/components/layout/EmptyLayout';
 
 export default {
-  components: EmptyLayout,
-} as ComponentMeta<typeof EmptyLayout>;
+  component: EmptyLayout,
+} as Meta<typeof EmptyLayout>;
 
-const Template: ComponentStory<typeof EmptyLayout> = (args) => <EmptyLayout {...args} />;
+export const Default = {
+  args: {
+    children: <div style={{ backgroundColor: '#7d7d7d', textAlign: 'center', height: '200px' }}>Page Content</div>,
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  children: <div style={{ backgroundColor: '#7d7d7d', textAlign: 'center', height: '200px' }}>Page Content</div>,
+  name: '기본',
 };
-Default.storyName = '기본';

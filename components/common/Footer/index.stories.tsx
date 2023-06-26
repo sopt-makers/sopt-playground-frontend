@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import Footer from '@/components/common/Footer';
 
@@ -6,10 +6,9 @@ export default {
   component: Footer,
   parameters: {},
   decorators: [],
-} as ComponentMeta<typeof Footer>;
+} as Meta<typeof Footer>;
 
-const Template: ComponentStory<typeof Footer> = (args) => <Footer {...args} />;
-
-export const Basic = Template.bind({});
-Basic.args = {};
-Basic.storyName = '기본';
+export const Basic = {
+  args: {},
+  name: '기본',
+};

@@ -457,8 +457,8 @@ const StyledMain = styled.main`
   position: relative;
   flex: 1;
   flex-direction: column;
-  align-items: center;
   column-gap: 30px;
+  align-items: center;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 20px;

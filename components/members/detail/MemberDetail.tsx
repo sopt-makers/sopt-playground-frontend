@@ -505,9 +505,9 @@ const ProjectSub = styled.div`
 const ProjectDisplay = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  row-gap: 64px;
   column-gap: 29px;
   margin-top: 60px;
-  row-gap: 64px;
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
     flex-direction: column;
