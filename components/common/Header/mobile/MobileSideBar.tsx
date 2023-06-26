@@ -133,9 +133,9 @@ export default MobileSideBar;
 
 const Overlay = styled.div`
   position: fixed;
+  inset: 0;
   background-color: rgb(0 0 0 / 70%);
   animation: overlay-show 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  inset: 0;
 
   @keyframes overlay-show {
     from {

@@ -1,15 +1,15 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import MessageModal from './MessageModal';
 
 export default {
   component: MessageModal,
-} as ComponentMeta<typeof MessageModal>;
+} as Meta<typeof MessageModal>;
 
-const Template: ComponentStory<typeof MessageModal> = (args) => <MessageModal {...args} />;
+export const Default = {
+  args: {
+    name: '춘식이',
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  name: '춘식이',
+  name: '기본',
 };
-Default.storyName = '기본';

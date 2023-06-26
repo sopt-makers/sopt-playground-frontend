@@ -89,9 +89,9 @@ const Container = styled.div`
     [row1-start] 'left-control list right-control' max-content [row1-end]
     [row2-start] 'indicators indicators indicators' max-content [row2-end]
     / min-content auto min-content;
+  row-gap: 24px;
   column-gap: 16px;
   width: 100%;
-  row-gap: 24px;
   overflow: hidden;
 `;
 

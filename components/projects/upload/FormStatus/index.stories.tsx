@@ -1,19 +1,19 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import { FORM_ITEMS } from '@/components/projects/upload/constants';
 import UploadStatus from '@/components/projects/upload/FormStatus';
 
 export default {
   component: UploadStatus,
-} as ComponentMeta<typeof UploadStatus>;
+} as Meta<typeof UploadStatus>;
 
-const Template: ComponentStory<typeof UploadStatus> = (args) => <UploadStatus {...args} />;
+export const Default = {
+  args: {
+    formItems: FORM_ITEMS.map((item) => ({
+      ...item,
+      isDirty: true,
+    })),
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  formItems: FORM_ITEMS.map((item) => ({
-    ...item,
-    isDirty: true,
-  })),
+  name: '기본',
 };
-Default.storyName = '기본';

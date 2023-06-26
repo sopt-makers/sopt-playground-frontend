@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import FormItem from '@/components/common/form/FormItem';
@@ -6,38 +6,45 @@ import TextArea from '@/components/common/TextArea';
 
 export default {
   component: TextArea,
-} as ComponentMeta<typeof TextArea>;
+} as Meta<typeof TextArea>;
 
-const Template: ComponentStory<typeof TextArea> = (args) => <TextArea {...args} />;
+export const Default = {
+  args: {
+    placeholder: '프로젝트에 대해 설명해주세요',
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  placeholder: '프로젝트에 대해 설명해주세요',
+  name: '기본',
 };
-Default.storyName = '기본';
 
-export const Count = Template.bind({});
-Count.args = {
-  count: true,
-  maxCount: 500,
-  placeholder: '프로젝트에 대해 설명해주세요',
-};
-Count.storyName = '카운트';
+export const Count = {
+  args: {
+    count: true,
+    maxCount: 500,
+    placeholder: '프로젝트에 대해 설명해주세요',
+  },
 
-export const Error = Template.bind({});
-Error.args = {
-  placeholder: '프로젝트에 대해 설명해주세요',
-  error: true,
+  name: '카운트',
 };
-Error.storyName = '에러';
 
-export const ErrorMessage: ComponentStory<typeof TextArea> = (args) => {
-  const [value, onChange] = useState<string>('');
-  const error = value.length === 0;
-  return (
-    <FormItem errorMessage={error && '프로젝트 설명을 입력해주세요.'}>
-      <TextArea error={error} value={value} onChange={(e) => onChange(e.target.value)} {...args} />
-    </FormItem>
-  );
+export const Error = {
+  args: {
+    placeholder: '프로젝트에 대해 설명해주세요',
+    error: true,
+  },
+
+  name: '에러',
 };
-ErrorMessage.storyName = '에러메시지';
+
+export const ErrorMessage: StoryObj<typeof TextArea> = {
+  render: function Render(args) {
+    const [value, onChange] = useState<string>('');
+    const error = value.length === 0;
+    return (
+      <FormItem errorMessage={error && '프로젝트 설명을 입력해주세요.'}>
+        <TextArea error={error} value={value} onChange={(e) => onChange(e.target.value)} {...args} />
+      </FormItem>
+    );
+  },
+
+  name: '에러메시지',
+};

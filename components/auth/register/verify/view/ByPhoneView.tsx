@@ -147,8 +147,8 @@ const Label = styled.label`
 const InputArea = styled.form`
   display: flex;
   flex-direction: row;
-  column-gap: 12px;
   row-gap: 10px;
+  column-gap: 12px;
 `;
 
 const StyledPhoneInput = styled(Input)`

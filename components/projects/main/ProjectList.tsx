@@ -158,10 +158,10 @@ const StyledLength = styled(Text)`
 const StyledGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  row-gap: 64px;
   column-gap: 30px;
   margin-top: 22px;
   min-width: 1200px;
-  row-gap: 64px;
 
   @media screen and (max-width: 1250px) {
     grid-template-columns: repeat(2, 1fr);
@@ -174,9 +174,9 @@ const StyledGridContainer = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    justify-content: start;
-    column-gap: 0;
     row-gap: 24px;
+    column-gap: 0;
+    justify-content: start;
   }
 `;
 
