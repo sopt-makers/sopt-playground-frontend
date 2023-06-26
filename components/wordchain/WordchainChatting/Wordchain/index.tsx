@@ -41,8 +41,8 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
       </InitMessage>
       <StartWordChatMessage word='버디버디' />
       <WordChatMessageList>
-        {wordList.map(({ user, content }) => (
-          <WordChatMessage word={content} user={user} key={`${order}-${content}`} />
+        {wordList.map(({ user, content }, index) => (
+          <WordChatMessage word={content} user={user} key={`${order}-${content}-${index}`} />
         ))}
       </WordChatMessageList>
       {isProgress ? (
