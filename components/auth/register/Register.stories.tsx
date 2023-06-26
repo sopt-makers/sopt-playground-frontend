@@ -1,17 +1,17 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import Register from '@/components/auth/register/Register';
 
 export default {
   component: Register,
-} as ComponentMeta<typeof Register>;
+} as Meta<typeof Register>;
 
-const Template: ComponentStory<typeof Register> = (args) => <Register {...args} />;
-
-export const Basic = Template.bind({});
-Basic.args = {
-  userInfo: {
-    name: '박커비',
+export const Basic = {
+  args: {
+    userInfo: {
+      name: '박커비',
+    },
   },
+
+  name: '기본',
 };
-Basic.storyName = '기본';

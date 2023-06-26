@@ -1,16 +1,19 @@
-import { ComponentMeta } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { Controller, useForm } from 'react-hook-form';
 
 import ImageUploader from '.';
 
 export default {
   component: ImageUploader,
-} as ComponentMeta<typeof ImageUploader>;
+} as Meta<typeof ImageUploader>;
 
-export const Default = () => {
-  const { control } = useForm<{ image: string }>();
+export const Default = {
+  render: function Rendered() {
+    const { control } = useForm<{ image: string }>();
 
-  return <Controller name='image' control={control} render={({ field }) => <ImageUploader {...field} />} />;
+    return <Controller name='image' control={control} render={({ field }) => <ImageUploader {...field} />} />;
+  },
+
+  args: {},
+  name: '기본',
 };
-Default.args = {};
-Default.storyName = '기본';

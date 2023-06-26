@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import Responsive from '@/components/common/Responsive/Responsive';
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
@@ -14,18 +14,18 @@ export default {
       );
     },
   ],
-} as ComponentMeta<typeof Responsive>;
+} as Meta<typeof Responsive>;
 
-const Template: ComponentStory<typeof Responsive> = (args) => <Responsive {...args} />;
-
-export const Desktop = Template.bind({});
-Desktop.args = {
-  children: 'Only Desktop',
-  only: 'desktop',
+export const Desktop = {
+  args: {
+    children: 'Only Desktop',
+    only: 'desktop',
+  },
 };
 
-export const Mobile = Template.bind({});
-Mobile.args = {
-  children: 'Only Mobile',
-  only: 'mobile',
+export const Mobile = {
+  args: {
+    children: 'Only Mobile',
+    only: 'mobile',
+  },
 };

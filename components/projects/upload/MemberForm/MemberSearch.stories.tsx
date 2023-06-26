@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import MemberSearch from './MemberSearch';
 
@@ -12,19 +12,19 @@ export default {
       </StyledContainer>
     ),
   ],
-} as ComponentMeta<typeof MemberSearch>;
+} as Meta<typeof MemberSearch>;
 
-const Template: ComponentStory<typeof MemberSearch> = (args) => <MemberSearch {...args} />;
+export const Default = {
+  args: {
+    members: [
+      { generation: 27, name: '이준호', id: 1, hasProfile: true, profileImage: '' },
+      { generation: 27, name: '이준호', id: 1, hasProfile: true, profileImage: '' },
+      { generation: 27, name: '이준호', id: 1, hasProfile: true, profileImage: '' },
+    ],
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  members: [
-    { generation: 27, name: '이준호', id: 1, hasProfile: true, profileImage: '' },
-    { generation: 27, name: '이준호', id: 1, hasProfile: true, profileImage: '' },
-    { generation: 27, name: '이준호', id: 1, hasProfile: true, profileImage: '' },
-  ],
+  name: '기본',
 };
-Default.storyName = '기본';
 
 const StyledContainer = styled.div`
   width: 163px;

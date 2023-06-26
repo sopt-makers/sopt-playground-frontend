@@ -93,9 +93,9 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
   & > .label {
     display: flex;
     position: absolute;
+    column-gap: 6px;
     align-items: center;
     justify-content: space-between;
-    column-gap: 6px;
     z-index: 1;
     padding: 12px 20px;
     width: 100%;
