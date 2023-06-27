@@ -23,7 +23,7 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
   const onClickGiveUp = async () => {
     const confirm = await Confirm({
       title: '정말 포기하시겠어요?',
-      content: `지금 포기하면 '${data?.currentWinner.name}'님이 우승자가 돼요.`,
+      content: `지금 포기하면 '${data?.currentWinner?.name ?? ''}'님이 우승자가 돼요.`,
       cancelText: '돌아가기',
       okText: '새로 시작하기',
     });
@@ -41,8 +41,8 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
       </InitMessage>
       <StartWordChatMessage word='버디버디' />
       <WordChatMessageList>
-        {wordList.map(({ user, content }) => (
-          <WordChatMessage word={content} user={user} key={`${order}-${content}`} />
+        {wordList.map(({ user, content }, index) => (
+          <WordChatMessage word={content} user={user} key={`${order}-${content}-${index}`} />
         ))}
       </WordChatMessageList>
       {isProgress ? (

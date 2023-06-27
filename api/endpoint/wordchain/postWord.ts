@@ -1,4 +1,5 @@
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { z } from 'zod';
 
 import { createEndpoint, GetResponseType } from '@/api/typedAxios';
@@ -25,7 +26,7 @@ export const postWord = createEndpoint({
 
 export const usePostWord = (
   options?: Omit<
-    UseMutationOptions<GetResponseType<typeof postWord>, unknown, { wordchainId: number; word: string }, unknown>,
+    UseMutationOptions<GetResponseType<typeof postWord>, AxiosError, { wordchainId: number; word: string }, unknown>,
     'mutationKey' | 'mutationFn'
   >,
 ) => {
