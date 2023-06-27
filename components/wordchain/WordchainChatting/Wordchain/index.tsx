@@ -52,7 +52,7 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
           <TrophyIconWrapper>
             <TrophyIcon />
           </TrophyIconWrapper>
-          {`25번째 우승자는 ‘${winnerName}'님 입니다!`}
+          {`${order}번째 우승자는 ‘${winnerName}'님 입니다!`}
         </WinnerMessage>
       ) : (
         <></>
