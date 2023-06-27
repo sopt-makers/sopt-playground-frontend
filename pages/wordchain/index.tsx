@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import WordchainChatting from '@/components/wordchain/WordchainChatting';
 import WordchainRules from '@/components/wordchain/WordchainRules';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
@@ -90,6 +91,12 @@ const Container = styled.div`
   align-items: center;
   padding: 80px 0;
   width: 100%;
+  height: 100%;
+
+  /* 세로 사이즈 */
+  @media ${SMALL_MEDIA_QUERY} {
+    padding: 20px 0;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 24px 0 0;
@@ -131,7 +138,7 @@ const RuleWrapper = styled.div`
   flex-direction: column;
   border-radius: 20px;
   background-color: ${colors.black80};
-  padding: 38px 30px;
+  padding: 30px 38px;
   row-gap: 16px;
 `;
 
@@ -152,7 +159,8 @@ const Winners = styled.div`
   border-radius: 20px;
   background-color: ${colors.black80};
   padding: 28px;
-  height: 380px;
+  height: 100%;
+  max-height: 380px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
