@@ -94,27 +94,29 @@ const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): Wordchai
   }));
 
 export const useGetRecentWordchain = () => {
-  return useQuery(
-    ['getRecentWordchain'],
-    async () => {
-      const data = await getWordchain.request({
-        limit: 0,
-        cursor: 0,
-      });
-      return data;
-    },
-    {
-      select: ({ rooms }) => {
-        const firstGameWords = rooms[0].words;
-        const lastWord = firstGameWords[firstGameWords.length - 1];
-        return {
-          words: firstGameWords.slice(-2),
-          currentWinner: lastWord.user,
-          nextStartWord: lastWord.word.charAt(lastWord.word.length - 1),
-        };
-      },
-    },
-  );
+  return useQuery(['getRecentWordchain'], async () => {
+    const data = await getWordchain.request({
+      limit: 0,
+      cursor: 0,
+    });
+
+    const firstRoom = data.rooms[0];
+    const firstGameWords = firstRoom.words;
+    const lastWord = getLastWord(firstGameWords);
+
+    return {
+      words: firstGameWords.slice(-2),
+      startWord: firstRoom.startWord,
+      currentWinner: lastWord ? lastWord.user : null,
+      nextSyllable: lastWord
+        ? lastWord.word.charAt(lastWord.word.length - 1)
+        : firstRoom.startWord.charAt(firstRoom.startWord.length - 1),
+    };
+  });
+};
+
+const getLastWord = (words: z.infer<typeof roomSchema>['words']) => {
+  return words.length > 0 ? words[words.length - 1] : null;
 };
 
 export const wordChainQueryKey = {

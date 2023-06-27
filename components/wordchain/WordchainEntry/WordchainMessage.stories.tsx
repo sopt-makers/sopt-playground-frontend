@@ -12,7 +12,7 @@ const Template: ComponentStory<typeof WordchainMessage> = (args) => <WordchainMe
 
 export const Default = Template.bind({});
 Default.args = {
-  isHelper: false,
+  type: 'word',
   user: {
     id: 1,
     name: '남주영',
@@ -25,6 +25,12 @@ Default.storyName = '기본';
 
 export const Helper = Template.bind({});
 Helper.args = {
-  isHelper: true,
+  type: 'helper',
   word: `'과'로 시작하는 단어는?`,
+};
+
+export const StartWord = Template.bind({});
+StartWord.args = {
+  type: 'startWord',
+  word: '토스',
 };

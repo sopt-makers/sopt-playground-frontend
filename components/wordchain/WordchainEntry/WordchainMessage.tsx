@@ -13,36 +13,46 @@ type User = {
   profileImage?: string;
 };
 
-type WordchainMessageProps = {
-  word: string;
-} & ({ user: User; isHelper?: false } | { user?: User; isHelper: true });
+type WordchainMessageProps = { word: string } & (
+  | {
+      type: 'word';
+      user: User;
+    }
+  | {
+      type: 'startWord' | 'helper';
+    }
+);
 
-export default function WordchainMessage({ user, word, isHelper = false }: WordchainMessageProps) {
+export default function WordchainMessage(props: WordchainMessageProps) {
   return (
     <Container>
       <MessageBox>
-        <Word>{word}</Word>
-        {!isHelper && user && (
+        <Word>{props.word}</Word>
+        {(props.type === 'word' || props.type === 'startWord') && (
           <>
             <Divider>|</Divider>
-            <Link href={playgroundLink.memberDetail(user.id)}>
-              <Name>{user.name}</Name>
-            </Link>
+            {props.type === 'word' && (
+              <Link href={playgroundLink.memberDetail(props.user.id)}>
+                <Name>{props.user.name}</Name>
+              </Link>
+            )}
+            {props.type === 'startWord' && <Name>제시어</Name>}
           </>
         )}
       </MessageBox>
-      {!isHelper && user ? (
-        <Link href={playgroundLink.memberDetail(user.id)}>
-          {user.profileImage ? (
-            <ProfileImage src={user.profileImage} />
+      {(props.type === 'helper' || props.type === 'startWord') && (
+        <ProfileImage src='/logos/img/logo-makers-circle.png' />
+      )}
+      {props.type === 'word' && (
+        <Link href={playgroundLink.memberDetail(props.user.id)}>
+          {props.user.profileImage ? (
+            <ProfileImage src={props.user.profileImage} />
           ) : (
             <EmptyProfileImage>
               <ProfileIcon />
             </EmptyProfileImage>
           )}
         </Link>
-      ) : (
-        <ProfileImage src='/logos/img/logo-makers-circle.png' />
       )}
     </Container>
   );
