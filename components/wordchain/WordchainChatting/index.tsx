@@ -5,13 +5,17 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 
 import { useGetWordchain, UseGetWordchainResponse, wordChainQueryKey } from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
+import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 const LIMIT = 50;
 
-export default function WordchainChatting() {
+interface WordchainChattingProps {
+  className?: string;
+}
+export default function WordchainChatting({ className }: WordchainChattingProps) {
   const { data: wordchainData } = useGetWordchain({
     limit: LIMIT,
   });
@@ -94,7 +98,7 @@ export default function WordchainChatting() {
   }, [wordchainData]);
 
   return (
-    <Container>
+    <Container className={className}>
       <WordchainList ref={wordchainListRef}>
         {wordchainData?.pages.map((wordchain) => (
           <Wordchain wordchain={wordchain} key={wordchain.order} className='wordchain' />
@@ -125,7 +129,11 @@ const Container = styled.div`
   background-color: ${colors.black80};
   padding: 40px;
   width: 790px;
-  height: 728px;
+  height: 100%;
+
+  @media ${SMALL_MEDIA_QUERY} {
+    max-height: 528px;
+  }
 `;
 
 const WordchainList = styled.div`
@@ -149,6 +157,10 @@ const WordchainList = styled.div`
     width: 100%;
     height: 1px;
     content: '';
+  }
+
+  @media ${SMALL_MEDIA_QUERY} {
+    height: 348px;
   }
 `;
 
