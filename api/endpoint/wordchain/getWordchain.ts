@@ -98,9 +98,9 @@ export const useGetWordchain = ({
   );
 
 const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): WordchainInfo[] =>
-  rooms.map(({ roomId, words }) => ({
+  rooms.map(({ roomId, words, startUser, startWord }) => ({
     id: roomId,
-    initial: { userName: rooms[0].startUser.name, word: rooms[0].startWord },
+    initial: { userName: startUser.name, word: startWord },
     isProgress: false,
     order: roomId,
     winnerName: words.length ? words[words.length - 1].user.name : '',

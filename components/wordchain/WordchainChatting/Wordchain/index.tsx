@@ -39,7 +39,7 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
           ? `${order}번째 끝말잇기가 시작됐어요!`
           : `‘${initial.userName}’님이 ${order}번째 끝말잇기를 시작했어요!`}
       </InitMessage>
-      <StartWordChatMessage word='버디버디' />
+      <StartWordChatMessage word={initial.word} />
       <WordChatMessageList>
         {wordList.map(({ user, content }, index) => (
           <WordChatMessage word={content} user={user} key={`${order}-${content}-${index}`} />
