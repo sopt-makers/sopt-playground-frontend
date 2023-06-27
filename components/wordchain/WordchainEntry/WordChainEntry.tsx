@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { useGetRecentWordchain } from '@/api/endpoint/wordchain/getWordchain';
 import Loading from '@/components/common/Loading';
@@ -20,24 +20,38 @@ interface WordChainEntryProps {
 
 const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { data, isLoading } = useGetRecentWordchain();
+
   const words = data?.words;
   const lastWord = data?.words[data?.words.length - 1];
+  const isGameStart = words?.length === 0 && data?.currentWinner === null;
+  const status = isGameStart ? 'start' : 'progress';
 
   return (
     <Container className={className}>
-      {isLoading && (
+      {(isLoading || !words) && (
         <LoadingContainer>
           <Loading />
         </LoadingContainer>
       )}
-      {words && lastWord && (
+      {words && (
         <>
           <LeftSection>
             <TitleWrapper>
               <StyledIconWordchainMessage />
               <StyledTitle>
-                현재 {`'${data.currentWinner.name}'`}님이 <br />
-                끝말잇기를 이기고 있어요!
+                {status === 'start' && (
+                  <>
+                    SOPT 회원들과 끝말잇기 할 사람,
+                    <br />
+                    지금이 바로 명예의 전당에 오를 기회!
+                  </>
+                )}
+                {status === 'progress' && (
+                  <>
+                    현재 {`'${data?.currentWinner?.name}'`}님이 <br />
+                    끝말잇기를 이기고 있어요!
+                  </>
+                )}
               </StyledTitle>
             </TitleWrapper>
             <Responsive only='desktop'>
@@ -50,15 +64,19 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
           <RightSection>
             <Responsive only='desktop'>
               <WordWrapper>
+                {status === 'start' && <WordchainMessage type='startWord' word={data.startWord} />}
                 {words.map(({ word, user }, index) => (
-                  <WordchainMessage key={index} word={word} user={user} />
+                  <WordchainMessage key={index} type='word' word={word} user={user} />
                 ))}
               </WordWrapper>
             </Responsive>
             <Responsive only='mobile'>
-              <WordchainMessage word={lastWord.word} user={lastWord.user} />
+              {status === 'progress' && lastWord && (
+                <WordchainMessage type='word' word={lastWord.word} user={lastWord.user} />
+              )}
+              {status === 'start' && <WordchainMessage type='startWord' word={data.startWord} />}
             </Responsive>
-            <WordchainMessage isHelper word={`'${data.nextStartWord}'로 시작하는 단어는?`} />
+            <WordchainMessage type='helper' word={`'${data.nextSyllable}'(으)로 시작하는 단어는?`} />
           </RightSection>
           <MobileResponsive only='mobile'>
             <WordchainLink href={playgroundLink.wordchain()}>
@@ -161,6 +179,7 @@ const RightSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  justify-content: flex-end;
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
