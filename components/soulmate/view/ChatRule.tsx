@@ -5,6 +5,7 @@ import { FC, useState } from 'react';
 
 import { cardStyle } from '@/components/soulmate/view/commonStyles';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface ChatRuleProps {}
@@ -46,10 +47,20 @@ const Container = styled.div`
   ${cardStyle};
 
   padding: 30px 40px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: unset;
+    background-color: unset;
+    padding: 0;
+  }
 `;
 
 const Title = styled.h3`
   ${textStyles.SUIT_24_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
 `;
 
 const ToggleButton = styled.button<{ isOpen: boolean }>`
@@ -73,6 +84,17 @@ const ToggleButton = styled.button<{ isOpen: boolean }>`
         transform: rotate(-180deg);
       `}
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
+
+    ${textStyles.SUIT_12_M};
+
+    & > svg {
+      margin-left: 6px;
+      height: 6px;
+    }
+  }
 `;
 
 const Rules = styled(m.p)`
@@ -81,4 +103,12 @@ const Rules = styled(m.p)`
   color: ${colors.gray40};
 
   ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-top: 10px;
+    line-height: 140%;
+    letter-spacing: -0.12px;
+
+    ${textStyles.SUIT_12_M};
+  }
 `;
