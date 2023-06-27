@@ -7,17 +7,25 @@ import { useGetWordchain, UseGetWordchainResponse, wordChainQueryKey } from '@/a
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
 import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-const LIMIT = 50;
+const LIMIT = 10;
 
 interface WordchainChattingProps {
   className?: string;
 }
 export default function WordchainChatting({ className }: WordchainChattingProps) {
-  const { data: wordchainData } = useGetWordchain({
+  const { data: wordchainData, fetchNextPage } = useGetWordchain({
     limit: LIMIT,
+    queryOptions: {
+      onSuccess: (data) => {
+        if (data.pageParams.length === 1) {
+          setTimeout(() => scrollToBottom(), 0);
+        }
+      },
+    },
   });
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
@@ -69,6 +77,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     },
   });
   const wordchainListRef = useRef<HTMLDivElement>(null);
+  const { isVisible, ref: intersectionObserverTargetRef } = useIntersectionObserver({ root: wordchainListRef.current });
   const [{ isError, errorMessage }, setError] = useState({
     isError: false,
     errorMessage: '',
@@ -79,7 +88,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     if (!wordchainData || word.length < 1) {
       return;
     }
-    const wordchainList = wordchainData.pages;
+    const wordchainList = wordchainData.pages[0].wordchainList;
     await mutatePostWord({ wordchainId: wordchainList[wordchainList.length - 1].id, word });
   };
 
@@ -94,13 +103,19 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [wordchainData]);
+    if (isVisible) {
+      fetchNextPage();
+    }
+  }, [isVisible, fetchNextPage]);
 
   return (
     <Container className={className}>
       <WordchainList ref={wordchainListRef}>
-        {wordchainData?.pages.map((wordchain) => (
+        <IntersectionObserverTarget
+          ref={intersectionObserverTargetRef}
+          isActive={wordchainData?.pages[0].hasNext ?? true}
+        />
+        {wordchainData?.pages[0].wordchainList.map((wordchain) => (
           <Wordchain wordchain={wordchain} key={wordchain.order} className='wordchain' />
         ))}
       </WordchainList>
@@ -196,6 +211,12 @@ const SubmitButton = styled.button`
   bottom: 24px;
   width: 20px;
   height: 20px;
+`;
+
+const IntersectionObserverTarget = styled.div<{ isActive: boolean }>`
+  display: ${({ isActive }) => (isActive ? 'block' : 'none')};
+  width: 100%;
+  height: 10px;
 `;
 
 const ErrorMessage = styled.div<{ isVisible: boolean }>`
