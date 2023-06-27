@@ -12,12 +12,12 @@ type Story = StoryObj<typeof meta>;
 export const WithHint = {
   args: {
     entryUrl: '/soulmate',
+    hints: ['힌트1', '힌트2'],
   },
 } satisfies Story;
 
 export const WithoutHint = {
   args: {
     entryUrl: '/soulmate',
-    hints: ['힌트1', '힌트2'],
   },
 } satisfies Story;

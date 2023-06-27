@@ -57,11 +57,11 @@ const StyledEntryCard = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
-      [row1-start] 'icon title' 1fr [row1-end]
-      [row2-start] 'hint hint' 1fr [row2-end]
-      [row3-start] 'entry entry' 1fr [row3-end]
-      / auto auto 1fr;
-    background-color: unset;
+      [row1-start] 'icon title' auto [row1-end]
+      [row2-start] 'hint hint' auto [row2-end]
+      [row3-start] 'entry entry' auto [row3-end]
+      / auto 1fr;
+    background-color: inherit;
     padding: 16px 20px;
   }
 `;
@@ -70,10 +70,15 @@ const ImageArea = styled.div`
   display: flex;
   grid-area: icon;
   justify-self: flex-start;
-  height: 36px;
+  height: 50px;
 
   & > img {
     height: 100%;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    align-self: center;
+    height: 40px;
   }
 `;
 
@@ -84,13 +89,22 @@ const TitleArea = styled.div`
   letter-spacing: -0.24px;
 
   ${textStyles.SUIT_24_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    justify-self: flex-start;
+    margin-top: 0;
+    margin-left: 4px;
+
+    ${textStyles.SUIT_20_B};
+  }
 `;
 
 const EntryLink = styled(Link)`
   display: flex;
   grid-area: entry;
   align-items: center;
-  padding-top: 16px;
+  margin-top: 16px;
+  padding: 5px 0;
   line-height: 100%;
   letter-spacing: -0.16px;
 
@@ -98,6 +112,23 @@ const EntryLink = styled(Link)`
 
   & > svg {
     margin-left: 9px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: ${colors.black90};
+    padding: 13px 12px;
+    line-height: 100%;
+    letter-spacing: -0.16px;
+
+    ${textStyles.SUIT_12_SB};
+
+    & > svg {
+      height: 6px;
+    }
   }
 `;
 
@@ -108,6 +139,10 @@ const HintArea = styled.div`
   gap: 12px;
   align-items: flex-end;
   align-self: center;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 16px;
+  }
 `;
 
 const HintChip = styled.div`
@@ -118,6 +153,13 @@ const HintChip = styled.div`
   letter-spacing: -0.16px;
 
   ${textStyles.SUIT_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 6px;
+    padding: 10px 16px;
+
+    ${textStyles.SUIT_12_M};
+  }
 `;
 
 const HintDetails = styled.div`
