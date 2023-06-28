@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
-import SoulmateIcon from '@/components/soulmate/view/SoulmateIcon';
+import SoulmateIcon from '@/components/soulmate/icons/SoulmateIcon';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';

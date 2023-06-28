@@ -1,12 +1,12 @@
 import { forwardRef } from 'react';
 
-import soulmateIcon from '../soulmateIcon.png';
+import soulmateIcon from './files/soulmateIconHeart.png';
 
-interface SoulmateIconProps {
+interface SoulmateIconHeartProps {
   className?: string;
 }
 
-const SoulmateIcon = forwardRef<HTMLImageElement, SoulmateIconProps>(({ className }, ref) => {
+const SoulmateIconHeart = forwardRef<HTMLImageElement, SoulmateIconHeartProps>(({ className }, ref) => {
   return (
     <img
       ref={ref}
@@ -19,4 +19,4 @@ const SoulmateIcon = forwardRef<HTMLImageElement, SoulmateIconProps>(({ classNam
   );
 });
 
-export default SoulmateIcon;
+export default SoulmateIconHeart;

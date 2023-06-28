@@ -2,11 +2,10 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import SoulmateIcon from '@/components/soulmate/icons/SoulmateIcon';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-
-import soulmateIcon from '../soulmateIcon.png';
 
 interface EntryCardProps {
   entryUrl: string;
@@ -17,7 +16,7 @@ const EntryCard: FC<EntryCardProps> = ({ entryUrl, hints }) => {
   return (
     <StyledEntryCard>
       <ImageArea>
-        <img src={soulmateIcon.src} alt='soulmateIcon' width={soulmateIcon.width} height={soulmateIcon.height} />
+        <SoulmateIcon />
       </ImageArea>
       <TitleArea>
         너와 나 궁합
