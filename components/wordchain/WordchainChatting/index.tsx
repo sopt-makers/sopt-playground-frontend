@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
-import { InfiniteData, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
-import { useGetWordchain, UseGetWordchainResponse, wordChainQueryKey } from '@/api/endpoint/wordchain/getWordchain';
+import { wordChainQueryKey } from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
 import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
+import { useGetActiveWordchain, useGetFinishedWordchainList } from '@/components/wordchain/WordchainChatting/queries';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { colors } from '@/styles/colors';
@@ -17,7 +18,7 @@ interface WordchainChattingProps {
   className?: string;
 }
 export default function WordchainChatting({ className }: WordchainChattingProps) {
-  const { data: wordchainData, fetchNextPage } = useGetWordchain({
+  const { data: finishedWordchainListPages, fetchNextPage } = useGetFinishedWordchainList({
     limit: LIMIT,
     queryOptions: {
       onSuccess: (data) => {
@@ -27,38 +28,40 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       },
     },
   });
+  const { data: activeWordchain } = useGetActiveWordchain();
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
   const { mutate: mutatePostWord } = usePostWord({
     onSuccess: ({ word, user }) => {
       setWord('');
-      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
-      queryClient.setQueryData<InfiniteData<UseGetWordchainResponse>>(
-        [wordChainQueryKey.getWordchain, LIMIT],
-        (old) => {
-          return old
-            ? {
-                ...old,
-                pages: [
-                  {
-                    ...old.pages[0],
-                    wordchainList: [
-                      ...old.pages[0].wordchainList.slice(0, old.pages[0].wordchainList.length - 1),
-                      {
-                        ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1],
-                        wordList: [
-                          ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1].wordList,
-                          { content: word, user },
-                        ],
-                      },
-                    ],
-                  },
-                  ...old.pages.slice(1),
-                ],
-              }
-            : old;
-        },
-      );
+      // FIXME: wordchain 리스트를 불러오는 쿼리가 변경되어 수정 필요
+      // queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
+      // queryClient.setQueryData<InfiniteData<UseGetWordchainResponse>>(
+      //   [wordChainQueryKey.getWordchain, LIMIT],
+      //   (old) => {
+      //     return old
+      //       ? {
+      //           ...old,
+      //           pages: [
+      //             {
+      //               ...old.pages[0],
+      //               wordchainList: [
+      //                 ...old.pages[0].wordchainList.slice(0, old.pages[0].wordchainList.length - 1),
+      //                 {
+      //                   ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1],
+      //                   wordList: [
+      //                     ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1].wordList,
+      //                     { content: word, user },
+      //                   ],
+      //                 },
+      //               ],
+      //             },
+      //             ...old.pages.slice(1),
+      //           ],
+      //         }
+      //       : old;
+      //   },
+      // );
       scrollToBottom();
     },
     onError: (error) => {
@@ -85,10 +88,10 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!wordchainData || word.length < 1) {
+    if (!finishedWordchainListPages || word.length < 1) {
       return;
     }
-    const wordchainList = wordchainData.pages[0].wordchainList;
+    const wordchainList = finishedWordchainListPages.pages[0].wordchainList;
     await mutatePostWord({ wordchainId: wordchainList[wordchainList.length - 1].id, word });
   };
 
@@ -113,11 +116,16 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       <WordchainList ref={wordchainListRef}>
         <IntersectionObserverTarget
           ref={intersectionObserverTargetRef}
-          isActive={wordchainData?.pages[0].hasNext ?? true}
+          isActive={finishedWordchainListPages?.pages[0].hasNext ?? true}
         />
-        {wordchainData?.pages[0].wordchainList.map((wordchain) => (
-          <Wordchain wordchain={wordchain} key={wordchain.order} className='wordchain' />
-        ))}
+        {finishedWordchainListPages?.pages
+          .map((page) => page.wordchainList)
+          .flat()
+          .reverse()
+          .map((wordchain) => (
+            <Wordchain wordchain={wordchain} key={wordchain.order} className='wordchain' />
+          ))}
+        {activeWordchain && <Wordchain wordchain={activeWordchain} className='wordchain' />}
       </WordchainList>
       <Form onSubmit={handleSubmit}>
         <StyledInput
