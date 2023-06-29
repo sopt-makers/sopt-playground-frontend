@@ -1,8 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
+import {
+  QueryKey,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { createEndpoint } from '@/api/typedAxios';
+import { createEndpoint, GetResponseType } from '@/api/typedAxios';
 import { WordchainInfo } from '@/components/wordchain/WordchainChatting/types';
+import { EntryWordchain } from '@/components/wordchain/WordchainEntry/types';
 
 const userSchema = z.object({
   id: z.number(),
@@ -36,6 +44,121 @@ export const getWordchain = createEndpoint({
   }),
 });
 
+type Response = GetResponseType<typeof getWordchain>;
+
+export const wordChainQueryKey = {
+  getWordchain: 'getWordchain',
+  getRecentWordchain: 'getRecentWordchain',
+};
+
+type FinishedWordchainListPage = {
+  hasNext: boolean;
+  wordchainList: WordchainInfo[];
+};
+export const useGetFinishedWordchainList = ({
+  limit,
+  queryOptions,
+}: {
+  limit: number;
+  queryOptions: Omit<
+    UseInfiniteQueryOptions<
+      FinishedWordchainListPage,
+      unknown,
+      FinishedWordchainListPage,
+      FinishedWordchainListPage,
+      QueryKey
+    >,
+    'queryKey' | 'queryFn'
+  >;
+}) =>
+  useInfiniteQuery<FinishedWordchainListPage, unknown, FinishedWordchainListPage>(
+    ['getWordchain', limit],
+    async ({ pageParam: cursor = 0 }) => {
+      const response = await getWordchain.request({ limit, cursor });
+      const wordchainList =
+        cursor === 0 ? mapFinishedWordchainList(response.rooms.slice(1)) : mapFinishedWordchainList(response.rooms);
+      const page = { hasNext: response.hasNext, wordchainList };
+      return page;
+    },
+    {
+      ...queryOptions,
+      getNextPageParam: (lastPage) => {
+        const lastWordchain = lastPage.wordchainList[lastPage.wordchainList.length - 1];
+        if (!lastPage.hasNext || !lastWordchain || !lastWordchain.id) {
+          return undefined;
+        }
+        return lastWordchain.id;
+      },
+    },
+  );
+
+type UseGetRecentWordchain = <TData = Response>(
+  options?: Omit<UseQueryOptions<Response, unknown, TData, QueryKey>, 'queryKey' | 'queryFn'>,
+) => UseQueryResult<TData, unknown>;
+
+export const useGetRecentWordchain: UseGetRecentWordchain = <TData>(
+  options?: Omit<UseQueryOptions<Response, unknown, TData, QueryKey>, 'queryKey' | 'queryFn'>,
+) => {
+  return useQuery(
+    [wordChainQueryKey.getRecentWordchain],
+    async () => {
+      const data = await getWordchain.request({
+        limit: 0,
+        cursor: 0,
+      });
+      return data;
+    },
+    options,
+  );
+};
+
+export const useGetEntryWordchain = () =>
+  useGetRecentWordchain<EntryWordchain>({
+    select: (data: Response) => {
+      const firstRoom = data.rooms[0];
+      const firstGameWords = firstRoom.words;
+      const lastWord = firstGameWords.length > 0 ? firstGameWords[firstGameWords.length - 1] : null;
+
+      return {
+        words: firstGameWords.slice(-2),
+        startWord: firstRoom.startWord,
+        currentWinner: lastWord ? lastWord.user : null,
+        nextSyllable: lastWord
+          ? lastWord.word.charAt(lastWord.word.length - 1)
+          : firstRoom.startWord.charAt(firstRoom.startWord.length - 1),
+      };
+    },
+  });
+
+export const useGetActiveWordchain = (
+  options?: Omit<UseQueryOptions<Response, unknown, WordchainInfo, QueryKey>, 'queryKey' | 'queryFn'>,
+) =>
+  useGetRecentWordchain<WordchainInfo>({
+    ...options,
+    select: (data) => {
+      const activeWordchainData = data.rooms[0];
+      const activeWordchain: WordchainInfo = {
+        id: activeWordchainData.roomId,
+        initial: { userName: activeWordchainData.startUser.name, word: activeWordchainData.startWord },
+        isProgress: true,
+        winnerName: null,
+        order: activeWordchainData.roomId,
+        wordList: activeWordchainData.words.map(({ word, user }) => ({ user, content: word })),
+      };
+      return activeWordchain;
+    },
+  });
+
+export const useGetCurrentWinnerName = () =>
+  useGetRecentWordchain<string | null>({
+    select: (data: Response) => {
+      const firstRoom = data.rooms[0];
+      const firstGameWords = firstRoom.words;
+      const lastWord = firstGameWords.length > 0 ? firstGameWords[firstGameWords.length - 1] : null;
+      return lastWord ? lastWord.user.name : null;
+    },
+  });
+
 export const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): WordchainInfo[] =>
   rooms.map(({ roomId, words, startUser, startWord }) => ({
     id: roomId,
@@ -45,34 +168,3 @@ export const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): W
     winnerName: words.length ? words[words.length - 1].user.name : '',
     wordList: words.map(({ word, user }) => ({ user, content: word })),
   }));
-
-export const useGetRecentWordchain = () => {
-  return useQuery(['getRecentWordchain'], async () => {
-    const data = await getWordchain.request({
-      limit: 0,
-      cursor: 0,
-    });
-
-    const firstRoom = data.rooms[0];
-    const firstGameWords = firstRoom.words;
-    const lastWord = getLastWord(firstGameWords);
-
-    return {
-      words: firstGameWords.slice(-2),
-      startWord: firstRoom.startWord,
-      currentWinner: lastWord ? lastWord.user : null,
-      nextSyllable: lastWord
-        ? lastWord.word.charAt(lastWord.word.length - 1)
-        : firstRoom.startWord.charAt(firstRoom.startWord.length - 1),
-    };
-  });
-};
-
-const getLastWord = (words: z.infer<typeof roomSchema>['words']) => {
-  return words.length > 0 ? words[words.length - 1] : null;
-};
-
-export const wordChainQueryKey = {
-  getWordchain: 'getWordchain',
-  getRecentWordchain: 'getRecentWordchain',
-};

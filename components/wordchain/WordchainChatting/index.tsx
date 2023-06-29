@@ -3,10 +3,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
-import { wordChainQueryKey } from '@/api/endpoint/wordchain/getWordchain';
+import {
+  useGetActiveWordchain,
+  useGetFinishedWordchainList,
+  wordChainQueryKey,
+} from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
 import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
-import { useGetActiveWordchain, useGetFinishedWordchainList } from '@/components/wordchain/WordchainChatting/queries';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { colors } from '@/styles/colors';

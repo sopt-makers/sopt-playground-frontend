@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { useGetRecentWordchain } from '@/api/endpoint/wordchain/getWordchain';
+import { useGetEntryWordchain } from '@/api/endpoint/wordchain/getWordchain';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
@@ -19,7 +19,7 @@ interface WordChainEntryProps {
 }
 
 const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
-  const { data, isLoading } = useGetRecentWordchain();
+  const { data, isLoading } = useGetEntryWordchain();
 
   const words = data?.words;
   const lastWord = data?.words[data?.words.length - 1];
