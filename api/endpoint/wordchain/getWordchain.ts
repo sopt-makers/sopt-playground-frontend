@@ -75,12 +75,12 @@ export const useGetWordchain = ({
     },
     {
       ...queryOptions,
-      getNextPageParam: (lastPage, allPages) => {
-        if (!lastPage.hasNext) {
+      getNextPageParam: (lastPage) => {
+        const lastWordchain = lastPage.wordchainList[lastPage.wordchainList.length - 1];
+        if (!lastPage.hasNext || !lastWordchain || !lastWordchain.id) {
           return undefined;
         }
-        const totalPageNum = allPages.length * limit;
-        return totalPageNum;
+        return lastWordchain.id;
       },
       select: (data): InfiniteData<UseGetWordchainResponse> => ({
         ...data,
