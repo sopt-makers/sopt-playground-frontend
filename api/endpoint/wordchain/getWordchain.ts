@@ -157,7 +157,7 @@ export const useGetCurrentWinnerName = () =>
     },
   });
 
-export const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): FinishedWordchain[] =>
+const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): FinishedWordchain[] =>
   rooms.map(({ roomId, words, startUser, startWord }) => ({
     id: roomId,
     initial: { userName: startUser.name, word: startWord },
