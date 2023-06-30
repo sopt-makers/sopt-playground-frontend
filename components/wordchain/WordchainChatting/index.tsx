@@ -126,9 +126,11 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
           .flat()
           .reverse()
           .map((wordchain) => (
-            <Wordchain wordchain={wordchain} key={wordchain.order} className='wordchain' />
+            <Wordchain isProgress={false} {...wordchain} key={wordchain.order} className='wordchain' />
           ))}
-        {activeWordchain && <Wordchain wordchain={activeWordchain} className='wordchain' />}
+        {activeWordchain && (
+          <Wordchain isProgress={true} winnerName={null} {...activeWordchain} className='wordchain' />
+        )}
       </WordchainList>
       <Form onSubmit={handleSubmit}>
         <StyledInput

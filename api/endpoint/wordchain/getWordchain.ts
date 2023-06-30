@@ -9,7 +9,7 @@ import {
 import { z } from 'zod';
 
 import { createEndpoint, GetResponseType } from '@/api/typedAxios';
-import { WordchainInfo } from '@/components/wordchain/WordchainChatting/types';
+import { ActiveWordchain, FinishedWordchain } from '@/components/wordchain/WordchainChatting/types';
 import { EntryWordchain } from '@/components/wordchain/WordchainEntry/types';
 
 const userSchema = z.object({
@@ -53,7 +53,7 @@ export const wordChainQueryKey = {
 
 type FinishedWordchainListPage = {
   hasNext: boolean;
-  wordchainList: WordchainInfo[];
+  wordchainList: FinishedWordchain[];
 };
 export const useGetFinishedWordchainList = ({
   limit,
@@ -131,17 +131,15 @@ export const useGetEntryWordchain = () =>
   });
 
 export const useGetActiveWordchain = (
-  options?: Omit<UseQueryOptions<Response, unknown, WordchainInfo, QueryKey>, 'queryKey' | 'queryFn'>,
+  options?: Omit<UseQueryOptions<Response, unknown, ActiveWordchain, QueryKey>, 'queryKey' | 'queryFn'>,
 ) =>
-  useGetRecentWordchain<WordchainInfo>({
+  useGetRecentWordchain<ActiveWordchain>({
     ...options,
     select: (data) => {
       const activeWordchainData = data.rooms[0];
-      const activeWordchain: WordchainInfo = {
+      const activeWordchain: ActiveWordchain = {
         id: activeWordchainData.roomId,
         initial: { userName: activeWordchainData.startUser.name, word: activeWordchainData.startWord },
-        isProgress: true,
-        winnerName: null,
         order: activeWordchainData.roomId,
         wordList: activeWordchainData.words.map(({ word, user }) => ({ user, content: word })),
       };
@@ -159,11 +157,10 @@ export const useGetCurrentWinnerName = () =>
     },
   });
 
-export const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): WordchainInfo[] =>
+export const mapFinishedWordchainList = (rooms: z.infer<typeof roomSchema>[]): FinishedWordchain[] =>
   rooms.map(({ roomId, words, startUser, startWord }) => ({
     id: roomId,
     initial: { userName: startUser.name, word: startWord },
-    isProgress: false,
     order: roomId,
     winnerName: words.length ? words[words.length - 1].user.name : '',
     wordList: words.map(({ word, user }) => ({ user, content: word })),

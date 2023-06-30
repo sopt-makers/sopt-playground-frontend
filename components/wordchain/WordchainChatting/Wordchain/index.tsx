@@ -5,18 +5,40 @@ import { useGetCurrentWinnerName } from '@/api/endpoint/wordchain/getWordchain';
 import { useNewGameMutation } from '@/api/endpoint/wordchain/newGame';
 import { Confirm } from '@/components/common/Modal/Confirm';
 import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
-import { WordchainInfo } from '@/components/wordchain/WordchainChatting/types';
+import { Word } from '@/components/wordchain/WordchainChatting/types';
 import WordChatMessage from '@/components/wordchain/WordchainChatting/WordChatMessage';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
-interface WordchainProps {
-  wordchain: WordchainInfo;
-  className?: string;
-}
+type WordchainProps =
+  | {
+      id: number;
+      isProgress: true;
+      winnerName: null;
+      initial: {
+        word: string;
+        userName: string;
+      };
+      order: number;
+      wordList: Word[];
 
-export default function Wordchain({ wordchain, className }: WordchainProps) {
-  const { initial, order, wordList, isProgress, winnerName } = wordchain;
+      className?: string;
+    }
+  | {
+      id: number;
+      isProgress: false;
+      winnerName: string;
+      initial: {
+        word: string;
+        userName: string;
+      };
+      order: number;
+      wordList: Word[];
+
+      className?: string;
+    };
+
+export default function Wordchain({ initial, order, wordList, isProgress, winnerName, className }: WordchainProps) {
   const { data: currentWinnerName } = useGetCurrentWinnerName();
   const { mutate } = useNewGameMutation();
 
@@ -47,7 +69,7 @@ export default function Wordchain({ wordchain, className }: WordchainProps) {
       </WordChatMessageList>
       {isProgress ? (
         <GiveUpButton onClick={onClickGiveUp}> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
-      ) : winnerName.length ? (
+      ) : winnerName?.length ? (
         <WinnerMessage>
           <TrophyIconWrapper>
             <TrophyIcon />
