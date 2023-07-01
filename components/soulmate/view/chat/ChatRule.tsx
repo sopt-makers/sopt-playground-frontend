@@ -8,13 +8,15 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface ChatRuleProps {}
+interface ChatRuleProps {
+  className?: string;
+}
 
-const ChatRule: FC<ChatRuleProps> = ({}) => {
+const ChatRule: FC<ChatRuleProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Container>
+    <Container className={className}>
       <Title>채팅방 이용 규칙</Title>
       <ToggleButton isOpen={isOpen} onClick={() => setIsOpen((v) => !v)}>
         상세 이용규칙 펼쳐보기{toggleIcon}

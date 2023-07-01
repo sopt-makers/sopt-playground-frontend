@@ -19,12 +19,13 @@ type MissionStatus =
   | { status: 'completed' };
 
 interface MissionProgressProps {
+  className?: string;
   missions: Mission[];
 }
 
-const MissionProgress: FC<MissionProgressProps> = ({ missions }) => {
+const MissionProgress: FC<MissionProgressProps> = ({ className, missions }) => {
   return (
-    <Container>
+    <Container className={className}>
       {missions.map((mission, idx) => (
         <ProgressCell key={idx} status={mission.status}>
           {mission.status === 'completed' && <ProgressTitle>{mission.name}을 완료했어요</ProgressTitle>}
