@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { cardStyle } from '@/components/soulmate/view/commonStyles';
+import { cardStyle } from '@/components/soulmate/view/common/commonStyles';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';

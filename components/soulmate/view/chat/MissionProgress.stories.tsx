@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import dayjs from 'dayjs';
 
-import MissionProgress from '@/components/soulmate/view/MissionProgress';
+import MissionProgress from '@/components/soulmate/view/chat/MissionProgress';
 
 const meta = {
   component: MissionProgress,

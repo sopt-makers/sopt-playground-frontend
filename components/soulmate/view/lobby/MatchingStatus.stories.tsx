@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import MatchingStatus from '@/components/soulmate/view/MatchingStatus';
+import MatchingStatus from '@/components/soulmate/view/lobby/MatchingStatus';
 
 const meta = {
   component: MatchingStatus,
