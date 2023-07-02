@@ -96,7 +96,7 @@ type UseGetRecentWordchain = <TData = Response>(
   options?: Omit<UseQueryOptions<Response, unknown, TData, QueryKey>, 'queryKey' | 'queryFn'>,
 ) => UseQueryResult<TData, unknown>;
 
-export const useGetRecentWordchain: UseGetRecentWordchain = <TData>(
+const useGetRecentWordchain: UseGetRecentWordchain = <TData>(
   options?: Omit<UseQueryOptions<Response, unknown, TData, QueryKey>, 'queryKey' | 'queryFn'>,
 ) => {
   return useQuery(
