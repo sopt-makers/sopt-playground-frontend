@@ -1,5 +1,5 @@
 export interface EntryWordchain {
-  words: Word[];
+  wordList: Word[];
   startWord: string;
   currentWinner: {
     id: number;

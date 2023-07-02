@@ -120,7 +120,7 @@ export const useGetEntryWordchain = () =>
       const lastWord = firstGameWords.length > 0 ? firstGameWords[firstGameWords.length - 1] : null;
 
       return {
-        words: firstGameWords.slice(-2),
+        wordList: firstGameWords.slice(-2),
         startWord: firstRoom.startWord,
         currentWinner: lastWord ? lastWord.user : null,
         nextSyllable: lastWord
