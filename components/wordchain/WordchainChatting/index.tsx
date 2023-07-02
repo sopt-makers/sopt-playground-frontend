@@ -91,11 +91,10 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!finishedWordchainListPages || word.length < 1) {
+    if (!finishedWordchainListPages || word.length < 1 || !activeWordchain) {
       return;
     }
-    const wordchainList = finishedWordchainListPages.pages[0].wordchainList;
-    await mutatePostWord({ wordchainId: wordchainList[wordchainList.length - 1].id, word });
+    await mutatePostWord({ wordchainId: activeWordchain.id, word });
   };
 
   const handleChange = (value: string) => {
