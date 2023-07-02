@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { useGetRecentWordchain } from '@/api/endpoint/wordchain/getWordchain';
+import { useGetEntryWordchain } from '@/api/endpoint/wordchain/getWordchain';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
@@ -19,21 +19,21 @@ interface WordChainEntryProps {
 }
 
 const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
-  const { data, isLoading } = useGetRecentWordchain();
+  const { data, isLoading } = useGetEntryWordchain();
 
-  const words = data?.words;
-  const lastWord = data?.words[data?.words.length - 1];
-  const isGameStart = words?.length === 0 && data?.currentWinner === null;
+  const wordList = data?.wordList;
+  const lastWord = data?.wordList[data?.wordList.length - 1];
+  const isGameStart = wordList?.length === 0 && data?.currentWinner === null;
   const status = isGameStart ? 'start' : 'progress';
 
   return (
     <Container className={className}>
-      {(isLoading || !words) && (
+      {(isLoading || !wordList) && (
         <LoadingContainer>
           <Loading />
         </LoadingContainer>
       )}
-      {words && (
+      {wordList && (
         <>
           <LeftSection>
             <TitleWrapper>
@@ -65,7 +65,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
             <Responsive only='desktop'>
               <WordWrapper>
                 {status === 'start' && <WordchainMessage type='startWord' word={data.startWord} />}
-                {words.map(({ word, user }, index) => (
+                {wordList.map(({ word, user }, index) => (
                   <WordchainMessage key={index} type='word' word={word} user={user} />
                 ))}
               </WordWrapper>
