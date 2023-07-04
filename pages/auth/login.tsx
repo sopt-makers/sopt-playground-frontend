@@ -266,6 +266,7 @@ const MadeByTitle = styled.h3`
 `;
 
 const StyledMakersLogo = styled.img`
+  margin-top: 10px;
   height: 53px;
 
   @media ${MOBILE_MEDIA_QUERY} {
