@@ -60,7 +60,7 @@ export const useGetFinishedWordchainList = ({
   queryOptions,
 }: {
   limit: number;
-  queryOptions: Omit<
+  queryOptions?: Omit<
     UseInfiniteQueryOptions<
       FinishedWordchainListPage,
       unknown,
