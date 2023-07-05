@@ -103,8 +103,6 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     }
   }, [isVisible, fetchNextPage]);
 
-  useEffect(() => console.log('scrollHeight', scrollHeight), [scrollHeight]);
-
   return (
     <Container className={className}>
       <WordchainList ref={wordchainListRef}>
