@@ -23,49 +23,18 @@ interface WordchainChattingProps {
 export default function WordchainChatting({ className }: WordchainChattingProps) {
   const { data: finishedWordchainListPages, fetchNextPage } = useGetFinishedWordchainList({
     limit: LIMIT,
-    queryOptions: {
-      onSuccess: (data) => {
-        if (data.pageParams.length === 1) {
-          setTimeout(() => scrollToBottom(), 0);
-        }
-      },
+  });
+  const { data: activeWordchain } = useGetActiveWordchain({
+    onSuccess: () => {
+      setTimeout(() => scrollToBottom(), 0);
     },
   });
-  const { data: activeWordchain } = useGetActiveWordchain();
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
   const { mutate: mutatePostWord } = usePostWord({
-    onSuccess: ({ word, user }) => {
+    onSuccess: () => {
       setWord('');
-      // FIXME: wordchain 리스트를 불러오는 쿼리가 변경되어 수정 필요
-      // queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
-      // queryClient.setQueryData<InfiniteData<UseGetWordchainResponse>>(
-      //   [wordChainQueryKey.getWordchain, LIMIT],
-      //   (old) => {
-      //     return old
-      //       ? {
-      //           ...old,
-      //           pages: [
-      //             {
-      //               ...old.pages[0],
-      //               wordchainList: [
-      //                 ...old.pages[0].wordchainList.slice(0, old.pages[0].wordchainList.length - 1),
-      //                 {
-      //                   ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1],
-      //                   wordList: [
-      //                     ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1].wordList,
-      //                     { content: word, user },
-      //                   ],
-      //                 },
-      //               ],
-      //             },
-      //             ...old.pages.slice(1),
-      //           ],
-      //         }
-      //       : old;
-      //   },
-      // );
-      scrollToBottom();
+      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
     },
     onError: (error) => {
       if (typeof error.response?.data !== 'string') {
