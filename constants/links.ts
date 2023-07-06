@@ -20,4 +20,5 @@ export const playgroundLink = {
   sopticle: () => `/sopticle`,
   sopticleSuccess: () => `/sopticle/success`,
   mentoringDetail: (id: number) => `/mentoring/${id}`,
+  wordchain: () => `/wordchain`,
 };
