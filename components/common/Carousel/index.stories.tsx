@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { ReactNode } from 'react';
 
 import Carousel from '@/components/common/Carousel';
 import MentoringCard from '@/components/mentoring/MentoringCard';
 
 export default {
-  components: Carousel,
+  component: Carousel,
   decorators: [
     (Story) => (
       <div style={{ width: '1414px' }}>
@@ -14,9 +14,7 @@ export default {
       </div>
     ),
   ],
-} as ComponentMeta<typeof Carousel>;
-
-const Template: ComponentStory<typeof Carousel> = (args) => <Carousel {...args} />;
+} as Meta<typeof Carousel>;
 
 const MENTORING_DUMMY_DATA = [
   {
@@ -57,9 +55,10 @@ const CardContainer = styled.div`
   width: 100%;
 `;
 
-export const Basic = Template.bind({});
-Basic.args = {
-  itemList: MENTORING_DUMMY_DATA.map((dummy, index) => <MentoringCard {...dummy} key={index} />),
-  limit: 3,
-  renderItemContainer: (children: ReactNode) => <CardContainer>{children}</CardContainer>,
+export const Basic = {
+  args: {
+    itemList: MENTORING_DUMMY_DATA.map((dummy, index) => <MentoringCard {...dummy} key={index} />),
+    limit: 3,
+    renderItemContainer: (children: ReactNode) => <CardContainer>{children}</CardContainer>,
+  },
 };

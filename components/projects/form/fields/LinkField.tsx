@@ -121,15 +121,15 @@ export default LinkField;
 
 const StyledLinkField = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 10px;
+  align-items: center;
   width: 100%;
 `;
 
 const StyledLinkEditView = styled.div<{ isError?: boolean }>`
   display: flex;
-  align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   column-gap: 10px;
+  align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   border-radius: 6px;
   background-color: ${colors.black60};
   padding: 10px;

@@ -17,6 +17,8 @@ export const playgroundLink = {
   register: () => `/auth/verify`,
   connectSocialAuth: () => `/auth/register`,
   makers: () => `/makers`,
+  sopticle: () => `/sopticle`,
+  sopticleSuccess: () => `/sopticle/success`,
   mentoringDetail: (id: number) => `/mentoring/${id}`,
   wordchain: () => `/wordchain`,
 };

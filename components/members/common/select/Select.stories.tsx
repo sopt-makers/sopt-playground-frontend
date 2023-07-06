@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import Select from '@/components/members/common/select/Select';
@@ -6,23 +6,28 @@ import { GENERATIONS } from '@/constants/generation';
 
 export default {
   component: Select,
-} as ComponentMeta<typeof Select>;
+} as Meta<typeof Select>;
 
-export const Template: ComponentStory<typeof Select> = (args) => {
-  return (
-    <Select placeholder='기수 선택' {...args}>
-      {GENERATIONS.map((generation) => (
-        <Select.Item key={generation} value={generation}>
-          {`${generation} 기`}
-        </Select.Item>
-      ))}
-    </Select>
-  );
+export const Template: StoryObj<typeof Select> = {
+  render: (args) => {
+    return (
+      <Select placeholder='기수 선택' {...args}>
+        {GENERATIONS.map((generation) => (
+          <Select.Item key={generation} value={generation}>
+            {`${generation} 기`}
+          </Select.Item>
+        ))}
+      </Select>
+    );
+  },
 };
 
-export const Error = Template.bind({});
-Error.args = {
-  error: true,
+export const Error = {
+  render: Template,
+
+  args: {
+    error: true,
+  },
 };
 
 export const WithState = () => {

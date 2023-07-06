@@ -63,8 +63,8 @@ const IntroducePanel = styled.section`
 
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
     flex-direction: column;
-    padding: 30px;
     row-gap: 30px;
+    padding: 30px;
     height: auto;
   }
 

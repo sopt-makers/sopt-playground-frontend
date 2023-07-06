@@ -204,10 +204,10 @@ const StyledTextArea = styled(TextArea)`
 const FavorWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  row-gap: 14px;
   column-gap: 35px;
   margin-top: 20px;
   width: 593px;
-  row-gap: 14px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;

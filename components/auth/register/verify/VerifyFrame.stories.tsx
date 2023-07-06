@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import VerifyFrame from './VerifyFrame';
 
@@ -10,12 +10,12 @@ export default {
     byPhone: { control: false },
     byEmail: { control: false },
   },
-} as ComponentMeta<typeof VerifyFrame>;
+} as Meta<typeof VerifyFrame>;
 
-const Template: ComponentStory<typeof VerifyFrame> = (args) => <VerifyFrame {...args} />;
+export const Default = {
+  args: {
+    byPhone: <div style={{ backgroundColor: '#a9d7b4', height: '100px' }}>byPhone</div>,
+  },
 
-export const Default = Template.bind({});
-Default.args = {
-  byPhone: <div style={{ backgroundColor: '#a9d7b4', height: '100px' }}>byPhone</div>,
+  name: '기본',
 };
-Default.storyName = '기본';

@@ -1,16 +1,15 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import Loading from '.';
 
 export default {
   component: Loading,
-} as ComponentMeta<typeof Loading>;
+} as Meta<typeof Loading>;
 
-const Template: ComponentStory<typeof Loading> = (args) => <Loading {...args} />;
+export const Default = {};
 
-export const Default = Template.bind({});
-
-export const FullPage = Template.bind({});
-FullPage.args = {
-  type: 'fullPage',
+export const FullPage = {
+  args: {
+    type: 'fullPage',
+  },
 };

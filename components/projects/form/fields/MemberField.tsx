@@ -176,8 +176,8 @@ const StyledFormWrapper = styled.div`
 `;
 const StyledMemberEditView = styled.div<{ isError: boolean }>`
   display: flex;
-  align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   column-gap: 10px;
+  align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   border-radius: 6px;
   background-color: ${colors.black60};
   padding: 10px;

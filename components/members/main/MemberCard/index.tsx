@@ -74,13 +74,13 @@ const MotionMemberCard = styled(m.div)`
     [row1-start] 'image' auto [row1-end]
     [row2-start] 'content' auto [row2-end]
     / 1fr;
-  align-items: center;
+  row-gap: 24px;
   column-gap: 16px;
+  align-items: center;
   transition: box-shadow 0.3s;
   border-radius: 16px;
   background-color: ${colors.black90};
   padding: 24px;
-  row-gap: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
