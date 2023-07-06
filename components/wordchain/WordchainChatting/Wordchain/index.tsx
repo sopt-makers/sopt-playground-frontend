@@ -63,9 +63,7 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
   return (
     <Container className={className}>
       <InitMessage>
-        {order === 1
-          ? `${order}번째 끝말잇기가 시작됐어요!`
-          : `‘${initial.userName}’님이 ${order}번째 끝말잇기를 시작했어요!`}
+        {order === 1 ? `첫 끝말잇기가 시작됐어요!` : `‘${initial.userName}’님이 ${order}번째 끝말잇기를 시작했어요!`}
       </InitMessage>
       <StartWordChatMessage word={initial.word} />
       <WordChatMessageList>
