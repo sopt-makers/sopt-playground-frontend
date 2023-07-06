@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
   useGetActiveWordchain,
@@ -23,51 +23,39 @@ interface WordchainChattingProps {
 }
 export default function WordchainChatting({ className }: WordchainChattingProps) {
   const { logSubmitEvent } = useEventLogger();
+  const [scrollHeight, setScrollHeight] = useState<number | undefined>();
+  const wordchainListRef = useRef<HTMLDivElement>(null);
   const { data: finishedWordchainListPages, fetchNextPage } = useGetFinishedWordchainList({
     limit: LIMIT,
     queryOptions: {
       onSuccess: (data) => {
-        if (data.pageParams.length === 1) {
-          setTimeout(() => scrollToBottom(), 0);
-        }
+        setTimeout(() => {
+          if (data.pageParams.length === 1) {
+            wordchainListRef.current && setScrollHeight(wordchainListRef.current.scrollHeight);
+          } else {
+            if (!(wordchainListRef.current && scrollHeight)) {
+              return;
+            }
+            scrollTo(wordchainListRef.current.scrollHeight - scrollHeight);
+            setScrollHeight(wordchainListRef.current.scrollHeight);
+          }
+        }, 0);
       },
     },
   });
-  const { data: activeWordchain } = useGetActiveWordchain();
+  const { data: activeWordchain } = useGetActiveWordchain({
+    onSuccess: () => {
+      setTimeout(() => {
+        scrollToBottom();
+      }, 0);
+    },
+  });
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
   const { mutate: mutatePostWord } = usePostWord({
-    onSuccess: ({ word, user }) => {
+    onSuccess: () => {
       setWord('');
-      // FIXME: wordchain 리스트를 불러오는 쿼리가 변경되어 수정 필요
-      // queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
-      // queryClient.setQueryData<InfiniteData<UseGetWordchainResponse>>(
-      //   [wordChainQueryKey.getWordchain, LIMIT],
-      //   (old) => {
-      //     return old
-      //       ? {
-      //           ...old,
-      //           pages: [
-      //             {
-      //               ...old.pages[0],
-      //               wordchainList: [
-      //                 ...old.pages[0].wordchainList.slice(0, old.pages[0].wordchainList.length - 1),
-      //                 {
-      //                   ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1],
-      //                   wordList: [
-      //                     ...old.pages[0].wordchainList[old.pages[0].wordchainList.length - 1].wordList,
-      //                     { content: word, user },
-      //                   ],
-      //                 },
-      //               ],
-      //             },
-      //             ...old.pages.slice(1),
-      //           ],
-      //         }
-      //       : old;
-      //   },
-      // );
-      scrollToBottom();
+      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
     },
     onError: (error) => {
       if (typeof error.response?.data !== 'string') {
@@ -84,7 +72,6 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       }, 2000);
     },
   });
-  const wordchainListRef = useRef<HTMLDivElement>(null);
   const { isVisible, ref: intersectionObserverTargetRef } = useIntersectionObserver({ root: wordchainListRef.current });
   const [{ isError, errorMessage }, setError] = useState({
     isError: false,
@@ -112,9 +99,14 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     setWord(value);
   };
 
+  const scrollTo = (height: number) => {
+    if (wordchainListRef.current) {
+      wordchainListRef.current.scrollTop = height;
+    }
+  };
   const scrollToBottom = () => {
     if (wordchainListRef.current) {
-      wordchainListRef.current.scrollTop = wordchainListRef.current.scrollHeight;
+      scrollTo(wordchainListRef.current.scrollHeight);
     }
   };
 
@@ -123,6 +115,12 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       fetchNextPage();
     }
   }, [isVisible, fetchNextPage]);
+
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      scrollToBottom();
+    }, 500);
+  }, [activeWordchain]);
 
   return (
     <Container className={className}>

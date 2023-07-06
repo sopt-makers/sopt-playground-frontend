@@ -74,7 +74,9 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
         ))}
       </WordChatMessageList>
       {isProgress ? (
-        <GiveUpButton onClick={onClickGiveUp}> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
+        wordList.length > 0 && (
+          <GiveUpButton onClick={onClickGiveUp}> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
+        )
       ) : winnerName?.length ? (
         <WinnerMessage>
           <TrophyIconWrapper>
