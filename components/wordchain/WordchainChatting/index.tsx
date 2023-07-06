@@ -21,8 +21,25 @@ interface WordchainChattingProps {
   className?: string;
 }
 export default function WordchainChatting({ className }: WordchainChattingProps) {
+  const [scrollHeight, setScrollHeight] = useState<number | undefined>();
+  const wordchainListRef = useRef<HTMLDivElement>(null);
   const { data: finishedWordchainListPages, fetchNextPage } = useGetFinishedWordchainList({
     limit: LIMIT,
+    queryOptions: {
+      onSuccess: (data) => {
+        setTimeout(() => {
+          if (data.pageParams.length === 1) {
+            wordchainListRef.current && setScrollHeight(wordchainListRef.current.scrollHeight);
+          } else {
+            if (!(wordchainListRef.current && scrollHeight)) {
+              return;
+            }
+            scrollTo(wordchainListRef.current.scrollHeight - scrollHeight);
+            setScrollHeight(wordchainListRef.current.scrollHeight);
+          }
+        }, 0);
+      },
+    },
   });
   const { data: activeWordchain } = useGetActiveWordchain({
     onSuccess: () => {
@@ -51,7 +68,6 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       }, 2000);
     },
   });
-  const wordchainListRef = useRef<HTMLDivElement>(null);
   const { isVisible, ref: intersectionObserverTargetRef } = useIntersectionObserver({ root: wordchainListRef.current });
   const [{ isError, errorMessage }, setError] = useState({
     isError: false,
@@ -70,9 +86,14 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     setWord(value);
   };
 
+  const scrollTo = (height: number) => {
+    if (wordchainListRef.current) {
+      wordchainListRef.current.scrollTop = height;
+    }
+  };
   const scrollToBottom = () => {
     if (wordchainListRef.current) {
-      wordchainListRef.current.scrollTop = wordchainListRef.current.scrollHeight;
+      scrollTo(wordchainListRef.current.scrollHeight);
     }
   };
 
