@@ -6,6 +6,7 @@ import { useGetEntryWordchain } from '@/api/endpoint/wordchain/getWordchain';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
 import { playgroundLink } from '@/constants/links';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
@@ -20,6 +21,7 @@ interface WordChainEntryProps {
 
 const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { data, isLoading } = useGetEntryWordchain();
+  const { logClickEvent } = useEventLogger();
 
   const wordList = data?.wordList;
   const lastWord = data?.wordList[data?.wordList.length - 1];
@@ -55,7 +57,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
               </StyledTitle>
             </TitleWrapper>
             <Responsive only='desktop'>
-              <WordchainLink href={playgroundLink.wordchain()}>
+              <WordchainLink href={playgroundLink.wordchain()} onClick={() => logClickEvent('wordchainEntry')}>
                 SOPT 회원들과 끝말잇기 하러 가기
                 <IconArrow />
               </WordchainLink>
@@ -79,7 +81,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
             <WordchainMessage type='helper' word={`'${data.nextSyllable}'(으)로 시작하는 단어는?`} />
           </RightSection>
           <MobileResponsive only='mobile'>
-            <WordchainLink href={playgroundLink.wordchain()}>
+            <WordchainLink href={playgroundLink.wordchain()} onClick={() => logClickEvent('wordchainEntry')}>
               SOPT 회원들과 끝말잇기 하러 가기
               <IconArrow />
             </WordchainLink>

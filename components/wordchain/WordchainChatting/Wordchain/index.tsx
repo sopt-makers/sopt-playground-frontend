@@ -4,6 +4,7 @@ import TrophyIcon from 'public/icons/icon-trophy.svg';
 import { useGetCurrentWinnerName } from '@/api/endpoint/wordchain/getWordchain';
 import { useNewGameMutation } from '@/api/endpoint/wordchain/newGame';
 import { Confirm } from '@/components/common/Modal/Confirm';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
 import { Word } from '@/components/wordchain/WordchainChatting/types';
 import WordChatMessage from '@/components/wordchain/WordchainChatting/WordChatMessage';
@@ -39,6 +40,7 @@ type WordchainProps =
     };
 
 export default function Wordchain({ initial, order, wordList, isProgress, winnerName, className }: WordchainProps) {
+  const { logSubmitEvent } = useEventLogger();
   const { data: currentWinnerName } = useGetCurrentWinnerName();
   const { mutate } = useNewGameMutation();
 
@@ -50,7 +52,11 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
       okText: '새로 시작하기',
     });
     if (confirm) {
-      mutate();
+      mutate(undefined, {
+        onSuccess: () => {
+          logSubmitEvent('wordchainNewGame');
+        },
+      });
     }
   };
 

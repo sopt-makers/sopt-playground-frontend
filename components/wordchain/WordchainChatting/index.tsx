@@ -9,6 +9,7 @@ import {
   wordChainQueryKey,
 } from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -21,6 +22,7 @@ interface WordchainChattingProps {
   className?: string;
 }
 export default function WordchainChatting({ className }: WordchainChattingProps) {
+  const { logSubmitEvent } = useEventLogger();
   const [scrollHeight, setScrollHeight] = useState<number | undefined>();
   const wordchainListRef = useRef<HTMLDivElement>(null);
   const { data: finishedWordchainListPages, fetchNextPage } = useGetFinishedWordchainList({
@@ -76,12 +78,21 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     errorMessage: '',
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!finishedWordchainListPages || word.length < 1 || !activeWordchain) {
       return;
     }
-    await mutatePostWord({ wordchainId: activeWordchain.id, word });
+    mutatePostWord(
+      { wordchainId: activeWordchain.id, word },
+      {
+        onSuccess: () => {
+          logSubmitEvent('postWordchain', {
+            word,
+          });
+        },
+      },
+    );
   };
 
   const handleChange = (value: string) => {

@@ -3,9 +3,11 @@ import styled from '@emotion/styled';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import WordchainChatting from '@/components/wordchain/WordchainChatting';
 import WordchainRules from '@/components/wordchain/WordchainRules';
+import { useRunOnce } from '@/hooks/useRunOnce';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordChainMessage from '@/public/icons/icon-wordchain-message.svg';
 import { colors } from '@/styles/colors';
@@ -14,6 +16,12 @@ import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 const WordchainPage = () => {
+  const { logPageViewEvent } = useEventLogger();
+
+  useRunOnce(() => {
+    logPageViewEvent('wordchain');
+  }, [logPageViewEvent]);
+
   return (
     <AuthRequired>
       <Container>
