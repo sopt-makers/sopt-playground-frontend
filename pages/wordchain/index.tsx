@@ -150,16 +150,16 @@ const Sidebar = styled.aside`
 const RuleWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  row-gap: 16px;
   border-radius: 20px;
   background-color: ${colors.black80};
   padding: 30px 38px;
-  row-gap: 16px;
 `;
 
 const RuleTrigger = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 8px;
+  align-items: center;
   text-decoration: underline;
   color: ${colors.gray40};
 
