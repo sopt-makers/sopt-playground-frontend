@@ -1,14 +1,12 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
 
 export default {
-  components: StartWordChatMessage,
-} as ComponentMeta<typeof StartWordChatMessage>;
+  component: StartWordChatMessage,
+} as Meta<typeof StartWordChatMessage>;
 
-const Template: ComponentStory<typeof StartWordChatMessage> = (args) => <StartWordChatMessage {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  word: '사과',
+export const Default: StoryObj = {
+  render: () => <StartWordChatMessage word={'지갑'} />,
+  name: '기본',
 };
