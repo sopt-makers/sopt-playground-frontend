@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
   useGetActiveWordchain,
@@ -43,7 +43,9 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
   });
   const { data: activeWordchain } = useGetActiveWordchain({
     onSuccess: () => {
-      setTimeout(() => scrollToBottom(), 0);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 0);
     },
   });
   const [word, setWord] = useState('');
@@ -102,6 +104,12 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       fetchNextPage();
     }
   }, [isVisible, fetchNextPage]);
+
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      scrollToBottom();
+    }, 500);
+  }, [activeWordchain]);
 
   return (
     <Container className={className}>
