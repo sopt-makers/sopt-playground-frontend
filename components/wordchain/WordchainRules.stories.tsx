@@ -1,15 +1,12 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
-import WordchainRules from './WordchainRules';
+import WordchainRules from '@/components/wordchain/WordchainRules';
 
 export default {
   component: WordchainRules,
-  parameters: {},
-  decorators: [],
-} as ComponentMeta<typeof WordchainRules>;
+} as Meta<typeof WordchainRules>;
 
-const Template: ComponentStory<typeof WordchainRules> = (args) => <WordchainRules {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+export const Default: StoryObj = {
+  render: () => <WordchainRules trigger={<></>} />,
+  name: '기본',
+};

@@ -155,8 +155,8 @@ const StyledTitle = styled(Text)`
 
 const WordchainLink = styled(Link)`
   display: flex;
-  align-items: center;
   column-gap: 8px;
+  align-items: center;
   margin-top: 16px;
   ${textStyles.SUIT_16_SB}
 

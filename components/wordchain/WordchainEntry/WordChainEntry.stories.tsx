@@ -1,15 +1,12 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
-import WordChainEntry from './WordChainEntry';
+import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
 
 export default {
   component: WordChainEntry,
-  parameters: {},
-  decorators: [],
-} as ComponentMeta<typeof WordChainEntry>;
+} as Meta<typeof WordChainEntry>;
 
-const Template: ComponentStory<typeof WordChainEntry> = (args) => <WordChainEntry {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+export const Default: StoryObj = {
+  render: () => <WordChainEntry />,
+  name: '기본',
+};
