@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
-import { categoryLabel } from '@/components/projects/form/contants';
+import { categoryLabel } from '@/components/projects/form/constants';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 

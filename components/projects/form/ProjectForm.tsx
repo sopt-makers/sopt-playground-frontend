@@ -7,7 +7,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import TextArea from '@/components/common/TextArea';
-import { categoryLabel, CategoryType } from '@/components/projects/form/contants';
+import { categoryLabel, CategoryType } from '@/components/projects/form/constants';
 import CategoryField from '@/components/projects/form/fields/CategoryField';
 import GenerationField from '@/components/projects/form/fields/GenerationField';
 import MemberField from '@/components/projects/form/fields/MemberField';
