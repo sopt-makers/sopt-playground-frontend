@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { isEmpty } from 'lodash-es';
 import { FC, useMemo, useState } from 'react';
 
-import { getMembersSearchByName } from '@/api/endpoint/members';
+import { getMembersSearchByName } from '@/api/endpoint/members/getMembersSearchByName';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
@@ -176,8 +176,8 @@ const StyledFormWrapper = styled.div`
 `;
 const StyledMemberEditView = styled.div<{ isError: boolean }>`
   display: flex;
-  align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   column-gap: 10px;
+  align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   border-radius: 6px;
   background-color: ${colors.black60};
   padding: 10px;

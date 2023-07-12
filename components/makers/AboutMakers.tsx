@@ -30,11 +30,13 @@ const StyledAbout = styled.div`
   max-width: 800px;
 `;
 
-const MakersLogoBox = styled.div``;
+const MakersLogoBox = styled.div`
+  padding-top: 10px;
+`;
 
 const StyledLogo = styled(LogoMakersFull)`
   width: 100%;
-  max-width: 470px;
+  max-width: 350px;
 `;
 
 const Intro = styled.div`

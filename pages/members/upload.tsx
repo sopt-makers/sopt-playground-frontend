@@ -31,7 +31,10 @@ export default function MemberUploadPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const { handleSubmit } = formMethods;
+  const {
+    handleSubmit,
+    formState: { isValid },
+  } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
     const {
@@ -109,7 +112,7 @@ export default function MemberUploadPage() {
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
-        <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)}>
+        <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)} isValid={isValid}>
           <BasicFormSection />
           <SoptActivityFormSection />
           <TmiFormSection />

@@ -2,7 +2,7 @@ import { axiosInstance } from '@/api';
 import {
   Member,
   PagedMemberProfile,
-  PostMemberCoffeeChatVariables,
+  PostMemberMessageVariables,
   Profile,
   ProfileDetail,
   ProfileRequest,
@@ -26,16 +26,6 @@ export const getMemberById = async (id: number) => {
   });
 
   return data;
-};
-
-// 자신의 토큰으로 조회
-export const getMemberOfMe = async () => {
-  const data = await axiosInstance.request<Member>({
-    method: 'GET',
-    url: `api/v1/members/me`,
-  });
-
-  return data.data;
 };
 
 // 멤버 프로필 조회
@@ -77,7 +67,7 @@ export const getMembersSearchByName = async (name: string) => {
   return data;
 };
 
-export const postMemberCoffeeChat = async (variables: PostMemberCoffeeChatVariables) => {
+export const postMemberMessage = async (variables: PostMemberMessageVariables) => {
   const { data } = await axiosInstance.request<{
     success: boolean;
     message: string;

@@ -91,14 +91,11 @@ const InterestSection: FC<InterestSectionProps> = ({
       )}
       {isBalanceGameAvailable && (
         <InfoItem label='나는 어느 쪽?'>
-          <BalanceGame>
+          <BalanceGameWrapper>
             {balanceGameResults?.map((balanceGameResult, index) => (
-              <React.Fragment key={index}>
-                {balanceGameResult}
-                {index !== balanceGameResults.length - 1 && <VerticalLine />}
-              </React.Fragment>
+              <BalanceGameItem key={index}>{balanceGameResult}</BalanceGameItem>
             ))}
-          </BalanceGame>
+          </BalanceGameWrapper>
         </InfoItem>
       )}
       {idealType && (
@@ -164,28 +161,25 @@ const SelfIntroductionDescription = styled(Description)`
   white-space: pre-line;
 `;
 
-const BalanceGame = styled.div`
+const BalanceGameWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
-  column-gap: 20px;
   margin-top: 16px;
-  line-height: 160%;
-  ${textStyles.SUIT_18_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    column-gap: 12px;
     margin-top: 12px;
-    line-height: 140%;
-    ${textStyles.SUIT_16_M};
+    max-width: 236px;
   }
 `;
 
-const VerticalLine = styled.div`
-  background-color: ${colors.gray100};
-  width: 1.5px;
-  height: 14px;
+const BalanceGameItem = styled.div`
+  border-radius: 13px;
+  background-color: ${colors.black40};
+  padding: 6px 14px;
+  line-height: 16px;
+  color: ${colors.white};
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    height: 12px;
-  }
+  ${textStyles.SUIT_14_M};
 `;

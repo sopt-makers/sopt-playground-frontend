@@ -12,9 +12,10 @@ interface MemberFormProps {
   type: FormType;
   children: ReactNode;
   onSubmit: () => void;
+  isValid: boolean;
 }
 
-export default function MemberForm({ type, children, onSubmit }: MemberFormProps) {
+export default function MemberForm({ type, children, onSubmit, isValid }: MemberFormProps) {
   return (
     <StyledContainer>
       <StyledHeader>
@@ -23,27 +24,19 @@ export default function MemberForm({ type, children, onSubmit }: MemberFormProps
       </StyledHeader>
       <StyledForm onSubmit={(e) => e.preventDefault()}>
         {children}
-        <MobileSubmitButton onClick={onSubmit} className='mobile-only'>
-          완료
-        </MobileSubmitButton>
+        <SubmitButton onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
+          프로필 {TYPE_MAP[type]}하기
+        </SubmitButton>
       </StyledForm>
-      <StyledFooter className='pc-only'>
-        <div className='button-wrapper'>
-          <button onClick={onSubmit} className='submit'>
-            프로필 {TYPE_MAP[type]}하기
-          </button>
-        </div>
-      </StyledFooter>
     </StyledContainer>
   );
 }
 
 const StyledContainer = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 375px;
+  padding-bottom: 257px;
 
   & > * {
     width: 790px;
@@ -53,7 +46,7 @@ const StyledContainer = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding-bottom: 0;
+    padding-bottom: 222px;
   }
 `;
 
@@ -103,46 +96,27 @@ const StyledForm = styled.form`
   }
 `;
 
-const MobileSubmitButton = styled.button`
-  margin-top: 18px;
-  border-radius: 12px;
-  background-color: ${colors.purple100};
-  padding: 18px 0;
-  color: ${colors.white100};
-  font-size: 16px;
-  font-weight: 600;
-`;
-
-const StyledFooter = styled.div`
+const SubmitButton = styled.button<{ isDisabled: boolean }>`
   display: flex;
-  position: fixed;
-  bottom: 0;
   align-items: center;
+  align-self: flex-end;
   justify-content: center;
-  background-color: ${colors.black80};
-  width: 100vw;
-  height: 90px;
+  margin-top: 30px;
+  border-radius: 31px;
+  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
+  width: 163px;
+  height: 42px;
+  line-height: 120%;
+  color: ${({ isDisabled }) => (isDisabled ? colors.gray80 : colors.white100)};
 
-  .submit {
-    border-radius: 100px;
-    background-color: ${colors.purple100};
-    padding: 18px 50px;
+  ${textStyles.SUIT_14_M}
 
-    ${textStyles.SUIT_14_M}
-  }
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 12px;
+    width: 100%;
+    height: 52px;
+    line-height: 100%;
 
-  .button-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 790px;
-
-    button {
-      cursor: pointer;
-    }
-
-    @media (max-width: 790px) {
-      width: 100%;
-    }
+    ${textStyles.SUIT_16_SB}
   }
 `;

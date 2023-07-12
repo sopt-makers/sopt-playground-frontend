@@ -83,7 +83,7 @@ const LoginPage: FC = () => {
         </LinkContainer>
         <RegisterInfo>
           Playground가 처음이신가요?{' '}
-          <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink', {})}>
+          <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink')}>
             회원가입하기
           </RegisterLink>
         </RegisterInfo>
@@ -171,13 +171,13 @@ export const LoginDescription = styled.p`
 const LinkContainer = styled.div`
   display: flex;
   flex-direction: column;
+  row-gap: 20px;
   margin-top: 50px;
   width: 420px;
-  row-gap: 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
     row-gap: 10px;
+    width: 100%;
   }
 `;
 
@@ -266,6 +266,7 @@ const MadeByTitle = styled.h3`
 `;
 
 const StyledMakersLogo = styled.img`
+  margin-top: 10px;
   height: 53px;
 
   @media ${MOBILE_MEDIA_QUERY} {

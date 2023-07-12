@@ -110,9 +110,9 @@ const StyledSelectWrapper = styled.div`
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
+    row-gap: 11px;
     column-gap: 9px;
     height: 107px;
-    row-gap: 11px;
 
     .team {
       grid-column: span 2;

@@ -1,20 +1,21 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import CategoryField from './CategoryField';
 
 export default {
   component: CategoryField,
-} as ComponentMeta<typeof CategoryField>;
+} as Meta<typeof CategoryField>;
 
-const Template: ComponentStory<typeof CategoryField> = (args) => <CategoryField {...args} />;
+export const Default = {
+  args: {},
+  name: '기본',
+};
 
-export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+export const WithState: StoryObj<typeof CategoryField> = {
+  render: function Render(args) {
+    const [value, onChange] = useState<string | undefined>(undefined);
 
-export const WithState: ComponentStory<typeof CategoryField> = (args) => {
-  const [value, onChange] = useState<string | undefined>(undefined);
-
-  return <CategoryField {...args} value={value} onChange={onChange} />;
+    return <CategoryField {...args} value={value} onChange={onChange} />;
+  },
 };

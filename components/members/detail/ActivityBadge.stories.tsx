@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import ActivityBadge from './ActivityBadge';
 
@@ -12,17 +12,17 @@ export default {
       </div>
     ),
   ],
-} as ComponentMeta<typeof ActivityBadge>;
+} as Meta<typeof ActivityBadge>;
 
-const Template: ComponentStory<typeof ActivityBadge> = (args) => <ActivityBadge {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  category: '앱잼',
-  name: '너가소개서',
+export const Default = {
+  args: {
+    category: '앱잼',
+    name: '너가소개서',
+  },
 };
 
-export const WithoutCategory = Template.bind({});
-WithoutCategory.args = {
-  name: '팀블',
+export const WithoutCategory = {
+  args: {
+    name: '팀블',
+  },
 };

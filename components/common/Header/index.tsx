@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import { useGetMemberOfMe } from '@/api/endpoint_LEGACY/hooks';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useAuth from '@/components/auth/useAuth';
 import DesktopHeader from '@/components/common/Header/desktop/DesktopHeader';
 import MobileHeader from '@/components/common/Header/mobile/MobileHeader';
@@ -26,7 +26,7 @@ const Header: FC = () => {
     }
     if (me && href.includes(playgroundLink.memberDetail(`${me.id}`))) {
       return (
-        <Link href={href} onClick={() => logClickEvent('myProfile', {})}>
+        <Link href={href} onClick={() => logClickEvent('myProfile')}>
           {children}
         </Link>
       );

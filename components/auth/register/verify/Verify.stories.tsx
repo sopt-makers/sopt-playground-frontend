@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import Verify from './Verify';
 
@@ -12,10 +12,9 @@ export default {
       </div>
     ),
   ],
-} as ComponentMeta<typeof Verify>;
+} as Meta<typeof Verify>;
 
-const Template: ComponentStory<typeof Verify> = (args) => <Verify {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {};
-Default.storyName = '기본';
+export const Default = {
+  args: {},
+  name: '기본',
+};

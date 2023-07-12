@@ -41,12 +41,13 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
           href: playgroundLink.groupList(),
           children: <NavItem isActive={activePathMatcher(playgroundLink.groupList())}>모임</NavItem>,
         })}
+        <NavItem isActive={false}>|</NavItem>
+        {renderLink({
+          href: playgroundLink.sopticle(),
+          children: <NavItem isActive={activePathMatcher(playgroundLink.sopticle())}>솝티클</NavItem>,
+        })}
       </NavArea>
       <ActionArea>
-        {renderLink({
-          href: playgroundLink.projectUpload(),
-          children: <StyledUploadButton>+ 내 프로젝트 올리기</StyledUploadButton>,
-        })}
         <ProfileButtonHolder>
           <ProfileDropdown
             myProfileHref={user ? playgroundLink.memberDetail(user.id) : ''}

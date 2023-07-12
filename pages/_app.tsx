@@ -17,6 +17,7 @@ import GoogleTagManagerScript from '@/components/googleTagManager/Script';
 import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
 import { colors } from '@/styles/colors';
 import GlobalStyle from '@/styles/GlobalStyle';
+import { useChannelService } from '@/utils/channelService/useChannelService';
 import { getLayout } from '@/utils/layout';
 
 const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
@@ -40,16 +41,18 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', gtm.pageview);
     };
   }, [router.events]);
+  useChannelService();
 
   return (
     <QueryClientProvider client={queryClient}>
       <Head>
         <title>SOPT Playground</title>
+        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
       </Head>
       <GoogleTagManagerScript />
       <RecoilRoot>
         <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
-          <LazyMotion strict features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
+          <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
             <ToastProvider>
               <GlobalStyle />
               <ResponsiveProvider>

@@ -27,6 +27,7 @@ export type Profile = {
 export type PagedMemberProfile = {
   members: Profile[];
   hasNext: boolean;
+  totalMembersCount: number;
 };
 
 export type ProfileDetail = {
@@ -158,7 +159,7 @@ export interface ProfileRequest {
   selfIntroduction: string | null;
 }
 
-export interface PostMemberCoffeeChatVariables {
+export interface PostMemberMessageVariables {
   receiverId: string;
   senderEmail: string;
   category: string;

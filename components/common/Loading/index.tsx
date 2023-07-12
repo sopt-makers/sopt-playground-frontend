@@ -31,27 +31,34 @@ const variants: AnimationProps['variants'] = {
   },
 };
 
+type LoadingColor = 'default' | 'white';
+
 interface LoadingProps {
   type?: 'default' | 'fullPage';
+  color?: LoadingColor;
 }
-const Loading: FC<LoadingProps> = ({ type = 'default' }) => {
+const Loading: FC<LoadingProps> = ({ type = 'default', color = 'default' }) => {
   if (type === 'fullPage') {
     return (
       <FullPageWrapper>
-        <LoadingDefault />
+        <LoadingDefault color={color} />
       </FullPageWrapper>
     );
   }
-  return <LoadingDefault />;
+  return <LoadingDefault color={color} />;
 };
 
 export default Loading;
 
-const LoadingDefault = () => (
+interface LoadingDefaultProps {
+  color: LoadingColor;
+}
+
+const LoadingDefault = ({ color }: LoadingDefaultProps) => (
   <StyledLoading>
-    <LoadingDot variants={variants} animate='loadingOne' />
-    <LoadingDot variants={variants} animate='loadingTwo' />
-    <LoadingDot variants={variants} animate='loadingThree' />
+    <LoadingDot variants={variants} animate='loadingOne' color={color} />
+    <LoadingDot variants={variants} animate='loadingTwo' color={color} />
+    <LoadingDot variants={variants} animate='loadingThree' color={color} />
   </StyledLoading>
 );
 
@@ -69,9 +76,9 @@ const StyledLoading = styled.div`
   align-items: center;
 `;
 
-const LoadingDot = styled(m.span)`
+const LoadingDot = styled(m.span)<{ color: LoadingColor }>`
   border-radius: 100%;
-  background-color: ${colors.purple100};
+  background-color: ${({ color }) => (color === 'default' ? colors.purple100 : colors.white)};
   width: 12px;
   height: 12px;
 `;

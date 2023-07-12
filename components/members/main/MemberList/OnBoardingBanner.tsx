@@ -6,6 +6,7 @@ import { FC } from 'react';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -38,12 +39,10 @@ const OnBoardingBanner: FC<OnBoardingBannerProps> = ({ className, name }) => {
       </LeftContainer>
       <ButtonContainer>
         <Link href={playgroundLink.projectUpload()} passHref legacyBehavior>
-          <UploadButton onClick={() => logClickEvent('onboardingBannerProjectUpload', {})}>
-            프로젝트 업로드
-          </UploadButton>
+          <UploadButton onClick={() => logClickEvent('onboardingBannerProjectUpload')}>프로젝트 업로드</UploadButton>
         </Link>
         <Link href={playgroundLink.memberUpload()} passHref legacyBehavior>
-          <ProfileButton onClick={() => logClickEvent('onboardingBannerProfileUpload', {})}>프로필 추가</ProfileButton>
+          <ProfileButton onClick={() => logClickEvent('onboardingBannerProfileUpload')}>프로필 추가</ProfileButton>
         </Link>
       </ButtonContainer>
     </IntroducePanel>
@@ -61,6 +60,13 @@ const IntroducePanel = styled.section`
   padding: 59px 64px;
   width: 100%;
   height: 208px;
+
+  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    flex-direction: column;
+    row-gap: 30px;
+    padding: 30px;
+    height: auto;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;

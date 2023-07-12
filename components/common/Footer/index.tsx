@@ -22,7 +22,7 @@ const Footer: FC<FooterProps> = ({}) => {
   return (
     <StyledFooter hide={isScrollingDown && !isScrollTop}>
       <Link href={playgroundLink.makers()} passHref legacyBehavior>
-        <FooterLink highlight={pathname === playgroundLink.makers()} onClick={() => logClickEvent('aboutMakers', {})}>
+        <FooterLink highlight={pathname === playgroundLink.makers()} onClick={() => logClickEvent('aboutMakers')}>
           만든 사람들
         </FooterLink>
       </Link>
