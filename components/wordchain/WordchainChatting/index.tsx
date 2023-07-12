@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
-import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 import {
   useGetActiveWordchain,
@@ -9,6 +9,7 @@ import {
   wordChainQueryKey,
 } from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
+import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
@@ -77,6 +78,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     isError: false,
     errorMessage: '',
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -116,9 +118,10 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     }
   }, [isVisible, fetchNextPage]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
       scrollToBottom();
+      setIsLoading(false);
     }, 500);
   }, [activeWordchain]);
 
@@ -156,11 +159,15 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
         </ErrorMessage>
         <Triangle isVisible={isError} />
       </Form>
+      <LoadingWrapper isVisible={isLoading}>
+        <Loading />
+      </LoadingWrapper>
     </Container>
   );
 }
 
 const Container = styled.div`
+  position: relative;
   border-radius: 30px;
   background-color: ${colors.black80};
   padding: 40px;
@@ -270,6 +277,20 @@ const Triangle = styled.div<{ isVisible: boolean }>`
   border-left: 8px solid transparent;
   width: 0;
   height: 0;
+`;
+
+const LoadingWrapper = styled.div<{ isVisible: boolean }>`
+  display: ${({ isVisible }) => (isVisible ? 'flex' : 'none')};
+  position: absolute;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  background-color: ${colors.black80};
+  padding: 40px;
+  width: 790px;
+  height: 100%;
 `;
 
 const WaringIconSvg = (
