@@ -14,17 +14,36 @@ export const uploadSchema = z.object({
     endAt: dateStringSchema.nullable(),
   }),
   category: z.string({ required_error: '프로젝트를 어디서 진행했는지 선택해주세요.' }),
-  status: z.object({
-    isAvailable: z.boolean(),
-    isFounding: z.boolean(),
-  }),
-  members: z.array(
+  members: z
+    .array(
+      z.object({
+        memberId: z
+          .string({
+            required_error: '유저를 선택해주세요.',
+          })
+          .min(1, '유저를 선택해주세요.'),
+        memberRole: z.string().min(1, '역할을 선택해주세요.'),
+        memberDescription: z.string().min(1, '어떤 역할을 맡았는지 입력해주세요.'),
+      }),
+    )
+    .min(1, '프로젝트를 멤버를 추가해주세요.'),
+  releaseMembers: z.array(
     z.object({
-      memberId: z.string().min(1, '유저를 선택해주세요.'),
+      memberId: z
+        .string({
+          required_error: '유저를 선택해주세요.',
+        })
+        .min(1, '유저를 선택해주세요.'),
       memberRole: z.string().min(1, '역할을 선택해주세요.'),
       memberDescription: z.string().min(1, '어떤 역할을 맡았는지 입력해주세요.'),
     }),
   ),
+  summary: z.string().min(1, '프로젝트 한줄 소개를 입력해주세요.'),
+  detail: z.string().min(1, '프로젝트 설명을 입력해주세요.'),
+  status: z.object({
+    isAvailable: z.boolean(),
+    isFounding: z.boolean(),
+  }),
   serviceType: z.array(z.string()).nonempty('서비스 형태를 선택해주세요.'),
   links: z.array(
     z.object({
@@ -44,11 +63,14 @@ export const defaultUploadValues: DefaultValues<ProjectFormType> = {
     endAt: '',
   },
   category: undefined,
+  members: [DEFAULT_MEMBER],
+  releaseMembers: [],
+  detail: '',
+  summary: '',
   status: {
     isAvailable: false,
     isFounding: false,
   },
-  members: [DEFAULT_MEMBER],
   serviceType: [],
   links: [],
 };
