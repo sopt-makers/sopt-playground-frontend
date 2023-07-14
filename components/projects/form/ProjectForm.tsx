@@ -58,12 +58,6 @@ const ProjectForm: FC<ProjectFormProps> = ({
     control,
     name: 'releaseMembers',
   });
-  const { category } = useWatch({
-    control,
-  });
-  const { errors } = useFormState({
-    control,
-  });
   const {
     fields: linkFields,
     append: appendLink,
@@ -71,6 +65,13 @@ const ProjectForm: FC<ProjectFormProps> = ({
   } = useFieldArray({
     control,
     name: 'links',
+  });
+
+  const { category } = useWatch({
+    control,
+  });
+  const { errors } = useFormState({
+    control,
   });
 
   const submit = (data: ProjectFormType) => {
@@ -99,6 +100,9 @@ const ProjectForm: FC<ProjectFormProps> = ({
               <CategoryField {...field} errorMessage={errors.category?.message} isError={!!errors.category} />
             )}
           />
+        </FormEntry>
+        <FormEntry title='프로젝트 현재 상태'>
+          <Controller control={control} name='status' render={({ field }) => <StatusField {...field} />} />
         </FormEntry>
         <FormEntry
           title={`${category ? categoryLabel[category as CategoryType] + ' ' : ''}팀원`}
@@ -163,6 +167,13 @@ const ProjectForm: FC<ProjectFormProps> = ({
             + 추가하기
           </StyledAddButton>
         </FormEntry>
+        <FormEntry title='서비스 형태' required comment='복수 선택 가능'>
+          <Controller
+            control={control}
+            name='serviceType'
+            render={({ field }) => <ServiceTypeField {...field} errorMessage={errors.serviceType?.message} />}
+          />
+        </FormEntry>
         <FormEntry title='프로젝트 기간' required>
           <Controller
             control={control}
@@ -196,16 +207,6 @@ const ProjectForm: FC<ProjectFormProps> = ({
             maxCount={500}
           />
           <ErrorMessage message={errors.detail?.message} />
-        </FormEntry>
-        <FormEntry title='프로젝트 현재 상태'>
-          <Controller control={control} name='status' render={({ field }) => <StatusField {...field} />} />
-        </FormEntry>
-        <FormEntry title='서비스 형태' required comment='복수 선택 가능'>
-          <Controller
-            control={control}
-            name='serviceType'
-            render={({ field }) => <ServiceTypeField {...field} errorMessage={errors.serviceType?.message} />}
-          />
         </FormEntry>
         <FormEntry
           title='링크'
@@ -243,6 +244,13 @@ const ProjectForm: FC<ProjectFormProps> = ({
           <StyledAddButton type='button' onClick={() => appendLink(DEFAULT_LINK)}>
             + 추가하기
           </StyledAddButton>
+        </FormEntry>
+        <FormEntry
+          title='로고 이미지'
+          required
+          description='가로 300px 세로 300px을 권장해요. 예외 규격은 잘릴 수 있어요.'
+        >
+          {/*  */}
         </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>
