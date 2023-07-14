@@ -25,6 +25,8 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+const PROJECT_IMAGE_MAX_LENGTH = 10;
+
 interface ProjectFormProps {
   onSubmit?: (formData: ProjectFormType) => void;
   submitButtonContent: ReactNode;
@@ -60,6 +62,14 @@ const ProjectForm: FC<ProjectFormProps> = ({
     name: 'releaseMembers',
   });
   const {
+    fields: projectImageFields,
+    append: appendProjectImage,
+    remove: removeProjectImage,
+  } = useFieldArray({
+    control,
+    name: 'projectImages',
+  });
+  const {
     fields: linkFields,
     append: appendLink,
     remove: removeLink,
@@ -68,7 +78,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
     name: 'links',
   });
 
-  const { category, logoImage, thumbnailImage } = useWatch({
+  const { category, projectImages } = useWatch({
     control,
   });
   const { errors } = useFormState({
@@ -78,8 +88,6 @@ const ProjectForm: FC<ProjectFormProps> = ({
   const submit = (data: ProjectFormType) => {
     onSubmit?.(data);
   };
-
-  console.log('[thumbnailImage]: ', thumbnailImage);
 
   return (
     <StyledFormContainer>
@@ -211,8 +219,6 @@ const ProjectForm: FC<ProjectFormProps> = ({
           />
           <ErrorMessage message={errors.detail?.message} />
         </FormEntry>
-        {/*  */}
-
         <FormEntry
           title='로고 이미지'
           required
@@ -221,7 +227,9 @@ const ProjectForm: FC<ProjectFormProps> = ({
           <Controller
             control={control}
             name='logoImage'
-            render={({ field }) => <ImageUploader width={104} height={104} {...field} />}
+            render={({ field }) => (
+              <ImageUploader width={104} height={104} errorMessage={errors.logoImage?.message} {...field} />
+            )}
           />
         </FormEntry>
         <FormEntry
@@ -237,15 +245,40 @@ const ProjectForm: FC<ProjectFormProps> = ({
           <Controller
             control={control}
             name='thumbnailImage'
-            render={({ field }) => <ImageUploader width={368} height={208} {...field} />}
+            render={({ field }) => (
+              <ImageUploader width={368} height={208} errorMessage={errors.thumbnailImage?.message} {...field} />
+            )}
           />
         </FormEntry>
-
         <FormEntry
           title='프로젝트 이미지 (최대 10장까지 업로드 가능)'
           description='10MB 이내로 가로 1200px, 세로는 675px 사이즈를 권장해요.'
         >
-          {/*  */}
+          <ProjectImageWrapper>
+            {projectImageFields.map((field, index) => (
+              <Controller
+                key={field.id}
+                control={control}
+                name={`projectImages.${index}`}
+                render={({ field }) => (
+                  <ImageUploader
+                    width={192}
+                    height={108}
+                    {...field}
+                    value={field.value.imageUrl}
+                    onChange={(value) => field.onChange({ imageUrl: value })}
+                    onRemove={() => removeProjectImage(index)}
+                    errorMessage={errors.projectImages?.[index]?.imageUrl?.message}
+                  />
+                )}
+              />
+            ))}
+            {projectImageFields.length < PROJECT_IMAGE_MAX_LENGTH && (
+              <ProjectImageAddButton type='button' onClick={() => appendProjectImage({ imageUrl: '' })}>
+                <IconPlus />
+              </ProjectImageAddButton>
+            )}
+          </ProjectImageWrapper>
         </FormEntry>
         <FormEntry
           title='링크'
@@ -376,3 +409,24 @@ const StyledTextArea = styled(TextArea)`
     ${textStyles.SUIT_14_M};
   }
 `;
+
+const ProjectImageWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  width: 100%;
+`;
+
+const ProjectImageAddButton = styled.button`
+  border-radius: 6px;
+  background-color: ${colors.black60};
+  width: 192px;
+  height: 108px;
+`;
+
+const IconPlus = () => (
+  <svg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <path d='M1 9H17' stroke='#606265' stroke-width='2' stroke-linecap='round' />
+    <path d='M9 1L9 17' stroke='#606265' stroke-width='2' stroke-linecap='round' />
+  </svg>
+);

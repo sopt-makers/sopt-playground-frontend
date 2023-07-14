@@ -4,6 +4,7 @@ import axios from 'axios';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl } from '@/api/endpoint_LEGACY/image';
+import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconImage from '@/public/icons/icon-image.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
@@ -18,7 +19,7 @@ interface ImageUploaderProps {
   onRemove?: () => void;
   className?: string;
   emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  error?: boolean;
+  errorMessage?: string;
   src?: string;
 }
 
@@ -30,7 +31,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   value,
   className,
   emptyIcon: EmptyIcon = IconImage,
-  error,
+  errorMessage,
   src,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -106,35 +107,44 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   }, [selectorRef, isOpenSelector]);
 
   return (
-    <Container className={className} width={width} height={height} onClick={handleChange} error={error}>
-      <StyledInput type='file' accept='image/*' ref={inputRef} />
-      {value && previewImage ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
-      <StyledSelectorControlButton
-        type='button'
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsOpenSelector(true);
-        }}
+    <div>
+      <Container
+        className={className}
+        width={width}
+        height={height}
+        onClick={handleChange}
+        error={Boolean(errorMessage)}
       >
-        <IconPencil />
-      </StyledSelectorControlButton>
-      <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
-        <StyledEditButton type='button' onClick={handleEdit}>
+        <StyledInput type='file' accept='image/*' ref={inputRef} />
+        {value && previewImage ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
+        <StyledSelectorControlButton
+          type='button'
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpenSelector(true);
+          }}
+        >
           <IconPencil />
-          <div>수정</div>
-        </StyledEditButton>
-        <StyledRemoveButton type='button' onClick={handleRemove}>
-          <IconCancel />
-          <div>삭제</div>
-        </StyledRemoveButton>
-      </StyledSelector>
-    </Container>
+        </StyledSelectorControlButton>
+        <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
+          <StyledEditButton type='button' onClick={handleEdit}>
+            <IconPencil />
+            <div>수정</div>
+          </StyledEditButton>
+          <StyledRemoveButton type='button' onClick={handleRemove}>
+            <IconCancel />
+            <div>삭제</div>
+          </StyledRemoveButton>
+        </StyledSelector>
+      </Container>
+      <StyledErrorMessage message={errorMessage} />
+    </div>
   );
 };
 
 export default ImageUploader;
 
-const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height' | 'error'>>`
+const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { error: boolean }>`
   display: flex;
   position: relative;
   align-items: center;
@@ -221,4 +231,8 @@ const StyledRemoveButton = styled.button`
   cursor: pointer;
 
   ${editButtonStyle}
+`;
+
+const StyledErrorMessage = styled(ErrorMessage)`
+  margin-top: 10px;
 `;
