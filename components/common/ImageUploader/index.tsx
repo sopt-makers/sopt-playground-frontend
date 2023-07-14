@@ -109,15 +109,15 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
       {value && previewImage ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
-      <StyledSelectorControlButton>
+      <StyledSelectorControlButton type='button'>
         <IconPencil />
       </StyledSelectorControlButton>
       <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
-        <StyledEditButton onClick={handleChange}>
+        <StyledEditButton type='button' onClick={handleChange}>
           <IconPencil />
           <div>수정</div>
         </StyledEditButton>
-        <StyledRemoveButton onClick={remove}>
+        <StyledRemoveButton type='button' onClick={remove}>
           <IconCancel />
           <div>삭제</div>
         </StyledRemoveButton>

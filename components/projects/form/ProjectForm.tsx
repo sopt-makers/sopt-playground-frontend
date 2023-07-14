@@ -4,6 +4,7 @@ import { FC, ReactNode } from 'react';
 import { Controller, useFieldArray, useForm, useFormState, useWatch } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
+import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Responsive from '@/components/common/Responsive';
@@ -67,7 +68,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
     name: 'links',
   });
 
-  const { category } = useWatch({
+  const { category, logoImage, thumbnailImage } = useWatch({
     control,
   });
   const { errors } = useFormState({
@@ -77,6 +78,8 @@ const ProjectForm: FC<ProjectFormProps> = ({
   const submit = (data: ProjectFormType) => {
     onSubmit?.(data);
   };
+
+  console.log('[thumbnailImage]: ', thumbnailImage);
 
   return (
     <StyledFormContainer>
@@ -208,6 +211,42 @@ const ProjectForm: FC<ProjectFormProps> = ({
           />
           <ErrorMessage message={errors.detail?.message} />
         </FormEntry>
+        {/*  */}
+
+        <FormEntry
+          title='로고 이미지'
+          required
+          description='가로 300px 세로 300px을 권장해요. 예외 규격은 잘릴 수 있어요.'
+        >
+          <Controller
+            control={control}
+            name='logoImage'
+            render={({ field }) => <ImageUploader width={104} height={104} {...field} />}
+          />
+        </FormEntry>
+        <FormEntry
+          title='썸네일 이미지'
+          required
+          description={
+            <>
+              16:9 비율로 가로 368px 세로208px을 권장해요.
+              <Responsive only='mobile'>웹페이지에서 등록을 권장해요.</Responsive>
+            </>
+          }
+        >
+          <Controller
+            control={control}
+            name='thumbnailImage'
+            render={({ field }) => <ImageUploader width={368} height={208} {...field} />}
+          />
+        </FormEntry>
+
+        <FormEntry
+          title='프로젝트 이미지 (최대 10장까지 업로드 가능)'
+          description='10MB 이내로 가로 1200px, 세로는 675px 사이즈를 권장해요.'
+        >
+          {/*  */}
+        </FormEntry>
         <FormEntry
           title='링크'
           description={
@@ -244,13 +283,6 @@ const ProjectForm: FC<ProjectFormProps> = ({
           <StyledAddButton type='button' onClick={() => appendLink(DEFAULT_LINK)}>
             + 추가하기
           </StyledAddButton>
-        </FormEntry>
-        <FormEntry
-          title='로고 이미지'
-          required
-          description='가로 300px 세로 300px을 권장해요. 예외 규격은 잘릴 수 있어요.'
-        >
-          {/*  */}
         </FormEntry>
         <SubmitContainer>
           <Button type='submit' variant='primary'>
