@@ -69,21 +69,18 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     inputEl.click();
   };
 
-  const remove = () => {
+  const handleRemove = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     setPreviewImage(undefined);
     onChange?.(null);
     onRemove?.();
   };
 
-  const handleClick = () => {
-    if (previewImage?.length) {
-      openSelector();
-    } else {
-      handleChange();
-    }
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    handleChange();
   };
 
-  const openSelector = () => setIsOpenSelector(true);
   const closeSelector = () => setIsOpenSelector(false);
 
   useEffect(() => {
@@ -109,18 +106,24 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   }, [selectorRef, isOpenSelector]);
 
   return (
-    <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
+    <Container className={className} width={width} height={height} onClick={handleChange} error={error}>
       <StyledInput type='file' accept='image/*' ref={inputRef} />
       {value && previewImage ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
-      <StyledSelectorControlButton type='button'>
+      <StyledSelectorControlButton
+        type='button'
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpenSelector(true);
+        }}
+      >
         <IconPencil />
       </StyledSelectorControlButton>
       <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
-        <StyledEditButton type='button' onClick={handleChange}>
+        <StyledEditButton type='button' onClick={handleEdit}>
           <IconPencil />
           <div>수정</div>
         </StyledEditButton>
-        <StyledRemoveButton type='button' onClick={remove}>
+        <StyledRemoveButton type='button' onClick={handleRemove}>
           <IconCancel />
           <div>삭제</div>
         </StyledRemoveButton>
