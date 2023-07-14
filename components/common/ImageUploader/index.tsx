@@ -15,6 +15,7 @@ interface ImageUploaderProps {
   height?: number | string;
   value?: string | null;
   onChange?: (value: string | null) => void;
+  onRemove?: () => void;
   className?: string;
   emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
   error?: boolean;
@@ -24,6 +25,7 @@ interface ImageUploaderProps {
 const ImageUploader: FC<ImageUploaderProps> = ({
   width = 104,
   height = 104,
+  onRemove,
   onChange,
   value,
   className,
@@ -70,6 +72,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   const remove = () => {
     setPreviewImage(undefined);
     onChange?.(null);
+    onRemove?.();
   };
 
   const handleClick = () => {
@@ -176,6 +179,7 @@ const StyledSelector = styled.div<{ isOpen: boolean }>`
   position: absolute;
   right: -40px;
   bottom: 35px;
+  z-index: 1;
 `;
 
 const editButtonStyle = css`
