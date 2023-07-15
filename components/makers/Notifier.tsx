@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import IconBell from '@/public/icons/icon-bell.svg';
+// import IconBell from '@/public/icons/icon-bell.svg';
 import IconOutgoing from '@/public/icons/icon-link-outgoing.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
