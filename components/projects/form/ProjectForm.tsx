@@ -78,7 +78,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
     name: 'links',
   });
 
-  const { category, projectImages } = useWatch({
+  const { category } = useWatch({
     control,
   });
   const { errors } = useFormState({
