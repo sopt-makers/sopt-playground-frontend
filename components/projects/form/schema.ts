@@ -49,7 +49,7 @@ export const uploadSchema = z.object({
   thumbnailImage: z.string().min(1, '썸네일 이미지를 업로드해주세요.'),
   projectImages: z.array(
     z.object({
-      imageUrl: z.string().min(1, '프로젝트 이미지를 업로드해주세요.'),
+      imageUrl: z.string().min(1, '이미지를 업로드해주세요.'),
     }),
   ),
   links: z.array(

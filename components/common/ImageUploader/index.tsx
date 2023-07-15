@@ -107,7 +107,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   }, [selectorRef, isOpenSelector]);
 
   return (
-    <div>
+    <StyledWrapper>
       <Container
         className={className}
         width={width}
@@ -137,16 +137,23 @@ const ImageUploader: FC<ImageUploaderProps> = ({
           </StyledRemoveButton>
         </StyledSelector>
       </Container>
-      <StyledErrorMessage message={errorMessage} />
-    </div>
+      {errorMessage && <ErrorMessage message={errorMessage} />}
+    </StyledWrapper>
   );
 };
 
 export default ImageUploader;
 
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { error: boolean }>`
   display: flex;
   position: relative;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
@@ -231,8 +238,4 @@ const StyledRemoveButton = styled.button`
   cursor: pointer;
 
   ${editButtonStyle}
-`;
-
-const StyledErrorMessage = styled(ErrorMessage)`
-  margin-top: 10px;
 `;

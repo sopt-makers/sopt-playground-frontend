@@ -246,7 +246,14 @@ const ProjectForm: FC<ProjectFormProps> = ({
             control={control}
             name='thumbnailImage'
             render={({ field }) => (
-              <ImageUploader width={368} height={208} errorMessage={errors.thumbnailImage?.message} {...field} />
+              <>
+                <Responsive only='desktop'>
+                  <ImageUploader width={368} height={208} errorMessage={errors.thumbnailImage?.message} {...field} />
+                </Responsive>
+                <Responsive only='mobile'>
+                  <ImageUploader width='100%' height={185} errorMessage={errors.thumbnailImage?.message} {...field} />
+                </Responsive>
+              </>
             )}
           />
         </FormEntry>
@@ -260,17 +267,27 @@ const ProjectForm: FC<ProjectFormProps> = ({
                 key={field.id}
                 control={control}
                 name={`projectImages.${index}`}
-                render={({ field }) => (
-                  <ImageUploader
-                    width={192}
-                    height={108}
-                    {...field}
-                    value={field.value.imageUrl}
-                    onChange={(value) => field.onChange({ imageUrl: value })}
-                    onRemove={() => removeProjectImage(index)}
-                    errorMessage={errors.projectImages?.[index]?.imageUrl?.message}
-                  />
-                )}
+                render={({ field }) => {
+                  const commonProps = {
+                    ...field,
+                    value: field.value.imageUrl,
+                    onChange: (value: string | null) => field.onChange({ imageUrl: value }),
+                    onRemove: () => removeProjectImage(index),
+                    errorMessage: errors.projectImages?.[index]?.imageUrl?.message
+                      ? `${index + 1}번째 ${errors.projectImages?.[index]?.imageUrl?.message}`
+                      : undefined,
+                  };
+                  return (
+                    <>
+                      <Responsive only='desktop'>
+                        <ImageUploader width={192} height={108} {...commonProps} />
+                      </Responsive>
+                      <Responsive only='mobile'>
+                        <ImageUploader width={158} height={89} {...commonProps} />
+                      </Responsive>
+                    </>
+                  );
+                }}
               />
             ))}
             {projectImageFields.length < PROJECT_IMAGE_MAX_LENGTH && (
@@ -412,9 +429,13 @@ const StyledTextArea = styled(TextArea)`
 
 const ProjectImageWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 192px);
   gap: 15px;
-  width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid-template-columns: repeat(2, 158px);
+    gap: 10px;
+  }
 `;
 
 const ProjectImageAddButton = styled.button`
@@ -422,6 +443,11 @@ const ProjectImageAddButton = styled.button`
   background-color: ${colors.black60};
   width: 192px;
   height: 108px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 158px;
+    height: 89px;
+  }
 `;
 
 const IconPlus = () => (
