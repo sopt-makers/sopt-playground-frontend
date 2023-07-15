@@ -211,13 +211,13 @@ const MobileResponsive = styled(Responsive)`
   width: 100%;
 `;
 
-const Divider = styled.hr`
-  margin: 24px 0 0;
-  border: none;
-  background-color: ${colors.black60};
-  width: 100%;
-  height: 1.5px;
-`;
+// const Divider = styled.hr`
+//   margin: 24px 0 0;
+//   border: none;
+//   background-color: ${colors.black60};
+//   width: 100%;
+//   height: 1.5px;
+// `;
 
 const MobileNotSupportedText = styled(Text)`
   display: flex;

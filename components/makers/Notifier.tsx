@@ -70,17 +70,17 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const SubscribeButton = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  background-color: ${colors.purple100};
-  cursor: pointer;
-  padding: 14px 20px;
+// const SubscribeButton = styled.a`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: 6px;
+//   background-color: ${colors.purple100};
+//   cursor: pointer;
+//   padding: 14px 20px;
 
-  ${textStyles.SUIT_14_B}
-`;
+//   ${textStyles.SUIT_14_B}
+// `;
 
 const ExpiredButton = styled.a`
   display: flex;
@@ -99,9 +99,9 @@ const ExpiredButton = styled.a`
   }
 `;
 
-const StyledBellIcon = styled(IconBell)`
-  margin-right: 7px;
-`;
+// const StyledBellIcon = styled(IconBell)`
+//   margin-right: 7px;
+// `;
 
 const StyledOutgoingIcon = styled(IconOutgoing)`
   margin-right: 6px;

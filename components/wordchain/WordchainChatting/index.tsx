@@ -123,6 +123,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       scrollToBottom();
       setIsLoading(false);
     }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWordchain]);
 
   return (
