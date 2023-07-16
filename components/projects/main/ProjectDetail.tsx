@@ -95,13 +95,12 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
         </ServiceInfoWrapper>
       </Header>
 
-      {project?.images.length === 1 ? (
+      {project?.images.length === 1 && (
         <MainImageWrapper>
           <MainImage src={mainImage} alt={project?.name} />
         </MainImageWrapper>
-      ) : (
-        <StyledProjectImageSlider images={project?.images ?? []} />
       )}
+      {(project?.images ?? []).length > 1 && <StyledProjectImageSlider images={project?.images ?? []} />}
 
       <ProjectDetailContainer>
         <DetailContainer>
