@@ -15,17 +15,19 @@ interface ImageUploaderProps {
   src?: string;
   width?: CSSValueWithLength;
   height?: CSSValueWithLength;
-  value?: string | null;
+  value?: string;
   className?: string;
   emptyIcon?: ReactNode;
   errorMessage?: string;
-  onChange?: (value: string | null) => void;
+  onChange?: (value: string) => void;
+  onDelete?: () => void;
 }
 
 const ListImageUploader: FC<ImageUploaderProps> = ({
   width = 192,
   height = 108,
   onChange,
+  onDelete,
   value,
   className,
   emptyIcon: EmptyIcon = <IconPlus />,
@@ -79,6 +81,7 @@ const ListImageUploader: FC<ImageUploaderProps> = ({
     setPreviewImage(undefined);
     onChange?.('');
     closeSelector();
+    onDelete?.();
   };
 
   const handleClick = () => {

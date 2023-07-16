@@ -21,6 +21,7 @@ import StatusField from '@/components/projects/form/fields/StatusField';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import UploadProjectProgress from '@/components/projects/form/UploadProjectProgress';
+import ListImageUploader from '@/components/projects/upload/ListImageUploader/ListImageUploader';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -271,30 +272,33 @@ const ProjectForm: FC<ProjectFormProps> = ({
                   const commonProps = {
                     ...field,
                     value: field.value.imageUrl,
-                    onChange: (value: string | null) => field.onChange({ imageUrl: value }),
-                    onRemove: () => removeProjectImage(index),
-                    errorMessage: errors.projectImages?.[index]?.imageUrl?.message
-                      ? `${index + 1}번째 ${errors.projectImages?.[index]?.imageUrl?.message}`
-                      : undefined,
+                    onChange: (value: string) => {
+                      field.onChange({ imageUrl: value });
+                      const isEdit = field.value.imageUrl !== '';
+                      if (!isEdit && value && projectImageFields.length < PROJECT_IMAGE_MAX_LENGTH) {
+                        appendProjectImage({ imageUrl: '' });
+                      }
+                    },
+                    onDelete: () => {
+                      if (projectImageFields.length > 1) {
+                        removeProjectImage(index);
+                      }
+                    },
+                    errorMessage: errors.projectImages?.message,
                   };
                   return (
                     <>
                       <Responsive only='desktop'>
-                        <ImageUploader width={192} height={108} {...commonProps} />
+                        <ListImageUploader width={192} height={108} {...commonProps} />
                       </Responsive>
                       <Responsive only='mobile'>
-                        <ImageUploader width={158} height={89} {...commonProps} />
+                        <ListImageUploader width={158} height={89} {...commonProps} />
                       </Responsive>
                     </>
                   );
                 }}
               />
             ))}
-            {projectImageFields.length < PROJECT_IMAGE_MAX_LENGTH && (
-              <ProjectImageAddButton type='button' onClick={() => appendProjectImage({ imageUrl: '' })}>
-                <IconPlus />
-              </ProjectImageAddButton>
-            )}
           </ProjectImageWrapper>
         </FormEntry>
         <FormEntry
@@ -334,6 +338,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
             + 추가하기
           </StyledAddButton>
         </FormEntry>
+        <ListImageUploader />
         <SubmitContainer>
           <Button type='submit' variant='primary'>
             {submitButtonContent}
@@ -437,22 +442,3 @@ const ProjectImageWrapper = styled.div`
     gap: 10px;
   }
 `;
-
-const ProjectImageAddButton = styled.button`
-  border-radius: 6px;
-  background-color: ${colors.black60};
-  width: 192px;
-  height: 108px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 158px;
-    height: 89px;
-  }
-`;
-
-const IconPlus = () => (
-  <svg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <path d='M1 9H17' stroke='#606265' stroke-width='2' stroke-linecap='round' />
-    <path d='M9 1L9 17' stroke='#606265' stroke-width='2' stroke-linecap='round' />
-  </svg>
-);

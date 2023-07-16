@@ -47,11 +47,19 @@ export const uploadSchema = z.object({
   serviceType: z.array(z.string()).nonempty('서비스 형태를 선택해주세요.'),
   logoImage: z.string().min(1, '로고 이미지를 업로드해주세요.'),
   thumbnailImage: z.string().min(1, '썸네일 이미지를 업로드해주세요.'),
-  projectImages: z.array(
-    z.object({
-      imageUrl: z.string().min(1, '이미지를 업로드해주세요.'),
-    }),
-  ),
+  projectImages: z
+    .array(
+      z.object({
+        imageUrl: z.string(),
+      }),
+    )
+    .refine((images) => {
+      const firstImage = images[0];
+      if (firstImage.imageUrl === '') {
+        return false;
+      }
+      return true;
+    }, '프로젝트 이미지를 업로드해주세요.'),
   links: z.array(
     z.object({
       linkTitle: z.string().min(1, '프로젝트 타입을 선택해주세요.'),
@@ -81,6 +89,10 @@ export const defaultUploadValues: DefaultValues<ProjectFormType> = {
   serviceType: [],
   logoImage: '',
   thumbnailImage: '',
-  projectImages: [],
+  projectImages: [
+    {
+      imageUrl: '',
+    },
+  ],
   links: [],
 };
