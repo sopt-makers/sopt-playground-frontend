@@ -338,7 +338,6 @@ const ProjectForm: FC<ProjectFormProps> = ({
             + 추가하기
           </StyledAddButton>
         </FormEntry>
-        <ListImageUploader />
         <SubmitContainer>
           <Button type='submit' variant='primary'>
             {submitButtonContent}
