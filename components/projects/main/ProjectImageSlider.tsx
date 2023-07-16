@@ -54,17 +54,13 @@ const ProjectImageSlider: FC<ProjectImageSliderProps> = ({ images, className }) 
           </button>
         </Responsive>
       </MainSwiperWrapper>
-      <ThumbsSwiper
-        spaceBetween={isMobile ? 8 : 20}
-        slidesPerView={isMobile ? 3 : 5}
-        onSwiper={setThumbsSwiper}
-        modules={[Thumbs]}
-      >
+      <ThumbsSwiper spaceBetween={isMobile ? 8 : 20} slidesPerView='auto' onSwiper={setThumbsSwiper} modules={[Thumbs]}>
         {images.map((image, index) => (
-          <StyledSwiperSlide key={index}>
+          <ThumbsSwiperSlide key={index}>
             <img src={image} alt={image} />
-          </StyledSwiperSlide>
+          </ThumbsSwiperSlide>
         ))}
+        <Dimmed />
       </ThumbsSwiper>
     </Container>
   );
@@ -126,6 +122,37 @@ const ThumbsSwiper = styled(Swiper)`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 14px;
+  }
+`;
+
+const Dimmed = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  background: linear-gradient(270deg, #0f1010 0%, rgb(15 16 16 / 0%) 107.85%);
+  width: 150px;
+  height: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    right: -4px;
+    width: 30px;
+  }
+`;
+
+const ThumbsSwiperSlide = styled(SwiperSlide)`
+  width: 238px;
+  height: 132px;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 94px;
+    height: 53px;
   }
 `;
 
