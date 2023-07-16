@@ -34,7 +34,7 @@ const WordchainRules: FC<WordchainRulesProps> = ({ trigger }) => {
           · 한 회차에서는 중복된 단어를 사용할 수 없어요. <br />
           · 아무도 단어를 잇지 못하면 마지막 사람이 <br />
           &nbsp;&nbsp;&nbsp;해당 회차 우승자가 되어 명예의 전당에 올라갈 수 있어요 💪🏻 <br />
-          · 두음법칙은 아직 적용되지 않아요. 조금만 기다려주세요 🙏🏻 <br />
+          · 두음법칙이 적용돼요. <br />
         </Content>
       </StyledModal>
     </>
