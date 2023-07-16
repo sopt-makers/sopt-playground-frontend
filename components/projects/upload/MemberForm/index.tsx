@@ -76,7 +76,7 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
                 <Controller
                   control={control}
                   name={`${name}.${index}.searchedMember`}
-                  render={({ field: { value, onChange, name, ref } }) => (
+                  render={({ field: { _, onChange, name, ref } }) => (
                     <MemberSearchWrapper>
                       <MemberSearch
                         ref={ref}

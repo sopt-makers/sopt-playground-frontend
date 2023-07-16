@@ -1,4 +1,4 @@
-import { Mentor, Mentoring, MentoringData } from '@/components/mentoring/data/types';
+import { Mentoring, MentoringData } from '@/components/mentoring/data/types';
 
 const MENTOR_LIST = [
   { id: 1, name: '송정우' },
@@ -10,7 +10,7 @@ const MENTOR_LIST = [
 // FIXME: satisfies 사용 위해 스토리북 7.0 업데이트 필요
 // satisfies readonly Mentor[];
 
-type MentorList = typeof MENTOR_LIST[number];
+type MentorList = (typeof MENTOR_LIST)[number];
 
 type MentoringByMentorId<Mentor extends MentorList> = {
   [M in Mentor as M['id']]: {
