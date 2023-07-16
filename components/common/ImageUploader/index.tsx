@@ -68,17 +68,20 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     inputEl.click();
   };
 
-  const handleRemove = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
+  const handleRemove = () => {
     setPreviewImage(undefined);
     onChange?.(null);
   };
 
-  const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
-    handleChange();
+  const handleClick = () => {
+    if (previewImage?.length) {
+      openSelector();
+    } else {
+      handleChange();
+    }
   };
 
+  const openSelector = () => setIsOpenSelector(true);
   const closeSelector = () => setIsOpenSelector(false);
 
   useEffect(() => {
@@ -109,7 +112,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
         className={className}
         width={width}
         height={height}
-        onClick={handleChange}
+        onClick={handleClick}
         error={Boolean(errorMessage)}
       >
         <StyledInput type='file' accept='image/*' ref={inputRef} />
@@ -124,7 +127,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
           <IconPencil />
         </StyledSelectorControlButton>
         <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
-          <StyledEditButton type='button' onClick={handleEdit}>
+          <StyledEditButton type='button' onClick={handleChange}>
             <IconPencil />
             <div>수정</div>
           </StyledEditButton>
