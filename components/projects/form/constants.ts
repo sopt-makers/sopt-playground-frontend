@@ -15,8 +15,10 @@ export const DEFAULT_MEMBER = {
   memberDescription: '',
 };
 
+export const DEFAULT_IMAGE_URL = '';
+
 export const linkTitles = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
-export type LinkTitleType = typeof linkTitles[number];
+export type LinkTitleType = (typeof linkTitles)[number];
 
 export type LinkType = {
   linkTitle: string;

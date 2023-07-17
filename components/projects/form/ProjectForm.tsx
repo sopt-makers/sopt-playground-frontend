@@ -12,7 +12,7 @@ import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { categoryLabel, CategoryType } from '@/components/projects/form/constants';
-import { DEFAULT_LINK, DEFAULT_MEMBER } from '@/components/projects/form/constants';
+import { DEFAULT_IMAGE_URL, DEFAULT_LINK, DEFAULT_MEMBER } from '@/components/projects/form/constants';
 import CategoryField from '@/components/projects/form/fields/CategoryField';
 import GenerationField from '@/components/projects/form/fields/GenerationField';
 import LinkField from '@/components/projects/form/fields/LinkField';
@@ -293,7 +293,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
                       field.onChange({ imageUrl: value });
                       const isEdit = field.value.imageUrl !== '';
                       if (!isEdit && value && projectImageFields.length < PROJECT_IMAGE_MAX_LENGTH) {
-                        appendProjectImage({ imageUrl: '' });
+                        appendProjectImage({ imageUrl: DEFAULT_IMAGE_URL });
                       }
                     },
                     onDelete: () => {
