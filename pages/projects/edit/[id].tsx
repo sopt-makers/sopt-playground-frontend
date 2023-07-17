@@ -27,6 +27,6 @@ const ProjectEditPage: FC = () => {
   return null;
 };
 
-setLayout(ProjectEditPage, 'headerFooter');
+setLayout(ProjectEditPage, 'header');
 
 export default ProjectEditPage;
