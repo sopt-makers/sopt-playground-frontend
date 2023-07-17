@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import IconBell from '@/public/icons/icon-bell.svg';
+// import IconBell from '@/public/icons/icon-bell.svg';
 import IconOutgoing from '@/public/icons/icon-link-outgoing.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -17,6 +17,7 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
       <Title>현재 makers 2기 진행 중이에요. 3기에서 만나요!</Title>
       <SubTitle>3기 모집은 2023년 7-8월 중에 진행될 예정이에요.</SubTitle>
       <ButtonGroup>
+        {/* MEMO: 3기 모집 신청시에 다시 주석 해제 */}
         {/* <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
           <StyledBellIcon />
           3기 모집 알림 신청
@@ -70,17 +71,17 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const SubscribeButton = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  background-color: ${colors.purple100};
-  cursor: pointer;
-  padding: 14px 20px;
+// const SubscribeButton = styled.a`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: 6px;
+//   background-color: ${colors.purple100};
+//   cursor: pointer;
+//   padding: 14px 20px;
 
-  ${textStyles.SUIT_14_B}
-`;
+//   ${textStyles.SUIT_14_B}
+// `;
 
 const ExpiredButton = styled.a`
   display: flex;
@@ -99,9 +100,9 @@ const ExpiredButton = styled.a`
   }
 `;
 
-const StyledBellIcon = styled(IconBell)`
-  margin-right: 7px;
-`;
+// const StyledBellIcon = styled(IconBell)`
+//   margin-right: 7px;
+// `;
 
 const StyledOutgoingIcon = styled(IconOutgoing)`
   margin-right: 6px;

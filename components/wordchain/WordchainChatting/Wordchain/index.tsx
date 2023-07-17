@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import TrophyIcon from 'public/icons/icon-trophy.svg';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetCurrentWinnerName } from '@/api/endpoint/wordchain/getWordchain';
 import { useNewGameMutation } from '@/api/endpoint/wordchain/newGame';
 import { Confirm } from '@/components/common/Modal/Confirm';
@@ -43,6 +44,7 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
   const { logSubmitEvent } = useEventLogger();
   const { data: currentWinnerName } = useGetCurrentWinnerName();
   const { mutate } = useNewGameMutation();
+  const { data: me } = useGetMemberOfMe();
 
   const onClickGiveUp = async () => {
     const confirm = await Confirm({
@@ -72,7 +74,8 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
         ))}
       </WordChatMessageList>
       {isProgress ? (
-        wordList.length > 0 && (
+        wordList.length > 0 &&
+        wordList[wordList.length - 1].user.id !== me?.id && (
           <GiveUpButton onClick={onClickGiveUp}> 😅 이어나갈 단어가 떠오르지 않는다면?</GiveUpButton>
         )
       ) : winnerName?.length ? (

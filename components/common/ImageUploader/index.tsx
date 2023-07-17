@@ -11,11 +11,13 @@ import IconPencil from '@/public/icons/icon-pencil.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
+const DEFAULT_IMAGE_URL = '';
+
 interface ImageUploaderProps {
   width?: number | string;
   height?: number | string;
-  value?: string | null;
-  onChange?: (value: string | null) => void;
+  value?: string;
+  onChange?: (value: string) => void;
   className?: string;
   emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
   errorMessage?: string;
@@ -36,6 +38,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   const selectorRef = useRef<HTMLDivElement>(null);
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isOpenSelector, setIsOpenSelector] = useState(false);
+  const previewImageSrc = value || previewImage || src;
 
   const handleChange = () => {
     const inputEl = inputRef.current;
@@ -70,7 +73,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
 
   const handleRemove = () => {
     setPreviewImage(undefined);
-    onChange?.(null);
+    onChange?.(DEFAULT_IMAGE_URL);
   };
 
   const handleClick = () => {
@@ -83,10 +86,6 @@ const ImageUploader: FC<ImageUploaderProps> = ({
 
   const openSelector = () => setIsOpenSelector(true);
   const closeSelector = () => setIsOpenSelector(false);
-
-  useEffect(() => {
-    if (src) setPreviewImage(src);
-  }, [src]);
 
   useEffect(() => {
     closeSelector();
@@ -116,7 +115,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
         error={Boolean(errorMessage)}
       >
         <StyledInput type='file' accept='image/*' ref={inputRef} />
-        {value && previewImage ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
+        {previewImageSrc ? <StyledPreview src={previewImageSrc} alt='preview-image' /> : <EmptyIcon />}
         <StyledSelectorControlButton
           type='button'
           onClick={(e) => {
