@@ -4,6 +4,7 @@ import { FC, ReactNode } from 'react';
 import { Controller, useFieldArray, useForm, useFormState, useWatch } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
+import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Responsive from '@/components/common/Responsive';
@@ -17,12 +18,15 @@ import MemberField from '@/components/projects/form/fields/MemberField';
 import PeriodField from '@/components/projects/form/fields/PeriodField';
 import ServiceTypeField from '@/components/projects/form/fields/ServiceTypeField';
 import StatusField from '@/components/projects/form/fields/StatusField';
+import ListImageUploader from '@/components/projects/form/ListImageUploader';
 import FormEntry from '@/components/projects/form/presenter/FormEntry';
 import { defaultUploadValues, ProjectFormType, uploadSchema } from '@/components/projects/form/schema';
 import UploadProjectProgress from '@/components/projects/form/UploadProjectProgress';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+
+const PROJECT_IMAGE_MAX_LENGTH = 10;
 
 interface ProjectFormProps {
   onSubmit?: (formData: ProjectFormType) => void;
@@ -58,11 +62,13 @@ const ProjectForm: FC<ProjectFormProps> = ({
     control,
     name: 'releaseMembers',
   });
-  const { category } = useWatch({
+  const {
+    fields: projectImageFields,
+    append: appendProjectImage,
+    remove: removeProjectImage,
+  } = useFieldArray({
     control,
-  });
-  const { errors } = useFormState({
-    control,
+    name: 'projectImages',
   });
   const {
     fields: linkFields,
@@ -71,6 +77,13 @@ const ProjectForm: FC<ProjectFormProps> = ({
   } = useFieldArray({
     control,
     name: 'links',
+  });
+
+  const { category } = useWatch({
+    control,
+  });
+  const { errors } = useFormState({
+    control,
   });
 
   const submit = (data: ProjectFormType) => {
@@ -99,6 +112,9 @@ const ProjectForm: FC<ProjectFormProps> = ({
               <CategoryField {...field} errorMessage={errors.category?.message} isError={!!errors.category} />
             )}
           />
+        </FormEntry>
+        <FormEntry title='프로젝트 현재 상태'>
+          <Controller control={control} name='status' render={({ field }) => <StatusField {...field} />} />
         </FormEntry>
         <FormEntry
           title={`${category ? categoryLabel[category as CategoryType] + ' ' : ''}팀원`}
@@ -163,6 +179,13 @@ const ProjectForm: FC<ProjectFormProps> = ({
             + 추가하기
           </StyledAddButton>
         </FormEntry>
+        <FormEntry title='서비스 형태' required comment='복수 선택 가능'>
+          <Controller
+            control={control}
+            name='serviceType'
+            render={({ field }) => <ServiceTypeField {...field} errorMessage={errors.serviceType?.message} />}
+          />
+        </FormEntry>
         <FormEntry title='프로젝트 기간' required>
           <Controller
             control={control}
@@ -197,15 +220,86 @@ const ProjectForm: FC<ProjectFormProps> = ({
           />
           <ErrorMessage message={errors.detail?.message} />
         </FormEntry>
-        <FormEntry title='프로젝트 현재 상태'>
-          <Controller control={control} name='status' render={({ field }) => <StatusField {...field} />} />
-        </FormEntry>
-        <FormEntry title='서비스 형태' required comment='복수 선택 가능'>
+        <FormEntry
+          title='로고 이미지'
+          required
+          description='가로 300px 세로 300px을 권장해요. 예외 규격은 잘릴 수 있어요.'
+        >
           <Controller
             control={control}
-            name='serviceType'
-            render={({ field }) => <ServiceTypeField {...field} errorMessage={errors.serviceType?.message} />}
+            name='logoImage'
+            render={({ field }) => (
+              <ImageUploader width={104} height={104} errorMessage={errors.logoImage?.message} {...field} />
+            )}
           />
+        </FormEntry>
+        <FormEntry
+          title='썸네일 이미지'
+          required
+          description={
+            <>
+              16:9 비율로 가로 368px 세로208px을 권장해요.
+              <Responsive only='mobile'>웹페이지에서 등록을 권장해요.</Responsive>
+            </>
+          }
+        >
+          <Controller
+            control={control}
+            name='thumbnailImage'
+            render={({ field }) => (
+              <>
+                <Responsive only='desktop'>
+                  <ImageUploader width={368} height={208} errorMessage={errors.thumbnailImage?.message} {...field} />
+                </Responsive>
+                <Responsive only='mobile'>
+                  <ImageUploader width='100%' height={185} errorMessage={errors.thumbnailImage?.message} {...field} />
+                </Responsive>
+              </>
+            )}
+          />
+        </FormEntry>
+        <FormEntry
+          title='프로젝트 이미지 (최대 10장까지 업로드 가능)'
+          description='10MB 이내로 가로 1200px, 세로는 675px 사이즈를 권장해요.'
+        >
+          <ProjectImageWrapper>
+            {projectImageFields.map((field, index) => (
+              <Controller
+                key={field.id}
+                control={control}
+                name={`projectImages.${index}`}
+                render={({ field }) => {
+                  const commonProps = {
+                    ...field,
+                    value: field.value.imageUrl,
+                    onChange: (value: string) => {
+                      field.onChange({ imageUrl: value });
+                      const isEdit = field.value.imageUrl !== '';
+                      if (!isEdit && value && projectImageFields.length < PROJECT_IMAGE_MAX_LENGTH) {
+                        appendProjectImage({ imageUrl: '' });
+                      }
+                    },
+                    onDelete: () => {
+                      if (projectImageFields.length > 1) {
+                        removeProjectImage(index);
+                      }
+                    },
+                    errorMessage: errors.projectImages?.message,
+                  };
+                  return (
+                    <>
+                      <Responsive only='desktop'>
+                        <ListImageUploader width={192} height={108} {...commonProps} />
+                      </Responsive>
+                      <Responsive only='mobile'>
+                        <ListImageUploader width={158} height={89} {...commonProps} />
+                      </Responsive>
+                    </>
+                  );
+                }}
+              />
+            ))}
+          </ProjectImageWrapper>
         </FormEntry>
         <FormEntry
           title='링크'
@@ -334,5 +428,16 @@ const StyledTextArea = styled(TextArea)`
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_M};
+  }
+`;
+
+const ProjectImageWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 192px);
+  gap: 15px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid-template-columns: repeat(2, 158px);
+    gap: 10px;
   }
 `;

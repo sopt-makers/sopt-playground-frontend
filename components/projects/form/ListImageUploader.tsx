@@ -1,44 +1,51 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import axios from 'axios';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl } from '@/api/endpoint_LEGACY/image';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import IconCancel from '@/public/icons/icon-cancel.svg';
-import IconImage from '@/public/icons/icon-image.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
-
-const DEFAULT_IMAGE_URL = '';
+import { buildCSSWithLength, CSSValueWithLength } from '@/utils';
 
 interface ImageUploaderProps {
-  width?: number | string;
-  height?: number | string;
-  value?: string;
-  onChange?: (value: string) => void;
-  className?: string;
-  emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  errorMessage?: string;
   src?: string;
+  width?: CSSValueWithLength;
+  height?: CSSValueWithLength;
+  value?: string;
+  className?: string;
+  emptyIcon?: ReactNode;
+  errorMessage?: string;
+  onChange?: (value: string) => void;
+  onDelete?: () => void;
 }
 
-const ImageUploader: FC<ImageUploaderProps> = ({
-  width = 104,
-  height = 104,
+const ListImageUploader: FC<ImageUploaderProps> = ({
+  width = 192,
+  height = 108,
   onChange,
+  onDelete,
   value,
   className,
-  emptyIcon: EmptyIcon = IconImage,
+  emptyIcon: EmptyIcon = <IconPlus />,
   errorMessage,
   src,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
   const [previewImage, setPreviewImage] = useState<string | undefined>();
-  const [isOpenSelector, setIsOpenSelector] = useState(false);
+  const [isSelectorOpened, setIsSelectorOpened] = useState<boolean>(false);
   const previewImageSrc = value || previewImage || src;
+
+  const openSelector = () => {
+    setIsSelectorOpened(true);
+  };
+  const closeSelector = () => {
+    setIsSelectorOpened(false);
+  };
 
   const handleChange = () => {
     const inputEl = inputRef.current;
@@ -53,14 +60,12 @@ const ImageUploader: FC<ImageUploaderProps> = ({
         if (!signedUrl) {
           throw new Error('presigned-url을 받아오는데 실패하였습니다.');
         }
-
         await axios.request({
           method: 'PUT',
           url: signedUrl,
           headers: { 'Content-Type': file.type },
           data: file,
         });
-
         const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
         setPreviewImage(s3Url);
         onChange?.(s3Url);
@@ -71,25 +76,27 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     inputEl.click();
   };
 
-  const handleRemove = () => {
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     setPreviewImage(undefined);
-    onChange?.(DEFAULT_IMAGE_URL);
+    onChange?.('');
+    closeSelector();
+    onDelete?.();
   };
 
   const handleClick = () => {
-    if (previewImage?.length) {
+    if (previewImageSrc) {
       openSelector();
     } else {
       handleChange();
     }
   };
 
-  const openSelector = () => setIsOpenSelector(true);
-  const closeSelector = () => setIsOpenSelector(false);
-
-  useEffect(() => {
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    handleChange();
     closeSelector();
-  }, [previewImage]);
+  };
 
   useEffect(() => {
     const handleClickSelectorOutside = (e: MouseEvent) => {
@@ -97,17 +104,17 @@ const ImageUploader: FC<ImageUploaderProps> = ({
         closeSelector();
       }
     };
-    if (isOpenSelector) {
+    if (isSelectorOpened) {
       document.addEventListener('mousedown', handleClickSelectorOutside);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickSelectorOutside);
     };
-  }, [selectorRef, isOpenSelector]);
+  }, [selectorRef, isSelectorOpened]);
 
   return (
-    <StyledWrapper>
-      <Container
+    <Container>
+      <ImageUploader
         className={className}
         width={width}
         height={height}
@@ -115,41 +122,36 @@ const ImageUploader: FC<ImageUploaderProps> = ({
         error={Boolean(errorMessage)}
       >
         <StyledInput type='file' accept='image/*' ref={inputRef} />
-        {previewImageSrc ? <StyledPreview src={previewImageSrc} alt='preview-image' /> : <EmptyIcon />}
-        <StyledSelectorControlButton
-          type='button'
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpenSelector(true);
-          }}
-        >
-          <IconPencil />
-        </StyledSelectorControlButton>
-        <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
-          <StyledEditButton type='button' onClick={handleChange}>
-            <IconPencil />
-            <div>수정</div>
-          </StyledEditButton>
-          <StyledRemoveButton type='button' onClick={handleRemove}>
-            <IconCancel />
-            <div>삭제</div>
-          </StyledRemoveButton>
-        </StyledSelector>
-      </Container>
+        {isSelectorOpened && (
+          <Background width={width} height={height}>
+            <StyledSelector ref={selectorRef}>
+              <StyledEditButton type='button' onClick={handleEdit}>
+                <IconPencil />
+                <div>수정</div>
+              </StyledEditButton>
+              <StyledRemoveButton type='button' onClick={handleDelete}>
+                <IconCancel />
+                <div>삭제</div>
+              </StyledRemoveButton>
+            </StyledSelector>
+          </Background>
+        )}
+        {previewImageSrc ? <StyledPreview src={previewImageSrc} alt='preview-image' /> : EmptyIcon}
+      </ImageUploader>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-    </StyledWrapper>
+    </Container>
   );
 };
 
-export default ImageUploader;
+export default ListImageUploader;
 
-const StyledWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
-const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { error: boolean }>`
+const ImageUploader = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { error: boolean }>`
   display: flex;
   position: relative;
   flex-shrink: 0;
@@ -158,9 +160,9 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { er
   border-radius: 6px;
   background-color: ${colors.black60};
   cursor: pointer;
-  width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
-  height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
 
+  ${({ width }) => buildCSSWithLength('width', width)};
+  ${({ height }) => buildCSSWithLength('height', height)};
   ${({ error }) =>
     error &&
     css`
@@ -168,36 +170,22 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { er
     `}
 `;
 
-const StyledInput = styled.input`
-  display: none;
-`;
-
-const StyledPreview = styled.img`
-  border-radius: 6px;
-  width: inherit;
-  height: inherit;
-  object-fit: cover;
-`;
-
-const StyledSelectorControlButton = styled.button`
+const Background = styled.div<Pick<ImageUploaderProps, 'width' | 'height'>>`
   display: flex;
   position: absolute;
-  right: 12px;
-  bottom: 12px;
+  top: 0;
+  left: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background-color: ${colors.black40};
-  cursor: pointer;
-  width: 22px;
-  height: 22px;
+  border-radius: 6px;
+  background-color: rgb(0 0 0 / 50%);
+
+  ${({ width }) => buildCSSWithLength('width', width)};
+  ${({ height }) => buildCSSWithLength('height', height)};
 `;
 
-const StyledSelector = styled.div<{ isOpen: boolean }>`
-  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
-  position: absolute;
-  right: -40px;
-  bottom: 35px;
+const StyledSelector = styled.div`
+  display: flex;
 `;
 
 const editButtonStyle = css`
@@ -237,3 +225,21 @@ const StyledRemoveButton = styled.button`
 
   ${editButtonStyle}
 `;
+
+const StyledInput = styled.input`
+  display: none;
+`;
+
+const StyledPreview = styled.img`
+  border-radius: 6px;
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+`;
+
+const IconPlus = () => (
+  <svg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <path d='M1 9H17' stroke='#606265' stroke-width='2' stroke-linecap='round' />
+    <path d='M9 1L9 17' stroke='#606265' stroke-width='2' stroke-linecap='round' />
+  </svg>
+);
