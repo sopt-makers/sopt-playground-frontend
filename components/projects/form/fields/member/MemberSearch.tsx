@@ -29,12 +29,13 @@ interface MemberSearchProps {
 const MemberSearch: FC<MemberSearchProps> = ({
   className,
   placeholder,
-  selectedMember,
+  selectedMember: selectedMemberProp,
   isError,
   onSelect,
   onClear,
 }) => {
-  const { name, onValueChange, onValueClear, searchedMemberList } = useMemberSearch();
+  const { name, onValueChange, onValueClear, searchedMemberList, defaultValue } = useMemberSearch();
+  const selectedMember = selectedMemberProp || defaultValue;
 
   const handleSelect = (member: Member) => {
     onSelect(member);

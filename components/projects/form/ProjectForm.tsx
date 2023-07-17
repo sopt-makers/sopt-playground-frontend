@@ -84,6 +84,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
   const { category } = useWatch({
     control,
   });
+
   const { errors } = useFormState({
     control,
   });
@@ -440,7 +441,10 @@ const StyledAddButton = styled.button`
 `;
 
 const StyledInput = styled(Input)`
+  width: 340px;
+
   @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
     ${textStyles.SUIT_14_M};
   }
 `;
