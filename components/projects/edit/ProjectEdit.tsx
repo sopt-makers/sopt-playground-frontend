@@ -47,6 +47,7 @@ const ProjectEdit: FC<ProjectEditProps> = ({ projectId }) => {
             router.push(playgroundLink.projectList());
             queryClient.invalidateQueries(getProjectQueryKey(projectId));
             queryClient.invalidateQueries(getProjectListQueryKey());
+            queryClient.invalidateQueries(['getProjectById', projectId]);
             logSubmitEvent('projectEdit', {
               projectId,
               editorId: String(myProfileData.id),
