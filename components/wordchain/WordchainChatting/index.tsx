@@ -50,6 +50,10 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
         scrollToBottom();
       }, 0);
     },
+    refetchInterval:
+      wordchainListRef.current && wordchainListRef.current.scrollHeight === wordchainListRef.current.scrollTop
+        ? 5000
+        : false,
   });
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
@@ -62,6 +66,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       if (typeof error.response?.data !== 'string') {
         return;
       }
+      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
       const split = error.response.data.split(' : ');
       if (split.length !== 2) {
         return;
@@ -123,6 +128,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       scrollToBottom();
       setIsLoading(false);
     }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWordchain]);
 
   return (
