@@ -29,7 +29,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const status = isGameStart ? 'start' : 'progress';
 
   return (
-    <Container className={className}>
+    <Container className={className} href={playgroundLink.wordchain()} onClick={() => logClickEvent('wordchainEntry')}>
       {(isLoading || !wordList) && (
         <LoadingContainer>
           <Loading />
@@ -57,10 +57,10 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
               </StyledTitle>
             </TitleWrapper>
             <Responsive only='desktop'>
-              <WordchainLink href={playgroundLink.wordchain()} onClick={() => logClickEvent('wordchainEntry')}>
+              <WordchainText>
                 SOPT 회원들과 끝말잇기 하러 가기
                 <IconArrow />
-              </WordchainLink>
+              </WordchainText>
             </Responsive>
           </LeftSection>
           <RightSection>
@@ -81,10 +81,10 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
             <WordchainMessage type='helper' word={`'${data.nextSyllable}'(으)로 시작하는 단어는?`} />
           </RightSection>
           <MobileResponsive only='mobile'>
-            <WordchainLink href={playgroundLink.wordchain()} onClick={() => logClickEvent('wordchainEntry')}>
+            <WordchainText>
               SOPT 회원들과 끝말잇기 하러 가기
               <IconArrow />
-            </WordchainLink>
+            </WordchainText>
           </MobileResponsive>
         </>
       )}
@@ -102,7 +102,7 @@ const LoadingContainer = styled.div`
   height: 170px;
 `;
 
-const Container = styled.div`
+const Container = styled(Link)`
   display: flex;
   justify-content: space-between;
   border-radius: 16px;
@@ -153,7 +153,7 @@ const StyledTitle = styled(Text)`
   }
 `;
 
-const WordchainLink = styled(Link)`
+const WordchainText = styled(Text)`
   display: flex;
   column-gap: 8px;
   align-items: center;
