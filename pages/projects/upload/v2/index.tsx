@@ -33,9 +33,9 @@ const ProjectUploadPage = () => {
       createProjectMutate(convertToProjectData(formData, myProfileData.id)),
         {
           onSuccess: () => {
-            toast.show({ message: '프로젝트가 성공적으로 업로드 되었습니다.' });
+            toast.show({ message: '프로젝트를 성공적으로 업로드 했어요.' });
             router.push(playgroundLink.projectList());
-            queryClient.invalidateQueries([getProjectListQueryKey]);
+            queryClient.invalidateQueries(getProjectListQueryKey());
             logSubmitEvent('projectUpload', {
               writerId: String(myProfileData.id),
             });
