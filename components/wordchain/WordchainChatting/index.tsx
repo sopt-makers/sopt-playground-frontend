@@ -50,7 +50,6 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
         scrollToBottom();
       }, 0);
     },
-    refetchInterval: 5000,
   });
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
