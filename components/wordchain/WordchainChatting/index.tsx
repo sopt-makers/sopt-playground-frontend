@@ -50,6 +50,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
         scrollToBottom();
       }, 0);
     },
+    refetchInterval: 5000,
   });
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
@@ -62,6 +63,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
       if (typeof error.response?.data !== 'string') {
         return;
       }
+      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
       const split = error.response.data.split(' : ');
       if (split.length !== 2) {
         return;
