@@ -50,10 +50,6 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
         scrollToBottom();
       }, 0);
     },
-    refetchInterval:
-      wordchainListRef.current && wordchainListRef.current.scrollHeight === wordchainListRef.current.scrollTop
-        ? 5000
-        : false,
   });
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
