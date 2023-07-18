@@ -30,17 +30,16 @@ const ProjectUploadPage = () => {
       content: '프로젝트를 업로드 하시겠습니까?',
     });
     if (notify && myProfileData) {
-      createProjectMutate(convertToProjectData(formData, myProfileData.id)),
-        {
-          onSuccess: () => {
-            toast.show({ message: '프로젝트를 성공적으로 업로드 했어요.' });
-            router.push(playgroundLink.projectList());
-            queryClient.invalidateQueries(getProjectListQueryKey());
-            logSubmitEvent('projectUpload', {
-              writerId: String(myProfileData.id),
-            });
-          },
-        };
+      createProjectMutate(convertToProjectData(formData, myProfileData.id), {
+        onSuccess: () => {
+          toast.show({ message: '프로젝트를 성공적으로 업로드 했어요.' });
+          queryClient.invalidateQueries(getProjectListQueryKey());
+          router.push(playgroundLink.projectList());
+          logSubmitEvent('projectUpload', {
+            writerId: String(myProfileData.id),
+          });
+        },
+      });
     }
   };
 
