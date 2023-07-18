@@ -110,7 +110,7 @@ const ProjectUploadPage: FC = () => {
     if (notify && myProfileData) {
       const input = {
         name: data.name,
-        generation: data.generation.checked ? undefined : data.generation.generation,
+        generation: data.generation.checked ? null : (data.generation.generation as number),
         category: data.category,
         detail: data.detail,
         summary: data.summary,
