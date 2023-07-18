@@ -44,7 +44,7 @@ const ProjectEdit: FC<ProjectEditProps> = ({ projectId }) => {
         {
           onSuccess: () => {
             toast.show({ message: '프로젝트를 성공적으로 수정했어요.' });
-            router.push(playgroundLink.projectList());
+            router.push(playgroundLink.projectDetail(projectId));
             queryClient.invalidateQueries(getProjectQueryKey(projectId));
             queryClient.invalidateQueries(getProjectListQueryKey());
             queryClient.invalidateQueries(['getProjectById', projectId]);
