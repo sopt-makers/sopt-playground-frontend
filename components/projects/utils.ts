@@ -57,7 +57,7 @@ export const convertProjectToFormType = (projectData: ProjectDetail): ProjectFor
       isAvailable: projectData.isAvailable,
       isFounding: projectData.isFounding,
     },
-    projectImages: projectData.images.map((image) => ({ imageUrl: image })),
+    projectImages: [...projectData.images.map((image) => ({ imageUrl: image })), { imageUrl: DEFAULT_IMAGE_URL }],
     logoImage: projectData.logoImage,
     thumbnailImage: projectData.thumbnailImage,
     members: projectData.members
