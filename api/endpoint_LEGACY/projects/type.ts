@@ -4,7 +4,7 @@ export type ProjectDetail = {
   id: number;
   name: string;
   writerId: number;
-  generation: number;
+  generation: number | null;
   category: ProjectCategory;
   startAt: string;
   endAt?: string;
@@ -50,7 +50,7 @@ export type ProjectInput = {
     linkTitle: LinkTitle | string;
     linkUrl: string;
   }[];
-  generation?: number;
+  generation: number | null;
   members: {
     memberId: number;
     memberRole: MemberRole;
