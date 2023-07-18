@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import TextArea from '@/components/common/TextArea';
 import FormTitle from '@/components/projects/upload/FormTitle';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 

@@ -3,7 +3,7 @@ import { DefaultValues } from 'react-hook-form';
 import { LinkTitle } from '@/api/endpoint_LEGACY/projects/type';
 import { DEFAULT_MEMBER } from '@/components/projects/upload/MemberForm/constants';
 import { Category, FormItem } from '@/components/projects/upload/types';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 
 export const categoryLabel: Record<Category, string> = {
   APPJAM: '앱잼',
