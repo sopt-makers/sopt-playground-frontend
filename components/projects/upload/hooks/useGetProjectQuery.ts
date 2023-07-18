@@ -3,6 +3,7 @@ import { uniqBy as _uniqBy } from 'lodash-es';
 
 import { getProjectById } from '@/api/endpoint_LEGACY/projects';
 
+export const getProjectQueryKey = (id: string) => ['getProjectQuery', id];
 interface GetProjectQueryVariables {
   id: string;
 }
@@ -10,7 +11,7 @@ interface GetProjectQueryVariables {
 const useGetProjectQuery = (variables: GetProjectQueryVariables) => {
   const { id } = variables;
   return useQuery(
-    ['getProjectQuery', id],
+    getProjectQueryKey(id),
     async () => {
       const data = await getProjectById(id);
 
