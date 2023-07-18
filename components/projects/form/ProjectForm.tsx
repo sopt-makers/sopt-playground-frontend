@@ -4,13 +4,15 @@ import { FC, ReactNode } from 'react';
 import { Controller, useFieldArray, useForm, useFormState, useWatch } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
+import Divider from '@/components/common/Divider/Divider';
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Responsive from '@/components/common/Responsive';
+import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { categoryLabel, CategoryType } from '@/components/projects/form/constants';
-import { DEFAULT_LINK, DEFAULT_MEMBER } from '@/components/projects/form/constants';
+import { DEFAULT_IMAGE_URL, DEFAULT_LINK, DEFAULT_MEMBER } from '@/components/projects/form/constants';
 import CategoryField from '@/components/projects/form/fields/CategoryField';
 import GenerationField from '@/components/projects/form/fields/GenerationField';
 import LinkField from '@/components/projects/form/fields/LinkField';
@@ -92,8 +94,23 @@ const ProjectForm: FC<ProjectFormProps> = ({
 
   return (
     <StyledFormContainer>
-      {!hideProgress && <StyledFormProgress formState={formState} />}
+      <Responsive only='desktop'>{!hideProgress && <StyledFormProgress formState={formState} />}</Responsive>
       <StyledForm onSubmit={handleSubmit(submit)}>
+        <StyledTitle>
+          <Text typography='SUIT_24_B'>프로젝트</Text>
+          <Responsive only='desktop'>
+            <Text typography='SUIT_16_M' color={colors.gray100}>
+              프로젝트가 등록되면 SOPT 공식홈페이지에도 업로드 되기 때문에 꼼꼼하게 작성해주세요!
+            </Text>
+          </Responsive>
+          <Responsive only='mobile'>
+            <Text typography='SUIT_14_M' color={colors.gray100}>
+              프로젝트가 등록되면 SOPT 공식홈페이지에도 <br />
+              업로드 되기 때문에 꼼꼼하게 작성해주세요!
+            </Text>
+          </Responsive>
+          <StyledDivider />
+        </StyledTitle>
         <FormEntry title='프로젝트 이름' required>
           <StyledInput {...register('name')} placeholder='프로젝트' errorMessage={errors.name?.message ?? ''} />
         </FormEntry>
@@ -276,7 +293,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
                       field.onChange({ imageUrl: value });
                       const isEdit = field.value.imageUrl !== '';
                       if (!isEdit && value && projectImageFields.length < PROJECT_IMAGE_MAX_LENGTH) {
-                        appendProjectImage({ imageUrl: '' });
+                        appendProjectImage({ imageUrl: DEFAULT_IMAGE_URL });
                       }
                     },
                     onDelete: () => {
@@ -339,9 +356,9 @@ const ProjectForm: FC<ProjectFormProps> = ({
           </StyledAddButton>
         </FormEntry>
         <SubmitContainer>
-          <Button type='submit' variant='primary'>
+          <StyledSubmitButton type='submit' variant='primary'>
             {submitButtonContent}
-          </Button>
+          </StyledSubmitButton>
         </SubmitContainer>
       </StyledForm>
     </StyledFormContainer>
@@ -352,7 +369,7 @@ export default ProjectForm;
 
 const StyledFormContainer = styled.div`
   display: flex;
-  gap: 40px;
+  gap: 30px;
 `;
 
 const StyledFormProgress = styled(UploadProjectProgress)`
@@ -375,17 +392,22 @@ const StyledForm = styled.form`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    background-color: ${colors.black100};
     padding: 38px 24px 107px;
   }
 `;
 
-const SubmitContainer = styled.div`
+const StyledTitle = styled.div`
   display: flex;
-  justify-content: flex-end;
-  margin-top: 60px;
+  flex-direction: column;
+  gap: 12px;
+`;
 
-  & > button {
-    ${textStyles.SUIT_14_M};
+const StyledDivider = styled(Divider)`
+  margin-top: 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 22px;
   }
 `;
 
@@ -439,5 +461,23 @@ const ProjectImageWrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     grid-template-columns: repeat(2, 158px);
     gap: 10px;
+  }
+`;
+
+const SubmitContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 60px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
+  }
+`;
+
+const StyledSubmitButton = styled(Button)`
+  ${textStyles.SUIT_14_M};
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 12px;
+    width: 100%;
   }
 `;
