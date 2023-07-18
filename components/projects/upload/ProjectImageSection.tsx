@@ -8,7 +8,7 @@ import ImageUploaderLegacy from '@/components/common/ImageUploader/Legacy';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 

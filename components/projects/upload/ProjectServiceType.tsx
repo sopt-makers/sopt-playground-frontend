@@ -5,7 +5,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import FormItem from '@/components/common/form/FormItem';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ServiceType } from '@/components/projects/upload/types';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';

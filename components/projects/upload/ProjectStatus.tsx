@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 

@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import FormTitle from '@/components/projects/upload/FormTitle';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
