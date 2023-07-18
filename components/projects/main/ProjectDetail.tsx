@@ -9,6 +9,7 @@ import { deleteProject } from '@/api/endpoint_LEGACY/projects';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
+import ProjectImageSlider from '@/components/projects/main/ProjectImageSlider';
 import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
@@ -30,7 +31,7 @@ const memberRoleOrder = [
   'ANDROID',
   'IOS',
 ] as const;
-const sortByRole = <T extends { memberRole: typeof memberRoleOrder[number] }>(projectMembers: T[]): T[] =>
+const sortByRole = <T extends { memberRole: (typeof memberRoleOrder)[number] }>(projectMembers: T[]): T[] =>
   [...projectMembers].sort((x, y) => memberRoleOrder.indexOf(x.memberRole) - memberRoleOrder.indexOf(y.memberRole));
 
 interface ProjectDetailProps {
@@ -94,11 +95,12 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
         </ServiceInfoWrapper>
       </Header>
 
-      {mainImage && (
+      {project?.images.length === 1 && (
         <MainImageWrapper>
           <MainImage src={mainImage} alt={project?.name} />
         </MainImageWrapper>
       )}
+      {(project?.images ?? []).length > 1 && <StyledProjectImageSlider images={project?.images ?? []} />}
 
       <ProjectDetailContainer>
         <DetailContainer>
@@ -358,11 +360,21 @@ const MainImageWrapper = styled.section`
     height: 210px;
   }
 `;
+
 const MainImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
+const StyledProjectImageSlider = styled(ProjectImageSlider)`
+  margin-bottom: 54px;
+  width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 0;
+  }
+`;
+
 const ProjectDetailContainer = styled.section`
   display: flex;
   gap: 32px;

@@ -10,8 +10,8 @@ export type Member = {
 };
 
 interface MemberSearchContextType {
+  memberId?: string;
   searchMember: (name: string) => Promise<Member[]>;
-  // for edit
   getMemberById: (id: string) => Promise<Member | undefined>;
 }
 
@@ -26,7 +26,7 @@ export const MemberSearchContext = createContext(
 export function useMemberSearch() {
   const [name, setName] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const { searchMember, getMemberById } = useContext(MemberSearchContext);
+  const { memberId, searchMember, getMemberById } = useContext(MemberSearchContext);
 
   const { data: searchedMemberData } = useQuery(
     ['searchMember', searchQuery],
@@ -35,7 +35,19 @@ export function useMemberSearch() {
       return data;
     },
     {
-      enabled: !!searchQuery,
+      enabled: Boolean(searchQuery),
+    },
+  );
+
+  const { data: defaultValue } = useQuery(
+    ['getMemberById', memberId],
+    async () => {
+      if (!memberId) return;
+      const data = await getMemberById(memberId);
+      return data;
+    },
+    {
+      enabled: Boolean(memberId),
     },
   );
 
@@ -56,6 +68,6 @@ export function useMemberSearch() {
     onValueChange,
     onValueClear,
     searchedMemberList: searchedMemberData,
-    getMemberById,
+    defaultValue,
   };
 }

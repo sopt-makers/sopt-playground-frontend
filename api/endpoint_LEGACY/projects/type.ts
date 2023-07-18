@@ -60,15 +60,24 @@ export type ProjectInput = {
   }[];
 };
 
-type MemberRole = 'TEAMLEADER' | 'MAINPM' | 'PM' | 'TEAMIMPROVEMENT' | 'DESIGN' | 'IOS' | 'ANDROID' | 'WEB' | 'SERVER';
+export type MemberRole =
+  | 'TEAMLEADER'
+  | 'MAINPM'
+  | 'PM'
+  | 'TEAMIMPROVEMENT'
+  | 'DESIGN'
+  | 'IOS'
+  | 'ANDROID'
+  | 'WEB'
+  | 'SERVER';
 
-export type ProjectCategory = typeof PROJECT_CATEGORY[number];
+export type ProjectCategory = (typeof PROJECT_CATEGORY)[number];
 export function isProjectCategory(category: string): category is ProjectCategory {
   return PROJECT_CATEGORY.includes(category as ProjectCategory);
 }
 
 const LINK_TITLES = ['website', 'googlePlay', 'appStore', 'github', 'instagram', 'media'] as const;
-export type LinkTitle = typeof LINK_TITLES[number];
+export type LinkTitle = (typeof LINK_TITLES)[number];
 
 export enum ServiceType {
   WEB = 'WEB',

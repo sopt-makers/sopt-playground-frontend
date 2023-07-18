@@ -20,6 +20,7 @@
   "rules": {
     "value-keyword-case": null,
     "function-no-unknown": null,
-    "custom-property-empty-line-before": null
+    "custom-property-empty-line-before": null,
+    "function-name-case": null
   }
 }

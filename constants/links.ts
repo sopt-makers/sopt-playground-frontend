@@ -11,7 +11,7 @@ export const playgroundLink = {
   projectList: () => `/projects`,
   projectDetail: (id: string | number) => `/projects/${id}`,
   projectUpload: () => `/projects/upload`,
-  projectEdit: (id: string | number) => `/projects/upload?id=${id}&edit=true`,
+  projectEdit: (id: string | number) => `/projects/edit/${id}`,
   groupList: () => '/group',
   login: () => `/auth/login`,
   register: () => `/auth/verify`,
@@ -20,4 +20,5 @@ export const playgroundLink = {
   sopticle: () => `/sopticle`,
   sopticleSuccess: () => `/sopticle/success`,
   mentoringDetail: (id: number) => `/mentoring/${id}`,
+  wordchain: () => `/wordchain`,
 };

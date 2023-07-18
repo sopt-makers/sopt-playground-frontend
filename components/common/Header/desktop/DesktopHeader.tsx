@@ -113,19 +113,6 @@ const ActionArea = styled.div`
   padding-right: 30px;
 `;
 
-const StyledUploadButton = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  align-self: center;
-  border-radius: 32px;
-  background-color: #8040ff;
-  padding: 12px 20px;
-  height: 38px;
-
-  ${textStyles.SUIT_14_B}
-`;
-
 const ProfileButtonHolder = styled.div`
   display: flex;
   align-items: center;

@@ -6,7 +6,7 @@ import FormItem from '@/components/common/form/FormItem';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';

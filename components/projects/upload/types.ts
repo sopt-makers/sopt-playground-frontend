@@ -1,6 +1,6 @@
 import { FieldNamesMarkedBoolean } from 'react-hook-form';
 
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 
 export interface Period {
   startAt: string;
