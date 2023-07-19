@@ -81,7 +81,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
     name: 'links',
   });
 
-  const { category } = useWatch({
+  const { category, projectImages } = useWatch({
     control,
   });
 
@@ -293,14 +293,19 @@ const ProjectForm: FC<ProjectFormProps> = ({
                     value: field.value.imageUrl,
                     onChange: (value: string) => {
                       field.onChange({ imageUrl: value });
-                      const isEdit = field.value.imageUrl !== '';
+                      const isEdit = field.value.imageUrl !== DEFAULT_IMAGE_URL;
                       if (!isEdit && value && projectImageFields.length < PROJECT_IMAGE_MAX_LENGTH) {
                         appendProjectImage({ imageUrl: DEFAULT_IMAGE_URL });
                       }
                     },
                     onDelete: () => {
-                      if (projectImageFields.length > 1) {
+                      const isFilled =
+                        projectImages?.filter((image) => image.imageUrl !== DEFAULT_IMAGE_URL).length ===
+                        PROJECT_IMAGE_MAX_LENGTH;
+                      if (projectImageFields.length > 1 && !isFilled) {
                         removeProjectImage(index);
+                      } else {
+                        field.onChange({ imageUrl: DEFAULT_IMAGE_URL });
                       }
                     },
                     errorMessage: errors.projectImages?.message,
