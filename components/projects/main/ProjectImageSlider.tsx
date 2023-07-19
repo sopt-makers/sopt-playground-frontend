@@ -58,7 +58,7 @@ const ProjectImageSlider: FC<ProjectImageSliderProps> = ({ images, className }) 
             <img src={image} alt={image} />
           </ThumbsSwiperSlide>
         ))}
-        <Dimmed />
+        {/* <Dimmed /> */}
       </ThumbsSwiper>
     </Container>
   );
@@ -133,20 +133,20 @@ const ThumbsSwiper = styled(Swiper)`
   }
 `;
 
-const Dimmed = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  background: linear-gradient(270deg, #0f1010 0%, rgb(15 16 16 / 0%) 107.85%);
-  width: 150px;
-  height: 100%;
+// const Dimmed = styled.div`
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   z-index: 1;
+//   background: linear-gradient(270deg, #0f1010 0%, rgb(15 16 16 / 0%) 107.85%);
+//   width: 150px;
+//   height: 100%;
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    right: -4px;
-    width: 30px;
-  }
-`;
+//   @media ${MOBILE_MEDIA_QUERY} {
+//     right: -4px;
+//     width: 30px;
+//   }
+// `;
 
 const ThumbsSwiperSlide = styled(SwiperSlide)`
   width: 238px;
