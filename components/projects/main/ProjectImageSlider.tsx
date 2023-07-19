@@ -26,9 +26,12 @@ const ProjectImageSlider: FC<ProjectImageSliderProps> = ({ images, className }) 
     <Container className={className}>
       <MainSwiperWrapper>
         <Responsive only='desktop'>
-          <button ref={prevButton}>
+          <PrevNavigationButton ref={prevButton}>
             <IconPrev />
-          </button>
+          </PrevNavigationButton>
+          <NextNavigationButton ref={nextButton}>
+            <IconNext />
+          </NextNavigationButton>
         </Responsive>
         <StyledSwiper
           thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
@@ -48,11 +51,6 @@ const ProjectImageSlider: FC<ProjectImageSliderProps> = ({ images, className }) 
             </StyledSwiperSlide>
           ))}
         </StyledSwiper>
-        <Responsive only='desktop'>
-          <button ref={nextButton}>
-            <IconNext />
-          </button>
-        </Responsive>
       </MainSwiperWrapper>
       <ThumbsSwiper spaceBetween={isMobile ? 8 : 20} slidesPerView='auto' onSwiper={setThumbsSwiper} modules={[Thumbs]}>
         {images.map((image, index) => (
@@ -60,7 +58,7 @@ const ProjectImageSlider: FC<ProjectImageSliderProps> = ({ images, className }) 
             <img src={image} alt={image} />
           </ThumbsSwiperSlide>
         ))}
-        <Dimmed />
+        {/* <Dimmed /> */}
       </ThumbsSwiper>
     </Container>
   );
@@ -76,9 +74,19 @@ const Container = styled.div`
 `;
 
 const MainSwiperWrapper = styled.div`
-  display: flex;
-  gap: 24px;
-  align-items: center;
+  position: relative;
+`;
+
+const PrevNavigationButton = styled.button`
+  position: absolute;
+  top: 50%;
+  left: -50px;
+`;
+
+const NextNavigationButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: -50px;
 `;
 
 const StyledSwiper = styled(Swiper)`
@@ -125,20 +133,20 @@ const ThumbsSwiper = styled(Swiper)`
   }
 `;
 
-const Dimmed = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  background: linear-gradient(270deg, #0f1010 0%, rgb(15 16 16 / 0%) 107.85%);
-  width: 150px;
-  height: 100%;
+// const Dimmed = styled.div`
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   z-index: 1;
+//   background: linear-gradient(270deg, #0f1010 0%, rgb(15 16 16 / 0%) 107.85%);
+//   width: 150px;
+//   height: 100%;
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    right: -4px;
-    width: 30px;
-  }
-`;
+//   @media ${MOBILE_MEDIA_QUERY} {
+//     right: -4px;
+//     width: 30px;
+//   }
+// `;
 
 const ThumbsSwiperSlide = styled(SwiperSlide)`
   width: 238px;

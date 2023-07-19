@@ -79,7 +79,6 @@ const ListImageUploader: FC<ImageUploaderProps> = ({
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     setPreviewImage(undefined);
-    onChange?.('');
     closeSelector();
     onDelete?.();
   };

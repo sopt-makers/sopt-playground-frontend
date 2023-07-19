@@ -11,7 +11,7 @@ import { convertPeriodFormat, convertPeriodFormatReverse } from '@/components/pr
 
 export const convertToProjectData = (formData: ProjectFormType, writerId: number): ProjectInput => ({
   name: formData.name,
-  generation: formData.generation ? Number(formData.generation) : undefined,
+  generation: formData.generation ? Number(formData.generation) : null,
   category: formData.category as ProjectCategory,
   detail: formData.detail,
   summary: formData.summary,
@@ -44,7 +44,7 @@ export const convertToProjectData = (formData: ProjectFormType, writerId: number
 export const convertProjectToFormType = (projectData: ProjectDetail): ProjectFormType => {
   return {
     name: projectData.name,
-    generation: `${projectData?.generation}`,
+    generation: projectData.generation ? `${projectData.generation}` : null,
     category: projectData.category,
     detail: projectData.detail,
     summary: projectData.summary,
