@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { forwardRef } from 'react';
 
 import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
 interface SideToggleButtonProps {
   onClick(): void;
@@ -19,16 +20,16 @@ export default SideToggleButton;
 
 const StyledSideToggleButton = styled.button`
   position: fixed;
-  right: 10px;
-  bottom: 10px;
+  right: 2px;
+  bottom: 2px;
   z-index: 100009;
   border-radius: 7px;
   background-color: ${colors.purple60};
   cursor: pointer;
   padding: 5px;
   color: ${colors.gray100};
-  font-size: 18px;
-  font-weight: bold;
+
+  ${textStyles.SUIT_14_B}
 
   &:hover {
     background-color: ${colors.white};
