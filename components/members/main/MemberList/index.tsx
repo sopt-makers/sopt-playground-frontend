@@ -535,12 +535,13 @@ const StyledMemberSearch = styled(MemberSearch)`
     width: 100%;
 
     & > input {
-      padding: 14px 18px 14px 46px;
+      border-radius: 6px;
+      padding: 12px 36px 12px 18px;
       ${textStyles.SUIT_15_M};
     }
 
     & > svg {
-      top: 14px;
+      top: 12px;
       right: 18px;
     }
   }
