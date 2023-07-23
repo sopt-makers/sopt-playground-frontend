@@ -51,12 +51,13 @@ const MessageBox = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
-  border-radius: 10px 10px 0;
+  border-radius: 20px 20px 0;
   background-color: ${colors.black90};
   padding: 16px 20px;
   width: fit-content;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 10px 10px 0;
     padding: 10px 16px;
   }
 `;

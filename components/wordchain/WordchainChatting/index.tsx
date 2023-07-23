@@ -327,7 +327,6 @@ const LoadingWrapper = styled(ContainerBase)<{ isVisible: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
-  flex-shrink: 1;
   align-items: center;
   justify-content: center;
 `;
