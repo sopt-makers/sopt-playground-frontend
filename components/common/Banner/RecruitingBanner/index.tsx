@@ -1,77 +1,130 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Link from 'next/link';
-import { useState } from 'react';
+import dayjs from 'dayjs';
+import { FC } from 'react';
 
-import { DEADLINE_DATE, RECRUITING_LINK, TERM } from '@/components/common/Banner/RecruitingBanner/constants';
-import CountdownTimer from '@/components/common/Banner/RecruitingBanner/CountdownTimer';
-import MobileRecruitingBanner from '@/components/common/Banner/RecruitingBanner/MobileRecruitingBanner';
-import Responsive from '@/components/common/Responsive';
+import { MakersLogoDark, OwnershipShape, ZigzagShape } from '@/components/common/Banner/RecruitingBanner/icons';
+import Timer from '@/components/common/Banner/Timer';
+import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface RecruitingBannerProps {
-  className?: string;
-}
+const LINK =
+  'https://docs.google.com/forms/d/e/1FAIpQLSch_qyaKaef03DnU4WeFuc0G-XkHdnsiEv7BD6LSDG39MA9Hw/viewform?usp=sf_link';
 
-export default function RecruitingBanner({ className }: RecruitingBannerProps) {
-  const [isRecruiting, setIsRecruiting] = useState(DEADLINE_DATE.getTime() - new Date().getTime() > 0);
+const TARGET_DATE = dayjs('2023-07-28T14:59:00.000Z').toDate(); // 한국시간 2023-07-28 23:59
 
-  const finishCountdown = () => {
-    setIsRecruiting(false);
-  };
+interface RecruitingBannerProps {}
 
+const RecruitingBanner: FC<RecruitingBannerProps> = ({}) => {
   return (
-    <>
-      <Responsive only='mobile' asChild>
-        <Link href={RECRUITING_LINK} target='_blank' className={className}>
-          <MobileRecruitingBanner />
-        </Link>
-      </Responsive>
-      <Responsive only='desktop' asChild>
-        <Link href={RECRUITING_LINK} target='_blank' className={className}>
-          <Container>
-            <RecruitmentText>{`🚀 makers ${TERM}기를 모집해요`}</RecruitmentText>
-            <Deadline isRecruiting={isRecruiting}>
-              {isRecruiting ? (
-                <CountdownTimer deadlineDate={DEADLINE_DATE} finish={finishCountdown} />
-              ) : (
-                '☑️ 현재 모집이 마감되었습니다'
-              )}
-            </Deadline>
-          </Container>
-        </Link>
-      </Responsive>
-    </>
+    <a href={LINK} target='_blank'>
+      <Container>
+        <ShapesArea>
+          <ZigzagShape />
+          <ZigzagShape />
+          <ZigzagShape />
+          <StyledOwnershipShape />
+        </ShapesArea>
+        <ContentArea>
+          <Logo />
+          <Title>3기 모집설명회 신청</Title>
+          <SubTitle>
+            <span>
+              <Timer targetDate={TARGET_DATE} prefix='신청 마감일까지 ' endMessage='☑️ 현재 신청이 마감되었습니다' />
+            </span>
+            <span>{' >'}</span>
+          </SubTitle>
+        </ContentArea>
+        <Arrow>{'>'}</Arrow>
+      </Container>
+    </a>
   );
-}
+};
+
+export default RecruitingBanner;
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 10px;
   align-items: center;
-  background: linear-gradient(164.77deg, #010101 19.93%, #185eff 141.3%), #000;
-  padding: 25px 0 19px;
+  background-color: #ff6e1d;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    justify-content: space-between;
+  }
 `;
 
-const RecruitmentText = styled.div`
-  line-height: 100%;
-  color: #fff;
+const ShapesArea = styled.div`
+  display: flex;
+  gap: 3px;
+  margin: 10px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
+`;
+
+const StyledOwnershipShape = styled(OwnershipShape)`
+  margin-left: 7px;
+`;
+
+const ContentArea = styled.div`
+  display: grid;
+  flex-grow: 1;
+  grid:
+    'a logo title b' auto
+    'a logo subtitle b' auto / 1fr auto auto 1.3fr;
+  row-gap: 10px;
+  margin: 22px 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid: 'logo title arrow' auto / auto 1fr auto;
+    margin: 12px;
+  }
+`;
+
+const Title = styled.div`
+  grid-area: title;
+  color: ${colors.black100};
 
   ${textStyles.SUIT_26_B}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_20_B}
+  }
 `;
 
-const Deadline = styled.div<{ isRecruiting: boolean }>`
-  line-height: 100%;
-  color: rgb(255 255 255 / 70%);
+const SubTitle = styled.div`
+  grid-area: subtitle;
+  color: ${colors.black80};
 
-  ${textStyles.SUIT_16_M}
+  ${textStyles.SUIT_16_M};
 
-  ${({ isRecruiting }) =>
-    isRecruiting &&
-    css`
-      display: flex;
-      justify-content: space-between;
-      width: 199px;
-    `}
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
+`;
+
+const Logo = styled(MakersLogoDark)`
+  grid-area: logo;
+  align-self: center;
+  margin-right: 40px;
+  height: 52px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-right: 20px;
+    height: 24px;
+  }
+`;
+
+const Arrow = styled.div`
+  display: none;
+  grid-area: arrow;
+  color: ${colors.black100};
+
+  ${textStyles.SUIT_20_B}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: block;
+    margin-right: 16px;
+  }
 `;
