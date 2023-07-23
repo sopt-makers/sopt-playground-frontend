@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { TERM } from '@/components/common/Banner/RecruitingBanner/constants';
+import { TERM } from '@/components/common/Banner/RecruitingBanner/legacy/constants';
 import { textStyles } from '@/styles/typography';
 
 export default function MobileRecruitingBanner() {
