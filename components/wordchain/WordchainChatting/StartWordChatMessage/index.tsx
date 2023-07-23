@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface StartWordChatMessageProps {
@@ -27,23 +28,40 @@ const Container = styled.div`
   flex-direction: column;
   gap: 12px;
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 18px;
+  }
 `;
 
 const Makers = {
   Logo: styled.img`
     width: 60px;
     height: 60px;
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      width: 30px;
+      height: 30px;
+    }
   `,
   Title: styled.div`
     line-height: 100%;
     color: ${colors.white};
 
     ${textStyles.SUIT_20_SB}
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      ${textStyles.SUIT_14_SB}
+    }
   `,
   Container: styled.div`
     display: flex;
     gap: 16px;
     align-items: center;
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      gap: 10px;
+    }
   `,
 };
 
@@ -58,6 +76,14 @@ const StartWord = styled.div`
   color: ${colors.white};
 
   ${textStyles.SUIT_16_M}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-left: 0;
+    border-radius: 10px;
+    padding: 10px 16px;
+
+    ${textStyles.SUIT_12_M}
+  }
 `;
 
 const Triangle = styled.div`
@@ -69,4 +95,10 @@ const Triangle = styled.div`
   border-left: 0 solid transparent;
   width: 0;
   height: 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    left: 8px;
+    border-right-width: 15px;
+    border-bottom-width: 13px;
+  }
 `;

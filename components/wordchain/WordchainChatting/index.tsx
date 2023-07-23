@@ -10,11 +10,12 @@ import {
 } from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
 import Loading from '@/components/common/Loading';
+import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const LIMIT = 10;
@@ -146,12 +147,22 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
         )}
       </WordchainList>
       <Form onSubmit={handleSubmit}>
-        <StyledInput
-          value={word}
-          onChange={(e) => handleChange(e.target.value)}
-          placeholder='단어를 입력해주세요. (단, 표준국어대사전에 있는 단어만 사용할 수 있어요.)'
-          isError={isError}
-        />
+        <Responsive only='desktop' asChild>
+          <StyledInput
+            value={word}
+            onChange={(e) => handleChange(e.target.value)}
+            placeholder='단어를 입력해주세요. (단, 표준국어대사전에 있는 단어만 사용할 수 있어요.)'
+            isError={isError}
+          />
+        </Responsive>
+        <Responsive only='mobile' asChild>
+          <StyledInput
+            value={word}
+            onChange={(e) => handleChange(e.target.value)}
+            placeholder='단어를 입력해주세요.'
+            isError={isError}
+          />
+        </Responsive>
         <SubmitButton>
           <PaperAirplaneIcon />
         </SubmitButton>
@@ -176,18 +187,21 @@ const Container = styled.div`
   width: 790px;
   height: 100%;
 
-  @media ${SMALL_MEDIA_QUERY} {
-    max-height: 528px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 0;
+    padding: 24px 20px 34px;
+    width: 100%;
+    height: calc(100vh - 245px);
   }
 `;
 
 const WordchainList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 56px;
+  gap: 60px;
   padding-right: 14px;
   width: 100%;
-  height: 548px;
+  height: 348px;
   overflow-y: scroll;
 
   & > .wordchain {
@@ -196,7 +210,7 @@ const WordchainList = styled.div`
 
   & > .wordchain:not(:last-child)::after {
     position: absolute;
-    bottom: -32px;
+    bottom: -34px;
     left: 0;
     background-color: ${colors.black60};
     width: 100%;
@@ -204,19 +218,30 @@ const WordchainList = styled.div`
     content: '';
   }
 
-  @media ${SMALL_MEDIA_QUERY} {
-    height: 348px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 38px;
+    height: calc(100% - 80px);
+
+    & > .wordchain:not(:last-child)::after {
+      bottom: -20px;
+    }
   }
 `;
 
 const Form = styled.form`
+  display: flex;
   position: relative;
+  align-items: center;
+  margin-top: 32px;
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 16px;
+  }
 `;
 
 const StyledInput = styled.input<{ isError: boolean }>`
   transition: border-color 0.5s ease-in;
-  margin-top: 32px;
   border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black90)};
   border-radius: 14px;
   background-color: ${colors.black90};
@@ -233,14 +258,24 @@ const StyledInput = styled.input<{ isError: boolean }>`
     outline: none;
     border-color: ${({ isError }) => (isError ? colors.red100 : colors.purple100)};
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 10px;
+    padding: 16px;
+
+    ${textStyles.SUIT_12_M}
+  }
 `;
 
 const SubmitButton = styled.button`
   position: absolute;
   right: 24px;
   bottom: 24px;
-  width: 20px;
-  height: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    right: 16px;
+    bottom: 10px;
+  }
 `;
 
 const IntersectionObserverTarget = styled.div<{ isActive: boolean }>`
@@ -293,6 +328,12 @@ const LoadingWrapper = styled.div<{ isVisible: boolean }>`
   padding: 40px;
   width: 790px;
   height: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 0;
+    width: 100%;
+    height: calc(100vh - 245px);
+  }
 `;
 
 const WaringIconSvg = (
