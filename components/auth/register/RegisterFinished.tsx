@@ -4,7 +4,6 @@ import { FC } from 'react';
 
 import SquareLink from '@/components/common/SquareLink';
 import { playgroundLink } from '@/constants/links';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const RegisterFinished: FC = () => {
@@ -29,7 +28,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 420px;
 `;
 
 const Title = styled.h2`
@@ -46,9 +44,4 @@ const Description = styled.p`
 
 const SendButton = styled(SquareLink)`
   align-self: stretch;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    align-self: center;
-    width: 350px;
-  }
 `;
