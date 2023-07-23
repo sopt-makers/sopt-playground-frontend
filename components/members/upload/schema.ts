@@ -52,7 +52,7 @@ export const memberFormSchema = yup.object().shape({
     yup.object().shape({
       generation: yup.string().required('기수를 입력해주세요.'),
       part: yup.string().required('파트를 입력해주세요.'),
-      team: yup.string().required('팀 소속 정보를 입력해주세요.'),
+      team: yup.string(),
     }),
   ),
   links: yup
