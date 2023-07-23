@@ -179,19 +179,25 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
   );
 }
 
-const Container = styled.div`
-  position: relative;
+const ContainerBase = styled.div`
   border-radius: 30px;
   background-color: ${colors.black80};
-  padding: 40px;
   width: 790px;
   height: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
-    padding: 24px 20px 34px;
     width: 100%;
     height: calc(100vh - 245px);
+  }
+`;
+
+const Container = styled(ContainerBase)`
+  position: relative;
+  padding: 40px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 24px 20px 34px;
   }
 `;
 
@@ -316,24 +322,14 @@ const Triangle = styled.div<{ isVisible: boolean }>`
   height: 0;
 `;
 
-const LoadingWrapper = styled.div<{ isVisible: boolean }>`
+const LoadingWrapper = styled(ContainerBase)<{ isVisible: boolean }>`
   display: ${({ isVisible }) => (isVisible ? 'flex' : 'none')};
   position: absolute;
   top: 0;
   left: 0;
+  flex-shrink: 1;
   align-items: center;
   justify-content: center;
-  border-radius: 30px;
-  background-color: ${colors.black80};
-  padding: 40px;
-  width: 790px;
-  height: 100%;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 0;
-    width: 100%;
-    height: calc(100vh - 245px);
-  }
 `;
 
 const WaringIconSvg = (
