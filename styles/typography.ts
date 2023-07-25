@@ -5,7 +5,7 @@ export const baseTextStyles = css`
 `;
 
 export const textStyles = (() => {
-  const sizes = [11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 32, 40] as const;
+  const sizes = [10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 32, 40] as const;
   const weights = [
     ['R', 400],
     ['M', 500],
@@ -13,7 +13,7 @@ export const textStyles = (() => {
     ['B', 700],
   ] as const;
 
-  type FontKey = `SUIT_${typeof sizes[number]}_${typeof weights[number][0]}`;
+  type FontKey = `SUIT_${(typeof sizes)[number]}_${(typeof weights)[number][0]}`;
   const entries = sizes.flatMap((size) =>
     weights.map(([weightName, value]) => [
       `SUIT_${size}_${weightName}` as FontKey,

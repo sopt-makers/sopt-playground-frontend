@@ -58,12 +58,6 @@ const WordchainPage = () => {
         </Responsive>
 
         <MobileResponsive only='mobile'>
-          <MobileNotSupportedText as='h2' typography='SUIT_15_B'>
-            현재는 PC에서만 이용 가능해요.
-            <br /> 모바일은 곧 지원할 예정이에요.
-          </MobileNotSupportedText>
-
-          {/* TODO: 모바일은 추후 대응하기로 함.
           <Wrapper>
             <Title>
               <IconWordChainMessage /> SOPT와 함께하는 끝말잇기
@@ -87,8 +81,8 @@ const WordchainPage = () => {
                 👑 역대 우승자 명예의 전당 👑
               </Text>
             </Winners>
-            TODO: mobile <StyledWordchainChatting/>
-          </Wrapper> */}
+          </Wrapper>
+          <StyledWordchainChatting />
         </MobileResponsive>
       </Container>
     </AuthRequired>
@@ -106,6 +100,7 @@ const Container = styled.div`
   padding: 80px 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 
   /* 세로 사이즈 */
   @media ${SMALL_MEDIA_QUERY} {
@@ -180,7 +175,7 @@ const Winners = styled.div`
     border-radius: 0;
     background-color: ${colors.black100};
     padding: 20px;
-    height: 44px;
+    height: 59.5px;
   }
 `;
 
@@ -211,18 +206,10 @@ const MobileResponsive = styled(Responsive)`
   width: 100%;
 `;
 
-// const Divider = styled.hr`
-//   margin: 24px 0 0;
-//   border: none;
-//   background-color: ${colors.black60};
-//   width: 100%;
-//   height: 1.5px;
-// `;
-
-const MobileNotSupportedText = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 100px;
-  text-align: center;
+const Divider = styled.hr`
+  margin: 24px 0 0;
+  border: none;
+  background-color: ${colors.black60};
+  width: 100%;
+  height: 1.5px;
 `;

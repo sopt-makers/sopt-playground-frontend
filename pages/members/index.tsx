@@ -23,13 +23,11 @@ const MemberPage: FC = () => {
   return (
     <AuthRequired>
       <ActiveBannerSlot />
-      <Responsive only='desktop'>
-        <MemberPageContentLayout>
-          <StyledWordChainEntry />
-        </MemberPageContentLayout>
-        <Responsive only='mobile'>
-          <HDivider />
-        </Responsive>
+      <MemberPageContentLayout>
+        <StyledWordChainEntry />
+      </MemberPageContentLayout>
+      <Responsive only='mobile'>
+        <HDivider />
       </Responsive>
       <MentoringList />
       <MemberList banner={onboardingBanner} />

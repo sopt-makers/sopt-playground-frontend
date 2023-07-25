@@ -4,6 +4,7 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface WordChatMessageProps {
@@ -54,6 +55,11 @@ const MessageBox = styled.div`
   background-color: ${colors.black90};
   padding: 16px 20px;
   width: fit-content;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 10px 10px 0;
+    padding: 10px 16px;
+  }
 `;
 
 const Word = styled.div`
@@ -61,6 +67,10 @@ const Word = styled.div`
   color: ${colors.white};
 
   ${textStyles.SUIT_16_M}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_12_M}
+  }
 `;
 
 const Divider = styled.div`
@@ -75,6 +85,10 @@ const Name = styled.div`
   color: ${colors.purple100};
 
   ${textStyles.SUIT_14_SB}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_12_SB}
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -82,6 +96,11 @@ const ProfileImage = styled.img`
   width: 40px;
   height: 40px;
   object-fit: cover;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 const EmptyProfileImage = styled.div`
@@ -91,10 +110,20 @@ const EmptyProfileImage = styled.div`
   border-radius: 50%;
   background-color: ${colors.black60};
   width: 40px;
-  height: 40px;;
+  height: 40px;
 
   & > svg {
     width: 20px;
     height: 20px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 24px;
+    height: 24px;
+
+    & > svg {
+      width: 12px;
+      height: 12px;
+    }
   }
 `;
