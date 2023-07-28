@@ -2,69 +2,58 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
-import { MakersLogoDark, OwnershipShape, ZigzagShape } from '@/components/common/Banner/RecruitingBanner/icons';
+import { MakersLogoWhite } from '@/components/common/Banner/RecruitingBanner/icons';
 import Timer from '@/components/common/Banner/Timer';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const LINK =
-  'https://docs.google.com/forms/d/e/1FAIpQLSch_qyaKaef03DnU4WeFuc0G-XkHdnsiEv7BD6LSDG39MA9Hw/viewform?usp=sf_link';
+  'https://makers.sopt.org/recruit?utm_source=playground&utm_medium=banner&utm_campaign=recruiting&utm_id=3rd_makers';
 
-const TARGET_DATE = dayjs('2023-07-28T14:59:00.000Z').toDate(); // 한국시간 2023-07-28 23:59
+const TARGET_DATE = dayjs('2023-08-05T03:59:00.000Z').toDate(); // 한국시간 2023-08-05 12:59
 
 interface RecruitingBannerProps {}
 
-const RecruitingBanner: FC<RecruitingBannerProps> = ({}) => {
+const Recruiting3thBanner: FC<RecruitingBannerProps> = ({}) => {
   return (
     <a href={LINK} target='_blank'>
       <Container>
-        <ShapesArea>
-          <ZigzagShape />
-          <ZigzagShape />
-          <ZigzagShape />
-          <StyledOwnershipShape />
-        </ShapesArea>
         <ContentArea>
           <Logo />
-          <Title>3기 모집설명회 신청</Title>
+          <Title>3기 지원하러 가기</Title>
           <SubTitle>
             <span>
               <Timer targetDate={TARGET_DATE} prefix='신청 마감일까지 ' endMessage='☑️ 현재 신청이 마감되었습니다' />
             </span>
             <span>{' >'}</span>
           </SubTitle>
+          <Arrow>{'>'}</Arrow>
         </ContentArea>
-        <Arrow>{'>'}</Arrow>
       </Container>
     </a>
   );
 };
 
-export default RecruitingBanner;
+export default Recruiting3thBanner;
 
 const Container = styled.div`
   display: flex;
   align-items: center;
-  background-color: #ff6e1d;
+  background: linear-gradient(
+    130deg,
+    #875c13 0%,
+    #8e4b1c 12.52%,
+    #834528 27.06%,
+    #664562 39.49%,
+    #46557d 55.44%,
+    #7895b3 70.36%,
+    #856583 88.69%
+  );
 
   @media ${MOBILE_MEDIA_QUERY} {
     justify-content: space-between;
   }
-`;
-
-const ShapesArea = styled.div`
-  display: flex;
-  gap: 3px;
-  margin: 10px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
-`;
-
-const StyledOwnershipShape = styled(OwnershipShape)`
-  margin-left: 7px;
 `;
 
 const ContentArea = styled.div`
@@ -77,14 +66,14 @@ const ContentArea = styled.div`
   margin: 22px 0;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    grid: 'logo title arrow' auto / auto 1fr auto;
+    grid: 'logo title arrow' auto / 109px 1fr 13px;
     margin: 12px;
   }
 `;
 
 const Title = styled.div`
   grid-area: title;
-  color: ${colors.black100};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_26_B}
 
@@ -94,8 +83,11 @@ const Title = styled.div`
 `;
 
 const SubTitle = styled.div`
+  display: flex;
   grid-area: subtitle;
-  color: ${colors.black80};
+  justify-content: space-between;
+  width: 214px;
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M};
 
@@ -104,7 +96,7 @@ const SubTitle = styled.div`
   }
 `;
 
-const Logo = styled(MakersLogoDark)`
+const Logo = styled(MakersLogoWhite)`
   grid-area: logo;
   align-self: center;
   margin-right: 40px;
@@ -119,12 +111,12 @@ const Logo = styled(MakersLogoDark)`
 const Arrow = styled.div`
   display: none;
   grid-area: arrow;
-  color: ${colors.black100};
+  color: ${colors.white};
 
   ${textStyles.SUIT_20_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;
-    margin-right: 16px;
+    margin-right: 4px;
   }
 `;
