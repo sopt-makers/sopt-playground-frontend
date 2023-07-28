@@ -11,20 +11,25 @@ interface NotifierProps {
   className?: string;
 }
 
+const RECRUITING_URL =
+  'https://makers.sopt.org/recruit?utm_source=playground&utm_medium=depth2_button&utm_campaign=recruiting&utm_id=3rd_makers';
+
 const Notifier: FC<NotifierProps> = ({ className }) => {
   return (
     <StyledJoinNotifier className={className}>
-      <Title>현재 makers 2기 진행 중이에요. 3기에서 만나요!</Title>
-      <SubTitle>3기 모집은 2023년 7-8월 중에 진행될 예정이에요.</SubTitle>
+      {/* MEMO: 3기 모집 끝나면 다시 주석 해제 */}
+      {/* <Title>현재 makers 3기 진행 중이에요. 4기에서 만나요!</Title> */}
+      {/* <SubTitle>4기 모집은 2024년 1-2월 중에 진행될 예정이에요.</SubTitle> */}
+      <Title>현재 makers 3기를 모집하고 있어요!</Title>
       <ButtonGroup>
         {/* MEMO: 4기 모집 알림 신청시에 다시 주석 해제 */}
         {/* <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
           <StyledBellIcon />
           4기 모집 알림 신청
         </SubscribeButton> */}
-        <ExpiredButton href='https://sopt-makers.oopy.io/' target='_blank'>
+        <ExpiredButton href={RECRUITING_URL} target='_blank'>
           <StyledOutgoingIcon />
-          2기 모집글 보기 (마감)
+          3기 모집글 보기
         </ExpiredButton>
       </ButtonGroup>
     </StyledJoinNotifier>
@@ -51,16 +56,16 @@ const Title = styled.h2`
   }
 `;
 
-const SubTitle = styled.h3`
-  margin-top: 4px;
-  color: ${colors.gray60};
+// const SubTitle = styled.h3`
+//   margin-top: 4px;
+//   color: ${colors.gray60};
 
-  ${textStyles.SUIT_16_M};
+//   ${textStyles.SUIT_16_M};
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_14_M}
-  }
-`;
+//   @media ${MOBILE_MEDIA_QUERY} {
+//     ${textStyles.SUIT_14_M}
+//   }
+// `;
 
 const ButtonGroup = styled.div`
   display: flex;
