@@ -17,10 +17,10 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
       <Title>현재 makers 2기 진행 중이에요. 3기에서 만나요!</Title>
       <SubTitle>3기 모집은 2023년 7-8월 중에 진행될 예정이에요.</SubTitle>
       <ButtonGroup>
-        {/* MEMO: 3기 모집 신청시에 다시 주석 해제 */}
+        {/* MEMO: 4기 모집 알림 신청시에 다시 주석 해제 */}
         {/* <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
           <StyledBellIcon />
-          3기 모집 알림 신청
+          4기 모집 알림 신청
         </SubscribeButton> */}
         <ExpiredButton href='https://sopt-makers.oopy.io/' target='_blank'>
           <StyledOutgoingIcon />
