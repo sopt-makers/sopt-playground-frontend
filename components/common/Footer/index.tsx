@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { FEEDBACK_FORM_URL, playgroundLink } from '@/constants/links';
+import { FEEDBACK_FORM_URL, MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
 import useScroll from '@/hooks/useScroll';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -26,6 +26,9 @@ const Footer: FC<FooterProps> = ({}) => {
           만든 사람들
         </FooterLink>
       </Link>
+      <FooterLink href={MAKERS_TEAM_URL} target='_blank'>
+        메이커스 소개
+      </FooterLink>
       <FooterLink href={FEEDBACK_FORM_URL} target='_blank'>
         의견 제안하기
       </FooterLink>
