@@ -6,14 +6,13 @@ import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/O
 import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
-import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import { playgroundLink } from '@/constants/links';
 
 const FacebookRegisterCallbackPage: FC = () => {
   const router = useRouter();
   const registerToken = useRecoilValue(registerTokenAtom);
   const setLastLoginMethod = useSetRecoilState(lastLoginMethodAtom);
   const facebookAuth = useFacebookAuth();
-  const lastUnauthorized = useLastUnauthorized();
 
   const processParam: ProcessParamFn = async (url) => {
     const code = url.searchParams.get('code');
@@ -50,7 +49,7 @@ const FacebookRegisterCallbackPage: FC = () => {
 
   const handleSuccess = () => {
     setLastLoginMethod('facebook');
-    router.replace(lastUnauthorized.popPath() ?? '/');
+    router.replace(playgroundLink.memberUpload());
   };
 
   return <OAuthLoginCallback oauthKey='facebookRegister' processParam={processParam} onSuccess={handleSuccess} />;
