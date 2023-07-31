@@ -111,9 +111,9 @@ export default function MemberEditPage() {
       interest,
       idealType,
       activities: activities.map((activity) => {
+        const newActivity: SoptActivity = { ...activity, generation: activity.generation.replace('기', '') };
         if (activity.team === UNSELECTED || activity.team === '') {
-          const newActivity: SoptActivity = { ...activity, team: null };
-          return newActivity;
+          return { ...newActivity, team: null };
         }
         return activity;
       }),
