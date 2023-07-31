@@ -48,10 +48,7 @@ export default function MemberEditPage() {
   });
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: myProfile, isLoading: isLoadingMemberProfileOfMe } = useGetMemberProfileOfMe({
-    cacheTime: Infinity,
-    staleTime: Infinity,
-  });
+  const { data: myProfile, isLoading: isLoadingMyProfile } = useGetMemberProfileOfMe();
   const { data: me, isLoading: isLoadingMe } = useGetMemberOfMe();
   const toast = useToast();
 
