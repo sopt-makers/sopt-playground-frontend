@@ -59,7 +59,7 @@ export default function MemberEditPage() {
   } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
-    if (isLoadingMe || isLoadingMemberProfileOfMe) {
+    if (isLoadingMe || isLoadingMyProfile) {
       toast.show({ message: '다시 시도해주세요.' });
       return;
     }
