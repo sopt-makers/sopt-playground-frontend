@@ -104,6 +104,7 @@ const Logo = styled(MakersLogoWhite)`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-right: 20px;
+    width: 89px;
     height: 24px;
   }
 `;
