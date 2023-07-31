@@ -21,7 +21,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
   const toast = useToast();
   const { logSubmitEvent } = useEventLogger();
 
-  const isEmptyEmail = email.length < 1 || email === null;
+  const isEmptyEmail = email === null || email.length < 1;
 
   const handleClickMessageButton = () => {
     if (isEmptyEmail) {
