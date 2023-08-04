@@ -76,11 +76,11 @@ export default function MemberUploadPage() {
       interest,
       idealType,
       activities: activities.map((activity) => {
+        const newActivity: SoptActivity = { ...activity, generation: activity.generation.replace(/기/g, '') };
         if (activity.team === UNSELECTED || activity.team === '') {
-          const newActivity: SoptActivity = { ...activity, team: null };
-          return newActivity;
+          return { ...newActivity, team: null };
         }
-        return activity;
+        return newActivity;
       }),
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
