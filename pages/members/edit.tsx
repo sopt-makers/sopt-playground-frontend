@@ -111,11 +111,11 @@ export default function MemberEditPage() {
       interest,
       idealType,
       activities: activities.map((activity) => {
-        const newActivity: SoptActivity = { ...activity, generation: activity.generation.replace('기', '') };
+        const newActivity: SoptActivity = { ...activity, generation: activity.generation.replace(/기/g, '') };
         if (activity.team === UNSELECTED || activity.team === '') {
           return { ...newActivity, team: null };
         }
-        return activity;
+        return newActivity;
       }),
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
