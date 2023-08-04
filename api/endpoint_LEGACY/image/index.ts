@@ -9,7 +9,11 @@ export const getPresignedUrl = async ({
 }): Promise<{ filename: string; signedUrl: string }> => {
   const { data } = await axiosInstance.request<{ filename: string; signedUrl: string }>({
     method: 'GET',
-    url: `api/v1/presigned-url?filename=${encodeURIComponent(filename)}${type ? `&type=${type}` : ''}`,
+    url: 'api/v1/presigned-url',
+    params: {
+      filename: encodeURIComponent(filename),
+      type,
+    },
   });
 
   return data;
