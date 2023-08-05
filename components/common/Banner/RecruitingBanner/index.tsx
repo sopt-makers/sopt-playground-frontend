@@ -11,7 +11,7 @@ import { textStyles } from '@/styles/typography';
 const LINK =
   'https://makers.sopt.org/recruit?utm_source=playground&utm_medium=banner&utm_campaign=recruiting&utm_id=3rd_makers';
 
-const TARGET_DATE = dayjs('2023-08-05T03:59:00.000Z').toDate(); // 한국시간 2023-08-05 12:59
+const TARGET_DATE = dayjs('2023-08-07T14:59:00.000Z').toDate(); // 한국시간 2023-08-07 23:59
 
 interface RecruitingBannerProps {}
 
