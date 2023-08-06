@@ -5,20 +5,19 @@ import Checkbox from '@/components/common/Checkbox';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
-import { GENERATIONS, LATEST_GENERATION } from '@/constants/generation';
+import { GENERATIONS } from '@/constants/generation';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const defaultValue = String(LATEST_GENERATION);
-
 interface GenerationFieldProps {
   value: string | null;
+  defaultValue: string;
   onChange: (value: string | null) => void;
   errorMessage?: string;
 }
 
-const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, errorMessage }) => {
+const GenerationField: FC<GenerationFieldProps> = ({ value, defaultValue, onChange, errorMessage }) => {
   const handleCheckboxChange = () => {
     if (value === null) {
       onChange(defaultValue);
@@ -29,7 +28,14 @@ const GenerationField: FC<GenerationFieldProps> = ({ value, onChange, errorMessa
 
   return (
     <StyledGenerationField>
-      <StyledSelect width={236} placeholder='선택' value={value ?? ''} onChange={(e) => onChange(e.target.value)}>
+      <StyledSelect
+        width={236}
+        placeholder='선택'
+        value={value ?? defaultValue}
+        onChange={(e) => onChange(e.target.value)}
+        error={Boolean(errorMessage)}
+      >
+        <option value={defaultValue}>선택</option>
         {GENERATIONS.map((item) => (
           <option key={item} value={item}>
             {item}기

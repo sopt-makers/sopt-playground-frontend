@@ -16,9 +16,7 @@ const UploadProjectProgress: FC<UploadProjectProgressProps> = ({ formState }) =>
     { title: '프로젝트 이름', active: dirtyFields.name, required: true },
     {
       title: '기수',
-      active:
-        dirtyFields.generation ||
-        (formState.defaultValues?.generation !== null && formState.defaultValues?.generation !== undefined),
+      active: dirtyFields.generation,
       required: true,
     },
     { title: '어디서 진행했나요?', active: dirtyFields.category, required: true },

@@ -2,7 +2,6 @@ import { DefaultValues } from 'react-hook-form';
 import * as z from 'zod';
 
 import { DEFAULT_MEMBER } from '@/components/projects/form/constants';
-import { LATEST_GENERATION } from '@/constants/generation';
 
 export const dateStringSchema = z.string().regex(/^\d{4}.(0[1-9]|1[0-2])/g, '날짜 형식에 맞게 입력해주세요.');
 
@@ -72,7 +71,7 @@ export type ProjectFormType = z.infer<typeof uploadSchema>;
 
 export const defaultUploadValues: DefaultValues<ProjectFormType> = {
   name: '',
-  generation: String(LATEST_GENERATION),
+  generation: '',
   period: {
     startAt: '',
     endAt: '',
