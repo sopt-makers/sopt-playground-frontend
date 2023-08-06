@@ -8,7 +8,7 @@ import Responsive from '@/components/common/Responsive';
 import { MemberPageContentLayout } from '@/components/members/common/MemberPageLayout';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
-import MentoringList from '@/components/mentoring/MentoringList';
+import MentoringSection from '@/components/mentoring/MentoringListSection';
 import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -29,7 +29,7 @@ const MemberPage: FC = () => {
       <Responsive only='mobile'>
         <HDivider />
       </Responsive>
-      <MentoringList />
+      <MentoringSection />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
   );

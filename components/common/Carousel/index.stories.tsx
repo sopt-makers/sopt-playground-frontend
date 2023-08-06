@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react';
 import { ReactNode } from 'react';
 
 import Carousel from '@/components/common/Carousel';
-import MentoringCard from '@/components/mentoring/MentoringCard';
+import MentoringCard from '@/components/mentoring/MentoringListSection/MentoringCard';
 
 export default {
   component: Carousel,

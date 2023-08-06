@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import MentoringCard from '@/components/mentoring/MentoringCard';
+import MentoringCard from '@/components/mentoring/MentoringListSection/MentoringCard';
 
 export default {
   component: MentoringCard,
