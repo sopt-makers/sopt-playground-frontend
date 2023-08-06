@@ -119,7 +119,9 @@ const ProjectForm: FC<ProjectFormProps> = ({
           <Controller
             control={control}
             name='generation'
-            render={({ field }) => <GenerationField {...field} errorMessage={errors.generation?.message} />}
+            render={({ field }) => (
+              <GenerationField {...field} defaultValue='' errorMessage={errors.generation?.message} />
+            )}
           />
         </FormEntry>
         <FormEntry title='어디서 진행했나요?' description='기수는 SOPT 공식 활동을 기준으로 선택해주세요' required>
