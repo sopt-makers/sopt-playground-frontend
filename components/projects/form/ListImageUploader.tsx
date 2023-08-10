@@ -1,9 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import axios from 'axios';
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
-import { getPresignedUrl } from '@/api/endpoint_LEGACY/image';
+import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
@@ -56,15 +55,13 @@ const ListImageUploader: FC<ImageUploaderProps> = ({
       if (files == null || files.length === 0) return;
       const file = files[0];
       try {
-        const { filename, signedUrl } = await getPresignedUrl({ filename: file.name });
+        const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
         if (!signedUrl) {
           throw new Error('presigned-url을 받아오는데 실패하였습니다.');
         }
-        await axios.request({
-          method: 'PUT',
-          url: signedUrl,
-          headers: { 'Content-Type': file.type },
-          data: file,
+        await putPresignedUrl({
+          signedUrl,
+          file,
         });
         const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
         setPreviewImage(s3Url);
