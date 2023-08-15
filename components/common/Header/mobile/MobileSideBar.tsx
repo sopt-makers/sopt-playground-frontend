@@ -6,7 +6,7 @@ import { FC, ReactNode, useState } from 'react';
 import { DEFAULT_PROFILE_IMAGE_MOBILE_SVG, RIGHT_ARROW_SVG } from '@/components/common/Header/imageData';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import ResizedImage from '@/components/common/ResizedImage';
-import { FEEDBACK_FORM_URL, playgroundLink } from '@/constants/links';
+import { FEEDBACK_FORM_URL, MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
@@ -111,6 +111,9 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
                 </NavLinkSmall>
               ),
             })}
+            <a href={MAKERS_TEAM_URL} target='_blank' rel='noreferrer'>
+              <NavLinkSmall onClick={close}>메이커스 소개</NavLinkSmall>
+            </a>
             <a href={FEEDBACK_FORM_URL} target='_blank' rel='noreferrer'>
               <NavLinkSmall onClick={close}>의견 제안하기</NavLinkSmall>
             </a>

@@ -17,9 +17,9 @@ const RECRUITING_URL =
 const Notifier: FC<NotifierProps> = ({ className }) => {
   return (
     <StyledJoinNotifier className={className}>
-      <Title>현재 makers 3기를 모집하고 있어요!</Title>
+      <Title>현재 makers 3기 진행 중이에요. 4기에서 만나요!</Title>
       {/* MEMO: 3기 모집 끝나면 주석 해제 */}
-      {/* <SubTitle>4기 모집은 2024년 1-2월 중에 진행될 예정이에요.</SubTitle> */}
+      <SubTitle>4기 모집은 2024년 1-2월 중에 진행될 예정이에요.</SubTitle>
       <ButtonGroup>
         {/* MEMO: 4기 모집 알림 신청시에 다시 주석 해제 */}
         {/* <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
@@ -55,16 +55,16 @@ const Title = styled.h2`
   }
 `;
 
-// const SubTitle = styled.h3`
-//   margin-top: 4px;
-//   color: ${colors.gray60};
+const SubTitle = styled.h3`
+  margin-top: 4px;
+  color: ${colors.gray60};
 
-//   ${textStyles.SUIT_16_M};
+  ${textStyles.SUIT_16_M};
 
-//   @media ${MOBILE_MEDIA_QUERY} {
-//     ${textStyles.SUIT_14_M}
-//   }
-// `;
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_M}
+  }
+`;
 
 const ButtonGroup = styled.div`
   display: flex;
