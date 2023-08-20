@@ -139,6 +139,8 @@ const MBTI = styled(StyledText)`
 const MBTIDescription = styled(StyledText)`
   display: block;
   margin-top: 10px;
+  white-space: pre-line;
+
   ${textStyles.SUIT_18_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
