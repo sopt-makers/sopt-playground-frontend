@@ -10,7 +10,8 @@ const createJestConfig = nextJest({
 const customJestConfig: Config = {
   moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you soon)
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@/public/(.*)$': '<rootDir>/public/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
 };
