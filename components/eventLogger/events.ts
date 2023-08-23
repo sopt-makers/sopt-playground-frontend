@@ -55,6 +55,7 @@ export interface ClickEvents {
     mentorId: number;
   };
   mentorApplicationButton: undefined;
+  wordchainEntry: undefined;
 }
 
 export interface SubmitEvents {
@@ -77,6 +78,10 @@ export interface SubmitEvents {
     projectId: string;
     editorId: string;
   };
+  postWordchain: {
+    word: string;
+  };
+  wordchainNewGame: undefined;
 }
 
 export interface PageViewEvents {
@@ -87,4 +92,5 @@ export interface PageViewEvents {
     mentorId: number;
   };
   common: Record<string, unknown>;
+  wordchain: undefined;
 }

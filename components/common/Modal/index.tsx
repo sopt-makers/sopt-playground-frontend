@@ -101,8 +101,8 @@ const StyledCloseButton = styled.button`
   padding: 4px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    top: 60px;
-    right: 40px;
+    top: 18px;
+    right: 18px;
   }
 `;
 
@@ -118,10 +118,6 @@ const ModalContent = styled.div`
   align-items: center;
   justify-content: center;
   padding: 40px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 80px;
-  }
 `;
 
 const StyledTitle = styled.h1`

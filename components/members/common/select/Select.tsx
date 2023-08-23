@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import * as Select from '@radix-ui/react-select';
 import dynamic from 'next/dynamic';
-import { createContext, FC, PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 
 import { SelectContext, useSelectContext } from '@/components/members/common/select/context';
 import { Overlay } from '@/components/members/common/select/Overlay';

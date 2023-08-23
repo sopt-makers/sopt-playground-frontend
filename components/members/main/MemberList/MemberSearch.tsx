@@ -45,16 +45,17 @@ const StyledMemberSearch = styled.form`
 const StyledInput = styled.input`
   transition: all 0.2s;
   border: 1px solid transparent;
-  border-radius: 14px;
+  border-radius: 10px;
   background-color: ${colors.black80};
-  padding: 18px 24px 18px 56px;
+  padding: 18px 45px 18px 24px;
   width: 100%;
+  min-width: 60px;
   color: ${colors.white};
 
-  ${textStyles.SUIT_16_B};
+  ${textStyles.SUIT_16_M};
 
   &::placeholder {
-    color: ${colors.gray100};
+    color: ${colors.gray60};
   }
 
   &:focus {
@@ -67,7 +68,7 @@ const StyledInput = styled.input`
 const StyledSearchIcon = styled(SearchIcon)`
   position: absolute;
   top: 18px;
-  left: 24px;
+  right: 24px;
   cursor: pointer;
   width: 18px;
   height: 18px;

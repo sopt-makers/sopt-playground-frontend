@@ -167,10 +167,12 @@ const StyledGridContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
     justify-content: start;
     min-width: 0;
+    min-width: 790px;
   }
 
   @media screen and (max-width: 850px) {
     grid-template-columns: 1fr;
+    min-width: 0;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

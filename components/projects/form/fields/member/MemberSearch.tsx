@@ -11,7 +11,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const getProfileImage = (profileImage: Member['profileImage']) => {
-  if (profileImage == null || profileImage === '') {
+  if (profileImage === null || profileImage === '') {
     return '/icons/icon-member-search-default.svg';
   }
   return profileImage;
@@ -29,12 +29,13 @@ interface MemberSearchProps {
 const MemberSearch: FC<MemberSearchProps> = ({
   className,
   placeholder,
-  selectedMember,
+  selectedMember: selectedMemberProp,
   isError,
   onSelect,
   onClear,
 }) => {
-  const { name, onValueChange, onValueClear, searchedMemberList } = useMemberSearch();
+  const { name, onValueChange, onValueClear, searchedMemberList, defaultValue } = useMemberSearch();
+  const selectedMember = selectedMemberProp || defaultValue;
 
   const handleSelect = (member: Member) => {
     onSelect(member);
@@ -99,7 +100,6 @@ const StyledSearch = styled(Command)`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    z-index: 1;
     max-width: 135px;
   }
 `;
@@ -136,9 +136,9 @@ const StyledLabel = styled.label`
   column-gap: 6px;
   align-items: center;
   justify-content: space-between;
-  z-index: 1;
   padding: 12px 20px;
   width: 100%;
+
   ${textStyles.SUIT_16_SB};
   ${colors.gray10};
 

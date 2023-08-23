@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash-es';
 import { FC, useMemo, useState } from 'react';
 
 import { getMembersSearchByName } from '@/api/endpoint/members/getMembersSearchByName';
+import { getMemberById } from '@/api/endpoint_LEGACY/members';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
@@ -51,6 +52,18 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onC
     }));
   };
 
+  const fetchMemberById = async (id: string) => {
+    const member = await getMemberById(Number(id));
+    const defaultMember = {
+      id: String(member.id),
+      name: member.name,
+      generation: member.generation,
+      profileImage: member.profileImage,
+    };
+    setSelcetedMember(defaultMember);
+    return defaultMember;
+  };
+
   const onSelectMember = (member: Member) => {
     onChange({
       ...value,
@@ -89,13 +102,8 @@ const MemberField: FC<MemberFieldProps> = ({ className, value, errorMessage, onC
           <MemberSearchContext.Provider
             value={{
               searchMember,
-              // TODO: 수정 작업 시 실제 API로 변경
-              getMemberById: async () => {
-                return new Promise((resolve, reject) => {
-                  resolve({ id: '3', generation: 30, name: '이준호', profileImage: '' });
-                  reject(undefined);
-                });
-              },
+              memberId: value.memberId,
+              getMemberById: fetchMemberById,
             }}
           >
             <StyledFormWrapper>

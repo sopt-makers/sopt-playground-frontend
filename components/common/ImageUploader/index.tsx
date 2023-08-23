@@ -1,23 +1,25 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import axios from 'axios';
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { getPresignedUrl } from '@/api/endpoint_LEGACY/image';
+import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
+import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconImage from '@/public/icons/icon-image.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
 import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
+const DEFAULT_IMAGE_URL = '';
+
 interface ImageUploaderProps {
   width?: number | string;
   height?: number | string;
-  value?: string | null;
-  onChange?: (value: string | null) => void;
+  value?: string;
+  onChange?: (value: string) => void;
   className?: string;
   emptyIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  error?: boolean;
+  errorMessage?: string;
   src?: string;
 }
 
@@ -28,13 +30,14 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   value,
   className,
   emptyIcon: EmptyIcon = IconImage,
-  error,
+  errorMessage,
   src,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isOpenSelector, setIsOpenSelector] = useState(false);
+  const previewImageSrc = value || previewImage || src;
 
   const handleChange = () => {
     const inputEl = inputRef.current;
@@ -45,16 +48,14 @@ const ImageUploader: FC<ImageUploaderProps> = ({
       if (files == null || files.length === 0) return;
       const file = files[0];
       try {
-        const { filename, signedUrl } = await getPresignedUrl({ filename: file.name });
+        const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
         if (!signedUrl) {
           throw new Error('presigned-url을 받아오는데 실패하였습니다.');
         }
 
-        await axios.request({
-          method: 'PUT',
-          url: signedUrl,
-          headers: { 'Content-Type': file.type },
-          data: file,
+        await putPresignedUrl({
+          signedUrl: decodeURIComponent(signedUrl),
+          file,
         });
 
         const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
@@ -67,9 +68,9 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     inputEl.click();
   };
 
-  const remove = () => {
+  const handleRemove = () => {
     setPreviewImage(undefined);
-    onChange?.(null);
+    onChange?.(DEFAULT_IMAGE_URL);
   };
 
   const handleClick = () => {
@@ -82,10 +83,6 @@ const ImageUploader: FC<ImageUploaderProps> = ({
 
   const openSelector = () => setIsOpenSelector(true);
   const closeSelector = () => setIsOpenSelector(false);
-
-  useEffect(() => {
-    if (src) setPreviewImage(src);
-  }, [src]);
 
   useEffect(() => {
     closeSelector();
@@ -106,31 +103,53 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   }, [selectorRef, isOpenSelector]);
 
   return (
-    <Container className={className} width={width} height={height} onClick={handleClick} error={error}>
-      <StyledInput type='file' accept='image/*' ref={inputRef} />
-      {value && previewImage ? <StyledPreview src={previewImage} alt='preview-image' /> : <EmptyIcon />}
-      <StyledSelectorControlButton>
-        <IconPencil />
-      </StyledSelectorControlButton>
-      <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
-        <StyledEditButton onClick={handleChange}>
+    <StyledWrapper>
+      <Container
+        className={className}
+        width={width}
+        height={height}
+        onClick={handleClick}
+        error={Boolean(errorMessage)}
+      >
+        <StyledInput type='file' accept='image/*' ref={inputRef} />
+        {previewImageSrc ? <StyledPreview src={previewImageSrc} alt='preview-image' /> : <EmptyIcon />}
+        <StyledSelectorControlButton
+          type='button'
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpenSelector(true);
+          }}
+        >
           <IconPencil />
-          <div>수정</div>
-        </StyledEditButton>
-        <StyledRemoveButton onClick={remove}>
-          <IconCancel />
-          <div>삭제</div>
-        </StyledRemoveButton>
-      </StyledSelector>
-    </Container>
+        </StyledSelectorControlButton>
+        <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
+          <StyledEditButton type='button' onClick={handleChange}>
+            <IconPencil />
+            <div>수정</div>
+          </StyledEditButton>
+          <StyledRemoveButton type='button' onClick={handleRemove}>
+            <IconCancel />
+            <div>삭제</div>
+          </StyledRemoveButton>
+        </StyledSelector>
+      </Container>
+      {errorMessage && <ErrorMessage message={errorMessage} />}
+    </StyledWrapper>
   );
 };
 
 export default ImageUploader;
 
-const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height' | 'error'>>`
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { error: boolean }>`
   display: flex;
   position: relative;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   border-radius: 6px;

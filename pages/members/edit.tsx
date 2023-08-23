@@ -111,11 +111,11 @@ export default function MemberEditPage() {
       interest,
       idealType,
       activities: activities.map((activity) => {
+        const newActivity: SoptActivity = { ...activity, generation: activity.generation.replace(/기/g, '') };
         if (activity.team === UNSELECTED || activity.team === '') {
-          const newActivity: SoptActivity = { ...activity, team: null };
-          return newActivity;
+          return { ...newActivity, team: null };
         }
-        return activity;
+        return newActivity;
       }),
       birthday: formatBirthday(birthday),
       links: links.filter((link) => Object.values(link).every((item) => !!item)),
@@ -165,11 +165,13 @@ export default function MemberEditPage() {
         introduction: myProfile.introduction,
         skill: myProfile.skill,
         links: myProfile.links.length ? myProfile.links : [DEFAULT_LINK],
-        activities: myProfile.soptActivities.map(({ generation, team, part }) => ({
-          generation: `${generation}`,
-          part,
-          team: team ?? UNSELECTED,
-        })),
+        activities: myProfile.soptActivities
+          .sort((a, b) => a.generation - b.generation)
+          .map(({ generation, team, part }) => ({
+            generation: `${generation}기`,
+            part,
+            team: team ?? UNSELECTED,
+          })),
         allowOfficial: myProfile.allowOfficial,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length

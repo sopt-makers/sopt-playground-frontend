@@ -8,7 +8,7 @@ import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import { DEFAULT_LINK } from '@/components/projects/upload/LinkForm/constants';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { ProjectUploadForm } from '@/pages/projects/upload';
+import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import IconTrash from '@/public/icons/icon-trash.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';

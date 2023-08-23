@@ -55,10 +55,10 @@ const ConfirmModal: FC<PropsWithChildren<ConfirmModalProps>> = ({
       {children}
       <StyledModalFooter>
         <StyledButton onClick={handleCancel} size='fill'>
-          {okText ?? '취소'}
+          {cancelText ?? '취소'}
         </StyledButton>
         <StyledButton variant={confirmButtonVariable} onClick={handleConfirm} size='fill'>
-          {cancelText ?? '완료'}
+          {okText ?? '완료'}
         </StyledButton>
       </StyledModalFooter>
     </Modal>

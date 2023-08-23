@@ -50,7 +50,7 @@ export const generation2: MakersGeneration = {
       ],
     },
     {
-      title: '모임 팀',
+      title: 'Product Crew 팀',
       description: 'SOPT 플레이그라운드 내에서 구성원들이 하나로 모일 수 있는 모임 서비스를 만들고 있어요.',
       people: [
         { type: 'member', id: 10, name: '주수한', position: 'PM' },

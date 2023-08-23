@@ -43,7 +43,7 @@ export default function MemberBasicFormSection() {
           />
         </FormItem>
         <FormItem title='이름' essential errorMessage={errors.name?.message}>
-          <StyledInput {...register('name')} error={errors.hasOwnProperty('name')} placeholder='이름 입력' />
+          <StyledInput disabled {...register('name')} error={errors.hasOwnProperty('name')} placeholder='이름 입력' />
         </FormItem>
         <FormItem title='생년월일' errorMessage={getBirthdayErrorMessage()}>
           <StyledBirthdayInputWrapper>

@@ -1,23 +1,27 @@
 {
-  " sopt.org storybook snippet": {
+  "playground storybook snippet": {
     "prefix": "stories",
     "body": [
-      "import { ComponentMeta, ComponentStory } from '@storybook/react';",
+      "import { Meta, StoryObj } from '@storybook/react';",
+      "",
       "import ${2:${TM_FILENAME_BASE/(.*).stories/$1/}} from './${3:${TM_FILENAME_BASE/(.*).stories/$1/}}';",
       "",
-      "export default {",
+      "const meta = {",
       "  component: $2,",
-      "  parameters: {",
-      "  },",
-      "  decorators: [],",
-      "} as ComponentMeta<typeof $2>;",
+      "} satisfies Meta<typeof $2>;",
+      "export default meta;",
       "",
-      "const Template: ComponentStory<typeof $2> = (args) => <$2 {...args} />;",
+      "type Story = StoryObj<typeof meta>;",
       "",
-      "export const Default = Template.bind({});",
-      "Default.args = {};",
-      "Default.storyName = '기본';",
-      "$1"
-    ]
+      "export const Default = {",
+      "  args: {},",
+      "} satisfies Story;",
+      ""
+    ],
+    "description": ""
+  },
+  "media mobile": {
+    "prefix": ["@media mobile", "media mobile"],
+    "body": ["@media \\${MOBILE_MEDIA_QUERY} {", "  ${1}", "}"]
   }
 }
