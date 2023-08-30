@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
   useGetActiveWordchain,
@@ -9,7 +9,6 @@ import {
   wordChainQueryKey,
 } from '@/api/endpoint/wordchain/getWordchain';
 import { usePostWord } from '@/api/endpoint/wordchain/postWord';
-import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
@@ -80,7 +79,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     isError: false,
     errorMessage: '',
   });
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -120,10 +119,10 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
     }
   }, [isVisible, fetchNextPage]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setTimeout(() => {
       scrollToBottom();
-      setIsLoading(false);
+      // setIsLoading(false);
     }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWordchain]);
@@ -172,9 +171,6 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
         </ErrorMessage>
         <Triangle isVisible={isError} />
       </Form>
-      <LoadingWrapper isVisible={isLoading}>
-        <Loading />
-      </LoadingWrapper>
     </Container>
   );
 }
@@ -320,15 +316,6 @@ const Triangle = styled.div<{ isVisible: boolean }>`
   border-left: 8px solid transparent;
   width: 0;
   height: 0;
-`;
-
-const LoadingWrapper = styled(ContainerBase)<{ isVisible: boolean }>`
-  display: ${({ isVisible }) => (isVisible ? 'flex' : 'none')};
-  position: absolute;
-  top: 0;
-  left: 0;
-  align-items: center;
-  justify-content: center;
 `;
 
 const WaringIconSvg = (
