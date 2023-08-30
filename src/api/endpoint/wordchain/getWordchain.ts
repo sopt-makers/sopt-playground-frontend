@@ -72,7 +72,7 @@ export const useGetFinishedWordchainList = ({
   >;
 }) =>
   useInfiniteQuery<FinishedWordchainListPage, unknown, FinishedWordchainListPage>(
-    ['getWordchain', limit],
+    [wordChainQueryKey.getWordchain, limit],
     async ({ pageParam: cursor = 0 }) => {
       const response = await getWordchain.request({ limit, cursor });
       const wordchainList =
