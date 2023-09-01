@@ -52,7 +52,7 @@ const MENTORING_BY_MENTOR_ID: MentoringByMentorId<MentorList> = {
     nonTarget: `- Makers 이야기가 아닌 커리어 고민도 좋아요. 하지만 직무에 대한 고민이라면 프론트엔드가 아닌 다른 고민은 들어드리기 어려울 것 같아요.
       - 주니어가 아니신 분들에게는 도움이 되지 않을 수 있어요.
       `,
-    isOpened: true,
+    isOpened: false,
   },
   '7': {
     mentorName: '송정우',
