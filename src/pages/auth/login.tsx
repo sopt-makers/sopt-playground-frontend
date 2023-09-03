@@ -11,6 +11,7 @@ import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFace
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
+import { Alert } from '@/components/common/Modal/Alert';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
@@ -77,7 +78,25 @@ const LoginPage: FC = () => {
           지금 회원가입하고, 역대 SOPT 구성원들과 소통해 보아요!
         </LoginDescription>
         <LinkContainer>
-          <FacebookButton onClick={facebookAuth.login}>페이스북으로 로그인</FacebookButton>
+          <FacebookButton
+            onClick={() => {
+              Alert({
+                title: '페이스북 로그인 불가 안내',
+                content: (
+                  <p css={{ textAlign: 'center' }}>
+                    페이스북의 정책이 변경되어, <br />
+                    현재는 페이스북 로그인을 사용하실 수 없어요 🥲
+                    <br />
+                    <br />
+                    빠른 시일내로 로그인 재연결을 도와드릴게요 🙏
+                  </p>
+                ),
+                okText: '닫기',
+              });
+            }}
+          >
+            페이스북으로 로그인
+          </FacebookButton>
           {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
           {appleAuth.isAvailable && <AppleAuthButton onClick={appleAuth.login}>Apple로 로그인</AppleAuthButton>}
         </LinkContainer>
