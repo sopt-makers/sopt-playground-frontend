@@ -6,12 +6,9 @@ import { useRecoilValue } from 'recoil';
 
 import AppleAuthButton from '@/components/auth/identityProvider/apple/AppleAuthButton';
 import useAppleAuth from '@/components/auth/identityProvider/apple/useAppleAuth';
-import FacebookButton from '@/components/auth/identityProvider/facebook/FacebookButton';
-import useFacebookAuth from '@/components/auth/identityProvider/facebook/useFacebookAuth';
 import GoogleAuthButton from '@/components/auth/identityProvider/google/GoogleAuthButton';
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
-import { Alert } from '@/components/common/Modal/Alert';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
@@ -48,7 +45,6 @@ const LoginPage: FC = () => {
 
   const lastLoginMethod = useRecoilValue(lastLoginMethodAtom);
 
-  const facebookAuth = useFacebookAuth();
   const googleAuth = useGoogleAuth();
   const appleAuth = useAppleAuth();
 
@@ -78,28 +74,16 @@ const LoginPage: FC = () => {
           지금 회원가입하고, 역대 SOPT 구성원들과 소통해 보아요!
         </LoginDescription>
         <LinkContainer>
-          <FacebookButton
-            onClick={() => {
-              Alert({
-                title: '페이스북 로그인 불가 안내',
-                content: (
-                  <p css={{ textAlign: 'center' }}>
-                    페이스북의 정책이 변경되어, <br />
-                    현재는 페이스북 로그인을 사용하실 수 없어요 🥲
-                    <br />
-                    <br />
-                    빠른 시일내로 로그인 재연결을 도와드릴게요 🙏
-                  </p>
-                ),
-                okText: '닫기',
-              });
-            }}
-          >
-            페이스북으로 로그인
-          </FacebookButton>
           {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
           {appleAuth.isAvailable && <AppleAuthButton onClick={appleAuth.login}>Apple로 로그인</AppleAuthButton>}
         </LinkContainer>
+        <ResetLoginCard href={playgroundLink.resetLogin()}>
+          <StyledWarningIcon />
+          <ResetLoginDescription>
+            Facebook 정책이 변경되어, 앞으로 Facebook 로그인이 불가해요. 다른 계정으로 재설정 부탁드려요.
+          </ResetLoginDescription>
+          <ResetLoginAction>소셜 계정 재설정하기 {'>'}</ResetLoginAction>
+        </ResetLoginCard>
         <RegisterInfo>
           Playground가 처음이신가요?{' '}
           <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink')}>
@@ -200,6 +184,42 @@ const LinkContainer = styled.div`
   }
 `;
 
+const ResetLoginCard = styled(Link)`
+  display: grid;
+  grid:
+    'icon description' auto
+    'icon action' auto
+    / auto 1fr;
+  row-gap: 8px;
+  column-gap: 14px;
+  margin-top: 12px;
+  border-radius: 10px;
+  background: rgb(24 119 242 / 20%);
+  padding: 16px;
+  max-width: 420px;
+`;
+
+const StyledWarningIcon = styled(WarningIcon)`
+  grid-area: icon;
+  margin-top: 2px;
+  width: 14px;
+  height: 14px;
+`;
+
+const ResetLoginDescription = styled.div`
+  grid-area: description;
+  line-height: 135%;
+  color: #e4edff; /* TODO: 컬러 시스템 완성되면 변경 필요 */
+
+  ${textStyles.SUIT_14_M}
+`;
+
+const ResetLoginAction = styled.div`
+  grid-area: action;
+
+  ${textStyles.SUIT_14_M}
+`;
+
 const RegisterInfo = styled.div`
   margin-top: 30px;
   color: ${colors.gray80};
@@ -292,3 +312,16 @@ const StyledMakersLogo = styled.img`
     height: 35px;
   }
 `;
+
+function WarningIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg width={14} height={14} fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+      <path
+        fillRule='evenodd'
+        clipRule='evenodd'
+        d='M7 0a7 7 0 100 14A7 7 0 007 0zm.572 4.143a.571.571 0 00-1.143 0v3.214a.571.571 0 101.143 0V4.143zM7 10.572a.714.714 0 100-1.43.714.714 0 000 1.43z'
+        fill='#E4EDFF'
+      />
+    </svg>
+  );
+}
