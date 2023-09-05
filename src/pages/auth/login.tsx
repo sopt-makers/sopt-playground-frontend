@@ -192,11 +192,15 @@ const ResetLoginCard = styled(Link)`
     / auto 1fr;
   row-gap: 8px;
   column-gap: 14px;
-  margin-top: 12px;
+  margin-top: 24px;
   border-radius: 10px;
   background: rgb(24 119 242 / 20%);
   padding: 16px;
   max-width: 420px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 12px;
+  }
 `;
 
 const StyledWarningIcon = styled(WarningIcon)`
