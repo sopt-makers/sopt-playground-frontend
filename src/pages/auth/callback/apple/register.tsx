@@ -48,7 +48,7 @@ const AppleRegisterCallbackPage: FC = () => {
         error: 'unknown',
       };
     } else if (registerToken.type === 'reset') {
-      const res = await appleAuth.sendRegisterRequest(code, registerToken.value, state);
+      const res = await appleAuth.sendResetRequest(code, registerToken.value, state);
 
       if (res.success) {
         return {
