@@ -18,6 +18,7 @@ export const playgroundLink = {
   login: () => `/auth/login`,
   register: () => `/auth/verify`,
   resetLogin: () => `/auth/reset`,
+  reconnectSocialAuth: () => `/auth/reconnect`,
   connectSocialAuth: () => `/auth/register`,
   makers: () => `/makers`,
   sopticle: () => `/sopticle`,

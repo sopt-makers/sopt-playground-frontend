@@ -4,12 +4,12 @@ import { FC, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { postRegistrationInfo } from '@/api/endpoint_LEGACY/auth';
-import Register from '@/components/auth/register/Register';
+import Reconnect from '@/components/auth/reset/Reconnect';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
 
-export const RegisterPage: FC = () => {
+export const ReconnectPage: FC = () => {
   const { query: params, status } = useStringRouterQuery(['token'] as const);
   const setRegisterToken = useSetRecoilState(registerTokenAtom);
 
@@ -19,7 +19,7 @@ export const RegisterPage: FC = () => {
 
   useEffect(() => {
     if (status === 'success') {
-      setRegisterToken({ type: 'register', value: params.token });
+      setRegisterToken({ type: 'reset', value: params.token });
     }
   }, [params, status, setRegisterToken]);
 
@@ -33,14 +33,14 @@ export const RegisterPage: FC = () => {
 
   return (
     <StyledRegisterPage>
-      <Register userInfo={{ name: query.data.name }} />
+      <Reconnect userInfo={{ name: query.data.name }} />
     </StyledRegisterPage>
   );
 };
 
-setLayout(RegisterPage, 'fullScreen');
+setLayout(ReconnectPage, 'fullScreen');
 
-export default RegisterPage;
+export default ReconnectPage;
 
 const StyledRegisterPage = styled.div`
   display: flex;

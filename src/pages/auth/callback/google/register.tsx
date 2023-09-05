@@ -33,24 +33,47 @@ const GoogleRegisterCallbackPage: FC = () => {
       };
     }
 
-    const res = await googleAuth.sendRegisterRequest(code, registerToken, state);
+    if (registerToken.type === 'register') {
+      const res = await googleAuth.sendRegisterRequest(code, registerToken.value, state);
 
-    if (res.success) {
+      if (res.success) {
+        return {
+          success: true,
+          accessToken: res.accessToken,
+        };
+      }
+
       return {
-        success: true,
-        accessToken: res.accessToken,
+        success: false,
+        error: 'unknown',
+      };
+    } else if (registerToken.type === 'reset') {
+      const res = await googleAuth.sendResetRequest(code, registerToken.value, state);
+
+      if (res.success) {
+        return {
+          success: true,
+          accessToken: res.accessToken,
+        };
+      }
+
+      return {
+        success: false,
+        error: 'unknown',
       };
     }
 
-    return {
-      success: false,
-      error: 'unknown',
-    };
+    const _: never = registerToken.type;
+    throw new Error('Should never reach here.');
   };
 
   const handleSuccess = () => {
     setLastLoginMethod('google');
-    router.replace(lastUnauthorized.popPath() ?? '/');
+    if (registerToken?.type === 'register') {
+      router.replace(lastUnauthorized.popPath() ?? '/');
+    } else if (registerToken?.type === 'reset') {
+      router.replace('/');
+    }
   };
 
   return <OAuthLoginCallback oauthKey='googleRegister' processParam={processParam} onSuccess={handleSuccess} />;
