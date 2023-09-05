@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import useByPhone from '@/components/auth/register/verify/useByPhone';
 import ByPhoneView from '@/components/auth/register/verify/view/ByPhoneView';
+import useResetLogin from '@/components/auth/reset/useResetLogin';
 import { playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -16,7 +16,7 @@ const ResetPage: FC = () => {
     state: phoneState,
     submitCode,
     submitPhone,
-  } = useByPhone({
+  } = useResetLogin({
     onCodeSuccess: (registerToken) => {
       router.push({
         pathname: playgroundLink.reconnectSocialAuth(),
