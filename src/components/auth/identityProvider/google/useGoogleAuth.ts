@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { googleChangeEndpoint } from '@/api/endpoint/auth/googleChange';
 import { postGoogleAuth, postGoogleRegistration } from '@/api/endpoint_LEGACY/auth';
 import useStateParam from '@/components/auth/util/useStateParam';
 import { GOOGLE_OAUTH_CLIENT_ID, ORIGIN } from '@/constants/env';
@@ -17,6 +18,11 @@ interface GoogleAuth {
     { success: true; accessToken: string } | { success: false; error: 'invalidNonce' | 'notMember' | 'unknown' }
   >;
   sendRegisterRequest(
+    code: string,
+    registerToken: string,
+    state: string,
+  ): Promise<{ success: true; accessToken: string } | { success: false }>;
+  sendResetRequest(
     code: string,
     registerToken: string,
     state: string,
@@ -78,6 +84,27 @@ const useGoogleAuth = (): GoogleAuth => {
 
       try {
         const { accessToken } = await postGoogleRegistration({
+          code,
+          registerToken,
+        });
+
+        return {
+          success: true,
+          accessToken,
+        };
+      } catch {
+        return {
+          success: false,
+        };
+      }
+    },
+    async sendResetRequest(code, registerToken, state) {
+      if (state !== stateParam) {
+        return { success: false };
+      }
+
+      try {
+        const { accessToken } = await googleChangeEndpoint.request({
           code,
           registerToken,
         });

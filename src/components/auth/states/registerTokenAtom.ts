@@ -4,7 +4,7 @@ import { isClientSide } from '@/utils';
 
 const REGISTER_TOKEN_KEY = 'registerToken';
 
-export const registerTokenAtom = atom<string | null>({
+export const registerTokenAtom = atom<{ type: 'register' | 'reset'; value: string } | null>({
   key: 'registerTokenAtom',
   default: null,
   effects: [
@@ -12,7 +12,11 @@ export const registerTokenAtom = atom<string | null>({
       if (isClientSide()) {
         const token = sessionStorage.getItem(REGISTER_TOKEN_KEY);
         if (token !== null) {
-          setSelf(token);
+          try {
+            setSelf(JSON.parse(token));
+          } catch {
+            sessionStorage.removeItem(REGISTER_TOKEN_KEY);
+          }
         }
       }
 
@@ -21,7 +25,7 @@ export const registerTokenAtom = atom<string | null>({
           sessionStorage.removeItem(REGISTER_TOKEN_KEY);
           return;
         }
-        sessionStorage.setItem(REGISTER_TOKEN_KEY, token);
+        sessionStorage.setItem(REGISTER_TOKEN_KEY, JSON.stringify(token));
       });
     },
   ],

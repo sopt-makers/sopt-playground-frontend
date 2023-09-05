@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { AnimatePresence, m } from 'framer-motion';
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, ReactNode, useState } from 'react';
 
 import { PHONE_REGEX, PHONE_REGEX_SHORT } from '@/components/auth/register/verify/regex';
 import VerifySubmitButton from '@/components/auth/register/verify/VerifySubmitButton';
@@ -36,10 +36,11 @@ export type ByPhoneStates =
 type ByPhoneProps = {
   onSubmitPhone?: (phone: string) => void;
   onSubmitCode?: (code: string) => void;
+  submitButtonContent?: ReactNode;
 } & ByPhoneStates;
 
 const ByPhoneView: FC<ByPhoneProps> = (props) => {
-  const { type, onSubmitPhone, onSubmitCode } = props;
+  const { type, onSubmitPhone, onSubmitCode, submitButtonContent } = props;
 
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
@@ -110,7 +111,7 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
         </AnimatePresence>
 
         <SubmitCodeButton disabled={!oneOfStates(props, ['codeReady', 'codeError'])}>
-          SOPT 회원 인증 완료
+          {submitButtonContent ?? 'SOPT 회원 인증 완료'}
         </SubmitCodeButton>
       </form>
     </StyledByEmail>
