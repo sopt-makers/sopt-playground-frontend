@@ -63,16 +63,6 @@ const StyledSection = styled.section`
     }
   }
 
-  .public-timing {
-    margin-top: 10px;
-    color: ${colors.purple100};
-
-    @media ${MOBILE_MEDIA_QUERY} {
-      margin-top: 20px;
-      white-space: pre-line;
-    }
-  }
-
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 28px 18px;
     width: 100%;
