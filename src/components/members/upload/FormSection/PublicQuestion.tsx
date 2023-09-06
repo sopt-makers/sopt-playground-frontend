@@ -16,7 +16,7 @@ export default function MemberPublicQuestionFormSection() {
     <StyledSection>
       <div className='question'>{`공식 홈페이지에도 프로필을 \n공개하시겠어요?`}</div>
       <Switch {...register('allowOfficial')} size={isMobile ? mobileSwitchSize : switchSize} className='switch' />
-      <div className='info description'>공식 홈페이지는 이름, 프로필 사진, 이메일 정보만 보여져요.</div>
+      <div className='info description'>{`공식 홈페이지는 '이름', '프로필 사진', \n'나를 한 마디로 표현한다면?' 정보만 보여져요.`}</div>
     </StyledSection>
   );
 }
@@ -59,6 +59,7 @@ const StyledSection = styled.section`
 
     @media ${MOBILE_MEDIA_QUERY} {
       margin-top: 12px;
+      white-space: pre-line;
     }
   }
 
