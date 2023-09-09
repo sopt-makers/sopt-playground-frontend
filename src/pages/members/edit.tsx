@@ -58,7 +58,7 @@ export default function MemberEditPage() {
   const {
     handleSubmit,
     reset,
-    formState: { isValid, isDirty },
+    formState: { errors, isDirty },
   } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
@@ -233,7 +233,7 @@ export default function MemberEditPage() {
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
-        <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={isValid}>
+        <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
           <SoptActivityFormSection />
           <TmiFormSection />
