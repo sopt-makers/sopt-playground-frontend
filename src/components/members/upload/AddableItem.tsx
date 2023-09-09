@@ -12,14 +12,14 @@ interface MemberAddableItemProps extends HTMLAttributes<HTMLDivElement> {
   onRemove: () => void;
   errorMessage?: string;
   children: ReactNode;
-  essential?: boolean;
+  required?: boolean;
 }
 
 export default function MemberAddableItem({
   onRemove,
   errorMessage,
   children,
-  essential,
+  required,
   ...props
 }: MemberAddableItemProps) {
   const [isHover, setIsHover] = useState(false);
@@ -31,12 +31,12 @@ export default function MemberAddableItem({
       <StyledItemWrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
         {children}
         <Responsive only='desktop' asChild>
-          <StyledDeleteButton onClick={essential ? undefined : onRemove} isVisible={essential ? false : isHover}>
+          <StyledDeleteButton onClick={required ? undefined : onRemove} isVisible={required ? false : isHover}>
             <IconDelete />
           </StyledDeleteButton>
         </Responsive>
         <Responsive only='mobile' asChild>
-          <MobileDeleteButton onClick={essential ? undefined : onRemove} isVisible={!essential}>
+          <MobileDeleteButton onClick={required ? undefined : onRemove} isVisible={!required}>
             삭제
           </MobileDeleteButton>
         </Responsive>

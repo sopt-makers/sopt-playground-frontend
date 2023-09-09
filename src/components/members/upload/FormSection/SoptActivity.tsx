@@ -25,7 +25,7 @@ export default function MemberSoptActivityFormSection() {
 
   return (
     <StyledFormSection>
-      <FormHeader title='SOPT 활동 정보' essential />
+      <FormHeader title='SOPT 활동 정보' required />
       <ActivityList>
         {fields.map((field, index) => (
           <Activity key={field.id}>
