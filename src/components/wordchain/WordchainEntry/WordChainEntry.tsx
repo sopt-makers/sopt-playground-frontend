@@ -14,6 +14,7 @@ import IconWordchainMessage from '@/public/icons/icon-wordchain-message.svg';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 
 interface WordChainEntryProps {
   className?: string;
@@ -41,19 +42,24 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
             <TitleWrapper>
               <StyledIconWordchainMessage />
               <StyledTitle>
-                {status === 'start' && (
-                  <>
-                    SOPT 회원들과 끝말잇기 할 사람,
-                    <br />
-                    지금이 바로 명예의 전당에 오를 기회!
-                  </>
-                )}
-                {status === 'progress' && (
-                  <>
-                    현재 {`'${data?.currentWinner?.name}'`}님이 <br />
-                    끝말잇기를 이기고 있어요!
-                  </>
-                )}
+                <SwitchCase
+                  value={status}
+                  caseBy={{
+                    start: (
+                      <>
+                        SOPT 회원들과 끝말잇기 할 사람,
+                        <br />
+                        지금이 바로 명예의 전당에 오를 기회!
+                      </>
+                    ),
+                    progress: (
+                      <>
+                        현재 {`'${data?.currentWinner?.name}'`}님이 <br />
+                        끝말잇기를 이기고 있어요!
+                      </>
+                    ),
+                  }}
+                />
               </StyledTitle>
             </TitleWrapper>
             <Responsive only='desktop'>
@@ -73,10 +79,15 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
               </WordWrapper>
             </Responsive>
             <Responsive only='mobile'>
-              {status === 'progress' && lastWord && (
-                <WordchainMessage type='word' word={lastWord.word} user={lastWord.user} />
-              )}
-              {status === 'start' && <WordchainMessage type='startWord' word={data.startWord} />}
+              <SwitchCase
+                value={status}
+                caseBy={{
+                  start: <WordchainMessage type='startWord' word={data.startWord} />,
+                  progress: lastWord ? (
+                    <WordchainMessage type='word' word={lastWord?.word} user={lastWord?.user} />
+                  ) : null,
+                }}
+              />
             </Responsive>
             <WordchainMessage type='helper' word={`'${data.nextSyllable}'(으)로 시작하는 단어는?`} />
           </RightSection>
