@@ -73,7 +73,7 @@ export const memberFormSchema = yup.object().shape({
       }),
     )
     .nullable(),
-  allowOfficial: yup.boolean(),
+  allowOfficial: yup.boolean().nullable(),
   careers: yup
     .array()
     .of(
