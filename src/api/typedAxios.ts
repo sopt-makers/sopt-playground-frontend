@@ -49,4 +49,4 @@ export function createEndpoint<
   };
 }
 
-export type GetResponseType<T> = T extends Endpoint<infer R, never> ? R : never;
+export type GetResponseType<T> = T extends Endpoint<infer R, unknown[]> ? R : never;
