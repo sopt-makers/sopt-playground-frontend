@@ -70,7 +70,7 @@ export default function MemberBasicFormSection() {
             />
           </StyledBirthdayInputWrapper>
         </FormItem>
-        <FormItem title='연락처' errorMessage={errors.phone?.message}>
+        <FormItem title='연락처' errorMessage={errors.phone?.message} essential>
           <StyledInput {...register('phone')} placeholder='010-XXXX-XXXX' />
         </FormItem>
         <FormItem title='이메일' essential errorMessage={errors.email?.message}>
