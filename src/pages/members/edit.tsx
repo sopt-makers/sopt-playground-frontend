@@ -48,21 +48,18 @@ export default function MemberEditPage() {
   });
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: myProfile, isLoading: isLoadingMemberProfileOfMe } = useGetMemberProfileOfMe({
-    cacheTime: Infinity,
-    staleTime: Infinity,
-  });
+  const { data: myProfile, isLoading: isLoadingMyProfile } = useGetMemberProfileOfMe();
   const { data: me, isLoading: isLoadingMe } = useGetMemberOfMe();
   const toast = useToast();
 
   const {
     handleSubmit,
     reset,
-    formState: { isValid, isDirty },
+    formState: { errors, isDirty },
   } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
-    if (isLoadingMe || isLoadingMemberProfileOfMe) {
+    if (isLoadingMe || isLoadingMyProfile) {
       toast.show({ message: '다시 시도해주세요.' });
       return;
     }
@@ -233,7 +230,7 @@ export default function MemberEditPage() {
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
-        <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={isValid}>
+        <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
           <SoptActivityFormSection />
           <TmiFormSection />

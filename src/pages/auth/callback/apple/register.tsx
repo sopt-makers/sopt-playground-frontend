@@ -6,14 +6,13 @@ import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/O
 import useAppleAuth from '@/components/auth/identityProvider/apple/useAppleAuth';
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
-import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import { playgroundLink } from '@/constants/links';
 
 const AppleRegisterCallbackPage: FC = () => {
   const router = useRouter();
   const registerToken = useRecoilValue(registerTokenAtom);
   const setLastLoginMethod = useSetRecoilState(lastLoginMethodAtom);
   const appleAuth = useAppleAuth();
-  const lastUnauthorized = useLastUnauthorized();
 
   const processParam: ProcessParamFn = async (url) => {
     const code = url.searchParams.get('code');
@@ -33,24 +32,47 @@ const AppleRegisterCallbackPage: FC = () => {
       };
     }
 
-    const res = await appleAuth.sendRegisterRequest(code, registerToken, state);
+    if (registerToken.type === 'register') {
+      const res = await appleAuth.sendRegisterRequest(code, registerToken.value, state);
 
-    if (res.success) {
+      if (res.success) {
+        return {
+          success: true,
+          accessToken: res.accessToken,
+        };
+      }
+
       return {
-        success: true,
-        accessToken: res.accessToken,
+        success: false,
+        error: 'unknown',
+      };
+    } else if (registerToken.type === 'reset') {
+      const res = await appleAuth.sendResetRequest(code, registerToken.value, state);
+
+      if (res.success) {
+        return {
+          success: true,
+          accessToken: res.accessToken,
+        };
+      }
+
+      return {
+        success: false,
+        error: 'unknown',
       };
     }
 
-    return {
-      success: false,
-      error: 'unknown',
-    };
+    const _: never = registerToken.type;
+    throw new Error('Should never reach here.');
   };
 
   const handleSuccess = () => {
     setLastLoginMethod('apple');
-    router.replace(lastUnauthorized.popPath() ?? '/');
+    if (registerToken?.type === 'register') {
+      router.replace(playgroundLink.memberUpload());
+    } else if (registerToken?.type === 'reset') {
+      router.replace('/');
+    }
   };
 
   return <OAuthLoginCallback oauthKey='appleRegister' processParam={processParam} onSuccess={handleSuccess} />;
