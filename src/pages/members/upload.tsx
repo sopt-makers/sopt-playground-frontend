@@ -1,11 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import { postMemberProfile } from '@/api/endpoint_LEGACY/members';
 import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
+import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';
 import { MEMBER_DEFAULT_VALUES, UNSELECTED } from '@/components/members/upload/constants';
@@ -19,7 +22,6 @@ import SoptActivityFormSection from '@/components/members/upload/FormSection/Sop
 import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
 import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
-import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
 export default function MemberUploadPage() {
@@ -30,10 +32,13 @@ export default function MemberUploadPage() {
   });
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { data: myProfile } = useGetMemberProfileOfMe();
+  const lastUnauthorized = useLastUnauthorized();
 
   const {
     handleSubmit,
     formState: { errors },
+    reset,
   } = formMethods;
 
   const onSubmit = async (formData: MemberUploadForm) => {
@@ -106,8 +111,26 @@ export default function MemberUploadPage() {
     queryClient.invalidateQueries(['getMemberProfileById', response.id]);
     queryClient.invalidateQueries(['getMemberProfile']);
 
-    router.push(playgroundLink.memberDetail(response.id));
+    router.replace(lastUnauthorized.popPath() ?? '/');
   };
+
+  useEffect(() => {
+    if (myProfile) {
+      reset({
+        ...MEMBER_DEFAULT_VALUES,
+        name: myProfile.name,
+        email: myProfile.email ?? '',
+        phone: myProfile.phone ?? '',
+        activities: myProfile.soptActivities
+          .sort((a, b) => a.generation - b.generation)
+          .map(({ generation, team, part }) => ({
+            generation: `${generation}기`,
+            part,
+            team: team ?? UNSELECTED,
+          })),
+      });
+    }
+  }, [myProfile, reset]);
 
   return (
     <AuthRequired>
