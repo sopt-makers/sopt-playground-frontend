@@ -5,7 +5,8 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"],
+      "@/public/*": ["./public/*"]
     },
     "types": ["jest"],
     "skipLibCheck": true,
@@ -21,6 +22,6 @@
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "src/**/*", "public/**/*"],
   "exclude": ["node_modules", "functions/**/*", "worker/**/*"]
 }
