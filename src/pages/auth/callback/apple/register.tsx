@@ -67,7 +67,7 @@ const AppleRegisterCallbackPage: FC = () => {
   };
 
   const handleSuccess = () => {
-    setLastLoginMethod('google');
+    setLastLoginMethod('apple');
     if (registerToken?.type === 'register') {
       router.replace(playgroundLink.memberUpload());
     } else if (registerToken?.type === 'reset') {
