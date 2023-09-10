@@ -37,7 +37,7 @@ export default function MemberUploadPage() {
 
   const {
     handleSubmit,
-    formState: { isValid },
+    formState: { errors },
     reset,
   } = formMethods;
 
@@ -135,7 +135,7 @@ export default function MemberUploadPage() {
   return (
     <AuthRequired>
       <FormProvider {...formMethods}>
-        <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)} isValid={isValid}>
+        <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
           <SoptActivityFormSection />
           <TmiFormSection />
