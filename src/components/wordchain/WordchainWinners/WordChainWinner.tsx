@@ -14,7 +14,15 @@ export default function WordChainWinner() {
     "hasNext": true
   }
 
+  const rommId=WORDCHAIN_WINNER_DATA.winners[0]?.roomId
+  const profileImage=WORDCHAIN_WINNER_DATA.winners[0]?.winner?.profileImage
+  const name=WORDCHAIN_WINNER_DATA.winners[0]?.winner?.name
+
   return (
-    <></>
+    <>
+    <p>{rommId}</p>
+    <img src={profileImage} alt="우승자 이미지"/>
+    <p>{name}</p>
+    </>
   )
 }
