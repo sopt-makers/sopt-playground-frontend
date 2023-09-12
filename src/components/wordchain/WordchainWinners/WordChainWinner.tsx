@@ -4,28 +4,16 @@ import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function WordChainWinner() {
-  const WORDCHAIN_WINNER_DATA = {
-    winners: [
-      {
-        roomId: 25,
-        winner: {
-          id: 1,
-          profileImage: 'https://item.kakaocdn.net/do/22b3b5f6c65114f383f5986c98828993616b58f7bf017e58d417ccb3283deeb3',
-          name: '서지수',
-        },
-      },
-    ],
-    hasNext: true,
-  };
+interface WordChainWinnerProps {
+  roomId: number;
+  profileImage: string;
+  name: string;
+}
 
-  const rommId = WORDCHAIN_WINNER_DATA.winners[0]?.roomId;
-  const profileImage = WORDCHAIN_WINNER_DATA.winners[0]?.winner?.profileImage;
-  const name = WORDCHAIN_WINNER_DATA.winners[0]?.winner?.name;
-
+export default function WordChainWinner({ roomId, profileImage, name }: WordChainWinnerProps) {
   return (
     <WordChainWinnerContainer>
-      <WinRound>{rommId}번째</WinRound>
+      <WinRound>{roomId}번째</WinRound>
       <WinnerImageBox>
         <WinnerImage src={profileImage} alt='우승자 이미지' />
       </WinnerImageBox>
