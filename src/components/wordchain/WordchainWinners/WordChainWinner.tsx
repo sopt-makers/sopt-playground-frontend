@@ -90,7 +90,7 @@ const WinnerImageBox = styled.div`
   justify-content: center;
   margin-right: 6px;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.black40};
   width: 20px;
   height: 20px;
   overflow: hidden;
