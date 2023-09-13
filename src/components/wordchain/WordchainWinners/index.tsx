@@ -65,7 +65,6 @@ export default function WordchainWinners() {
     queryKey: ['getWordchainWinners'],
   });
 
-  console.log('Asdfjdkfjkdfjdk');
   console.log(wordchainWinnersData);
 
   useEffect(() => {

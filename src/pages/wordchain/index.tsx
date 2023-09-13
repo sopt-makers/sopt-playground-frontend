@@ -23,8 +23,6 @@ const WordchainPage = () => {
     logPageViewEvent('wordchain');
   }, [logPageViewEvent]);
 
-  console.log('안녕하세요');
-
   return (
     <AuthRequired>
       <Container>
@@ -47,16 +45,6 @@ const WordchainPage = () => {
                 />
               </RuleWrapper>
               <WordchainWinners />
-              {/* <Winners>
-                <DimmedWinners>
-                  <Text as='h2' typography='SUIT_20_B'>
-                    아직 준비 중인 기능이에요 🛠️
-                  </Text>
-                </DimmedWinners>
-                <Text as='h2' typography='SUIT_20_B'>
-                  👑 역대 우승자 명예의 전당 👑
-                </Text>
-              </Winners> */}
             </Sidebar>
           </Wrapper>
         </Responsive>
@@ -76,16 +64,6 @@ const WordchainPage = () => {
             />
             <Divider />
             <WordchainWinners />
-            {/* <Winners>
-              <DimmedWinners>
-                <Text as='h2' typography='SUIT_15_B'>
-                  아직 준비 중인 기능이에요 🛠️
-                </Text>
-              </DimmedWinners>
-              <Text as='h2' typography='SUIT_14_B'>
-                👑 역대 우승자 명예의 전당 👑
-              </Text>
-            </Winners> */}
           </Wrapper>
           <StyledWordchainChatting />
         </MobileResponsive>
