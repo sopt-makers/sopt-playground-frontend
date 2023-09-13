@@ -15,7 +15,11 @@ export default function WordChainWinner({ roomId, profileImage, name }: WordChai
     <WordChainWinnerContainer>
       <WinRound>{roomId}번째</WinRound>
       <WinnerImageBox>
-        <WinnerImage src={profileImage} alt='우승자 이미지' />
+        {profileImage ? (
+          <WinnerImage src={profileImage} alt='우승자 이미지' />
+        ) : (
+          <DefaultImage src='/icons/icon-member-default.svg' alt='default_member_image' />
+        )}
       </WinnerImageBox>
       <WinnerName>{name}</WinnerName>
     </WordChainWinnerContainer>
@@ -90,6 +94,13 @@ const WinnerImage = styled.img`
   margin: auto;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+`;
+
+const DefaultImage = styled.img`
+  transform: translate(50, 50);
+  margin: auto;
+  width: 40%;
   object-fit: cover;
 `;
 
