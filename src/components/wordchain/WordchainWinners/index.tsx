@@ -39,11 +39,14 @@ export default function WordchainWinners() {
     <WinnerBoard>
       <WinnerHeader>👑 역대 우승자 명예의 전당 👑</WinnerHeader>
       <WinnerList>
-        {wordchainWinners?.map((winnerList, index) => (
-          <Fragment key={index}>
-            {winnerList?.map(({ roomId, winner }) => {
+        {wordchainWinners?.map((winnerList, totalListIndex) => (
+          <Fragment key={totalListIndex}>
+            {winnerList?.map(({ roomId, winner }, winnerIndex) => {
+              const isRecent = totalListIndex === 0 && winnerIndex === 0;
               const { id, profileImage, name } = winner;
-              return <WordChainWinner key={id} roomId={roomId} profileImage={profileImage} name={name} />;
+              return (
+                <WordChainWinner key={id} roomId={roomId} profileImage={profileImage} name={name} isRecent={isRecent} />
+              );
             })}
           </Fragment>
         ))}
@@ -70,10 +73,10 @@ const WinnerBoard = styled.aside`
 
   @media ${MOBILE_MEDIA_QUERY} {
     align-items: flex-start;
-    margin-left: 20px;
+    margin: 20px 3px 24px 20px;
     background-color: transparent;
     padding: 0;
-    width: 352px;
+    width: 100%;
     height: 63px;
   }
 `;
@@ -98,7 +101,7 @@ const WinnerList = styled.section`
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: row;
-    width: 352px;
+    width: 100%;
     height: 45px;
   }
 `;

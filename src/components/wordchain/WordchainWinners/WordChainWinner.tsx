@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from '@/styles/colors';
@@ -8,11 +9,12 @@ interface WordChainWinnerProps {
   roomId: number;
   profileImage: string;
   name: string;
+  isRecent: boolean;
 }
 
-export default function WordChainWinner({ roomId, profileImage, name }: WordChainWinnerProps) {
+export default function WordChainWinner({ roomId, profileImage, name, isRecent }: WordChainWinnerProps) {
   return (
-    <WordChainWinnerContainer>
+    <WordChainWinnerContainer isRecent={isRecent}>
       <WinRound>{roomId}번째</WinRound>
       <WinnerImageBox>
         {profileImage ? (
@@ -26,12 +28,20 @@ export default function WordChainWinner({ roomId, profileImage, name }: WordChai
   );
 }
 
-const WordChainWinnerContainer = styled.article`
+const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
   display: grid;
   grid: [row1-start] 'winRound winnerImageBox winnerName' min-content [row1-end]/ auto;
   margin-top: 12px;
   border-radius: 10px;
-  background-color: ${colors.black60};
+  ${({ isRecent }) =>
+    isRecent
+      ? css`
+          background-color: ${colors.purple100};
+        `
+      : css`
+          background-color: ${colors.black60};
+        `}
+
   padding: 14px 20px;
   width: 268px;
 
