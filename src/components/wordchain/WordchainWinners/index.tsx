@@ -73,7 +73,7 @@ const WinnerBoard = styled.aside`
 
   @media ${MOBILE_MEDIA_QUERY} {
     align-items: flex-start;
-    margin: 20px 3px 24px 20px;
+    margin: 20px 3px 24px 0;
     background-color: transparent;
     padding: 0;
     width: 100%;
