@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import TrophyIcon from 'public/icons/icon-trophy.svg';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -46,6 +47,7 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
   const { data: currentWinnerName } = useGetCurrentWinnerName();
   const { mutate } = useNewGameMutation();
   const { data: me } = useGetMemberOfMe();
+  const queryClient = useQueryClient();
 
   const onClickGiveUp = async () => {
     const confirm = await Confirm({
@@ -58,6 +60,7 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
       mutate(undefined, {
         onSuccess: () => {
           logSubmitEvent('wordchainNewGame');
+          queryClient.invalidateQueries(['getWordchainWinners']);
         },
       });
     }
