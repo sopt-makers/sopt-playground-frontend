@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-// import router from 'next/router';
 import { Fragment, useEffect, useMemo } from 'react';
 
 import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
