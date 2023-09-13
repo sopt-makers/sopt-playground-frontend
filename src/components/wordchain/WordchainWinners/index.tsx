@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 // import router from 'next/router';
-import { useEffect } from 'react';
+import { Fragment, useEffect, useMemo } from 'react';
 
 import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
 import WordChainWinner from '@/components/wordchain/WordchainWinners/WordChainWinner';
@@ -65,7 +65,15 @@ export default function WordchainWinners() {
     queryKey: ['getWordchainWinners'],
   });
 
-  console.log(wordchainWinnersData);
+  const wordchainWinners = useMemo(
+    () =>
+      wordchainWinnersData?.pages.map((page) =>
+        page.winners.map((winner) => ({
+          ...winner,
+        })),
+      ),
+    [wordchainWinnersData],
+  );
 
   useEffect(() => {
     if (isVisible) {
@@ -77,10 +85,14 @@ export default function WordchainWinners() {
     <WinnerBoard>
       <WinnerHeader>👑 역대 우승자 명예의 전당 👑</WinnerHeader>
       <WinnerList>
-        {WORDCHAIN_WINNERS_DATA.winners?.map(({ roomId, winner }) => {
-          const { id, profileImage, name } = winner;
-          return <WordChainWinner key={id} roomId={roomId} profileImage={profileImage} name={name} />;
-        })}
+        {wordchainWinners?.map((winnerList, index) => (
+          <Fragment key={index}>
+            {winnerList?.map(({ roomId, winner }) => {
+              const { id, profileImage, name } = winner;
+              return <WordChainWinner key={id} roomId={roomId} profileImage={profileImage} name={name} />;
+            })}
+          </Fragment>
+        ))}
         <Target ref={ref} />
       </WinnerList>
     </WinnerBoard>
