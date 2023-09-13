@@ -1,9 +1,15 @@
 import styled from '@emotion/styled';
+// import router from 'next/router';
+import { useEffect } from 'react';
 
+import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
 import WordChainWinner from '@/components/wordchain/WordchainWinners/WordChainWinner';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+
+const PAGE_LIMIT = 5;
 
 export default function WordchainWinners() {
   const WORDCHAIN_WINNERS_DATA = {
@@ -52,6 +58,22 @@ export default function WordchainWinners() {
     hasNext: true,
   };
 
+  const { ref, isVisible } = useIntersectionObserver();
+
+  const { data: wordchainWinnersData, fetchNextPage } = useWordchainWinnersQuery({
+    limit: PAGE_LIMIT,
+    queryKey: ['getWordchainWinners'],
+  });
+
+  console.log('Asdfjdkfjkdfjdk');
+  console.log(wordchainWinnersData);
+
+  useEffect(() => {
+    if (isVisible) {
+      fetchNextPage();
+    }
+  }, [isVisible, fetchNextPage]);
+
   return (
     <WinnerBoard>
       <WinnerHeader>👑 역대 우승자 명예의 전당 👑</WinnerHeader>
@@ -60,10 +82,16 @@ export default function WordchainWinners() {
           const { id, profileImage, name } = winner;
           return <WordChainWinner key={id} roomId={roomId} profileImage={profileImage} name={name} />;
         })}
+        <Target ref={ref} />
       </WinnerList>
     </WinnerBoard>
   );
 }
+
+const Target = styled.div`
+  /* 임시 */
+  background-color: ${colors.white};
+`;
 
 const WinnerBoard = styled.aside`
   display: flex;
