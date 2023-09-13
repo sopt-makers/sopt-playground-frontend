@@ -56,10 +56,7 @@ export default function WordchainWinners() {
   );
 }
 
-const Target = styled.div`
-  /* 임시 */
-  background-color: ${colors.white};
-`;
+const Target = styled.div``;
 
 const WinnerBoard = styled.aside`
   display: flex;
@@ -88,7 +85,6 @@ const WinnerHeader = styled.h1`
   ${textStyles.SUIT_20_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    /* margin-bottom: 12px; */
     ${textStyles.SUIT_14_SB}
   }
 `;
@@ -96,11 +92,13 @@ const WinnerHeader = styled.h1`
 const WinnerList = styled.section`
   display: flex;
   flex-direction: column;
+  margin-bottom: -4px;
   height: 312px;
   overflow: scroll;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: row;
+    margin-bottom: 0;
     width: 100%;
     height: 45px;
   }

@@ -31,14 +31,15 @@ export default function WordChainWinner({ roomId, profileImage, name, isRecent }
 const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
   display: grid;
   grid: [row1-start] 'winRound winnerImageBox winnerName' min-content [row1-end]/ auto;
-  margin-top: 12px;
   border-radius: 10px;
   ${({ isRecent }) =>
     isRecent
       ? css`
+          margin-top: 16px;
           background-color: ${colors.purple100};
         `
       : css`
+          margin-top: 12px;
           background-color: ${colors.black60};
         `}
 
@@ -50,6 +51,7 @@ const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
     grid:
       [row1-start] 'winnerImageBox winRound' auto [row1-end]
       [row2-start] 'winnerImageBox winnerName' auto [row2-end]/ auto;
+    margin-top: 12px;
     margin-right: 16px;
     background-color: transparent;
     padding: 0;
