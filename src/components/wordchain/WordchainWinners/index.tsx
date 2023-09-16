@@ -86,13 +86,11 @@ const WinnerBoard = styled.aside`
 `;
 
 const WinnerHeader = styled.h1`
-  /* margin-bottom: 16px; */
   color: ${colors.white};
 
   ${textStyles.SUIT_20_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    /* margin-bottom: 12px; */
     ${textStyles.SUIT_14_SB}
   }
 `;
