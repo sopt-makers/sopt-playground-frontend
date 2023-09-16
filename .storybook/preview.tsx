@@ -9,7 +9,7 @@ import { RecoilRoot } from 'recoil';
 import ResponsiveProvider from '../src/components/common/Responsive/ResponsiveProvider';
 import StorybookToastProvider from '../src/components/common/Toast/providers/StorybookToastProvider';
 import StorybookEventLoggerProvider from '../src/components/eventLogger/providers/StorybookEventLoggerProvider';
-import { colors } from '../src/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import GlobalStyle from '../src/styles/GlobalStyle';
 
 initialize();

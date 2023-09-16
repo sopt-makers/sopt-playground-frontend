@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode } from 'react';
 
 import Stepper from '@/components/auth/register/Stepper';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -56,7 +56,7 @@ const Title = styled.h2`
 const Description = styled.p`
   margin-top: 12px;
   text-align: center;
-  color: ${legacyColors.gray60};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_16_M}
 

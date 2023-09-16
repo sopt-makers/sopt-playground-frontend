@@ -49,11 +49,11 @@ const StyledHelpCard = styled.a<{ highlight?: boolean }>`
 
   @keyframes glow {
     0% {
-      box-shadow: 0 0 6px 1px rgb(60 61 64 / 20%);
+      box-shadow: 0 0 6px 1px rgb(128 64 255 / 20%);
     }
 
     100% {
-      box-shadow: 0 0 6px 1px rgb(60 61 64 / 100%);
+      box-shadow: 0 0 6px 1px rgb(128 64 255 / 100%);
     }
   }
 `;
