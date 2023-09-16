@@ -111,7 +111,6 @@ const WinnerImageBox = styled.div`
 `;
 
 const WinnerImage = styled.img`
-  transform: translate(50, 50);
   margin: auto;
   width: 100%;
   height: 100%;
@@ -119,7 +118,10 @@ const WinnerImage = styled.img`
 `;
 
 const DefaultImage = styled.img`
+<<<<<<< HEAD
   transform: translate(50, 50);
+=======
+>>>>>>> 1771c2a62b1624eddfe047bfd805e5071b0b2aff
   margin: auto;
   width: 40%;
   object-fit: cover;
