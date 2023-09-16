@@ -15,7 +15,9 @@ interface WordChainWinnerProps {
 export default function WordChainWinner({ roomId, profileImage, name, isRecent }: WordChainWinnerProps) {
   return (
     <WordChainWinnerContainer isRecent={isRecent}>
-      <WinRound>{roomId}번째</WinRound>
+      <WinRound>
+        {roomId}번째 <WinnerTag> 우승자 | </WinnerTag>
+      </WinRound>
       <WinnerImageBox>
         {profileImage ? (
           <WinnerImage src={profileImage} alt='우승자 이미지' />
@@ -61,14 +63,11 @@ const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
 `;
 
 const WinRound = styled.p`
+  display: flex;
   grid-area: winRound;
-  width: 105px;
+  width: 110px;
   color: ${colors.white};
   ${textStyles.SUIT_16_SB}
-
-  &::after {
-    content: ' 우승자  | ';
-  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 2px;
@@ -80,6 +79,15 @@ const WinRound = styled.p`
     &::after {
       content: '';
     }
+  }
+`;
+
+const WinnerTag = styled.p`
+  display: block;
+  margin: 0 5px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
   }
 `;
 
