@@ -1,7 +1,7 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -47,10 +47,14 @@ const Button = styled.button<{ isSelected: boolean }>`
 
   ${textStyles.SUIT_16_SB}
 
-  &:hover {
-    background-color: ${colors.gray20};
-    color: ${colors.black100};
-  }
+  ${({ isSelected }) =>
+    isSelected &&
+    css`
+      &:hover {
+        background-color: ${colors.gray20};
+        color: ${colors.black100};
+      }
+    `}
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 50%;

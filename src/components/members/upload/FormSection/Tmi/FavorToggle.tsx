@@ -1,6 +1,7 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -42,20 +43,25 @@ const Container = styled.div`
 
 const Button = styled.button<{ isSelected: boolean }>`
   border-radius: 13px;
-  background-color: ${({ isSelected }) => (isSelected ? legacyColors.purple100 : legacyColors.black60)};
+  background-color: ${({ isSelected }) => (isSelected ? colors.white100 : colors.black60)};
   cursor: pointer;
   padding: 14px 0;
   width: 122px;
-  color: ${({ isSelected }) => (isSelected ? legacyColors.white : legacyColors.gray80)};
+  color: ${({ isSelected }) => (isSelected ? colors.black100 : colors.white100)};
 
   ${textStyles.SUIT_16_SB}
 
-  &:hover {
-    color: ${legacyColors.white};
-  }
+  ${({ isSelected }) =>
+    isSelected &&
+    css`
+      &:hover {
+        background-color: ${colors.gray20};
+        color: ${colors.black100};
+      }
+    `}
+  
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${({ isSelected }) => (isSelected ? legacyColors.purple100 : legacyColors.black80)};
     width: calc(50% - 14px);
   }
 `;
@@ -63,7 +69,7 @@ const Button = styled.button<{ isSelected: boolean }>`
 const Versus = styled.div`
   width: 28px;
   text-align: center;
-  color: ${legacyColors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_SB};
 `;

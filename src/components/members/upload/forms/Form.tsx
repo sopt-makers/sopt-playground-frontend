@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ReactNode } from 'react';
 
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -67,7 +67,7 @@ const StyledHeader = styled.header`
 
   .description {
     margin-top: 16px;
-    color: ${legacyColors.gray100};
+    color: ${colors.gray100};
     font-size: 16px;
     font-weight: 500;
 
@@ -96,18 +96,25 @@ const StyledForm = styled.form`
   }
 `;
 
+// TODO(@jun): disabled color 확인하기
 const SubmitButton = styled.button<{ isDisabled: boolean }>`
   display: flex;
   align-items: center;
   align-self: flex-end;
   justify-content: center;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   margin-top: 30px;
   border-radius: 31px;
-  background-color: ${({ isDisabled }) => (isDisabled ? legacyColors.black60 : legacyColors.purple100)};
+  background-color: ${colors.white};
   width: 163px;
   height: 42px;
   line-height: 120%;
-  color: ${({ isDisabled }) => (isDisabled ? legacyColors.gray80 : legacyColors.white100)};
+  color: ${colors.black100};
+
+  &:hover {
+    background-color: ${colors.gray20};
+    color: ${colors.black100};
+  }
 
   ${textStyles.SUIT_14_M}
 

@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import * as Select from '@radix-ui/react-select';
+import { colors } from '@sopt-makers/colors';
 import dynamic from 'next/dynamic';
 import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 
@@ -126,20 +127,20 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
   justify-content: space-between;
   border: 1px solid transparent;
   border-radius: 12px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   cursor: pointer;
   padding: 14px 20px;
   width: 100%;
-  color: ${legacyColors.gray40};
+  color: ${colors.gray80};
 
   ${({ error }) =>
     error &&
     css`
-      border-color: ${legacyColors.red100};
+      border-color: ${colors.red100};
 
       &:focus {
         outline: none;
-        border-color: ${legacyColors.red100};
+        border-color: ${colors.red100};
       }
     `};
 
@@ -161,7 +162,7 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
 const StyledContent = styled(Select.Content)`
   margin-top: 4px;
   border-radius: 12px;
-  background: ${legacyColors.black60};
+  background: ${colors.black60};
   padding: 7px;
   width: var(--radix-select-trigger-width);
   max-height: 262px;
@@ -217,7 +218,7 @@ const StyledThumb = styled(ScrollArea.Thumb)`
   right: 8px;
   flex: 1;
   border-radius: 4px;
-  background-color: ${legacyColors.gray80};
+  background-color: ${colors.gray80};
 
   &::before {
     position: absolute;
@@ -259,7 +260,7 @@ const StyledItem = styled(Select.Item)`
   cursor: pointer;
   padding: 5px 10px;
   width: 100%;
-  color: ${legacyColors.gray40};
+  color: ${colors.gray80};
 
   &[data-highlighted] {
     outline: none;

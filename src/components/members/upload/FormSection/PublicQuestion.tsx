@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useFormContext } from 'react-hook-form';
 
 import Switch from '@/components/common/Switch';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -25,12 +25,12 @@ const StyledSection = styled.section`
   display: grid;
   grid-template-columns: auto 40px;
   border-radius: 30px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   padding: 40px;
   width: 790px;
 
   .question {
-    color: ${legacyColors.white};
+    color: ${colors.white100};
 
     ${textStyles.SUIT_24_B};
 
@@ -55,7 +55,7 @@ const StyledSection = styled.section`
 
   .info {
     margin-top: 20px;
-    color: ${legacyColors.gray80};
+    color: ${colors.gray80};
 
     @media ${MOBILE_MEDIA_QUERY} {
       margin-top: 12px;

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
+import { colors } from '@sopt-makers/colors';
 
-import { legacyColors } from '@/styles/colors';
 import font from '@/styles/font';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { reset } from '@/styles/reset';
@@ -15,7 +15,7 @@ export const global = css`
 
   html,
   body {
-    background-color: ${legacyColors.black100};
+    background-color: ${colors.black100};
 
     .pc-only {
       @media ${MOBILE_MEDIA_QUERY} {
@@ -31,7 +31,7 @@ export const global = css`
     }
 
     & :focus-visible {
-      outline: 1px solid ${legacyColors.purple100};
+      outline: 1px solid ${colors.gray40};
     }
 
     /* Remove Arrows/Spinners Chrome, Safari, Edge, Opera */
@@ -57,8 +57,8 @@ export const global = css`
     select:-webkit-autofill:hover,
     select:-webkit-autofill:focus {
       transition: background-color 5000s ease-in-out 0s;
-      box-shadow: 0 0 0 1000px ${legacyColors.black80} inset;
-      -webkit-text-fill-color: ${legacyColors.white};
+      box-shadow: 0 0 0 1000px ${colors.black80} inset;
+      -webkit-text-fill-color: ${colors.white100};
     }
   }
 
