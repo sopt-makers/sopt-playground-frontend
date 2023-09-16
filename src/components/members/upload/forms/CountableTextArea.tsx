@@ -1,5 +1,6 @@
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, forwardRef } from 'react';
 
 import Text from '@/components/common/Text';
@@ -50,33 +51,33 @@ const StyledContainer = styled.div<{ customStyle?: SerializedStyles }>`
 
 const StyledTextArea = styled.textarea<MemberCountableTextAreaProps>`
   transition: all 0.2s;
-  border: 1.5px solid ${legacyColors.black60};
+  border: 1.5px solid ${colors.black60};
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   padding: 14px 20px;
   width: 100%;
   height: 100%;
   resize: none;
-  color: ${legacyColors.white};
+  color: ${colors.white100};
   ${textStyles.SUIT_16_M}
 
   &::placeholder {
-    color: ${legacyColors.gray100};
+    color: ${colors.gray100};
   }
 
   &:focus {
     outline: none;
-    border-color: ${legacyColors.purple100};
-    background-color: ${legacyColors.black80};
+    border-color: ${colors.gray40};
+    background-color: ${colors.black80};
   }
 
   ${({ error }) =>
     error &&
     css`
-      border-color: ${legacyColors.red100};
+      border-color: ${colors.red100};
 
       :focus {
-        border-color: ${legacyColors.red100};
+        border-color: ${colors.red100};
       }
     `}
 `;

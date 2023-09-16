@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -36,21 +37,22 @@ const Container = styled.div`
   }
 `;
 
+// TODO(@jun): hover color 확인, 중간선 제거 확인
 const Button = styled.button<{ isSelected: boolean }>`
-  background-color: ${({ isSelected }) => (isSelected ? legacyColors.purple100 : legacyColors.black60)};
+  background-color: ${({ isSelected }) => (isSelected ? colors.white100 : colors.black60)};
   cursor: pointer;
   padding: 14px 0;
   width: 76px;
-  color: ${({ isSelected }) => (isSelected ? legacyColors.white : legacyColors.gray80)};
+  color: ${({ isSelected }) => (isSelected ? colors.black100 : colors.white100)};
 
   ${textStyles.SUIT_16_SB}
 
   &:hover {
-    color: ${legacyColors.white};
+    background-color: ${colors.gray20};
+    color: ${colors.black100};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${({ isSelected }) => (isSelected ? legacyColors.purple100 : legacyColors.black80)};
     width: 50%;
   }
 `;
@@ -59,16 +61,6 @@ const LeftButton = styled(Button)`
   position: relative;
   border-top-left-radius: 13px;
   border-bottom-left-radius: 13px;
-
-  &::after {
-    position: absolute;
-    top: 10px;
-    right: -0.5px;
-    background-color: ${legacyColors.black40};
-    width: 1px;
-    height: 24px;
-    content: '';
-  }
 `;
 
 const RightButton = styled(Button)`

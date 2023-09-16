@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
@@ -7,7 +8,6 @@ import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconImage from '@/public/icons/icon-image.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
-import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 const DEFAULT_IMAGE_URL = '';
@@ -153,7 +153,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { er
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   cursor: pointer;
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
@@ -161,7 +161,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { er
   ${({ error }) =>
     error &&
     css`
-      border: 1px solid ${legacyColors.red100};
+      border: 1px solid ${colors.red100};
     `}
 `;
 
@@ -184,7 +184,7 @@ const StyledSelectorControlButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${legacyColors.black40};
+  background-color: ${colors.black40};
   cursor: pointer;
   width: 22px;
   height: 22px;
@@ -200,7 +200,7 @@ const StyledSelector = styled.div<{ isOpen: boolean }>`
 const editButtonStyle = css`
   display: flex;
   gap: 4px;
-  background-color: ${legacyColors.black40};
+  background-color: ${colors.black40};
   padding: 10px 12px;
   line-height: 100%;
   letter-spacing: -0.01em;
@@ -220,7 +220,7 @@ const StyledEditButton = styled.button`
     position: absolute;
     top: 10px;
     right: 0;
-    background-color: ${legacyColors.gray100};
+    background-color: ${colors.gray100};
     width: 1px;
     height: 14px;
     content: '';

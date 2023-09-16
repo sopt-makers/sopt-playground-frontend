@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import ImageUploader from '@/components/common/ImageUploader';
@@ -11,7 +12,6 @@ import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import IconCamera from '@/public/icons/icon-camera.svg';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MemberBasicFormSection() {
@@ -142,7 +142,7 @@ const StyledImageUploader = styled(ImageUploader)`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
     border-radius: 21.4783px;
-    background-color: ${legacyColors.black80};
+    background-color: ${colors.black80};
     width: 114px;
     height: 114px;
   }

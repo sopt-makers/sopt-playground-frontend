@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
@@ -23,7 +24,6 @@ import {
   Mbti,
 } from '@/components/members/upload/FormSection/Tmi/types';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function TmiFormSection() {
@@ -219,7 +219,7 @@ const StyledSelect = styled(Select)`
   width: 130px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${legacyColors.black80};
+    background-color: ${colors.black80};
   }
 `;
 
