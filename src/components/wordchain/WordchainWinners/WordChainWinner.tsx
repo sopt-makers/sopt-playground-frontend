@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from '@/styles/colors';
@@ -8,26 +9,42 @@ interface WordChainWinnerProps {
   roomId: number;
   profileImage: string;
   name: string;
+  isRecent: boolean;
 }
 
-export default function WordChainWinner({ roomId, profileImage, name }: WordChainWinnerProps) {
+export default function WordChainWinner({ roomId, profileImage, name, isRecent }: WordChainWinnerProps) {
   return (
-    <WordChainWinnerContainer>
-      <WinRound>{roomId}번째</WinRound>
+    <WordChainWinnerContainer isRecent={isRecent}>
+      <WinRound>
+        {roomId}번째 <WinnerTag> 우승자 | </WinnerTag>
+      </WinRound>
       <WinnerImageBox>
-        <WinnerImage src={profileImage} alt='우승자 이미지' />
+        {profileImage ? (
+          <WinnerImage src={profileImage} alt='우승자 이미지' />
+        ) : (
+          <DefaultImage src='/icons/icon-member-default.svg' alt='default_member_image' />
+        )}
       </WinnerImageBox>
       <WinnerName>{name}</WinnerName>
     </WordChainWinnerContainer>
   );
 }
 
-const WordChainWinnerContainer = styled.article`
+const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
   display: grid;
   grid: [row1-start] 'winRound winnerImageBox winnerName' min-content [row1-end]/ auto;
-  margin-top: 12px;
   border-radius: 10px;
-  background-color: ${colors.black60};
+  ${({ isRecent }) =>
+    isRecent
+      ? css`
+          margin-top: 16px;
+          background-color: ${colors.purple100};
+        `
+      : css`
+          margin-top: 12px;
+          background-color: ${colors.black60};
+        `}
+
   padding: 14px 20px;
   width: 268px;
 
@@ -36,6 +53,7 @@ const WordChainWinnerContainer = styled.article`
     grid:
       [row1-start] 'winnerImageBox winRound' auto [row1-end]
       [row2-start] 'winnerImageBox winnerName' auto [row2-end]/ auto;
+    margin-top: 12px;
     margin-right: 16px;
     background-color: transparent;
     padding: 0;
@@ -45,14 +63,11 @@ const WordChainWinnerContainer = styled.article`
 `;
 
 const WinRound = styled.p`
+  display: flex;
   grid-area: winRound;
-  width: 105px;
+  width: 110px;
   color: ${colors.white};
   ${textStyles.SUIT_16_SB}
-
-  &::after {
-    content: ' 우승자  | ';
-  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 2px;
@@ -67,6 +82,15 @@ const WinRound = styled.p`
   }
 `;
 
+const WinnerTag = styled.p`
+  display: block;
+  margin: 0 5px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
+`;
+
 const WinnerImageBox = styled.div`
   display: flex;
   grid-area: winnerImageBox;
@@ -74,6 +98,7 @@ const WinnerImageBox = styled.div`
   justify-content: center;
   margin-right: 6px;
   border-radius: 50%;
+  background-color: ${colors.black40};
   width: 20px;
   height: 20px;
   overflow: hidden;
@@ -86,10 +111,15 @@ const WinnerImageBox = styled.div`
 `;
 
 const WinnerImage = styled.img`
-  transform: translate(50, 50);
   margin: auto;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+`;
+
+const DefaultImage = styled.img`
+  margin: auto;
+  width: 40%;
   object-fit: cover;
 `;
 
