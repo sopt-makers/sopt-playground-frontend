@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import CatchPhraseSection from '@/components/intro/sections/CatchPhraseSection';
+import CatchPhraseSection from '@/components/intro/sections/CatchPhrase';
 
 interface IntroProps {}
 
