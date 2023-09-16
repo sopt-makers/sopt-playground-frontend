@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode } from 'react';
 
 import SquareLink from '@/components/common/SquareLink';
 import IconGoogle from '@/public/icons/icon-google-color.svg';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -31,10 +31,10 @@ const StyledGoogleAuthButton = styled(SquareLink)`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${legacyColors.white};
+  background-color: ${colors.white};
   cursor: pointer;
   height: 48px;
-  color: ${legacyColors.black100};
+  color: ${colors.black100};
 
   ${textStyles.SUIT_16_M}
 

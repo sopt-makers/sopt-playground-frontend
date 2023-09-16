@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, ReactNode } from 'react';
 
