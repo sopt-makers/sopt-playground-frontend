@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import SoulmateModal from '@/components/soulmate/view/common/SoulmateModal';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -39,7 +39,7 @@ const Container = styled.div`
 const StopSoulmateLink = styled.button`
   text-decoration: underline;
   line-height: 100%;
-  color: ${colors.gray40};
+  color: ${legacyColors.gray40};
 
   ${textStyles.SUIT_16_M};
 
@@ -63,7 +63,7 @@ const Description = styled.div`
   text-align: center;
   line-height: 130%;
   letter-spacing: -0.12px;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_14_M};
 
@@ -80,9 +80,9 @@ const ButtonArea = styled.div`
 
 const StopButton = styled.button`
   border-radius: 10px;
-  background-color: ${colors.gray10};
+  background-color: ${legacyColors.gray10};
   padding: 14px 20px;
-  color: ${colors.black80};
+  color: ${legacyColors.black80};
 
   ${textStyles.SUIT_16_M};
 
@@ -95,11 +95,11 @@ const StopButton = styled.button`
 
 const KeepButton = styled.button`
   border-radius: 10px;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   padding: 14px 20px;
   line-height: 100%;
   letter-spacing: -0.14px;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_16_M};
 

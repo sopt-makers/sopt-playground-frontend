@@ -7,7 +7,7 @@ import { FC } from 'react';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { FEEDBACK_FORM_URL, MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
 import useScroll from '@/hooks/useScroll';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface FooterProps {
@@ -44,8 +44,8 @@ const StyledFooter = styled.div<{ hide: boolean }>`
   bottom: 0;
   transition: transform 0.3s;
   z-index: 99999;
-  border-top: 1px solid ${colors.black40};
-  background-color: ${colors.black80};
+  border-top: 1px solid ${legacyColors.black40};
+  background-color: ${legacyColors.black80};
   padding: 0 0 0 38px;
   width: 100%;
 
@@ -67,9 +67,9 @@ const FooterLink = styled.a<{ highlight?: boolean }>`
   ${(props) =>
     props.highlight
       ? css`
-          color: ${colors.white100};
+          color: ${legacyColors.white100};
         `
       : css`
-          color: ${colors.gray40};
+          color: ${legacyColors.gray40};
         `}
 `;

@@ -14,7 +14,7 @@ import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -181,7 +181,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
 
 const ContainerBase = styled.div`
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   width: 790px;
   height: 100%;
 
@@ -218,7 +218,7 @@ const WordchainList = styled.div`
     position: absolute;
     bottom: -34px;
     left: 0;
-    background-color: ${colors.black60};
+    background-color: ${legacyColors.black60};
     width: 100%;
     height: 1px;
     content: '';
@@ -248,21 +248,21 @@ const Form = styled.form`
 
 const StyledInput = styled.input<{ isError: boolean }>`
   transition: border-color 0.5s ease-in;
-  border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black90)};
+  border: 1px solid ${({ isError }) => (isError ? legacyColors.red100 : legacyColors.black90)};
   border-radius: 14px;
-  background-color: ${colors.black90};
+  background-color: ${legacyColors.black90};
   padding: 24px 20px;
   width: 100%;
   line-height: 120%;
-  color: ${colors.gray10};
+  color: ${legacyColors.gray10};
 
   &::placeholder {
-    color: ${colors.gray80};
+    color: ${legacyColors.gray80};
   }
 
   &:focus {
     outline: none;
-    border-color: ${({ isError }) => (isError ? colors.red100 : colors.purple100)};
+    border-color: ${({ isError }) => (isError ? legacyColors.red100 : legacyColors.purple100)};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -300,11 +300,11 @@ const ErrorMessage = styled.div<{ isVisible: boolean }>`
   transition: opacity 0.5s ease-in;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   border-radius: 10px;
-  background-color: ${colors.red100};
+  background-color: ${legacyColors.red100};
   padding: 10px;
   width: fit-content;
   line-height: 130%;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_14_M}
 `;
@@ -316,7 +316,7 @@ const Triangle = styled.div<{ isVisible: boolean }>`
   transition: opacity 0.5s ease-in;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   border-right: 8px solid transparent;
-  border-bottom: calc(8px * 1.6) solid ${colors.red100};
+  border-bottom: calc(8px * 1.6) solid ${legacyColors.red100};
   border-left: 8px solid transparent;
   width: 0;
   height: 0;

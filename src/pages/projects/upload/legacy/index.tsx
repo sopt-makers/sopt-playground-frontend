@@ -34,7 +34,7 @@ import { Category, FormItem, Generation, Period, ServiceType, Status } from '@/c
 import { convertPeriodFormat, convertPeriodFormatReverse } from '@/components/projects/upload/utils';
 import { playgroundLink } from '@/constants/links';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
@@ -265,7 +265,7 @@ const ProjectContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 12px;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   padding: 47px 40px;
   width: 892px;
 

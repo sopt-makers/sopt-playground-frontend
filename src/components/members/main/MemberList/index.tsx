@@ -35,7 +35,7 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import IconArrowUpDown from '@/public/icons/icon-arrow-up-down.svg';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import IconExpand from '@/public/icons/icon-expand-less.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -265,7 +265,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     `}
                   >
                     <IconArrowUpDown />
-                    <Text typography='SUIT_12_M' color={colors.gray80}>
+                    <Text typography='SUIT_12_M' color={legacyColors.gray80}>
                       {placeholder}
                     </Text>
                   </div>
@@ -513,12 +513,12 @@ const StyledMakersLink = styled.div`
   border-radius: 6px;
   cursor: pointer;
   padding: 5px 10px;
-  color: ${colors.gray40};
+  color: ${legacyColors.gray40};
 
   &:hover {
     outline: none;
-    background-color: ${colors.black40};
-    color: ${colors.white};
+    background-color: ${legacyColors.black40};
+    color: ${legacyColors.white};
   }
 `;
 
@@ -602,7 +602,7 @@ const EmptyTitle = styled.span`
 `;
 
 const EmptyDescription = styled.span`
-  color: ${colors.gray80};
+  color: ${legacyColors.gray80};
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -613,7 +613,7 @@ const EmptyDescription = styled.span`
 const HLine = styled.hr`
   margin: 0;
   border: 0;
-  border-bottom: 1px solid ${colors.black80};
+  border-bottom: 1px solid ${legacyColors.black80};
   padding: 0;
 `;
 
@@ -632,11 +632,11 @@ const MobileFilterTrigger = styled.button`
   align-items: center;
   justify-content: space-between;
   border-radius: 20.5px;
-  background: ${colors.black60};
+  background: ${legacyColors.black60};
   padding: 8px 12px;
   min-width: 76px;
   height: 32px;
-  color: ${colors.gray40};
+  color: ${legacyColors.gray40};
 
   ${textStyles.SUIT_13_M};
 `;

@@ -8,7 +8,7 @@ import FormHeader from '@/components/members/upload/forms/FormHeader';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import SelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -94,13 +94,13 @@ const StyledSelect = styled(Select)`
   border-radius: 14px;
   padding: 16px 34px 16px 20px;
   width: 100%;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 12px;
-    background-color: ${colors.black80};
+    background-color: ${legacyColors.black80};
     width: 100%;
   }
 `;

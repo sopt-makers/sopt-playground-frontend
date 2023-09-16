@@ -7,7 +7,7 @@ import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -50,7 +50,7 @@ const StyledTitle = styled(FormTitle)`
 
 const StyledDescription = styled(Text)`
   margin: 0 0 18px;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
   ${textStyles.SUIT_14_M};
 `;
 

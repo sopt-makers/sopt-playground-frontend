@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
 import IconFacebook from '@/public/icons/icon-facebook.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -32,10 +32,10 @@ const StyledFacebookButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${colors.facebook};
+  background-color: ${legacyColors.facebook};
   cursor: pointer;
   height: 48px;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_16_M}
 

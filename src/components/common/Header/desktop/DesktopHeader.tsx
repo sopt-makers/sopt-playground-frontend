@@ -7,7 +7,7 @@ import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown'
 import { SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/imageData';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface DesktopHeaderProps {
@@ -66,9 +66,9 @@ export default DesktopHeader;
 
 const Container = styled.header`
   display: flex;
-  background-color: ${colors.black100};
+  background-color: ${legacyColors.black100};
   height: 80px;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 `;
 
 const StyledBrandLink = styled.div`
@@ -95,7 +95,7 @@ const NavItem = styled.div<{ isActive: boolean }>`
   align-items: center;
   padding: 0 8px;
   height: 100%;
-  color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
+  color: ${(props) => (props.isActive ? legacyColors.white : legacyColors.gray30)};
 
   ${(props) =>
     props.isActive

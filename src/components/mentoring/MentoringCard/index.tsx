@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
@@ -50,7 +50,7 @@ const Container = styled.div`
   column-gap: 37px;
   align-content: center;
   border-radius: 16px;
-  background-color: ${colors.black90};
+  background-color: ${legacyColors.black90};
   padding: 35px 40px 36px 45px;
   width: 424px;
   min-width: 424px;
@@ -106,7 +106,7 @@ const EmptyProfileImage = styled.div`
   align-self: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   width: 68px;
   height: 68px;
 
@@ -128,7 +128,7 @@ const EmptyProfileImage = styled.div`
 
 const KeywordBox = styled.span`
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 6px;
   height: fit-content;
 `;
@@ -138,7 +138,7 @@ const KeywordContent = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 14px;
-  color: ${colors.gray30};
+  color: ${legacyColors.gray30};
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 
@@ -154,7 +154,7 @@ const Title = styled.div`
   text-overflow: ellipsis;
   line-height: 22px;
   white-space: pre-line;
-  color: ${colors.gray10};
+  color: ${legacyColors.gray10};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
@@ -171,7 +171,7 @@ const Title = styled.div`
 const Mentor = styled.div`
   grid-area: mentor;
   line-height: 120%;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_14_M};
 `;
@@ -183,11 +183,11 @@ const Closed = styled.div<{ isActive: boolean }>`
   justify-content: center;
   opacity: 0.8;
   border-radius: 16px;
-  background-color: ${colors.black100};
+  background-color: ${legacyColors.black100};
   width: 424px;
   height: 224px;
   line-height: 20px;
-  color: ${colors.white100};
+  color: ${legacyColors.white100};
 
   ${textStyles.SUIT_16_SB}
 

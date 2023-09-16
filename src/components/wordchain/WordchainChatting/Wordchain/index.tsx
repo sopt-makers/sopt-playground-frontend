@@ -9,7 +9,7 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
 import { Word } from '@/components/wordchain/WordchainChatting/types';
 import WordChatMessage from '@/components/wordchain/WordchainChatting/WordChatMessage';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -102,11 +102,11 @@ const Container = styled.div`
 const InitMessage = styled.div`
   margin-bottom: 16px;
   border-radius: 20px;
-  background-color: ${colors.black40};
+  background-color: ${legacyColors.black40};
   padding: 4px 8px;
   width: fit-content;
   line-height: 120%;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_13_M}
 
@@ -133,7 +133,7 @@ const WordChatMessageList = styled.div`
 const GiveUpButton = styled.button`
   margin-top: 40px;
   text-decoration-line: underline;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_16_M}
 
@@ -152,7 +152,7 @@ const WinnerMessage = styled.div`
   margin-top: 12px;
   margin-right: 54px;
   line-height: 100%;
-  color: ${colors.purple100};
+  color: ${legacyColors.purple100};
 
   ${textStyles.SUIT_16_M}
 
@@ -168,7 +168,7 @@ const TrophyIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   width: 20px;
   height: 20px;
 

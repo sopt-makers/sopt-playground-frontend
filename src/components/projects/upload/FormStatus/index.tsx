@@ -5,7 +5,7 @@ import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { FormItem } from '@/components/projects/upload/types';
 import IconDoneCheck from '@/public/icons/icon-done-check.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface FormStatusProps {
@@ -22,13 +22,13 @@ const FormStatus: FC<FormStatusProps> = ({ formItems }) => {
       <StyledContent>
         <FormTitle typography='SUIT_24_SB'>등록 진행</FormTitle>
         <ProgressNumber>
-          <Text typography='SUIT_12_M' color={colors.purple100}>
+          <Text typography='SUIT_12_M' color={legacyColors.purple100}>
             {`${dirtyFieldNums}/${totalItemNums}`}
           </Text>
         </ProgressNumber>
       </StyledContent>
       <Divider />
-      <Text typography='SUIT_16_M' color={colors.gray100}>
+      <Text typography='SUIT_16_M' color={legacyColors.gray100}>
         프로젝트를 등록해주세요
       </Text>
       <StyledProgess value={Number.isNaN(progress) ? 0 : progress} max={1} />
@@ -55,7 +55,7 @@ export default FormStatus;
 
 const StyledContainer = styled.div`
   border-radius: 12px;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   padding: 47px 40px;
   width: 278px;
   height: fit-content;
@@ -77,7 +77,7 @@ const ProgressNumber = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   width: 50px;
   height: 24px;
 `;
@@ -90,19 +90,19 @@ const StyledProgess = styled.progress`
 
   &::-webkit-progress-bar {
     border-radius: 100px;
-    background-color: ${colors.gray100};
+    background-color: ${legacyColors.gray100};
   }
 
   &::-webkit-progress-value {
     border-radius: 100px;
-    background-color: ${colors.purple100};
+    background-color: ${legacyColors.purple100};
   }
 `;
 
 const StatusList = styled.ul`
   margin: 29px 0 0;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 11px 0;
   list-style: none;
 `;
@@ -113,7 +113,7 @@ const StatusListItem = styled.li<{ isDirty?: boolean }>`
   justify-content: space-between;
   transition: color 0.2s;
   padding: 14px 20px;
-  color: ${({ isDirty }) => (isDirty ? colors.white : colors.gray100)};
+  color: ${({ isDirty }) => (isDirty ? legacyColors.white : legacyColors.gray100)};
   ${textStyles.SUIT_16_M};
 `;
 
@@ -129,7 +129,7 @@ const Checked = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   width: 14px;
   height: 14px;
 `;
@@ -137,7 +137,7 @@ const Checked = styled.div`
 const Divider = styled.hr`
   margin: 36px 0 28px;
   border: none;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   width: 100%;
   height: 1.5px;
 `;

@@ -3,7 +3,7 @@ import WarningIcon from 'public/icons/icon-warning.svg';
 import { ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -54,14 +54,14 @@ const StyledTitle = styled(Text)`
 
 const StyledEssential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${colors.purple100};
+  color: ${legacyColors.purple100};
   ${textStyles.SUIT_16_M};
 `;
 
 const StyledDescription = styled(Text)`
   display: block;
   margin-top: 10px;
-  color: ${colors.gray80};
+  color: ${legacyColors.gray80};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;

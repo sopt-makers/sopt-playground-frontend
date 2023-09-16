@@ -7,7 +7,7 @@ import React, { forwardRef } from 'react';
 
 import { Member } from '@/api/endpoint_LEGACY/members/type';
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -100,7 +100,7 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
     padding: 12px 20px;
     width: 100%;
     ${textStyles.SUIT_16_SB};
-    ${colors.gray10};
+    ${legacyColors.gray10};
 
     &:hover {
       img {
@@ -111,25 +111,25 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
 
   & .search {
     transition: all 0.2s;
-    border: 1px solid ${colors.black60};
+    border: 1px solid ${legacyColors.black60};
     border-radius: 6px;
-    background: ${colors.black60};
+    background: ${legacyColors.black60};
     padding: 14px 20px;
-    color: ${colors.gray100};
+    color: ${legacyColors.gray100};
 
     &:focus {
       outline: none;
-      border-color: ${colors.purple100};
-      background-color: ${colors.black80};
+      border-color: ${legacyColors.purple100};
+      background-color: ${legacyColors.black80};
     }
 
     ${({ error }) =>
       error &&
       css`
-        border-color: ${colors.red100};
+        border-color: ${legacyColors.red100};
 
         &:focus {
-          border-color: ${colors.red100};
+          border-color: ${legacyColors.red100};
         }
       `}
   }
@@ -139,7 +139,7 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
     flex-direction: column;
     gap: 8px;
     border-radius: 6px;
-    background: ${colors.black60};
+    background: ${legacyColors.black60};
     padding: 8px 0;
   }
 
@@ -147,13 +147,13 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: ${colors.black60};
+    background-color: ${legacyColors.black60};
     cursor: pointer;
     padding: 10px 16px;
-    color: ${colors.gray100};
+    color: ${legacyColors.gray100};
 
     &:hover {
-      background-color: ${colors.black40};
+      background-color: ${legacyColors.black40};
     }
   }
 
@@ -163,13 +163,13 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
     width: 135px;
 
     & .search {
-      border: 1px solid ${colors.black40};
+      border: 1px solid ${legacyColors.black40};
     }
 
     & .options {
       position: absolute;
       top: 49px;
-      border: 1px solid ${colors.black40};
+      border: 1px solid ${legacyColors.black40};
     }
 
     & .option {

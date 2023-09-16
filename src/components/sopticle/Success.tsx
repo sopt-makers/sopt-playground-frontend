@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -68,14 +68,14 @@ const CheckCircle = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 100%;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   width: 62px;
   height: 62px;
 `;
 
 const Title = styled.h1`
   margin-top: 24px;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_32_SB};
 
@@ -87,7 +87,7 @@ const Title = styled.h1`
 const SubTitle = styled.h2`
   margin-top: 12px;
   text-align: center;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_16_M};
 
@@ -116,7 +116,7 @@ const ViewButton = styled.a`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   cursor: pointer;
   padding: 16px 0;
 
@@ -144,7 +144,7 @@ const UploadMoreButton = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   cursor: pointer;
   padding: 16px 0;
 

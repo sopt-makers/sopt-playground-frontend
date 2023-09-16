@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes } from 'react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 
 interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   size?: { labelWidth: string; labelHeight: string; sliderWidth: string; sliderHeight: string };
@@ -45,7 +45,7 @@ const StyledInput = styled.input<{ translateX: string }>`
   height: 0;
 
   &:checked + .slider {
-    background: ${colors.purple100};
+    background: ${legacyColors.purple100};
   }
 
   &:checked + .slider::before {
@@ -65,7 +65,7 @@ const StyledSlider = styled.span<{ width: string; height: string }>`
   left: 0;
   transition: 0.2s;
   border-radius: 1000px;
-  background-color: ${colors.gray80};
+  background-color: ${legacyColors.gray80};
   cursor: pointer;
 
   &::before {
@@ -75,7 +75,7 @@ const StyledSlider = styled.span<{ width: string; height: string }>`
     transform: translateY(-50%);
     transition: 0.2s;
     border-radius: 50%;
-    background-color: ${colors.white};
+    background-color: ${legacyColors.white};
     width: ${(props) => props.width};
     height: ${(props) => props.height};
     content: '';

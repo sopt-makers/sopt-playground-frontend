@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { ChangeEvent, forwardRef, ReactElement, ReactNode, useState } from 'react';
 
 import Select from '@/components/common/Select';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 interface EditableSelectProps {
   onSelect: (value: string) => void;
@@ -77,7 +77,7 @@ const StyledInput = styled.input`
   padding: 11.5px;
   width: calc(100% - 40px);
   height: 100%;
-  color: ${colors.gray30};
+  color: ${legacyColors.gray30};
 
   ${textStyles.SUIT_16_M}
 

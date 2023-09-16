@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import { MakersLogoWhite } from '@/components/common/Banner/RecruitingBanner/icons';
 import Timer from '@/components/common/Banner/Timer';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -73,7 +73,7 @@ const ContentArea = styled.div`
 
 const Title = styled.div`
   grid-area: title;
-  color: ${colors.white100};
+  color: ${legacyColors.white100};
 
   ${textStyles.SUIT_26_B}
 
@@ -87,7 +87,7 @@ const SubTitle = styled.div`
   grid-area: subtitle;
   justify-content: space-between;
   width: 214px;
-  color: ${colors.white100};
+  color: ${legacyColors.white100};
 
   ${textStyles.SUIT_16_M};
 
@@ -112,7 +112,7 @@ const Logo = styled(MakersLogoWhite)`
 const Arrow = styled.div`
   display: none;
   grid-area: arrow;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_20_B}
 

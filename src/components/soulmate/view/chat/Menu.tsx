@@ -5,7 +5,7 @@ import { FC, ReactNode, useState } from 'react';
 import SoulmateIconFlag from '@/components/soulmate/icons/SoulmateIconFlag';
 import SoulmateIconHeart from '@/components/soulmate/icons/SoulmateIconHeart';
 import SoulmateModal from '@/components/soulmate/view/common/SoulmateModal';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MenuProps {
@@ -45,7 +45,7 @@ const buttonStyle = css`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   cursor: pointer;
   padding: 6px 10px;
 

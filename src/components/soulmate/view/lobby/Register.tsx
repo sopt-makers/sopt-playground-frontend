@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import SoulmateIcon from '@/components/soulmate/icons/SoulmateIcon';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -103,7 +103,7 @@ const Card = styled.div`
   gap: 50px;
   margin-top: 50px;
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   padding: 48px 39px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -144,7 +144,7 @@ const AgreeArea = styled.div`
   gap: 12px;
   align-items: center;
   margin-top: 40px;
-  color: ${colors.gray40};
+  color: ${legacyColors.gray40};
 
   ${textStyles.SUIT_16_M};
 
@@ -163,7 +163,7 @@ const ApplyButton = styled.button`
   transition: background-color 0.3s;
   margin-top: 60px;
   border-radius: 6px;
-  background: ${colors.purple100};
+  background: ${legacyColors.purple100};
   cursor: pointer;
   padding: 14px 20px;
 
@@ -172,9 +172,9 @@ const ApplyButton = styled.button`
   ${(props) =>
     props.disabled &&
     css`
-      background: ${colors.black60};
+      background: ${legacyColors.black60};
       cursor: default;
-      color: ${colors.gray80};
+      color: ${legacyColors.gray80};
     `}
 
   @media ${MOBILE_MEDIA_QUERY} {

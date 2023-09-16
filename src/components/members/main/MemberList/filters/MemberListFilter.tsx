@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { PropsWithChildren, ReactNode } from 'react';
 
 import Select from '@/components/members/common/select/Select';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -53,8 +53,8 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
   ${({ selected }) =>
     selected &&
     css`
-      background-color: ${colors.purple100};
-      color: ${colors.white};
+      background-color: ${legacyColors.purple100};
+      color: ${legacyColors.white};
     `};
 
   @media ${MOBILE_MEDIA_QUERY} {

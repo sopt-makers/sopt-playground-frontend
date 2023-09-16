@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -31,7 +31,7 @@ const Container = styled.div`
 
 const Label = styled.div`
   line-height: 100%;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_24_B};
 

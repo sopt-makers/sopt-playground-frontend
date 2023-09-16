@@ -6,7 +6,7 @@ import useAuth from '@/components/auth/useAuth';
 import Header from '@/components/common/Header';
 import { playgroundLink } from '@/constants/links';
 import IconBack from '@/public/icons/icon-back.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const SwitchableHeader: FC = () => {
@@ -36,7 +36,7 @@ const NotLoggedInHeader = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
-    background-color: ${colors.black100};
+    background-color: ${legacyColors.black100};
     height: 60px;
   }
 `;

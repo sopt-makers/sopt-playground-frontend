@@ -12,7 +12,7 @@ import MemberSearch from '@/components/projects/form/fields/member/MemberSearch'
 import { Member, MemberSearchContext } from '@/components/projects/form/fields/member/MemberSearchContext';
 import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import IconTrash from '@/public/icons/icon-trash.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -187,7 +187,7 @@ const StyledMemberEditView = styled.div<{ isError: boolean }>`
   column-gap: 10px;
   align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 10px;
   width: 100%;
 
@@ -206,13 +206,13 @@ const StyledMemberView = styled.div`
   display: flex;
   gap: 42px;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   cursor: pointer;
   padding: 14px 30px;
   width: 100%;
   min-height: 42px;
   white-space: nowrap;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
 
   ${textStyles.SUIT_14_M};
 
@@ -237,7 +237,7 @@ const StyledMemberSearch = styled(MemberSearch)`
 `;
 
 const StyledSelect = styled(Select)`
-  border: 1px solid ${colors.black40};
+  border: 1px solid ${legacyColors.black40};
   border-radius: 6px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -251,7 +251,7 @@ const StyledInput = styled(Input)`
   border-radius: 6px;
 
   & > input {
-    border: 1px solid ${colors.black40};
+    border: 1px solid ${legacyColors.black40};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -261,10 +261,10 @@ const StyledInput = styled(Input)`
 
 const StyledEditCompleteButton = styled.button`
   border-radius: 4px;
-  background-color: ${colors.black40};
+  background-color: ${legacyColors.black40};
   padding: 16px 36px;
   white-space: nowrap;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
 
   ${textStyles.SUIT_14_M};
 

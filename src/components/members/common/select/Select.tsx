@@ -9,7 +9,7 @@ import { SelectContext, useSelectContext } from '@/components/members/common/sel
 import { Overlay } from '@/components/members/common/select/Overlay';
 import IconClear from '@/public/icons/icon-search-clear.svg';
 import IconSelectArrow from '@/public/icons/icon-select-arrow.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 const SelectPortal = dynamic<Select.SelectPortalProps>(
@@ -126,20 +126,20 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
   justify-content: space-between;
   border: 1px solid transparent;
   border-radius: 12px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   cursor: pointer;
   padding: 14px 20px;
   width: 100%;
-  color: ${colors.gray40};
+  color: ${legacyColors.gray40};
 
   ${({ error }) =>
     error &&
     css`
-      border-color: ${colors.red100};
+      border-color: ${legacyColors.red100};
 
       &:focus {
         outline: none;
-        border-color: ${colors.red100};
+        border-color: ${legacyColors.red100};
       }
     `};
 
@@ -161,7 +161,7 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
 const StyledContent = styled(Select.Content)`
   margin-top: 4px;
   border-radius: 12px;
-  background: ${colors.black60};
+  background: ${legacyColors.black60};
   padding: 7px;
   width: var(--radix-select-trigger-width);
   max-height: 262px;
@@ -217,7 +217,7 @@ const StyledThumb = styled(ScrollArea.Thumb)`
   right: 8px;
   flex: 1;
   border-radius: 4px;
-  background-color: ${colors.gray80};
+  background-color: ${legacyColors.gray80};
 
   &::before {
     position: absolute;
@@ -259,12 +259,12 @@ const StyledItem = styled(Select.Item)`
   cursor: pointer;
   padding: 5px 10px;
   width: 100%;
-  color: ${colors.gray40};
+  color: ${legacyColors.gray40};
 
   &[data-highlighted] {
     outline: none;
-    background-color: ${colors.black40};
-    color: ${colors.white};
+    background-color: ${legacyColors.black40};
+    color: ${legacyColors.white};
   }
 
   /* &[data-disabled] {

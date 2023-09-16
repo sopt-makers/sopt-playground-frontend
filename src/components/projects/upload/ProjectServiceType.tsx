@@ -6,7 +6,7 @@ import FormItem from '@/components/common/form/FormItem';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ServiceType } from '@/components/projects/upload/types';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -61,18 +61,18 @@ const StyledLabel = styled.label<{ checked?: boolean }>`
   justify-content: center;
   transition: background-color 0.2s, color 0.2s;
   border-radius: 100px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   cursor: pointer;
   padding: 14px 0;
   width: 163px;
   height: 42px;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
 
   ${({ checked }) =>
     checked &&
     css`
-      background-color: ${colors.purple100};
-      color: ${colors.white};
+      background-color: ${legacyColors.purple100};
+      color: ${legacyColors.white};
     `}
   ${textStyles.SUIT_14_M};
 

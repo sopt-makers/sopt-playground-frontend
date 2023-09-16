@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import Switch from '@/components/common/Switch';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -25,12 +25,12 @@ const StyledSection = styled.section`
   display: grid;
   grid-template-columns: auto 40px;
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   padding: 40px;
   width: 790px;
 
   .question {
-    color: ${colors.white};
+    color: ${legacyColors.white};
 
     ${textStyles.SUIT_24_B};
 
@@ -55,7 +55,7 @@ const StyledSection = styled.section`
 
   .info {
     margin-top: 20px;
-    color: ${colors.gray80};
+    color: ${legacyColors.gray80};
 
     @media ${MOBILE_MEDIA_QUERY} {
       margin-top: 12px;

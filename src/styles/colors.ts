@@ -1,4 +1,7 @@
-export const colors = {
+/**
+ * @deprecated sopt-makers/colors 를 이용해주세요.
+ */
+export const legacyColors = {
   black100: '#0F1010',
   black90: '#17181B',
   black80: '#1C1D1E',

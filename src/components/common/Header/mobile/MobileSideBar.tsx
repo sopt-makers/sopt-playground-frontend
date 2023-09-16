@@ -7,7 +7,7 @@ import { DEFAULT_PROFILE_IMAGE_MOBILE_SVG, RIGHT_ARROW_SVG } from '@/components/
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import ResizedImage from '@/components/common/ResizedImage';
 import { FEEDBACK_FORM_URL, MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 const DialogPortal = dynamic<Dialog.DialogPortalProps>(
@@ -160,12 +160,12 @@ const Content = styled.div`
   left: 0;
   flex-direction: column;
   z-index: 100001;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   width: 212px;
   height: 100vh;
   overflow-y: auto;
   animation: content-show 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   @keyframes content-show {
     from {
@@ -193,7 +193,7 @@ const ProfileImageSlot = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   width: 42px;
   height: 42px;
   overflow: hidden;
@@ -225,7 +225,7 @@ const NavItem = styled('div')<{
   isActive?: boolean;
 }>`
   padding: 10px var(--x-gap);
-  color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
+  color: ${(props) => (props.isActive ? legacyColors.white : legacyColors.gray30)};
 
   ${textStyles.SUIT_18_M};
 `;
@@ -233,13 +233,13 @@ const NavItem = styled('div')<{
 const NavLinkSmall = styled.div<{ isActive?: boolean }>`
   cursor: pointer;
   padding: 8px var(--x-gap);
-  color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
+  color: ${(props) => (props.isActive ? legacyColors.white : legacyColors.gray30)};
 
   ${textStyles.SUIT_14_M};
 `;
 
 const Divider = styled.div`
   margin: 26px var(--x-gap);
-  border-top: 1px solid ${colors.black60};
-  color: ${colors.black60};
+  border-top: 1px solid ${legacyColors.black60};
+  color: ${legacyColors.black60};
 `;

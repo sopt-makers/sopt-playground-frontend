@@ -8,7 +8,7 @@ import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { GENERATIONS } from '@/constants/generation';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -45,7 +45,7 @@ const ProjectGeneration: FC = () => {
           control={control}
           render={({ field: { value, ...props } }) => <Checkbox checked={value} {...props} />}
         />
-        <Text typography='SUIT_12_M' color={colors.gray100}>
+        <Text typography='SUIT_12_M' color={legacyColors.gray100}>
           특정 기수 활동으로 진행하지 않았어요
         </Text>
       </StyledCheckboxWrapper>
@@ -63,7 +63,7 @@ const StyledContainer = styled.section`
 
 const StyledDescription = styled(Text)`
   margin: 12px 0 18px;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
   ${textStyles.SUIT_14_M};
 `;
 

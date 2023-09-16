@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -29,10 +29,10 @@ const StyledAppleAuthButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${colors.white100};
+  background-color: ${legacyColors.white100};
   cursor: pointer;
   height: 48px;
-  color: ${colors.black100};
+  color: ${legacyColors.black100};
 
   ${textStyles.SUIT_16_M}
 

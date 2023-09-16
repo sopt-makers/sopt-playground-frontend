@@ -10,7 +10,7 @@ import { DEFAULT_LINK } from '@/components/projects/upload/LinkForm/constants';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import IconTrash from '@/public/icons/icon-trash.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -100,10 +100,10 @@ const LinkForm: FC = () => {
             <StyledLi key={index}>
               {!link.isEdit ? (
                 <MobileLinkItem onClick={() => onEdit(index)}>
-                  <Text typography='SUIT_12_M' color={colors.gray100}>
+                  <Text typography='SUIT_12_M' color={legacyColors.gray100}>
                     {link.linkTitle}
                   </Text>
-                  <Text typography='SUIT_12_M' color={colors.gray100}>
+                  <Text typography='SUIT_12_M' color={legacyColors.gray100}>
                     {link.linkUrl}
                   </Text>
                 </MobileLinkItem>
@@ -196,7 +196,7 @@ const StyledButton = styled.button`
   align-self: start;
   margin: 8px 0 0 20px;
   cursor: pointer;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
 
   ${textStyles.SUIT_16_M};
 `;
@@ -207,13 +207,13 @@ const MobileLinkItem = styled.div`
   display: flex;
   gap: 19px;
   border-radius: 6px;
-  background-color: ${colors.black40};
+  background-color: ${legacyColors.black40};
   padding: 15px 20px;
 `;
 
 const MobileLinkApplyForm = styled.div`
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 12px;
 `;
 
@@ -228,7 +228,7 @@ const MobileSelect = styled(Select)`
   ${textStyles.SUIT_14_M};
 
   align-self: flex-start;
-  border: 1px solid ${colors.black40};
+  border: 1px solid ${legacyColors.black40};
   width: 135px;
 `;
 
@@ -236,7 +236,7 @@ const MobileLink = styled(Input)`
   ${textStyles.SUIT_14_M};
 
   & > input {
-    border: 1px solid ${colors.black40};
+    border: 1px solid ${legacyColors.black40};
   }
 `;
 
@@ -249,18 +249,18 @@ const MobileApplyFormFooter = styled.div`
 
 const MobileCompleteButton = styled.button`
   border-radius: 4px;
-  background-color: ${colors.black40};
+  background-color: ${legacyColors.black40};
   padding: 6.5px 30px;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
 
   ${textStyles.SUIT_14_M};
 `;
 
 const MobileAddButton = styled.button`
   margin-top: 12px;
-  border: 1px solid ${colors.black40};
+  border: 1px solid ${legacyColors.black40};
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 14px 20px;
   width: 100%;
 `;

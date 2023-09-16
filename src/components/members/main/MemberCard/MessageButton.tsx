@@ -3,7 +3,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import { FC, MouseEvent } from 'react';
 
 import IconMessage from '@/public/icons/icon-message.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MessageButtonProps {
@@ -42,16 +42,16 @@ const Button = styled.div`
   justify-content: center;
   transition: background-color 0.2s;
   border-radius: 50%;
-  background-color: ${colors.gray100};
+  background-color: ${legacyColors.gray100};
   width: 32px;
   height: 32px;
 
   &:hover {
-    background-color: ${colors.gray80};
+    background-color: ${legacyColors.gray80};
   }
 
   & svg {
-    fill: ${colors.gray30};
+    fill: ${legacyColors.gray30};
     width: 16px;
     height: 16px;
   }
@@ -60,7 +60,7 @@ const Button = styled.div`
 const TooltipContent = styled(Tooltip.Content)`
   border-radius: 4px;
   box-shadow: hsl(206deg 22% 7% / 35%) 0 10px 38px -10px, hsl(206deg 22% 7% / 20%) 0 10px 20px -15px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 17px 26px;
   animation-duration: 400ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
@@ -108,5 +108,5 @@ const TooltipContent = styled(Tooltip.Content)`
 `;
 
 const TooltipArrow = styled(Tooltip.Arrow)`
-  fill: ${colors.black60};
+  fill: ${legacyColors.black60};
 `;

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { ChangeEvent, forwardRef } from 'react';
 
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -31,7 +31,7 @@ export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCou
           className={className}
         />
         <StyledCountValue>
-          <Text color={colors.gray100} typography='SUIT_12_M'>
+          <Text color={legacyColors.gray100} typography='SUIT_12_M'>
             {`${value?.length ?? 0}/${maxCount}`}
           </Text>
         </StyledCountValue>
@@ -50,33 +50,33 @@ const StyledContainer = styled.div<{ customStyle?: SerializedStyles }>`
 
 const StyledTextArea = styled.textarea<MemberCountableTextAreaProps>`
   transition: all 0.2s;
-  border: 1.5px solid ${colors.black60};
+  border: 1.5px solid ${legacyColors.black60};
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 14px 20px;
   width: 100%;
   height: 100%;
   resize: none;
-  color: ${colors.white};
+  color: ${legacyColors.white};
   ${textStyles.SUIT_16_M}
 
   &::placeholder {
-    color: ${colors.gray100};
+    color: ${legacyColors.gray100};
   }
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
-    background-color: ${colors.black80};
+    border-color: ${legacyColors.purple100};
+    background-color: ${legacyColors.black80};
   }
 
   ${({ error }) =>
     error &&
     css`
-      border-color: ${colors.red100};
+      border-color: ${legacyColors.red100};
 
       :focus {
-        border-color: ${colors.red100};
+        border-color: ${legacyColors.red100};
       }
     `}
 `;

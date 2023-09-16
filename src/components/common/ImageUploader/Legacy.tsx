@@ -4,7 +4,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 import IconImage from '@/public/icons/icon-image.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 
 interface ImageUploaderProps {
   width?: number | string;
@@ -78,7 +78,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height' | 'erro
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   cursor: pointer;
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
@@ -86,7 +86,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height' | 'erro
   ${({ error }) =>
     error &&
     css`
-      border: 1px solid ${colors.red100};
+      border: 1px solid ${legacyColors.red100};
     `}
 `;
 

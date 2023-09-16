@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import ActivityBadge from '@/components/members/detail/ActivityBadge';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -82,7 +82,7 @@ const Thumbnail = styled.div`
 const Generation = styled.div`
   grid-area: generation;
   margin-right: 12px;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_18_B}
 
@@ -96,7 +96,7 @@ const Generation = styled.div`
 
 const BelongArea = styled.div`
   grid-area: belongs;
-  color: ${colors.gray30};
+  color: ${legacyColors.gray30};
 
   ${textStyles.SUIT_18_M}
 

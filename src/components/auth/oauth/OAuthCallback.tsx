@@ -10,7 +10,7 @@ import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import Loading from '@/components/common/Loading';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 
 interface OAuthCallbackProps {
   url: URL;
@@ -101,5 +101,5 @@ const SuccessMessage = styled.div`
 
 const ReturnToHomeLink = styled(Link)`
   text-decoration: underline;
-  color: ${colors.purple80};
+  color: ${legacyColors.purple80};
 `;

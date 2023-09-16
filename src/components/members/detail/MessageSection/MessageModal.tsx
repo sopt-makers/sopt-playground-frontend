@@ -13,7 +13,7 @@ import { Alert } from '@/components/common/Modal/Alert';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export enum MessageCategory {
@@ -141,7 +141,7 @@ const MessageModal: FC<MessageModalProps> = ({
         <Text mt={30} typography='SUIT_26_B'>
           {name}님에게 쪽지 보내기
         </Text>
-        <Text mt={14} typography='SUIT_14_M' color={colors.gray60}>
+        <Text mt={14} typography='SUIT_14_M' color={legacyColors.gray60}>
           쪽지는 상대방의 이메일로 전달됩니다:)
         </Text>
         <StyledCategory>
@@ -152,14 +152,14 @@ const MessageModal: FC<MessageModalProps> = ({
               isSelected={category.value === (selectedCategory as MessageCategory | null)}
             >
               <StyledIcon src={category.icon} alt={category.value} />
-              <Text typography='SUIT_15_SB' color={colors.gray40}>
+              <Text typography='SUIT_15_SB' color={legacyColors.gray40}>
                 {category.value}
               </Text>
             </StyledCategoryItem>
           ))}
         </StyledCategory>
         <TextWrapper>
-          <Text mt={46} color={colors.gray40} typography='SUIT_14_M'>
+          <Text mt={46} color={legacyColors.gray40} typography='SUIT_14_M'>
             회신 받을 본인 이메일
           </Text>
         </TextWrapper>
@@ -183,7 +183,7 @@ const MessageModal: FC<MessageModalProps> = ({
           {isLoading ? (
             <Loading color='white' />
           ) : (
-            <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
+            <Text typography='SUIT_15_SB' color={isValid ? legacyColors.white : legacyColors.gray80}>
               쪽지 보내기
             </Text>
           )}
@@ -224,7 +224,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 36px;
-  background: ${colors.black60};
+  background: ${legacyColors.black60};
   width: 171px;
   height: 171px;
 `;
@@ -246,9 +246,9 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   justify-content: center;
   transition: border all 0.2s;
   opacity: ${({ isSelected }) => (isSelected ? 1 : 0.2)};
-  border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.black60)};
+  border: 1px solid ${({ isSelected }) => (isSelected ? legacyColors.white : legacyColors.black60)};
   border-radius: 20px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   cursor: pointer;
   padding: 6px 16px 6px 10px;
 `;
@@ -279,7 +279,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   transition: background-color 0.2s;
   margin-top: 36px;
   border-radius: 12px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
+  background-color: ${({ isDisabled }) => (isDisabled ? legacyColors.black60 : legacyColors.purple100)};
   cursor: pointer;
   padding: 14px 28px;
 `;

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
 import IconLinkOutgoing from '@/public/icons/icon-link-outgoing.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -56,7 +56,7 @@ const TitleBox = styled.a`
 
 const Description = styled.p`
   margin-top: 4px;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_16_M};
 

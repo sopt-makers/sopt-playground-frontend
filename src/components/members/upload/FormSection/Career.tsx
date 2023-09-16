@@ -16,7 +16,7 @@ import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import MemberSelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -343,7 +343,7 @@ const StyledEditableSelect = styled(EditableSelect)`
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
     border-radius: 12px;
-    background-color: ${colors.black80};
+    background-color: ${legacyColors.black80};
     padding: 0;
 
     select {

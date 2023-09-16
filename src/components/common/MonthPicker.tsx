@@ -3,7 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styled from '@emotion/styled';
 import DatePicker from 'react-datepicker';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 export interface MonthPickerProps {
@@ -28,21 +28,21 @@ export default function MonthPicker({ onChange, value, placeholder }: MonthPicke
 const StyledDatePicker = styled(DatePicker)`
   box-sizing: border-box;
   transition: all 0.2s;
-  border: 1.5px solid ${colors.black60};
+  border: 1.5px solid ${legacyColors.black60};
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 14px 20px;
   width: 100%;
-  color: ${colors.white};
+  color: ${legacyColors.white};
   ${textStyles.SUIT_16_M};
 
   &::placeholder {
-    color: ${colors.gray100};
+    color: ${legacyColors.gray100};
   }
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
-    background-color: ${colors.black80};
+    border-color: ${legacyColors.purple100};
+    background-color: ${legacyColors.black80};
   }
 `;

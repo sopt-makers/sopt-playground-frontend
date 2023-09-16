@@ -10,7 +10,7 @@ import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MentoringList from '@/components/mentoring/MentoringList';
 import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -58,6 +58,6 @@ const StyledOnBoardingBanner = styled(OnBoardingBanner)`
 const HDivider = styled.hr`
   margin-top: 32px;
   border: none;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   height: 4px;
 `;

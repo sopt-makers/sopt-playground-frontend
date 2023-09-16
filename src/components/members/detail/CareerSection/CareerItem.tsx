@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { FC } from 'react';
 
 import { Career } from '@/components/members/detail/types';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -31,7 +31,7 @@ const SubContent = styled.div`
   gap: 12px;
   align-items: center;
   line-height: 14px;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_14_M};
 
@@ -46,7 +46,7 @@ const SubContent = styled.div`
 `;
 
 const Divider = styled.div`
-  background-color: ${colors.gray100};
+  background-color: ${legacyColors.gray100};
   width: 1px;
   height: 14px;
 
@@ -58,7 +58,7 @@ const Divider = styled.div`
 const CompanyName = styled.div`
   margin-bottom: 10px;
   line-height: 18px;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_18_M};
 

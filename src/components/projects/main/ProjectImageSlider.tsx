@@ -9,7 +9,7 @@ import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 
 import Responsive from '@/components/common/Responsive';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ProjectImageSliderProps {
@@ -95,7 +95,7 @@ const StyledSwiper = styled(Swiper)`
 
   & .swiper-button-prev,
   .swiper-button-next {
-    color: ${colors.gray10};
+    color: ${legacyColors.gray10};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FC, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -132,7 +132,7 @@ const Position = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_14_M};
 

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { forwardRef, InputHTMLAttributes } from 'react';
 
 import IconCheck from '@/public/icons/icon-check.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -40,7 +40,7 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   align-items: center;
   justify-content: center;
   transition: 0.2s background-color;
-  border: 1px solid ${colors.gray100};
+  border: 1px solid ${legacyColors.gray100};
   border-radius: 4px;
   background-color: transparent;
   width: 22.5px;
@@ -48,14 +48,14 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   ${({ checked }) =>
     checked &&
     css`
-      border: 1px solid ${colors.purple80};
-      background-color: ${colors.purple100};
+      border: 1px solid ${legacyColors.purple80};
+      background-color: ${legacyColors.purple100};
     `}
 
   & > svg {
     width: 14px;
     height: 9px;
-    color: ${colors.purple60};
+    color: ${legacyColors.purple60};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

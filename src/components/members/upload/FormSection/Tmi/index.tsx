@@ -23,7 +23,7 @@ import {
   Mbti,
 } from '@/components/members/upload/FormSection/Tmi/types';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function TmiFormSection() {
@@ -219,7 +219,7 @@ const StyledSelect = styled(Select)`
   width: 130px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.black80};
+    background-color: ${legacyColors.black80};
   }
 `;
 

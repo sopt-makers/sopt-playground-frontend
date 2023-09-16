@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 export interface FormEntryProps {
@@ -43,18 +43,18 @@ const TitleSlot = styled.div`
 
 const Description = styled.div`
   margin-bottom: 18px;
-  color: ${colors.gray80};
+  color: ${legacyColors.gray80};
   ${textStyles.SUIT_14_M};
 `;
 
 const Essential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${colors.purple100};
+  color: ${legacyColors.purple100};
   ${textStyles.SUIT_16_M};
 `;
 
 const Comment = styled(Text)`
   align-self: center;
   margin: 0 0 0 10px;
-  color: ${colors.purple100};
+  color: ${legacyColors.purple100};
 `;

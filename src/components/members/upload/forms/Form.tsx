@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -67,7 +67,7 @@ const StyledHeader = styled.header`
 
   .description {
     margin-top: 16px;
-    color: ${colors.gray100};
+    color: ${legacyColors.gray100};
     font-size: 16px;
     font-weight: 500;
 
@@ -103,11 +103,11 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
   justify-content: center;
   margin-top: 30px;
   border-radius: 31px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
+  background-color: ${({ isDisabled }) => (isDisabled ? legacyColors.black60 : legacyColors.purple100)};
   width: 163px;
   height: 42px;
   line-height: 120%;
-  color: ${({ isDisabled }) => (isDisabled ? colors.gray80 : colors.white100)};
+  color: ${({ isDisabled }) => (isDisabled ? legacyColors.gray80 : legacyColors.white100)};
 
   ${textStyles.SUIT_14_M}
 

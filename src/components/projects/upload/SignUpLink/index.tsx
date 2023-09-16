@@ -4,7 +4,7 @@ import { FC } from 'react';
 import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
 import { ORIGIN } from '@/constants/env';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { copyToClipboard } from '@/utils';
 
@@ -24,7 +24,7 @@ export default SignUpLink;
 const StyledContainer = styled(Text)`
   cursor: pointer;
   text-decoration: underline;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;

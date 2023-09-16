@@ -11,7 +11,7 @@ import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAu
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
@@ -162,7 +162,7 @@ const LoginPrefix = styled.span`
 export const LoginDescription = styled.p`
   margin-top: 12px;
   text-align: center;
-  color: ${colors.gray80};
+  color: ${legacyColors.gray80};
 
   ${textStyles.SUIT_16_M};
 
@@ -226,7 +226,7 @@ const ResetLoginAction = styled.div`
 
 const RegisterInfo = styled.div`
   margin-top: 30px;
-  color: ${colors.gray80};
+  color: ${legacyColors.gray80};
 
   ${textStyles.SUIT_16_M};
 
@@ -239,7 +239,7 @@ const RegisterInfo = styled.div`
 
 const LastLogin = styled(m.div)`
   margin-top: 25px;
-  color: ${colors.purple100};
+  color: ${legacyColors.purple100};
 
   ${textStyles.SUIT_16_SB}
 `;
@@ -247,10 +247,10 @@ const LastLogin = styled(m.div)`
 const RegisterLink = styled(Link)`
   transition: 0.2s color;
   text-decoration: underline;
-  color: ${colors.purple100};
+  color: ${legacyColors.purple100};
 
   :hover {
-    color: ${colors.purple80};
+    color: ${legacyColors.purple80};
   }
 `;
 
@@ -274,10 +274,10 @@ const MotionTooltip = styled(m.div)`
 
 const TooltipRect = styled.div`
   border-radius: 12px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 18px 16px;
   white-space: nowrap;
-  color: ${colors.gray10};
+  color: ${legacyColors.gray10};
 
   ${textStyles.SUIT_16_M}
 
@@ -290,7 +290,7 @@ const TooltipRect = styled.div`
 
 const TooltipArrow = styled.div`
   border: 10px solid transparent;
-  border-top: 12px solid ${colors.black60};
+  border-top: 12px solid ${legacyColors.black60};
   border-bottom: 0;
   width: 0;
   height: 0;

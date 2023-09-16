@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { cardStyle } from '@/components/soulmate/view/common/commonStyles';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -76,7 +76,7 @@ const Button = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   padding: 14px 20px;
   width: 180px;
 

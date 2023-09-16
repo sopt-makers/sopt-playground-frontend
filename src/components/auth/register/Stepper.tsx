@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { m } from 'framer-motion';
 import { FC, ReactNode } from 'react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -99,13 +99,18 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
             variants={{
               future: {
                 scale: 1,
-                backgroundColor: colors.black40,
-                color: colors.gray100,
+                backgroundColor: legacyColors.black40,
+                color: legacyColors.gray100,
               },
               current: {
                 scale: [1, 1, 1.2, 1],
-                backgroundColor: [colors.black40, colors.black40, colors.purple100, colors.purple100],
-                color: [colors.gray100, colors.gray100, colors.white, colors.white],
+                backgroundColor: [
+                  legacyColors.black40,
+                  legacyColors.black40,
+                  legacyColors.purple100,
+                  legacyColors.purple100,
+                ],
+                color: [legacyColors.gray100, legacyColors.gray100, legacyColors.white, legacyColors.white],
                 transition: {
                   times: [0, 0.7, 0.9, 1],
                   duration: 2,
@@ -119,10 +124,10 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
             isActive={step >= 2}
             variants={{
               future: {
-                color: colors.gray100,
+                color: legacyColors.gray100,
               },
               current: {
-                color: [colors.gray100, colors.gray100, colors.white],
+                color: [legacyColors.gray100, legacyColors.gray100, legacyColors.white],
                 transition: {
                   times: [0, 0.7, 1],
                   duration: 2,
@@ -156,7 +161,7 @@ const LineArea = styled.div`
 const Line = styled(m.div)`
   position: relative;
   margin: 13px 35px 0;
-  background-color: ${colors.black40};
+  background-color: ${legacyColors.black40};
   height: 2px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -167,7 +172,7 @@ const Line = styled(m.div)`
 const LineFilled = styled(m.div)`
   position: absolute;
   left: 0;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   width: 50%;
   height: 100%;
 `;
@@ -202,7 +207,7 @@ const Circle = styled(m.div)`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   width: 28px;
   height: 28px;
   white-space: nowrap;

@@ -3,7 +3,7 @@ import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
 import Text from '@/components/common/Text';
 import IconWarning from '@/public/icons/icon-warning.svg';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 export interface FormItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -42,6 +42,6 @@ const StyledErrorWrapper = styled.div`
 `;
 
 const StyledErrorMessage = styled(Text)`
-  color: ${colors.red100};
+  color: ${legacyColors.red100};
   ${textStyles.SUIT_12_M}
 `;

@@ -5,7 +5,7 @@ import { FC, FormEvent, useState } from 'react';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import HelpCard from '@/components/sopticle/HelpCard';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -84,7 +84,7 @@ const TitleBox = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_32_SB};
 
@@ -95,7 +95,7 @@ const Title = styled.h1`
 
 const SubTitle = styled.h2`
   margin-top: 12px;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_16_M};
 
@@ -117,7 +117,7 @@ const Form = styled.form`
 
 const Label = styled.label`
   margin-bottom: 16px;
-  color: ${colors.gray80};
+  color: ${legacyColors.gray80};
 
   ${textStyles.SUIT_16_M};
 
@@ -144,7 +144,7 @@ const MotionErrorMessageHolder = styled(m.div)`
 const Button = styled.button`
   margin-top: 16px;
   border-radius: 10px;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   padding: 16px 0;
 
   ${textStyles.SUIT_16_M};

@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { FC, ReactNode, useState } from 'react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 
 const ARROW_DOWN_SYMBOL = `\u25bc`;
 const ARROW_UP_SYMBOL = `\u25b2`;
@@ -31,14 +31,14 @@ const disclosureButtonStyle = css`
   justify-content: space-between;
   margin: 0 15px;
   border-radius: 5px;
-  background-color: ${colors.purple60};
+  background-color: ${legacyColors.purple60};
   cursor: pointer;
   padding: 8px 16px;
   width: calc(100% - 30px);
-  color: ${colors.black60};
+  color: ${legacyColors.black60};
 
   &:hover {
-    color: ${colors.purple80};
+    color: ${legacyColors.purple80};
   }
 `;
 

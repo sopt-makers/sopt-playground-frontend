@@ -5,7 +5,7 @@ import { MENU_SVG, SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/image
 import MobileSideBar from '@/components/common/Header/mobile/MobileSideBar';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 
 interface MobileHeaderProps {
   user: {
@@ -48,10 +48,10 @@ export default MobileHeader;
 
 const Container = styled.header`
   display: flex;
-  background-color: ${colors.black100};
+  background-color: ${legacyColors.black100};
   padding: 0 16px;
   height: 56px;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 `;
 
 const NavButton = styled.button`

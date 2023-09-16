@@ -15,7 +15,7 @@ import { mentoringProvider } from '@/components/mentoring/data';
 import InfoItem from '@/components/mentoring/MentoringDetail/InfoItem';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -192,7 +192,7 @@ const Section = styled.section`
   flex-direction: column;
   gap: 80px;
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${legacyColors.black80};
   padding: 48px 39px;
   width: 790px;
 
@@ -207,7 +207,7 @@ const MentoringTitle = styled.h1`
   grid-area: title;
   width: 100%;
   line-height: 50px;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_40_B};
 
@@ -236,7 +236,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   width: 60px;
   height: 60px;
 
@@ -258,12 +258,12 @@ const EmptyProfileImage = styled.div`
 
 const MentorName = styled.div`
   line-height: 100%;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_20_SB};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    color: ${colors.gray40};
+    color: ${legacyColors.gray40};
 
     ${textStyles.SUIT_14_M};
   }
@@ -277,16 +277,16 @@ const MessageButton = styled.button`
   justify-content: center;
   justify-self: end;
   border-radius: 6px;
-  background-color: ${colors.purple100};
+  background-color: ${legacyColors.purple100};
   width: 180px;
   height: 48px;
   line-height: 135%;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_14_B}
 
   & > svg {
-    fill: ${colors.gray10};
+    fill: ${legacyColors.gray10};
     width: 16px;
     height: 16px;
   }
@@ -306,12 +306,12 @@ const ClosedMessageButton = styled.button`
   justify-content: center;
   justify-self: end;
   border-radius: 6px;
-  background-color: ${colors.purpledim100};
+  background-color: ${legacyColors.purpledim100};
   cursor: default;
   width: 249px;
   height: 48px;
   line-height: 135%;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_14_B}
 
@@ -345,28 +345,28 @@ const KeywordList = styled.div`
 
 const Keyword = styled.div`
   border-radius: 16px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   padding: 8px 15px;
   line-height: 120%;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_14_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.black40};
+    background-color: ${legacyColors.black40};
   }
 `;
 
 const Content = styled.div`
   line-height: 150%;
   white-space: pre-line;
-  color: ${colors.white};
+  color: ${legacyColors.white};
 
   ${textStyles.SUIT_18_M}
 
   @media ${MOBILE_MEDIA_QUERY} {
     line-height: 120%;
-    color: ${colors.gray40};
+    color: ${legacyColors.gray40};
 
     ${textStyles.SUIT_14_M};
   }
@@ -395,7 +395,7 @@ const Career = {
   `,
   Title: styled.div`
     line-height: 100%;
-    color: ${colors.white};
+    color: ${legacyColors.white};
 
     ${textStyles.SUIT_24_B};
 
@@ -408,7 +408,7 @@ const Career = {
     gap: 6px;
     align-items: center;
     line-height: 100%;
-    color: ${colors.white};
+    color: ${legacyColors.white};
 
     ${textStyles.SUIT_18_M}
 
@@ -417,13 +417,13 @@ const Career = {
       height: 16px;
 
       & > path {
-        fill: ${colors.white};
+        fill: ${legacyColors.white};
       }
     }
 
     @media ${MOBILE_MEDIA_QUERY} {
       gap: 4px;
-      color: ${colors.gray80};
+      color: ${legacyColors.gray80};
 
       ${textStyles.SUIT_12_M}
 
@@ -432,7 +432,7 @@ const Career = {
         height: 12px;
 
         & > path {
-          fill: ${colors.gray80};
+          fill: ${legacyColors.gray80};
         }
       }
     }

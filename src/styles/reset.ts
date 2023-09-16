@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 
 export const reset = css`
   html,
   body {
     background: #fff;
-    color: ${colors.white};
+    color: ${legacyColors.white};
     font-family: SUIT, sans-serif;
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
@@ -112,7 +112,7 @@ export const reset = css`
   a {
     outline: none;
     text-decoration: none;
-    color: ${colors.white};
+    color: ${legacyColors.white};
   }
 
   a:hover,
@@ -248,7 +248,7 @@ export const reset = css`
   [type='reset'],
   [type='submit'] {
     appearance: button;
-    color: ${colors.white};
+    color: ${legacyColors.white};
   }
 
   /**

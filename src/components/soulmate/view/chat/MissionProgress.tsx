@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -65,18 +65,18 @@ const ProgressCell = styled.div<{ status: MissionStatus['status'] }>`
   ${(props) =>
     props.status === 'completed' &&
     css`
-      background-color: ${colors.black60};
+      background-color: ${legacyColors.black60};
     `}
   ${(props) =>
     props.status === 'running' &&
     css`
-      background-color: ${colors.purple100};
+      background-color: ${legacyColors.purple100};
     `}
     ${(props) =>
     props.status === 'waiting' &&
     css`
-      background-color: ${colors.black90};
-      color: ${colors.gray80};
+      background-color: ${legacyColors.black90};
+      color: ${legacyColors.gray80};
     `}
 
     @media ${MOBILE_MEDIA_QUERY} {

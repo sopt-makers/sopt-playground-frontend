@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -34,13 +34,13 @@ const StyledHelpCard = styled.a<{ highlight?: boolean }>`
   transition: background-color 0.3s, box-shadow 0.3s;
   margin-top: 35px;
   border-radius: 10px;
-  background-color: ${colors.black60};
+  background-color: ${legacyColors.black60};
   cursor: pointer;
   padding: 19px 15px 18px;
   animation: 1.5s ease-out infinite alternate both running glow;
 
   &:hover {
-    background-color: ${colors.black40};
+    background-color: ${legacyColors.black40};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -61,7 +61,7 @@ const StyledHelpCard = styled.a<{ highlight?: boolean }>`
 const Content = styled.div`
   line-height: 140%;
   white-space: pre-line;
-  color: ${colors.gray60};
+  color: ${legacyColors.gray60};
 
   ${textStyles.SUIT_14_M}
 `;

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -144,7 +144,7 @@ const Name = styled.h3`
 `;
 
 const Po = styled.span`
-  color: ${colors.gray40};
+  color: ${legacyColors.gray40};
 
   ${textStyles.SUIT_16_M};
 
@@ -162,9 +162,9 @@ const BadgeContainer = styled.div`
 const Badge = styled.div`
   margin-right: 4px;
   border-radius: 3px;
-  background-color: ${colors.black40};
+  background-color: ${legacyColors.black40};
   padding: 2px 6px;
-  color: ${colors.gray20};
+  color: ${legacyColors.gray20};
 
   ${textStyles.SUIT_14_M};
 

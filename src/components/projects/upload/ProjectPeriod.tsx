@@ -8,7 +8,7 @@ import Input from '@/components/common/Input';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -65,7 +65,7 @@ const ProjectPeriod = () => {
           control={control}
           render={({ field: { value, ...props } }) => <Checkbox checked={value} {...props} />}
         />
-        <Text typography='SUIT_12_M' color={colors.gray100}>
+        <Text typography='SUIT_12_M' color={legacyColors.gray100}>
           진행중
         </Text>
       </CheckboxWrapper>
@@ -102,7 +102,7 @@ const StyledEndAtWrapper = styled.div`
 
 const StyledText = styled(Text)`
   margin: 0 11px;
-  color: ${colors.gray100};
+  color: ${legacyColors.gray100};
   ${textStyles.SUIT_16_M};
 `;
 
