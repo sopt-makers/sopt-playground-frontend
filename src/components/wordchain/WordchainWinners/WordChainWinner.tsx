@@ -118,10 +118,6 @@ const WinnerImage = styled.img`
 `;
 
 const DefaultImage = styled.img`
-<<<<<<< HEAD
-  transform: translate(50, 50);
-=======
->>>>>>> 1771c2a62b1624eddfe047bfd805e5071b0b2aff
   margin: auto;
   width: 40%;
   object-fit: cover;
