@@ -100,7 +100,7 @@ export const generation3: MakersGeneration = {
       description: '',
       people: [
         { type: 'member', id: 203, name: '노영선', position: '브랜드 디자이너' },
-        { type: 'member', id: 294, name: '윤여진', position: '브랜드 디자이너' },
+        { type: 'member', id: 315, name: '강민서', position: '브랜드 디자이너' },
         { type: 'member', id: 370, name: '조성아', position: '프로덕트 마케터' },
         { type: 'member', id: 204, name: '이지윤', position: '프로덕트 마케터' },
       ],
