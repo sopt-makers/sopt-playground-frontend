@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { ReactNode } from 'react';
@@ -96,7 +97,6 @@ const StyledForm = styled.form`
   }
 `;
 
-// TODO(@jun): disabled color 확인하기
 const SubmitButton = styled.button<{ isDisabled: boolean }>`
   display: flex;
   align-items: center;
@@ -110,6 +110,13 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
   height: 42px;
   line-height: 120%;
   color: ${colors.black100};
+
+  ${({ isDisabled }) =>
+    isDisabled &&
+    css`
+      background-color: ${colors.black80};
+      color: ${colors.gray80};
+    `}
 
   &:hover {
     background-color: ${colors.gray20};

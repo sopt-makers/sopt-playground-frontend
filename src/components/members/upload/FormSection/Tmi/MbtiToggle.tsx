@@ -37,7 +37,6 @@ const Container = styled.div`
   }
 `;
 
-// TODO(@jun): hover color 확인, 중간선 제거 확인
 const Button = styled.button<{ isSelected: boolean }>`
   background-color: ${({ isSelected }) => (isSelected ? colors.white100 : colors.black60)};
   cursor: pointer;
