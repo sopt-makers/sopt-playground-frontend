@@ -78,7 +78,6 @@ const WinnerBoard = styled.aside`
 `;
 
 const WinnerHeader = styled.h1`
-  /* margin-bottom: 16px; */
   color: ${colors.white};
 
   ${textStyles.SUIT_20_B}
