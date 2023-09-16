@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import LinkIcon from 'public/icons/icon-link.svg';
 
@@ -8,7 +9,6 @@ import CareerItem from '@/components/members/detail/CareerSection/CareerItem';
 import InfoItem from '@/components/members/detail/InfoItem';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import { Career } from '@/components/members/detail/types';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface CareerSectionProps {
@@ -107,7 +107,7 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
   & > .circle {
     margin-top: 6px;
     border-radius: 50%;
-    background-color: ${({ isCurrent }) => (isCurrent ? '#CDF47C' : legacyColors.gray60)};
+    background-color: ${({ isCurrent }) => (isCurrent ? '#CDF47C' : colors.gray60)};
     width: 6px;
     height: 6px;
   }
@@ -117,7 +117,7 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
     top: 16px;
     left: 2.5px;
     border-radius: 1px;
-    background-color: ${legacyColors.gray60};
+    background-color: ${colors.gray60};
     width: 1px;
     height: 52px;
 

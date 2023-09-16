@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -10,7 +11,6 @@ import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MentoringList from '@/components/mentoring/MentoringList';
 import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -58,6 +58,6 @@ const StyledOnBoardingBanner = styled(OnBoardingBanner)`
 const HDivider = styled.hr`
   margin-top: 32px;
   border: none;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   height: 4px;
 `;

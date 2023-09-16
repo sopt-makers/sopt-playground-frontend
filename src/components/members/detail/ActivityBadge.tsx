@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -19,15 +19,16 @@ const Container = styled.div`
   align-items: center;
   transition: background-color 0.2s;
   border-radius: 13px;
-  background-color: ${legacyColors.purple100};
+  background-color: ${colors.black60};
   padding: 6px 14px;
   line-height: 100%;
   letter-spacing: -0.01em;
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_M}
 
   &:hover {
-    background-color: ${legacyColors.purple80};
+    background-color: ${colors.black40};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -27,7 +28,6 @@ import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { Category } from '@/components/projects/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
@@ -320,7 +320,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 36px;
-  background: ${legacyColors.black60};
+  background: ${colors.black60};
   width: 171px;
   height: 171px;
 `;
@@ -466,10 +466,10 @@ const StyledAddressBadgeWrapper = styled.div`
 
 const AddressBadge = styled.div`
   border-radius: 13px;
-  background-color: ${legacyColors.black40};
+  background-color: ${colors.black60};
   padding: 6px 14px;
   line-height: 16px;
-  color: ${legacyColors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_M};
 `;
@@ -524,7 +524,7 @@ const ProjectUploadNudge = styled.div`
   justify-content: center;
   margin-top: 60px;
   border-radius: 30px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   height: 317px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -551,9 +551,9 @@ const ProjectUploadButton = styled(Link)`
   z-index: 1;
   margin-top: 24px;
   border-radius: 14px;
-  background-color: ${legacyColors.white};
+  background-color: ${colors.white100};
   padding: 14px 48px;
-  color: ${legacyColors.black80};
+  color: ${colors.black80};
 
   ${textStyles.SUIT_15_SB};
 

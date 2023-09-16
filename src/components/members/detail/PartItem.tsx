@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import ActivityBadge from '@/components/members/detail/ActivityBadge';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -82,7 +82,7 @@ const Thumbnail = styled.div`
 const Generation = styled.div`
   grid-area: generation;
   margin-right: 12px;
-  color: ${legacyColors.white};
+  color: ${colors.white};
 
   ${textStyles.SUIT_18_B}
 
@@ -96,7 +96,7 @@ const Generation = styled.div`
 
 const BelongArea = styled.div`
   grid-area: belongs;
-  color: ${legacyColors.gray30};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_18_M}
 
