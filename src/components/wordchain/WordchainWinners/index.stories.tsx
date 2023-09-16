@@ -1,10 +1,13 @@
-import { Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import WordchainWinners from '@/components/wordchain/WordchainWinners';
 
-export default {
+const meta = {
   component: WordchainWinners,
-} as Meta<typeof WordchainWinners>;
+} satisfies Meta<typeof WordchainWinners>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
@@ -53,4 +56,4 @@ export const Default = {
     hasNext: true,
   },
   name: '기본',
-};
+} satisfies Story;

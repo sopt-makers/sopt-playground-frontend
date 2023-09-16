@@ -40,9 +40,9 @@ export default function WordchainWinners() {
       <WinnerList>
         {wordchainWinners?.map((winnerList, totalListIndex) => (
           <Fragment key={totalListIndex}>
-            {winnerList?.map(({ roomId, winner }, winnerIndex) => {
+            {winnerList.map(({ roomId, winner: { id, profileImage, name } }, winnerIndex) => {
               const isRecent = totalListIndex === 0 && winnerIndex === 0;
-              const { id, profileImage, name } = winner;
+
               return (
                 <WordChainWinner key={id} roomId={roomId} profileImage={profileImage} name={name} isRecent={isRecent} />
               );
