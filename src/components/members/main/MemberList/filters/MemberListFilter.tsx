@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { PropsWithChildren, ReactNode } from 'react';
 
 import Select from '@/components/members/common/select/Select';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -31,11 +31,11 @@ export function MemberListFilter<T extends string>({
 }: PropsWithChildren<MemberListFilterProps<T>>) {
   return (
     <StyledSelect className={className} placeholder={placeholder} value={value} onChange={onChange} selected={!!value}>
-      {defaultOption && <Select.Item value={defaultOption?.value}>{defaultOption?.label}</Select.Item>}
+      {defaultOption && <StyledSelectItem value={defaultOption?.value}>{defaultOption?.label}</StyledSelectItem>}
       {options.map((option) => (
-        <Select.Item key={option.value} value={option.value}>
+        <StyledSelectItem key={option.value} value={option.value}>
           {option.label}
-        </Select.Item>
+        </StyledSelectItem>
       ))}
       {children}
     </StyledSelect>
@@ -53,8 +53,9 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
   ${({ selected }) =>
     selected &&
     css`
-      background-color: ${legacyColors.purple100};
-      color: ${legacyColors.white};
+      border-color: ${colors.gray80};
+      background-color: ${colors.black60};
+      color: ${colors.white};
     `};
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -65,4 +66,8 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
       ${textStyles.SUIT_16_B};
     }
   }
+`;
+
+const StyledSelectItem = styled(Select.Item)`
+  color: ${colors.gray40};
 `;

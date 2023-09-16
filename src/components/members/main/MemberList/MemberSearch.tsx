@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import { InputProps } from '@/components/common/Input';
 import SearchIcon from '@/public/icons/icon-member-search.svg';
 import SearchClearIcon from '@/public/icons/icon-search-clear.svg';
-import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MemberSearchProps extends Omit<InputProps, 'value' | 'onChange'> {
@@ -46,22 +46,22 @@ const StyledInput = styled.input`
   transition: all 0.2s;
   border: 1px solid transparent;
   border-radius: 10px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   padding: 18px 45px 18px 24px;
   width: 100%;
   min-width: 60px;
-  color: ${legacyColors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M};
 
   &::placeholder {
-    color: ${legacyColors.gray60};
+    color: ${colors.gray60};
   }
 
   &:focus {
     outline: none;
-    border-color: ${legacyColors.purple100};
-    background-color: ${legacyColors.black80};
+    border-color: ${colors.gray40};
+    background-color: ${colors.black80};
   }
 `;
 
