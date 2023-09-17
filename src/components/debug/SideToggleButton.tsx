@@ -27,7 +27,7 @@ const StyledSideToggleButton = styled.button`
   background-color: ${colors.blue50};
   cursor: pointer;
   padding: 5px;
-  color: ${colors.gray100};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_B}
 

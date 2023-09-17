@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
@@ -10,7 +11,6 @@ import WordchainRules from '@/components/wordchain/WordchainRules';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordChainMessage from '@/public/icons/icon-wordchain-message.svg';
-import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';

@@ -135,6 +135,10 @@ const ProjectUploadButton = styled(Link)`
   background-color: ${colors.white100};
   padding: 18px 24px 18px 20px;
   color: ${colors.black100};
+
+  &:hover {
+    background-color: ${colors.gray20};
+  }
 `;
 
 const LengthWrapper = styled.div`

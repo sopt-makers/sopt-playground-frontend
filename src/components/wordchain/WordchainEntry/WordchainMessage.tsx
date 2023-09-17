@@ -110,7 +110,7 @@ const Divider = styled.div`
 
 const Name = styled.div`
   line-height: 100%;
-  color: ${colors.white100};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_14_SB}
 

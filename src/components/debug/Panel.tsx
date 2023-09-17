@@ -30,11 +30,11 @@ const disclosureButtonStyle = css`
   justify-content: space-between;
   margin: 0 15px;
   border-radius: 5px;
-  background-color: ${colors.blue40};
+  background-color: ${colors.blue50};
   cursor: pointer;
   padding: 8px 16px;
   width: calc(100% - 30px);
-  color: ${colors.black60};
+  color: ${colors.gray20};
 `;
 
 const collapsibleContentStyle = css`

@@ -69,7 +69,7 @@ const StartWord = styled.div`
   position: relative;
   margin-left: 76px;
   border-radius: 20px;
-  background-color: ${colors.black80};
+  background-color: #17181b;
   padding: 16px 20px;
   width: fit-content;
   line-height: 120%;
