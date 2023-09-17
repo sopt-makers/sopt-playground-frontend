@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, useMemo, useReducer } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -8,7 +9,6 @@ import { safeDecodeAccessToken } from '@/components/auth/util/accessToken';
 import Button from '@/components/common/Button';
 import TextArea from '@/components/common/TextArea';
 import Panel from '@/components/debug/Panel';
-import { legacyColors } from '@/styles/colors';
 
 const AccessTokenPanel: FC = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
@@ -56,7 +56,7 @@ const AccessTokenPanel: FC = () => {
             <Button
               variant='primary'
               onClick={() => dispatchEdit({ type: 'end' })}
-              css={{ backgroundColor: legacyColors.gray100, marginLeft: '5px' }}
+              css={{ backgroundColor: colors.gray100, marginLeft: '5px' }}
             >
               취소
             </Button>

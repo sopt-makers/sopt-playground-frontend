@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import Text from '@/components/common/Text';
@@ -12,6 +13,9 @@ interface FormStatusProps {
   formItems: Array<Omit<FormItem, 'isDirty'> & { isDirty: boolean }>;
 }
 
+/**
+ * @deprecated 리팩토링 이후 더이상 사용하지 않습니다.
+ */
 const FormStatus: FC<FormStatusProps> = ({ formItems }) => {
   const totalItemNums = formItems.length;
   const dirtyFieldNums = formItems.filter(({ isDirty }) => isDirty).length;
@@ -28,7 +32,7 @@ const FormStatus: FC<FormStatusProps> = ({ formItems }) => {
         </ProgressNumber>
       </StyledContent>
       <Divider />
-      <Text typography='SUIT_16_M' color={legacyColors.gray100}>
+      <Text typography='SUIT_16_M' color={colors.gray100}>
         프로젝트를 등록해주세요
       </Text>
       <StyledProgess value={Number.isNaN(progress) ? 0 : progress} max={1} />
@@ -55,7 +59,7 @@ export default FormStatus;
 
 const StyledContainer = styled.div`
   border-radius: 12px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   padding: 47px 40px;
   width: 278px;
   height: fit-content;
@@ -77,7 +81,7 @@ const ProgressNumber = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   width: 50px;
   height: 24px;
 `;
@@ -90,7 +94,7 @@ const StyledProgess = styled.progress`
 
   &::-webkit-progress-bar {
     border-radius: 100px;
-    background-color: ${legacyColors.gray100};
+    background-color: ${colors.gray100};
   }
 
   &::-webkit-progress-value {
@@ -102,7 +106,7 @@ const StyledProgess = styled.progress`
 const StatusList = styled.ul`
   margin: 29px 0 0;
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   padding: 11px 0;
   list-style: none;
 `;
@@ -113,7 +117,7 @@ const StatusListItem = styled.li<{ isDirty?: boolean }>`
   justify-content: space-between;
   transition: color 0.2s;
   padding: 14px 20px;
-  color: ${({ isDirty }) => (isDirty ? legacyColors.white : legacyColors.gray100)};
+  color: ${({ isDirty }) => (isDirty ? colors.white100 : colors.gray100)};
   ${textStyles.SUIT_16_M};
 `;
 
@@ -137,7 +141,7 @@ const Checked = styled.div`
 const Divider = styled.hr`
   margin: 36px 0 28px;
   border: none;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   width: 100%;
   height: 1.5px;
 `;

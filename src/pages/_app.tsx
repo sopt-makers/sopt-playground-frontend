@@ -1,4 +1,5 @@
 import ProgressBar from '@badrap/bar-of-progress';
+import { colors } from '@sopt-makers/colors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { LazyMotion } from 'framer-motion';
@@ -15,7 +16,6 @@ import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvi
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
 import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
-import { legacyColors } from '@/styles/colors';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { useChannelService } from '@/utils/channelService/useChannelService';
 import { getLayout } from '@/utils/layout';
@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
 
-const progress = new ProgressBar({ color: legacyColors.purple80, size: 3 });
+const progress = new ProgressBar({ color: colors.blue50, size: 3 });
 Router.events.on('routeChangeStart', () => progress.start());
 Router.events.on('routeChangeComplete', () => progress.finish());
 Router.events.on('routeChangeError', () => progress.finish());
@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Head>
         <title>SOPT Playground</title>
-        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={legacyColors.gray80} />
+        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
       </Head>
       <GoogleTagManagerScript />
       <RecoilRoot>

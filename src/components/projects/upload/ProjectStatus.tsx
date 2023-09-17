@@ -6,7 +6,7 @@ import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 
 const ProjectStatus: FC = () => {
@@ -33,7 +33,7 @@ const StyledContainer = styled.section`
 `;
 
 const StyledSubTitle = styled(Text)`
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
   ${textStyles.SUIT_14_M};
 `;
 

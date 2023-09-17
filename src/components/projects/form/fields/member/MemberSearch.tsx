@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { Command } from 'cmdk';
 import { FC } from 'react';
 
 import Text from '@/components/common/Text';
 import { Member, useMemberSearch } from '@/components/projects/form/fields/member/MemberSearchContext';
 import IconClear from '@/public/icons/icon-member-search-clear.svg';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -106,25 +106,25 @@ const StyledSearch = styled(Command)`
 
 const StyledInput = styled(Command.Input)<{ isError?: boolean }>`
   transition: all 0.2s;
-  border: 1px solid ${legacyColors.black40};
+  border: 1px solid ${colors.black40};
   border-radius: 6px;
-  background: ${legacyColors.black60};
+  background: ${colors.black60};
   padding: 14px 20px;
-  color: ${legacyColors.gray100};
+  color: ${colors.white100};
 
   &:focus {
     outline: none;
-    border-color: ${legacyColors.purple100};
-    background-color: ${legacyColors.black80};
+    border-color: ${colors.gray40};
+    background-color: ${colors.black80};
   }
 
   ${({ isError }) =>
     isError &&
     css`
-      border-color: ${legacyColors.red100};
+      border-color: ${colors.red100};
       /* stylelint-disable-next-line no-duplicate-selectors */
       &:focus {
-        border-color: ${legacyColors.red100};
+        border-color: ${colors.red100};
       }
     `}
 `;
@@ -140,7 +140,7 @@ const StyledLabel = styled.label`
   width: 100%;
 
   ${textStyles.SUIT_16_SB};
-  ${legacyColors.gray10};
+  ${colors.gray10};
 
   &:hover {
     svg {
@@ -169,14 +169,14 @@ const StyledList = styled(Command.List)`
   flex-direction: column;
   gap: 8px;
   border-radius: 6px;
-  background: ${legacyColors.black60};
+  background: ${colors.black60};
   padding: 8px 0;
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: absolute;
     top: 49px;
-    border: 1px solid ${legacyColors.black40};
+    border: 1px solid ${colors.black40};
   }
 `;
 
@@ -184,13 +184,13 @@ const StyledItem = styled(Command.Item)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   cursor: pointer;
   padding: 10px 16px;
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
 
   &:hover {
-    background-color: ${legacyColors.black40};
+    background-color: ${colors.black40};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

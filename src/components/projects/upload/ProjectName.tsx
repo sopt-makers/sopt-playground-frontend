@@ -6,7 +6,7 @@ import RHFControllerFormItem from '@/components/common/form/RHFControllerFormIte
 import Input from '@/components/common/Input';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const ProjectName: FC = () => {
@@ -26,7 +26,7 @@ export default ProjectName;
 const StyledDivider = styled.hr`
   margin: 36px 0 28px;
   border: none;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   width: 100%;
   height: 1.5px;
 `;

@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import FormItem from '@/components/common/form/FormItem';
@@ -10,6 +11,10 @@ import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+/**
+ *
+ * @deprecated 프로젝트 리팩토링 이후 더 이상 사용되지 않는 컴포넌트입니다.
+ */
 const ProjectServiceType = () => {
   const {
     register,
@@ -61,18 +66,18 @@ const StyledLabel = styled.label<{ checked?: boolean }>`
   justify-content: center;
   transition: background-color 0.2s, color 0.2s;
   border-radius: 100px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   cursor: pointer;
   padding: 14px 0;
   width: 163px;
   height: 42px;
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
 
   ${({ checked }) =>
     checked &&
     css`
       background-color: ${legacyColors.purple100};
-      color: ${legacyColors.white};
+      color: ${colors.white100};
     `}
   ${textStyles.SUIT_14_M};
 

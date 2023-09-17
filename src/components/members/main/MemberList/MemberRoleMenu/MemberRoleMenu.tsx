@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
 import { MENUS } from '@/components/members/main/MemberList/MemberRoleMenu/constants';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -40,7 +40,7 @@ const StyledMenu = styled.ul`
   flex-direction: column;
   gap: 13px;
   border-radius: 6px;
-  background-color: ${legacyColors.black100};
+  background-color: ${colors.black100};
   width: 235px;
 `;
 
@@ -70,18 +70,18 @@ const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   justify-content: space-between;
   transition: background-color 0.3s;
   border-radius: 16px;
-  background-color: ${legacyColors.black100};
+  background-color: ${colors.black100};
   cursor: pointer;
   padding: 20px 21px;
 
   ${({ isSelected }) =>
     isSelected &&
     css`
-      background-color: ${legacyColors.black80};
+      background-color: ${colors.black80};
     `}
 
   &:hover {
-    background-color: ${legacyColors.black80};
+    background-color: ${colors.black80};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

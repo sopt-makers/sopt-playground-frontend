@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { forwardRef, SelectHTMLAttributes } from 'react';
 
-import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { playgroundLink } from '@/constants/links';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -74,7 +74,7 @@ const MessageBox = styled.div`
   gap: 8px;
   align-items: center;
   border-radius: 20px 20px 0;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   padding: 16px 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -86,7 +86,7 @@ const MessageBox = styled.div`
 
 const Word = styled.div`
   line-height: 120%;
-  color: ${legacyColors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M}
 
@@ -97,7 +97,7 @@ const Word = styled.div`
 
 const Divider = styled.div`
   line-height: 120%;
-  color: ${legacyColors.black40};
+  color: ${colors.black40};
 
   ${textStyles.SUIT_16_M}
 
@@ -110,7 +110,7 @@ const Divider = styled.div`
 
 const Name = styled.div`
   line-height: 100%;
-  color: ${legacyColors.purple100};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_SB}
 
@@ -136,7 +136,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   width: 40px;
   height: 40px;
 

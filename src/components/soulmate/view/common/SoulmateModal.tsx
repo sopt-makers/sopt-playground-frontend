@@ -3,7 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import dynamic from 'next/dynamic';
 import { FC, ReactNode } from 'react';
 
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const DialogPortal = dynamic(() => import('@radix-ui/react-dialog').then((res) => res.Portal), {
@@ -55,7 +55,7 @@ const DialogContent = styled(Dialog.Content)`
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 16px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   padding: 30px 26px;
   width: calc(100vw - 72px);
   max-width: 360px;

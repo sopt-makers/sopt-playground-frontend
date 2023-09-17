@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -8,7 +9,6 @@ import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { playgroundLink } from '@/constants/links';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -56,7 +56,7 @@ const IntroducePanel = styled.section`
   align-items: center;
   justify-content: space-between;
   border-radius: 42px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   padding: 59px 64px;
   width: 100%;
   height: 208px;
@@ -70,7 +70,7 @@ const IntroducePanel = styled.section`
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: block;
-    background-color: ${legacyColors.black100};
+    background-color: ${colors.black100};
     padding: 0;
     height: auto;
   }
@@ -133,13 +133,13 @@ const buttonStyle = css`
 const UploadButton = styled.a`
   ${buttonStyle}
 
-  background-color: ${legacyColors.black60};
-  color: ${legacyColors.gray30};
+  background-color: ${colors.black60};
+  color: ${colors.gray30};
 `;
 
 const ProfileButton = styled.a`
   ${buttonStyle}
 
-  background-color: ${legacyColors.purpledim100};
-  color: ${legacyColors.purple40};
+  background-color: ${colors.white100};
+  color: ${colors.black100};
 `;

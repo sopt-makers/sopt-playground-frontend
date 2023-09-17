@@ -4,7 +4,6 @@ import { colors } from '@sopt-makers/colors';
 import { forwardRef, TextareaHTMLAttributes, useState } from 'react';
 
 import Text from '@/components/common/Text';
-import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -29,7 +28,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         />
         {count && (
           <StyledCountValue>
-            <Text color={legacyColors.gray100} typography='SUIT_12_M'>
+            <Text color={colors.gray100} typography='SUIT_12_M'>
               {`${value.length}/${maxCount}`}
             </Text>
           </StyledCountValue>

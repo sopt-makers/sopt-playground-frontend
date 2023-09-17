@@ -10,7 +10,7 @@ import WordchainRules from '@/components/wordchain/WordchainRules';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordChainMessage from '@/public/icons/icon-wordchain-message.svg';
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
@@ -147,7 +147,7 @@ const RuleWrapper = styled.div`
   flex-direction: column;
   row-gap: 16px;
   border-radius: 20px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   padding: 30px 38px;
 `;
 
@@ -156,7 +156,7 @@ const RuleTrigger = styled.div`
   column-gap: 8px;
   align-items: center;
   text-decoration: underline;
-  color: ${legacyColors.gray40};
+  color: ${colors.gray40};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 10px;
@@ -166,14 +166,14 @@ const RuleTrigger = styled.div`
 const Winners = styled.div`
   position: relative;
   border-radius: 20px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   padding: 28px;
   height: 100%;
   max-height: 380px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
-    background-color: ${legacyColors.black100};
+    background-color: ${colors.black100};
     padding: 20px;
     height: 59.5px;
   }
@@ -188,13 +188,13 @@ const DimmedWinners = styled.div`
   justify-content: center;
   opacity: 0.9;
   border-radius: 20px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   width: 100%;
   height: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
-    background-color: ${legacyColors.black100};
+    background-color: ${colors.black100};
     padding: 20px;
     height: auto;
   }
@@ -209,7 +209,7 @@ const MobileResponsive = styled(Responsive)`
 const Divider = styled.hr`
   margin: 24px 0 0;
   border: none;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   width: 100%;
   height: 1.5px;
 `;

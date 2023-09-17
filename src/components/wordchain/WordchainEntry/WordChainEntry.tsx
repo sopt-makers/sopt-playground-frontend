@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -11,7 +12,6 @@ import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMes
 import { playgroundLink } from '@/constants/links';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordchainMessage from '@/public/icons/icon-wordchain-message.svg';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -106,7 +106,7 @@ const Container = styled(Link)`
   display: flex;
   justify-content: space-between;
   border-radius: 16px;
-  background-color: ${legacyColors.black90};
+  background-color: ${colors.black80};
   padding: 39px 45px 39px 70px;
   width: 100%;
   height: 100%;
@@ -117,7 +117,7 @@ const Container = styled(Link)`
     justify-content: center;
     margin-top: 16px;
     border-radius: 0;
-    background-color: ${legacyColors.black100};
+    background-color: ${colors.black100};
     padding: 0 20px;
     width: 100%;
   }
@@ -165,7 +165,7 @@ const WordchainText = styled(Text)`
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    background-color: ${legacyColors.black90};
+    background-color: ${colors.black80};
     padding: 14px 0;
     width: 100%;
 

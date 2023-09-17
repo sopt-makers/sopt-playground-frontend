@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, FC } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -64,18 +64,18 @@ const StyledLabel = styled.label<{ checked?: boolean }>`
   justify-content: center;
   transition: background-color 0.2s, color 0.2s;
   border-radius: 100px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   cursor: pointer;
   padding: 14px 0;
   width: 163px;
   height: 42px;
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
 
   ${({ checked }) =>
     checked &&
     css`
-      background-color: ${legacyColors.purple100};
-      color: ${legacyColors.white};
+      background-color: ${colors.white100};
+      color: ${colors.black100};
     `}
   ${textStyles.SUIT_14_M};
 

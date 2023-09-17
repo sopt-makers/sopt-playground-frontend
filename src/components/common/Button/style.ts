@@ -1,6 +1,5 @@
 import { css, SerializedStyles } from '@emotion/react';
-
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 
 export type ButtonStyle = 'default' | 'primary' | 'danger';
 export type ButtonSize = 'fill' | 'small' | 'medium' | 'large';
@@ -8,15 +7,15 @@ export type ButtonSize = 'fill' | 'small' | 'medium' | 'large';
 export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
   default: css`
     background-color: #212121;
-    color: ${legacyColors.gray100};
+    color: ${colors.gray100};
   `,
   primary: css`
-    background-color: ${legacyColors.purple100};
-    color: #e2e2e2;
+    background-color: ${colors.white100};
+    color: ${colors.black100};
   `,
   danger: css`
-    background-color: ${legacyColors.red100};
-    color: ${legacyColors.gray40};
+    background-color: ${colors.red100};
+    color: ${colors.gray40};
   `,
 };
 

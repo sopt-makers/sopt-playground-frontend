@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import { MENU_SVG, SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/imageData';
 import MobileSideBar from '@/components/common/Header/mobile/MobileSideBar';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
-import { legacyColors } from '@/styles/colors';
 
 interface MobileHeaderProps {
   user: {
@@ -48,10 +48,10 @@ export default MobileHeader;
 
 const Container = styled.header`
   display: flex;
-  background-color: ${legacyColors.black100};
+  background-color: ${colors.black100};
   padding: 0 16px;
   height: 56px;
-  color: ${legacyColors.white};
+  color: ${colors.white100};
 `;
 
 const NavButton = styled.button`

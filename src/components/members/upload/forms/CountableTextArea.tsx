@@ -4,7 +4,6 @@ import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, forwardRef } from 'react';
 
 import Text from '@/components/common/Text';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -32,7 +31,7 @@ export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCou
           className={className}
         />
         <StyledCountValue>
-          <Text color={legacyColors.gray100} typography='SUIT_12_M'>
+          <Text color={colors.gray100} typography='SUIT_12_M'>
             {`${value?.length ?? 0}/${maxCount}`}
           </Text>
         </StyledCountValue>

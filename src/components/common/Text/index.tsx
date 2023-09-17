@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { CSSProperties, FC, HTMLAttributes, PropsWithChildren } from 'react';
 
-import { legacyColors } from '@/styles/colors';
 import { space, SpaceProps } from '@/styles/spacing';
 import { baseTextStyles, textStyles, Typography } from '@/styles/typography';
 
@@ -44,7 +44,7 @@ const StyledText = styled.span<TextProps>`
     css`
       ${textStyles.SUIT_12_M}
 
-      color: ${legacyColors.red100};
+      color: ${colors.red100};
     `}
   ${space}
 `;

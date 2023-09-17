@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
 import Text from '@/components/common/Text';
 import IconWarning from '@/public/icons/icon-warning.svg';
-import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 export interface FormItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -42,6 +42,6 @@ const StyledErrorWrapper = styled.div`
 `;
 
 const StyledErrorMessage = styled(Text)`
-  color: ${legacyColors.red100};
+  color: ${colors.red100};
   ${textStyles.SUIT_12_M}
 `;

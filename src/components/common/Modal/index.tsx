@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import FocusTrap from 'focus-trap-react';
 import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -7,7 +8,6 @@ import Portal from '@/components/common/Portal';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import IconModalCheck from '@/public/icons/icon-modal-check.svg';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -85,9 +85,9 @@ const StyledModal = styled.div<{ width?: number }>`
   position: relative;
   z-index: 101;
   border-radius: 22.94px;
-  background: ${legacyColors.black80};
+  background: ${colors.black80};
   width: ${({ width }) => width ?? 450}px;
-  color: ${legacyColors.white};
+  color: ${colors.white100};
 `;
 
 const StyledCloseButton = styled.button`
@@ -126,7 +126,7 @@ const StyledTitle = styled.h1`
 
 const StyledContent = styled.div`
   margin-top: 18px;
-  color: ${legacyColors.gray40};
+  color: ${colors.gray40};
 
   ${textStyles.SUIT_18_M};
 `;

@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export const MemberFormSection = styled.section`
   border-radius: 30px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   padding: 40px 40px 60px;
 
   input {
@@ -14,13 +14,13 @@ export const MemberFormSection = styled.section`
     padding: 14.5px 20px;
 
     &::placeholder {
-      color: ${legacyColors.gray80};
+      color: ${colors.gray80};
     }
 
     @media ${MOBILE_MEDIA_QUERY} {
       border-radius: 12px;
-      border-color: ${legacyColors.black80};
-      background-color: ${legacyColors.black80};
+      border-color: ${colors.black80};
+      background-color: ${colors.black80};
     }
   }
 
@@ -28,13 +28,13 @@ export const MemberFormSection = styled.section`
     ${textStyles.SUIT_16_M}
 
     &::placeholder {
-      color: ${legacyColors.gray80};
+      color: ${colors.gray80};
     }
 
     @media ${MOBILE_MEDIA_QUERY} {
       border-radius: 12px;
-      border-color: ${legacyColors.black80};
-      background-color: ${legacyColors.black80};
+      border-color: ${colors.black80};
+      background-color: ${colors.black80};
     }
   }
 

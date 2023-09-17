@@ -8,7 +8,7 @@ import Select from '@/components/common/Select';
 import useToast from '@/components/common/Toast/useToast';
 import { linkTitles, LinkType } from '@/components/projects/form/constants';
 import IconTrash from '@/public/icons/icon-trash.svg';
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -131,7 +131,7 @@ const StyledLinkEditView = styled.div<{ isError?: boolean }>`
   column-gap: 10px;
   align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   padding: 10px;
   width: 100%;
 
@@ -154,13 +154,13 @@ const StyledLinkView = styled.div`
   display: flex;
   gap: 42px;
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   cursor: pointer;
   padding: 14px 30px;
   width: 100%;
   min-height: 42px;
   white-space: nowrap;
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
 
   ${textStyles.SUIT_14_M};
 
@@ -174,7 +174,7 @@ const StyledLinkView = styled.div`
 `;
 
 const StyledSelect = styled(Select)`
-  border: 1px solid ${legacyColors.black40};
+  border: 1px solid ${colors.black40};
   border-radius: 6px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -188,7 +188,7 @@ const StyledInput = styled(Input)`
   border-radius: 6px;
 
   & > input {
-    border: 1px solid ${legacyColors.black40};
+    border: 1px solid ${colors.black40};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -198,10 +198,10 @@ const StyledInput = styled(Input)`
 
 const StyledEditCompleteButton = styled.button`
   border-radius: 4px;
-  background-color: ${legacyColors.black40};
+  background-color: ${colors.black40};
   padding: 16px 36px;
   white-space: nowrap;
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
 
   ${textStyles.SUIT_14_M};
 

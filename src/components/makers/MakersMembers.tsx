@@ -8,7 +8,7 @@ import { MakersGeneration } from '@/components/makers/data/types';
 import TeamBlock from '@/components/makers/TeamBlock';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import { playgroundLink } from '@/constants/links';
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -104,11 +104,11 @@ const TabButton = styled.a`
   border: 2px solid transparent;
   cursor: pointer;
   padding: 12px 24px;
-  color: ${legacyColors.gray60};
+  color: ${colors.gray60};
 
   &[data-state='active'] {
-    border-bottom: 2px solid ${legacyColors.white};
-    color: ${legacyColors.white};
+    border-bottom: 2px solid ${colors.white100};
+    color: ${colors.white100};
   }
 
   ${textStyles.SUIT_20_B};
@@ -134,9 +134,9 @@ const TabBottomLine = styled.div`
 const GenerationMessage = styled.div`
   margin-top: 50px;
   border-radius: 16px;
-  background-color: ${legacyColors.black80};
+  background-color: ${colors.black80};
   padding: 32px;
-  color: ${legacyColors.gray30};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_18_M}
 

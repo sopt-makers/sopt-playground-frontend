@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -79,7 +79,7 @@ const MotionMemberCard = styled(m.div)`
   align-items: center;
   transition: box-shadow 0.3s;
   border-radius: 16px;
-  background-color: ${legacyColors.black90};
+  background-color: ${colors.black80};
   padding: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -103,7 +103,7 @@ const StyledAspectRatio = styled(AspectRatio.Root)`
 const StyledImageArea = styled.div`
   transform: translateZ(0);
   border-radius: 50%;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -143,7 +143,7 @@ const TitleBox = styled(m.div)`
 
 const Name = styled.h3`
   flex-shrink: 0;
-  color: ${legacyColors.gray10};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_18_B}
 `;
@@ -154,7 +154,7 @@ const Belongs = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${legacyColors.gray60};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_12_M}
 `;
@@ -175,11 +175,11 @@ const DimShadow = styled.span`
   top: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${legacyColors.black90} 100%);
+  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black80} 100%);
   width: 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${legacyColors.black100} 100%);
+    background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black100} 100%);
   }
 `;
 
@@ -190,16 +190,16 @@ const Badge = styled.div`
   gap: 6px;
   align-items: center;
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   padding: 6px 8px;
-  color: ${legacyColors.gray30};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_11_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${legacyColors.black80};
+    background-color: ${colors.black80};
     padding: 4px 6px;
-    color: ${legacyColors.gray30};
+    color: ${colors.gray30};
 
     ${textStyles.SUIT_11_M};
   }
@@ -217,7 +217,7 @@ const Intro = styled.p`
   margin-top: 16px;
   width: 100%;
   overflow: hidden;
-  color: ${legacyColors.gray60};
+  color: ${colors.gray60};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
@@ -225,7 +225,7 @@ const Intro = styled.p`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
-    color: ${legacyColors.gray100};
+    color: ${colors.gray100};
     -webkit-line-clamp: 1;
   }
 `;

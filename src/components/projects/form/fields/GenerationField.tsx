@@ -6,7 +6,7 @@ import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
 import Text from '@/components/common/Text';
 import { GENERATIONS } from '@/constants/generation';
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -44,7 +44,7 @@ const GenerationField: FC<GenerationFieldProps> = ({ value, defaultValue, onChan
       </StyledSelect>
       <StyledCheckboxWrapper>
         <Checkbox checked={value === null} onChange={handleCheckboxChange} />
-        <Text typography='SUIT_12_M' color={legacyColors.gray100}>
+        <Text typography='SUIT_12_M' color={colors.gray100}>
           특정 기수 활동으로 진행하지 않았어요
         </Text>
       </StyledCheckboxWrapper>

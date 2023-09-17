@@ -10,7 +10,6 @@ import { SelectContext, useSelectContext } from '@/components/members/common/sel
 import { Overlay } from '@/components/members/common/select/Overlay';
 import IconClear from '@/public/icons/icon-search-clear.svg';
 import IconSelectArrow from '@/public/icons/icon-select-arrow.svg';
-import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 const SelectPortal = dynamic<Select.SelectPortalProps>(
@@ -264,8 +263,8 @@ const StyledItem = styled(Select.Item)`
 
   &[data-highlighted] {
     outline: none;
-    background-color: ${legacyColors.black40};
-    color: ${legacyColors.white};
+    background-color: ${colors.black40};
+    color: ${colors.white100};
   }
 
   /* &[data-disabled] {

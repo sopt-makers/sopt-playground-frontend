@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import IconCheck from '@/public/icons/icon-check.svg';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -32,7 +32,7 @@ const TOAST_CONTAINER_LEFT = 36;
 const StyledToastEntry = styled.div`
   display: flex;
   border-radius: 18px;
-  background: ${legacyColors.black60};
+  background: ${colors.black60};
   padding: 16px;
   width: fit-content;
 
@@ -49,7 +49,7 @@ const HeaderBox = styled.div`
 
 const Title = styled.h2`
   margin-bottom: 7px;
-  color: ${legacyColors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_20_B};
 `;
@@ -68,5 +68,5 @@ const IconBox = styled.div`
 `;
 
 const ContentBox = styled.div`
-  color: ${legacyColors.gray40};
+  color: ${colors.gray40};
 `;

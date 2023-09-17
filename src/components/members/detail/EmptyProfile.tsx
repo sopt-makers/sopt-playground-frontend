@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function EmptyProfile() {
@@ -51,7 +51,7 @@ const EmptyProfileImage = styled.div`
 const Description = styled.div`
   margin-top: 24px;
   line-height: 30px;
-  color: ${legacyColors.gray80};
+  color: ${colors.gray80};
   font-size: 24px;
   font-weight: 400;
 

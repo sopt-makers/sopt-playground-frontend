@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import TrophyIcon from 'public/icons/icon-trophy.svg';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -102,11 +103,11 @@ const Container = styled.div`
 const InitMessage = styled.div`
   margin-bottom: 16px;
   border-radius: 20px;
-  background-color: ${legacyColors.black40};
+  background-color: ${colors.black40};
   padding: 4px 8px;
   width: fit-content;
   line-height: 120%;
-  color: ${legacyColors.gray60};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_13_M}
 
@@ -133,7 +134,7 @@ const WordChatMessageList = styled.div`
 const GiveUpButton = styled.button`
   margin-top: 40px;
   text-decoration-line: underline;
-  color: ${legacyColors.gray60};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_16_M}
 
@@ -152,7 +153,7 @@ const WinnerMessage = styled.div`
   margin-top: 12px;
   margin-right: 54px;
   line-height: 100%;
-  color: ${legacyColors.purple100};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M}
 
@@ -168,7 +169,7 @@ const TrophyIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${legacyColors.purple100};
+  background-color: ${colors.orange100};
   width: 20px;
   height: 20px;
 

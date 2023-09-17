@@ -3,11 +3,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Combobox } from '@headlessui/react';
+import { colors } from '@sopt-makers/colors';
 import React, { forwardRef } from 'react';
 
 import { Member } from '@/api/endpoint_LEGACY/members/type';
 import Text from '@/components/common/Text';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -20,6 +20,9 @@ interface MemberSearchProps {
   error?: boolean;
 }
 
+/**
+ * @deprecated  리팩토링 이후 더이상 사용하지 않습니다.
+ */
 const MemberSearch = forwardRef<HTMLInputElement, MemberSearchProps>(
   ({ value, onChange, onSearch, members, name, error }, ref) => {
     const onClear = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -100,7 +103,7 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
     padding: 12px 20px;
     width: 100%;
     ${textStyles.SUIT_16_SB};
-    ${legacyColors.gray10};
+    ${colors.gray10};
 
     &:hover {
       img {
@@ -111,25 +114,25 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
 
   & .search {
     transition: all 0.2s;
-    border: 1px solid ${legacyColors.black60};
+    border: 1px solid ${colors.black60};
     border-radius: 6px;
-    background: ${legacyColors.black60};
+    background: ${colors.black60};
     padding: 14px 20px;
-    color: ${legacyColors.gray100};
+    color: ${colors.gray100};
 
     &:focus {
       outline: none;
       border-color: ${legacyColors.purple100};
-      background-color: ${legacyColors.black80};
+      background-color: ${colors.black80};
     }
 
     ${({ error }) =>
       error &&
       css`
-        border-color: ${legacyColors.red100};
+        border-color: ${colors.red100};
 
         &:focus {
-          border-color: ${legacyColors.red100};
+          border-color: ${colors.red100};
         }
       `}
   }
@@ -139,7 +142,7 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
     flex-direction: column;
     gap: 8px;
     border-radius: 6px;
-    background: ${legacyColors.black60};
+    background: ${colors.black60};
     padding: 8px 0;
   }
 
@@ -147,13 +150,13 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: ${legacyColors.black60};
+    background-color: ${colors.black60};
     cursor: pointer;
     padding: 10px 16px;
-    color: ${legacyColors.gray100};
+    color: ${colors.gray100};
 
     &:hover {
-      background-color: ${legacyColors.black40};
+      background-color: ${colors.black40};
     }
   }
 
@@ -163,13 +166,13 @@ const StyledContainer = styled.div<{ error?: booelan; isSelected: boolean }>`
     width: 135px;
 
     & .search {
-      border: 1px solid ${legacyColors.black40};
+      border: 1px solid ${colors.black40};
     }
 
     & .options {
       position: absolute;
       top: 49px;
-      border: 1px solid ${legacyColors.black40};
+      border: 1px solid ${colors.black40};
     }
 
     & .option {

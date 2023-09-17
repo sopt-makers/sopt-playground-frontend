@@ -9,7 +9,7 @@ import Text from '@/components/common/Text';
 import FormTitle from '@/components/projects/upload/FormTitle';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const ProjectImageSection: FC = () => {
@@ -65,7 +65,7 @@ const StyledContainer = styled.section`
 const StyledDescription = styled(Text)`
   display: block;
   margin: 12px 0 18px;
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
 `;
 
 const StyledTitle = styled(FormTitle)`

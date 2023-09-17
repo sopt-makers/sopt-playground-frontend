@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import * as Collapsible from '@radix-ui/react-collapsible';
+import { colors } from '@sopt-makers/colors';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, PropsWithChildren, useState } from 'react';
 
 import Text from '@/components/common/Text';
-import { legacyColors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface FormAccordionProps {
@@ -24,7 +24,7 @@ const FormAccordion: FC<PropsWithChildren<FormAccordionProps>> = ({ description,
         </StyledTitleWrapper>
         <StyledTrigger>{open ? '- 접기' : '+ 펼치기'}</StyledTrigger>
       </StyledHeader>
-      <Text mt={8} typography='SUIT_14_M' color={legacyColors.gray80}>
+      <Text mt={8} typography='SUIT_14_M' color={colors.gray80}>
         {description}
       </Text>
       <StyledDivder />
@@ -63,7 +63,7 @@ const StyledHeader = styled.div`
 
 const StyledDivder = styled.div`
   margin-top: 16px;
-  border: 0.5px solid ${legacyColors.black60};
+  border: 0.5px solid ${colors.black60};
 `;
 
 const StyledTitleWrapper = styled.div`
@@ -73,13 +73,13 @@ const StyledTitleWrapper = styled.div`
 
 const Essential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${legacyColors.purple100};
+  color: ${colors.orange100};
   ${textStyles.SUIT_16_M};
 `;
 
 const StyledTrigger = styled(Collapsible.Trigger)`
   cursor: pointer;
-  color: ${legacyColors.gray60};
+  color: ${colors.gray60};
   ${textStyles.SUIT_15_SB};
 `;
 

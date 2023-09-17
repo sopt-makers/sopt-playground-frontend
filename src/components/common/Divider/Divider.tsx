@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
-
-import { legacyColors } from '@/styles/colors';
 
 interface DividerProps {
   className?: string;
   color?: string;
 }
-const Divider: FC<DividerProps> = ({ color = legacyColors.black60, className }) => {
+const Divider: FC<DividerProps> = ({ color = colors.black60, className }) => {
   return <StyledDivider className={className} color={color} />;
 };
 

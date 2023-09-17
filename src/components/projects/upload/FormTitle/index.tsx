@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
 import Text from '@/components/common/Text';
-import { legacyColors } from '@/styles/colors';
 import { textStyles, Typography } from '@/styles/typography';
 
 export interface FormTitleProps extends HTMLAttributes<HTMLDivElement> {
@@ -35,12 +35,12 @@ const StyledTitle = styled.div`
 
 const Essential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${legacyColors.purple100};
+  color: ${colors.orange100};
   ${textStyles.SUIT_16_M};
 `;
 
 const Description = styled(Text)`
   align-self: center;
   margin: 0 0 0 10px;
-  color: ${legacyColors.purple100};
+  color: ${colors.white100};
 `;

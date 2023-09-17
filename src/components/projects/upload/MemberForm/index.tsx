@@ -15,7 +15,7 @@ import MemberSearch from '@/components/projects/upload/MemberForm/MemberSearch';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { ProjectUploadForm } from '@/pages/projects/upload/legacy';
 import IconTrash from '@/public/icons/icon-trash.svg';
-import { legacyColors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -135,13 +135,13 @@ const MemberForm: FC<MemberFormProps> = ({ name }) => {
             <>
               {!selectedMember.isEdit ? (
                 <MobileMemberItem key={selectedMember.memberId} onClick={() => onEdit(memberIndex)}>
-                  <Text typography='SUIT_12_M' color={legacyColors.gray100}>
+                  <Text typography='SUIT_12_M' color={colors.gray100}>
                     {selectedMember.memberName}
                   </Text>
-                  <Text style={{ marginLeft: '29px' }} typography='SUIT_12_M' color={legacyColors.gray100}>
+                  <Text style={{ marginLeft: '29px' }} typography='SUIT_12_M' color={colors.gray100}>
                     {selectedMember.memberRole}
                   </Text>
-                  <Text style={{ marginLeft: '40px' }} typography='SUIT_12_M' color={legacyColors.gray100}>
+                  <Text style={{ marginLeft: '40px' }} typography='SUIT_12_M' color={colors.gray100}>
                     {selectedMember.memberDescription}
                   </Text>
                 </MobileMemberItem>
@@ -233,7 +233,7 @@ const MemberAddButton = styled.button`
   align-self: start;
   margin: 8px 0 0 20px;
   cursor: pointer;
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
 
   ${textStyles.SUIT_16_M};
 `;
@@ -282,7 +282,7 @@ const IconDeleteWrapper = styled.div`
 const MobileContainer = styled.div``;
 const MobileMemberApplyForm = styled.div`
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   padding: 12px;
 `;
 
@@ -295,7 +295,7 @@ const MobileMemberSelect = styled.div`
 const MobileSelect = styled(Select)`
   ${textStyles.SUIT_14_M};
 
-  border: 1px solid ${legacyColors.black40};
+  border: 1px solid ${colors.black40};
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 158px;
@@ -308,7 +308,7 @@ const MobileDescription = styled(Input)`
   margin-top: 12px;
 
   & > input {
-    border: 1px solid ${legacyColors.black40};
+    border: 1px solid ${colors.black40};
   }
 `;
 
@@ -321,18 +321,18 @@ const MobileApplyFormFooter = styled.div`
 
 const MobileCompleteButton = styled.button`
   border-radius: 4px;
-  background-color: ${legacyColors.black40};
+  background-color: ${colors.black40};
   padding: 6.5px 30px;
-  color: ${legacyColors.gray100};
+  color: ${colors.gray100};
 
   ${textStyles.SUIT_14_M};
 `;
 
 const MobileAddButton = styled.button`
   margin-top: 12px;
-  border: 1px solid ${legacyColors.black40};
+  border: 1px solid ${colors.black40};
   border-radius: 6px;
-  background-color: ${legacyColors.black60};
+  background-color: ${colors.black60};
   padding: 14px 20px;
   width: 100%;
 `;
@@ -340,6 +340,6 @@ const MobileAddButton = styled.button`
 const MobileMemberItem = styled.div`
   display: flex;
   border-radius: 6px;
-  background-color: ${legacyColors.black40};
+  background-color: ${colors.black40};
   padding: 15px 20px;
 `;
