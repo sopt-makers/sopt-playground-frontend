@@ -3,8 +3,8 @@ import * as Progress from '@radix-ui/react-progress';
 import { colors } from '@sopt-makers/colors';
 import { FC, useMemo } from 'react';
 
+import FormTitle from '@/components/common/form/FormTitle';
 import Text from '@/components/common/Text';
-import FormTitle from '@/components/projects/upload/FormTitle';
 import IconDoneCheck from '@/public/icons/icon-done-check.svg';
 import { textStyles } from '@/styles/typography';
 
