@@ -91,7 +91,7 @@ const Triangle = styled.div`
   top: -9px;
   left: 12px;
   border-right: 32px solid transparent;
-  border-bottom: 27px solid ${colors.black80};
+  border-bottom: 27px solid #17181b;
   border-left: 0 solid transparent;
   width: 0;
   height: 0;
