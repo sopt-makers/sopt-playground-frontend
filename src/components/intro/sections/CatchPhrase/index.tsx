@@ -29,7 +29,7 @@ const CatchPhraseSection: FC<CatchPhraseSectionProps> = ({}) => {
             span={{
               fill: 1000,
               full: 1000,
-              erase: 500,
+              erase: 800,
               empty: 300,
             }}
           />{' '}
@@ -64,6 +64,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 120px;
+  padding-bottom: 80px;
 `;
 
 const PlaygroundChip = styled.div`
