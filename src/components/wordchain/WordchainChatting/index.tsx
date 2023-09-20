@@ -250,7 +250,7 @@ const StyledInput = styled.input<{ isError: boolean }>`
   transition: border-color 0.5s ease-in;
   border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black80)};
   border-radius: 14px;
-  background-color: #17181b;
+  background-color: ${colors.black100};
   padding: 24px 20px;
   width: 100%;
   line-height: 120%;

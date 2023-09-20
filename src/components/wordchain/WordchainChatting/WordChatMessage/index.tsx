@@ -52,7 +52,7 @@ const MessageBox = styled.div`
   gap: 8px;
   align-items: center;
   border-radius: 20px 20px 0;
-  background-color: #17181b;
+  background-color: ${colors.black100};
   padding: 16px 20px;
   width: fit-content;
 
