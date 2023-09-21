@@ -359,7 +359,7 @@ const Header = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    gap: 4px;
+    gap: 0;
   }
 `;
 
