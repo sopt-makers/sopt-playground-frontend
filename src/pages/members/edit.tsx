@@ -8,6 +8,7 @@ import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import { putMemberProfile } from '@/api/endpoint_LEGACY/members';
 import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
+import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';
 import useToast from '@/components/common/Toast/useToast';
@@ -51,6 +52,8 @@ export default function MemberEditPage() {
   const { data: myProfile, isLoading: isLoadingMyProfile } = useGetMemberProfileOfMe();
   const { data: me, isLoading: isLoadingMe } = useGetMemberOfMe();
   const toast = useToast();
+
+  const lastUnauthorized = useLastUnauthorized();
 
   const {
     handleSubmit,
@@ -138,7 +141,7 @@ export default function MemberEditPage() {
     queryClient.invalidateQueries(['getMemberProfileById', response.id]);
     queryClient.invalidateQueries(['getMemberProfile']);
 
-    router.push(playgroundLink.memberDetail(response.id));
+    router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberDetail(response.id));
 
     logSubmitEvent('editProfile');
   };
