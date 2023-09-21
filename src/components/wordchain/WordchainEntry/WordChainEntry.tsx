@@ -57,7 +57,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                     <GotoWordChainWrapper>
                       <GotoWordChainContents>
                         <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
-                        <GotoWordChainSub>SOPT 회원들과 끝말잇기 하러 가기</GotoWordChainSub>
+                        <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
                       </GotoWordChainContents>
                       <IconArrowMobile />
                     </GotoWordChainWrapper>
