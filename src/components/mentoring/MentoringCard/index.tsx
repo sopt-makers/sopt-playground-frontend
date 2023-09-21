@@ -78,8 +78,8 @@ const Container = styled.div`
     border-radius: 10px;
     background-color: ${colors.black80};
     padding: 16px;
-    width: 235px;
-    min-width: 235px;
+    width: 233px;
+    min-width: 233px;
     height: 104px;
   }
 `;
