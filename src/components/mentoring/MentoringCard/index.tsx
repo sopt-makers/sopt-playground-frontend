@@ -76,6 +76,7 @@ const Container = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     align-items: center;
     border-radius: 10px;
+    background-color: ${colors.black80};
     padding: 16px;
     width: 235px;
     min-width: 235px;
@@ -182,6 +183,7 @@ const Title = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 16px;
     width: 201px;
+    ${textStyles.SUIT_14_SB};
   }
 `;
 
@@ -197,6 +199,8 @@ const Mentor = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    ${textStyles.SUIT_12_R};
   }
 `;
 
@@ -221,5 +225,10 @@ const Closed = styled.div<{ isActive: boolean }>`
     line-height: 17px;
 
     ${textStyles.SUIT_14_SB}
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 233px;
+    height: 104px;
   }
 `;

@@ -288,10 +288,9 @@ const MentoringScrollList = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    gap: 16px;
+    gap: 12px;
     margin-top: 16px;
     overflow-y: hidden;
-  
   }
 `;
 
