@@ -77,8 +77,8 @@ const Container = styled.div`
     align-items: center;
     border-radius: 10px;
     padding: 16px;
-    width: 240px;
-    min-width: 240px;
+    width: 235px;
+    min-width: 235px;
     height: 104px;
   }
 `;
@@ -178,6 +178,11 @@ const Title = styled.div`
 
     ${textStyles.SUIT_16_SB};
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 16px;
+    width: 201px;
+  }
 `;
 
 const Mentor = styled.div`
@@ -186,6 +191,13 @@ const Mentor = styled.div`
   color: ${colors.gray60};
 
   ${textStyles.SUIT_14_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const Closed = styled.div<{ isActive: boolean }>`

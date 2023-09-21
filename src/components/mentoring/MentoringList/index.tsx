@@ -164,17 +164,15 @@ export default function MentoringList() {
         </MentoringScrollWrapper>
       )}
       <Responsive only='mobile'>
-        <ButtonWrapper>
-          <MentorApplicationButton
-            href={MENTOR_APPLICATION_URL}
-            target='_blank'
-            onClick={handleClickMentorApplicationButton}
-            rel='noopener'
-          >
-            나도 멘토로 참여하고 싶다면
-            <ArrowDiagonalIcon />
-          </MentorApplicationButton>
-        </ButtonWrapper>
+        <MentorApplicationButton
+          href={MENTOR_APPLICATION_URL}
+          target='_blank'
+          onClick={handleClickMentorApplicationButton}
+          rel='noopener'
+        >
+          나도 멘토로 참여하고 싶다면
+          <ArrowDiagonalIcon />
+        </MentorApplicationButton>
       </Responsive>
     </Container>
   );
@@ -236,6 +234,7 @@ const Container = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    gap: 0;
     align-items: flex-start;
     justify-content: flex-start;
   }
@@ -290,7 +289,9 @@ const MentoringScrollList = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 16px;
+    margin-top: 16px;
     overflow-y: hidden;
+  
   }
 `;
 
@@ -325,6 +326,9 @@ const MentorApplicationButton = styled.a`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 12px;
+    padding: 0 20px;
+
     & > svg {
       width: 14px;
       height: 14px;
@@ -367,9 +371,4 @@ const MentoringTitle = styled.h1`
 const MentoringSub = styled.p`
   margin-top: 4px;
   ${textStyles.SUIT_14_R}
-`;
-
-const ButtonWrapper = styled.div`
-  margin-top: -10px;
-  margin-left: 22px;
 `;
