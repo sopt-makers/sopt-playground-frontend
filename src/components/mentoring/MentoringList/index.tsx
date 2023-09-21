@@ -128,7 +128,7 @@ export default function MentoringList() {
             onClick={handleClickMentorApplicationButton}
             rel='noopener'
           >
-            멘토 등록을 하고싶다면?
+            나도 멘토로 참여하고 싶다면
             <ArrowDiagonalIcon />
           </MentorApplicationButton>
         </Header>
