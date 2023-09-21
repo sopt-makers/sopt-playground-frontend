@@ -9,6 +9,7 @@ import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
 import { playgroundLink } from '@/constants/links';
+import IconArrowMobile from '@/public/icons/icon-chevron-right.svg';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordchainMessage from '@/public/icons/icon-wordchain-message.svg';
 import { colors } from '@/styles/colors';
@@ -24,6 +25,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { logClickEvent } = useEventLogger();
 
   const wordList = data?.wordList;
+  const lastWord = data?.wordList[data?.wordList.length - 1].word;
   const isGameStart = wordList?.length === 0 && data?.currentWinner === null;
   const status = isGameStart ? 'start' : 'progress';
 
@@ -57,17 +59,31 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                         <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
                         <GotoWordChainSub>SOPT 회원들과 끝말잇기 하러 가기</GotoWordChainSub>
                       </GotoWordChainContents>
-                      <IconArrow width='20' height='20' />
+                      <IconArrowMobile />
                     </GotoWordChainWrapper>
                   </MobileResponsive>
                 </>
               )}
               {status === 'progress' && (
                 <>
-                  <StyledTitle>
-                    현재 {`'${data?.currentWinner?.name}'`}님이 <br />
-                    끝말잇기를 이기고 있어요!
-                  </StyledTitle>
+                  <Responsive only='desktop'>
+                    <StyledTitle>
+                      현재 {`'${data?.currentWinner?.name}'`}님이 <br />
+                      끝말잇기를 이기고 있어요!
+                    </StyledTitle>
+                  </Responsive>
+                  <MobileResponsive only='mobile'>
+                    <GotoWordChainWrapper>
+                      <GotoWordChainContents>
+                        <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                        <GotoWordChainSub>
+                          {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>로 이었어요. 끝말을
+                          이어주세요!
+                        </GotoWordChainSub>
+                      </GotoWordChainContents>
+                      <IconArrowMobile />
+                    </GotoWordChainWrapper>
+                  </MobileResponsive>
                 </>
               )}
             </TitleWrapper>
@@ -207,7 +223,6 @@ const GotoWordChainWrapper = styled.aside`
   border-radius: 12px;
   background-color: ${colors.black80};
   padding: 16px;
-  width: 335px;
 `;
 
 const GotoWordChainContents = styled.div`
@@ -219,7 +234,13 @@ const GotoWordChainTitle = styled.h1`
   ${textStyles.SUIT_16_B}
 `;
 
-const GotoWordChainSub = styled.p`
+const GotoWordChainSub = styled.div`
+  display: flex;
   margin-top: 6px;
   ${textStyles.SUIT_14_R};
+`;
+
+const LastWord = styled.p`
+  margin-left: 4px;
+  color: ${colors.orange100};
 `;

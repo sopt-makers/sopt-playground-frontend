@@ -20,4 +20,5 @@ export const colors = {
   white: '#fcfcfc',
   white100: '#FFFFFF',
   facebook: '#1877f2',
+  orange100: '#FF6E1D',
 };
