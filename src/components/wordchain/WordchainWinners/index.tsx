@@ -1,32 +1,21 @@
 import styled from '@emotion/styled';
-import { Fragment, useEffect, useMemo } from 'react';
+import { Fragment, useEffect } from 'react';
 
 import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
-import WordChainWinner from '@/components/wordchain/WordchainWinners/WordChainWinner';
+import WordChainWinner from '@/components/wordchain/WordchainWinners/WordchainWinner';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const PAGE_LIMIT = 5;
+const PAGE_LIMIT = 15;
 
 export default function WordchainWinners() {
   const { ref, isVisible } = useIntersectionObserver();
 
   const { data: wordchainWinnersData, fetchNextPage } = useWordchainWinnersQuery({
     limit: PAGE_LIMIT,
-    queryKey: ['getWordchainWinners'],
   });
-
-  const wordchainWinners = useMemo(
-    () =>
-      wordchainWinnersData?.pages.map((page) =>
-        page.winners.map((winner) => ({
-          ...winner,
-        })),
-      ),
-    [wordchainWinnersData],
-  );
 
   useEffect(() => {
     if (isVisible) {
@@ -38,13 +27,19 @@ export default function WordchainWinners() {
     <WinnerBoard>
       <WinnerHeader>👑 역대 우승자 명예의 전당 👑</WinnerHeader>
       <WinnerList>
-        {wordchainWinners?.map((winnerList, totalListIndex) => (
+        {wordchainWinnersData?.pages.map((page, totalListIndex) => (
           <Fragment key={totalListIndex}>
-            {winnerList.map(({ roomId, winner: { id, profileImage, name } }, winnerIndex) => {
+            {page.winners.map(({ roomId, winner: { id, profileImage, name } }, winnerIndex) => {
               const isRecent = totalListIndex === 0 && winnerIndex === 0;
 
               return (
-                <WordChainWinner key={id} roomId={roomId} profileImage={profileImage} name={name} isRecent={isRecent} />
+                <WordChainWinner
+                  key={`${roomId}` + `${id}`}
+                  roomId={roomId}
+                  profileImage={profileImage}
+                  name={name}
+                  isRecent={isRecent}
+                />
               );
             })}
           </Fragment>

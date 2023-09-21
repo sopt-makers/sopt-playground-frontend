@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import WordChainWinner from '@/components/wordchain/WordchainWinners/WordChainWinner';
+import WordChainWinner from '@/components/wordchain/WordchainWinners/WordchainWinner';
 
 export default {
   component: WordChainWinner,

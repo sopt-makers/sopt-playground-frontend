@@ -62,7 +62,7 @@ const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
   }
 `;
 
-const WinRound = styled.p`
+const WinRound = styled.div`
   display: flex;
   grid-area: winRound;
   width: 110px;

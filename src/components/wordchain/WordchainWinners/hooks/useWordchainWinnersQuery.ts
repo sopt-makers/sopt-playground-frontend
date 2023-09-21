@@ -1,17 +1,14 @@
-import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getWordchainWinners } from '@/api/endpoint/wordchain/getWordchainWinners';
 
 interface UseWordchainWinnersQueryVariables {
   limit: number;
-  queryKey?: QueryKey;
 }
 
-export const useWordchainWinnersQuery = ({ limit, queryKey }: UseWordchainWinnersQueryVariables) => {
-  const _queryKey = (typeof queryKey === 'string' ? [queryKey] : queryKey) ?? [];
-
+export const useWordchainWinnersQuery = ({ limit }: UseWordchainWinnersQueryVariables) => {
   return useInfiniteQuery({
-    queryKey: ['getWordchainWinners', limit, ..._queryKey],
+    queryKey: ['getWordchainWinners', limit],
     queryFn: async ({ pageParam: cursor = 0 }) => {
       const response = await getWordchainWinners.request({ limit, cursor });
       const page = { hasNext: response.hasNext, winners: response.winners };

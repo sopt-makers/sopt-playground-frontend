@@ -6,7 +6,3 @@ export interface Winner {
     name: string;
   };
 }
-
-export interface FinishedWordchainWinners {
-  winners: Winner[];
-}

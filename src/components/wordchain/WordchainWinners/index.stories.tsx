@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { Fragment } from 'react';
 
 import WordchainWinners from '@/components/wordchain/WordchainWinners';
-import WordChainWinner from '@/components/wordchain/WordchainWinners/WordChainWinner';
+import WordChainWinner from '@/components/wordchain/WordchainWinners/WordchainWinner';
 
 export default {
   component: WordchainWinners,
