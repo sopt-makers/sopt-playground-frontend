@@ -24,7 +24,6 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { logClickEvent } = useEventLogger();
 
   const wordList = data?.wordList;
-  const lastWord = data?.wordList[data?.wordList.length - 1];
   const isGameStart = wordList?.length === 0 && data?.currentWinner === null;
   const status = isGameStart ? 'start' : 'progress';
 
@@ -39,22 +38,38 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
         <>
           <LeftSection>
             <TitleWrapper>
-              <StyledIconWordchainMessage />
-              <StyledTitle>
-                {status === 'start' && (
-                  <>
-                    SOPT 회원들과 끝말잇기 할 사람,
-                    <br />
-                    지금이 바로 명예의 전당에 오를 기회!
-                  </>
-                )}
-                {status === 'progress' && (
-                  <>
+              <Responsive only='desktop'>
+                <StyledIconWordchainMessage />
+              </Responsive>
+
+              {status === 'start' && (
+                <>
+                  <Responsive only='desktop'>
+                    <StyledTitle>
+                      SOPT 회원들과 끝말잇기 할 사람,
+                      <br />
+                      지금이 바로 명예의 전당에 오를 기회!
+                    </StyledTitle>
+                  </Responsive>
+                  <MobileResponsive only='mobile'>
+                    <GotoWordChainWrapper>
+                      <GotoWordChainContents>
+                        <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                        <GotoWordChainSub>SOPT 회원들과 끝말잇기 하러 가기</GotoWordChainSub>
+                      </GotoWordChainContents>
+                      <IconArrow width='20' height='20' />
+                    </GotoWordChainWrapper>
+                  </MobileResponsive>
+                </>
+              )}
+              {status === 'progress' && (
+                <>
+                  <StyledTitle>
                     현재 {`'${data?.currentWinner?.name}'`}님이 <br />
                     끝말잇기를 이기고 있어요!
-                  </>
-                )}
-              </StyledTitle>
+                  </StyledTitle>
+                </>
+              )}
             </TitleWrapper>
             <Responsive only='desktop'>
               <WordchainText>
@@ -71,21 +86,9 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                   <WordchainMessage key={index} type='word' word={word} user={user} />
                 ))}
               </WordWrapper>
+              <WordchainMessage type='helper' word={`'${data.nextSyllable}'(으)로 시작하는 단어는?`} />
             </Responsive>
-            <Responsive only='mobile'>
-              {status === 'progress' && lastWord && (
-                <WordchainMessage type='word' word={lastWord.word} user={lastWord.user} />
-              )}
-              {status === 'start' && <WordchainMessage type='startWord' word={data.startWord} />}
-            </Responsive>
-            <WordchainMessage type='helper' word={`'${data.nextSyllable}'(으)로 시작하는 단어는?`} />
           </RightSection>
-          <MobileResponsive only='mobile'>
-            <WordchainText>
-              SOPT 회원들과 끝말잇기 하러 가기
-              <IconArrow />
-            </WordchainText>
-          </MobileResponsive>
         </>
       )}
     </Container>
@@ -194,4 +197,29 @@ const WordWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 8px;
+`;
+
+const GotoWordChainWrapper = styled.aside`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  background-color: ${colors.black80};
+  padding: 16px;
+  width: 335px;
+`;
+
+const GotoWordChainContents = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const GotoWordChainTitle = styled.h1`
+  ${textStyles.SUIT_16_B}
+`;
+
+const GotoWordChainSub = styled.p`
+  margin-top: 6px;
+  ${textStyles.SUIT_14_R};
 `;
