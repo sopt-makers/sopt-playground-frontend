@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
+import Responsive from '@/components/common/Responsive';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
-
 interface MentoringCardProps {
   mentor: { name: string; career?: string; profileImage?: string };
   keywords: string[];
@@ -16,13 +17,15 @@ interface MentoringCardProps {
 export default function MentoringCard({ mentor, keywords, title, isOpened, onClick }: MentoringCardProps) {
   return (
     <Container onClick={onClick}>
-      <Keywords>
-        {keywords.map((keyword, index) => (
-          <KeywordBox key={`${index}-${keyword}`}>
-            <KeywordContent>{keyword}</KeywordContent>
-          </KeywordBox>
-        ))}
-      </Keywords>
+      <Responsive only='desktop'>
+        <Keywords>
+          {keywords.map((keyword, index) => (
+            <KeywordBox key={`${index}-${keyword}`}>
+              <KeywordContent>{keyword}</KeywordContent>
+            </KeywordBox>
+          ))}
+        </Keywords>
+      </Responsive>
       <Title>{title}</Title>
       <Mentor>{mentor.career ? `${mentor.name} · ${mentor.career}` : mentor.name}</Mentor>
       {mentor.profileImage ? (
@@ -68,6 +71,15 @@ const Container = styled.div`
     width: 335px;
     min-width: 335px;
     height: 189px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    align-items: center;
+    border-radius: 10px;
+    padding: 16px;
+    width: 240px;
+    min-width: 240px;
+    height: 104px;
   }
 `;
 

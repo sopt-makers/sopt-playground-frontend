@@ -6,13 +6,17 @@ import { ReactNode, startTransition, useEffect, useState } from 'react';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import Carousel from '@/components/common/Carousel';
+import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { mentoringProvider } from '@/components/mentoring/data';
 import MentoringCard from '@/components/mentoring/MentoringCard';
 import { MENTOR_APPLICATION_URL, playgroundLink } from '@/constants/links';
 import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
+
+import { MentoringCardContainer } from './MentoringCardContainer';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
@@ -115,18 +119,27 @@ export default function MentoringList() {
 
   return (
     <Container>
-      <Header>
-        <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
-        <MentorApplicationButton
-          href={MENTOR_APPLICATION_URL}
-          target='_blank'
-          onClick={handleClickMentorApplicationButton}
-          rel='noopener'
-        >
-          멘토 등록을 하고싶다면?
-          <ArrowDiagonalIcon />
-        </MentorApplicationButton>
-      </Header>
+      <Responsive only='desktop'>
+        <Header>
+          <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
+          <MentorApplicationButton
+            href={MENTOR_APPLICATION_URL}
+            target='_blank'
+            onClick={handleClickMentorApplicationButton}
+            rel='noopener'
+          >
+            멘토 등록을 하고싶다면?
+            <ArrowDiagonalIcon />
+          </MentorApplicationButton>
+        </Header>
+      </Responsive>
+
+      <Responsive only='mobile'>
+        <Header>
+          <MentoringTitle>멘토링</MentoringTitle>
+          <MentoringSub>여러 분야의 SOPT OB들과 얘기를 나눠보세요</MentoringSub>
+        </Header>
+      </Responsive>
       {(listType === undefined || listType === 'carousel-large') && (
         <StyledCarousel
           itemList={mentoringCardList}
@@ -150,6 +163,19 @@ export default function MentoringList() {
           <MentoringScrollList>{mentoringCardList}</MentoringScrollList>
         </MentoringScrollWrapper>
       )}
+      <Responsive only='mobile'>
+        <ButtonWrapper>
+          <MentorApplicationButton
+            href={MENTOR_APPLICATION_URL}
+            target='_blank'
+            onClick={handleClickMentorApplicationButton}
+            rel='noopener'
+          >
+            나도 멘토로 참여하고 싶다면
+            <ArrowDiagonalIcon />
+          </MentorApplicationButton>
+        </ButtonWrapper>
+      </Responsive>
     </Container>
   );
 }
@@ -208,6 +234,11 @@ const Container = styled.div`
     margin-top: 24px;
     margin-bottom: 40px;
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
 `;
 
 const Title = styled.div`
@@ -228,11 +259,6 @@ const StyledCarousel = styled(Carousel)`
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
     width: 975px;
   }
-`;
-
-const MentoringCardContainer = styled.div`
-  display: flex;
-  gap: 15px;
 `;
 
 const MentoringScrollWrapper = styled.div`
@@ -260,6 +286,11 @@ const MentoringScrollList = styled.div`
     & > .card:last-child {
       margin-right: 20px;
     }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 16px;
+    overflow-y: hidden;
   }
 `;
 
@@ -292,6 +323,13 @@ const MentorApplicationButton = styled.a`
       height: 12px;
     }
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    & > svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
 `;
 
 const Header = styled.div`
@@ -316,4 +354,22 @@ const Header = styled.div`
     padding: 0 20px;
     width: 100%;
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 4px;
+  }
+`;
+
+const MentoringTitle = styled.h1`
+  ${textStyles.SUIT_16_B}
+`;
+
+const MentoringSub = styled.p`
+  margin-top: 4px;
+  ${textStyles.SUIT_14_R}
+`;
+
+const ButtonWrapper = styled.div`
+  margin-top: -10px;
+  margin-left: 22px;
 `;
