@@ -24,10 +24,10 @@ const WelcomeBanner = () => {
     <>
       <ContentWrapper>{randomInt === 1 ? <Rocket /> : <Balloon />}</ContentWrapper>
       <Responsive only='desktop'>
-        <img src={desktopBackground.src} width={desktopBackground.width} alt='환영 배너 배경' />
+        <img src={desktopBackground.src} width='1920px' height='212px' alt='환영 배너 배경' />
       </Responsive>
       <Responsive only='mobile'>
-        <img src={mobileBackground.src} width={mobileBackground.width} alt='환영 배너 배경' />
+        <img src={mobileBackground.src} width='375px' height='164px' alt='환영 배너 배경' />
       </Responsive>
     </>
   );
@@ -44,6 +44,7 @@ const ContentWrapper = styled.header`
   height: 212px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
     height: 164px;
   }
 `;
