@@ -18,7 +18,7 @@ const Login: FC<LoginProps> = ({}) => {
     <Container hide={isScrollingDown && !isScrollTop}>
       <ButtonGroup>
         <LoginButton href={playgroundLink.login()}>로그인</LoginButton>
-        <RegisterButton href={playgroundLink.login()}>회원가입</RegisterButton>
+        <RegisterButton href={playgroundLink.register()}>회원가입</RegisterButton>
       </ButtonGroup>
     </Container>
   );
@@ -29,7 +29,6 @@ export default Login;
 const Container = styled.div<{ hide: boolean }>`
   display: flex;
   flex-direction: row-reverse;
-  background: linear-gradient(180deg, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 100%) 100%);
   padding: 13px 30px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -38,6 +37,7 @@ const Container = styled.div<{ hide: boolean }>`
     bottom: 0;
     transition: transform 0.3s;
     z-index: 99999;
+    background: linear-gradient(180deg, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 100%) 100%);
     padding: 12px 16px;
     width: 100%;
 
@@ -67,12 +67,14 @@ const LoginButton = styled(Link)`
   justify-content: center;
   border-radius: 6px;
   background: ${colors.white100};
-  padding: 14px 10px;
+  padding: 6px 10px;
   color: ${colors.black100};
 
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
+    padding: 12px 10px;
+
     ${textStyles.SUIT_18_M};
   }
 `;
@@ -84,11 +86,13 @@ const RegisterButton = styled(Link)`
   border: 1px solid ${colors.black40};
   border-radius: 6px;
   background: ${colors.black80};
-  padding: 14px 10px;
+  padding: 6px 10px;
 
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
+    padding: 12px 10px;
+
     ${textStyles.SUIT_18_M};
   }
 `;
