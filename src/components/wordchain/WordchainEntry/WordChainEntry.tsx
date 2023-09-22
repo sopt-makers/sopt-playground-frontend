@@ -25,7 +25,8 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { logClickEvent } = useEventLogger();
 
   const wordList = data?.wordList;
-  const lastWord = data?.wordList[data?.wordList.length - 1].word;
+  const temporaryLastWord = data?.wordList[data?.wordList.length - 1].word;
+  const lastWord = temporaryLastWord && temporaryLastWord.length > 0 ? temporaryLastWord : '';
   const isGameStart = wordList?.length === 0 && data?.currentWinner === null;
   const status = isGameStart ? 'start' : 'progress';
 
