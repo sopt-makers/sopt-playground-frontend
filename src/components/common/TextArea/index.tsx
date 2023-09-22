@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { forwardRef, TextareaHTMLAttributes, useState } from 'react';
 
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -48,7 +48,7 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
   padding: 14px 20px;
   width: 100%;
   resize: none;
-  color: ${colors.white};
+  color: ${colors.white100};
   ${textStyles.SUIT_16_M}
 
   &::placeholder {
@@ -57,7 +57,7 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
+    border-color: ${colors.gray40};
     background-color: ${colors.black80};
   }
 

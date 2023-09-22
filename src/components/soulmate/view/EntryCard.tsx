@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import SoulmateIcon from '@/components/soulmate/icons/SoulmateIcon';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -51,7 +51,7 @@ const StyledEntryCard = styled.div`
     / auto auto;
   justify-content: space-between;
   border-radius: 16px;
-  background-color: ${colors.black90};
+  background-color: ${colors.black80};
   padding: 45px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -118,7 +118,7 @@ const EntryLink = styled(Link)`
     flex-shrink: 0;
     justify-content: center;
     border-radius: 12px;
-    background-color: ${colors.black90};
+    background-color: ${colors.black80};
     padding: 13px 12px;
     line-height: 100%;
     letter-spacing: -0.16px;

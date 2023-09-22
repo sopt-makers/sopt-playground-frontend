@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -86,7 +86,7 @@ const MessageBox = styled.div`
 
 const Word = styled.div`
   line-height: 120%;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M}
 
@@ -110,7 +110,7 @@ const Divider = styled.div`
 
 const Name = styled.div`
   line-height: 100%;
-  color: ${colors.purple100};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_14_SB}
 

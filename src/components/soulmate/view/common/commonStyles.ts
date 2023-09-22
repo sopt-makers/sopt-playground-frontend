@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
+import { colors } from '@sopt-makers/colors';
 
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export const cardStyle = css`

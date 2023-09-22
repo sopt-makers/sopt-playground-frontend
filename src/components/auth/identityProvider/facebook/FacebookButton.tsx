@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode } from 'react';
 
 import IconFacebook from '@/public/icons/icon-facebook.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -12,6 +12,9 @@ interface FacebookButtonProps {
   className?: string;
 }
 
+/**
+ * @deprecated 페북 로그인은 더 이상 사용하지 않습니다.
+ */
 const FacebookButton: FC<FacebookButtonProps> = (props) => {
   const { children, onClick, className } = props;
 
@@ -32,10 +35,10 @@ const StyledFacebookButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${colors.facebook};
+  background-color: #1877f2;
   cursor: pointer;
   height: 48px;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M}
 

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Head from 'next/head';
 import React, { FC } from 'react';
 
@@ -58,7 +59,7 @@ const StyledBanner = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: #17181b;
+  background-color: ${colors.black100};
   padding: 20px 0;
   width: 100%;
   height: 96px;

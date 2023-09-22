@@ -5,7 +5,7 @@ import { FC, ReactNode, useState } from 'react';
 import SoulmateIconFlag from '@/components/soulmate/icons/SoulmateIconFlag';
 import SoulmateIconHeart from '@/components/soulmate/icons/SoulmateIconHeart';
 import SoulmateModal from '@/components/soulmate/view/common/SoulmateModal';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MenuProps {

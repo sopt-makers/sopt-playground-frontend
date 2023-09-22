@@ -1,4 +1,5 @@
 import ProgressBar from '@badrap/bar-of-progress';
+import { colors } from '@sopt-makers/colors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { LazyMotion } from 'framer-motion';
@@ -14,8 +15,7 @@ import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
 import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
-import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
-import { colors } from '@/styles/colors';
+import { AMPLITUDE_API_KEY, DEBUG, ORIGIN } from '@/constants/env';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { useChannelService } from '@/utils/channelService/useChannelService';
 import { getLayout } from '@/utils/layout';
@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
 
-const progress = new ProgressBar({ color: colors.purple80, size: 3 });
+const progress = new ProgressBar({ color: colors.blue50, size: 3 });
 Router.events.on('routeChangeStart', () => progress.start());
 Router.events.on('routeChangeComplete', () => progress.finish());
 Router.events.on('routeChangeError', () => progress.finish());
@@ -47,6 +47,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Head>
         <title>SOPT Playground</title>
+        <meta key='og:title' property='og:title' content='SOPT Playground' />
+        <meta key='og:description' property='og:description' content='솝트와 연결되고 싶으신가요?' />
+        <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
         <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
       </Head>
       <GoogleTagManagerScript />
