@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
 
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import HelpCard from '@/components/sopticle/HelpCard';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -84,7 +84,7 @@ const TitleBox = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_32_SB};
 
@@ -144,8 +144,9 @@ const MotionErrorMessageHolder = styled(m.div)`
 const Button = styled.button`
   margin-top: 16px;
   border-radius: 10px;
-  background-color: ${colors.purple100};
+  background-color: ${colors.white100};
   padding: 16px 0;
+  color: ${colors.black100};
 
   ${textStyles.SUIT_16_M};
 

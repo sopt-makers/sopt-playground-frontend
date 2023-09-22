@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function EmptyProfile() {

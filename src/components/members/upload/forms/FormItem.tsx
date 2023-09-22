@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import WarningIcon from 'public/icons/icon-warning.svg';
 import { ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -54,7 +54,7 @@ const StyledTitle = styled(Text)`
 
 const StyledEssential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${colors.purple100};
+  color: ${colors.orange100};
   ${textStyles.SUIT_16_M};
 `;
 

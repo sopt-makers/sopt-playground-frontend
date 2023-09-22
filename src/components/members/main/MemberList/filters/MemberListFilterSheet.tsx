@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
+import { colors } from '@sopt-makers/colors';
 import { FC, PropsWithChildren, ReactNode, useMemo, useState } from 'react';
 import ReactModalSheet from 'react-modal-sheet';
 
 import IconCheck from '@/public/icons/icon-filter-check.svg';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface Option {

@@ -1,4 +1,4 @@
-import { PROJECT_CATEGORY } from '@/components/projects/upload/constants';
+import { PROJECT_CATEGORY } from '@/components/projects/constants';
 
 export type ProjectDetail = {
   id: number;

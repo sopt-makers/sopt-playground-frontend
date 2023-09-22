@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import SoulmateIconHeart from '@/components/soulmate/icons/SoulmateIconHeart';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 
 interface FeedbackProps {}

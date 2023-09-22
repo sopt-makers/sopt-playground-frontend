@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import ArrowRightIcon from 'public/icons/icon-arrow-right.svg';
@@ -15,7 +16,6 @@ import { mentoringProvider } from '@/components/mentoring/data';
 import InfoItem from '@/components/mentoring/MentoringDetail/InfoItem';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -258,7 +258,7 @@ const EmptyProfileImage = styled.div`
 
 const MentorName = styled.div`
   line-height: 100%;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_20_SB};
 
@@ -277,16 +277,16 @@ const MessageButton = styled.button`
   justify-content: center;
   justify-self: end;
   border-radius: 6px;
-  background-color: ${colors.purple100};
+  background-color: ${colors.white100};
   width: 180px;
   height: 48px;
   line-height: 135%;
-  color: ${colors.white};
+  color: ${colors.black100};
 
   ${textStyles.SUIT_14_B}
 
   & > svg {
-    fill: ${colors.gray10};
+    fill: ${colors.black100};
     width: 16px;
     height: 16px;
   }
@@ -306,12 +306,12 @@ const ClosedMessageButton = styled.button`
   justify-content: center;
   justify-self: end;
   border-radius: 6px;
-  background-color: ${colors.purpledim100};
+  background-color: ${colors.black80};
   cursor: default;
   width: 249px;
   height: 48px;
   line-height: 135%;
-  color: ${colors.gray60};
+  color: ${colors.gray80};
 
   ${textStyles.SUIT_14_B}
 
@@ -348,7 +348,7 @@ const Keyword = styled.div`
   background-color: ${colors.black60};
   padding: 8px 15px;
   line-height: 120%;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_M};
 
@@ -360,7 +360,7 @@ const Keyword = styled.div`
 const Content = styled.div`
   line-height: 150%;
   white-space: pre-line;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_18_M}
 

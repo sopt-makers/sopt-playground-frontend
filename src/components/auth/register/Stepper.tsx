@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, ReactNode } from 'react';
 
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -104,8 +104,8 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
               },
               current: {
                 scale: [1, 1, 1.2, 1],
-                backgroundColor: [colors.black40, colors.black40, colors.purple100, colors.purple100],
-                color: [colors.gray100, colors.gray100, colors.white, colors.white],
+                backgroundColor: [colors.black40, colors.black40, colors.blue50, colors.blue50],
+                color: [colors.gray100, colors.gray100, colors.white100, colors.white100],
                 transition: {
                   times: [0, 0.7, 0.9, 1],
                   duration: 2,
@@ -122,7 +122,7 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
                 color: colors.gray100,
               },
               current: {
-                color: [colors.gray100, colors.gray100, colors.white],
+                color: [colors.gray100, colors.gray100, colors.white100],
                 transition: {
                   times: [0, 0.7, 1],
                   duration: 2,
@@ -167,7 +167,7 @@ const Line = styled(m.div)`
 const LineFilled = styled(m.div)`
   position: absolute;
   left: 0;
-  background-color: ${colors.purple100};
+  background-color: ${colors.blue50};
   width: 50%;
   height: 100%;
 `;
@@ -202,7 +202,7 @@ const Circle = styled(m.div)`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.purple100};
+  background-color: ${colors.blue50};
   width: 28px;
   height: 28px;
   white-space: nowrap;

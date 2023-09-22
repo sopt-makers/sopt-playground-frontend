@@ -1,7 +1,8 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ReactNode } from 'react';
 
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -101,13 +102,26 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
   align-items: center;
   align-self: flex-end;
   justify-content: center;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   margin-top: 30px;
   border-radius: 31px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
+  background-color: ${colors.white};
   width: 163px;
   height: 42px;
   line-height: 120%;
-  color: ${({ isDisabled }) => (isDisabled ? colors.gray80 : colors.white100)};
+  color: ${colors.black100};
+
+  ${({ isDisabled }) =>
+    isDisabled &&
+    css`
+      background-color: ${colors.black80};
+      color: ${colors.gray80};
+    `}
+
+  &:hover {
+    background-color: ${colors.gray20};
+    color: ${colors.black100};
+  }
 
   ${textStyles.SUIT_14_M}
 

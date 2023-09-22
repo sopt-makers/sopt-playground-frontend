@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { FC } from 'react';
 
 import { Career } from '@/components/members/detail/types';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -58,7 +58,7 @@ const Divider = styled.div`
 const CompanyName = styled.div`
   margin-bottom: 10px;
   line-height: 18px;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_18_M};
 
