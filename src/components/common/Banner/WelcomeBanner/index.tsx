@@ -10,10 +10,10 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const WelcomeBanner = () => {
   // 이미지 랜덤 생성을 위한 코드
-  const [randomInt, setRandomInt] = useState(1);
+  const [isShowRocketInt, setIsShowRocketInt] = useState(1);
 
   const getRandomArbitrary = () => {
-    setRandomInt(Math.floor(Math.random() * (3 - 1) + 1));
+    setIsShowRocketInt(Math.floor(Math.random() * (3 - 1) + 1));
   };
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const WelcomeBanner = () => {
 
   return (
     <WelcomeBannerWrapper>
-      <ContentWrapper>{randomInt === 1 ? <Rocket /> : <Balloon />}</ContentWrapper>
+      <ContentWrapper>{isShowRocketInt === 1 ? <Rocket /> : <Balloon />}</ContentWrapper>
       <Responsive only='desktop'>
         <img src={desktopBackground.src} width='1920px' height='212px' alt='환영 배너 배경' />
       </Responsive>
