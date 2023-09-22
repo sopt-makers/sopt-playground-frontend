@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
 import { FormEvent, useEffect, useRef, useState } from 'react';
@@ -14,7 +15,6 @@ import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -248,9 +248,9 @@ const Form = styled.form`
 
 const StyledInput = styled.input<{ isError: boolean }>`
   transition: border-color 0.5s ease-in;
-  border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black90)};
+  border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black80)};
   border-radius: 14px;
-  background-color: ${colors.black90};
+  background-color: ${colors.black100};
   padding: 24px 20px;
   width: 100%;
   line-height: 120%;
@@ -262,7 +262,7 @@ const StyledInput = styled.input<{ isError: boolean }>`
 
   &:focus {
     outline: none;
-    border-color: ${({ isError }) => (isError ? colors.red100 : colors.purple100)};
+    border-color: ${({ isError }) => (isError ? colors.red100 : colors.gray40)};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -304,7 +304,7 @@ const ErrorMessage = styled.div<{ isVisible: boolean }>`
   padding: 10px;
   width: fit-content;
   line-height: 130%;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_M}
 `;

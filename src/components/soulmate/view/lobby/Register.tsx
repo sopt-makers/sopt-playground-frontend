@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import SoulmateIcon from '@/components/soulmate/icons/SoulmateIcon';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -163,9 +163,10 @@ const ApplyButton = styled.button`
   transition: background-color 0.3s;
   margin-top: 60px;
   border-radius: 6px;
-  background: ${colors.purple100};
+  background: ${colors.white100};
   cursor: pointer;
   padding: 14px 20px;
+  color: ${colors.black100};
 
   ${textStyles.SUIT_16_SB};
 

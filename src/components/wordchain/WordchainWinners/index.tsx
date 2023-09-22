@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { Fragment, useEffect } from 'react';
 
 import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
 import WordChainWinner from '@/components/wordchain/WordchainWinners/WordchainWinner';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 

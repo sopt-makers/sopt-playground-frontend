@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import { InputProps } from '@/components/common/Input';
 import SearchIcon from '@/public/icons/icon-member-search.svg';
 import SearchClearIcon from '@/public/icons/icon-search-clear.svg';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MemberSearchProps extends Omit<InputProps, 'value' | 'onChange'> {
@@ -50,7 +50,7 @@ const StyledInput = styled.input`
   padding: 18px 45px 18px 24px;
   width: 100%;
   min-width: 60px;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M};
 
@@ -60,7 +60,7 @@ const StyledInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
+    border-color: ${colors.gray40};
     background-color: ${colors.black80};
   }
 `;

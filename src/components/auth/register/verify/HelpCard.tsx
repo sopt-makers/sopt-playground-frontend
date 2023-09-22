@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import IconArrowRight from '@/public/icons/icon-arrow-right.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -54,11 +54,11 @@ const StyledHelpCard = styled.a<{ highlight?: boolean }>`
 
           @keyframes glow {
             0% {
-              box-shadow: 0 0 6px 1px rgb(128 64 255 / 20%);
+              box-shadow: 0 0 6px 1px rgb(60 61 64 / 20%);
             }
 
             100% {
-              box-shadow: 0 0 6px 1px rgb(128 64 255 / 100%);
+              box-shadow: 0 0 6px 1px rgb(60 61 64 / 100%);
             }
           }
         `

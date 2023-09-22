@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
 import IconLinkOutgoing from '@/public/icons/icon-link-outgoing.svg';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 

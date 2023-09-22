@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import ArrowDiagonalIcon from 'public/icons/icon-diagonal-arrow.svg';
@@ -10,7 +11,6 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { mentoringProvider } from '@/components/mentoring/data';
 import MentoringCard from '@/components/mentoring/MentoringCard';
 import { MENTOR_APPLICATION_URL, playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
@@ -213,7 +213,7 @@ const Container = styled.div`
 const Title = styled.div`
   text-align: start;
   line-height: 100%;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_24_B}
 

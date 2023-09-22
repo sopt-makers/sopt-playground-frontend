@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, forwardRef, ReactElement, ReactNode, useState } from 'react';
 
 import Select from '@/components/common/Select';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 interface EditableSelectProps {
   onSelect: (value: string) => void;

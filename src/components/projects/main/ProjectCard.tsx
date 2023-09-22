@@ -6,9 +6,9 @@ import { ProjectDetail } from '@/api/endpoint_LEGACY/projects/type';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { categoryLabel } from '@/components/projects/upload/constants';
+import { categoryLabel } from '@/components/projects/constants';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 

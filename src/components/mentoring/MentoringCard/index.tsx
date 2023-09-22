@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
@@ -50,7 +50,7 @@ const Container = styled.div`
   column-gap: 37px;
   align-content: center;
   border-radius: 16px;
-  background-color: ${colors.black90};
+  background-color: ${colors.black80};
   padding: 35px 40px 36px 45px;
   width: 424px;
   min-width: 424px;
@@ -187,7 +187,7 @@ const Closed = styled.div<{ isActive: boolean }>`
   width: 424px;
   height: 224px;
   line-height: 20px;
-  color: ${colors.white100};
+  color: ${colors.white};
 
   ${textStyles.SUIT_16_SB}
 

@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import IconCheck from '@/public/icons/icon-check.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -49,7 +49,7 @@ const HeaderBox = styled.div`
 
 const Title = styled.h2`
   margin-bottom: 7px;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_20_B};
 `;

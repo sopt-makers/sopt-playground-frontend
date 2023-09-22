@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
+import { colors } from '@sopt-makers/colors';
 import { FC, FormEvent, ReactNode } from 'react';
 
 import { cardStyle } from '@/components/soulmate/view/common/commonStyles';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -152,7 +152,7 @@ const ScrollbarCorner = styled.div`
 const SubmitArea = styled.form`
   display: flex;
   border-radius: 14px;
-  background-color: ${colors.black90};
+  background-color: ${colors.black80};
 `;
 
 const Input = styled.textarea`
@@ -178,11 +178,7 @@ const SubmitButton = styled.button`
   border-radius: 0 14px 14px 0;
   cursor: pointer;
   padding: 0 20px;
-  color: ${colors.white100};
-
-  &:hover {
-    color: ${colors.purple80};
-  }
+  color: ${colors.white};
 
   & > svg {
     width: 20px;

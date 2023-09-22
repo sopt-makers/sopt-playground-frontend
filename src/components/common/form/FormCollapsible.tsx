@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import * as Collapsible from '@radix-ui/react-collapsible';
+import { colors } from '@sopt-makers/colors';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, PropsWithChildren, useState } from 'react';
 
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface FormAccordionProps {
@@ -73,7 +73,7 @@ const StyledTitleWrapper = styled.div`
 
 const Essential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${colors.purple100};
+  color: ${colors.orange100};
   ${textStyles.SUIT_16_M};
 `;
 

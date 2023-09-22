@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FC, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
