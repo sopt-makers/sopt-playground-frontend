@@ -2,6 +2,9 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
+
 interface FooterProps {}
 
 const Footer: FC<FooterProps> = ({}) => {
@@ -23,6 +26,10 @@ const Container = styled.div`
   margin: 0 auto;
   width: 100%;
   max-width: 1280px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-bottom: 60px;
+  }
 `;
 
 const HLine = styled.div`
@@ -32,16 +39,27 @@ const HLine = styled.div`
 
 const Reserved = styled.div`
   margin-top: 72px;
+
+  ${textStyles.SUIT_20_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_12_M};
+  }
 `;
 
 const StyledMakersLogo = styled(MakersLogo)`
   margin-top: 20px;
   margin-bottom: 100px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 10px;
+    height: 30px;
+  }
 `;
 
 function MakersLogo(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg width={221} height={60} fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+    <svg width={221} height={60} viewBox='0 0 221 60' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
       <g clipPath='url(#prefix__clip0_724_24655)'>
         <path
           fillRule='evenodd'

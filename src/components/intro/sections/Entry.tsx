@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { playgroundLink } from '@/constants/links';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface EntryProps {}
@@ -31,6 +32,11 @@ const Container = styled.div`
   align-items: center;
   margin-top: 146px;
   min-height: 700px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
+    min-height: 400px;
+  }
 `;
 
 const Title = styled.h2`
@@ -39,6 +45,10 @@ const Title = styled.h2`
   line-height: 136%;
 
   ${textStyles.SUIT_60_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_20_B};
+  }
 `;
 
 const RegisterLink = styled(Link)`
@@ -55,6 +65,12 @@ const RegisterLink = styled(Link)`
 
   &:hover {
     background-color: rgb(93 219 255 / 15%);
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 6px 14px;
+
+    ${textStyles.SUIT_14_SB};
   }
 `;
 

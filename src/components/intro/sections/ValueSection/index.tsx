@@ -7,6 +7,7 @@ import Value2Content from '@/components/intro/sections/ValueSection/valueContent
 import Value3Content from '@/components/intro/sections/ValueSection/valueContents/Value3';
 import Value4Content from '@/components/intro/sections/ValueSection/valueContents/Value4';
 import ValueDescription from '@/components/intro/sections/ValueSection/ValueDescription';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ValueSectionProps {}
 
@@ -58,4 +59,9 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 0 80px;
   max-width: 1600px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 40px;
+    padding: 0 16px;
+  }
 `;

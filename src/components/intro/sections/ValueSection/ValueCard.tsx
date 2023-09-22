@@ -3,6 +3,8 @@ import { colors } from '@sopt-makers/colors';
 import { m, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FC, MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
 
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+
 interface ValueCardProps {
   content: ReactNode;
   shineColor: string;
@@ -96,6 +98,10 @@ const Card = styled(m.div)`
   border-radius: 20px;
   overflow: hidden;
   will-change: transform;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 10px;
+  }
 `;
 
 const ShineLayer = styled.div`
