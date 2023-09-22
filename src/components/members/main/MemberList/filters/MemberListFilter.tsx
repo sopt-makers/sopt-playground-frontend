@@ -54,7 +54,7 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
     selected &&
     css`
       border-color: ${colors.gray80};
-      background-color: ${colors.black60};
+      background-color: ${colors.black80};
       color: ${colors.white};
     `};
 

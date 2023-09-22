@@ -633,7 +633,7 @@ const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
   justify-content: space-between;
   border: 1px solid transparent;
   border-radius: 20.5px;
-  background: ${colors.black60};
+  background: ${colors.black80};
   padding: 8px 12px;
   min-width: 76px;
   height: 32px;
