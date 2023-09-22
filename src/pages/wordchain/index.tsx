@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { NextSeo } from 'next-seo';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
@@ -8,6 +9,7 @@ import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import WordchainChatting from '@/components/wordchain/WordchainChatting';
 import WordchainRules from '@/components/wordchain/WordchainRules';
 import WordchainWinners from '@/components/wordchain/WordchainWinners';
+import { ORIGIN } from '@/constants/env';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordChainMessage from '@/public/icons/icon-wordchain-message.svg';
@@ -25,6 +27,14 @@ const WordchainPage = () => {
 
   return (
     <AuthRequired>
+      <NextSeo
+        title='SOPT Playground'
+        openGraph={{
+          title: 'SOPT Playground',
+          description: '솝트와 연결되고 싶으신가요?',
+          images: [{ url: `${ORIGIN}/icons/img/og_playground.jpeg` }],
+        }}
+      />
       <Container>
         <Responsive only='desktop'>
           <Title>

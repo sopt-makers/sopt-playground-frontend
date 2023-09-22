@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 import { FC } from 'react';
 import { z } from 'zod';
 
@@ -9,6 +10,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { uploadSopticle } from '@/api/endpoint/sopticles/uploadSopticle';
 import AuthRequired from '@/components/auth/AuthRequired';
 import UploadSopticle from '@/components/sopticle/UploadSopticle';
+import { ORIGIN } from '@/constants/env';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
@@ -45,6 +47,14 @@ const SopticlePage: FC = () => {
 
   return (
     <AuthRequired>
+      <NextSeo
+        title='SOPT Playground'
+        openGraph={{
+          title: 'SOPT Playground',
+          description: '솝트와 연결되고 싶으신가요?',
+          images: [{ url: `${ORIGIN}/icons/img/og_playground.jpeg` }],
+        }}
+      />
       <StyledSopticlePage>
         <UploadSopticle state={status} errorMessage={errorMessage} onSubmit={(url) => mutate(url)} />
       </StyledSopticlePage>

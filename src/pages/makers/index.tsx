@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { GetStaticProps } from 'next';
+import { NextSeo } from 'next-seo';
 import { FC } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
@@ -9,6 +10,7 @@ import SwitchableHeader from '@/components/common/Header/SwitchableHeader';
 import AboutMakers from '@/components/makers/AboutMakers';
 import { makersGenerationsData } from '@/components/makers/data';
 import MakersMembers from '@/components/makers/MakersMembers';
+import { ORIGIN } from '@/constants/env';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -19,6 +21,14 @@ interface MakersPageProps {
 const MakersPage: FC<MakersPageProps> = ({ memberMetadataList }) => {
   return (
     <>
+      <NextSeo
+        title='SOPT Playground'
+        openGraph={{
+          title: 'SOPT Playground',
+          description: '솝트와 연결되고 싶으신가요?',
+          images: [{ url: `${ORIGIN}/icons/img/og_playground.jpeg` }],
+        }}
+      />
       <FixedSlot className={RemoveScroll.classNames.zeroRight}>
         <SwitchableHeader />
       </FixedSlot>

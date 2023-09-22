@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
 import MentoringDetail from '@/components/mentoring/MentoringDetail';
+import { ORIGIN } from '@/constants/env';
 import { setLayout } from '@/utils/layout';
 
 import useStringRouterQuery from '../../hooks/useStringRouterQuery';
@@ -30,6 +32,14 @@ export default function MentoringDetailPage() {
     if (!isNaN(mentorId)) {
       return (
         <AuthRequired>
+          <NextSeo
+            title='SOPT Playground'
+            openGraph={{
+              title: 'SOPT Playground',
+              description: '솝트와 연결되고 싶으신가요?',
+              images: [{ url: `${ORIGIN}/icons/img/og_playground.jpeg` }],
+            }}
+          />
           <MentoringDetail mentorId={mentorId} />
         </AuthRequired>
       );

@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
@@ -21,12 +21,14 @@ const ProjectPage: FC = () => {
   if (status === 'success') {
     return (
       <AuthRequired>
-        <Head>
-          <title>SOPT | 프로젝트 둘러보기</title>
-          <meta key='og:title' property='og:title' content='SOPT | 프로젝트 둘러보기' />
-          <meta key='og:description' property='og:description' content='자세한 내용이 궁금하신가요?' />
-          <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_project.jpg`} />
-        </Head>
+        <NextSeo
+          title='SOPT | 프로젝트 둘러보기'
+          openGraph={{
+            title: 'SOPT | 프로젝트 둘러보기',
+            description: '자세한 내용이 궁금하신가요?',
+            images: [{ url: `${ORIGIN}/icons/img/og_project.jpg` }],
+          }}
+        />
         <ProjectDetail projectId={query.id} />
       </AuthRequired>
     );

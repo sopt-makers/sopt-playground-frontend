@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { NextSeo } from 'next-seo';
 import { FC } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -10,6 +11,7 @@ import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MentoringList from '@/components/mentoring/MentoringList';
 import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
+import { ORIGIN } from '@/constants/env';
 import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
@@ -22,6 +24,14 @@ const MemberPage: FC = () => {
 
   return (
     <AuthRequired>
+      <NextSeo
+        title='SOPT Playground'
+        openGraph={{
+          title: 'SOPT Playground',
+          description: '솝트와 연결되고 싶으신가요?',
+          images: [{ url: `${ORIGIN}/icons/img/og_playground.jpeg` }],
+        }}
+      />
       <ActiveBannerSlot />
       <MemberPageContentLayout>
         <StyledWordChainEntry />

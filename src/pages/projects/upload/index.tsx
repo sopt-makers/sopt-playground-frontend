@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AuthRequired from '@/components/auth/AuthRequired';
@@ -12,6 +13,7 @@ import { ProjectFormType } from '@/components/projects/form/schema';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { getProjectListQueryKey } from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { convertToProjectData } from '@/components/projects/utils';
+import { ORIGIN } from '@/constants/env';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
@@ -45,6 +47,14 @@ const ProjectUploadPage = () => {
 
   return (
     <AuthRequired>
+      <NextSeo
+        title='SOPT Playground'
+        openGraph={{
+          title: 'SOPT Playground',
+          description: '솝트와 연결되고 싶으신가요?',
+          images: [{ url: `${ORIGIN}/icons/img/og_playground.jpeg` }],
+        }}
+      />
       <Container>
         <ProjectForm onSubmit={handleSubmit} submitButtonContent='프로젝트 등록하기' />
       </Container>
