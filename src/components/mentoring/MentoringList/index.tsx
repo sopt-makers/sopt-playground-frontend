@@ -237,6 +237,7 @@ const Container = styled.div`
     gap: 0;
     align-items: flex-start;
     justify-content: flex-start;
+    margin-top: 32px;
   }
 `;
 

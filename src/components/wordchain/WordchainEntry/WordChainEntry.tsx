@@ -139,7 +139,6 @@ const Container = styled(Link)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 16px;
     border-radius: 0;
     background-color: ${colors.black100};
     padding: 0 20px;

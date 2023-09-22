@@ -531,7 +531,6 @@ const StyledMemberSearch = styled(MemberSearch)`
 
   @media ${MOBILE_MEDIA_QUERY} {
     order: none;
-    margin-top: 16px;
     width: 100%;
 
     & > input {
