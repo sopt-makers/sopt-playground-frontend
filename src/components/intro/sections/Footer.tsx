@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
-
-import { colors } from '@/styles/colors';
 
 interface FooterProps {}
 

@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { m, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FC, MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
-
-import { colors } from '@/styles/colors';
 
 interface ValueCardProps {
   content: ReactNode;

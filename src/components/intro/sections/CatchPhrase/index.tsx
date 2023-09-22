@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import { AndroidIcon, AppleIcon, ArrowIcon, MakersIcon, SOPTIcon } from '@/components/intro/sections/CatchPhrase/icons';
 import Typer from '@/components/intro/sections/CatchPhrase/Typer';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 

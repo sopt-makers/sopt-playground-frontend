@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode } from 'react';
 
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface ValueBaseProps {
