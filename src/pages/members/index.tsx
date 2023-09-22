@@ -35,10 +35,10 @@ setLayout(MemberPage, 'headerFooter');
 export default MemberPage;
 
 const StyledWordChainEntry = styled(WordChainEntry)`
-  margin-top: 106px;
+  margin-top: 52px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 16px;
+    margin-top: 23px;
   }
 `;
 
