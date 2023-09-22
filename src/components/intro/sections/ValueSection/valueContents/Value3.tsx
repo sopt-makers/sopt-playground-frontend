@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import ValueBase from '@/components/intro/sections/ValueSection/valueContents/ValueBase';
 
-import image from './value1.png';
+import image from './value3.png';
 
 const Value3Content: FC = () => {
   return (
