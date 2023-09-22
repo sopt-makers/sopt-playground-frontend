@@ -11,7 +11,8 @@ const Value3Content: FC = () => {
       image={<Image src={image.src} alt='' />}
       message={
         <>
-          다양한 스터디, 모임 등을 자유롭게
+          <ValueBase.Highlight>다양한 스터디, 모임 </ValueBase.Highlight>
+          등을 자유롭게
           <br />
           개설하고, 참여할 수 있어요
         </>

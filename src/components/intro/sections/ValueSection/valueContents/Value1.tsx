@@ -11,7 +11,8 @@ const Value1Content: FC = () => {
       image={<Image src={image.src} alt='' />}
       message={
         <>
-          기수, 파트, MBTI 등 다양한 필터로
+          <ValueBase.Highlight>기수, 파트, MBTI </ValueBase.Highlight>
+          등 다양한 필터로
           <br />
           구성원을 확인할 수 있어요
         </>

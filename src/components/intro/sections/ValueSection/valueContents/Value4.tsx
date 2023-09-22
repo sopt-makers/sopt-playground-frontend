@@ -12,7 +12,8 @@ const Value4Content: FC = () => {
       image={<Image src={image.src} alt='' />}
       message={
         <>
-          커리어와 성장에 대한 고민을 들어줄
+          <ValueBase.Highlight>커리어와 성장에 대한 고민</ValueBase.Highlight>
+          을 들어줄
           <br />
           OB 멘토들이 기다리고 있어요
         </>

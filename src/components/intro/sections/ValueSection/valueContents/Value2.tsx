@@ -12,7 +12,8 @@ const Value2Content: FC = () => {
       image={<Image src={image.src} alt='' />}
       message={
         <>
-          앱잼, 솝커톤, 솝텀 등에서 진행된
+          <ValueBase.Highlight>앱잼, 솝커톤, 솝텀 등</ValueBase.Highlight>
+          에서 진행된
           <br />
           프로젝트들을 확인할 수 있어요
         </>

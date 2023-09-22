@@ -23,7 +23,13 @@ const ValueBase: FC<ValueBaseProps> = ({ image, message, reverse }) => {
   );
 };
 
-export default ValueBase;
+const Highlight = styled.span`
+  color: ${colors.white100};
+`;
+
+export default Object.assign(ValueBase, {
+  Highlight: Highlight,
+});
 
 const Container = styled.div`
   display: flex;
