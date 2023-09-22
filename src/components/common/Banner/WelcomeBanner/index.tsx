@@ -21,7 +21,7 @@ const WelcomeBanner = () => {
   }, []);
 
   return (
-    <>
+    <WelcomeBannerWrapper>
       <ContentWrapper>{randomInt === 1 ? <Rocket /> : <Balloon />}</ContentWrapper>
       <Responsive only='desktop'>
         <img src={desktopBackground.src} width='1920px' height='212px' alt='환영 배너 배경' />
@@ -29,13 +29,20 @@ const WelcomeBanner = () => {
       <Responsive only='mobile'>
         <img src={mobileBackground.src} width='375px' height='164px' alt='환영 배너 배경' />
       </Responsive>
-    </>
+    </WelcomeBannerWrapper>
   );
 };
 
 export default WelcomeBanner;
 
-const ContentWrapper = styled.header`
+const WelcomeBannerWrapper = styled.header`
+  margin-top: 53px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 12px;
+  }
+`;
+
+const ContentWrapper = styled.div`
   display: flex;
   position: absolute;
   align-items: center;
