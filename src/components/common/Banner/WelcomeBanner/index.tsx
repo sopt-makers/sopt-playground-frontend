@@ -1,8 +1,12 @@
+import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import desktopBackground from '@/public/icons/img/Desktop.gif';
 import mobileBackground from '@/public/icons/img/Mobile.gif';
+import Balloon from '@/public/icons/welcome-banner-balloon.svg';
+import Rocket from '@/public/icons/welcome-banner-rocket.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const WelcomeBanner = () => {
   // 이미지 랜덤 생성을 위한 코드
@@ -18,6 +22,7 @@ const WelcomeBanner = () => {
 
   return (
     <>
+      <ContentWrapper>{randomInt === 1 ? <Rocket /> : <Balloon />}</ContentWrapper>
       <Responsive only='desktop'>
         <img src={desktopBackground.src} width={desktopBackground.width} alt='환영 배너 배경' />
       </Responsive>
@@ -29,3 +34,16 @@ const WelcomeBanner = () => {
 };
 
 export default WelcomeBanner;
+
+const ContentWrapper = styled.header`
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 212px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 164px;
+  }
+`;
