@@ -120,6 +120,10 @@ const LoadingContainer = styled.div`
   justify-content: center;
   width: 100%;
   height: 163px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 91.5px;
+  }
 `;
 
 const Container = styled(Link)`
