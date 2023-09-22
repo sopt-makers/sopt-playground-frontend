@@ -23,4 +23,5 @@ export const legacyColors = {
   white: '#fcfcfc', // white100
   white100: '#FFFFFF', // white
   facebook: '#1877f2',
+  orange100: '#FF6E1D',
 };
