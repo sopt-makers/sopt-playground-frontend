@@ -47,9 +47,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Head>
         <title>SOPT Playground</title>
-        <meta property='og:title' content='SOPT Playground' />
-        <meta property='og:description' content='솝트와 연결되고 싶으신가요?' />
-        <meta property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
+        <meta key='og:title' property='og:title' content='SOPT Playground' />
+        <meta key='og:description' property='og:description' content='솝트와 연결되고 싶으신가요?' />
+        <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
         <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
       </Head>
       <GoogleTagManagerScript />
