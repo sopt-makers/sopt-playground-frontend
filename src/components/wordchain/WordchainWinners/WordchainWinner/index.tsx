@@ -82,7 +82,7 @@ const WinRound = styled.div<{ isRecent: boolean }>`
     color: ${colors.gray60};
     ${textStyles.SUIT_10_M}
 
-    &::after {
+    ::after {
       content: '';
     }
   }
