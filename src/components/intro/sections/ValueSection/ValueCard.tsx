@@ -73,7 +73,7 @@ const ValueCard: FC<ValueCardProps> = ({ content, shineColor }) => {
         onMouseLeave={handleMouseLeave}
       >
         <ShineLayer>
-          <Shine animate={{ opacity: mouseEntered ? 1 : 0 }} style={{ x: shineX, y: shineY }} color={shineColor} />
+          <Shine animate={{ opacity: mouseEntered ? 0.3 : 0 }} style={{ x: shineX, y: shineY }} color={shineColor} />
         </ShineLayer>
         <ContentLayer>{content}</ContentLayer>
       </Card>
@@ -85,6 +85,7 @@ export default ValueCard;
 
 const Container = styled.div`
   transform: translateZ(0);
+  background-color: ${colors.black100};
 `;
 
 const Card = styled(m.div)`
@@ -92,9 +93,8 @@ const Card = styled(m.div)`
   perspective: 1000;
   transform: translateZ(0);
   outline: 1px solid transparent;
-  border: 1px solid ${colors.white};
+  border: 1px solid ${colors.gray80};
   border-radius: 20px;
-  background-color: ${colors.black40};
   overflow: hidden;
   will-change: transform;
 `;
@@ -102,6 +102,7 @@ const Card = styled(m.div)`
 const ShineLayer = styled.div`
   position: absolute;
   inset: 0;
+  z-index: -1;
 `;
 
 const ContentLayer = styled.div`
@@ -115,6 +116,6 @@ const Shine = styled(m.div)<{ color: string }>`
   background-color: ${(props) => props.color};
   width: 600px;
   height: 600px;
-  filter: blur(180px);
   will-change: transform;
+  filter: blur(180px);
 `;
