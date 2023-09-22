@@ -39,5 +39,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 100px;
+  margin: 0 auto;
   padding: 0 80px;
+  max-width: 1600px;
 `;

@@ -43,6 +43,7 @@ const Inner = styled.div`
   gap: 20px;
   align-items: center;
   justify-content: space-between;
+  padding: 0 30px;
   width: 100%;
   max-width: 1200px;
 `;
