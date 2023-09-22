@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { colors } from '@sopt-makers/colors';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,7 +14,6 @@ import { Alert } from '@/components/common/Modal/Alert';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export enum MessageCategory {
@@ -183,7 +183,7 @@ const MessageModal: FC<MessageModalProps> = ({
           {isLoading ? (
             <Loading color='white' />
           ) : (
-            <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
+            <Text typography='SUIT_15_SB' color={isValid ? colors.black100 : colors.gray80}>
               쪽지 보내기
             </Text>
           )}
@@ -279,7 +279,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   transition: background-color 0.2s;
   margin-top: 36px;
   border-radius: 12px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
+  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.white100)};
   cursor: pointer;
   padding: 14px 28px;
 `;

@@ -7,7 +7,7 @@ import Text from '@/components/common/Text';
 import { SelectContext, useSelectContext } from '@/components/members/common/select/context';
 import { Overlay } from '@/components/members/common/select/Overlay';
 import IconArrowUpDown from '@/public/icons/icon-arrow-up-down.svg';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 
 const SelectPortal = dynamic<Select.SelectPortalProps>(
@@ -130,7 +130,7 @@ const StyledItem = styled(Select.Item)`
   &[data-highlighted] {
     outline: none;
     background-color: ${colors.black40};
-    color: ${colors.white};
+    color: ${colors.white100};
   }
 
   /* &[data-disabled] {

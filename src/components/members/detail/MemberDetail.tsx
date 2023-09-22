@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -24,10 +25,9 @@ import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import MessageSection from '@/components/members/detail/MessageSection';
 import PartItem from '@/components/members/detail/PartItem';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
-import { Category } from '@/components/projects/upload/types';
+import { Category } from '@/components/projects/types';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
@@ -466,10 +466,10 @@ const StyledAddressBadgeWrapper = styled.div`
 
 const AddressBadge = styled.div`
   border-radius: 13px;
-  background-color: ${colors.black40};
+  background-color: ${colors.black60};
   padding: 6px 14px;
   line-height: 16px;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_M};
 `;
@@ -551,7 +551,7 @@ const ProjectUploadButton = styled(Link)`
   z-index: 1;
   margin-top: 24px;
   border-radius: 14px;
-  background-color: ${colors.white};
+  background-color: ${colors.white100};
   padding: 14px 48px;
   color: ${colors.black80};
 

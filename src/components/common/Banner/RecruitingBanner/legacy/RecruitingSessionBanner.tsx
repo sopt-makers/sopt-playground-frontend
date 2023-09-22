@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
 import { MakersLogoDark, OwnershipShape, ZigzagShape } from '@/components/common/Banner/RecruitingBanner/icons';
 import Timer from '@/components/common/Banner/Timer';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 

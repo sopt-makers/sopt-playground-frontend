@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ReactNode } from 'react';
 
 import IconPlus from '@/public/icons/icon-plus.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -17,7 +17,7 @@ export default function MemberAddableWrapper({ onAppend, children, className }: 
     <StyledContainer>
       <StyledAddableItems className={className}>{children}</StyledAddableItems>
       <StyledAddButton onClick={onAppend} className='pc-only'>
-        <IconPlus stroke={colors.purple100} />
+        <IconPlus stroke={colors.white100} />
         <div>추가</div>
       </StyledAddButton>
       <MobileAddButton onClick={onAppend}>
@@ -42,7 +42,7 @@ const StyledAddButton = styled.button`
   gap: 11px;
   align-items: center;
   margin-top: 23px;
-  color: ${colors.purple100};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_SB}
 `;
@@ -56,7 +56,7 @@ const MobileAddButton = styled.button`
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-    border: 1px solid ${colors.black40};
+    border: 1px solid ${colors.gray20};
     border-radius: 12px;
     padding: 16px 0;
     width: 100%;

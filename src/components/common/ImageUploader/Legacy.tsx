@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 import IconImage from '@/public/icons/icon-image.svg';
-import { colors } from '@/styles/colors';
 
 interface ImageUploaderProps {
   width?: number | string;

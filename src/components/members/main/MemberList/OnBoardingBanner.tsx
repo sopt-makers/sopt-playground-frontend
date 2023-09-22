@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -8,7 +9,6 @@ import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -140,6 +140,6 @@ const UploadButton = styled.a`
 const ProfileButton = styled.a`
   ${buttonStyle}
 
-  background-color: ${colors.purpledim100};
-  color: ${colors.purple40};
+  background-color: ${colors.white100};
+  color: ${colors.black100};
 `;

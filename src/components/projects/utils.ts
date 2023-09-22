@@ -1,3 +1,6 @@
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
 import type {
   MemberRole,
   ProjectCategory,
@@ -5,9 +8,32 @@ import type {
   ProjectInput,
   ServiceType,
 } from '@/api/endpoint_LEGACY/projects/type';
-import { DEFAULT_IMAGE_URL } from '@/components/projects/form/constants';
-import { ProjectFormType } from '@/components/projects/form/schema';
-import { convertPeriodFormat, convertPeriodFormatReverse } from '@/components/projects/upload/utils';
+import { DEFAULT_IMAGE_URL } from '@/components/projects/upload/form/constants';
+import { ProjectFormType } from '@/components/projects/upload/form/schema';
+
+dayjs.extend(customParseFormat);
+
+const DEFAULT_FORMAT = 'YYYY.MM';
+const INPUT_DATE_FORMAT = 'YYYY-MM-DD';
+
+/**
+ * FIXME(@jun): 서버쪽 인터페이스가 YYYY-MM-DD로 픽스되고 정우가 유럽을 떠나서
+ * 어쩔 수 없이 서버쪽으로만 임시로 날짜 형식을 맞춰주는 함수입니다.
+ * 인터페이스가 수정되면 냅다 지워주세요.
+ *
+ * @remark YYYY.MM => YYYY-MM-DD(startOf('month'))로 변경하는 함수
+ */
+export const convertPeriodFormat = (period: string) => {
+  return dayjs(period, DEFAULT_FORMAT).startOf('month').format(INPUT_DATE_FORMAT);
+};
+
+/**
+ * @param period string('YYYY-MM-DD')
+ * @desc 'YYYY-MM-DD' => 'YYYY.MM' 으로 변경하는 함수입니다. (수정 시 사용)
+ */
+export const convertPeriodFormatReverse = (period: string) => {
+  return dayjs(period, DEFAULT_FORMAT).format(DEFAULT_FORMAT);
+};
 
 export const convertToProjectData = (formData: ProjectFormType, writerId: number): ProjectInput => ({
   name: formData.name,

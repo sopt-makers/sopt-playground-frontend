@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import ArrowDiagonalIcon from 'public/icons/icon-diagonal-arrow.svg';
@@ -243,7 +244,7 @@ const Container = styled.div`
 const Title = styled.div`
   text-align: start;
   line-height: 100%;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_24_B}
 

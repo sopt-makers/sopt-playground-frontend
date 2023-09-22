@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useQueryClient } from '@tanstack/react-query';
 import TrophyIcon from 'public/icons/icon-trophy.svg';
 
@@ -10,7 +11,7 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
 import { Word } from '@/components/wordchain/WordchainChatting/types';
 import WordChatMessage from '@/components/wordchain/WordchainChatting/WordChatMessage';
-import { colors } from '@/styles/colors';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -155,7 +156,7 @@ const WinnerMessage = styled.div`
   margin-top: 12px;
   margin-right: 54px;
   line-height: 100%;
-  color: ${colors.purple100};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M}
 
@@ -171,7 +172,7 @@ const TrophyIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.purple100};
+  background-color: ${colors.orange100};
   width: 20px;
   height: 20px;
 

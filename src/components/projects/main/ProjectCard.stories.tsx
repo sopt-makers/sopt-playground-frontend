@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { ServiceType } from '@/components/projects/upload/types';
+import { ServiceType } from '@/components/projects/types';
 
 import ProjectCard from './ProjectCard';
 

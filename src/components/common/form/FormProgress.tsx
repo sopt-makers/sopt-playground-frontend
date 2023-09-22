@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import * as Progress from '@radix-ui/react-progress';
+import { colors } from '@sopt-makers/colors';
 import { FC, useMemo } from 'react';
 
+import FormTitle from '@/components/common/form/FormTitle';
 import Text from '@/components/common/Text';
-import FormTitle from '@/components/projects/upload/FormTitle';
 import IconDoneCheck from '@/public/icons/icon-done-check.svg';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface FormProgressProps {
@@ -32,7 +32,7 @@ const FormProgress: FC<FormProgressProps> = ({ className, title, progressLabel, 
       <StyledHeader>
         <FormTitle typography='SUIT_24_SB'>{title}</FormTitle>
         <ProgressNumber>
-          <Text typography='SUIT_12_M' color={colors.purple100}>
+          <Text typography='SUIT_12_M' color={colors.blue50}>
             {`${activeItems.length}/${items.length}`}
           </Text>
         </ProgressNumber>
@@ -103,7 +103,7 @@ const StyledProgressRoot = styled(Progress.Root)`
 
 const StyledProgressIndicator = styled(Progress.Indicator)`
   transition: transform 0.3s;
-  background-color: ${colors.purple100};
+  background-color: ${colors.blue50};
   width: 100%;
   height: 100%;
 `;
@@ -122,7 +122,7 @@ const ListItem = styled.li<{ isDirty?: boolean }>`
   justify-content: space-between;
   transition: color 0.2s;
   padding: 14px 20px;
-  color: ${({ isDirty }) => (isDirty ? colors.white : colors.gray100)};
+  color: ${({ isDirty }) => (isDirty ? colors.white100 : colors.gray100)};
   ${textStyles.SUIT_16_M};
 `;
 
@@ -138,7 +138,7 @@ const Checked = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.purple100};
+  background-color: ${colors.blue50};
   width: 14px;
   height: 14px;
 `;
