@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import Head from 'next/head';
 import { FC } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -11,6 +12,7 @@ import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import MentoringList from '@/components/mentoring/MentoringList';
 import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
+import { ORIGIN } from '@/constants/env';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -22,6 +24,11 @@ const MemberPage: FC = () => {
 
   return (
     <AuthRequired>
+      <Head>
+        <meta key='og:title' property='og:title' content='SOPT Playground' />
+        <meta key='og:description' property='og:description' content='솝트와 연결되고 싶으신가요?' />
+        <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
+      </Head>
       <ActiveBannerSlot />
       <MemberPageContentLayout>
         <StyledWordChainEntry />

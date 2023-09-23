@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { z } from 'zod';
@@ -9,6 +10,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { uploadSopticle } from '@/api/endpoint/sopticles/uploadSopticle';
 import AuthRequired from '@/components/auth/AuthRequired';
 import UploadSopticle from '@/components/sopticle/UploadSopticle';
+import { ORIGIN } from '@/constants/env';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
@@ -45,6 +47,11 @@ const SopticlePage: FC = () => {
 
   return (
     <AuthRequired>
+      <Head>
+        <meta key='og:title' property='og:title' content='SOPT Playground' />
+        <meta key='og:description' property='og:description' content='솝트와 연결되고 싶으신가요?' />
+        <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
+      </Head>
       <StyledSopticlePage>
         <UploadSopticle state={status} errorMessage={errorMessage} onSubmit={(url) => mutate(url)} />
       </StyledSopticlePage>

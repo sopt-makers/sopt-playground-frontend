@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -12,6 +13,7 @@ import { ProjectFormType } from '@/components/projects/upload/form/schema';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { getProjectListQueryKey } from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { convertToProjectData } from '@/components/projects/utils';
+import { ORIGIN } from '@/constants/env';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
@@ -45,6 +47,11 @@ const ProjectUploadPage = () => {
 
   return (
     <AuthRequired>
+      <Head>
+        <meta key='og:title' property='og:title' content='SOPT Playground' />
+        <meta key='og:description' property='og:description' content='솝트와 연결되고 싶으신가요?' />
+        <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
+      </Head>
       <Container>
         <ProjectForm onSubmit={handleSubmit} submitButtonContent='프로젝트 등록하기' />
       </Container>

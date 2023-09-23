@@ -15,7 +15,7 @@ import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
 import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
-import { AMPLITUDE_API_KEY, DEBUG, ORIGIN } from '@/constants/env';
+import { AMPLITUDE_API_KEY, DEBUG } from '@/constants/env';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { useChannelService } from '@/utils/channelService/useChannelService';
 import { getLayout } from '@/utils/layout';
@@ -47,9 +47,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Head>
         <title>SOPT Playground</title>
-        <meta key='og:title' property='og:title' content='SOPT Playground' />
-        <meta key='og:description' property='og:description' content='솝트와 연결되고 싶으신가요?' />
-        <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
         <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
       </Head>
       <GoogleTagManagerScript />

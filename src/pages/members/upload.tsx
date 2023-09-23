@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQueryClient } from '@tanstack/react-query';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -22,6 +23,7 @@ import SoptActivityFormSection from '@/components/members/upload/FormSection/Sop
 import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
 import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
+import { ORIGIN } from '@/constants/env';
 import { setLayout } from '@/utils/layout';
 
 export default function MemberUploadPage() {
@@ -134,6 +136,11 @@ export default function MemberUploadPage() {
 
   return (
     <AuthRequired>
+      <Head>
+        <meta key='og:title' property='og:title' content='SOPT Playground' />
+        <meta key='og:description' property='og:description' content='솝트와 연결되고 싶으신가요?' />
+        <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
+      </Head>
       <FormProvider {...formMethods}>
         <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
