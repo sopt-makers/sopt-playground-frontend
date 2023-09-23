@@ -68,7 +68,7 @@ const WinnerBoard = styled.aside`
     background-color: transparent;
     padding: 0;
     width: 100%;
-    height: 63px;
+    height: max-content;
   }
 `;
 
@@ -87,12 +87,15 @@ const WinnerList = styled.section`
   flex-direction: column;
   margin-bottom: -4px;
   height: 312px;
-  overflow: scroll;
+  overflow-y: scroll;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: row;
     margin-bottom: 0;
+    padding-bottom: 8px;
     width: 100%;
-    height: 45px;
+    height: max-content;
+    overflow-x: scroll;
+    overflow-y: auto;
   }
 `;
