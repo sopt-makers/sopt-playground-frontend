@@ -85,14 +85,14 @@ export default function MemberSoptActivityFormSection() {
             </AddableItem>
           ) : (
             <FixedActivity key={field.id}>
-              <Input
+              <StyledInput
                 disabled
                 {...register(`activities.${index}.generation`)}
                 error={errors?.activities?.[index]?.hasOwnProperty('generation')}
                 placeholder='활동기수'
                 width='202.66px'
               />
-              <Input
+              <StyledInput
                 disabled
                 {...register(`activities.${index}.part`)}
                 error={errors?.activities?.[index]?.hasOwnProperty('part')}
@@ -167,4 +167,14 @@ const StyledSelect = styled(Select)`
 
 const FixedActivity = styled(StyledSelectWrapper)`
   width: 632px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const StyledInput = styled(Input)`
+  & > input {
+    width: 100%;
+  }
 `;
