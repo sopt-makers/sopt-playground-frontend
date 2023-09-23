@@ -18,14 +18,6 @@ const IntroPage: FC<IntroPageProps> = ({}) => {
     }
   }, [accessToken, router, router.isReady]);
 
-  useEffect(() => {
-    window.ChannelIO?.('hideChannelButton');
-
-    return () => {
-      window.ChannelIO?.('showChannelButton');
-    };
-  });
-
   return (
     <>
       <Intro />
