@@ -7,6 +7,7 @@ import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 
@@ -43,11 +44,16 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <NextSeo
+        title='SOPT Playground'
+        description='솝트와 연결되고 싶으신가요?'
+        openGraph={{
+          title: 'SOPT Playground',
+          description: '솝트와 연결되고 싶으신가요?',
+          images: [{ url: `${ORIGIN}/icons/img/og_playground.jpeg` }],
+        }}
+      />
       <Head>
-        <title>SOPT Playground</title>
-        <meta key='og:title' property='og:title' content='SOPT Playground' />
-        <meta key='og:description' property='og:description' content='솝트와 연결되고 싶으신가요?' />
-        <meta key='og:image' property='og:image' content={`${ORIGIN}/icons/img/og_playground.jpeg`} />
         <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
       </Head>
       <GoogleTagManagerScript />
