@@ -57,8 +57,7 @@ const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
     margin-right: 16px;
     background-color: transparent;
     padding: 0;
-    width: 76px;
-    height: 32px;
+    height: max-content;
   }
 `;
 
