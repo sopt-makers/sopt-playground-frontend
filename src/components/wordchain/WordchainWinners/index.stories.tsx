@@ -55,7 +55,16 @@ export const Default: StoryObj = {
   render: () => (
     <Fragment>
       {winnerList.map(({ roomId, winner: { id, profileImage, name } }) => {
-        return <WordChainWinner key={id} roomId={roomId} profileImage={profileImage} name={name} isRecent={false} />;
+        return (
+          <WordChainWinner
+            userId={id}
+            key={id}
+            roomId={roomId}
+            profileImage={profileImage}
+            name={name}
+            isRecent={false}
+          />
+        );
       })}
     </Fragment>
   ),

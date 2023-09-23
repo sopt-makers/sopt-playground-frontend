@@ -36,6 +36,7 @@ export default function WordchainWinners() {
                 <WordChainWinner
                   key={`${roomId}` + `${id}`}
                   roomId={roomId}
+                  userId={id}
                   profileImage={profileImage}
                   name={name}
                   isRecent={isRecent}

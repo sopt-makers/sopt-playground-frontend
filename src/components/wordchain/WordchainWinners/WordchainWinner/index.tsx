@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import Link from 'next/link';
 
+import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -10,11 +12,12 @@ interface WordChainWinnerProps {
   profileImage: string;
   name: string;
   isRecent: boolean;
+  userId: number;
 }
 
-export default function WordChainWinner({ roomId, profileImage, name, isRecent }: WordChainWinnerProps) {
+export default function WordChainWinner({ roomId, profileImage, userId, name, isRecent }: WordChainWinnerProps) {
   return (
-    <WordChainWinnerContainer isRecent={isRecent}>
+    <WordChainWinnerContainer href={playgroundLink.memberDetail(userId)} isRecent={isRecent}>
       <WinRound isRecent={isRecent}>
         {roomId}번째 <WinnerTag> 우승자 | </WinnerTag>
       </WinRound>
@@ -30,7 +33,7 @@ export default function WordChainWinner({ roomId, profileImage, name, isRecent }
   );
 }
 
-const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
+const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
   display: grid;
   grid: [row1-start] 'winRound winnerImageBox winnerName' min-content [row1-end]/ auto;
   border-radius: 10px;
@@ -142,6 +145,7 @@ const WinnerName = styled.p<{ isRecent: boolean }>`
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 35px;
+    color: ${colors.white};
     ${textStyles.SUIT_12_M}
   }
 `;
