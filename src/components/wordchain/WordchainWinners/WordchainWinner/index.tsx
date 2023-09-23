@@ -145,6 +145,7 @@ const WinnerName = styled.p<{ isRecent: boolean }>`
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 35px;
+    color: ${colors.white};
     ${textStyles.SUIT_12_M}
   }
 `;
