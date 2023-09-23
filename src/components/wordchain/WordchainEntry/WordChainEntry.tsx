@@ -78,7 +78,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                         <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
                         {lastWord != null && (
                           <GotoWordChainSub>
-                            {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>로 이었어요. 끝말을
+                            {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>(으)로 이었어요. 끝말을
                             이어주세요!
                           </GotoWordChainSub>
                         )}
