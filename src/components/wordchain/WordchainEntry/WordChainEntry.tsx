@@ -25,8 +25,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { logClickEvent } = useEventLogger();
 
   const wordList = data?.wordList;
-  const temporaryLastWord = data?.wordList[data?.wordList.length - 1].word;
-  const lastWord = temporaryLastWord && temporaryLastWord.length > 0 ? temporaryLastWord : '';
+  const lastWord = data?.wordList[data?.wordList.length - 1]?.word;
   const isGameStart = wordList?.length === 0 && data?.currentWinner === null;
   const status = isGameStart ? 'start' : 'progress';
 
@@ -77,10 +76,12 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                     <GotoWordChainWrapper>
                       <GotoWordChainContents>
                         <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
-                        <GotoWordChainSub>
-                          {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>로 이었어요. 끝말을
-                          이어주세요!
-                        </GotoWordChainSub>
+                        {lastWord != null && (
+                          <GotoWordChainSub>
+                            {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>로 이었어요. 끝말을
+                            이어주세요!
+                          </GotoWordChainSub>
+                        )}
                       </GotoWordChainContents>
                       <IconArrowMobile />
                     </GotoWordChainWrapper>
