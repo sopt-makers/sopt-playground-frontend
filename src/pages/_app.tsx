@@ -17,7 +17,6 @@ import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
 import { AMPLITUDE_API_KEY, DEBUG, ORIGIN } from '@/constants/env';
 import GlobalStyle from '@/styles/GlobalStyle';
-import { useChannelService } from '@/utils/channelService/useChannelService';
 import { getLayout } from '@/utils/layout';
 
 const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
@@ -41,7 +40,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', gtm.pageview);
     };
   }, [router.events]);
-  useChannelService();
 
   return (
     <QueryClientProvider client={queryClient}>
