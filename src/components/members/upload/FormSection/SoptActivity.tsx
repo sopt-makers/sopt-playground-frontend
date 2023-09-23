@@ -49,7 +49,7 @@ export default function MemberSoptActivityFormSection() {
 
   return (
     <StyledFormSection>
-      <FormHeader title='SOPT 활동 정보' required />
+      <FormHeader title='SOPT 활동 정보' required description='31기 이후의 기수와 파트 정보는 수정이 불가능해요.' />
       <StyledAddableWrapper onAppend={onAppend}>
         {fields.map((field, index) =>
           parseInt(field.generation) <= 30 || !field.generation ? (

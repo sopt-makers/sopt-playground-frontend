@@ -8,13 +8,15 @@ import { textStyles } from '@/styles/typography';
 interface MemberFormHeaderProps {
   title: string;
   required?: boolean;
+  description?: string;
 }
 
-export default function MemberFormHeader({ title, required }: MemberFormHeaderProps) {
+export default function MemberFormHeader({ title, required, description }: MemberFormHeaderProps) {
   return (
     <>
       <StyledTitle>{title}</StyledTitle>
       {required && <StyledRequired>*</StyledRequired>}
+      {description && <Description>{description}</Description>}
       <StyledLine />
     </>
   );
@@ -55,4 +57,18 @@ const StyledRequired = styled(Text)`
   color: ${colors.purple100};
   font-size: 16px;
   font-weight: 500;
+`;
+
+const Description = styled(Text)`
+  display: block;
+  margin-top: 10px;
+  color: ${colors.gray80};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    line-height: 150%;
+    white-space: pre-line;
+
+    ${textStyles.SUIT_13_M}
+  }
 `;
