@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useEffect, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import desktopBackground from '@/public/icons/img/Desktop.gif';
+import Balloon from '@/public/icons/img/illust_balloon.svg';
+import Rocket from '@/public/icons/img/illust_rocket.svg';
 import mobileBackground from '@/public/icons/img/Mobile.gif';
-import Balloon from '@/public/icons/welcome-banner-balloon.svg';
-import Rocket from '@/public/icons/welcome-banner-rocket.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 const WelcomeBanner = () => {
   // 이미지 랜덤 생성을 위한 코드
@@ -22,7 +24,11 @@ const WelcomeBanner = () => {
 
   return (
     <WelcomeBannerWrapper>
-      <ContentWrapper>{isShowRocketInt === 1 ? <Rocket /> : <Balloon />}</ContentWrapper>
+      <ContentWrapper>
+        {isShowRocketInt === 1 ? <Rocket /> : <Balloon />}
+        <Title>33기 여러분, SOPT에서 만나게 되어 기뻐요!</Title>
+        <SubTitle>SOPT의 놀이터, Playground에 오신 걸 환영해요</SubTitle>
+      </ContentWrapper>
       <Responsive only='desktop'>
         <img src={desktopBackground.src} width='1920px' height='212px' alt='환영 배너 배경' />
       </Responsive>
@@ -45,6 +51,7 @@ const WelcomeBannerWrapper = styled.header`
 const ContentWrapper = styled.div`
   display: flex;
   position: absolute;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -54,4 +61,16 @@ const ContentWrapper = styled.div`
     width: 100%;
     height: 164px;
   }
+`;
+
+const Title = styled.div`
+  margin-top: 8px;
+  color: ${colors.white100};
+  ${textStyles.SUIT_18_B};
+`;
+
+const SubTitle = styled.div`
+  margin-top: 4px;
+  color: ${colors.gray60};
+  ${textStyles.SUIT_12_M};
 `;
