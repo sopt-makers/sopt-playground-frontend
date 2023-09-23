@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -15,7 +15,7 @@ interface WordChainWinnerProps {
 export default function WordChainWinner({ roomId, profileImage, name, isRecent }: WordChainWinnerProps) {
   return (
     <WordChainWinnerContainer isRecent={isRecent}>
-      <WinRound>
+      <WinRound isRecent={isRecent}>
         {roomId}번째 <WinnerTag> 우승자 | </WinnerTag>
       </WinRound>
       <WinnerImageBox>
@@ -25,7 +25,7 @@ export default function WordChainWinner({ roomId, profileImage, name, isRecent }
           <DefaultImage src='/icons/icon-member-default.svg' alt='default_member_image' />
         )}
       </WinnerImageBox>
-      <WinnerName>{name}</WinnerName>
+      <WinnerName isRecent={isRecent}>{name}</WinnerName>
     </WordChainWinnerContainer>
   );
 }
@@ -38,7 +38,7 @@ const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
     isRecent
       ? css`
           margin-top: 16px;
-          background-color: ${colors.purple100};
+          background-color: ${colors.white100};
         `
       : css`
           margin-top: 12px;
@@ -62,12 +62,18 @@ const WordChainWinnerContainer = styled.article<{ isRecent: boolean }>`
   }
 `;
 
-const WinRound = styled.div`
+const WinRound = styled.div<{ isRecent: boolean }>`
   display: flex;
   grid-area: winRound;
   width: 110px;
   color: ${colors.white};
   ${textStyles.SUIT_16_SB}
+
+  ${({ isRecent }) =>
+    isRecent &&
+    css`
+      color: ${colors.black100};
+    `}
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 2px;
@@ -76,7 +82,7 @@ const WinRound = styled.div`
     color: ${colors.gray60};
     ${textStyles.SUIT_10_M}
 
-    &::after {
+    ::after {
       content: '';
     }
   }
@@ -123,11 +129,17 @@ const DefaultImage = styled.img`
   object-fit: cover;
 `;
 
-const WinnerName = styled.p`
+const WinnerName = styled.p<{ isRecent: boolean }>`
   grid-area: winnerName;
   width: 110px;
   color: ${colors.white};
   ${textStyles.SUIT_16_SB}
+
+  ${({ isRecent }) =>
+    isRecent &&
+    css`
+      color: ${colors.black100};
+    `}
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 35px;

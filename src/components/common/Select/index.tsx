@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { forwardRef, SelectHTMLAttributes } from 'react';
 
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -38,7 +38,7 @@ const StyledSelect = styled.select<Pick<SelectProps, 'width' | 'error'>>`
   ${({ width }) => `width: ${width}${typeof width === 'number' ? 'px' : ''};`}
 
   &:focus {
-    border-color: ${colors.purple100};
+    border-color: ${colors.gray40};
   }
 
   ${({ error }) =>

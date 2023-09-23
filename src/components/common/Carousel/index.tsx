@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { AnimatePresence, m } from 'framer-motion';
 import { ReactNode } from 'react';
 
 import CarouselBody from '@/components/common/Carousel/Body';
 import useCarousel, { CarouselDirection } from '@/components/common/Carousel/useCarousel';
-import LeftArrowIcon from '@/public/icons/icon-arrow-purple.svg';
-import { colors } from '@/styles/colors';
+import LeftArrowIcon from '@/public/icons/icon-arrow-mono.svg';
 
 interface CarouselProps {
   itemList: ReactNode[];
@@ -98,12 +98,12 @@ const Container = styled.div`
 const Control = styled.button`
   align-self: center;
   border-radius: 50%;
-  background-color: ${colors.purpledim100};
+  background-color: ${colors.black60};
   width: 40px;
   height: 40px;
 
   &:hover {
-    background-color: #36364d;
+    background-color: ${colors.black40};
   }
 `;
 
@@ -130,7 +130,7 @@ const Indicators = styled.div`
 
 const Indicator = styled.div<{ isActive?: boolean }>`
   border-radius: 50%;
-  background-color: ${({ isActive }) => (isActive ? colors.purple100 : colors.black40)};
+  background-color: ${({ isActive }) => (isActive ? colors.white100 : colors.black40)};
   cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
   width: 8px;
   height: 8px;

@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, FocusEvent, forwardRef } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 export interface InputProps {
@@ -91,7 +91,7 @@ const StyledInput = styled.input<InputProps>`
   background-color: ${colors.black60};
   padding: 14px 20px;
   width: ${(props) => props.width};
-  color: ${colors.white};
+  color: ${colors.white100};
   ${textStyles.SUIT_16_M};
 
   &::placeholder {
@@ -100,7 +100,7 @@ const StyledInput = styled.input<InputProps>`
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
+    border-color: ${colors.gray40};
     background-color: ${colors.black80};
   }
 

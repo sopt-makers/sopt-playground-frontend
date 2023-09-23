@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 import { DEFAULT_PROFILE_IMAGE_DESKTOP_SVG } from '@/components/common/Header/imageData';
 import ResizedImage from '@/components/common/ResizedImage';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface ProfileButtonProps {
@@ -33,7 +33,7 @@ const StyledProfileButton = styled.button`
   background-color: ${colors.black80};
   cursor: pointer;
   height: 38px;
-  color: ${colors.white};
+  color: ${colors.white100};
 `;
 
 const ImageSlot = styled.div`

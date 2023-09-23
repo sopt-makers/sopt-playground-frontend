@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FieldError, useFieldArray, useFormContext } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
@@ -11,7 +12,6 @@ import { MemberFormSection as FormSection } from '@/components/members/upload/fo
 import SelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import { GENERATIONS } from '@/constants/generation';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -154,7 +154,7 @@ const StyledSelect = styled(Select)`
   border-radius: 14px;
   padding: 16px 34px 16px 20px;
   width: 100%;
-  color: ${colors.white};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M};
 

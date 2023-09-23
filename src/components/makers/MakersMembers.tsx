@@ -8,7 +8,7 @@ import { MakersGeneration } from '@/components/makers/data/types';
 import TeamBlock from '@/components/makers/TeamBlock';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -107,8 +107,8 @@ const TabButton = styled.a`
   color: ${colors.gray60};
 
   &[data-state='active'] {
-    border-bottom: 2px solid ${colors.white};
-    color: ${colors.white};
+    border-bottom: 2px solid ${colors.white100};
+    color: ${colors.white100};
   }
 
   ${textStyles.SUIT_20_B};

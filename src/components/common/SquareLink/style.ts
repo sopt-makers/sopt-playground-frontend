@@ -1,6 +1,5 @@
 import { css, SerializedStyles } from '@emotion/react';
-
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 
 export type ButtonStyle = 'default' | 'primary';
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -12,12 +11,12 @@ export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
   `,
   primary: css`
     transition: background-color 0.3s;
-    background-color: ${colors.purple100};
-    color: #e2e2e2;
+    background-color: ${colors.white100};
+    color: ${colors.black100};
 
     &:hover,
     &:focus {
-      background-color: ${colors.purple80};
+      background-color: ${colors.gray20};
     }
   `,
 };

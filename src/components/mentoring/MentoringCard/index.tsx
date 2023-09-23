@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
-import { colors } from '@/styles/colors';
+import Responsive from '@/components/common/Responsive';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
@@ -16,13 +18,15 @@ interface MentoringCardProps {
 export default function MentoringCard({ mentor, keywords, title, isOpened, onClick }: MentoringCardProps) {
   return (
     <Container onClick={onClick}>
-      <Keywords>
-        {keywords.map((keyword, index) => (
-          <KeywordBox key={`${index}-${keyword}`}>
-            <KeywordContent>{keyword}</KeywordContent>
-          </KeywordBox>
-        ))}
-      </Keywords>
+      <Responsive only='desktop'>
+        <Keywords>
+          {keywords.map((keyword, index) => (
+            <KeywordBox key={`${index}-${keyword}`}>
+              <KeywordContent>{keyword}</KeywordContent>
+            </KeywordBox>
+          ))}
+        </Keywords>
+      </Responsive>
       <Title>{title}</Title>
       <Mentor>{mentor.career ? `${mentor.name} · ${mentor.career}` : mentor.name}</Mentor>
       {mentor.profileImage ? (
@@ -50,7 +54,7 @@ const Container = styled.div`
   column-gap: 37px;
   align-content: center;
   border-radius: 16px;
-  background-color: ${colors.black90};
+  background-color: ${colors.black80};
   padding: 35px 40px 36px 45px;
   width: 424px;
   min-width: 424px;
@@ -68,6 +72,16 @@ const Container = styled.div`
     width: 335px;
     min-width: 335px;
     height: 189px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    align-items: center;
+    border-radius: 10px;
+    background-color: ${colors.black80};
+    padding: 16px;
+    width: 233px;
+    min-width: 233px;
+    height: 104px;
   }
 `;
 
@@ -166,6 +180,12 @@ const Title = styled.div`
 
     ${textStyles.SUIT_16_SB};
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 16px;
+    width: 201px;
+    ${textStyles.SUIT_14_SB};
+  }
 `;
 
 const Mentor = styled.div`
@@ -174,6 +194,15 @@ const Mentor = styled.div`
   color: ${colors.gray60};
 
   ${textStyles.SUIT_14_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    ${textStyles.SUIT_12_R};
+  }
 `;
 
 const Closed = styled.div<{ isActive: boolean }>`
@@ -187,7 +216,7 @@ const Closed = styled.div<{ isActive: boolean }>`
   width: 424px;
   height: 224px;
   line-height: 20px;
-  color: ${colors.white100};
+  color: ${colors.white};
 
   ${textStyles.SUIT_16_SB}
 
@@ -197,5 +226,10 @@ const Closed = styled.div<{ isActive: boolean }>`
     line-height: 17px;
 
     ${textStyles.SUIT_14_SB}
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 233px;
+    height: 104px;
   }
 `;

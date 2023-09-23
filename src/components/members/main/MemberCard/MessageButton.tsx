@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import * as Tooltip from '@radix-ui/react-tooltip';
+import { colors } from '@sopt-makers/colors';
 import { FC, MouseEvent } from 'react';
 
 import IconMessage from '@/public/icons/icon-message.svg';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface MessageButtonProps {

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import LinkIcon from 'public/icons/icon-link.svg';
 
@@ -8,7 +9,6 @@ import CareerItem from '@/components/members/detail/CareerSection/CareerItem';
 import InfoItem from '@/components/members/detail/InfoItem';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import { Career } from '@/components/members/detail/types';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface CareerSectionProps {

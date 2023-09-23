@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { m, Variants } from 'framer-motion';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
@@ -11,7 +12,6 @@ import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAu
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
@@ -239,7 +239,7 @@ const RegisterInfo = styled.div`
 
 const LastLogin = styled(m.div)`
   margin-top: 25px;
-  color: ${colors.purple100};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_SB}
 `;
@@ -247,11 +247,7 @@ const LastLogin = styled(m.div)`
 const RegisterLink = styled(Link)`
   transition: 0.2s color;
   text-decoration: underline;
-  color: ${colors.purple100};
-
-  :hover {
-    color: ${colors.purple80};
-  }
+  color: ${colors.white100};
 `;
 
 const MotionMakersContainer = styled(m.div)`
