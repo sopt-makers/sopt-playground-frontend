@@ -7,14 +7,16 @@ import { textStyles } from '@/styles/typography';
 
 interface MemberFormHeaderProps {
   title: string;
-  essential?: boolean;
+  required?: boolean;
+  description?: string;
 }
 
-export default function MemberFormHeader({ title, essential }: MemberFormHeaderProps) {
+export default function MemberFormHeader({ title, required, description }: MemberFormHeaderProps) {
   return (
     <>
       <StyledTitle>{title}</StyledTitle>
-      {essential && <StyledEssential>*</StyledEssential>}
+      {required && <StyledRequired>*</StyledRequired>}
+      {description && <Description>{description}</Description>}
       <StyledLine />
     </>
   );
@@ -46,7 +48,7 @@ const StyledLine = styled.hr`
   }
 `;
 
-const StyledEssential = styled(Text)`
+const StyledRequired = styled(Text)`
   display: inline-block;
   transform: translateY(-10px);
   margin-bottom: 20px;
@@ -55,4 +57,18 @@ const StyledEssential = styled(Text)`
   color: ${colors.orange100};
   font-size: 16px;
   font-weight: 500;
+`;
+
+const Description = styled(Text)`
+  display: block;
+  margin-top: 10px;
+  color: ${colors.gray80};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    line-height: 150%;
+    white-space: pre-line;
+
+    ${textStyles.SUIT_13_M}
+  }
 `;

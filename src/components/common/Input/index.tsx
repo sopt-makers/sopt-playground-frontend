@@ -22,6 +22,7 @@ export interface InputProps {
   disabled?: boolean;
   pattern?: string;
   autoFocus?: boolean;
+  width?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -41,6 +42,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       onChange,
       onBlur,
       type = 'text',
+      width = '100%',
     },
     ref,
   ) => {
@@ -58,6 +60,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           pattern={pattern}
           ref={ref}
           autoFocus={autoFocus}
+          width={width}
         />
         {errorMessage !== undefined || !!count ? (
           <Additional>
@@ -87,7 +90,7 @@ const StyledInput = styled.input<InputProps>`
   border-radius: 6px;
   background-color: ${colors.black60};
   padding: 14px 20px;
-  width: 100%;
+  width: ${(props) => props.width};
   color: ${colors.white100};
   ${textStyles.SUIT_16_M};
 
