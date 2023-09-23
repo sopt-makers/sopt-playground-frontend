@@ -240,12 +240,12 @@ const GotoWordChainTitle = styled.h1`
 `;
 
 const GotoWordChainSub = styled.div`
-  display: flex;
   margin-top: 6px;
+
   ${textStyles.SUIT_14_R};
 `;
 
-const LastWord = styled.p`
+const LastWord = styled.span`
   margin-left: 4px;
   color: ${colors.orange100};
 `;
