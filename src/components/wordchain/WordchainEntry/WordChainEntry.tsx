@@ -15,6 +15,7 @@ import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordchainMessage from '@/public/icons/icon-wordchain-message.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 
 interface WordChainEntryProps {
   className?: string;
@@ -43,51 +44,55 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
               <Responsive only='desktop'>
                 <StyledIconWordchainMessage />
               </Responsive>
-
-              {status === 'start' && (
-                <>
-                  <Responsive only='desktop'>
-                    <StyledTitle>
-                      SOPT 회원들과 끝말잇기 할 사람,
-                      <br />
-                      지금이 바로 명예의 전당에 오를 기회!
-                    </StyledTitle>
-                  </Responsive>
-                  <MobileResponsive only='mobile'>
-                    <GotoWordChainWrapper>
-                      <GotoWordChainContents>
-                        <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
-                        <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
-                      </GotoWordChainContents>
-                      <IconArrowMobile />
-                    </GotoWordChainWrapper>
-                  </MobileResponsive>
-                </>
-              )}
-              {status === 'progress' && (
-                <>
-                  <Responsive only='desktop'>
-                    <StyledTitle>
-                      현재 {`'${data?.currentWinner?.name}'`}님이 <br />
-                      끝말잇기를 이기고 있어요!
-                    </StyledTitle>
-                  </Responsive>
-                  <MobileResponsive only='mobile'>
-                    <GotoWordChainWrapper>
-                      <GotoWordChainContents>
-                        <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
-                        {lastWord != null && (
-                          <GotoWordChainSub>
-                            {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>(으)로 이었어요. 끝말을
-                            이어주세요!
-                          </GotoWordChainSub>
-                        )}
-                      </GotoWordChainContents>
-                      <IconArrowMobile />
-                    </GotoWordChainWrapper>
-                  </MobileResponsive>
-                </>
-              )}
+              <SwitchCase
+                value={status}
+                caseBy={{
+                  start: (
+                    <>
+                      <Responsive only='desktop'>
+                        <StyledTitle>
+                          SOPT 회원들과 끝말잇기 할 사람,
+                          <br />
+                          지금이 바로 명예의 전당에 오를 기회!
+                        </StyledTitle>
+                      </Responsive>
+                      <MobileResponsive only='mobile'>
+                        <GotoWordChainWrapper>
+                          <GotoWordChainContents>
+                            <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                            <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
+                          </GotoWordChainContents>
+                          <IconArrowMobile />
+                        </GotoWordChainWrapper>
+                      </MobileResponsive>
+                    </>
+                  ),
+                  progress: (
+                    <>
+                      <Responsive only='desktop'>
+                        <StyledTitle>
+                          현재 {`'${data?.currentWinner?.name}'`}님이 <br />
+                          끝말잇기를 이기고 있어요!
+                        </StyledTitle>
+                      </Responsive>
+                      <MobileResponsive only='mobile'>
+                        <GotoWordChainWrapper>
+                          <GotoWordChainContents>
+                            <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                            {lastWord != null && (
+                              <GotoWordChainSub>
+                                {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>(으)로 이었어요.
+                                끝말을 이어주세요!
+                              </GotoWordChainSub>
+                            )}
+                          </GotoWordChainContents>
+                          <IconArrowMobile />
+                        </GotoWordChainWrapper>
+                      </MobileResponsive>
+                    </>
+                  ),
+                }}
+              />
             </TitleWrapper>
             <Responsive only='desktop'>
               <WordchainText>
