@@ -51,7 +51,9 @@ export default function WordchainWinners() {
   );
 }
 
-const Target = styled.div``;
+const Target = styled.div`
+  /* height: 5px; */
+`;
 
 const WinnerBoard = styled.aside`
   display: flex;
@@ -87,6 +89,7 @@ const WinnerList = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: -4px;
+  padding-bottom: 2px;
   height: 312px;
   overflow-y: scroll;
 
