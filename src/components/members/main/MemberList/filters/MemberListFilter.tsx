@@ -8,7 +8,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface Option<T> {
-  value: T;
+  value: T | undefined;
   label: ReactNode;
 }
 

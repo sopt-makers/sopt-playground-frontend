@@ -7,9 +7,11 @@ import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
+import NextAdapterPages from 'next-query-params';
 import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
+import { QueryParamProvider } from 'use-query-params';
 
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
@@ -64,7 +66,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <GlobalStyle />
               <ResponsiveProvider>
                 <Layout>
-                  <Component {...pageProps} />
+                  <QueryParamProvider adapter={NextAdapterPages}>
+                    <Component {...pageProps} />
+                  </QueryParamProvider>
                 </Layout>
               </ResponsiveProvider>
               {DEBUG && <Debugger />}

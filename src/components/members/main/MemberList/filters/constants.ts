@@ -1,7 +1,7 @@
 import { GENERATIONS } from '@/constants/generation';
 
 type Option<T = string> = {
-  value: T;
+  value: T | undefined;
   label: string;
 };
 
@@ -50,7 +50,7 @@ export const PART_OPTIONS: Option[] = [
 ];
 
 export const GENERATION_DEFAULT_OPTION: Option = {
-  value: '',
+  value: undefined,
   label: '전체 기수',
 };
 
@@ -85,7 +85,7 @@ export const MBTI = [
   'ENTJ',
 ] as const;
 
-export const MBTI_OPTIONS: Option<typeof MBTI[number]>[] = [
+export const MBTI_OPTIONS: Option<(typeof MBTI)[number]>[] = [
   { value: 'ISTJ', label: 'ISTJ' },
   { value: 'ISFJ', label: 'ISFJ' },
   { value: 'INFJ', label: 'INFJ' },

@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+import { StringParam, useQueryParams } from 'use-query-params';
 
 import { Profile } from '@/api/endpoint_LEGACY/members/type';
 import Responsive from '@/components/common/Responsive';
@@ -72,15 +73,22 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [name, setName] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
+  const [qs, setQueryParams] = useQueryParams({
+    generation: StringParam,
+    filter: StringParam, // 파트
+    sojuCapacity: StringParam,
+    team: StringParam,
+    mbti: StringParam,
+    orderBy: StringParam,
+    name: StringParam,
+  });
+
   const router = useRouter();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
     queryKey: [router.query],
-  });
-  const { addQueryParamsToUrl } = usePageQueryParams({
-    skipNull: true,
   });
   const isEmpty = memberProfileData?.pages[0].members.length === 0;
 
@@ -106,59 +114,53 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     }
   }, [isVisible, fetchNextPage]);
 
-  useEffect(() => {
-    if (router.isReady) {
-      const { generation, filter, name, sojuCapacity, team, mbti, orderBy } = router.query;
-      if (typeof generation === 'string' || generation === undefined) {
-        setGeneration(generation);
-      }
-      if (typeof filter === 'string' || filter === undefined) {
-        setPart(filter);
-      }
-      if (typeof name === 'string') {
-        setName(name);
-      }
-      if (typeof team === 'string' || team === undefined) {
-        setTeam(team);
-      }
-      if (typeof mbti === 'string' || mbti === undefined) {
-        setMbti(mbti);
-      }
-      if (typeof sojuCapacity === 'string' || sojuCapacity === undefined) {
-        setSojuCapacity(sojuCapacity);
-      }
-      if (typeof orderBy === 'string') {
-        setOrderBy(orderBy);
-      }
-    }
-  }, [router.isReady, router.query, router]);
-
   const handleSelectPart = (filter: string) => {
-    addQueryParamsToUrl({ filter });
+    setQueryParams({
+      ...qs,
+      filter,
+    });
     logClickEvent('filterPart', { part: filter });
   };
   const handleSelectGeneration = (generation: string | undefined) => {
-    addQueryParamsToUrl({ generation });
+    setQueryParams({
+      ...qs,
+      generation,
+    });
     logClickEvent('filterGeneration', { generation: generation ?? 'all' });
   };
   const handleSelectTeam = (team: string) => {
-    addQueryParamsToUrl({ team });
+    setQueryParams({
+      ...qs,
+      team,
+    });
     logClickEvent('filterTeam', { team });
   };
   const handleSelectMbti = (mbti: string) => {
-    addQueryParamsToUrl({ mbti });
+    setQueryParams({
+      ...qs,
+      mbti,
+    });
     logClickEvent('filterMbti', { mbti });
   };
   const handleSelectSojuCapacity = (sojuCapacity: string) => {
-    addQueryParamsToUrl({ sojuCapacity });
+    setQueryParams({
+      ...qs,
+      sojuCapacity,
+    });
     logClickEvent('filterSojuCapacity', { sojuCapacity });
   };
   const handleSelectOrderBy = (orderBy: string) => {
-    addQueryParamsToUrl({ orderBy });
+    setQueryParams({
+      ...qs,
+      orderBy,
+    });
     logClickEvent('filterOrderBy', { orderBy });
   };
   const handleSearch = (searchQuery: string) => {
-    addQueryParamsToUrl({ name: searchQuery });
+    setQueryParams({
+      ...qs,
+      name: searchQuery,
+    });
     logSubmitEvent('searchMember', { content: 'searchQuery' });
   };
   const handleClickCard = (profile: Profile) => {
@@ -175,7 +177,15 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       >
         <Responsive only='mobile'>{banner}</Responsive>
         <Responsive only='mobile'>
-          <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+          <StyledMemberSearch
+            placeholder='멤버 검색'
+            onSearch={() =>
+              setQueryParams({
+                ...qs,
+                name,
+              })
+            }
+          />
           <StyledMobileFilterWrapper>
             <StyledMobileFilter
               value={generation}
