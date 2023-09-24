@@ -87,6 +87,7 @@ const WinnerList = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: -4px;
+  padding-bottom: 2px;
   height: 312px;
   overflow-y: scroll;
 
