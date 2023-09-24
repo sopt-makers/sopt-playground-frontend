@@ -6,14 +6,13 @@ import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/O
 import useGoogleAuth from '@/components/auth/identityProvider/google/useGoogleAuth';
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
-import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import { playgroundLink } from '@/constants/links';
 
 const GoogleRegisterCallbackPage: FC = () => {
   const router = useRouter();
   const registerToken = useRecoilValue(registerTokenAtom);
   const setLastLoginMethod = useSetRecoilState(lastLoginMethodAtom);
   const googleAuth = useGoogleAuth();
-  const lastUnauthorized = useLastUnauthorized();
 
   const processParam: ProcessParamFn = async (url) => {
     const code = url.searchParams.get('code');
@@ -70,7 +69,7 @@ const GoogleRegisterCallbackPage: FC = () => {
   const handleSuccess = () => {
     setLastLoginMethod('google');
     if (registerToken?.type === 'register') {
-      router.replace(lastUnauthorized.popPath() ?? '/');
+      router.replace(playgroundLink.memberUpload());
     } else if (registerToken?.type === 'reset') {
       router.replace('/');
     }

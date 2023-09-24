@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
@@ -7,10 +8,10 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import WordchainChatting from '@/components/wordchain/WordchainChatting';
 import WordchainRules from '@/components/wordchain/WordchainRules';
+import WordchainWinners from '@/components/wordchain/WordchainWinners';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordChainMessage from '@/public/icons/icon-wordchain-message.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
@@ -43,16 +44,7 @@ const WordchainPage = () => {
                   }
                 />
               </RuleWrapper>
-              <Winners>
-                <DimmedWinners>
-                  <Text as='h2' typography='SUIT_20_B'>
-                    아직 준비 중인 기능이에요 🛠️
-                  </Text>
-                </DimmedWinners>
-                <Text as='h2' typography='SUIT_20_B'>
-                  👑 역대 우승자 명예의 전당 👑
-                </Text>
-              </Winners>
+              <WordchainWinners />
             </Sidebar>
           </Wrapper>
         </Responsive>
@@ -71,16 +63,7 @@ const WordchainPage = () => {
               }
             />
             <Divider />
-            <Winners>
-              <DimmedWinners>
-                <Text as='h2' typography='SUIT_15_B'>
-                  아직 준비 중인 기능이에요 🛠️
-                </Text>
-              </DimmedWinners>
-              <Text as='h2' typography='SUIT_14_B'>
-                👑 역대 우승자 명예의 전당 👑
-              </Text>
-            </Winners>
+            <WordchainWinners />
           </Wrapper>
           <StyledWordchainChatting />
         </MobileResponsive>

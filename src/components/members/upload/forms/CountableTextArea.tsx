@@ -1,9 +1,9 @@
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, forwardRef } from 'react';
 
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -57,7 +57,7 @@ const StyledTextArea = styled.textarea<MemberCountableTextAreaProps>`
   width: 100%;
   height: 100%;
   resize: none;
-  color: ${colors.white};
+  color: ${colors.white100};
   ${textStyles.SUIT_16_M}
 
   &::placeholder {
@@ -66,7 +66,7 @@ const StyledTextArea = styled.textarea<MemberCountableTextAreaProps>`
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
+    border-color: ${colors.gray40};
     background-color: ${colors.black80};
   }
 

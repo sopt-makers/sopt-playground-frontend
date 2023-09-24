@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const PHONE_REG_EXP = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+const PHONE_REG_EXP = /^01([0|1|5|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
 const EMAIL_REG_EXP = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 const YEAR_REG_EXP = /^\d{4}$/;
 const MONTH_REG_EXP = /^0?[1-9]{1}$|^1{1}[0-2]{1}$/;
@@ -35,10 +35,12 @@ export const memberFormSchema = yup.object().shape({
       ),
     })
     .nullable(),
-  phone: yup.lazy((value) =>
-    value === ''
-      ? yup.string()
-      : yup.string().nullable().matches(PHONE_REG_EXP, `'-'를 넣어 휴대폰 번호 양식에 맞게 입력해주세요.`),
+  phone: yup.lazy(() =>
+    yup
+      .string()
+      .nullable()
+      .required('연락처를 입력해주세요.')
+      .matches(PHONE_REG_EXP, `'-'를 넣어 휴대폰 번호 양식에 맞게 입력해주세요.`),
   ),
   email: yup.lazy((value) =>
     value === ''
@@ -73,7 +75,7 @@ export const memberFormSchema = yup.object().shape({
       }),
     )
     .nullable(),
-  allowOfficial: yup.boolean(),
+  allowOfficial: yup.boolean().nullable(),
   careers: yup
     .array()
     .of(

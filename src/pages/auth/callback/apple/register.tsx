@@ -6,14 +6,13 @@ import OAuthLoginCallback, { ProcessParamFn } from '@/components/auth/callback/O
 import useAppleAuth from '@/components/auth/identityProvider/apple/useAppleAuth';
 import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAtom';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
-import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import { playgroundLink } from '@/constants/links';
 
 const AppleRegisterCallbackPage: FC = () => {
   const router = useRouter();
   const registerToken = useRecoilValue(registerTokenAtom);
   const setLastLoginMethod = useSetRecoilState(lastLoginMethodAtom);
   const appleAuth = useAppleAuth();
-  const lastUnauthorized = useLastUnauthorized();
 
   const processParam: ProcessParamFn = async (url) => {
     const code = url.searchParams.get('code');
@@ -68,9 +67,9 @@ const AppleRegisterCallbackPage: FC = () => {
   };
 
   const handleSuccess = () => {
-    setLastLoginMethod('google');
+    setLastLoginMethod('apple');
     if (registerToken?.type === 'register') {
-      router.replace(lastUnauthorized.popPath() ?? '/');
+      router.replace(playgroundLink.memberUpload());
     } else if (registerToken?.type === 'reset') {
       router.replace('/');
     }

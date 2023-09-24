@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -79,7 +79,7 @@ const MotionMemberCard = styled(m.div)`
   align-items: center;
   transition: box-shadow 0.3s;
   border-radius: 16px;
-  background-color: ${colors.black90};
+  background-color: ${colors.black80};
   padding: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -175,7 +175,7 @@ const DimShadow = styled.span`
   top: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black90} 100%);
+  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black80} 100%);
   width: 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {

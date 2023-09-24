@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 // import IconBell from '@/public/icons/icon-bell.svg';
 import IconOutgoing from '@/public/icons/icon-link-outgoing.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -80,7 +80,8 @@ const ButtonGroup = styled.div`
 //   align-items: center;
 //   justify-content: center;
 //   border-radius: 6px;
-//   background-color: ${colors.purple100};
+//   background-color: ${colors.white100};
+//   color: ${colors.black100};
 //   cursor: pointer;
 //   padding: 14px 20px;
 

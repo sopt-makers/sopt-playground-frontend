@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, FocusEvent, forwardRef } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 export interface InputProps {
@@ -22,6 +22,7 @@ export interface InputProps {
   disabled?: boolean;
   pattern?: string;
   autoFocus?: boolean;
+  width?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -41,6 +42,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       onChange,
       onBlur,
       type = 'text',
+      width = '100%',
     },
     ref,
   ) => {
@@ -58,6 +60,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           pattern={pattern}
           ref={ref}
           autoFocus={autoFocus}
+          width={width}
         />
         {errorMessage !== undefined || !!count ? (
           <Additional>
@@ -87,8 +90,8 @@ const StyledInput = styled.input<InputProps>`
   border-radius: 6px;
   background-color: ${colors.black60};
   padding: 14px 20px;
-  width: 100%;
-  color: ${colors.white};
+  width: ${(props) => props.width};
+  color: ${colors.white100};
   ${textStyles.SUIT_16_M};
 
   &::placeholder {
@@ -97,7 +100,7 @@ const StyledInput = styled.input<InputProps>`
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
+    border-color: ${colors.gray40};
     background-color: ${colors.black80};
   }
 

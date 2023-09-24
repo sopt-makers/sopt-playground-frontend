@@ -1,20 +1,22 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import Text from '@/components/common/Text';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MemberFormHeaderProps {
   title: string;
-  essential?: boolean;
+  required?: boolean;
+  description?: string;
 }
 
-export default function MemberFormHeader({ title, essential }: MemberFormHeaderProps) {
+export default function MemberFormHeader({ title, required, description }: MemberFormHeaderProps) {
   return (
     <>
       <StyledTitle>{title}</StyledTitle>
-      {essential && <StyledEssential>*</StyledEssential>}
+      {required && <StyledRequired>*</StyledRequired>}
+      {description && <Description>{description}</Description>}
       <StyledLine />
     </>
   );
@@ -41,18 +43,32 @@ const StyledLine = styled.hr`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
-    background-color: ${colors.black80};
+    background-color: ${colors.black60};
     height: 1px;
   }
 `;
 
-const StyledEssential = styled(Text)`
+const StyledRequired = styled(Text)`
   display: inline-block;
   transform: translateY(-10px);
   margin-bottom: 20px;
   margin-left: 4px;
   line-height: 8px;
-  color: ${colors.purple100};
+  color: ${colors.orange100};
   font-size: 16px;
   font-weight: 500;
+`;
+
+const Description = styled(Text)`
+  display: block;
+  margin-top: 10px;
+  color: ${colors.gray80};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    line-height: 150%;
+    white-space: pre-line;
+
+    ${textStyles.SUIT_13_M}
+  }
 `;

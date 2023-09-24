@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useFormContext } from 'react-hook-form';
 
 import Switch from '@/components/common/Switch';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { colors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -30,7 +30,7 @@ const StyledSection = styled.section`
   width: 790px;
 
   .question {
-    color: ${colors.white};
+    color: ${colors.white100};
 
     ${textStyles.SUIT_24_B};
 

@@ -1,6 +1,7 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -37,20 +38,24 @@ const Container = styled.div`
 `;
 
 const Button = styled.button<{ isSelected: boolean }>`
-  background-color: ${({ isSelected }) => (isSelected ? colors.purple100 : colors.black60)};
+  background-color: ${({ isSelected }) => (isSelected ? colors.white100 : colors.black60)};
   cursor: pointer;
   padding: 14px 0;
   width: 76px;
-  color: ${({ isSelected }) => (isSelected ? colors.white : colors.gray80)};
+  color: ${({ isSelected }) => (isSelected ? colors.black100 : colors.white100)};
 
   ${textStyles.SUIT_16_SB}
 
-  &:hover {
-    color: ${colors.white};
-  }
+  ${({ isSelected }) =>
+    isSelected &&
+    css`
+      &:hover {
+        background-color: ${colors.gray20};
+        color: ${colors.black100};
+      }
+    `}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${({ isSelected }) => (isSelected ? colors.purple100 : colors.black80)};
     width: 50%;
   }
 `;
@@ -59,16 +64,6 @@ const LeftButton = styled(Button)`
   position: relative;
   border-top-left-radius: 13px;
   border-bottom-left-radius: 13px;
-
-  &::after {
-    position: absolute;
-    top: 10px;
-    right: -0.5px;
-    background-color: ${colors.black40};
-    width: 1px;
-    height: 24px;
-    content: '';
-  }
 `;
 
 const RightButton = styled(Button)`

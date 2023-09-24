@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { AnimationProps, m } from 'framer-motion';
 import { FC, PropsWithChildren } from 'react';
 
 import Portal from '@/components/common/Portal';
-import { colors } from '@/styles/colors';
 
 const variants: AnimationProps['variants'] = {
   loadingOne: {
@@ -78,7 +78,7 @@ const StyledLoading = styled.div`
 
 const LoadingDot = styled(m.span)<{ color: LoadingColor }>`
   border-radius: 100%;
-  background-color: ${({ color }) => (color === 'default' ? colors.purple100 : colors.white)};
+  background-color: ${({ color }) => (color === 'default' ? colors.gray20 : colors.white100)};
   width: 12px;
   height: 12px;
 `;
