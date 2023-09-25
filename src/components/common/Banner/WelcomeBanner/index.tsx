@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import desktopBackground from '@/public/icons/img/Desktop.gif';
-import Balloon from '@/public/icons/img/illust_balloon.svg';
+import BalloonImg from '@/public/icons/img/illust_balloon.png';
 import Rocket from '@/public/icons/img/illust_rocket.svg';
 import mobileBackground from '@/public/icons/img/Mobile.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -25,7 +25,7 @@ const WelcomeBanner = () => {
   return (
     <WelcomeBannerWrapper>
       <ContentWrapper>
-        {isShowRocketInt === 1 ? <Rocket /> : <Balloon />}
+        {isShowRocketInt === 1 ? <Rocket /> : <BalloonIcon src={BalloonImg.src} alt='풍선 이미지' />}
         <Title>33기 여러분, SOPT에서 만나게 되어 기뻐요!</Title>
         <SubTitle>SOPT의 놀이터, Playground에 오신 걸 환영해요</SubTitle>
       </ContentWrapper>
@@ -73,4 +73,9 @@ const SubTitle = styled.div`
   margin-top: 4px;
   color: ${colors.gray60};
   ${textStyles.SUIT_12_M};
+`;
+
+const BalloonIcon = styled.img`
+  width: 60px;
+  height: 60px;
 `;
