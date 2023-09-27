@@ -229,6 +229,7 @@ const Closed = styled.div<{ isActive: boolean }>`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 10px;
     width: 233px;
     height: 104px;
   }
