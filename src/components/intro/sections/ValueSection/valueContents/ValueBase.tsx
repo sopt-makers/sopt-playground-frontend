@@ -43,7 +43,7 @@ const Container = styled.div`
 
 const Inner = styled.div<{ reverse: boolean }>`
   display: flex;
-  gap: 20px;
+  gap: 50px;
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
@@ -96,6 +96,8 @@ const ImageBox = styled.div`
 `;
 
 const TextBox = styled.div`
+  max-width: 500px;
+  word-break: keep-all;
   color: ${colors.gray40};
 
   ${textStyles.SUIT_30_SB};

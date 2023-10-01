@@ -40,15 +40,19 @@ const CatchPhraseSection: FC<CatchPhraseSectionProps> = ({}) => {
           <MakersIcon />
           <StyledArrowIcon />
         </SiteLink>
-        <SiteLink href='https://sopt.org' target='_blank'>
+        <SiteLink href='https://sopt.org' rel='noreferrer' target='_blank'>
           <SOPTIcon />
           <StyledArrowIcon />
         </SiteLink>
-        <SiteLink href='https://sopt.org' target='_blank'>
+        <SiteLink href='https://apps.apple.com/kr/app/sopt/id6444594319' rel='noreferrer' target='_blank'>
           <StyledAppleIcon />
           <span>{`Download 'SOPT' iOS`}</span>
         </SiteLink>
-        <SiteLink href='https://sopt.org' target='_blank'>
+        <SiteLink
+          href='https://play.google.com/store/apps/details?id=org.sopt.official'
+          rel='noreferrer'
+          target='_blank'
+        >
           <StyledAndroidIcon />
           <span>{`Download 'SOPT' Android`}</span>
         </SiteLink>
