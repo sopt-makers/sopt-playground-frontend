@@ -102,3 +102,37 @@ export function AndroidIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function Icon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg width={541} height={447} viewBox='0 0 541 447' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+      <mask
+        id='prefix__a'
+        style={{
+          maskType: 'alpha',
+        }}
+        maskUnits='userSpaceOnUse'
+        x={0}
+        y={0}
+        width={541}
+        height={447}
+      >
+        <path fill='#D9D9D9' d='M0 0h541v447H0z' />
+      </mask>
+      <g opacity={0.05} mask='url(#prefix__a)'>
+        <path
+          d='M640.496 121.007L334.603 447.001h84.039l306.399-325.994h-84.545zM416.15 185.218L173.98 447.001h83.617L416.15 273.534v-88.316zM233.287 190.155L1.001 444.528h84.036l148.25-159.873v-94.5z'
+          fill='#989BA0'
+        />
+        <path
+          d='M85.018-.008v444.536H.999V-.008h84.019zM255.525 2.464v444.537h-84.018V2.464h84.018zM418.619 2.464v444.537h-84.018V2.464h84.018z'
+          fill='#FCFCFC'
+        />
+        <path
+          d='M477.403-323.532L171.509 2.462h84.039l306.399-325.994h-84.544zM640.496-323.532L334.603 2.462h84.039l306.399-325.994h-84.545z'
+          fill='#989BA0'
+        />
+      </g>
+    </svg>
+  );
+}

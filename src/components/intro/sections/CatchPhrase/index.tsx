@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { m } from 'framer-motion';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 import {
   AndroidIcon,
   AppleIcon,
   ArrowIcon,
+  Icon,
   MakersIcon,
   PlaygroundIcon,
   SOPTIcon,
@@ -18,66 +20,127 @@ import { textStyles } from '@/styles/typography';
 
 interface CatchPhraseSectionProps {}
 
+const shineColorList = ['#5DDBFF', '#FDBBF9', '#FFCA00'];
+
 const CatchPhraseSection: FC<CatchPhraseSectionProps> = ({}) => {
+  const [shineColor, setShineColor] = useState('transparent');
+
+  const handleSentenceChange = useCallback((_: unknown, idx: number) => {
+    setShineColor(shineColorList[idx] ?? 'transparent');
+  }, []);
+
   return (
-    <Container>
-      <PlaygroundIconBox>
-        <PlaygroundIcon />
-      </PlaygroundIconBox>
-      <PhraseBox>
-        <div>SOPT 구성원들과</div>
-        <TyperBox>
-          {' '}
-          {/* 높이 유지용 의도된 빈칸 */}
-          <Typer
-            sequence={[
-              [{ text: '연결', style: { color: '#5DDBFF' } }, { text: '되는 공간' }],
-              [{ text: '기회', style: { color: '#FDBBF9' } }, { text: '를 공유하는 공간' }],
-              [{ text: '즐거움', style: { color: '#FFCA00' } }, { text: '을 느끼는 공간' }],
-            ]}
-            span={{
-              fill: 1000,
-              full: 1000,
-              erase: 800,
-              empty: 300,
-            }}
-          />{' '}
-        </TyperBox>
-      </PhraseBox>
-      <LinkBox>
-        <SiteLink href={playgroundLink.makers()}>
-          <MakersIcon />
-          <StyledArrowIcon />
-        </SiteLink>
-        <SiteLink href='https://sopt.org' rel='noreferrer' target='_blank'>
-          <SOPTIcon />
-          <StyledArrowIcon />
-        </SiteLink>
-        <SiteLink href='https://apps.apple.com/kr/app/sopt/id6444594319' rel='noreferrer' target='_blank'>
-          <StyledAppleIcon />
-          <span>{`Download 'SOPT' iOS`}</span>
-        </SiteLink>
-        <SiteLink
-          href='https://play.google.com/store/apps/details?id=org.sopt.official'
-          rel='noreferrer'
-          target='_blank'
-        >
-          <StyledAndroidIcon />
-          <span>{`Download 'SOPT' Android`}</span>
-        </SiteLink>
-      </LinkBox>
-    </Container>
+    <Outer>
+      <ColorCanvas>
+        <Shine color={shineColor} />
+      </ColorCanvas>
+      <ColorCanvas>
+        <StyledBackImage />
+      </ColorCanvas>
+      <Container>
+        <PlaygroundIconBox>
+          <PlaygroundIcon />
+        </PlaygroundIconBox>
+        <PhraseBox>
+          <div>SOPT 구성원들과</div>
+          <TyperBox>
+            {' '}
+            {/* 높이 유지용 의도된 빈칸 */}
+            <Typer
+              sequence={[
+                [{ text: '연결', style: { color: '#5DDBFF' } }, { text: '되는 공간' }],
+                [{ text: '기회', style: { color: '#FDBBF9' } }, { text: '를 공유하는 공간' }],
+                [{ text: '즐거움', style: { color: '#FFCA00' } }, { text: '을 느끼는 공간' }],
+              ]}
+              span={{
+                fill: 1000,
+                full: 1000,
+                erase: 800,
+                empty: 300,
+              }}
+              onSentenceChange={handleSentenceChange}
+            />{' '}
+          </TyperBox>
+        </PhraseBox>
+        <LinkBox>
+          <SiteLink href={playgroundLink.makers()}>
+            <MakersIcon />
+            <StyledArrowIcon />
+          </SiteLink>
+          <SiteLink href='https://sopt.org' rel='noreferrer' target='_blank'>
+            <SOPTIcon />
+            <StyledArrowIcon />
+          </SiteLink>
+          <SiteLink href='https://apps.apple.com/kr/app/sopt/id6444594319' rel='noreferrer' target='_blank'>
+            <StyledAppleIcon />
+            <span>{`Download 'SOPT' iOS`}</span>
+          </SiteLink>
+          <SiteLink
+            href='https://play.google.com/store/apps/details?id=org.sopt.official'
+            rel='noreferrer'
+            target='_blank'
+          >
+            <StyledAndroidIcon />
+            <span>{`Download 'SOPT' Android`}</span>
+          </SiteLink>
+        </LinkBox>
+      </Container>
+    </Outer>
   );
 };
 
 export default CatchPhraseSection;
 
+const Outer = styled.div`
+  position: relative;
+`;
+
+const ColorCanvas = styled.div`
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+`;
+
+const StyledBackImage = styled(Icon)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 447px;
+  height: fit-content;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 180px;
+  }
+`;
+
+const Shine = styled(m.div)<{ color: string }>`
+  transition: background-color 1s;
+  margin: 0 auto;
+  border-radius: 50%;
+  mix-blend-mode: soft-light;
+  background-color: ${(props) => props.color};
+  width: 500px;
+  height: 400px;
+  will-change: transform;
+  filter: blur(80px);
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    visibility: collapse;
+  }
+`;
+
 const Container = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   padding-top: 120px;
   padding-bottom: 80px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-top: 60px;
+  }
 `;
 
 const PlaygroundIconBox = styled.div`
