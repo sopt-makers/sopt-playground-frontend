@@ -3,7 +3,14 @@ import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { AndroidIcon, AppleIcon, ArrowIcon, MakersIcon, SOPTIcon } from '@/components/intro/sections/CatchPhrase/icons';
+import {
+  AndroidIcon,
+  AppleIcon,
+  ArrowIcon,
+  MakersIcon,
+  PlaygroundIcon,
+  SOPTIcon,
+} from '@/components/intro/sections/CatchPhrase/icons';
 import Typer from '@/components/intro/sections/CatchPhrase/Typer';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -14,7 +21,9 @@ interface CatchPhraseSectionProps {}
 const CatchPhraseSection: FC<CatchPhraseSectionProps> = ({}) => {
   return (
     <Container>
-      <PlaygroundChip>SOPT Playground</PlaygroundChip>
+      <PlaygroundIconBox>
+        <PlaygroundIcon />
+      </PlaygroundIconBox>
       <PhraseBox>
         <div>SOPT 구성원들과</div>
         <TyperBox>
@@ -71,18 +80,15 @@ const Container = styled.div`
   padding-bottom: 80px;
 `;
 
-const PlaygroundChip = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid ${colors.gray80};
-  border-radius: 68px;
-  padding: 10px 24px;
+const PlaygroundIconBox = styled.div`
+  height: 50px;
 
-  ${textStyles.SUIT_16_B};
+  & > svg {
+    height: 100%;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_12_B};
+    height: 26px;
   }
 `;
 
