@@ -63,7 +63,7 @@ const Inner = styled.div<{ reverse: boolean }>`
     flex-direction: column;
     gap: 17px;
     align-items: flex-start;
-    padding: 20px 0 0;
+    padding: 20px 10px 0;
     width: fit-content;
   }
 `;

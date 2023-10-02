@@ -30,14 +30,12 @@ const CatchPhraseSection: FC<CatchPhraseSectionProps> = ({}) => {
   }, []);
 
   return (
-    <Outer>
-      <ColorCanvas>
+    <Container>
+      <BackgroundLayer>
         <Shine color={shineColor} />
-      </ColorCanvas>
-      <ColorCanvas>
         <StyledBackImage />
-      </ColorCanvas>
-      <Container>
+      </BackgroundLayer>
+      <ContentLayer>
         <PlaygroundIconBox>
           <PlaygroundIcon />
         </PlaygroundIconBox>
@@ -48,9 +46,9 @@ const CatchPhraseSection: FC<CatchPhraseSectionProps> = ({}) => {
             {/* 높이 유지용 의도된 빈칸 */}
             <Typer
               sequence={[
-                [{ text: '연결', style: { color: '#5DDBFF' } }, { text: '되는 공간' }],
-                [{ text: '기회', style: { color: '#FDBBF9' } }, { text: '를 공유하는 공간' }],
-                [{ text: '즐거움', style: { color: '#FFCA00' } }, { text: '을 느끼는 공간' }],
+                [{ text: '연결', style: { color: shineColorList[0] } }, { text: '되는 공간' }],
+                [{ text: '기회', style: { color: shineColorList[1] } }, { text: '를 공유하는 공간' }],
+                [{ text: '즐거움', style: { color: shineColorList[2] } }, { text: '을 느끼는 공간' }],
               ]}
               span={{
                 fill: 1000,
@@ -84,18 +82,18 @@ const CatchPhraseSection: FC<CatchPhraseSectionProps> = ({}) => {
             <span>{`Download 'SOPT' Android`}</span>
           </SiteLink>
         </LinkBox>
-      </Container>
-    </Outer>
+      </ContentLayer>
+    </Container>
   );
 };
 
 export default CatchPhraseSection;
 
-const Outer = styled.div`
+const Container = styled.div`
   position: relative;
 `;
 
-const ColorCanvas = styled.div`
+const BackgroundLayer = styled.div`
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -115,13 +113,14 @@ const StyledBackImage = styled(Icon)`
 `;
 
 const Shine = styled(m.div)<{ color: string }>`
+  transform: translateY(10%);
   transition: background-color 1s;
   margin: 0 auto;
   border-radius: 50%;
   mix-blend-mode: soft-light;
   background-color: ${(props) => props.color};
   width: 500px;
-  height: 400px;
+  height: 300px;
   will-change: transform;
   filter: blur(80px);
 
@@ -130,7 +129,7 @@ const Shine = styled(m.div)<{ color: string }>`
   }
 `;
 
-const Container = styled.div`
+const ContentLayer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
