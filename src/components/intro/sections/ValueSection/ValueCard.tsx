@@ -69,6 +69,15 @@ const ValueCard: FC<ValueCardProps> = ({ content, shineColor }) => {
   return (
     <Container ref={containerRef}>
       <Card
+        animate={{
+          z: mouseEntered ? (Math.sin((1 * Math.PI) / 180) * cardSize.width) / 2 : 0,
+          transition: {
+            type: 'spring',
+            bounce: 0,
+            duration: 2,
+            stiffness: 50,
+          },
+        }}
         style={{ rotateY, transformPerspective: '1000px' } as never} // 잘못된 stylelint 오류 무시
         hoverColor={shineColor}
         onMouseMove={handleMouseMove}
