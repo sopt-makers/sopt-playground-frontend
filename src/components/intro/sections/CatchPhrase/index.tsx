@@ -23,7 +23,7 @@ interface CatchPhraseSectionProps {}
 const shineColorList = ['#5DDBFF', '#FDBBF9', '#FFCA00'];
 
 const CatchPhraseSection: FC<CatchPhraseSectionProps> = ({}) => {
-  const [shineColor, setShineColor] = useState('transparent');
+  const [shineColor, setShineColor] = useState(shineColorList[0]);
 
   const handleSentenceChange = useCallback((_: unknown, idx: number) => {
     setShineColor(shineColorList[idx] ?? 'transparent');
