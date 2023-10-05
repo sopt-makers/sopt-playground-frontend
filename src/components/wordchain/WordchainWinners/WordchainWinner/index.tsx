@@ -36,7 +36,8 @@ export default function WordChainWinner({ roomId, profileImage, userId, name, is
 const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
   display: flex;
   border-radius: 10px;
-  white-space: nowrap;
+  padding: 14px 20px;
+  width: 268px;
 
   ${({ isRecent }) =>
     isRecent
@@ -49,8 +50,7 @@ const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
           background-color: ${colors.black60};
         `}
 
-  padding: 14px 20px;
-  width: 268px;
+  white-space: nowrap;
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: grid;
