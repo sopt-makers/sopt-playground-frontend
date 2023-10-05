@@ -131,8 +131,10 @@ const StyledAddableWrapper = styled(AddableWrapper)`
 `;
 
 const StyledSelectWrapper = styled.div`
-  display: flex;
+  display: grid;
   position: relative;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
   align-items: center;
   width: 100%;
