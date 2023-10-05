@@ -66,11 +66,12 @@ const StyledSidePanel = styled.div<{ isOpen: boolean }>`
 const Header = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 3px;
 `;
 
 const HeaderTitle = styled.h2`
   flex-grow: 1;
-  margin-left: 10px;
+  margin-left: 15px;
 `;
 
 const Content = styled.div`
