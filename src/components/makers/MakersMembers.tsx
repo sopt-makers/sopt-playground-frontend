@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import * as Tabs from '@radix-ui/react-tabs';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC, Fragment, useMemo } from 'react';
 
@@ -8,7 +9,6 @@ import { MakersGeneration } from '@/components/makers/data/types';
 import TeamBlock from '@/components/makers/TeamBlock';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -104,6 +104,7 @@ const TabButton = styled.a`
   border: 2px solid transparent;
   cursor: pointer;
   padding: 12px 24px;
+  min-width: max-content;
   color: ${colors.gray60};
 
   &[data-state='active'] {
@@ -120,6 +121,7 @@ const TabButton = styled.a`
 
 const TabList = styled.div`
   display: flex;
+  overflow-x: auto;
 `;
 
 const TabBottomLine = styled.div`
