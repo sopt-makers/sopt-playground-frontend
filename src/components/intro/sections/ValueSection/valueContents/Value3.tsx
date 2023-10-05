@@ -12,9 +12,7 @@ const Value3Content: FC = () => {
       message={
         <>
           <ValueBase.Highlight>다양한 스터디, 모임 </ValueBase.Highlight>
-          등을 자유롭게
-          <br />
-          개설하고, 참여할 수 있어요
+          등을 자유롭게 개설하고, 참여할 수 있어요
         </>
       }
     />

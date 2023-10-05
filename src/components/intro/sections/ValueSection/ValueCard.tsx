@@ -69,7 +69,17 @@ const ValueCard: FC<ValueCardProps> = ({ content, shineColor }) => {
   return (
     <Container ref={containerRef}>
       <Card
+        animate={{
+          z: mouseEntered ? (Math.sin((1 * Math.PI) / 180) * cardSize.width) / 2 : 0,
+          transition: {
+            type: 'spring',
+            bounce: 0,
+            duration: 2,
+            stiffness: 50,
+          },
+        }}
         style={{ rotateY, transformPerspective: '1000px' } as never} // 잘못된 stylelint 오류 무시
+        hoverColor={shineColor}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -89,15 +99,24 @@ const Container = styled.div`
   background-color: ${colors.black100};
 `;
 
-const Card = styled(m.div)`
+const Card = styled(m.div, {
+  shouldForwardProp(propName) {
+    return propName !== 'hoverColor';
+  },
+})<{ hoverColor: string }>`
   backface-visibility: hidden;
   perspective: 1000;
   transform: translateZ(0);
+  transition: border 0.3s;
   outline: 1px solid transparent;
   border: 1px solid ${colors.gray80};
   border-radius: 20px;
   overflow: hidden;
   will-change: transform;
+
+  &:hover {
+    border: 1px solid ${(props) => props.hoverColor};
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 10px;

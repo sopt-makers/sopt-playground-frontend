@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 interface TyperProps {
   sequence: Sentence[];
@@ -9,6 +9,7 @@ interface TyperProps {
     erase: number;
     empty: number;
   };
+  onSentenceChange?: (sentence: Sentence, index: number) => void;
 }
 
 type Sentence = {
@@ -18,11 +19,13 @@ type Sentence = {
   };
 }[];
 
-const Typer: FC<TyperProps> = ({ sequence, span }) => {
+const Typer: FC<TyperProps> = ({ sequence, span, onSentenceChange }) => {
+  const startTimestampRef = useRef(Date.now());
   const [sequenceId, setSequenceId] = useState(0);
   const [charId, setCharId] = useState(0);
 
-  const currentSeq = sequence[sequenceId % sequence.length];
+  const currentSeqId = sequenceId % sequence.length;
+  const currentSeq = sequence[currentSeqId];
   const flatten = currentSeq.flatMap((token, tokenIdx) =>
     [...token.text].map((char, charIdx) => (
       <Char key={`${tokenIdx}-${token.text.slice(0, charIdx)}`} color={token.style?.color}>
@@ -34,7 +37,7 @@ const Typer: FC<TyperProps> = ({ sequence, span }) => {
 
   useEffect(() => {
     let rafToken: ReturnType<typeof requestAnimationFrame> | null = null;
-    const startTimestamp = Date.now();
+    const startTimestamp = startTimestampRef.current;
     const iterSpan = span.fill + span.full + span.erase + span.empty;
 
     function raf() {
@@ -44,7 +47,10 @@ const Typer: FC<TyperProps> = ({ sequence, span }) => {
       const iterSeq = Math.floor(elapsed / iterSpan);
       const iterProgress = elapsed % iterSpan;
 
-      setSequenceId(iterSeq);
+      if (sequenceId != iterSeq) {
+        setSequenceId(iterSeq);
+        onSentenceChange?.(sequence[iterSeq % sequence.length], iterSeq % sequence.length);
+      }
 
       const s = sequence[iterSeq % sequence.length];
       const n = s.reduce((prev, k) => k.text.length + prev, 0);
@@ -72,7 +78,7 @@ const Typer: FC<TyperProps> = ({ sequence, span }) => {
         cancelAnimationFrame(rafToken);
       }
     };
-  }, [sequence, span]);
+  }, [sequence, span, onSentenceChange]);
 
   return <>{filtered}</>;
 };

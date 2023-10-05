@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { FC, ReactNode } from 'react';
+import { m, useInView } from 'framer-motion';
+import { FC, ReactNode, useRef } from 'react';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -12,9 +13,12 @@ interface ValueDescriptionProps {
 }
 
 const ValueDescription: FC<ValueDescriptionProps> = ({ subTitle, description, color }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(containerRef, { margin: '-20%' });
+
   return (
-    <Container>
-      <Line color={color} />
+    <Container ref={containerRef}>
+      <Line color={color} animate={{ opacity: inView ? 1 : 0 }} />
       <SubTitle color={color}>{subTitle}</SubTitle>
       <Description>{description}</Description>
     </Container>
@@ -40,7 +44,7 @@ const Container = styled.div`
   }
 `;
 
-const Line = styled.div`
+const Line = styled(m.div)`
   grid-area: line;
   background: ${(props) => props.color};
   background: linear-gradient(
@@ -49,11 +53,11 @@ const Line = styled.div`
     ${(props) => props.color} 50%,
     ${(props) => props.color}00 100%
   );
-  width: 1px;
+  width: 2px;
   height: 100%;
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled(m.div)`
   grid-area: subtitle;
   align-self: end;
   margin-top: 30px;

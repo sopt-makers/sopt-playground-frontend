@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { FC, ReactNode } from 'react';
+import { m, useInView } from 'framer-motion';
+import { FC, ReactNode, useRef } from 'react';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -13,11 +14,32 @@ interface ValueBaseProps {
 }
 
 const ValueBase: FC<ValueBaseProps> = ({ image, message, reverse }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const inView = useInView(containerRef, { margin: '0px 0px -30% 0px' });
+
   return (
-    <Container>
+    <Container ref={containerRef}>
       <Inner reverse={reverse ?? false}>
         <TextBox>{message}</TextBox>
-        <ImageBox>{image}</ImageBox>
+        <ImageBox
+          animate={
+            inView
+              ? {
+                  scale: 1,
+                  y: 0,
+                  opacity: 1,
+                }
+              : {
+                  scale: 0.8,
+                  y: '20%',
+                  opacity: 0.2,
+                }
+          }
+          transition={{ bounce: 0, stiffness: 50 }}
+        >
+          {image}
+        </ImageBox>
       </Inner>
     </Container>
   );
@@ -43,7 +65,7 @@ const Container = styled.div`
 
 const Inner = styled.div<{ reverse: boolean }>`
   display: flex;
-  gap: 20px;
+  gap: 50px;
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
@@ -63,12 +85,12 @@ const Inner = styled.div<{ reverse: boolean }>`
     flex-direction: column;
     gap: 17px;
     align-items: flex-start;
-    padding: 20px 0 0;
+    padding: 20px 10px 0;
     width: fit-content;
   }
 `;
 
-const ImageBox = styled.div`
+const ImageBox = styled(m.div)`
   display: flex;
   align-items: center;
   align-self: flex-end;
@@ -96,6 +118,8 @@ const ImageBox = styled.div`
 `;
 
 const TextBox = styled.div`
+  max-width: 500px;
+  word-break: keep-all;
   color: ${colors.gray40};
 
   ${textStyles.SUIT_30_SB};
