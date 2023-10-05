@@ -6,11 +6,10 @@ import { useRecoilState } from 'recoil';
 
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import { safeDecodeAccessToken } from '@/components/auth/util/accessToken';
-import Button from '@/components/common/Button';
 import TextArea from '@/components/common/TextArea';
 import useToast from '@/components/common/Toast/useToast';
 import Panel from '@/components/debug/Panel';
-import { textStyles } from '@/styles/typography';
+import { ActionBox, ActionButton, PanelContent } from '@/components/debug/styles';
 import { copyToClipboard } from '@/utils';
 
 const AccessTokenPanel: FC = () => {
@@ -58,41 +57,41 @@ const AccessTokenPanel: FC = () => {
   return (
     <Panel title='저장된 액세스 토큰'>
       {editState.type === 'editing' ? (
-        <Wrapper>
+        <PanelContent>
           <StyledTextArea
             value={editState.value}
             onChange={(e) => dispatchEdit({ type: 'change', value: e.target.value })}
             error={isEditError}
           />
           <ActionBox>
-            <StyledButton
+            <ActionButton
               variant='primary'
               onClick={() => dispatchEdit({ type: 'end' })}
               css={{ backgroundColor: colors.gray100, marginLeft: '5px' }}
             >
               취소
-            </StyledButton>
-            <StyledButton variant='primary' onClick={applyEdit}>
+            </ActionButton>
+            <ActionButton variant='primary' onClick={applyEdit}>
               확인
-            </StyledButton>
+            </ActionButton>
           </ActionBox>
-        </Wrapper>
+        </PanelContent>
       ) : (
-        <Wrapper>
+        <PanelContent>
           <StyledTextArea value={accessToken ?? ''} disabled />
           <ActionBox>
-            <StyledButton variant='primary' onClick={handleClickCopyButton}>
+            <ActionButton variant='primary' onClick={handleClickCopyButton}>
               복사
-            </StyledButton>
-            <StyledButton variant='primary' onClick={() => dispatchEdit({ type: 'change', value: accessToken ?? '' })}>
+            </ActionButton>
+            <ActionButton variant='primary' onClick={() => dispatchEdit({ type: 'change', value: accessToken ?? '' })}>
               변경
-            </StyledButton>
+            </ActionButton>
           </ActionBox>
           <div>
             <InSectionTitle>디코드된 토큰 정보</InSectionTitle>
             <StyledTextArea value={JSON.stringify(decodedToken, null, 2)} disabled />
           </div>
-        </Wrapper>
+        </PanelContent>
       )}
     </Panel>
   );
@@ -111,28 +110,8 @@ const StyledTextArea = styled(TextArea)`
       : ''}
 `;
 
-const ActionBox = styled.div`
-  display: flex;
-  gap: 10px;
-  width: 100%;
-`;
-
 const InSectionTitle = styled.div`
   margin: 5px 0;
-`;
-
-const StyledButton = styled(Button)`
-  width: 100%;
-  line-height: 100%;
-
-  ${textStyles.SUIT_16_M}
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-bottom: 15px;
 `;
 
 type States =
