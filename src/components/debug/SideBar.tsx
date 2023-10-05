@@ -74,11 +74,13 @@ const HeaderTitle = styled.h2`
 `;
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   padding: 15px 0 0;
 `;
 
 const CloseButton = styled.button`
-  /* padding: 8px 10px; */
   display: flex;
   align-items: center;
   justify-content: center;

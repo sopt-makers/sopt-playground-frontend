@@ -10,6 +10,7 @@ import Button from '@/components/common/Button';
 import TextArea from '@/components/common/TextArea';
 import useToast from '@/components/common/Toast/useToast';
 import Panel from '@/components/debug/Panel';
+import { textStyles } from '@/styles/typography';
 import { copyToClipboard } from '@/utils';
 
 const AccessTokenPanel: FC = () => {
@@ -57,7 +58,7 @@ const AccessTokenPanel: FC = () => {
   return (
     <Panel title='저장된 액세스 토큰'>
       {editState.type === 'editing' ? (
-        <>
+        <Wrapper>
           <StyledTextArea
             value={editState.value}
             onChange={(e) => dispatchEdit({ type: 'change', value: e.target.value })}
@@ -75,9 +76,9 @@ const AccessTokenPanel: FC = () => {
               확인
             </StyledButton>
           </ActionBox>
-        </>
+        </Wrapper>
       ) : (
-        <>
+        <Wrapper>
           <StyledTextArea value={accessToken ?? ''} disabled />
           <ActionBox>
             <StyledButton variant='primary' onClick={handleClickCopyButton}>
@@ -87,9 +88,11 @@ const AccessTokenPanel: FC = () => {
               변경
             </StyledButton>
           </ActionBox>
-          <InSectionTitle>디코드된 토큰 정보</InSectionTitle>
-          <StyledTextArea value={JSON.stringify(decodedToken, null, 2)} disabled />
-        </>
+          <div>
+            <InSectionTitle>디코드된 토큰 정보</InSectionTitle>
+            <StyledTextArea value={JSON.stringify(decodedToken, null, 2)} disabled />
+          </div>
+        </Wrapper>
       )}
     </Panel>
   );
@@ -111,16 +114,25 @@ const StyledTextArea = styled(TextArea)`
 const ActionBox = styled.div`
   display: flex;
   gap: 10px;
-  margin: 15px 0;
   width: 100%;
 `;
 
-const InSectionTitle = styled.h3`
+const InSectionTitle = styled.div`
   margin: 5px 0;
 `;
 
 const StyledButton = styled(Button)`
   width: 100%;
+  line-height: 100%;
+
+  ${textStyles.SUIT_16_M}
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 15px;
 `;
 
 type States =
