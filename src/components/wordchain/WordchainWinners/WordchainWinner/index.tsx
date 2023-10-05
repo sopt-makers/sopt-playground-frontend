@@ -38,6 +38,7 @@ const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
   border-radius: 10px;
   padding: 14px 20px;
   width: 268px;
+  min-width: max-content;
 
   ${({ isRecent }) =>
     isRecent
