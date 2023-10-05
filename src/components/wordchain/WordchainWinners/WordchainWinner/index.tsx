@@ -19,7 +19,7 @@ export default function WordChainWinner({ roomId, profileImage, userId, name, is
   return (
     <WordChainWinnerContainer href={playgroundLink.memberDetail(userId)} isRecent={isRecent}>
       <WinRound isRecent={isRecent}>
-        {roomId}번째 <WinnerTag> 우승자 | </WinnerTag>
+        {roomId}번째 <WinnerTag> 우승자</WinnerTag>
       </WinRound>
       <WinnerImageBox>
         {profileImage ? (
@@ -34,9 +34,11 @@ export default function WordChainWinner({ roomId, profileImage, userId, name, is
 }
 
 const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
-  display: grid;
-  grid: [row1-start] 'winRound winnerImageBox winnerName' min-content [row1-end]/ auto;
+  display: flex;
   border-radius: 10px;
+  padding: 14px 20px;
+  width: 268px;
+
   ${({ isRecent }) =>
     isRecent
       ? css`
@@ -48,8 +50,7 @@ const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
           background-color: ${colors.black60};
         `}
 
-  padding: 14px 20px;
-  width: 268px;
+  white-space: nowrap;
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: grid;
@@ -60,6 +61,7 @@ const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
     margin-right: 16px;
     background-color: transparent;
     padding: 0;
+    width: 76px;
     height: max-content;
   }
 `;
@@ -67,7 +69,6 @@ const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
 const WinRound = styled.div<{ isRecent: boolean }>`
   display: flex;
   grid-area: winRound;
-  width: 110px;
   color: ${colors.white};
   ${textStyles.SUIT_16_SB}
 
@@ -79,7 +80,6 @@ const WinRound = styled.div<{ isRecent: boolean }>`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 2px;
-    width: 35px;
     height: 12px;
     color: ${colors.gray60};
     ${textStyles.SUIT_10_M}
@@ -93,6 +93,11 @@ const WinRound = styled.div<{ isRecent: boolean }>`
 const WinnerTag = styled.p`
   display: block;
   margin: 0 5px;
+
+  &::after {
+    margin-left: 1px;
+    content: ' | ';
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;
@@ -133,7 +138,6 @@ const DefaultImage = styled.img`
 
 const WinnerName = styled.p<{ isRecent: boolean }>`
   grid-area: winnerName;
-  width: 110px;
   color: ${colors.white};
   ${textStyles.SUIT_16_SB}
 
