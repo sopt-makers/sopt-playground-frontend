@@ -66,19 +66,22 @@ const StyledSidePanel = styled.div<{ isOpen: boolean }>`
 const Header = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 3px;
 `;
 
 const HeaderTitle = styled.h2`
   flex-grow: 1;
-  margin-left: 10px;
+  margin-left: 15px;
 `;
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   padding: 15px 0 0;
 `;
 
 const CloseButton = styled.button`
-  /* padding: 8px 10px; */
   display: flex;
   align-items: center;
   justify-content: center;
