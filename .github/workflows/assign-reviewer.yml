@@ -1,0 +1,27 @@
+name: Assign Random Reviewer
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+  push:
+
+jobs:
+  assign_reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Assign Reviewer
+        run: node .github/actions/randomReviewer.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          CURRENT_USER: ${{ github.actor }}
