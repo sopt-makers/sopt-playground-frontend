@@ -162,7 +162,7 @@ const LoginPrefix = styled.span`
 export const LoginDescription = styled.p`
   margin-top: 12px;
   text-align: center;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_16_M};
 
@@ -226,7 +226,7 @@ const ResetLoginAction = styled.div`
 
 const RegisterInfo = styled.div`
   margin-top: 30px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_16_M};
 
@@ -270,7 +270,7 @@ const MotionTooltip = styled(m.div)`
 
 const TooltipRect = styled.div`
   border-radius: 12px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 18px 16px;
   white-space: nowrap;
   color: ${colors.gray30};
@@ -286,7 +286,7 @@ const TooltipRect = styled.div`
 
 const TooltipArrow = styled.div`
   border: 10px solid transparent;
-  border-top: 12px solid ${colors.black60};
+  border-top: 12px solid ${colors.gray700};
   border-bottom: 0;
   width: 0;
   height: 0;

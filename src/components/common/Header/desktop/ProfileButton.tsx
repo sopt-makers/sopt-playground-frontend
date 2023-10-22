@@ -30,7 +30,7 @@ const StyledProfileButton = styled.button`
   display: flex;
   align-items: center;
   border-radius: 19px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   cursor: pointer;
   height: 38px;
   color: ${colors.gray10};
@@ -42,7 +42,7 @@ const ImageSlot = styled.div`
   justify-content: center;
   margin-left: 3px;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 32px;
   height: 32px;
   overflow: hidden;

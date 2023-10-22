@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <Head>
-        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
+        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray400} />
       </Head>
       <GoogleTagManagerScript />
       <RecoilRoot>

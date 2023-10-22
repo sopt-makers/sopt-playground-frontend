@@ -219,7 +219,7 @@ const StyledSelect = styled(Select)`
   width: 130px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.black80};
+    background-color: ${colors.gray800};
   }
 `;
 

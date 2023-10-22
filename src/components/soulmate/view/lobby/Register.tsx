@@ -103,7 +103,7 @@ const Card = styled.div`
   gap: 50px;
   margin-top: 50px;
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 48px 39px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -144,7 +144,7 @@ const AgreeArea = styled.div`
   gap: 12px;
   align-items: center;
   margin-top: 40px;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_16_M};
 
@@ -166,16 +166,16 @@ const ApplyButton = styled.button`
   background: ${colors.gray10};
   cursor: pointer;
   padding: 14px 20px;
-  color: ${colors.black100};
+  color: ${colors.gray900};
 
   ${textStyles.SUIT_16_SB};
 
   ${(props) =>
     props.disabled &&
     css`
-      background: ${colors.black60};
+      background: ${colors.gray700};
       cursor: default;
-      color: ${colors.gray80};
+      color: ${colors.gray400};
     `}
 
   @media ${MOBILE_MEDIA_QUERY} {

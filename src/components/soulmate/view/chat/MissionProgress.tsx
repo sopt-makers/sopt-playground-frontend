@@ -66,7 +66,7 @@ const ProgressCell = styled.div<{ status: MissionStatus['status'] }>`
   ${(props) =>
     props.status === 'completed' &&
     css`
-      background-color: ${colors.black60};
+      background-color: ${colors.gray700};
     `}
   ${(props) =>
     props.status === 'running' &&
@@ -76,8 +76,8 @@ const ProgressCell = styled.div<{ status: MissionStatus['status'] }>`
     ${(props) =>
     props.status === 'waiting' &&
     css`
-      background-color: ${colors.black80};
-      color: ${colors.gray80};
+      background-color: ${colors.gray800};
+      color: ${colors.gray400};
     `}
 
     @media ${MOBILE_MEDIA_QUERY} {

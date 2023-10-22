@@ -41,7 +41,7 @@ const disclosureButtonStyle = css`
   cursor: pointer;
   padding: 8px 16px;
   width: 100%;
-  color: ${colors.gray20};
+  color: ${colors.gray50};
 `;
 
 const collapsibleContentStyle = css`

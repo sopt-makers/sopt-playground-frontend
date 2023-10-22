@@ -67,7 +67,7 @@ const AccessTokenPanel: FC = () => {
             <ActionButton
               variant='primary'
               onClick={() => dispatchEdit({ type: 'end' })}
-              css={{ backgroundColor: colors.gray100, marginLeft: '5px' }}
+              css={{ backgroundColor: colors.gray500, marginLeft: '5px' }}
             >
               취소
             </ActionButton>

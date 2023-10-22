@@ -85,7 +85,7 @@ const StyledModal = styled.div<{ width?: number }>`
   position: relative;
   z-index: 101;
   border-radius: 22.94px;
-  background: ${colors.black80};
+  background: ${colors.gray800};
   width: ${({ width }) => width ?? 450}px;
   color: ${colors.gray10};
 `;
@@ -126,7 +126,7 @@ const StyledTitle = styled.h1`
 
 const StyledContent = styled.div`
   margin-top: 18px;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_18_M};
 `;

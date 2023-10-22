@@ -192,7 +192,7 @@ const Section = styled.section`
   flex-direction: column;
   gap: 80px;
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 48px 39px;
   width: 790px;
 
@@ -236,7 +236,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 60px;
   height: 60px;
 
@@ -263,7 +263,7 @@ const MentorName = styled.div`
   ${textStyles.SUIT_20_SB};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    color: ${colors.gray40};
+    color: ${colors.gray200};
 
     ${textStyles.SUIT_14_M};
   }
@@ -281,12 +281,12 @@ const MessageButton = styled.button`
   width: 180px;
   height: 48px;
   line-height: 135%;
-  color: ${colors.black100};
+  color: ${colors.gray900};
 
   ${textStyles.SUIT_14_B}
 
   & > svg {
-    fill: ${colors.black100};
+    fill: ${colors.gray900};
     width: 16px;
     height: 16px;
   }
@@ -306,12 +306,12 @@ const ClosedMessageButton = styled.button`
   justify-content: center;
   justify-self: end;
   border-radius: 6px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   cursor: default;
   width: 249px;
   height: 48px;
   line-height: 135%;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_14_B}
 
@@ -345,7 +345,7 @@ const KeywordList = styled.div`
 
 const Keyword = styled.div`
   border-radius: 16px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 8px 15px;
   line-height: 120%;
   color: ${colors.gray10};
@@ -353,7 +353,7 @@ const Keyword = styled.div`
   ${textStyles.SUIT_14_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.black40};
+    background-color: ${colors.gray600};
   }
 `;
 
@@ -366,7 +366,7 @@ const Content = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     line-height: 120%;
-    color: ${colors.gray40};
+    color: ${colors.gray200};
 
     ${textStyles.SUIT_14_M};
   }
@@ -423,7 +423,7 @@ const Career = {
 
     @media ${MOBILE_MEDIA_QUERY} {
       gap: 4px;
-      color: ${colors.gray80};
+      color: ${colors.gray400};
 
       ${textStyles.SUIT_12_M}
 
@@ -432,7 +432,7 @@ const Career = {
         height: 12px;
 
         & > path {
-          fill: ${colors.gray80};
+          fill: ${colors.gray400};
         }
       }
     }

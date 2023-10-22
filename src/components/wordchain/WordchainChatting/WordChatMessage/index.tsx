@@ -52,7 +52,7 @@ const MessageBox = styled.div`
   gap: 8px;
   align-items: center;
   border-radius: 20px 20px 0;
-  background-color: ${colors.black100};
+  background-color: ${colors.gray900};
   padding: 16px 20px;
   width: fit-content;
 
@@ -75,7 +75,7 @@ const Word = styled.div`
 
 const Divider = styled.div`
   line-height: 120%;
-  color: ${colors.black40};
+  color: ${colors.gray600};
 
   ${textStyles.SUIT_16_M}
 `;
@@ -108,7 +108,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 40px;
   height: 40px;
 

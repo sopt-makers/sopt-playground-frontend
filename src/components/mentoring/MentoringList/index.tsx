@@ -300,7 +300,7 @@ const MentorApplicationButton = styled.a`
   gap: 6px;
   align-items: center;
   line-height: 100%;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_18_M}
 
@@ -309,7 +309,7 @@ const MentorApplicationButton = styled.a`
     height: 20px;
 
     & > path {
-      fill: ${colors.gray80};
+      fill: ${colors.gray400};
     }
   }
 

@@ -181,7 +181,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
 
 const ContainerBase = styled.div`
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   width: 790px;
   height: 100%;
 
@@ -218,7 +218,7 @@ const WordchainList = styled.div`
     position: absolute;
     bottom: -34px;
     left: 0;
-    background-color: ${colors.black60};
+    background-color: ${colors.gray700};
     width: 100%;
     height: 1px;
     content: '';
@@ -248,21 +248,21 @@ const Form = styled.form`
 
 const StyledInput = styled.input<{ isError: boolean }>`
   transition: border-color 0.5s ease-in;
-  border: 1px solid ${({ isError }) => (isError ? colors.error : colors.black80)};
+  border: 1px solid ${({ isError }) => (isError ? colors.error : colors.gray800)};
   border-radius: 14px;
-  background-color: ${colors.black100};
+  background-color: ${colors.gray900};
   padding: 24px 20px;
   width: 100%;
   line-height: 120%;
   color: ${colors.gray30};
 
   &::placeholder {
-    color: ${colors.gray80};
+    color: ${colors.gray400};
   }
 
   &:focus {
     outline: none;
-    border-color: ${({ isError }) => (isError ? colors.error : colors.gray40)};
+    border-color: ${({ isError }) => (isError ? colors.error : colors.gray200)};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

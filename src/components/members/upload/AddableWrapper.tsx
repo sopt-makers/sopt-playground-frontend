@@ -21,7 +21,7 @@ export default function MemberAddableWrapper({ onAppend, children, className }: 
         <div>추가</div>
       </StyledAddButton>
       <MobileAddButton onClick={onAppend}>
-        <IconPlus stroke={colors.gray20} />
+        <IconPlus stroke={colors.gray50} />
         <div>추가</div>
       </MobileAddButton>
     </StyledContainer>
@@ -56,11 +56,11 @@ const MobileAddButton = styled.button`
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-    border: 1px solid ${colors.gray20};
+    border: 1px solid ${colors.gray50};
     border-radius: 12px;
     padding: 16px 0;
     width: 100%;
-    color: ${colors.gray20};
+    color: ${colors.gray50};
   }
 `;
 

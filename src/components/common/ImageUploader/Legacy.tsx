@@ -78,7 +78,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height' | 'erro
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};

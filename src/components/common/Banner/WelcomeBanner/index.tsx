@@ -71,7 +71,7 @@ const Title = styled.div`
 
 const SubTitle = styled.div`
   margin-top: 4px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   ${textStyles.SUIT_12_M};
 `;
 

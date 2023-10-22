@@ -58,7 +58,7 @@ const SelectComp: FC<PropsWithChildren<SelectCompProps>> = ({ onChange, children
       <Select.Root onValueChange={onChange} {...props} open={open} onOpenChange={onOpenChange}>
         <StyledTrigger>
           <IconArrowUpDown />
-          <Text typography='SUIT_18_M' color={colors.gray80}>
+          <Text typography='SUIT_18_M' color={colors.gray400}>
             {label}
           </Text>
         </StyledTrigger>
@@ -86,7 +86,7 @@ const StyledTrigger = styled(Select.Trigger)`
 const StyledContent = styled(Select.Content)`
   margin-top: 4px;
   border-radius: 12px;
-  background: ${colors.black60};
+  background: ${colors.gray700};
   padding: 7px;
   width: var(--radix-select-trigger-width);
   max-height: 262px;
@@ -125,11 +125,11 @@ const StyledItem = styled(Select.Item)`
   cursor: pointer;
   padding: 5px 10px;
   width: 100%;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   &[data-highlighted] {
     outline: none;
-    background-color: ${colors.black40};
+    background-color: ${colors.gray600};
     color: ${colors.gray10};
   }
 

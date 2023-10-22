@@ -56,7 +56,7 @@ const Title = styled.h2`
 const Description = styled.p`
   margin-top: 12px;
   text-align: center;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_16_M}
 

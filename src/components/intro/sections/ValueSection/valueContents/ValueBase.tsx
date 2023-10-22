@@ -96,9 +96,9 @@ const ImageBox = styled(m.div)`
   align-self: flex-end;
   justify-content: center;
   transform: translateZ(0);
-  border: 1px solid var(--black40, ${colors.black40});
+  border: 1px solid var(--gray600, ${colors.gray600});
   border-radius: 16px 16px 0 0;
-  background-color: ${colors.black100};
+  background-color: ${colors.gray900};
   width: 630px;
   height: 370px;
   overflow: hidden;
@@ -120,7 +120,7 @@ const ImageBox = styled(m.div)`
 const TextBox = styled.div`
   max-width: 500px;
   word-break: keep-all;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_30_SB};
 

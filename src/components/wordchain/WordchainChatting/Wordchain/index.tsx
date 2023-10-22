@@ -106,11 +106,11 @@ const Container = styled.div`
 const InitMessage = styled.div`
   margin-bottom: 16px;
   border-radius: 20px;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   padding: 4px 8px;
   width: fit-content;
   line-height: 120%;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_13_M}
 
@@ -137,7 +137,7 @@ const WordChatMessageList = styled.div`
 const GiveUpButton = styled.button`
   margin-top: 40px;
   text-decoration-line: underline;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_16_M}
 

@@ -153,7 +153,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { er
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
@@ -184,7 +184,7 @@ const StyledSelectorControlButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   cursor: pointer;
   width: 22px;
   height: 22px;
@@ -200,7 +200,7 @@ const StyledSelector = styled.div<{ isOpen: boolean }>`
 const editButtonStyle = css`
   display: flex;
   gap: 4px;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   padding: 10px 12px;
   line-height: 100%;
   letter-spacing: -0.01em;
@@ -220,7 +220,7 @@ const StyledEditButton = styled.button`
     position: absolute;
     top: 10px;
     right: 0;
-    background-color: ${colors.gray100};
+    background-color: ${colors.gray500};
     width: 1px;
     height: 14px;
     content: '';

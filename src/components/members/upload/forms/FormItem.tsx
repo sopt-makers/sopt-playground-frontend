@@ -61,7 +61,7 @@ const StyledEssential = styled(Text)`
 const StyledDescription = styled(Text)`
   display: block;
   margin-top: 10px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;

@@ -54,7 +54,7 @@ const Container = styled.div`
   column-gap: 37px;
   align-content: center;
   border-radius: 16px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 35px 40px 36px 45px;
   width: 424px;
   min-width: 424px;
@@ -77,7 +77,7 @@ const Container = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     align-items: center;
     border-radius: 10px;
-    background-color: ${colors.black80};
+    background-color: ${colors.gray800};
     padding: 16px;
     width: 233px;
     min-width: 233px;
@@ -120,7 +120,7 @@ const EmptyProfileImage = styled.div`
   align-self: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 68px;
   height: 68px;
 
@@ -142,7 +142,7 @@ const EmptyProfileImage = styled.div`
 
 const KeywordBox = styled.span`
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 6px;
   height: fit-content;
 `;
@@ -152,7 +152,7 @@ const KeywordContent = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 14px;
-  color: ${colors.gray100};
+  color: ${colors.gray500};
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 
@@ -191,7 +191,7 @@ const Title = styled.div`
 const Mentor = styled.div`
   grid-area: mentor;
   line-height: 120%;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_14_M};
 
@@ -212,7 +212,7 @@ const Closed = styled.div<{ isActive: boolean }>`
   justify-content: center;
   opacity: 0.8;
   border-radius: 16px;
-  background-color: ${colors.black100};
+  background-color: ${colors.gray900};
   width: 424px;
   height: 224px;
   line-height: 20px;

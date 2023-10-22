@@ -39,7 +39,7 @@ export default Notifier;
 
 const StyledJoinNotifier = styled.div`
   border-radius: 16px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 32px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -57,7 +57,7 @@ const Title = styled.h2`
 
 const SubTitle = styled.h3`
   margin-top: 4px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_16_M};
 
@@ -81,7 +81,7 @@ const ButtonGroup = styled.div`
 //   justify-content: center;
 //   border-radius: 6px;
 //   background-color: ${colors.gray10};
-//   color: ${colors.black100};
+//   color: ${colors.gray900};
 //   cursor: pointer;
 //   padding: 14px 20px;
 
@@ -92,7 +92,7 @@ const ExpiredButton = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid ${colors.gray80};
+  border: 1px solid ${colors.gray400};
   border-radius: 6px;
   cursor: pointer;
   padding: 14px 20px;

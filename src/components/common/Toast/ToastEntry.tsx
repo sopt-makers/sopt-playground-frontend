@@ -32,7 +32,7 @@ const TOAST_CONTAINER_LEFT = 36;
 const StyledToastEntry = styled.div`
   display: flex;
   border-radius: 18px;
-  background: ${colors.black60};
+  background: ${colors.gray700};
   padding: 16px;
   width: fit-content;
 
@@ -68,5 +68,5 @@ const IconBox = styled.div`
 `;
 
 const ContentBox = styled.div`
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 `;

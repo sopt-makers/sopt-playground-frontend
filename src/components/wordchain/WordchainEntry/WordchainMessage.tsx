@@ -74,7 +74,7 @@ const MessageBox = styled.div`
   gap: 8px;
   align-items: center;
   border-radius: 20px 20px 0;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 16px 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -97,7 +97,7 @@ const Word = styled.div`
 
 const Divider = styled.div`
   line-height: 120%;
-  color: ${colors.black40};
+  color: ${colors.gray600};
 
   ${textStyles.SUIT_16_M}
 
@@ -110,7 +110,7 @@ const Divider = styled.div`
 
 const Name = styled.div`
   line-height: 100%;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_14_SB}
 
@@ -136,7 +136,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 40px;
   height: 40px;
 

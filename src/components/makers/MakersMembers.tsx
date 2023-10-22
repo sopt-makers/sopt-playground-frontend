@@ -105,7 +105,7 @@ const TabButton = styled.a`
   cursor: pointer;
   padding: 12px 24px;
   min-width: max-content;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   &[data-state='active'] {
     border-bottom: 2px solid ${colors.gray10};
@@ -136,9 +136,9 @@ const TabBottomLine = styled.div`
 const GenerationMessage = styled.div`
   margin-top: 50px;
   border-radius: 16px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 32px;
-  color: ${colors.gray100};
+  color: ${colors.gray500};
 
   ${textStyles.SUIT_18_M}
 

@@ -189,7 +189,7 @@ const SiteLink = styled(Link)`
   display: flex;
   align-items: center;
   transition: color 0.3s;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   &:hover {
     color: ${colors.white};

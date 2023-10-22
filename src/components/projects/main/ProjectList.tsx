@@ -134,10 +134,10 @@ const ProjectUploadButton = styled(Link)`
   border-radius: 10px;
   background-color: ${colors.gray10};
   padding: 18px 24px 18px 20px;
-  color: ${colors.black100};
+  color: ${colors.gray900};
 
   &:hover {
-    background-color: ${colors.gray20};
+    background-color: ${colors.gray50};
   }
 `;
 
@@ -189,7 +189,7 @@ const StyledGridContainer = styled.div`
 
 const StyledNoData = styled.div`
   margin-top: 120px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   ${textStyles.SUIT_16_M}
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_M}

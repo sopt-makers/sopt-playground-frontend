@@ -84,7 +84,7 @@ const ContentArea = styled.div`
 
 const Title = styled.div`
   grid-area: title;
-  color: ${colors.black100};
+  color: ${colors.gray900};
 
   ${textStyles.SUIT_26_B}
 
@@ -95,7 +95,7 @@ const Title = styled.div`
 
 const SubTitle = styled.div`
   grid-area: subtitle;
-  color: ${colors.black80};
+  color: ${colors.gray800};
 
   ${textStyles.SUIT_16_M};
 
@@ -119,7 +119,7 @@ const Logo = styled(MakersLogoDark)`
 const Arrow = styled.div`
   display: none;
   grid-area: arrow;
-  color: ${colors.black100};
+  color: ${colors.gray900};
 
   ${textStyles.SUIT_20_B}
 

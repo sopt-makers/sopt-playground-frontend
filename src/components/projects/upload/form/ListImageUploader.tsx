@@ -154,7 +154,7 @@ const ImageUploader = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & 
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
 
   ${({ width }) => buildCSSWithLength('width', width)};
@@ -187,7 +187,7 @@ const StyledSelector = styled.div`
 const editButtonStyle = css`
   display: flex;
   gap: 4px;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   padding: 10px 12px;
   line-height: 100%;
   letter-spacing: -0.01em;
@@ -207,7 +207,7 @@ const StyledEditButton = styled.button`
     position: absolute;
     top: 10px;
     right: 0;
-    background-color: ${colors.gray100};
+    background-color: ${colors.gray500};
     width: 1px;
     height: 14px;
     content: '';

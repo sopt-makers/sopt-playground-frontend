@@ -39,7 +39,7 @@ const Container = styled.div`
 const StopSoulmateLink = styled.button`
   text-decoration: underline;
   line-height: 100%;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_16_M};
 
@@ -63,7 +63,7 @@ const Description = styled.div`
   text-align: center;
   line-height: 130%;
   letter-spacing: -0.12px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_14_M};
 
@@ -82,7 +82,7 @@ const StopButton = styled.button`
   border-radius: 10px;
   background-color: ${colors.gray30};
   padding: 14px 20px;
-  color: ${colors.black80};
+  color: ${colors.gray800};
 
   ${textStyles.SUIT_16_M};
 
@@ -95,11 +95,11 @@ const StopButton = styled.button`
 
 const KeepButton = styled.button`
   border-radius: 10px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 14px 20px;
   line-height: 100%;
   letter-spacing: -0.14px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_16_M};
 

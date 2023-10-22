@@ -40,7 +40,7 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   align-items: center;
   justify-content: center;
   transition: 0.2s background-color;
-  border: 1px solid ${colors.gray100};
+  border: 1px solid ${colors.gray500};
   border-radius: 4px;
   background-color: transparent;
   width: 22.5px;

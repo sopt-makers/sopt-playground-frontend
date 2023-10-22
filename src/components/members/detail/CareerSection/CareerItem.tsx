@@ -31,7 +31,7 @@ const SubContent = styled.div`
   gap: 12px;
   align-items: center;
   line-height: 14px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_14_M};
 
@@ -46,7 +46,7 @@ const SubContent = styled.div`
 `;
 
 const Divider = styled.div`
-  background-color: ${colors.gray100};
+  background-color: ${colors.gray500};
   width: 1px;
   height: 14px;
 

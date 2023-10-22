@@ -37,13 +37,13 @@ const StyledLine = styled.hr`
   margin-top: 20px;
   margin-bottom: 0;
   border: none;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 100%;
   height: 1.5px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
-    background-color: ${colors.black60};
+    background-color: ${colors.gray700};
     height: 1px;
   }
 `;
@@ -62,7 +62,7 @@ const StyledRequired = styled(Text)`
 const Description = styled(Text)`
   display: block;
   margin-top: 10px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;

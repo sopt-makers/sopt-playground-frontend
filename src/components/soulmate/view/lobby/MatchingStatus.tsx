@@ -79,7 +79,7 @@ const Button = styled(Link)`
   background-color: ${colors.gray10};
   padding: 14px 20px;
   width: 180px;
-  color: ${colors.black100};
+  color: ${colors.gray900};
 
   ${textStyles.SUIT_16_SB};
 

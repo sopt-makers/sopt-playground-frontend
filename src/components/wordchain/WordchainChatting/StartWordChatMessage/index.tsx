@@ -69,7 +69,7 @@ const StartWord = styled.div`
   position: relative;
   margin-left: 76px;
   border-radius: 20px;
-  background-color: ${colors.black100};
+  background-color: ${colors.gray900};
   padding: 16px 20px;
   width: fit-content;
   line-height: 120%;
@@ -91,7 +91,7 @@ const Triangle = styled.div`
   top: -9px;
   left: 12px;
   border-right: 32px solid transparent;
-  border-bottom: 27px solid ${colors.black100};
+  border-bottom: 27px solid ${colors.gray900};
   border-left: 0 solid transparent;
   width: 0;
   height: 0;
