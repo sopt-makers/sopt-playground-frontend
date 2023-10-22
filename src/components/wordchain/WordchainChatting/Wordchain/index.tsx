@@ -172,7 +172,7 @@ const TrophyIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.orange100};
+  background-color: ${colors.secondary};
   width: 20px;
   height: 20px;
 

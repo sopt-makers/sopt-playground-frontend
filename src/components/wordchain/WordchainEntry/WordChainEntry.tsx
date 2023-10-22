@@ -251,5 +251,5 @@ const GotoWordChainSub = styled.div`
 `;
 
 const LastWord = styled.span`
-  color: ${colors.orange100};
+  color: ${colors.secondary};
 `;
