@@ -49,12 +49,12 @@ const Description = styled.div`
 
 const Essential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${colors.orange100};
+  color: ${colors.secondary};
   ${textStyles.SUIT_16_M};
 `;
 
 const Comment = styled(Text)`
   align-self: center;
   margin: 0 0 0 10px;
-  color: ${colors.orange100};
+  color: ${colors.secondary};
 `;

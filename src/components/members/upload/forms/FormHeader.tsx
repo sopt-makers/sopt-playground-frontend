@@ -54,7 +54,7 @@ const StyledRequired = styled(Text)`
   margin-bottom: 20px;
   margin-left: 4px;
   line-height: 8px;
-  color: ${colors.orange100};
+  color: ${colors.secondary};
   font-size: 16px;
   font-weight: 500;
 `;

@@ -35,7 +35,7 @@ const StyledTitle = styled.div`
 
 const Essential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${colors.orange100};
+  color: ${colors.secondary};
   ${textStyles.SUIT_16_M};
 `;
 
