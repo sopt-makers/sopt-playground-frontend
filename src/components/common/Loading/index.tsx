@@ -78,7 +78,7 @@ const StyledLoading = styled.div`
 
 const LoadingDot = styled(m.span)<{ color: LoadingColor }>`
   border-radius: 100%;
-  background-color: ${({ color }) => (color === 'default' ? colors.gray20 : colors.white100)};
+  background-color: ${({ color }) => (color === 'default' ? colors.gray20 : colors.gray10)};
   width: 12px;
   height: 12px;
 `;

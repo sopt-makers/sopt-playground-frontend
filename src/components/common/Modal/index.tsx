@@ -87,7 +87,7 @@ const StyledModal = styled.div<{ width?: number }>`
   border-radius: 22.94px;
   background: ${colors.black80};
   width: ${({ width }) => width ?? 450}px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 `;
 
 const StyledCloseButton = styled.button`

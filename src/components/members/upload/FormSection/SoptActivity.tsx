@@ -156,7 +156,7 @@ const StyledSelect = styled(Select)`
   border-radius: 14px;
   padding: 16px 34px 16px 20px;
   width: 100%;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M};
 

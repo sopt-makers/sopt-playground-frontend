@@ -51,7 +51,7 @@ const Container = styled.header`
   background-color: ${colors.black100};
   padding: 0 16px;
   height: 56px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 `;
 
 const NavButton = styled.button`

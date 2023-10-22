@@ -122,7 +122,7 @@ const ListItem = styled.li<{ isDirty?: boolean }>`
   justify-content: space-between;
   transition: color 0.2s;
   padding: 14px 20px;
-  color: ${({ isDirty }) => (isDirty ? colors.white100 : colors.gray100)};
+  color: ${({ isDirty }) => (isDirty ? colors.gray10 : colors.gray100)};
   ${textStyles.SUIT_16_M};
 `;
 

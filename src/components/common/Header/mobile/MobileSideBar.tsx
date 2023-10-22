@@ -165,7 +165,7 @@ const Content = styled.div`
   height: 100vh;
   overflow-y: auto;
   animation: content-show 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   @keyframes content-show {
     from {
@@ -225,7 +225,7 @@ const NavItem = styled('div')<{
   isActive?: boolean;
 }>`
   padding: 10px var(--x-gap);
-  color: ${(props) => (props.isActive ? colors.white100 : colors.gray30)};
+  color: ${(props) => (props.isActive ? colors.gray10 : colors.gray100)};
 
   ${textStyles.SUIT_18_M};
 `;
@@ -233,7 +233,7 @@ const NavItem = styled('div')<{
 const NavLinkSmall = styled.div<{ isActive?: boolean }>`
   cursor: pointer;
   padding: 8px var(--x-gap);
-  color: ${(props) => (props.isActive ? colors.white100 : colors.gray30)};
+  color: ${(props) => (props.isActive ? colors.gray10 : colors.gray100)};
 
   ${textStyles.SUIT_14_M};
 `;

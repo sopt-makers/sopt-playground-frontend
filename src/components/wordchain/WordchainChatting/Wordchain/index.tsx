@@ -156,7 +156,7 @@ const WinnerMessage = styled.div`
   margin-top: 12px;
   margin-right: 54px;
   line-height: 100%;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M}
 

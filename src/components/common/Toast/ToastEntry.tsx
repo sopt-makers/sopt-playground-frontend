@@ -49,7 +49,7 @@ const HeaderBox = styled.div`
 
 const Title = styled.h2`
   margin-bottom: 7px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_20_B};
 `;

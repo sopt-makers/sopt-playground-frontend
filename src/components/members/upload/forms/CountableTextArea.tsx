@@ -57,7 +57,7 @@ const StyledTextArea = styled.textarea<MemberCountableTextAreaProps>`
   width: 100%;
   height: 100%;
   resize: none;
-  color: ${colors.white100};
+  color: ${colors.gray10};
   ${textStyles.SUIT_16_M}
 
   &::placeholder {

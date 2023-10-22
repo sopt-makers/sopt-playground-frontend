@@ -264,7 +264,7 @@ const StyledItem = styled(Select.Item)`
   &[data-highlighted] {
     outline: none;
     background-color: ${colors.black40};
-    color: ${colors.white100};
+    color: ${colors.gray10};
   }
 
   /* &[data-disabled] {

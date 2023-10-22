@@ -108,8 +108,8 @@ const TabButton = styled.a`
   color: ${colors.gray60};
 
   &[data-state='active'] {
-    border-bottom: 2px solid ${colors.white100};
-    color: ${colors.white100};
+    border-bottom: 2px solid ${colors.gray10};
+    color: ${colors.gray10};
   }
 
   ${textStyles.SUIT_20_B};
@@ -138,7 +138,7 @@ const GenerationMessage = styled.div`
   border-radius: 16px;
   background-color: ${colors.black80};
   padding: 32px;
-  color: ${colors.gray30};
+  color: ${colors.gray100};
 
   ${textStyles.SUIT_18_M}
 

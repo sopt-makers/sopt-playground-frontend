@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import SoulmateModal from '@/components/soulmate/view/common/SoulmateModal';
-import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -80,7 +80,7 @@ const ButtonArea = styled.div`
 
 const StopButton = styled.button`
   border-radius: 10px;
-  background-color: ${colors.gray10};
+  background-color: ${colors.gray30};
   padding: 14px 20px;
   color: ${colors.black80};
 

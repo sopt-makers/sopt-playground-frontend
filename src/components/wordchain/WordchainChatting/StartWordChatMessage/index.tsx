@@ -46,7 +46,7 @@ const Makers = {
   `,
   Title: styled.div`
     line-height: 100%;
-    color: ${colors.white100};
+    color: ${colors.gray10};
 
     ${textStyles.SUIT_20_SB}
 
@@ -73,7 +73,7 @@ const StartWord = styled.div`
   padding: 16px 20px;
   width: fit-content;
   line-height: 120%;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M}
 

@@ -143,7 +143,7 @@ const TitleBox = styled(m.div)`
 
 const Name = styled.h3`
   flex-shrink: 0;
-  color: ${colors.gray10};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_18_B}
 `;
@@ -192,14 +192,14 @@ const Badge = styled.div`
   border-radius: 6px;
   background-color: ${colors.black60};
   padding: 6px 8px;
-  color: ${colors.gray30};
+  color: ${colors.gray100};
 
   ${textStyles.SUIT_11_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     background-color: ${colors.black80};
     padding: 4px 6px;
-    color: ${colors.gray30};
+    color: ${colors.gray100};
 
     ${textStyles.SUIT_11_M};
   }

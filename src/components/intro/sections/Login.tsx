@@ -66,7 +66,7 @@ const LoginButton = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background: ${colors.white100};
+  background: ${colors.gray10};
   padding: 6px 10px;
   color: ${colors.black100};
 

@@ -74,7 +74,7 @@ const StyledLabel = styled.label<{ checked?: boolean }>`
   ${({ checked }) =>
     checked &&
     css`
-      background-color: ${colors.white100};
+      background-color: ${colors.gray10};
       color: ${colors.black100};
     `}
   ${textStyles.SUIT_14_M};

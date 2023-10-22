@@ -80,7 +80,7 @@ const ButtonGroup = styled.div`
 //   align-items: center;
 //   justify-content: center;
 //   border-radius: 6px;
-//   background-color: ${colors.white100};
+//   background-color: ${colors.gray10};
 //   color: ${colors.black100};
 //   cursor: pointer;
 //   padding: 14px 20px;

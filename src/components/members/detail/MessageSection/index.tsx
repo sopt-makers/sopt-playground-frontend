@@ -100,7 +100,7 @@ const Subtitle = styled.div`
 
 const MessageButton = styled.div<{ disabled: boolean }>`
   border-radius: 14px;
-  background-color: ${({ disabled }) => (disabled ? colors.black80 : colors.white100)};
+  background-color: ${({ disabled }) => (disabled ? colors.black80 : colors.gray10)};
   cursor: pointer;
   padding: 15px 36px;
   color: ${({ disabled }) => (disabled ? colors.gray80 : colors.black100)};

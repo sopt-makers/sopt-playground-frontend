@@ -110,7 +110,7 @@ const StyledInput = styled(Command.Input)<{ isError?: boolean }>`
   border-radius: 6px;
   background: ${colors.black60};
   padding: 14px 20px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   &:focus {
     outline: none;
@@ -140,7 +140,7 @@ const StyledLabel = styled.label`
   width: 100%;
 
   ${textStyles.SUIT_16_SB};
-  ${colors.gray10};
+  ${colors.gray30};
 
   &:hover {
     svg {

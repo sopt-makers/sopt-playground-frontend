@@ -10,7 +10,7 @@ export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
     color: ${colors.gray100};
   `,
   primary: css`
-    background-color: ${colors.white100};
+    background-color: ${colors.gray10};
     color: ${colors.black100};
   `,
   danger: css`

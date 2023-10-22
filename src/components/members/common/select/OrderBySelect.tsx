@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import * as Select from '@radix-ui/react-select';
+import { colors } from '@sopt-makers/colors';
 import dynamic from 'next/dynamic';
 import React, { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 
@@ -7,7 +8,6 @@ import Text from '@/components/common/Text';
 import { SelectContext, useSelectContext } from '@/components/members/common/select/context';
 import { Overlay } from '@/components/members/common/select/Overlay';
 import IconArrowUpDown from '@/public/icons/icon-arrow-up-down.svg';
-import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 
 const SelectPortal = dynamic<Select.SelectPortalProps>(
@@ -130,7 +130,7 @@ const StyledItem = styled(Select.Item)`
   &[data-highlighted] {
     outline: none;
     background-color: ${colors.black40};
-    color: ${colors.white100};
+    color: ${colors.gray10};
   }
 
   /* &[data-disabled] {

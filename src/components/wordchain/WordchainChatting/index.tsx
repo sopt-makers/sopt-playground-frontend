@@ -254,7 +254,7 @@ const StyledInput = styled.input<{ isError: boolean }>`
   padding: 24px 20px;
   width: 100%;
   line-height: 120%;
-  color: ${colors.gray10};
+  color: ${colors.gray30};
 
   &::placeholder {
     color: ${colors.gray80};
@@ -304,7 +304,7 @@ const ErrorMessage = styled.div<{ isVisible: boolean }>`
   padding: 10px;
   width: fit-content;
   line-height: 130%;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_14_M}
 `;

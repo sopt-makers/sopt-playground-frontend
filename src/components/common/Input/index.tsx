@@ -91,7 +91,7 @@ const StyledInput = styled.input<InputProps>`
   background-color: ${colors.black60};
   padding: 14px 20px;
   width: ${(props) => props.width};
-  color: ${colors.white100};
+  color: ${colors.gray10};
   ${textStyles.SUIT_16_M};
 
   &::placeholder {

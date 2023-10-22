@@ -50,7 +50,7 @@ const StyledInput = styled.input`
   padding: 18px 45px 18px 24px;
   width: 100%;
   min-width: 60px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M};
 

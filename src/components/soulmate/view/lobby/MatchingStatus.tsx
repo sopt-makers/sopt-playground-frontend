@@ -76,7 +76,7 @@ const Button = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.white100};
+  background-color: ${colors.gray10};
   padding: 14px 20px;
   width: 180px;
   color: ${colors.black100};

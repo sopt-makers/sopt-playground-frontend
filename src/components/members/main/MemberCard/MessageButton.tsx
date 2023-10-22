@@ -51,7 +51,7 @@ const Button = styled.div`
   }
 
   & svg {
-    fill: ${colors.gray30};
+    fill: ${colors.gray100};
     width: 16px;
     height: 16px;
   }

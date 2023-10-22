@@ -84,7 +84,7 @@ const TitleBox = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_32_SB};
 
@@ -144,7 +144,7 @@ const MotionErrorMessageHolder = styled(m.div)`
 const Button = styled.button`
   margin-top: 16px;
   border-radius: 10px;
-  background-color: ${colors.white100};
+  background-color: ${colors.gray10};
   padding: 16px 0;
   color: ${colors.black100};
 

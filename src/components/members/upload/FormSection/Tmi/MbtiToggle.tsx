@@ -38,11 +38,11 @@ const Container = styled.div`
 `;
 
 const Button = styled.button<{ isSelected: boolean }>`
-  background-color: ${({ isSelected }) => (isSelected ? colors.white100 : colors.black60)};
+  background-color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.black60)};
   cursor: pointer;
   padding: 14px 0;
   width: 76px;
-  color: ${({ isSelected }) => (isSelected ? colors.black100 : colors.white100)};
+  color: ${({ isSelected }) => (isSelected ? colors.black100 : colors.gray10)};
 
   ${textStyles.SUIT_16_SB}
 

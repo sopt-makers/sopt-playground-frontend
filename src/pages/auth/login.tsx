@@ -239,7 +239,7 @@ const RegisterInfo = styled.div`
 
 const LastLogin = styled(m.div)`
   margin-top: 25px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_SB}
 `;
@@ -247,7 +247,7 @@ const LastLogin = styled(m.div)`
 const RegisterLink = styled(Link)`
   transition: 0.2s color;
   text-decoration: underline;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 `;
 
 const MotionMakersContainer = styled(m.div)`
@@ -273,7 +273,7 @@ const TooltipRect = styled.div`
   background-color: ${colors.black60};
   padding: 18px 16px;
   white-space: nowrap;
-  color: ${colors.gray10};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_16_M}
 

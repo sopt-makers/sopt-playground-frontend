@@ -68,14 +68,14 @@ const CheckCircle = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 100%;
-  background-color: ${colors.white100};
+  background-color: ${colors.gray10};
   width: 62px;
   height: 62px;
 `;
 
 const Title = styled.h1`
   margin-top: 24px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_32_SB};
 
@@ -116,7 +116,7 @@ const ViewButton = styled.a`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${colors.white100};
+  background-color: ${colors.gray10};
   cursor: pointer;
   padding: 16px 0;
   color: ${colors.black100};

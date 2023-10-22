@@ -134,12 +134,12 @@ const UploadButton = styled.a`
   ${buttonStyle}
 
   background-color: ${colors.black60};
-  color: ${colors.gray30};
+  color: ${colors.gray100};
 `;
 
 const ProfileButton = styled.a`
   ${buttonStyle}
 
-  background-color: ${colors.white100};
+  background-color: ${colors.gray10};
   color: ${colors.black100};
 `;

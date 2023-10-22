@@ -43,11 +43,11 @@ const Container = styled.div`
 
 const Button = styled.button<{ isSelected: boolean }>`
   border-radius: 13px;
-  background-color: ${({ isSelected }) => (isSelected ? colors.white100 : colors.black60)};
+  background-color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.black60)};
   cursor: pointer;
   padding: 14px 0;
   width: 122px;
-  color: ${({ isSelected }) => (isSelected ? colors.black100 : colors.white100)};
+  color: ${({ isSelected }) => (isSelected ? colors.black100 : colors.gray10)};
 
   ${textStyles.SUIT_16_SB}
 
@@ -69,7 +69,7 @@ const Button = styled.button<{ isSelected: boolean }>`
 const Versus = styled.div`
   width: 28px;
   text-align: center;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_SB};
 `;

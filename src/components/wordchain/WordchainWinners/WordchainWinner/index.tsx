@@ -44,7 +44,7 @@ const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
     isRecent
       ? css`
           margin-top: 16px;
-          background-color: ${colors.white100};
+          background-color: ${colors.gray10};
         `
       : css`
           margin-top: 12px;

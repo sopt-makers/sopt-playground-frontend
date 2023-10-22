@@ -48,7 +48,7 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
   padding: 14px 20px;
   width: 100%;
   resize: none;
-  color: ${colors.white100};
+  color: ${colors.gray10};
   ${textStyles.SUIT_16_M}
 
   &::placeholder {

@@ -23,7 +23,7 @@ const Container = styled.div`
   padding: 6px 14px;
   line-height: 100%;
   letter-spacing: -0.01em;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_14_M}
 

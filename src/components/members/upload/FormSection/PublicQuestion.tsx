@@ -30,7 +30,7 @@ const StyledSection = styled.section`
   width: 790px;
 
   .question {
-    color: ${colors.white100};
+    color: ${colors.gray10};
 
     ${textStyles.SUIT_24_B};
 

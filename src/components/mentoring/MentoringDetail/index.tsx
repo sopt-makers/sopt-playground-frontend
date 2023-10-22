@@ -258,7 +258,7 @@ const EmptyProfileImage = styled.div`
 
 const MentorName = styled.div`
   line-height: 100%;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_20_SB};
 
@@ -277,7 +277,7 @@ const MessageButton = styled.button`
   justify-content: center;
   justify-self: end;
   border-radius: 6px;
-  background-color: ${colors.white100};
+  background-color: ${colors.gray10};
   width: 180px;
   height: 48px;
   line-height: 135%;
@@ -348,7 +348,7 @@ const Keyword = styled.div`
   background-color: ${colors.black60};
   padding: 8px 15px;
   line-height: 120%;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_14_M};
 
@@ -360,7 +360,7 @@ const Keyword = styled.div`
 const Content = styled.div`
   line-height: 150%;
   white-space: pre-line;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_18_M}
 

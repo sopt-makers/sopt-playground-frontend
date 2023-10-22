@@ -105,7 +105,7 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
               current: {
                 scale: [1, 1, 1.2, 1],
                 backgroundColor: [colors.black40, colors.black40, colors.success, colors.success],
-                color: [colors.gray100, colors.gray100, colors.white100, colors.white100],
+                color: [colors.gray100, colors.gray100, colors.gray10, colors.gray10],
                 transition: {
                   times: [0, 0.7, 0.9, 1],
                   duration: 2,
@@ -122,7 +122,7 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
                 color: colors.gray100,
               },
               current: {
-                color: [colors.gray100, colors.gray100, colors.white100],
+                color: [colors.gray100, colors.gray100, colors.gray10],
                 transition: {
                   times: [0, 0.7, 1],
                   duration: 2,

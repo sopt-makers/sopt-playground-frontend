@@ -24,7 +24,7 @@ export default function MemberFormHeader({ title, required, description }: Membe
 
 const StyledTitle = styled.h2`
   display: inline;
-  color: ${colors.gray10};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_24_B};
 

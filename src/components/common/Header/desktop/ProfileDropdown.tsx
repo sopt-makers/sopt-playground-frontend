@@ -52,7 +52,7 @@ const ContentBox = styled.div`
   padding: 12px 0;
   min-width: 176px;
   animation: slide-up-and-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   & > * {
     cursor: pointer;

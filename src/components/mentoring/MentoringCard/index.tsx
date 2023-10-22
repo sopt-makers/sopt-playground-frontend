@@ -152,7 +152,7 @@ const KeywordContent = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 14px;
-  color: ${colors.gray30};
+  color: ${colors.gray100};
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 
@@ -168,7 +168,7 @@ const Title = styled.div`
   text-overflow: ellipsis;
   line-height: 22px;
   white-space: pre-line;
-  color: ${colors.gray10};
+  color: ${colors.gray30};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 

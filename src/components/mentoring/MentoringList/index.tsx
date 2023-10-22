@@ -244,7 +244,7 @@ const Container = styled.div`
 const Title = styled.div`
   text-align: start;
   line-height: 100%;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_24_B}
 

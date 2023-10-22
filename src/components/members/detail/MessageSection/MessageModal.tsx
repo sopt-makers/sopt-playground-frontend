@@ -279,7 +279,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   transition: background-color 0.2s;
   margin-top: 36px;
   border-radius: 12px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.white100)};
+  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.gray10)};
   cursor: pointer;
   padding: 14px 28px;
 `;

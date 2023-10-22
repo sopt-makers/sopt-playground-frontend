@@ -130,7 +130,7 @@ const Indicators = styled.div`
 
 const Indicator = styled.div<{ isActive?: boolean }>`
   border-radius: 50%;
-  background-color: ${({ isActive }) => (isActive ? colors.white100 : colors.black40)};
+  background-color: ${({ isActive }) => (isActive ? colors.gray10 : colors.black40)};
   cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
   width: 8px;
   height: 8px;

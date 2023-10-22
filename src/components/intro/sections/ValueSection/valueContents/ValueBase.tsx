@@ -46,7 +46,7 @@ const ValueBase: FC<ValueBaseProps> = ({ image, message, reverse }) => {
 };
 
 const Highlight = styled.span`
-  color: ${colors.white100};
+  color: ${colors.gray10};
 `;
 
 export default Object.assign(ValueBase, {

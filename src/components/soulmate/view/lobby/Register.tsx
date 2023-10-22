@@ -163,7 +163,7 @@ const ApplyButton = styled.button`
   transition: background-color 0.3s;
   margin-top: 60px;
   border-radius: 6px;
-  background: ${colors.white100};
+  background: ${colors.gray10};
   cursor: pointer;
   padding: 14px 20px;
   color: ${colors.black100};

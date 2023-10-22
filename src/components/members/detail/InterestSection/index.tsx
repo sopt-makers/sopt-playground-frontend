@@ -181,7 +181,7 @@ const BalanceGameItem = styled.div`
   background-color: ${colors.black60};
   padding: 6px 14px;
   line-height: 16px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_14_M};
 `;

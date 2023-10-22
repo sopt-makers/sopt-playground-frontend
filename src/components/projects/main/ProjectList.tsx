@@ -132,7 +132,7 @@ const ProjectUploadButton = styled(Link)`
   gap: 12px;
   align-items: center;
   border-radius: 10px;
-  background-color: ${colors.white100};
+  background-color: ${colors.gray10};
   padding: 18px 24px 18px 20px;
   color: ${colors.black100};
 
