@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
-import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 import { buildCSSWithLength, CSSValueWithLength } from '@/utils';
 
@@ -162,7 +162,7 @@ const ImageUploader = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & 
   ${({ error }) =>
     error &&
     css`
-      border: 1px solid ${colors.red100};
+      border: 1px solid ${colors.error};
     `}
 `;
 

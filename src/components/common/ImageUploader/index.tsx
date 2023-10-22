@@ -161,7 +161,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { er
   ${({ error }) =>
     error &&
     css`
-      border: 1px solid ${colors.red100};
+      border: 1px solid ${colors.error};
     `}
 `;
 

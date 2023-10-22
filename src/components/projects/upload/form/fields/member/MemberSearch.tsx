@@ -121,10 +121,10 @@ const StyledInput = styled(Command.Input)<{ isError?: boolean }>`
   ${({ isError }) =>
     isError &&
     css`
-      border-color: ${colors.red100};
+      border-color: ${colors.error};
       /* stylelint-disable-next-line no-duplicate-selectors */
       &:focus {
-        border-color: ${colors.red100};
+        border-color: ${colors.error};
       }
     `}
 `;

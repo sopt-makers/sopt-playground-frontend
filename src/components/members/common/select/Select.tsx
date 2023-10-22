@@ -135,11 +135,11 @@ const StyledTrigger = styled.div<Pick<SelectProps, 'error'>>`
   ${({ error }) =>
     error &&
     css`
-      border-color: ${colors.red100};
+      border-color: ${colors.error};
 
       &:focus {
         outline: none;
-        border-color: ${colors.red100};
+        border-color: ${colors.error};
       }
     `};
 
