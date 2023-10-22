@@ -35,12 +35,12 @@ const StyledHelpCard = styled.a<{ highlight?: boolean }>`
   gap: 10px;
   transition: background-color 0.3s, box-shadow 0.3s;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   padding: 19px 15px 18px;
 
   &:hover {
-    background-color: ${colors.black40};
+    background-color: ${colors.gray600};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -68,7 +68,7 @@ const StyledHelpCard = styled.a<{ highlight?: boolean }>`
 const Content = styled.div`
   line-height: 140%;
   white-space: pre-line;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_14_M}
 `;

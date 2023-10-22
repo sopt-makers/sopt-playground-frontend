@@ -24,7 +24,7 @@ export default function MemberFormHeader({ title, required, description }: Membe
 
 const StyledTitle = styled.h2`
   display: inline;
-  color: ${colors.gray10};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_24_B};
 
@@ -37,13 +37,13 @@ const StyledLine = styled.hr`
   margin-top: 20px;
   margin-bottom: 0;
   border: none;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 100%;
   height: 1.5px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
-    background-color: ${colors.black60};
+    background-color: ${colors.gray700};
     height: 1px;
   }
 `;
@@ -54,7 +54,7 @@ const StyledRequired = styled(Text)`
   margin-bottom: 20px;
   margin-left: 4px;
   line-height: 8px;
-  color: ${colors.orange100};
+  color: ${colors.secondary};
   font-size: 16px;
   font-weight: 500;
 `;
@@ -62,7 +62,7 @@ const StyledRequired = styled(Text)`
 const Description = styled(Text)`
   display: block;
   margin-top: 10px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;

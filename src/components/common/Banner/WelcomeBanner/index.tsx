@@ -65,13 +65,13 @@ const ContentWrapper = styled.div`
 
 const Title = styled.div`
   margin-top: 8px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
   ${textStyles.SUIT_18_B};
 `;
 
 const SubTitle = styled.div`
   margin-top: 4px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   ${textStyles.SUIT_12_M};
 `;
 

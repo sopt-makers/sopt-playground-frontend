@@ -79,7 +79,7 @@ const MotionMemberCard = styled(m.div)`
   align-items: center;
   transition: box-shadow 0.3s;
   border-radius: 16px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -103,7 +103,7 @@ const StyledAspectRatio = styled(AspectRatio.Root)`
 const StyledImageArea = styled.div`
   transform: translateZ(0);
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -143,7 +143,7 @@ const TitleBox = styled(m.div)`
 
 const Name = styled.h3`
   flex-shrink: 0;
-  color: ${colors.gray10};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_18_B}
 `;
@@ -154,7 +154,7 @@ const Belongs = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_12_M}
 `;
@@ -175,11 +175,11 @@ const DimShadow = styled.span`
   top: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black80} 100%);
+  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.gray800} 100%);
   width: 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.black100} 100%);
+    background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.gray900} 100%);
   }
 `;
 
@@ -190,16 +190,16 @@ const Badge = styled.div`
   gap: 6px;
   align-items: center;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 6px 8px;
-  color: ${colors.gray30};
+  color: ${colors.gray500};
 
   ${textStyles.SUIT_11_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.black80};
+    background-color: ${colors.gray800};
     padding: 4px 6px;
-    color: ${colors.gray30};
+    color: ${colors.gray500};
 
     ${textStyles.SUIT_11_M};
   }
@@ -217,7 +217,7 @@ const Intro = styled.p`
   margin-top: 16px;
   width: 100%;
   overflow: hidden;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
@@ -225,7 +225,7 @@ const Intro = styled.p`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
-    color: ${colors.gray100};
+    color: ${colors.gray500};
     -webkit-line-clamp: 1;
   }
 `;

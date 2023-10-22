@@ -54,14 +54,14 @@ const StyledTitle = styled(Text)`
 
 const StyledEssential = styled(Text)`
   margin: 0 0 0 4px;
-  color: ${colors.orange100};
+  color: ${colors.secondary};
   ${textStyles.SUIT_16_M};
 `;
 
 const StyledDescription = styled(Text)`
   display: block;
   margin-top: 10px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;

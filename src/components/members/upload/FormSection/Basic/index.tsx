@@ -142,7 +142,7 @@ const StyledImageUploader = styled(ImageUploader)`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
     border-radius: 21.4783px;
-    background-color: ${colors.black80};
+    background-color: ${colors.gray800};
     width: 114px;
     height: 114px;
   }

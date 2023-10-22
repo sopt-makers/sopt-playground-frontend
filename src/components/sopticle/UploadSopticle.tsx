@@ -84,7 +84,7 @@ const TitleBox = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_32_SB};
 
@@ -95,7 +95,7 @@ const Title = styled.h1`
 
 const SubTitle = styled.h2`
   margin-top: 12px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_16_M};
 
@@ -117,7 +117,7 @@ const Form = styled.form`
 
 const Label = styled.label`
   margin-bottom: 16px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_16_M};
 
@@ -144,9 +144,9 @@ const MotionErrorMessageHolder = styled(m.div)`
 const Button = styled.button`
   margin-top: 16px;
   border-radius: 10px;
-  background-color: ${colors.white100};
+  background-color: ${colors.gray10};
   padding: 16px 0;
-  color: ${colors.black100};
+  color: ${colors.gray900};
 
   ${textStyles.SUIT_16_M};
 

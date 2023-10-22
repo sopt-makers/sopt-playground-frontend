@@ -58,7 +58,7 @@ const WinnerBoard = styled.aside`
   flex-direction: column;
   align-items: center;
   border-radius: 20px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 28px;
   width: 324px;
   height: 382px;

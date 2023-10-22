@@ -66,9 +66,9 @@ export default DesktopHeader;
 
 const Container = styled.header`
   display: flex;
-  background-color: ${colors.black100};
+  background-color: ${colors.gray900};
   height: 80px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 `;
 
 const StyledBrandLink = styled.div`
@@ -95,7 +95,7 @@ const NavItem = styled.div<{ isActive: boolean }>`
   align-items: center;
   padding: 0 8px;
   height: 100%;
-  color: ${(props) => (props.isActive ? colors.white100 : colors.gray30)};
+  color: ${(props) => (props.isActive ? colors.gray10 : colors.gray500)};
 
   ${(props) =>
     props.isActive

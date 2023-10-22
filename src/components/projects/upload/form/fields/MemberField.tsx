@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { isEmpty } from 'lodash-es';
 import { FC, useMemo, useState } from 'react';
 
@@ -8,11 +9,10 @@ import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Select from '@/components/common/Select';
 import useToast from '@/components/common/Toast/useToast';
+import { MemberRoleInfo } from '@/components/projects/constants';
 import MemberSearch from '@/components/projects/upload/form/fields/member/MemberSearch';
 import { Member, MemberSearchContext } from '@/components/projects/upload/form/fields/member/MemberSearchContext';
-import { MemberRoleInfo } from '@/components/projects/constants';
 import IconTrash from '@/public/icons/icon-trash.svg';
-import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -187,7 +187,7 @@ const StyledMemberEditView = styled.div<{ isError: boolean }>`
   column-gap: 10px;
   align-items: ${({ isError }) => (isError ? 'flex-start' : 'center')};
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 10px;
   width: 100%;
 
@@ -206,13 +206,13 @@ const StyledMemberView = styled.div`
   display: flex;
   gap: 42px;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   padding: 14px 30px;
   width: 100%;
   min-height: 42px;
   white-space: nowrap;
-  color: ${colors.gray100};
+  color: ${colors.gray500};
 
   ${textStyles.SUIT_14_M};
 
@@ -237,7 +237,7 @@ const StyledMemberSearch = styled(MemberSearch)`
 `;
 
 const StyledSelect = styled(Select)`
-  border: 1px solid ${colors.black40};
+  border: 1px solid ${colors.gray600};
   border-radius: 6px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -251,7 +251,7 @@ const StyledInput = styled(Input)`
   border-radius: 6px;
 
   & > input {
-    border: 1px solid ${colors.black40};
+    border: 1px solid ${colors.gray600};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -261,10 +261,10 @@ const StyledInput = styled(Input)`
 
 const StyledEditCompleteButton = styled.button`
   border-radius: 4px;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   padding: 16px 36px;
   white-space: nowrap;
-  color: ${colors.gray100};
+  color: ${colors.gray500};
 
   ${textStyles.SUIT_14_M};
 

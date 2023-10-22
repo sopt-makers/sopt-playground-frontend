@@ -38,7 +38,7 @@ const StyledErrorWrapper = styled.div`
 
 const StyledErrorMessage = styled(Text)`
   white-space: pre-line;
-  color: ${colors.red100};
+  color: ${colors.error};
 
   ${textStyles.SUIT_12_M}
 `;

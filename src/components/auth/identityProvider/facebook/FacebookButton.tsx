@@ -38,7 +38,7 @@ const StyledFacebookButton = styled.button`
   background-color: #1877f2;
   cursor: pointer;
   height: 48px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M}
 

@@ -66,9 +66,9 @@ const LoginButton = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background: ${colors.white100};
+  background: ${colors.gray10};
   padding: 6px 10px;
-  color: ${colors.black100};
+  color: ${colors.gray900};
 
   ${textStyles.SUIT_16_M};
 
@@ -83,9 +83,9 @@ const RegisterButton = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid ${colors.black40};
+  border: 1px solid ${colors.gray600};
   border-radius: 6px;
-  background: ${colors.black80};
+  background: ${colors.gray800};
   padding: 6px 10px;
 
   ${textStyles.SUIT_16_M};

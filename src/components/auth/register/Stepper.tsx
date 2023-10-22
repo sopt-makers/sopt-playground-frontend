@@ -99,13 +99,13 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
             variants={{
               future: {
                 scale: 1,
-                backgroundColor: colors.black40,
-                color: colors.gray100,
+                backgroundColor: colors.gray600,
+                color: colors.gray500,
               },
               current: {
                 scale: [1, 1, 1.2, 1],
-                backgroundColor: [colors.black40, colors.black40, colors.blue50, colors.blue50],
-                color: [colors.gray100, colors.gray100, colors.white100, colors.white100],
+                backgroundColor: [colors.gray600, colors.gray600, colors.success, colors.success],
+                color: [colors.gray500, colors.gray500, colors.gray10, colors.gray10],
                 transition: {
                   times: [0, 0.7, 0.9, 1],
                   duration: 2,
@@ -119,10 +119,10 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
             isActive={step >= 2}
             variants={{
               future: {
-                color: colors.gray100,
+                color: colors.gray500,
               },
               current: {
-                color: [colors.gray100, colors.gray100, colors.white100],
+                color: [colors.gray500, colors.gray500, colors.gray10],
                 transition: {
                   times: [0, 0.7, 1],
                   duration: 2,
@@ -156,7 +156,7 @@ const LineArea = styled.div`
 const Line = styled(m.div)`
   position: relative;
   margin: 13px 35px 0;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   height: 2px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -167,7 +167,7 @@ const Line = styled(m.div)`
 const LineFilled = styled(m.div)`
   position: absolute;
   left: 0;
-  background-color: ${colors.blue50};
+  background-color: ${colors.success};
   width: 50%;
   height: 100%;
 `;
@@ -202,7 +202,7 @@ const Circle = styled(m.div)`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.blue50};
+  background-color: ${colors.success};
   width: 28px;
   height: 28px;
   white-space: nowrap;

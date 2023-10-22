@@ -112,7 +112,7 @@ const Logo = styled(MakersLogoWhite)`
 const Arrow = styled.div`
   display: none;
   grid-area: arrow;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_20_B}
 
