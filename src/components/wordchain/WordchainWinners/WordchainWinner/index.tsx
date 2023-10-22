@@ -44,11 +44,11 @@ const WordChainWinnerContainer = styled(Link)<{ isRecent: boolean }>`
     isRecent
       ? css`
           margin-top: 16px;
-          background-color: ${colors.white100};
+          background-color: ${colors.gray10};
         `
       : css`
           margin-top: 12px;
-          background-color: ${colors.black60};
+          background-color: ${colors.gray700};
         `}
 
   white-space: nowrap;
@@ -76,13 +76,13 @@ const WinRound = styled.div<{ isRecent: boolean }>`
   ${({ isRecent }) =>
     isRecent &&
     css`
-      color: ${colors.black100};
+      color: ${colors.gray950};
     `}
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 2px;
     height: 12px;
-    color: ${colors.gray60};
+    color: ${colors.gray300};
     ${textStyles.SUIT_10_M}
 
     ::after {
@@ -112,7 +112,7 @@ const WinnerImageBox = styled.div`
   justify-content: center;
   margin-right: 6px;
   border-radius: 50%;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   width: 20px;
   height: 20px;
   overflow: hidden;
@@ -145,7 +145,7 @@ const WinnerName = styled.p<{ isRecent: boolean }>`
   ${({ isRecent }) =>
     isRecent &&
     css`
-      color: ${colors.black100};
+      color: ${colors.gray950};
     `}
 
   @media ${MOBILE_MEDIA_QUERY} {

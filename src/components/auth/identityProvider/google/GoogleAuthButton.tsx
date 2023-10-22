@@ -34,7 +34,7 @@ const StyledGoogleAuthButton = styled(SquareLink)`
   background-color: ${colors.white};
   cursor: pointer;
   height: 48px;
-  color: ${colors.black100};
+  color: ${colors.gray950};
 
   ${textStyles.SUIT_16_M}
 

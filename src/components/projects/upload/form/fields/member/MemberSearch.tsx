@@ -106,25 +106,25 @@ const StyledSearch = styled(Command)`
 
 const StyledInput = styled(Command.Input)<{ isError?: boolean }>`
   transition: all 0.2s;
-  border: 1px solid ${colors.black40};
+  border: 1px solid ${colors.gray600};
   border-radius: 6px;
-  background: ${colors.black60};
+  background: ${colors.gray700};
   padding: 14px 20px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   &:focus {
     outline: none;
-    border-color: ${colors.gray40};
-    background-color: ${colors.black80};
+    border-color: ${colors.gray200};
+    background-color: ${colors.gray800};
   }
 
   ${({ isError }) =>
     isError &&
     css`
-      border-color: ${colors.red100};
+      border-color: ${colors.error};
       /* stylelint-disable-next-line no-duplicate-selectors */
       &:focus {
-        border-color: ${colors.red100};
+        border-color: ${colors.error};
       }
     `}
 `;
@@ -140,7 +140,7 @@ const StyledLabel = styled.label`
   width: 100%;
 
   ${textStyles.SUIT_16_SB};
-  ${colors.gray10};
+  ${colors.gray30};
 
   &:hover {
     svg {
@@ -169,14 +169,14 @@ const StyledList = styled(Command.List)`
   flex-direction: column;
   gap: 8px;
   border-radius: 6px;
-  background: ${colors.black60};
+  background: ${colors.gray700};
   padding: 8px 0;
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: absolute;
     top: 49px;
-    border: 1px solid ${colors.black40};
+    border: 1px solid ${colors.gray600};
   }
 `;
 
@@ -184,13 +184,13 @@ const StyledItem = styled(Command.Item)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   padding: 10px 16px;
-  color: ${colors.gray100};
+  color: ${colors.gray600};
 
   &:hover {
-    background-color: ${colors.black40};
+    background-color: ${colors.gray600};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

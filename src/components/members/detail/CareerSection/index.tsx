@@ -107,7 +107,7 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
   & > .circle {
     margin-top: 6px;
     border-radius: 50%;
-    background-color: ${({ isCurrent }) => (isCurrent ? '#CDF47C' : colors.gray60)};
+    background-color: ${({ isCurrent }) => (isCurrent ? '#CDF47C' : colors.gray300)};
     width: 6px;
     height: 6px;
   }
@@ -117,7 +117,7 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
     top: 16px;
     left: 2.5px;
     border-radius: 1px;
-    background-color: ${colors.gray60};
+    background-color: ${colors.gray300};
     width: 1px;
     height: 52px;
 

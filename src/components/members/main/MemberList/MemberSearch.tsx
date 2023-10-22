@@ -46,22 +46,22 @@ const StyledInput = styled.input`
   transition: all 0.2s;
   border: 1px solid transparent;
   border-radius: 10px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 18px 45px 18px 24px;
   width: 100%;
   min-width: 60px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M};
 
   &::placeholder {
-    color: ${colors.gray60};
+    color: ${colors.gray300};
   }
 
   &:focus {
     outline: none;
-    border-color: ${colors.gray40};
-    background-color: ${colors.black80};
+    border-color: ${colors.gray200};
+    background-color: ${colors.gray800};
   }
 `;
 

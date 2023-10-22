@@ -265,7 +265,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     `}
                   >
                     <IconArrowUpDown />
-                    <Text typography='SUIT_12_M' color={colors.gray80}>
+                    <Text typography='SUIT_12_M' color={colors.gray400}>
                       {placeholder}
                     </Text>
                   </div>
@@ -513,11 +513,11 @@ const StyledMakersLink = styled.div`
   border-radius: 6px;
   cursor: pointer;
   padding: 5px 10px;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   &:hover {
     outline: none;
-    background-color: ${colors.black40};
+    background-color: ${colors.gray600};
     color: ${colors.white};
   }
 `;
@@ -601,7 +601,7 @@ const EmptyTitle = styled.span`
 `;
 
 const EmptyDescription = styled.span`
-  color: ${colors.gray80};
+  color: ${colors.gray400};
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -612,7 +612,7 @@ const EmptyDescription = styled.span`
 const HLine = styled.hr`
   margin: 0;
   border: 0;
-  border-bottom: 1px solid ${colors.black80};
+  border-bottom: 1px solid ${colors.gray800};
   padding: 0;
 `;
 
@@ -632,16 +632,16 @@ const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
   justify-content: space-between;
   border: 1px solid transparent;
   border-radius: 20.5px;
-  background: ${colors.black80};
+  background: ${colors.gray800};
   padding: 8px 12px;
   min-width: 76px;
   height: 32px;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   ${({ selected }) =>
     selected &&
     css`
-      border-color: ${colors.gray80};
+      border-color: ${colors.gray400};
     `}
 
   ${textStyles.SUIT_13_M};

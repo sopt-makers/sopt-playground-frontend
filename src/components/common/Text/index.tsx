@@ -44,7 +44,7 @@ const StyledText = styled.span<TextProps>`
     css`
       ${textStyles.SUIT_12_M}
 
-      color: ${colors.red100};
+      color: ${colors.error};
     `}
   ${space}
 `;
