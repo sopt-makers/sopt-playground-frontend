@@ -32,7 +32,7 @@ const FormProgress: FC<FormProgressProps> = ({ className, title, progressLabel, 
       <StyledHeader>
         <FormTitle typography='SUIT_24_SB'>{title}</FormTitle>
         <ProgressNumber>
-          <Text typography='SUIT_12_M' color={colors.blue50}>
+          <Text typography='SUIT_12_M' color={colors.success}>
             {`${activeItems.length}/${items.length}`}
           </Text>
         </ProgressNumber>
@@ -103,7 +103,7 @@ const StyledProgressRoot = styled(Progress.Root)`
 
 const StyledProgressIndicator = styled(Progress.Indicator)`
   transition: transform 0.3s;
-  background-color: ${colors.blue50};
+  background-color: ${colors.success};
   width: 100%;
   height: 100%;
 `;
@@ -138,7 +138,7 @@ const Checked = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.blue50};
+  background-color: ${colors.success};
   width: 14px;
   height: 14px;
 `;

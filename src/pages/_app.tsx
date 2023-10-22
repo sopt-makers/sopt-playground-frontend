@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
 
-const progress = new ProgressBar({ color: colors.blue50, size: 3 });
+const progress = new ProgressBar({ color: colors.success, size: 3 });
 Router.events.on('routeChangeStart', () => progress.start());
 Router.events.on('routeChangeComplete', () => progress.finish());
 Router.events.on('routeChangeError', () => progress.finish());

@@ -44,7 +44,7 @@ const StyledInput = styled.input<{ translateX: string }>`
   height: 0;
 
   &:checked + .slider {
-    background: ${colors.blue50};
+    background: ${colors.success};
   }
 
   &:checked + .slider::before {

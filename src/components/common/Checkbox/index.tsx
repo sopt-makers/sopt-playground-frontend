@@ -48,8 +48,8 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   ${({ checked }) =>
     checked &&
     css`
-      border: 1px solid ${colors.blue40};
-      background-color: ${colors.blue50};
+      border: 1px solid ${colors.blue300};
+      background-color: ${colors.success};
     `}
 
   & > svg {

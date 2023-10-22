@@ -24,7 +24,7 @@ const StyledSideToggleButton = styled.button`
   bottom: 2px;
   z-index: 100009;
   border-radius: 7px;
-  background-color: ${colors.blue50};
+  background-color: ${colors.success};
   cursor: pointer;
   padding: 5px;
   color: ${colors.white100};
@@ -32,6 +32,6 @@ const StyledSideToggleButton = styled.button`
   ${textStyles.SUIT_14_B}
 
   &:hover {
-    background-color: ${colors.blue40};
+    background-color: ${colors.blue300};
   }
 `;

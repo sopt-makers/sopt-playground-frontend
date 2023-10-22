@@ -37,7 +37,7 @@ const disclosureButtonStyle = css`
   justify-content: space-between;
   margin-bottom: 15px;
   border-radius: 5px;
-  background-color: ${colors.blue50};
+  background-color: ${colors.success};
   cursor: pointer;
   padding: 8px 16px;
   width: 100%;
