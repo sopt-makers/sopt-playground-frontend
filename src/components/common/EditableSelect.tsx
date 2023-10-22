@@ -77,7 +77,7 @@ const StyledInput = styled.input`
   padding: 11.5px;
   width: calc(100% - 40px);
   height: 100%;
-  color: ${colors.gray500};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_16_M}
 

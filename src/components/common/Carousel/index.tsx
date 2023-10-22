@@ -98,12 +98,12 @@ const Container = styled.div`
 const Control = styled.button`
   align-self: center;
   border-radius: 50%;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   width: 40px;
   height: 40px;
 
   &:hover {
-    background-color: ${colors.gray600};
+    background-color: ${colors.black40};
   }
 `;
 
@@ -130,7 +130,7 @@ const Indicators = styled.div`
 
 const Indicator = styled.div<{ isActive?: boolean }>`
   border-radius: 50%;
-  background-color: ${({ isActive }) => (isActive ? colors.gray10 : colors.gray600)};
+  background-color: ${({ isActive }) => (isActive ? colors.white100 : colors.black40)};
   cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
   width: 8px;
   height: 8px;

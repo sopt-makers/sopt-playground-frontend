@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Text from '@/components/common/Text';
+import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 
 interface PeriodFieldProps {
@@ -56,7 +56,7 @@ const PeriodField: FC<PeriodFieldProps> = ({ value, onChange, errorMessage, isSt
       </InputGroup>
       <CheckboxContainer>
         <Checkbox checked={value.endAt === null} onChange={(e) => handleOngoingChange(e.target.checked)} />
-        <Text typography='SUIT_12_M' color={colors.gray500}>
+        <Text typography='SUIT_12_M' color={colors.gray100}>
           진행중
         </Text>
       </CheckboxContainer>
@@ -85,7 +85,7 @@ const StyledErrorMessage = styled(ErrorMessage)`
 
 const Separator = styled.span`
   margin: 0 11px;
-  color: ${colors.gray500};
+  color: ${colors.gray100};
   ${textStyles.SUIT_16_M};
 `;
 

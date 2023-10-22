@@ -95,7 +95,7 @@ const StyledSwiper = styled(Swiper)`
 
   & .swiper-button-prev,
   .swiper-button-next {
-    color: ${colors.gray30};
+    color: ${colors.gray10};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

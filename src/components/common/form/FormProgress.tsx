@@ -32,13 +32,13 @@ const FormProgress: FC<FormProgressProps> = ({ className, title, progressLabel, 
       <StyledHeader>
         <FormTitle typography='SUIT_24_SB'>{title}</FormTitle>
         <ProgressNumber>
-          <Text typography='SUIT_12_M' color={colors.success}>
+          <Text typography='SUIT_12_M' color={colors.blue50}>
             {`${activeItems.length}/${items.length}`}
           </Text>
         </ProgressNumber>
       </StyledHeader>
       <Divider />
-      <Text typography='SUIT_16_M' color={colors.gray500}>
+      <Text typography='SUIT_16_M' color={colors.gray100}>
         {progressLabel}
       </Text>
       <StyledProgressRoot value={progressPercentage}>
@@ -67,7 +67,7 @@ export default FormProgress;
 
 const StyledFormProgress = styled.div`
   border-radius: 12px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.black80};
   padding: 47px 40px;
   width: 278px;
   height: fit-content;
@@ -85,7 +85,7 @@ const ProgressNumber = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   width: 50px;
   height: 24px;
 `;
@@ -95,7 +95,7 @@ const StyledProgressRoot = styled(Progress.Root)`
   transform: translateZ(0);
   margin: 17px 0 0;
   border-radius: 100px;
-  background-color: ${colors.gray500};
+  background-color: ${colors.gray100};
   width: 100%;
   height: 6px;
   overflow: hidden;
@@ -103,7 +103,7 @@ const StyledProgressRoot = styled(Progress.Root)`
 
 const StyledProgressIndicator = styled(Progress.Indicator)`
   transition: transform 0.3s;
-  background-color: ${colors.success};
+  background-color: ${colors.blue50};
   width: 100%;
   height: 100%;
 `;
@@ -111,7 +111,7 @@ const StyledProgressIndicator = styled(Progress.Indicator)`
 const StatusList = styled.ul`
   margin: 29px 0 0;
   border-radius: 6px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   padding: 11px 0;
   list-style: none;
 `;
@@ -122,7 +122,7 @@ const ListItem = styled.li<{ isDirty?: boolean }>`
   justify-content: space-between;
   transition: color 0.2s;
   padding: 14px 20px;
-  color: ${({ isDirty }) => (isDirty ? colors.gray10 : colors.gray500)};
+  color: ${({ isDirty }) => (isDirty ? colors.white100 : colors.gray100)};
   ${textStyles.SUIT_16_M};
 `;
 
@@ -138,7 +138,7 @@ const Checked = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.success};
+  background-color: ${colors.blue50};
   width: 14px;
   height: 14px;
 `;
@@ -146,7 +146,7 @@ const Checked = styled.div`
 const Divider = styled.hr`
   margin: 36px 0 28px;
   border: none;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   width: 100%;
   height: 1.5px;
 `;

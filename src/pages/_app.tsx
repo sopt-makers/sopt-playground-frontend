@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
 
-const progress = new ProgressBar({ color: colors.success, size: 3 });
+const progress = new ProgressBar({ color: colors.blue50, size: 3 });
 Router.events.on('routeChangeStart', () => progress.start());
 Router.events.on('routeChangeComplete', () => progress.finish());
 Router.events.on('routeChangeError', () => progress.finish());
@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <Head>
-        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray400} />
+        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
       </Head>
       <GoogleTagManagerScript />
       <RecoilRoot>

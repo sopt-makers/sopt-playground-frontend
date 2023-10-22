@@ -52,7 +52,7 @@ const MessageBox = styled.div`
   gap: 8px;
   align-items: center;
   border-radius: 20px 20px 0;
-  background-color: ${colors.gray900};
+  background-color: ${colors.black100};
   padding: 16px 20px;
   width: fit-content;
 
@@ -64,7 +64,7 @@ const MessageBox = styled.div`
 
 const Word = styled.div`
   line-height: 120%;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M}
 
@@ -75,14 +75,14 @@ const Word = styled.div`
 
 const Divider = styled.div`
   line-height: 120%;
-  color: ${colors.gray600};
+  color: ${colors.black40};
 
   ${textStyles.SUIT_16_M}
 `;
 
 const Name = styled.div`
   line-height: 100%;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_SB}
 
@@ -108,7 +108,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   width: 40px;
   height: 40px;
 

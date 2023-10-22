@@ -76,7 +76,7 @@ const MobileDeleteButton = styled.button<{ isVisible: boolean }>`
   align-self: flex-end;
   margin-top: 20px;
   margin-right: 5px;
-  color: ${colors.gray300};
+  color: ${colors.gray60};
   font-size: 15px;
   font-weight: 600;
 

@@ -320,7 +320,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 36px;
-  background: ${colors.gray700};
+  background: ${colors.black60};
   width: 171px;
   height: 171px;
 `;
@@ -466,10 +466,10 @@ const StyledAddressBadgeWrapper = styled.div`
 
 const AddressBadge = styled.div`
   border-radius: 13px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   padding: 6px 14px;
   line-height: 16px;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_M};
 `;
@@ -524,7 +524,7 @@ const ProjectUploadNudge = styled.div`
   justify-content: center;
   margin-top: 60px;
   border-radius: 30px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.black80};
   height: 317px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -551,9 +551,9 @@ const ProjectUploadButton = styled(Link)`
   z-index: 1;
   margin-top: 24px;
   border-radius: 14px;
-  background-color: ${colors.gray10};
+  background-color: ${colors.white100};
   padding: 14px 48px;
-  color: ${colors.gray800};
+  color: ${colors.black80};
 
   ${textStyles.SUIT_15_SB};
 

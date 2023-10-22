@@ -162,7 +162,7 @@ const LoginPrefix = styled.span`
 export const LoginDescription = styled.p`
   margin-top: 12px;
   text-align: center;
-  color: ${colors.gray400};
+  color: ${colors.gray80};
 
   ${textStyles.SUIT_16_M};
 
@@ -226,7 +226,7 @@ const ResetLoginAction = styled.div`
 
 const RegisterInfo = styled.div`
   margin-top: 30px;
-  color: ${colors.gray400};
+  color: ${colors.gray80};
 
   ${textStyles.SUIT_16_M};
 
@@ -239,7 +239,7 @@ const RegisterInfo = styled.div`
 
 const LastLogin = styled(m.div)`
   margin-top: 25px;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_SB}
 `;
@@ -247,7 +247,7 @@ const LastLogin = styled(m.div)`
 const RegisterLink = styled(Link)`
   transition: 0.2s color;
   text-decoration: underline;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 `;
 
 const MotionMakersContainer = styled(m.div)`
@@ -270,10 +270,10 @@ const MotionTooltip = styled(m.div)`
 
 const TooltipRect = styled.div`
   border-radius: 12px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   padding: 18px 16px;
   white-space: nowrap;
-  color: ${colors.gray30};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M}
 
@@ -286,7 +286,7 @@ const TooltipRect = styled.div`
 
 const TooltipArrow = styled.div`
   border: 10px solid transparent;
-  border-top: 12px solid ${colors.gray700};
+  border-top: 12px solid ${colors.black60};
   border-bottom: 0;
   width: 0;
   height: 0;

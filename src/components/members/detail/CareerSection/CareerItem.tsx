@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
 import { Career } from '@/components/members/detail/types';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -31,7 +31,7 @@ const SubContent = styled.div`
   gap: 12px;
   align-items: center;
   line-height: 14px;
-  color: ${colors.gray300};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_14_M};
 
@@ -46,7 +46,7 @@ const SubContent = styled.div`
 `;
 
 const Divider = styled.div`
-  background-color: ${colors.gray500};
+  background-color: ${colors.gray100};
   width: 1px;
   height: 14px;
 
@@ -58,7 +58,7 @@ const Divider = styled.div`
 const CompanyName = styled.div`
   margin-bottom: 10px;
   line-height: 18px;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_18_M};
 

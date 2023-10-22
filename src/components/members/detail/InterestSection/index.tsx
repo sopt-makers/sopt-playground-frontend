@@ -178,10 +178,10 @@ const BalanceGameWrapper = styled.div`
 
 const BalanceGameItem = styled.div`
   border-radius: 13px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   padding: 6px 14px;
   line-height: 16px;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_M};
 `;

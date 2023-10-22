@@ -10,11 +10,11 @@ import { deleteProject } from '@/api/endpoint_LEGACY/projects';
 import ConfirmModal from '@/components/common/Modal/Confirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
-import { getLinkInfo } from '@/components/projects/constants';
-import { MemberRoleInfo } from '@/components/projects/constants';
 import ProjectImageSlider from '@/components/projects/main/ProjectImageSlider';
+import { getLinkInfo } from '@/components/projects/constants';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
+import { MemberRoleInfo } from '@/components/projects/constants';
 import { playgroundLink } from '@/constants/links';
 import IconTrashcan from '@/public/icons/icon-trashcan.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -225,7 +225,7 @@ const ServiceType = styled.div`
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
   background-color: white;
   padding: 6px 12px;
-  color: ${colors.gray600};
+  color: ${colors.black40};
   ${textStyles.SUIT_12_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -276,7 +276,7 @@ const ControlWrapper = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    background-color: ${colors.gray600};
+    background-color: ${colors.black40};
     cursor: pointer;
     height: 48px;
 
@@ -327,7 +327,7 @@ const StartEndAtWrapper = styled.div`
 const StartEndAt = styled.span`
   display: inline-block;
   line-height: 100%;
-  color: ${colors.gray300};
+  color: ${colors.gray60};
   font-size: 18px;
   font-weight: 500;
 
@@ -388,7 +388,7 @@ const ProjectDetailContainer = styled.section`
 `;
 const DetailContainer = styled.div`
   border-radius: 12px;
-  background: ${colors.gray800};
+  background: ${colors.black80};
   padding: 48px;
   width: 100%;
 
@@ -444,7 +444,7 @@ const LinkBox = styled.a`
   align-items: center;
   cursor: pointer;
   line-height: 160%;
-  color: ${colors.gray300};
+  color: ${colors.gray60};
   font-size: 14px;
   font-weight: 500;
 
@@ -455,7 +455,7 @@ const LinkBox = styled.a`
 
 const LinkIcon = styled.img`
   border-radius: 100%;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   width: 72px;
   height: 72px;
 
@@ -469,7 +469,7 @@ const UserWrapper = styled.div`
   flex-direction: column;
   flex-shrink: 0;
   border-radius: 12px;
-  background: ${colors.gray800};
+  background: ${colors.black80};
   padding: 48px 28px;
   height: fit-content;
 

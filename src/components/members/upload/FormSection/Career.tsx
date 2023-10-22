@@ -343,7 +343,7 @@ const StyledEditableSelect = styled(EditableSelect)`
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
     border-radius: 12px;
-    background-color: ${colors.gray800};
+    background-color: ${colors.black80};
     padding: 0;
 
     select {

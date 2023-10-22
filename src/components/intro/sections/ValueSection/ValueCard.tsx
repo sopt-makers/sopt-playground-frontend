@@ -96,7 +96,7 @@ export default ValueCard;
 
 const Container = styled.div`
   transform: translateZ(0);
-  background-color: ${colors.gray900};
+  background-color: ${colors.black100};
 `;
 
 const Card = styled(m.div, {
@@ -109,7 +109,7 @@ const Card = styled(m.div, {
   transform: translateZ(0);
   transition: border 0.3s;
   outline: 1px solid transparent;
-  border: 1px solid ${colors.gray400};
+  border: 1px solid ${colors.gray80};
   border-radius: 20px;
   overflow: hidden;
   will-change: transform;

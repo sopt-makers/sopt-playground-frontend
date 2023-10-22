@@ -59,7 +59,7 @@ const StyledBanner = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.gray900};
+  background-color: ${colors.black100};
   padding: 20px 0;
   width: 100%;
   height: 96px;

@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, useState } from 'react';
 
 import { cardStyle } from '@/components/soulmate/view/common/commonStyles';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -72,7 +72,7 @@ const ToggleButton = styled.button<{ isOpen: boolean }>`
   cursor: pointer;
   text-decoration: underline;
   text-decoration-thickness: 1;
-  color: ${colors.gray200};
+  color: ${colors.gray40};
 
   ${textStyles.SUIT_16_M};
 
@@ -102,7 +102,7 @@ const ToggleButton = styled.button<{ isOpen: boolean }>`
 const Rules = styled(m.p)`
   padding-top: 30px;
   white-space: pre-wrap;
-  color: ${colors.gray200};
+  color: ${colors.gray40};
 
   ${textStyles.SUIT_16_M};
 

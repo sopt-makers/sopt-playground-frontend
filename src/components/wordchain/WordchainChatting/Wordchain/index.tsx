@@ -106,11 +106,11 @@ const Container = styled.div`
 const InitMessage = styled.div`
   margin-bottom: 16px;
   border-radius: 20px;
-  background-color: ${colors.gray600};
+  background-color: ${colors.black40};
   padding: 4px 8px;
   width: fit-content;
   line-height: 120%;
-  color: ${colors.gray300};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_13_M}
 
@@ -137,7 +137,7 @@ const WordChatMessageList = styled.div`
 const GiveUpButton = styled.button`
   margin-top: 40px;
   text-decoration-line: underline;
-  color: ${colors.gray300};
+  color: ${colors.gray60};
 
   ${textStyles.SUIT_16_M}
 
@@ -156,7 +156,7 @@ const WinnerMessage = styled.div`
   margin-top: 12px;
   margin-right: 54px;
   line-height: 100%;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M}
 
@@ -172,7 +172,7 @@ const TrophyIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.secondary};
+  background-color: ${colors.orange100};
   width: 20px;
   height: 20px;
 

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import * as Select from '@radix-ui/react-select';
-import { colors } from '@sopt-makers/colors';
 import dynamic from 'next/dynamic';
 import React, { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 
@@ -8,6 +7,7 @@ import Text from '@/components/common/Text';
 import { SelectContext, useSelectContext } from '@/components/members/common/select/context';
 import { Overlay } from '@/components/members/common/select/Overlay';
 import IconArrowUpDown from '@/public/icons/icon-arrow-up-down.svg';
+import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 
 const SelectPortal = dynamic<Select.SelectPortalProps>(
@@ -58,7 +58,7 @@ const SelectComp: FC<PropsWithChildren<SelectCompProps>> = ({ onChange, children
       <Select.Root onValueChange={onChange} {...props} open={open} onOpenChange={onOpenChange}>
         <StyledTrigger>
           <IconArrowUpDown />
-          <Text typography='SUIT_18_M' color={colors.gray400}>
+          <Text typography='SUIT_18_M' color={colors.gray80}>
             {label}
           </Text>
         </StyledTrigger>
@@ -86,7 +86,7 @@ const StyledTrigger = styled(Select.Trigger)`
 const StyledContent = styled(Select.Content)`
   margin-top: 4px;
   border-radius: 12px;
-  background: ${colors.gray700};
+  background: ${colors.black60};
   padding: 7px;
   width: var(--radix-select-trigger-width);
   max-height: 262px;
@@ -125,12 +125,12 @@ const StyledItem = styled(Select.Item)`
   cursor: pointer;
   padding: 5px 10px;
   width: 100%;
-  color: ${colors.gray200};
+  color: ${colors.gray40};
 
   &[data-highlighted] {
     outline: none;
-    background-color: ${colors.gray600};
-    color: ${colors.gray10};
+    background-color: ${colors.black40};
+    color: ${colors.white100};
   }
 
   /* &[data-disabled] {
