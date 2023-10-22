@@ -68,10 +68,10 @@ const StyledInput = styled.input<Omit<MemberCountableInputProps, 'maxCount'>>`
   ${({ error }) =>
     error &&
     css`
-      border-color: ${colors.red100};
+      border-color: ${colors.error};
 
       :focus {
-        border-color: ${colors.red100};
+        border-color: ${colors.error};
       }
     `}
 `;

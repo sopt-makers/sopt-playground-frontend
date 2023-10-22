@@ -248,7 +248,7 @@ const Form = styled.form`
 
 const StyledInput = styled.input<{ isError: boolean }>`
   transition: border-color 0.5s ease-in;
-  border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black80)};
+  border: 1px solid ${({ isError }) => (isError ? colors.error : colors.black80)};
   border-radius: 14px;
   background-color: ${colors.black100};
   padding: 24px 20px;
@@ -262,7 +262,7 @@ const StyledInput = styled.input<{ isError: boolean }>`
 
   &:focus {
     outline: none;
-    border-color: ${({ isError }) => (isError ? colors.red100 : colors.gray40)};
+    border-color: ${({ isError }) => (isError ? colors.error : colors.gray40)};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -300,7 +300,7 @@ const ErrorMessage = styled.div<{ isVisible: boolean }>`
   transition: opacity 0.5s ease-in;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   border-radius: 10px;
-  background-color: ${colors.red100};
+  background-color: ${colors.error};
   padding: 10px;
   width: fit-content;
   line-height: 130%;
@@ -316,7 +316,7 @@ const Triangle = styled.div<{ isVisible: boolean }>`
   transition: opacity 0.5s ease-in;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   border-right: 8px solid transparent;
-  border-bottom: calc(8px * 1.6) solid ${colors.red100};
+  border-bottom: calc(8px * 1.6) solid ${colors.error};
   border-left: 8px solid transparent;
   width: 0;
   height: 0;

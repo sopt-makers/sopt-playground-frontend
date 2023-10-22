@@ -44,10 +44,10 @@ const StyledSelect = styled.select<Pick<SelectProps, 'width' | 'error'>>`
   ${({ error }) =>
     error &&
     css`
-      border-color: ${colors.red100};
+      border-color: ${colors.error};
 
       :focus {
-        border-color: ${colors.red100};
+        border-color: ${colors.error};
       }
     `}
 `;
