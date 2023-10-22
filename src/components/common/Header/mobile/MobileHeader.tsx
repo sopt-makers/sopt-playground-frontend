@@ -48,10 +48,10 @@ export default MobileHeader;
 
 const Container = styled.header`
   display: flex;
-  background-color: ${colors.gray900};
+  background-color: ${colors.black100};
   padding: 0 16px;
   height: 56px;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 `;
 
 const NavButton = styled.button`

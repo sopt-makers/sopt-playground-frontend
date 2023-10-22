@@ -19,16 +19,16 @@ const Container = styled.div`
   align-items: center;
   transition: background-color 0.2s;
   border-radius: 13px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   padding: 6px 14px;
   line-height: 100%;
   letter-spacing: -0.01em;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_14_M}
 
   &:hover {
-    background-color: ${colors.gray600};
+    background-color: ${colors.black40};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

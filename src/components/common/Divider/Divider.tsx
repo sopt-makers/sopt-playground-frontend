@@ -6,7 +6,7 @@ interface DividerProps {
   className?: string;
   color?: string;
 }
-const Divider: FC<DividerProps> = ({ color = colors.gray700, className }) => {
+const Divider: FC<DividerProps> = ({ color = colors.black60, className }) => {
   return <StyledDivider className={className} color={color} />;
 };
 

@@ -244,7 +244,7 @@ const Container = styled.div`
 const Title = styled.div`
   text-align: start;
   line-height: 100%;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_24_B}
 
@@ -300,7 +300,7 @@ const MentorApplicationButton = styled.a`
   gap: 6px;
   align-items: center;
   line-height: 100%;
-  color: ${colors.gray400};
+  color: ${colors.gray80};
 
   ${textStyles.SUIT_18_M}
 
@@ -309,7 +309,7 @@ const MentorApplicationButton = styled.a`
     height: 20px;
 
     & > path {
-      fill: ${colors.gray400};
+      fill: ${colors.gray80};
     }
   }
 

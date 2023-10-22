@@ -42,6 +42,6 @@ const StyledErrorWrapper = styled.div`
 `;
 
 const StyledErrorMessage = styled(Text)`
-  color: ${colors.error};
+  color: ${colors.red100};
   ${textStyles.SUIT_12_M}
 `;

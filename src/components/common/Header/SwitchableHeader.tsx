@@ -36,7 +36,7 @@ const NotLoggedInHeader = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
-    background-color: ${colors.gray900};
+    background-color: ${colors.black100};
     height: 60px;
   }
 `;

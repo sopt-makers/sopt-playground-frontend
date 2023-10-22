@@ -40,7 +40,7 @@ const StyledMenu = styled.ul`
   flex-direction: column;
   gap: 13px;
   border-radius: 6px;
-  background-color: ${colors.gray900};
+  background-color: ${colors.black100};
   width: 235px;
 `;
 
@@ -70,18 +70,18 @@ const StyledMenuItem = styled.li<{ isSelected?: boolean }>`
   justify-content: space-between;
   transition: background-color 0.3s;
   border-radius: 16px;
-  background-color: ${colors.gray900};
+  background-color: ${colors.black100};
   cursor: pointer;
   padding: 20px 21px;
 
   ${({ isSelected }) =>
     isSelected &&
     css`
-      background-color: ${colors.gray800};
+      background-color: ${colors.black80};
     `}
 
   &:hover {
-    background-color: ${colors.gray800};
+    background-color: ${colors.black80};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

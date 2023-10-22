@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
+import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 import { buildCSSWithLength, CSSValueWithLength } from '@/utils';
 
@@ -154,7 +154,7 @@ const ImageUploader = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & 
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   cursor: pointer;
 
   ${({ width }) => buildCSSWithLength('width', width)};
@@ -162,7 +162,7 @@ const ImageUploader = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & 
   ${({ error }) =>
     error &&
     css`
-      border: 1px solid ${colors.error};
+      border: 1px solid ${colors.red100};
     `}
 `;
 
@@ -187,7 +187,7 @@ const StyledSelector = styled.div`
 const editButtonStyle = css`
   display: flex;
   gap: 4px;
-  background-color: ${colors.gray600};
+  background-color: ${colors.black40};
   padding: 10px 12px;
   line-height: 100%;
   letter-spacing: -0.01em;
@@ -207,7 +207,7 @@ const StyledEditButton = styled.button`
     position: absolute;
     top: 10px;
     right: 0;
-    background-color: ${colors.gray500};
+    background-color: ${colors.gray100};
     width: 1px;
     height: 14px;
     content: '';

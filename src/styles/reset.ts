@@ -6,7 +6,7 @@ export const reset = css`
   html,
   body {
     background: #fff;
-    color: ${colors.gray10};
+    color: ${colors.white100};
     font-family: SUIT, sans-serif;
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
@@ -112,7 +112,7 @@ export const reset = css`
   a {
     outline: none;
     text-decoration: none;
-    color: ${colors.gray10};
+    color: ${colors.white100};
   }
 
   a:hover,
@@ -248,7 +248,7 @@ export const reset = css`
   [type='reset'],
   [type='submit'] {
     appearance: button;
-    color: ${colors.gray10};
+    color: ${colors.white100};
   }
 
   /**

@@ -96,7 +96,7 @@ const Generation = styled.div`
 
 const BelongArea = styled.div`
   grid-area: belongs;
-  color: ${colors.gray500};
+  color: ${colors.gray30};
 
   ${textStyles.SUIT_18_M}
 

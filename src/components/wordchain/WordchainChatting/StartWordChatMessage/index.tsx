@@ -46,7 +46,7 @@ const Makers = {
   `,
   Title: styled.div`
     line-height: 100%;
-    color: ${colors.gray10};
+    color: ${colors.white100};
 
     ${textStyles.SUIT_20_SB}
 
@@ -69,11 +69,11 @@ const StartWord = styled.div`
   position: relative;
   margin-left: 76px;
   border-radius: 20px;
-  background-color: ${colors.gray900};
+  background-color: ${colors.black100};
   padding: 16px 20px;
   width: fit-content;
   line-height: 120%;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M}
 
@@ -91,7 +91,7 @@ const Triangle = styled.div`
   top: -9px;
   left: 12px;
   border-right: 32px solid transparent;
-  border-bottom: 27px solid ${colors.gray900};
+  border-bottom: 27px solid ${colors.black100};
   border-left: 0 solid transparent;
   width: 0;
   height: 0;

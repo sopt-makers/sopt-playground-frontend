@@ -23,14 +23,14 @@ const VerifySubmitButton = styled.button`
   ${(props) =>
     props.disabled
       ? css`
-          background-color: ${colors.gray800};
+          background-color: ${colors.black80};
           cursor: default;
-          color: ${colors.gray300};
+          color: ${colors.gray60};
         `
       : css`
-          background-color: ${colors.gray10};
+          background-color: ${colors.white100};
           cursor: pointer;
-          color: ${colors.gray900};
+          color: ${colors.black100};
         `}
 `;
 export default VerifySubmitButton;

@@ -156,13 +156,13 @@ const StyledSelect = styled(Select)`
   border-radius: 14px;
   padding: 16px 34px 16px 20px;
   width: 100%;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 12px;
-    background-color: ${colors.gray800};
+    background-color: ${colors.black80};
     width: 100%;
   }
 `;

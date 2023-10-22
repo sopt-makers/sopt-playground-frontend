@@ -31,7 +31,7 @@ const Container = styled.div`
 
 const Label = styled.div`
   line-height: 100%;
-  color: ${colors.gray10};
+  color: ${colors.white100};
 
   ${textStyles.SUIT_24_B};
 

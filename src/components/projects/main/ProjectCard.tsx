@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -9,6 +8,7 @@ import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { categoryLabel } from '@/components/projects/constants';
 import { playgroundLink } from '@/constants/links';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -41,11 +41,11 @@ const ProjectCard: FC<ProjectDetail> = ({
       <StyledContent>
         <StyledTitleWrapper>
           <Text typography='SUIT_18_B'>{name}</Text>
-          <Text typography='SUIT_12_SB' color={colors.gray500}>
+          <Text typography='SUIT_12_SB' color={colors.gray100}>
             {generation ? `${generation}기 ${categoryLabel[category]}` : categoryLabel[category]}
           </Text>
         </StyledTitleWrapper>
-        <Text typography='SUIT_14_M' color={colors.gray300}>
+        <Text typography='SUIT_14_M' color={colors.gray60}>
           {summary}
         </Text>
       </StyledContent>
@@ -60,7 +60,7 @@ const StyledCard = styled(Link)`
   position: relative;
   flex-direction: column;
   border-radius: 10px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.black80};
   cursor: pointer;
   padding: 6px;
   width: 380px;
@@ -104,7 +104,7 @@ const StyledServiceType = styled.div`
   background-color: rgb(252 252 252 / 70%);
   width: 54px;
   height: 23px;
-  color: ${colors.gray600};
+  color: ${colors.black40};
   ${textStyles.SUIT_12_B};
 `;
 

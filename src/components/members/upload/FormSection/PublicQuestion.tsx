@@ -25,12 +25,12 @@ const StyledSection = styled.section`
   display: grid;
   grid-template-columns: auto 40px;
   border-radius: 30px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.black80};
   padding: 40px;
   width: 790px;
 
   .question {
-    color: ${colors.gray10};
+    color: ${colors.white100};
 
     ${textStyles.SUIT_24_B};
 
@@ -55,7 +55,7 @@ const StyledSection = styled.section`
 
   .info {
     margin-top: 20px;
-    color: ${colors.gray400};
+    color: ${colors.gray80};
 
     @media ${MOBILE_MEDIA_QUERY} {
       margin-top: 12px;

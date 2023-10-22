@@ -71,13 +71,13 @@ const MemberListFilterSheet: FC<PropsWithChildren<MemberListFilterSheetProps>> =
 
 const CustomSheet = styled(ReactModalSheet)`
   .react-modal-sheet-container {
-    background-color: ${colors.gray700} !important;
+    background-color: ${colors.black60} !important;
   }
 
   .react-modal-sheet-header {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background-color: ${colors.gray700};
+    background-color: ${colors.black60};
   }
 
   .react-modal-sheet-drag-indicator {
@@ -85,7 +85,7 @@ const CustomSheet = styled(ReactModalSheet)`
   }
 
   .react-modal-sheet-content {
-    background-color: ${colors.gray700};
+    background-color: ${colors.black60};
     padding: 16px 16px 24px 24px;
   }
 `;

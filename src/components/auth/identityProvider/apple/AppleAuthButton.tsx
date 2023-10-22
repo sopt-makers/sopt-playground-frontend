@@ -32,7 +32,7 @@ const StyledAppleAuthButton = styled.button`
   background-color: ${colors.white};
   cursor: pointer;
   height: 48px;
-  color: ${colors.gray900};
+  color: ${colors.black100};
 
   ${textStyles.SUIT_16_M}
 

@@ -7,16 +7,16 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
   default: css`
     background-color: #212121;
-    color: ${colors.gray500};
+    color: ${colors.gray100};
   `,
   primary: css`
     transition: background-color 0.3s;
-    background-color: ${colors.gray10};
-    color: ${colors.gray900};
+    background-color: ${colors.white100};
+    color: ${colors.black100};
 
     &:hover,
     &:focus {
-      background-color: ${colors.gray50};
+      background-color: ${colors.gray20};
     }
   `,
 };

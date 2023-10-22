@@ -31,7 +31,7 @@ export const MemberCountableTextArea = forwardRef<HTMLTextAreaElement, MemberCou
           className={className}
         />
         <StyledCountValue>
-          <Text color={colors.gray500} typography='SUIT_12_M'>
+          <Text color={colors.gray100} typography='SUIT_12_M'>
             {`${value?.length ?? 0}/${maxCount}`}
           </Text>
         </StyledCountValue>
@@ -50,33 +50,33 @@ const StyledContainer = styled.div<{ customStyle?: SerializedStyles }>`
 
 const StyledTextArea = styled.textarea<MemberCountableTextAreaProps>`
   transition: all 0.2s;
-  border: 1.5px solid ${colors.gray700};
+  border: 1.5px solid ${colors.black60};
   border-radius: 6px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
   padding: 14px 20px;
   width: 100%;
   height: 100%;
   resize: none;
-  color: ${colors.gray10};
+  color: ${colors.white100};
   ${textStyles.SUIT_16_M}
 
   &::placeholder {
-    color: ${colors.gray500};
+    color: ${colors.gray100};
   }
 
   &:focus {
     outline: none;
-    border-color: ${colors.gray200};
-    background-color: ${colors.gray800};
+    border-color: ${colors.gray40};
+    background-color: ${colors.black80};
   }
 
   ${({ error }) =>
     error &&
     css`
-      border-color: ${colors.error};
+      border-color: ${colors.red100};
 
       :focus {
-        border-color: ${colors.error};
+        border-color: ${colors.red100};
       }
     `}
 `;

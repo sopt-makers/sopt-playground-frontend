@@ -7,15 +7,15 @@ export type ButtonSize = 'fill' | 'small' | 'medium' | 'large';
 export const buttonStyles: Record<ButtonStyle, SerializedStyles> = {
   default: css`
     background-color: #212121;
-    color: ${colors.gray500};
+    color: ${colors.gray100};
   `,
   primary: css`
-    background-color: ${colors.gray10};
-    color: ${colors.gray900};
+    background-color: ${colors.white100};
+    color: ${colors.black100};
   `,
   danger: css`
-    background-color: ${colors.error};
-    color: ${colors.gray200};
+    background-color: ${colors.red100};
+    color: ${colors.gray40};
   `,
 };
 

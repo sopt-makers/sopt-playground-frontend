@@ -103,13 +103,13 @@ const Scrollbar = styled(ScrollArea.Scrollbar)`
   display: flex;
   transition: background-color 160ms ease-out;
   margin-top: 30px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.black80};
   padding: 2;
   user-select: none;
   touch-action: none;
 
   &:hover {
-    background-color: ${colors.gray700};
+    background-color: ${colors.black60};
   }
 
   &[data-orientation='vertical'] {
@@ -130,7 +130,7 @@ const ScrollbarThumb = styled(ScrollArea.Thumb)`
   position: relative;
   flex: 1;
   border-radius: 5px;
-  background-color: ${colors.gray400};
+  background-color: ${colors.gray80};
 
   &::before {
     position: absolute;
@@ -146,13 +146,13 @@ const ScrollbarThumb = styled(ScrollArea.Thumb)`
 `;
 
 const ScrollbarCorner = styled.div`
-  background-color: ${colors.gray700};
+  background-color: ${colors.black60};
 `;
 
 const SubmitArea = styled.form`
   display: flex;
   border-radius: 14px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.black80};
 `;
 
 const Input = styled.textarea`

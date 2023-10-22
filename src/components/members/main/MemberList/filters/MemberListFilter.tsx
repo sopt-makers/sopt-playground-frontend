@@ -53,8 +53,8 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
   ${({ selected }) =>
     selected &&
     css`
-      border-color: ${colors.gray400};
-      background-color: ${colors.gray800};
+      border-color: ${colors.gray80};
+      background-color: ${colors.black80};
       color: ${colors.white};
     `};
 
@@ -69,5 +69,5 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
 `;
 
 const StyledSelectItem = styled(Select.Item)`
-  color: ${colors.gray200};
+  color: ${colors.gray40};
 `;
