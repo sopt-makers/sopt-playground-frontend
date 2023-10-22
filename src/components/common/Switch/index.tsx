@@ -64,7 +64,7 @@ const StyledSlider = styled.span<{ width: string; height: string }>`
   left: 0;
   transition: 0.2s;
   border-radius: 1000px;
-  background-color: ${colors.gray80};
+  background-color: ${colors.gray400};
   cursor: pointer;
 
   &::before {
@@ -74,7 +74,7 @@ const StyledSlider = styled.span<{ width: string; height: string }>`
     transform: translateY(-50%);
     transition: 0.2s;
     border-radius: 50%;
-    background-color: ${colors.white100};
+    background-color: ${colors.gray10};
     width: ${(props) => props.width};
     height: ${(props) => props.height};
     content: '';

@@ -43,7 +43,7 @@ const TitleSlot = styled.div`
 
 const Description = styled.div`
   margin-bottom: 18px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
   ${textStyles.SUIT_14_M};
 `;
 

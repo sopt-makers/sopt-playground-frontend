@@ -64,18 +64,18 @@ const StyledLabel = styled.label<{ checked?: boolean }>`
   justify-content: center;
   transition: background-color 0.2s, color 0.2s;
   border-radius: 100px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   padding: 14px 0;
   width: 163px;
   height: 42px;
-  color: ${colors.gray100};
+  color: ${colors.gray600};
 
   ${({ checked }) =>
     checked &&
     css`
-      background-color: ${colors.white100};
-      color: ${colors.black100};
+      background-color: ${colors.gray10};
+      color: ${colors.gray950};
     `}
   ${textStyles.SUIT_14_M};
 

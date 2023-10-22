@@ -42,5 +42,5 @@ const Essential = styled(Text)`
 const Description = styled(Text)`
   align-self: center;
   margin: 0 0 0 10px;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 `;

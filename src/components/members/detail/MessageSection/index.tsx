@@ -91,7 +91,7 @@ const Title = styled.div`
 
 const Subtitle = styled.div`
   margin-top: 12px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   ${textStyles.SUIT_16_M}
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_M}
@@ -100,14 +100,14 @@ const Subtitle = styled.div`
 
 const MessageButton = styled.div<{ disabled: boolean }>`
   border-radius: 14px;
-  background-color: ${({ disabled }) => (disabled ? colors.black80 : colors.white100)};
+  background-color: ${({ disabled }) => (disabled ? colors.gray800 : colors.gray10)};
   cursor: pointer;
   padding: 15px 36px;
-  color: ${({ disabled }) => (disabled ? colors.gray80 : colors.black100)};
+  color: ${({ disabled }) => (disabled ? colors.gray400 : colors.gray950)};
 
   &:hover {
-    background-color: ${colors.gray20};
-    color: ${colors.black100};
+    background-color: ${colors.gray50};
+    color: ${colors.gray950};
   }
 
   ${textStyles.SUIT_15_SB}

@@ -24,7 +24,7 @@ const FormAccordion: FC<PropsWithChildren<FormAccordionProps>> = ({ description,
         </StyledTitleWrapper>
         <StyledTrigger>{open ? '- 접기' : '+ 펼치기'}</StyledTrigger>
       </StyledHeader>
-      <Text mt={8} typography='SUIT_14_M' color={colors.gray80}>
+      <Text mt={8} typography='SUIT_14_M' color={colors.gray400}>
         {description}
       </Text>
       <StyledDivder />
@@ -63,7 +63,7 @@ const StyledHeader = styled.div`
 
 const StyledDivder = styled.div`
   margin-top: 16px;
-  border: 0.5px solid ${colors.black60};
+  border: 0.5px solid ${colors.gray700};
 `;
 
 const StyledTitleWrapper = styled.div`
@@ -79,7 +79,7 @@ const Essential = styled(Text)`
 
 const StyledTrigger = styled(Collapsible.Trigger)`
   cursor: pointer;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   ${textStyles.SUIT_15_SB};
 `;
 

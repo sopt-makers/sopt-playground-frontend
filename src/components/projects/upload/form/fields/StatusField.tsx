@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, FC } from 'react';
 
 import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
-import { colors } from '@sopt-makers/colors';
 import { textStyles } from '@/styles/typography';
 
 type Status = {
@@ -48,7 +48,7 @@ const StyledStatusField = styled.div`
 `;
 
 const StyledSubTitle = styled(Text)`
-  color: ${colors.gray100};
+  color: ${colors.gray600};
   ${textStyles.SUIT_14_M};
 `;
 

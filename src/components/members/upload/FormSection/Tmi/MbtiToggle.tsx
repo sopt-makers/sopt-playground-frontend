@@ -38,11 +38,11 @@ const Container = styled.div`
 `;
 
 const Button = styled.button<{ isSelected: boolean }>`
-  background-color: ${({ isSelected }) => (isSelected ? colors.white100 : colors.black60)};
+  background-color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.gray700)};
   cursor: pointer;
   padding: 14px 0;
   width: 76px;
-  color: ${({ isSelected }) => (isSelected ? colors.black100 : colors.white100)};
+  color: ${({ isSelected }) => (isSelected ? colors.gray950 : colors.gray10)};
 
   ${textStyles.SUIT_16_SB}
 
@@ -50,8 +50,8 @@ const Button = styled.button<{ isSelected: boolean }>`
     isSelected &&
     css`
       &:hover {
-        background-color: ${colors.gray20};
-        color: ${colors.black100};
+        background-color: ${colors.gray50};
+        color: ${colors.gray950};
       }
     `}
 

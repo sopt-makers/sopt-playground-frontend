@@ -160,12 +160,12 @@ const Content = styled.div`
   left: 0;
   flex-direction: column;
   z-index: 100001;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   width: 212px;
   height: 100vh;
   overflow-y: auto;
   animation: content-show 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   @keyframes content-show {
     from {
@@ -193,7 +193,7 @@ const ProfileImageSlot = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 42px;
   height: 42px;
   overflow: hidden;
@@ -225,7 +225,7 @@ const NavItem = styled('div')<{
   isActive?: boolean;
 }>`
   padding: 10px var(--x-gap);
-  color: ${(props) => (props.isActive ? colors.white100 : colors.gray30)};
+  color: ${(props) => (props.isActive ? colors.gray10 : colors.gray100)};
 
   ${textStyles.SUIT_18_M};
 `;
@@ -233,13 +233,13 @@ const NavItem = styled('div')<{
 const NavLinkSmall = styled.div<{ isActive?: boolean }>`
   cursor: pointer;
   padding: 8px var(--x-gap);
-  color: ${(props) => (props.isActive ? colors.white100 : colors.gray30)};
+  color: ${(props) => (props.isActive ? colors.gray10 : colors.gray100)};
 
   ${textStyles.SUIT_14_M};
 `;
 
 const Divider = styled.div`
   margin: 26px var(--x-gap);
-  border-top: 1px solid ${colors.black60};
-  color: ${colors.black60};
+  border-top: 1px solid ${colors.gray700};
+  color: ${colors.gray700};
 `;

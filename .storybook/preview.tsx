@@ -28,11 +28,11 @@ export const parameters = {
   },
   backgrounds: {
     default: 'darker',
-    dark: { name: 'darker', value: colors.black100 },
+    dark: { name: 'darker', value: colors.gray950 },
   },
   darkMode: {
     current: 'dark',
-    dark: { ...themes.dark, appBg: colors.black80 },
+    dark: { ...themes.dark, appBg: colors.gray800 },
     light: { ...themes.normal, appBg: '#fff' },
   },
   nextRouter: {

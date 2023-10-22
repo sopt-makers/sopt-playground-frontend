@@ -68,7 +68,7 @@ const StyledHeader = styled.header`
 
   .description {
     margin-top: 16px;
-    color: ${colors.gray100};
+    color: ${colors.gray600};
     font-size: 16px;
     font-weight: 500;
 
@@ -109,18 +109,18 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
   width: 163px;
   height: 42px;
   line-height: 120%;
-  color: ${colors.black100};
+  color: ${colors.gray950};
 
   ${({ isDisabled }) =>
     isDisabled &&
     css`
-      background-color: ${colors.black80};
-      color: ${colors.gray80};
+      background-color: ${colors.gray800};
+      color: ${colors.gray400};
     `}
 
   &:hover {
-    background-color: ${colors.gray20};
-    color: ${colors.black100};
+    background-color: ${colors.gray50};
+    color: ${colors.gray950};
   }
 
   ${textStyles.SUIT_14_M}

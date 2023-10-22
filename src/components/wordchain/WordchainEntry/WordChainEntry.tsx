@@ -136,7 +136,7 @@ const Container = styled(Link)`
   display: flex;
   justify-content: space-between;
   border-radius: 16px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 39px 45px 39px 70px;
   width: 100%;
   height: 100%;
@@ -146,7 +146,7 @@ const Container = styled(Link)`
     align-items: center;
     justify-content: center;
     border-radius: 0;
-    background-color: ${colors.black100};
+    background-color: ${colors.gray950};
     padding: 0 20px;
     width: 100%;
   }
@@ -194,7 +194,7 @@ const WordchainText = styled(Text)`
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    background-color: ${colors.black80};
+    background-color: ${colors.gray800};
     padding: 14px 0;
     width: 100%;
 
@@ -231,7 +231,7 @@ const GotoWordChainWrapper = styled.aside`
   align-items: center;
   justify-content: space-between;
   border-radius: 12px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 16px;
 `;
 

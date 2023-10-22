@@ -33,7 +33,7 @@ const Container = styled.div`
 `;
 
 const HLine = styled.div`
-  border-top: 1px solid ${colors.black40};
+  border-top: 1px solid ${colors.gray600};
   width: 100%;
 `;
 
