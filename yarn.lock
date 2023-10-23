@@ -1913,6 +1913,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.14.8":
+  version: 7.23.2
+  resolution: "@babel/runtime@npm:7.23.2"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 6c4df4839ec75ca10175f636d6362f91df8a3137f86b38f6cd3a4c90668a0fe8e9281d320958f4fbd43b394988958585a17c3aab2a4ea6bf7316b22916a371fb
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.9.2":
   version: 7.22.15
   resolution: "@babel/runtime@npm:7.22.15"
@@ -6396,6 +6405,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@toss/emotion-utils@npm:^1.1.10":
+  version: 1.1.10
+  resolution: "@toss/emotion-utils@npm:1.1.10"
+  dependencies:
+    "@babel/runtime": ^7.14.8
+    "@toss/utils": ^1.4.4
+    csstype: ^3.0.9
+  peerDependencies:
+    "@emotion/react": "*"
+    react: ">= 16 || ^18"
+    react-dom: ">= 16 || ^18"
+  checksum: ea1f41f91d6b4449326a6f88f59f987c191a4b19be441d9a273416cd431bd1809eb69d0126855679d3921f914530700bb091b9d013e2a00bb89f094663b8c544
+  languageName: node
+  linkType: hard
+
+"@toss/utils@npm:^1.4.4":
+  version: 1.4.4
+  resolution: "@toss/utils@npm:1.4.4"
+  dependencies:
+    "@babel/runtime": ^7.14.8
+    date-fns: ^2.25.0
+  checksum: 7013b5eb191ebdae3e53844383390a79fbb6751281528165d3730ecd4a9914d09d934fd487c5d79d231a1afa990551cfc7626a89da91dad66a33e8b3fd6e5325
+  languageName: node
+  linkType: hard
+
 "@trysound/sax@npm:0.2.0":
   version: 0.2.0
   resolution: "@trysound/sax@npm:0.2.0"
@@ -9461,7 +9495,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2":
+"csstype@npm:^3.0.2, csstype@npm:^3.0.9":
   version: 3.1.2
   resolution: "csstype@npm:3.1.2"
   checksum: e1a52e6c25c1314d6beef5168da704ab29c5186b877c07d822bd0806717d9a265e8493a2e35ca7e68d0f5d472d43fac1cdce70fd79fd0853dff81f3028d857b5
@@ -9493,7 +9527,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.0.1, date-fns@npm:^2.24.0, date-fns@npm:^2.29.1":
+"date-fns@npm:^2.0.1, date-fns@npm:^2.24.0, date-fns@npm:^2.25.0, date-fns@npm:^2.29.1":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -17745,6 +17779,7 @@ __metadata:
     "@tanstack/react-query-devtools": ^4.27.0
     "@testing-library/jest-dom": ^6.1.3
     "@testing-library/react": ^14.0.0
+    "@toss/emotion-utils": ^1.1.10
     "@types/jest": ^29.4.0
     "@types/lodash-es": ^4.17.6
     "@types/node": 17.0.25
