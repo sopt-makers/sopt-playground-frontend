@@ -104,3 +104,11 @@ export const 이미지 = {
     images: [당근_배경, 노트북_당근, 폰배경_당근],
   },
 } satisfies Story;
+
+export const 제목겁나길때 = {
+  args: {
+    ...Default.args,
+    title:
+      '제목이 겁나 길어서 두 줄로 줄바꿈 될 뿐만 아니라, 말줄임표까지 생기게 하는게 제 목표에요. 당근이는 귀엽지만, 그래도 춘식이에 비하면 그냥 토끼옷을 입은 강아지일 뿐이에요.',
+  },
+} satisfies Story;

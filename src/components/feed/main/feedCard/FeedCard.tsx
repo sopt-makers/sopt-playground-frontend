@@ -70,7 +70,7 @@ const FeedCard = ({
         </Flex>
         <Stack.Horizontal gutter={4} align='center'>
           {isQuestion ? <QuestionBadge>질문</QuestionBadge> : null}
-          <Text typography='SUIT_16_SB'>{title}</Text>
+          <Title typography='SUIT_16_SB'>{title}</Title>
         </Stack.Horizontal>
         <Content typography='SUIT_13_R'>{content}</Content>
         {images.length > 0 ? (
@@ -124,6 +124,17 @@ const StyledStack = styled(Stack.Vertical)`
 
 const Content = styled(Text)`
   line-height: 22px;
+`;
+
+const Title = styled(Text)`
+  /* stylelint-disable */
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 22px;
+  height: 44px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 `;
 
 const FeedImageWrapper = styled.div`
