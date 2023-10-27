@@ -132,7 +132,6 @@ const Title = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 22px;
-  height: 44px;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 `;
