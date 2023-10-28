@@ -3,9 +3,11 @@ import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 
 import Text from '@/components/common/Text';
+import { getRelativeTime } from '@/components/feed/utils';
 import { textStyles } from '@/styles/typography';
 
 interface Comment {
+  id: number;
   name: string;
   comment: string;
 }
@@ -14,54 +16,51 @@ interface FeedCardProps {
   isMyFeed?: boolean;
   isBlindWriter?: boolean;
   isQuestion?: boolean;
-  author: {
+  member: {
     name: string;
     profileImage: string;
     info: string; // api interface 들어오면 확정짓기
   };
-  // date로 변경되면 바꾸기
-  lastUpdatedAt: string;
+  createdAt: string;
   title: string;
   content: string;
   comments: Comment[];
-  views: number;
+  hits: number;
   images: string[];
 }
 
-// desktop
 const FeedCard = ({
-  isMyFeed = false,
-  author,
-  lastUpdatedAt,
+  member,
+  createdAt,
   isBlindWriter = false,
   isQuestion = false,
   title,
   content,
   comments,
-  views,
+  hits,
   images,
 }: FeedCardProps) => {
   return (
     <StyeledFeedCard>
-      {isBlindWriter ? <IconMember /> : <ProfileImage width={32} height={32} src={author.profileImage} />}
+      {isBlindWriter ? <IconMember /> : <ProfileImage width={32} height={32} src={member.profileImage} />}
       <StyledStack gutter={8}>
         <Flex justify='space-between'>
           {isBlindWriter ? (
             <Text typography='SUIT_13_SB'>익명</Text>
           ) : (
             <Stack.Horizontal gutter={4}>
-              <Text typography='SUIT_13_SB'>{author.name}</Text>
+              <Text typography='SUIT_13_SB'>{member.name}</Text>
               <Text typography='SUIT_13_R' color={colors.gray400}>
                 ∙
               </Text>
               <Text typography='SUIT_13_R' color={colors.gray400}>
-                {author.info}
+                {member.info}
               </Text>
             </Stack.Horizontal>
           )}
           <Stack.Horizontal gutter={4}>
             <Text typography='SUIT_14_R' color={colors.gray400}>
-              {lastUpdatedAt}
+              {getRelativeTime(createdAt)}
             </Text>
             <button type='button'>
               <IconMoreHoriz />
@@ -82,8 +81,8 @@ const FeedCard = ({
         ) : null}
         {comments.length > 0 ? (
           <CommentWrapper>
-            {comments.map((comment, index) => (
-              <Comment key={index}>
+            {comments.map((comment) => (
+              <Comment key={comment.id}>
                 <Text color={colors.gray10}>{comment.name}</Text>
                 <Text color={colors.gray300}>{comment.comment}</Text>
               </Comment>
@@ -93,7 +92,7 @@ const FeedCard = ({
         <Bottom gutter={2}>
           <Text>{`댓글 ${comments.length}개`}</Text>
           <Text>∙</Text>
-          <Text>{`조회수 ${views}회`}</Text>
+          <Text>{`조회수 ${hits}회`}</Text>
         </Bottom>
       </StyledStack>
     </StyeledFeedCard>
