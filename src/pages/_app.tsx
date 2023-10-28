@@ -7,9 +7,11 @@ import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
+import NextAdapterPages from 'next-query-params/pages';
 import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
+import { QueryParamProvider } from 'use-query-params';
 
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
@@ -57,21 +59,24 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray400} />
       </Head>
       <GoogleTagManagerScript />
-      <RecoilRoot>
-        <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
-          <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
-            <ToastProvider>
-              <GlobalStyle />
-              <ResponsiveProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </ResponsiveProvider>
-              {DEBUG && <Debugger />}
-            </ToastProvider>
-          </LazyMotion>
-        </AmplitudeProvider>
-      </RecoilRoot>
+
+      <QueryParamProvider adapter={NextAdapterPages}>
+        <RecoilRoot>
+          <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
+            <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
+              <ToastProvider>
+                <GlobalStyle />
+                <ResponsiveProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ResponsiveProvider>
+                {DEBUG && <Debugger />}
+              </ToastProvider>
+            </LazyMotion>
+          </AmplitudeProvider>
+        </RecoilRoot>
+      </QueryParamProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
