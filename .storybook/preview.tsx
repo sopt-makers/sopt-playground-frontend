@@ -2,7 +2,9 @@ import React from 'react';
 import { themes } from '@storybook/theming';
 import { LazyMotion } from 'framer-motion';
 import { initialize, mswDecorator } from 'msw-storybook-addon';
+import NextAdapterPages from 'next-query-params/pages';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
+import { QueryParamProvider } from 'use-query-params';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 
@@ -43,18 +45,20 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <QueryClientProvider client={queryClient}>
-      <RecoilRoot>
-        <LazyMotion strict features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
-          <StorybookEventLoggerProvider>
-            <StorybookToastProvider>
-              <GlobalStyle />
-              <ResponsiveProvider>
-                <Story />
-              </ResponsiveProvider>
-            </StorybookToastProvider>
-          </StorybookEventLoggerProvider>
-        </LazyMotion>
-      </RecoilRoot>
+      <QueryParamProvider adapter={NextAdapterPages}>
+        <RecoilRoot>
+          <LazyMotion strict features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
+            <StorybookEventLoggerProvider>
+              <StorybookToastProvider>
+                <GlobalStyle />
+                <ResponsiveProvider>
+                  <Story />
+                </ResponsiveProvider>
+              </StorybookToastProvider>
+            </StorybookEventLoggerProvider>
+          </LazyMotion>
+        </RecoilRoot>
+      </QueryParamProvider>
     </QueryClientProvider>
   ),
   mswDecorator,

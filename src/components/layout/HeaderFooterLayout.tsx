@@ -5,6 +5,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
 import Responsive from '@/components/common/Responsive';
+import { createLayoutCSSVariable } from '@/components/layout/utils';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface HeaderLayoutProps {
@@ -31,8 +32,12 @@ export default HeaderFooterLayout;
 const StyledContainer = styled.div`
   padding-top: 80px;
 
+  ${createLayoutCSSVariable({ headerHeight: 80 })}
+
   @media ${MOBILE_MEDIA_QUERY} {
     padding-top: 56px;
+
+    ${createLayoutCSSVariable({ headerHeight: 80 })}
   }
 `;
 
