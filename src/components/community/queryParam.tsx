@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import type { ParsedUrlQuery } from 'querystring';
 import { ComponentPropsWithoutRef, forwardRef } from 'react';
 import { StringParam, useQueryParam, withDefault } from 'use-query-params';
 
@@ -13,7 +14,10 @@ function createLinkComponent<T extends string>({ paramKey }: { paramKey: T }) {
 
   const ParamLink = forwardRef<
     HTMLAnchorElement,
-    Omit<ComponentPropsWithoutRef<typeof Link>, 'href' | 'shallow'> & Key
+    Omit<ComponentPropsWithoutRef<typeof Link>, 'href' | 'shallow'> &
+      Key & {
+        transformQuery?: (query: ParsedUrlQuery) => ParsedUrlQuery;
+      }
   >((props, ref) => {
     const { pathname, query } = useRouter();
     const value = props[`${paramKey}Id`] as string | undefined;
@@ -21,24 +25,26 @@ function createLinkComponent<T extends string>({ paramKey }: { paramKey: T }) {
     const newProps = { ...props };
     delete newProps[`${paramKey}Id`];
 
+    const newQuery = (props.transformQuery ?? ((param) => param))({
+      ...query,
+      [paramKey]: value,
+    });
+
     return (
       <Link
         ref={ref}
         {...newProps}
         href={{
           pathname,
-          query: {
-            ...query,
-            [paramKey]: value,
-          },
+          query: newQuery,
         }}
         shallow
       />
     );
   });
 
-  const useParam = () => {
-    return useQueryParam(paramKey, withDefault(StringParam, undefined));
+  const useParam = (options?: { defaultValue?: string | undefined }) => {
+    return useQueryParam(paramKey, withDefault(StringParam, options?.defaultValue ?? undefined));
   };
 
   return [ParamLink, useParam] as const;
