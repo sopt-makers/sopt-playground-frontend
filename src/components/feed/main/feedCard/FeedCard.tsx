@@ -12,7 +12,7 @@ interface Comment {
 
 interface FeedCardProps {
   isMyFeed?: boolean;
-  isAnonymous?: boolean;
+  isBlindWriter?: boolean;
   isQuestion?: boolean;
   author: {
     name: string;
@@ -33,7 +33,7 @@ const FeedCard = ({
   isMyFeed = false,
   author,
   lastUpdatedAt,
-  isAnonymous = false,
+  isBlindWriter = false,
   isQuestion = false,
   title,
   content,
@@ -43,10 +43,10 @@ const FeedCard = ({
 }: FeedCardProps) => {
   return (
     <StyeledFeedCard>
-      {isAnonymous ? <IconMember /> : <ProfileImage width={32} height={32} src={author.profileImage} />}
+      {isBlindWriter ? <IconMember /> : <ProfileImage width={32} height={32} src={author.profileImage} />}
       <StyledStack gutter={8}>
         <Flex justify='space-between'>
-          {isAnonymous ? (
+          {isBlindWriter ? (
             <Text typography='SUIT_13_SB'>익명</Text>
           ) : (
             <Stack.Horizontal gutter={4}>
@@ -72,7 +72,7 @@ const FeedCard = ({
           {isQuestion ? <QuestionBadge>질문</QuestionBadge> : null}
           <Title typography='SUIT_16_SB'>{title}</Title>
         </Stack.Horizontal>
-        <Content typography='SUIT_13_R'>{content}</Content>
+        <Content typography='SUIT_14_R'>{renderContent(content)}</Content>
         {images.length > 0 ? (
           <FeedImageWrapper>
             {images.map((image, index) => (
@@ -124,6 +124,7 @@ const StyledStack = styled(Stack.Vertical)`
 
 const Content = styled(Text)`
   line-height: 22px;
+  white-space: pre-wrap;
 `;
 
 const Title = styled(Text)`
@@ -179,6 +180,20 @@ const QuestionBadge = styled.div`
   color: ${colors.secondary};
   ${textStyles.SUIT_12_SB};
 `;
+
+const renderContent = (content: string) => {
+  if (content.length > 140) {
+    return (
+      <>
+        {content.slice(0, 140) + '... '}
+        <Text css={{ cursor: 'pointer' }} typography='SUIT_14_R' color={colors.blue400}>
+          더보기
+        </Text>
+      </>
+    );
+  }
+  return content;
+};
 
 const IconMoreHoriz = () => (
   <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
