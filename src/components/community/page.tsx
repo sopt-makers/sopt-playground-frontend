@@ -1,15 +1,14 @@
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
-import { StringParam, useQueryParam, withDefault } from 'use-query-params';
 
 import Responsive from '@/components/common/Responsive';
 import DesktopCommunityLayout from '@/components/community/layout/DesktopCommunityLayout';
 import MobileCommunityLayout from '@/components/community/layout/MobileCommunityLayout';
-import { FeedDetailLink, TagLink } from '@/components/community/queryParam';
+import { FeedDetailLink, TagLink, useFeedDetailParam, useTagParam } from '@/components/community/queryParam';
 
 const CommunityPage: FC = () => {
-  const [feed] = useQueryParam('feed', withDefault(StringParam, ''));
-  const [tag] = useQueryParam('tag', withDefault(StringParam, ''));
+  const [feed] = useFeedDetailParam();
+  const [tag] = useTagParam();
 
   const feedList = (
     <div style={{ backgroundColor: colors.blue600, display: 'flex', flexDirection: 'column' }}>

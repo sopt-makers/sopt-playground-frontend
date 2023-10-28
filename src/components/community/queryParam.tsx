@@ -13,13 +13,15 @@ function createLinkComponent<T extends string>({ paramKey }: { paramKey: T }) {
     Omit<ComponentPropsWithoutRef<typeof Link>, 'href' | 'shallow'> & Key
   >((props, ref) => {
     const { pathname, query } = useRouter();
-
     const value = props[`${paramKey}Id`] as string | undefined;
+
+    const newProps = { ...props };
+    delete newProps[`${paramKey}Id`];
 
     return (
       <Link
         ref={ref}
-        {...props}
+        {...newProps}
         href={{
           pathname,
           query: {
@@ -39,8 +41,8 @@ function createLinkComponent<T extends string>({ paramKey }: { paramKey: T }) {
   return [ParamLink, useParam] as const;
 }
 
-export const [CategoryLink, useCategoryParam] = createLinkComponent({ paramKey: 'category' });
-
 export const [TagLink, useTagParam] = createLinkComponent({ paramKey: 'tag' });
+
+export const [CategoryLink, useCategoryParam] = createLinkComponent({ paramKey: 'category' });
 
 export const [FeedDetailLink, useFeedDetailParam] = createLinkComponent({ paramKey: 'feed' });
