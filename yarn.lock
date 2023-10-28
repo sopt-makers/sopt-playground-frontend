@@ -4966,6 +4966,7 @@ __metadata:
     "@emotion/styled": ^11.8.1
     "@radix-ui/react-dialog": 1.0.2
     "@radix-ui/react-dropdown-menu": 2.0.2
+    "@sopt-makers/colors": ^2.2.0
     react-remove-scroll: 2.5.5
   peerDependencies:
     react: ^16.8 || ^17.0 || ^18.0
