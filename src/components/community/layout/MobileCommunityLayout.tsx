@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, ReactNode } from 'react';
 
@@ -37,4 +38,5 @@ const ListSlotBox = styled.div`
 const DetailSlotBox = styled(m.div)`
   position: absolute;
   inset: 0;
+  background-color: ${colors.background};
 `;
