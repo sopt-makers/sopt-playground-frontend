@@ -2,8 +2,8 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import MainSelector from '@/components/feed/editor/CategorySelector/common/MainSelector';
-import SubSelector from '@/components/feed/editor/CategorySelector/common/SubSelector';
+import MainSelector from '@/components/feed/upload/CategorySelector/common/MainSelector';
+import SubSelector from '@/components/feed/upload/CategorySelector/common/SubSelector';
 
 export default {
   component: MainSelector,

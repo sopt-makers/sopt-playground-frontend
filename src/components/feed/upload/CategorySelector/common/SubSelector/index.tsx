@@ -2,45 +2,50 @@ import styled from '@emotion/styled';
 
 import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
-import Sheet from '@/components/feed/editor/CategorySelector/common';
-import { isMobile, SUB_OPTIONS } from '@/components/feed/editor/CategorySelector/constants';
+import Sheet from '@/components/feed/upload/CategorySelector/common';
+import { isMobile, SUB_OPTIONS } from '@/components/feed/upload/CategorySelector/constants';
 import CheckIc from '@/public/icons/icon_check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface SubSelectorProps {
   isOpen?: boolean;
-  onBack?: () => void;
+  onBack: () => void;
   onClose: () => void;
 }
 
 export default function SubSelector({ isOpen, onBack, onClose }: SubSelectorProps) {
+  const handleSelectSub = (option: string) => {
+    // 옵션 저장 로직
+    onClose();
+  };
+
   return (
     <>
       <Sheet
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={onBack}
         title={isMobile ? SUB_OPTIONS[0].title : undefined}
         isBack={isMobile ? true : false}
         width={160}
-        onBack={onClose}
+        onBack={onBack}
       >
         <Select>
           {SUB_OPTIONS[0].options.map((option) => {
             return (
-              <Option key={option}>
+              <Option key={option} onClick={() => handleSelectSub(option)}>
                 {option}
                 <CheckIc />
               </Option>
             );
           })}
         </Select>
-        <Responsive only='mobile'>
-          <SubmitButton>
+        <SubmitButton>
+          <Responsive only='mobile'>
             <SquareLink variant='primary' size='medium'>
               확인
             </SquareLink>
-          </SubmitButton>
-        </Responsive>
+          </Responsive>
+        </SubmitButton>
       </Sheet>
     </>
   );
@@ -61,6 +66,7 @@ const Option = styled.article`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
   padding: 12px;
 `;
 

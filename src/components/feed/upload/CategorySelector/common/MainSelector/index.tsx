@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-import Sheet from '@/components/feed/editor/CategorySelector/common';
-import { isMobile, MAIN_OPTIONS } from '@/components/feed/editor/CategorySelector/constants';
-import { MainSelectorType } from '@/components/feed/editor/CategorySelector/types';
+import Sheet from '@/components/feed/upload/CategorySelector/common';
+import { isMobile, MAIN_OPTIONS } from '@/components/feed/upload/CategorySelector/constants';
+import { MainSelectorType } from '@/components/feed/upload/CategorySelector/types';
 import { textStyles } from '@/styles/typography';
 
 interface MainSelectorProps {
@@ -12,8 +12,8 @@ interface MainSelectorProps {
 }
 
 export default function MainSelector({ isOpen, onClose }: MainSelectorProps) {
-  const handleMoveToNextSection = () => {
-    // 다음 단계로 이동 과정
+  const handleSelectMain = () => {
+    // 카테고리 저장 로직
     onClose();
   };
 
@@ -23,7 +23,7 @@ export default function MainSelector({ isOpen, onClose }: MainSelectorProps) {
         <Select>
           {MAIN_OPTIONS.map(({ title, content }: MainSelectorType) => {
             return (
-              <Option key={title} onClick={handleMoveToNextSection}>
+              <Option key={title} onClick={handleSelectMain}>
                 <OptionTitle>{title}</OptionTitle>
                 <OptionContents>{content}</OptionContents>
               </Option>

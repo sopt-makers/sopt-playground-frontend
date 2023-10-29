@@ -1,4 +1,4 @@
-import { MainSelectorType } from '@/components/feed/editor/CategorySelector/types';
+import { MainSelectorType } from '@/components/feed/upload/CategorySelector/types';
 
 export const MAIN_OPTIONS: MainSelectorType[] = [
   { title: '파트', content: '기획, 디자인, 서버, 웹, iOS, Android에 대한 이야기를 해요.' },
