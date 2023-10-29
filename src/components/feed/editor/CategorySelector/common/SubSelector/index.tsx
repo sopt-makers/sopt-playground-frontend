@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 
+import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
 import Sheet from '@/components/feed/editor/CategorySelector/common';
 import { isMobile, SUB_OPTIONS } from '@/components/feed/editor/CategorySelector/constants';
@@ -33,11 +34,13 @@ export default function SubSelector({ isOpen, onBack, onClose }: SubSelectorProp
             );
           })}
         </Select>
-        <SubmitButton>
-          <SquareLink variant='primary' size='medium'>
-            확인
-          </SquareLink>
-        </SubmitButton>
+        <Responsive only='mobile'>
+          <SubmitButton>
+            <SquareLink variant='primary' size='medium'>
+              확인
+            </SquareLink>
+          </SubmitButton>
+        </Responsive>
       </Sheet>
     </>
   );
@@ -62,8 +65,6 @@ const Option = styled.article`
 `;
 
 const SubmitButton = styled.button`
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 0 8px;
-    width: 100%;
-  }
+  padding: 0 8px;
+  width: 100%;
 `;
