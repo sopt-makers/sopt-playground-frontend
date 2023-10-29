@@ -113,13 +113,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
       >
         <StyledInput type='file' accept='image/*' ref={inputRef} />
         {previewImageSrc ? <StyledPreview src={previewImageSrc} alt='preview-image' /> : <EmptyIcon />}
-        <StyledSelectorControlButton
-          type='button'
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpenSelector(true);
-          }}
-        >
+        <StyledSelectorControlButton type='button'>
           <IconPencil />
         </StyledSelectorControlButton>
         <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
