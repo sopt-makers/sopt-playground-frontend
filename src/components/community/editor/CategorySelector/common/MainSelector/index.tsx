@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import Sheet from '@/components/community/editor/CategorySelector/common';
-import { MAIN_OPTIONS } from '@/components/community/editor/CategorySelector/constants';
+import { isMobile, MAIN_OPTIONS } from '@/components/community/editor/CategorySelector/constants';
 import { MainSelectorType } from '@/components/community/editor/CategorySelector/types';
 import { textStyles } from '@/styles/typography';
 
@@ -12,8 +12,6 @@ interface MainSelectorProps {
 }
 
 export default function MainSelector({ isOpen, onClose }: MainSelectorProps) {
-  const isMobile = window.innerWidth <= 768;
-
   const handleMoveToNextSection = () => {
     // 다음 단계로 이동 과정
     onClose();
@@ -21,7 +19,7 @@ export default function MainSelector({ isOpen, onClose }: MainSelectorProps) {
 
   return (
     <>
-      <Sheet isOpen={isOpen} onClose={onClose} title={isMobile ? '어디에 올릴까요?' : ''}>
+      <Sheet isOpen={isOpen} onClose={onClose} width={366} title={isMobile ? '어디에 올릴까요?' : ''}>
         <Select>
           {MAIN_OPTIONS.map(({ title, content }: MainSelectorType) => {
             return (

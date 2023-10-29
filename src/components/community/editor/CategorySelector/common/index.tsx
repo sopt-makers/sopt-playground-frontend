@@ -13,11 +13,12 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
   title?: string;
   isBack?: boolean;
   isOpen?: boolean;
+  width?: number;
   onBack?: () => void;
   onClose: () => void;
 }
 const Sheet: FC<ModalProps> = (props) => {
-  const { title, isBack, children, isOpen, onClose, onBack, ...restProps } = props;
+  const { title, isBack, children, width, isOpen, onClose, onBack, ...restProps } = props;
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const Sheet: FC<ModalProps> = (props) => {
         <FocusTrap>
           <ModalContainer>
             <ModalWrapper>
-              <StyledModal ref={modalRef} role='dialog' {...restProps}>
+              <StyledModal ref={modalRef} role='dialog' width={width} {...restProps}>
                 <StyledHeader>
                   {title && (
                     <StyledTitle>
@@ -103,13 +104,13 @@ const StyledBackground = styled.div`
   }
 `;
 
-const StyledModal = styled.div`
+const StyledModal = styled.div<{ width?: number }>`
   position: relative;
   z-index: 101;
   border-radius: 14px;
   background: ${colors.gray800};
   padding: 8px 0;
-  width: 366px;
+  width: ${({ width }) => width}px;
   color: ${colors.gray10};
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -131,6 +132,10 @@ const StyledHeader = styled.button`
 `;
 
 const StyledTitle = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
   ${textStyles.SUIT_20_B}
 
   padding: 0 20px 12px;
