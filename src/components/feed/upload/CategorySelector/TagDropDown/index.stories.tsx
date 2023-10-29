@@ -2,11 +2,10 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import MainSelector from '@/components/feed/upload/CategorySelector/CategoryDropDown';
 import TagDropDown from '@/components/feed/upload/CategorySelector/TagDropDown';
 
 export default {
-  component: MainSelector,
+  component: TagDropDown,
 } as Meta;
 
 export const Default = {
