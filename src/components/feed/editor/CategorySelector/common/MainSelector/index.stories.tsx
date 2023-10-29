@@ -2,10 +2,10 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import Sheet from '@/components/community/editor/CategorySelector/common';
+import MainSelector from '@/components/feed/editor/CategorySelector/common/MainSelector';
 
 export default {
-  component: Sheet,
+  component: MainSelector,
 } as Meta;
 
 export const Default = {
@@ -15,12 +15,10 @@ export const Default = {
     return (
       <>
         <Button onClick={onOpen}>클릭하여 드롭다운 열기</Button>
-        <Sheet isOpen={isOpen} onClose={onClose}>
-          드롭다운
-        </Sheet>
+        <MainSelector isOpen={isOpen} onClose={onClose} />
       </>
     );
   },
 
-  name: '드롭다운 기본',
+  name: '메인셀렉터',
 };

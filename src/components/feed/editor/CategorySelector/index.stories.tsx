@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import CategorySelector from '@/components/community/editor/CategorySelector';
+import CategorySelector from '@/components/feed/editor/CategorySelector';
 
 export default {
   component: CategorySelector,

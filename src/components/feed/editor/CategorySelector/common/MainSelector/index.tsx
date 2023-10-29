@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-import Sheet from '@/components/community/editor/CategorySelector/common';
-import { isMobile, MAIN_OPTIONS } from '@/components/community/editor/CategorySelector/constants';
-import { MainSelectorType } from '@/components/community/editor/CategorySelector/types';
+import Sheet from '@/components/feed/editor/CategorySelector/common';
+import { isMobile, MAIN_OPTIONS } from '@/components/feed/editor/CategorySelector/constants';
+import { MainSelectorType } from '@/components/feed/editor/CategorySelector/types';
 import { textStyles } from '@/styles/typography';
 
 interface MainSelectorProps {

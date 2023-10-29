@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
 import SquareLink from '@/components/common/SquareLink';
-import Sheet from '@/components/community/editor/CategorySelector/common';
-import { isMobile, SUB_OPTIONS } from '@/components/community/editor/CategorySelector/constants';
+import Sheet from '@/components/feed/editor/CategorySelector/common';
+import { isMobile, SUB_OPTIONS } from '@/components/feed/editor/CategorySelector/constants';
 import CheckIc from '@/public/icons/icon_check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
