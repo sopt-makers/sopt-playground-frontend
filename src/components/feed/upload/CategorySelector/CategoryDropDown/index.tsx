@@ -14,7 +14,7 @@ interface MainSelectorProps {
 
 export default function CategoryDropDown({ isOpen, onNext, onClose }: MainSelectorProps) {
   const handleSelectMain = () => {
-    // 카테고리 저장 로직
+    // TODO: 카테고리 저장 로직
     if (typeof onNext === 'function') {
       onNext();
     } else {

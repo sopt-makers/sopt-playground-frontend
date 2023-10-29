@@ -15,7 +15,7 @@ interface SubSelectorProps {
 
 export default function TagDropDown({ isOpen, onBack, onClose }: SubSelectorProps) {
   const handleSelectSub = (option: string) => {
-    // 옵션 저장 로직
+    // TODO: 태그 저장 로직
     onClose();
   };
 
