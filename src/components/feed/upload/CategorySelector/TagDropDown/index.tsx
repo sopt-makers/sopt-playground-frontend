@@ -39,7 +39,7 @@ export default function TagDropDown({ isOpen, onBack, onClose }: SubSelectorProp
             );
           })}
         </Select>
-        <SubmitButton>
+        <SubmitButton onClick={onClose}>
           <Responsive only='mobile'>
             <SquareLink variant='primary' size='medium'>
               확인
