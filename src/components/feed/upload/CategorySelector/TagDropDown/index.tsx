@@ -13,7 +13,7 @@ interface SubSelectorProps {
   onClose: () => void;
 }
 
-export default function SubSelector({ isOpen, onBack, onClose }: SubSelectorProps) {
+export default function TagDropDown({ isOpen, onBack, onClose }: SubSelectorProps) {
   const handleSelectSub = (option: string) => {
     // 옵션 저장 로직
     onClose();

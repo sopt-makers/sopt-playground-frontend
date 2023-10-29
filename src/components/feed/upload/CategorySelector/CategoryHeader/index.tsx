@@ -5,7 +5,7 @@ import Arrow from '@/public/icons/icon-select-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function CategorySelectorHeader() {
+export default function CategoryHeader() {
   return (
     <CategorySelectorStarter>
       <UploadTitle>어디에 올릴까요?</UploadTitle>

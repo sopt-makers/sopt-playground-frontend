@@ -2,7 +2,8 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import MainSelector from '@/components/feed/upload/CategorySelector/common/MainSelector';
+import MainSelector from '@/components/feed/upload/CategorySelector/CategoryDropDown';
+import TagDropDown from '@/components/feed/upload/CategorySelector/TagDropDown';
 
 export default {
   component: MainSelector,
@@ -15,10 +16,10 @@ export const Default = {
     return (
       <>
         <Button onClick={onOpen}>클릭하여 드롭다운 열기</Button>
-        <MainSelector isOpen={isOpen} onClose={onClose} />
+        <TagDropDown isOpen={isOpen} onClose={onClose} onBack={onClose} />
       </>
     );
   },
 
-  name: '메인셀렉터',
+  name: '태그 드롭다운',
 };

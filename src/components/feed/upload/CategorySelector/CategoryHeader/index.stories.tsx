@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import CategorySelectorHeader from '@/components/feed/upload/CategorySelector/CategorySelectorHeader';
+import CategorySelectorHeader from '@/components/feed/upload/CategorySelector/CategoryHeader';
 
 export default {
   component: CategorySelectorHeader,
@@ -8,5 +8,5 @@ export default {
 
 export const Default = {
   args: {},
-  name: '기본',
+  name: '카테고리 헤더',
 };

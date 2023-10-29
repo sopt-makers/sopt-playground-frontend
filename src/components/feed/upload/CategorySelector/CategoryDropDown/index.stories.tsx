@@ -2,8 +2,10 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import MainSelector from '@/components/feed/upload/CategorySelector/common/MainSelector';
-import SubSelector from '@/components/feed/upload/CategorySelector/common/SubSelector';
+import {
+  default as CategoryDropDown,
+  default as MainSelector,
+} from '@/components/feed/upload/CategorySelector/CategoryDropDown';
 
 export default {
   component: MainSelector,
@@ -16,10 +18,10 @@ export const Default = {
     return (
       <>
         <Button onClick={onOpen}>클릭하여 드롭다운 열기</Button>
-        <SubSelector isOpen={isOpen} onClose={onClose} />
+        <CategoryDropDown isOpen={isOpen} onClose={onClose} />
       </>
     );
   },
 
-  name: '서브셀렉터',
+  name: '카테고리 드롭다운',
 };

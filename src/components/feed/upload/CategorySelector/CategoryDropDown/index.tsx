@@ -8,13 +8,18 @@ import { textStyles } from '@/styles/typography';
 
 interface MainSelectorProps {
   isOpen?: boolean;
+  onNext?: () => void;
   onClose: () => void;
 }
 
-export default function MainSelector({ isOpen, onClose }: MainSelectorProps) {
+export default function CategoryDropDown({ isOpen, onNext, onClose }: MainSelectorProps) {
   const handleSelectMain = () => {
     // 카테고리 저장 로직
-    onClose();
+    if (typeof onNext === 'function') {
+      onNext();
+    } else {
+      onClose;
+    }
   };
 
   return (

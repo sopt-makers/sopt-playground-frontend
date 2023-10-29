@@ -1,22 +1,26 @@
 import { useState } from 'react';
 
-import CategorySelectorHeader from '@/components/feed/upload/CategorySelector/CategorySelectorHeader';
-import MainSelector from '@/components/feed/upload/CategorySelector/common/MainSelector';
-import SubSelector from '@/components/feed/upload/CategorySelector/common/SubSelector';
+import CategoryDropDown from '@/components/feed/upload/CategorySelector/CategoryDropDown';
+import CategoryHeader from '@/components/feed/upload/CategorySelector/CategoryHeader';
+import TagDropDown from '@/components/feed/upload/CategorySelector/TagDropDown';
 
 export default function CategorySelector() {
-  const [isMainOpen, setIsMainOpen] = useState<boolean | undefined>(true);
+  const [isDropDown, setIsDropDown] = useState<'mainOpen' | 'subOpen' | 'allClosed'>('mainOpen');
 
   return (
     <>
-      <MainSelector isOpen={isMainOpen} onClose={() => setIsMainOpen(false)} />
-      {/* 메인 카테고리가 '자유'가 아닌 경우에만 뜨도록 */}
-      <SubSelector
-        isOpen={typeof isMainOpen === 'undefined' ? isMainOpen : !isMainOpen}
-        onBack={() => setIsMainOpen(true)}
-        onClose={() => setIsMainOpen(undefined)}
+      <CategoryDropDown
+        isOpen={isDropDown === 'mainOpen'}
+        onNext={() => setIsDropDown('subOpen')}
+        onClose={() => setIsDropDown('allClosed')}
       />
-      <CategorySelectorHeader />
+      {/* 메인 카테고리가 '자유'가 아닌 경우에만 뜨도록 */}
+      <TagDropDown
+        isOpen={isDropDown === 'subOpen'}
+        onBack={() => setIsDropDown('mainOpen')}
+        onClose={() => setIsDropDown('allClosed')}
+      />
+      <CategoryHeader />
     </>
   );
 }
