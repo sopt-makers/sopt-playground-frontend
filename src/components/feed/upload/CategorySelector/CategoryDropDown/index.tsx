@@ -41,15 +41,15 @@ export default function CategoryDropDown({ isOpen, onNext, onClose }: MainSelect
 }
 
 const OptionTitle = styled.h2`
-  ${textStyles.SUIT_16_M}
+  ${textStyles.SUIT_16_M};
 
-  color:${colors.white}
+  color: ${colors.white};
 `;
 
 const OptionContents = styled.p`
-  ${textStyles.SUIT_12_R}
+  ${textStyles.SUIT_12_R};
 
-  color:${colors.gray300}
+  color: ${colors.gray300};
 `;
 
 const Option = styled.article`
