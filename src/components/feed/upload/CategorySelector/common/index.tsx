@@ -1,24 +1,20 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import FocusTrap from 'focus-trap-react';
-import { FC, HTMLAttributes, PropsWithChildren, useEffect, useRef } from 'react';
+import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
 
 import Portal from '@/components/common/Portal';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
-import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
-  title?: string;
-  isBack?: boolean;
+  header?: ReactNode;
   isOpen?: boolean;
-  width?: number;
-  onBack?: () => void;
+  className?: string;
   onClose: () => void;
 }
-const Sheet: FC<ModalProps> = (props) => {
-  const { title, isBack, children, width, isOpen, onClose, onBack, ...restProps } = props;
+export const Sheet: FC<ModalProps> = (props) => {
+  const { header, children, className, isOpen, onClose, ...restProps } = props;
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -46,15 +42,8 @@ const Sheet: FC<ModalProps> = (props) => {
         <FocusTrap>
           <ModalContainer>
             <ModalWrapper>
-              <StyledModal ref={modalRef} role='dialog' width={width} {...restProps}>
-                <StyledHeader>
-                  {title && (
-                    <StyledTitle>
-                      {isBack && <BackArrowIc onClick={onBack} />}
-                      {title}
-                    </StyledTitle>
-                  )}
-                </StyledHeader>
+              <StyledModal ref={modalRef} role='dialog' className={className} {...restProps}>
+                <StyledHeader>{header && header}</StyledHeader>
                 <ModalContent>{children}</ModalContent>
               </StyledModal>
             </ModalWrapper>
@@ -64,10 +53,6 @@ const Sheet: FC<ModalProps> = (props) => {
     </Portal>
   );
 };
-
-export default Sheet;
-
-const BackArrowIc = styled(BackArrow)``;
 
 const ModalContainer = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
@@ -95,7 +80,6 @@ const StyledBackground = styled.div`
   top: 0;
   left: 0;
   justify-content: center;
-  z-index: 99999;
   width: 100%;
   height: 100%;
 
@@ -104,14 +88,28 @@ const StyledBackground = styled.div`
   }
 `;
 
-const StyledModal = styled.div<{ width?: number }>`
+const StyledModal = styled.div`
   position: relative;
-  z-index: 101;
   border-radius: 14px;
   background: ${colors.gray800};
   padding: 8px 0;
-  width: ${({ width }) => width}px;
   color: ${colors.gray10};
+
+  &.category-drop {
+    width: 366px;
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      width: 100%;
+    }
+  }
+
+  &.tag-drop {
+    width: 160px;
+
+    @media ${MOBILE_MEDIA_QUERY} {
+      width: 100%;
+    }
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 20px;
@@ -129,14 +127,4 @@ const ModalContent = styled.div`
 
 const StyledHeader = styled.button`
   display: flex;
-`;
-
-const StyledTitle = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-
-  ${textStyles.SUIT_20_B}
-
-  padding: 0 20px 12px;
 `;

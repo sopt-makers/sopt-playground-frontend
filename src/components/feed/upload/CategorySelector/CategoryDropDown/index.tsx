@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-import Sheet from '@/components/feed/upload/CategorySelector/common';
-import { isMobile, MAIN_OPTIONS } from '@/components/feed/upload/CategorySelector/constants';
-import { MainSelectorType } from '@/components/feed/upload/CategorySelector/types';
+import { Sheet } from '@/components/feed/upload/CategorySelector/common';
+import { CATEGORY_OPTIONS } from '@/components/feed/upload/CategorySelector/constants';
+import { CategorySelectorType } from '@/components/feed/upload/CategorySelector/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface MainSelectorProps {
@@ -24,21 +25,37 @@ export default function CategoryDropDown({ isOpen, onNext, onClose }: MainSelect
 
   return (
     <>
-      <Sheet isOpen={isOpen} onClose={onClose} width={366} title={isMobile ? '어디에 올릴까요?' : ''}>
-        <Select>
-          {MAIN_OPTIONS.map(({ title, content }: MainSelectorType) => {
-            return (
-              <Option key={title} onClick={handleSelectMain}>
-                <OptionTitle>{title}</OptionTitle>
-                <OptionContents>{content}</OptionContents>
-              </Option>
-            );
-          })}
-        </Select>
-      </Sheet>
+      {CATEGORY_OPTIONS.length > 0 && (
+        <Sheet isOpen={isOpen} onClose={onClose} className='category-drop' header={<Title>어디에 올릴까요?</Title>}>
+          <Select>
+            {CATEGORY_OPTIONS.map(({ category, content }: CategorySelectorType) => {
+              return (
+                <Option key={category} onClick={handleSelectMain}>
+                  <OptionTitle>{category}</OptionTitle>
+                  <OptionContents>{content}</OptionContents>
+                </Option>
+              );
+            })}
+          </Select>
+        </Sheet>
+      )}
     </>
   );
 }
+
+const Title = styled.header`
+  display: none;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    ${textStyles.SUIT_20_B}
+
+    padding: 0 20px 12px;
+  }
+`;
 
 const OptionTitle = styled.h2`
   ${textStyles.SUIT_16_M};
@@ -52,7 +69,7 @@ const OptionContents = styled.p`
   color: ${colors.gray300};
 `;
 
-const Option = styled.article`
+const Option = styled.button`
   display: flex;
   flex-direction: column;
   gap: 2px;

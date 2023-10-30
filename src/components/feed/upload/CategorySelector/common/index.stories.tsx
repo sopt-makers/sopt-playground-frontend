@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import Sheet from '@/components/feed/upload/CategorySelector/common';
+import { Sheet } from '@/components/feed/upload/CategorySelector/common';
 
 export default {
   component: Sheet,
