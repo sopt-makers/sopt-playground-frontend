@@ -72,10 +72,10 @@ const BubbleTipIc = styled(BubbleTip)`
 `;
 
 const RulesWrapper = styled.div`
+  margin-bottom: 8px;
   width: 100%;
   word-break: break-all;
   color: ${colors.gray500};
-  margin-bottom: 8px;
 
   ${textStyles.SUIT_12_R}
 `;
