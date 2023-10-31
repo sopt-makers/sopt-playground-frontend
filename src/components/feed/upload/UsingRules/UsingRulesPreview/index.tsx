@@ -27,8 +27,8 @@ export default function UsingRulesPreview() {
       <Responsive only='desktop'>
         <Root open={isOpen} onOpenChange={handlePreviewModal}>
           <Portal>
-            <Overlay className='DialogOverlay' />
-            <PreviewBox className='DialogContent'>
+            <Overlay />
+            <PreviewBox>
               <BubbleTipIc />
               <RulesDescription>{COMMUNITY_RULES_PREVIW}</RulesDescription>
             </PreviewBox>
