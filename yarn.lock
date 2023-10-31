@@ -4973,6 +4973,7 @@ __metadata:
     "@emotion/styled": ^11.8.1
     "@radix-ui/react-dialog": 1.0.2
     "@radix-ui/react-dropdown-menu": 2.0.2
+    "@sopt-makers/colors": ^2.2.0
     react-remove-scroll: 2.5.5
   peerDependencies:
     react: ^16.8 || ^17.0 || ^18.0
@@ -15039,6 +15040,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-query-params@npm:^4.2.3":
+  version: 4.2.3
+  resolution: "next-query-params@npm:4.2.3"
+  dependencies:
+    tslib: ^2.0.3
+  peerDependencies:
+    next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    use-query-params: ^2.0.0
+  checksum: 19495b4cac190f8dc3b43e241930e82af7bc2aa88a47fbcf78b5ec654954ddcd14994dff6362734b619d0385ddbaa8309ccc60b6e2f13ea897c2f119f239cc27
+  languageName: node
+  linkType: hard
+
 "next-seo@npm:^6.1.0":
   version: 6.1.0
   resolution: "next-seo@npm:6.1.0"
@@ -17475,6 +17489,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"serialize-query-params@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "serialize-query-params@npm:2.0.2"
+  checksum: 6dccdbd68cbec44c99599c4f77968e8685a74cc597f473ed93b15a8d03c3a67f50c958af9af3d186e64aabd7f98b59d674a05aa4e69d997ed86a5478cf133b27
+  languageName: node
+  linkType: hard
+
 "serve-favicon@npm:^2.5.0":
   version: 2.5.0
   resolution: "serve-favicon@npm:2.5.0"
@@ -17763,6 +17784,7 @@ __metadata:
     msw-storybook-addon: ^1.8.0
     nanoid: ^4.0.0
     next: ^13.1.1
+    next-query-params: ^4.2.3
     next-seo: ^6.1.0
     postcss-html: ^1.4.1
     postcss-syntax: ^0.36.2
@@ -17790,6 +17812,7 @@ __metadata:
     tsup: ^7.1.0
     typescript: ^4.9.5
     url-loader: ^4.1.1
+    use-query-params: ^2.2.1
     webpack: ^5.72.0
     yup: ^1.0.0
     zod: ^3.20.6
@@ -19472,6 +19495,25 @@ __metadata:
     "@types/react":
       optional: true
   checksum: a6532f7fc9ae222c3725ff0308aaf1f1ddbd3c00d685ef9eee6714fd0684de5cb9741b432fbf51e61a784e2955424864f7ea9f99734a02f237b17ad3e18ea5cb
+  languageName: node
+  linkType: hard
+
+"use-query-params@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "use-query-params@npm:2.2.1"
+  dependencies:
+    serialize-query-params: ^2.0.2
+  peerDependencies:
+    "@reach/router": ^1.2.1
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    react-router-dom: ">=5"
+  peerDependenciesMeta:
+    "@reach/router":
+      optional: true
+    react-router-dom:
+      optional: true
+  checksum: 5bf16511a561cf09902c3526950c6c88999767a1990619a322685448abbd09f5d71a17289d0f727bb3e68d5baced36b3fc0bbf855664b3dd5046d5d553204d28
   languageName: node
   linkType: hard
 

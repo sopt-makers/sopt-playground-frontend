@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
+import { createLayoutCSSVariable } from '@/components/layout/utils';
+
 interface FullScreenLayoutProps {
   children: ReactNode;
 }
@@ -13,4 +15,6 @@ export default FullScreenLayout;
 
 const StyledFullScreenLayout = styled.div`
   height: 100vh;
+
+  ${createLayoutCSSVariable({ headerHeight: 0 })}
 `;
