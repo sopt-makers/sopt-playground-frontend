@@ -4,7 +4,7 @@ import UsingRulesPreview from '@/components/feed/upload/UsingRules/UsingRulesPre
 
 export default {
   component: UsingRulesPreview,
-} as Meta;
+} as Meta<typeof UsingRulesPreview>;
 
 export const Default = {
   args: {},

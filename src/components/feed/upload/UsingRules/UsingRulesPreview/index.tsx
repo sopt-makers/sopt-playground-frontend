@@ -1,49 +1,39 @@
 import styled from '@emotion/styled';
-import { Content, Description, Portal } from '@radix-ui/react-dialog';
+import { Content, Overlay, Portal, Root } from '@radix-ui/react-dialog';
 import { colors } from '@sopt-makers/colors';
-import { useEffect, useRef, useState } from 'react';
+import { fonts } from '@sopt-makers/fonts';
+import { useEffect, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import { COMMUNITY_RULES_PREVIW } from '@/components/feed/upload/UsingRules/constants';
-import useOnClickOutside from '@/hooks/useOnClickOutside';
 import BubbleTip from '@/public/icons/polygon.svg';
+import { textStyles } from '@/styles/typography';
 
 export default function UsingRulesPreview() {
-  const rulesPreviewRef = useRef<HTMLDivElement>(null);
-  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
-  const onClose = () => {
-    setIsPreviewOpen(false);
+  const handlePreviewModal = () => {
+    setIsOpen((io) => !io);
   };
 
   useEffect(() => {
-    const keydownHandler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', keydownHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keydownHandler);
-    };
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 5000);
   }, []);
-
-  useOnClickOutside(rulesPreviewRef, onClose);
-
-  if (!isPreviewOpen) {
-    return null;
-  }
 
   return (
     <>
       <Responsive only='desktop'>
-        <Portal>
-          <PreviewBox>
-            <BubbleTip />
-            <RulesDescription>{COMMUNITY_RULES_PREVIW}</RulesDescription>
-          </PreviewBox>
-        </Portal>
+        <Root open={isOpen} onOpenChange={handlePreviewModal}>
+          <Portal>
+            <Overlay className='DialogOverlay' />
+            <PreviewBox className='DialogContent'>
+              <BubbleTipIc />
+              <RulesDescription>{COMMUNITY_RULES_PREVIW}</RulesDescription>
+            </PreviewBox>
+          </Portal>
+        </Root>
       </Responsive>
       <Responsive only='mobile'>
         <RulesWrapper>{COMMUNITY_RULES_PREVIW}</RulesWrapper>
@@ -54,22 +44,38 @@ export default function UsingRulesPreview() {
 
 const PreviewBox = styled(Content)`
   display: flex;
-  position: relative;
+  position: fixed;
   right: 107px;
   flex-direction: column;
-  flex-wrap: wrap;
+  width: 358px;
+  height: 166px;
 `;
 
-const RulesDescription = styled(Description)`
+const RulesDescription = styled.div`
+  position: absolute;
+  bottom: 0;
   margin-top: -8px;
   border-radius: 10px;
   background-color: ${colors.gray800};
   padding: 16px;
   width: 358px;
   word-break: break-all;
+  color: ${colors.gray50};
+
+  ${fonts.BODY_13_L};
+`;
+
+const BubbleTipIc = styled(BubbleTip)`
+  position: absolute;
+  top: 0;
+  right: 48px;
 `;
 
 const RulesWrapper = styled.div`
-  background-color: ${colors.gray800};
+  width: 100%;
   word-break: break-all;
+  color: ${colors.gray500};
+  margin-bottom: 8px;
+
+  ${textStyles.SUIT_12_R}
 `;
