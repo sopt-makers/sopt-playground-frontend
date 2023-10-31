@@ -6,13 +6,13 @@ import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } f
 import Portal from '@/components/common/Portal';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 
-export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
+export interface BottomSheetProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   header?: ReactNode;
   isOpen?: boolean;
   className?: string;
   onClose: () => void;
 }
-export const BottomSheet: FC<ModalProps> = (props) => {
+export const BottomSheet: FC<BottomSheetProps> = (props) => {
   const { header, children, className, isOpen, onClose, ...restProps } = props;
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -39,25 +39,25 @@ export const BottomSheet: FC<ModalProps> = (props) => {
     <Portal>
       <StyledBackground>
         <FocusTrap>
-          <ModalContainer>
-            <ModalWrapper>
-              <StyledModal ref={modalRef} role='dialog' className={className} {...restProps}>
+          <Container>
+            <Wrapper>
+              <Sheet ref={modalRef} role='dialog' className={className} {...restProps}>
                 <StyledHeader>{header && header}</StyledHeader>
-                <ModalContent>{children}</ModalContent>
-              </StyledModal>
-            </ModalWrapper>
-          </ModalContainer>
+                <Content>{children}</Content>
+              </Sheet>
+            </Wrapper>
+          </Container>
         </FocusTrap>
       </StyledBackground>
     </Portal>
   );
 };
 
-const ModalContainer = styled.div`
+const Container = styled.div`
   margin: 0 16px;
   width: 100%;
 `;
-const ModalWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -77,7 +77,7 @@ const StyledBackground = styled.div`
   height: 100%;
 `;
 
-const StyledModal = styled.div`
+const Sheet = styled.div`
   position: relative;
   border-radius: 20px;
   background: ${colors.gray800};
@@ -86,7 +86,7 @@ const StyledModal = styled.div`
   color: ${colors.gray10};
 `;
 
-const ModalContent = styled.div`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
