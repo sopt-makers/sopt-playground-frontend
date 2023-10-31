@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import CategorySelectorHeader from '@/components/feed/upload/CategorySelector/CategoryHeader';
+import CategorySelectorHeader from '@/components/feed/upload/Category/CategoryHeader';
 
 export default {
   component: CategorySelectorHeader,

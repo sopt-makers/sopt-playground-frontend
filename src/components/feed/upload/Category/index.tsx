@@ -1,21 +1,21 @@
 import { useState } from 'react';
 
-import CategoryDropDown from '@/components/feed/upload/CategorySelector/CategoryDropDown';
-import CategoryHeader from '@/components/feed/upload/CategorySelector/CategoryHeader';
-import TagDropDown from '@/components/feed/upload/CategorySelector/TagDropDown';
+import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
+import CategorySelector from '@/components/feed/upload/Category/CategorySelector';
+import TagSelector from '@/components/feed/upload/Category/TagSelector';
 
-export default function CategorySelector() {
+export default function Category() {
   const [isDropDown, setIsDropDown] = useState<'categoryOpen' | 'tagOpen' | 'allClosed'>('categoryOpen');
 
   return (
     <>
-      <CategoryDropDown
+      <CategorySelector
         isOpen={isDropDown === 'categoryOpen'}
         onNext={() => setIsDropDown('tagOpen')}
         onClose={() => setIsDropDown('allClosed')}
       />
       {/* 메인 카테고리가 '자유'가 아닌 경우에만 뜨도록 */}
-      <TagDropDown
+      <TagSelector
         isOpen={isDropDown === 'tagOpen'}
         onBack={() => setIsDropDown('categoryOpen')}
         onClose={() => setIsDropDown('allClosed')}

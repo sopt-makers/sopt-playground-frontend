@@ -2,10 +2,10 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import CategoryDropDown from '@/components/feed/upload/CategorySelector/CategoryDropDown';
+import { DropDown } from '@/components/feed/upload/Category/DropDown';
 
 export default {
-  component: CategoryDropDown,
+  component: DropDown,
 } as Meta;
 
 export const Default = {
@@ -15,10 +15,12 @@ export const Default = {
     return (
       <>
         <Button onClick={onOpen}>클릭하여 드롭다운 열기</Button>
-        <CategoryDropDown isOpen={isOpen} onClose={onClose} />
+        <DropDown isOpen={isOpen} onClose={onClose}>
+          드롭다운
+        </DropDown>
       </>
     );
   },
 
-  name: '카테고리 드롭다운',
+  name: '드롭다운 기본',
 };

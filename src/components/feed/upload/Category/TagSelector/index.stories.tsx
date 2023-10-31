@@ -2,10 +2,10 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import { Sheet } from '@/components/feed/upload/CategorySelector/common';
+import { default as TagSelector } from '@/components/feed/upload/Category/TagSelector';
 
 export default {
-  component: Sheet,
+  component: TagSelector,
 } as Meta;
 
 export const Default = {
@@ -14,13 +14,11 @@ export const Default = {
 
     return (
       <>
-        <Button onClick={onOpen}>클릭하여 드롭다운 열기</Button>
-        <Sheet isOpen={isOpen} onClose={onClose}>
-          드롭다운
-        </Sheet>
+        <Button onClick={onOpen}>클릭하여 셀렉터 열기</Button>
+        <TagSelector isOpen={isOpen} onClose={onClose} onBack={onClose} />
       </>
     );
   },
 
-  name: '드롭다운 기본',
+  name: '태그 셀렉터',
 };

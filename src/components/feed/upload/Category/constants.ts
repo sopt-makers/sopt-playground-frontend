@@ -1,4 +1,4 @@
-import { CategorySelectorType } from '@/components/feed/upload/CategorySelector/types';
+import { CategorySelectorType } from '@/components/feed/upload/Category/types';
 
 export const CATEGORY_OPTIONS: CategorySelectorType[] = [
   {

@@ -13,7 +13,7 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
   className?: string;
   onClose: () => void;
 }
-export const Sheet: FC<ModalProps> = (props) => {
+export const DropDown: FC<ModalProps> = (props) => {
   const { header, children, className, isOpen, onClose, ...restProps } = props;
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -66,12 +66,6 @@ const ModalWrapper = styled.div`
   justify-content: flex-start;
   padding-top: 56px;
   height: 100vh;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    justify-content: flex-end;
-    padding-top: 0;
-    padding-bottom: 8px;
-  }
 `;
 
 const StyledBackground = styled.div`
@@ -82,10 +76,6 @@ const StyledBackground = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    background-color: rgb(15 15 18 / 80%);
-  }
 `;
 
 const StyledModal = styled.div`
@@ -97,24 +87,10 @@ const StyledModal = styled.div`
 
   &.category-drop {
     width: 366px;
-
-    @media ${MOBILE_MEDIA_QUERY} {
-      width: 100%;
-    }
   }
 
   &.tag-drop {
     width: 160px;
-
-    @media ${MOBILE_MEDIA_QUERY} {
-      width: 100%;
-    }
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 20px;
-    padding: 24px 0 16px;
-    width: 100%;
   }
 `;
 
