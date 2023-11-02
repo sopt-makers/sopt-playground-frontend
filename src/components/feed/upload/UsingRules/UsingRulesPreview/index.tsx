@@ -5,7 +5,7 @@ import { fonts } from '@sopt-makers/fonts';
 import { useEffect, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
-import { COMMUNITY_RULES_PREVIW } from '@/components/feed/upload/UsingRules/constants';
+import { COMMUNITY_RULES_PREVIEW } from '@/components/feed/upload/UsingRules/constants';
 import BubbleTip from '@/public/icons/polygon.svg';
 import { textStyles } from '@/styles/typography';
 
@@ -13,7 +13,7 @@ export default function UsingRulesPreview() {
   const [isOpen, setIsOpen] = useState(true);
 
   const handlePreviewModal = () => {
-    setIsOpen((io) => !io);
+    setIsOpen((isOpen) => !isOpen);
   };
 
   useEffect(() => {
@@ -29,14 +29,14 @@ export default function UsingRulesPreview() {
           <Portal>
             <Overlay />
             <PreviewBox>
-              <BubbleTipIc />
-              <RulesDescription>{COMMUNITY_RULES_PREVIW}</RulesDescription>
+              <BubbleTipIcon />
+              <RulesDescription>{COMMUNITY_RULES_PREVIEW}</RulesDescription>
             </PreviewBox>
           </Portal>
         </Root>
       </Responsive>
       <Responsive only='mobile'>
-        <RulesWrapper>{COMMUNITY_RULES_PREVIW}</RulesWrapper>
+        <RulesWrapper>{COMMUNITY_RULES_PREVIEW}</RulesWrapper>
       </Responsive>
     </>
   );
@@ -65,7 +65,7 @@ const RulesDescription = styled.div`
   ${fonts.BODY_13_L};
 `;
 
-const BubbleTipIc = styled(BubbleTip)`
+const BubbleTipIcon = styled(BubbleTip)`
   position: absolute;
   top: 0;
   right: 48px;
