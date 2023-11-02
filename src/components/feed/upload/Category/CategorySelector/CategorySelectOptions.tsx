@@ -1,35 +1,31 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-import { CATEGORY_OPTIONS } from '@/components/feed/upload/Category/constants';
-import { CategorySelectorType } from '@/components/feed/upload/Category/types';
+import { categories } from '@/components/feed/upload/Category/constants';
+import { CategorySelectType } from '@/components/feed/upload/Category/types';
 import { textStyles } from '@/styles/typography';
 
 interface CategorySelectOptionsProp {
-  onNext?: () => void;
-  onClose: () => void;
+  onNext: () => void;
 }
 
-export default function CategorySelectOptions({ onNext, onClose }: CategorySelectOptionsProp) {
+export default function CategorySelectOptions({ onNext }: CategorySelectOptionsProp) {
   const handleSelectCategory = () => {
     // TODO: 카테고리 저장 로직
-    if (typeof onNext === 'function') {
-      onNext();
-    } else {
-      onClose;
-    }
+    onNext();
   };
 
   return (
     <Select>
-      {CATEGORY_OPTIONS.map(({ category, content }: CategorySelectorType) => {
-        return (
-          <Option key={category} onClick={handleSelectCategory}>
-            <OptionTitle>{category}</OptionTitle>
-            <OptionContents>{content}</OptionContents>
-          </Option>
-        );
-      })}
+      {categories.length > 0 &&
+        categories.map((category: CategorySelectType) => {
+          return (
+            <Option key={category.id} onClick={handleSelectCategory}>
+              <OptionTitle>{category.name}</OptionTitle>
+              <OptionContents>{category.content}</OptionContents>
+            </Option>
+          );
+        })}
     </Select>
   );
 }

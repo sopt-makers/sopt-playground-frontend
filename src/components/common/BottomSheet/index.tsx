@@ -72,7 +72,7 @@ const StyledBackground = styled.div`
   top: 0;
   left: 0;
   justify-content: center;
-  background-color: rgb(15 15 18 / 80%);
+  background-color: ${colors.grayAlpha800};
   width: 100%;
   height: 100%;
 `;

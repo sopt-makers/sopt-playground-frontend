@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import { default as CategorySelector } from '@/components/feed/upload/Category/CategorySelector';
+import CategorySelector from '@/components/feed/upload/Category/CategorySelector';
 
 export default {
   component: CategorySelector,
@@ -15,7 +15,7 @@ export const Default = {
     return (
       <>
         <Button onClick={onOpen}>클릭하여 셀렉터 열기</Button>
-        <CategorySelector isOpen={isOpen} onClose={onClose} />
+        <CategorySelector isOpen={isOpen} onNext={onClose} onClose={onClose} />
       </>
     );
   },

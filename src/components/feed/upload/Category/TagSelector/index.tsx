@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { BottomSheet } from '@/components/common/BottomSheet';
 import Responsive from '@/components/common/Responsive';
-import { CATEGORY_OPTIONS } from '@/components/feed/upload/Category/constants';
+import { categories } from '@/components/feed/upload/Category/constants';
 import { DropDown } from '@/components/feed/upload/Category/DropDown';
 import TagSelectOptions from '@/components/feed/upload/Category/TagSelector/TagSelectOptions';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
@@ -18,29 +18,25 @@ interface TagSelectorProps {
 export default function TagSelector({ isOpen, onBack, onClose }: TagSelectorProps) {
   return (
     <>
-      {CATEGORY_OPTIONS.length > 0 && (
-        <>
-          <Responsive only='desktop'>
-            <DropDown isOpen={isOpen} onClose={onBack} className='tag-drop'>
-              <TagSelectOptions onClose={onClose} />
-            </DropDown>
-          </Responsive>
-          <Responsive only='mobile'>
-            <BottomSheet
-              isOpen={isOpen}
-              onClose={onBack}
-              header={
-                <Title>
-                  <BackArrowIc onClick={onBack} />
-                  {CATEGORY_OPTIONS[4].category}
-                </Title>
-              }
-            >
-              <TagSelectOptions onClose={onClose} />
-            </BottomSheet>
-          </Responsive>
-        </>
-      )}
+      <Responsive only='desktop'>
+        <DropDown isOpen={isOpen} onClose={onBack} className='tag-drop'>
+          <TagSelectOptions onClose={onClose} />
+        </DropDown>
+      </Responsive>
+      <Responsive only='mobile'>
+        <BottomSheet
+          isOpen={isOpen}
+          onClose={onBack}
+          header={
+            <Title>
+              <BackArrowIc onClick={onBack} />
+              {categories[3].name}
+            </Title>
+          }
+        >
+          <TagSelectOptions onClose={onClose} />
+        </BottomSheet>
+      </Responsive>
     </>
   );
 }

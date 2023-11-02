@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 
 import Button from '@/components/common/Button';
 import useModalState from '@/components/common/Modal/useModalState';
-import { default as TagSelector } from '@/components/feed/upload/Category/TagSelector';
+import TagSelector from '@/components/feed/upload/Category/TagSelector';
 
 export default {
   component: TagSelector,

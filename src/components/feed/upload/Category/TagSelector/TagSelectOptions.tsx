@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 
 import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
-import { CATEGORY_OPTIONS } from '@/components/feed/upload/Category/constants';
+import { categories } from '@/components/feed/upload/Category/constants';
+import { TagSelectType } from '@/components/feed/upload/Category/types';
 import CheckIc from '@/public/icons/icon_check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -25,14 +26,15 @@ export default function TagSelectOptions({ onClose }: TagSelectOptionsProp) {
     <>
       <Select>
         {/* TODO: 카테고리 옵션 가져오기 */}
-        {CATEGORY_OPTIONS[1].tags.map((tag) => {
-          return (
-            <Option key={tag} onClick={() => handleSelectTag(tag)}>
-              {tag}
-              <CheckIc />
-            </Option>
-          );
-        })}
+        {categories[3].tags.length > 0 &&
+          categories[3].tags.map((tag: TagSelectType) => {
+            return (
+              <Option key={tag.id} onClick={() => handleSelectTag(tag.name)}>
+                {tag.name}
+                <CheckIc />
+              </Option>
+            );
+          })}
       </Select>
       <SubmitButton onClick={handleSubmit}>
         <Responsive only='mobile'>
