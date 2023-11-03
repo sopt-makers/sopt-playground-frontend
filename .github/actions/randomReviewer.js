@@ -43,12 +43,6 @@ const setReviewers = async (reviewers) => {
   }
 };
 
-getCurrentReviewers()
-  .then(setReviewer)
-  .catch((error) => {
-    console.error('리뷰어 지정 과정에서 오류가 발생했어요.\n', error.message);
-  });
-
 async function main() {
   const existingReviewers = await getCurrentReviewers();
 
