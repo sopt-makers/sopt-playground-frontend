@@ -5294,6 +5294,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sopt-makers/colors@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@sopt-makers/colors@npm:3.0.0"
+  checksum: c2eaf6e818eeb54b12cdb31e405ea72fc3cb9bad6a6792b012dae88068bec55ae8705a5dd4f0890c25cf39031087db8051f429e30b60eae3530dec6f189c813d
+  languageName: node
+  linkType: hard
+
 "@sopt-makers/playground-common@workspace:playground-common":
   version: 0.0.0-use.local
   resolution: "@sopt-makers/playground-common@workspace:playground-common"
@@ -18152,7 +18159,7 @@ __metadata:
     "@radix-ui/react-slot": ^1.0.1
     "@radix-ui/react-tabs": ^1.0.2
     "@radix-ui/react-tooltip": ^1.0.5
-    "@sopt-makers/colors": ^2.2.0
+    "@sopt-makers/colors": ^3.0.0
     "@storybook/addon-actions": ^7.0.23
     "@storybook/addon-docs": ^7.0.23
     "@storybook/addon-essentials": ^7.0.23
