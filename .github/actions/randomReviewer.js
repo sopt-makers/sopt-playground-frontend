@@ -1,10 +1,9 @@
 const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 const prNumber = process.env.PR_NUMBER;
 const token = process.env.GITHUB_TOKEN;
-const currentUser = process.env.CURRENT_USER;
+const currentUser = process.env.CURRENT_USER.trim();
 
 const reviewers = ['juno7803', 'Tekiter', 'NamJwong', 'seojisoosoo'].filter((reviewer) => reviewer !== currentUser);
-const selectedReviewer = reviewers[Math.floor(Math.random() * reviewers.length)];
 
 const headers = {
   'Authorization': `Bearer ${token}`,
@@ -12,47 +11,66 @@ const headers = {
   'X-GitHub-Api-Version': '2022-11-28',
 };
 
-const getReviewerResponse = () => {
-  return fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}/requested_reviewers`, {
+const getCurrentReviewers = async () => {
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}/requested_reviewers`, {
     method: 'GET',
     headers,
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('기존 PR의 reviewer 읽어오는데 실패했어요.');
-      }
-    })
-    .then((json) => {
-      if (json.users.length > 0) {
-        throw new Error('이미 PR에 리뷰어가 선정되어 있어요.');
-      }
-      return null;
-    });
+  });
+
+  if (!response.ok) {
+    throw new Error('기존 PR의 reviewer 읽어오는데 실패했어요.');
+  }
+
+  const { users } = await response.json();
+
+  return users;
 };
 
-const setReviewerResponse = () => {
-  return fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}/requested_reviewers`, {
+const setReviewers = async (reviewers) => {
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}/requested_reviewers`, {
     method: 'POST',
     headers,
     body: JSON.stringify({
       owner,
       repo,
       pull_number: prNumber,
-      reviewers: [selectedReviewer],
+      reviewers,
     }),
-  }).then((response) => {
-    if (response.ok) {
-      console.log(`${selectedReviewer}를 리뷰어로 선정했어요!`);
-    } else {
-      throw new Error('Failed to set reviewer');
-    }
   });
+
+  if (!response.ok) {
+    throw new Error('리뷰어를 선정하는데 실패했어요.');
+  }
 };
 
-getReviewerResponse()
-  .then(setReviewerResponse)
+getCurrentReviewers()
+  .then(setReviewer)
   .catch((error) => {
     console.error('리뷰어 지정 과정에서 오류가 발생했어요.\n', error.message);
   });
+
+async function main() {
+  const existingReviewers = await getCurrentReviewers();
+
+  if (existingReviewers > 0) {
+    console.log('이미 리뷰어가 지정되어 있으므로 스킵할게요.');
+    return;
+  }
+
+  const pickReviewer = () => {
+    const picked = reviewers[Math.floor(Math.random() * reviewers.length)];
+    if (picked === currentUser) {
+      return pickReviewer();
+    }
+
+    return picked;
+  };
+
+  const selectedReviewer = pickReviewer();
+
+  await setReviewers([selectedReviewer]);
+
+  console.log(`리뷰어 지정을 완료했어요. (${selectedReviewer})`);
+}
+
+main();
