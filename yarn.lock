@@ -4951,10 +4951,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/colors@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@sopt-makers/colors@npm:2.2.0"
-  checksum: 29146fa24433fa947c53ba6dd52433bc681d0857ae0690100f5dfb6e12471d0561991a6b2f121502f480f2887c34ccb04b531b76f8e3afdd5cdd68284fe3d1a1
+"@sopt-makers/colors@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@sopt-makers/colors@npm:3.0.0"
+  checksum: c2eaf6e818eeb54b12cdb31e405ea72fc3cb9bad6a6792b012dae88068bec55ae8705a5dd4f0890c25cf39031087db8051f429e30b60eae3530dec6f189c813d
   languageName: node
   linkType: hard
 
@@ -4966,7 +4966,7 @@ __metadata:
     "@emotion/styled": ^11.8.1
     "@radix-ui/react-dialog": 1.0.2
     "@radix-ui/react-dropdown-menu": 2.0.2
-    "@sopt-makers/colors": ^2.2.0
+    "@sopt-makers/colors": ^3.0.0
     react-remove-scroll: 2.5.5
   peerDependencies:
     react: ^16.8 || ^17.0 || ^18.0
@@ -17730,7 +17730,7 @@ __metadata:
     "@radix-ui/react-slot": ^1.0.1
     "@radix-ui/react-tabs": ^1.0.2
     "@radix-ui/react-tooltip": ^1.0.5
-    "@sopt-makers/colors": ^2.2.0
+    "@sopt-makers/colors": ^3.0.0
     "@storybook/addon-actions": ^7.0.23
     "@storybook/addon-docs": ^7.0.23
     "@storybook/addon-essentials": ^7.0.23
