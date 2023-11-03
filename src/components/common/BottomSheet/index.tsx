@@ -57,6 +57,7 @@ const Container = styled.div`
   margin: 0 16px;
   width: 100%;
 `;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

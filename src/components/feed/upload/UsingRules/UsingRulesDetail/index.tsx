@@ -3,6 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 
 import { BottomSheet } from '@/components/common/BottomSheet';
+import Modal from '@/components/common/Modal';
 import Responsive from '@/components/common/Responsive';
 import { COMMUNITY_RULES_DETAIL } from '@/components/feed/upload/UsingRules/UsingRulesDetail/constants';
 import { textStyles } from '@/styles/typography';
@@ -16,7 +17,12 @@ export default function UsingRulesDetail({ isOpen, onClose }: UsingRulesDetailPr
   return (
     <>
       <Responsive only='desktop'>
-        <></>
+        <Modal isOpen={isOpen} onClose={onClose} isNonClose className='rules-detail' width={358}>
+          <ModalContents>
+            <Title>커뮤니티 이용규칙</Title>
+            <Detail>{COMMUNITY_RULES_DETAIL}</Detail>
+          </ModalContents>
+        </Modal>
       </Responsive>
       <Responsive only='mobile'>
         <BottomSheet header={<Title>커뮤니티 이용규칙</Title>} isOpen={isOpen} onClose={onClose}>
@@ -27,6 +33,12 @@ export default function UsingRulesDetail({ isOpen, onClose }: UsingRulesDetailPr
   );
 }
 
+const ModalContents = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
 const Title = styled.h1`
   padding: 0 16px;
   ${colors.gray10};
@@ -34,6 +46,7 @@ const Title = styled.h1`
 `;
 
 const Detail = styled.div`
+  margin-top: 12px;
   padding: 0 8px;
   ${colors.gray10};
   ${fonts.BODY_13_L};
