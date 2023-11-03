@@ -1,10 +1,10 @@
 import { Meta } from '@storybook/react';
 
-import CategorySelectorHeader from '@/components/feed/upload/Category/CategoryHeader';
+import UsingRulesDetail from '@/components/feed/upload/UsingRules/UsingRulesDetail';
 
 export default {
-  component: CategorySelectorHeader,
-} as Meta<typeof CategorySelectorHeader>;
+  component: UsingRulesDetail,
+} as Meta<typeof UsingRulesDetail>;
 
 export const Default = {
   args: {},
