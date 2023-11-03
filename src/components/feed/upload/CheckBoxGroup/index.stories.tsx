@@ -12,8 +12,8 @@ type Story = StoryObj<typeof meta>;
 export const Default = {
   args: {
     checkBoxGroup: [
-      { label: '질문글', checked: true },
-      { label: '익명', checked: false },
+      { label: '질문글', checkboxProps: { checked: true } },
+      { label: '익명', checkboxProps: { checked: false } },
     ],
   },
 } satisfies Story;

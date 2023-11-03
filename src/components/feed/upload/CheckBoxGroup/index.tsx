@@ -1,19 +1,29 @@
 import styled from '@emotion/styled';
+import { Ref } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import { textStyles } from '@/styles/typography';
 
 interface CheckBoxGroupProps {
-  checkBoxGroup: { label: string; checked: boolean; onChange?: () => void }[];
+  checkBoxGroup: {
+    label: string;
+    checkboxProps: {
+      checked: boolean;
+      onChange?: () => void;
+      onBlur?: () => void;
+      ref?: Ref<HTMLInputElement>;
+      name?: string;
+    };
+  }[];
 }
 
 export default function CheckBoxGroup({ checkBoxGroup }: CheckBoxGroupProps) {
   return (
     <Container>
-      {checkBoxGroup.map(({ label, checked, onChange }) => {
+      {checkBoxGroup.map(({ checkboxProps, label }) => {
         return (
           <CheckboxItem key={label}>
-            <StyledCheckbox checked={checked} onChange={onChange} />
+            <StyledCheckbox {...checkboxProps} />
             <Label>{label}</Label>
           </CheckboxItem>
         );
