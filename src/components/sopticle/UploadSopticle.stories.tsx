@@ -17,7 +17,7 @@ Default.args = {
 
 export const Loading = Template.bind({});
 Loading.args = {
-  state: 'loading',
+  state: 'pending',
 };
 
 export const Error = Template.bind({});

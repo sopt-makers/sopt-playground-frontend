@@ -10,9 +10,10 @@ interface GetProjectQueryVariables {
 
 const useGetProjectQuery = (variables: GetProjectQueryVariables) => {
   const { id } = variables;
-  return useQuery(
-    getProjectQueryKey(id),
-    async () => {
+  return useQuery({
+    queryKey: getProjectQueryKey(id),
+
+    queryFn: async () => {
       const data = await getProjectById(id);
 
       return {
@@ -21,13 +22,8 @@ const useGetProjectQuery = (variables: GetProjectQueryVariables) => {
         links: [..._uniqBy(data.links, 'linkId')],
       };
     },
-    {
-      enabled: !!id,
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-    },
-  );
+    enabled: !!id,
+  });
 };
 
 export default useGetProjectQuery;

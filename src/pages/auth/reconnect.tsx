@@ -13,7 +13,9 @@ export const ReconnectPage: FC = () => {
   const { query: params, status } = useStringRouterQuery(['token'] as const);
   const setRegisterToken = useSetRecoilState(registerTokenAtom);
 
-  const query = useQuery(['registerTokenInfo', params?.token], () => postRegistrationInfo(params?.token ?? ''), {
+  const query = useQuery({
+    queryKey: ['registerTokenInfo', params?.token],
+    queryFn: () => postRegistrationInfo(params?.token ?? ''),
     enabled: params !== null,
   });
 

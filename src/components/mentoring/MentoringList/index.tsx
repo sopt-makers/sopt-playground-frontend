@@ -35,9 +35,10 @@ export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
   const { logClickEvent } = useEventLogger();
   const { getMentorIdList, getMentoringList } = mentoringProvider;
-  const { data: mentorProfileById } = useQuery(
-    ['getMentorProfile'],
-    async () => {
+  const { data: mentorProfileById } = useQuery({
+    queryKey: ['getMentorProfile'],
+
+    queryFn: async () => {
       const mentorProfileList = await Promise.all(
         getMentorIdList().map(async (id: number) => {
           const profile = await getMemberProfileById(id);
@@ -53,8 +54,9 @@ export default function MentoringList() {
       );
       return mentorProfileById;
     },
-    { staleTime: Infinity, cacheTime: Infinity },
-  );
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
 
   const eventLogger = {
     moveCarousel: () => logClickEvent('mentoringCarouselButton'),
@@ -244,7 +246,7 @@ const Container = styled.div`
 const Title = styled.div`
   text-align: start;
   line-height: 100%;
-  color: ${colors.white100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_24_B}
 
@@ -300,7 +302,7 @@ const MentorApplicationButton = styled.a`
   gap: 6px;
   align-items: center;
   line-height: 100%;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_18_M}
 
@@ -309,7 +311,7 @@ const MentorApplicationButton = styled.a`
     height: 20px;
 
     & > path {
-      fill: ${colors.gray80};
+      fill: ${colors.gray400};
     }
   }
 

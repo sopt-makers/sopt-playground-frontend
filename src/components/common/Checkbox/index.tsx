@@ -40,7 +40,7 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   align-items: center;
   justify-content: center;
   transition: 0.2s background-color;
-  border: 1px solid ${colors.gray100};
+  border: 1px solid ${colors.gray600};
   border-radius: 4px;
   background-color: transparent;
   width: 22.5px;
@@ -48,14 +48,14 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   ${({ checked }) =>
     checked &&
     css`
-      border: 1px solid ${colors.blue40};
-      background-color: ${colors.blue50};
+      border: 1px solid ${colors.blue300};
+      background-color: ${colors.success};
     `}
 
   & > svg {
     width: 14px;
     height: 9px;
-    color: ${colors.white100};
+    color: ${colors.gray10};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

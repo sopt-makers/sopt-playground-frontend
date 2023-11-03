@@ -72,7 +72,7 @@ const ToggleButton = styled.button<{ isOpen: boolean }>`
   cursor: pointer;
   text-decoration: underline;
   text-decoration-thickness: 1;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_16_M};
 
@@ -102,7 +102,7 @@ const ToggleButton = styled.button<{ isOpen: boolean }>`
 const Rules = styled(m.p)`
   padding-top: 30px;
   white-space: pre-wrap;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_16_M};
 

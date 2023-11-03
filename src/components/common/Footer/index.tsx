@@ -44,8 +44,8 @@ const StyledFooter = styled.div<{ hide: boolean }>`
   bottom: 0;
   transition: transform 0.3s;
   z-index: 99999;
-  border-top: 1px solid ${colors.black40};
-  background-color: ${colors.black80};
+  border-top: 1px solid ${colors.gray600};
+  background-color: ${colors.gray800};
   padding: 0 0 0 38px;
   width: 100%;
 
@@ -70,6 +70,6 @@ const FooterLink = styled.a<{ highlight?: boolean }>`
           color: ${colors.white};
         `
       : css`
-          color: ${colors.gray40};
+          color: ${colors.gray200};
         `}
 `;

@@ -7,9 +7,11 @@ import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
+import NextAdapterPages from 'next-query-params/pages';
 import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
+import { QueryParamProvider } from 'use-query-params';
 
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
@@ -23,10 +25,10 @@ import { getLayout } from '@/utils/layout';
 const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
+  defaultOptions: { queries: { gcTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
 
-const progress = new ProgressBar({ color: colors.blue50, size: 3 });
+const progress = new ProgressBar({ color: colors.success, size: 3 });
 Router.events.on('routeChangeStart', () => progress.start());
 Router.events.on('routeChangeComplete', () => progress.finish());
 Router.events.on('routeChangeError', () => progress.finish());
@@ -54,24 +56,27 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <Head>
-        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray80} />
+        <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray400} />
       </Head>
       <GoogleTagManagerScript />
-      <RecoilRoot>
-        <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
-          <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
-            <ToastProvider>
-              <GlobalStyle />
-              <ResponsiveProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </ResponsiveProvider>
-              {DEBUG && <Debugger />}
-            </ToastProvider>
-          </LazyMotion>
-        </AmplitudeProvider>
-      </RecoilRoot>
+
+      <QueryParamProvider adapter={NextAdapterPages}>
+        <RecoilRoot>
+          <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
+            <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
+              <ToastProvider>
+                <GlobalStyle />
+                <ResponsiveProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ResponsiveProvider>
+                {DEBUG && <Debugger />}
+              </ToastProvider>
+            </LazyMotion>
+          </AmplitudeProvider>
+        </RecoilRoot>
+      </QueryParamProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

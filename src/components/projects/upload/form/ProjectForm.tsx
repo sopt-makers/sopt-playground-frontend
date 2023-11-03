@@ -100,12 +100,12 @@ const ProjectForm: FC<ProjectFormProps> = ({
         <StyledTitle>
           <Text typography='SUIT_24_B'>프로젝트</Text>
           <Responsive only='desktop'>
-            <Text typography='SUIT_16_M' color={colors.gray100}>
+            <Text typography='SUIT_16_M' color={colors.gray600}>
               프로젝트가 등록되면 SOPT 공식홈페이지에도 업로드 되기 때문에 꼼꼼하게 작성해주세요!
             </Text>
           </Responsive>
           <Responsive only='mobile'>
-            <Text typography='SUIT_14_M' color={colors.gray100}>
+            <Text typography='SUIT_14_M' color={colors.gray600}>
               프로젝트가 등록되면 SOPT 공식홈페이지에도 <br />
               업로드 되기 때문에 꼼꼼하게 작성해주세요!
             </Text>
@@ -391,7 +391,7 @@ const StyledForm = styled.form`
   flex-grow: 1;
   gap: 60px;
   border-radius: 12px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 47px 40px;
   width: 892px;
 
@@ -401,7 +401,7 @@ const StyledForm = styled.form`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.black100};
+    background-color: ${colors.gray950};
     padding: 38px 24px 107px;
   }
 `;
@@ -433,15 +433,15 @@ const StyledAddButton = styled.button`
   justify-content: center;
   margin: 14px 0 0 20px;
   cursor: pointer;
-  color: ${colors.gray100};
+  color: ${colors.gray600};
 
   ${textStyles.SUIT_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 12px 0 0;
-    border: 1px solid ${colors.black40};
+    border: 1px solid ${colors.gray600};
     border-radius: 6px;
-    background-color: ${colors.black60};
+    background-color: ${colors.gray700};
     padding: 14px 16px;
     width: 100%;
     ${textStyles.SUIT_14_M};

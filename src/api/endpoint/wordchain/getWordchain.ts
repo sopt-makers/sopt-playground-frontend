@@ -57,7 +57,6 @@ type FinishedWordchainListPage = {
 };
 export const useGetFinishedWordchainList = ({
   limit,
-  queryOptions,
 }: {
   limit: number;
   queryOptions?: Omit<
@@ -71,26 +70,24 @@ export const useGetFinishedWordchainList = ({
     'queryKey' | 'queryFn'
   >;
 }) =>
-  useInfiniteQuery<FinishedWordchainListPage, unknown, FinishedWordchainListPage>(
-    ['getWordchain', limit],
-    async ({ pageParam: cursor = 0 }) => {
+  useInfiniteQuery({
+    queryKey: ['getWordchain', limit],
+    queryFn: async ({ pageParam: cursor = 0 }) => {
       const response = await getWordchain.request({ limit, cursor });
       const wordchainList =
         cursor === 0 ? mapFinishedWordchainList(response.rooms.slice(1)) : mapFinishedWordchainList(response.rooms);
       const page = { hasNext: response.hasNext, wordchainList };
       return page;
     },
-    {
-      ...queryOptions,
-      getNextPageParam: (lastPage) => {
-        const lastWordchain = lastPage.wordchainList[lastPage.wordchainList.length - 1];
-        if (!lastPage.hasNext || !lastWordchain || !lastWordchain.id) {
-          return undefined;
-        }
-        return lastWordchain.id;
-      },
+    getNextPageParam: (lastPage) => {
+      const lastWordchain = lastPage.wordchainList[lastPage.wordchainList.length - 1];
+      if (!lastPage.hasNext || !lastWordchain || !lastWordchain.id) {
+        return undefined;
+      }
+      return lastWordchain.id;
     },
-  );
+    initialPageParam: 0,
+  });
 
 type UseGetRecentWordchain = <TData = Response>(
   options?: Omit<UseQueryOptions<Response, unknown, TData, QueryKey>, 'queryKey' | 'queryFn'>,
@@ -99,17 +96,18 @@ type UseGetRecentWordchain = <TData = Response>(
 const useGetRecentWordchain: UseGetRecentWordchain = <TData>(
   options?: Omit<UseQueryOptions<Response, unknown, TData, QueryKey>, 'queryKey' | 'queryFn'>,
 ) => {
-  return useQuery(
-    [wordChainQueryKey.getRecentWordchain],
-    async () => {
+  return useQuery({
+    queryKey: [wordChainQueryKey.getRecentWordchain],
+
+    queryFn: async () => {
       const data = await getWordchain.request({
         limit: 0,
         cursor: 0,
       });
       return data;
     },
-    options,
-  );
+    ...options,
+  });
 };
 
 export const useGetEntryWordchain = () =>

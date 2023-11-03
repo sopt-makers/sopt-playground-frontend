@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
-import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -132,7 +132,7 @@ const Position = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_14_M};
 

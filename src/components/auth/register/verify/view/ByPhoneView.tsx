@@ -136,7 +136,7 @@ const StyledByEmail = styled.div`
 const Label = styled.label`
   display: block;
   margin-bottom: 18px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_16_M};
 

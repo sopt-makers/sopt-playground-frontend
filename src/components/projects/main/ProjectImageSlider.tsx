@@ -3,13 +3,13 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, useRef, useState } from 'react';
 import { Navigation, Thumbs } from 'swiper';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 
 import Responsive from '@/components/common/Responsive';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { colors } from '@sopt-makers/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ProjectImageSliderProps {
@@ -95,7 +95,7 @@ const StyledSwiper = styled(Swiper)`
 
   & .swiper-button-prev,
   .swiper-button-next {
-    color: ${colors.gray10};
+    color: ${colors.gray30};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
