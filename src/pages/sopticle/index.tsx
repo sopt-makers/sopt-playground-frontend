@@ -15,8 +15,8 @@ import { setLayout } from '@/utils/layout';
 const SopticlePage: FC = () => {
   const router = useRouter();
   const { data } = useGetMemberOfMe();
-  const { mutate, status, error } = useMutation(
-    async (url: string) => {
+  const { mutate, status, error } = useMutation({
+    mutationFn: async (url: string) => {
       if (!data) {
         throw new Error('로그인 정보를 찾을 수 없습니다.');
       }
@@ -25,12 +25,10 @@ const SopticlePage: FC = () => {
       }
       return uploadSopticle.request(url, [data.id]);
     },
-    {
-      onSuccess() {
-        router.push(playgroundLink.sopticleSuccess());
-      },
+    onSuccess() {
+      router.push(playgroundLink.sopticleSuccess());
     },
-  );
+  });
 
   const errorMessage = (() => {
     if (axios.isAxiosError(error)) {

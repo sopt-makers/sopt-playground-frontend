@@ -49,40 +49,42 @@ const MemberSearch: FC<MemberSearchProps> = ({
 
   return (
     <StyledSearch className={className} shouldFilter={false}>
-      <StyledInput
-        placeholder={!selectedMember ? placeholder : ''}
-        isError={isError}
-        value={name}
-        onValueChange={onValueChange}
-      />
-      {selectedMember && (
-        <StyledLabel>
-          <ProfileImageWrapper>
-            <ProfileImage width={24} height={24} src={getProfileImage(selectedMember.profileImage)} />
-            <Text>{selectedMember.name}</Text>
-          </ProfileImageWrapper>
-          <StyledIconClear onClick={handleClear} alt='검색된 멤버 제거 아이콘' />
-        </StyledLabel>
-      )}
-      {searchedMemberList && searchedMemberList.length > 0 && (
-        <StyledList>
-          {searchedMemberList.map((member) => (
-            <StyledItem
-              key={member.id}
-              value={String(member.id)}
-              onSelect={() => {
-                handleSelect(member);
-              }}
-            >
-              <MemberInfo>
-                <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
-                <Text>{member.name}</Text>
-              </MemberInfo>
-              <Text>{`${member.generation}기`}</Text>
-            </StyledItem>
-          ))}
-        </StyledList>
-      )}
+      <>
+        <StyledInput
+          placeholder={!selectedMember ? placeholder : ''}
+          isError={isError}
+          value={name}
+          onValueChange={onValueChange}
+        />
+        {selectedMember && (
+          <StyledLabel>
+            <ProfileImageWrapper>
+              <ProfileImage width={24} height={24} src={getProfileImage(selectedMember.profileImage)} />
+              <Text>{selectedMember.name}</Text>
+            </ProfileImageWrapper>
+            <StyledIconClear onClick={handleClear} alt='검색된 멤버 제거 아이콘' />
+          </StyledLabel>
+        )}
+        {searchedMemberList && searchedMemberList.length > 0 && (
+          <StyledList>
+            {searchedMemberList.map((member) => (
+              <StyledItem
+                key={member.id}
+                value={String(member.id)}
+                onSelect={() => {
+                  handleSelect(member);
+                }}
+              >
+                <MemberInfo>
+                  <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
+                  <Text>{member.name}</Text>
+                </MemberInfo>
+                <Text>{`${member.generation}기`}</Text>
+              </StyledItem>
+            ))}
+          </StyledList>
+        )}
+      </>
     </StyledSearch>
   );
 };

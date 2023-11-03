@@ -24,16 +24,11 @@ export const getMemberOfMe = createEndpoint({
  * @desc 멤버 프로필 조회
  */
 export const useGetMemberOfMe = () => {
-  return useQuery(
-    ['getMemberOfMe'],
-    async () => {
+  return useQuery({
+    queryKey: ['getMemberOfMe'],
+    queryFn: async () => {
       const data = await getMemberOfMe.request();
       return data;
     },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-    },
-  );
+  });
 };

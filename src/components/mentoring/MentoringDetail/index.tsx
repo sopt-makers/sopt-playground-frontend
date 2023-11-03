@@ -24,9 +24,12 @@ interface MentoringDetailProps {
 }
 
 export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
-  const { data: mentorProfile } = useQuery(['getMentorProfile', mentorId], async () => {
-    const { careers, links, skill, profileImage } = await getMemberProfileById(mentorId);
-    return { careers, links, skill, profileImage };
+  const { data: mentorProfile } = useQuery({
+    queryKey: ['getMentorProfile', mentorId],
+    queryFn: async () => {
+      const { careers, links, skill, profileImage } = await getMemberProfileById(mentorId);
+      return { careers, links, skill, profileImage };
+    },
   });
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();

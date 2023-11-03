@@ -61,7 +61,9 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
       mutate(undefined, {
         onSuccess: () => {
           logSubmitEvent('wordchainNewGame');
-          queryClient.invalidateQueries(['getWordchainWinners']);
+          queryClient.invalidateQueries({
+            queryKey: ['getWordchainWinners']
+          });
         },
       });
     }

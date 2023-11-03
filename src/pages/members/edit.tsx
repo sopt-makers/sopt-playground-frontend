@@ -137,9 +137,15 @@ export default function MemberEditPage() {
 
     const response = await putMemberProfile(requestBody);
 
-    queryClient.invalidateQueries(['getMemberProfileOfMe']);
-    queryClient.invalidateQueries(['getMemberProfileById', response.id]);
-    queryClient.invalidateQueries(['getMemberProfile']);
+    queryClient.invalidateQueries({
+      queryKey: ['getMemberProfileOfMe']
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['getMemberProfileById', response.id]
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['getMemberProfile']
+    });
 
     router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberDetail(response.id));
 
