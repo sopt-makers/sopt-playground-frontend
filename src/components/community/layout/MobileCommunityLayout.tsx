@@ -26,17 +26,18 @@ export default MobileCommunityLayout;
 
 const Container = styled.div`
   position: relative;
-  height: ${layoutCSSVariable.contentAreaHeight};
   overflow: hidden;
 `;
 
 const ListSlotBox = styled.div`
-  position: absolute;
-  inset: 0;
+  position: relative;
 `;
 
 const DetailSlotBox = styled(m.div)`
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  left: 0;
   background-color: ${colors.background};
+  height: ${layoutCSSVariable.contentAreaHeight};
 `;

@@ -35,9 +35,10 @@ export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
   const { logClickEvent } = useEventLogger();
   const { getMentorIdList, getMentoringList } = mentoringProvider;
-  const { data: mentorProfileById } = useQuery(
-    ['getMentorProfile'],
-    async () => {
+  const { data: mentorProfileById } = useQuery({
+    queryKey: ['getMentorProfile'],
+
+    queryFn: async () => {
       const mentorProfileList = await Promise.all(
         getMentorIdList().map(async (id: number) => {
           const profile = await getMemberProfileById(id);
@@ -53,8 +54,9 @@ export default function MentoringList() {
       );
       return mentorProfileById;
     },
-    { staleTime: Infinity, cacheTime: Infinity },
-  );
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
 
   const eventLogger = {
     moveCarousel: () => logClickEvent('mentoringCarouselButton'),

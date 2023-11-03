@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import LoginCallbackView from '@/components/auth/callback/LoginCallbackView';
@@ -25,26 +25,33 @@ const OAuthLoginCallback: FC<OAuthLoginCallbackProps> = ({ oauthKey: oauthType, 
     setUrl(new URL(self.location.href));
   }, []);
 
-  const { data, status, fetchStatus } = useQuery(
-    ['oauthLoginCallbackQuery', oauthType],
-    async () => {
+  const { data, status, fetchStatus } = useQuery({
+    queryKey: ['oauthLoginCallbackQuery', oauthType],
+
+    queryFn: async () => {
       if (url === null) {
         throw new Error('Invalid state');
       }
       return processParam(url);
     },
-    {
-      enabled: url !== null,
-      onSuccess(result) {
-        if (result.success) {
-          setAccessToken(result.accessToken);
-          onSuccess?.();
-        }
-      },
-    },
-  );
+    enabled: url !== null,
+  });
 
-  if (url === null || fetchStatus === 'fetching' || status === 'loading') {
+  const shouldRun = useRef(true);
+  useEffect(() => {
+    if (!shouldRun.current) {
+      return;
+    }
+
+    if (data != null) {
+      if (data.success) {
+        setAccessToken(data.accessToken);
+        onSuccess?.();
+      }
+    }
+  }, [data, onSuccess, setAccessToken]);
+
+  if (url === null || fetchStatus === 'fetching' || status === 'pending') {
     return <LoginCallbackView mode={{ type: 'loading' }} />;
   }
 

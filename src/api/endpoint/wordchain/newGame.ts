@@ -25,16 +25,18 @@ export const newGame = createEndpoint({
 
 export const useNewGameMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    async () => {
+  return useMutation({
+    mutationFn: async () => {
       const response = await newGame.request();
       return response;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
-        queryClient.invalidateQueries([wordChainQueryKey.getWordchain]);
-      },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [wordChainQueryKey.getRecentWordchain],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [wordChainQueryKey.getWordchain],
+      });
     },
-  );
+  });
 };
