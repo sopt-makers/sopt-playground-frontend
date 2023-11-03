@@ -55,8 +55,6 @@ const Modal: FC<ModalProps> = (props) => {
     return null;
   }
 
-  console.log(className);
-
   return (
     <Portal>
       <StyledBackground>
