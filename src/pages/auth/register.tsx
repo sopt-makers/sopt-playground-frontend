@@ -7,13 +7,14 @@ import { postRegistrationInfo } from '@/api/endpoint_LEGACY/auth';
 import Register from '@/components/auth/register/Register';
 import { registerTokenAtom } from '@/components/auth/states/registerTokenAtom';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
-import { setLayout } from '@/utils/layout';
 
 export const RegisterPage: FC = () => {
   const { query: params, status } = useStringRouterQuery(['token'] as const);
   const setRegisterToken = useSetRecoilState(registerTokenAtom);
 
-  const query = useQuery(['registerTokenInfo', params?.token], () => postRegistrationInfo(params?.token ?? ''), {
+  const query = useQuery({
+    queryKey: ['registerTokenInfo', params?.token],
+    queryFn: () => postRegistrationInfo(params?.token ?? ''),
     enabled: params !== null,
   });
 
@@ -37,8 +38,6 @@ export const RegisterPage: FC = () => {
     </StyledRegisterPage>
   );
 };
-
-setLayout(RegisterPage, 'fullScreen');
 
 export default RegisterPage;
 

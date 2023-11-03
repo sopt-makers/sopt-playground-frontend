@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { getMembersSearchByName } from '@/api/endpoint/members/getMembersSearchByName';
 interface GetMembersByNameQueryVariables {
@@ -6,22 +6,17 @@ interface GetMembersByNameQueryVariables {
 }
 const useGetMembersByNameQuery = (variables: GetMembersByNameQueryVariables) => {
   const { name } = variables;
-  return useQuery(
-    ['useGetMembersSearchByName', variables],
-    async () => {
+  return useQuery({
+    queryKey: ['useGetMembersSearchByName', variables],
+    queryFn: async () => {
       if (!name) {
         return;
       }
       const data = await getMembersSearchByName.request(name);
       return data;
     },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-      keepPreviousData: true,
-    },
-  );
+    placeholderData: keepPreviousData,
+  });
 };
 
 export default useGetMembersByNameQuery;

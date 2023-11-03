@@ -107,9 +107,15 @@ export default function MemberUploadPage() {
 
     const response = await postMemberProfile(requestBody);
 
-    queryClient.invalidateQueries(['getMemberProfileOfMe']);
-    queryClient.invalidateQueries(['getMemberProfileById', response.id]);
-    queryClient.invalidateQueries(['getMemberProfile']);
+    queryClient.invalidateQueries({
+      queryKey: ['getMemberProfileOfMe']
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['getMemberProfileById', response.id]
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['getMemberProfile']
+    });
 
     router.replace(lastUnauthorized.popPath() ?? '/');
   };

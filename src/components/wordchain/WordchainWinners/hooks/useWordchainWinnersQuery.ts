@@ -9,7 +9,7 @@ interface UseWordchainWinnersQueryVariables {
 export const useWordchainWinnersQuery = ({ limit }: UseWordchainWinnersQueryVariables) => {
   return useInfiniteQuery({
     queryKey: ['getWordchainWinners', limit],
-    queryFn: async ({ pageParam: cursor = 0 }) => {
+    queryFn: async ({ pageParam: cursor }) => {
       const response = await getWordchainWinners.request({ limit, cursor });
       const page = { hasNext: response.hasNext, winners: response.winners };
       return page;
@@ -21,8 +21,6 @@ export const useWordchainWinnersQuery = ({ limit }: UseWordchainWinnersQueryVari
       const totalPageNum = pages.length * limit;
       return totalPageNum;
     },
-    onError: (error: { message: string }) => {
-      console.error(error.message);
-    },
+    initialPageParam: 0,
   });
 };

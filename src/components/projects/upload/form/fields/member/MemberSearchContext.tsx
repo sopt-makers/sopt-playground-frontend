@@ -28,28 +28,25 @@ export function useMemberSearch() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { memberId, searchMember, getMemberById } = useContext(MemberSearchContext);
 
-  const { data: searchedMemberData } = useQuery(
-    ['searchMember', searchQuery],
-    async () => {
+  const { data: searchedMemberData } = useQuery({
+    queryKey: ['searchMember', searchQuery],
+
+    queryFn: async () => {
       const data = await searchMember(searchQuery);
       return data;
     },
-    {
-      enabled: Boolean(searchQuery),
-    },
-  );
+    enabled: Boolean(searchQuery),
+  });
 
-  const { data: defaultValue } = useQuery(
-    ['getMemberById', memberId],
-    async () => {
+  const { data: defaultValue } = useQuery({
+    queryKey: ['getMemberById', memberId],
+    queryFn: async () => {
       if (!memberId) return;
       const data = await getMemberById(memberId);
       return data;
     },
-    {
-      enabled: Boolean(memberId),
-    },
-  );
+    enabled: Boolean(memberId),
+  });
 
   const onValueChange = (value: string) => {
     setName(value);

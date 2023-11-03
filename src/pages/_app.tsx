@@ -25,7 +25,7 @@ import { getLayout } from '@/utils/layout';
 const Debugger = dynamic(() => import('@/components/debug/Debugger'), { ssr: false });
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
+  defaultOptions: { queries: { gcTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
 
 const progress = new ProgressBar({ color: colors.success, size: 3 });

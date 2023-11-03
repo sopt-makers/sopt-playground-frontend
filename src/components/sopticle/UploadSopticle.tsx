@@ -10,7 +10,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface UploadSopticleProps {
-  state: 'idle' | 'loading' | 'error' | 'success';
+  state: 'idle' | 'pending' | 'error' | 'success';
   errorMessage?: string;
   onSubmit: (url: string) => void;
 }
@@ -34,7 +34,7 @@ const UploadSopticle: FC<UploadSopticleProps> = ({ state, errorMessage, onSubmit
         <Label>아티클 링크</Label>
         <StyledInput
           placeholder='https://'
-          disabled={state === 'loading'}
+          disabled={state === 'pending'}
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
