@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import * as Dialog from '@radix-ui/react-dialog';
 import { colors } from '@sopt-makers/colors';
+import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { FC, HTMLAttributes, PropsWithChildren, ReactNode } from 'react';
 
@@ -29,15 +30,19 @@ const ModalComponent: FC<ModalProps> = (props) => {
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <DialogPortal>
-        <StyledBackground>
-          <StyledModalContainer role='dialog' {...restProps}>
-            {children}
-            {!hideCloseButton && (
-              <StyledCloseButton>
-                <StyledIconClose />
-              </StyledCloseButton>
-            )}
-          </StyledModalContainer>
+        <StyledBackground asChild>
+          <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
+            <StyledModalContainer asChild role='dialog' {...restProps}>
+              <m.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ duration: 0.2 }}>
+                {children}
+                {!hideCloseButton && (
+                  <StyledCloseButton>
+                    <StyledIconClose />
+                  </StyledCloseButton>
+                )}
+              </m.div>
+            </StyledModalContainer>
+          </m.div>
         </StyledBackground>
       </DialogPortal>
     </Dialog.Root>
