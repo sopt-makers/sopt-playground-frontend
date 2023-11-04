@@ -6,15 +6,18 @@ import { forwardRef, InputHTMLAttributes } from 'react';
 import IconCheck from '@/public/icons/icon-check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
+interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   checked?: boolean;
+  size?: 'small' | 'medium' | 'large';
 }
 
-const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ checked = false, ...props }, ref) => {
+const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ checked = false, size = 'medium', ...props }, ref) => {
   return (
     <StyledLabel>
       <input ref={ref} type='checkbox' {...props} />
-      <StyledCheckbox checked={checked}>{checked && <IconCheck />}</StyledCheckbox>
+      <StyledCheckbox checked={checked} size={size}>
+        {checked && <IconCheck />}
+      </StyledCheckbox>
     </StyledLabel>
   );
 });
@@ -45,18 +48,30 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   background-color: transparent;
   width: 22.5px;
   height: 22.5px;
-  ${({ checked }) =>
-    checked &&
-    css`
-      border: 1px solid ${colors.blue300};
-      background-color: ${colors.success};
-    `}
 
   & > svg {
     width: 14px;
     height: 9px;
     color: ${colors.gray10};
   }
+
+  ${({ size }) =>
+    size === 'small' &&
+    css`
+      width: 16px;
+      height: 16px;
+      & > svg {
+        width: 10px;
+        height: 6.5px;
+      }
+    `}
+
+  ${({ checked }) =>
+    checked &&
+    css`
+      border: 1px solid ${colors.blue300};
+      background-color: ${colors.success};
+    `}
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 17.5px;
