@@ -140,9 +140,10 @@ interface ContentProps {
   content: string;
   hits: number;
   commentLength: number;
+  images: string[];
 }
 
-const Content = ({ isQuestion = false, title, content, hits, commentLength }: ContentProps) => {
+const Content = ({ isQuestion = false, title, content, hits, commentLength, images }: ContentProps) => {
   return (
     <>
       <Stack gutter={8}>
@@ -152,6 +153,13 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength }: Co
         </Flex>
         <Text css={{ lineHeight: '22px', whiteSpace: 'pre-wrap' }}>{content}</Text>
       </Stack>
+      {images.length !== 0 ? (
+        <Flex css={{ gap: 8, overflowX: 'auto' }}>
+          {images.map((image, index) => (
+            <ImageItem key={index} src={image} alt='image' />
+          ))}
+        </Flex>
+      ) : null}
       <Text typography='SUIT_14_R' color={colors.gray300}>{`댓글 ${commentLength}개 ∙ ${hits}명 읽음`}</Text>
     </>
   );
@@ -164,7 +172,15 @@ const QuestionBadge = styled.div`
   color: ${colors.secondary};
 `;
 
+const ImageItem = styled.img`
+  flex: 0;
+  border-radius: 12px;
+  height: 240px;
+  object-fit: cover;
+`;
+
 const Divider = styled.hr`
+  flex-shrink: 0;
   margin: 0;
   border: none;
   background-color: ${colors.gray800};
@@ -191,7 +207,6 @@ const Comment = ({ image, name, info, comment }: CommentProps) => {
               {info}
             </Text>
           </Flex>
-
           <Text typography='SUIT_14_M'>{comment}</Text>
         </Stack>
       </Flex>

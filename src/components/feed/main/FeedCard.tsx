@@ -32,7 +32,6 @@ const Base = ({
   isQuestion = false,
   commentLength,
   hits,
-
   children,
 }: PropsWithChildren<BaseProps>) => {
   return (
