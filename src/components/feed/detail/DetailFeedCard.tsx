@@ -40,7 +40,7 @@ const Header = ({ category, tag }: HeaderProps) => {
         <FeedDetailLink feedId={undefined}>
           <IconChevronLeft />
         </FeedDetailLink>
-        <Chip align='center'>
+        <Chip align='center' as='button'>
           <Text typography='SUIT_13_M'>{category}</Text>
           <IconChevronRight />
           <Text typography='SUIT_13_M'>{tag}</Text>
@@ -59,10 +59,15 @@ const Header = ({ category, tag }: HeaderProps) => {
 };
 
 const Chip = styled(Flex)`
+  transition: background-color 0.2s ease-in-out;
   border-radius: 21px;
   background-color: ${colors.gray800};
   padding: 7px 12px;
   color: ${colors.gray10};
+
+  :hover {
+    background-color: ${colors.gray700};
+  }
 `;
 
 const Body = ({ children }: PropsWithChildren<unknown>) => {
