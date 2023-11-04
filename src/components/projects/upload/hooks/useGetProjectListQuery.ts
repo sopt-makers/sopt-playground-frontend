@@ -5,18 +5,10 @@ import { getProjects } from '@/api/endpoint_LEGACY/projects';
 export const getProjectListQueryKey = () => ['getProjectListQuery'];
 
 const useGetProjectListQuery = () => {
-  return useQuery(
-    getProjectListQueryKey(),
-    async () => {
-      const data = await getProjects();
-      return data;
-    },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-    },
-  );
+  return useQuery({
+    queryKey: getProjectListQueryKey(),
+    queryFn: getProjects,
+  });
 };
 
 export default useGetProjectListQuery;

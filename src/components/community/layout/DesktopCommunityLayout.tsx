@@ -21,7 +21,9 @@ const DesktopCommunityLayout: FC<DesktopCommunityLayoutProps> = ({ isDetailOpen,
         animate={{ width: isDetailOpen ? DETAIL_SLOT_WIDTH : 0 }}
         transition={{ bounce: 0 }}
       >
-        <DetailSlotInner>{detailSlot}</DetailSlotInner>
+        <DetailSlotSticky>
+          <DetailSlotInner>{detailSlot}</DetailSlotInner>
+        </DetailSlotSticky>
       </DetailSlot>
     </Container>
   );
@@ -31,22 +33,27 @@ export default DesktopCommunityLayout;
 
 const Container = styled.div`
   display: flex;
+  position: relative;
   justify-content: center;
   width: 100%;
-  height: ${layoutCSSVariable.contentAreaHeight};
 `;
 
 const ListSlot = styled.div`
   flex: 1 1 0;
   max-width: 560px;
-  height: 100%;
 `;
 
 const DetailSlot = styled(m.div)`
   position: relative;
-  width: 100%;
+  align-self: stretch;
   max-width: 560px;
-  height: 100%;
+`;
+
+const DetailSlotSticky = styled(m.div)`
+  position: sticky;
+  top: ${layoutCSSVariable.globalHeaderHeight};
+  width: 100%;
+  height: ${layoutCSSVariable.contentAreaHeight};
   overflow: hidden;
 `;
 
@@ -55,6 +62,6 @@ const DetailSlotInner = styled.div`
   top: 0;
   right: 0;
   bottom: 0;
-  width: 560px;
+  width: ${DETAIL_SLOT_WIDTH}px;
   min-width: ${DETAIL_SLOT_WIDTH}px;
 `;

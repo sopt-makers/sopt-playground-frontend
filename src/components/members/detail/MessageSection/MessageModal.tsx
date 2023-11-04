@@ -98,7 +98,7 @@ const MessageModal: FC<MessageModalProps> = ({
     mode: 'onChange',
   });
   const isValid = _isValid && Boolean(selectedCategory);
-  const { mutateAsync, isLoading } = usePostMemberMessageMutation();
+  const { mutateAsync, isPending } = usePostMemberMessageMutation();
 
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
@@ -180,7 +180,7 @@ const MessageModal: FC<MessageModalProps> = ({
           }
         />
         <StyledButton isDisabled={!isValid}>
-          {isLoading ? (
+          {isPending ? (
             <Loading color='white' />
           ) : (
             <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>

@@ -22,9 +22,14 @@ interface ProjectEditProps {
   projectId: string;
 }
 const ProjectEdit: FC<ProjectEditProps> = ({ projectId }) => {
-  const { data: projectData } = useQuery(['getProjectById', projectId], () => getProjectById(projectId));
+  const { data: projectData } = useQuery({
+    queryKey: ['getProjectById', projectId],
+    queryFn: () => getProjectById(projectId),
+  });
   const { data: myProfileData } = useGetMemberOfMe();
-  const { mutate: putProjectMutation } = useMutation(putProject);
+  const { mutate: putProjectMutation } = useMutation({
+    mutationFn: putProject,
+  });
   const queryClient = useQueryClient();
   const { logSubmitEvent } = useEventLogger();
   const router = useRouter();
@@ -44,9 +49,11 @@ const ProjectEdit: FC<ProjectEditProps> = ({ projectId }) => {
         {
           onSuccess: () => {
             toast.show({ message: '프로젝트를 성공적으로 수정했어요.' });
-            queryClient.invalidateQueries(getProjectQueryKey(projectId));
-            queryClient.invalidateQueries(getProjectListQueryKey());
-            queryClient.invalidateQueries(['getProjectById', projectId]);
+            queryClient.invalidateQueries({ queryKey: getProjectQueryKey(projectId) });
+            queryClient.invalidateQueries({ queryKey: getProjectListQueryKey() });
+            queryClient.invalidateQueries({
+              queryKey: ['getProjectById', projectId],
+            });
             router.push(playgroundLink.projectDetail(projectId));
             logSubmitEvent('projectEdit', {
               projectId,
