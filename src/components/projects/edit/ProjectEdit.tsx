@@ -6,8 +6,8 @@ import { FC, useEffect } from 'react';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { getProjectById, putProject } from '@/api/endpoint_LEGACY/projects';
 import AuthRequired from '@/components/auth/AuthRequired';
-import { Alert } from '@/components/common/Modal/Alert';
-import { Confirm } from '@/components/common/Modal/Confirm';
+import useAlert from '@/components/common/Modal/useAlert';
+import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import ProjectForm from '@/components/projects/upload/form/ProjectForm';
@@ -34,11 +34,15 @@ const ProjectEdit: FC<ProjectEditProps> = ({ projectId }) => {
   const { logSubmitEvent } = useEventLogger();
   const router = useRouter();
   const toast = useToast();
+  const { confirm } = useConfirm();
+  const { alert } = useAlert();
 
   const handleSubmit = async (formData: ProjectFormType) => {
-    const notify = await Confirm({
+    const notify = await confirm({
       title: '알림',
-      content: '프로젝트를 수정하시겠습니까?',
+      description: '프로젝트를 수정하시겠습니까?',
+      okButtonText: '수정',
+      cancelButtonText: '취소',
     });
     if (notify && myProfileData) {
       putProjectMutation(
@@ -67,13 +71,14 @@ const ProjectEdit: FC<ProjectEditProps> = ({ projectId }) => {
 
   useEffect(() => {
     if (myProfileData && projectData && myProfileData?.id !== projectData?.writerId) {
-      Alert({
+      alert({
         title: '알림',
-        content: '해당 프로젝트를 작성한 유저만 접근 가능한 페이지 입니다.',
-        onClose: () => router.push(playgroundLink.projectList()),
+        description: '해당 프로젝트를 작성한 유저만 접근 가능한 페이지 입니다.',
+      }).then(() => {
+        router.push(playgroundLink.projectList());
       });
     }
-  }, [myProfileData, projectData, router]);
+  }, [myProfileData, projectData, router, alert]);
 
   if (!projectData) {
     return null;

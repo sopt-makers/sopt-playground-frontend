@@ -2,6 +2,7 @@ import ProgressBar from '@badrap/bar-of-progress';
 import { colors } from '@sopt-makers/colors';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { OverlayProvider } from '@toss/use-overlay';
 import { LazyMotion } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -67,9 +68,11 @@ function MyApp({ Component, pageProps }: AppProps) {
               <ToastProvider>
                 <GlobalStyle />
                 <ResponsiveProvider>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
+                  <OverlayProvider>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </OverlayProvider>
                 </ResponsiveProvider>
                 {DEBUG && <Debugger />}
               </ToastProvider>

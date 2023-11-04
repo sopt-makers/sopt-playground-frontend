@@ -3,11 +3,11 @@ import { colors } from '@sopt-makers/colors';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { deleteProject } from '@/api/endpoint_LEGACY/projects';
-import ConfirmModal from '@/components/common/Modal/Confirm';
+import useConfirm from '@/components/common/Modal/useConfirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
 import { getLinkInfo } from '@/components/projects/constants';
@@ -49,7 +49,22 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
   const endAt = project?.endAt ? dayjs(project.endAt).format('YYYY-MM') : '';
   const mainImage = project?.images[0];
   const sortedMembers = useMemo(() => sortByRole([...(project?.members ?? [])]), [project]);
-  const [isDeleteConfirmModalOpened, setIsDeleteConfirmModalOpened] = useState(false);
+
+  const { confirm } = useConfirm();
+
+  const askDelete = async () => {
+    const result = await confirm({
+      title: '프로젝트 삭제',
+      description: '프로젝트를 정말 삭제하시겠어요?',
+      okButtonText: '삭제',
+      okButtonColor: colors.error,
+      cancelButtonText: '취소',
+    });
+
+    if (result) {
+      handleDeleteProject();
+    }
+  };
 
   const handleDeleteProject = async () => {
     if (project) {
@@ -87,7 +102,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           {project?.writerId === me?.id && (
             <ControlWrapper>
               <div onClick={() => project && router.push(playgroundLink.projectEdit(project.id))}>수정하기</div>
-              <div onClick={() => setIsDeleteConfirmModalOpened(true)}>
+              <div onClick={() => askDelete()}>
                 <IconTrashcan />
               </div>
             </ControlWrapper>
@@ -160,17 +175,6 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           </LinkBox>
         ))}
       </MobileLinksWrapper>
-
-      {isDeleteConfirmModalOpened && (
-        <ConfirmModal
-          title='프로젝트 삭제'
-          content='프로젝트를 정말 삭제하시겠어요?'
-          onClose={() => setIsDeleteConfirmModalOpened(false)}
-          onConfirm={handleDeleteProject}
-          cancelText='삭제'
-          confirmButtonVariable='danger'
-        />
-      )}
     </Container>
   );
 };

@@ -7,6 +7,7 @@ import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { QueryParamProvider } from 'use-query-params';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
+import { OverlayProvider } from '@toss/use-overlay';
 
 import ResponsiveProvider from '../src/components/common/Responsive/ResponsiveProvider';
 import StorybookToastProvider from '../src/components/common/Toast/providers/StorybookToastProvider';
@@ -17,7 +18,7 @@ import GlobalStyle from '../src/styles/GlobalStyle';
 initialize();
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { cacheTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
+  defaultOptions: { queries: { gcTime: 300000, refetchOnWindowFocus: false, staleTime: 300000, retry: 1 } },
 });
 
 export const parameters = {
@@ -52,7 +53,9 @@ export const decorators = [
               <StorybookToastProvider>
                 <GlobalStyle />
                 <ResponsiveProvider>
-                  <Story />
+                  <OverlayProvider>
+                    <Story />
+                  </OverlayProvider>
                 </ResponsiveProvider>
               </StorybookToastProvider>
             </StorybookEventLoggerProvider>
