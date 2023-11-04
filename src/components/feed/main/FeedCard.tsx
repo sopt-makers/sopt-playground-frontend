@@ -32,6 +32,7 @@ const Base = ({
   isQuestion = false,
   commentLength,
   hits,
+
   children,
 }: PropsWithChildren<BaseProps>) => {
   return (
@@ -42,8 +43,14 @@ const Base = ({
         gap: 8,
       }}
     >
-      {isBlindWriter ? <IconMember /> : <ProfileImage width={32} height={32} src={profileImage} />}
-      <Stack gutter={8}>
+      {isBlindWriter ? (
+        <div css={{ flexShrink: 0 }}>
+          <IconMember />
+        </div>
+      ) : (
+        <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+      )}
+      <Stack gutter={8} css={{ minWidth: 0 }}>
         <Flex justify='space-between'>
           {isBlindWriter ? (
             <Text typography='SUIT_13_SB'>익명</Text>

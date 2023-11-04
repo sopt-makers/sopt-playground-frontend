@@ -69,7 +69,6 @@ const CommunityPage: FC = () => {
             </DetailFeedCard>
           }
         />
-        <DesktopCommunityLayout isDetailOpen={isDetailOpen} listSlot={feedList} detailSlot={feedDetail} />
       </Responsive>
       <Responsive only='mobile'>
         <MobileCommunityLayout isDetailOpen={isDetailOpen} listSlot={feedList} detailSlot={feedDetail} />
