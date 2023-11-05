@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import FocusTrap from 'focus-trap-react';
-import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
+import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useRef } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
 import Portal from '@/components/common/Portal';
+import { useEscapeCallback } from '@/hooks/useEscapeCallback';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import IconModalCheck from '@/public/icons/icon-modal-check.svg';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
@@ -27,18 +28,9 @@ const Modal: FC<ModalProps> = (props) => {
   const { confirmIcon, children, title = '', content, isOpen, onClose, width, ...restProps } = props;
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const keydownHandler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', keydownHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keydownHandler);
-    };
-  }, [onClose]);
+  useEscapeCallback({
+    callback: onClose,
+  });
 
   useOnClickOutside(modalRef, onClose);
 
