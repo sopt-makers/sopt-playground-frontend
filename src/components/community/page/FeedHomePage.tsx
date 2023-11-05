@@ -130,7 +130,9 @@ const COMMENTS = [
 
 const 당근데탑큰것 =
   'https://github.com/sopt-makers/sopt-playground-frontend/assets/26808056/37aeca19-f53c-4a96-a42a-a6bfe1cc5f5b';
-const 당근데탑작은것 =
-  'https://github.com/sopt-makers/sopt-playground-frontend/assets/26808056/45efc303-1449-4cc3-b4a0-b475af17ae57';
+const 주우재먹방 =
+  'https://github.com/sopt-makers/sopt-playground-frontend/assets/26808056/906c09a2-6c30-4022-ae36-681f54c490e0';
+const 사과점수 =
+  'https://github.com/sopt-makers/sopt-playground-frontend/assets/26808056/b47c137d-b2d6-4cc0-a1c3-583f253d8728';
 
-const IMAGES = [당근데탑큰것, 당근데탑작은것, 당근데탑큰것];
+const IMAGES = [주우재먹방, 당근데탑큰것, 사과점수];
