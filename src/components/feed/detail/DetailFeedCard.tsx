@@ -7,7 +7,7 @@ import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
 import { FeedDetailLink } from '@/components/community/queryParam';
-import FeedImageSlider from '@/components/feed/detail/FeedImageSlider';
+import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import {
   IconChevronLeft,
   IconChevronRight,
