@@ -44,6 +44,26 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [router.events]);
 
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const $existingMeta = document.querySelector('meta[name="viewport"]');
+
+    /** 모바일 환경에서 input focus 시 화면이 확대되는 현상을 막아요 */
+    if (isMobile) {
+      const $meta = $existingMeta ?? document.createElement('meta');
+
+      $meta.setAttribute('name', 'viewport');
+      $meta.setAttribute(
+        'content',
+        'width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0',
+      );
+
+      if (!$existingMeta) {
+        document.head.appendChild($meta);
+      }
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <NextSeo
