@@ -102,7 +102,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           {project?.writerId === me?.id && (
             <ControlWrapper>
               <div onClick={() => project && router.push(playgroundLink.projectEdit(project.id))}>수정하기</div>
-              <div onClick={() => askDelete()}>
+              <div onClick={askDelete}>
                 <IconTrashcan />
               </div>
             </ControlWrapper>

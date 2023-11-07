@@ -32,7 +32,7 @@ const ModalComponent: FC<ModalProps> = (props) => {
       <DialogPortal>
         <StyledBackground asChild>
           <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
-            <StyledModalContainer asChild role='dialog' {...restProps}>
+            <StyledModalContainer asChild {...restProps}>
               <m.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ duration: 0.2 }}>
                 {children}
                 {!hideCloseButton && (
@@ -71,7 +71,6 @@ const StyledBackground = styled(Dialog.Overlay)`
 
 const StyledModalContainer = styled(Dialog.Content)`
   position: relative;
-  z-index: 101;
   border-radius: 22px;
   background: ${colors.gray800};
   max-width: calc(100vw - 60px);
