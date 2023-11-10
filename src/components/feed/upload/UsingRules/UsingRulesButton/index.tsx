@@ -14,11 +14,12 @@ export default function UsingRulesButton() {
         <Responsive only='desktop'>
           <ButtonWrapper>
             <HelpIc />
+            <p>커뮤니티 이용규칙</p>
           </ButtonWrapper>
         </Responsive>
-        커뮤니티 이용규칙
         <Responsive only='mobile'>
           <ButtonWrapper>
+            <p>커뮤니티 이용규칙</p>
             <ArrowIc />
           </ButtonWrapper>
         </Responsive>
@@ -29,7 +30,6 @@ export default function UsingRulesButton() {
 
 const ShowMoreButton = styled.button`
   display: flex;
-  gap: 4px;
   align-items: center;
 
   ${textStyles.SUIT_13_R};
@@ -39,8 +39,10 @@ const ShowMoreButton = styled.button`
 
 const ButtonWrapper = styled.div`
   display: flex;
+  gap: 4px;
   align-items: center;
   height: 22px;
+
   @media ${MOBILE_MEDIA_QUERY} {
     height: 16px;
   }
