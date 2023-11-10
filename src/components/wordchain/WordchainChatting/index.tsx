@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   useGetActiveWordchain,
@@ -25,45 +25,62 @@ interface WordchainChattingProps {
 }
 export default function WordchainChatting({ className }: WordchainChattingProps) {
   const { logSubmitEvent } = useEventLogger();
-  const [scrollHeight, setScrollHeight] = useState<number | undefined>();
+  const scrollHeightRef = useRef<number | undefined>(0);
   const wordchainListRef = useRef<HTMLDivElement>(null);
   const { data: finishedWordchainListPages, fetchNextPage } = useGetFinishedWordchainList({
     limit: LIMIT,
-    queryOptions: {
-      onSuccess: (data) => {
-        setTimeout(() => {
-          if (data.pageParams.length === 1) {
-            wordchainListRef.current && setScrollHeight(wordchainListRef.current.scrollHeight);
-          } else {
-            if (!(wordchainListRef.current && scrollHeight)) {
-              return;
-            }
-            scrollTo(wordchainListRef.current.scrollHeight - scrollHeight);
-            setScrollHeight(wordchainListRef.current.scrollHeight);
-          }
-        }, 0);
-      },
-    },
   });
-  const { data: activeWordchain } = useGetActiveWordchain({
-    onSuccess: () => {
-      setTimeout(() => {
-        scrollToBottom();
-      }, 0);
-    },
-  });
+
+  useEffect(() => {
+    if (!finishedWordchainListPages) {
+      return;
+    }
+
+    setTimeout(() => {
+      if (finishedWordchainListPages.pageParams.length === 1) {
+        if (wordchainListRef.current) {
+          scrollHeightRef.current = wordchainListRef.current.scrollHeight;
+        }
+      } else {
+        if (!(wordchainListRef.current && scrollHeightRef.current)) {
+          return;
+        }
+        scrollTo(wordchainListRef.current.scrollHeight - scrollHeightRef.current);
+        scrollHeightRef.current = wordchainListRef.current.scrollHeight;
+      }
+    }, 0);
+  }, [finishedWordchainListPages]);
+
+  const { data: activeWordchain } = useGetActiveWordchain();
+
+  const scrollToBottom = useCallback(() => {
+    if (wordchainListRef.current) {
+      scrollTo(wordchainListRef.current.scrollHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      scrollToBottom();
+    }, 0);
+  }, [activeWordchain, scrollToBottom]);
+
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
   const { mutate: mutatePostWord } = usePostWord({
     onSuccess: () => {
       setWord('');
-      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
+      queryClient.invalidateQueries({
+        queryKey: [wordChainQueryKey.getRecentWordchain],
+      });
     },
     onError: (error) => {
       if (typeof error.response?.data !== 'string') {
         return;
       }
-      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
+      queryClient.invalidateQueries({
+        queryKey: [wordChainQueryKey.getRecentWordchain],
+      });
       const split = error.response.data.split(' : ');
       if (split.length !== 2) {
         return;
@@ -106,11 +123,6 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
   const scrollTo = (height: number) => {
     if (wordchainListRef.current) {
       wordchainListRef.current.scrollTop = height;
-    }
-  };
-  const scrollToBottom = () => {
-    if (wordchainListRef.current) {
-      scrollTo(wordchainListRef.current.scrollHeight);
     }
   };
 

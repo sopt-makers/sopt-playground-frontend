@@ -17,59 +17,47 @@ export const useGetMemberProfileById = (
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useQuery(
-    ['getMemberProfileById', id],
-    async () => {
+  return useQuery({
+    queryKey: ['getMemberProfileById', id],
+
+    queryFn: async () => {
       const data = await getMemberProfileById(id);
       return data;
     },
-    {
-      ...options,
-      onError: (error: AxiosError) => {
-        options?.onError?.(error);
-        console.error(error.message);
-      },
-      enabled: !!id,
-    },
-  );
+    enabled: !!id,
+    ...options,
+  });
 };
 
 // 자신의 토큰으로 프로필 조회
 export const useGetMemberProfileOfMe = (
   options?: Omit<UseQueryOptions<ProfileDetail, { message: string }, ProfileDetail, string[]>, 'queryKey' | 'queryFn'>,
 ) => {
-  return useQuery(
-    ['getMemberProfileOfMe'],
-    async () => {
+  return useQuery({
+    queryKey: ['getMemberProfileOfMe'],
+
+    queryFn: async () => {
       const data = await getMemberProfileOfMe();
       return data;
     },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-      ...options,
-    },
-  );
+    ...options,
+  });
 };
 
 export const useGetMembersSearchByName = (name: string) => {
-  return useQuery(
-    ['getMembersSearchByName', name],
-    async () => {
+  return useQuery({
+    queryKey: ['getMembersSearchByName', name],
+
+    queryFn: async () => {
       const data = await getMembersSearchByName.request(name);
       return data;
     },
-    {
-      onError: (error: { message: string }) => {
-        console.error(error.message);
-      },
-    },
-  );
+  });
 };
 
 export const usePostMemberMessageMutation = () => {
-  return useMutation(async (variables: PostMemberMessageVariables) => await postMemberMessage(variables), {
+  return useMutation({
+    mutationFn: async (variables: PostMemberMessageVariables) => await postMemberMessage(variables),
     onError: (error: { message: string }) => {
       console.error(error.message);
     },

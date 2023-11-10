@@ -10,7 +10,7 @@ import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
-import { Alert } from '@/components/common/Modal/Alert';
+import useAlert from '@/components/common/Modal/useAlert';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
@@ -98,7 +98,8 @@ const MessageModal: FC<MessageModalProps> = ({
     mode: 'onChange',
   });
   const isValid = _isValid && Boolean(selectedCategory);
-  const { mutateAsync, isLoading } = usePostMemberMessageMutation();
+  const { mutateAsync, isPending } = usePostMemberMessageMutation();
+  const { alert } = useAlert();
 
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
@@ -116,9 +117,9 @@ const MessageModal: FC<MessageModalProps> = ({
           category: selectedCategory,
           receiverId,
         });
-        await Alert({
+        await alert({
           title: '쪽지 보내기',
-          content: '성공적으로 전송되었어요!',
+          description: '성공적으로 전송되었어요!',
         });
         onLog?.({ category: selectedCategory });
         props.onClose();
@@ -180,7 +181,7 @@ const MessageModal: FC<MessageModalProps> = ({
           }
         />
         <StyledButton isDisabled={!isValid}>
-          {isLoading ? (
+          {isPending ? (
             <Loading color='white' />
           ) : (
             <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
