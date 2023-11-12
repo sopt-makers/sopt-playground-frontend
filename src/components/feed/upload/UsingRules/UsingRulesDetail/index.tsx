@@ -18,7 +18,7 @@ export default function UsingRulesDetail({ isOpen, onClose }: UsingRulesDetailPr
   return (
     <>
       <Responsive only='desktop'>
-        <Modal isOpen={isOpen} onClose={onClose} isNonClose className='rules-detail' width={358}>
+        <Modal isOpen={isOpen} onClose={onClose} hideCloseButton className='rules-detail'>
           <ModalContents>
             <Title>커뮤니티 이용규칙</Title>
             <Detail>{COMMUNITY_RULES_DETAIL}</Detail>
@@ -38,7 +38,9 @@ const ModalContents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: 24px;
+  padding: 24px 8px 0;
+  max-width: 358px;
+  max-height: 496px;
   overflow: scroll;
 `;
 
