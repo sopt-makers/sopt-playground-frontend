@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from '@sopt-makers/colors';
+import { fontBase } from '@sopt-makers/fonts';
 
 import font from '@/styles/font';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -8,6 +9,10 @@ import { reset } from '@/styles/reset';
 export const global = css`
   ${reset};
   ${font}
+
+  * {
+    ${fontBase}
+  }
 
   :root {
     color-scheme: dark;
