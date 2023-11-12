@@ -7,6 +7,7 @@ import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
 import { FeedDetailLink } from '@/components/community/queryParam';
+import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -144,6 +145,8 @@ interface ContentProps {
 }
 
 const Content = ({ isQuestion = false, title, content, hits, commentLength, images }: ContentProps) => {
+  const [openSlider, setOpenSlider] = useState(false);
+
   return (
     <>
       <Stack gutter={8}>
@@ -154,13 +157,14 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
         <Text css={{ lineHeight: '22px', whiteSpace: 'pre-wrap' }}>{content}</Text>
       </Stack>
       {images.length !== 0 ? (
-        <Flex css={{ gap: 8, overflowX: 'auto' }}>
+        <Flex css={{ gap: 8, overflowX: 'auto' }} onClick={() => setOpenSlider(true)}>
           {images.map((image, index) => (
             <ImageItem key={index} src={image} alt='image' />
           ))}
         </Flex>
       ) : null}
       <Text typography='SUIT_14_R' color={colors.gray300}>{`댓글 ${commentLength}개 ∙ ${hits}명 읽음`}</Text>
+      <FeedImageSlider opened={openSlider} images={images} onClose={() => setOpenSlider(false)} />
     </>
   );
 };
@@ -175,6 +179,7 @@ const QuestionBadge = styled.div`
 const ImageItem = styled.img`
   flex: 0;
   border-radius: 12px;
+  cursor: pointer;
   height: 240px;
   object-fit: cover;
 `;

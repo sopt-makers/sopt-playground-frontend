@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import FocusTrap from 'focus-trap-react';
-import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
+import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useRef } from 'react';
 
 import Portal from '@/components/common/Portal';
+import { useEscapeCallback } from '@/hooks/useEscapeCallback';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 
 export interface BottomSheetProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
@@ -16,18 +17,9 @@ export const BottomSheet: FC<BottomSheetProps> = (props) => {
   const { header, children, className, isOpen, onClose, ...restProps } = props;
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const keydownHandler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', keydownHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keydownHandler);
-    };
-  }, [onClose]);
+  useEscapeCallback({
+    callback: onClose,
+  });
 
   useOnClickOutside(modalRef, onClose);
 
