@@ -65,7 +65,6 @@ const StyledBackground = styled(Dialog.Overlay)`
   inset: 0;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
   background-color: rgb(0 0 0 / 30%);
 `;
 
@@ -75,6 +74,12 @@ const StyledModalContainer = styled(Dialog.Content)`
   background: ${colors.gray800};
   max-width: calc(100vw - 60px);
   color: ${colors.gray10};
+
+  .rules-detail {
+    padding: 0 8px;
+    max-height: 520px;
+    overflow: scroll;
+  }
 `;
 
 const StyledCloseButton = styled(Dialog.Close)`
