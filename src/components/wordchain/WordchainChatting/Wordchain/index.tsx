@@ -6,12 +6,11 @@ import TrophyIcon from 'public/icons/icon-trophy.svg';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetCurrentWinnerName } from '@/api/endpoint/wordchain/getWordchain';
 import { useNewGameMutation } from '@/api/endpoint/wordchain/newGame';
-import { Confirm } from '@/components/common/Modal/Confirm';
+import useConfirm from '@/components/common/Modal/useConfirm';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import StartWordChatMessage from '@/components/wordchain/WordchainChatting/StartWordChatMessage';
 import { Word } from '@/components/wordchain/WordchainChatting/types';
 import WordChatMessage from '@/components/wordchain/WordchainChatting/WordChatMessage';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -48,21 +47,22 @@ export default function Wordchain({ initial, order, wordList, isProgress, winner
   const { data: currentWinnerName } = useGetCurrentWinnerName();
   const { mutate } = useNewGameMutation();
   const { data: me } = useGetMemberOfMe();
+  const { confirm } = useConfirm();
   const queryClient = useQueryClient();
 
   const onClickGiveUp = async () => {
-    const confirm = await Confirm({
+    const confirmResult = await confirm({
       title: '정말 포기하시겠어요?',
-      content: `지금 포기하면 '${currentWinnerName ?? ''}'님이 우승자가 돼요.`,
-      cancelText: '돌아가기',
-      okText: '새로 시작하기',
+      description: `지금 포기하면 '${currentWinnerName ?? ''}'님이 우승자가 돼요.`,
+      cancelButtonText: '돌아가기',
+      okButtonText: '새로 시작하기',
     });
-    if (confirm) {
+    if (confirmResult) {
       mutate(undefined, {
         onSuccess: () => {
           logSubmitEvent('wordchainNewGame');
           queryClient.invalidateQueries({
-            queryKey: ['getWordchainWinners']
+            queryKey: ['getWordchainWinners'],
           });
         },
       });
