@@ -5343,6 +5343,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sopt-makers/fonts@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@sopt-makers/fonts@npm:1.0.0"
+  checksum: 576e3689dfa95ef8b6bbebab646141286cbe93208236e83d61170351ccdd64dd327ef951685248e77a4a201b0971893a3cfd2eabcf426c39f0d8845df9077025
+  languageName: node
+  linkType: hard
+
 "@sopt-makers/playground-common@workspace:playground-common":
   version: 0.0.0-use.local
   resolution: "@sopt-makers/playground-common@workspace:playground-common"
@@ -6791,6 +6798,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@toss/use-overlay@npm:^1.3.6":
+  version: 1.3.6
+  resolution: "@toss/use-overlay@npm:1.3.6"
+  dependencies:
+    "@types/react": ^18.0.21
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18
+  checksum: 90c7cf24a9523cfda5a37a4bc47aab1b4bab764fe3b0f21dcf0527f0f94ccc2b17f9a5c81da76671a5aee0f7bcd6346b9206dd81c33a5cbd3ea4e2027d53048f
+  languageName: node
+  linkType: hard
+
 "@toss/utils@npm:^1.4.4":
   version: 1.4.4
   resolution: "@toss/utils@npm:1.4.4"
@@ -7334,6 +7352,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 70d3336d43ef25509fa89ef3278f57fdf1945fc921e69b7890a78ab9a52a55ee38e2f13aa71eb4f6032b7311e7557860ce8836c1acf3028304989571c9736a96
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.0.21":
+  version: 18.2.34
+  resolution: "@types/react@npm:18.2.34"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 16446542228cba827143caf0ecb4718cbf02ae5befd4a6bc6d67ed144fe1c0cb4b06b20facf3d2b972d86c67a17cc82f5ec8a03fce42d50e12b2dcd0592fc66e
   languageName: node
   linkType: hard
 
@@ -18228,6 +18257,7 @@ __metadata:
     "@radix-ui/react-tabs": ^1.0.2
     "@radix-ui/react-tooltip": ^1.0.5
     "@sopt-makers/colors": ^3.0.0
+    "@sopt-makers/fonts": ^1.0.0
     "@storybook/addon-actions": ^7.0.23
     "@storybook/addon-docs": ^7.0.23
     "@storybook/addon-essentials": ^7.0.23
@@ -18243,6 +18273,7 @@ __metadata:
     "@testing-library/jest-dom": ^6.1.3
     "@testing-library/react": ^14.0.0
     "@toss/emotion-utils": ^1.1.10
+    "@toss/use-overlay": ^1.3.6
     "@types/jest": ^29.4.0
     "@types/jscodeshift": ^0
     "@types/lodash-es": ^4.17.6

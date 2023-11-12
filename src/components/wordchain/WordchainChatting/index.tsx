@@ -53,14 +53,11 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
 
   const { data: activeWordchain } = useGetActiveWordchain();
 
-  const scrollToBottom = useCallback(
-    () => () => {
-      if (wordchainListRef.current) {
-        scrollTo(wordchainListRef.current.scrollHeight);
-      }
-    },
-    [],
-  );
+  const scrollToBottom = useCallback(() => {
+    if (wordchainListRef.current) {
+      scrollTo(wordchainListRef.current.scrollHeight);
+    }
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
