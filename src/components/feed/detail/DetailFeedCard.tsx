@@ -6,7 +6,7 @@ import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
-import { FeedDetailLink } from '@/components/community/queryParam';
+import { FeedDetailLink } from '@/components/feed/common/queryParam';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import {
   IconChevronLeft,
@@ -15,8 +15,8 @@ import {
   IconMoreVert,
   IconSendFill,
   IconShare,
-} from '@/components/feed/Icon';
-import { getRelativeTime } from '@/components/feed/utils';
+} from '@/components/feed/list/Icon';
+import { getRelativeTime } from '@/components/feed/common/utils';
 import { textStyles } from '@/styles/typography';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
