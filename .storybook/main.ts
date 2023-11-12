@@ -39,6 +39,10 @@ const config: StorybookConfig = {
 
     return config;
   },
+  babel: (options) => ({
+    ...options,
+    presets: [...(options.presets ?? []), '@emotion/babel-preset-css-prop'],
+  }),
   staticDirs: ['../public'],
   docs: {
     autodocs: false,
