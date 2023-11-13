@@ -5,6 +5,9 @@ import FeedCard from './FeedCard';
 
 const meta = {
   component: FeedCard,
+  parameters: {
+    layout: 'fullscreen',
+  },
 } satisfies Meta<typeof FeedCard>;
 export default meta;
 

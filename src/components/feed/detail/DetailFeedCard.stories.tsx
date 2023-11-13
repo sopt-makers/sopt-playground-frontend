@@ -5,9 +5,12 @@ import DetailFeedCard from './DetailFeedCard';
 
 const meta = {
   component: DetailFeedCard,
+  parameters: {
+    layout: 'fullscreen',
+  },
   decorators: [
     (Story) => (
-      <div style={{ height: '80vh' }}>
+      <div style={{ height: '100vh' }}>
         <Story />
       </div>
     ),
