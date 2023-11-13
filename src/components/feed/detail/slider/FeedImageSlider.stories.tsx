@@ -1,6 +1,6 @@
 import { colors } from '@sopt-makers/colors';
-import { Meta, StoryObj } from '@storybook/react';
-import { Flex, Stack } from '@toss/emotion-utils';
+import { Meta } from '@storybook/react';
+import { Stack } from '@toss/emotion-utils';
 import { useState } from 'react';
 
 import Button from '@/components/common/Button';
@@ -12,8 +12,6 @@ const meta = {
   component: FeedImageSlider,
 } satisfies Meta<typeof FeedImageSlider>;
 export default meta;
-
-type Story = StoryObj<typeof meta>;
 
 const 당근데탑큰것 =
   'https://github.com/sopt-makers/sopt-playground-frontend/assets/26808056/37aeca19-f53c-4a96-a42a-a6bfe1cc5f5b';

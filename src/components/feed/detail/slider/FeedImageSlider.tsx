@@ -132,6 +132,10 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  & > img {
+    flex: 0;
+  }
 `;
 
 const IconClose = () => (
