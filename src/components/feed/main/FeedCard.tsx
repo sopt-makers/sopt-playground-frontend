@@ -6,6 +6,7 @@ import { PropsWithChildren } from 'react';
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/Icon';
 import { getRelativeTime } from '@/components/feed/utils';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface BaseProps {
@@ -49,12 +50,12 @@ const Base = ({
       ) : (
         <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
       )}
-      <Stack gutter={8} css={{ minWidth: 0 }}>
+      <Flex direction='column' css={{ minWidth: 0, gap: '8px' }}>
         <Flex justify='space-between'>
           {isBlindWriter ? (
             <Text typography='SUIT_13_SB'>익명</Text>
           ) : (
-            <Stack.Horizontal gutter={4}>
+            <Top align='center'>
               <Text typography='SUIT_13_SB'>{name}</Text>
               <Text typography='SUIT_13_R' color={colors.gray400}>
                 ∙
@@ -62,7 +63,7 @@ const Base = ({
               <Text typography='SUIT_13_R' color={colors.gray400}>
                 {info}
               </Text>
-            </Stack.Horizontal>
+            </Top>
           )}
           <Stack.Horizontal gutter={4}>
             <Text typography='SUIT_14_R' color={colors.gray400}>
@@ -92,7 +93,7 @@ const Base = ({
           <Text>∙</Text>
           <Text>{`조회수 ${hits}회`}</Text>
         </Bottom>
-      </Stack>
+      </Flex>
     </Flex>
   );
 };
@@ -103,6 +104,14 @@ const ProfileImage = styled.img`
   width: 32px;
   height: 32px;
   object-fit: cover;
+`;
+
+const Top = styled(Flex)`
+  gap: 4px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 2px;
+  }
 `;
 
 const Title = styled(Text)`
@@ -154,8 +163,15 @@ const ImageItem = styled.img`
 `;
 
 const Comment = ({ children }: PropsWithChildren<unknown>) => {
-  return <Flex css={{ gap: 8, overflowX: 'auto', whiteSpace: 'nowrap' }}>{children}</Flex>;
+  return <StyledComment>{children}</StyledComment>;
 };
+
+const StyledComment = styled(Flex)`
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-top: 4px;
+`;
 
 interface CommentItemProps {
   name: string;
