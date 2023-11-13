@@ -17,6 +17,7 @@ import {
   IconShare,
 } from '@/components/feed/Icon';
 import { getRelativeTime } from '@/components/feed/utils';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
@@ -36,7 +37,7 @@ interface HeaderProps {
 
 const Header = ({ category, tag }: HeaderProps) => {
   return (
-    <Flex align='center' justify='space-between' as='header' css={{ padding: '0 24px' }}>
+    <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
         <FeedDetailLink feedId={undefined}>
           <IconChevronLeft />
@@ -55,9 +56,17 @@ const Header = ({ category, tag }: HeaderProps) => {
           <IconMoreVert />
         </button>
       </Flex.Center>
-    </Flex>
+    </StyledHeader>
   );
 };
+
+const StyledHeader = styled(Flex)`
+  padding: 15px 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 10px 16px;
+  }
+`;
 
 const Chip = styled(Flex)`
   transition: background-color 0.2s ease-in-out;
@@ -86,15 +95,24 @@ const StyledBody = styled(Flex)`
   flex: 1;
   padding: 16px 24px;
   overflow: auto;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 16px;
+  }
 `;
 
 const Main = ({ children }: PropsWithChildren<unknown>) => {
-  return (
-    <Stack gutter={16} css={{ padding: '16px 24px' }}>
-      {children}
-    </Stack>
-  );
+  return <StyledMain direction='column'>{children}</StyledMain>;
 };
+
+const StyledMain = styled(Flex)`
+  gap: 16px;
+  padding: 16px 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 16px;
+  }
+`;
 
 interface TopProps {
   isBlindWriter?: boolean;
@@ -108,11 +126,9 @@ const Top = ({ isBlindWriter = false, profileImage, name, info, createdAt }: Top
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
-        {isBlindWriter ? <IconMember /> : <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />}
+        {isBlindWriter ? <IconMember /> : <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' />}
         <Stack.Vertical gutter={4}>
-          <Text typography='SUIT_16_SB' color={colors.gray10}>
-            {isBlindWriter ? '익명' : name}
-          </Text>
+          <Name color={colors.gray10}>{isBlindWriter ? '익명' : name}</Name>
           {!isBlindWriter ? (
             <Text typography='SUIT_13_R' color={colors.gray100}>
               {info}
@@ -120,9 +136,9 @@ const Top = ({ isBlindWriter = false, profileImage, name, info, createdAt }: Top
           ) : null}
         </Stack.Vertical>
       </Flex>
-      <Text typography='SUIT_14_R' color={colors.gray300}>
+      <RelativeTimeText typography='SUIT_14_R' color={colors.gray300}>
         {getRelativeTime(createdAt)}
-      </Text>
+      </RelativeTimeText>
     </Flex>
   );
 };
@@ -133,6 +149,22 @@ const ProfileImage = styled.img`
   width: 40px;
   height: 40px;
   object-fit: cover;
+`;
+
+const Name = styled(Text)`
+  ${textStyles.SUIT_16_SB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_SB};
+  }
+`;
+
+const RelativeTimeText = styled(Text)`
+  ${textStyles.SUIT_14_R};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_13_R};
+  }
 `;
 
 interface ContentProps {
@@ -152,9 +184,9 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
       <Stack gutter={8}>
         <Flex css={{ gap: 3 }} align='center'>
           {isQuestion ? <QuestionBadge>질문</QuestionBadge> : null}
-          <Text typography='SUIT_20_SB'>{title}</Text>
+          <Title>{title}</Title>
         </Flex>
-        <Text css={{ lineHeight: '22px', whiteSpace: 'pre-wrap' }}>{content}</Text>
+        <StyledContent>{content}</StyledContent>
       </Stack>
       {images.length !== 0 ? (
         <Flex css={{ gap: 8, overflowX: 'auto' }} onClick={() => setOpenSlider(true)}>
@@ -168,6 +200,19 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
     </>
   );
 };
+
+const Title = styled(Text)`
+  ${textStyles.SUIT_20_SB};
+`;
+
+const StyledContent = styled(Text)`
+  line-height: 22px;
+  white-space: pre-wrap;
+  color: ${colors.gray10};
+  ${textStyles.SUIT_16_R};
+
+  font-weight: 300;
+`;
 
 const QuestionBadge = styled.div`
   border-radius: 5px;
@@ -202,7 +247,7 @@ const Comment = ({ image, name, info, comment }: CommentProps) => {
   return (
     <StyledComment>
       <Flex css={{ gap: 8 }}>
-        <ProfileImage style={{ width: 32, height: 32 }} src={image} alt='profileImage' />
+        <CommentProfileImage width={32} height={32} src={image} alt='profileImage' />
         <Stack gutter={6}>
           <Flex>
             <Text typography='SUIT_13_SB' color={colors.gray10}>
@@ -221,6 +266,18 @@ const Comment = ({ image, name, info, comment }: CommentProps) => {
 
 const StyledComment = styled.div`
   padding: 20px 24px 12px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 12px 16px;
+  }
+`;
+
+const CommentProfileImage = styled.img`
+  flex-shrink: 0;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
 `;
 
 interface InputProps {
