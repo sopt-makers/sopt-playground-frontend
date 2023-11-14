@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ReactNode } from 'react';
 
 interface MobileFeedUploadLayoutProps {
@@ -17,7 +18,9 @@ export default function MobileFeedUploadLayout({ header, body, footer }: MobileF
   );
 }
 
-const HeaderWrapper = styled.header``;
+const HeaderWrapper = styled.header`
+  border-bottom: 1px solid ${colors.gray800};
+`;
 
 const BodyWrapper = styled.section`
   display: flex;

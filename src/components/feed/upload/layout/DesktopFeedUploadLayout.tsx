@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ReactNode } from 'react';
 
 interface DesktopFeedUploadLayoutProps {
@@ -25,6 +26,7 @@ const HeaderWrapper = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid ${colors.gray800};
   padding: 15px 32px;
   width: 100%;
   height: 64px;
