@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import CommunityPage from '@/components/community/page/FeedHomePage';
+import CommunityPage from '@/components/feed/page/FeedHomePage';
 import { setLayout } from '@/utils/layout';
 
 const Community: FC = () => {

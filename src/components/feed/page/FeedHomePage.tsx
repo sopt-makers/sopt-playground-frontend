@@ -2,11 +2,11 @@ import { colors } from '@sopt-makers/colors';
 import { FC, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
-import DesktopCommunityLayout from '@/components/community/layout/DesktopCommunityLayout';
-import MobileCommunityLayout from '@/components/community/layout/MobileCommunityLayout';
-import FeedList from '@/components/community/list/FeedList';
-import { FeedDetailLink, useFeedDetailParam } from '@/components/community/queryParam';
+import FeedList from '@/components/feed/list/FeedList';
+import { FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import DesktopCommunityLayout from '@/components/feed/page/layout/DesktopCommunityLayout';
+import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunityLayout';
 
 const CommunityPage: FC = () => {
   const [feed] = useFeedDetailParam();
