@@ -3,16 +3,14 @@ import { ReactNode } from 'react';
 
 interface MobileFeedUploadLayoutProps {
   header: ReactNode;
-  aside: ReactNode;
   body: ReactNode;
   footer: ReactNode;
 }
 
-export default function MobileFeedUploadLayout({ header, aside, body, footer }: MobileFeedUploadLayoutProps) {
+export default function MobileFeedUploadLayout({ header, body, footer }: MobileFeedUploadLayoutProps) {
   return (
     <>
       <HeaderWrapper>{header}</HeaderWrapper>
-      <AsideWrapper>{aside}</AsideWrapper>
       <BodyWrapper>{body}</BodyWrapper>
       <FooterWrapper>{footer}</FooterWrapper>
     </>
@@ -20,12 +18,6 @@ export default function MobileFeedUploadLayout({ header, aside, body, footer }: 
 }
 
 const HeaderWrapper = styled.header``;
-
-const AsideWrapper = styled.aside`
-  display: flex;
-  gap: 16px;
-  padding: 24px 16px;
-`;
 
 const BodyWrapper = styled.section`
   display: flex;
@@ -37,8 +29,10 @@ const BodyWrapper = styled.section`
 
 const FooterWrapper = styled.footer`
   display: flex;
+  position: absolute;
+  bottom: 8px;
+  flex-direction: column;
   gap: 8px;
-  align-items: center;
-  padding: 16px 16px 0;
+  padding: 0 16px;
   width: 100%;
 `;

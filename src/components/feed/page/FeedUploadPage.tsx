@@ -8,6 +8,7 @@ import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeed
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
 import UsingRulesButton from '@/components/feed/upload/UsingRules/UsingRulesButton';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function FeedUploadPage() {
@@ -51,8 +52,13 @@ export default function FeedUploadPage() {
               <CategoryHeader />
             </>
           }
-          aside={<>{/* TODO: 질문글, 익명 체크박스 삽입  */}</>}
-          body={<>{/* TODO: 피드 input 삽입  */}</>}
+          body={
+            <>
+              <CheckBoxesWrapper>{/* TODO: 질문글, 익명 체크박스 삽입  */}</CheckBoxesWrapper>
+              {/* TODO: 피드 input 삽입  */}
+              <TagsWrapper>{/* TODO: 사진, 코드 태그 삽입  */}</TagsWrapper>
+            </>
+          }
           footer={<>{/* TODO: 사진, 코드 태그 삽입  */}</>}
         />
       </Responsive>
@@ -119,9 +125,17 @@ const UsingRulesButtonWrapper = styled.div`
 const TagsWrapper = styled.div`
   display: flex;
   gap: 8px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 16px;
+  }
 `;
 
 const CheckBoxesWrapper = styled.div`
   display: flex;
   gap: 16px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 24px 0;
+  }
 `;

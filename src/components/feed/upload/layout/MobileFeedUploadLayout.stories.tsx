@@ -5,6 +5,8 @@ import { Meta } from '@storybook/react';
 
 import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
+import UsingRulesButton from '@/components/feed/upload/UsingRules/UsingRulesButton';
+import UsingRulesPreview from '@/components/feed/upload/UsingRules/UsingRulesPreview';
 import { textStyles } from '@/styles/typography';
 
 export default {
@@ -30,25 +32,27 @@ export const Default = {
               <CategoryHeader />
             </>
           }
-          aside={
-            <>
-              <button>질문글</button>
-              <button>익명</button>
-            </>
-          }
           body={
             <>
+              <CheckBoxesWrapper>
+                <button>질문글</button>
+                <button>익명</button>
+              </CheckBoxesWrapper>
               <h1>안녕하세요 제목입니다 제목입니다 제목입니다</h1>
               <p>
                 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다 내용입니다
                 내용입니다 내용입니다 내용입니다
               </p>
+              <TagsWrapper>
+                <button>사진</button>
+                <button>코드</button>
+              </TagsWrapper>
             </>
           }
           footer={
             <>
-              <button>사진</button>
-              <button>코드</button>
+              <UsingRulesPreview />
+              <UsingRulesButton />
             </>
           }
         />
@@ -58,6 +62,18 @@ export const Default = {
 
   name: '피드 업로드 모바일',
 };
+
+const TagsWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+`;
+
+const CheckBoxesWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+  margin: 24px 0;
+`;
 
 const TopHeader = styled.header`
   display: flex;
