@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function ContentsInput() {
@@ -28,5 +29,8 @@ const Contents = styled(TextareaAutosize)`
 
   ::placeholder {
     color: ${colors.gray600};
+  }
+  @media ${MOBILE_MEDIA_QUERY} {
+    min-height: 80px;
   }
 `;
