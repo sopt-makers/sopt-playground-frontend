@@ -24,8 +24,6 @@ export default function DesktopFeedUploadLayout({ header, body, footer }: Deskto
 
 const HeaderWrapper = styled.header`
   display: flex;
-  position: sticky;
-  top: 0;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid ${colors.gray800};
@@ -38,7 +36,7 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 608px;
+  min-width: 608px;
 `;
 
 const BodyContainer = styled.section`
@@ -53,7 +51,7 @@ const FooterWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  width: 640px;
+  min-width: 640px;
 `;
 
 const FooterContainer = styled.footer`

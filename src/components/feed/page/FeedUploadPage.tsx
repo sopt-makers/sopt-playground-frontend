@@ -71,6 +71,7 @@ export default function FeedUploadPage() {
 const BackArrowWrapper = styled.div`
   position: absolute;
   left: 0;
+  padding-left: 32px;
 `;
 
 const ButtonContainer = styled.div`
@@ -78,6 +79,7 @@ const ButtonContainer = styled.div`
   position: absolute;
   right: 0;
   gap: 24px;
+  padding-right: 32px;
 `;
 
 const TopHeader = styled.header`
