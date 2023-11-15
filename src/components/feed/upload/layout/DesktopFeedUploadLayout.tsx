@@ -36,7 +36,8 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-width: 608px;
+  width: 100%;
+  max-width: 608px;
 `;
 
 const BodyContainer = styled.section`
@@ -51,7 +52,8 @@ const FooterWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  min-width: 640px;
+  width: 100%;
+  max-width: 640px;
 `;
 
 const FooterContainer = styled.footer`
