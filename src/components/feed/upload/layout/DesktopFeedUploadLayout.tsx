@@ -24,8 +24,10 @@ export default function DesktopFeedUploadLayout({ header, body, footer }: Deskto
 
 const HeaderWrapper = styled.header`
   display: flex;
+  position: sticky;
+  top: 0;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   border-bottom: 1px solid ${colors.gray800};
   padding: 15px 32px;
   width: 100%;

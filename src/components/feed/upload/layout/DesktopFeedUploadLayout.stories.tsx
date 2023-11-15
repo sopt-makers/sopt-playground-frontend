@@ -19,12 +19,14 @@ export const Default = {
         <DesktopFeedUploadLayout
           header={
             <>
-              <UsingRulesButtonWrapper>
-                <UsingRulesButton />
-              </UsingRulesButtonWrapper>
-              <BackArrow />
+              <BackArrowWrapper>
+                <BackArrow />
+              </BackArrowWrapper>
               <CategoryHeader />
-              <SubmitButton disabled={false}>올리기</SubmitButton>
+              <ButtonContainer>
+                <UsingRulesButton />
+                <SubmitButton disabled={false}>올리기</SubmitButton>
+              </ButtonContainer>
             </>
           }
           body={
@@ -52,6 +54,18 @@ export const Default = {
 
   name: '피드 업로드 데스크탑',
 };
+
+const BackArrowWrapper = styled.div`
+  position: absolute;
+  left: 0;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  position: absolute;
+  right: 0;
+  gap: 24px;
+`;
 
 const SubmitButton = styled.button<{ disabled: boolean }>`
   display: flex;
