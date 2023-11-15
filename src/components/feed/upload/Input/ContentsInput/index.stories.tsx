@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import ContentsInput from '@/components/feed/upload/Input/\bContentsInput';
+import ContentsInput from '@/components/feed/upload/Input/ContentsInput';
 
 export default {
   component: ContentsInput,
