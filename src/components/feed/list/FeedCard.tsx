@@ -4,8 +4,8 @@ import { Flex, Stack } from '@toss/emotion-utils';
 import { PropsWithChildren } from 'react';
 
 import Text from '@/components/common/Text';
-import { IconMember, IconMoreHoriz } from '@/components/feed/Icon';
-import { getRelativeTime } from '@/components/feed/utils';
+import { IconMember, IconMoreHoriz } from '@/components/feed/list/Icon';
+import { getRelativeTime } from '@/components/feed/common/utils';
 import { textStyles } from '@/styles/typography';
 
 interface BaseProps {
