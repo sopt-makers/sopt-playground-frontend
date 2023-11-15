@@ -11,7 +11,7 @@ export default function ImagePreview({ images, onRemove }: ImagePreviewProps) {
       {images.map((image, index) => (
         <ImageWrapper key={`${image}_${index}`}>
           <Image src={image} alt={`feed-image-${index}`} />
-          <RemoveButton onClick={() => onRemove(index)}>{CancelSvg}</RemoveButton>
+          <RemoveButton onClick={() => onRemove(index)}>{cancelSvg}</RemoveButton>
         </ImageWrapper>
       ))}
     </Container>
@@ -49,7 +49,7 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const CancelSvg = (
+const cancelSvg = (
   <svg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       fill-rule='evenodd'

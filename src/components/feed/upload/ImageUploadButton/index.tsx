@@ -15,7 +15,7 @@ const MAX_IMAGE_LENGTH = 10;
 export default function ImageUploadButton({ imageLength, onClick, imageInputRef }: ImageUploadButtonProps) {
   return (
     <Button onClick={onClick}>
-      {ImageSvg}
+      {imageSvg}
       사진
       {imageLength > 0 && (
         <Length>
@@ -38,7 +38,7 @@ const Button = styled.button`
   ${textStyles.SUIT_13_M}
 `;
 
-const ImageSvg = (
+const imageSvg = (
   <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
       fill-rule='evenodd'
