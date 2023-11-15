@@ -18,13 +18,15 @@ export default function FeedUploadPage() {
         <DesktopFeedUploadLayout
           header={
             <>
-              <UsingRulesButtonWrapper>
-                <UsingRulesButton />
-              </UsingRulesButtonWrapper>
-              <BackArrow />
+              <BackArrowWrapper>
+                <BackArrow />
+              </BackArrowWrapper>
               <CategoryHeader />
-              {/* TODO: 내용 입력 다 되면 disabled={false}되도록 로직 수정 */}
-              <SubmitButton disabled={false}>올리기</SubmitButton>
+              <ButtonContainer>
+                <UsingRulesButton />
+                {/* TODO: 내용 입력 다 되면 disabled={false}되도록 로직 수정 */}
+                <SubmitButton disabled={false}>올리기</SubmitButton>
+              </ButtonContainer>
             </>
           }
           body={<>{/* TODO: 피드 input 삽입  */}</>}
@@ -65,6 +67,18 @@ export default function FeedUploadPage() {
     </>
   );
 }
+
+const BackArrowWrapper = styled.div`
+  position: absolute;
+  left: 0;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  position: absolute;
+  right: 0;
+  gap: 24px;
+`;
 
 const TopHeader = styled.header`
   display: flex;
