@@ -6,8 +6,6 @@ import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
-import { FeedDetailLink } from '@/components/feed/common/queryParam';
-import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -15,8 +13,10 @@ import {
   IconMoreVert,
   IconSendFill,
   IconShare,
-} from '@/components/feed/Icon';
-import { getRelativeTime } from '@/components/feed/utils';
+} from '@/components/feed/common/Icon';
+import { FeedDetailLink } from '@/components/feed/common/queryParam';
+import { getRelativeTime } from '@/components/feed/common/utils';
+import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
