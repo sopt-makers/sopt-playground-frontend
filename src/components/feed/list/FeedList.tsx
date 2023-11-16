@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { ComponentProps, FC } from 'react';
 
-import CategorySelect from '@/components/feed/list/CategorySelect';
 import { FeedDetailLink } from '@/components/feed/common/queryParam';
+import CategorySelect from '@/components/feed/list/CategorySelect';
 import FeedCard from '@/components/feed/list/FeedCard';
 
 interface FeedListProps {}
