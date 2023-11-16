@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-import { CategoryLink, TagLink, useCategoryParam, useTagParam } from '@/components/community/queryParam';
+import { CategoryLink, TagLink, useCategoryParam, useTagParam } from '@/components/feed/common/queryParam';
 import { textStyles } from '@/styles/typography';
 
 interface CategorySelectProps {

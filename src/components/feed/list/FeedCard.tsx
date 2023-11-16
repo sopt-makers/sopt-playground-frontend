@@ -4,9 +4,14 @@ import { Flex, Stack } from '@toss/emotion-utils';
 import { PropsWithChildren } from 'react';
 
 import Text from '@/components/common/Text';
+<<<<<<< HEAD:src/components/feed/main/FeedCard.tsx
 import { IconMember, IconMoreHoriz } from '@/components/feed/Icon';
 import { getRelativeTime } from '@/components/feed/utils';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+=======
+import { IconMember, IconMoreHoriz } from '@/components/feed/list/Icon';
+import { getRelativeTime } from '@/components/feed/common/utils';
+>>>>>>> main:src/components/feed/list/FeedCard.tsx
 import { textStyles } from '@/styles/typography';
 
 interface BaseProps {

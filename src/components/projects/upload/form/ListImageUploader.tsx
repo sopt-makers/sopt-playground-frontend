@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
-import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
+import useImageUploader from '@/hooks/useImageUploader';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
 import { textStyles } from '@/styles/typography';
@@ -33,10 +33,16 @@ const ListImageUploader: FC<ImageUploaderProps> = ({
   errorMessage,
   src,
 }) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isSelectorOpened, setIsSelectorOpened] = useState<boolean>(false);
+
+  const handleChangeImageInput = (s3Url: string) => {
+    setPreviewImage(s3Url);
+    onChange?.(s3Url);
+  };
+  const { imageInputRef, handleClickImageInput } = useImageUploader(handleChangeImageInput);
+
   const previewImageSrc = value || previewImage || src;
 
   const openSelector = () => {
@@ -44,33 +50,6 @@ const ListImageUploader: FC<ImageUploaderProps> = ({
   };
   const closeSelector = () => {
     setIsSelectorOpened(false);
-  };
-
-  const handleChange = () => {
-    const inputEl = inputRef.current;
-    if (!inputEl) return;
-    inputEl.value = '';
-    inputEl.onchange = async () => {
-      const files = inputEl.files;
-      if (files == null || files.length === 0) return;
-      const file = files[0];
-      try {
-        const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
-        if (!signedUrl) {
-          throw new Error('presigned-url을 받아오는데 실패하였습니다.');
-        }
-        await putPresignedUrl({
-          signedUrl,
-          file,
-        });
-        const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
-        setPreviewImage(s3Url);
-        onChange?.(s3Url);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    inputEl.click();
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -84,13 +63,13 @@ const ListImageUploader: FC<ImageUploaderProps> = ({
     if (previewImageSrc) {
       openSelector();
     } else {
-      handleChange();
+      handleClickImageInput();
     }
   };
 
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    handleChange();
+    handleClickImageInput();
     closeSelector();
   };
 
@@ -117,7 +96,7 @@ const ListImageUploader: FC<ImageUploaderProps> = ({
         onClick={handleClick}
         error={Boolean(errorMessage)}
       >
-        <StyledInput type='file' accept='image/*' ref={inputRef} />
+        <StyledInput type='file' accept='image/*' ref={imageInputRef} />
         {isSelectorOpened && (
           <Background width={width} height={height}>
             <StyledSelector ref={selectorRef}>

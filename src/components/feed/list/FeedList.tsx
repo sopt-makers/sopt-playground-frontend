@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { ComponentProps, FC } from 'react';
 
-import CategorySelect from '@/components/community/list/CategorySelect';
-import { FeedDetailLink } from '@/components/community/queryParam';
-import FeedCard from '@/components/feed/main/FeedCard';
+import CategorySelect from '@/components/feed/list/CategorySelect';
+import { FeedDetailLink } from '@/components/feed/common/queryParam';
+import FeedCard from '@/components/feed/list/FeedCard';
 
 interface FeedListProps {}
 
