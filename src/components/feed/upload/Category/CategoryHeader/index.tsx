@@ -5,9 +5,14 @@ import Arrow from '@/public/icons/icon-select-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function CategoryHeader() {
+interface CategoryHeaderProp {
+  categoryId: number;
+}
+
+export default function CategoryHeader({ categoryId }: CategoryHeaderProp) {
   return (
     <CategorySelectorStarter>
+      {/* TODO: categoryId 따라 내용 변경 구현 */}
       <UploadTitle>어디에 올릴까요?</UploadTitle>
       <OpenArrow fill='white' />
     </CategorySelectorStarter>

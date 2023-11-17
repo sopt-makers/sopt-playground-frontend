@@ -1,13 +1,16 @@
 import styled from '@emotion/styled';
-import { Content, Overlay, Portal, Root } from '@radix-ui/react-dialog';
+import { Content, Overlay, Root } from '@radix-ui/react-dialog';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import { COMMUNITY_RULES_PREVIEW } from '@/components/feed/upload/UsingRules/constants';
 import BubbleTip from '@/public/icons/polygon.svg';
 import { textStyles } from '@/styles/typography';
+
+const Portal = dynamic(() => import('@radix-ui/react-dialog').then((res) => res.Portal), { ssr: false });
 
 export default function UsingRulesPreview() {
   const [isOpen, setIsOpen] = useState(true);

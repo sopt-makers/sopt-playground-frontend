@@ -11,14 +11,15 @@ interface CategorySelectorProps {
   isOpen?: boolean;
   onNext: () => void;
   onClose: () => void;
+  onSave: (categoryId: number) => void;
 }
 
-export default function CategorySelector({ isOpen, onNext, onClose }: CategorySelectorProps) {
+export default function CategorySelector({ isOpen, onNext, onClose, onSave }: CategorySelectorProps) {
   return (
     <>
       <Responsive only='desktop'>
         <DropDown isOpen={isOpen} onClose={onClose} className='category-drop' header={<Title>어디에 올릴까요?</Title>}>
-          <CategorySelectOptions onNext={onNext} />
+          <CategorySelectOptions onNext={onNext} onSave={onSave} />
         </DropDown>
       </Responsive>
       <Responsive only='mobile'>
@@ -28,7 +29,7 @@ export default function CategorySelector({ isOpen, onNext, onClose }: CategorySe
           className='category-drop'
           header={<Title>어디에 올릴까요?</Title>}
         >
-          <CategorySelectOptions onNext={onNext} />
+          <CategorySelectOptions onNext={onNext} onSave={onSave} />
         </BottomSheet>
       </Responsive>
     </>

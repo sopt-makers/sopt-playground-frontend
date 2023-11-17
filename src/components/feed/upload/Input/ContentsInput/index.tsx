@@ -1,18 +1,17 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { ChangeEvent } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function ContentsInput() {
-  const handleWriteContents = () => {
-    // TODO: 콘텐츠 저장 로직 구현
-  };
+interface ContentsInputProp {
+  onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
+}
 
-  return (
-    <Contents placeholder='내용을 입력해주세요' maxLength={20000} spellCheck='false' onChange={handleWriteContents} />
-  );
+export default function ContentsInput({ onChange }: ContentsInputProp) {
+  return <Contents placeholder='내용을 입력해주세요' maxLength={20000} spellCheck='false' onChange={onChange} />;
 }
 
 const Contents = styled(TextareaAutosize)`

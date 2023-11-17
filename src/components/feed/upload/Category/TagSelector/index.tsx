@@ -13,14 +13,15 @@ interface TagSelectorProps {
   isOpen?: boolean;
   onBack: () => void;
   onClose: () => void;
+  onSave: (categoryId: number) => void;
 }
 
-export default function TagSelector({ isOpen, onBack, onClose }: TagSelectorProps) {
+export default function TagSelector({ isOpen, onBack, onClose, onSave }: TagSelectorProps) {
   return (
     <>
       <Responsive only='desktop'>
         <DropDown isOpen={isOpen} onClose={onBack} className='tag-drop'>
-          <TagSelectOptions onClose={onClose} />
+          <TagSelectOptions onClose={onClose} onSave={onSave} />
         </DropDown>
       </Responsive>
       <Responsive only='mobile'>
@@ -34,7 +35,7 @@ export default function TagSelector({ isOpen, onBack, onClose }: TagSelectorProp
             </Title>
           }
         >
-          <TagSelectOptions onClose={onClose} />
+          <TagSelectOptions onClose={onClose} onSave={onSave} />
         </BottomSheet>
       </Responsive>
     </>

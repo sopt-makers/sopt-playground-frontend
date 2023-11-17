@@ -1,11 +1,11 @@
 export interface TagSelectType {
-  id: string;
+  id: number;
   name: string;
   articleType: string;
 }
 
 export interface CategorySelectType {
-  id: string;
+  id: number;
   name: string;
   showAllTag: boolean;
   content: string;

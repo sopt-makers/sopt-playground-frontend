@@ -7,11 +7,12 @@ import { textStyles } from '@/styles/typography';
 
 interface CategorySelectOptionsProp {
   onNext: () => void;
+  onSave: (categoryId: number) => void;
 }
 
-export default function CategorySelectOptions({ onNext }: CategorySelectOptionsProp) {
-  const handleSelectCategory = () => {
-    // TODO: 카테고리 저장 로직
+export default function CategorySelectOptions({ onSave, onNext }: CategorySelectOptionsProp) {
+  const handleSelectCategory = (categoryId: number) => {
+    onSave(categoryId);
     onNext();
   };
 
@@ -20,7 +21,7 @@ export default function CategorySelectOptions({ onNext }: CategorySelectOptionsP
       {categories.length > 0 &&
         categories.map((category: CategorySelectType) => {
           return (
-            <Option key={category.id} onClick={handleSelectCategory}>
+            <Option key={category.id} onClick={() => handleSelectCategory(category.id)}>
               <OptionTitle>{category.name}</OptionTitle>
               <OptionContents>{category.content}</OptionContents>
             </Option>

@@ -9,11 +9,12 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface TagSelectOptionsProp {
   onClose: () => void;
+  onSave: (categoryId: number) => void;
 }
 
-export default function TagSelectOptions({ onClose }: TagSelectOptionsProp) {
-  const handleSelectTag = (option: string) => {
-    // TODO: 태그 저장 로직
+export default function TagSelectOptions({ onClose, onSave }: TagSelectOptionsProp) {
+  const handleSelectTag = (id: number) => {
+    onSave(id);
     // TODO: 데스크탑 뷰인 경우는 태그 선택 후 onClose / 모바일 뷰인 경우는 태그 선택까지만 이루어지도록 구현
     // onClose();
   };
@@ -29,7 +30,7 @@ export default function TagSelectOptions({ onClose }: TagSelectOptionsProp) {
         {categories[3].tags.length > 0 &&
           categories[3].tags.map((tag: TagSelectType) => {
             return (
-              <Option key={tag.id} onClick={() => handleSelectTag(tag.name)}>
+              <Option key={tag.id} onClick={() => handleSelectTag(tag.id)}>
                 {tag.name}
                 <CheckIc />
               </Option>

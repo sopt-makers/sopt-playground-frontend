@@ -2,8 +2,9 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Meta } from '@storybook/react';
+import { useState } from 'react';
 
-import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
+import Category from '@/components/feed/upload/Category';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
 import UsingRulesButton from '@/components/feed/upload/UsingRules/UsingRulesButton';
 import UsingRulesPreview from '@/components/feed/upload/UsingRules/UsingRulesPreview';
@@ -15,6 +16,7 @@ export default {
 
 export const Default = {
   render: function Render() {
+    const [id, setId] = useState(1);
     return (
       <>
         <MobileFeedUploadLayout
@@ -29,7 +31,7 @@ export const Default = {
                   올리기
                 </Button>
               </TopHeader>
-              <CategoryHeader />
+              <Category categoryId={id} onSave={setId} />
             </>
           }
           body={

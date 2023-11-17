@@ -1,18 +1,17 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { ChangeEvent } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function TitleInput() {
-  const handleWriteTitle = () => {
-    // TODO: 제목 저장 로직 구현
-  };
+interface TitleInputProp {
+  onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
+}
 
-  return (
-    <Title placeholder='(선택) 제목을 입력해주세요' maxLength={255} spellCheck='false' onChange={handleWriteTitle} />
-  );
+export default function TitleInput({ onChange }: TitleInputProp) {
+  return <Title placeholder='(선택) 제목을 입력해주세요' maxLength={255} spellCheck='false' onChange={onChange} />;
 }
 
 const Title = styled(TextareaAutosize)`
