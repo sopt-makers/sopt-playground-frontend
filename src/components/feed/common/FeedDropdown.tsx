@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import React, { PropsWithChildren, ReactNode } from 'react';
 
@@ -16,13 +17,15 @@ const Base = ({ trigger, children }: PropsWithChildren<FeedDropdownProps>) => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>{trigger}</DropdownMenu.Trigger>
       <DropdownPortal>
-        <StyledContent>{children}</StyledContent>
+        <StyledContent initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+          {children}
+        </StyledContent>
       </DropdownPortal>
     </DropdownMenu.Root>
   );
 };
 
-const StyledContent = styled(DropdownMenu.Content)`
+const StyledContent = styled(m(DropdownMenu.Content))`
   border-radius: 12px;
   background-color: #252525;
   width: 208px;
