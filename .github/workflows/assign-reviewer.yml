@@ -3,7 +3,6 @@ name: Assign Random Reviewer
 on:
   pull_request:
     types: [opened, reopened, ready_for_review]
-  push:
 
 jobs:
   assign_reviewer:

@@ -48,7 +48,13 @@ async function main() {
   const {
     requested_reviewers,
     user: { login: prUser },
+    draft,
   } = await getPullRequest();
+
+  if (draft) {
+    console.log('Draft PR 이므로 스킵할게요.');
+    return;
+  }
 
   const existingReviewers = requested_reviewers.map((reviewer) => reviewer.login);
 
