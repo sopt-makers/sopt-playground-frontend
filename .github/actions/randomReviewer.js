@@ -17,7 +17,6 @@ const getPullRequest = async () => {
   });
 
   if (!response.ok) {
-    console.log(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`);
     console.error(await response.text());
     throw new Error('PR 정보를 읽어오는데 실패했어요.');
   }
@@ -53,21 +52,14 @@ async function main() {
 
   const existingReviewers = requested_reviewers.map((reviewer) => reviewer.login);
 
-  if (existingReviewers > 0) {
+  if (existingReviewers.length > 0) {
     console.log('이미 리뷰어가 지정되어 있으므로 스킵할게요.');
     return;
   }
 
-  const pickReviewer = () => {
-    const picked = reviewers[Math.floor(Math.random() * reviewers.length)];
-    if (picked === prUser) {
-      return pickReviewer();
-    }
+  const pickableUsers = reviewers.filter((user) => user !== prUser);
 
-    return picked;
-  };
-
-  const selectedReviewer = pickReviewer();
+  const selectedReviewer = pickableUsers[Math.floor(Math.random() * pickableUsers.length)];
 
   await setReviewers([selectedReviewer]);
 
