@@ -18,6 +18,7 @@ const getCurrentReviewers = async () => {
   });
 
   if (!response.ok) {
+    console.error(await response.text());
     throw new Error('기존 PR의 reviewer 읽어오는데 실패했어요.');
   }
 
@@ -39,6 +40,7 @@ const setReviewers = async (reviewers) => {
   });
 
   if (!response.ok) {
+    console.error(await response.text());
     throw new Error('리뷰어를 선정하는데 실패했어요.');
   }
 };
