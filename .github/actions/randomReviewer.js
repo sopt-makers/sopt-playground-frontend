@@ -12,6 +12,8 @@ const headers = {
 };
 
 const getCurrentReviewers = async () => {
+  console.log(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}/requested_reviewers`);
+
   const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}/requested_reviewers`, {
     method: 'GET',
     headers,
