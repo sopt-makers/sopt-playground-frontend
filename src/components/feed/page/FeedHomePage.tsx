@@ -2,9 +2,9 @@ import { colors } from '@sopt-makers/colors';
 import { FC, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
-import FeedList from '@/components/feed/list/FeedList';
 import { FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import FeedList from '@/components/feed/list/FeedList';
 import DesktopCommunityLayout from '@/components/feed/page/layout/DesktopCommunityLayout';
 import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunityLayout';
 

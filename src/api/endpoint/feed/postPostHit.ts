@@ -6,7 +6,7 @@ import { createEndpoint } from '@/api/typedAxios';
 export const postPostHit = createEndpoint({
   request: (postId: number) => ({
     method: 'POST',
-    url: `community/posts/${postId}/hit`,
+    url: `api/v1/community/posts/${postId}/hit`,
   }),
   serverResponseScheme: z.unknown(),
 });

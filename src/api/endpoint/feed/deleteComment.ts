@@ -6,7 +6,7 @@ import { createEndpoint } from '@/api/typedAxios';
 export const deleteComment = createEndpoint({
   request: (commentId: number) => ({
     method: 'DELETE',
-    url: `community/comment/${commentId}`,
+    url: `api/v1/community/comment/${commentId}`,
   }),
   serverResponseScheme: z.unknown(),
 });

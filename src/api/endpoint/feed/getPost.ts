@@ -6,7 +6,7 @@ import { createEndpoint } from '@/api/typedAxios';
 export const getPost = createEndpoint({
   request: (postId: number) => ({
     method: 'GET',
-    url: `coummunity/posts/${postId}`,
+    url: `api/v1/coummunity/posts/${postId}`,
   }),
   serverResponseScheme: z.object({
     member: z.object({

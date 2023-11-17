@@ -13,7 +13,7 @@ interface RequestBody {
 export const postComment = createEndpoint({
   request: (postId: number, reqeustBody: RequestBody) => ({
     method: 'POST',
-    url: `coummunity/posts/${postId}/comment`,
+    url: `api/v1/coummunity/posts/${postId}/comment`,
     data: reqeustBody,
   }),
   serverResponseScheme: z.unknown(),

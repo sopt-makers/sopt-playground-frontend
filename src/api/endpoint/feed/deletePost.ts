@@ -6,7 +6,7 @@ import { createEndpoint } from '@/api/typedAxios';
 export const deletePost = createEndpoint({
   request: (postId: number) => ({
     method: 'DELETE',
-    url: `community/posts/${postId}`,
+    url: `api/v1/community/posts/${postId}`,
   }),
   serverResponseScheme: z.unknown(),
 });

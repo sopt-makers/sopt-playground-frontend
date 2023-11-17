@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { QS } from '@toss/utils';
 import { z } from 'zod';
 
@@ -7,16 +7,16 @@ import { createEndpoint } from '@/api/typedAxios';
 interface Params {
   categoryId?: number;
   limit?: number;
-  cursor?: number;
+  cursor?: number | null;
 }
 
 export const getPosts = createEndpoint({
   request: (params: Params) => ({
     method: 'GET',
-    url: `coummunity/posts${QS.create(params)}`,
+    url: `api/v1/community/posts${QS.create(params)}`,
   }),
   serverResponseScheme: z.object({
-    categoryId: z.number(),
+    categoryId: z.number().nullable(),
     hasNext: z.boolean(),
     posts: z.array(
       z.object({
@@ -30,17 +30,19 @@ export const getPosts = createEndpoint({
             memberId: z.number(),
             part: z.string(),
             generation: z.number(),
-            team: z.string(),
+            team: z.string().nullable(),
           }),
-          careers: z.object({
-            id: z.number(),
-            memberId: z.number(),
-            companyName: z.string(),
-            title: z.string(),
-            startDate: z.string(),
-            endDate: z.string(),
-            isCurrent: z.boolean(),
-          }),
+          careers: z
+            .object({
+              id: z.number(),
+              memberId: z.number(),
+              companyName: z.string(),
+              title: z.string(),
+              startDate: z.string(),
+              endDate: z.string(),
+              isCurrent: z.boolean(),
+            })
+            .nullable(),
         }),
         writerId: z.number(),
         categoryId: z.number(),
@@ -65,7 +67,7 @@ export const getPosts = createEndpoint({
                 memberId: z.number(),
                 part: z.string(),
                 generation: z.number(),
-                team: z.string(),
+                team: z.string().nullable(),
               }),
               careers: z.object({
                 id: z.number(),
@@ -90,12 +92,15 @@ export const getPosts = createEndpoint({
   }),
 });
 
-export const useGetPostsQuery = (params: Params) => {
-  return useQuery({
-    queryKey: getPosts.cacheKey(params),
-    queryFn: async () => {
-      const data = await getPosts.request(params);
-      return data;
+export const useGetPostsInfiniteQuery = ({ limit = 20, cursor, categoryId }: Params = {}) => {
+  return useInfiniteQuery({
+    queryKey: getPosts.cacheKey({ limit, cursor, categoryId }),
+    queryFn: async ({ pageParam }) => {
+      return await getPosts.request({ limit, categoryId, cursor: pageParam });
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasNext ? lastPage.posts[lastPage.posts.length - 1].id : null;
     },
   });
 };
