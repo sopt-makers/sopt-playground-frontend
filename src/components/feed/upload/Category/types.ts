@@ -1,13 +1,8 @@
-export interface TagSelectType {
+export type BasicCategory = {
   id: number;
   name: string;
-  articleType: string;
-}
+  content: string | null;
+  children: Array<BasicCategory>;
+};
 
-export interface CategorySelectType {
-  id: number;
-  name: string;
-  showAllTag: boolean;
-  content: string;
-  tags: TagSelectType[];
-}
+export type CategorySelectType = Array<BasicCategory>;

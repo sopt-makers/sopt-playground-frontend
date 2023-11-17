@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import { categories } from '@/components/feed/upload/Category/constants';
-import { CategorySelectType } from '@/components/feed/upload/Category/types';
+import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { textStyles } from '@/styles/typography';
 
 interface CategorySelectOptionsProp {
@@ -19,7 +19,7 @@ export default function CategorySelectOptions({ onSave, onNext }: CategorySelect
   return (
     <Select>
       {categories.length > 0 &&
-        categories.map((category: CategorySelectType) => {
+        categories.map((category: BasicCategory) => {
           return (
             <Option key={category.id} onClick={() => handleSelectCategory(category.id)}>
               <OptionTitle>{category.name}</OptionTitle>

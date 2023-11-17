@@ -14,6 +14,7 @@ export default function Category({ categoryId, onSave }: CateogryProps) {
 
   return (
     <>
+      <CategoryHeader categoryId={categoryId} setIsDropDown={setIsDropDown} />
       <CategorySelector
         isOpen={isDropDown === 'categoryOpen'}
         onNext={() => setIsDropDown('tagOpen')}
@@ -27,7 +28,6 @@ export default function Category({ categoryId, onSave }: CateogryProps) {
         onClose={() => setIsDropDown('allClosed')}
         onSave={onSave}
       />
-      <CategoryHeader categoryId={categoryId} />
     </>
   );
 }

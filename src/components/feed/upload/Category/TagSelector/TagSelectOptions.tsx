@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
 import { categories } from '@/components/feed/upload/Category/constants';
-import { TagSelectType } from '@/components/feed/upload/Category/types';
+import { BasicCategory } from '@/components/feed/upload/Category/types';
 import CheckIc from '@/public/icons/icon_check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -14,8 +14,8 @@ interface TagSelectOptionsProp {
 
 export default function TagSelectOptions({ onClose, onSave }: TagSelectOptionsProp) {
   const handleSelectTag = (id: number) => {
-    onSave(id);
     // TODO: 데스크탑 뷰인 경우는 태그 선택 후 onClose / 모바일 뷰인 경우는 태그 선택까지만 이루어지도록 구현
+    // onSave(id);
     // onClose();
   };
 
@@ -27,8 +27,8 @@ export default function TagSelectOptions({ onClose, onSave }: TagSelectOptionsPr
     <>
       <Select>
         {/* TODO: 카테고리 옵션 가져오기 */}
-        {categories[3].tags.length > 0 &&
-          categories[3].tags.map((tag: TagSelectType) => {
+        {categories[3].children.length > 0 &&
+          categories[3].children.map((tag: BasicCategory) => {
             return (
               <Option key={tag.id} onClick={() => handleSelectTag(tag.id)}>
                 {tag.name}
