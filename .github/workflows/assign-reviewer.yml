@@ -17,11 +17,15 @@ jobs:
         with:
           node-version: 20
 
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          state: open
+
       - name: Assign Reviewer
         run: node .github/actions/randomReviewer.js
+        if: success() && steps.findPr.outputs.number
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_OWNER: ${{ github.repository_owner }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          CURRENT_USER: ${{ github.actor }}

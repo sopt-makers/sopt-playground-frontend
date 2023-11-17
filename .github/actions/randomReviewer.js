@@ -1,9 +1,8 @@
 const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 const prNumber = process.env.PR_NUMBER;
 const token = process.env.GITHUB_TOKEN;
-const currentUser = process.env.CURRENT_USER.trim();
 
-const reviewers = ['juno7803', 'Tekiter', 'NamJwong', 'seojisoosoo'].filter((reviewer) => reviewer !== currentUser);
+const reviewers = ['juno7803', 'Tekiter', 'NamJwong', 'seojisoosoo'];
 
 const headers = {
   'Authorization': `Bearer ${token}`,
@@ -11,22 +10,18 @@ const headers = {
   'X-GitHub-Api-Version': '2022-11-28',
 };
 
-const getCurrentReviewers = async () => {
-  console.log(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}/requested_reviewers`);
-
-  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}/requested_reviewers`, {
+const getPullRequest = async () => {
+  const response = await fetch(`https://api.github.com/repos/repos/${owner}/${repo}/pulls/${prNumber}`, {
     method: 'GET',
     headers,
   });
 
   if (!response.ok) {
     console.error(await response.text());
-    throw new Error('기존 PR의 reviewer 읽어오는데 실패했어요.');
+    throw new Error('PR 정보를 읽어오는데 실패했어요.');
   }
 
-  const { users } = await response.json();
-
-  return users;
+  return await response.json();
 };
 
 const setReviewers = async (reviewers) => {
@@ -48,7 +43,14 @@ const setReviewers = async (reviewers) => {
 };
 
 async function main() {
-  const existingReviewers = await getCurrentReviewers();
+  const {
+    requested_reviewers,
+    user: { login: prUser },
+  } = await getPullRequest();
+
+  console.log('Setting for repo:', owner, repo, ', PR:', prNumber);
+
+  const existingReviewers = requested_reviewers.map((reviewer) => reviewer.login);
 
   if (existingReviewers > 0) {
     console.log('이미 리뷰어가 지정되어 있으므로 스킵할게요.');
@@ -57,7 +59,7 @@ async function main() {
 
   const pickReviewer = () => {
     const picked = reviewers[Math.floor(Math.random() * reviewers.length)];
-    if (picked === currentUser) {
+    if (picked === prUser) {
       return pickReviewer();
     }
 
