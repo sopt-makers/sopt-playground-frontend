@@ -1,0 +1,21 @@
+import { useMutation } from '@tanstack/react-query';
+import { z } from 'zod';
+
+import { createEndpoint } from '@/api/typedAxios';
+
+export const deletePost = createEndpoint({
+  request: (postId: number) => ({
+    method: 'DELETE',
+    url: `community/posts/${postId}`,
+  }),
+  serverResponseScheme: z.unknown(),
+});
+
+export const useDeletePostMutation = (postId: number) => {
+  return useMutation({
+    mutationFn: async () => {
+      const data = await deletePost.request(postId);
+      return data;
+    },
+  });
+};
