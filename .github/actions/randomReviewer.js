@@ -43,12 +43,12 @@ const setReviewers = async (reviewers) => {
 };
 
 async function main() {
+  console.log('Setting for repo:', owner, repo, ', PR:', prNumber);
+
   const {
     requested_reviewers,
     user: { login: prUser },
   } = await getPullRequest();
-
-  console.log('Setting for repo:', owner, repo, ', PR:', prNumber);
 
   const existingReviewers = requested_reviewers.map((reviewer) => reviewer.login);
 
