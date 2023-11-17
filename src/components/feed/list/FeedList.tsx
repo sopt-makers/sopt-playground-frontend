@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
 import { ComponentProps, FC } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { FeedDetailLink } from '@/components/feed/common/queryParam';
 import CategorySelect from '@/components/feed/list/CategorySelect';
 import FeedCard from '@/components/feed/list/FeedCard';
@@ -9,34 +11,25 @@ import FeedCard from '@/components/feed/list/FeedCard';
 interface FeedListProps {}
 
 const FeedList: FC<FeedListProps> = ({}) => {
+  const { data: categoryData } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
+  const categories = categoryData?.map((category) => ({
+    id: `${category.id}`,
+    name: category.name,
+    hasAllCategory: true,
+    tags: category.children.map((item) => ({
+      id: `${item.id}`,
+      name: item.name,
+    })),
+  }));
+
   return (
     <Container>
       <ContainerInner>
-        <CategoryArea>
-          <CategorySelect
-            categories={[
-              {
-                id: 'part',
-                name: '파트',
-                hasAllCategory: false,
-                tags: [
-                  { id: 'PM', name: '기획' },
-                  { id: 'WEB', name: '웹' },
-                  { id: 'SERVER', name: '서버' },
-                ],
-              },
-              {
-                id: 'sopt',
-                name: 'SOPT활동',
-                hasAllCategory: true,
-                tags: [
-                  { id: 'SOPK', name: '솝커톤' },
-                  { id: 'APPJAM', name: '앱잼' },
-                ],
-              },
-            ]}
-          />
-        </CategoryArea>
+        <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
         {/* TODO: api 나오면 변경 */}
         <FeedDetailLink feedId={`feed${0}`}>
           <FeedCard {...defaultProps}>

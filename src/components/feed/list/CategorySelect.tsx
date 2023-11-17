@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-import { CategoryLink, TagLink, useCategoryParam, useTagParam } from '@/components/feed/common/queryParam';
+import { CategoryLink, useCategoryParam } from '@/components/feed/common/queryParam';
 import { textStyles } from '@/styles/typography';
 
 interface CategorySelectProps {
@@ -19,46 +19,36 @@ interface CategorySelectProps {
 
 const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
   const [currentCategoryId] = useCategoryParam({ defaultValue: '' });
-  const currentCategory = categories.find((category) => category.id === currentCategoryId) ?? null;
-
-  const [currentTagId] = useTagParam({ defaultValue: '' });
+  const parentCategory =
+    categories.find(
+      (category) => category.id === currentCategoryId || category.tags.some((tag) => tag.id === currentCategoryId),
+    ) ?? null;
 
   return (
     <Container>
       <CategoryBox>
-        <Category
-          categoryId={undefined}
-          active={currentCategoryId === ''}
-          transformQuery={(query) => ({
-            ...query,
-            tag: undefined,
-          })}
-        >
+        <Category categoryId={undefined} active={currentCategoryId === ''}>
           전체
         </Category>
         {categories.map((category) => (
           <Category
-            categoryId={category.id}
+            categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
             key={category.id}
-            active={currentCategoryId === category.id}
-            transformQuery={(query) => ({
-              ...query,
-              tag: category.hasAllCategory ? '' : category.tags.at(0)?.id ?? '',
-            })}
+            active={parentCategory?.id === category.id}
           >
             {category.name}
           </Category>
         ))}
       </CategoryBox>
-      {currentCategory && currentCategory.tags.length > 0 && (
+      {parentCategory && parentCategory.tags.length > 0 && (
         <TagBox>
-          {currentCategory.hasAllCategory && (
-            <Chip tagId={undefined} active={currentTagId === ''}>
+          {parentCategory.hasAllCategory && (
+            <Chip categoryId={parentCategory.id} active={parentCategory.id === currentCategoryId}>
               전체
             </Chip>
           )}
-          {currentCategory.tags.map((tag, idx) => (
-            <Chip key={tag.id} tagId={tag.id} active={tag.id === currentTagId}>
+          {parentCategory.tags.map((tag) => (
+            <Chip key={tag.id} categoryId={tag.id} active={tag.id === currentCategoryId}>
               {tag.name}
             </Chip>
           ))}
@@ -92,7 +82,7 @@ const TagBox = styled.div`
   padding: 0 16px 8px;
 `;
 
-const Chip = styled(TagLink)<{ active: boolean }>`
+const Chip = styled(CategoryLink)<{ active: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
