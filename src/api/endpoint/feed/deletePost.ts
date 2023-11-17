@@ -13,9 +13,6 @@ export const deletePost = createEndpoint({
 
 export const useDeletePostMutation = (postId: number) => {
   return useMutation({
-    mutationFn: async () => {
-      const data = await deletePost.request(postId);
-      return data;
-    },
+    mutationFn: () => deletePost.request(postId),
   });
 };

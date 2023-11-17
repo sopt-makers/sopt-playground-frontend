@@ -13,9 +13,6 @@ export const postPostHit = createEndpoint({
 
 export const usePostPostHitMutation = (postId: number) => {
   return useMutation({
-    mutationFn: async () => {
-      const data = await postPostHit.request(postId);
-      return data;
-    },
+    mutationFn: () => postPostHit.request(postId),
   });
 };

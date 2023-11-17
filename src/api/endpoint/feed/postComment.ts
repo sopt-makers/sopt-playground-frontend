@@ -13,7 +13,7 @@ interface RequestBody {
 export const postComment = createEndpoint({
   request: (postId: number, reqeustBody: RequestBody) => ({
     method: 'POST',
-    url: `api/v1/coummunity/posts/${postId}/comment`,
+    url: `api/v1/community/${postId}/comment`,
     data: reqeustBody,
   }),
   serverResponseScheme: z.unknown(),
@@ -21,9 +21,6 @@ export const postComment = createEndpoint({
 
 export const usePostCommentMutation = (postId: number) => {
   return useMutation({
-    mutationFn: async (reqeustBody: RequestBody) => {
-      const data = await postComment.request(postId, reqeustBody);
-      return data;
-    },
+    mutationFn: (reqeustBody: RequestBody) => postComment.request(postId, reqeustBody),
   });
 };

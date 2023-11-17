@@ -5,16 +5,9 @@ import { Virtuoso } from 'react-virtuoso';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { FeedDetailLink } from '@/components/feed/common/queryParam';
+import { getMemberInfo } from '@/components/feed/common/utils';
 import CategorySelect from '@/components/feed/list/CategorySelect';
 import FeedCard from '@/components/feed/list/FeedCard';
-
-enum Category {
-  자유,
-  파트,
-  SOPT_활동,
-  홍보,
-  취업_진로,
-}
 
 interface FeedListProps {}
 
@@ -69,16 +62,14 @@ const FeedList: FC<FeedListProps> = ({}) => {
                   hits={post.hits}
                   isBlindWriter={post.isBlindWriter}
                   isQuestion={post.isQuestion}
-                  info={(() => {
-                    const defaultInfo = `${post.member.activity.generation}기 ${post.member.activity.part}파트`;
-                    if (post.categoryId == null) {
-                      return `${post.categoryName}에 남김`;
-                    }
-                    if (post.categoryId === Category.취업_진로) {
-                      return `${post.member.careers?.companyName ?? defaultInfo}`;
-                    }
-                    return defaultInfo;
-                  })()}
+                  info={getMemberInfo({
+                    categoryId: post.categoryId,
+                    categoryName: post.categoryName,
+                    member: {
+                      activity: post.member.activity,
+                      careers: post.member.careers,
+                    },
+                  })}
                 >
                   {post.comments.map((comment) => (
                     <FeedCard.CommentItem key={comment.id} comment={comment.content} name={comment.member.name} />

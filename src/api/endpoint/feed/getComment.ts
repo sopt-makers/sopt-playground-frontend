@@ -6,7 +6,7 @@ import { createEndpoint } from '@/api/typedAxios';
 export const getComment = createEndpoint({
   request: (postId: number) => ({
     method: 'GET',
-    url: `community/${postId}/comment`,
+    url: `/api/v1/community/${postId}/comment`,
   }),
   serverResponseScheme: z.array(
     z.object({
@@ -45,9 +45,6 @@ export const getComment = createEndpoint({
 export const useGetCommentQuery = (postId: number) => {
   return useQuery({
     queryKey: getComment.cacheKey(postId),
-    queryFn: async () => {
-      const data = await getComment.request(postId);
-      return data;
-    },
+    queryFn: () => getComment.request(postId),
   });
 };

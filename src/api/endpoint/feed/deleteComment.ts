@@ -13,9 +13,6 @@ export const deleteComment = createEndpoint({
 
 export const useDeleteCommentMutation = (commentId: number) => {
   return useMutation({
-    mutationFn: async () => {
-      const data = await deleteComment.request(commentId);
-      return data;
-    },
+    mutationFn: () => deleteComment.request(commentId),
   });
 };
