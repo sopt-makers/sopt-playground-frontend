@@ -11,12 +11,13 @@ const headers = {
 };
 
 const getPullRequest = async () => {
-  const response = await fetch(`https://api.github.com/repos/repos/${owner}/${repo}/pulls/${prNumber}`, {
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`, {
     method: 'GET',
     headers,
   });
 
   if (!response.ok) {
+    console.log(`https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`);
     console.error(await response.text());
     throw new Error('PR 정보를 읽어오는데 실패했어요.');
   }
