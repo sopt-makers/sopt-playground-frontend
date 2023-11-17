@@ -27,25 +27,14 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
   return (
     <Container>
       <CategoryBox>
-        <Category
-          categoryId={undefined}
-          active={currentCategoryId === ''}
-          transformQuery={(query) => ({
-            ...query,
-            tag: undefined,
-          })}
-        >
+        <Category categoryId={undefined} active={currentCategoryId === ''}>
           전체
         </Category>
         {categories.map((category) => (
           <Category
-            categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id}
+            categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
             key={category.id}
             active={parentCategory?.id === category.id}
-            transformQuery={(query) => ({
-              ...query,
-              tag: category.hasAllCategory ? '' : category.tags.at(0)?.id ?? '',
-            })}
           >
             {category.name}
           </Category>
