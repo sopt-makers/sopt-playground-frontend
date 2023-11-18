@@ -6,7 +6,7 @@ import { Virtuoso } from 'react-virtuoso';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { FeedDetailLink } from '@/components/feed/common/queryParam';
+import { FeedDetailLink, useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import CategorySelect from '@/components/feed/list/CategorySelect';
 import FeedCard from '@/components/feed/list/FeedCard';
@@ -15,7 +15,8 @@ import { layoutCSSVariable } from '@/components/layout/utils';
 interface FeedListProps {}
 
 const FeedList: FC<FeedListProps> = ({}) => {
-  const { data, fetchNextPage } = useGetPostsInfiniteQuery();
+  const [categoryId] = useCategoryParam({ defaultValue: '' });
+  const { data, fetchNextPage } = useGetPostsInfiniteQuery({ categoryId });
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
@@ -35,7 +36,7 @@ const FeedList: FC<FeedListProps> = ({}) => {
     <Container>
       <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
       <Virtuoso
-        data={data?.pages.flatMap((page) => page.posts)}
+        data={data?.pages.flatMap((page) => page.posts) ?? []}
         useWindowScroll
         endReached={() => {
           fetchNextPage();
