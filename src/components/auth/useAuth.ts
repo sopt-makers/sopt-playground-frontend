@@ -19,7 +19,7 @@ const useAuth = () => {
   return {
     logout() {
       resetAccessToken();
-      router.push(playgroundLink.login());
+      router.push(playgroundLink.intro());
     },
     isLoggedIn,
   };

@@ -2,14 +2,15 @@ import { colors } from '@sopt-makers/colors';
 import { FC, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
-import FeedList from '@/components/feed/list/FeedList';
-import { FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
+import { FeedDetailLink, useCategoryParam, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import FeedList from '@/components/feed/list/FeedList';
 import DesktopCommunityLayout from '@/components/feed/page/layout/DesktopCommunityLayout';
 import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunityLayout';
 
 const CommunityPage: FC = () => {
   const [feed] = useFeedDetailParam();
+  const [categoryId] = useCategoryParam();
   const [value, setValue] = useState('');
   const [isBlind, setIsBlind] = useState(false);
 
