@@ -18,11 +18,17 @@ const Contents = styled(TextareaAutosize)`
   outline: none;
   background-color: transparent;
   width: 100%;
+
+  /* min-height: 100vw; */
   resize: none;
   white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: break-word;
   color: ${colors.gray10};
+
+  :focus {
+    outline: none;
+  }
 
   ${textStyles.SUIT_16_R};
 

@@ -58,7 +58,7 @@ const FooterWrapper = styled.div`
 
 const FooterContainer = styled.footer`
   display: flex;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   justify-content: center;
   width: 100%;

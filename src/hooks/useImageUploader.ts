@@ -6,10 +6,13 @@ export default function useImageUploader(onSuccess?: (s3Url: string) => void) {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleClickImageInput = () => {
+    console.log('클릭됨');
     const inputEl = imageInputRef.current;
     if (!inputEl) return;
+    console.log('클릭됨2');
     inputEl.value = '';
-    inputEl.onchange = async () => {
+    inputEl.onchange = async function (this: GlobalEventHandlers, ev: Event) {
+      ev.stopPropagation();
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
       const file = files[0];

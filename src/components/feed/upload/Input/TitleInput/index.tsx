@@ -26,6 +26,10 @@ const Title = styled(TextareaAutosize)`
 
   ${textStyles.SUIT_24_B};
 
+  :focus {
+    outline: none;
+  }
+
   ::placeholder {
     color: ${colors.gray600};
   }

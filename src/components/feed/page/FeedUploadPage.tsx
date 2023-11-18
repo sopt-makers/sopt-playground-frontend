@@ -1,18 +1,19 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { FormEvent } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import Category from '@/components/feed/upload/Category';
-import useUploadFeedData from '@/components/feed/upload/hooks/handleUploadFeed';
+import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
+import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 import ImagePreview from '@/components/feed/upload/ImagePreview';
 import ImageUploadButton from '@/components/feed/upload/ImageUploadButton';
 import ContentsInput from '@/components/feed/upload/Input/ContentsInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import UsingRulesButton from '@/components/feed/upload/UsingRules/UsingRulesButton';
-import UsingRulesPreview from '@/components/feed/upload/UsingRules/UsingRulesPreview';
+import UsingRules from '@/components/feed/upload/UsingRules';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -23,6 +24,7 @@ export default function FeedUploadPage() {
     feedData,
     handleSaveCategory,
     handleSaveIsQuestion,
+    handleSaveMainCategory,
     handleSaveIsBlindWriter,
     saveImageUrls,
     removeImage,
@@ -30,8 +32,10 @@ export default function FeedUploadPage() {
     handleSaveContent,
     handleUploadFeed,
     resetFeedData,
+    checkReadyToUpload,
   ] = useUploadFeedData({
-    categoryId: 1,
+    mainCategoryId: 0,
+    categoryId: 0,
     title: '',
     content: '',
     isQuestion: false,
@@ -39,10 +43,19 @@ export default function FeedUploadPage() {
     images: [],
   });
 
-  const { imageInputRef, handleClickImageInput } = useImageUploader(saveImageUrls);
+  const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } =
+    useImageUploader(saveImageUrls);
+  const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
+    useImageUploader(saveImageUrls);
+  const { isDropDown, allClosed, categoryOpen, tagOpen, usingRulesOpen } = useCategorySelect('categoryOpen');
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleUploadFeed();
+  };
 
   return (
-    <form onSubmit={handleUploadFeed}>
+    <form onSubmit={handleSubmit}>
       <Responsive only='desktop'>
         <DesktopFeedUploadLayout
           header={
@@ -50,11 +63,18 @@ export default function FeedUploadPage() {
               <BackArrowWrapper>
                 <BackArrow onClick={resetFeedData} />
               </BackArrowWrapper>
-              <Category categoryId={feedData.categoryId} onSave={handleSaveCategory} />
+              <Category
+                feedData={feedData}
+                onSaveCategory={handleSaveCategory}
+                onSaveMainCategory={handleSaveMainCategory}
+                isDropDown={isDropDown}
+                categoryOpen={categoryOpen}
+                tagOpen={tagOpen}
+                usingRulesOpen={usingRulesOpen}
+              />
               <ButtonContainer>
-                <UsingRulesButton />
-                {/* TODO: 내용 입력 다 되면 disabled={false}되도록 로직 수정 */}
-                <SubmitButton disabled={false}>올리기</SubmitButton>
+                <UsingRules isDropDown={isDropDown} allClosed={allClosed} />
+                <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
           }
@@ -70,8 +90,8 @@ export default function FeedUploadPage() {
               <TagsWrapper>
                 <ImageUploadButton
                   imageLength={feedData.images.length}
-                  onClick={handleClickImageInput}
-                  imageInputRef={imageInputRef}
+                  onClick={handleDesktopClickImageInput}
+                  imageInputRef={desktopRef}
                 />
 
                 {/* TODO: 코드 태그 삽입  */}
@@ -89,12 +109,19 @@ export default function FeedUploadPage() {
                 <Button type='button' disabled={false} onClick={resetFeedData}>
                   취소
                 </Button>
-                {/* TODO: 내용 입력 다 되면 disabled={false}되도록 로직 수정 */}
-                <Button type='submit' disabled={true}>
+                <Button type='submit' disabled={!checkReadyToUpload()}>
                   올리기
                 </Button>
               </TopHeader>
-              <Category categoryId={feedData.categoryId} onSave={handleSaveCategory} />
+              <Category
+                feedData={feedData}
+                onSaveCategory={handleSaveCategory}
+                onSaveMainCategory={handleSaveMainCategory}
+                isDropDown={isDropDown}
+                categoryOpen={categoryOpen}
+                tagOpen={tagOpen}
+                usingRulesOpen={usingRulesOpen}
+              />
             </>
           }
           body={
@@ -102,21 +129,20 @@ export default function FeedUploadPage() {
               <CheckBoxesWrapper>{/* TODO: 질문글, 익명 체크박스 삽입  */}</CheckBoxesWrapper>
               <TitleInput onChange={handleSaveTitle} />
               <ContentsInput onChange={handleSaveContent} />
-              {/* <ImagePreview images={images} onRemove={removeImage} /> */}
+              <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagsWrapper>
-                {/* <ImageUploadButton
-                  imageLength={images.length}
-                  onClick={handleClickImageInput}
-                  imageInputRef={imageInputRef}
-                /> */}
-                {/* TODO: 사진, 코드 태그 삽입  */}
+                <ImageUploadButton
+                  imageLength={feedData.images.length}
+                  onClick={handleMobileClickImageInput}
+                  imageInputRef={mobileRef}
+                />
+                {/* TODO:  코드 태그 삽입  */}
               </TagsWrapper>
             </>
           }
           footer={
             <>
-              <UsingRulesPreview />
-              <UsingRulesButton />
+              <UsingRules isDropDown={isDropDown} allClosed={allClosed} />
             </>
           }
         />
