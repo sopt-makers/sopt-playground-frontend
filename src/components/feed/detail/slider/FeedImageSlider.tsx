@@ -134,7 +134,7 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   justify-content: center;
 
   & > img {
-    flex: 0;
+    flex: none;
   }
 `;
 

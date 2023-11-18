@@ -23,6 +23,7 @@ export const DynamicImage = forwardRef<HTMLImageElement, DynamicImageProps>(
       width: 'auto',
       height: 'auto',
     });
+    console.log({ imageSize });
 
     useEffect(() => {
       const img = new Image();
