@@ -99,9 +99,10 @@ export const Default = () => {
           <DetailFeedCard.Comment
             key={comment.id}
             name={comment.name}
-            image={comment.image}
+            profileImage={comment.image}
             info={comment.info}
             comment={comment.comment}
+            isBlindWriter={false}
           />
         ))}
       </DetailFeedCard.Body>

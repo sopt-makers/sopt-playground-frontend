@@ -116,7 +116,7 @@ const StyledMain = styled(Flex)`
 
 interface TopProps {
   isBlindWriter?: boolean;
-  profileImage: string;
+  profileImage: string | null;
   name: string;
   info: string;
   createdAt: string;
@@ -126,7 +126,11 @@ const Top = ({ isBlindWriter = false, profileImage, name, info, createdAt }: Top
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
-        {isBlindWriter ? <IconMember /> : <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' />}
+        {isBlindWriter || profileImage == null ? (
+          <IconMember />
+        ) : (
+          <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' />
+        )}
         <Stack.Vertical gutter={4}>
           <Name color={colors.gray10}>{isBlindWriter ? '익명' : name}</Name>
           {!isBlindWriter ? (
@@ -238,24 +242,31 @@ const Divider = styled.hr`
 `;
 
 interface CommentProps {
-  image: string;
+  profileImage: string | null;
   name: string;
   info: string;
   comment: string;
+  isBlindWriter: boolean;
 }
-const Comment = ({ image, name, info, comment }: CommentProps) => {
+const Comment = ({ profileImage, name, info, comment, isBlindWriter }: CommentProps) => {
   return (
     <StyledComment>
       <Flex css={{ gap: 8 }}>
-        <CommentProfileImage width={32} height={32} src={image} alt='profileImage' />
+        {isBlindWriter || profileImage == null ? (
+          <IconMember />
+        ) : (
+          <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+        )}
         <Stack gutter={6}>
           <Flex>
             <Text typography='SUIT_13_SB' color={colors.gray10}>
-              {name}∙
+              {!isBlindWriter ? `${name}∙` : '익명'}
             </Text>
-            <Text typography='SUIT_13_R' color={colors.gray100}>
-              {info}
-            </Text>
+            {!isBlindWriter ? (
+              <Text typography='SUIT_13_R' color={colors.gray100}>
+                {info}
+              </Text>
+            ) : null}
           </Flex>
           <Text typography='SUIT_14_M'>{comment}</Text>
         </Stack>
@@ -325,6 +336,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked }: Inpu
           placeholder='댓글을 남겨주세요.'
         />
         <SendButton
+          type='submit'
           initial={{
             backgroundColor: colors.gray800,
           }}

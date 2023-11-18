@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
@@ -10,9 +10,9 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface BaseProps {
-  profileImage: string;
+  profileImage: string | null;
   name: string;
-  info: string;
+  info: ReactNode;
   title: string;
   content: string;
   createdAt: string;
@@ -43,14 +43,14 @@ const Base = ({
         gap: 8,
       }}
     >
-      {isBlindWriter ? (
+      {isBlindWriter || profileImage == null ? (
         <div css={{ flexShrink: 0 }}>
           <IconMember />
         </div>
       ) : (
         <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
       )}
-      <Flex direction='column' css={{ minWidth: 0, gap: '8px' }}>
+      <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
         <Flex justify='space-between'>
           {isBlindWriter ? (
             <Text typography='SUIT_13_SB'>익명</Text>
