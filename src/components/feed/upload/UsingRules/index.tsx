@@ -5,16 +5,16 @@ import UsingRulesDetail from '@/components/feed/upload/UsingRules/UsingRulesDeta
 import UsingRulesPreview from '@/components/feed/upload/UsingRules/UsingRulesPreview';
 
 interface UsingRulesProps {
-  isDropDown: 'categoryOpen' | 'tagOpen' | 'allClosed' | 'usingRulesOpen';
-  allClosed: () => void;
+  isDropDown: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules';
+  closeAll: () => void;
 }
 
-export default function UsingRules({ isDropDown, allClosed }: UsingRulesProps) {
+export default function UsingRules({ isDropDown, closeAll }: UsingRulesProps) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-
+  console.log(isDropDown);
   return (
     <>
-      <UsingRulesPreview isOpen={isDropDown === 'usingRulesOpen'} onClose={allClosed} />
+      <UsingRulesPreview isOpen={isDropDown === 'openUsingRules'} onClose={closeAll} />
       <UsingRulesButton onClick={() => setIsDetailOpen(true)} />
       <UsingRulesDetail isOpen={isDetailOpen} onClose={() => setIsDetailOpen(false)} />
     </>

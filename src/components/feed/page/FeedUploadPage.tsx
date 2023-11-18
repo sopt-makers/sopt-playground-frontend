@@ -47,11 +47,15 @@ export default function FeedUploadPage() {
     useImageUploader(saveImageUrls);
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
     useImageUploader(saveImageUrls);
-  const { isDropDown, allClosed, categoryOpen, tagOpen, usingRulesOpen } = useCategorySelect('categoryOpen');
+  const { isDropDown, closeAll, openCategory, openTag, openUsingRules } = useCategorySelect('openCategory');
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleUploadFeed();
+  };
+
+  const checkIsOpenCategorys = () => {
+    return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
   };
 
   return (
@@ -68,12 +72,13 @@ export default function FeedUploadPage() {
                 onSaveCategory={handleSaveCategory}
                 onSaveMainCategory={handleSaveMainCategory}
                 isDropDown={isDropDown}
-                categoryOpen={categoryOpen}
-                tagOpen={tagOpen}
-                usingRulesOpen={usingRulesOpen}
+                openCategory={openCategory}
+                openTag={openTag}
+                openUsingRules={openUsingRules}
+                checkIsOpenCategorys={checkIsOpenCategorys()}
               />
               <ButtonContainer>
-                <UsingRules isDropDown={isDropDown} allClosed={allClosed} />
+                <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
                 <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
@@ -118,9 +123,10 @@ export default function FeedUploadPage() {
                 onSaveCategory={handleSaveCategory}
                 onSaveMainCategory={handleSaveMainCategory}
                 isDropDown={isDropDown}
-                categoryOpen={categoryOpen}
-                tagOpen={tagOpen}
-                usingRulesOpen={usingRulesOpen}
+                openCategory={openCategory}
+                openTag={openTag}
+                openUsingRules={openUsingRules}
+                checkIsOpenCategorys={checkIsOpenCategorys()}
               />
             </>
           }
@@ -142,7 +148,7 @@ export default function FeedUploadPage() {
           }
           footer={
             <>
-              <UsingRules isDropDown={isDropDown} allClosed={allClosed} />
+              <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
             </>
           }
         />

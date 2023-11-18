@@ -19,14 +19,14 @@ interface UsingRulesPreviewProp {
 
 export default function UsingRulesPreview({ isOpen, onClose }: UsingRulesPreviewProp) {
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        onClose();
-      }, 5000);
+    const timer = setTimeout(() => {
+      onClose();
+    }, 5000);
+
+    if (!isOpen) {
+      clearTimeout(timer);
     }
-    // TODO: clearTimeout적용
-    // clearTimeout(timer);
-  }, []);
+  }, [isOpen]);
 
   return (
     <>

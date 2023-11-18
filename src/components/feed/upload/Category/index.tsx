@@ -9,10 +9,11 @@ interface CateogryProps {
   feedData: UploadFeedDataType;
   onSaveCategory: (categoryId: number) => void;
   onSaveMainCategory: (categoryId: number) => void;
-  isDropDown: 'categoryOpen' | 'tagOpen' | 'allClosed' | 'usingRulesOpen';
-  categoryOpen: () => void;
-  tagOpen: () => void;
-  usingRulesOpen: () => void;
+  isDropDown: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules';
+  openCategory: () => void;
+  openTag: () => void;
+  openUsingRules: () => void;
+  checkIsOpenCategorys: boolean;
 }
 
 export default function Category({
@@ -20,17 +21,18 @@ export default function Category({
   onSaveCategory,
   onSaveMainCategory,
   isDropDown,
-  categoryOpen,
-  tagOpen,
-  usingRulesOpen,
+  openCategory,
+  openTag,
+  openUsingRules,
+  checkIsOpenCategorys,
 }: CateogryProps) {
   useEffect(() => {
-    if (feedData.categoryId == 0) return;
-    if (isDropDown == 'usingRulesOpen' || isDropDown == 'allClosed') return;
-    if (feedData.categoryId == 1) {
-      usingRulesOpen();
+    if (feedData.categoryId === 0) return;
+    if (checkIsOpenCategorys) return;
+    if (feedData.categoryId === 1) {
+      openUsingRules();
     } else {
-      tagOpen();
+      openTag();
     }
   }, [feedData]);
 
@@ -42,21 +44,21 @@ export default function Category({
   return (
     <>
       <CategorySelector
-        isOpen={isDropDown === 'categoryOpen'}
-        onNext={tagOpen}
-        onClose={usingRulesOpen}
+        isOpen={isDropDown === 'openCategory'}
+        onNext={openTag}
+        onClose={openUsingRules}
         onSave={handleSaveMainCategory}
         feedData={feedData}
       />
       {/* 메인 카테고리가 '자유'가 아닌 경우에만 뜨도록 */}
       <TagSelector
-        isOpen={isDropDown === 'tagOpen'}
-        onBack={categoryOpen}
-        onClose={usingRulesOpen}
+        isOpen={isDropDown === 'openTag'}
+        onBack={openCategory}
+        onClose={openUsingRules}
         onSave={onSaveCategory}
         feedData={feedData}
       />
-      <CategoryHeader feedData={feedData} categoryOpen={categoryOpen} tagOpen={tagOpen} />
+      <CategoryHeader feedData={feedData} openCategory={openCategory} openTag={openTag} />
     </>
   );
 }

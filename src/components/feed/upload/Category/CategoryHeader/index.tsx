@@ -11,11 +11,11 @@ import { textStyles } from '@/styles/typography';
 
 interface CategoryHeaderProp {
   feedData: UploadFeedDataType;
-  categoryOpen: () => void;
-  tagOpen: () => void;
+  openCategory: () => void;
+  openTag: () => void;
 }
 
-export default function CategoryHeader({ feedData, categoryOpen, tagOpen }: CategoryHeaderProp) {
+export default function CategoryHeader({ feedData, openCategory, openTag }: CategoryHeaderProp) {
   const parentCategory =
     categories.find(
       (category) =>
@@ -28,19 +28,19 @@ export default function CategoryHeader({ feedData, categoryOpen, tagOpen }: Cate
   return (
     <>
       {feedData.categoryId <= 0 ? (
-        <CategorySelectorStarter onClick={categoryOpen}>
+        <CategorySelectorStarter onClick={openCategory}>
           <UploadTitle>어디에 올릴까요?</UploadTitle>
           <OpenArrow fill='white' />
         </CategorySelectorStarter>
       ) : (
         <CategoryContainer>
-          <CategoryTitle type='button' onClick={categoryOpen}>
+          <CategoryTitle type='button' onClick={openCategory}>
             {parentCategory && parentCategory.name} <ExpandMoreArrowIcon className='icon-expand-more' />
           </CategoryTitle>
           {feedData.categoryId !== 1 && (
             <>
               <DetailArrow />
-              <CategoryTitle type='button' onClick={tagOpen}>
+              <CategoryTitle type='button' onClick={openTag}>
                 {childrenCategory
                   ? childrenCategory.name
                   : parentCategory && parentCategory.hasAll && '주제 선택 안 함'}
