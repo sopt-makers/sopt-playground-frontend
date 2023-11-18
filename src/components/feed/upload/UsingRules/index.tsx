@@ -11,7 +11,7 @@ interface UsingRulesProps {
 
 export default function UsingRules({ isDropDown, closeAll }: UsingRulesProps) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  console.log(isDropDown);
+
   return (
     <>
       <UsingRulesPreview isOpen={isDropDown === 'openUsingRules'} onClose={closeAll} />
