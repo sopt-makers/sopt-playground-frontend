@@ -18,8 +18,7 @@ const Contents = styled(TextareaAutosize)`
   outline: none;
   background-color: transparent;
   width: 100%;
-
-  /* min-height: 100vw; */
+  min-height: 100vw;
   resize: none;
   white-space: pre-wrap;
   word-break: break-word;
