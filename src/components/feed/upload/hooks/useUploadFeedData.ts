@@ -39,7 +39,6 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     setFeedData((feedData) => ({ ...feedData, images: removeImages }));
   };
 
-  // console.log(feedData);
   const handleUploadFeed = () => {
     // TODO: post api 연결
     console.log(feedData);
