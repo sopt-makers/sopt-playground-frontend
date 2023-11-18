@@ -92,9 +92,9 @@ export const getPosts = createEndpoint({
   }),
 });
 
-export const useGetPostsInfiniteQuery = ({ limit = 20, cursor, categoryId }: Params = {}) => {
+export const useGetPostsInfiniteQuery = ({ limit = 30, categoryId }: { limit?: number; categoryId?: string }) => {
   return useInfiniteQuery({
-    queryKey: getPosts.cacheKey({ limit, cursor, categoryId }),
+    queryKey: ['INFINITE', ...getPosts.cacheKey({ limit, cursor: 0, categoryId })],
     queryFn: async ({ pageParam }) => {
       return await getPosts.request({ limit, categoryId, cursor: pageParam });
     },
