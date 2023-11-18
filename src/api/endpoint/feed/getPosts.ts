@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 
 interface Params {
-  categoryId?: number;
+  categoryId?: string;
   limit?: number;
   cursor?: number | null;
 }
