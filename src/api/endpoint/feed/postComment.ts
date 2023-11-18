@@ -7,11 +7,11 @@ interface RequestBody {
   content: string;
   isBlindWriter: boolean;
   isChildComment: boolean;
-  parentCommentId: number;
+  parentCommentId?: number;
 }
 
 export const postComment = createEndpoint({
-  request: (postId: number, reqeustBody: RequestBody) => ({
+  request: (postId: string, reqeustBody: RequestBody) => ({
     method: 'POST',
     url: `api/v1/community/${postId}/comment`,
     data: reqeustBody,
@@ -19,7 +19,7 @@ export const postComment = createEndpoint({
   serverResponseScheme: z.unknown(),
 });
 
-export const usePostCommentMutation = (postId: number) => {
+export const usePostCommentMutation = (postId: string) => {
   return useMutation({
     mutationFn: (reqeustBody: RequestBody) => postComment.request(postId, reqeustBody),
   });

@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 
 export const getComment = createEndpoint({
-  request: (postId: number) => ({
+  request: (postId: string) => ({
     method: 'GET',
     url: `/api/v1/community/${postId}/comment`,
   }),
@@ -20,7 +20,7 @@ export const getComment = createEndpoint({
           memberId: z.number(),
           part: z.string(),
           generation: z.number(),
-          team: z.string(),
+          team: z.string().nullable(),
         }),
         careers: z.object({
           id: z.number(),
@@ -28,12 +28,12 @@ export const getComment = createEndpoint({
           companyName: z.string(),
           title: z.string(),
           startDate: z.string(),
-          endDate: z.string(),
+          endDate: z.string().nullable(),
           isCurrent: z.boolean(),
         }),
       }),
       postId: z.number(),
-      parentCommentId: z.number(),
+      parentCommentId: z.number().nullable(),
       content: z.string(),
       isBlindWriter: z.boolean(),
       isReported: z.boolean(),
@@ -42,7 +42,7 @@ export const getComment = createEndpoint({
   ),
 });
 
-export const useGetCommentQuery = (postId: number) => {
+export const useGetCommentQuery = (postId: string) => {
   return useQuery({
     queryKey: getComment.cacheKey(postId),
     queryFn: () => getComment.request(postId),

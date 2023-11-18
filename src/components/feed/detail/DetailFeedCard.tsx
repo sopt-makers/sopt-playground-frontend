@@ -246,12 +246,13 @@ interface CommentProps {
   name: string;
   info: string;
   comment: string;
+  isBlindWriter: boolean;
 }
-const Comment = ({ profileImage, name, info, comment }: CommentProps) => {
+const Comment = ({ profileImage, name, info, comment, isBlindWriter }: CommentProps) => {
   return (
     <StyledComment>
       <Flex css={{ gap: 8 }}>
-        {profileImage == null ? (
+        {isBlindWriter || profileImage == null ? (
           <IconMember />
         ) : (
           <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
@@ -259,11 +260,13 @@ const Comment = ({ profileImage, name, info, comment }: CommentProps) => {
         <Stack gutter={6}>
           <Flex>
             <Text typography='SUIT_13_SB' color={colors.gray10}>
-              {name}∙
+              {!isBlindWriter ? `${name}∙` : '익명'}
             </Text>
-            <Text typography='SUIT_13_R' color={colors.gray100}>
-              {info}
-            </Text>
+            {!isBlindWriter ? (
+              <Text typography='SUIT_13_R' color={colors.gray100}>
+                {info}
+              </Text>
+            ) : null}
           </Flex>
           <Text typography='SUIT_14_M'>{comment}</Text>
         </Stack>

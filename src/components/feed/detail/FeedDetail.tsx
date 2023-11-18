@@ -11,22 +11,20 @@ interface FeedDetailProps {
 }
 
 const FeedDetail = ({ postId }: FeedDetailProps) => {
-  const { data: postData } = useGetPostQuery(Number(postId));
-  const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(Number(postId));
-  const { mutate } = usePostCommentMutation(Number(postId));
+  const { data: postData } = useGetPostQuery(postId);
+  const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
+  const { mutate } = usePostCommentMutation(postId);
 
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: 왠지모르게 400에러가 뜹니당. 그리고 isChildComment와 parentCommentId 에 뭐가들어와야할지 모르겠습니다
     mutate(
       {
         content: value,
         isBlindWriter,
-        isChildComment: true,
-        parentCommentId: 0,
+        isChildComment: false,
       },
       {
         onSuccess: () => {
@@ -43,13 +41,18 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
 
   return (
     <DetailFeedCard>
+      {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header category='파트' tag='기획' />
       <DetailFeedCard.Body>
         <DetailFeedCard.Main>
           <DetailFeedCard.Top
             name={postData.member.name}
             profileImage={postData.member.profileImage}
-            info={''}
+            info={getMemberInfo({
+              categoryId: postData.category.id,
+              categoryName: postData.category.name,
+              member: postData.member,
+            })}
             createdAt={postData.posts.createdAt}
           />
           <DetailFeedCard.Content
@@ -73,6 +76,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
               categoryName: postData.category.name,
             })}
             comment={comment.content}
+            isBlindWriter={comment.isBlindWriter}
           />
         ))}
       </DetailFeedCard.Body>

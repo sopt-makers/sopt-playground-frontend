@@ -42,7 +42,6 @@ const FeedList: FC<FeedListProps> = ({}) => {
             ]}
           />
         </CategoryArea>
-
         <Virtuoso
           data={data?.pages.flatMap((page) => page.posts)}
           useWindowScroll
@@ -71,9 +70,16 @@ const FeedList: FC<FeedListProps> = ({}) => {
                     },
                   })}
                 >
-                  {post.comments.map((comment) => (
-                    <FeedCard.CommentItem key={comment.id} comment={comment.content} name={comment.member.name} />
-                  ))}
+                  <FeedCard.Image>
+                    {post.images.map((image, index) => (
+                      <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
+                    ))}
+                  </FeedCard.Image>
+                  <FeedCard.Comment>
+                    {post.comments.map((comment) => (
+                      <FeedCard.CommentItem key={comment.id} comment={comment.content} name={comment.member.name} />
+                    ))}
+                  </FeedCard.Comment>
                 </FeedCard>
               </FeedDetailLink>
             );
