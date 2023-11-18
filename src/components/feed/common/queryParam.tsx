@@ -50,8 +50,6 @@ function createLinkComponent<T extends string>({ paramKey }: { paramKey: T }) {
   return [ParamLink, useParam] as const;
 }
 
-export const [TagLink, useTagParam] = createLinkComponent({ paramKey: 'tag' });
-
 export const [CategoryLink, useCategoryParam] = createLinkComponent({ paramKey: 'category' });
 
 export const [FeedDetailLink, useFeedDetailParam] = createLinkComponent({ paramKey: 'feed' });

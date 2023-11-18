@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { forwardRef, useEffect, useState } from 'react';
 
 interface ImageSize {
@@ -19,8 +20,8 @@ interface DynamicImageProps {
 export const DynamicImage = forwardRef<HTMLImageElement, DynamicImageProps>(
   ({ className, src, alt, targetSize = 600 }) => {
     const [imageSize, setImageSize] = useState<ImageSize>({
-      width: 0,
-      height: 0,
+      width: 'auto',
+      height: 'auto',
     });
 
     useEffect(() => {
@@ -31,10 +32,15 @@ export const DynamicImage = forwardRef<HTMLImageElement, DynamicImageProps>(
         const originalWidth = img.width;
         const originalHeight = img.height;
 
+        if (originalWidth < targetSize && originalHeight < targetSize) {
+          // 이미지가 targetSize보다 작으면 그대로 렌더링
+          return;
+        }
+
         if (originalWidth > originalHeight) {
-          setImageSize({ width: targetSize, height: 'auto' });
+          setImageSize((prev) => ({ ...prev, width: targetSize }));
         } else {
-          setImageSize({ width: 'auto', height: targetSize });
+          setImageSize((prev) => ({ ...prev, height: targetSize }));
         }
       };
     }, [src, targetSize]);
