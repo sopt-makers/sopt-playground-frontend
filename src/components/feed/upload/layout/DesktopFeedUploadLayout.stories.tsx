@@ -2,11 +2,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Meta } from '@storybook/react';
-import { useState } from 'react';
 
-import Category from '@/components/feed/upload/Category';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
-import UsingRulesButton from '@/components/feed/upload/UsingRules/UsingRulesButton';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 
 export default {
@@ -15,8 +12,6 @@ export default {
 
 export const Default = {
   render: function Render() {
-    const [id, setId] = useState(1);
-
     return (
       <>
         <DesktopFeedUploadLayout
@@ -25,9 +20,9 @@ export const Default = {
               <BackArrowWrapper>
                 <BackArrow />
               </BackArrowWrapper>
-              <Category categoryId={id} onSave={setId} />
+              <button>어디에 올릴까요?</button>
               <ButtonContainer>
-                <UsingRulesButton />
+                <button>커뮤니티 이용규칙</button>
                 <SubmitButton disabled={false}>올리기</SubmitButton>
               </ButtonContainer>
             </>
