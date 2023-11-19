@@ -6,7 +6,6 @@ import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState }
 
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
-import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import {
   IconChevronLeft,
   IconChevronRight,
