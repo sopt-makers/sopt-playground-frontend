@@ -2,10 +2,10 @@ import { playgroundLink } from 'playground-common/export';
 
 import { useCopyText } from '@/hooks/useCopyText';
 
-export const useFeedShare = () => {
+export const useShareFeed = () => {
   const { copy } = useCopyText();
 
-  const handleShare = (postId: string) => {
+  const handleShareFeed = (postId: string) => {
     if (typeof window === 'undefined') {
       return;
     }
@@ -14,5 +14,5 @@ export const useFeedShare = () => {
     });
   };
 
-  return { handleShare };
+  return { handleShareFeed };
 };

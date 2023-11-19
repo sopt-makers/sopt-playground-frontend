@@ -6,6 +6,10 @@ import { Virtuoso } from 'react-virtuoso';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import FeedDropdown from '@/components/feed/common/FeedDropdown';
+import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
+import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { FeedDetailLink, useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import CategorySelect from '@/components/feed/list/CategorySelect';
@@ -16,11 +20,14 @@ interface FeedListProps {}
 
 const FeedList: FC<FeedListProps> = ({}) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
-  const { data, fetchNextPage } = useGetPostsInfiniteQuery({ categoryId });
+  const { data: meData } = useGetMemberOfMe();
+  const { data, refetch, fetchNextPage } = useGetPostsInfiniteQuery({ categoryId });
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
   });
+  const { handleShareFeed } = useShareFeed();
+  const { handleDeleteFeed } = useDeleteFeed();
 
   const categories = categoryData?.map((category) => ({
     id: `${category.id}`,
@@ -42,6 +49,7 @@ const FeedList: FC<FeedListProps> = ({}) => {
           fetchNextPage();
         }}
         itemContent={(_, post) => {
+          const is내글여부 = post.writerId === meData?.id;
           return (
             <FeedDetailLink css={{ width: '100%' }} feedId={`${post.id}`}>
               <FeedCard
@@ -62,6 +70,33 @@ const FeedList: FC<FeedListProps> = ({}) => {
                     careers: post.member.careers,
                   },
                 })}
+                rightIcon={
+                  <FeedDropdown
+                    trigger={
+                      <button>
+                        <FeedCard.Icon name='moreHorizon' />
+                      </button>
+                    }
+                  >
+                    {is내글여부 ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
+                    <FeedDropdown.Item onClick={() => handleShareFeed(`${post.id}`)}>공유</FeedDropdown.Item>
+                    {is내글여부 ? (
+                      <FeedDropdown.Item
+                        onClick={() =>
+                          handleDeleteFeed({
+                            postId: `${post.id}`,
+                            onSuccess: () => {
+                              refetch();
+                            },
+                          })
+                        }
+                      >
+                        삭제
+                      </FeedDropdown.Item>
+                    ) : null}
+                    <FeedDropdown.Item>신고</FeedDropdown.Item>
+                  </FeedDropdown>
+                }
               >
                 <FeedCard.Image>
                   {post.images.map((image, index) => (

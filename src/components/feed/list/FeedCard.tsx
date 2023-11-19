@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
-import { PropsWithChildren, ReactNode } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
@@ -20,6 +20,7 @@ interface BaseProps {
   isQuestion?: boolean;
   commentLength: number;
   hits: number;
+  rightIcon?: ReactNode;
 }
 
 const Base = ({
@@ -34,6 +35,7 @@ const Base = ({
   commentLength,
   hits,
   children,
+  rightIcon,
 }: PropsWithChildren<BaseProps>) => {
   return (
     <Flex
@@ -69,9 +71,7 @@ const Base = ({
             <Text typography='SUIT_14_R' color={colors.gray400}>
               {getRelativeTime(createdAt)}
             </Text>
-            <button type='button'>
-              <IconMoreHoriz />
-            </button>
+            {rightIcon}
           </Stack.Horizontal>
         </Flex>
         <Stack.Horizontal gutter={4} align='center'>
@@ -198,9 +198,20 @@ const StyledCommentItem = styled.div`
   ${textStyles.SUIT_13_R};
 `;
 
+interface IconProps {
+  name: 'moreHorizon';
+}
+
+const Icon = ({ name }: IconProps) => {
+  if (name === 'moreHorizon') {
+    return <IconMoreHoriz />;
+  } else return null;
+};
+
 export default Object.assign(Base, {
   Image,
   ImageItem,
   Comment,
   CommentItem,
+  Icon,
 });

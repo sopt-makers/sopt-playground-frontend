@@ -10,7 +10,7 @@ import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
-import { useFeedShare } from '@/components/feed/common/hooks/useFeedShare';
+import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
@@ -24,7 +24,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
   const toast = useToast();
   const { alert } = useAlert();
   const { confirm } = useConfirm();
-  const { handleShare } = useFeedShare();
+  const { handleShareFeed } = useShareFeed();
   const { handleDeleteComment } = useDeleteComment();
   const { handleDeleteFeed } = useDeleteFeed();
   const { data: meData } = useGetMemberOfMe();
@@ -89,7 +89,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
         tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
         icons={
           <>
-            <button onClick={() => handleShare(postId)}>
+            <button onClick={() => handleShareFeed(postId)}>
               <DetailFeedCard.Icon name='share' />
             </button>
             <FeedDropdown
