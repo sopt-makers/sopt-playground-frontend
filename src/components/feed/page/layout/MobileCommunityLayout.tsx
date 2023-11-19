@@ -15,9 +15,11 @@ const MobileCommunityLayout: FC<MobileCommunityLayoutProps> = ({ isDetailOpen, l
   return (
     <Container>
       <ListSlotBox>{listSlot}</ListSlotBox>
-      <DetailSlotBox initial={{ x: '100%' }} animate={{ x: isDetailOpen ? '0%' : '100%' }} transition={{ bounce: 0 }}>
-        {detailSlot}
-      </DetailSlotBox>
+      <X>
+        <DetailSlotBox initial={{ x: '100%' }} animate={{ x: isDetailOpen ? '0%' : '100%' }} transition={{ bounce: 0 }}>
+          {detailSlot}
+        </DetailSlotBox>
+      </X>
     </Container>
   );
 };
@@ -26,18 +28,22 @@ export default MobileCommunityLayout;
 
 const Container = styled.div`
   position: relative;
-  overflow: hidden;
 `;
 
 const ListSlotBox = styled.div`
   position: relative;
 `;
 
-const DetailSlotBox = styled(m.div)`
+const X = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+`;
+
+const DetailSlotBox = styled(m.div)`
   background-color: ${colors.background};
+  width: 100%;
+  height: 100%;
   height: ${layoutCSSVariable.contentAreaHeight};
 `;
