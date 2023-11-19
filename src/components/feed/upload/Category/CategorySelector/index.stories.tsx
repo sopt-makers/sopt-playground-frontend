@@ -19,7 +19,7 @@ export const Default = {
           isOpen={isOpen}
           onNext={onClose}
           onClose={onClose}
-          onSave={onClose}
+          onSelect={onClose}
           feedData={{
             mainCategoryId: 0,
             categoryId: 0,
