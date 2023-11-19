@@ -35,8 +35,6 @@ export default function FeedUploadPage() {
     resetFeedData,
     checkReadyToUpload,
     checkReadyToShowUsingRules,
-    parentCategory,
-    isInitial,
   } = useUploadFeedData({
     mainCategoryId: 0,
     categoryId: 0,

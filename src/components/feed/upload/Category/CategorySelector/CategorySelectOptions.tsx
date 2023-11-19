@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
 
-import { categories } from '@/components/feed/upload/Category/constants';
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 import { textStyles } from '@/styles/typography';
@@ -18,9 +19,15 @@ export default function CategorySelectOptions({ onSave, onNext, feedData }: Cate
     onNext();
   };
 
+  const { data: categories } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
   return (
     <Select>
-      {categories.length > 0 &&
+      {categories &&
+        categories.length > 0 &&
         categories.map((category: BasicCategory) => {
           return (
             <Option
