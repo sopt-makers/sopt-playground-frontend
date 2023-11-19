@@ -39,11 +39,6 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     setFeedData((feedData) => ({ ...feedData, images: removeImages }));
   };
 
-  const handleUploadFeed = () => {
-    // TODO: post api 연결
-    console.log(feedData);
-  };
-
   const checkReadyToShowUsingRules = () => {
     return feedData.categoryId !== 0;
   };
@@ -68,7 +63,7 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
         category.id === feedData.mainCategoryId && category.children.some((tag) => tag.id === feedData.categoryId),
     ) ?? null;
 
-  return [
+  return {
     feedData,
     handleSaveCategory,
     handleSaveIsQuestion,
@@ -78,11 +73,10 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     removeImage,
     handleSaveTitle,
     handleSaveContent,
-    handleUploadFeed,
     resetFeedData,
     checkReadyToUpload,
     checkReadyToShowUsingRules,
     parentCategory,
     isInitial,
-  ] as const;
+  };
 }
