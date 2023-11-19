@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
@@ -17,6 +17,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
 
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,9 +28,15 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
         isChildComment: false,
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           setValue('');
-          refetchCommentQuery();
+          const { isSuccess } = await refetchCommentQuery();
+          requestAnimationFrame(() => {
+            // MEMO(@jun): refecth 이후 render가 완료되기 전에 scroll 처리가 되어버려서, 리렌더링 이후에 실행하도록
+            if (isSuccess && containerRef.current) {
+              containerRef.current.scrollTop = containerRef.current.scrollHeight;
+            }
+          });
         },
       },
     );
@@ -43,7 +50,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
     <DetailFeedCard>
       {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header category='파트' tag='기획' />
-      <DetailFeedCard.Body>
+      <DetailFeedCard.Body ref={containerRef}>
         <DetailFeedCard.Main>
           <DetailFeedCard.Top
             name={postData.member.name}

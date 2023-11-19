@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
@@ -80,15 +80,19 @@ const Chip = styled(Flex)`
   }
 `;
 
-const Body = ({ children }: PropsWithChildren<unknown>) => {
+interface BodyProps {
+  className?: string;
+}
+
+const Body = forwardRef<HTMLDivElement, PropsWithChildren<BodyProps>>(({ className, children }, ref) => {
   return (
-    <StyledBody direction='column'>
+    <StyledBody direction='column' ref={ref} className={className}>
       <Flex direction='column' css={{ position: 'absolute', inset: 0 }}>
         {children}
       </Flex>
     </StyledBody>
   );
-};
+});
 
 const StyledBody = styled(Flex)`
   position: relative;

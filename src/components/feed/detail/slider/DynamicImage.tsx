@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { forwardRef, useEffect, useState } from 'react';
 
 interface ImageSize {
