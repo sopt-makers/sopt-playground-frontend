@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import FocusTrap from 'focus-trap-react';
 import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useRef } from 'react';
+import Sheet from 'react-modal-sheet';
 
-import Portal from '@/components/common/Portal';
 import { useEscapeCallback } from '@/hooks/useEscapeCallback';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 
@@ -28,65 +27,48 @@ export const BottomSheet: FC<BottomSheetProps> = (props) => {
   }
 
   return (
-    <Portal>
-      <StyledBackground>
-        <FocusTrap>
-          <Container>
-            <Wrapper>
-              <Sheet ref={modalRef} role='dialog' className={className} {...restProps}>
-                <StyledHeader>{header && header}</StyledHeader>
-                <Content>{children}</Content>
-              </Sheet>
-            </Wrapper>
-          </Container>
-        </FocusTrap>
-      </StyledBackground>
-    </Portal>
+    <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height'>
+      <Sheet.Container ref={modalRef}>
+        <Sheet.Header>{header && header}</Sheet.Header>
+        <Sheet.Content>{children}</Sheet.Content>
+      </Sheet.Container>
+      <Sheet.Backdrop />
+    </CustomSheet>
   );
 };
 
-const Container = styled.div`
-  margin: 0 16px;
-  width: 100%;
-`;
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-top: 0;
-  padding-bottom: 8px;
-  height: 100vh;
-`;
+const CustomSheet = styled(Sheet)`
+  margin: 0 16px 42px;
 
-const StyledBackground = styled.div`
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  justify-content: center;
-  background-color: ${colors.grayAlpha800};
-  width: 100%;
-  height: 100%;
-`;
+  .react-modal-sheet-backdrop {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    background-color: ${colors.grayAlpha800}!important;
+    width: 100%;
+    height: 100%;
+  }
 
-const Sheet = styled.div`
-  position: relative;
-  border-radius: 20px;
-  background: ${colors.gray800};
-  padding: 24px 0 16px;
-  width: 100%;
-  max-height: 520px;
-  overflow: scroll;
-  color: ${colors.gray10};
-`;
+  .react-modal-sheet-container {
+    border-radius: 20px;
+    background-color: ${colors.gray800}!important;
+    padding: 24px 0 16px;
+    width: 100%;
+    max-height: 520px;
+    overflow: scroll;
+    color: ${colors.gray10};
+  }
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 8px;
-`;
+  .react-modal-sheet-header {
+    display: flex;
+  }
 
-const StyledHeader = styled.button`
-  display: flex;
+  .react-modal-sheet-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 8px;
+  }
 `;
