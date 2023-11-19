@@ -2,7 +2,12 @@ import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
 
-const baseCategory = z.object({ id: z.number(), name: z.string(), content: z.string().nullable() });
+const baseCategory = z.object({
+  id: z.number(),
+  name: z.string(),
+  hasAll: z.boolean(),
+  content: z.string().nullable(),
+});
 
 type ChildrenCategory = z.infer<typeof baseCategory> & {
   children: ChildrenCategory[];

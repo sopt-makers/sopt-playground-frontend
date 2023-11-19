@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { BottomSheet } from '@/components/common/BottomSheet';
 import Responsive from '@/components/common/Responsive';
-import { categories } from '@/components/feed/upload/Category/constants';
 import { DropDown } from '@/components/feed/upload/Category/DropDown';
 import TagSelectOptions from '@/components/feed/upload/Category/TagSelector/TagSelectOptions';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
@@ -18,11 +19,18 @@ interface TagSelectorProps {
   feedData: UploadFeedDataType;
 }
 export default function TagSelector({ isOpen, onBack, onClose, onSave, feedData }: TagSelectorProps) {
+  const { data: categories } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
   const parentCategory =
-    categories.find(
-      (category) =>
-        category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
-    ) ?? null;
+    (categories &&
+      categories.find(
+        (category) =>
+          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
+      )) ??
+    null;
 
   return (
     <>

@@ -68,7 +68,7 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
         category.id === feedData.mainCategoryId && category.children.some((tag) => tag.id === feedData.categoryId),
     ) ?? null;
 
-  return [
+  return {
     feedData,
     handleSaveCategory,
     handleSaveIsQuestion,
@@ -84,5 +84,5 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     checkReadyToShowUsingRules,
     parentCategory,
     isInitial,
-  ] as const;
+  };
 }

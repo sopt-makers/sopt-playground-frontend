@@ -20,7 +20,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function FeedUploadPage() {
-  const [
+  const {
     feedData,
     handleSaveCategory,
     handleSaveIsQuestion,
@@ -33,7 +33,7 @@ export default function FeedUploadPage() {
     handleUploadFeed,
     resetFeedData,
     checkReadyToUpload,
-  ] = useUploadFeedData({
+  } = useUploadFeedData({
     mainCategoryId: 0,
     categoryId: 0,
     title: '',
