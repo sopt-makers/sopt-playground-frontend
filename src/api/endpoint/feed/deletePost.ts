@@ -11,8 +11,8 @@ export const deletePost = createEndpoint({
   serverResponseScheme: z.unknown(),
 });
 
-export const useDeletePostMutation = (postId: string) => {
+export const useDeletePostMutation = () => {
   return useMutation({
-    mutationFn: () => deletePost.request(postId),
+    mutationFn: (postId: string) => deletePost.request(postId),
   });
 };

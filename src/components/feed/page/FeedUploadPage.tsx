@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FormEvent } from 'react';
 
+import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
+import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Category from '@/components/feed/upload/Category';
 import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
@@ -30,9 +32,9 @@ export default function FeedUploadPage() {
     removeImage,
     handleSaveTitle,
     handleSaveContent,
-    handleUploadFeed,
     resetFeedData,
     checkReadyToUpload,
+    checkReadyToShowUsingRules,
   } = useUploadFeedData({
     mainCategoryId: 0,
     categoryId: 0,
@@ -48,15 +50,25 @@ export default function FeedUploadPage() {
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
     useImageUploader(saveImageUrls);
   const { isDropDown, closeAll, openCategory, openTag, openUsingRules } = useCategorySelect('openCategory');
+  const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleUploadFeed();
+    handleUploadFeed({
+      categoryId: feedData.categoryId,
+      title: feedData.title,
+      content: feedData.content,
+      isQuestion: feedData.isQuestion,
+      isBlindWriter: feedData.isBlindWriter,
+      images: feedData.images,
+    });
   };
 
   const checkIsOpenCategorys = () => {
     return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
   };
+
+  if (isPending) return <Loading />;
 
   return (
     <form onSubmit={handleSubmit}>

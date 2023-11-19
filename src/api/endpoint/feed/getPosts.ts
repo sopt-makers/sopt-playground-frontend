@@ -11,7 +11,7 @@ interface Params {
 }
 
 export const getPosts = createEndpoint({
-  request: (params: Params) => ({
+  request: (params: Params = {}) => ({
     method: 'GET',
     url: `api/v1/community/posts${QS.create(params)}`,
   }),
