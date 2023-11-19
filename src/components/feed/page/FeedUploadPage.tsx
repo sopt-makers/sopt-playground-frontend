@@ -1,38 +1,106 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { FormEvent } from 'react';
 
 import Responsive from '@/components/common/Responsive';
-import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
+import Category from '@/components/feed/upload/Category';
+import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
+import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
+import ImagePreview from '@/components/feed/upload/ImagePreview';
+import ImageUploadButton from '@/components/feed/upload/ImageUploadButton';
+import ContentsInput from '@/components/feed/upload/Input/ContentsInput';
+import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import UsingRulesButton from '@/components/feed/upload/UsingRules/UsingRulesButton';
+import UsingRules from '@/components/feed/upload/UsingRules';
+import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export default function FeedUploadPage() {
+  const [
+    feedData,
+    handleSaveCategory,
+    handleSaveIsQuestion,
+    handleSaveMainCategory,
+    handleSaveIsBlindWriter,
+    saveImageUrls,
+    removeImage,
+    handleSaveTitle,
+    handleSaveContent,
+    handleUploadFeed,
+    resetFeedData,
+    checkReadyToUpload,
+  ] = useUploadFeedData({
+    mainCategoryId: 0,
+    categoryId: 0,
+    title: '',
+    content: '',
+    isQuestion: false,
+    isBlindWriter: false,
+    images: [],
+  });
+
+  const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } =
+    useImageUploader(saveImageUrls);
+  const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
+    useImageUploader(saveImageUrls);
+  const { isDropDown, closeAll, openCategory, openTag, openUsingRules } = useCategorySelect('openCategory');
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleUploadFeed();
+  };
+
+  const checkIsOpenCategorys = () => {
+    return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
+  };
+
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <Responsive only='desktop'>
         <DesktopFeedUploadLayout
           header={
             <>
               <BackArrowWrapper>
-                <BackArrow />
+                <BackArrow onClick={resetFeedData} />
               </BackArrowWrapper>
-              <CategoryHeader />
+              <Category
+                feedData={feedData}
+                onSaveCategory={handleSaveCategory}
+                onSaveMainCategory={handleSaveMainCategory}
+                isDropDown={isDropDown}
+                openCategory={openCategory}
+                openTag={openTag}
+                openUsingRules={openUsingRules}
+                checkIsOpenCategorys={checkIsOpenCategorys()}
+              />
               <ButtonContainer>
-                <UsingRulesButton />
-                {/* TODO: 내용 입력 다 되면 disabled={false}되도록 로직 수정 */}
-                <SubmitButton disabled={false}>올리기</SubmitButton>
+                <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
+                <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
           }
-          body={<>{/* TODO: 피드 input 삽입  */}</>}
+          body={
+            <>
+              <TitleInput onChange={handleSaveTitle} />
+              <ContentsInput onChange={handleSaveContent} />
+            </>
+          }
           footer={
             <>
-              <TagsWrapper>{/* TODO: 사진, 코드 태그 삽입  */}</TagsWrapper>
+              <ImagePreview images={feedData.images} onRemove={removeImage} />
+              <TagsWrapper>
+                <ImageUploadButton
+                  imageLength={feedData.images.length}
+                  onClick={handleDesktopClickImageInput}
+                  imageInputRef={desktopRef}
+                />
+
+                {/* TODO: 코드 태그 삽입  */}
+              </TagsWrapper>
               <CheckBoxesWrapper>{/* TODO: 질문글, 익명 체크박스 삽입  */}</CheckBoxesWrapper>
             </>
           }
@@ -43,28 +111,49 @@ export default function FeedUploadPage() {
           header={
             <>
               <TopHeader>
-                <Button type='button' disabled={false}>
+                <Button type='button' disabled={false} onClick={resetFeedData}>
                   취소
                 </Button>
-                {/* TODO: 내용 입력 다 되면 disabled={false}되도록 로직 수정 */}
-                <Button type='submit' disabled={true}>
+                <Button type='submit' disabled={!checkReadyToUpload()}>
                   올리기
                 </Button>
               </TopHeader>
-              <CategoryHeader />
+              <Category
+                feedData={feedData}
+                onSaveCategory={handleSaveCategory}
+                onSaveMainCategory={handleSaveMainCategory}
+                isDropDown={isDropDown}
+                openCategory={openCategory}
+                openTag={openTag}
+                openUsingRules={openUsingRules}
+                checkIsOpenCategorys={checkIsOpenCategorys()}
+              />
             </>
           }
           body={
             <>
               <CheckBoxesWrapper>{/* TODO: 질문글, 익명 체크박스 삽입  */}</CheckBoxesWrapper>
-              {/* TODO: 피드 input 삽입  */}
-              <TagsWrapper>{/* TODO: 사진, 코드 태그 삽입  */}</TagsWrapper>
+              <TitleInput onChange={handleSaveTitle} />
+              <ContentsInput onChange={handleSaveContent} />
+              <ImagePreview images={feedData.images} onRemove={removeImage} />
+              <TagsWrapper>
+                <ImageUploadButton
+                  imageLength={feedData.images.length}
+                  onClick={handleMobileClickImageInput}
+                  imageInputRef={mobileRef}
+                />
+                {/* TODO:  코드 태그 삽입  */}
+              </TagsWrapper>
             </>
           }
-          footer={<>{/* TODO: 사진, 코드 태그 삽입  */}</>}
+          footer={
+            <>
+              <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
+            </>
+          }
         />
       </Responsive>
-    </>
+    </form>
   );
 }
 
@@ -128,14 +217,6 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
         `};
 
   ${textStyles.SUIT_16_M};
-`;
-
-const UsingRulesButtonWrapper = styled.div`
-  display: flex;
-  position: absolute;
-  right: 122px;
-  justify-content: flex-end;
-  width: 100%;
 `;
 
 const TagsWrapper = styled.div`

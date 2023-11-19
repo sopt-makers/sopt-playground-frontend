@@ -1,31 +1,37 @@
 import styled from '@emotion/styled';
-import { Content, Overlay, Portal, Root } from '@radix-ui/react-dialog';
+import { Content, Overlay, Root } from '@radix-ui/react-dialog';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import { COMMUNITY_RULES_PREVIEW } from '@/components/feed/upload/UsingRules/constants';
 import BubbleTip from '@/public/icons/polygon.svg';
 import { textStyles } from '@/styles/typography';
 
-export default function UsingRulesPreview() {
-  const [isOpen, setIsOpen] = useState(true);
+const Portal = dynamic(() => import('@radix-ui/react-dialog').then((res) => res.Portal), { ssr: false });
 
-  const handlePreviewModal = () => {
-    setIsOpen((isOpen) => !isOpen);
-  };
+interface UsingRulesPreviewProp {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
+export default function UsingRulesPreview({ isOpen, onClose }: UsingRulesPreviewProp) {
   useEffect(() => {
-    setTimeout(() => {
-      setIsOpen(false);
+    const timer = setTimeout(() => {
+      onClose();
     }, 5000);
-  }, []);
+
+    if (!isOpen) {
+      clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   return (
     <>
       <Responsive only='desktop'>
-        <Root open={isOpen} onOpenChange={handlePreviewModal}>
+        <Root open={isOpen} onOpenChange={() => onClose()}>
           <Portal>
             <Overlay />
             <PreviewBox>
@@ -44,9 +50,12 @@ export default function UsingRulesPreview() {
 
 const PreviewBox = styled(Content)`
   display: flex;
-  position: fixed;
-  right: 107px;
+  position: absolute;
+  top: 0;
+  right: 0;
   flex-direction: column;
+  align-items: flex-end;
+  margin: 45px 107px 0 0;
   width: 358px;
   height: 166px;
 `;
@@ -66,9 +75,7 @@ const RulesDescription = styled.div`
 `;
 
 const BubbleTipIcon = styled(BubbleTip)`
-  position: absolute;
-  top: 0;
-  right: 48px;
+  margin-right: 48px;
 `;
 
 const RulesWrapper = styled.div`

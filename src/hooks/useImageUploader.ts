@@ -9,7 +9,8 @@ export default function useImageUploader(onSuccess?: (s3Url: string) => void) {
     const inputEl = imageInputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
-    inputEl.onchange = async () => {
+    inputEl.onchange = async function (this: GlobalEventHandlers, ev: Event) {
+      ev.stopPropagation();
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
       const file = files[0];

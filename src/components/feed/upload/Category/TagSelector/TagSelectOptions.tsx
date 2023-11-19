@@ -3,40 +3,83 @@ import styled from '@emotion/styled';
 import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
 import { categories } from '@/components/feed/upload/Category/constants';
-import { TagSelectType } from '@/components/feed/upload/Category/types';
-import CheckIc from '@/public/icons/icon_check.svg';
+import { BasicCategory } from '@/components/feed/upload/Category/types';
+import { UploadFeedDataType } from '@/components/feed/upload/types';
+import CheckIcon from '@/public/icons/icon_check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface TagSelectOptionsProp {
   onClose: () => void;
+  onSave: (categoryId: number) => void;
+  feedData: UploadFeedDataType;
 }
 
-export default function TagSelectOptions({ onClose }: TagSelectOptionsProp) {
-  const handleSelectTag = (option: string) => {
-    // TODO: 태그 저장 로직
-    // TODO: 데스크탑 뷰인 경우는 태그 선택 후 onClose / 모바일 뷰인 경우는 태그 선택까지만 이루어지도록 구현
-    // onClose();
+export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelectOptionsProp) {
+  const handleSelectTagDesktop = (id: number) => {
+    onSave(id);
+    onClose();
   };
 
-  const handleSubmit = () => {
-    // TODO: submit 로직
+  const handleSelectTagMobile = (id: number) => {
+    onSave(id);
   };
+
+  const parentCategory =
+    categories.find(
+      (category) =>
+        category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
+    ) ?? null;
+
+  const isInitial =
+    categories.find(
+      (category) =>
+        category.id === feedData.mainCategoryId && category.children.some((tag) => tag.id === feedData.categoryId),
+    ) ?? null;
 
   return (
     <>
       <Select>
-        {/* TODO: 카테고리 옵션 가져오기 */}
-        {categories[3].tags.length > 0 &&
-          categories[3].tags.map((tag: TagSelectType) => {
-            return (
-              <Option key={tag.id} onClick={() => handleSelectTag(tag.name)}>
-                {tag.name}
-                <CheckIc />
-              </Option>
-            );
-          })}
+        {parentCategory && parentCategory.children.length > 0 && (
+          <>
+            {/* TODO: 전체가 있는 경우 true면 */}
+            {parentCategory.hasAll && (
+              <>
+                <Responsive only='desktop'>
+                  <Option onClick={() => handleSelectTagDesktop(feedData.mainCategoryId)}>
+                    주제 선택 안 함{!isInitial && <CheckIcon />}
+                  </Option>
+                </Responsive>
+                <Responsive only='mobile'>
+                  <Option onClick={() => handleSelectTagMobile(feedData.mainCategoryId)}>
+                    주제 선택 안 함{!isInitial && <CheckIcon />}
+                  </Option>
+                </Responsive>
+              </>
+            )}
+            <>
+              {parentCategory.children.map((tag: BasicCategory) => {
+                return (
+                  <>
+                    <Responsive only='desktop'>
+                      <Option key={tag.id} onClick={() => handleSelectTagDesktop(tag.id)}>
+                        {tag.name}
+                        {tag.id === feedData.categoryId && <CheckIcon />}
+                      </Option>
+                    </Responsive>
+                    <Responsive only='mobile'>
+                      <Option key={tag.id} onClick={() => handleSelectTagMobile(tag.id)}>
+                        {tag.name}
+                        {tag.id === feedData.categoryId && <CheckIcon />}
+                      </Option>
+                    </Responsive>
+                  </>
+                );
+              })}
+            </>
+          </>
+        )}
       </Select>
-      <SubmitButton onClick={handleSubmit}>
+      <SubmitButton onClick={() => onClose()}>
         <Responsive only='mobile'>
           <SquareLink variant='primary' size='medium'>
             확인
@@ -64,6 +107,7 @@ const Option = styled.button`
   justify-content: space-between;
   cursor: pointer;
   padding: 12px;
+  width: 100%;
 `;
 
 const SubmitButton = styled.button`

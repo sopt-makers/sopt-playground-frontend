@@ -15,7 +15,21 @@ export const Default = {
     return (
       <>
         <Button onClick={onOpen}>클릭하여 셀렉터 열기</Button>
-        <TagSelector isOpen={isOpen} onClose={onClose} onBack={onClose} />
+        <TagSelector
+          isOpen={isOpen}
+          onClose={onClose}
+          onBack={onClose}
+          feedData={{
+            mainCategoryId: 0,
+            categoryId: 0,
+            title: '',
+            content: '',
+            isQuestion: false,
+            isBlindWriter: false,
+            images: [],
+          }}
+          onSave={onClose}
+        />
       </>
     );
   },

@@ -2,25 +2,32 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import { categories } from '@/components/feed/upload/Category/constants';
-import { CategorySelectType } from '@/components/feed/upload/Category/types';
+import { BasicCategory } from '@/components/feed/upload/Category/types';
+import { UploadFeedDataType } from '@/components/feed/upload/types';
 import { textStyles } from '@/styles/typography';
 
 interface CategorySelectOptionsProp {
   onNext: () => void;
+  onSave: (categoryId: number) => void;
+  feedData: UploadFeedDataType;
 }
 
-export default function CategorySelectOptions({ onNext }: CategorySelectOptionsProp) {
-  const handleSelectCategory = () => {
-    // TODO: 카테고리 저장 로직
+export default function CategorySelectOptions({ onSave, onNext, feedData }: CategorySelectOptionsProp) {
+  const handleSelectCategory = (categoryId: number) => {
+    onSave(categoryId);
     onNext();
   };
 
   return (
     <Select>
       {categories.length > 0 &&
-        categories.map((category: CategorySelectType) => {
+        categories.map((category: BasicCategory) => {
           return (
-            <Option key={category.id} onClick={handleSelectCategory}>
+            <Option
+              key={category.id}
+              onClick={() => handleSelectCategory(category.id)}
+              isSelected={category.id === feedData.mainCategoryId}
+            >
               <OptionTitle>{category.name}</OptionTitle>
               <OptionContents>{category.content}</OptionContents>
             </Option>
@@ -42,11 +49,12 @@ const OptionContents = styled.p`
   color: ${colors.gray300};
 `;
 
-const Option = styled.button`
+const Option = styled.button<{ isSelected: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 2px;
   border-radius: 6px;
+  background-color: ${({ isSelected }) => isSelected && colors.gray700};
   cursor: pointer;
   padding: 12px;
   width: 100%;

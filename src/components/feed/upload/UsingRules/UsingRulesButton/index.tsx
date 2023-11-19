@@ -7,10 +7,14 @@ import ArrowIc from '@/public/icons/icon_more.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function UsingRulesButton() {
+interface UsingRulesButtonProp {
+  onClick: () => void;
+}
+
+export default function UsingRulesButton({ onClick }: UsingRulesButtonProp) {
   return (
     <>
-      <ShowMoreButton type='button'>
+      <ShowMoreButton type='button' onClick={onClick}>
         <Responsive only='desktop'>
           <ButtonWrapper>
             <HelpIc />
@@ -41,6 +45,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   gap: 4px;
   align-items: center;
+  cursor: pointer;
   height: 22px;
 
   @media ${MOBILE_MEDIA_QUERY} {

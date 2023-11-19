@@ -12,6 +12,6 @@ const CommunityUpload: FC = () => {
   );
 };
 
-setLayout(CommunityUpload, 'header');
+setLayout(CommunityUpload, 'empty');
 
 export default CommunityUpload;

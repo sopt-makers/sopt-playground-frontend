@@ -3,10 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Meta } from '@storybook/react';
 
-import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import UsingRulesButton from '@/components/feed/upload/UsingRules/UsingRulesButton';
-import UsingRulesPreview from '@/components/feed/upload/UsingRules/UsingRulesPreview';
 import { textStyles } from '@/styles/typography';
 
 export default {
@@ -29,7 +26,7 @@ export const Default = {
                   올리기
                 </Button>
               </TopHeader>
-              <CategoryHeader />
+              <button>어디에 올릴까요?</button>
             </>
           }
           body={
@@ -51,8 +48,7 @@ export const Default = {
           }
           footer={
             <>
-              <UsingRulesPreview />
-              <UsingRulesButton />
+              <button>커뮤니티 이용규칙</button>
             </>
           }
         />
