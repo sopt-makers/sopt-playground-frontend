@@ -35,8 +35,6 @@ interface HeaderProps {
   category: string;
   tag: string;
   icons?: ReactNode;
-  onMore?: () => void;
-  onShare?: () => void;
 }
 
 const Header = ({ category, tag, icons }: HeaderProps) => {
