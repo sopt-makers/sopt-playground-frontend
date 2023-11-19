@@ -23,7 +23,8 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
   });
 
   const parentCategory =
-    (categories?.find(
+    (categories &&
+      categories.find(
         (category) =>
           category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
       )) ??

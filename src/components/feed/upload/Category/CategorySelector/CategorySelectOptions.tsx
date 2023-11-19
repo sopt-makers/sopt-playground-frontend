@@ -26,7 +26,8 @@ export default function CategorySelectOptions({ onSave, onNext, feedData }: Cate
 
   return (
     <Select>
-      {categories?.length > 0 &&
+      {categories &&
+        categories.length > 0 &&
         categories.map((category: BasicCategory) => {
           return (
             <Option
