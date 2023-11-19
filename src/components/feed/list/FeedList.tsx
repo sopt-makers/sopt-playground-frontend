@@ -79,17 +79,25 @@ const FeedList: FC<FeedListProps> = ({}) => {
                     }
                   >
                     {is내글여부 ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
-                    <FeedDropdown.Item onClick={() => handleShareFeed(`${post.id}`)}>공유</FeedDropdown.Item>
+                    <FeedDropdown.Item
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleShareFeed(`${post.id}`);
+                      }}
+                    >
+                      공유
+                    </FeedDropdown.Item>
                     {is내글여부 ? (
                       <FeedDropdown.Item
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.stopPropagation();
                           handleDeleteFeed({
                             postId: `${post.id}`,
                             onSuccess: () => {
                               refetch();
                             },
-                          })
-                        }
+                          });
+                        }}
                       >
                         삭제
                       </FeedDropdown.Item>
