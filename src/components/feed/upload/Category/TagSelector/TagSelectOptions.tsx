@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
+import { useEffect, useMemo } from 'react';
 
+import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
 import { categories } from '@/components/feed/upload/Category/constants';
@@ -35,6 +37,27 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
       (category) =>
         category.id === feedData.mainCategoryId && category.children.some((tag) => tag.id === feedData.categoryId),
     ) ?? null;
+
+  const { data: myProfile } = useGetMemberProfileOfMe();
+
+  const sortedSoptActivities = useMemo(() => {
+    if (!myProfile?.soptActivities) {
+      return [];
+    }
+    const sorted = [...myProfile.soptActivities];
+    sorted.sort((a, b) => b.generation - a.generation);
+    return sorted;
+  }, [myProfile?.soptActivities]);
+
+  const partCategory =
+    parentCategory && parentCategory.children.find((category) => category.name === sortedSoptActivities[0]?.part);
+
+  useEffect(() => {
+    if (feedData.mainCategoryId !== feedData.categoryId) return;
+    if (parentCategory?.name === '파트') {
+      onSave(partCategory ? partCategory.id : feedData.mainCategoryId);
+    }
+  }, [sortedSoptActivities]);
 
   return (
     <>
