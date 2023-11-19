@@ -35,7 +35,7 @@ export function createEndpoint<
       if (!res.success) {
         const zodError = String(res.error).slice(0, 1000) + '\n...';
         const message = `서버 타입 검증에 실패했습니다. (${axiosConfig.method} ${axiosConfig.url})\n${zodError}`;
-        console.error(zodError);
+        console.error(message, zodError);
         throw new Error(message);
       }
 
