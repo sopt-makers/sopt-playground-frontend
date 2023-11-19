@@ -2,10 +2,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 import styled from '@emotion/styled';
-import * as Portal from '@radix-ui/react-portal';
 import { colors } from '@sopt-makers/colors';
 import { AnimatePresence, m } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import { RemoveScroll } from 'react-remove-scroll';
 import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -15,6 +16,8 @@ import { DynamicImage } from '@/components/feed/detail/slider/DynamicImage';
 import { useEscapeCallback } from '@/hooks/useEscapeCallback';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+
+const Portal = dynamic(() => import('@radix-ui/react-portal').then((element) => element.Root), { ssr: false });
 
 interface FeedImageSliderProps {
   images: string[];
@@ -31,41 +34,38 @@ const FeedImageSlider = ({ images, opened, onClose }: FeedImageSliderProps) => {
   return (
     <AnimatePresence>
       {opened ? (
-        <Portal.Root container={document.body} css={{ position: 'absolute', inset: 0 }}>
-          <Background
-            css={{ position: 'relative' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {images.length > 1 ? <StyledIndex>{`${activeIndex + 1}/${images.length}`}</StyledIndex> : null}
-            <CloseButton onClick={onClose}>
-              <IconClose />
-            </CloseButton>
-            <Responsive only='desktop' asChild>
-              <StyledSwiper
-                modules={[Navigation]}
-                navigation={true}
-                onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-              >
-                {images.map((image, index) => (
-                  <StyledSwiperSlide key={`${image}-${index}`}>
-                    <DynamicImage src={image} alt='slider-image' />
-                  </StyledSwiperSlide>
-                ))}
-              </StyledSwiper>
-            </Responsive>
-            <Responsive only='mobile' asChild>
-              <StyledSwiper onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}>
-                {images.map((image, index) => (
-                  <StyledSwiperSlide key={`${image}-${index}`}>
-                    <img src={image} css={{ width: '100%', objectFit: 'cover' }} alt='slider-image' />
-                  </StyledSwiperSlide>
-                ))}
-              </StyledSwiper>
-            </Responsive>
-          </Background>
-        </Portal.Root>
+        <Portal container={document.body} css={{ position: 'absolute', inset: 0 }}>
+          <RemoveScroll>
+            <Background initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              {images.length > 1 ? <StyledIndex>{`${activeIndex + 1}/${images.length}`}</StyledIndex> : null}
+              <CloseButton onClick={onClose}>
+                <IconClose />
+              </CloseButton>
+              <Responsive only='desktop' asChild>
+                <StyledSwiper
+                  modules={[Navigation]}
+                  navigation={true}
+                  onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                >
+                  {images.map((image, index) => (
+                    <StyledSwiperSlide key={`${image}-${index}`}>
+                      <DynamicImage src={image} alt='slider-image' />
+                    </StyledSwiperSlide>
+                  ))}
+                </StyledSwiper>
+              </Responsive>
+              <Responsive only='mobile' asChild>
+                <StyledSwiper onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}>
+                  {images.map((image, index) => (
+                    <StyledSwiperSlide key={`${image}-${index}`}>
+                      <img src={image} css={{ width: '100%', objectFit: 'cover' }} alt='slider-image' />
+                    </StyledSwiperSlide>
+                  ))}
+                </StyledSwiper>
+              </Responsive>
+            </Background>
+          </RemoveScroll>
+        </Portal>
       ) : null}
     </AnimatePresence>
   );
@@ -76,7 +76,8 @@ export default FeedImageSlider;
 // MEMO(@juno-lee): HeaderLayout의 zIndex가 100이어서 같은 값으로 설정하고 portal을 이용하여 html 배치 순서로 결정
 const Background = styled(m.div)`
   display: flex;
-  position: relative;
+  position: fixed;
+  top: 0;
   inset: 0;
   flex-direction: column;
   align-items: center;
