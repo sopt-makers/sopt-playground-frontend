@@ -50,7 +50,6 @@ export default function Category({
         onSave={handleSaveMainCategory}
         feedData={feedData}
       />
-      {/* 메인 카테고리가 '자유'가 아닌 경우에만 뜨도록 */}
       <TagSelector
         isOpen={isDropDown === 'openTag'}
         onBack={openCategory}

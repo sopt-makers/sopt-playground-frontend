@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
 
-import { categories } from '@/components/feed/upload/Category/constants';
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 import DetailArrow from '@/public/icons/icon-chevron-right.svg';
 import ExpandMoreArrow from '@/public/icons/icon-expand-more.svg';
@@ -16,11 +17,18 @@ interface CategoryHeaderProp {
 }
 
 export default function CategoryHeader({ feedData, openCategory, openTag }: CategoryHeaderProp) {
+  const { data: categories } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
   const parentCategory =
-    categories.find(
-      (category) =>
-        category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
-    ) ?? null;
+    (categories &&
+      categories.find(
+        (category) =>
+          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
+      )) ??
+    null;
 
   const childrenCategory =
     (parentCategory && parentCategory.children.find((tag) => tag.id === feedData.categoryId)) ?? null;
@@ -124,5 +132,9 @@ const CategorySelectorStarter = styled.header`
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 14px 16px;
     width: 100%;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 `;

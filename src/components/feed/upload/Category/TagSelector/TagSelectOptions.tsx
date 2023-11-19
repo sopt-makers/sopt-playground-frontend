@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
-import { categories } from '@/components/feed/upload/Category/constants';
 import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 import CheckIcon from '@/public/icons/icon_check.svg';
@@ -26,17 +27,26 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
     onSave(id);
   };
 
+  const { data: categories } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
   const parentCategory =
-    categories.find(
-      (category) =>
-        category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
-    ) ?? null;
+    (categories &&
+      categories.find(
+        (category: BasicCategory) =>
+          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
+      )) ??
+    null;
 
   const isInitial =
-    categories.find(
-      (category) =>
-        category.id === feedData.mainCategoryId && category.children.some((tag) => tag.id === feedData.categoryId),
-    ) ?? null;
+    (categories &&
+      categories.find(
+        (category: BasicCategory) =>
+          category.id === feedData.mainCategoryId && category.children.some((tag) => tag.id === feedData.categoryId),
+      )) ??
+    null;
 
   const { data: myProfile } = useGetMemberProfileOfMe();
 
@@ -64,7 +74,6 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
       <Select>
         {parentCategory && parentCategory.children.length > 0 && (
           <>
-            {/* TODO: 전체가 있는 경우 true면 */}
             {parentCategory.hasAll && (
               <>
                 <Responsive only='desktop'>
