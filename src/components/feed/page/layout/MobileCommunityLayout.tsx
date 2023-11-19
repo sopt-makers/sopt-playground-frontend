@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, ReactNode } from 'react';
-
-import { layoutCSSVariable } from '@/components/layout/utils';
-
+import { RemoveScroll } from 'react-remove-scroll';
 interface MobileCommunityLayoutProps {
   isDetailOpen: boolean;
   listSlot: ReactNode;
@@ -15,11 +13,11 @@ const MobileCommunityLayout: FC<MobileCommunityLayoutProps> = ({ isDetailOpen, l
   return (
     <Container>
       <ListSlotBox>{listSlot}</ListSlotBox>
-      <X>
+      <FullLayer>
         <DetailSlotBox initial={{ x: '100%' }} animate={{ x: isDetailOpen ? '0%' : '100%' }} transition={{ bounce: 0 }}>
-          {detailSlot}
+          {isDetailOpen ? <RemoveScroll>{detailSlot}</RemoveScroll> : null}
         </DetailSlotBox>
-      </X>
+      </FullLayer>
     </Container>
   );
 };
@@ -34,10 +32,10 @@ const ListSlotBox = styled.div`
   position: relative;
 `;
 
-const X = styled.div`
-  position: absolute;
+const FullLayer = styled.div`
+  position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: 9999;
   overflow: hidden;
 `;
 
@@ -45,5 +43,4 @@ const DetailSlotBox = styled(m.div)`
   background-color: ${colors.background};
   width: 100%;
   height: 100%;
-  height: ${layoutCSSVariable.contentAreaHeight};
 `;
