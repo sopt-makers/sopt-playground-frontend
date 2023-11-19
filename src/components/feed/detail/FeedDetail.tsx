@@ -1,45 +1,38 @@
-import { colors } from '@sopt-makers/colors';
-import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import { playgroundLink } from 'playground-common/export';
 import React, { useRef, useState } from 'react';
 
-import { useDeleteCommentMutation } from '@/api/endpoint/feed/deleteComment';
-import { useDeletePostMutation } from '@/api/endpoint/feed/deletePost';
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
-import { getPosts } from '@/api/endpoint/feed/getPosts';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useAlert from '@/components/common/Modal/useAlert';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
+import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
+import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
+import { useFeedShare } from '@/components/feed/common/hooks/useFeedShare';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
-import { useCopyText } from '@/hooks/useCopyText';
 
 interface FeedDetailProps {
   postId: string;
 }
 
 const FeedDetail = ({ postId }: FeedDetailProps) => {
+  const [value, setValue] = useState<string>('');
+  const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
+  const toast = useToast();
+  const { alert } = useAlert();
+  const { confirm } = useConfirm();
+  const { handleShare } = useFeedShare();
+  const { handleDeleteComment } = useDeleteComment();
+  const { handleDeleteFeed } = useDeleteFeed();
   const { data: meData } = useGetMemberOfMe();
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
-  const { mutate: deletePost } = useDeletePostMutation();
-  const { mutate: deleteComment } = useDeleteCommentMutation();
-  const { alert } = useAlert();
-  const { confirm } = useConfirm();
-  const { copy } = useCopyText();
-  const toast = useToast();
-  const router = useRouter();
-  const queryClient = useQueryClient();
-
-  const [value, setValue] = useState<string>('');
-  const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const is내글여부 = meData?.id === postData?.member.id;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,40 +58,6 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
     );
   };
 
-  const handleShare = () => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-    copy(`${window.location.origin}${window.location.pathname}${playgroundLink.feedDetail(postId)}`, {
-      successMessage: '링크가 복사되었어요.',
-    });
-  };
-
-  const handleDelete = async () => {
-    const result = await confirm({
-      title: '글을 정말 삭제하시겠어요?',
-      description: '유익한 정보를 담고 있다면, 글을 남겨 다른 사람들과도 공유해보세요.',
-      okButtonColor: colors.error,
-      okButtonTextColor: colors.white,
-      okButtonText: '삭제하기',
-      cancelButtonText: '취소',
-    });
-
-    if (result) {
-      deletePost(postId, {
-        onSuccess: () => {
-          toast.show({
-            message: '글이 성공적으로 삭제되었어요.',
-          });
-          router.push(playgroundLink.feedList());
-          queryClient.invalidateQueries({
-            queryKey: getPosts.cacheKey(),
-          });
-        },
-      });
-    }
-  };
-
   const handleReport = async () => {
     const result = await confirm({
       title: '이 글을 신고하시겠습니까?',
@@ -118,25 +77,6 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
     }
   };
 
-  const handleDeleteComment = async (commentId: string) => {
-    const result = await confirm({
-      title: '댓글을 정말 삭제하시겠어요?',
-      description: '유익한 정보를 담고 있다면, 글을 남겨 다른 사람들과도 공유해보세요.',
-      okButtonColor: colors.error,
-      okButtonTextColor: colors.white,
-      okButtonText: '삭제하기',
-      cancelButtonText: '취소',
-    });
-
-    if (result) {
-      deleteComment(commentId, {
-        onSuccess: () => {
-          refetchCommentQuery();
-        },
-      });
-    }
-  };
-
   if (postData == null || commentData == null) {
     return null;
   }
@@ -149,7 +89,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
         tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
         icons={
           <>
-            <button onClick={handleShare}>
+            <button onClick={() => handleShare(postId)}>
               <DetailFeedCard.Icon name='share' />
             </button>
             <FeedDropdown
@@ -165,7 +105,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
                 </FeedDropdown.Item>
               ) : null}
               {is내글여부 ? (
-                <FeedDropdown.Item type='danger' onClick={handleDelete}>
+                <FeedDropdown.Item type='danger' onClick={() => handleDeleteFeed({ postId })}>
                   삭제
                 </FeedDropdown.Item>
               ) : null}
@@ -220,7 +160,17 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
                 }
               >
                 {comment.member.id === meData?.id ? (
-                  <FeedDropdown.Item type='danger' onClick={() => handleDeleteComment(`${comment.id}`)}>
+                  <FeedDropdown.Item
+                    type='danger'
+                    onClick={() =>
+                      handleDeleteComment({
+                        commentId: `${comment.id}`,
+                        onSuccess: () => {
+                          refetchCommentQuery();
+                        },
+                      })
+                    }
+                  >
                     삭제
                   </FeedDropdown.Item>
                 ) : null}
