@@ -35,10 +35,6 @@ export const global = css`
       }
     }
 
-    & :focus-visible {
-      outline: 1px solid ${colors.gray200};
-    }
-
     /* Remove Arrows/Spinners Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
