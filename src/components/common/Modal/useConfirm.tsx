@@ -15,6 +15,7 @@ const useConfirm = () => {
       cancelButtonText: string;
       okButtonText: string;
       okButtonColor?: string;
+      okButtonTextColor?: string;
     }) =>
       new Promise<boolean>((resolve) => {
         open(({ isOpen, close }) => (
@@ -30,7 +31,12 @@ const useConfirm = () => {
               <StyleModalDescription>{options.description}</StyleModalDescription>
               <Modal.Footer align='stretch'>
                 <Modal.Button action='close'>{options.cancelButtonText}</Modal.Button>
-                <StyledOkButton color={options.okButtonColor} action='close' onClick={() => resolve(true)}>
+                <StyledOkButton
+                  color={options.okButtonColor}
+                  okButtonTextColor={options.okButtonTextColor}
+                  action='close'
+                  onClick={() => resolve(true)}
+                >
                   {options.okButtonText}
                 </StyledOkButton>
               </Modal.Footer>
@@ -50,9 +56,9 @@ const StyledModalContent = styled(Modal.Content)`
   min-width: 320px;
 `;
 
-const StyledOkButton = styled(Modal.Button)<{ color?: string }>`
+const StyledOkButton = styled(Modal.Button)<{ color?: string; okButtonTextColor?: string }>`
   background-color: ${(props) => props.color ?? colors.white};
-  color: ${colors.black};
+  color: ${(props) => props.okButtonTextColor ?? colors.black};
 `;
 
 const StyleModalDescription = styled.div`
