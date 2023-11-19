@@ -28,18 +28,19 @@ const Base = ({ trigger, children }: PropsWithChildren<FeedDropdownProps>) => {
 const StyledContent = styled(m(DropdownMenu.Content))`
   border-radius: 12px;
   background-color: #252525;
-  width: 208px;
+  min-width: 176px;
 `;
 
-interface ItemProps {
+interface ItemProps extends DropdownMenu.DropdownMenuItemProps {
   type?: 'default' | 'danger';
 }
-const Item = ({ type = 'default', children }: PropsWithChildren<ItemProps>) => {
+const Item = ({ type = 'default', children, ...props }: PropsWithChildren<ItemProps>) => {
   return (
     <StyledItem
       css={{
         color: type === 'danger' ? '#FF453A' : '#FFFFFF',
       }}
+      {...props}
     >
       {children}
     </StyledItem>

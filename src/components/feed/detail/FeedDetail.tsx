@@ -1,8 +1,13 @@
+import { colors } from '@sopt-makers/colors';
 import React, { useRef, useState } from 'react';
 
+import { useDeleteCommentMutation } from '@/api/endpoint/feed/deleteComment';
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import useConfirm from '@/components/common/Modal/useConfirm';
+import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
@@ -11,9 +16,12 @@ interface FeedDetailProps {
 }
 
 const FeedDetail = ({ postId }: FeedDetailProps) => {
+  const { data: meData } = useGetMemberOfMe();
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
-  const { mutate } = usePostCommentMutation(postId);
+  const { mutate: postComment } = usePostCommentMutation(postId);
+  const { mutate: deleteComment } = useDeleteCommentMutation();
+  const { confirm } = useConfirm();
 
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
@@ -21,7 +29,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate(
+    postComment(
       {
         content: value,
         isBlindWriter,
@@ -42,6 +50,25 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
     );
   };
 
+  const handleDeleteComment = async (commentId: string) => {
+    const result = await confirm({
+      title: '댓글을 정말 삭제하시겠어요?',
+      description: '유익한 정보를 담고 있다면, 글을 남겨 다른 사람들과도 공유해보세요.',
+      okButtonColor: colors.error,
+      okButtonTextColor: colors.white,
+      okButtonText: '삭제하기',
+      cancelButtonText: '취소',
+    });
+
+    if (result) {
+      deleteComment(commentId, {
+        onSuccess: () => {
+          refetchCommentQuery();
+        },
+      });
+    }
+  };
+
   if (postData == null || commentData == null) {
     return null;
   }
@@ -49,7 +76,28 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
   return (
     <DetailFeedCard>
       {/* TODO: 하드코딩 제거 */}
-      <DetailFeedCard.Header category='파트' tag='기획' />
+      <DetailFeedCard.Header
+        category='파트'
+        tag='기획'
+        icons={
+          <>
+            <button>
+              <DetailFeedCard.Icon name='share' />
+            </button>
+            <FeedDropdown
+              trigger={
+                <button>
+                  <DetailFeedCard.Icon name='moreVertical' />
+                </button>
+              }
+            >
+              <FeedDropdown.Item>수정</FeedDropdown.Item>
+              <FeedDropdown.Item type='danger'>삭제</FeedDropdown.Item>
+              <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+            </FeedDropdown>
+          </>
+        }
+      />
       <DetailFeedCard.Body ref={containerRef}>
         <DetailFeedCard.Main>
           <DetailFeedCard.Top
@@ -84,6 +132,23 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
             })}
             comment={comment.content}
             isBlindWriter={comment.isBlindWriter}
+            createdAt={comment.createdAt}
+            moreIcon={
+              <FeedDropdown
+                trigger={
+                  <button>
+                    <DetailFeedCard.Icon name='moreHorizental' />
+                  </button>
+                }
+              >
+                {comment.member.id === meData?.id ? (
+                  <FeedDropdown.Item type='danger' onClick={() => handleDeleteComment(`${comment.id}`)}>
+                    삭제
+                  </FeedDropdown.Item>
+                ) : null}
+                <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+              </FeedDropdown>
+            }
           />
         ))}
       </DetailFeedCard.Body>

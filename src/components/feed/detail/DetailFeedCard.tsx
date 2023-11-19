@@ -2,14 +2,16 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
-import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
+import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import {
   IconChevronLeft,
   IconChevronRight,
   IconMember,
+  IconMoreHoriz,
   IconMoreVert,
   IconSendFill,
   IconShare,
@@ -33,9 +35,12 @@ const StyledBase = styled(Flex)`
 interface HeaderProps {
   category: string;
   tag: string;
+  icons?: ReactNode;
+  onMore?: () => void;
+  onShare?: () => void;
 }
 
-const Header = ({ category, tag }: HeaderProps) => {
+const Header = ({ category, tag, icons }: HeaderProps) => {
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
@@ -48,14 +53,7 @@ const Header = ({ category, tag }: HeaderProps) => {
           <Text typography='SUIT_13_M'>{tag}</Text>
         </Chip>
       </Flex.Center>
-      <Flex.Center css={{ gap: 8 }}>
-        <button>
-          <IconShare />
-        </button>
-        <button>
-          <IconMoreVert />
-        </button>
-      </Flex.Center>
+      {icons ? <Flex.Center css={{ gap: 8 }}>{icons}</Flex.Center> : null}
     </StyledHeader>
   );
 };
@@ -251,8 +249,10 @@ interface CommentProps {
   info: string;
   comment: string;
   isBlindWriter: boolean;
+  createdAt: string;
+  moreIcon?: ReactNode;
 }
-const Comment = ({ profileImage, name, info, comment, isBlindWriter }: CommentProps) => {
+const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, moreIcon }: CommentProps) => {
   return (
     <StyledComment>
       <Flex css={{ gap: 8 }}>
@@ -261,16 +261,24 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter }: CommentPr
         ) : (
           <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
         )}
-        <Stack gutter={6}>
-          <Flex>
-            <Text typography='SUIT_13_SB' color={colors.gray10}>
-              {!isBlindWriter ? `${name}∙` : '익명'}
-            </Text>
-            {!isBlindWriter ? (
-              <Text typography='SUIT_13_R' color={colors.gray100}>
-                {info}
+        <Stack css={{ width: '100%' }} gutter={6}>
+          <Flex justify='space-between'>
+            <Flex>
+              <Text typography='SUIT_13_SB' color={colors.gray10}>
+                {!isBlindWriter ? `${name}∙` : '익명'}
               </Text>
-            ) : null}
+              {!isBlindWriter ? (
+                <Text typography='SUIT_13_R' color={colors.gray100}>
+                  {info}
+                </Text>
+              ) : null}
+            </Flex>
+            <Flex>
+              <Text typography='SUIT_13_R' color={colors.gray400}>
+                {getRelativeTime(createdAt)}
+              </Text>
+              {moreIcon}
+            </Flex>
           </Flex>
           <Text typography='SUIT_14_M'>{comment}</Text>
         </Stack>
@@ -397,6 +405,16 @@ const SendButton = styled(m.button)`
   padding: 8px;
 `;
 
+const Icon = ({ name }: { name: 'share' | 'moreVertical' | 'moreHorizental' }) => {
+  if (name === 'share') {
+    return <IconShare />;
+  } else if (name === 'moreVertical') {
+    return <IconMoreVert />;
+  } else if (name === 'moreHorizental') {
+    return <IconMoreHoriz />;
+  } else return null;
+};
+
 export default Object.assign(Base, {
   Header,
   Body,
@@ -406,4 +424,5 @@ export default Object.assign(Base, {
   Divider,
   Comment,
   Input,
+  Icon,
 });

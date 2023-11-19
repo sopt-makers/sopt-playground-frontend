@@ -11,8 +11,8 @@ export const deleteComment = createEndpoint({
   serverResponseScheme: z.unknown(),
 });
 
-export const useDeleteCommentMutation = (commentId: string) => {
+export const useDeleteCommentMutation = () => {
   return useMutation({
-    mutationFn: () => deleteComment.request(commentId),
+    mutationFn: (commentId: string) => deleteComment.request(commentId),
   });
 };
