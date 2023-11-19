@@ -15,11 +15,11 @@ import {
   IconSendFill,
   IconShare,
 } from '@/components/feed/common/Icon';
-import { FeedDetailLink } from '@/components/feed/common/queryParam';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -34,23 +34,22 @@ const StyledBase = styled(Flex)`
 interface HeaderProps {
   category: string;
   tag: string;
-  icons?: ReactNode;
+  left?: ReactNode;
+  right?: ReactNode;
 }
 
-const Header = ({ category, tag, icons }: HeaderProps) => {
+const Header = ({ category, tag, left, right }: HeaderProps) => {
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
-        <FeedDetailLink feedId={undefined}>
-          <IconChevronLeft />
-        </FeedDetailLink>
+        {left}
         <Chip align='center' as='button'>
           <Text typography='SUIT_13_M'>{category}</Text>
           <IconChevronRight />
           <Text typography='SUIT_13_M'>{tag}</Text>
         </Chip>
       </Flex.Center>
-      {icons ? <Flex.Center css={{ gap: 8 }}>{icons}</Flex.Center> : null}
+      {right ? <Flex.Center css={{ gap: 8 }}>{right}</Flex.Center> : null}
     </StyledHeader>
   );
 };
@@ -402,14 +401,19 @@ const SendButton = styled(m.button)`
   padding: 8px;
 `;
 
-const Icon = ({ name }: { name: 'share' | 'moreVertical' | 'moreHorizental' }) => {
-  if (name === 'share') {
-    return <IconShare />;
-  } else if (name === 'moreVertical') {
-    return <IconMoreVert />;
-  } else if (name === 'moreHorizental') {
-    return <IconMoreHoriz />;
-  } else return null;
+const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizental' }) => {
+  return (
+    <SwitchCase
+      value={name}
+      caseBy={{
+        share: <IconShare />,
+        chevronLeft: <IconChevronLeft />,
+        moreVertical: <IconMoreVert />,
+        moreHorizental: <IconMoreHoriz />,
+      }}
+      default={null}
+    />
+  );
 };
 
 export default Object.assign(Base, {
