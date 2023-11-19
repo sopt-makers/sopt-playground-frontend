@@ -27,4 +27,5 @@ export const playgroundLink = {
   mentoringDetail: (id: number) => `/mentoring/${id}`,
   wordchain: () => `/wordchain`,
   feedList: () => `/feed`,
+  feedDetail: (id: string | number) => `/feed/${id}`,
 };

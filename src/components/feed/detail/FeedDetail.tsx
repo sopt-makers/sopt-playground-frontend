@@ -1,15 +1,22 @@
 import { colors } from '@sopt-makers/colors';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import React, { useRef, useState } from 'react';
 
 import { useDeleteCommentMutation } from '@/api/endpoint/feed/deleteComment';
+import { useDeletePostMutation } from '@/api/endpoint/feed/deletePost';
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
+import { getPosts } from '@/api/endpoint/feed/getPosts';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useConfirm from '@/components/common/Modal/useConfirm';
+import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import { useCopyText } from '@/hooks/useCopyText';
 
 interface FeedDetailProps {
   postId: string;
@@ -20,12 +27,18 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
+  const { mutate: deletePost } = useDeletePostMutation();
   const { mutate: deleteComment } = useDeleteCommentMutation();
   const { confirm } = useConfirm();
+  const { copy } = useCopyText();
+  const toast = useToast();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const is내글여부 = meData?.id === postData?.member.id;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,6 +61,40 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
         },
       },
     );
+  };
+
+  const handleShare = () => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    copy(`${window.location.origin}${window.location.pathname}${playgroundLink.feedDetail(postId)}`, {
+      successMessage: '링크가 복사되었어요.',
+    });
+  };
+
+  const handleDelete = async () => {
+    const result = await confirm({
+      title: '글을 정말 삭제하시겠어요?',
+      description: '유익한 정보를 담고 있다면, 글을 남겨 다른 사람들과도 공유해보세요.',
+      okButtonColor: colors.error,
+      okButtonTextColor: colors.white,
+      okButtonText: '삭제하기',
+      cancelButtonText: '취소',
+    });
+
+    if (result) {
+      deletePost(postId, {
+        onSuccess: () => {
+          toast.show({
+            message: '글이 성공적으로 삭제되었어요.',
+          });
+          router.push(playgroundLink.feedList());
+          queryClient.invalidateQueries({
+            queryKey: getPosts.cacheKey(),
+          });
+        },
+      });
+    }
   };
 
   const handleDeleteComment = async (commentId: string) => {
@@ -77,11 +124,11 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
     <DetailFeedCard>
       {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header
-        category='파트'
-        tag='기획'
+        category='저는 하드코딩 되어있습니다 ㅎㅎㅎ'
+        tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
         icons={
           <>
-            <button>
+            <button onClick={handleShare}>
               <DetailFeedCard.Icon name='share' />
             </button>
             <FeedDropdown
@@ -91,8 +138,16 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
                 </button>
               }
             >
-              <FeedDropdown.Item>수정</FeedDropdown.Item>
-              <FeedDropdown.Item type='danger'>삭제</FeedDropdown.Item>
+              {is내글여부 ? (
+                <FeedDropdown.Item onClick={() => toast.show({ message: '아직 지원하지 않는 기능이에요.' })}>
+                  수정
+                </FeedDropdown.Item>
+              ) : null}
+              {is내글여부 ? (
+                <FeedDropdown.Item type='danger' onClick={handleDelete}>
+                  삭제
+                </FeedDropdown.Item>
+              ) : null}
               <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
             </FeedDropdown>
           </>
