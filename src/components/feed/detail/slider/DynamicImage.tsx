@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useLayoutEffect, useState } from 'react';
 
 interface ImageSize {
   width: number | 'auto';
@@ -23,9 +22,8 @@ export const DynamicImage = forwardRef<HTMLImageElement, DynamicImageProps>(
       width: 'auto',
       height: 'auto',
     });
-    console.log({ imageSize });
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       const img = new Image();
       img.src = src;
 

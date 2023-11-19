@@ -14,7 +14,7 @@ const MAX_IMAGE_LENGTH = 10;
 
 export default function ImageUploadButton({ imageLength, onClick, imageInputRef }: ImageUploadButtonProps) {
   return (
-    <Button onClick={onClick}>
+    <Button type='button' onClick={onClick}>
       {imageSvg}
       사진
       {imageLength > 0 && (
