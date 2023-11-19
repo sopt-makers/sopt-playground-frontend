@@ -132,5 +132,9 @@ const CategorySelectorStarter = styled.header`
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 14px 16px;
     width: 100%;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 `;
