@@ -1,11 +1,13 @@
+import Link from 'next/link';
 import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
-import { useFeedDetailParam } from '@/components/feed/common/queryParam';
+import { FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import FeedList from '@/components/feed/list/FeedList';
 import DesktopCommunityLayout from '@/components/feed/page/layout/DesktopCommunityLayout';
 import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunityLayout';
+import { playgroundLink } from '@/constants/links';
 
 const CommunityPage: FC = () => {
   const [postId] = useFeedDetailParam();
@@ -17,15 +19,25 @@ const CommunityPage: FC = () => {
       <Responsive only='desktop'>
         <DesktopCommunityLayout
           isDetailOpen={isDetailOpen}
-          listSlot={<FeedList />}
+          listSlot={
+            <FeedList
+              renderFeedDetailLink={({ children, feedId }) => (
+                <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+              )}
+            />
+          }
           detailSlot={postId ? <FeedDetail postId={postId} /> : null}
         />
       </Responsive>
       <Responsive only='mobile'>
         <MobileCommunityLayout
-          isDetailOpen={isDetailOpen}
-          listSlot={<FeedList />}
-          detailSlot={postId ? <FeedDetail postId={postId} /> : null}
+          listSlot={
+            <FeedList
+              renderFeedDetailLink={({ children, feedId }) => (
+                <Link href={playgroundLink.feedDetail(feedId)}>{children}</Link>
+              )}
+            />
+          }
         />
       </Responsive>
     </>

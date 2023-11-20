@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
@@ -10,15 +10,17 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { FeedDetailLink, useCategoryParam } from '@/components/feed/common/queryParam';
+import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import CategorySelect from '@/components/feed/list/CategorySelect';
 import FeedCard from '@/components/feed/list/FeedCard';
 import { layoutCSSVariable } from '@/components/layout/utils';
 
-interface FeedListProps {}
+interface FeedListProps {
+  renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
+}
 
-const FeedList: FC<FeedListProps> = ({}) => {
+const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
   const { data: meData } = useGetMemberOfMe();
   const { data, refetch, fetchNextPage } = useGetPostsInfiniteQuery({ categoryId });
@@ -50,8 +52,9 @@ const FeedList: FC<FeedListProps> = ({}) => {
         }}
         itemContent={(_, post) => {
           const is내글여부 = post.writerId === meData?.id;
-          return (
-            <FeedDetailLink css={{ width: '100%' }} feedId={`${post.id}`}>
+          return renderFeedDetailLink({
+            feedId: `${post.id}`,
+            children: (
               <FeedCard
                 name={post.member.name}
                 title={post.title}
@@ -122,8 +125,8 @@ const FeedList: FC<FeedListProps> = ({}) => {
                   ))}
                 </FeedCard.Comment>
               </FeedCard>
-            </FeedDetailLink>
-          );
+            ),
+          });
         }}
       />
     </Container>
