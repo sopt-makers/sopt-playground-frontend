@@ -1,32 +1,18 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useRef } from 'react';
+import { ComponentProps, FC, PropsWithChildren, ReactNode } from 'react';
 import Sheet from 'react-modal-sheet';
 
-import { useEscapeCallback } from '@/hooks/useEscapeCallback';
-import useOnClickOutside from '@/hooks/useOnClickOutside';
-
-export interface BottomSheetProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
+export interface BottomSheetProps extends PropsWithChildren<ComponentProps<typeof Sheet>> {
   header?: ReactNode;
-  isOpen?: boolean;
-  className?: string;
   onClose: () => void;
 }
 export const BottomSheet: FC<BottomSheetProps> = (props) => {
-  const { header, children, className, isOpen, onClose, ...restProps } = props;
-
-  useEscapeCallback({
-    callback: onClose,
-  });
-
-
-  if (!isOpen) {
-    return null;
-  }
+  const { header, children, isOpen, onClose, ...restProps } = props;
 
   return (
-    <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height'>
-      <Sheet.Container ref={modalRef}>
+    <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height' {...restProps}>
+      <Sheet.Container>
         <Sheet.Header>{header && header}</Sheet.Header>
         <Sheet.Content>{children}</Sheet.Content>
       </Sheet.Container>

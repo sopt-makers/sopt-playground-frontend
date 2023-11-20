@@ -18,7 +18,7 @@ interface TagSelectorProps {
   onSave: (categoryId: number) => void;
   feedData: UploadFeedDataType;
 }
-export default function TagSelector({ isOpen, onBack, onClose, onSave, feedData }: TagSelectorProps) {
+export default function TagSelector({ isOpen = false, onBack, onClose, onSave, feedData }: TagSelectorProps) {
   const { data: categories } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
