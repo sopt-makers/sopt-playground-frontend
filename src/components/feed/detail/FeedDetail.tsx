@@ -1,7 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import React, { ReactNode, useRef, useState } from 'react';
 
-import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
