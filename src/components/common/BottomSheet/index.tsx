@@ -14,13 +14,11 @@ export interface BottomSheetProps extends PropsWithChildren<HTMLAttributes<HTMLD
 }
 export const BottomSheet: FC<BottomSheetProps> = (props) => {
   const { header, children, className, isOpen, onClose, ...restProps } = props;
-  const modalRef = useRef<HTMLDivElement>(null);
 
   useEscapeCallback({
     callback: onClose,
   });
 
-  useOnClickOutside(modalRef, onClose);
 
   if (!isOpen) {
     return null;
@@ -32,7 +30,7 @@ export const BottomSheet: FC<BottomSheetProps> = (props) => {
         <Sheet.Header>{header && header}</Sheet.Header>
         <Sheet.Content>{children}</Sheet.Content>
       </Sheet.Container>
-      <Sheet.Backdrop />
+      <Sheet.Backdrop onTap={onClose} />
     </CustomSheet>
   );
 };
