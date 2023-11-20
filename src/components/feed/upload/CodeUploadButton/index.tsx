@@ -86,7 +86,6 @@ const Title = styled.div`
 
 const Description = styled.div`
   margin-bottom: 10px;
-  max-width: 326px;
   line-height: 22px;
   letter-spacing: -0.14px;
   white-space: pre-line;
@@ -96,8 +95,7 @@ const Description = styled.div`
 `;
 
 const CarbonCodeBlockImage = styled.img`
-  width: 326px;
-  height: 180px;
+  min-height: 180px;
 `;
 
 const CarbonLink = styled.a`
