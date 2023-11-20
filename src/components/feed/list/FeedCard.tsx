@@ -125,6 +125,7 @@ const Title = styled(Text)`
 `;
 
 const QuestionBadge = styled.div`
+  white-space: nowrap;
   border-radius: 5px;
   background-color: ${colors.orangeAlpha200};
   padding: 6px;
