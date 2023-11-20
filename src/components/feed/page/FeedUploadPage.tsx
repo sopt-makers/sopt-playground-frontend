@@ -4,9 +4,11 @@ import { colors } from '@sopt-makers/colors';
 import { FormEvent } from 'react';
 
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
+import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Category from '@/components/feed/upload/Category';
+import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
 import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
@@ -103,18 +105,30 @@ export default function FeedUploadPage() {
             </>
           }
           footer={
-            <>
+            <Footer>
               <ImagePreview images={feedData.images} onRemove={removeImage} />
-              <TagsWrapper>
-                <ImageUploadButton
-                  imageLength={feedData.images.length}
-                  onClick={handleDesktopClickImageInput}
-                  imageInputRef={desktopRef}
-                />
-                <CodeUploadButton />
-              </TagsWrapper>
-              <CheckBoxesWrapper>{/* TODO: 질문글, 익명 체크박스 삽입  */}</CheckBoxesWrapper>
-            </>
+              <TagAndCheckboxWrapper>
+                <TagsWrapper>
+                  <ImageUploadButton
+                    imageLength={feedData.images.length}
+                    onClick={handleDesktopClickImageInput}
+                    imageInputRef={desktopRef}
+                  />
+                  <CodeUploadButton />
+                </TagsWrapper>
+                <CheckBoxesWrapper>
+                  <CheckboxFormItem label='질문글'>
+                    <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
+                  </CheckboxFormItem>
+                  <CheckboxFormItem label='익명'>
+                    <Checkbox
+                      checked={feedData.isBlindWriter}
+                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                    />
+                  </CheckboxFormItem>
+                </CheckBoxesWrapper>
+              </TagAndCheckboxWrapper>
+            </Footer>
           }
         />
       </Responsive>
@@ -144,7 +158,17 @@ export default function FeedUploadPage() {
           }
           body={
             <>
-              <CheckBoxesWrapper>{/* TODO: 질문글, 익명 체크박스 삽입  */}</CheckBoxesWrapper>
+              <CheckBoxesWrapper>
+                <CheckboxFormItem label='질문글'>
+                  <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
+                </CheckboxFormItem>
+                <CheckboxFormItem label='익명'>
+                  <Checkbox
+                    checked={feedData.isBlindWriter}
+                    onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                  />
+                </CheckboxFormItem>
+              </CheckBoxesWrapper>
               <TitleInput onChange={handleSaveTitle} />
               <ContentsInput onChange={handleSaveContent} />
               <ImagePreview images={feedData.images} onRemove={removeImage} />
@@ -247,4 +271,14 @@ const CheckBoxesWrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 24px 0;
   }
+`;
+
+const Footer = styled.div`
+  width: 100%;
+`;
+
+const TagAndCheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
