@@ -17,9 +17,8 @@ export const Default = {
         <Button onClick={onOpen}>클릭하여 셀렉터 열기</Button>
         <CategorySelector
           isOpen={isOpen}
-          onNext={onClose}
           onClose={onClose}
-          onSave={onClose}
+          onSelect={onClose}
           feedData={{
             mainCategoryId: 0,
             categoryId: 0,
