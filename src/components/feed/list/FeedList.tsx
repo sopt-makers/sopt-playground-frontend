@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import Responsive from '@/components/common/Responsive';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
@@ -51,78 +54,156 @@ const FeedList: FC<FeedListProps> = ({}) => {
         itemContent={(_, post) => {
           const is내글여부 = post.writerId === meData?.id;
           return (
-            <FeedDetailLink css={{ width: '100%' }} feedId={`${post.id}`}>
-              <FeedCard
-                name={post.member.name}
-                title={post.title}
-                content={post.content}
-                profileImage={post.member.profileImage}
-                createdAt={post.createdAt}
-                commentLength={post.commentCount}
-                hits={post.hits}
-                isBlindWriter={post.isBlindWriter}
-                isQuestion={post.isQuestion}
-                info={getMemberInfo({
-                  categoryId: post.categoryId,
-                  categoryName: post.categoryName,
-                  member: {
-                    activity: post.member.activity,
-                    careers: post.member.careers,
-                  },
-                })}
-                rightIcon={
-                  <FeedDropdown
-                    trigger={
-                      <button>
-                        <FeedCard.Icon name='moreHorizon' />
-                      </button>
+            <>
+              <Responsive only='desktop'>
+                <FeedDetailLink css={{ width: '100%' }} feedId={`${post.id}`}>
+                  <FeedCard
+                    name={post.member.name}
+                    title={post.title}
+                    content={post.content}
+                    profileImage={post.member.profileImage}
+                    createdAt={post.createdAt}
+                    commentLength={post.commentCount}
+                    hits={post.hits}
+                    isBlindWriter={post.isBlindWriter}
+                    isQuestion={post.isQuestion}
+                    info={getMemberInfo({
+                      categoryId: post.categoryId,
+                      categoryName: post.categoryName,
+                      member: {
+                        activity: post.member.activity,
+                        careers: post.member.careers,
+                      },
+                    })}
+                    rightIcon={
+                      <FeedDropdown
+                        trigger={
+                          <button>
+                            <FeedCard.Icon name='moreHorizon' />
+                          </button>
+                        }
+                      >
+                        {is내글여부 ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
+                        <FeedDropdown.Item
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShareFeed(`${post.id}`);
+                          }}
+                        >
+                          공유
+                        </FeedDropdown.Item>
+                        {is내글여부 ? (
+                          <FeedDropdown.Item
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteFeed({
+                                postId: `${post.id}`,
+                                onSuccess: () => {
+                                  refetch();
+                                },
+                              });
+                            }}
+                          >
+                            삭제
+                          </FeedDropdown.Item>
+                        ) : null}
+                        <FeedDropdown.Item>신고</FeedDropdown.Item>
+                      </FeedDropdown>
                     }
                   >
-                    {is내글여부 ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
-                    <FeedDropdown.Item
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleShareFeed(`${post.id}`);
-                      }}
-                    >
-                      공유
-                    </FeedDropdown.Item>
-                    {is내글여부 ? (
-                      <FeedDropdown.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteFeed({
-                            postId: `${post.id}`,
-                            onSuccess: () => {
-                              refetch();
-                            },
-                          });
-                        }}
+                    <FeedCard.Image>
+                      {post.images.map((image, index) => (
+                        <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
+                      ))}
+                    </FeedCard.Image>
+                    <FeedCard.Comment>
+                      {post.comments.map((comment) => (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          name={comment.member.name}
+                          isBlindWriter={comment.isBlindWriter}
+                        />
+                      ))}
+                    </FeedCard.Comment>
+                  </FeedCard>
+                </FeedDetailLink>
+              </Responsive>
+              <Responsive only='mobile'>
+                <Link href={playgroundLink.feedDetail(post.id)}>
+                  <FeedCard
+                    name={post.member.name}
+                    title={post.title}
+                    content={post.content}
+                    profileImage={post.member.profileImage}
+                    createdAt={post.createdAt}
+                    commentLength={post.commentCount}
+                    hits={post.hits}
+                    isBlindWriter={post.isBlindWriter}
+                    isQuestion={post.isQuestion}
+                    info={getMemberInfo({
+                      categoryId: post.categoryId,
+                      categoryName: post.categoryName,
+                      member: {
+                        activity: post.member.activity,
+                        careers: post.member.careers,
+                      },
+                    })}
+                    rightIcon={
+                      <FeedDropdown
+                        trigger={
+                          <button>
+                            <FeedCard.Icon name='moreHorizon' />
+                          </button>
+                        }
                       >
-                        삭제
-                      </FeedDropdown.Item>
-                    ) : null}
-                    <FeedDropdown.Item>신고</FeedDropdown.Item>
-                  </FeedDropdown>
-                }
-              >
-                <FeedCard.Image>
-                  {post.images.map((image, index) => (
-                    <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
-                  ))}
-                </FeedCard.Image>
-                <FeedCard.Comment>
-                  {post.comments.map((comment) => (
-                    <FeedCard.CommentItem
-                      key={comment.id}
-                      comment={comment.content}
-                      name={comment.member.name}
-                      isBlindWriter={comment.isBlindWriter}
-                    />
-                  ))}
-                </FeedCard.Comment>
-              </FeedCard>
-            </FeedDetailLink>
+                        {is내글여부 ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
+                        <FeedDropdown.Item
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShareFeed(`${post.id}`);
+                          }}
+                        >
+                          공유
+                        </FeedDropdown.Item>
+                        {is내글여부 ? (
+                          <FeedDropdown.Item
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteFeed({
+                                postId: `${post.id}`,
+                                onSuccess: () => {
+                                  refetch();
+                                },
+                              });
+                            }}
+                          >
+                            삭제
+                          </FeedDropdown.Item>
+                        ) : null}
+                        <FeedDropdown.Item>신고</FeedDropdown.Item>
+                      </FeedDropdown>
+                    }
+                  >
+                    <FeedCard.Image>
+                      {post.images.map((image, index) => (
+                        <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
+                      ))}
+                    </FeedCard.Image>
+                    <FeedCard.Comment>
+                      {post.comments.map((comment) => (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          name={comment.member.name}
+                          isBlindWriter={comment.isBlindWriter}
+                        />
+                      ))}
+                    </FeedCard.Comment>
+                  </FeedCard>
+                </Link>
+              </Responsive>
+            </>
           );
         }}
       />

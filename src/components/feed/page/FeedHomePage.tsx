@@ -8,9 +8,9 @@ import DesktopCommunityLayout from '@/components/feed/page/layout/DesktopCommuni
 import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunityLayout';
 
 const CommunityPage: FC = () => {
-  const [postId] = useFeedDetailParam();
+  const [feedId] = useFeedDetailParam();
 
-  const isDetailOpen = postId != null && postId !== '';
+  const isDetailOpen = feedId != null && feedId !== '';
 
   return (
     <>
@@ -18,14 +18,14 @@ const CommunityPage: FC = () => {
         <DesktopCommunityLayout
           isDetailOpen={isDetailOpen}
           listSlot={<FeedList />}
-          detailSlot={postId ? <FeedDetail postId={postId} /> : null}
+          detailSlot={feedId ? <FeedDetail feedId={feedId} /> : null}
         />
       </Responsive>
       <Responsive only='mobile'>
         <MobileCommunityLayout
           isDetailOpen={isDetailOpen}
           listSlot={<FeedList />}
-          detailSlot={postId ? <FeedDetail postId={postId} /> : null}
+          detailSlot={feedId ? <FeedDetail feedId={feedId} /> : null}
         />
       </Responsive>
     </>

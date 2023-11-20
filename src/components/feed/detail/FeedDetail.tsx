@@ -1,3 +1,6 @@
+import { QS } from '@toss/utils';
+import Link from 'next/link';
+import { playgroundLink } from 'playground-common/export';
 import React, { useRef, useState } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
@@ -6,20 +9,21 @@ import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useAlert from '@/components/common/Modal/useAlert';
 import useConfirm from '@/components/common/Modal/useConfirm';
+import Responsive from '@/components/common/Responsive';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { FeedDetailLink } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
 interface FeedDetailProps {
-  postId: string;
+  feedId: string;
+  isDetailPage?: boolean;
 }
 
-const FeedDetail = ({ postId }: FeedDetailProps) => {
+const FeedDetail = ({ feedId }: FeedDetailProps) => {
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const toast = useToast();
@@ -29,9 +33,9 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
   const { handleDeleteComment } = useDeleteComment();
   const { handleDeleteFeed } = useDeleteFeed();
   const { data: meData } = useGetMemberOfMe();
-  const { data: postData } = useGetPostQuery(postId);
-  const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
-  const { mutate: postComment } = usePostCommentMutation(postId);
+  const { data: postData } = useGetPostQuery(feedId);
+  const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(feedId);
+  const { mutate: postComment } = usePostCommentMutation(feedId);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const is내글여부 = meData?.id === postData?.member.id;
@@ -84,18 +88,28 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
 
   return (
     <DetailFeedCard>
-      {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header
-        category='저는 하드코딩 되어있습니다 ㅎㅎㅎ'
-        tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
         left={
-          <FeedDetailLink feedId={undefined}>
-            <DetailFeedCard.Icon name='chevronLeft' />
-          </FeedDetailLink>
+          <>
+            <Responsive only='desktop' asChild>
+              <Link href={`${playgroundLink.feedList()}${QS.create({ feed: feedId })}`}>
+                <DetailFeedCard.Icon name='chevronLeft' />
+              </Link>
+            </Responsive>
+            <Responsive only='mobile' asChild>
+              <Link href={playgroundLink.feedList()}>
+                <DetailFeedCard.Icon name='chevronLeft' />
+              </Link>
+            </Responsive>
+            {/* TODO: 하드코딩 제거 */}
+            <Link href={playgroundLink.feedList()}>
+              <DetailFeedCard.Chip category='하드코딩카테고리' tag='하드코딩태그' />
+            </Link>
+          </>
         }
         right={
           <>
-            <button onClick={() => handleShareFeed(postId)}>
+            <button onClick={() => handleShareFeed(feedId)}>
               <DetailFeedCard.Icon name='share' />
             </button>
             <FeedDropdown
@@ -111,7 +125,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
                 </FeedDropdown.Item>
               ) : null}
               {is내글여부 ? (
-                <FeedDropdown.Item type='danger' onClick={() => handleDeleteFeed({ postId })}>
+                <FeedDropdown.Item type='danger' onClick={() => handleDeleteFeed({ postId: feedId })}>
                   삭제
                 </FeedDropdown.Item>
               ) : null}

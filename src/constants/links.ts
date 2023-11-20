@@ -26,6 +26,7 @@ export const playgroundLink = {
   sopticleSuccess: () => `/sopticle/success`,
   mentoringDetail: (id: number) => `/mentoring/${id}`,
   wordchain: () => `/wordchain`,
-  feedList: () => `/feed`,
+  // TODO: 경로 '/' 로 배포 이전에 수정 필요
+  feedList: () => `/community`,
   feedDetail: (id: string | number) => `/feed/${id}`,
 };
