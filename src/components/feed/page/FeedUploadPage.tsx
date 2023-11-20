@@ -7,6 +7,7 @@ import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Category from '@/components/feed/upload/Category';
+import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
 import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 import ImagePreview from '@/components/feed/upload/ImagePreview';
@@ -110,8 +111,7 @@ export default function FeedUploadPage() {
                   onClick={handleDesktopClickImageInput}
                   imageInputRef={desktopRef}
                 />
-
-                {/* TODO: 코드 태그 삽입  */}
+                <CodeUploadButton />
               </TagsWrapper>
               <CheckBoxesWrapper>{/* TODO: 질문글, 익명 체크박스 삽입  */}</CheckBoxesWrapper>
             </>
@@ -154,7 +154,7 @@ export default function FeedUploadPage() {
                   onClick={handleMobileClickImageInput}
                   imageInputRef={mobileRef}
                 />
-                {/* TODO:  코드 태그 삽입  */}
+                <CodeUploadButton />
               </TagsWrapper>
             </>
           }

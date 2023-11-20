@@ -15,7 +15,9 @@ export default function CodeUploadButton() {
   const { isOpen, onClose, onOpen } = useModalState();
   return (
     <>
-      <Button onClick={onOpen}>{codeSvg}코드</Button>
+      <Button onClick={onOpen} type='button'>
+        {codeSvg}코드
+      </Button>
       <Responsive only='desktop' asChild>
         <Modal onClose={onClose} isOpen={isOpen} hideCloseButton>
           <Modal.Content style={{ width: 'fit-content' }}>
