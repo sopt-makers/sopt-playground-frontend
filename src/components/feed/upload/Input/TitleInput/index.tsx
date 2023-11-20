@@ -8,10 +8,19 @@ import { textStyles } from '@/styles/typography';
 
 interface TitleInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
-export default function TitleInput({ onChange }: TitleInputProp) {
-  return <Title placeholder='(선택) 제목을 입력해주세요' maxLength={255} spellCheck='false' onChange={onChange} />;
+export default function TitleInput({ onChange, onKeyDown }: TitleInputProp) {
+  return (
+    <Title
+      placeholder='(선택) 제목을 입력해주세요'
+      maxLength={255}
+      spellCheck='false'
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+    />
+  );
 }
 
 const Title = styled(TextareaAutosize)`

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, forwardRef, Ref } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -10,9 +10,13 @@ interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export default function ContentsInput({ onChange }: ContentsInputProp) {
-  return <Contents placeholder='내용을 입력해주세요' maxLength={20000} spellCheck='false' onChange={onChange} />;
-}
+const ContentsInput = forwardRef(({ onChange }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
+  return (
+    <Contents placeholder='내용을 입력해주세요' maxLength={20000} spellCheck='false' onChange={onChange} ref={ref} />
+  );
+});
+
+export default ContentsInput;
 
 const Contents = styled(TextareaAutosize)`
   outline: none;
