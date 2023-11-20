@@ -15,15 +15,17 @@ import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
+import { FeedDetailLink } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 
 interface FeedDetailProps {
   feedId: string;
-  isDetailPage?: boolean;
+  mode?: 'detail' | 'list';
 }
 
-const FeedDetail = ({ feedId }: FeedDetailProps) => {
+const FeedDetail = ({ mode = 'list', feedId }: FeedDetailProps) => {
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const toast = useToast();
@@ -92,9 +94,21 @@ const FeedDetail = ({ feedId }: FeedDetailProps) => {
         left={
           <>
             <Responsive only='desktop' asChild>
-              <Link href={`${playgroundLink.feedList()}${QS.create({ feed: feedId })}`}>
-                <DetailFeedCard.Icon name='chevronLeft' />
-              </Link>
+              <SwitchCase
+                value={mode}
+                caseBy={{
+                  detail: (
+                    <Link href={`${playgroundLink.feedList()}${QS.create({ feed: feedId })}`}>
+                      <DetailFeedCard.Icon name='chevronLeft' />
+                    </Link>
+                  ),
+                  list: (
+                    <FeedDetailLink feedId={undefined}>
+                      <DetailFeedCard.Icon name='chevronLeft' />
+                    </FeedDetailLink>
+                  ),
+                }}
+              />
             </Responsive>
             <Responsive only='mobile' asChild>
               <Link href={playgroundLink.feedList()}>

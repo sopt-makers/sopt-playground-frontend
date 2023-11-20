@@ -16,8 +16,7 @@ const FeedDetailPage = () => {
       {status === 'success' ? (
         <Container>
           <DetailSlot>
-            {/* TODO: 링크 바뀌면 뒤로가기 시 링크 반영 */}
-            <FeedDetail feedId={query.id} />
+            <FeedDetail feedId={query.id} mode='detail' />
           </DetailSlot>
         </Container>
       ) : null}
