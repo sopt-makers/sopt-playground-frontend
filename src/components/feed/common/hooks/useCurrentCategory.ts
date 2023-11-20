@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 
-export function useCurrentCategory(categoryId: string | undefined) {
-  const { data: currentCategory } = useQuery({
+export function useCategoryInfo(categoryId: string | undefined) {
+  const { data: categoryInfo } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
     enabled: categoryId != null,
@@ -12,20 +12,20 @@ export function useCurrentCategory(categoryId: string | undefined) {
 
       if (category != null) {
         return {
-          categoryName: category.name,
-          tagName: '전체',
-        };
+          category,
+          tag: null,
+        } as const;
       }
 
       const parentCategory = categories.find((category) => category.children.some((tag) => `${tag.id}` === categoryId));
       const tag = parentCategory?.children.find((tag) => `${tag.id}` === `${categoryId}`);
 
       return {
-        categoryName: parentCategory?.name,
-        tagName: tag?.name,
-      };
+        category: parentCategory,
+        tag,
+      } as const;
     },
   });
 
-  return currentCategory;
+  return categoryInfo;
 }

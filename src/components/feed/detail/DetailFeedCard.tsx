@@ -52,18 +52,17 @@ const Header = ({
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
         {left}
-        <Chip align='center' as='div'>
-          {renderCategoryLink({
-            children: (
-              <>
-                <Text typography='SUIT_13_M'>{category}</Text>
-                <IconChevronRight />
-                <Text typography='SUIT_13_M'>{tag}</Text>
-              </>
-            ),
-            categoryId,
-          })}
-        </Chip>
+
+        {renderCategoryLink({
+          children: (
+            <Chip align='center' as='div'>
+              <Text typography='SUIT_13_M'>{category}</Text>
+              <IconChevronRight />
+              <Text typography='SUIT_13_M'>{tag}</Text>
+            </Chip>
+          ),
+          categoryId,
+        })}
       </Flex.Center>
       {right ? <Flex.Center css={{ gap: 8 }}>{right}</Flex.Center> : null}
     </StyledHeader>
