@@ -49,7 +49,7 @@ export default function FeedUploadPage() {
   });
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && e.nativeEvent.isComposing === false) {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
       mobileContentsRef.current && mobileContentsRef.current.focus();
     }
@@ -57,7 +57,7 @@ export default function FeedUploadPage() {
 
   const DesktopContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleDesktopKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && e.nativeEvent.isComposing === false) {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
       DesktopContentsRef.current && DesktopContentsRef.current.focus();
     }
