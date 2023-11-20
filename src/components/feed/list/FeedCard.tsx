@@ -176,12 +176,13 @@ const StyledComment = styled(Flex)`
 interface CommentItemProps {
   name: string;
   comment: string;
+  isBlindWriter?: boolean;
 }
 
-const CommentItem = ({ name, comment }: CommentItemProps) => {
+const CommentItem = ({ name, comment, isBlindWriter = false }: CommentItemProps) => {
   return (
     <StyledCommentItem>
-      <Text color={colors.gray10}>{name}</Text>
+      <Text color={colors.gray10}>{isBlindWriter ? '익명' : name}</Text>
       <Text color={colors.gray300}>{comment}</Text>
     </StyledCommentItem>
   );

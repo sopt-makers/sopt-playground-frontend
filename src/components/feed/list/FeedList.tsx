@@ -113,7 +113,12 @@ const FeedList: FC<FeedListProps> = ({}) => {
                 </FeedCard.Image>
                 <FeedCard.Comment>
                   {post.comments.map((comment) => (
-                    <FeedCard.CommentItem key={comment.id} comment={comment.content} name={comment.member.name} />
+                    <FeedCard.CommentItem
+                      key={comment.id}
+                      comment={comment.content}
+                      name={comment.member.name}
+                      isBlindWriter={comment.isBlindWriter}
+                    />
                   ))}
                 </FeedCard.Comment>
               </FeedCard>
