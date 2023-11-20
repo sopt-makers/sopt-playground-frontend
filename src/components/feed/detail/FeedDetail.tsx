@@ -1,7 +1,9 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { ReactNode, useRef, useState } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useAlert from '@/components/common/Modal/useAlert';
@@ -12,7 +14,7 @@ import { useCurrentCategory } from '@/components/feed/common/hooks/useCurrentCat
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { FeedDetailLink } from '@/components/feed/common/queryParam';
+import { FeedDetailLink, useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
@@ -24,6 +26,7 @@ interface FeedDetailProps {
 const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
+  const queryClient = useQueryClient();
   const toast = useToast();
   const { alert } = useAlert();
   const { confirm } = useConfirm();
@@ -36,6 +39,7 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
   const { mutate: postComment } = usePostCommentMutation(postId);
   const currentCategory = useCurrentCategory(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
+  const [categoryId] = useCategoryParam();
 
   const is내글여부 = meData?.id === postData?.member.id;
 
@@ -51,6 +55,7 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
         onSuccess: async () => {
           setValue('');
           const { isSuccess } = await refetchCommentQuery();
+          queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
           requestAnimationFrame(() => {
             // MEMO(@jun): refecth 이후 render가 완료되기 전에 scroll 처리가 되어버려서, 리렌더링 이후에 실행하도록
             if (isSuccess && containerRef.current) {

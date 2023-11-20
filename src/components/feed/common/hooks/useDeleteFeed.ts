@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
 import { useDeletePostMutation } from '@/api/endpoint/feed/deletePost';
-import { getPosts } from '@/api/endpoint/feed/getPosts';
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
+import { useCategoryParam } from '@/components/feed/common/queryParam';
 
 interface Options {
   postId: string;
@@ -19,6 +20,7 @@ export const useDeleteFeed = () => {
   const { mutate } = useDeletePostMutation();
   const { confirm } = useConfirm();
   const router = useRouter();
+  const [categoryId] = useCategoryParam();
 
   const handleDeleteFeed = async (options: Options) => {
     const result = await confirm({
@@ -39,7 +41,7 @@ export const useDeleteFeed = () => {
           });
           router.push(playgroundLink.feedList());
           queryClient.invalidateQueries({
-            queryKey: getPosts.cacheKey(),
+            queryKey: useGetPostsInfiniteQuery.getKey(categoryId),
           });
         },
       });

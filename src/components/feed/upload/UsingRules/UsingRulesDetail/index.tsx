@@ -14,7 +14,7 @@ interface UsingRulesDetailProps {
   onClose: () => void;
 }
 
-export default function UsingRulesDetail({ isOpen, onClose }: UsingRulesDetailProps) {
+export default function UsingRulesDetail({ isOpen = false, onClose }: UsingRulesDetailProps) {
   return (
     <>
       <Responsive only='desktop'>
