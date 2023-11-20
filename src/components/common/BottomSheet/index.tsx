@@ -25,20 +25,20 @@ export const BottomSheet: FC<BottomSheetProps> = (props) => {
 const CustomSheet = styled(Sheet)`
   margin: 0 16px 42px;
 
-  .react-modal-sheet-backdrop.react-modal-sheet-backdrop {
+  .react-modal-sheet-backdrop {
     display: flex;
     position: fixed;
     top: 0;
     left: 0;
     justify-content: center;
-    background-color: ${colors.grayAlpha800};
+    background-color: ${colors.grayAlpha800}!important;
     width: 100%;
     height: 100%;
   }
 
-  .react-modal-sheet-container.react-modal-sheet-container {
+  .react-modal-sheet-container {
     border-radius: 20px;
-    background-color: ${colors.gray800};
+    background-color: ${colors.gray800}!important;
     padding: 24px 0 16px;
     width: 100%;
     max-height: 520px;
