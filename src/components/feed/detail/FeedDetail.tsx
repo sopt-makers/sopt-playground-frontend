@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
@@ -10,6 +10,7 @@ import useAlert from '@/components/common/Modal/useAlert';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
+import { useCurrentCategory } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
@@ -19,9 +20,10 @@ import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
 interface FeedDetailProps {
   postId: string;
+  renderCategoryLink: (props: { children: ReactNode; categoryId: string }) => ReactNode;
 }
 
-const FeedDetail = ({ postId }: FeedDetailProps) => {
+const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -35,6 +37,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
+  const currentCategory = useCurrentCategory(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
 
@@ -91,8 +94,10 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
     <DetailFeedCard>
       {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header
-        category='저는 하드코딩 되어있습니다 ㅎㅎㅎ'
-        tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
+        category={currentCategory?.categoryName ?? ''}
+        tag={currentCategory?.tagName ?? ''}
+        categoryId={postData.posts.categoryId.toString()}
+        renderCategoryLink={renderCategoryLink}
         left={
           <FeedDetailLink feedId={undefined}>
             <DetailFeedCard.Icon name='chevronLeft' />
