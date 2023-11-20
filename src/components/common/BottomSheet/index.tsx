@@ -10,7 +10,7 @@ export interface BottomSheetProps extends PropsWithChildren<ComponentProps<typeo
 
 export const BottomSheet: FC<BottomSheetProps> = (props) => {
   const { header, children, isOpen, onClose, ...restProps } = props;
-  console.log(typeof header);
+
   return (
     <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height' {...restProps}>
       <Sheet.Container>
