@@ -1,5 +1,8 @@
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
+import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
 import CategorySelector from '@/components/feed/upload/Category/CategorySelector';
 import TagSelector from '@/components/feed/upload/Category/TagSelector';
@@ -24,30 +27,65 @@ export default function Category({
   openCategory,
   openTag,
   openUsingRules,
-  checkIsOpenCategorys,
 }: CateogryProps) {
-  useEffect(() => {
-    if (feedData.categoryId === 0) return;
-    if (checkIsOpenCategorys) return;
-    if (feedData.categoryId === 1) {
-      openUsingRules();
-    } else {
-      openTag();
+  const { data: categories } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
+  const { data: myProfile } = useGetMemberProfileOfMe();
+
+  const latestSoptPart = useMemo(() => {
+    if (!myProfile?.soptActivities || myProfile.soptActivities.length === 0) {
+      return null;
     }
-  }, [feedData]);
+
+    return myProfile.soptActivities.reduce((latestActivity, activity) => {
+      if (latestActivity.generation < activity.generation) {
+        return activity;
+      }
+      return latestActivity;
+    }, myProfile.soptActivities[0]).part;
+  }, [myProfile?.soptActivities]);
 
   const handleSaveMainCategory = (categoryId: number) => {
-    onSaveCategory(categoryId);
+    const selectedMainCategory = categories?.find((category) => category.id === categoryId);
+
+    if (selectedMainCategory == null) {
+      return;
+    }
+
     onSaveMainCategory(categoryId);
+
+    if (selectedMainCategory.children.length === 0) {
+      onSaveCategory(categoryId);
+      return;
+    }
+
+    openTag();
+
+    if (selectedMainCategory.hasAll) {
+      onSaveCategory(categoryId);
+      return;
+    }
+
+    if (selectedMainCategory.name === '파트') {
+      onSaveCategory(
+        selectedMainCategory.children.find((category) => category.name === latestSoptPart)?.id ??
+          selectedMainCategory.children[0].id,
+      );
+      return;
+    }
+
+    onSaveCategory(selectedMainCategory.children[0].id);
   };
 
   return (
     <>
       <CategorySelector
         isOpen={isDropDown === 'openCategory'}
-        onNext={openTag}
         onClose={openUsingRules}
-        onSave={handleSaveMainCategory}
+        onSelect={handleSaveMainCategory}
         feedData={feedData}
       />
       <TagSelector

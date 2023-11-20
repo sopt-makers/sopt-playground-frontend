@@ -8,15 +8,13 @@ import { UploadFeedDataType } from '@/components/feed/upload/types';
 import { textStyles } from '@/styles/typography';
 
 interface CategorySelectOptionsProp {
-  onNext: () => void;
   onSave: (categoryId: number) => void;
   feedData: UploadFeedDataType;
 }
 
-export default function CategorySelectOptions({ onSave, onNext, feedData }: CategorySelectOptionsProp) {
+export default function CategorySelectOptions({ onSave, feedData }: CategorySelectOptionsProp) {
   const handleSelectCategory = (categoryId: number) => {
     onSave(categoryId);
-    onNext();
   };
 
   const { data: categories } = useQuery({

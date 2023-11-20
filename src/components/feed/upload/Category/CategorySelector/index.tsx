@@ -10,18 +10,17 @@ import { textStyles } from '@/styles/typography';
 
 interface CategorySelectorProps {
   isOpen?: boolean;
-  onNext: () => void;
   onClose: () => void;
-  onSave: (categoryId: number) => void;
+  onSelect: (categoryId: number) => void;
   feedData: UploadFeedDataType;
 }
 
-export default function CategorySelector({ isOpen, onNext, onClose, onSave, feedData }: CategorySelectorProps) {
+export default function CategorySelector({ isOpen, onClose, onSelect, feedData }: CategorySelectorProps) {
   return (
     <>
       <Responsive only='desktop'>
         <DropDown isOpen={isOpen} onClose={onClose} className='category-drop' header={<Title>어디에 올릴까요?</Title>}>
-          <CategorySelectOptions onNext={onNext} onSave={onSave} feedData={feedData} />
+          <CategorySelectOptions onSave={onSelect} feedData={feedData} />
         </DropDown>
       </Responsive>
       <Responsive only='mobile'>
@@ -31,7 +30,7 @@ export default function CategorySelector({ isOpen, onNext, onClose, onSave, feed
           className='category-drop'
           header={<Title>어디에 올릴까요?</Title>}
         >
-          <CategorySelectOptions onNext={onNext} onSave={onSave} feedData={feedData} />
+          <CategorySelectOptions onSave={onSelect} feedData={feedData} />
         </BottomSheet>
       </Responsive>
     </>
