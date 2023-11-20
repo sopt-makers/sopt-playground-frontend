@@ -64,6 +64,7 @@ export const Container = styled.div``;
 
 export const CategoryBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
   padding: 4px 8px;
 `;
 
@@ -78,6 +79,7 @@ export const Category = styled(CategoryLink)<{ active: boolean }>`
 
 const TagBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   padding: 0 16px 8px;
 `;
