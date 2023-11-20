@@ -39,7 +39,7 @@ export const getPosts = createEndpoint({
               companyName: z.string(),
               title: z.string(),
               startDate: z.string(),
-              endDate: z.string(),
+              endDate: z.string().nullable(),
               isCurrent: z.boolean(),
             })
             .nullable(),
