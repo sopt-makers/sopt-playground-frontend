@@ -9,7 +9,7 @@ export const useShareFeed = () => {
     if (typeof window === 'undefined') {
       return;
     }
-    copy(`${window.location.origin}${window.location.pathname}${playgroundLink.feedDetail(postId)}`, {
+    copy(`${window.location.origin}${playgroundLink.feedDetail(postId)}`, {
       successMessage: '링크가 복사되었어요.',
     });
   };

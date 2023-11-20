@@ -22,15 +22,17 @@ export const getComment = createEndpoint({
           generation: z.number(),
           team: z.string().nullable(),
         }),
-        careers: z.object({
-          id: z.number(),
-          memberId: z.number(),
-          companyName: z.string(),
-          title: z.string(),
-          startDate: z.string(),
-          endDate: z.string().nullable(),
-          isCurrent: z.boolean(),
-        }),
+        careers: z
+          .object({
+            id: z.number(),
+            memberId: z.number(),
+            companyName: z.string(),
+            title: z.string(),
+            startDate: z.string(),
+            endDate: z.string().nullable(),
+            isCurrent: z.boolean(),
+          })
+          .nullable(),
       }),
       postId: z.number(),
       parentCommentId: z.number().nullable(),

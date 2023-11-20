@@ -11,6 +11,7 @@ import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
+import { FeedDetailLink } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
@@ -87,7 +88,12 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
       <DetailFeedCard.Header
         category='저는 하드코딩 되어있습니다 ㅎㅎㅎ'
         tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
-        icons={
+        left={
+          <FeedDetailLink feedId={undefined}>
+            <DetailFeedCard.Icon name='chevronLeft' />
+          </FeedDetailLink>
+        }
+        right={
           <>
             <button onClick={() => handleShareFeed(postId)}>
               <DetailFeedCard.Icon name='share' />

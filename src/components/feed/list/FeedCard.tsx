@@ -125,6 +125,7 @@ const Title = styled(Text)`
 `;
 
 const QuestionBadge = styled.div`
+  white-space: nowrap;
   border-radius: 5px;
   background-color: ${colors.orangeAlpha200};
   padding: 6px;
@@ -176,12 +177,13 @@ const StyledComment = styled(Flex)`
 interface CommentItemProps {
   name: string;
   comment: string;
+  isBlindWriter?: boolean;
 }
 
-const CommentItem = ({ name, comment }: CommentItemProps) => {
+const CommentItem = ({ name, comment, isBlindWriter = false }: CommentItemProps) => {
   return (
     <StyledCommentItem>
-      <Text color={colors.gray10}>{name}</Text>
+      <Text color={colors.gray10}>{isBlindWriter ? '익명' : name}</Text>
       <Text color={colors.gray300}>{comment}</Text>
     </StyledCommentItem>
   );
