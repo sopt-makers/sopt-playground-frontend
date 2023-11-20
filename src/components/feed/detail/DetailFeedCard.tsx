@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
+import { forwardRef, HTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
@@ -32,23 +32,14 @@ const StyledBase = styled(Flex)`
 `;
 
 interface HeaderProps {
-  category: string;
-  tag: string;
   left?: ReactNode;
   right?: ReactNode;
 }
 
-const Header = ({ category, tag, left, right }: HeaderProps) => {
+const Header = ({ left, right }: HeaderProps) => {
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
-      <Flex.Center css={{ gap: 8 }}>
-        {left}
-        <Chip align='center' as='button'>
-          <Text typography='SUIT_13_M'>{category}</Text>
-          <IconChevronRight />
-          <Text typography='SUIT_13_M'>{tag}</Text>
-        </Chip>
-      </Flex.Center>
+      <Flex.Center css={{ gap: 8 }}>{left}</Flex.Center>
       {right ? <Flex.Center css={{ gap: 8 }}>{right}</Flex.Center> : null}
     </StyledHeader>
   );
@@ -62,7 +53,21 @@ const StyledHeader = styled(Flex)`
   }
 `;
 
-const Chip = styled(Flex)`
+interface ChipProps extends HTMLAttributes<HTMLDivElement> {
+  category: string;
+  tag: string;
+}
+const Chip = ({ category, tag, ...props }: ChipProps) => {
+  return (
+    <StyledChip as='button' {...props}>
+      <Text typography='SUIT_13_M'>{category}</Text>
+      <IconChevronRight />
+      <Text typography='SUIT_13_M'>{tag}</Text>
+    </StyledChip>
+  );
+};
+
+const StyledChip = styled(Flex)`
   transition: background-color 0.2s ease-in-out;
   border-radius: 21px;
   background-color: ${colors.gray800};
@@ -426,4 +431,5 @@ export default Object.assign(Base, {
   Comment,
   Input,
   Icon,
+  Chip,
 });
