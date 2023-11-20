@@ -86,8 +86,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
     <DetailFeedCard>
       {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header
-        category='저는 하드코딩 되어있습니다 ㅎㅎㅎ'
-        tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
+        categoryId={`${postData.category.id}`}
         left={
           <FeedDetailLink feedId={undefined}>
             <DetailFeedCard.Icon name='chevronLeft' />

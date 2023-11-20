@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
 import {
@@ -32,21 +34,43 @@ const StyledBase = styled(Flex)`
 `;
 
 interface HeaderProps {
-  category: string;
-  tag: string;
+  categoryId: string;
   left?: ReactNode;
   right?: ReactNode;
 }
 
-const Header = ({ category, tag, left, right }: HeaderProps) => {
+const Header = ({ categoryId, left, right }: HeaderProps) => {
+  const { data } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+    select: (categories) => {
+      const category = categories.find((category) => `${categoryId}` === `${category.id}`);
+
+      if (category != null) {
+        return {
+          categoryName: category.name,
+          tagName: '전체',
+        };
+      }
+
+      const parentCategory = categories.find((category) => category.children.some((tag) => `${tag.id}` === categoryId));
+      const tag = parentCategory?.children.find((tag) => `${tag.id}` === `${categoryId}`);
+
+      return {
+        categoryName: parentCategory?.name,
+        tagName: tag?.name,
+      };
+    },
+  });
+
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
         {left}
         <Chip align='center' as='button'>
-          <Text typography='SUIT_13_M'>{category}</Text>
+          <Text typography='SUIT_13_M'>{data?.categoryName}</Text>
           <IconChevronRight />
-          <Text typography='SUIT_13_M'>{tag}</Text>
+          <Text typography='SUIT_13_M'>{data?.tagName}</Text>
         </Chip>
       </Flex.Center>
       {right ? <Flex.Center css={{ gap: 8 }}>{right}</Flex.Center> : null}
