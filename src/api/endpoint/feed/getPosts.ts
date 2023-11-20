@@ -94,11 +94,11 @@ export const getPosts = createEndpoint({
   }),
 });
 
-export const useGetPostsInfiniteQuery = ({ limit = 30, categoryId }: { limit?: number; categoryId?: string }) => {
+export const useGetPostsInfiniteQuery = ({ categoryId }: { categoryId?: string } = {}) => {
   return useInfiniteQuery({
-    queryKey: ['INFINITE', ...getPosts.cacheKey({ limit, cursor: 0, categoryId })],
+    queryKey: useGetPostsInfiniteQuery.getKey(categoryId),
     queryFn: async ({ pageParam }) => {
-      return await getPosts.request({ limit, categoryId, cursor: pageParam });
+      return await getPosts.request({ limit: 30, categoryId, cursor: pageParam });
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
@@ -106,3 +106,8 @@ export const useGetPostsInfiniteQuery = ({ limit = 30, categoryId }: { limit?: n
     },
   });
 };
+
+useGetPostsInfiniteQuery.getKey = (categoryId: string | undefined) => [
+  'INFINITE',
+  ...getPosts.cacheKey({ limit: 0, cursor: 0, categoryId }),
+];
