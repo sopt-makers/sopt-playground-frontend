@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
@@ -11,6 +12,10 @@ import { setLayout } from '@/utils/layout';
 
 const FeedDetailPage = () => {
   const { query, status } = useStringRouterQuery(['id'] as const);
+  const router = useRouter();
+  // TODO: 이게 동작 잘 안함 고쳐야함
+  const is뒤로가기스택있을경우 =
+    typeof window !== undefined ? window.history.state && window.history.state.idx > 0 : false;
 
   return (
     <AuthRequired>
@@ -18,9 +23,15 @@ const FeedDetailPage = () => {
       {status === 'success' ? (
         <Container>
           <DetailSlot>
-            {/* TODO: 링크 바뀌면 뒤로가기 시 링크 반영 */}
             <FeedDetail
               postId={query.id}
+              renderBackLink={({ children }) =>
+                is뒤로가기스택있을경우 ? (
+                  <button onClick={() => router.back()}>{children}</button>
+                ) : (
+                  <Link href={playgroundLink.feedList()}>{children}</Link>
+                )
+              }
               renderCategoryLink={({ children, categoryId }) => (
                 <Link
                   href={{

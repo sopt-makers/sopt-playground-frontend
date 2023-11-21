@@ -14,16 +14,17 @@ import { useCurrentCategory } from '@/components/feed/common/hooks/useCurrentCat
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { FeedDetailLink, useCategoryParam } from '@/components/feed/common/queryParam';
+import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
 interface FeedDetailProps {
   postId: string;
   renderCategoryLink: (props: { children: ReactNode; categoryId: string }) => ReactNode;
+  renderBackLink: (props: { children: ReactNode }) => ReactNode;
 }
 
-const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
+const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailProps) => {
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -98,11 +99,9 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
         tag={currentCategory?.tagName ?? ''}
         categoryId={postData.posts.categoryId.toString()}
         renderCategoryLink={renderCategoryLink}
-        left={
-          <FeedDetailLink feedId={undefined}>
-            <DetailFeedCard.Icon name='chevronLeft' />
-          </FeedDetailLink>
-        }
+        left={renderBackLink({
+          children: <DetailFeedCard.Icon name='chevronLeft' />,
+        })}
         right={
           <>
             <button onClick={() => handleShareFeed(postId)}>
