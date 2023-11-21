@@ -154,47 +154,82 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
           />
         </DetailFeedCard.Main>
         <DetailFeedCard.Divider />
-        {commentData.map((comment) => (
-          <DetailFeedCard.Comment
-            key={comment.id}
-            name={comment.member.name}
-            profileImage={comment.member.profileImage}
-            info={getMemberInfo({
-              member: comment.member,
-              categoryId: postData.category.id,
-              categoryName: postData.category.name,
-            })}
-            comment={comment.content}
-            isBlindWriter={comment.isBlindWriter}
-            createdAt={comment.createdAt}
-            moreIcon={
-              <FeedDropdown
-                trigger={
-                  <button>
-                    <DetailFeedCard.Icon name='moreHorizental' />
-                  </button>
-                }
-              >
-                {comment.member.id === meData?.id ? (
-                  <FeedDropdown.Item
-                    type='danger'
-                    onClick={() =>
-                      handleDeleteComment({
-                        commentId: `${comment.id}`,
-                        onSuccess: () => {
-                          refetchCommentQuery();
-                        },
-                      })
-                    }
-                  >
-                    삭제
-                  </FeedDropdown.Item>
-                ) : null}
-                <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
-              </FeedDropdown>
-            }
-          />
-        ))}
+        {commentData.map((comment) =>
+          comment.isBlindWriter ? (
+            <DetailFeedCard.Comment
+              key={comment.id}
+              comment={comment.content}
+              isBlindWriter={comment.isBlindWriter}
+              createdAt={comment.createdAt}
+              moreIcon={
+                <FeedDropdown
+                  trigger={
+                    <button>
+                      <DetailFeedCard.Icon name='moreHorizental' />
+                    </button>
+                  }
+                >
+                  {comment.member?.id === meData?.id ? (
+                    <FeedDropdown.Item
+                      type='danger'
+                      onClick={() =>
+                        handleDeleteComment({
+                          commentId: `${comment.id}`,
+                          onSuccess: () => {
+                            refetchCommentQuery();
+                          },
+                        })
+                      }
+                    >
+                      삭제
+                    </FeedDropdown.Item>
+                  ) : null}
+                  <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                </FeedDropdown>
+              }
+            />
+          ) : comment.member ? (
+            <DetailFeedCard.Comment
+              key={comment.id}
+              name={comment.member.name}
+              profileImage={comment.member.profileImage}
+              info={getMemberInfo({
+                member: comment.member,
+                categoryId: postData.category.id,
+                categoryName: postData.category.name,
+              })}
+              comment={comment.content}
+              isBlindWriter={comment.isBlindWriter}
+              createdAt={comment.createdAt}
+              moreIcon={
+                <FeedDropdown
+                  trigger={
+                    <button>
+                      <DetailFeedCard.Icon name='moreHorizental' />
+                    </button>
+                  }
+                >
+                  {comment.member?.id === meData?.id ? (
+                    <FeedDropdown.Item
+                      type='danger'
+                      onClick={() =>
+                        handleDeleteComment({
+                          commentId: `${comment.id}`,
+                          onSuccess: () => {
+                            refetchCommentQuery();
+                          },
+                        })
+                      }
+                    >
+                      삭제
+                    </FeedDropdown.Item>
+                  ) : null}
+                  <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                </FeedDropdown>
+              }
+            />
+          ) : null,
+        )}
       </DetailFeedCard.Body>
       <form onSubmit={handleSubmit}>
         <DetailFeedCard.Input

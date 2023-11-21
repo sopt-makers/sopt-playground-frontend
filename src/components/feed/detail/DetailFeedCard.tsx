@@ -255,15 +255,25 @@ const Divider = styled.hr`
   height: 1px;
 `;
 
-interface CommentProps {
-  profileImage: string | null;
-  name: string;
-  info: string;
+type CommentProps = {
   comment: string;
-  isBlindWriter: boolean;
   createdAt: string;
   moreIcon?: ReactNode;
-}
+} & (
+  | {
+      isBlindWriter: false;
+      profileImage: string | null;
+      info: string;
+      name: string;
+    }
+  | {
+      isBlindWriter: true;
+      profileImage?: null;
+      info?: null;
+      name?: null;
+    }
+);
+
 const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, moreIcon }: CommentProps) => {
   return (
     <StyledComment>
