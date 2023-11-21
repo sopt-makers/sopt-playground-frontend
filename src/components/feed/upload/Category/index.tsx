@@ -12,10 +12,11 @@ interface CateogryProps {
   feedData: UploadFeedDataType;
   onSaveCategory: (categoryId: number) => void;
   onSaveMainCategory: (categoryId: number) => void;
-  isDropDown: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules';
+  isSelectorOpen: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules';
   openCategory: () => void;
   openTag: () => void;
   openUsingRules: () => void;
+  onClose: () => void;
   checkIsOpenCategorys: boolean;
 }
 
@@ -23,10 +24,11 @@ export default function Category({
   feedData,
   onSaveCategory,
   onSaveMainCategory,
-  isDropDown,
+  isSelectorOpen,
   openCategory,
   openTag,
   openUsingRules,
+  onClose,
 }: CateogryProps) {
   const { data: categories } = useQuery({
     queryKey: getCategory.cacheKey(),
@@ -59,6 +61,8 @@ export default function Category({
 
     if (selectedMainCategory.children.length === 0) {
       onSaveCategory(categoryId);
+      openUsingRules();
+
       return;
     }
 
@@ -83,13 +87,13 @@ export default function Category({
   return (
     <>
       <CategorySelector
-        isOpen={isDropDown === 'openCategory'}
+        isOpen={isSelectorOpen === 'openCategory'}
         onClose={openUsingRules}
         onSelect={handleSaveMainCategory}
         feedData={feedData}
       />
       <TagSelector
-        isOpen={isDropDown === 'openTag'}
+        isOpen={isSelectorOpen === 'openTag'}
         onBack={openCategory}
         onClose={openUsingRules}
         onSave={onSaveCategory}

@@ -1,23 +1,23 @@
 import { useState } from 'react';
 
 export function useCategorySelect(initialState: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules') {
-  const [isDropDown, setIsDropDown] = useState(initialState);
+  const [isSelectorOpen, setisSelectorOpen] = useState(initialState);
 
   const closeAll = () => {
-    setIsDropDown('closeAll');
+    setisSelectorOpen('closeAll');
   };
 
   const openCategory = () => {
-    setIsDropDown('openCategory');
+    setisSelectorOpen('openCategory');
   };
 
   const openTag = () => {
-    setIsDropDown('openTag');
+    setisSelectorOpen('openTag');
   };
 
   const openUsingRules = () => {
-    setIsDropDown('openUsingRules');
+    setisSelectorOpen('openUsingRules');
   };
 
-  return { isDropDown, closeAll, openCategory, openTag, openUsingRules };
+  return { isSelectorOpen, closeAll, openCategory, openTag, openUsingRules };
 }
