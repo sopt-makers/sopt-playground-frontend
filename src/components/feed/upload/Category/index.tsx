@@ -6,16 +6,13 @@ import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
 import CategorySelector from '@/components/feed/upload/Category/CategorySelector';
 import TagSelector from '@/components/feed/upload/Category/TagSelector';
+import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 
 interface CateogryProps {
   feedData: UploadFeedDataType;
   onSaveCategory: (categoryId: number) => void;
   onSaveMainCategory: (categoryId: number) => void;
-  isSelectorOpen: 'openCategory' | 'openTag' | 'closeAll';
-  openCategory: () => void;
-  openTag: () => void;
-  onClose: () => void;
   openUsingRules: () => void;
   closeUsingRules: () => void;
 }
@@ -24,13 +21,11 @@ export default function Category({
   feedData,
   onSaveCategory,
   onSaveMainCategory,
-  isSelectorOpen,
-  openCategory,
-  openTag,
-  onClose,
   openUsingRules,
   closeUsingRules,
 }: CateogryProps) {
+  const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect('openCategory');
+
   const { data: categories } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
@@ -62,7 +57,7 @@ export default function Category({
 
     if (selectedMainCategory.children.length === 0) {
       onSaveCategory(categoryId);
-      onClose();
+      closeAll();
       openUsingRules();
       const timer = setTimeout(() => {
         closeUsingRules();
@@ -88,12 +83,12 @@ export default function Category({
     }
 
     onSaveCategory(selectedMainCategory.children[0].id);
-    onClose();
+    closeAll();
   };
 
   const handleCloseTag = () => {
     openUsingRules();
-    onClose();
+    closeAll();
     const timer = setTimeout(() => {
       closeUsingRules();
     }, 5000);
@@ -106,7 +101,7 @@ export default function Category({
     <>
       <CategorySelector
         isOpen={isSelectorOpen === 'openCategory'}
-        onClose={onClose}
+        onClose={closeAll}
         onSelect={handleSaveMainCategory}
         feedData={feedData}
       />
