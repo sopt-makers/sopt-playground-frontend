@@ -27,7 +27,7 @@ interface FeedListProps {
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
   const { data: meData } = useGetMemberOfMe();
-  const { data, refetch, fetchNextPage, isFetchingNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
+  const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
     categoryId,
   });
   const { data: categoryData } = useQuery({
@@ -150,7 +150,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
         <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
           {isError ? <div>오류가 발생했어요.</div> : null}
           {data != null && flattenData.length === 0 ? <div>글이 없어요!</div> : null}
-          {isLoading || isFetchingNextPage ? <Loading /> : null}
+          {isLoading ? <Loading /> : null}
         </div>
       </HeightSpacer>
       <UploadLink href={playgroundLink.feedUpload()}>
