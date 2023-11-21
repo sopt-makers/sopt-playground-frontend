@@ -8,6 +8,7 @@ import { Virtuoso } from 'react-virtuoso';
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import Loading from '@/components/common/Loading';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
@@ -26,7 +27,7 @@ interface FeedListProps {
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
   const { data: meData } = useGetMemberOfMe();
-  const { data, refetch, fetchNextPage } = useGetPostsInfiniteQuery({ categoryId });
+  const { data, refetch, fetchNextPage, isFetchingNextPage, isLoading } = useGetPostsInfiniteQuery({ categoryId });
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
@@ -53,6 +54,14 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
           useWindowScroll
           endReached={() => {
             fetchNextPage();
+          }}
+          components={{
+            Footer: () =>
+              isLoading || isFetchingNextPage ? (
+                <div css={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                  <Loading />
+                </div>
+              ) : null,
           }}
           itemContent={(_, post) => {
             const is내글여부 = post.writerId === meData?.id;
