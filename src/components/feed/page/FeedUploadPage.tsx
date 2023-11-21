@@ -55,11 +55,11 @@ export default function FeedUploadPage() {
     }
   };
 
-  const DesktopContentsRef = useRef<HTMLTextAreaElement>(null);
+  const desktopContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleDesktopKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
-      DesktopContentsRef.current && DesktopContentsRef.current.focus();
+      desktopContentsRef.current && desktopContentsRef.current.focus();
     }
   };
 
@@ -115,8 +115,12 @@ export default function FeedUploadPage() {
           }
           body={
             <>
-              <TitleInput onChange={handleSaveTitle} onKeyDown={handleDesktopKeyPressToContents} />
-              <ContentsInput onChange={handleSaveContent} ref={DesktopContentsRef} />
+              <TitleInput
+                onChange={handleSaveTitle}
+                onKeyDown={handleDesktopKeyPressToContents}
+                value={feedData.title}
+              />
+              <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} />
             </>
           }
           footer={
@@ -184,7 +188,11 @@ export default function FeedUploadPage() {
                   />
                 </CheckboxFormItem>
               </CheckBoxesWrapper>
-              <TitleInput onChange={handleSaveTitle} onKeyDown={handleMobileKeyPressToContents} />
+              <TitleInput
+                onChange={handleSaveTitle}
+                onKeyDown={handleDesktopKeyPressToContents}
+                value={feedData.title}
+              />
               <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} />
               <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagsWrapper>

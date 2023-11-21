@@ -9,9 +9,10 @@ import { textStyles } from '@/styles/typography';
 interface TitleInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  value: string | null;
 }
 
-export default function TitleInput({ onChange, onKeyDown }: TitleInputProp) {
+export default function TitleInput({ onChange, onKeyDown, value }: TitleInputProp) {
   return (
     <Title
       placeholder='(선택) 제목을 입력해주세요'
@@ -19,6 +20,7 @@ export default function TitleInput({ onChange, onKeyDown }: TitleInputProp) {
       spellCheck='false'
       onChange={onChange}
       onKeyDown={onKeyDown}
+      value={value??""}
     />
   );
 }
