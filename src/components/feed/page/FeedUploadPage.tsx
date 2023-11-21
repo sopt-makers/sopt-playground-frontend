@@ -70,7 +70,7 @@ export default function FeedUploadPage() {
   const checkIsOpenCategorys = () => {
     return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
   };
-
+  console.log(feedData);
   if (isPending) return <Loading />;
 
   return (
