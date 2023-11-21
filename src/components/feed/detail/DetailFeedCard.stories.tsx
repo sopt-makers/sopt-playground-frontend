@@ -82,7 +82,7 @@ export const Default = () => {
 
   return (
     <DetailFeedCard>
-      <DetailFeedCard.Header category='파트' tag='기획' />
+      <DetailFeedCard.Header categoryId='123' category='파트' tag='기획' />
       <DetailFeedCard.Body>
         <DetailFeedCard.Main>
           <DetailFeedCard.Top

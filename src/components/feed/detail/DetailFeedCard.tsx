@@ -32,21 +32,37 @@ const StyledBase = styled(Flex)`
 `;
 
 interface HeaderProps {
+  categoryId: string;
   category: string;
   tag: string;
   left?: ReactNode;
   right?: ReactNode;
+  renderCategoryLink?: (props: { children: ReactNode; categoryId: string }) => ReactNode;
 }
 
-const Header = ({ category, tag, left, right }: HeaderProps) => {
+const Header = ({
+  categoryId,
+  category,
+  tag,
+  left,
+  right,
+  renderCategoryLink = (props) => props.children,
+}: HeaderProps) => {
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
         {left}
-        <Chip align='center' as='button'>
-          <Text typography='SUIT_13_M'>{category}</Text>
-          <IconChevronRight />
-          <Text typography='SUIT_13_M'>{tag}</Text>
+        <Chip align='center' as='div'>
+          {renderCategoryLink({
+            children: (
+              <>
+                <Text typography='SUIT_13_M'>{category}</Text>
+                <IconChevronRight />
+                <Text typography='SUIT_13_M'>{tag}</Text>
+              </>
+            ),
+            categoryId,
+          })}
         </Chip>
       </Flex.Center>
       {right ? <Flex.Center css={{ gap: 8 }}>{right}</Flex.Center> : null}

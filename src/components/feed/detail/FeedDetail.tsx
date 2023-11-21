@@ -1,27 +1,32 @@
-import React, { useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import React, { ReactNode, useRef, useState } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useAlert from '@/components/common/Modal/useAlert';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
+import { useCurrentCategory } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { FeedDetailLink } from '@/components/feed/common/queryParam';
+import { FeedDetailLink, useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
 interface FeedDetailProps {
   postId: string;
+  renderCategoryLink: (props: { children: ReactNode; categoryId: string }) => ReactNode;
 }
 
-const FeedDetail = ({ postId }: FeedDetailProps) => {
+const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
+  const queryClient = useQueryClient();
   const toast = useToast();
   const { alert } = useAlert();
   const { confirm } = useConfirm();
@@ -32,7 +37,9 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
+  const currentCategory = useCurrentCategory(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
+  const [categoryId] = useCategoryParam();
 
   const is내글여부 = meData?.id === postData?.member.id;
 
@@ -48,6 +55,7 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
         onSuccess: async () => {
           setValue('');
           const { isSuccess } = await refetchCommentQuery();
+          queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
           requestAnimationFrame(() => {
             // MEMO(@jun): refecth 이후 render가 완료되기 전에 scroll 처리가 되어버려서, 리렌더링 이후에 실행하도록
             if (isSuccess && containerRef.current) {
@@ -86,8 +94,10 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
     <DetailFeedCard>
       {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header
-        category='저는 하드코딩 되어있습니다 ㅎㅎㅎ'
-        tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
+        category={currentCategory?.categoryName ?? ''}
+        tag={currentCategory?.tagName ?? ''}
+        categoryId={postData.posts.categoryId.toString()}
+        renderCategoryLink={renderCategoryLink}
         left={
           <FeedDetailLink feedId={undefined}>
             <DetailFeedCard.Icon name='chevronLeft' />

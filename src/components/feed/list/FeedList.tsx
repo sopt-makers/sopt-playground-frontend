@@ -101,11 +101,12 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                             },
                           });
                         }}
+                        type='danger'
                       >
                         삭제
                       </FeedDropdown.Item>
                     ) : null}
-                    <FeedDropdown.Item>신고</FeedDropdown.Item>
+                    <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
                   </FeedDropdown>
                 }
               >

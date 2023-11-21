@@ -15,7 +15,7 @@ interface CategorySelectorProps {
   feedData: UploadFeedDataType;
 }
 
-export default function CategorySelector({ isOpen, onClose, onSelect, feedData }: CategorySelectorProps) {
+export default function CategorySelector({ isOpen = false, onClose, onSelect, feedData }: CategorySelectorProps) {
   return (
     <>
       <Responsive only='desktop'>
