@@ -54,12 +54,12 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
             {parentCategory.hasAll && (
               <>
                 <Responsive only='desktop'>
-                  <Option onClick={() => handleSelectTagDesktop(feedData.mainCategoryId)}>
+                  <Option onClick={() => handleSelectTagDesktop(feedData.mainCategoryId ?? 0)}>
                     주제 선택 안 함{!isInitial && <CheckIcon />}
                   </Option>
                 </Responsive>
                 <Responsive only='mobile'>
-                  <Option onClick={() => handleSelectTagMobile(feedData.mainCategoryId)}>
+                  <Option onClick={() => handleSelectTagMobile(feedData.mainCategoryId ?? 0)}>
                     주제 선택 안 함{!isInitial && <CheckIcon />}
                   </Option>
                 </Responsive>

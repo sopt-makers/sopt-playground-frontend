@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useRouter } from 'next/router';
 import { FormEvent, useRef } from 'react';
 
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
@@ -11,7 +12,7 @@ import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
 import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
-import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
+import { useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 import ImagePreview from '@/components/feed/upload/ImagePreview';
 import ImageUploadButton from '@/components/feed/upload/ImageUploadButton';
@@ -38,10 +39,9 @@ export default function FeedUploadPage() {
     handleSaveContent,
     resetFeedData,
     checkReadyToUpload,
-    checkReadyToShowUsingRules,
   } = useUploadFeedData({
-    mainCategoryId: 0,
-    categoryId: 0,
+    mainCategoryId: null,
+    categoryId: null,
     title: '',
     content: '',
     isQuestion: false,
@@ -64,17 +64,21 @@ export default function FeedUploadPage() {
     }
   };
 
+  const router = useRouter();
+
   const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } =
     useImageUploader(saveImageUrls);
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
     useImageUploader(saveImageUrls);
-  const { isDropDown, closeAll, openCategory, openTag, openUsingRules } = useCategorySelect('openCategory');
+
+  const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
+
   const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleUploadFeed({
-      categoryId: feedData.categoryId,
+      categoryId: feedData.categoryId ?? 0,
       title: feedData.title,
       content: feedData.content,
       isQuestion: feedData.isQuestion,
@@ -83,8 +87,8 @@ export default function FeedUploadPage() {
     });
   };
 
-  const checkIsOpenCategorys = () => {
-    return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
+  const hanldeQuitUpload = () => {
+    router.push('/community');
   };
 
   if (isPending) return <Loading />;
@@ -96,20 +100,17 @@ export default function FeedUploadPage() {
           header={
             <>
               <BackArrowWrapper>
-                <BackArrow onClick={resetFeedData} />
+                <BackArrow onClick={hanldeQuitUpload} />
               </BackArrowWrapper>
               <Category
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
                 onSaveMainCategory={handleSaveMainCategory}
-                isDropDown={isDropDown}
-                openCategory={openCategory}
-                openTag={openTag}
                 openUsingRules={openUsingRules}
-                checkIsOpenCategorys={checkIsOpenCategorys()}
+                closeUsingRules={closeUsingRules}
               />
               <ButtonContainer>
-                <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
+                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                 <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
@@ -161,7 +162,7 @@ export default function FeedUploadPage() {
           header={
             <>
               <TopHeader>
-                <Button type='button' disabled={false} onClick={resetFeedData}>
+                <Button type='button' disabled={false} onClick={hanldeQuitUpload}>
                   취소
                 </Button>
                 <Button type='submit' disabled={!checkReadyToUpload()}>
@@ -172,11 +173,8 @@ export default function FeedUploadPage() {
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
                 onSaveMainCategory={handleSaveMainCategory}
-                isDropDown={isDropDown}
-                openCategory={openCategory}
-                openTag={openTag}
                 openUsingRules={openUsingRules}
-                checkIsOpenCategorys={checkIsOpenCategorys()}
+                closeUsingRules={closeUsingRules}
               />
             </>
           }
@@ -197,7 +195,7 @@ export default function FeedUploadPage() {
               <InputWrapper>
                 <TitleInput
                   onChange={handleSaveTitle}
-                  onKeyDown={handleDesktopKeyPressToContents}
+                  onKeyDown={handleMobileKeyPressToContents}
                   value={feedData.title}
                 />
                 <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} />
@@ -215,7 +213,7 @@ export default function FeedUploadPage() {
           }
           footer={
             <>
-              <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
+              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
             </>
           }
         />
@@ -256,7 +254,7 @@ const ButtonContainer = styled.div`
   display: flex;
   position: absolute;
   right: 0;
-  gap: 24px;
+  gap: 12px;
   padding-right: 32px;
 `;
 

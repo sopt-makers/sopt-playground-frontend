@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { categories } from '@/components/feed/upload/Category/constants';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 
 export default function useUploadFeedData(initialForm: UploadFeedDataType) {
@@ -41,29 +40,13 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     setFeedData((feedData) => ({ ...feedData, images: removeImages }));
   };
 
-  const checkReadyToShowUsingRules = () => {
-    return feedData.categoryId !== 0;
-  };
-
   const checkReadyToUpload = () => {
-    return feedData.categoryId !== 0 && feedData.content !== '' && feedData.title !== '';
+    return feedData.categoryId !== null && feedData.content.trim();
   };
 
   const resetFeedData = () => {
     setFeedData(initialForm);
   };
-
-  const parentCategory =
-    categories.find(
-      (category) =>
-        category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
-    ) ?? null;
-
-  const isInitial =
-    categories.find(
-      (category) =>
-        category.id === feedData.mainCategoryId && category.children.some((tag) => tag.id === feedData.categoryId),
-    ) ?? null;
 
   return {
     feedData,
@@ -77,8 +60,5 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     handleSaveContent,
     resetFeedData,
     checkReadyToUpload,
-    checkReadyToShowUsingRules,
-    parentCategory,
-    isInitial,
   };
 }
