@@ -30,6 +30,7 @@ const CommunityPage: FC = () => {
             postId ? (
               <FeedDetail
                 postId={postId}
+                renderBackLink={({ children }) => <FeedDetailLink feedId={undefined}>{children}</FeedDetailLink>}
                 renderCategoryLink={({ children, categoryId }) => (
                   <CategoryLink categoryId={categoryId}>{children}</CategoryLink>
                 )}
