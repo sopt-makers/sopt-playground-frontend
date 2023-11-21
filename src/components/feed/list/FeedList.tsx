@@ -129,14 +129,22 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                     ))}
                   </FeedCard.Image>
                   <FeedCard.Comment>
-                    {post.comments.map((comment) => (
-                      <FeedCard.CommentItem
-                        key={comment.id}
-                        comment={comment.content}
-                        name={comment.member.name}
-                        isBlindWriter={comment.isBlindWriter}
-                      />
-                    ))}
+                    {post.comments.map((comment) =>
+                      comment.isBlindWriter ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                        />
+                      ) : comment.member ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                          name={comment.member.name}
+                        />
+                      ) : null,
+                    )}
                   </FeedCard.Comment>
                 </FeedCard>
               ),

@@ -58,29 +58,31 @@ export const getPosts = createEndpoint({
         comments: z.array(
           z.object({
             id: z.number(),
-            member: z.object({
-              id: z.number(),
-              name: z.string(),
-              profileImage: z.string().nullable(),
-              activity: z.object({
+            member: z
+              .object({
                 id: z.number(),
-                memberId: z.number(),
-                part: z.string(),
-                generation: z.number(),
-                team: z.string().nullable(),
-              }),
-              careers: z
-                .object({
+                name: z.string(),
+                profileImage: z.string().nullable(),
+                activity: z.object({
                   id: z.number(),
                   memberId: z.number(),
-                  companyName: z.string(),
-                  title: z.string(),
-                  startDate: z.string(),
-                  endDate: z.string().nullable(),
-                  isCurrent: z.boolean(),
-                })
-                .nullable(),
-            }),
+                  part: z.string(),
+                  generation: z.number(),
+                  team: z.string().nullable(),
+                }),
+                careers: z
+                  .object({
+                    id: z.number(),
+                    memberId: z.number(),
+                    companyName: z.string(),
+                    title: z.string(),
+                    startDate: z.string(),
+                    endDate: z.string().nullable(),
+                    isCurrent: z.boolean(),
+                  })
+                  .nullable(),
+              })
+              .nullable(),
             postId: z.number(),
             parentCommentId: z.number().nullable(),
             content: z.string(),

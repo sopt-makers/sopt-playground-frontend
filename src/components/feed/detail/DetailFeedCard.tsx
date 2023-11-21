@@ -127,15 +127,22 @@ const StyledMain = styled(Flex)`
   }
 `;
 
-interface TopProps {
-  isBlindWriter?: boolean;
-  profileImage: string | null;
-  name: string;
-  info: string;
-  createdAt: string;
-}
+type TopProps = { createdAt: string } & (
+  | {
+      isBlindWriter: true;
+      profileImage?: null;
+      name?: null;
+      info?: null;
+    }
+  | {
+      isBlindWriter: false;
+      profileImage: string | null;
+      name: string;
+      info: string;
+    }
+);
 
-const Top = ({ isBlindWriter = false, profileImage, name, info, createdAt }: TopProps) => {
+const Top = ({ isBlindWriter, profileImage, name, info, createdAt }: TopProps) => {
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
@@ -254,15 +261,25 @@ const Divider = styled.hr`
   height: 1px;
 `;
 
-interface CommentProps {
-  profileImage: string | null;
-  name: string;
-  info: string;
+type CommentProps = {
   comment: string;
-  isBlindWriter: boolean;
   createdAt: string;
   moreIcon?: ReactNode;
-}
+} & (
+  | {
+      isBlindWriter: false;
+      profileImage: string | null;
+      info: string;
+      name: string;
+    }
+  | {
+      isBlindWriter: true;
+      profileImage?: null;
+      info?: null;
+      name?: null;
+    }
+);
+
 const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, moreIcon }: CommentProps) => {
   return (
     <StyledComment>
