@@ -132,14 +132,14 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                         comment={comment.content}
                         isBlindWriter={comment.isBlindWriter}
                       />
-                    ) : (
+                    ) : comment.member ? (
                       <FeedCard.CommentItem
                         key={comment.id}
                         comment={comment.content}
                         isBlindWriter={comment.isBlindWriter}
-                        name={comment.member?.name ?? ''}
+                        name={comment.member.name}
                       />
-                    ),
+                    ) : null,
                   )}
                 </FeedCard.Comment>
               </FeedCard>
