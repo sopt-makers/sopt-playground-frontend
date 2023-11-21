@@ -224,7 +224,7 @@ const ButtonContainer = styled.div`
   display: flex;
   position: absolute;
   right: 0;
-  gap: 24px;
+  gap: 12px;
   padding-right: 32px;
 `;
 
