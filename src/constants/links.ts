@@ -26,6 +26,7 @@ export const playgroundLink = {
   sopticleSuccess: () => `/sopticle/success`,
   mentoringDetail: (id: number) => `/mentoring/${id}`,
   wordchain: () => `/wordchain`,
-  feedList: () => `/feed`,
+  feedList: () => `/community`,
   feedDetail: (id: string | number) => `/feed/${id}`,
+  feedUpload: () => `/community/upload`,
 };

@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
@@ -10,18 +10,21 @@ import useAlert from '@/components/common/Modal/useAlert';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
+import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { FeedDetailLink, useCategoryParam } from '@/components/feed/common/queryParam';
+import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
 interface FeedDetailProps {
   postId: string;
+  renderCategoryLink: (props: { children: ReactNode; categoryId: string }) => ReactNode;
+  renderBackLink: (props: { children: ReactNode }) => ReactNode;
 }
 
-const FeedDetail = ({ postId }: FeedDetailProps) => {
+const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailProps) => {
   const [value, setValue] = useState<string>('');
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -35,10 +38,11 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
+  const currentCategory = useCategoryInfo(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
 
-  const is내글여부 = meData?.id === postData?.member.id;
+  const is내글여부 = meData?.id === postData?.member?.id;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,15 +93,14 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
 
   return (
     <DetailFeedCard>
-      {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header
-        category='저는 하드코딩 되어있습니다 ㅎㅎㅎ'
-        tag='태그좀 넣어주세요 감사합니당 ㅎㅎ'
-        left={
-          <FeedDetailLink feedId={undefined}>
-            <DetailFeedCard.Icon name='chevronLeft' />
-          </FeedDetailLink>
-        }
+        category={currentCategory?.category?.name ?? ''}
+        tag={currentCategory?.tag?.name ?? '전체'}
+        categoryId={postData.posts.categoryId.toString()}
+        renderCategoryLink={renderCategoryLink}
+        left={renderBackLink({
+          children: <DetailFeedCard.Icon name='chevronLeft' />,
+        })}
         right={
           <>
             <button onClick={() => handleShareFeed(postId)}>
@@ -129,16 +132,21 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
       />
       <DetailFeedCard.Body ref={containerRef}>
         <DetailFeedCard.Main>
-          <DetailFeedCard.Top
-            name={postData.member.name}
-            profileImage={postData.member.profileImage}
-            info={getMemberInfo({
-              categoryId: postData.category.id,
-              categoryName: postData.category.name,
-              member: postData.member,
-            })}
-            createdAt={postData.posts.createdAt}
-          />
+          {postData.posts.isBlindWriter ? (
+            <DetailFeedCard.Top isBlindWriter={postData.posts.isBlindWriter} createdAt={postData.posts.createdAt} />
+          ) : postData.member ? (
+            <DetailFeedCard.Top
+              isBlindWriter={postData.posts.isBlindWriter}
+              name={postData.member.name}
+              profileImage={postData.member.profileImage}
+              info={getMemberInfo({
+                categoryId: postData.category.id,
+                categoryName: postData.category.name,
+                member: postData.member,
+              })}
+              createdAt={postData.posts.createdAt}
+            />
+          ) : null}
           <DetailFeedCard.Content
             isQuestion
             title={postData.posts.title}
@@ -149,47 +157,82 @@ const FeedDetail = ({ postId }: FeedDetailProps) => {
           />
         </DetailFeedCard.Main>
         <DetailFeedCard.Divider />
-        {commentData.map((comment) => (
-          <DetailFeedCard.Comment
-            key={comment.id}
-            name={comment.member.name}
-            profileImage={comment.member.profileImage}
-            info={getMemberInfo({
-              member: comment.member,
-              categoryId: postData.category.id,
-              categoryName: postData.category.name,
-            })}
-            comment={comment.content}
-            isBlindWriter={comment.isBlindWriter}
-            createdAt={comment.createdAt}
-            moreIcon={
-              <FeedDropdown
-                trigger={
-                  <button>
-                    <DetailFeedCard.Icon name='moreHorizental' />
-                  </button>
-                }
-              >
-                {comment.member.id === meData?.id ? (
-                  <FeedDropdown.Item
-                    type='danger'
-                    onClick={() =>
-                      handleDeleteComment({
-                        commentId: `${comment.id}`,
-                        onSuccess: () => {
-                          refetchCommentQuery();
-                        },
-                      })
-                    }
-                  >
-                    삭제
-                  </FeedDropdown.Item>
-                ) : null}
-                <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
-              </FeedDropdown>
-            }
-          />
-        ))}
+        {commentData.map((comment) =>
+          comment.isBlindWriter ? (
+            <DetailFeedCard.Comment
+              key={comment.id}
+              comment={comment.content}
+              isBlindWriter={comment.isBlindWriter}
+              createdAt={comment.createdAt}
+              moreIcon={
+                <FeedDropdown
+                  trigger={
+                    <button>
+                      <DetailFeedCard.Icon name='moreHorizental' />
+                    </button>
+                  }
+                >
+                  {comment.member?.id === meData?.id ? (
+                    <FeedDropdown.Item
+                      type='danger'
+                      onClick={() =>
+                        handleDeleteComment({
+                          commentId: `${comment.id}`,
+                          onSuccess: () => {
+                            refetchCommentQuery();
+                          },
+                        })
+                      }
+                    >
+                      삭제
+                    </FeedDropdown.Item>
+                  ) : null}
+                  <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                </FeedDropdown>
+              }
+            />
+          ) : comment.member ? (
+            <DetailFeedCard.Comment
+              key={comment.id}
+              name={comment.member.name}
+              profileImage={comment.member.profileImage}
+              info={getMemberInfo({
+                member: comment.member,
+                categoryId: postData.category.id,
+                categoryName: postData.category.name,
+              })}
+              comment={comment.content}
+              isBlindWriter={comment.isBlindWriter}
+              createdAt={comment.createdAt}
+              moreIcon={
+                <FeedDropdown
+                  trigger={
+                    <button>
+                      <DetailFeedCard.Icon name='moreHorizental' />
+                    </button>
+                  }
+                >
+                  {comment.member?.id === meData?.id ? (
+                    <FeedDropdown.Item
+                      type='danger'
+                      onClick={() =>
+                        handleDeleteComment({
+                          commentId: `${comment.id}`,
+                          onSuccess: () => {
+                            refetchCommentQuery();
+                          },
+                        })
+                      }
+                    >
+                      삭제
+                    </FeedDropdown.Item>
+                  ) : null}
+                  <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                </FeedDropdown>
+              }
+            />
+          ) : null,
+        )}
       </DetailFeedCard.Body>
       <form onSubmit={handleSubmit}>
         <DetailFeedCard.Input

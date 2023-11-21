@@ -32,22 +32,37 @@ const StyledBase = styled(Flex)`
 `;
 
 interface HeaderProps {
+  categoryId: string;
   category: string;
   tag: string;
   left?: ReactNode;
   right?: ReactNode;
+  renderCategoryLink?: (props: { children: ReactNode; categoryId: string }) => ReactNode;
 }
 
-const Header = ({ category, tag, left, right }: HeaderProps) => {
+const Header = ({
+  categoryId,
+  category,
+  tag,
+  left,
+  right,
+  renderCategoryLink = (props) => props.children,
+}: HeaderProps) => {
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
         {left}
-        <Chip align='center' as='button'>
-          <Text typography='SUIT_13_M'>{category}</Text>
-          <IconChevronRight />
-          <Text typography='SUIT_13_M'>{tag}</Text>
-        </Chip>
+
+        {renderCategoryLink({
+          children: (
+            <Chip align='center' as='div'>
+              <Text typography='SUIT_13_M'>{category}</Text>
+              <IconChevronRight />
+              <Text typography='SUIT_13_M'>{tag}</Text>
+            </Chip>
+          ),
+          categoryId,
+        })}
       </Flex.Center>
       {right ? <Flex.Center css={{ gap: 8 }}>{right}</Flex.Center> : null}
     </StyledHeader>
@@ -112,15 +127,22 @@ const StyledMain = styled(Flex)`
   }
 `;
 
-interface TopProps {
-  isBlindWriter?: boolean;
-  profileImage: string | null;
-  name: string;
-  info: string;
-  createdAt: string;
-}
+type TopProps = { createdAt: string } & (
+  | {
+      isBlindWriter: true;
+      profileImage?: null;
+      name?: null;
+      info?: null;
+    }
+  | {
+      isBlindWriter: false;
+      profileImage: string | null;
+      name: string;
+      info: string;
+    }
+);
 
-const Top = ({ isBlindWriter = false, profileImage, name, info, createdAt }: TopProps) => {
+const Top = ({ isBlindWriter, profileImage, name, info, createdAt }: TopProps) => {
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
@@ -239,15 +261,25 @@ const Divider = styled.hr`
   height: 1px;
 `;
 
-interface CommentProps {
-  profileImage: string | null;
-  name: string;
-  info: string;
+type CommentProps = {
   comment: string;
-  isBlindWriter: boolean;
   createdAt: string;
   moreIcon?: ReactNode;
-}
+} & (
+  | {
+      isBlindWriter: false;
+      profileImage: string | null;
+      info: string;
+      name: string;
+    }
+  | {
+      isBlindWriter: true;
+      profileImage?: null;
+      info?: null;
+      name?: null;
+    }
+);
+
 const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, moreIcon }: CommentProps) => {
   return (
     <StyledComment>

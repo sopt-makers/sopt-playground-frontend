@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
-import { FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
+import { CategoryLink, FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import FeedList from '@/components/feed/list/FeedList';
 import DesktopCommunityLayout from '@/components/feed/page/layout/DesktopCommunityLayout';
@@ -26,7 +26,17 @@ const CommunityPage: FC = () => {
               )}
             />
           }
-          detailSlot={postId ? <FeedDetail postId={postId} /> : null}
+          detailSlot={
+            postId ? (
+              <FeedDetail
+                postId={postId}
+                renderBackLink={({ children }) => <FeedDetailLink feedId={undefined}>{children}</FeedDetailLink>}
+                renderCategoryLink={({ children, categoryId }) => (
+                  <CategoryLink categoryId={categoryId}>{children}</CategoryLink>
+                )}
+              />
+            ) : null
+          }
         />
       </Responsive>
       <Responsive only='mobile'>
