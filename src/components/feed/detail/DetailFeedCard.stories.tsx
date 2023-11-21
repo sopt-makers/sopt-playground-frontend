@@ -90,6 +90,7 @@ export const Default = () => {
             profileImage='https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//prod/image/project/f7ca1cbd-87e4-4dd3-92cf-e2420afee237-IMG_9435.JPG'
             info='Frontend Developer @Toss'
             createdAt='2023.10.23.11:00:11'
+            isBlindWriter={false}
           />
           <DetailFeedCard.Content
             title='YC의 스타트업을 위한 필수 조언'

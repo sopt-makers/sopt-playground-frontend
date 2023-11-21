@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useRouter } from 'next/router';
-import { FormEvent } from 'react';
+import { FormEvent, useRef } from 'react';
 
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
@@ -48,6 +48,21 @@ export default function FeedUploadPage() {
     isBlindWriter: false,
     images: [],
   });
+  const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
+  const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      mobileContentsRef.current && mobileContentsRef.current.focus();
+    }
+  };
+
+  const desktopContentsRef = useRef<HTMLTextAreaElement>(null);
+  const handleDesktopKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      desktopContentsRef.current && desktopContentsRef.current.focus();
+    }
+  };
 
   const router = useRouter();
 
@@ -107,8 +122,12 @@ export default function FeedUploadPage() {
           }
           body={
             <>
-              <TitleInput onChange={handleSaveTitle} />
-              <ContentsInput onChange={handleSaveContent} />
+              <TitleInput
+                onChange={handleSaveTitle}
+                onKeyDown={handleDesktopKeyPressToContents}
+                value={feedData.title}
+              />
+              <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} />
             </>
           }
           footer={
@@ -176,8 +195,12 @@ export default function FeedUploadPage() {
                   />
                 </CheckboxFormItem>
               </CheckBoxesWrapper>
-              <TitleInput onChange={handleSaveTitle} />
-              <ContentsInput onChange={handleSaveContent} />
+              <TitleInput
+                onChange={handleSaveTitle}
+                onKeyDown={handleDesktopKeyPressToContents}
+                value={feedData.title}
+              />
+              <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} />
               <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagsWrapper>
                 <ImageUploadButton
