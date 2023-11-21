@@ -71,7 +71,6 @@ export default function FeedUploadPage() {
   };
 
   const hanldeQuitUpload = () => {
-    resetFeedData();
     router.push('/community');
   };
 
