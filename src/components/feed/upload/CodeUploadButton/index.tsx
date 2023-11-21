@@ -7,6 +7,7 @@ import Modal from '@/components/common/Modal';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import carbonCodeBlockImg from '@/public/icons/img/carbon_code_block.png';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const CARBON_LINK = 'https://carbon.now.sh/';
@@ -93,11 +94,19 @@ const Description = styled.div`
   color: ${colors.gray10};
 
   ${textStyles.SUIT_14_R}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 100%;
+  }
 `;
 
 const CarbonCodeBlockImage = styled.img`
-  width: 326px;
-  height: 180px;
+  max-width: 326px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 100%;
+    min-height: 180px;
+  }
 `;
 
 const CarbonLink = styled.a`
