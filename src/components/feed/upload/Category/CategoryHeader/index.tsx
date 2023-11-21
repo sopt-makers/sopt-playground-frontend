@@ -35,7 +35,7 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
 
   return (
     <>
-      {feedData.categoryId <= 0 ? (
+      {feedData.categoryId && feedData.categoryId <= 0 ? (
         <CategorySelectorStarter onClick={openCategory}>
           <UploadTitle>어디에 올릴까요?</UploadTitle>
           <OpenArrow fill='white' />

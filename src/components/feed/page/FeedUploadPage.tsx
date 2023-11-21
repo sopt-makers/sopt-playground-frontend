@@ -11,7 +11,7 @@ import Responsive from '@/components/common/Responsive';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
-import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
+import { useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 import ImagePreview from '@/components/feed/upload/ImagePreview';
 import ImageUploadButton from '@/components/feed/upload/ImageUploadButton';
@@ -38,10 +38,9 @@ export default function FeedUploadPage() {
     handleSaveContent,
     resetFeedData,
     checkReadyToUpload,
-    checkReadyToShowUsingRules,
   } = useUploadFeedData({
-    mainCategoryId: 0,
-    categoryId: 0,
+    mainCategoryId: null,
+    categoryId: null,
     title: '',
     content: '',
     isQuestion: false,
@@ -70,13 +69,15 @@ export default function FeedUploadPage() {
     useImageUploader(saveImageUrls);
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
     useImageUploader(saveImageUrls);
-  const { isDropDown, closeAll, openCategory, openTag, openUsingRules } = useCategorySelect('openCategory');
+
+  const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
+
   const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleUploadFeed({
-      categoryId: feedData.categoryId,
+      categoryId: feedData.categoryId ?? 0,
       title: feedData.title,
       content: feedData.content,
       isQuestion: feedData.isQuestion,
@@ -88,11 +89,7 @@ export default function FeedUploadPage() {
   const hanldeQuitUpload = () => {
     router.push('/community');
   };
-
-  const checkIsOpenCategorys = () => {
-    return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
-  };
-
+  
   if (isPending) return <Loading />;
 
   return (
@@ -108,14 +105,11 @@ export default function FeedUploadPage() {
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
                 onSaveMainCategory={handleSaveMainCategory}
-                isDropDown={isDropDown}
-                openCategory={openCategory}
-                openTag={openTag}
                 openUsingRules={openUsingRules}
-                checkIsOpenCategorys={checkIsOpenCategorys()}
+                closeUsingRules={closeUsingRules}
               />
               <ButtonContainer>
-                <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
+                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                 <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
@@ -174,11 +168,8 @@ export default function FeedUploadPage() {
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
                 onSaveMainCategory={handleSaveMainCategory}
-                isDropDown={isDropDown}
-                openCategory={openCategory}
-                openTag={openTag}
                 openUsingRules={openUsingRules}
-                checkIsOpenCategorys={checkIsOpenCategorys()}
+                closeUsingRules={closeUsingRules}
               />
             </>
           }
@@ -214,7 +205,7 @@ export default function FeedUploadPage() {
           }
           footer={
             <>
-              <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
+              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
             </>
           }
         />
