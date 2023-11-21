@@ -92,7 +92,6 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
 
   return (
     <DetailFeedCard>
-      {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header
         category={currentCategory?.category?.name ?? ''}
         tag={currentCategory?.tag?.name ?? '전체'}
