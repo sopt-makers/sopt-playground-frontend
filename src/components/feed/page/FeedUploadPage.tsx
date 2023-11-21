@@ -9,6 +9,7 @@ import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
+import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
 import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
 import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
@@ -70,7 +71,7 @@ export default function FeedUploadPage() {
   const checkIsOpenCategorys = () => {
     return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
   };
-  console.log(feedData);
+
   if (isPending) return <Loading />;
 
   return (
@@ -100,8 +101,12 @@ export default function FeedUploadPage() {
           }
           body={
             <>
-              <TitleInput onChange={handleSaveTitle} />
-              <ContentsInput onChange={handleSaveContent} />
+              <Aside />
+              <InputWrapper>
+                <TitleInput onChange={handleSaveTitle} />
+                <ContentsInput onChange={handleSaveContent} />
+              </InputWrapper>
+              <BlindWriterWarningWrapper>{feedData.isBlindWriter && <BlindWriterWarning />}</BlindWriterWarningWrapper>
             </>
           }
           footer={
@@ -158,6 +163,7 @@ export default function FeedUploadPage() {
           }
           body={
             <>
+              {feedData.isBlindWriter && <BlindWriterWarning />}
               <CheckBoxesWrapper>
                 <CheckboxFormItem label='질문글'>
                   <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
@@ -169,8 +175,10 @@ export default function FeedUploadPage() {
                   />
                 </CheckboxFormItem>
               </CheckBoxesWrapper>
-              <TitleInput onChange={handleSaveTitle} />
-              <ContentsInput onChange={handleSaveContent} />
+              <InputWrapper>
+                <TitleInput onChange={handleSaveTitle} />
+                <ContentsInput onChange={handleSaveContent} />
+              </InputWrapper>
               <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagsWrapper>
                 <ImageUploadButton
@@ -192,6 +200,28 @@ export default function FeedUploadPage() {
     </form>
   );
 }
+
+const Aside = styled.section`
+  padding: 0 16px;
+  width: 100%;
+`;
+
+const BlindWriterWarningWrapper = styled.section`
+  padding: 0 16px;
+  width: 100%;
+`;
+
+const InputWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 608px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    min-width: 100%;
+  }
+`;
 
 const BackArrowWrapper = styled.div`
   position: absolute;

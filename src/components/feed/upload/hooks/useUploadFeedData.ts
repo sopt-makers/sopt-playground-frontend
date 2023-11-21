@@ -19,7 +19,6 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   };
 
   const handleSaveIsBlindWriter = (isBlindWriter: boolean) => {
-    console.log('isBlindWriter ' + isBlindWriter);
     setFeedData((feedData) => ({ ...feedData, isBlindWriter: isBlindWriter }));
   };
 

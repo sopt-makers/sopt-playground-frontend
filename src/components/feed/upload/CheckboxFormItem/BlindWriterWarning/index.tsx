@@ -14,6 +14,7 @@ export default function BlindWriterWarning() {
 const WarningBox = styled.article`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   border: 1px solid rgb(240 66 81 / 50%);
   border-radius: 10px;
   background: rgb(240 66 81 / 10%);
@@ -21,10 +22,10 @@ const WarningBox = styled.article`
 
   ${textStyles.SUIT_13_M};
 
-  max-width: 358px;
+  width: 100%;
   color: ${colors.gray30};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 100%;
+    margin-top: 16px;
   }
 `;

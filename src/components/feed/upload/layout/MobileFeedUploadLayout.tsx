@@ -25,7 +25,6 @@ const HeaderWrapper = styled.header`
 const BodyWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 8px;
   padding: 0 16px;
   width: 100%;
 `;

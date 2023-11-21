@@ -34,10 +34,8 @@ const HeaderWrapper = styled.header`
 
 const BodyWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  justify-content: space-between;
   width: 100%;
-  max-width: 608px;
 `;
 
 const BodyContainer = styled.section`
