@@ -41,7 +41,7 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   };
 
   const checkReadyToUpload = () => {
-    return feedData.categoryId !== null && !feedData.content && !feedData.title;
+    return feedData.categoryId !== null && feedData.content.trim();
   };
 
   const resetFeedData = () => {
