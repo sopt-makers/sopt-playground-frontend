@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 import AuthRequired from '@/components/auth/AuthRequired';
+import Responsive from '@/components/common/Responsive';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
@@ -12,10 +12,6 @@ import { setLayout } from '@/utils/layout';
 
 const FeedDetailPage = () => {
   const { query, status } = useStringRouterQuery(['id'] as const);
-  const router = useRouter();
-  // TODO: 이게 동작 잘 안함 고쳐야함
-  const is뒤로가기스택있을경우 =
-    typeof window !== undefined ? window.history.state && window.history.state.idx > 0 : false;
 
   return (
     <AuthRequired>
@@ -25,24 +21,26 @@ const FeedDetailPage = () => {
           <DetailSlot>
             <FeedDetail
               postId={query.id}
-              renderBackLink={({ children }) =>
-                is뒤로가기스택있을경우 ? (
-                  <button onClick={() => router.back()}>{children}</button>
-                ) : (
-                  <Link href={playgroundLink.feedList()}>{children}</Link>
-                )
-              }
+              renderBackLink={({ children }) => <Link href={playgroundLink.feedList()}>{children}</Link>}
               renderCategoryLink={({ children, categoryId }) => (
-                <Link
-                  href={{
-                    pathname: playgroundLink.feedList(),
-                    query: {
-                      category: categoryId,
-                    },
-                  }}
-                >
-                  {children}
-                </Link>
+                <>
+                  <Responsive only='desktop' asChild>
+                    <Link
+                      href={{
+                        pathname: playgroundLink.feedList(),
+                        query: {
+                          category: categoryId,
+                          feed: query.id,
+                        },
+                      }}
+                    >
+                      {children}
+                    </Link>
+                  </Responsive>
+                  <Responsive only='mobile' asChild>
+                    <Link href={playgroundLink.feedList()}>{children}</Link>
+                  </Responsive>
+                </>
               )}
             />
           </DetailSlot>
