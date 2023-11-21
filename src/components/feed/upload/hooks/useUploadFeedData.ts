@@ -22,7 +22,9 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   };
 
   const handleSaveTitle = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFeedData((feedData) => ({ ...feedData, title: e.target.value }));
+    const title = e.target.value.replace(/\n/g, '');
+
+    setFeedData((feedData) => ({ ...feedData, title: title }));
   };
 
   const handleSaveContent = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
