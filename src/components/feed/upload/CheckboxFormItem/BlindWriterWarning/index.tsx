@@ -14,7 +14,6 @@ export default function BlindWriterWarning() {
 const WarningBox = styled.article`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   border: 1px solid rgb(240 66 81 / 50%);
   border-radius: 10px;
   background: rgb(240 66 81 / 10%);
