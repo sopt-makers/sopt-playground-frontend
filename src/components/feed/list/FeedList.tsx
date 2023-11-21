@@ -27,7 +27,9 @@ interface FeedListProps {
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
   const { data: meData } = useGetMemberOfMe();
-  const { data, refetch, fetchNextPage, isFetchingNextPage, isLoading } = useGetPostsInfiniteQuery({ categoryId });
+  const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
+    categoryId,
+  });
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
@@ -45,23 +47,17 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
     })),
   }));
 
+  const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
+
   return (
     <Container>
       <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
       <HeightSpacer>
         <Virtuoso
-          data={data?.pages.flatMap((page) => page.posts) ?? []}
+          data={flattenData}
           useWindowScroll
           endReached={() => {
             fetchNextPage();
-          }}
-          components={{
-            Footer: () =>
-              isLoading || isFetchingNextPage ? (
-                <div css={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                  <Loading />
-                </div>
-              ) : null,
           }}
           itemContent={(_, post) => {
             const is내글여부 = post.writerId === meData?.id;
@@ -129,20 +125,33 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                     ))}
                   </FeedCard.Image>
                   <FeedCard.Comment>
-                    {post.comments.map((comment) => (
-                      <FeedCard.CommentItem
-                        key={comment.id}
-                        comment={comment.content}
-                        name={comment.member.name}
-                        isBlindWriter={comment.isBlindWriter}
-                      />
-                    ))}
+                    {post.comments.map((comment) =>
+                      comment.isBlindWriter ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                        />
+                      ) : comment.member ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                          name={comment.member.name}
+                        />
+                      ) : null,
+                    )}
                   </FeedCard.Comment>
                 </FeedCard>
               ),
             });
           }}
         />
+        <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
+          {isError ? <div>오류가 발생했어요.</div> : null}
+          {data != null && flattenData.length === 0 ? <div>글이 없어요!</div> : null}
+          {isLoading ? <Loading /> : null}
+        </div>
       </HeightSpacer>
       <UploadLink href={playgroundLink.feedUpload()}>
         <UploadIcon />
@@ -167,7 +176,7 @@ const CategoryArea = styled.div`
 `;
 
 const HeightSpacer = styled.div`
-  min-height: ${layoutCSSVariable.contentAreaHeight};
+  min-height: 80vh;
 `;
 
 const UploadLink = styled(Link)`

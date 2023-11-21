@@ -1,20 +1,20 @@
 export const IconMoreHoriz = () => (
   <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M4.60156 9C5.15187 9 5.60156 8.5503 5.60156 8C5.60156 7.4497 5.15187 7 4.60156 7C4.05126 7 3.60156 7.4497 3.60156 8C3.60156 8.5503 4.05126 9 4.60156 9Z'
       fill='#66666D'
     />
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M8.0013 9C8.55161 9 9.0013 8.5503 9.0013 8C9.0013 7.4497 8.55161 7 8.0013 7C7.451 7 7.0013 7.4497 7.0013 8C7.0013 8.5503 7.451 9 8.0013 9Z'
       fill='#66666D'
     />
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M11.4014 7C10.8511 7 10.4014 7.4497 10.4014 8C10.4014 8.5503 10.8511 9 11.4014 9C11.9517 9 12.4014 8.5503 12.4014 8C12.4014 7.4497 11.9517 7 11.4014 7Z'
       fill='#66666D'
     />
@@ -24,8 +24,8 @@ export const IconMoreHoriz = () => (
 export const IconChevronLeft = () => (
   <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M16.6622 3.23086C16.9622 3.53086 16.9622 4.02086 16.6622 4.32086L8.98219 12.0009L16.6622 19.6809C16.9622 19.9809 16.9622 20.4709 16.6622 20.7709C16.3622 21.0709 15.8722 21.0709 15.5722 20.7709L7.34219 12.5509C7.04219 12.2509 7.04219 11.7609 7.34219 11.4609L15.5622 3.23086C15.8622 2.93086 16.3522 2.93086 16.6522 3.23086H16.6622Z'
       fill='#FCFCFC'
     />
@@ -35,8 +35,8 @@ export const IconChevronLeft = () => (
 export const IconChevronRight = () => (
   <svg width='15' height='16' viewBox='0 0 15 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M5.40156 2.55234L10.4328 7.58359C10.6641 7.81484 10.6641 8.18984 10.4328 8.42109L5.40156 13.4523C5.17031 13.6836 4.79531 13.6836 4.56406 13.4523C4.33281 13.2211 4.33281 12.8461 4.56406 12.6148L9.17656 8.00234L4.56406 3.38984C4.33281 3.15859 4.33281 2.78359 4.56406 2.55234C4.79531 2.32109 5.17031 2.32109 5.40156 2.55234Z'
       fill='#66666D'
     />
@@ -59,20 +59,20 @@ export const IconShare = () => (
 export const IconMoreVert = () => (
   <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M12.0031 7.19961C12.7181 7.19961 13.3031 6.61461 13.3031 5.89961C13.3031 5.18461 12.7181 4.59961 12.0031 4.59961C11.2881 4.59961 10.7031 5.18461 10.7031 5.89961C10.7031 6.61461 11.2881 7.19961 12.0031 7.19961Z'
       fill='#FCFCFC'
     />
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M12.0031 10.6996C11.2881 10.6996 10.7031 11.2846 10.7031 11.9996C10.7031 12.7146 11.2881 13.2996 12.0031 13.2996C12.7181 13.2996 13.3031 12.7146 13.3031 11.9996C13.3031 11.2846 12.7181 10.6996 12.0031 10.6996Z'
       fill='#FCFCFC'
     />
     <path
-      fill-rule='evenodd'
-      clip-rule='evenodd'
+      fillRule='evenodd'
+      clipRule='evenodd'
       d='M12.0031 16.7996C11.2881 16.7996 10.7031 17.3846 10.7031 18.0996C10.7031 18.8146 11.2881 19.3996 12.0031 19.3996C12.7181 19.3996 13.3031 18.8146 13.3031 18.0996C13.3031 17.3846 12.7181 16.7996 12.0031 16.7996Z'
       fill='#FCFCFC'
     />
@@ -92,7 +92,7 @@ export const IconMember = () => (
 
 export const IconSendFill = () => (
   <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <g clip-path='url(#clip0_2323_29771)'>
+    <g clipPath='url(#clip0_2323_29771)'>
       <path
         d='M16.8621 4.73784C17.2221 3.74201 16.2571 2.77701 15.2613 3.13784L3.09046 7.53951C2.09129 7.90117 1.97046 9.26451 2.88963 9.79701L6.77463 12.0462L10.2438 8.57701C10.401 8.42521 10.6115 8.34121 10.83 8.34311C11.0485 8.34501 11.2575 8.43265 11.412 8.58716C11.5665 8.74166 11.6541 8.95067 11.656 9.16917C11.6579 9.38767 11.5739 9.59817 11.4221 9.75534L7.95296 13.2245L10.203 17.1095C10.7346 18.0287 12.098 17.907 12.4596 16.9087L16.8621 4.73784Z'
         fill='#FCFCFC'
