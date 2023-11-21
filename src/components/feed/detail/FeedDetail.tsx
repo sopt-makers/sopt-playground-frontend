@@ -10,7 +10,7 @@ import useAlert from '@/components/common/Modal/useAlert';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
-import { useCurrentCategory } from '@/components/feed/common/hooks/useCurrentCategory';
+import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
@@ -37,7 +37,7 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
-  const currentCategory = useCurrentCategory(postData?.posts.categoryId.toString());
+  const currentCategory = useCategoryInfo(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
 
@@ -92,10 +92,9 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
 
   return (
     <DetailFeedCard>
-      {/* TODO: 하드코딩 제거 */}
       <DetailFeedCard.Header
-        category={currentCategory?.categoryName ?? ''}
-        tag={currentCategory?.tagName ?? ''}
+        category={currentCategory?.category?.name ?? ''}
+        tag={currentCategory?.tag?.name ?? '전체'}
         categoryId={postData.posts.categoryId.toString()}
         renderCategoryLink={renderCategoryLink}
         left={
