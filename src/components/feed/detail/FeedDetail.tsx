@@ -41,7 +41,7 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
 
-  const is내글여부 = meData?.id === postData?.member.id;
+  const is내글여부 = meData?.id === postData?.member?.id;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -134,16 +134,21 @@ const FeedDetail = ({ postId, renderCategoryLink }: FeedDetailProps) => {
       />
       <DetailFeedCard.Body ref={containerRef}>
         <DetailFeedCard.Main>
-          <DetailFeedCard.Top
-            name={postData.member.name}
-            profileImage={postData.member.profileImage}
-            info={getMemberInfo({
-              categoryId: postData.category.id,
-              categoryName: postData.category.name,
-              member: postData.member,
-            })}
-            createdAt={postData.posts.createdAt}
-          />
+          {postData.posts.isBlindWriter ? (
+            <DetailFeedCard.Top isBlindWriter={postData.posts.isBlindWriter} createdAt={postData.posts.createdAt} />
+          ) : postData.member ? (
+            <DetailFeedCard.Top
+              isBlindWriter={postData.posts.isBlindWriter}
+              name={postData.member.name}
+              profileImage={postData.member.profileImage}
+              info={getMemberInfo({
+                categoryId: postData.category.id,
+                categoryName: postData.category.name,
+                member: postData.member,
+              })}
+              createdAt={postData.posts.createdAt}
+            />
+          ) : null}
           <DetailFeedCard.Content
             isQuestion
             title={postData.posts.title}
