@@ -28,4 +28,5 @@ export const playgroundLink = {
   wordchain: () => `/wordchain`,
   feedList: () => `/community`,
   feedDetail: (id: string | number) => `/feed/${id}`,
+  feedUpload: () => `/community/upload`,
 };
