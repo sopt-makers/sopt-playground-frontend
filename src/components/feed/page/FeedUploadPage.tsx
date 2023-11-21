@@ -10,7 +10,7 @@ import Responsive from '@/components/common/Responsive';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
-import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
+import { useCategorySelect, useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 import ImagePreview from '@/components/feed/upload/ImagePreview';
 import ImageUploadButton from '@/components/feed/upload/ImageUploadButton';
@@ -47,12 +47,14 @@ export default function FeedUploadPage() {
     isBlindWriter: false,
     images: [],
   });
-
   const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } =
     useImageUploader(saveImageUrls);
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
     useImageUploader(saveImageUrls);
-  const { isSelectorOpen, closeAll, openCategory, openTag, openUsingRules } = useCategorySelect('openCategory');
+
+  const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect('openCategory');
+  const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
+
   const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -65,10 +67,6 @@ export default function FeedUploadPage() {
       isBlindWriter: feedData.isBlindWriter,
       images: feedData.images,
     });
-  };
-
-  const checkIsOpenCategorys = () => {
-    return isSelectorOpen === 'openUsingRules' || isSelectorOpen === 'closeAll';
   };
 
   if (isPending) return <Loading />;
@@ -89,12 +87,12 @@ export default function FeedUploadPage() {
                 isSelectorOpen={isSelectorOpen}
                 openCategory={openCategory}
                 openTag={openTag}
+                onClose={closeAll}
                 openUsingRules={openUsingRules}
-                checkIsOpenCategorys={checkIsOpenCategorys()}
-                onClose={onClose}
+                closeUsingRules={closeUsingRules}
               />
               <ButtonContainer>
-                <UsingRules isSelectorOpen={isSelectorOpen} closeAll={closeAll} />
+                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                 <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
@@ -152,8 +150,9 @@ export default function FeedUploadPage() {
                 isSelectorOpen={isSelectorOpen}
                 openCategory={openCategory}
                 openTag={openTag}
+                onClose={closeAll}
                 openUsingRules={openUsingRules}
-                checkIsOpenCategorys={checkIsOpenCategorys()}
+                closeUsingRules={closeUsingRules}
               />
             </>
           }
@@ -185,7 +184,7 @@ export default function FeedUploadPage() {
           }
           footer={
             <>
-              <UsingRules isSelectorOpen={isSelectorOpen} closeAll={closeAll} />
+              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
             </>
           }
         />

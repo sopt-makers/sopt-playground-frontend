@@ -3,7 +3,6 @@ import { Content, Overlay, Root } from '@radix-ui/react-dialog';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import dynamic from 'next/dynamic';
-import { useEffect } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import { COMMUNITY_RULES_PREVIEW } from '@/components/feed/upload/UsingRules/constants';
@@ -18,16 +17,6 @@ interface UsingRulesPreviewProp {
 }
 
 export default function UsingRulesPreview({ isOpen, onClose }: UsingRulesPreviewProp) {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, 5000);
-
-    if (!isOpen) {
-      clearTimeout(timer);
-    }
-  }, [isOpen]);
-
   return (
     <>
       <Responsive only='desktop'>

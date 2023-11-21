@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function useCategorySelect(initialState: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules') {
+export function useCategorySelect(initialState: 'openCategory' | 'openTag' | 'closeAll') {
   const [isSelectorOpen, setisSelectorOpen] = useState(initialState);
 
   const closeAll = () => {
@@ -15,9 +15,19 @@ export function useCategorySelect(initialState: 'openCategory' | 'openTag' | 'cl
     setisSelectorOpen('openTag');
   };
 
+  return { isSelectorOpen, closeAll, openCategory, openTag };
+}
+
+export function useCategoryUsingRulesPreview(initialState: boolean) {
+  const [isPreviewOpen, setIsPreviewOpen] = useState(initialState);
+
   const openUsingRules = () => {
-    setisSelectorOpen('openUsingRules');
+    setIsPreviewOpen(true);
   };
 
-  return { isSelectorOpen, closeAll, openCategory, openTag, openUsingRules };
+  const closeUsingRules = () => {
+    setIsPreviewOpen(false);
+  };
+
+  return { isPreviewOpen, openUsingRules, closeUsingRules };
 }

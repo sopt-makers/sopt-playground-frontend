@@ -12,12 +12,12 @@ interface CateogryProps {
   feedData: UploadFeedDataType;
   onSaveCategory: (categoryId: number) => void;
   onSaveMainCategory: (categoryId: number) => void;
-  isSelectorOpen: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules';
+  isSelectorOpen: 'openCategory' | 'openTag' | 'closeAll';
   openCategory: () => void;
   openTag: () => void;
-  openUsingRules: () => void;
   onClose: () => void;
-  checkIsOpenCategorys: boolean;
+  openUsingRules: () => void;
+  closeUsingRules: () => void;
 }
 
 export default function Category({
@@ -27,8 +27,9 @@ export default function Category({
   isSelectorOpen,
   openCategory,
   openTag,
-  openUsingRules,
   onClose,
+  openUsingRules,
+  closeUsingRules,
 }: CateogryProps) {
   const { data: categories } = useQuery({
     queryKey: getCategory.cacheKey(),
@@ -61,9 +62,14 @@ export default function Category({
 
     if (selectedMainCategory.children.length === 0) {
       onSaveCategory(categoryId);
+      onClose();
       openUsingRules();
-
-      return;
+      const timer = setTimeout(() => {
+        closeUsingRules();
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+      };
     }
 
     openTag();
@@ -82,20 +88,32 @@ export default function Category({
     }
 
     onSaveCategory(selectedMainCategory.children[0].id);
+    onClose();
+  };
+
+  const handleCloseTag = () => {
+    openUsingRules();
+    onClose();
+    const timer = setTimeout(() => {
+      closeUsingRules();
+    }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
   };
 
   return (
     <>
       <CategorySelector
         isOpen={isSelectorOpen === 'openCategory'}
-        onClose={openUsingRules}
+        onClose={onClose}
         onSelect={handleSaveMainCategory}
         feedData={feedData}
       />
       <TagSelector
         isOpen={isSelectorOpen === 'openTag'}
         onBack={openCategory}
-        onClose={openUsingRules}
+        onClose={handleCloseTag}
         onSave={onSaveCategory}
         feedData={feedData}
       />
