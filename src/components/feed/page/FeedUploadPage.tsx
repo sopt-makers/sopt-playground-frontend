@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useRouter } from 'next/router';
 import { FormEvent } from 'react';
 
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
@@ -48,6 +49,8 @@ export default function FeedUploadPage() {
     images: [],
   });
 
+  const router = useRouter();
+
   const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } =
     useImageUploader(saveImageUrls);
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
@@ -67,6 +70,11 @@ export default function FeedUploadPage() {
     });
   };
 
+  const hanldeQuitUpload = () => {
+    resetFeedData();
+    router.push('/community');
+  };
+
   const checkIsOpenCategorys = () => {
     return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
   };
@@ -80,7 +88,7 @@ export default function FeedUploadPage() {
           header={
             <>
               <BackArrowWrapper>
-                <BackArrow onClick={resetFeedData} />
+                <BackArrow onClick={hanldeQuitUpload} />
               </BackArrowWrapper>
               <Category
                 feedData={feedData}
@@ -137,7 +145,7 @@ export default function FeedUploadPage() {
           header={
             <>
               <TopHeader>
-                <Button type='button' disabled={false} onClick={resetFeedData}>
+                <Button type='button' disabled={false} onClick={hanldeQuitUpload}>
                   취소
                 </Button>
                 <Button type='submit' disabled={!checkReadyToUpload()}>
