@@ -89,7 +89,7 @@ export default function FeedUploadPage() {
   const hanldeQuitUpload = () => {
     router.push('/community');
   };
-  
+
   if (isPending) return <Loading />;
 
   return (
@@ -188,7 +188,7 @@ export default function FeedUploadPage() {
               </CheckBoxesWrapper>
               <TitleInput
                 onChange={handleSaveTitle}
-                onKeyDown={handleDesktopKeyPressToContents}
+                onKeyDown={handleMobileKeyPressToContents}
                 value={feedData.title}
               />
               <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} />
@@ -224,7 +224,7 @@ const ButtonContainer = styled.div`
   display: flex;
   position: absolute;
   right: 0;
-  gap: 24px;
+  gap: 12px;
   padding-right: 32px;
 `;
 
