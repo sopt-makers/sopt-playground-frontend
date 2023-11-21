@@ -99,6 +99,13 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
               <b>Danmin</b>
             </a> 
         </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/seojisoosoo">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/586e267e-5d8c-4ace-abe8-6fed7c2e09c2" width="200" height="150" style="object-fit :cover">
+              <br />
+              <b>Seojisoosoo</b>
+            </a> 
+        </td>
     </tr>
     <tr align="center">
         <td>
@@ -115,6 +122,10 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
         </td>
         <td>
             💖 정민 💖<br />
+            FE Developer
+        </td>
+        <td>
+            🩵 지수 🩵<br />
             FE Developer
         </td>
     </tr>
