@@ -12,6 +12,7 @@ import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
+import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
 import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
 import { useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
@@ -130,14 +131,18 @@ export default function FeedUploadPage() {
             </>
           }
           body={
-            <>
-              <TitleInput
-                onChange={handleSaveTitle}
-                onKeyDown={handleDesktopKeyPressToContents}
-                value={feedData.title}
-              />
-              <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} />
-            </>
+            <Body>
+              <Aside />
+              <InputWrapper>
+                <TitleInput
+                  onChange={handleSaveTitle}
+                  onKeyDown={handleDesktopKeyPressToContents}
+                  value={feedData.title}
+                />
+                <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} />
+              </InputWrapper>
+              <BlindWriterWarningWrapper>{feedData.isBlindWriter && <BlindWriterWarning />}</BlindWriterWarningWrapper>
+            </Body>
           }
           footer={
             <Footer>
@@ -196,7 +201,8 @@ export default function FeedUploadPage() {
             </>
           }
           body={
-            <>
+            <Body>
+              {feedData.isBlindWriter && <BlindWriterWarning />}
               <CheckBoxesWrapper>
                 {parentCategory?.hasQuestion && (
                   <CheckboxFormItem label='질문글'>
@@ -212,12 +218,14 @@ export default function FeedUploadPage() {
                   </CheckboxFormItem>
                 )}
               </CheckBoxesWrapper>
-              <TitleInput
-                onChange={handleSaveTitle}
-                onKeyDown={handleMobileKeyPressToContents}
-                value={feedData.title}
-              />
-              <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} />
+              <InputWrapper>
+                <TitleInput
+                  onChange={handleSaveTitle}
+                  onKeyDown={handleMobileKeyPressToContents}
+                  value={feedData.title}
+                />
+                <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} />
+              </InputWrapper>
               <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagsWrapper>
                 <ImageUploadButton
@@ -227,7 +235,7 @@ export default function FeedUploadPage() {
                 />
                 <CodeUploadButton />
               </TagsWrapper>
-            </>
+            </Body>
           }
           footer={
             <>
@@ -239,6 +247,38 @@ export default function FeedUploadPage() {
     </form>
   );
 }
+
+const Body = styled.section`
+  display: flex;
+  justify-content: space-between;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    padding: 0 16px;
+  }
+`;
+
+const Aside = styled.section`
+  padding: 0 16px;
+  width: 100%;
+`;
+
+const BlindWriterWarningWrapper = styled.section`
+  padding: 0 16px;
+  width: 100%;
+`;
+
+const InputWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 608px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    min-width: 100%;
+  }
+`;
 
 const BackArrowWrapper = styled.div`
   position: absolute;
