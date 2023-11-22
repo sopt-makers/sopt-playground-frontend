@@ -100,14 +100,14 @@ export default function FeedUploadPage() {
             </>
           }
           body={
-            <>
+            <Body>
               <Aside />
               <InputWrapper>
                 <TitleInput onChange={handleSaveTitle} />
                 <ContentsInput onChange={handleSaveContent} />
               </InputWrapper>
               <BlindWriterWarningWrapper>{feedData.isBlindWriter && <BlindWriterWarning />}</BlindWriterWarningWrapper>
-            </>
+            </Body>
           }
           footer={
             <Footer>
@@ -162,7 +162,7 @@ export default function FeedUploadPage() {
             </>
           }
           body={
-            <>
+            <Body>
               {feedData.isBlindWriter && <BlindWriterWarning />}
               <CheckBoxesWrapper>
                 <CheckboxFormItem label='질문글'>
@@ -188,7 +188,7 @@ export default function FeedUploadPage() {
                 />
                 <CodeUploadButton />
               </TagsWrapper>
-            </>
+            </Body>
           }
           footer={
             <>
@@ -200,6 +200,16 @@ export default function FeedUploadPage() {
     </form>
   );
 }
+
+const Body = styled.section`
+  display: flex;
+  justify-content: space-between;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    padding: 0 16px;
+  }
+`;
 
 const Aside = styled.section`
   padding: 0 16px;
