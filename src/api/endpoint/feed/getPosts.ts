@@ -21,29 +21,33 @@ export const getPosts = createEndpoint({
     posts: z.array(
       z.object({
         id: z.number(),
-        member: z.object({
-          id: z.number(),
-          name: z.string(),
-          profileImage: z.string().nullable(),
-          activity: z.object({
+        member: z
+          .object({
             id: z.number(),
-            memberId: z.number(),
-            part: z.string(),
-            generation: z.number(),
-            team: z.string().nullable(),
-          }),
-          careers: z
-            .object({
+            name: z.string(),
+            profileImage: z.string().nullable(),
+            activity: z.object({
               id: z.number(),
               memberId: z.number(),
-              companyName: z.string(),
-              title: z.string(),
-              startDate: z.string(),
-              endDate: z.string().nullable(),
-              isCurrent: z.boolean(),
-            })
-            .nullable(),
-        }),
+              part: z.string(),
+              generation: z.number(),
+              team: z.string().nullable(),
+            }),
+            careers: z
+              .object({
+                id: z.number(),
+                memberId: z.number(),
+                companyName: z.string(),
+                title: z.string(),
+                startDate: z.string(),
+                endDate: z.string().nullable(),
+                isCurrent: z.boolean(),
+              })
+              .nullable(),
+          })
+          .nullable(),
+        writerId: z.number().nullable(),
+        isMine: z.boolean(),
         categoryId: z.number(),
         categoryName: z.string(),
         title: z.string(),
@@ -53,7 +57,6 @@ export const getPosts = createEndpoint({
         images: z.array(z.string()),
         isQuestion: z.boolean(),
         isBlindWriter: z.boolean(),
-        isMine: z.boolean(),
         createdAt: z.string(),
         comments: z.array(
           z.object({
@@ -83,6 +86,7 @@ export const getPosts = createEndpoint({
                   .nullable(),
               })
               .nullable(),
+            isMine: z.boolean(),
             postId: z.number(),
             parentCommentId: z.number().nullable(),
             content: z.string(),

@@ -26,7 +26,7 @@ interface FeedListProps {
 
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
-  const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
+  const { data, refetch, fetchNextPage, isLoading, isError, error } = useGetPostsInfiniteQuery({
     categoryId,
   });
   const { data: categoryData } = useQuery({
@@ -48,7 +48,8 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   }));
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
-
+  console.log(isError);
+  console.log(error?.message);
   return (
     <Container>
       <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
@@ -64,10 +65,10 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
               feedId: `${post.id}`,
               children: (
                 <FeedCard
-                  name={post.member.name}
+                  name={post.member?.name ?? '익명'}
                   title={post.title}
                   content={post.content}
-                  profileImage={post.member.profileImage}
+                  profileImage={post.member?.profileImage ?? null}
                   createdAt={post.createdAt}
                   commentLength={post.commentCount}
                   hits={post.hits}
@@ -77,8 +78,8 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                     categoryId: post.categoryId,
                     categoryName: post.categoryName,
                     member: {
-                      activity: post.member.activity,
-                      careers: post.member.careers,
+                      activity: post.member?.activity ?? { generation: 0, part: '' },
+                      careers: post.member?.careers ?? null,
                     },
                   })}
                   rightIcon={
