@@ -196,6 +196,7 @@ const UploadLink = styled(Link)`
   margin-right: 32px;
   margin-left: auto;
   border-radius: 18px;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 15%);
   background-color: ${colors.gray10};
   width: 48px;
   height: 48px;
