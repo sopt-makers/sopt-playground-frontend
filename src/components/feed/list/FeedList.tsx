@@ -26,7 +26,7 @@ interface FeedListProps {
 
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
-  const { data, refetch, fetchNextPage, isLoading, isError, error } = useGetPostsInfiniteQuery({
+  const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
     categoryId,
   });
   const { data: categoryData } = useQuery({
