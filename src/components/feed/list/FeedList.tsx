@@ -7,7 +7,6 @@ import { Virtuoso } from 'react-virtuoso';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Loading from '@/components/common/Loading';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
@@ -27,7 +26,6 @@ interface FeedListProps {
 
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
-  const { data: meData } = useGetMemberOfMe();
   const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
     categoryId,
   });
@@ -62,7 +60,6 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
             fetchNextPage();
           }}
           itemContent={(_, post) => {
-            const is내글여부 = post.writerId === meData?.id;
             return renderFeedDetailLink({
               feedId: `${post.id}`,
               children: (
@@ -92,7 +89,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                         </button>
                       }
                     >
-                      {is내글여부 ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
+                      {post.isMine ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
                       <FeedDropdown.Item
                         onClick={(e) => {
                           e.stopPropagation();
@@ -101,7 +98,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                       >
                         공유
                       </FeedDropdown.Item>
-                      {is내글여부 ? (
+                      {post.isMine ? (
                         <FeedDropdown.Item
                           onClick={(e) => {
                             e.stopPropagation();

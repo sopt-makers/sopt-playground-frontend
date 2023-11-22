@@ -44,7 +44,6 @@ export const getPosts = createEndpoint({
             })
             .nullable(),
         }),
-        writerId: z.number(),
         categoryId: z.number(),
         categoryName: z.string(),
         title: z.string(),
@@ -54,6 +53,7 @@ export const getPosts = createEndpoint({
         images: z.array(z.string()),
         isQuestion: z.boolean(),
         isBlindWriter: z.boolean(),
+        isMine: z.boolean(),
         createdAt: z.string(),
         comments: z.array(
           z.object({

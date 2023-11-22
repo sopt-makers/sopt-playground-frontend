@@ -93,6 +93,7 @@ export const getPost = createEndpoint({
       id: z.number(),
       name: z.string(),
     }),
+    isMine: z.boolean(),
   }),
 });
 

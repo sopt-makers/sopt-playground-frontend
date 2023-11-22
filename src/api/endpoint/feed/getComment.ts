@@ -41,6 +41,7 @@ export const getComment = createEndpoint({
       content: z.string(),
       isBlindWriter: z.boolean(),
       isReported: z.boolean(),
+      isMine: z.boolean(),
       createdAt: z.string(),
     }),
   ),

@@ -5,7 +5,6 @@ import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
@@ -32,15 +31,12 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const { handleDeleteComment } = useDeleteComment();
   const { handleDeleteFeed } = useDeleteFeed();
   const { handleReport } = useReportFeed();
-  const { data: meData } = useGetMemberOfMe();
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
   const currentCategory = useCategoryInfo(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
-
-  const is내글여부 = meData?.id === postData?.member?.id;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,12 +88,12 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                 </button>
               }
             >
-              {is내글여부 ? (
+              {postData.isMine ? (
                 <FeedDropdown.Item onClick={() => toast.show({ message: '아직 지원하지 않는 기능이에요.' })}>
                   수정
                 </FeedDropdown.Item>
               ) : null}
-              {is내글여부 ? (
+              {postData.isMine ? (
                 <FeedDropdown.Item type='danger' onClick={() => handleDeleteFeed({ postId })}>
                   삭제
                 </FeedDropdown.Item>
@@ -151,7 +147,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                     </button>
                   }
                 >
-                  {comment.member?.id === meData?.id ? (
+                  {comment.isMine ? (
                     <FeedDropdown.Item
                       type='danger'
                       onClick={() =>
@@ -191,7 +187,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                     </button>
                   }
                 >
-                  {comment.member?.id === meData?.id ? (
+                  {comment.isMine ? (
                     <FeedDropdown.Item
                       type='danger'
                       onClick={() =>
