@@ -11,6 +11,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Loading from '@/components/common/Loading';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
+import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
@@ -36,6 +37,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   });
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteFeed } = useDeleteFeed();
+  const { handleReport } = useReportFeed();
 
   const categories = categoryData?.map((category) => ({
     id: `${category.id}`,
@@ -115,7 +117,9 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                           삭제
                         </FeedDropdown.Item>
                       ) : null}
-                      <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                      <FeedDropdown.Item type='danger' onClick={() => handleReport({ postId: `${post.id}` })}>
+                        신고
+                      </FeedDropdown.Item>
                     </FeedDropdown>
                   }
                 >
