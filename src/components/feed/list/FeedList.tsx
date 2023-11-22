@@ -114,7 +114,13 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                           삭제
                         </FeedDropdown.Item>
                       ) : null}
-                      <FeedDropdown.Item type='danger' onClick={() => handleReport({ postId: `${post.id}` })}>
+                      <FeedDropdown.Item
+                        type='danger'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleReport({ postId: `${post.id}` });
+                        }}
+                      >
                         신고
                       </FeedDropdown.Item>
                     </FeedDropdown>

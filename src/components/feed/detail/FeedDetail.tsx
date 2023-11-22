@@ -89,16 +89,33 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
               }
             >
               {postData.isMine ? (
-                <FeedDropdown.Item onClick={() => toast.show({ message: '아직 지원하지 않는 기능이에요.' })}>
+                <FeedDropdown.Item
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toast.show({ message: '아직 지원하지 않는 기능이에요.' });
+                  }}
+                >
                   수정
                 </FeedDropdown.Item>
               ) : null}
               {postData.isMine ? (
-                <FeedDropdown.Item type='danger' onClick={() => handleDeleteFeed({ postId })}>
+                <FeedDropdown.Item
+                  type='danger'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteFeed({ postId });
+                  }}
+                >
                   삭제
                 </FeedDropdown.Item>
               ) : null}
-              <FeedDropdown.Item type='danger' onClick={() => handleReport({ postId })}>
+              <FeedDropdown.Item
+                type='danger'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleReport({ postId });
+                }}
+              >
                 신고
               </FeedDropdown.Item>
             </FeedDropdown>
