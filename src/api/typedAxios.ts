@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { z } from 'zod';
 
 import { axiosInstance } from '@/api';
+import { DEBUG } from '@/constants/env';
 
 interface Endpoint<ServerResponse, Params extends unknown[]> {
   request(...params: Params): Promise<ServerResponse>;
@@ -36,7 +37,12 @@ export function createEndpoint<
         const zodError = String(res.error).slice(0, 1000) + '\n...';
         const message = `서버 타입 검증에 실패했습니다. (${axiosConfig.method} ${axiosConfig.url})\n${zodError}`;
         console.error(message, zodError);
-        throw new Error(message);
+
+        if (DEBUG) {
+          throw new Error(message);
+        }
+
+        return data;
       }
 
       return res.data;
