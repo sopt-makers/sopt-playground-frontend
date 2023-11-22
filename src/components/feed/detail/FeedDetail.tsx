@@ -10,6 +10,7 @@ import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
+import { useReportComment } from '@/components/feed/common/hooks/useReportComment';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
@@ -30,7 +31,8 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteComment } = useDeleteComment();
   const { handleDeleteFeed } = useDeleteFeed();
-  const { handleReport } = useReportFeed();
+  const { handleReport: handleReportFeed } = useReportFeed();
+  const { handleReport: handleReportComment } = useReportComment();
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
@@ -113,7 +115,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                 type='danger'
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleReport({ postId });
+                  handleReportFeed({ postId });
                 }}
               >
                 신고
@@ -219,7 +221,9 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                       삭제
                     </FeedDropdown.Item>
                   ) : null}
-                  <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                    신고
+                  </FeedDropdown.Item>
                 </FeedDropdown>
               }
             />
