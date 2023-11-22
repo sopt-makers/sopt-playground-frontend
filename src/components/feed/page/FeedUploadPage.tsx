@@ -1,9 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FormEvent, useRef } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
@@ -90,6 +92,19 @@ export default function FeedUploadPage() {
     router.push('/community');
   };
 
+  const { data: categories } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
+  const parentCategory =
+    (categories &&
+      categories.find(
+        (category) =>
+          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
+      )) ??
+    null;
+
   if (isPending) return <Loading />;
 
   return (
@@ -137,15 +152,22 @@ export default function FeedUploadPage() {
                   <CodeUploadButton />
                 </TagsWrapper>
                 <CheckBoxesWrapper>
-                  <CheckboxFormItem label='질문글'>
-                    <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
-                  </CheckboxFormItem>
-                  <CheckboxFormItem label='익명'>
-                    <Checkbox
-                      checked={feedData.isBlindWriter}
-                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
-                    />
-                  </CheckboxFormItem>
+                  {parentCategory?.hasQuestion && (
+                    <CheckboxFormItem label='질문글'>
+                      <Checkbox
+                        checked={feedData.isQuestion}
+                        onChange={(e) => handleSaveIsQuestion(e.target.checked)}
+                      />
+                    </CheckboxFormItem>
+                  )}
+                  {parentCategory?.hasBlind && (
+                    <CheckboxFormItem label='익명'>
+                      <Checkbox
+                        checked={feedData.isBlindWriter}
+                        onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                      />
+                    </CheckboxFormItem>
+                  )}
                 </CheckBoxesWrapper>
               </TagAndCheckboxWrapper>
             </Footer>
@@ -176,15 +198,19 @@ export default function FeedUploadPage() {
           body={
             <>
               <CheckBoxesWrapper>
-                <CheckboxFormItem label='질문글'>
-                  <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
-                </CheckboxFormItem>
-                <CheckboxFormItem label='익명'>
-                  <Checkbox
-                    checked={feedData.isBlindWriter}
-                    onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
-                  />
-                </CheckboxFormItem>
+                {parentCategory?.hasQuestion && (
+                  <CheckboxFormItem label='질문글'>
+                    <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
+                  </CheckboxFormItem>
+                )}
+                {parentCategory?.hasBlind && (
+                  <CheckboxFormItem label='익명'>
+                    <Checkbox
+                      checked={feedData.isBlindWriter}
+                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                    />
+                  </CheckboxFormItem>
+                )}
               </CheckBoxesWrapper>
               <TitleInput
                 onChange={handleSaveTitle}

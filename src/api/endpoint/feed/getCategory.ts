@@ -6,6 +6,8 @@ const baseCategory = z.object({
   id: z.number(),
   name: z.string(),
   hasAll: z.boolean(),
+  hasBlind: z.boolean().nullable(),
+  hasQuestion: z.boolean().nullable(),
   content: z.string().nullable(),
 });
 
