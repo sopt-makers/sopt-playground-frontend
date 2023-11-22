@@ -48,8 +48,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   }));
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
-  console.log(isError);
-  console.log(error?.message);
+
   return (
     <Container>
       <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
