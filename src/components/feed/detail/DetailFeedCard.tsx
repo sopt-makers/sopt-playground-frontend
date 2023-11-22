@@ -20,6 +20,7 @@ import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
+import { parseTextToLink } from '@/utils/parseTextToLink';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -127,15 +128,22 @@ const StyledMain = styled(Flex)`
   }
 `;
 
-interface TopProps {
-  isBlindWriter?: boolean;
-  profileImage: string | null;
-  name: string;
-  info: string;
-  createdAt: string;
-}
+type TopProps = { createdAt: string } & (
+  | {
+      isBlindWriter: true;
+      profileImage?: null;
+      name?: null;
+      info?: null;
+    }
+  | {
+      isBlindWriter: false;
+      profileImage: string | null;
+      name: string;
+      info: string;
+    }
+);
 
-const Top = ({ isBlindWriter = false, profileImage, name, info, createdAt }: TopProps) => {
+const Top = ({ isBlindWriter, profileImage, name, info, createdAt }: TopProps) => {
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
@@ -203,7 +211,7 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
           {isQuestion ? <QuestionBadge>질문</QuestionBadge> : null}
           <Title>{title}</Title>
         </Flex>
-        <StyledContent>{content}</StyledContent>
+        <StyledContent>{parseTextToLink(content)}</StyledContent>
       </Stack>
       {images.length !== 0 ? (
         <Flex css={{ gap: 8, overflowX: 'auto' }} onClick={() => setOpenSlider(true)}>
@@ -229,12 +237,18 @@ const StyledContent = styled(Text)`
   ${textStyles.SUIT_16_R};
 
   font-weight: 300;
+
+  a {
+    text-decoration: underline;
+  }
 `;
 
 const QuestionBadge = styled.div`
+  align-self: flex-start;
   border-radius: 5px;
   background-color: ${colors.orangeAlpha200};
   padding: 6px;
+  white-space: nowrap;
   color: ${colors.secondary};
 `;
 
@@ -254,25 +268,37 @@ const Divider = styled.hr`
   height: 1px;
 `;
 
-interface CommentProps {
-  profileImage: string | null;
-  name: string;
-  info: string;
+type CommentProps = {
   comment: string;
-  isBlindWriter: boolean;
   createdAt: string;
   moreIcon?: ReactNode;
-}
+} & (
+  | {
+      isBlindWriter: false;
+      profileImage: string | null;
+      info: string;
+      name: string;
+    }
+  | {
+      isBlindWriter: true;
+      profileImage?: null;
+      info?: null;
+      name?: null;
+    }
+);
+
 const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, moreIcon }: CommentProps) => {
   return (
     <StyledComment>
-      <Flex css={{ gap: 8 }}>
+      <Flex css={{ gap: 8, minWidth: 0 }}>
         {isBlindWriter || profileImage == null ? (
-          <IconMember />
+          <div css={{ flexShrink: 0 }}>
+            <IconMember />
+          </div>
         ) : (
           <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
         )}
-        <Stack css={{ width: '100%' }} gutter={6}>
+        <Stack css={{ minWidth: 0, width: '100%' }} gutter={6}>
           <Flex justify='space-between'>
             <Flex>
               <Text typography='SUIT_13_SB' color={colors.gray10}>
@@ -291,7 +317,7 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
               {moreIcon}
             </Flex>
           </Flex>
-          <Text typography='SUIT_14_M'>{comment}</Text>
+          <StyledText typography='SUIT_14_M'>{parseTextToLink(comment)}</StyledText>
         </Stack>
       </Flex>
     </StyledComment>
@@ -303,6 +329,14 @@ const StyledComment = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 12px 16px;
+  }
+`;
+
+const StyledText = styled(Text)`
+  a {
+    overflow: hidden;
+    text-decoration: underline;
+    word-wrap: break-word;
   }
 `;
 

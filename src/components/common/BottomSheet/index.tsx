@@ -23,7 +23,7 @@ export const BottomSheet: FC<BottomSheetProps> = (props) => {
 };
 
 const CustomSheet = styled(Sheet)`
-  margin: 0 16px 42px;
+  margin: 0 16px 8px;
 
   .react-modal-sheet-backdrop {
     display: flex;

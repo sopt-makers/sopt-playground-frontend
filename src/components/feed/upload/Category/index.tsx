@@ -6,28 +6,26 @@ import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
 import CategorySelector from '@/components/feed/upload/Category/CategorySelector';
 import TagSelector from '@/components/feed/upload/Category/TagSelector';
+import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 
 interface CateogryProps {
   feedData: UploadFeedDataType;
   onSaveCategory: (categoryId: number) => void;
   onSaveMainCategory: (categoryId: number) => void;
-  isDropDown: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules';
-  openCategory: () => void;
-  openTag: () => void;
   openUsingRules: () => void;
-  checkIsOpenCategorys: boolean;
+  closeUsingRules: () => void;
 }
 
 export default function Category({
   feedData,
   onSaveCategory,
   onSaveMainCategory,
-  isDropDown,
-  openCategory,
-  openTag,
   openUsingRules,
+  closeUsingRules,
 }: CateogryProps) {
+  const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect('openCategory');
+
   const { data: categories } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
@@ -59,7 +57,14 @@ export default function Category({
 
     if (selectedMainCategory.children.length === 0) {
       onSaveCategory(categoryId);
-      return;
+      closeAll();
+      openUsingRules();
+      const timer = setTimeout(() => {
+        closeUsingRules();
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+      };
     }
 
     openTag();
@@ -78,20 +83,32 @@ export default function Category({
     }
 
     onSaveCategory(selectedMainCategory.children[0].id);
+    closeAll();
+  };
+
+  const handleCloseTag = () => {
+    openUsingRules();
+    closeAll();
+    const timer = setTimeout(() => {
+      closeUsingRules();
+    }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
   };
 
   return (
     <>
       <CategorySelector
-        isOpen={isDropDown === 'openCategory'}
-        onClose={openUsingRules}
+        isOpen={isSelectorOpen === 'openCategory'}
+        onClose={closeAll}
         onSelect={handleSaveMainCategory}
         feedData={feedData}
       />
       <TagSelector
-        isOpen={isDropDown === 'openTag'}
+        isOpen={isSelectorOpen === 'openTag'}
         onBack={openCategory}
-        onClose={openUsingRules}
+        onClose={handleCloseTag}
         onSave={onSaveCategory}
         feedData={feedData}
       />

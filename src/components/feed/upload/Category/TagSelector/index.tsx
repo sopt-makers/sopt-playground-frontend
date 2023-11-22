@@ -35,14 +35,14 @@ export default function TagSelector({ isOpen = false, onBack, onClose, onSave, f
   return (
     <>
       <Responsive only='desktop'>
-        <DropDown isOpen={isOpen} onClose={onBack} className='tag-drop'>
+        <DropDown isOpen={isOpen} onClose={onClose} className='tag-drop'>
           <TagSelectOptions feedData={feedData} onClose={onClose} onSave={onSave} />
         </DropDown>
       </Responsive>
       <Responsive only='mobile'>
         <BottomSheet
           isOpen={isOpen}
-          onClose={onBack}
+          onClose={onClose}
           header={
             <Title>
               <BackArrowIc onClick={onBack} />

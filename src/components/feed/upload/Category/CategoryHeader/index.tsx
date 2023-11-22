@@ -35,7 +35,7 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
 
   return (
     <>
-      {feedData.categoryId <= 0 ? (
+      {!feedData.categoryId ? (
         <CategorySelectorStarter onClick={openCategory}>
           <UploadTitle>어디에 올릴까요?</UploadTitle>
           <OpenArrow fill='white' />
@@ -43,9 +43,9 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
       ) : (
         <CategoryContainer>
           <CategoryTitle type='button' onClick={openCategory}>
-            {parentCategory && parentCategory.name} <ExpandMoreArrowIcon className='icon-expand-more' />
+            {parentCategory?.name} <ExpandMoreArrowIcon className='icon-expand-more' />
           </CategoryTitle>
-          {feedData.categoryId !== 1 && (
+          {parentCategory?.children.length !== 0 && (
             <>
               <DetailArrow />
               <CategoryTitle type='button' onClick={openTag}>

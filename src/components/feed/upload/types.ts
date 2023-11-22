@@ -1,6 +1,6 @@
 export interface UploadFeedDataType {
-  mainCategoryId: number;
-  categoryId: number;
+  mainCategoryId: number | null;
+  categoryId: number | null;
   title: string | null;
   content: string;
   isQuestion: boolean;

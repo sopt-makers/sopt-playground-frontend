@@ -9,29 +9,31 @@ export const getPost = createEndpoint({
     url: `api/v1/community/posts/${postId}`,
   }),
   serverResponseScheme: z.object({
-    member: z.object({
-      id: z.number(),
-      name: z.string(),
-      profileImage: z.string().nullable(),
-      activity: z.object({
+    member: z
+      .object({
         id: z.number(),
-        memberId: z.number(),
-        part: z.string(),
-        generation: z.number(),
-        team: z.string().nullable(),
-      }),
-      careers: z
-        .object({
+        name: z.string(),
+        profileImage: z.string().nullable(),
+        activity: z.object({
           id: z.number(),
           memberId: z.number(),
-          companyName: z.string(),
-          title: z.string(),
-          startDate: z.string(),
-          endDate: z.string().nullable(),
-          isCurrent: z.boolean(),
-        })
-        .nullable(),
-    }),
+          part: z.string(),
+          generation: z.number(),
+          team: z.string().nullable(),
+        }),
+        careers: z
+          .object({
+            id: z.number(),
+            memberId: z.number(),
+            companyName: z.string(),
+            title: z.string(),
+            startDate: z.string(),
+            endDate: z.string().nullable(),
+            isCurrent: z.boolean(),
+          })
+          .nullable(),
+      })
+      .nullable(),
     posts: z.object({
       id: z.number(),
       member: z.object({
@@ -91,6 +93,7 @@ export const getPost = createEndpoint({
       id: z.number(),
       name: z.string(),
     }),
+    isMine: z.boolean(),
   }),
 });
 

@@ -1,8 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { FormEvent } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { FormEvent, useRef } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
@@ -11,7 +14,7 @@ import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
 import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
-import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
+import { useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 import ImagePreview from '@/components/feed/upload/ImagePreview';
 import ImageUploadButton from '@/components/feed/upload/ImageUploadButton';
@@ -38,28 +41,46 @@ export default function FeedUploadPage() {
     handleSaveContent,
     resetFeedData,
     checkReadyToUpload,
-    checkReadyToShowUsingRules,
   } = useUploadFeedData({
-    mainCategoryId: 0,
-    categoryId: 0,
+    mainCategoryId: null,
+    categoryId: null,
     title: '',
     content: '',
     isQuestion: false,
     isBlindWriter: false,
     images: [],
   });
+  const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
+  const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      mobileContentsRef.current && mobileContentsRef.current.focus();
+    }
+  };
+
+  const desktopContentsRef = useRef<HTMLTextAreaElement>(null);
+  const handleDesktopKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      desktopContentsRef.current && desktopContentsRef.current.focus();
+    }
+  };
+
+  const router = useRouter();
 
   const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } =
     useImageUploader(saveImageUrls);
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
     useImageUploader(saveImageUrls);
-  const { isDropDown, closeAll, openCategory, openTag, openUsingRules } = useCategorySelect('openCategory');
+
+  const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
+
   const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleUploadFeed({
-      categoryId: feedData.categoryId,
+      categoryId: feedData.categoryId ?? 0,
       title: feedData.title,
       content: feedData.content,
       isQuestion: feedData.isQuestion,
@@ -68,9 +89,22 @@ export default function FeedUploadPage() {
     });
   };
 
-  const checkIsOpenCategorys = () => {
-    return isDropDown === 'openUsingRules' || isDropDown === 'closeAll';
+  const hanldeQuitUpload = () => {
+    router.push('/community');
   };
+
+  const { data: categories } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
+  const parentCategory =
+    (categories &&
+      categories.find(
+        (category) =>
+          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
+      )) ??
+    null;
 
   if (isPending) return <Loading />;
 
@@ -81,20 +115,17 @@ export default function FeedUploadPage() {
           header={
             <>
               <BackArrowWrapper>
-                <BackArrow onClick={resetFeedData} />
+                <BackArrow onClick={hanldeQuitUpload} />
               </BackArrowWrapper>
               <Category
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
                 onSaveMainCategory={handleSaveMainCategory}
-                isDropDown={isDropDown}
-                openCategory={openCategory}
-                openTag={openTag}
                 openUsingRules={openUsingRules}
-                checkIsOpenCategorys={checkIsOpenCategorys()}
+                closeUsingRules={closeUsingRules}
               />
               <ButtonContainer>
-                <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
+                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                 <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
@@ -103,8 +134,12 @@ export default function FeedUploadPage() {
             <Body>
               <Aside />
               <InputWrapper>
-                <TitleInput onChange={handleSaveTitle} />
-                <ContentsInput onChange={handleSaveContent} />
+                <TitleInput
+                  onChange={handleSaveTitle}
+                  onKeyDown={handleDesktopKeyPressToContents}
+                  value={feedData.title}
+                />
+                <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} />
               </InputWrapper>
               <BlindWriterWarningWrapper>{feedData.isBlindWriter && <BlindWriterWarning />}</BlindWriterWarningWrapper>
             </Body>
@@ -122,15 +157,22 @@ export default function FeedUploadPage() {
                   <CodeUploadButton />
                 </TagsWrapper>
                 <CheckBoxesWrapper>
-                  <CheckboxFormItem label='질문글'>
-                    <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
-                  </CheckboxFormItem>
-                  <CheckboxFormItem label='익명'>
-                    <Checkbox
-                      checked={feedData.isBlindWriter}
-                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
-                    />
-                  </CheckboxFormItem>
+                  {parentCategory?.hasQuestion && (
+                    <CheckboxFormItem label='질문글'>
+                      <Checkbox
+                        checked={feedData.isQuestion}
+                        onChange={(e) => handleSaveIsQuestion(e.target.checked)}
+                      />
+                    </CheckboxFormItem>
+                  )}
+                  {parentCategory?.hasBlind && (
+                    <CheckboxFormItem label='익명'>
+                      <Checkbox
+                        checked={feedData.isBlindWriter}
+                        onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                      />
+                    </CheckboxFormItem>
+                  )}
                 </CheckBoxesWrapper>
               </TagAndCheckboxWrapper>
             </Footer>
@@ -142,7 +184,7 @@ export default function FeedUploadPage() {
           header={
             <>
               <TopHeader>
-                <Button type='button' disabled={false} onClick={resetFeedData}>
+                <Button type='button' disabled={false} onClick={hanldeQuitUpload}>
                   취소
                 </Button>
                 <Button type='submit' disabled={!checkReadyToUpload()}>
@@ -153,11 +195,8 @@ export default function FeedUploadPage() {
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
                 onSaveMainCategory={handleSaveMainCategory}
-                isDropDown={isDropDown}
-                openCategory={openCategory}
-                openTag={openTag}
                 openUsingRules={openUsingRules}
-                checkIsOpenCategorys={checkIsOpenCategorys()}
+                closeUsingRules={closeUsingRules}
               />
             </>
           }
@@ -165,19 +204,27 @@ export default function FeedUploadPage() {
             <Body>
               {feedData.isBlindWriter && <BlindWriterWarning />}
               <CheckBoxesWrapper>
-                <CheckboxFormItem label='질문글'>
-                  <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
-                </CheckboxFormItem>
-                <CheckboxFormItem label='익명'>
-                  <Checkbox
-                    checked={feedData.isBlindWriter}
-                    onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
-                  />
-                </CheckboxFormItem>
+                {parentCategory?.hasQuestion && (
+                  <CheckboxFormItem label='질문글'>
+                    <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
+                  </CheckboxFormItem>
+                )}
+                {parentCategory?.hasBlind && (
+                  <CheckboxFormItem label='익명'>
+                    <Checkbox
+                      checked={feedData.isBlindWriter}
+                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                    />
+                  </CheckboxFormItem>
+                )}
               </CheckBoxesWrapper>
               <InputWrapper>
-                <TitleInput onChange={handleSaveTitle} />
-                <ContentsInput onChange={handleSaveContent} />
+                <TitleInput
+                  onChange={handleSaveTitle}
+                  onKeyDown={handleMobileKeyPressToContents}
+                  value={feedData.title}
+                />
+                <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} />
               </InputWrapper>
               <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagsWrapper>
@@ -192,7 +239,7 @@ export default function FeedUploadPage() {
           }
           footer={
             <>
-              <UsingRules isDropDown={isDropDown} closeAll={closeAll} />
+              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
             </>
           }
         />
@@ -243,7 +290,7 @@ const ButtonContainer = styled.div`
   display: flex;
   position: absolute;
   right: 0;
-  gap: 24px;
+  gap: 12px;
   padding-right: 32px;
 `;
 

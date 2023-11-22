@@ -1,23 +1,33 @@
 import { useState } from 'react';
 
-export function useCategorySelect(initialState: 'openCategory' | 'openTag' | 'closeAll' | 'openUsingRules') {
-  const [isDropDown, setIsDropDown] = useState(initialState);
+export function useCategorySelect(initialState: 'openCategory' | 'openTag' | 'closeAll') {
+  const [isSelectorOpen, setisSelectorOpen] = useState(initialState);
 
   const closeAll = () => {
-    setIsDropDown('closeAll');
+    setisSelectorOpen('closeAll');
   };
 
   const openCategory = () => {
-    setIsDropDown('openCategory');
+    setisSelectorOpen('openCategory');
   };
 
   const openTag = () => {
-    setIsDropDown('openTag');
+    setisSelectorOpen('openTag');
   };
+
+  return { isSelectorOpen, closeAll, openCategory, openTag };
+}
+
+export function useCategoryUsingRulesPreview(initialState: boolean) {
+  const [isPreviewOpen, setIsPreviewOpen] = useState(initialState);
 
   const openUsingRules = () => {
-    setIsDropDown('openUsingRules');
+    setIsPreviewOpen(true);
   };
 
-  return { isDropDown, closeAll, openCategory, openTag, openUsingRules };
+  const closeUsingRules = () => {
+    setIsPreviewOpen(false);
+  };
+
+  return { isPreviewOpen, openUsingRules, closeUsingRules };
 }

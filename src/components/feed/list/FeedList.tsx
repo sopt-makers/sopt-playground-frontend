@@ -7,10 +7,10 @@ import { Virtuoso } from 'react-virtuoso';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Loading from '@/components/common/Loading';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
+import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
@@ -26,14 +26,16 @@ interface FeedListProps {
 
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
-  const { data: meData } = useGetMemberOfMe();
-  const { data, refetch, fetchNextPage, isFetchingNextPage, isLoading } = useGetPostsInfiniteQuery({ categoryId });
+  const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
+    categoryId,
+  });
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
   });
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteFeed } = useDeleteFeed();
+  const { handleReport } = useReportFeed();
 
   const categories = categoryData?.map((category) => ({
     id: `${category.id}`,
@@ -45,26 +47,19 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
     })),
   }));
 
+  const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
+
   return (
     <Container>
       <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
       <HeightSpacer>
         <Virtuoso
-          data={data?.pages.flatMap((page) => page.posts) ?? []}
+          data={flattenData}
           useWindowScroll
           endReached={() => {
             fetchNextPage();
           }}
-          components={{
-            Footer: () =>
-              isLoading || isFetchingNextPage ? (
-                <div css={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                  <Loading />
-                </div>
-              ) : null,
-          }}
           itemContent={(_, post) => {
-            const is내글여부 = post.writerId === meData?.id;
             return renderFeedDetailLink({
               feedId: `${post.id}`,
               children: (
@@ -94,7 +89,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                         </button>
                       }
                     >
-                      {is내글여부 ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
+                      {post.isMine ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
                       <FeedDropdown.Item
                         onClick={(e) => {
                           e.stopPropagation();
@@ -103,7 +98,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                       >
                         공유
                       </FeedDropdown.Item>
-                      {is내글여부 ? (
+                      {post.isMine ? (
                         <FeedDropdown.Item
                           onClick={(e) => {
                             e.stopPropagation();
@@ -119,7 +114,15 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                           삭제
                         </FeedDropdown.Item>
                       ) : null}
-                      <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                      <FeedDropdown.Item
+                        type='danger'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleReport({ postId: `${post.id}` });
+                        }}
+                      >
+                        신고
+                      </FeedDropdown.Item>
                     </FeedDropdown>
                   }
                 >
@@ -129,20 +132,33 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                     ))}
                   </FeedCard.Image>
                   <FeedCard.Comment>
-                    {post.comments.map((comment) => (
-                      <FeedCard.CommentItem
-                        key={comment.id}
-                        comment={comment.content}
-                        name={comment.member.name}
-                        isBlindWriter={comment.isBlindWriter}
-                      />
-                    ))}
+                    {post.comments.map((comment) =>
+                      comment.isBlindWriter ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                        />
+                      ) : comment.member ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                          name={comment.member.name}
+                        />
+                      ) : null,
+                    )}
                   </FeedCard.Comment>
                 </FeedCard>
               ),
             });
           }}
         />
+        <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
+          {isError ? <div>오류가 발생했어요.</div> : null}
+          {data != null && flattenData.length === 0 ? <div>글이 없어요!</div> : null}
+          {isLoading ? <Loading /> : null}
+        </div>
       </HeightSpacer>
       <UploadLink href={playgroundLink.feedUpload()}>
         <UploadIcon />
@@ -167,7 +183,7 @@ const CategoryArea = styled.div`
 `;
 
 const HeightSpacer = styled.div`
-  min-height: ${layoutCSSVariable.contentAreaHeight};
+  min-height: 80vh;
 `;
 
 const UploadLink = styled(Link)`

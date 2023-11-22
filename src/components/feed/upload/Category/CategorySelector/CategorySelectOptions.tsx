@@ -49,6 +49,7 @@ const OptionTitle = styled.h2`
 `;
 
 const OptionContents = styled.p`
+  text-align: left;
   ${textStyles.SUIT_12_R};
 
   color: ${colors.gray300};
