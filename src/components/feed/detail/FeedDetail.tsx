@@ -181,7 +181,9 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                       삭제
                     </FeedDropdown.Item>
                   ) : null}
-                  <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                    신고
+                  </FeedDropdown.Item>
                 </FeedDropdown>
               }
             />
