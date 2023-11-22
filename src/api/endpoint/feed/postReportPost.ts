@@ -3,16 +3,16 @@ import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
 
-export const postPostHit = createEndpoint({
+export const postReportPost = createEndpoint({
   request: (postId: string) => ({
     method: 'POST',
-    url: `api/v1/community/posts/${postId}/hit`,
+    url: `api/v1/community/posts/${postId}/report`,
   }),
   serverResponseScheme: z.unknown(),
 });
 
-export const usePostPostHitMutation = () => {
+export const usePostReportPostMutation = () => {
   return useMutation({
-    mutationFn: (postId: string) => postPostHit.request(postId),
+    mutationFn: (postId: string) => postReportPost.request(postId),
   });
 };

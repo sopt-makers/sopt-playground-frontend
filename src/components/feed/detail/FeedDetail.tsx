@@ -5,14 +5,13 @@ import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
-import useAlert from '@/components/common/Modal/useAlert';
-import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
+import { useReportComment } from '@/components/feed/common/hooks/useReportComment';
+import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { getMemberInfo } from '@/components/feed/common/utils';
@@ -29,20 +28,17 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const toast = useToast();
-  const { alert } = useAlert();
-  const { confirm } = useConfirm();
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteComment } = useDeleteComment();
   const { handleDeleteFeed } = useDeleteFeed();
-  const { data: meData } = useGetMemberOfMe();
+  const { handleReport: handleReportFeed } = useReportFeed();
+  const { handleReport: handleReportComment } = useReportComment();
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
   const currentCategory = useCategoryInfo(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
-
-  const is내글여부 = meData?.id === postData?.member?.id;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,25 +62,6 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
         },
       },
     );
-  };
-
-  const handleReport = async () => {
-    const result = await confirm({
-      title: '이 글을 신고하시겠습니까?',
-      description: '글을 신고할 경우, 메이커스에서 검토를 거쳐 적절한 조치 및 게시자 제재를 취해요.',
-      okButtonText: '신고하기',
-      cancelButtonText: '취소',
-    });
-
-    if (result) {
-      // TODO: 신고하기 api 작성되면 추가
-      // onSuccess로 이동
-      alert({
-        title: '신고해주셔서 감사해요.',
-        description:
-          '메이커스에서 빠르게 검토 후 적절한 조치를 취할게요 :) 건전한 커뮤니티를 만드는데 기여해주셔서 감사해요!',
-      });
-    }
   };
 
   if (postData == null || commentData == null) {
@@ -113,17 +90,34 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                 </button>
               }
             >
-              {is내글여부 ? (
-                <FeedDropdown.Item onClick={() => toast.show({ message: '아직 지원하지 않는 기능이에요.' })}>
+              {postData.isMine ? (
+                <FeedDropdown.Item
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toast.show({ message: '아직 지원하지 않는 기능이에요.' });
+                  }}
+                >
                   수정
                 </FeedDropdown.Item>
               ) : null}
-              {is내글여부 ? (
-                <FeedDropdown.Item type='danger' onClick={() => handleDeleteFeed({ postId })}>
+              {postData.isMine ? (
+                <FeedDropdown.Item
+                  type='danger'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteFeed({ postId });
+                  }}
+                >
                   삭제
                 </FeedDropdown.Item>
               ) : null}
-              <FeedDropdown.Item type='danger' onClick={handleReport}>
+              <FeedDropdown.Item
+                type='danger'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleReportFeed({ postId });
+                }}
+              >
                 신고
               </FeedDropdown.Item>
             </FeedDropdown>
@@ -172,7 +166,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                     </button>
                   }
                 >
-                  {comment.member?.id === meData?.id ? (
+                  {comment.isMine ? (
                     <FeedDropdown.Item
                       type='danger'
                       onClick={() =>
@@ -187,7 +181,9 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                       삭제
                     </FeedDropdown.Item>
                   ) : null}
-                  <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                    신고
+                  </FeedDropdown.Item>
                 </FeedDropdown>
               }
             />
@@ -212,7 +208,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                     </button>
                   }
                 >
-                  {comment.member?.id === meData?.id ? (
+                  {comment.isMine ? (
                     <FeedDropdown.Item
                       type='danger'
                       onClick={() =>
@@ -227,7 +223,9 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
                       삭제
                     </FeedDropdown.Item>
                   ) : null}
-                  <FeedDropdown.Item type='danger'>신고</FeedDropdown.Item>
+                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                    신고
+                  </FeedDropdown.Item>
                 </FeedDropdown>
               }
             />
