@@ -19,7 +19,7 @@ const UploadSuccess: FC<UploadSuccessProps> = ({}) => {
       <SubTitle>등록하신 솝티클은 SOPT 공식 홈페이지에서 확인할 수 있어요.</SubTitle>
 
       <ButtonGroup>
-        <ViewButton href={'https://sopt.org/sopticle'} target='_blank'>
+        <ViewButton href={'https://sopt.org/blog'} target='_blank'>
           {goSvg} 솝티클 보러가기
         </ViewButton>
         <UploadMoreButton href={playgroundLink.sopticle()}>{plusSvg} 추가로 업로드하기</UploadMoreButton>

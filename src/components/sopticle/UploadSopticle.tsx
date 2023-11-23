@@ -58,7 +58,7 @@ const UploadSopticle: FC<UploadSopticleProps> = ({ state, errorMessage, onSubmit
         title='SOPT 공식 홈페이지에 솝티클 보러가기'
         content='앗! 업로드가 아니라 솝티클을 읽고 싶으신가요?
 솝트 회원들이 직접 작성한 솝티클은 공홈에서 확인할 수 있어요.'
-        href='https://www.sopt.org/sopticle'
+        href='https://www.sopt.org/blog'
       />
     </Container>
   );
