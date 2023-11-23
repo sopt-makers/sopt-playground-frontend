@@ -64,10 +64,10 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
               feedId: `${post.id}`,
               children: (
                 <FeedCard
-                  name={post.member.name}
+                  name={post.member?.name ?? '익명'}
                   title={post.title}
                   content={post.content}
-                  profileImage={post.member.profileImage}
+                  profileImage={post.member?.profileImage ?? null}
                   createdAt={post.createdAt}
                   commentLength={post.commentCount}
                   hits={post.hits}
@@ -77,8 +77,8 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
                     categoryId: post.categoryId,
                     categoryName: post.categoryName,
                     member: {
-                      activity: post.member.activity,
-                      careers: post.member.careers,
+                      activity: post.member?.activity ?? { generation: 0, part: '' },
+                      careers: post.member?.careers ?? null,
                     },
                   })}
                   rightIcon={
