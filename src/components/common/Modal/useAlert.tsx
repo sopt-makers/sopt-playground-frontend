@@ -8,7 +8,13 @@ const useAlert = () => {
   const { open, close } = useOverlay();
 
   const alert = useCallback(
-    (options: { title: ReactNode; description: ReactNode }) =>
+    (options: {
+      title: ReactNode;
+      description: ReactNode;
+      hideCloseButton?: boolean;
+      buttonScript?: string;
+      className?: string;
+    }) =>
       new Promise<boolean>((resolve) => {
         open(({ isOpen, close }) => (
           <Modal
@@ -17,12 +23,15 @@ const useAlert = () => {
               resolve(false);
               close();
             }}
+            hideCloseButton={options.hideCloseButton ?? false}
           >
             <StyledModalContent>
               <Modal.Title>{options.title}</Modal.Title>
               <StyleModalDescription>{options.description}</StyleModalDescription>
               <Modal.Footer align='stretch'>
-                <Modal.Button action='close'>확인</Modal.Button>
+                <Modal.Button action='close' className={options.className}>
+                  {options.buttonScript ?? '확인'}
+                </Modal.Button>
               </Modal.Footer>
             </StyledModalContent>
           </Modal>
@@ -37,7 +46,7 @@ const useAlert = () => {
 export default useAlert;
 
 const StyledModalContent = styled(Modal.Content)`
-  min-width: 320px;
+  max-width: 320px;
 `;
 
 const StyleModalDescription = styled.div`
