@@ -465,7 +465,7 @@ const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'more
   );
 };
 
-export default Object.assign(Base, {
+const DetailFeedCard = Object.assign(Base, {
   Header,
   Body,
   Main,
@@ -476,3 +476,5 @@ export default Object.assign(Base, {
   Input,
   Icon,
 });
+
+export default DetailFeedCard;

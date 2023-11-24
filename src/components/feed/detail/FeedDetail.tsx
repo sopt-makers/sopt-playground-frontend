@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React, { ReactNode, useRef, useState } from 'react';
+import { atomFamily, useRecoilState } from 'recoil';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
@@ -23,8 +24,13 @@ interface FeedDetailProps {
   renderBackLink: (props: { children: ReactNode }) => ReactNode;
 }
 
+const commentAtomFamily = atomFamily({
+  key: 'commentAtomFamily',
+  default: '',
+});
+
 const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailProps) => {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useRecoilState(commentAtomFamily(postId));
   const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const toast = useToast();
