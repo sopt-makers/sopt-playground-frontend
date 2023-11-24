@@ -162,6 +162,7 @@ export default function FeedUploadPage() {
                       <Checkbox
                         checked={feedData.isQuestion}
                         onChange={(e) => handleSaveIsQuestion(e.target.checked)}
+                        size='medium'
                       />
                     </CheckboxFormItem>
                   )}
@@ -170,6 +171,7 @@ export default function FeedUploadPage() {
                       <Checkbox
                         checked={feedData.isBlindWriter}
                         onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                        size='medium'
                       />
                     </CheckboxFormItem>
                   )}
@@ -206,7 +208,11 @@ export default function FeedUploadPage() {
               <CheckBoxesWrapper>
                 {parentCategory?.hasQuestion && (
                   <CheckboxFormItem label='질문글'>
-                    <Checkbox checked={feedData.isQuestion} onChange={(e) => handleSaveIsQuestion(e.target.checked)} />
+                    <Checkbox
+                      checked={feedData.isQuestion}
+                      onChange={(e) => handleSaveIsQuestion(e.target.checked)}
+                      size='medium'
+                    />
                   </CheckboxFormItem>
                 )}
                 {parentCategory?.hasBlind && (
@@ -214,6 +220,7 @@ export default function FeedUploadPage() {
                     <Checkbox
                       checked={feedData.isBlindWriter}
                       onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                      size='medium'
                     />
                   </CheckboxFormItem>
                 )}
