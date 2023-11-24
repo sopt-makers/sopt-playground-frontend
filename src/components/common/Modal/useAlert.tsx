@@ -48,8 +48,8 @@ const useAlert = () => {
 export default useAlert;
 
 const StyledButton = styled(Modal.Button)<{ color?: string; backgroundColor?: string }>`
-  background-color: ${(props) => props.backgroundColor ?? colors.white};
-  color: ${(props) => props.color ?? colors.black};
+  background-color: ${(props) => props.backgroundColor ?? colors.gray700};
+  color: ${(props) => props.color ?? colors.gray10};
 `;
 
 const StyledModalContent = styled(Modal.Content)`
