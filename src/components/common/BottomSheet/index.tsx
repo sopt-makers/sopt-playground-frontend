@@ -37,7 +37,7 @@ const CustomSheet = styled(Sheet)`
   }
 
   .react-modal-sheet-container {
-    border-radius: 20px;
+    border-radius: 20px !important;
     background-color: ${colors.gray800}!important;
     padding: 24px 0 16px;
     width: 100%;

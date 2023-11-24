@@ -56,15 +56,20 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   }
 
   ${({ size }) =>
-    size === 'small' &&
-    css`
-      width: 16px;
-      height: 16px;
-      & > svg {
-        width: 10px;
-        height: 6.5px;
-      }
-    `}
+    size === 'small'
+      ? css`
+          width: 16px;
+          height: 16px;
+          & > svg {
+            width: 10px;
+            height: 6.5px;
+          }
+        `
+      : size === 'medium' &&
+        css`
+          width: 20px;
+          height: 20px;
+        `}
 
   ${({ checked }) =>
     checked &&
@@ -76,5 +81,12 @@ const StyledCheckbox = styled.span<CheckboxProps>`
   @media ${MOBILE_MEDIA_QUERY} {
     width: 17.5px;
     height: 17.5px;
+
+    ${({ size }) =>
+      size === 'medium' &&
+      css`
+        width: 20px;
+        height: 20px;
+      `}
   }
 `;

@@ -68,6 +68,10 @@ const Option = styled.button<{ isSelected: boolean }>`
   &:active {
     background-color: ${colors.gray700};
   }
+
+  &:hover {
+    background-color: ${colors.gray700};
+  }
 `;
 
 const Select = styled.section`
