@@ -26,6 +26,7 @@ const Base = ({ trigger, children }: PropsWithChildren<FeedDropdownProps>) => {
 };
 
 const StyledContent = styled(m(DropdownMenu.Content))`
+  z-index: 100;
   border-radius: 12px;
   background-color: #252525;
   min-width: 176px;
