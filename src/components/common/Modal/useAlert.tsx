@@ -16,6 +16,7 @@ const useAlert = () => {
       buttonText?: string;
       buttonColor?: string;
       buttonTextColor?: string;
+      maxWidth?: number;
     }) =>
       new Promise<boolean>((resolve) => {
         open(({ isOpen, close }) => (
@@ -27,7 +28,7 @@ const useAlert = () => {
             }}
             hideCloseButton={options.hideCloseButton ?? false}
           >
-            <StyledModalContent>
+            <StyledModalContent maxWidth={options.maxWidth}>
               <Modal.Title>{options.title}</Modal.Title>
               <StyleModalDescription>{options.description}</StyleModalDescription>
               <Modal.Footer align='stretch'>
@@ -52,8 +53,9 @@ const StyledButton = styled(Modal.Button)<{ color?: string; backgroundColor?: st
   color: ${(props) => props.color ?? colors.gray10};
 `;
 
-const StyledModalContent = styled(Modal.Content)`
-  max-width: 320px;
+const StyledModalContent = styled(Modal.Content)<{ maxWidth?: number }>`
+  min-width: 320px;
+  max-width: ${({ maxWidth }) => maxWidth}px;
 `;
 
 const StyleModalDescription = styled.div`

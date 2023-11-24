@@ -12,6 +12,7 @@ export default function useBlindWriterPromise() {
       buttonText: '명심할게요',
       buttonColor: 'white',
       buttonTextColor: 'black',
+      maxWidth: 320,
     });
   };
 
