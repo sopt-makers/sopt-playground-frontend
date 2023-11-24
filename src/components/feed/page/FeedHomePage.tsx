@@ -53,13 +53,7 @@ const CommunityPage: FC = () => {
                 postId={postId}
                 renderBackLink={({ children }) => <FeedDetailLink feedId={undefined}>{children}</FeedDetailLink>}
                 renderCategoryLink={({ children, categoryId }) => (
-                  <CategoryLink
-                    categoryId={categoryId}
-                    transformQuery={(query) => {
-                      console.log(query);
-                      return { ...query, feed: '' };
-                    }}
-                  >
+                  <CategoryLink categoryId={categoryId} transformQuery={(query) => ({ ...query, feed: '' })}>
                     {children}
                   </CategoryLink>
                 )}
