@@ -23,24 +23,16 @@ const FeedDetailPage = () => {
               postId={query.id}
               renderBackLink={({ children }) => <Link href={playgroundLink.feedList()}>{children}</Link>}
               renderCategoryLink={({ children, categoryId }) => (
-                <>
-                  <Responsive only='desktop' asChild>
-                    <Link
-                      href={{
-                        pathname: playgroundLink.feedList(),
-                        query: {
-                          category: categoryId,
-                          feed: query.id,
-                        },
-                      }}
-                    >
-                      {children}
-                    </Link>
-                  </Responsive>
-                  <Responsive only='mobile' asChild>
-                    <Link href={playgroundLink.feedList()}>{children}</Link>
-                  </Responsive>
-                </>
+                <Link
+                  href={{
+                    pathname: playgroundLink.feedList(),
+                    query: {
+                      category: categoryId,
+                    },
+                  }}
+                >
+                  {children}
+                </Link>
               )}
             />
           </DetailSlot>
