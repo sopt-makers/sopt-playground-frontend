@@ -18,5 +18,9 @@ export function createLayoutCSSVariable({ headerHeight, footerHeight = 0 }: Crea
     ${layoutCSSVariableNames.globalHeaderHeight}: ${headerHeight}px;
     ${layoutCSSVariableNames.globalFooterHeight}: ${footerHeight}px;
     ${layoutCSSVariableNames.contentAreaHeight}: calc(100vh - var(--global-header-height) - var(--global-footer-height));
+    
+    @supports (height: 100dvh) {
+      ${layoutCSSVariableNames.contentAreaHeight}: calc(100dvh - var(--global-header-height) - var(--global-footer-height));
+    }
   `;
 }

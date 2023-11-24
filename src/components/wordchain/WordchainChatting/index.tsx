@@ -201,6 +201,10 @@ const ContainerBase = styled.div`
     border-radius: 0;
     width: 100%;
     height: calc(100vh - 245px);
+
+    @supports (height: 100dvh) {
+      height: calc(100dvh - 245px);
+    }
   }
 `;
 

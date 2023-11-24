@@ -176,6 +176,10 @@ const Content = styled.div`
       transform: translateX(0);
     }
   }
+
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
 `;
 
 const ProfileLinkSlot = styled.div`
