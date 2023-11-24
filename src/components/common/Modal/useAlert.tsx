@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useOverlay } from '@toss/use-overlay';
 import { ReactNode, useCallback } from 'react';
 
@@ -12,8 +13,9 @@ const useAlert = () => {
       title: ReactNode;
       description: ReactNode;
       hideCloseButton?: boolean;
-      buttonScript?: string;
-      className?: string;
+      buttonText?: string;
+      buttonColor?: string;
+      buttonTextColor?: string;
     }) =>
       new Promise<boolean>((resolve) => {
         open(({ isOpen, close }) => (
@@ -29,9 +31,9 @@ const useAlert = () => {
               <Modal.Title>{options.title}</Modal.Title>
               <StyleModalDescription>{options.description}</StyleModalDescription>
               <Modal.Footer align='stretch'>
-                <Modal.Button action='close' className={options.className}>
-                  {options.buttonScript ?? '확인'}
-                </Modal.Button>
+                <StyledButton action='close' color={options.buttonTextColor} backgroundColor={options.buttonColor}>
+                  {options.buttonText ?? '확인'}
+                </StyledButton>
               </Modal.Footer>
             </StyledModalContent>
           </Modal>
@@ -44,6 +46,11 @@ const useAlert = () => {
 };
 
 export default useAlert;
+
+const StyledButton = styled(Modal.Button)<{ color?: string; backgroundColor?: string }>`
+  background-color: ${(props) => props.backgroundColor ?? colors.white};
+  color: ${(props) => props.color ?? colors.black};
+`;
 
 const StyledModalContent = styled(Modal.Content)`
   max-width: 320px;

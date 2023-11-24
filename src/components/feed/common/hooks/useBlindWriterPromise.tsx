@@ -9,8 +9,9 @@ export default function useBlindWriterPromise() {
       description:
         '타인을 비난하거나 저격하는 글을 작성하는 등 커뮤니티 이용규칙을 위반할 경우, 서비스 이용이 제한될 수 있으며 내부 절차에 따라 익명 작성자를 식별하여 징계위원회를 열 수 있습니다.',
       hideCloseButton: true,
-      buttonScript: '명심할게요',
-      className: 'white',
+      buttonText: '명심할게요',
+      buttonColor: 'white',
+      buttonTextColor: 'black',
     });
   };
 
