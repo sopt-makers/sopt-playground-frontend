@@ -97,13 +97,23 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
       />
       <DetailFeedCard.Body ref={containerRef}>
         <ErrorBoundary
-          renderFallback={() => <div css={{ textAlign: 'center' }}>글을 보여주는 데 문제가 발생했어요.</div>}
+          renderFallback={(error) => (
+            <div css={{ textAlign: 'center' }}>
+              글을 보여주는 데 문제가 발생했어요.
+              <br />({error.error.message})
+            </div>
+          )}
         >
           <FeedDetailContent postId={postId} />
         </ErrorBoundary>
         <DetailFeedCard.Divider />
         <ErrorBoundary
-          renderFallback={() => <div css={{ textAlign: 'center' }}>댓글을 보여주는 데 문제가 발생했어요.</div>}
+          renderFallback={(error) => (
+            <div css={{ textAlign: 'center' }}>
+              댓글을 보여주는 데 문제가 발생했어요.
+              <br />({error.error.message})
+            </div>
+          )}
         >
           <FeedDetailComments postId={postId} />
         </ErrorBoundary>
