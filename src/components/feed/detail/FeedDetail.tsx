@@ -151,7 +151,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
             isQuestion
             title={postData.posts.title}
             hits={postData.posts.hits}
-            commentLength={postData.posts.comments.length}
+            commentLength={commentData.length}
             content={postData.posts.content}
             images={postData.posts.images}
           />

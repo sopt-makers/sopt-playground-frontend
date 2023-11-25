@@ -36,35 +36,6 @@ export const getPost = createEndpoint({
       .nullable(),
     posts: z.object({
       id: z.number(),
-      member: z.object({
-        id: z.number(),
-        authUserId: z.string(),
-        idpType: z.string().nullable(),
-        name: z.string(),
-        email: z.string(),
-        generation: z.number(),
-        profileImage: z.string().nullable(),
-        activities: z.array(
-          z.object({
-            id: z.number(),
-            memberId: z.number(),
-            part: z.string(),
-            generation: z.number(),
-            team: z.string().nullable(),
-          }),
-        ),
-        careers: z.array(
-          z.object({
-            id: z.number(),
-            memberId: z.number(),
-            companyName: z.string(),
-            title: z.string(),
-            startDate: z.string(),
-            endDate: z.string().nullable(),
-            isCurrent: z.boolean(),
-          }),
-        ),
-      }),
       categoryId: z.number(),
       title: z.string(),
       content: z.string(),
@@ -75,19 +46,6 @@ export const getPost = createEndpoint({
       isReported: z.boolean(),
       createdAt: z.string(),
       updatedAt: z.string().nullable(),
-      comments: z.array(
-        z.object({
-          createdAt: z.string(),
-          updatedAt: z.string(),
-          id: z.number(),
-          content: z.string(),
-          postId: z.number(),
-          writerId: z.number(),
-          parentCommentId: z.number().nullable(),
-          isBlindWriter: z.boolean(),
-          isReported: z.boolean(),
-        }),
-      ),
     }),
     category: z.object({
       id: z.number(),
