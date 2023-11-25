@@ -47,4 +47,8 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
+
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
 `;

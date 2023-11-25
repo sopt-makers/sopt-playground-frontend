@@ -16,5 +16,9 @@ export default FullScreenLayout;
 const StyledFullScreenLayout = styled.div`
   height: 100vh;
 
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
+
   ${createLayoutCSSVariable({ headerHeight: 0 })}
 `;

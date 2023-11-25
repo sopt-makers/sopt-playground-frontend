@@ -58,6 +58,10 @@ const ModalWrapper = styled.div`
   justify-content: flex-start;
   padding-top: 56px;
   height: 100vh;
+
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
 `;
 
 const StyledBackground = styled.div`

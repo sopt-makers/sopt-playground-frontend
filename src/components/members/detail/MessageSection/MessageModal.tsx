@@ -200,6 +200,10 @@ const StyledModal = styled(Modal)`
   padding-top: 20px;
   max-height: 100vh;
   overflow-y: auto;
+
+  @supports (height: 100dvh) {
+    max-height: 100dvh;
+  }
 `;
 
 const StyledForm = styled.form`
