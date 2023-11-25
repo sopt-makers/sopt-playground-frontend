@@ -1,12 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorBoundary } from '@toss/error-boundary';
-import React, { ReactNode, useRef, useState } from 'react';
-import { atomFamily, useRecoilState } from 'recoil';
+import React, { ReactNode, useRef } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
@@ -17,6 +15,7 @@ import { useCategoryParam } from '@/components/feed/common/queryParam';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 import FeedDetailComments from '@/components/feed/detail/FeedDetailComments';
 import FeedDetailContent from '@/components/feed/detail/FeedDetailContent';
+import FeedDetailInput from '@/components/feed/detail/FeedDetailInput';
 
 interface FeedDetailProps {
   postId: string;
@@ -24,49 +23,17 @@ interface FeedDetailProps {
   renderBackLink: (props: { children: ReactNode }) => ReactNode;
 }
 
-const commentAtomFamily = atomFamily({
-  key: 'commentAtomFamily',
-  default: '',
-});
-
 const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailProps) => {
-  const [value, setValue] = useRecoilState(commentAtomFamily(postId));
-  const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
-  const queryClient = useQueryClient();
   const toast = useToast();
+  const queryClient = useQueryClient();
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteFeed } = useDeleteFeed();
   const { handleReport: handleReportFeed } = useReportFeed();
   const { data: postData } = useGetPostQuery(postId);
-  const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
-  const { mutate: postComment } = usePostCommentMutation(postId);
+  const { data: commentData } = useGetCommentQuery(postId);
   const currentCategory = useCategoryInfo(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    postComment(
-      {
-        content: value,
-        isBlindWriter,
-        isChildComment: false,
-      },
-      {
-        onSuccess: async () => {
-          setValue('');
-          const { isSuccess } = await refetchCommentQuery();
-          queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
-          requestAnimationFrame(() => {
-            // MEMO(@jun): refecth 이후 render가 완료되기 전에 scroll 처리가 되어버려서, 리렌더링 이후에 실행하도록
-            if (isSuccess && containerRef.current) {
-              containerRef.current.scrollTop = containerRef.current.scrollHeight;
-            }
-          });
-        },
-      },
-    );
-  };
 
   if (postData == null || commentData == null) {
     return null;
@@ -129,22 +96,30 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
         }
       />
       <DetailFeedCard.Body ref={containerRef}>
-        <ErrorBoundary renderFallback={() => <div>글을 보여주는 데 문제가 발생했어요.</div>}>
+        <ErrorBoundary
+          renderFallback={() => <div css={{ textAlign: 'center' }}>글을 보여주는 데 문제가 발생했어요.</div>}
+        >
           <FeedDetailContent postId={postId} />
         </ErrorBoundary>
         <DetailFeedCard.Divider />
-        <ErrorBoundary renderFallback={() => <div>댓글을 보여주는 데 문제가 발생했어요.</div>}>
+        <ErrorBoundary
+          renderFallback={() => <div css={{ textAlign: 'center' }}>댓글을 보여주는 데 문제가 발생했어요.</div>}
+        >
           <FeedDetailComments postId={postId} />
         </ErrorBoundary>
-      </DetailFeedCard.Body>
-      <form onSubmit={handleSubmit}>
-        <DetailFeedCard.Input
-          value={value}
-          onChange={setValue}
-          isBlindChecked={isBlindWriter}
-          onChangeIsBlindChecked={setIsBlindWriter}
+        <FeedDetailInput
+          postId={postId}
+          onSubmitted={() => {
+            queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
+            requestAnimationFrame(() => {
+              // MEMO(@jun): refecth 이후 render가 완료되기 전에 scroll 처리가 되어버려서, 리렌더링 이후에 실행하도록
+              if (containerRef.current) {
+                containerRef.current.scrollTop = containerRef.current.scrollHeight;
+              }
+            });
+          }}
         />
-      </form>
+      </DetailFeedCard.Body>
     </DetailFeedCard>
   );
 };
