@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { atomFamily, useRecoilState } from 'recoil';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
@@ -12,12 +12,11 @@ interface FeedDetailInputProps {
 
 const commentAtomFamily = atomFamily({
   key: 'commentAtomFamily',
-  default: '',
+  default: () => ({ text: '', isBlindWriter: false }),
 });
 
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
-  const [value, setValue] = useRecoilState(commentAtomFamily(postId));
-  const [isBlindWriter, setIsBlindWriter] = useState<boolean>(false);
+  const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
 
@@ -25,13 +24,14 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
     e.preventDefault();
     postComment(
       {
-        content: value,
-        isBlindWriter,
+        content: commentData.text,
+        isBlindWriter: commentData.isBlindWriter,
         isChildComment: false,
       },
       {
         onSuccess: async () => {
-          setValue('');
+          setCommentData((prev) => ({ ...prev, text: '' }));
+
           const { isSuccess } = await refetchCommentQuery();
           if (isSuccess) {
             onSubmitted();
@@ -44,10 +44,10 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
   return (
     <form onSubmit={handleSubmit}>
       <DetailFeedCard.Input
-        value={value}
-        onChange={setValue}
-        isBlindChecked={isBlindWriter}
-        onChangeIsBlindChecked={setIsBlindWriter}
+        value={commentData.text}
+        onChange={(newValue) => setCommentData((prev) => ({ ...prev, text: newValue }))}
+        isBlindChecked={commentData.isBlindWriter}
+        onChangeIsBlindChecked={(newValue) => setCommentData((prev) => ({ ...prev, isBlindWriter: newValue }))}
       />
     </form>
   );
