@@ -27,8 +27,6 @@ const Base = ({ children }: PropsWithChildren<unknown>) => {
 };
 
 const StyledBase = styled(Flex)`
-  border-right: 1px solid ${colors.gray800};
-  border-left: 1px solid ${colors.gray800};
   height: 100%;
 `;
 
