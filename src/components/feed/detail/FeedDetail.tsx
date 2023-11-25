@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { ErrorBoundary } from '@toss/error-boundary';
 import React, { ReactNode, useRef, useState } from 'react';
 import { atomFamily, useRecoilState } from 'recoil';
 
@@ -9,14 +10,13 @@ import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
-import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteComment';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
-import { useReportComment } from '@/components/feed/common/hooks/useReportComment';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
-import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import FeedDetailComments from '@/components/feed/detail/FeedDetailComments';
+import FeedDetailContent from '@/components/feed/detail/FeedDetailContent';
 
 interface FeedDetailProps {
   postId: string;
@@ -35,10 +35,8 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const queryClient = useQueryClient();
   const toast = useToast();
   const { handleShareFeed } = useShareFeed();
-  const { handleDeleteComment } = useDeleteComment();
   const { handleDeleteFeed } = useDeleteFeed();
   const { handleReport: handleReportFeed } = useReportFeed();
-  const { handleReport: handleReportComment } = useReportComment();
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment } = usePostCommentMutation(postId);
@@ -131,112 +129,13 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
         }
       />
       <DetailFeedCard.Body ref={containerRef}>
-        <DetailFeedCard.Main>
-          {postData.posts.isBlindWriter ? (
-            <DetailFeedCard.Top isBlindWriter={postData.posts.isBlindWriter} createdAt={postData.posts.createdAt} />
-          ) : postData.member ? (
-            <DetailFeedCard.Top
-              isBlindWriter={postData.posts.isBlindWriter}
-              name={postData.member.name}
-              profileImage={postData.member.profileImage}
-              info={getMemberInfo({
-                categoryId: postData.category.id,
-                categoryName: postData.category.name,
-                member: postData.member,
-              })}
-              createdAt={postData.posts.createdAt}
-            />
-          ) : null}
-          <DetailFeedCard.Content
-            isQuestion
-            title={postData.posts.title}
-            hits={postData.posts.hits}
-            commentLength={postData.posts.comments.length}
-            content={postData.posts.content}
-            images={postData.posts.images}
-          />
-        </DetailFeedCard.Main>
+        <ErrorBoundary renderFallback={() => <div>글을 보여주는 데 문제가 발생했어요.</div>}>
+          <FeedDetailContent postId={postId} />
+        </ErrorBoundary>
         <DetailFeedCard.Divider />
-        {commentData.map((comment) =>
-          comment.isBlindWriter ? (
-            <DetailFeedCard.Comment
-              key={comment.id}
-              comment={comment.content}
-              isBlindWriter={comment.isBlindWriter}
-              createdAt={comment.createdAt}
-              moreIcon={
-                <FeedDropdown
-                  trigger={
-                    <button>
-                      <DetailFeedCard.Icon name='moreHorizental' />
-                    </button>
-                  }
-                >
-                  {comment.isMine ? (
-                    <FeedDropdown.Item
-                      type='danger'
-                      onClick={() =>
-                        handleDeleteComment({
-                          commentId: `${comment.id}`,
-                          onSuccess: () => {
-                            refetchCommentQuery();
-                          },
-                        })
-                      }
-                    >
-                      삭제
-                    </FeedDropdown.Item>
-                  ) : null}
-                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
-                    신고
-                  </FeedDropdown.Item>
-                </FeedDropdown>
-              }
-            />
-          ) : comment.member ? (
-            <DetailFeedCard.Comment
-              key={comment.id}
-              name={comment.member.name}
-              profileImage={comment.member.profileImage}
-              info={getMemberInfo({
-                member: comment.member,
-                categoryId: postData.category.id,
-                categoryName: postData.category.name,
-              })}
-              comment={comment.content}
-              isBlindWriter={comment.isBlindWriter}
-              createdAt={comment.createdAt}
-              moreIcon={
-                <FeedDropdown
-                  trigger={
-                    <button>
-                      <DetailFeedCard.Icon name='moreHorizental' />
-                    </button>
-                  }
-                >
-                  {comment.isMine ? (
-                    <FeedDropdown.Item
-                      type='danger'
-                      onClick={() =>
-                        handleDeleteComment({
-                          commentId: `${comment.id}`,
-                          onSuccess: () => {
-                            refetchCommentQuery();
-                          },
-                        })
-                      }
-                    >
-                      삭제
-                    </FeedDropdown.Item>
-                  ) : null}
-                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
-                    신고
-                  </FeedDropdown.Item>
-                </FeedDropdown>
-              }
-            />
-          ) : null,
-        )}
+        <ErrorBoundary renderFallback={() => <div>댓글을 보여주는 데 문제가 발생했어요.</div>}>
+          <FeedDetailComments postId={postId} />
+        </ErrorBoundary>
       </DetailFeedCard.Body>
       <form onSubmit={handleSubmit}>
         <DetailFeedCard.Input

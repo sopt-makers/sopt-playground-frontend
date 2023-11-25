@@ -2233,6 +2233,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.19.0":
+  version: 7.23.4
+  resolution: "@babel/runtime@npm:7.23.4"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 8eb6a6b2367f7d60e7f7dd83f477cc2e2fdb169e5460694d7614ce5c730e83324bcf29251b70940068e757ad1ee56ff8073a372260d90cad55f18a825caf97cd
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.9.2":
   version: 7.22.15
   resolution: "@babel/runtime@npm:7.22.15"
@@ -6893,6 +6902,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@toss/error-boundary@npm:^1.4.6":
+  version: 1.4.6
+  resolution: "@toss/error-boundary@npm:1.4.6"
+  dependencies:
+    "@toss/react": ^1.6.1
+    "@toss/utils": ^1.4.6
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18
+  checksum: 656ea3d7a4572349862427db32bf865a23cf97f928a7ef2cf03c611bb3427e79e4ae6d02b0428e9bd37f4725789605f70437b374a9c269dcbc144cb099bc62c6
+  languageName: node
+  linkType: hard
+
+"@toss/react@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "@toss/react@npm:1.6.1"
+  dependencies:
+    "@babel/runtime": ^7.14.8
+    "@toss/storage": ^1.3.1
+    "@toss/utils": ^1.4.6
+    classnames: ^2.3.1
+    lodash.debounce: ^4.0.8
+    lodash.throttle: ^4.1.1
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18
+  checksum: 870cd5f43d917f7b15da6a3ad56ffac06895d203236f4c6050e90c8086cfd4aa1bc4375d506d0768f79f03767103e066d7777a277f9c7826447384c60f004fcc
+  languageName: node
+  linkType: hard
+
+"@toss/storage@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "@toss/storage@npm:1.3.1"
+  dependencies:
+    "@babel/runtime": ^7.19.0
+  checksum: 267be4e1de2a6ebd9f8a745b1b2d9df184fcee9f9aeaa40f368d0dbaac34421fc0e44378e28bec772e5cb1d651cbfb22c20a6376a0e7f0474ded0b3f78b92dd3
+  languageName: node
+  linkType: hard
+
 "@toss/use-overlay@npm:^1.3.6":
   version: 1.3.6
   resolution: "@toss/use-overlay@npm:1.3.6"
@@ -6911,6 +6957,16 @@ __metadata:
     "@babel/runtime": ^7.14.8
     date-fns: ^2.25.0
   checksum: 7013b5eb191ebdae3e53844383390a79fbb6751281528165d3730ecd4a9914d09d934fd487c5d79d231a1afa990551cfc7626a89da91dad66a33e8b3fd6e5325
+  languageName: node
+  linkType: hard
+
+"@toss/utils@npm:^1.4.6":
+  version: 1.4.6
+  resolution: "@toss/utils@npm:1.4.6"
+  dependencies:
+    "@babel/runtime": ^7.14.8
+    date-fns: ^2.25.0
+  checksum: 69ec8b76bc6cee1d96956cbef62d2b448008d733031aa6469ccdcf1c0e743c20cd930cf947a821e7d553c73f7149ee07c5796ab67a233a0a1e13312ef7a73126
   languageName: node
   linkType: hard
 
@@ -9305,7 +9361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.6":
+"classnames@npm:^2.2.6, classnames@npm:^2.3.1":
   version: 2.3.2
   resolution: "classnames@npm:2.3.2"
   checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
@@ -14628,6 +14684,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.throttle@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "lodash.throttle@npm:4.1.1"
+  checksum: 129c0a28cee48b348aef146f638ef8a8b197944d4e9ec26c1890c19d9bf5a5690fe11b655c77a4551268819b32d27f4206343e30c78961f60b561b8608c8c805
+  languageName: node
+  linkType: hard
+
 "lodash.truncate@npm:^4.4.2":
   version: 4.4.2
   resolution: "lodash.truncate@npm:4.4.2"
@@ -18392,6 +18455,7 @@ __metadata:
     "@testing-library/jest-dom": ^6.1.3
     "@testing-library/react": ^14.0.0
     "@toss/emotion-utils": ^1.1.10
+    "@toss/error-boundary": ^1.4.6
     "@toss/use-overlay": ^1.3.6
     "@types/jest": ^29.4.0
     "@types/jscodeshift": ^0
