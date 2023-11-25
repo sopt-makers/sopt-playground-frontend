@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
@@ -9,6 +10,7 @@ interface FeedDetailContentProps {
 }
 
 const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
+  const { data: commentData } = useGetCommentQuery(postId);
   const { data: postData } = useGetPostQuery(postId);
 
   if (postData == null) {
@@ -36,7 +38,7 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         isQuestion
         title={postData.posts.title}
         hits={postData.posts.hits}
-        commentLength={postData.posts.comments.length}
+        commentLength={commentData?.length ?? 0}
         content={postData.posts.content}
         images={postData.posts.images}
       />
