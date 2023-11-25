@@ -1,21 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
+import { ErrorBoundary } from '@toss/error-boundary';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
-import { Virtuoso } from 'react-virtuoso';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
-import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import Loading from '@/components/common/Loading';
-import FeedDropdown from '@/components/feed/common/FeedDropdown';
-import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
-import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
-import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
-import { getMemberInfo } from '@/components/feed/common/utils';
 import CategorySelect from '@/components/feed/list/CategorySelect';
-import FeedCard from '@/components/feed/list/FeedCard';
+import FeedListItems from '@/components/feed/list/FeedListItems';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -26,16 +19,10 @@ interface FeedListProps {
 
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
-  const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
-    categoryId,
-  });
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
   });
-  const { handleShareFeed } = useShareFeed();
-  const { handleDeleteFeed } = useDeleteFeed();
-  const { handleReport } = useReportFeed();
 
   const categories = categoryData?.map((category) => ({
     id: `${category.id}`,
@@ -47,118 +34,20 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
     })),
   }));
 
-  const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
-
   return (
     <Container>
       <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
       <HeightSpacer>
-        <Virtuoso
-          data={flattenData}
-          useWindowScroll
-          endReached={() => {
-            fetchNextPage();
-          }}
-          itemContent={(_, post) => {
-            return renderFeedDetailLink({
-              feedId: `${post.id}`,
-              children: (
-                <FeedCard
-                  name={post.member?.name ?? '익명'}
-                  title={post.title}
-                  content={post.content}
-                  profileImage={post.member?.profileImage ?? null}
-                  createdAt={post.createdAt}
-                  commentLength={post.commentCount}
-                  hits={post.hits}
-                  isBlindWriter={post.isBlindWriter}
-                  isQuestion={post.isQuestion}
-                  info={getMemberInfo({
-                    categoryId: post.categoryId,
-                    categoryName: post.categoryName,
-                    member: {
-                      activity: post.member?.activity ?? { generation: 0, part: '' },
-                      careers: post.member?.careers ?? null,
-                    },
-                  })}
-                  rightIcon={
-                    <FeedDropdown
-                      trigger={
-                        <button>
-                          <FeedCard.Icon name='moreHorizon' />
-                        </button>
-                      }
-                    >
-                      {post.isMine ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
-                      <FeedDropdown.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleShareFeed(`${post.id}`);
-                        }}
-                      >
-                        공유
-                      </FeedDropdown.Item>
-                      {post.isMine ? (
-                        <FeedDropdown.Item
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteFeed({
-                              postId: `${post.id}`,
-                              onSuccess: () => {
-                                refetch();
-                              },
-                            });
-                          }}
-                          type='danger'
-                        >
-                          삭제
-                        </FeedDropdown.Item>
-                      ) : null}
-                      <FeedDropdown.Item
-                        type='danger'
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleReport({ postId: `${post.id}` });
-                        }}
-                      >
-                        신고
-                      </FeedDropdown.Item>
-                    </FeedDropdown>
-                  }
-                >
-                  <FeedCard.Image>
-                    {post.images.map((image, index) => (
-                      <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
-                    ))}
-                  </FeedCard.Image>
-                  <FeedCard.Comment>
-                    {post.comments.map((comment) =>
-                      comment.isBlindWriter ? (
-                        <FeedCard.CommentItem
-                          key={comment.id}
-                          comment={comment.content}
-                          isBlindWriter={comment.isBlindWriter}
-                        />
-                      ) : comment.member ? (
-                        <FeedCard.CommentItem
-                          key={comment.id}
-                          comment={comment.content}
-                          isBlindWriter={comment.isBlindWriter}
-                          name={comment.member.name}
-                        />
-                      ) : null,
-                    )}
-                  </FeedCard.Comment>
-                </FeedCard>
-              ),
-            });
-          }}
-        />
-        <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
-          {isError ? <div>오류가 발생했어요.</div> : null}
-          {data != null && flattenData.length === 0 ? <div>글이 없어요!</div> : null}
-          {isLoading ? <Loading /> : null}
-        </div>
+        <ErrorBoundary
+          renderFallback={(error) => (
+            <div css={{ textAlign: 'center' }}>
+              게시글을 보여주는데 문제가 발생했어요.
+              <br />({error.error.message})
+            </div>
+          )}
+        >
+          <FeedListItems categoryId={categoryId} renderFeedDetailLink={renderFeedDetailLink} />
+        </ErrorBoundary>
       </HeightSpacer>
       <UploadLink href={playgroundLink.feedUpload()}>
         <UploadIcon />
