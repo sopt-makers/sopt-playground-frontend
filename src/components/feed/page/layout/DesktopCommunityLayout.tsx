@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, ReactNode } from 'react';
 
@@ -40,6 +41,8 @@ const Container = styled.div`
 
 const ListSlot = styled.div`
   flex: 1 1 0;
+  border-right: 1px solid ${colors.gray800};
+  border-left: 1px solid ${colors.gray800};
   max-width: 560px;
 `;
 
@@ -62,6 +65,7 @@ const DetailSlotInner = styled.div`
   top: 0;
   right: 0;
   bottom: 0;
+  border-right: 1px solid ${colors.gray800};
   width: ${DETAIL_SLOT_WIDTH}px;
   min-width: ${DETAIL_SLOT_WIDTH}px;
 `;

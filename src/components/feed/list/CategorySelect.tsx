@@ -60,7 +60,9 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
 
 export default CategorySelect;
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  border-bottom: 1px solid ${colors.gray800};
+`;
 
 export const CategoryBox = styled.div`
   display: flex;
