@@ -6,6 +6,7 @@ import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState }
 
 import Checkbox from '@/components/common/Checkbox';
 import Text from '@/components/common/Text';
+import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -356,6 +357,7 @@ interface InputProps {
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked }: InputProps) => {
   const [isFocus, setIsFocus] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
   const is버튼액티브 = isFocus && value.length > 0;
 
@@ -371,6 +373,11 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked }: Inpu
     };
   }, []);
 
+  const handleCheckBlindWriter = (isBlindWriter: boolean) => {
+    isBlindWriter && handleShowBlindWriterPromise();
+    onChangeIsBlindChecked(isBlindWriter);
+  };
+
   return (
     <Container ref={containerRef}>
       <InputAnimateArea
@@ -379,7 +386,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked }: Inpu
         transition={{ bounce: 0, stiffness: 1000 }}
       >
         <InputContent>
-          <Checkbox size='small' checked={isBlindChecked} onChange={(e) => onChangeIsBlindChecked(e.target.checked)} />
+          <Checkbox size='small' checked={isBlindChecked} onChange={(e) => handleCheckBlindWriter(e.target.checked)} />
           <Text typography='SUIT_12_M'>익명으로 남기기</Text>
         </InputContent>
       </InputAnimateArea>
