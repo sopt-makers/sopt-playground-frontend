@@ -5,6 +5,7 @@ import { m } from 'framer-motion';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
+import ScrollContainer from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import {
   IconChevronLeft,
@@ -94,7 +95,7 @@ interface BodyProps {
 
 const Body = forwardRef<HTMLDivElement, PropsWithChildren<BodyProps>>(({ className, children }, ref) => {
   return (
-    <StyledBody direction='column' ref={ref} className={className}>
+    <StyledBody ref={ref} className={className}>
       <Flex direction='column' css={{ position: 'absolute', inset: 0 }}>
         {children}
       </Flex>
@@ -102,7 +103,7 @@ const Body = forwardRef<HTMLDivElement, PropsWithChildren<BodyProps>>(({ classNa
   );
 });
 
-const StyledBody = styled(Flex)`
+const StyledBody = styled(ScrollContainer)`
   position: relative;
   flex: 1;
   padding: 16px 24px;
