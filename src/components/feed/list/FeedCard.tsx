@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
@@ -229,7 +230,17 @@ interface IconProps {
 
 const Icon = ({ name }: IconProps) => {
   if (name === 'moreHorizon') {
-    return <IconMoreHoriz />;
+    return (
+      <IconMoreHoriz
+        color={colors.gray400}
+        css={css`
+          &:hover {
+            color: ${colors.gray30};
+            transition: 0.2s;
+          }
+        `}
+      />
+    );
   } else return null;
 };
 

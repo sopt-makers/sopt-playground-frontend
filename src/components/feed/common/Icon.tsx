@@ -1,22 +1,39 @@
-export const IconMoreHoriz = () => (
-  <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
+import { colors } from '@sopt-makers/colors';
+import { HTMLAttributes } from 'react';
+
+export interface IconProps extends HTMLAttributes<SVGElement> {
+  size?: number;
+  color?: string;
+  fill?: string;
+}
+
+export const IconMoreHoriz = ({ size = 20, color = colors.gray400, ...props }: IconProps) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox='0 0 20 20'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    color={color}
+    {...props}
+  >
     <path
       fill-rule='evenodd'
       clip-rule='evenodd'
       d='M5.75 11.25C6.43788 11.25 7 10.6879 7 10C7 9.31212 6.43788 8.75 5.75 8.75C5.06212 8.75 4.5 9.31212 4.5 10C4.5 10.6879 5.06212 11.25 5.75 11.25Z'
-      fill='#66666D'
+      fill='currentColor'
     />
     <path
       fill-rule='evenodd'
       clip-rule='evenodd'
       d='M9.99967 11.25C10.6876 11.25 11.2497 10.6879 11.2497 10C11.2497 9.31212 10.6876 8.75 9.99967 8.75C9.31179 8.75 8.74967 9.31212 8.74967 10C8.74967 10.6879 9.31179 11.25 9.99967 11.25Z'
-      fill='#66666D'
+      fill='currentColor'
     />
     <path
       fill-rule='evenodd'
       clip-rule='evenodd'
       d='M14.2498 8.75C13.5619 8.75 12.9998 9.31212 12.9998 10C12.9998 10.6879 13.5619 11.25 14.2498 11.25C14.9376 11.25 15.4998 10.6879 15.4998 10C15.4998 9.31212 14.9376 8.75 14.2498 8.75Z'
-      fill='#66666D'
+      fill='currentColor'
     />
   </svg>
 );
@@ -79,8 +96,8 @@ export const IconMoreVert = () => (
   </svg>
 );
 
-export const IconMember = () => (
-  <svg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
+export const IconMember = ({ size = 32, ...props }) => (
+  <svg width={size} height={size} viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
     <circle cx='16' cy='16' r='16' fill='#2C2D2E' />
     <ellipse cx='16' cy='11.2773' rx='3' ry='3' fill='#515159' />
     <path

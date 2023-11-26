@@ -61,6 +61,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
 export default CategorySelect;
 
 export const Container = styled.div`
+  border-top: 1px solid ${colors.gray800};
   border-bottom: 1px solid ${colors.gray800};
 `;
 
@@ -77,6 +78,11 @@ export const Category = styled(CategoryLink)<{ active: boolean }>`
   color: ${(props) => (props.active ? colors.gray10 : colors.gray500)};
 
   ${textStyles.SUIT_16_B};
+
+  &:hover {
+    transition: 0.2s;
+    color: ${(props) => !props.active && colors.gray400};
+  }
 `;
 
 const TagBox = styled.div`
@@ -96,4 +102,9 @@ const Chip = styled(CategoryLink)<{ active: boolean }>`
   color: ${(props) => (props.active ? colors.gray950 : colors.gray50)};
 
   ${textStyles.SUIT_13_M}
+
+  &:hover {
+    transition: 0.2s;
+    background-color: ${(props) => !props.active && colors.gray700};
+  }
 `;
