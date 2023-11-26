@@ -155,7 +155,11 @@ const renderContent = (content: string) => {
 };
 
 const Image = ({ children }: PropsWithChildren<unknown>) => {
-  return <Flex css={{ gap: '8px', overflowX: 'auto', whiteSpace: 'nowrap' }}>{children}</Flex>;
+  return (
+    <HorizontalScroller>
+      <Flex css={{ gap: '8px', whiteSpace: 'nowrap' }}>{children}</Flex>
+    </HorizontalScroller>
+  );
 };
 
 const ImageItem = styled.img`
