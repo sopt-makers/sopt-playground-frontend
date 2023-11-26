@@ -29,9 +29,9 @@ export const useSaveUploadFeedData = () => {
 
   return useMutation({
     mutationFn: (reqeustBody: RequestBody) => uploadFeed.request(reqeustBody),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
-      return router.push(playgroundLink.feedList());
+      await router.push(playgroundLink.feedList());
     },
   });
 };
