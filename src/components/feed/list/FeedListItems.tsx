@@ -1,3 +1,4 @@
+import { Flex } from '@toss/emotion-utils';
 import { FC, ReactNode } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
@@ -59,9 +60,9 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 rightIcon={
                   <FeedDropdown
                     trigger={
-                      <button>
+                      <Flex as='button'>
                         <FeedCard.Icon name='moreHorizon' />
-                      </button>
+                      </Flex>
                     }
                   >
                     {post.isMine ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
@@ -101,29 +102,33 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                   </FeedDropdown>
                 }
               >
-                <FeedCard.Image>
-                  {post.images.map((image, index) => (
-                    <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
-                  ))}
-                </FeedCard.Image>
-                <FeedCard.Comment>
-                  {post.comments.map((comment) =>
-                    comment.isBlindWriter ? (
-                      <FeedCard.CommentItem
-                        key={comment.id}
-                        comment={comment.content}
-                        isBlindWriter={comment.isBlindWriter}
-                      />
-                    ) : comment.member ? (
-                      <FeedCard.CommentItem
-                        key={comment.id}
-                        comment={comment.content}
-                        isBlindWriter={comment.isBlindWriter}
-                        name={comment.member.name}
-                      />
-                    ) : null,
-                  )}
-                </FeedCard.Comment>
+                {post.images.length !== 0 && (
+                  <FeedCard.Image>
+                    {post.images.map((image, index) => (
+                      <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
+                    ))}
+                  </FeedCard.Image>
+                )}
+                {post.comments.length !== 0 && (
+                  <FeedCard.Comment>
+                    {post.comments.map((comment) =>
+                      comment.isBlindWriter ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                        />
+                      ) : comment.member ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                          name={comment.member.name}
+                        />
+                      ) : null,
+                    )}
+                  </FeedCard.Comment>
+                )}
               </FeedCard>
             ),
           });

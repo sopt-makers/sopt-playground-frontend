@@ -43,6 +43,7 @@ const Base = ({
         backgroundColor: colors.gray950,
         padding: '16px',
         gap: 8,
+        borderBottom: `1px solid ${colors.gray800}`,
       }}
     >
       {isBlindWriter || profileImage == null ? (
@@ -55,31 +56,37 @@ const Base = ({
       <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
         <Flex justify='space-between'>
           {isBlindWriter ? (
-            <Text typography='SUIT_13_SB'>익명</Text>
+            <Text typography='SUIT_13_SB' lineHeight={20}>
+              익명
+            </Text>
           ) : (
             <Top align='center'>
-              <Text typography='SUIT_13_SB'>{name}</Text>
-              <Text typography='SUIT_13_R' color={colors.gray400}>
+              <Text typography='SUIT_13_SB' lineHeight={20}>
+                {name}
+              </Text>
+              <Text typography='SUIT_13_R' lineHeight={20} color={colors.gray400}>
                 ∙
               </Text>
-              <Text typography='SUIT_13_R' color={colors.gray400}>
+              <Text typography='SUIT_13_R' lineHeight={20} color={colors.gray400}>
                 {info}
               </Text>
             </Top>
           )}
-          <Stack.Horizontal gutter={4}>
-            <Text typography='SUIT_14_R' color={colors.gray400}>
+          <Stack.Horizontal gutter={4} align='center'>
+            <Text typography='SUIT_13_R' lineHeight={20} color={colors.gray400}>
               {getRelativeTime(createdAt)}
             </Text>
             {rightIcon}
           </Stack.Horizontal>
         </Flex>
-        <Stack.Horizontal gutter={4} align='center'>
-          {isQuestion ? <QuestionBadge>질문</QuestionBadge> : null}
-          <Title typography='SUIT_16_SB'>{title}</Title>
-        </Stack.Horizontal>
+        {title && (
+          <Title typography='SUIT_16_SB'>
+            {isQuestion && <QuestionBadge>질문</QuestionBadge>}
+            {title}
+          </Title>
+        )}
         <Text
-          typography='SUIT_14_R'
+          typography='SUIT_15_L'
           css={{
             lineHeight: '22px',
             whiteSpace: 'pre-wrap',
@@ -89,9 +96,7 @@ const Base = ({
         </Text>
         {children}
         <Bottom gutter={2}>
-          <Text>{`댓글 ${commentLength}개`}</Text>
-          <Text>∙</Text>
-          <Text>{`조회수 ${hits}회`}</Text>
+          <Text typography='SUIT_13_R'>{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
         </Bottom>
       </Flex>
     </Flex>
@@ -126,11 +131,15 @@ const Title = styled(Text)`
 
 const QuestionBadge = styled.div`
   white-space: nowrap;
+  display: inline-flex;
   border-radius: 5px;
   background-color: ${colors.orangeAlpha200};
-  padding: 6px;
+  padding: 3px 5px;
+  margin-right: 4px;
+
   color: ${colors.secondary};
   ${textStyles.SUIT_12_SB};
+  line-height: 14px;
 `;
 
 const Bottom = styled(Stack.Horizontal)`
