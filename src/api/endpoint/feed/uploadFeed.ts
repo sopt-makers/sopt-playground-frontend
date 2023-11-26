@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { createEndpoint } from '@/api/typedAxios';
-
+import { playgroundLink } from '@/constants/links';
 interface RequestBody {
   categoryId: number;
   title: string | null;
@@ -31,7 +31,7 @@ export const useSaveUploadFeedData = () => {
     mutationFn: (reqeustBody: RequestBody) => uploadFeed.request(reqeustBody),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
-      return router.push('/community');
+      return router.push(playgroundLink.feedList());
     },
   });
 };
