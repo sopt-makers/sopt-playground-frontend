@@ -3,40 +3,54 @@ import { useRef } from 'react';
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 
 interface Options {
-  onSuccess?: (s3Url: string) => void;
+  onSuccess?: (urls: string[]) => void;
   resizeHeight?: number;
 }
 
 export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const urlsRef = useRef<string[]>([]);
 
   const handleClickImageInput = () => {
     const inputEl = imageInputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
-    inputEl.onchange = async function () {
-      const files = inputEl.files;
-      if (files == null || files.length === 0) return;
 
-      const file = resizeHeight == null ? files[0] : await tryResizeFile(files[0], resizeHeight);
+    inputEl.onchange = async () => {
+      const inputEl = imageInputRef.current;
+      if (!inputEl) return;
+      if (inputEl.files == null || inputEl.files.length === 0) return;
 
-      try {
-        const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
-        if (!signedUrl) {
-          throw new Error('presigned-url을 받아오는데 실패하였습니다.');
-        }
+      const files =
+        resizeHeight == null
+          ? inputEl.files
+          : await Promise.all(Array.from(inputEl.files).map((file) => tryResizeFile(file, resizeHeight)));
 
-        await putPresignedUrl({
-          signedUrl: decodeURIComponent(signedUrl),
-          file,
-        });
+      await Promise.all(
+        Array.from(files).map(async (file) => {
+          try {
+            const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
+            if (!signedUrl) {
+              throw new Error('presigned-url을 받아오는데 실패하였습니다.');
+            }
 
-        const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
-        onSuccess?.(s3Url);
-      } catch (error) {
-        console.error(error);
-      }
+            await putPresignedUrl({
+              signedUrl: decodeURIComponent(signedUrl),
+              file,
+            });
+
+            const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
+            urlsRef.current.push(s3Url);
+            console.log('setUrls', s3Url);
+          } catch (error) {
+            console.error(error);
+          }
+        }),
+      );
+      onSuccess?.(urlsRef.current);
+      urlsRef.current = [];
     };
+
     inputEl.click();
   };
 
