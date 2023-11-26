@@ -44,7 +44,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
         </CategoryBox>
       </HorizontalScroller>
       {parentCategory && parentCategory.tags.length > 0 && (
-        <HorizontalScroller>
+        <HorizontalScroller css={{ marginBottom: '8px' }}>
           <TagBox>
             {parentCategory.hasAllCategory && (
               <Chip categoryId={parentCategory.id} active={parentCategory.id === currentCategoryId}>
@@ -67,7 +67,6 @@ export default CategorySelect;
 
 export const Container = styled.div`
   border-bottom: 1px solid ${colors.gray800};
-  padding-bottom: 8px;
 `;
 
 export const CategoryBox = styled.div`
