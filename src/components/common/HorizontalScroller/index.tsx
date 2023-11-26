@@ -35,8 +35,8 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
         const scrollWidth = outerDiv.scrollWidth;
         const displayWidth = outerDiv.clientWidth;
 
-        setIsLeftMovable(left !== 0);
-        setIsRightMovable(scrollWidth - displayWidth !== left);
+        setIsLeftMovable(left > 0);
+        setIsRightMovable(scrollWidth - displayWidth - 1 > left);
       };
 
       const observer = new ResizeObserver(([entry]) => {
@@ -78,13 +78,19 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
       <Container className={className} ref={ref}>
         <ScrollContainer ref={outerRef}>{children}</ScrollContainer>
         {isLeftMovable && (
-          <LeftScrollSlot>{leftButton ?? <ScrollButton onClick={scrollLeft}>{backIcon}</ScrollButton>}</LeftScrollSlot>
+          <LeftScrollSlot>
+            {leftButton ?? (
+              <ScrollButton onClick={scrollLeft} css={{ transform: 'rotate(180deg)' }}>
+                <BackIcon />
+              </ScrollButton>
+            )}
+          </LeftScrollSlot>
         )}
         {isRightMovable && (
           <RightScrollSlot>
             {rightButton ?? (
-              <ScrollButton onClick={scrollRight} css={{ transform: 'rotate(180deg)' }}>
-                {backIcon}
+              <ScrollButton onClick={scrollRight}>
+                <BackIcon />
               </ScrollButton>
             )}
           </RightScrollSlot>
@@ -143,22 +149,23 @@ const ScrollButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 6px;
+  margin: 0 4px;
   border-radius: 50%;
-  background-color: ${colors.gray30};
-  width: 20px;
-  height: 20px;
-  color: ${colors.gray800};
+  background-color: ${colors.gray600};
+  width: 24px;
+  height: 24px;
 `;
 
-const backIcon = (
-  <svg width='20' height='20' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <path
-      d='M19.0001 11L13.0001 17L19.0001 23'
-      stroke='currentColor'
-      strokeWidth='1.4'
-      strokeLinecap='square'
-      strokeLinejoin='round'
-    />
-  </svg>
-);
+function BackIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg width={14} height={14} fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+      <path
+        d='M5.25 10.5L8.75 7l-3.5-3.5'
+        stroke='#fff'
+        strokeWidth={0.75}
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+}
