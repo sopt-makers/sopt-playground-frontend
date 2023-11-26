@@ -39,7 +39,6 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
 
             const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
             urlsRef.current.push(s3Url);
-            console.log('setUrls', s3Url);
           } catch (error) {
             console.error(error);
           }
