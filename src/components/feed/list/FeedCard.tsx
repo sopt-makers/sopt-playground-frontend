@@ -3,6 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { PropsWithChildren, ReactNode } from 'react';
 
+import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
@@ -164,14 +165,16 @@ const ImageItem = styled.img`
 `;
 
 const Comment = ({ children }: PropsWithChildren<unknown>) => {
-  return <StyledComment>{children}</StyledComment>;
+  return (
+    <HorizontalScroller css={{ marginTop: '4px' }}>
+      <StyledComment>{children}</StyledComment>
+    </HorizontalScroller>
+  );
 };
 
 const StyledComment = styled(Flex)`
   gap: 8px;
-  overflow-x: auto;
   white-space: nowrap;
-  margin-top: 4px;
 `;
 
 type CommentItemProps =

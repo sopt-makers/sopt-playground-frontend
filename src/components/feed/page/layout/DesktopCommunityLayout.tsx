@@ -43,6 +43,7 @@ const ListSlot = styled.div`
   flex: 1 1 0;
   border-right: 1px solid ${colors.gray800};
   border-left: 1px solid ${colors.gray800};
+  min-width: 0;
   max-width: 560px;
 `;
 
