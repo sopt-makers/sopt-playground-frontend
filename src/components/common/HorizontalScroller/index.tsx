@@ -19,21 +19,21 @@ interface HorizontalScrollerProps {
  */
 const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
   ({ className, children, leftButton, rightButton }, ref) => {
-    const outerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const [isLeftMovable, setIsLeftMovable] = useState(false);
     const [isRightMovable, setIsRightMovable] = useState(false);
 
     useEffect(() => {
-      const outerDiv = outerRef.current;
-      if (outerDiv == null) {
+      const $container = containerRef.current;
+      if ($container == null) {
         return;
       }
 
       const calculateScrollable = () => {
-        const left = outerDiv.scrollLeft;
-        const scrollWidth = outerDiv.scrollWidth;
-        const displayWidth = outerDiv.clientWidth;
+        const left = $container.scrollLeft;
+        const scrollWidth = $container.scrollWidth;
+        const displayWidth = $container.clientWidth;
 
         setIsLeftMovable(left > 0);
         setIsRightMovable(scrollWidth - displayWidth - 1 > left);
@@ -47,28 +47,30 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
 
       calculateScrollable();
 
-      outerDiv.addEventListener('scroll', calculateScrollable);
-      observer.observe(outerDiv);
+      $container.addEventListener('scroll', calculateScrollable);
+      $container.addEventListener('mouseenter', calculateScrollable);
+      observer.observe($container);
 
       return () => {
-        outerDiv.removeEventListener('scroll', calculateScrollable);
+        $container.removeEventListener('scroll', calculateScrollable);
+        $container.removeEventListener('mouseenter', calculateScrollable);
         observer.disconnect();
       };
     }, []);
 
     function scrollLeft() {
-      const scrollWidth = outerRef?.current?.clientWidth ?? 0;
+      const scrollWidth = containerRef?.current?.clientWidth ?? 0;
 
-      outerRef.current?.scrollBy({
+      containerRef.current?.scrollBy({
         left: -((scrollWidth * 2) / 3),
         behavior: 'smooth',
       });
     }
 
     function scrollRight() {
-      const scrollWidth = outerRef?.current?.clientWidth ?? 0;
+      const scrollWidth = containerRef?.current?.clientWidth ?? 0;
 
-      outerRef.current?.scrollBy({
+      containerRef.current?.scrollBy({
         left: (scrollWidth * 2) / 3,
         behavior: 'smooth',
       });
@@ -76,7 +78,7 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
 
     return (
       <Container className={className} ref={ref}>
-        <ScrollContainer ref={outerRef}>{children}</ScrollContainer>
+        <ScrollContainer ref={containerRef}>{children}</ScrollContainer>
         {isLeftMovable && (
           <LeftScrollSlot>
             {leftButton ?? (
