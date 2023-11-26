@@ -68,10 +68,14 @@ export default function FeedUploadPage() {
 
   const router = useRouter();
 
-  const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } =
-    useImageUploader(saveImageUrls);
-  const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } =
-    useImageUploader(saveImageUrls);
+  const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } = useImageUploader({
+    onSuccess: saveImageUrls,
+    resizeHeight: 240,
+  });
+  const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } = useImageUploader({
+    onSuccess: saveImageUrls,
+    resizeHeight: 240,
+  });
 
   const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
 
