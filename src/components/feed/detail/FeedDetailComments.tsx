@@ -35,7 +35,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
               <FeedDropdown
                 trigger={
                   <button>
-                    <DetailFeedCard.Icon name='moreHorizental' />
+                    <DetailFeedCard.Icon name='moreHorizontal' />
                   </button>
                 }
               >
@@ -77,7 +77,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
               <FeedDropdown
                 trigger={
                   <button>
-                    <DetailFeedCard.Icon name='moreHorizental' />
+                    <DetailFeedCard.Icon name='moreHorizontal' />
                   </button>
                 }
               >

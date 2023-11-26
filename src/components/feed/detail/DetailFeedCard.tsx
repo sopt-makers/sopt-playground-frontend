@@ -455,7 +455,7 @@ const SendButton = styled(m.button)`
   padding: 8px;
 `;
 
-const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizental' }) => {
+const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizontal' }) => {
   return (
     <SwitchCase
       value={name}
@@ -463,7 +463,7 @@ const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'more
         share: <IconShare />,
         chevronLeft: <IconChevronLeft />,
         moreVertical: <IconMoreVert />,
-        moreHorizental: <IconMoreHoriz />,
+        moreHorizontal: <IconMoreHoriz />,
       }}
       default={null}
     />
