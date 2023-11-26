@@ -8,6 +8,7 @@ import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { horizontalScroll, scrollOverMargin } from '@/styles/mixin';
 import { textStyles } from '@/styles/typography';
 
 interface BaseProps {
@@ -168,13 +169,21 @@ const renderContent = (content: string) => {
 };
 
 const Image = ({ children }: PropsWithChildren<unknown>) => {
-  return <Flex css={{ gap: '8px', overflowX: 'auto', whiteSpace: 'nowrap' }}>{children}</Flex>;
+  return <ImagesScrollContainer>{children}</ImagesScrollContainer>;
 };
+
+const ImagesScrollContainer = styled(Flex)`
+  display: flex;
+  gap: 8px;
+  ${horizontalScroll}
+  ${scrollOverMargin(54, 16)};
+`;
 
 const ImageItem = styled.img`
   border-radius: 12px;
   height: 160px;
   object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const Comment = ({ children }: PropsWithChildren<unknown>) => {
@@ -183,9 +192,9 @@ const Comment = ({ children }: PropsWithChildren<unknown>) => {
 
 const StyledComment = styled(Flex)`
   gap: 8px;
-  overflow-x: auto;
-  white-space: nowrap;
   margin-top: 4px;
+  ${horizontalScroll}
+  ${scrollOverMargin(54, 16)};
 `;
 
 type CommentItemProps =

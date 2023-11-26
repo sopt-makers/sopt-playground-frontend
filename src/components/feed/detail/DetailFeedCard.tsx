@@ -20,6 +20,7 @@ import {
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { horizontalScroll, scrollOverMargin } from '@/styles/mixin';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { parseTextToLink } from '@/utils/parseTextToLink';
@@ -219,11 +220,11 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
         <StyledContent>{parseTextToLink(content)}</StyledContent>
       </Stack>
       {images.length !== 0 ? (
-        <Flex css={{ gap: 8, overflowX: 'auto' }} onClick={() => setOpenSlider(true)}>
+        <ImageScrollContainer onClick={() => setOpenSlider(true)}>
           {images.map((image, index) => (
             <ImageItem key={index} src={image} alt='image' />
           ))}
-        </Flex>
+        </ImageScrollContainer>
       ) : null}
       <Text
         typography='SUIT_14_R'
@@ -234,6 +235,13 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
     </>
   );
 };
+
+const ImageScrollContainer = styled(Flex)`
+  ${horizontalScroll};
+  ${scrollOverMargin(24, 24)};
+
+  gap: 8px;
+`;
 
 const StyledContent = styled(Text)`
   line-height: 26px;
