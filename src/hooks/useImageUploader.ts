@@ -14,9 +14,7 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
     const inputEl = imageInputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
-    inputEl.onchange = async function (this: GlobalEventHandlers, ev: Event) {
-      ev.stopPropagation();
-
+    inputEl.onchange = async function () {
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
 
