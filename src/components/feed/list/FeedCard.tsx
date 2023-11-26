@@ -54,49 +54,53 @@ const Base = ({
         <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
       )}
       <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
-        <Flex justify='space-between'>
-          {isBlindWriter ? (
-            <Text typography='SUIT_13_SB' lineHeight={20}>
-              익명
+        <Stack gutter={title ? 8 : 4}>
+          <Flex justify='space-between'>
+            {isBlindWriter ? (
+              <Text typography='SUIT_14_SB' lineHeight={20}>
+                익명
+              </Text>
+            ) : (
+              <Top align='center'>
+                <Text typography='SUIT_14_SB' lineHeight={20}>
+                  {name}
+                </Text>
+                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                  ∙
+                </Text>
+                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                  {info}
+                </Text>
+              </Top>
+            )}
+            <Stack.Horizontal gutter={4} align='center'>
+              <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                {getRelativeTime(createdAt)}
+              </Text>
+              {rightIcon}
+            </Stack.Horizontal>
+          </Flex>
+          <Stack gutter={8}>
+            {title && (
+              <Title typography='SUIT_17_SB'>
+                {isQuestion && <QuestionBadge>질문</QuestionBadge>}
+                {title}
+              </Title>
+            )}
+            <Text
+              typography='SUIT_15_L'
+              lineHeight={22}
+              css={{
+                whiteSpace: 'pre-wrap',
+              }}
+            >
+              {renderContent(content)}
             </Text>
-          ) : (
-            <Top align='center'>
-              <Text typography='SUIT_13_SB' lineHeight={20}>
-                {name}
-              </Text>
-              <Text typography='SUIT_13_R' lineHeight={20} color={colors.gray400}>
-                ∙
-              </Text>
-              <Text typography='SUIT_13_R' lineHeight={20} color={colors.gray400}>
-                {info}
-              </Text>
-            </Top>
-          )}
-          <Stack.Horizontal gutter={4} align='center'>
-            <Text typography='SUIT_13_R' lineHeight={20} color={colors.gray400}>
-              {getRelativeTime(createdAt)}
-            </Text>
-            {rightIcon}
-          </Stack.Horizontal>
-        </Flex>
-        {title && (
-          <Title typography='SUIT_16_SB'>
-            {isQuestion && <QuestionBadge>질문</QuestionBadge>}
-            {title}
-          </Title>
-        )}
-        <Text
-          typography='SUIT_15_L'
-          css={{
-            lineHeight: '22px',
-            whiteSpace: 'pre-wrap',
-          }}
-        >
-          {renderContent(content)}
-        </Text>
+          </Stack>
+        </Stack>
         {children}
         <Bottom gutter={2}>
-          <Text typography='SUIT_13_R'>{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+          <Text typography='SUIT_14_R'>{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
         </Bottom>
       </Flex>
     </Flex>
@@ -198,8 +202,12 @@ type CommentItemProps =
 const CommentItem = ({ name, comment, isBlindWriter }: CommentItemProps) => {
   return (
     <StyledCommentItem>
-      <Text color={colors.gray10}>{isBlindWriter ? '익명' : name}</Text>
-      <Text color={colors.gray300}>{comment}</Text>
+      <Text typography='SUIT_13_R' color={colors.gray10}>
+        {isBlindWriter ? '익명' : name}
+      </Text>
+      <Text typography='SUIT_13_R' color={colors.gray300}>
+        {comment}
+      </Text>
     </StyledCommentItem>
   );
 };
@@ -210,7 +218,7 @@ const StyledCommentItem = styled.div`
   gap: 8px;
   border: 0.5px solid ${colors.gray700};
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 10px;
 
   ${textStyles.SUIT_13_R};
 `;
