@@ -82,8 +82,8 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
         {isLeftMovable && (
           <LeftScrollSlot>
             {leftButton ?? (
-              <ScrollButton onClick={scrollLeft} css={{ transform: 'rotate(180deg)' }}>
-                <BackIcon />
+              <ScrollButton onClick={scrollLeft}>
+                <BackIcon css={{ transform: 'rotate(180deg)' }} />
               </ScrollButton>
             )}
           </LeftScrollSlot>
@@ -151,11 +151,16 @@ const ScrollButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.2s transform;
   margin: 0 4px;
   border-radius: 50%;
   background-color: ${colors.gray600};
   width: 24px;
   height: 24px;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 function BackIcon(props: React.SVGProps<SVGSVGElement>) {
