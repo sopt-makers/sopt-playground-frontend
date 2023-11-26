@@ -1,7 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { z } from 'zod';
 
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { createEndpoint } from '@/api/typedAxios';
 
 interface RequestBody {
@@ -23,12 +24,14 @@ export const uploadFeed = createEndpoint({
 });
 
 export const useSaveUploadFeedData = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
     mutationFn: (reqeustBody: RequestBody) => uploadFeed.request(reqeustBody),
     onSuccess: () => {
-      router.push('/community');
+      queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
+      return router.push('/community');
     },
   });
 };
