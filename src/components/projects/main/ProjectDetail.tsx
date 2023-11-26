@@ -1,22 +1,22 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { deleteProject } from '@/api/endpoint_LEGACY/projects';
-import ConfirmModal from '@/components/common/Modal/Confirm';
+import useConfirm from '@/components/common/Modal/useConfirm';
 import MemberBlock from '@/components/members/common/MemberBlock';
 import WithMemberMetadata from '@/components/members/common/WithMemberMetadata';
+import { getLinkInfo } from '@/components/projects/constants';
+import { MemberRoleInfo } from '@/components/projects/constants';
 import ProjectImageSlider from '@/components/projects/main/ProjectImageSlider';
-import { getLinkInfo } from '@/components/projects/upload/constants';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import useGetProjectQuery from '@/components/projects/upload/hooks/useGetProjectQuery';
-import { MemberRoleInfo } from '@/components/projects/upload/MemberForm/constants';
 import { playgroundLink } from '@/constants/links';
 import IconTrashcan from '@/public/icons/icon-trashcan.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -49,7 +49,22 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
   const endAt = project?.endAt ? dayjs(project.endAt).format('YYYY-MM') : '';
   const mainImage = project?.images[0];
   const sortedMembers = useMemo(() => sortByRole([...(project?.members ?? [])]), [project]);
-  const [isDeleteConfirmModalOpened, setIsDeleteConfirmModalOpened] = useState(false);
+
+  const { confirm } = useConfirm();
+
+  const askDelete = async () => {
+    const result = await confirm({
+      title: '프로젝트 삭제',
+      description: '프로젝트를 정말 삭제하시겠어요?',
+      okButtonText: '삭제',
+      okButtonColor: colors.error,
+      cancelButtonText: '취소',
+    });
+
+    if (result) {
+      handleDeleteProject();
+    }
+  };
 
   const handleDeleteProject = async () => {
     if (project) {
@@ -87,7 +102,7 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           {project?.writerId === me?.id && (
             <ControlWrapper>
               <div onClick={() => project && router.push(playgroundLink.projectEdit(project.id))}>수정하기</div>
-              <div onClick={() => setIsDeleteConfirmModalOpened(true)}>
+              <div onClick={askDelete}>
                 <IconTrashcan />
               </div>
             </ControlWrapper>
@@ -160,17 +175,6 @@ const ProjectDetail: FC<ProjectDetailProps> = ({ projectId }) => {
           </LinkBox>
         ))}
       </MobileLinksWrapper>
-
-      {isDeleteConfirmModalOpened && (
-        <ConfirmModal
-          title='프로젝트 삭제'
-          content='프로젝트를 정말 삭제하시겠어요?'
-          onClose={() => setIsDeleteConfirmModalOpened(false)}
-          onConfirm={handleDeleteProject}
-          cancelText='삭제'
-          confirmButtonVariable='danger'
-        />
-      )}
     </Container>
   );
 };
@@ -225,7 +229,7 @@ const ServiceType = styled.div`
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
   background-color: white;
   padding: 6px 12px;
-  color: ${colors.black40};
+  color: ${colors.gray600};
   ${textStyles.SUIT_12_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -276,7 +280,7 @@ const ControlWrapper = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    background-color: ${colors.black40};
+    background-color: ${colors.gray600};
     cursor: pointer;
     height: 48px;
 
@@ -327,7 +331,7 @@ const StartEndAtWrapper = styled.div`
 const StartEndAt = styled.span`
   display: inline-block;
   line-height: 100%;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   font-size: 18px;
   font-weight: 500;
 
@@ -388,7 +392,7 @@ const ProjectDetailContainer = styled.section`
 `;
 const DetailContainer = styled.div`
   border-radius: 12px;
-  background: ${colors.black80};
+  background: ${colors.gray800};
   padding: 48px;
   width: 100%;
 
@@ -444,7 +448,7 @@ const LinkBox = styled.a`
   align-items: center;
   cursor: pointer;
   line-height: 160%;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   font-size: 14px;
   font-weight: 500;
 
@@ -455,7 +459,7 @@ const LinkBox = styled.a`
 
 const LinkIcon = styled.img`
   border-radius: 100%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 72px;
   height: 72px;
 
@@ -469,7 +473,7 @@ const UserWrapper = styled.div`
   flex-direction: column;
   flex-shrink: 0;
   border-radius: 12px;
-  background: ${colors.black80};
+  background: ${colors.gray800};
   padding: 48px 28px;
   height: fit-content;
 

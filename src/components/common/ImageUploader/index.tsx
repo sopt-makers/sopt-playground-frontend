@@ -1,13 +1,13 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
+import useImageUploader from '@/hooks/useImageUploader';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconImage from '@/public/icons/icon-image.svg';
 import IconPencil from '@/public/icons/icon-pencil.svg';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 const DEFAULT_IMAGE_URL = '';
@@ -33,40 +33,17 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   errorMessage,
   src,
 }) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isOpenSelector, setIsOpenSelector] = useState(false);
-  const previewImageSrc = value || previewImage || src;
 
-  const handleChange = () => {
-    const inputEl = inputRef.current;
-    if (!inputEl) return;
-    inputEl.value = '';
-    inputEl.onchange = async () => {
-      const files = inputEl.files;
-      if (files == null || files.length === 0) return;
-      const file = files[0];
-      try {
-        const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
-        if (!signedUrl) {
-          throw new Error('presigned-url을 받아오는데 실패하였습니다.');
-        }
-
-        await putPresignedUrl({
-          signedUrl: decodeURIComponent(signedUrl),
-          file,
-        });
-
-        const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
-        setPreviewImage(s3Url);
-        onChange?.(s3Url);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    inputEl.click();
+  const handleChangeImageInput = (s3Url: string) => {
+    setPreviewImage(s3Url);
+    onChange?.(s3Url);
   };
+  const { imageInputRef, handleClickImageInput } = useImageUploader(handleChangeImageInput);
+
+  const previewImageSrc = value || previewImage || src;
 
   const handleRemove = () => {
     setPreviewImage(undefined);
@@ -77,7 +54,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     if (previewImage?.length) {
       openSelector();
     } else {
-      handleChange();
+      handleClickImageInput();
     }
   };
 
@@ -111,19 +88,13 @@ const ImageUploader: FC<ImageUploaderProps> = ({
         onClick={handleClick}
         error={Boolean(errorMessage)}
       >
-        <StyledInput type='file' accept='image/*' ref={inputRef} />
+        <StyledInput type='file' accept='image/*' ref={imageInputRef} />
         {previewImageSrc ? <StyledPreview src={previewImageSrc} alt='preview-image' /> : <EmptyIcon />}
-        <StyledSelectorControlButton
-          type='button'
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpenSelector(true);
-          }}
-        >
+        <StyledSelectorControlButton type='button'>
           <IconPencil />
         </StyledSelectorControlButton>
         <StyledSelector ref={selectorRef} isOpen={isOpenSelector}>
-          <StyledEditButton type='button' onClick={handleChange}>
+          <StyledEditButton type='button' onClick={handleClickImageInput}>
             <IconPencil />
             <div>수정</div>
           </StyledEditButton>
@@ -153,7 +124,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { er
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
@@ -161,7 +132,7 @@ const Container = styled.div<Pick<ImageUploaderProps, 'width' | 'height'> & { er
   ${({ error }) =>
     error &&
     css`
-      border: 1px solid ${colors.red100};
+      border: 1px solid ${colors.error};
     `}
 `;
 
@@ -184,7 +155,7 @@ const StyledSelectorControlButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   cursor: pointer;
   width: 22px;
   height: 22px;
@@ -200,7 +171,7 @@ const StyledSelector = styled.div<{ isOpen: boolean }>`
 const editButtonStyle = css`
   display: flex;
   gap: 4px;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   padding: 10px 12px;
   line-height: 100%;
   letter-spacing: -0.01em;
@@ -220,7 +191,7 @@ const StyledEditButton = styled.button`
     position: absolute;
     top: 10px;
     right: 0;
-    background-color: ${colors.gray100};
+    background-color: ${colors.gray600};
     width: 1px;
     height: 14px;
     content: '';

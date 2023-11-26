@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { colors } from '@sopt-makers/colors';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,11 +10,10 @@ import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
-import { Alert } from '@/components/common/Modal/Alert';
+import useAlert from '@/components/common/Modal/useAlert';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export enum MessageCategory {
@@ -98,7 +98,8 @@ const MessageModal: FC<MessageModalProps> = ({
     mode: 'onChange',
   });
   const isValid = _isValid && Boolean(selectedCategory);
-  const { mutateAsync, isLoading } = usePostMemberMessageMutation();
+  const { mutateAsync, isPending } = usePostMemberMessageMutation();
+  const { alert } = useAlert();
 
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
@@ -116,9 +117,9 @@ const MessageModal: FC<MessageModalProps> = ({
           category: selectedCategory,
           receiverId,
         });
-        await Alert({
+        await alert({
           title: '쪽지 보내기',
-          content: '성공적으로 전송되었어요!',
+          description: '성공적으로 전송되었어요!',
         });
         onLog?.({ category: selectedCategory });
         props.onClose();
@@ -141,7 +142,7 @@ const MessageModal: FC<MessageModalProps> = ({
         <Text mt={30} typography='SUIT_26_B'>
           {name}님에게 쪽지 보내기
         </Text>
-        <Text mt={14} typography='SUIT_14_M' color={colors.gray60}>
+        <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
           쪽지는 상대방의 이메일로 전달됩니다:)
         </Text>
         <StyledCategory>
@@ -152,14 +153,14 @@ const MessageModal: FC<MessageModalProps> = ({
               isSelected={category.value === (selectedCategory as MessageCategory | null)}
             >
               <StyledIcon src={category.icon} alt={category.value} />
-              <Text typography='SUIT_15_SB' color={colors.gray40}>
+              <Text typography='SUIT_15_SB' color={colors.gray200}>
                 {category.value}
               </Text>
             </StyledCategoryItem>
           ))}
         </StyledCategory>
         <TextWrapper>
-          <Text mt={46} color={colors.gray40} typography='SUIT_14_M'>
+          <Text mt={46} color={colors.gray200} typography='SUIT_14_M'>
             회신 받을 본인 이메일
           </Text>
         </TextWrapper>
@@ -180,10 +181,10 @@ const MessageModal: FC<MessageModalProps> = ({
           }
         />
         <StyledButton isDisabled={!isValid}>
-          {isLoading ? (
+          {isPending ? (
             <Loading color='white' />
           ) : (
-            <Text typography='SUIT_15_SB' color={isValid ? colors.white : colors.gray80}>
+            <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
               쪽지 보내기
             </Text>
           )}
@@ -199,6 +200,10 @@ const StyledModal = styled(Modal)`
   padding-top: 20px;
   max-height: 100vh;
   overflow-y: auto;
+
+  @supports (height: 100dvh) {
+    max-height: 100dvh;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -224,7 +229,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 36px;
-  background: ${colors.black60};
+  background: ${colors.gray700};
   width: 171px;
   height: 171px;
 `;
@@ -246,9 +251,9 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   justify-content: center;
   transition: border all 0.2s;
   opacity: ${({ isSelected }) => (isSelected ? 1 : 0.2)};
-  border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.black60)};
+  border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.gray700)};
   border-radius: 20px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   padding: 6px 16px 6px 10px;
 `;
@@ -279,7 +284,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   transition: background-color 0.2s;
   margin-top: 36px;
   border-radius: 12px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.black60 : colors.purple100)};
+  background-color: ${({ isDisabled }) => (isDisabled ? colors.gray700 : colors.gray10)};
   cursor: pointer;
   padding: 14px 28px;
 `;

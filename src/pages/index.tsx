@@ -13,7 +13,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (router.isReady && accessToken === null) {
-      router.replace(playgroundLink.login());
+      router.replace(playgroundLink.intro());
     } else {
       router.replace(playgroundLink.memberList());
     }

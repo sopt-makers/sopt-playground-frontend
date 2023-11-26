@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AuthRequired from '@/components/auth/AuthRequired';
-import { Confirm } from '@/components/common/Modal/Confirm';
+import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import ProjectForm from '@/components/projects/form/ProjectForm';
-import { ProjectFormType } from '@/components/projects/form/schema';
+import ProjectForm from '@/components/projects/upload/form/ProjectForm';
+import { ProjectFormType } from '@/components/projects/upload/form/schema';
 import useCreateProjectMutation from '@/components/projects/upload/hooks/useCreateProjectMutation';
 import { getProjectListQueryKey } from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { convertToProjectData } from '@/components/projects/utils';
@@ -23,17 +23,20 @@ const ProjectUploadPage = () => {
   const toast = useToast();
   const queryClient = useQueryClient();
   const { logSubmitEvent } = useEventLogger();
+  const { confirm } = useConfirm();
 
   const handleSubmit = async (formData: ProjectFormType) => {
-    const notify = await Confirm({
+    const notify = await confirm({
       title: '알림',
-      content: '프로젝트를 업로드 하시겠습니까?',
+      description: '프로젝트를 업로드 하시겠습니까?',
+      okButtonText: '업로드',
+      cancelButtonText: '취소',
     });
     if (notify && myProfileData) {
       createProjectMutate(convertToProjectData(formData, myProfileData.id), {
         onSuccess: () => {
           toast.show({ message: '프로젝트를 성공적으로 업로드 했어요.' });
-          queryClient.invalidateQueries(getProjectListQueryKey());
+          queryClient.invalidateQueries({ queryKey: getProjectListQueryKey() });
           router.push(playgroundLink.projectList());
           logSubmitEvent('projectUpload', {
             writerId: String(myProfileData.id),

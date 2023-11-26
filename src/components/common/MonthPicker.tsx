@@ -1,9 +1,9 @@
 import 'react-datepicker/dist/react-datepicker.css';
 
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import DatePicker from 'react-datepicker';
 
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 export interface MonthPickerProps {
@@ -28,21 +28,21 @@ export default function MonthPicker({ onChange, value, placeholder }: MonthPicke
 const StyledDatePicker = styled(DatePicker)`
   box-sizing: border-box;
   transition: all 0.2s;
-  border: 1.5px solid ${colors.black60};
+  border: 1.5px solid ${colors.gray700};
   border-radius: 6px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 14px 20px;
   width: 100%;
-  color: ${colors.white};
+  color: ${colors.gray10};
   ${textStyles.SUIT_16_M};
 
   &::placeholder {
-    color: ${colors.gray100};
+    color: ${colors.gray600};
   }
 
   &:focus {
     outline: none;
-    border-color: ${colors.purple100};
-    background-color: ${colors.black80};
+    border-color: ${colors.gray200};
+    background-color: ${colors.gray800};
   }
 `;

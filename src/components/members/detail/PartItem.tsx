@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import ActivityBadge from '@/components/members/detail/ActivityBadge';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -96,7 +96,7 @@ const Generation = styled.div`
 
 const BelongArea = styled.div`
   grid-area: belongs;
-  color: ${colors.gray30};
+  color: ${colors.gray100};
 
   ${textStyles.SUIT_18_M}
 

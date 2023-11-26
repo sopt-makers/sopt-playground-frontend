@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import ProfileButton from '@/components/common/Header/desktop/ProfileButton';
@@ -7,7 +8,6 @@ import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown'
 import { SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/imageData';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface DesktopHeaderProps {
@@ -66,9 +66,9 @@ export default DesktopHeader;
 
 const Container = styled.header`
   display: flex;
-  background-color: ${colors.black100};
+  background-color: ${colors.gray950};
   height: 80px;
-  color: ${colors.white};
+  color: ${colors.gray10};
 `;
 
 const StyledBrandLink = styled.div`
@@ -95,7 +95,7 @@ const NavItem = styled.div<{ isActive: boolean }>`
   align-items: center;
   padding: 0 8px;
   height: 100%;
-  color: ${(props) => (props.isActive ? colors.white : colors.gray30)};
+  color: ${(props) => (props.isActive ? colors.gray10 : colors.gray100)};
 
   ${(props) =>
     props.isActive

@@ -30,12 +30,12 @@ export const usePostWord = (
     'mutationKey' | 'mutationFn'
   >,
 ) => {
-  return useMutation(
-    ['postWord'],
-    async ({ wordchainId, word }: { wordchainId: number; word: string }) => {
+  return useMutation({
+    mutationKey: ['postWord'],
+    mutationFn: async ({ wordchainId, word }: { wordchainId: number; word: string }) => {
       const response = await postWord.request(wordchainId, word);
       return response;
     },
-    options,
-  );
+    ...options,
+  });
 };

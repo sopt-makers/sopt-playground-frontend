@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -23,14 +23,14 @@ const VerifySubmitButton = styled.button`
   ${(props) =>
     props.disabled
       ? css`
-          background-color: ${colors.black80};
+          background-color: ${colors.gray800};
           cursor: default;
-          color: ${colors.gray60};
+          color: ${colors.gray300};
         `
       : css`
-          background-color: ${colors.purple100};
+          background-color: ${colors.gray10};
           cursor: pointer;
-          color: ${colors.white100};
+          color: ${colors.gray950};
         `}
 `;
 export default VerifySubmitButton;

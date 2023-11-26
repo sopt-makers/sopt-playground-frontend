@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import * as Collapsible from '@radix-ui/react-collapsible';
+import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode, useState } from 'react';
 
-import { colors } from '@/styles/colors';
+import { textStyles } from '@/styles/typography';
 
 const ARROW_DOWN_SYMBOL = `\u25bc`;
 const ARROW_UP_SYMBOL = `\u25b2`;
@@ -16,9 +18,9 @@ const Panel: FC<PanelProps> = ({ title, children }) => {
   const [open, setOpen] = useState(true);
 
   return (
-    <Collapsible.Root open={open} onOpenChange={setOpen}>
+    <Collapsible.Root open={open} onOpenChange={setOpen} css={rootStyle}>
       <Collapsible.Trigger css={disclosureButtonStyle}>
-        <span>{title}</span>
+        <Title>{title}</Title>
         <span>{open ? ARROW_UP_SYMBOL : ARROW_DOWN_SYMBOL}</span>
       </Collapsible.Trigger>
       <Collapsible.Content css={collapsibleContentStyle}>{children}</Collapsible.Content>
@@ -26,28 +28,28 @@ const Panel: FC<PanelProps> = ({ title, children }) => {
   );
 };
 
+const rootStyle = css`
+  padding: 0 15px;
+`;
+
 const disclosureButtonStyle = css`
   display: flex;
   justify-content: space-between;
-  margin: 0 15px;
+  margin-bottom: 15px;
   border-radius: 5px;
-  background-color: ${colors.purple60};
+  background-color: ${colors.success};
   cursor: pointer;
   padding: 8px 16px;
-  width: calc(100% - 30px);
-  color: ${colors.black60};
-
-  &:hover {
-    color: ${colors.purple80};
-  }
+  width: 100%;
+  color: ${colors.gray50};
 `;
 
 const collapsibleContentStyle = css`
-  margin: 8px 15px;
   padding: 5px 0 0;
   overflow: hidden;
 
   &[data-state='open'] {
+    padding: 0;
     animation: slide-down 200ms ease-out;
   }
 
@@ -74,6 +76,10 @@ const collapsibleContentStyle = css`
       height: 0;
     }
   }
+`;
+
+const Title = styled.div`
+  ${textStyles.SUIT_17_SB}
 `;
 
 export default Panel;

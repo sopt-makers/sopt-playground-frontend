@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
 
@@ -9,8 +10,7 @@ import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import IconPen from '@/public/icons/icon-pen.svg';
-import IconPlusWhite from '@/public/icons/icon-plus-white.svg';
-import { colors } from '@/styles/colors';
+import IconPlusWhite from '@/public/icons/icon-plus-black.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -132,8 +132,13 @@ const ProjectUploadButton = styled(Link)`
   gap: 12px;
   align-items: center;
   border-radius: 10px;
-  background-color: ${colors.purple100};
+  background-color: ${colors.gray10};
   padding: 18px 24px 18px 20px;
+  color: ${colors.gray950};
+
+  &:hover {
+    background-color: ${colors.gray50};
+  }
 `;
 
 const LengthWrapper = styled.div`
@@ -184,7 +189,7 @@ const StyledGridContainer = styled.div`
 
 const StyledNoData = styled.div`
   margin-top: 120px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   ${textStyles.SUIT_16_M}
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_M}

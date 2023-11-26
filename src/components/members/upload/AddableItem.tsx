@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import WarningIcon from 'public/icons/icon-warning.svg';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import IconDelete from '@/public/icons/icon-delete.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MemberAddableItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -76,7 +76,7 @@ const MobileDeleteButton = styled.button<{ isVisible: boolean }>`
   align-self: flex-end;
   margin-top: 20px;
   margin-right: 5px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   font-size: 15px;
   font-weight: 600;
 

@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
 import { MakersLogoDark, OwnershipShape, ZigzagShape } from '@/components/common/Banner/RecruitingBanner/icons';
 import Timer from '@/components/common/Banner/Timer';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -84,7 +84,7 @@ const ContentArea = styled.div`
 
 const Title = styled.div`
   grid-area: title;
-  color: ${colors.black100};
+  color: ${colors.gray950};
 
   ${textStyles.SUIT_26_B}
 
@@ -95,7 +95,7 @@ const Title = styled.div`
 
 const SubTitle = styled.div`
   grid-area: subtitle;
-  color: ${colors.black80};
+  color: ${colors.gray800};
 
   ${textStyles.SUIT_16_M};
 
@@ -119,7 +119,7 @@ const Logo = styled(MakersLogoDark)`
 const Arrow = styled.div`
   display: none;
   grid-area: arrow;
-  color: ${colors.black100};
+  color: ${colors.gray950};
 
   ${textStyles.SUIT_20_B}
 

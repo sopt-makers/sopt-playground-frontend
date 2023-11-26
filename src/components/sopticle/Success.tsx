@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -19,7 +19,7 @@ const UploadSuccess: FC<UploadSuccessProps> = ({}) => {
       <SubTitle>등록하신 솝티클은 SOPT 공식 홈페이지에서 확인할 수 있어요.</SubTitle>
 
       <ButtonGroup>
-        <ViewButton href={'https://sopt.org/sopticle'} target='_blank'>
+        <ViewButton href={'https://sopt.org/blog'} target='_blank'>
           {goSvg} 솝티클 보러가기
         </ViewButton>
         <UploadMoreButton href={playgroundLink.sopticle()}>{plusSvg} 추가로 업로드하기</UploadMoreButton>
@@ -32,7 +32,7 @@ const checkSvg = (
   <m.svg width={26} height={21} fill='none' initial='inactive' animate='active'>
     <m.path
       d='M1.929 11.938l8.303 6.92L24.072 2.25'
-      stroke='#fff'
+      stroke={colors.gray950}
       strokeWidth={3}
       strokeMiterlimit={10}
       strokeLinecap='round'
@@ -68,14 +68,14 @@ const CheckCircle = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 100%;
-  background-color: ${colors.purple100};
+  background-color: ${colors.gray10};
   width: 62px;
   height: 62px;
 `;
 
 const Title = styled.h1`
   margin-top: 24px;
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_32_SB};
 
@@ -87,7 +87,7 @@ const Title = styled.h1`
 const SubTitle = styled.h2`
   margin-top: 12px;
   text-align: center;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_16_M};
 
@@ -116,10 +116,10 @@ const ViewButton = styled.a`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${colors.purple100};
+  background-color: ${colors.gray10};
   cursor: pointer;
   padding: 16px 0;
-
+  color: ${colors.gray950};
   ${textStyles.SUIT_16_M};
 
   & svg {
@@ -144,7 +144,7 @@ const UploadMoreButton = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   cursor: pointer;
   padding: 16px 0;
 
@@ -171,7 +171,7 @@ const goSvg = (
   <svg fill='none' viewBox='0 0 16 16'>
     <path
       d='M12.68 3.502a.542.542 0 00-.082-.103.532.532 0 00-.388-.155H4.667a.533.533 0 000 1.067h6.268L3.4 11.845a.533.533 0 10.754.754l7.534-7.534v6.268a.533.533 0 101.067 0V3.778c0-.101-.028-.195-.077-.276z'
-      fill='#FCFCFC'
+      fill={colors.gray950}
     />
   </svg>
 );

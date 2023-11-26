@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, ReactNode } from 'react';
 
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -99,13 +99,13 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
             variants={{
               future: {
                 scale: 1,
-                backgroundColor: colors.black40,
-                color: colors.gray100,
+                backgroundColor: colors.gray600,
+                color: colors.gray600,
               },
               current: {
                 scale: [1, 1, 1.2, 1],
-                backgroundColor: [colors.black40, colors.black40, colors.purple100, colors.purple100],
-                color: [colors.gray100, colors.gray100, colors.white, colors.white],
+                backgroundColor: [colors.gray600, colors.gray600, colors.success, colors.success],
+                color: [colors.gray600, colors.gray600, colors.gray10, colors.gray10],
                 transition: {
                   times: [0, 0.7, 0.9, 1],
                   duration: 2,
@@ -119,10 +119,10 @@ const Stepper: FC<StepperProps> = ({ step, className }) => {
             isActive={step >= 2}
             variants={{
               future: {
-                color: colors.gray100,
+                color: colors.gray600,
               },
               current: {
-                color: [colors.gray100, colors.gray100, colors.white],
+                color: [colors.gray600, colors.gray600, colors.gray10],
                 transition: {
                   times: [0, 0.7, 1],
                   duration: 2,
@@ -156,7 +156,7 @@ const LineArea = styled.div`
 const Line = styled(m.div)`
   position: relative;
   margin: 13px 35px 0;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray600};
   height: 2px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -167,7 +167,7 @@ const Line = styled(m.div)`
 const LineFilled = styled(m.div)`
   position: absolute;
   left: 0;
-  background-color: ${colors.purple100};
+  background-color: ${colors.success};
   width: 50%;
   height: 100%;
 `;
@@ -202,7 +202,7 @@ const Circle = styled(m.div)`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.purple100};
+  background-color: ${colors.success};
   width: 28px;
   height: 28px;
   white-space: nowrap;

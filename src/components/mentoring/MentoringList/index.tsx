@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import ArrowDiagonalIcon from 'public/icons/icon-diagonal-arrow.svg';
@@ -6,13 +7,16 @@ import { ReactNode, startTransition, useEffect, useState } from 'react';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import Carousel from '@/components/common/Carousel';
+import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { mentoringProvider } from '@/components/mentoring/data';
 import MentoringCard from '@/components/mentoring/MentoringCard';
 import { MENTOR_APPLICATION_URL, playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
+
+import { MentoringCardContainer } from './MentoringCardContainer';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
@@ -31,9 +35,10 @@ export default function MentoringList() {
   const [listType, setListType] = useState<ListType>();
   const { logClickEvent } = useEventLogger();
   const { getMentorIdList, getMentoringList } = mentoringProvider;
-  const { data: mentorProfileById } = useQuery(
-    ['getMentorProfile'],
-    async () => {
+  const { data: mentorProfileById } = useQuery({
+    queryKey: ['getMentorProfile'],
+
+    queryFn: async () => {
       const mentorProfileList = await Promise.all(
         getMentorIdList().map(async (id: number) => {
           const profile = await getMemberProfileById(id);
@@ -49,8 +54,9 @@ export default function MentoringList() {
       );
       return mentorProfileById;
     },
-    { staleTime: Infinity, cacheTime: Infinity },
-  );
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
 
   const eventLogger = {
     moveCarousel: () => logClickEvent('mentoringCarouselButton'),
@@ -115,18 +121,27 @@ export default function MentoringList() {
 
   return (
     <Container>
-      <Header>
-        <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
-        <MentorApplicationButton
-          href={MENTOR_APPLICATION_URL}
-          target='_blank'
-          onClick={handleClickMentorApplicationButton}
-          rel='noopener'
-        >
-          멘토 등록을 하고싶다면?
-          <ArrowDiagonalIcon />
-        </MentorApplicationButton>
-      </Header>
+      <Responsive only='desktop'>
+        <Header>
+          <Title>{`✨ NEW! \n아래의 멘토들이 \n멘티를 기다리고 있어요`}</Title>
+          <MentorApplicationButton
+            href={MENTOR_APPLICATION_URL}
+            target='_blank'
+            onClick={handleClickMentorApplicationButton}
+            rel='noopener'
+          >
+            나도 멘토로 참여하고 싶다면
+            <ArrowDiagonalIcon />
+          </MentorApplicationButton>
+        </Header>
+      </Responsive>
+
+      <Responsive only='mobile'>
+        <Header>
+          <MentoringTitle>멘토링</MentoringTitle>
+          <MentoringSub>여러 분야의 SOPT OB들과 얘기를 나눠보세요</MentoringSub>
+        </Header>
+      </Responsive>
       {(listType === undefined || listType === 'carousel-large') && (
         <StyledCarousel
           itemList={mentoringCardList}
@@ -150,6 +165,17 @@ export default function MentoringList() {
           <MentoringScrollList>{mentoringCardList}</MentoringScrollList>
         </MentoringScrollWrapper>
       )}
+      <Responsive only='mobile'>
+        <MentorApplicationButton
+          href={MENTOR_APPLICATION_URL}
+          target='_blank'
+          onClick={handleClickMentorApplicationButton}
+          rel='noopener'
+        >
+          나도 멘토로 참여하고 싶다면
+          <ArrowDiagonalIcon />
+        </MentorApplicationButton>
+      </Responsive>
     </Container>
   );
 }
@@ -208,12 +234,19 @@ const Container = styled.div`
     margin-top: 24px;
     margin-bottom: 40px;
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-top: 32px;
+  }
 `;
 
 const Title = styled.div`
   text-align: start;
   line-height: 100%;
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_24_B}
 
@@ -228,11 +261,6 @@ const StyledCarousel = styled(Carousel)`
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
     width: 975px;
   }
-`;
-
-const MentoringCardContainer = styled.div`
-  display: flex;
-  gap: 15px;
 `;
 
 const MentoringScrollWrapper = styled.div`
@@ -261,6 +289,12 @@ const MentoringScrollList = styled.div`
       margin-right: 20px;
     }
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 12px;
+    margin-top: 16px;
+    overflow-y: hidden;
+  }
 `;
 
 const MentorApplicationButton = styled.a`
@@ -268,7 +302,7 @@ const MentorApplicationButton = styled.a`
   gap: 6px;
   align-items: center;
   line-height: 100%;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_18_M}
 
@@ -277,7 +311,7 @@ const MentorApplicationButton = styled.a`
     height: 20px;
 
     & > path {
-      fill: ${colors.gray80};
+      fill: ${colors.gray400};
     }
   }
 
@@ -290,6 +324,16 @@ const MentorApplicationButton = styled.a`
     & > svg {
       width: 12px;
       height: 12px;
+    }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 12px;
+    padding: 0 20px;
+
+    & > svg {
+      width: 14px;
+      height: 14px;
     }
   }
 `;
@@ -316,4 +360,17 @@ const Header = styled.div`
     padding: 0 20px;
     width: 100%;
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 0;
+  }
+`;
+
+const MentoringTitle = styled.h1`
+  ${textStyles.SUIT_16_B}
+`;
+
+const MentoringSub = styled.p`
+  margin-top: 4px;
+  ${textStyles.SUIT_14_R}
 `;

@@ -2,9 +2,11 @@ import { AxiosRequestConfig } from 'axios';
 import { z } from 'zod';
 
 import { axiosInstance } from '@/api';
+import { DEBUG } from '@/constants/env';
 
 interface Endpoint<ServerResponse, Params extends unknown[]> {
   request(...params: Params): Promise<ServerResponse>;
+  cacheKey(...params: Params): [...keys: string[], ...params: Params];
 }
 
 export function createEndpoint<
@@ -16,16 +18,16 @@ export function createEndpoint<
   serverResponseScheme: Validator;
   transformer?: (original: z.infer<Validator>) => Transformed;
 }): Endpoint<Transformed, Param> {
+  const getConfig = (params: Param) => {
+    if (typeof config.request === 'function') {
+      return config.request(...params);
+    }
+    return config.request;
+  };
+
   return {
     async request(...params) {
-      const getConfig = () => {
-        if (typeof config.request === 'function') {
-          return config.request(...params);
-        }
-        return config.request;
-      };
-
-      const axiosConfig = getConfig();
+      const axiosConfig = getConfig(params);
 
       const { data } = await axiosInstance.request<unknown>(axiosConfig);
 
@@ -34,13 +36,23 @@ export function createEndpoint<
       if (!res.success) {
         const zodError = String(res.error).slice(0, 1000) + '\n...';
         const message = `서버 타입 검증에 실패했습니다. (${axiosConfig.method} ${axiosConfig.url})\n${zodError}`;
-        console.error(zodError);
-        throw new Error(message);
+        console.error(message, zodError);
+
+        if (DEBUG) {
+          throw new Error(message);
+        }
+
+        return data;
       }
 
       return res.data;
     },
+    cacheKey(...params) {
+      const axiosConfig = getConfig(params);
+
+      return [axiosConfig.method ?? 'GET', axiosConfig.url ?? '', ...params];
+    },
   };
 }
 
-export type GetResponseType<T> = T extends Endpoint<infer R, never> ? R : never;
+export type GetResponseType<T> = T extends Endpoint<infer R, unknown[]> ? R : never;

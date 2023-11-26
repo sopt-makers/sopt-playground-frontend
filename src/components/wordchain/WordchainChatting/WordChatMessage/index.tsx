@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -52,7 +52,7 @@ const MessageBox = styled.div`
   gap: 8px;
   align-items: center;
   border-radius: 20px 20px 0;
-  background-color: ${colors.black90};
+  background-color: ${colors.gray950};
   padding: 16px 20px;
   width: fit-content;
 
@@ -64,7 +64,7 @@ const MessageBox = styled.div`
 
 const Word = styled.div`
   line-height: 120%;
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_16_M}
 
@@ -75,14 +75,14 @@ const Word = styled.div`
 
 const Divider = styled.div`
   line-height: 120%;
-  color: ${colors.black40};
+  color: ${colors.gray600};
 
   ${textStyles.SUIT_16_M}
 `;
 
 const Name = styled.div`
   line-height: 100%;
-  color: ${colors.purple100};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_14_SB}
 
@@ -108,7 +108,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 40px;
   height: 40px;
 

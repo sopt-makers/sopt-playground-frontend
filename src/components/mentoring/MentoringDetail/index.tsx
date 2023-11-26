@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import ArrowRightIcon from 'public/icons/icon-arrow-right.svg';
@@ -15,7 +16,6 @@ import { mentoringProvider } from '@/components/mentoring/data';
 import InfoItem from '@/components/mentoring/MentoringDetail/InfoItem';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -24,9 +24,12 @@ interface MentoringDetailProps {
 }
 
 export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
-  const { data: mentorProfile } = useQuery(['getMentorProfile', mentorId], async () => {
-    const { careers, links, skill, profileImage } = await getMemberProfileById(mentorId);
-    return { careers, links, skill, profileImage };
+  const { data: mentorProfile } = useQuery({
+    queryKey: ['getMentorProfile', mentorId],
+    queryFn: async () => {
+      const { careers, links, skill, profileImage } = await getMemberProfileById(mentorId);
+      return { careers, links, skill, profileImage };
+    },
   });
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
@@ -192,7 +195,7 @@ const Section = styled.section`
   flex-direction: column;
   gap: 80px;
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 48px 39px;
   width: 790px;
 
@@ -236,7 +239,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 60px;
   height: 60px;
 
@@ -258,12 +261,12 @@ const EmptyProfileImage = styled.div`
 
 const MentorName = styled.div`
   line-height: 100%;
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_20_SB};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    color: ${colors.gray40};
+    color: ${colors.gray200};
 
     ${textStyles.SUIT_14_M};
   }
@@ -277,16 +280,16 @@ const MessageButton = styled.button`
   justify-content: center;
   justify-self: end;
   border-radius: 6px;
-  background-color: ${colors.purple100};
+  background-color: ${colors.gray10};
   width: 180px;
   height: 48px;
   line-height: 135%;
-  color: ${colors.white};
+  color: ${colors.gray950};
 
   ${textStyles.SUIT_14_B}
 
   & > svg {
-    fill: ${colors.gray10};
+    fill: ${colors.gray950};
     width: 16px;
     height: 16px;
   }
@@ -306,12 +309,12 @@ const ClosedMessageButton = styled.button`
   justify-content: center;
   justify-self: end;
   border-radius: 6px;
-  background-color: ${colors.purpledim100};
+  background-color: ${colors.gray800};
   cursor: default;
   width: 249px;
   height: 48px;
   line-height: 135%;
-  color: ${colors.gray60};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_14_B}
 
@@ -345,28 +348,28 @@ const KeywordList = styled.div`
 
 const Keyword = styled.div`
   border-radius: 16px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 8px 15px;
   line-height: 120%;
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_14_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.black40};
+    background-color: ${colors.gray600};
   }
 `;
 
 const Content = styled.div`
   line-height: 150%;
   white-space: pre-line;
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_18_M}
 
   @media ${MOBILE_MEDIA_QUERY} {
     line-height: 120%;
-    color: ${colors.gray40};
+    color: ${colors.gray200};
 
     ${textStyles.SUIT_14_M};
   }
@@ -423,7 +426,7 @@ const Career = {
 
     @media ${MOBILE_MEDIA_QUERY} {
       gap: 4px;
-      color: ${colors.gray80};
+      color: ${colors.gray400};
 
       ${textStyles.SUIT_12_M}
 
@@ -432,7 +435,7 @@ const Career = {
         height: 12px;
 
         & > path {
-          fill: ${colors.gray80};
+          fill: ${colors.gray400};
         }
       }
     }

@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { useQueryClient } from '@tanstack/react-query';
 import PaperAirplaneIcon from 'public/icons/icon-paper-airplane.svg';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   useGetActiveWordchain,
@@ -14,7 +15,6 @@ import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import Wordchain from '@/components/wordchain/WordchainChatting/Wordchain';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -25,45 +25,62 @@ interface WordchainChattingProps {
 }
 export default function WordchainChatting({ className }: WordchainChattingProps) {
   const { logSubmitEvent } = useEventLogger();
-  const [scrollHeight, setScrollHeight] = useState<number | undefined>();
+  const scrollHeightRef = useRef<number | undefined>(0);
   const wordchainListRef = useRef<HTMLDivElement>(null);
   const { data: finishedWordchainListPages, fetchNextPage } = useGetFinishedWordchainList({
     limit: LIMIT,
-    queryOptions: {
-      onSuccess: (data) => {
-        setTimeout(() => {
-          if (data.pageParams.length === 1) {
-            wordchainListRef.current && setScrollHeight(wordchainListRef.current.scrollHeight);
-          } else {
-            if (!(wordchainListRef.current && scrollHeight)) {
-              return;
-            }
-            scrollTo(wordchainListRef.current.scrollHeight - scrollHeight);
-            setScrollHeight(wordchainListRef.current.scrollHeight);
-          }
-        }, 0);
-      },
-    },
   });
-  const { data: activeWordchain } = useGetActiveWordchain({
-    onSuccess: () => {
-      setTimeout(() => {
-        scrollToBottom();
-      }, 0);
-    },
-  });
+
+  useEffect(() => {
+    if (!finishedWordchainListPages) {
+      return;
+    }
+
+    setTimeout(() => {
+      if (finishedWordchainListPages.pageParams.length === 1) {
+        if (wordchainListRef.current) {
+          scrollHeightRef.current = wordchainListRef.current.scrollHeight;
+        }
+      } else {
+        if (!(wordchainListRef.current && scrollHeightRef.current)) {
+          return;
+        }
+        scrollTo(wordchainListRef.current.scrollHeight - scrollHeightRef.current);
+        scrollHeightRef.current = wordchainListRef.current.scrollHeight;
+      }
+    }, 0);
+  }, [finishedWordchainListPages]);
+
+  const { data: activeWordchain } = useGetActiveWordchain();
+
+  const scrollToBottom = useCallback(() => {
+    if (wordchainListRef.current) {
+      scrollTo(wordchainListRef.current.scrollHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      scrollToBottom();
+    }, 0);
+  }, [activeWordchain, scrollToBottom]);
+
   const [word, setWord] = useState('');
   const queryClient = useQueryClient();
   const { mutate: mutatePostWord } = usePostWord({
     onSuccess: () => {
       setWord('');
-      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
+      queryClient.invalidateQueries({
+        queryKey: [wordChainQueryKey.getRecentWordchain],
+      });
     },
     onError: (error) => {
       if (typeof error.response?.data !== 'string') {
         return;
       }
-      queryClient.invalidateQueries([wordChainQueryKey.getRecentWordchain]);
+      queryClient.invalidateQueries({
+        queryKey: [wordChainQueryKey.getRecentWordchain],
+      });
       const split = error.response.data.split(' : ');
       if (split.length !== 2) {
         return;
@@ -106,11 +123,6 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
   const scrollTo = (height: number) => {
     if (wordchainListRef.current) {
       wordchainListRef.current.scrollTop = height;
-    }
-  };
-  const scrollToBottom = () => {
-    if (wordchainListRef.current) {
-      scrollTo(wordchainListRef.current.scrollHeight);
     }
   };
 
@@ -181,7 +193,7 @@ export default function WordchainChatting({ className }: WordchainChattingProps)
 
 const ContainerBase = styled.div`
   border-radius: 30px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   width: 790px;
   height: 100%;
 
@@ -189,6 +201,10 @@ const ContainerBase = styled.div`
     border-radius: 0;
     width: 100%;
     height: calc(100vh - 245px);
+
+    @supports (height: 100dvh) {
+      height: calc(100dvh - 245px);
+    }
   }
 `;
 
@@ -218,7 +234,7 @@ const WordchainList = styled.div`
     position: absolute;
     bottom: -34px;
     left: 0;
-    background-color: ${colors.black60};
+    background-color: ${colors.gray700};
     width: 100%;
     height: 1px;
     content: '';
@@ -248,21 +264,21 @@ const Form = styled.form`
 
 const StyledInput = styled.input<{ isError: boolean }>`
   transition: border-color 0.5s ease-in;
-  border: 1px solid ${({ isError }) => (isError ? colors.red100 : colors.black90)};
+  border: 1px solid ${({ isError }) => (isError ? colors.error : colors.gray800)};
   border-radius: 14px;
-  background-color: ${colors.black90};
+  background-color: ${colors.gray950};
   padding: 24px 20px;
   width: 100%;
   line-height: 120%;
-  color: ${colors.gray10};
+  color: ${colors.gray30};
 
   &::placeholder {
-    color: ${colors.gray80};
+    color: ${colors.gray400};
   }
 
   &:focus {
     outline: none;
-    border-color: ${({ isError }) => (isError ? colors.red100 : colors.purple100)};
+    border-color: ${({ isError }) => (isError ? colors.error : colors.gray200)};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -300,11 +316,11 @@ const ErrorMessage = styled.div<{ isVisible: boolean }>`
   transition: opacity 0.5s ease-in;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   border-radius: 10px;
-  background-color: ${colors.red100};
+  background-color: ${colors.error};
   padding: 10px;
   width: fit-content;
   line-height: 130%;
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_14_M}
 `;
@@ -316,7 +332,7 @@ const Triangle = styled.div<{ isVisible: boolean }>`
   transition: opacity 0.5s ease-in;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   border-right: 8px solid transparent;
-  border-bottom: calc(8px * 1.6) solid ${colors.red100};
+  border-bottom: calc(8px * 1.6) solid ${colors.error};
   border-left: 8px solid transparent;
   width: 0;
   height: 0;

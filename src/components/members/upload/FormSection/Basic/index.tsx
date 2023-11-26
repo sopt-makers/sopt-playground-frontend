@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import ImageUploader from '@/components/common/ImageUploader';
@@ -11,7 +12,6 @@ import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import IconCamera from '@/public/icons/icon-camera.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MemberBasicFormSection() {
@@ -70,7 +70,7 @@ export default function MemberBasicFormSection() {
             />
           </StyledBirthdayInputWrapper>
         </FormItem>
-        <FormItem title='연락처' errorMessage={errors.phone?.message}>
+        <FormItem title='연락처' errorMessage={errors.phone?.message} essential>
           <StyledInput {...register('phone')} placeholder='010-XXXX-XXXX' />
         </FormItem>
         <FormItem title='이메일' required errorMessage={errors.email?.message}>
@@ -142,7 +142,7 @@ const StyledImageUploader = styled(ImageUploader)`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
     border-radius: 21.4783px;
-    background-color: ${colors.black80};
+    background-color: ${colors.gray800};
     width: 114px;
     height: 114px;
   }

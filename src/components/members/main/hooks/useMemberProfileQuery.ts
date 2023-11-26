@@ -1,4 +1,4 @@
-import { QueryKey, useInfiniteQuery } from '@tanstack/react-query';
+import { keepPreviousData, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import qs from 'qs';
 
@@ -28,10 +28,8 @@ export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQuery
       const totalPageNum = pages.length * limit;
       return totalPageNum;
     },
-    onError: (error: { message: string }) => {
-      console.error(error.message);
-    },
+    initialPageParam: 0,
     enabled: isReady,
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
   });
 };

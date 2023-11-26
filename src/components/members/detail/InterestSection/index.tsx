@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import React, { FC } from 'react';
+import { colors } from '@sopt-makers/colors';
+import { FC } from 'react';
 
 import Text from '@/components/common/Text';
 import InfoItem from '@/components/members/detail/InfoItem';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -178,10 +178,10 @@ const BalanceGameWrapper = styled.div`
 
 const BalanceGameItem = styled.div`
   border-radius: 13px;
-  background-color: ${colors.black40};
+  background-color: ${colors.gray700};
   padding: 6px 14px;
   line-height: 16px;
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_14_M};
 `;

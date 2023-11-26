@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef, ReactNode, useEffect } from 'react';
+import { forwardRef, ReactNode } from 'react';
+
+import { useEscapeCallback } from '@/hooks/useEscapeCallback';
 
 interface SidePanelProps {
   isOpen: boolean;
@@ -10,18 +12,9 @@ interface SidePanelProps {
 }
 
 const SideBar = forwardRef<HTMLDivElement, SidePanelProps>(({ isOpen, onClose, title, children }, ref) => {
-  useEffect(() => {
-    const keydownHandler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', keydownHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keydownHandler);
-    };
-  }, [onClose]);
+  useEscapeCallback({
+    callback: onClose,
+  });
 
   return (
     <StyledSidePanel ref={ref} isOpen={isOpen}>
@@ -66,19 +59,22 @@ const StyledSidePanel = styled.div<{ isOpen: boolean }>`
 const Header = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 3px;
 `;
 
 const HeaderTitle = styled.h2`
   flex-grow: 1;
-  margin-left: 10px;
+  margin-left: 15px;
 `;
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   padding: 15px 0 0;
 `;
 
 const CloseButton = styled.button`
-  /* padding: 8px 10px; */
   display: flex;
   align-items: center;
   justify-content: center;

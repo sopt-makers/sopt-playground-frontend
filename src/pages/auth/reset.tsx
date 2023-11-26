@@ -5,7 +5,7 @@ import { FC } from 'react';
 import ByPhoneView from '@/components/auth/register/verify/view/ByPhoneView';
 import useResetLogin from '@/components/auth/reset/useResetLogin';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
+import { colors } from '@sopt-makers/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -58,7 +58,7 @@ const Title = styled.h2`
   display: flex;
   flex-direction: column;
   margin-bottom: 36px;
-  color: ${colors.white100};
+  color: ${colors.white};
 
   ${textStyles.SUIT_24_B}
 

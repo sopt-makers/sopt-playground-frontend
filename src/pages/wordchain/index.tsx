@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
@@ -7,10 +8,10 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { SMALL_MEDIA_QUERY } from '@/components/wordchain/mediaQuery';
 import WordchainChatting from '@/components/wordchain/WordchainChatting';
 import WordchainRules from '@/components/wordchain/WordchainRules';
+import WordchainWinners from '@/components/wordchain/WordchainWinners';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
 import IconWordChainMessage from '@/public/icons/icon-wordchain-message.svg';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
@@ -43,16 +44,7 @@ const WordchainPage = () => {
                   }
                 />
               </RuleWrapper>
-              <Winners>
-                <DimmedWinners>
-                  <Text as='h2' typography='SUIT_20_B'>
-                    아직 준비 중인 기능이에요 🛠️
-                  </Text>
-                </DimmedWinners>
-                <Text as='h2' typography='SUIT_20_B'>
-                  👑 역대 우승자 명예의 전당 👑
-                </Text>
-              </Winners>
+              <WordchainWinners />
             </Sidebar>
           </Wrapper>
         </Responsive>
@@ -71,16 +63,7 @@ const WordchainPage = () => {
               }
             />
             <Divider />
-            <Winners>
-              <DimmedWinners>
-                <Text as='h2' typography='SUIT_15_B'>
-                  아직 준비 중인 기능이에요 🛠️
-                </Text>
-              </DimmedWinners>
-              <Text as='h2' typography='SUIT_14_B'>
-                👑 역대 우승자 명예의 전당 👑
-              </Text>
-            </Winners>
+            <WordchainWinners />
           </Wrapper>
           <StyledWordchainChatting />
         </MobileResponsive>
@@ -147,7 +130,7 @@ const RuleWrapper = styled.div`
   flex-direction: column;
   row-gap: 16px;
   border-radius: 20px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 30px 38px;
 `;
 
@@ -156,7 +139,7 @@ const RuleTrigger = styled.div`
   column-gap: 8px;
   align-items: center;
   text-decoration: underline;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 10px;
@@ -166,14 +149,14 @@ const RuleTrigger = styled.div`
 const Winners = styled.div`
   position: relative;
   border-radius: 20px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   padding: 28px;
   height: 100%;
   max-height: 380px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
-    background-color: ${colors.black100};
+    background-color: ${colors.gray950};
     padding: 20px;
     height: 59.5px;
   }
@@ -188,13 +171,13 @@ const DimmedWinners = styled.div`
   justify-content: center;
   opacity: 0.9;
   border-radius: 20px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   width: 100%;
   height: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 0;
-    background-color: ${colors.black100};
+    background-color: ${colors.gray950};
     padding: 20px;
     height: auto;
   }
@@ -209,7 +192,7 @@ const MobileResponsive = styled(Responsive)`
 const Divider = styled.hr`
   margin: 24px 0 0;
   border: none;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 100%;
   height: 1.5px;
 `;

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import { MemberProject } from '@/api/endpoint_LEGACY/members/type';
 import { PROJECT_CATEGORY_LABEL } from '@/components/members/detail/constants';
 import { playgroundLink } from '@/constants/links';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -55,7 +55,7 @@ const StyledCard = styled.a`
   position: relative;
   flex-direction: column;
   border-radius: 24px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   cursor: pointer;
   width: 381px;
   height: 317px;
@@ -160,7 +160,7 @@ const Title = styled.div`
 const Generation = styled.div`
   line-height: 100%;
   letter-spacing: -0.01em;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   font-size: 12px;
   font-weight: 500;
   @media ${MOBILE_MEDIA_QUERY} {
@@ -172,7 +172,7 @@ const Summary = styled.div`
   margin-top: 14px;
   line-height: 100%;
   letter-spacing: -0.01em;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
   font-size: 14px;
   font-weight: 500;
   @media ${MOBILE_MEDIA_QUERY} {

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import useModalState from '@/components/common/Modal/useModalState';
 import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -82,7 +82,7 @@ const StyledMemberDetailSection = styled(MemberDetailSection)`
 `;
 
 const Title = styled.div`
-  color: ${colors.white100};
+  color: ${colors.white};
   ${textStyles.SUIT_18_SB}
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_16_SB}
@@ -91,7 +91,7 @@ const Title = styled.div`
 
 const Subtitle = styled.div`
   margin-top: 12px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
   ${textStyles.SUIT_16_M}
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_M}
@@ -100,10 +100,15 @@ const Subtitle = styled.div`
 
 const MessageButton = styled.div<{ disabled: boolean }>`
   border-radius: 14px;
-  background-color: ${({ disabled }) => (disabled ? colors.black60 : colors.purple100)};
+  background-color: ${({ disabled }) => (disabled ? colors.gray800 : colors.gray10)};
   cursor: pointer;
   padding: 15px 36px;
-  color: ${({ disabled }) => (disabled ? colors.gray60 : colors.white100)};
+  color: ${({ disabled }) => (disabled ? colors.gray400 : colors.gray950)};
+
+  &:hover {
+    background-color: ${colors.gray50};
+    color: ${colors.gray950};
+  }
 
   ${textStyles.SUIT_15_SB}
 

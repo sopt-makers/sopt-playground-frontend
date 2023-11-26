@@ -1,16 +1,16 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
 
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import HelpCard from '@/components/sopticle/HelpCard';
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface UploadSopticleProps {
-  state: 'idle' | 'loading' | 'error' | 'success';
+  state: 'idle' | 'pending' | 'error' | 'success';
   errorMessage?: string;
   onSubmit: (url: string) => void;
 }
@@ -34,7 +34,7 @@ const UploadSopticle: FC<UploadSopticleProps> = ({ state, errorMessage, onSubmit
         <Label>아티클 링크</Label>
         <StyledInput
           placeholder='https://'
-          disabled={state === 'loading'}
+          disabled={state === 'pending'}
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
@@ -58,7 +58,7 @@ const UploadSopticle: FC<UploadSopticleProps> = ({ state, errorMessage, onSubmit
         title='SOPT 공식 홈페이지에 솝티클 보러가기'
         content='앗! 업로드가 아니라 솝티클을 읽고 싶으신가요?
 솝트 회원들이 직접 작성한 솝티클은 공홈에서 확인할 수 있어요.'
-        href='https://www.sopt.org/sopticle'
+        href='https://www.sopt.org/blog'
       />
     </Container>
   );
@@ -84,7 +84,7 @@ const TitleBox = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${colors.white};
+  color: ${colors.gray10};
 
   ${textStyles.SUIT_32_SB};
 
@@ -95,7 +95,7 @@ const Title = styled.h1`
 
 const SubTitle = styled.h2`
   margin-top: 12px;
-  color: ${colors.gray60};
+  color: ${colors.gray300};
 
   ${textStyles.SUIT_16_M};
 
@@ -117,7 +117,7 @@ const Form = styled.form`
 
 const Label = styled.label`
   margin-bottom: 16px;
-  color: ${colors.gray80};
+  color: ${colors.gray400};
 
   ${textStyles.SUIT_16_M};
 
@@ -144,8 +144,9 @@ const MotionErrorMessageHolder = styled(m.div)`
 const Button = styled.button`
   margin-top: 16px;
   border-radius: 10px;
-  background-color: ${colors.purple100};
+  background-color: ${colors.gray10};
   padding: 16px 0;
+  color: ${colors.gray950};
 
   ${textStyles.SUIT_16_M};
 

@@ -1,13 +1,13 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { CSSProperties, FC, HTMLAttributes, PropsWithChildren } from 'react';
 
-import { colors } from '@/styles/colors';
 import { space, SpaceProps } from '@/styles/spacing';
 import { baseTextStyles, textStyles, Typography } from '@/styles/typography';
 
 const TEXT_TAGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'b', 'small', 'i', 'span', 'del', 'em', 'blockquote'] as const;
-type As = keyof Pick<JSX.IntrinsicElements, typeof TEXT_TAGS[number]>;
+type As = keyof Pick<JSX.IntrinsicElements, (typeof TEXT_TAGS)[number]>;
 interface TextProps extends HTMLAttributes<HTMLSpanElement>, SpaceProps {
   align?: CSSProperties['textAlign'];
   as?: As;
@@ -44,7 +44,7 @@ const StyledText = styled.span<TextProps>`
     css`
       ${textStyles.SUIT_12_M}
 
-      color: ${colors.red100};
+      color: ${colors.error};
     `}
   ${space}
 `;

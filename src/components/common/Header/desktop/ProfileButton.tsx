@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 import { DEFAULT_PROFILE_IMAGE_DESKTOP_SVG } from '@/components/common/Header/imageData';
 import ResizedImage from '@/components/common/ResizedImage';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface ProfileButtonProps {
@@ -30,10 +30,10 @@ const StyledProfileButton = styled.button`
   display: flex;
   align-items: center;
   border-radius: 19px;
-  background-color: ${colors.black80};
+  background-color: ${colors.gray800};
   cursor: pointer;
   height: 38px;
-  color: ${colors.white};
+  color: ${colors.gray10};
 `;
 
 const ImageSlot = styled.div`
@@ -42,7 +42,7 @@ const ImageSlot = styled.div`
   justify-content: center;
   margin-left: 3px;
   border-radius: 50%;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   width: 32px;
   height: 32px;
   overflow: hidden;

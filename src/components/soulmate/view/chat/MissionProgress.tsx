@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-import { colors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -55,6 +55,7 @@ const Container = styled.div`
   gap: 10px;
 `;
 
+// 사라질 컴포넌트라 보라색 걷어내기 임의로 수정
 const ProgressCell = styled.div<{ status: MissionStatus['status'] }>`
   display: flex;
   flex-direction: column;
@@ -65,18 +66,18 @@ const ProgressCell = styled.div<{ status: MissionStatus['status'] }>`
   ${(props) =>
     props.status === 'completed' &&
     css`
-      background-color: ${colors.black60};
+      background-color: ${colors.gray700};
     `}
   ${(props) =>
     props.status === 'running' &&
     css`
-      background-color: ${colors.purple100};
+      background-color: ${colors.success};
     `}
     ${(props) =>
     props.status === 'waiting' &&
     css`
-      background-color: ${colors.black90};
-      color: ${colors.gray80};
+      background-color: ${colors.gray800};
+      color: ${colors.gray400};
     `}
 
     @media ${MOBILE_MEDIA_QUERY} {

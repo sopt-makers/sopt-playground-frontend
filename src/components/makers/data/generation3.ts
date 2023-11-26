@@ -97,10 +97,11 @@ export const generation3: MakersGeneration = {
     },
     {
       title: '브랜드 커뮤니케이션 팀',
-      description: '',
+      description:
+        '메이커스 브랜드를 알리고 발전시키고 있어요. 메이커스 내부 브랜딩을 확립하고, 더 많은 유저들이 메이커스 프로덕트를 만나볼 수 있도록 다양한 마케팅 활동을 진행해요.',
       people: [
         { type: 'member', id: 203, name: '노영선', position: '브랜드 디자이너' },
-        { type: 'member', id: 294, name: '윤여진', position: '브랜드 디자이너' },
+        { type: 'member', id: 315, name: '강민서', position: '브랜드 디자이너' },
         { type: 'member', id: 370, name: '조성아', position: '프로덕트 마케터' },
         { type: 'member', id: 204, name: '이지윤', position: '프로덕트 마케터' },
       ],

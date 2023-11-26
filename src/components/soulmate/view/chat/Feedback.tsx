@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import SoulmateIconHeart from '@/components/soulmate/icons/SoulmateIconHeart';
-import { colors } from '@/styles/colors';
 import { textStyles } from '@/styles/typography';
 
 interface FeedbackProps {}
@@ -35,7 +35,7 @@ const Title = styled.div`
 
 const Description = styled.div`
   margin-top: 12px;
-  color: ${colors.gray40};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_16_M};
 `;
@@ -52,6 +52,6 @@ const FeedbackButton = styled.a`
   justify-content: center;
   margin-top: 28px;
   border-radius: 10px;
-  background-color: ${colors.black60};
+  background-color: ${colors.gray700};
   padding: 20px;
 `;
