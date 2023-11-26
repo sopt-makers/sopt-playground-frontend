@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
@@ -23,7 +24,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
   }
 
   return (
-    <>
+    <Container>
       {commentData.map((comment) =>
         comment.isBlindWriter ? (
           <DetailFeedCard.Comment
@@ -104,8 +105,12 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
           />
         ) : null,
       )}
-    </>
+    </Container>
   );
 };
 
 export default FeedDetailComments;
+
+const Container = styled.div`
+  margin-bottom: 80px;
+`;
