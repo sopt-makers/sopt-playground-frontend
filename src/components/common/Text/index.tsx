@@ -14,6 +14,7 @@ interface TextProps extends HTMLAttributes<HTMLSpanElement>, SpaceProps {
   color?: string;
   typography?: Typography;
   type?: 'default' | 'error';
+  lineHeight?: number;
 }
 
 const Text: FC<PropsWithChildren<TextProps>> = ({
@@ -39,6 +40,7 @@ const StyledText = styled.span<TextProps>`
   ${({ align }) => align && `text-align: ${align}`};
   ${({ typography }) => (typography ? textStyles[typography] : '')};
   ${({ color }) => (color ? `color: ${color}` : '')};
+  ${({ lineHeight }) => lineHeight && `line-height: ${lineHeight}px`};
   ${({ type }) =>
     type === 'error' &&
     css`
@@ -46,5 +48,5 @@ const StyledText = styled.span<TextProps>`
 
       color: ${colors.error};
     `}
-  ${space}
+  ${space};
 `;

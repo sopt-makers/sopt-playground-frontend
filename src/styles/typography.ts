@@ -1,7 +1,7 @@
 import { css, SerializedStyles } from '@emotion/react';
 
 export const baseTextStyles = css`
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 `;
 
 export const textStyles = (() => {
