@@ -32,8 +32,12 @@ export enum Category {
   취업_진로,
 }
 
+const MAKERS_LEAD_PART = '메이커스 리드';
+
 export function getMemberInfo(post: Post) {
-  const defaultInfo = `${post.member.activity.generation}기 ${post.member.activity.part}파트`;
+  const defaultInfo = `${post.member.activity.generation}기 ${
+    post.member.activity.part === MAKERS_LEAD_PART ? post.member.activity.part : `${post.member.activity.part}파트`
+  }`;
 
   if (post.categoryId == null) {
     return `${post.categoryName}에 남김`;
