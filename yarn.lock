@@ -8892,6 +8892,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"browser-image-resizer@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "browser-image-resizer@npm:2.4.1"
+  checksum: b2f705696f2643240880314926f976b473452a7ef1335dcc888993281c8a8e57eba2cda255965843526511a206b722be0031df770bd31ddd944bc8730521ddb6
+  languageName: node
+  linkType: hard
+
 "browserify-aes@npm:^1.0.0, browserify-aes@npm:^1.0.4":
   version: 1.2.0
   resolution: "browserify-aes@npm:1.2.0"
@@ -18469,6 +18476,7 @@ __metadata:
     await-to-js: ^3.0.0
     axios: ^0.27.2
     babel-loader: ^9.1.2
+    browser-image-resizer: ^2.4.1
     chromatic: ^6.7.0
     cmdk: ^0.2.0
     concurrently: ^7.6.0

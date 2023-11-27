@@ -37,11 +37,11 @@ const ListImageUploader: FC<ImageUploaderProps> = ({
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isSelectorOpened, setIsSelectorOpened] = useState<boolean>(false);
 
-  const handleChangeImageInput = (s3Url: string) => {
-    setPreviewImage(s3Url);
-    onChange?.(s3Url);
+  const handleChangeImageInput = (s3Url: string[]) => {
+    setPreviewImage(s3Url[0]);
+    onChange?.(s3Url[0]);
   };
-  const { imageInputRef, handleClickImageInput } = useImageUploader(handleChangeImageInput);
+  const { imageInputRef, handleClickImageInput } = useImageUploader({ onSuccess: handleChangeImageInput });
 
   const previewImageSrc = value || previewImage || src;
 

@@ -22,7 +22,7 @@ export default function ImageUploadButton({ imageLength, onClick, imageInputRef 
           {imageLength}/{MAX_IMAGE_LENGTH}
         </Length>
       )}
-      <StyledInput type='file' accept='image/*' ref={imageInputRef} />
+      <StyledInput type='file' accept='image/*' ref={imageInputRef} multiple />
     </Button>
   );
 }

@@ -35,8 +35,8 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     setFeedData((feedData) => ({ ...feedData, content: e.target.value }));
   };
 
-  const saveImageUrls = (urls: string) => {
-    setFeedData((feedData) => ({ ...feedData, images: [...feedData.images, urls] }));
+  const saveImageUrls = (urls: string[]) => {
+    setFeedData((feedData) => ({ ...feedData, images: [...feedData.images, ...urls] }));
   };
 
   const removeImage = (index: number) => {
