@@ -136,6 +136,7 @@ const Title = styled(Text)`
 `;
 
 const QuestionBadge = styled.div`
+  transform: translateY(-2px);
   white-space: nowrap;
   display: inline-flex;
   border-radius: 5px;

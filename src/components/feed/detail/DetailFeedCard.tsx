@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import reactTextareaAutosize from 'react-textarea-autosize';
 
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -265,6 +266,7 @@ const StyledContent = styled(Text)`
 const QuestionBadge = styled.div`
   display: inline-flex;
   align-self: flex-start;
+  transform: translateY(-2.4px);
   margin-right: 4px;
   border-radius: 5px;
   background-color: ${colors.orangeAlpha200};
@@ -322,26 +324,28 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
         ) : (
           <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
         )}
-        <Stack css={{ minWidth: 0, width: '100%' }} gutter={6}>
+        <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
-            <Flex>
-              <Text typography='SUIT_13_SB' color={colors.gray10}>
+            <Stack.Horizontal gutter={2}>
+              <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                 {!isBlindWriter ? name : '익명'}
               </Text>
               {!isBlindWriter && (
-                <Text typography='SUIT_13_R' color={colors.gray100}>
-                  {` ∙ ${info}`}
-                </Text>
+                <InfoText typography='SUIT_13_R' color={colors.gray100}>
+                  {`∙ ${info}`}
+                </InfoText>
               )}
-            </Flex>
+            </Stack.Horizontal>
             <Flex>
-              <Text typography='SUIT_13_R' color={colors.gray400}>
+              <Text typography='SUIT_13_R' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
                 {getRelativeTime(createdAt)}
               </Text>
               {moreIcon}
             </Flex>
           </Flex>
-          <StyledText typography='SUIT_14_M'>{parseTextToLink(comment)}</StyledText>
+          <StyledText typography='SUIT_14_R' lineHeight={22}>
+            {parseTextToLink(comment)}
+          </StyledText>
         </Stack>
       </Flex>
     </StyledComment>
@@ -349,10 +353,10 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
 };
 
 const StyledComment = styled.div`
-  padding: 20px 24px 12px;
+  padding: 16px 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 12px 16px;
+    padding: 14px 16px;
   }
 `;
 
@@ -370,6 +374,17 @@ const CommentProfileImage = styled.img`
   width: 32px;
   height: 32px;
   object-fit: cover;
+`;
+
+const InfoText = styled(Text)`
+  white-space: nowrap;
+
+  @media ${'screen and (max-width: 460px)'} {
+    max-width: 178px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 interface InputProps {
@@ -404,26 +419,27 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     onChangeIsBlindChecked(isBlindWriter);
   };
 
+  const showInputAnimateArea = useMemo(() => isFocus || isBlindChecked, [isFocus, isBlindChecked]);
+
   return (
-    <Container ref={containerRef}>
+    <Container ref={containerRef} showInputAnimateArea={showInputAnimateArea}>
       <InputAnimateArea
         initial={{ height: 0 }}
-        animate={{ height: isFocus ? '34px' : 0 }}
-        transition={{ bounce: 0, stiffness: 1000 }}
+        animate={{ height: isFocus || isBlindChecked ? '28px' : 0 }}
+        transition={{ bounce: 0, stiffness: 1000, duration: 0.2 }}
       >
         <InputContent>
           <Checkbox size='small' checked={isBlindChecked} onChange={(e) => handleCheckBlindWriter(e.target.checked)} />
           <Text typography='SUIT_12_M'>익명으로 남기기</Text>
         </InputContent>
       </InputAnimateArea>
-      <Flex>
-        <StyledInput
+      <Flex align='flex-end'>
+        <StyledTextArea
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setIsFocus(true)}
           placeholder='댓글을 남겨주세요.'
         />
-        {isPending && <Loading />}
         <SendButton
           type='submit'
           initial={{
@@ -432,27 +448,34 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           animate={{
             backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
           }}
-          disabled={!is버튼액티브}
+          disabled={!is버튼액티브 || isPending}
         >
-          <IconSendFill />
+          {isPending ? <Loading size={4} /> : <IconSendFill />}
         </SendButton>
       </Flex>
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ showInputAnimateArea: boolean }>`
   --card-max-width: 560px;
 
   position: fixed;
   bottom: 0;
   border-top: 1px solid ${colors.gray800};
-  border-bottom: 1px solid ${colors.gray800};
-  border-radius: 10px;
+  border-right: 1px solid ${colors.gray800};
   background-color: ${colors.gray950};
-  padding: 16px;
+  padding: 12px 16px;
   width: 100%;
   max-width: var(--card-max-width);
+  ${({ showInputAnimateArea }) => showInputAnimateArea && `border-radius: 10px;`};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-right: none;
+    padding: 10px 16px;
+    max-width: 100%;
+    ${({ showInputAnimateArea }) => showInputAnimateArea && `padding-top: 12px;`};
+  }
 `;
 
 const InputAnimateArea = styled(m.div)`
@@ -470,9 +493,16 @@ const InputContent = styled.div`
   align-items: center;
 `;
 
-const StyledInput = styled.input`
+const StyledTextArea = styled(reactTextareaAutosize)`
   flex: 1;
   border: none;
+  border-width: 0;
+  background-color: ${colors.background};
+  padding-bottom: 7px;
+  max-height: 180px;
+  resize: none;
+  line-height: 22px;
+
   ${textStyles.SUIT_16_M};
 
   :focus {
@@ -485,8 +515,12 @@ const StyledInput = styled.input`
 `;
 
 const SendButton = styled(m.button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 12px;
-  padding: 8px;
+  width: 36px;
+  height: 36px;
 `;
 
 const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizontal' }) => {
