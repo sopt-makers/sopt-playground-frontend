@@ -444,6 +444,10 @@ const Container = styled.div`
   background-color: ${colors.gray950};
   padding: 16px;
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    position: relative;
+  }
 `;
 
 const InputAnimateArea = styled(m.div)`
