@@ -4,11 +4,11 @@ import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { PropsWithChildren, ReactNode } from 'react';
 
+import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { horizontalScroll, scrollOverMargin } from '@/styles/mixin';
 import { textStyles } from '@/styles/typography';
 
 interface BaseProps {
@@ -169,15 +169,12 @@ const renderContent = (content: string) => {
 };
 
 const Image = ({ children }: PropsWithChildren<unknown>) => {
-  return <ImagesScrollContainer>{children}</ImagesScrollContainer>;
+  return (
+    <HorizontalScroller css={{ marginLeft: -54, marginRight: -16 }}>
+      <Flex css={{ paddingLeft: 54, paddingRight: 16, gap: '8px', whiteSpace: 'nowrap' }}>{children}</Flex>
+    </HorizontalScroller>
+  );
 };
-
-const ImagesScrollContainer = styled(Flex)`
-  display: flex;
-  gap: 8px;
-  ${horizontalScroll}
-  ${scrollOverMargin(54, 16)};
-`;
 
 const ImageItem = styled.img`
   border-radius: 12px;
@@ -187,14 +184,16 @@ const ImageItem = styled.img`
 `;
 
 const Comment = ({ children }: PropsWithChildren<unknown>) => {
-  return <StyledComment>{children}</StyledComment>;
+  return (
+    <HorizontalScroller css={{ marginTop: '4px', marginLeft: -54, marginRight: -16 }}>
+      <StyledComment css={{ paddingLeft: 54, paddingRight: 16 }}>{children}</StyledComment>
+    </HorizontalScroller>
+  );
 };
 
 const StyledComment = styled(Flex)`
   gap: 8px;
-  margin-top: 4px;
-  ${horizontalScroll}
-  ${scrollOverMargin(54, 16)};
+  white-space: nowrap;
 `;
 
 type CommentItemProps =

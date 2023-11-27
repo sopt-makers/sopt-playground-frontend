@@ -6,7 +6,9 @@ import { m } from 'framer-motion';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
+import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Loading from '@/components/common/Loading';
+import ScrollContainer from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import {
@@ -21,7 +23,6 @@ import {
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { horizontalScroll, scrollOverMargin } from '@/styles/mixin';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { parseTextToLink } from '@/utils/parseTextToLink';
@@ -99,7 +100,7 @@ interface BodyProps {
 
 const Body = forwardRef<HTMLDivElement, PropsWithChildren<BodyProps>>(({ className, children }, ref) => {
   return (
-    <StyledBody direction='column' ref={ref} className={className}>
+    <StyledBody ref={ref} className={className}>
       <Flex direction='column' css={{ position: 'absolute', inset: 0 }}>
         {children}
       </Flex>
@@ -107,7 +108,7 @@ const Body = forwardRef<HTMLDivElement, PropsWithChildren<BodyProps>>(({ classNa
   );
 });
 
-const StyledBody = styled(Flex)`
+const StyledBody = styled(ScrollContainer)`
   position: relative;
   flex: 1;
   padding: 16px 24px;
@@ -221,11 +222,18 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
         <StyledContent>{parseTextToLink(content)}</StyledContent>
       </Stack>
       {images.length !== 0 ? (
-        <ImageScrollContainer onClick={() => setOpenSlider(true)}>
-          {images.map((image, index) => (
-            <ImageItem key={index} src={image} alt='image' />
-          ))}
-        </ImageScrollContainer>
+        <HorizontalScroller
+          css={{
+            marginRight: -24,
+            marginLeft: -24,
+          }}
+        >
+          <ImageScrollContainer>
+            {images.map((image, index) => (
+              <ImageItem key={index} src={image} alt='image' onClick={() => setOpenSlider(true)} />
+            ))}
+          </ImageScrollContainer>
+        </HorizontalScroller>
       ) : null}
       <Text
         typography='SUIT_14_R'
@@ -238,10 +246,9 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
 };
 
 const ImageScrollContainer = styled(Flex)`
-  ${horizontalScroll};
-  ${scrollOverMargin(24, 24)};
-
   gap: 8px;
+  padding-right: 24px;
+  padding-left: 24px;
 `;
 
 const StyledContent = styled(Text)`
