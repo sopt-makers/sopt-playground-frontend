@@ -18,6 +18,7 @@ interface Post {
     };
     careers: {
       companyName: string;
+      title: string;
     } | null;
   };
   categoryId: number | null;
@@ -25,11 +26,13 @@ interface Post {
 }
 
 export enum Category {
-  자유,
+  자유 = 1,
   파트,
   SOPT_활동,
   홍보,
   취업_진로,
+  후기 = 19,
+  꿀팁,
 }
 
 const 특수임원List = [
@@ -58,8 +61,12 @@ export function getMemberInfo(post: Post) {
     return `${post.categoryName}에 남김`;
   }
 
-  if (post.categoryId === Category.취업_진로) {
-    return `${post.member.careers?.companyName ?? defaultInfo}`;
+  if (
+    post.categoryId === Category.취업_진로 ||
+    post.categoryId === Category.후기 ||
+    post.categoryId === Category.꿀팁
+  ) {
+    return `${post.member.careers ? `${post.member.careers.title} @${post.member.careers.companyName}` : defaultInfo}`;
   }
 
   return defaultInfo;
