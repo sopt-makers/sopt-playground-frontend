@@ -4,6 +4,7 @@ import { Virtuoso } from 'react-virtuoso';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Loading from '@/components/common/Loading';
+import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
@@ -26,6 +27,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
   const { handleReport } = useReportFeed();
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
+  const toast = useToast();
 
   return (
     <>
@@ -65,7 +67,16 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                       </Flex>
                     }
                   >
-                    {post.isMine ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
+                    {post.isMine ? (
+                      <FeedDropdown.Item
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toast.show({ message: '아직 지원하지 않는 기능이에요.' });
+                        }}
+                      >
+                        수정
+                      </FeedDropdown.Item>
+                    ) : null}
                     <FeedDropdown.Item
                       onClick={(e) => {
                         e.stopPropagation();
