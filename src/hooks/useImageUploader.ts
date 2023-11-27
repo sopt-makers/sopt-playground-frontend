@@ -9,7 +9,6 @@ interface Options {
 
 export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const urlsRef = useRef<string[]>([]);
 
   const handleClickImageInput = () => {
     const inputEl = imageInputRef.current;
@@ -19,10 +18,14 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
     inputEl.onchange = async () => {
       if (inputEl.files == null || inputEl.files.length === 0) return;
 
-      const files =
-        resizeHeight == null
-          ? inputEl.files
-          : await Promise.all(Array.from(inputEl.files).map((file) => tryResizeFile(file, resizeHeight)));
+      // MEMO: 리사이징 로직 임시 주석 처리
+      // const files =
+      //   resizeHeight == null
+      //     ? inputEl.files
+      //     : await Promise.all(Array.from(inputEl.files).map((file) => tryResizeFile(file, resizeHeight)));
+      const files = inputEl.files;
+
+      const urls: string[] = [];
 
       await Promise.all(
         Array.from(files).map(async (file) => {
@@ -38,14 +41,13 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
             });
 
             const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
-            urlsRef.current.push(s3Url);
+            urls.push(s3Url);
           } catch (error) {
             console.error(error);
           }
         }),
       );
-      onSuccess?.(urlsRef.current);
-      urlsRef.current = [];
+      onSuccess?.(urls);
     };
 
     inputEl.click();
