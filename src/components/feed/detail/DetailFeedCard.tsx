@@ -421,7 +421,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           onFocus={() => setIsFocus(true)}
           placeholder='댓글을 남겨주세요.'
         />
-        {isPending && <Loading />}
         <SendButton
           type='submit'
           initial={{
@@ -430,9 +429,9 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           animate={{
             backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
           }}
-          disabled={!is버튼액티브}
+          disabled={!is버튼액티브 || isPending}
         >
-          <IconSendFill />
+          {isPending ? <Loading size={4} /> : <IconSendFill />}
         </SendButton>
       </Flex>
     </Container>

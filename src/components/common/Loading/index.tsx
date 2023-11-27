@@ -33,32 +33,33 @@ const variants: AnimationProps['variants'] = {
 
 type LoadingColor = 'default' | 'white';
 
-interface LoadingProps {
+type LoadingProps = {
   type?: 'default' | 'fullPage';
-  color?: LoadingColor;
-}
-const Loading: FC<LoadingProps> = ({ type = 'default', color = 'default' }) => {
+} & LoadingDotsProps;
+
+const Loading: FC<LoadingProps> = ({ type = 'default', ...props }) => {
   if (type === 'fullPage') {
     return (
       <FullPageWrapper>
-        <LoadingDefault color={color} />
+        <LoadingDots {...props} />
       </FullPageWrapper>
     );
   }
-  return <LoadingDefault color={color} />;
+  return <LoadingDots {...props} />;
 };
 
 export default Loading;
 
-interface LoadingDefaultProps {
-  color: LoadingColor;
+interface LoadingDotsProps {
+  color?: LoadingColor;
+  size?: number;
 }
 
-const LoadingDefault = ({ color }: LoadingDefaultProps) => (
-  <StyledLoading>
-    <LoadingDot variants={variants} animate='loadingOne' color={color} />
-    <LoadingDot variants={variants} animate='loadingTwo' color={color} />
-    <LoadingDot variants={variants} animate='loadingThree' color={color} />
+const LoadingDots = ({ color = 'default', size = 12 }: LoadingDotsProps) => (
+  <StyledLoading size={size}>
+    <LoadingDot variants={variants} animate='loadingOne' color={color} size={size} />
+    <LoadingDot variants={variants} animate='loadingTwo' color={color} size={size} />
+    <LoadingDot variants={variants} animate='loadingThree' color={color} size={size} />
   </StyledLoading>
 );
 
@@ -70,17 +71,17 @@ const FullPageWrapper: FC<PropsWithChildren<unknown>> = ({ children }) => {
   );
 };
 
-const StyledLoading = styled.div`
+const StyledLoading = styled.div<{ size: number }>`
   display: flex;
-  gap: 12px;
+  gap: ${({ size }) => `${size}px`};
   align-items: center;
 `;
 
-const LoadingDot = styled(m.span)<{ color: LoadingColor }>`
+const LoadingDot = styled(m.span)<{ color: LoadingColor; size: number }>`
   border-radius: 100%;
   background-color: ${({ color }) => (color === 'default' ? colors.gray50 : colors.gray10)};
-  width: 12px;
-  height: 12px;
+  width: ${({ size }) => `${size}px`};
+  height: ${({ size }) => `${size}px`};
 `;
 
 const StyledBackground = styled.div`
