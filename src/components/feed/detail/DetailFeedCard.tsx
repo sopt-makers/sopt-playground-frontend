@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import reactTextareaAutosize from 'react-textarea-autosize';
 
 import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
@@ -413,8 +414,8 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           <Text typography='SUIT_12_M'>익명으로 남기기</Text>
         </InputContent>
       </InputAnimateArea>
-      <Flex>
-        <StyledInput
+      <Flex align='flex-end'>
+        <StyledTextArea
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setIsFocus(true)}
@@ -444,7 +445,7 @@ const Container = styled.div<{ showInputAnimateArea: boolean }>`
   position: fixed;
   bottom: 0;
   border-top: 1px solid ${colors.gray800};
-  border-bottom: 1px solid ${colors.gray800};
+  border-right: 1px solid ${colors.gray800};
   background-color: ${colors.gray950};
   padding: 12px 16px;
   width: 100%;
@@ -452,7 +453,9 @@ const Container = styled.div<{ showInputAnimateArea: boolean }>`
   ${({ showInputAnimateArea }) => showInputAnimateArea && `border-radius: 10px;`};
 
   @media ${MOBILE_MEDIA_QUERY} {
+    border-right: none;
     padding: 10px 16px;
+    max-width: 100%;
     ${({ showInputAnimateArea }) => showInputAnimateArea && `padding-top: 12px;`};
   }
 `;
@@ -472,9 +475,16 @@ const InputContent = styled.div`
   align-items: center;
 `;
 
-const StyledInput = styled.input`
+const StyledTextArea = styled(reactTextareaAutosize)`
   flex: 1;
   border: none;
+  border-width: 0;
+  background-color: ${colors.background};
+  padding-bottom: 7px;
+  max-height: 180px;
+  resize: none;
+  line-height: 22px;
+
   ${textStyles.SUIT_16_M};
 
   :focus {
