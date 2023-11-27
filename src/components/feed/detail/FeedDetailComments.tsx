@@ -112,5 +112,6 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
 export default FeedDetailComments;
 
 const Container = styled.div`
+  flex: 1;
   margin-bottom: 80px;
 `;
