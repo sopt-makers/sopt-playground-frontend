@@ -435,15 +435,11 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
 };
 
 const Container = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: 0;
   border-top: 1px solid ${colors.gray800};
   border-bottom: 1px solid ${colors.gray800};
   border-radius: 10px;
   background-color: ${colors.gray950};
   padding: 16px;
-  width: 100%;
 `;
 
 const InputAnimateArea = styled(m.div)`
