@@ -370,7 +370,7 @@ interface InputProps {
   onChange: (value: string) => void;
   isBlindChecked: boolean;
   onChangeIsBlindChecked: (checked: boolean) => void;
-  isPending: boolean;
+  isPending?: boolean;
 }
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
