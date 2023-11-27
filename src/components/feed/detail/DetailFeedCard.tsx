@@ -416,22 +416,19 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           onFocus={() => setIsFocus(true)}
           placeholder='댓글을 남겨주세요.'
         />
-        {isPending ? (
-          <Loading />
-        ) : (
-          <SendButton
-            type='submit'
-            initial={{
-              backgroundColor: colors.gray800,
-            }}
-            animate={{
-              backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
-            }}
-            disabled={!is버튼액티브}
-          >
-            <IconSendFill />
-          </SendButton>
-        )}
+        {isPending && <Loading />}
+        <SendButton
+          type='submit'
+          initial={{
+            backgroundColor: colors.gray800,
+          }}
+          animate={{
+            backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
+          }}
+          disabled={!is버튼액티브}
+        >
+          <IconSendFill />
+        </SendButton>
       </Flex>
     </Container>
   );
