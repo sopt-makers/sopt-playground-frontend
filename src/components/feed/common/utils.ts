@@ -32,11 +32,12 @@ export enum Category {
   취업_진로,
 }
 
-const MAKERS_LEAD_PART = '메이커스 리드';
-
 export function getMemberInfo(post: Post) {
+  const partRegex = /\b(메이커스 리드|파트장|운영 팀장|미디어 팀장|부회장|회장|총무)\b/;
+  const is특수임원 = partRegex.test(post.member.activity.part);
+
   const defaultInfo = `${post.member.activity.generation}기 ${
-    post.member.activity.part === MAKERS_LEAD_PART ? post.member.activity.part : `${post.member.activity.part}파트`
+    is특수임원 ? post.member.activity.part : `${post.member.activity.part}파트`
   }`;
 
   if (post.categoryId == null) {
