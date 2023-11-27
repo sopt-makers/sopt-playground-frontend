@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
@@ -399,12 +399,14 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     onChangeIsBlindChecked(isBlindWriter);
   };
 
+  const showInputAnimateArea = useMemo(() => isFocus || isBlindChecked, [isFocus, isBlindChecked]);
+
   return (
-    <Container ref={containerRef}>
+    <Container ref={containerRef} showInputAnimateArea={showInputAnimateArea}>
       <InputAnimateArea
         initial={{ height: 0 }}
-        animate={{ height: isFocus ? '34px' : 0 }}
-        transition={{ bounce: 0, stiffness: 1000 }}
+        animate={{ height: isFocus || isBlindChecked ? '28px' : 0 }}
+        transition={{ bounce: 0, stiffness: 1000, duration: 0.2 }}
       >
         <InputContent>
           <Checkbox size='small' checked={isBlindChecked} onChange={(e) => handleCheckBlindWriter(e.target.checked)} />
@@ -436,18 +438,23 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ showInputAnimateArea: boolean }>`
   --card-max-width: 560px;
 
   position: fixed;
   bottom: 0;
   border-top: 1px solid ${colors.gray800};
   border-bottom: 1px solid ${colors.gray800};
-  border-radius: 10px;
   background-color: ${colors.gray950};
-  padding: 16px;
+  padding: 12px 16px;
   width: 100%;
   max-width: var(--card-max-width);
+  ${({ showInputAnimateArea }) => showInputAnimateArea && `border-radius: 10px;`};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 10px 16px;
+    ${({ showInputAnimateArea }) => showInputAnimateArea && `padding-top: 12px;`};
+  }
 `;
 
 const InputAnimateArea = styled(m.div)`
@@ -480,8 +487,12 @@ const StyledInput = styled.input`
 `;
 
 const SendButton = styled(m.button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 12px;
-  padding: 8px;
+  width: 36px;
+  height: 36px;
 `;
 
 const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizontal' }) => {
