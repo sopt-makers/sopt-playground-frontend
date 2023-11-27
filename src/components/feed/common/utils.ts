@@ -33,8 +33,9 @@ export enum Category {
 }
 
 export function getMemberInfo(post: Post) {
-  const partRegex = /\b(메이커스 리드|파트장|운영 팀장|미디어 팀장|부회장|회장|총무)\b/;
-  const is특수임원 = partRegex.test(post.member.activity.part);
+  const 특수임원Regex =
+    /(메이커스 리드|기획 파트장|디자인 파트장|웹 파트장|서버 파트장|안드로이드 파트장|iOS 파트장|운영 팀장|미디어 팀장|회장|부회장|총무)/;
+  const is특수임원 = 특수임원Regex.test(post.member.activity.part);
 
   const defaultInfo = `${post.member.activity.generation}기 ${
     is특수임원 ? post.member.activity.part : `${post.member.activity.part}파트`
