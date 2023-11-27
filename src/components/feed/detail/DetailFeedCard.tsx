@@ -6,6 +6,7 @@ import { m } from 'framer-motion';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
+import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Loading from '@/components/common/Loading';
 import ScrollContainer from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
@@ -221,11 +222,18 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
         <StyledContent>{parseTextToLink(content)}</StyledContent>
       </Stack>
       {images.length !== 0 ? (
-        <ImageScrollContainer onClick={() => setOpenSlider(true)}>
-          {images.map((image, index) => (
-            <ImageItem key={index} src={image} alt='image' />
-          ))}
-        </ImageScrollContainer>
+        <HorizontalScroller
+          css={{
+            marginRight: -24,
+            marginLeft: -24,
+          }}
+        >
+          <ImageScrollContainer>
+            {images.map((image, index) => (
+              <ImageItem key={index} src={image} alt='image' onClick={() => setOpenSlider(true)} />
+            ))}
+          </ImageScrollContainer>
+        </HorizontalScroller>
       ) : null}
       <Text
         typography='SUIT_14_R'
@@ -239,19 +247,8 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
 
 const ImageScrollContainer = styled(Flex)`
   gap: 8px;
-  margin-right: -24px;
-  margin-left: -24px;
   padding-right: 24px;
   padding-left: 24px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const StyledContent = styled(Text)`
