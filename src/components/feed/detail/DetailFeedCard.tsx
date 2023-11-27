@@ -435,6 +435,8 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
 };
 
 const Container = styled.div`
+  --card-max-width: 560px;
+
   position: fixed;
   bottom: 0;
   border-top: 1px solid ${colors.gray800};
@@ -443,6 +445,7 @@ const Container = styled.div`
   background-color: ${colors.gray950};
   padding: 16px;
   width: 100%;
+  max-width: var(--card-max-width);
 `;
 
 const InputAnimateArea = styled(m.div)`
