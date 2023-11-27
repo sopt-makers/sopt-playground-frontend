@@ -319,17 +319,17 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
             <Stack.Horizontal gutter={2}>
-              <Text typography='SUIT_13_SB' color={colors.gray10}>
+              <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                 {!isBlindWriter ? name : '익명'}
               </Text>
               {!isBlindWriter && (
-                <Text typography='SUIT_13_R' color={colors.gray100}>
+                <InfoText typography='SUIT_13_R' color={colors.gray100}>
                   {`∙ ${info}`}
-                </Text>
+                </InfoText>
               )}
             </Stack.Horizontal>
             <Flex>
-              <Text typography='SUIT_13_R' color={colors.gray400}>
+              <Text typography='SUIT_13_R' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
                 {getRelativeTime(createdAt)}
               </Text>
               {moreIcon}
@@ -366,6 +366,17 @@ const CommentProfileImage = styled.img`
   width: 32px;
   height: 32px;
   object-fit: cover;
+`;
+
+const InfoText = styled(Text)`
+  white-space: nowrap;
+
+  @media ${'screen and (max-width: 460px)'} {
+    max-width: 178px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 interface InputProps {
