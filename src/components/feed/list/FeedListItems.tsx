@@ -1,8 +1,10 @@
+import { Flex } from '@toss/emotion-utils';
 import { FC, ReactNode } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Loading from '@/components/common/Loading';
+import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
@@ -25,6 +27,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
   const { handleReport } = useReportFeed();
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
+  const toast = useToast();
 
   return (
     <>
@@ -59,12 +62,21 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 rightIcon={
                   <FeedDropdown
                     trigger={
-                      <button>
+                      <Flex as='button'>
                         <FeedCard.Icon name='moreHorizon' />
-                      </button>
+                      </Flex>
                     }
                   >
-                    {post.isMine ? <FeedDropdown.Item>수정</FeedDropdown.Item> : null}
+                    {post.isMine ? (
+                      <FeedDropdown.Item
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toast.show({ message: '아직 지원하지 않는 기능이에요.' });
+                        }}
+                      >
+                        수정
+                      </FeedDropdown.Item>
+                    ) : null}
                     <FeedDropdown.Item
                       onClick={(e) => {
                         e.stopPropagation();
@@ -101,29 +113,33 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                   </FeedDropdown>
                 }
               >
-                <FeedCard.Image>
-                  {post.images.map((image, index) => (
-                    <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
-                  ))}
-                </FeedCard.Image>
-                <FeedCard.Comment>
-                  {post.comments.map((comment) =>
-                    comment.isBlindWriter ? (
-                      <FeedCard.CommentItem
-                        key={comment.id}
-                        comment={comment.content}
-                        isBlindWriter={comment.isBlindWriter}
-                      />
-                    ) : comment.member ? (
-                      <FeedCard.CommentItem
-                        key={comment.id}
-                        comment={comment.content}
-                        isBlindWriter={comment.isBlindWriter}
-                        name={comment.member.name}
-                      />
-                    ) : null,
-                  )}
-                </FeedCard.Comment>
+                {post.images.length !== 0 && (
+                  <FeedCard.Image>
+                    {post.images.map((image, index) => (
+                      <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
+                    ))}
+                  </FeedCard.Image>
+                )}
+                {post.comments.length !== 0 && (
+                  <FeedCard.Comment>
+                    {post.comments.map((comment) =>
+                      comment.isBlindWriter ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                        />
+                      ) : comment.member ? (
+                        <FeedCard.CommentItem
+                          key={comment.id}
+                          comment={comment.content}
+                          isBlindWriter={comment.isBlindWriter}
+                          name={comment.member.name}
+                        />
+                      ) : null,
+                    )}
+                  </FeedCard.Comment>
+                )}
               </FeedCard>
             ),
           });

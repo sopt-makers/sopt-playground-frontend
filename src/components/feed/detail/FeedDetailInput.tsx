@@ -1,9 +1,11 @@
+import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 import { atomFamily, useRecoilState } from 'recoil';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import { PLAYGROUND_ORIGIN } from '@/constants/links';
 
 interface FeedDetailInputProps {
   postId: string;
@@ -18,15 +20,20 @@ const commentAtomFamily = atomFamily({
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
-  const { mutate: postComment } = usePostCommentMutation(postId);
+  const { mutate: postComment, isPending } = usePostCommentMutation(postId);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const isEmptyText = commentData.text.trim() === '';
+    if (isEmptyText) {
+      return;
+    }
     postComment(
       {
         content: commentData.text,
         isBlindWriter: commentData.isBlindWriter,
         isChildComment: false,
+        webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
       },
       {
         onSuccess: async () => {
@@ -48,6 +55,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
         onChange={(newValue) => setCommentData((prev) => ({ ...prev, text: newValue }))}
         isBlindChecked={commentData.isBlindWriter}
         onChangeIsBlindChecked={(newValue) => setCommentData((prev) => ({ ...prev, isBlindWriter: newValue }))}
+        isPending={isPending}
       />
     </form>
   );

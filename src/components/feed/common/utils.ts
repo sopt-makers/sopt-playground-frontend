@@ -18,6 +18,7 @@ interface Post {
     };
     careers: {
       companyName: string;
+      title: string;
     } | null;
   };
   categoryId: number | null;
@@ -25,22 +26,47 @@ interface Post {
 }
 
 export enum Category {
-  자유,
+  자유 = 1,
   파트,
   SOPT_활동,
   홍보,
   취업_진로,
+  후기 = 19,
+  꿀팁,
 }
 
+const 특수임원List = [
+  '메이커스 리드',
+  '기획 파트장',
+  '디자인 파트장',
+  '웹 파트장',
+  '서버 파트장',
+  '안드로이드 파트장',
+  'iOS 파트장',
+  '운영 팀장',
+  '미디어 팀장',
+  '회장',
+  '부회장',
+  '총무',
+] as const;
+
 export function getMemberInfo(post: Post) {
-  const defaultInfo = `${post.member.activity.generation}기 ${post.member.activity.part}파트`;
+  const is특수임원 = 특수임원List.some((keyword) => post.member.activity.part.includes(keyword));
+
+  const defaultInfo = `${post.member.activity.generation}기 ${
+    is특수임원 ? post.member.activity.part : `${post.member.activity.part}파트`
+  }`;
 
   if (post.categoryId == null) {
     return `${post.categoryName}에 남김`;
   }
 
-  if (post.categoryId === Category.취업_진로) {
-    return `${post.member.careers?.companyName ?? defaultInfo}`;
+  if (
+    post.categoryId === Category.취업_진로 ||
+    post.categoryId === Category.후기 ||
+    post.categoryId === Category.꿀팁
+  ) {
+    return `${post.member.careers ? `${post.member.careers.title} @${post.member.careers.companyName}` : defaultInfo}`;
   }
 
   return defaultInfo;

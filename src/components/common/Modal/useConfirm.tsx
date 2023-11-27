@@ -16,6 +16,7 @@ const useConfirm = () => {
       okButtonText: string;
       okButtonColor?: string;
       okButtonTextColor?: string;
+      zIndex?: number;
     }) =>
       new Promise<boolean>((resolve) => {
         open(({ isOpen, close }) => (
@@ -25,6 +26,7 @@ const useConfirm = () => {
               resolve(false);
               close();
             }}
+            zIndex={options.zIndex}
           >
             <StyledModalContent>
               <Modal.Title>{options.title}</Modal.Title>

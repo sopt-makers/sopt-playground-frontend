@@ -9,7 +9,7 @@ import { textStyles } from '@/styles/typography';
 
 interface MemberFormItemProps {
   title: string;
-  essential?: boolean;
+  required?: boolean;
   description?: string;
   errorMessage?: string;
   children: ReactNode;
@@ -18,7 +18,7 @@ interface MemberFormItemProps {
 
 export default function MemberFormItem({
   title,
-  essential,
+  required,
   description,
   errorMessage,
   children,
@@ -28,7 +28,7 @@ export default function MemberFormItem({
     <div className={className}>
       <StyledTitle>
         <div className='title'>{title}</div>
-        {essential && <StyledEssential>*</StyledEssential>}
+        {required && <StyledRequired>*</StyledRequired>}
       </StyledTitle>
       {description && <StyledDescription>{description}</StyledDescription>}
       {children}
@@ -52,7 +52,7 @@ const StyledTitle = styled(Text)`
   }
 `;
 
-const StyledEssential = styled(Text)`
+const StyledRequired = styled(Text)`
   margin: 0 0 0 4px;
   color: ${colors.secondary};
   ${textStyles.SUIT_16_M};

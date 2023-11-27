@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
+import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 
 export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   const [feedData, setFeedData] = useState(initialForm);
+  const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
   const handleSaveMainCategory = (categoryId: number) => {
     setFeedData((feedData) => ({ ...feedData, mainCategoryId: categoryId }));
@@ -18,6 +20,8 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   };
 
   const handleSaveIsBlindWriter = (isBlindWriter: boolean) => {
+    isBlindWriter && handleShowBlindWriterPromise();
+
     setFeedData((feedData) => ({ ...feedData, isBlindWriter: isBlindWriter }));
   };
 
@@ -31,8 +35,8 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     setFeedData((feedData) => ({ ...feedData, content: e.target.value }));
   };
 
-  const saveImageUrls = (urls: string) => {
-    setFeedData((feedData) => ({ ...feedData, images: [...feedData.images, urls] }));
+  const saveImageUrls = (urls: string[]) => {
+    setFeedData((feedData) => ({ ...feedData, images: [...feedData.images, ...urls] }));
   };
 
   const removeImage = (index: number) => {

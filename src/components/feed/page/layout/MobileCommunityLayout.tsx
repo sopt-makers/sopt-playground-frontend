@@ -3,6 +3,8 @@ import { colors } from '@sopt-makers/colors';
 import { FC, ReactNode } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
+import { zIndex } from '@/styles/zIndex';
+
 interface MobileCommunityLayoutProps {
   isDetailOpen: boolean;
   listSlot: ReactNode;
@@ -37,7 +39,7 @@ const ListSlotBox = styled.div`
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: ${zIndex.헤더};
   overflow: hidden;
 `;
 
