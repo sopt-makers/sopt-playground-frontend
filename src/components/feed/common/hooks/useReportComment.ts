@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { usePostReportCommentMutation } from '@/api/endpoint/feed/postReportComment';
 import useAlert from '@/components/common/Modal/useAlert';
 import useConfirm from '@/components/common/Modal/useConfirm';
+import { zIndex } from '@/styles/zIndex';
 
 interface Options {
   commentId: string;
@@ -21,6 +22,7 @@ export const useReportComment = () => {
         description: '댓글을 신고할 경우, 메이커스에서 검토를 거쳐 적절한 조치 및 게시자 제재를 취해요.',
         okButtonText: '신고하기',
         cancelButtonText: '취소',
+        zIndex: zIndex.헤더,
       });
 
       if (result) {

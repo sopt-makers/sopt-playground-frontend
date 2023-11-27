@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 
 import { useDeleteCommentMutation } from '@/api/endpoint/feed/deleteComment';
 import useConfirm from '@/components/common/Modal/useConfirm';
+import { zIndex } from '@/styles/zIndex';
 
 interface Options {
   commentId: string;
@@ -22,6 +23,7 @@ export const useDeleteComment = () => {
         okButtonTextColor: colors.white,
         okButtonText: '삭제하기',
         cancelButtonText: '취소',
+        zIndex: zIndex.헤더,
       });
 
       if (result) {

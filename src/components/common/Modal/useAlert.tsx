@@ -17,6 +17,7 @@ const useAlert = () => {
       buttonColor?: string;
       buttonTextColor?: string;
       maxWidth?: number;
+      zIndex?: number;
     }) =>
       new Promise<boolean>((resolve) => {
         open(({ isOpen, close }) => (
@@ -27,6 +28,7 @@ const useAlert = () => {
               close();
             }}
             hideCloseButton={options.hideCloseButton ?? false}
+            zIndex={options.zIndex}
           >
             <StyledModalContent maxWidth={options.maxWidth}>
               <Modal.Title>{options.title}</Modal.Title>
