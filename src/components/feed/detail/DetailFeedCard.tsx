@@ -378,7 +378,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
-  const is버튼액티브 = isFocus && value.length > 0;
+  const is버튼액티브 = isFocus && value.length > 0 && !isPending;
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -427,6 +427,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             animate={{
               backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
             }}
+            disabled={!is버튼액티브}
           >
             <IconSendFill />
           </SendButton>
