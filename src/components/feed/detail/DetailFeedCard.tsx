@@ -6,6 +6,7 @@ import { m } from 'framer-motion';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
+import Loading from '@/components/common/Loading';
 import Text from '@/components/common/Text';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import {
@@ -369,9 +370,10 @@ interface InputProps {
   onChange: (value: string) => void;
   isBlindChecked: boolean;
   onChangeIsBlindChecked: (checked: boolean) => void;
+  isPending: boolean;
 }
 
-const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked }: InputProps) => {
+const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
   const [isFocus, setIsFocus] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
@@ -414,17 +416,21 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked }: Inpu
           onFocus={() => setIsFocus(true)}
           placeholder='댓글을 남겨주세요.'
         />
-        <SendButton
-          type='submit'
-          initial={{
-            backgroundColor: colors.gray800,
-          }}
-          animate={{
-            backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
-          }}
-        >
-          <IconSendFill />
-        </SendButton>
+        {isPending ? (
+          <Loading />
+        ) : (
+          <SendButton
+            type='submit'
+            initial={{
+              backgroundColor: colors.gray800,
+            }}
+            animate={{
+              backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
+            }}
+          >
+            <IconSendFill />
+          </SendButton>
+        )}
       </Flex>
     </Container>
   );
