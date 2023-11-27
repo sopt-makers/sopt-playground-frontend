@@ -18,7 +18,7 @@ const commentAtomFamily = atomFamily({
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
-  const { mutate: postComment } = usePostCommentMutation(postId);
+  const { mutate: postComment, isPending } = usePostCommentMutation(postId);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,6 +48,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
         onChange={(newValue) => setCommentData((prev) => ({ ...prev, text: newValue }))}
         isBlindChecked={commentData.isBlindWriter}
         onChangeIsBlindChecked={(newValue) => setCommentData((prev) => ({ ...prev, isBlindWriter: newValue }))}
+        isPending={isPending}
       />
     </form>
   );
