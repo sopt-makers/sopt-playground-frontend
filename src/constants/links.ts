@@ -5,7 +5,7 @@ export const MENTOR_APPLICATION_URL = 'https://forms.gle/iMiCSnqy5oWqAsx47';
 export const MAKERS_TEAM_URL =
   'https://makers.sopt.org/?utm_source=playground&utm_medium=footer&utm_campaign=recruiting&utm_id=3rd_makers';
 export const PLAYGROUND_ORIGIN =
-  process.env.NODE_ENV === 'development' ? `https://sopt-internal-dev.pages.dev` : `https://playground.sopt.org/`;
+  process.env.NODE_ENV === 'development' ? `https://sopt-internal-dev.pages.dev` : `https://playground.sopt.org`;
 
 export const playgroundLink = {
   memberList: () => `/members`,
