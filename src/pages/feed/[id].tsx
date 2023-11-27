@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import Responsive from '@/components/common/Responsive';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
