@@ -24,6 +24,10 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const isEmptyText = commentData.text.trim() === '';
+    if (isEmptyText) {
+      return;
+    }
     postComment(
       {
         content: commentData.text,
