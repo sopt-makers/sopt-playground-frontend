@@ -35,7 +35,7 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         />
       ) : null}
       <DetailFeedCard.Content
-        isQuestion
+        isQuestion={postData.posts.isQuestion}
         title={postData.posts.title}
         hits={postData.posts.hits}
         commentLength={commentData?.length ?? 0}
