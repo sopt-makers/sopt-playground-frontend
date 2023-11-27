@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as Dialog from '@radix-ui/react-dialog';
 import { colors } from '@sopt-makers/colors';
@@ -18,6 +19,7 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
   isOpen?: boolean;
   onClose: () => void;
   hideCloseButton?: boolean;
+  zIndex?: number;
 }
 
 const ModalComponent: FC<ModalProps> = (props) => {
@@ -30,7 +32,7 @@ const ModalComponent: FC<ModalProps> = (props) => {
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <DialogPortal>
-        <StyledBackground asChild>
+        <StyledBackground zIndex={props.zIndex} asChild>
           <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
             <StyledModalContainer asChild {...restProps}>
               <m.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ duration: 0.2 }}>
@@ -59,13 +61,19 @@ const Modal = Object.assign(ModalComponent, {
 
 export default Modal;
 
-const StyledBackground = styled(Dialog.Overlay)`
+const StyledBackground = styled(Dialog.Overlay)<{ zIndex?: number }>`
   display: flex;
   position: fixed;
   inset: 0;
   align-items: center;
   justify-content: center;
   background-color: rgb(0 0 0 / 30%);
+
+  ${({ zIndex }) =>
+    zIndex &&
+    css`
+      z-index: ${zIndex};
+    `}
 `;
 
 const StyledModalContainer = styled(Dialog.Content)`
