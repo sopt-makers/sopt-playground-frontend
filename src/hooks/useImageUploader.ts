@@ -2,12 +2,7 @@ import { useRef } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 
-interface Options {
-  onSuccess?: (s3Url: string) => void;
-  resizeHeight?: number;
-}
-
-export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
+export default function useImageUploader(onSuccess?: (s3Url: string) => void) {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleClickImageInput = () => {
@@ -16,12 +11,9 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
     inputEl.value = '';
     inputEl.onchange = async function (this: GlobalEventHandlers, ev: Event) {
       ev.stopPropagation();
-
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
-
-      const file = resizeHeight == null ? files[0] : await tryResizeFile(files[0], resizeHeight);
-
+      const file = files[0];
       try {
         const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
         if (!signedUrl) {
@@ -44,16 +36,3 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
 
   return { imageInputRef, handleClickImageInput };
 }
-
-const tryResizeFile = async (file: File, targetHeight: number) => {
-  try {
-    const { readAndCompressImage } = await import('browser-image-resizer');
-    const blob = await readAndCompressImage(file, { maxHeight: targetHeight, mimeType: 'image/jpeg' });
-    const newFile = new File([blob], file.name, {
-      type: 'image/jpeg',
-    });
-    return newFile;
-  } catch {
-    return file;
-  }
-};

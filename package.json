@@ -49,7 +49,6 @@
     "@toss/use-overlay": "^1.3.6",
     "await-to-js": "^3.0.0",
     "axios": "^0.27.2",
-    "browser-image-resizer": "^2.4.1",
     "cmdk": "^0.2.0",
     "dayjs": "^1.11.3",
     "focus-trap-react": "^10.0.2",
