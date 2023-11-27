@@ -6,6 +6,7 @@ import { PropsWithChildren, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
+import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { horizontalScroll, scrollOverMargin } from '@/styles/mixin';
@@ -39,6 +40,8 @@ const Base = ({
   children,
   rightIcon,
 }: PropsWithChildren<BaseProps>) => {
+  const [categoryId] = useCategoryParam({ defaultValue: '' });
+
   return (
     <Flex
       css={{
@@ -58,20 +61,14 @@ const Base = ({
       <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
         <Stack gutter={title ? 8 : 4}>
           <Flex justify='space-between'>
-            {isBlindWriter ? (
+            <Top align='center'>
               <Text typography='SUIT_14_SB' lineHeight={20}>
-                익명
+                {isBlindWriter ? '익명' : name}
               </Text>
-            ) : (
-              <Top align='center'>
-                <Text typography='SUIT_14_SB' lineHeight={20}>
-                  {name}
-                </Text>
-                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                  {info}
-                </Text>
-              </Top>
-            )}
+              <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                {isBlindWriter ? (categoryId ? '' : info) : info}
+              </Text>
+            </Top>
             <Stack.Horizontal gutter={4} align='center'>
               <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
                 {getRelativeTime(createdAt)}

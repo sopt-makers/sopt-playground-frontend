@@ -13,7 +13,7 @@ import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { getMemberInfo } from '@/components/feed/common/utils';
+import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
 interface FeedListItemsProps {
   categoryId: string | undefined;
@@ -36,13 +36,33 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
     queryFn: getCategory.request,
   });
 
-  const parentCategory = (categoryId: number, part: string) => {
+  const parentCategory = (categoryId: number, tag: string) => {
     const category =
-      categoryData && categoryData.find((category) => category.children.some((tag) => tag.id === categoryId))?.name;
+      categoryData &&
+      categoryData.find((category) =>
+        category.children.length > 0
+          ? category.children.some((tag) => tag.id === categoryId)
+          : category.id === categoryId,
+      )?.name;
 
-    const uploadedCategory = category === '파트' ? part + category : category;
+    return uploadedCategory(category, tag);
+  };
 
-    return uploadedCategory;
+  const uploadedCategory = (category: string | undefined, tag: string) => {
+    switch (category) {
+      case tag:
+        return category;
+      case CategoryList.파트:
+        return tag + category;
+      case CategoryList.SOPT활동:
+        return tag;
+      case CategoryList.취업_진로:
+        return '취업 ' + tag;
+      case CategoryList.홍보:
+        return tag === '채용' ? tag : tag + ' ' + category;
+      default:
+        return category;
+    }
   };
 
   return (
