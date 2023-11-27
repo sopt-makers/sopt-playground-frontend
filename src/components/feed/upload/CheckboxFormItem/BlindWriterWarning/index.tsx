@@ -38,4 +38,8 @@ const WarningBoxWrapper = styled.section`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    justify-content: center;
+  }
 `;

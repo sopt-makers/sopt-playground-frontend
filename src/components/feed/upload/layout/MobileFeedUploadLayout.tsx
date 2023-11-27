@@ -23,15 +23,15 @@ const HeaderWrapper = styled.header`
 `;
 
 const BodyWrapper = styled.section`
+  margin-top: 10px;
   width: 100%;
 `;
 
 const FooterWrapper = styled.footer`
   display: flex;
-  position: absolute;
-  bottom: 8px;
   flex-direction: column;
   gap: 8px;
+  margin-bottom:10px;
   padding: 0 16px;
   width: 100%;
 `;
