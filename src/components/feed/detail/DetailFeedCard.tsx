@@ -259,6 +259,7 @@ const StyledContent = styled(Text)`
 const QuestionBadge = styled.div`
   display: inline-flex;
   align-self: flex-start;
+  transform: translateY(-2.4px);
   margin-right: 4px;
   border-radius: 5px;
   background-color: ${colors.orangeAlpha200};
