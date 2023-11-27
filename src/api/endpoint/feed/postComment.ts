@@ -8,6 +8,8 @@ interface RequestBody {
   isBlindWriter: boolean;
   isChildComment: boolean;
   parentCommentId?: number;
+  // webLink를 넣어서 보낼 경우만 푸시 알림
+  webLink?: string;
 }
 
 export const postComment = createEndpoint({
