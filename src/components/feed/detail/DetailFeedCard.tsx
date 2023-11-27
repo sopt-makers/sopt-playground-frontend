@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
@@ -19,6 +20,7 @@ import {
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { horizontalScroll, scrollOverMargin } from '@/styles/mixin';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { parseTextToLink } from '@/utils/parseTextToLink';
@@ -70,6 +72,7 @@ const Header = ({
 };
 
 const StyledHeader = styled(Flex)`
+  border-top: 1px solid ${colors.gray800};
   padding: 15px 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -147,22 +150,24 @@ const Top = ({ isBlindWriter, profileImage, name, info, createdAt }: TopProps) =
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
         {isBlindWriter || profileImage == null ? (
-          <IconMember />
+          <IconMember size={40} />
         ) : (
           <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' />
         )}
-        <Stack.Vertical gutter={4}>
+        <Stack.Vertical gutter={4} justify='center'>
           <Name color={colors.gray10}>{isBlindWriter ? '익명' : name}</Name>
-          {!isBlindWriter ? (
+          {!isBlindWriter && (
             <Text typography='SUIT_13_R' color={colors.gray100}>
               {info}
             </Text>
-          ) : null}
+          )}
         </Stack.Vertical>
       </Flex>
-      <RelativeTimeText typography='SUIT_14_R' color={colors.gray300}>
-        {getRelativeTime(createdAt)}
-      </RelativeTimeText>
+      <Flex align='center'>
+        <RelativeTimeText typography='SUIT_14_R' color={colors.gray300}>
+          {getRelativeTime(createdAt)}
+        </RelativeTimeText>
+      </Flex>
     </Flex>
   );
 };
@@ -176,7 +181,7 @@ const ProfileImage = styled.img`
 `;
 
 const Name = styled(Text)`
-  ${textStyles.SUIT_16_SB};
+  ${textStyles.SUIT_15_SB};
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_SB};
@@ -206,36 +211,43 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
   return (
     <>
       <Stack gutter={8}>
-        <Flex css={{ gap: 3 }} align='center'>
-          {isQuestion ? <QuestionBadge>질문</QuestionBadge> : null}
-          <Title>{title}</Title>
-        </Flex>
+        {title && (
+          <Text typography='SUIT_20_SB' lineHeight={26}>
+            {isQuestion && <QuestionBadge>질문</QuestionBadge>}
+            {title}
+          </Text>
+        )}
         <StyledContent>{parseTextToLink(content)}</StyledContent>
       </Stack>
       {images.length !== 0 ? (
-        <Flex css={{ gap: 8, overflowX: 'auto' }} onClick={() => setOpenSlider(true)}>
+        <ImageScrollContainer onClick={() => setOpenSlider(true)}>
           {images.map((image, index) => (
             <ImageItem key={index} src={image} alt='image' />
           ))}
-        </Flex>
+        </ImageScrollContainer>
       ) : null}
-      <Text typography='SUIT_14_R' color={colors.gray300}>{`댓글 ${commentLength}개 ∙ ${hits}명 읽음`}</Text>
+      <Text
+        typography='SUIT_14_R'
+        lineHeight={20}
+        color={colors.gray300}
+      >{`댓글 ${commentLength}개 ∙ ${hits}명 읽음`}</Text>
       <FeedImageSlider opened={openSlider} images={images} onClose={() => setOpenSlider(false)} />
     </>
   );
 };
 
-const Title = styled(Text)`
-  ${textStyles.SUIT_20_SB};
+const ImageScrollContainer = styled(Flex)`
+  ${horizontalScroll};
+  ${scrollOverMargin(24, 24)};
+
+  gap: 8px;
 `;
 
 const StyledContent = styled(Text)`
-  line-height: 22px;
+  line-height: 26px;
   white-space: pre-wrap;
   color: ${colors.gray10};
-  ${textStyles.SUIT_16_R};
-
-  font-weight: 300;
+  ${textStyles.SUIT_16_L};
 
   a {
     text-decoration: underline;
@@ -243,16 +255,21 @@ const StyledContent = styled(Text)`
 `;
 
 const QuestionBadge = styled.div`
+  display: inline-flex;
   align-self: flex-start;
+  margin-right: 4px;
   border-radius: 5px;
   background-color: ${colors.orangeAlpha200};
-  padding: 6px;
+  padding: 4px 6px;
+  line-height: 18px;
   white-space: nowrap;
   color: ${colors.secondary};
+  ${textStyles.SUIT_14_SB};
 `;
 
 const ImageItem = styled.img`
   flex: 0;
+  border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 12px;
   cursor: pointer;
   height: 240px;
@@ -301,13 +318,13 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
           <Flex justify='space-between'>
             <Flex>
               <Text typography='SUIT_13_SB' color={colors.gray10}>
-                {!isBlindWriter ? `${name}∙` : '익명'}
+                {!isBlindWriter ? name : '익명'}
               </Text>
-              {!isBlindWriter ? (
+              {!isBlindWriter && (
                 <Text typography='SUIT_13_R' color={colors.gray100}>
-                  {info}
+                  {` ∙ ${info}`}
                 </Text>
-              ) : null}
+              )}
             </Flex>
             <Flex>
               <Text typography='SUIT_13_R' color={colors.gray400}>
@@ -455,7 +472,7 @@ const SendButton = styled(m.button)`
   padding: 8px;
 `;
 
-const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizental' }) => {
+const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizontal' }) => {
   return (
     <SwitchCase
       value={name}
@@ -463,7 +480,18 @@ const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'more
         share: <IconShare />,
         chevronLeft: <IconChevronLeft />,
         moreVertical: <IconMoreVert />,
-        moreHorizental: <IconMoreHoriz />,
+        moreHorizontal: (
+          <IconMoreHoriz
+            color={colors.gray400}
+            size={16}
+            css={css`
+              &:hover {
+                transition: 0.2s;
+                color: ${colors.gray30};
+              }
+            `}
+          />
+        ),
       }}
       default={null}
     />
