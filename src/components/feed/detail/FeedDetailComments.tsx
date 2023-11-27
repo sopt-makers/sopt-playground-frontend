@@ -113,5 +113,6 @@ export default FeedDetailComments;
 
 const Container = styled.div`
   flex: 1;
-  padding-bottom: 80px;
+  margin-top: 8px;
+  padding-bottom: 120px;
 `;

@@ -315,18 +315,18 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
         ) : (
           <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
         )}
-        <Stack css={{ minWidth: 0, width: '100%' }} gutter={6}>
+        <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
-            <Flex>
+            <Stack.Horizontal gutter={2}>
               <Text typography='SUIT_13_SB' color={colors.gray10}>
                 {!isBlindWriter ? name : '익명'}
               </Text>
               {!isBlindWriter && (
                 <Text typography='SUIT_13_R' color={colors.gray100}>
-                  {` ∙ ${info}`}
+                  {`∙ ${info}`}
                 </Text>
               )}
-            </Flex>
+            </Stack.Horizontal>
             <Flex>
               <Text typography='SUIT_13_R' color={colors.gray400}>
                 {getRelativeTime(createdAt)}
@@ -334,7 +334,9 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
               {moreIcon}
             </Flex>
           </Flex>
-          <StyledText typography='SUIT_14_M'>{parseTextToLink(comment)}</StyledText>
+          <StyledText typography='SUIT_14_R' lineHeight={22}>
+            {parseTextToLink(comment)}
+          </StyledText>
         </Stack>
       </Flex>
     </StyledComment>
@@ -342,10 +344,10 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
 };
 
 const StyledComment = styled.div`
-  padding: 20px 24px 12px;
+  padding: 16px 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 12px 16px;
+    padding: 14px 16px;
   }
 `;
 
