@@ -294,6 +294,7 @@ const InputWrapper = styled.section`
 const BackArrowWrapper = styled.div`
   position: absolute;
   left: 0;
+  cursor: pointer;
   padding-left: 32px;
 `;
 
