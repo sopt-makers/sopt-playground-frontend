@@ -1,9 +1,11 @@
+import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 import { atomFamily, useRecoilState } from 'recoil';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import { PLAYGROUND_ORIGIN } from '@/constants/links';
 
 interface FeedDetailInputProps {
   postId: string;
@@ -27,6 +29,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
         content: commentData.text,
         isBlindWriter: commentData.isBlindWriter,
         isChildComment: false,
+        webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
       },
       {
         onSuccess: async () => {
