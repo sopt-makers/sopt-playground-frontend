@@ -1,9 +1,13 @@
+import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
 import { FC, ReactNode } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Loading from '@/components/common/Loading';
+import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
@@ -11,7 +15,6 @@ import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
-
 interface FeedListItemsProps {
   categoryId: string | undefined;
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
@@ -28,6 +31,19 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
   const toast = useToast();
+  const { data: categoryData } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
+  const parentCategory = (categoryId: number, part: string) => {
+    const category =
+      categoryData && categoryData.find((category) => category.children.some((tag) => tag.id === categoryId))?.name;
+
+    const uploadedCategory = category === '파트' ? part + category : category;
+
+    return uploadedCategory;
+  };
 
   return (
     <>
@@ -51,14 +67,33 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 hits={post.hits}
                 isBlindWriter={post.isBlindWriter}
                 isQuestion={post.isQuestion}
-                info={getMemberInfo({
-                  categoryId: post.categoryId,
-                  categoryName: post.categoryName,
-                  member: {
-                    activity: post.member?.activity ?? { generation: 0, part: '' },
-                    careers: post.member?.careers ?? null,
-                  },
-                })}
+                info={
+                  categoryId ? (
+                    <>
+                      <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                        ∙
+                      </Text>
+                      <>
+                        {getMemberInfo({
+                          categoryId: post.categoryId,
+                          categoryName: post.categoryName,
+                          member: {
+                            activity: post.member?.activity ?? { generation: 0, part: '' },
+                            careers: post.member?.careers ?? null,
+                          },
+                        })}
+                      </>
+                    </>
+                  ) : (
+                    <>
+                      님이 <Text />
+                      <Text typography='SUIT_14_B' lineHeight={20} color={colors.gray100}>
+                        {parentCategory(post.categoryId, post.categoryName)}
+                      </Text>
+                      에 남김
+                    </>
+                  )
+                }
                 rightIcon={
                   <FeedDropdown
                     trigger={

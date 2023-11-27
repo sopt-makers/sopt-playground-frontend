@@ -71,3 +71,9 @@ export function getMemberInfo(post: Post) {
 
   return defaultInfo;
 }
+
+export function getUploadedCategoryInfo(category: string, part: string) {
+  const uploadedCategory = category === '파트' ? category + part : category;
+
+  return `님이 ${uploadedCategory}에 남김`;
+}

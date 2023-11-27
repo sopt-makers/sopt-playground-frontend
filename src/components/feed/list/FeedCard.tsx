@@ -68,9 +68,6 @@ const Base = ({
                   {name}
                 </Text>
                 <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                  ∙
-                </Text>
-                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
                   {info}
                 </Text>
               </Top>
