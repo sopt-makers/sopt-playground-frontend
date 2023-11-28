@@ -68,6 +68,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
             key={comment.id}
             name={comment.member.name}
             profileImage={comment.member.profileImage}
+            memberId={comment.member.id}
             info={getMemberInfo({
               member: comment.member,
               categoryId: postData.category.id,

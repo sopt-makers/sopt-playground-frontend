@@ -44,7 +44,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
       categoryData &&
       categoryData.find((category) =>
         category.children.length > 0
-          ? category.children.some((tag) => tag.id === categoryId)
+          ? category.children.some((tag) => tag.id === categoryId) || category.id === categoryId
           : category.id === categoryId,
       )?.name;
 
@@ -91,6 +91,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 isBlindWriter={post.isBlindWriter}
                 isQuestion={post.isQuestion}
                 isShowInfo={categoryId === ''}
+                memberId={post.member?.id ?? 0}
                 info={
                   categoryId ? (
                     <>

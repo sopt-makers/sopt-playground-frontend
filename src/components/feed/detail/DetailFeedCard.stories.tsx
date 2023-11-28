@@ -91,6 +91,7 @@ export const Default = () => {
             info='Frontend Developer @Toss'
             createdAt='2023.10.23.11:00:11'
             isBlindWriter={false}
+            memberId={0}
           />
           <DetailFeedCard.Content
             title='YC의 스타트업을 위한 필수 조언'

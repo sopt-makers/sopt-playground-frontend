@@ -17,18 +17,21 @@ const COMMENTS = [
     name: '주수한',
     comment: '저도 같이 가고 싶어요!',
     isBlindWriter: false,
+    memberId: 0,
   },
   {
     id: 2,
     name: '이정연',
     comment: '도요 도요 저도요!',
     isBlindWriter: false,
+    memberId: 0,
   },
   {
     id: 3,
     name: '남부장',
     comment: '어허, 나는 왜 빼려고 하는가 허허',
     isBlindWriter: false,
+    memberId: 0,
   },
 ];
 
@@ -44,6 +47,7 @@ const defaultProps: ComponentProps<typeof FeedCard> = {
   hits: 23,
   commentLength: COMMENTS.length,
   isShowInfo: true,
+  memberId: 0,
 };
 
 export const 기본 = () => {
@@ -135,12 +139,14 @@ const IMAGES_COMMENTS = [
     name: '이화정',
     comment: '너무 귀여워요!! 당근 너무 좋아요',
     isBlindWriter: false,
+    memberId: 0,
   },
   {
     id: 2,
     name: '민솔',
     comment: '배고파요...',
     isBlindWriter: false,
+    memberId: 0,
   },
 ];
 

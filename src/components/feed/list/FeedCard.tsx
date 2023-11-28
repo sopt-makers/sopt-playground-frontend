@@ -6,6 +6,7 @@ import { PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Text from '@/components/common/Text';
+import useMoveToProfile from '@/components/feed/common/hooks/useMoveToProfile';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -23,6 +24,7 @@ interface BaseProps {
   commentLength: number;
   hits: number;
   rightIcon?: ReactNode;
+  memberId: number;
   isShowInfo: boolean;
 }
 
@@ -39,8 +41,11 @@ const Base = ({
   hits,
   children,
   rightIcon,
+  memberId,
   isShowInfo,
 }: PropsWithChildren<BaseProps>) => {
+  const { moveToProfile } = useMoveToProfile();
+
   return (
     <Flex
       css={{
@@ -55,19 +60,36 @@ const Base = ({
           <IconMember />
         </div>
       ) : (
-        <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+        <ProfileImage
+          width={32}
+          height={32}
+          src={profileImage}
+          alt='profileImage'
+          onClick={() => moveToProfile(memberId)}
+        />
       )}
       <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
         <Stack gutter={title ? 8 : 4}>
           <Flex justify='space-between'>
-            <Top align='center'>
-              <Text typography='SUIT_14_SB' lineHeight={20}>
-                {isBlindWriter ? '익명' : name}
-              </Text>
-              <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                {isBlindWriter ? (isShowInfo ? info : '') : info}
-              </Text>
-            </Top>
+            {isBlindWriter ? (
+              <Top align='center'>
+                <Text typography='SUIT_14_SB' lineHeight={20}>
+                  익명
+                </Text>
+                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                  {isShowInfo && info}
+                </Text>
+              </Top>
+            ) : (
+              <Top align='center' onClick={() => moveToProfile(memberId)}>
+                <Text typography='SUIT_14_SB' lineHeight={20}>
+                  {name}
+                </Text>
+                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                  {info}
+                </Text>
+              </Top>
+            )}
             <Stack.Horizontal gutter={4} align='center'>
               <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
                 {getRelativeTime(createdAt)}

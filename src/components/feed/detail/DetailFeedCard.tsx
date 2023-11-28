@@ -12,6 +12,7 @@ import Loading from '@/components/common/Loading';
 import ScrollContainer from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
+import useMoveToProfile from '@/components/feed/common/hooks/useMoveToProfile';
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -147,28 +148,44 @@ type TopProps = { createdAt: string } & (
       profileImage?: null;
       name?: null;
       info?: null;
+      memberId?: number;
     }
   | {
       isBlindWriter: false;
       profileImage: string | null;
       name: string;
       info: string;
+      memberId: number;
     }
 );
 
-const Top = ({ isBlindWriter, profileImage, name, info, createdAt }: TopProps) => {
+const Top = ({ isBlindWriter, profileImage, name, info, memberId = 0, createdAt }: TopProps) => {
+  const { moveToProfile } = useMoveToProfile();
+
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
         {isBlindWriter || profileImage == null ? (
           <IconMember size={40} />
         ) : (
-          <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' />
+          <ProfileImage
+            width={40}
+            height={40}
+            src={profileImage}
+            alt='profileImage'
+            onClick={() => moveToProfile(memberId)}
+          />
         )}
         <Stack.Vertical gutter={4} justify='center'>
-          <Name color={colors.gray10}>{isBlindWriter ? '익명' : name}</Name>
+          {isBlindWriter ? (
+            <Name color={colors.gray10}>익명</Name>
+          ) : (
+            <Name color={colors.gray10} onClick={() => moveToProfile(memberId)}>
+              {name}
+            </Name>
+          )}
           {!isBlindWriter && (
-            <Text typography='SUIT_13_R' color={colors.gray100}>
+            <Text typography='SUIT_13_R' color={colors.gray100} onClick={() => moveToProfile(memberId)}>
               {info}
             </Text>
           )}
@@ -186,6 +203,7 @@ const Top = ({ isBlindWriter, profileImage, name, info, createdAt }: TopProps) =
 const ProfileImage = styled.img`
   flex-shrink: 0;
   border-radius: 50%;
+  cursor: pointer;
   width: 40px;
   height: 40px;
   object-fit: cover;
@@ -193,6 +211,8 @@ const ProfileImage = styled.img`
 
 const Name = styled(Text)`
   ${textStyles.SUIT_15_SB};
+
+  cursor: pointer;
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_SB};
@@ -312,16 +332,29 @@ type CommentProps = {
       profileImage: string | null;
       info: string;
       name: string;
+      memberId?: number;
     }
   | {
       isBlindWriter: true;
       profileImage?: null;
       info?: null;
       name?: null;
+      memberId?: number;
     }
 );
 
-const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, moreIcon }: CommentProps) => {
+const Comment = ({
+  profileImage,
+  name,
+  info,
+  comment,
+  isBlindWriter,
+  createdAt,
+  moreIcon,
+  memberId = 0,
+}: CommentProps) => {
+  const { moveToProfile } = useMoveToProfile();
+
   return (
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
@@ -330,16 +363,33 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
             <IconMember />
           </div>
         ) : (
-          <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+          <CommentProfileImage
+            width={32}
+            height={32}
+            src={profileImage}
+            alt='profileImage'
+            onClick={() => moveToProfile(memberId)}
+          />
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
             <Stack.Horizontal gutter={2}>
-              <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                {!isBlindWriter ? name : '익명'}
-              </Text>
+              {!isBlindWriter ? (
+                <Text
+                  typography='SUIT_13_SB'
+                  color={colors.gray10}
+                  css={{ whiteSpace: 'nowrap' }}
+                  onClick={() => moveToProfile(memberId)}
+                >
+                  {name}
+                </Text>
+              ) : (
+                <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                  익명
+                </Text>
+              )}
               {!isBlindWriter && (
-                <InfoText typography='SUIT_13_R' color={colors.gray100}>
+                <InfoText typography='SUIT_13_R' color={colors.gray100} onClick={() => moveToProfile(memberId)}>
                   {`∙ ${info}`}
                 </InfoText>
               )}
@@ -379,6 +429,7 @@ const StyledText = styled(Text)`
 const CommentProfileImage = styled.img`
   flex-shrink: 0;
   border-radius: 50%;
+  cursor: pointer;
   width: 32px;
   height: 32px;
   object-fit: cover;
