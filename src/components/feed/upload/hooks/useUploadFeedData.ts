@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 
@@ -7,11 +9,38 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   const [feedData, setFeedData] = useState(initialForm);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
+  const { data: categoryData } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
+  const findParentCategory = (categoryId: number) => {
+    const category =
+      categoryData &&
+      categoryData.find((category) =>
+        category.children.length > 0
+          ? category.children.some((tag) => tag.id === categoryId)
+          : category.id === categoryId,
+      );
+
+    return category;
+  };
+
+  const resetIsBlindWriter = (categoryId: number) => {
+    !findParentCategory(categoryId)?.hasBlind && setFeedData((feedData) => ({ ...feedData, isBlindWriter: false }));
+  };
+
+  const resetIsQuestion = (categoryId: number) => {
+    !findParentCategory(categoryId)?.hasQuestion && setFeedData((feedData) => ({ ...feedData, isQuestion: false }));
+  };
+
   const handleSaveMainCategory = (categoryId: number) => {
     setFeedData((feedData) => ({ ...feedData, mainCategoryId: categoryId }));
   };
 
   const handleSaveCategory = (categoryId: number) => {
+    resetIsBlindWriter(categoryId);
+    resetIsQuestion(categoryId);
     setFeedData((feedData) => ({ ...feedData, categoryId: categoryId }));
   };
 
@@ -64,5 +93,6 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
     handleSaveContent,
     resetFeedData,
     checkReadyToUpload,
+    findParentCategory,
   };
 }
