@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
-import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import reactTextareaAutosize from 'react-textarea-autosize';
 
@@ -13,6 +12,7 @@ import Loading from '@/components/common/Loading';
 import ScrollContainer from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
+import useMoveToProfile from '@/components/feed/common/hooks/useMoveToProfile';
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -24,7 +24,6 @@ import {
 } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
-import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
@@ -161,11 +160,7 @@ type TopProps = { createdAt: string } & (
 );
 
 const Top = ({ isBlindWriter, profileImage, name, info, memberId = 0, createdAt }: TopProps) => {
-  const router = useRouter();
-
-  const moveToProfile = () => {
-    router.push(playgroundLink.memberDetail(memberId));
-  };
+  const { moveToProfile } = useMoveToProfile();
 
   return (
     <Flex justify='space-between'>
@@ -173,18 +168,24 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId = 0, createdAt 
         {isBlindWriter || profileImage == null ? (
           <IconMember size={40} />
         ) : (
-          <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' onClick={moveToProfile} />
+          <ProfileImage
+            width={40}
+            height={40}
+            src={profileImage}
+            alt='profileImage'
+            onClick={() => moveToProfile(memberId)}
+          />
         )}
         <Stack.Vertical gutter={4} justify='center'>
           {isBlindWriter ? (
             <Name color={colors.gray10}>익명</Name>
           ) : (
-            <Name color={colors.gray10} onClick={moveToProfile}>
+            <Name color={colors.gray10} onClick={() => moveToProfile(memberId)}>
               {name}
             </Name>
           )}
           {!isBlindWriter && (
-            <Text typography='SUIT_13_R' color={colors.gray100} onClick={moveToProfile}>
+            <Text typography='SUIT_13_R' color={colors.gray100} onClick={() => moveToProfile(memberId)}>
               {info}
             </Text>
           )}
@@ -331,16 +332,29 @@ type CommentProps = {
       profileImage: string | null;
       info: string;
       name: string;
+      memberId?: number;
     }
   | {
       isBlindWriter: true;
       profileImage?: null;
       info?: null;
       name?: null;
+      memberId?: number;
     }
 );
 
-const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, moreIcon }: CommentProps) => {
+const Comment = ({
+  profileImage,
+  name,
+  info,
+  comment,
+  isBlindWriter,
+  createdAt,
+  moreIcon,
+  memberId = 0,
+}: CommentProps) => {
+  const { moveToProfile } = useMoveToProfile();
+
   return (
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
@@ -349,16 +363,33 @@ const Comment = ({ profileImage, name, info, comment, isBlindWriter, createdAt, 
             <IconMember />
           </div>
         ) : (
-          <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+          <CommentProfileImage
+            width={32}
+            height={32}
+            src={profileImage}
+            alt='profileImage'
+            onClick={() => moveToProfile(memberId)}
+          />
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
             <Stack.Horizontal gutter={2}>
-              <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                {!isBlindWriter ? name : '익명'}
-              </Text>
+              {!isBlindWriter ? (
+                <Text
+                  typography='SUIT_13_SB'
+                  color={colors.gray10}
+                  css={{ whiteSpace: 'nowrap' }}
+                  onClick={() => moveToProfile(memberId)}
+                >
+                  {name}
+                </Text>
+              ) : (
+                <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                  익명
+                </Text>
+              )}
               {!isBlindWriter && (
-                <InfoText typography='SUIT_13_R' color={colors.gray100}>
+                <InfoText typography='SUIT_13_R' color={colors.gray100} onClick={() => moveToProfile(memberId)}>
                   {`∙ ${info}`}
                 </InfoText>
               )}
@@ -398,6 +429,7 @@ const StyledText = styled(Text)`
 const CommentProfileImage = styled.img`
   flex-shrink: 0;
   border-radius: 50%;
+  cursor: pointer;
   width: 32px;
   height: 32px;
   object-fit: cover;
