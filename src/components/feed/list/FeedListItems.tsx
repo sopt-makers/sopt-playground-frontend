@@ -1,3 +1,5 @@
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { Flex } from '@toss/emotion-utils';
 import { FC, ReactNode } from 'react';
 import { Virtuoso } from 'react-virtuoso';
@@ -11,6 +13,7 @@ import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
+import { textStyles } from '@/styles/typography';
 
 interface FeedListItemsProps {
   categoryId: string | undefined;
@@ -146,8 +149,8 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
         }}
       />
       <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
-        {isError ? <div>오류가 발생했어요.</div> : null}
-        {data != null && flattenData.length === 0 ? <div>글이 없어요!</div> : null}
+        {isError ? <AlertText>오류가 발생했어요.</AlertText> : null}
+        {data != null && flattenData.length === 0 ? <AlertText>아직 작성된 글이 없어요(ㅠ_ㅠ)</AlertText> : null}
         {isLoading ? <Loading /> : null}
       </div>
     </>
@@ -155,3 +158,12 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
 };
 
 export default FeedListItems;
+
+const AlertText = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 90px;
+  width: 100%;
+  color: ${colors.gray300};
+  ${textStyles.SUIT_14_M};
+`;
