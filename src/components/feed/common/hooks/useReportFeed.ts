@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { usePostReportPostMutation } from '@/api/endpoint/feed/postReportPost';
 import useAlert from '@/components/common/Modal/useAlert';
 import useConfirm from '@/components/common/Modal/useConfirm';
+import usePopup from '@/components/common/Modal/usePopup';
 
 interface Options {
   postId: string;
@@ -13,6 +14,7 @@ export const useReportFeed = () => {
   const { confirm } = useConfirm();
   const { alert } = useAlert();
   const { mutate } = usePostReportPostMutation();
+  const { popup } = usePopup();
 
   const handleReport = useCallback(
     async (options: Options) => {
@@ -26,10 +28,12 @@ export const useReportFeed = () => {
       if (result) {
         mutate(options.postId, {
           onSuccess: () => {
-            alert({
+            popup({
+              icon: '/icons/check_box_field.svg',
               title: '신고해주셔서 감사해요',
               description:
                 '메이커스에서 빠르게 검토 후 적절한 조치를 취할게요 :) 건전한 커뮤니티를 만드는데 기여해주셔서 감사해요!',
+              maxWidth: 324,
             });
             options.onSuccess?.();
           },
