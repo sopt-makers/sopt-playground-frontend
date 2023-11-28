@@ -226,7 +226,7 @@ const CommentWrapper = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 150px;
+  width: 240px;
 `;
 
 const StyledCommentItem = styled.div`
@@ -237,6 +237,7 @@ const StyledCommentItem = styled.div`
   border-radius: 10px;
   padding: 10px;
   align-items: center;
+
   ${textStyles.SUIT_13_R};
 `;
 
