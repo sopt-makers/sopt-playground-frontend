@@ -17,6 +17,7 @@ const useConfirm = () => {
       okButtonColor?: string;
       okButtonTextColor?: string;
       zIndex?: number;
+      maxWidth?: number;
     }) =>
       new Promise<boolean>((resolve) => {
         open(({ isOpen, close }) => (
@@ -28,7 +29,7 @@ const useConfirm = () => {
             }}
             zIndex={options.zIndex}
           >
-            <StyledModalContent>
+            <StyledModalContent maxWidth={options.maxWidth}>
               <Modal.Title>{options.title}</Modal.Title>
               <StyleModalDescription>{options.description}</StyleModalDescription>
               <Modal.Footer align='stretch'>
@@ -54,8 +55,9 @@ const useConfirm = () => {
 
 export default useConfirm;
 
-const StyledModalContent = styled(Modal.Content)`
+const StyledModalContent = styled(Modal.Content)<{ maxWidth?: number }>`
   min-width: 320px;
+  max-width: ${({ maxWidth }) => maxWidth}px;
 `;
 
 const StyledOkButton = styled(Modal.Button)<{ color?: string; okButtonTextColor?: string }>`

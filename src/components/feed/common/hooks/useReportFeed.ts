@@ -21,6 +21,7 @@ export const useReportFeed = () => {
         description: '글을 신고할 경우, 메이커스에서 검토를 거쳐 적절한 조치 및 게시자 제재를 취해요.',
         okButtonText: '신고하기',
         cancelButtonText: '취소',
+        maxWidth: 320,
       });
 
       if (result) {

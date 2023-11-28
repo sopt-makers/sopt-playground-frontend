@@ -24,6 +24,7 @@ export const useDeleteComment = () => {
         okButtonText: '삭제하기',
         cancelButtonText: '취소',
         zIndex: zIndex.헤더,
+        maxWidth: 320,
       });
 
       if (result) {
