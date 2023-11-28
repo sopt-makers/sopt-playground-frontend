@@ -4,7 +4,6 @@ import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { playgroundLink } from 'playground-common/export';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import reactTextareaAutosize from 'react-textarea-autosize';
 
@@ -25,6 +24,7 @@ import {
 } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
+import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
@@ -204,7 +204,7 @@ const Name = styled(Text)`
   ${textStyles.SUIT_15_SB};
 
   cursor: pointer;
-  
+
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_SB};
   }

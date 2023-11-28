@@ -51,6 +51,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 hits={post.hits}
                 isBlindWriter={post.isBlindWriter}
                 isQuestion={post.isQuestion}
+                memberId={post.member?.id ?? 0}
                 info={getMemberInfo({
                   categoryId: post.categoryId,
                   categoryName: post.categoryName,

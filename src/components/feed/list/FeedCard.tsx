@@ -2,12 +2,14 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
+import { useRouter } from 'next/router';
 import { PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
+import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -23,6 +25,7 @@ interface BaseProps {
   commentLength: number;
   hits: number;
   rightIcon?: ReactNode;
+  memberId: number;
 }
 
 const Base = ({
@@ -38,7 +41,14 @@ const Base = ({
   hits,
   children,
   rightIcon,
+  memberId,
 }: PropsWithChildren<BaseProps>) => {
+  const router = useRouter();
+
+  const moveToProfile = () => {
+    router.push(playgroundLink.memberDetail(memberId));
+  };
+
   return (
     <Flex
       css={{
@@ -53,7 +63,7 @@ const Base = ({
           <IconMember />
         </div>
       ) : (
-        <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+        <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' onClick={moveToProfile} />
       )}
       <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
         <Stack gutter={title ? 8 : 4}>
@@ -63,7 +73,7 @@ const Base = ({
                 익명
               </Text>
             ) : (
-              <Top align='center'>
+              <Top align='center' onClick={moveToProfile}>
                 <Text typography='SUIT_14_SB' lineHeight={20}>
                   {name}
                 </Text>
