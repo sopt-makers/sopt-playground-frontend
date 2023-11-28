@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
@@ -109,6 +109,10 @@ export default function FeedUploadPage() {
           category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
       )) ??
     null;
+
+  useEffect(() => {
+    localStorage.setItem('isFirst', 'true');
+  }, []);
 
   if (isPending) return <Loading />;
 
