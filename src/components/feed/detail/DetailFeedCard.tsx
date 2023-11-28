@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import reactTextareaAutosize from 'react-textarea-autosize';
 
@@ -139,28 +141,42 @@ type TopProps = { createdAt: string } & (
       profileImage?: null;
       name?: null;
       info?: null;
+      memberId?: number;
     }
   | {
       isBlindWriter: false;
       profileImage: string | null;
       name: string;
       info: string;
+      memberId: number;
     }
 );
 
-const Top = ({ isBlindWriter, profileImage, name, info, createdAt }: TopProps) => {
+const Top = ({ isBlindWriter, profileImage, name, info, memberId = 0, createdAt }: TopProps) => {
+  const router = useRouter();
+
+  const moveToProfile = () => {
+    router.push(playgroundLink.memberDetail(memberId));
+  };
+
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
         {isBlindWriter || profileImage == null ? (
           <IconMember size={40} />
         ) : (
-          <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' />
+          <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' onClick={moveToProfile} />
         )}
         <Stack.Vertical gutter={4} justify='center'>
-          <Name color={colors.gray10}>{isBlindWriter ? '익명' : name}</Name>
+          {isBlindWriter ? (
+            <Name color={colors.gray10}>익명</Name>
+          ) : (
+            <Name color={colors.gray10} onClick={moveToProfile}>
+              {name}
+            </Name>
+          )}
           {!isBlindWriter && (
-            <Text typography='SUIT_13_R' color={colors.gray100}>
+            <Text typography='SUIT_13_R' color={colors.gray100} onClick={moveToProfile}>
               {info}
             </Text>
           )}
@@ -178,6 +194,7 @@ const Top = ({ isBlindWriter, profileImage, name, info, createdAt }: TopProps) =
 const ProfileImage = styled.img`
   flex-shrink: 0;
   border-radius: 50%;
+  cursor: pointer;
   width: 40px;
   height: 40px;
   object-fit: cover;
@@ -186,6 +203,8 @@ const ProfileImage = styled.img`
 const Name = styled(Text)`
   ${textStyles.SUIT_15_SB};
 
+  cursor: pointer;
+  
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_SB};
   }

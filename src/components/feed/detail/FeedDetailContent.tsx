@@ -32,6 +32,7 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
             member: postData.member,
           })}
           createdAt={postData.posts.createdAt}
+          memberId={postData.member.id}
         />
       ) : null}
       <DetailFeedCard.Content
