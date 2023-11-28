@@ -249,9 +249,9 @@ export default function FeedUploadPage() {
             </Body>
           }
           footer={
-            <>
+            <Footer isWriting={feedData.content !== null}>
               <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-            </>
+            </Footer>
           }
         />
       </Responsive>
@@ -359,7 +359,7 @@ const TagsWrapper = styled.div`
   gap: 8px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 16px;
+    margin: 16px 0;
   }
 `;
 
@@ -372,8 +372,18 @@ const CheckBoxesWrapper = styled.div`
   }
 `;
 
-const Footer = styled.div`
+const Footer = styled.div<{ isWriting?: boolean }>`
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${({ isWriting }) =>
+      !isWriting &&
+      css`
+        position: fixed;
+      `}
+
+    bottom: 8px;
+  }
 `;
 
 const TagAndCheckboxWrapper = styled.div`
