@@ -35,6 +35,7 @@ const Base = ({ children }: PropsWithChildren<unknown>) => {
 const StyledBase = styled(Flex)`
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
 `;
 
 interface HeaderProps {
