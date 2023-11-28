@@ -101,15 +101,17 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                         삭제
                       </FeedDropdown.Item>
                     ) : null}
-                    <FeedDropdown.Item
-                      type='danger'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleReport({ postId: `${post.id}` });
-                      }}
-                    >
-                      신고
-                    </FeedDropdown.Item>
+                    {!post.isMine ? (
+                      <FeedDropdown.Item
+                        type='danger'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleReport({ postId: `${post.id}` });
+                        }}
+                      >
+                        신고
+                      </FeedDropdown.Item>
+                    ) : null}
                   </FeedDropdown>
                 }
               >
