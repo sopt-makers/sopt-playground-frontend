@@ -349,7 +349,7 @@ const SubTitle = styled.h2`
 `;
 
 const ListWrapper = styled.ul`
-  padding: 5px 20px;
+  padding: 5px 0 0 15px;
   width: 100%;
 `;
 
@@ -364,7 +364,8 @@ const ModalContents = styled.div`
   padding: 24px 8px 0;
   max-width: 358px;
   max-height: 496px;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 const Title = styled.h2`
