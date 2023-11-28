@@ -1,17 +1,20 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
 import { FC, ReactNode } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Loading from '@/components/common/Loading';
+import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { getMemberInfo } from '@/components/feed/common/utils';
+import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
 import { textStyles } from '@/styles/typography';
 
@@ -31,6 +34,39 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
   const toast = useToast();
+  const { data: categoryData } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
+  const parentCategory = (categoryId: number, tag: string) => {
+    const category =
+      categoryData &&
+      categoryData.find((category) =>
+        category.children.length > 0
+          ? category.children.some((tag) => tag.id === categoryId)
+          : category.id === categoryId,
+      )?.name;
+
+    return uploadedCategory(category, tag);
+  };
+
+  const uploadedCategory = (category: string | undefined, tag: string) => {
+    switch (category) {
+      case tag:
+        return category;
+      case CategoryList.파트:
+        return tag + category;
+      case CategoryList.SOPT활동:
+        return tag;
+      case CategoryList.취업_진로:
+        return '취업 ' + tag;
+      case CategoryList.홍보:
+        return tag === '채용' ? tag : tag + ' ' + category;
+      default:
+        return category;
+    }
+  };
 
   return (
     <>
@@ -54,14 +90,34 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 hits={post.hits}
                 isBlindWriter={post.isBlindWriter}
                 isQuestion={post.isQuestion}
-                info={getMemberInfo({
-                  categoryId: post.categoryId,
-                  categoryName: post.categoryName,
-                  member: {
-                    activity: post.member?.activity ?? { generation: 0, part: '' },
-                    careers: post.member?.careers ?? null,
-                  },
-                })}
+                isShowInfo={categoryId === ''}
+                info={
+                  categoryId ? (
+                    <>
+                      <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                        ∙
+                      </Text>
+                      <>
+                        {getMemberInfo({
+                          categoryId: post.categoryId,
+                          categoryName: post.categoryName,
+                          member: {
+                            activity: post.member?.activity ?? { generation: 0, part: '' },
+                            careers: post.member?.careers ?? null,
+                          },
+                        })}
+                      </>
+                    </>
+                  ) : (
+                    <>
+                      님이 <Text />
+                      <Text typography='SUIT_14_B' lineHeight={20} color={colors.gray100}>
+                        {parentCategory(post.categoryId, post.categoryName)}
+                      </Text>
+                      에 남김
+                    </>
+                  )
+                }
                 rightIcon={
                   <FeedDropdown
                     trigger={

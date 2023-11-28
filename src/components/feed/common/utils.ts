@@ -35,6 +35,14 @@ export enum Category {
   꿀팁,
 }
 
+export const CategoryList = {
+  자유: '자유',
+  파트: '파트',
+  SOPT활동: 'SOPT활동',
+  홍보: '홍보',
+  취업_진로: '취업/진로',
+};
+
 const 특수임원List = [
   '메이커스 리드',
   '기획 파트장',

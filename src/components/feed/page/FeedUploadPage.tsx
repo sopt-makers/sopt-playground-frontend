@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
@@ -109,6 +109,10 @@ export default function FeedUploadPage() {
           category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
       )) ??
     null;
+
+  useEffect(() => {
+    localStorage.setItem('isFirst', 'true');
+  }, []);
 
   if (isPending) return <Loading />;
 
@@ -249,9 +253,9 @@ export default function FeedUploadPage() {
             </Body>
           }
           footer={
-            <>
+            <Footer isWriting={feedData.content !== null}>
               <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-            </>
+            </Footer>
           }
         />
       </Responsive>
@@ -359,7 +363,7 @@ const TagsWrapper = styled.div`
   gap: 8px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 16px;
+    margin: 16px 0;
   }
 `;
 
@@ -372,8 +376,18 @@ const CheckBoxesWrapper = styled.div`
   }
 `;
 
-const Footer = styled.div`
+const Footer = styled.div<{ isWriting?: boolean }>`
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${({ isWriting }) =>
+      !isWriting &&
+      css`
+        position: fixed;
+      `}
+
+    bottom: 8px;
+  }
 `;
 
 const TagAndCheckboxWrapper = styled.div`
