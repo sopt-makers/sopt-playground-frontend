@@ -43,6 +43,7 @@ interface HeaderProps {
   left?: ReactNode;
   right?: ReactNode;
   renderCategoryLink?: (props: { children: ReactNode; categoryId: string }) => ReactNode;
+  hasChildren?: boolean;
 }
 
 const Header = ({
@@ -52,6 +53,7 @@ const Header = ({
   left,
   right,
   renderCategoryLink = (props) => props.children,
+  hasChildren,
 }: HeaderProps) => {
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
@@ -62,8 +64,12 @@ const Header = ({
           children: (
             <Chip align='center' as='div'>
               <Text typography='SUIT_13_M'>{category}</Text>
-              <IconChevronRight />
-              <Text typography='SUIT_13_M'>{tag}</Text>
+              {hasChildren && (
+                <>
+                  <IconChevronRight />
+                  <Text typography='SUIT_13_M'>{tag}</Text>
+                </>
+              )}
             </Chip>
           ),
           categoryId,
