@@ -23,6 +23,7 @@ interface BaseProps {
   commentLength: number;
   hits: number;
   rightIcon?: ReactNode;
+  isShowInfo: boolean;
 }
 
 const Base = ({
@@ -38,6 +39,7 @@ const Base = ({
   hits,
   children,
   rightIcon,
+  isShowInfo,
 }: PropsWithChildren<BaseProps>) => {
   return (
     <Flex
@@ -58,23 +60,14 @@ const Base = ({
       <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
         <Stack gutter={title ? 8 : 4}>
           <Flex justify='space-between'>
-            {isBlindWriter ? (
+            <Top align='center'>
               <Text typography='SUIT_14_SB' lineHeight={20}>
-                익명
+                {isBlindWriter ? '익명' : name}
               </Text>
-            ) : (
-              <Top align='center'>
-                <Text typography='SUIT_14_SB' lineHeight={20}>
-                  {name}
-                </Text>
-                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                  ∙
-                </Text>
-                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                  {info}
-                </Text>
-              </Top>
-            )}
+              <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                {isBlindWriter ? (isShowInfo ? info : '') : info}
+              </Text>
+            </Top>
             <Stack.Horizontal gutter={4} align='center'>
               <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
                 {getRelativeTime(createdAt)}
