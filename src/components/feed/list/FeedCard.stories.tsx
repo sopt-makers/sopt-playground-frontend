@@ -43,6 +43,7 @@ const defaultProps: ComponentProps<typeof FeedCard> = {
     '처음해봐도 괜찮으니까 편하게 오세요! 장소는 클라이밍파크 신논현점 생각하고 있어요. 2시쯤 만나서 하고, 끝나고 같이 고기 먹어요~',
   hits: 23,
   commentLength: COMMENTS.length,
+  isShowInfo: true,
 };
 
 export const 기본 = () => {
