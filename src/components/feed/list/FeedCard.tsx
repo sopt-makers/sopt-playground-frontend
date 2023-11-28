@@ -6,7 +6,6 @@ import { PropsWithChildren, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
-import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { horizontalScroll, scrollOverMargin } from '@/styles/mixin';
@@ -24,6 +23,7 @@ interface BaseProps {
   commentLength: number;
   hits: number;
   rightIcon?: ReactNode;
+  isShowInfo: boolean;
 }
 
 const Base = ({
@@ -39,9 +39,8 @@ const Base = ({
   hits,
   children,
   rightIcon,
+  isShowInfo,
 }: PropsWithChildren<BaseProps>) => {
-  const [categoryId] = useCategoryParam({ defaultValue: '' });
-
   return (
     <Flex
       css={{
@@ -66,7 +65,7 @@ const Base = ({
                 {isBlindWriter ? '익명' : name}
               </Text>
               <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                {isBlindWriter ? (categoryId ? '' : info) : info}
+                {isBlindWriter ? (isShowInfo ? info : '') : info}
               </Text>
             </Top>
             <Stack.Horizontal gutter={4} align='center'>

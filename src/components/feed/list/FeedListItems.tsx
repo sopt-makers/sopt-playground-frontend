@@ -87,6 +87,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 hits={post.hits}
                 isBlindWriter={post.isBlindWriter}
                 isQuestion={post.isQuestion}
+                isShowInfo={categoryId === ''}
                 info={
                   categoryId ? (
                     <>
