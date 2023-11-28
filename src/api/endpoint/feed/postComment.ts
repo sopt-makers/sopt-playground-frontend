@@ -1,6 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { createEndpoint } from '@/api/typedAxios';
 
 interface RequestBody {
@@ -22,7 +23,12 @@ export const postComment = createEndpoint({
 });
 
 export const usePostCommentMutation = (postId: string) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (reqeustBody: RequestBody) => postComment.request(postId, reqeustBody),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
+    },
   });
 };

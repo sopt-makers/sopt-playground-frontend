@@ -30,6 +30,7 @@ export const useDeleteFeed = () => {
       okButtonTextColor: colors.white,
       okButtonText: '삭제하기',
       cancelButtonText: '취소',
+      maxWidth: 324,
     });
 
     if (result) {

@@ -13,15 +13,17 @@ export interface ToastEntryProps {
 
 const ToastEntry: FC<ToastEntryProps> = ({ title, message }) => {
   return (
-    <StyledToastEntry>
-      <IconBox>
-        <IconCheck />
-      </IconBox>
-      <HeaderBox>
-        {title && <Title>{title}</Title>}
-        <ContentBox>{message}</ContentBox>
-      </HeaderBox>
-    </StyledToastEntry>
+    <StyledToastWrapper>
+      <StyledToastEntry>
+        <IconBox>
+          <IconCheck />
+        </IconBox>
+        <HeaderBox>
+          {title && <Title>{title}</Title>}
+          <ContentBox>{message}</ContentBox>
+        </HeaderBox>
+      </StyledToastEntry>
+    </StyledToastWrapper>
   );
 };
 
@@ -29,6 +31,13 @@ export default ToastEntry;
 
 const TOAST_CONTAINER_LEFT = 36;
 
+const StyledToastWrapper = styled.div`
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+`;
 const StyledToastEntry = styled.div`
   display: flex;
   border-radius: 18px;

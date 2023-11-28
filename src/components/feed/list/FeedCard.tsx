@@ -26,6 +26,7 @@ interface BaseProps {
   hits: number;
   rightIcon?: ReactNode;
   memberId: number;
+  isShowInfo: boolean;
 }
 
 const Base = ({
@@ -42,6 +43,7 @@ const Base = ({
   children,
   rightIcon,
   memberId,
+  isShowInfo,
 }: PropsWithChildren<BaseProps>) => {
   const router = useRouter();
 
@@ -69,16 +71,18 @@ const Base = ({
         <Stack gutter={title ? 8 : 4}>
           <Flex justify='space-between'>
             {isBlindWriter ? (
-              <Text typography='SUIT_14_SB' lineHeight={20}>
-                익명
-              </Text>
+              <Top align='center'>
+                <Text typography='SUIT_14_SB' lineHeight={20}>
+                  익명
+                </Text>
+                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                  {isShowInfo && info}
+                </Text>
+              </Top>
             ) : (
               <Top align='center' onClick={moveToProfile}>
                 <Text typography='SUIT_14_SB' lineHeight={20}>
                   {name}
-                </Text>
-                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                  ∙
                 </Text>
                 <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
                   {info}
@@ -226,11 +230,18 @@ const CommentItem = ({ name, comment, isBlindWriter }: CommentItemProps) => {
         {isBlindWriter ? '익명' : name}
       </Text>
       <Text typography='SUIT_13_R' color={colors.gray300}>
-        {comment}
+        <CommentWrapper>{comment}</CommentWrapper>
       </Text>
     </StyledCommentItem>
   );
 };
+
+const CommentWrapper = styled.div`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 240px;
+`;
 
 const StyledCommentItem = styled.div`
   display: flex;
@@ -239,6 +250,7 @@ const StyledCommentItem = styled.div`
   border: 0.5px solid ${colors.gray700};
   border-radius: 10px;
   padding: 10px;
+  align-items: center;
 
   ${textStyles.SUIT_13_R};
 `;

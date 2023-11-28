@@ -35,7 +35,9 @@ const Base = ({ children }: PropsWithChildren<unknown>) => {
 };
 
 const StyledBase = styled(Flex)`
+  width: 100%;
   height: 100%;
+  overflow-x: hidden;
 `;
 
 interface HeaderProps {
@@ -45,6 +47,7 @@ interface HeaderProps {
   left?: ReactNode;
   right?: ReactNode;
   renderCategoryLink?: (props: { children: ReactNode; categoryId: string }) => ReactNode;
+  hasChildren?: boolean;
 }
 
 const Header = ({
@@ -54,6 +57,7 @@ const Header = ({
   left,
   right,
   renderCategoryLink = (props) => props.children,
+  hasChildren,
 }: HeaderProps) => {
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
@@ -64,8 +68,12 @@ const Header = ({
           children: (
             <Chip align='center' as='div'>
               <Text typography='SUIT_13_M'>{category}</Text>
-              <IconChevronRight />
-              <Text typography='SUIT_13_M'>{tag}</Text>
+              {hasChildren && (
+                <>
+                  <IconChevronRight />
+                  <Text typography='SUIT_13_M'>{tag}</Text>
+                </>
+              )}
             </Chip>
           ),
           categoryId,

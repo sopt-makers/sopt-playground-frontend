@@ -22,10 +22,12 @@ export function useCategoryUsingRulesPreview(initialState: boolean) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(initialState);
 
   const openUsingRules = () => {
-    setIsPreviewOpen(true);
+    const isFirst = localStorage.getItem('isFirst') ?? 'true';
+    JSON.parse(isFirst) && setIsPreviewOpen(true);
   };
 
   const closeUsingRules = () => {
+    localStorage.setItem('isFirst', 'false');
     setIsPreviewOpen(false);
   };
 

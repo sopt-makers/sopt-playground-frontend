@@ -55,9 +55,11 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                     삭제
                   </FeedDropdown.Item>
                 ) : null}
-                <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
-                  신고
-                </FeedDropdown.Item>
+                {!comment.isMine ? (
+                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                    신고
+                  </FeedDropdown.Item>
+                ) : null}
               </FeedDropdown>
             }
           />
@@ -97,9 +99,11 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                     삭제
                   </FeedDropdown.Item>
                 ) : null}
-                <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
-                  신고
-                </FeedDropdown.Item>
+                {!comment.isMine ? (
+                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                    신고
+                  </FeedDropdown.Item>
+                ) : null}
               </FeedDropdown>
             }
           />

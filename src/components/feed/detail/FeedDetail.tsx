@@ -1,12 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorBoundary } from '@toss/error-boundary';
-import React, { ReactNode, useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
+import useCategory from '@/components/feed/common/hooks/useCategory';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
@@ -34,16 +35,20 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const currentCategory = useCategoryInfo(postData?.posts.categoryId.toString());
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
+  const { findParentCategory } = useCategory();
 
   if (postData == null || commentData == null) {
     return null;
   }
+
+  const children = findParentCategory(postData.posts.categoryId)?.children ?? [];
 
   return (
     <DetailFeedCard>
       <DetailFeedCard.Header
         category={currentCategory?.category?.name ?? ''}
         tag={currentCategory?.tag?.name ?? '전체'}
+        hasChildren={children.length > 0}
         categoryId={postData.posts.categoryId.toString()}
         renderCategoryLink={renderCategoryLink}
         left={renderBackLink({
