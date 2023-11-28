@@ -47,7 +47,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
           ? category.children.some((tag) => tag.id === categoryId) || category.id === categoryId
           : category.id === categoryId,
       )?.name;
-    console.log(category);
+
     return uploadedCategory(category, tag);
   };
 
