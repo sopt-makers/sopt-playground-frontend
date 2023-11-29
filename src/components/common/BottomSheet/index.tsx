@@ -42,7 +42,8 @@ const CustomSheet = styled(Sheet)`
     padding: 24px 0 16px;
     width: 100%;
     max-height: 520px !important;
-    overflow: scroll;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
     color: ${colors.gray10};
   }
 
