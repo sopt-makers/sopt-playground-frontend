@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
+import Link from 'next/link';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import reactTextareaAutosize from 'react-textarea-autosize';
 
@@ -12,7 +13,6 @@ import Loading from '@/components/common/Loading';
 import ScrollContainer from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
-import useMoveToProfile from '@/components/feed/common/hooks/useMoveToProfile';
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -24,6 +24,7 @@ import {
 } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
+import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
@@ -148,46 +149,42 @@ type TopProps = { createdAt: string } & (
       profileImage?: null;
       name?: null;
       info?: null;
-      memberId?: number;
+      memberId: number | null;
     }
   | {
       isBlindWriter: false;
       profileImage: string | null;
       name: string;
       info: string;
-      memberId: number;
+      memberId: number | null;
     }
 );
 
-const Top = ({ isBlindWriter, profileImage, name, info, memberId = 0, createdAt }: TopProps) => {
-  const { moveToProfile } = useMoveToProfile();
-
+const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: TopProps) => {
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
-        {isBlindWriter || profileImage == null ? (
+        {isBlindWriter || profileImage == null || memberId == null ? (
           <IconMember size={40} />
         ) : (
-          <ProfileImage
-            width={40}
-            height={40}
-            src={profileImage}
-            alt='profileImage'
-            onClick={() => moveToProfile(memberId)}
-          />
+          <Link href={playgroundLink.memberDetail(memberId)}>
+            <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' />
+          </Link>
         )}
         <Stack.Vertical gutter={4} justify='center'>
-          {isBlindWriter ? (
+          {isBlindWriter || memberId == null ? (
             <Name color={colors.gray10}>익명</Name>
           ) : (
-            <Name color={colors.gray10} onClick={() => moveToProfile(memberId)}>
-              {name}
-            </Name>
+            <Link href={playgroundLink.memberDetail(memberId)}>
+              <Name color={colors.gray10}>{name}</Name>
+            </Link>
           )}
-          {!isBlindWriter && (
-            <Text typography='SUIT_13_R' color={colors.gray100} onClick={() => moveToProfile(memberId)}>
-              {info}
-            </Text>
+          {!isBlindWriter && memberId !== null && (
+            <Link href={playgroundLink.memberDetail(memberId)}>
+              <Text typography='SUIT_13_R' color={colors.gray100}>
+                {info}
+              </Text>
+            </Link>
           )}
         </Stack.Vertical>
       </Flex>
@@ -203,7 +200,6 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId = 0, createdAt 
 const ProfileImage = styled.img`
   flex-shrink: 0;
   border-radius: 50%;
-  cursor: pointer;
   width: 40px;
   height: 40px;
   object-fit: cover;
@@ -211,8 +207,6 @@ const ProfileImage = styled.img`
 
 const Name = styled(Text)`
   ${textStyles.SUIT_15_SB};
-
-  cursor: pointer;
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_SB};
@@ -353,8 +347,6 @@ const Comment = ({
   moreIcon,
   memberId = 0,
 }: CommentProps) => {
-  const { moveToProfile } = useMoveToProfile();
-
   return (
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
@@ -363,35 +355,30 @@ const Comment = ({
             <IconMember />
           </div>
         ) : (
-          <CommentProfileImage
-            width={32}
-            height={32}
-            src={profileImage}
-            alt='profileImage'
-            onClick={() => moveToProfile(memberId)}
-          />
+          <Link href={playgroundLink.memberDetail(memberId)}>
+            <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+          </Link>
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
             <Stack.Horizontal gutter={2}>
               {!isBlindWriter ? (
-                <Text
-                  typography='SUIT_13_SB'
-                  color={colors.gray10}
-                  css={{ whiteSpace: 'nowrap' }}
-                  onClick={() => moveToProfile(memberId)}
-                >
-                  {name}
-                </Text>
+                <Link href={playgroundLink.memberDetail(memberId)}>
+                  <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                    {name}
+                  </Text>
+                </Link>
               ) : (
                 <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                   익명
                 </Text>
               )}
               {!isBlindWriter && (
-                <InfoText typography='SUIT_13_R' color={colors.gray100} onClick={() => moveToProfile(memberId)}>
-                  {`∙ ${info}`}
-                </InfoText>
+                <Link href={playgroundLink.memberDetail(memberId)}>
+                  <InfoText typography='SUIT_13_R' color={colors.gray100}>
+                    {`∙ ${info}`}
+                  </InfoText>
+                </Link>
               )}
             </Stack.Horizontal>
             <Flex>
@@ -429,7 +416,6 @@ const StyledText = styled(Text)`
 const CommentProfileImage = styled.img`
   flex-shrink: 0;
   border-radius: 50%;
-  cursor: pointer;
   width: 32px;
   height: 32px;
   object-fit: cover;
