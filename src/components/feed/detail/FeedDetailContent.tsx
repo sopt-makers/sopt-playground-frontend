@@ -20,7 +20,11 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
   return (
     <DetailFeedCard.Main>
       {postData.posts.isBlindWriter ? (
-        <DetailFeedCard.Top isBlindWriter={postData.posts.isBlindWriter} createdAt={postData.posts.createdAt} />
+        <DetailFeedCard.Top
+          isBlindWriter={postData.posts.isBlindWriter}
+          createdAt={postData.posts.createdAt}
+          memberId={null}
+        />
       ) : postData.member ? (
         <DetailFeedCard.Top
           isBlindWriter={postData.posts.isBlindWriter}
