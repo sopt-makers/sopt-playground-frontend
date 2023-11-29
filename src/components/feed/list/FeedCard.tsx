@@ -71,9 +71,9 @@ const Base = ({
                 <Text typography='SUIT_14_SB' lineHeight={20}>
                   익명
                 </Text>
-                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                <InfoText typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
                   {isShowInfo && info}
-                </Text>
+                </InfoText>
               </Top>
             ) : (
               <Link href={playgroundLink.memberDetail(memberId)}>
@@ -81,9 +81,9 @@ const Base = ({
                   <Text typography='SUIT_14_SB' lineHeight={20}>
                     {name}
                   </Text>
-                  <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                  <InfoText typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
                     {info}
-                  </Text>
+                  </InfoText>
                 </Top>
               </Link>
             )}
@@ -134,6 +134,17 @@ const Top = styled(Flex)`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 2px;
+  }
+`;
+
+const InfoText = styled(Text)`
+  white-space: nowrap;
+
+  @media screen and (max-width: 460px) {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
   }
 `;
 
