@@ -4,7 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import Checkbox from '@/components/common/Checkbox';
@@ -441,6 +441,7 @@ interface InputProps {
 }
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
+  const id = useId();
   const [isFocus, setIsFocus] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
@@ -474,8 +475,15 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
         transition={{ bounce: 0, stiffness: 1000, duration: 0.2 }}
       >
         <InputContent>
-          <Checkbox size='small' checked={isBlindChecked} onChange={(e) => handleCheckBlindWriter(e.target.checked)} />
-          <Text typography='SUIT_12_M'>익명으로 남기기</Text>
+          <Checkbox
+            size='small'
+            id={`${id}-check`}
+            checked={isBlindChecked}
+            onChange={(e) => handleCheckBlindWriter(e.target.checked)}
+          />
+          <label htmlFor={`${id}-check`} css={{ display: 'flex' }}>
+            <Text typography='SUIT_12_M'>익명으로 남기기</Text>
+          </label>
         </InputContent>
       </InputAnimateArea>
       <Flex align='flex-end' css={{ gap: '4px' }}>
