@@ -445,7 +445,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
-  const is버튼액티브 = isFocus && value.length > 0 && !isPending;
+  const is버튼액티브 = (isFocus || value.length > 0) && !isPending;
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -470,7 +470,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     <Container ref={containerRef} showInputAnimateArea={showInputAnimateArea}>
       <InputAnimateArea
         initial={{ height: 0 }}
-        animate={{ height: isFocus || isBlindChecked ? '28px' : 0 }}
+        animate={{ height: isFocus || isBlindChecked || value.length > 0 ? '28px' : 0 }}
         transition={{ bounce: 0, stiffness: 1000, duration: 0.2 }}
       >
         <InputContent>
@@ -478,7 +478,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           <Text typography='SUIT_12_M'>익명으로 남기기</Text>
         </InputContent>
       </InputAnimateArea>
-      <Flex align='flex-end'>
+      <Flex align='flex-end' css={{ gap: '4px' }}>
         <StyledTextArea
           value={value}
           onChange={(e) => onChange(e.target.value)}
