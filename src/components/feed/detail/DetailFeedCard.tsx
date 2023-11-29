@@ -545,6 +545,7 @@ const StyledTextArea = styled(TextareaAutosize)`
   background-color: ${colors.background};
   padding-bottom: 7px;
   max-height: 180px;
+  resize: none;
   line-height: 22px;
   line-height: 26px;
   white-space: pre-wrap;
