@@ -120,4 +120,5 @@ const Container = styled.div`
   flex: 1;
   margin-top: 8px;
   padding-bottom: 120px;
+  white-space: pre-wrap;
 `;
