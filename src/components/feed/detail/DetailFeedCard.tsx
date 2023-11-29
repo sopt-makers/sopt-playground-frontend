@@ -5,7 +5,7 @@ import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import reactTextareaAutosize from 'react-textarea-autosize';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -538,15 +538,18 @@ const InputContent = styled.div`
   align-items: center;
 `;
 
-const StyledTextArea = styled(reactTextareaAutosize)`
+const StyledTextArea = styled(TextareaAutosize)`
   flex: 1;
   border: none;
   border-width: 0;
   background-color: ${colors.background};
   padding-bottom: 7px;
   max-height: 180px;
-  resize: none;
   line-height: 22px;
+  line-height: 26px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
 
   ${textStyles.SUIT_16_M};
 
