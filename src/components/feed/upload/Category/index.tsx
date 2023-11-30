@@ -75,9 +75,11 @@ export default function Category({
       );
       return;
     }
-    console.log(selectedMainCategory);
+
     if (selectedMainCategory.children.length > 0) {
       onSaveCategory(selectedMainCategory.children[0].id);
+    } else {
+      onSaveCategory(selectedMainCategory.id);
     }
 
     closeAll();
