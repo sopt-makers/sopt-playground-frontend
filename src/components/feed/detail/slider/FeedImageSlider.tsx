@@ -38,9 +38,6 @@ const FeedImageSlider = ({ images, opened, onClose }: FeedImageSliderProps) => {
           <RemoveScroll>
             <Background initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               {images.length > 1 ? <StyledIndex>{`${activeIndex + 1}/${images.length}`}</StyledIndex> : null}
-              <CloseButton onClick={onClose}>
-                <IconClose />
-              </CloseButton>
               <Responsive only='desktop' asChild>
                 <StyledSwiper
                   modules={[Navigation]}
@@ -63,6 +60,9 @@ const FeedImageSlider = ({ images, opened, onClose }: FeedImageSliderProps) => {
                   ))}
                 </StyledSwiper>
               </Responsive>
+              <CloseButton onClick={onClose}>
+                <IconClose />
+              </CloseButton>
             </Background>
           </RemoveScroll>
         </Portal>
@@ -93,6 +93,7 @@ const CloseButton = styled.button`
   bottom: 48px;
   flex-shrink: 0;
   transition: background-color 0.2s ease-in-out;
+  z-index: 1;
   border-radius: 50%;
   background-color: ${colors.gray10};
   padding: 12px;
