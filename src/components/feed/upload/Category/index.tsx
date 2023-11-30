@@ -59,12 +59,6 @@ export default function Category({
       onSaveCategory(categoryId);
       closeAll();
       openUsingRules();
-      const timer = setTimeout(() => {
-        closeUsingRules();
-      }, 5000);
-      return () => {
-        clearTimeout(timer);
-      };
     }
 
     openTag();
@@ -89,12 +83,6 @@ export default function Category({
   const handleCloseTag = () => {
     openUsingRules();
     closeAll();
-    const timer = setTimeout(() => {
-      closeUsingRules();
-    }, 5000);
-    return () => {
-      clearTimeout(timer);
-    };
   };
 
   return (
