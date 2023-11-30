@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect, useRef } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
@@ -16,6 +16,7 @@ import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
+import InView from '@/components/feed/list/InView';
 import { textStyles } from '@/styles/typography';
 
 interface FeedListItemsProps {
@@ -68,10 +69,28 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
     }
   };
 
+  const viewedSet = useRef(new Set<number>());
+  const timeoutTokenRef = useRef<null | ReturnType<typeof setTimeout>>(null);
+  const handleScroll = () => {
+    if (timeoutTokenRef.current != null) {
+      return;
+    }
+
+    timeoutTokenRef.current = setTimeout(() => {
+      const ids = [...viewedSet.current.values()];
+
+      console.log(ids);
+
+      viewedSet.current.clear();
+      timeoutTokenRef.current = null;
+    }, 5000);
+  };
+
   return (
     <>
       <Virtuoso
         data={flattenData}
+        isScrolling={handleScroll}
         useWindowScroll
         endReached={() => {
           fetchNextPage();
@@ -80,129 +99,134 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
           return renderFeedDetailLink({
             feedId: `${post.id}`,
             children: (
-              <FeedCard
-                name={post.member?.name ?? '익명'}
-                title={post.title}
-                content={post.content}
-                profileImage={post.member?.profileImage ?? null}
-                createdAt={post.createdAt}
-                commentLength={post.commentCount}
-                hits={post.hits}
-                isBlindWriter={post.isBlindWriter}
-                isQuestion={post.isQuestion}
-                isShowInfo={categoryId === ''}
-                memberId={post.member?.id ?? 0}
-                info={
-                  categoryId ? (
-                    <>
-                      <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                        ∙
-                      </Text>
-                      <>
-                        {getMemberInfo({
-                          categoryId: post.categoryId,
-                          categoryName: post.categoryName,
-                          member: {
-                            activity: post.member?.activity ?? { generation: 0, part: '' },
-                            careers: post.member?.careers ?? null,
-                          },
-                        })}
-                      </>
-                    </>
-                  ) : (
-                    <>
-                      님이 <Text />
-                      <Text typography='SUIT_14_B' lineHeight={20} color={colors.gray100}>
-                        {parentCategory(post.categoryId, post.categoryName)}
-                      </Text>
-                      에 남김
-                    </>
-                  )
-                }
-                rightIcon={
-                  <FeedDropdown
-                    trigger={
-                      <Flex as='button'>
-                        <FeedCard.Icon name='moreHorizon' />
-                      </Flex>
+              <InView onInView={() => viewedSet.current.add(post.id)}>
+                {(ref) => (
+                  <FeedCard
+                    ref={ref}
+                    name={post.member?.name ?? '익명'}
+                    title={post.title}
+                    content={post.content}
+                    profileImage={post.member?.profileImage ?? null}
+                    createdAt={post.createdAt}
+                    commentLength={post.commentCount}
+                    hits={post.hits}
+                    isBlindWriter={post.isBlindWriter}
+                    isQuestion={post.isQuestion}
+                    isShowInfo={categoryId === ''}
+                    memberId={post.member?.id ?? 0}
+                    info={
+                      categoryId ? (
+                        <>
+                          <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                            ∙
+                          </Text>
+                          <>
+                            {getMemberInfo({
+                              categoryId: post.categoryId,
+                              categoryName: post.categoryName,
+                              member: {
+                                activity: post.member?.activity ?? { generation: 0, part: '' },
+                                careers: post.member?.careers ?? null,
+                              },
+                            })}
+                          </>
+                        </>
+                      ) : (
+                        <>
+                          님이 <Text />
+                          <Text typography='SUIT_14_B' lineHeight={20} color={colors.gray100}>
+                            {parentCategory(post.categoryId, post.categoryName)}
+                          </Text>
+                          에 남김
+                        </>
+                      )
+                    }
+                    rightIcon={
+                      <FeedDropdown
+                        trigger={
+                          <Flex as='button'>
+                            <FeedCard.Icon name='moreHorizon' />
+                          </Flex>
+                        }
+                      >
+                        {post.isMine ? (
+                          <FeedDropdown.Item
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toast.show({ message: '아직 지원하지 않는 기능이에요.' });
+                            }}
+                          >
+                            수정
+                          </FeedDropdown.Item>
+                        ) : null}
+                        <FeedDropdown.Item
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShareFeed(`${post.id}`);
+                          }}
+                        >
+                          공유
+                        </FeedDropdown.Item>
+                        {post.isMine ? (
+                          <FeedDropdown.Item
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteFeed({
+                                postId: `${post.id}`,
+                                onSuccess: () => {
+                                  refetch();
+                                },
+                              });
+                            }}
+                            type='danger'
+                          >
+                            삭제
+                          </FeedDropdown.Item>
+                        ) : null}
+                        {!post.isMine ? (
+                          <FeedDropdown.Item
+                            type='danger'
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleReport({ postId: `${post.id}` });
+                            }}
+                          >
+                            신고
+                          </FeedDropdown.Item>
+                        ) : null}
+                      </FeedDropdown>
                     }
                   >
-                    {post.isMine ? (
-                      <FeedDropdown.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toast.show({ message: '아직 지원하지 않는 기능이에요.' });
-                        }}
-                      >
-                        수정
-                      </FeedDropdown.Item>
-                    ) : null}
-                    <FeedDropdown.Item
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleShareFeed(`${post.id}`);
-                      }}
-                    >
-                      공유
-                    </FeedDropdown.Item>
-                    {post.isMine ? (
-                      <FeedDropdown.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteFeed({
-                            postId: `${post.id}`,
-                            onSuccess: () => {
-                              refetch();
-                            },
-                          });
-                        }}
-                        type='danger'
-                      >
-                        삭제
-                      </FeedDropdown.Item>
-                    ) : null}
-                    {!post.isMine ? (
-                      <FeedDropdown.Item
-                        type='danger'
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleReport({ postId: `${post.id}` });
-                        }}
-                      >
-                        신고
-                      </FeedDropdown.Item>
-                    ) : null}
-                  </FeedDropdown>
-                }
-              >
-                {post.images.length !== 0 && (
-                  <FeedCard.Image>
-                    {post.images.map((image, index) => (
-                      <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
-                    ))}
-                  </FeedCard.Image>
-                )}
-                {post.comments.length !== 0 && (
-                  <FeedCard.Comment>
-                    {post.comments.map((comment) =>
-                      comment.isBlindWriter ? (
-                        <FeedCard.CommentItem
-                          key={comment.id}
-                          comment={comment.content}
-                          isBlindWriter={comment.isBlindWriter}
-                        />
-                      ) : comment.member ? (
-                        <FeedCard.CommentItem
-                          key={comment.id}
-                          comment={comment.content}
-                          isBlindWriter={comment.isBlindWriter}
-                          name={comment.member.name}
-                        />
-                      ) : null,
+                    {post.images.length !== 0 && (
+                      <FeedCard.Image>
+                        {post.images.map((image, index) => (
+                          <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
+                        ))}
+                      </FeedCard.Image>
                     )}
-                  </FeedCard.Comment>
+                    {post.comments.length !== 0 && (
+                      <FeedCard.Comment>
+                        {post.comments.map((comment) =>
+                          comment.isBlindWriter ? (
+                            <FeedCard.CommentItem
+                              key={comment.id}
+                              comment={comment.content}
+                              isBlindWriter={comment.isBlindWriter}
+                            />
+                          ) : comment.member ? (
+                            <FeedCard.CommentItem
+                              key={comment.id}
+                              comment={comment.content}
+                              isBlindWriter={comment.isBlindWriter}
+                              name={comment.member.name}
+                            />
+                          ) : null,
+                        )}
+                      </FeedCard.Comment>
+                    )}
+                  </FeedCard>
                 )}
-              </FeedCard>
+              </InView>
             ),
           });
         }}
