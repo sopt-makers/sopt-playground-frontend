@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
@@ -53,7 +53,6 @@ export default function FeedUploadPage() {
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
-      e.preventDefault();
       mobileContentsRef.current && mobileContentsRef.current.focus();
     }
   };
@@ -81,8 +80,7 @@ export default function FeedUploadPage() {
 
   const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     handleUploadFeed({
       categoryId: feedData.categoryId ?? 0,
       title: feedData.title,
