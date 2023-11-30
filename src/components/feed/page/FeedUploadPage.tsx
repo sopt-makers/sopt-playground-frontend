@@ -114,7 +114,12 @@ export default function FeedUploadPage() {
     localStorage.setItem('isFirst', 'true');
   }, []);
 
-  if (isPending) return <Loading />;
+  if (isPending)
+    return (
+      <LoadingWrapper>
+        <Loading />
+      </LoadingWrapper>
+    );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -395,4 +400,12 @@ const TagAndCheckboxWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
 `;

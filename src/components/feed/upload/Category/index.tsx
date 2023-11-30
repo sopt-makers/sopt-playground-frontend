@@ -59,12 +59,6 @@ export default function Category({
       onSaveCategory(categoryId);
       closeAll();
       openUsingRules();
-      const timer = setTimeout(() => {
-        closeUsingRules();
-      }, 5000);
-      return () => {
-        clearTimeout(timer);
-      };
     }
 
     openTag();
@@ -82,19 +76,18 @@ export default function Category({
       return;
     }
 
-    onSaveCategory(selectedMainCategory.children[0].id);
+    if (selectedMainCategory.children.length > 0) {
+      onSaveCategory(selectedMainCategory.children[0].id);
+    } else {
+      onSaveCategory(selectedMainCategory.id);
+    }
+
     closeAll();
   };
 
   const handleCloseTag = () => {
     openUsingRules();
     closeAll();
-    const timer = setTimeout(() => {
-      closeUsingRules();
-    }, 5000);
-    return () => {
-      clearTimeout(timer);
-    };
   };
 
   return (
