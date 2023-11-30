@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import { colors } from '@sopt-makers/colors';
@@ -5,23 +6,26 @@ import { forwardRef, ReactNode } from 'react';
 
 interface Props {
   className?: string;
+  isHorizontalScrollDisabled?: boolean;
   children: ReactNode;
 }
 
-const ScrollContainer = forwardRef<HTMLDivElement, Props>(({ className, children }, ref) => {
-  return (
-    <ScrollRoot type='hover' ref={ref} className={className}>
-      <ScrollViewport>{children}</ScrollViewport>
-      <Scrollbar orientation='vertical'>
-        <ScrollbarThumb />
-      </Scrollbar>
-      <Scrollbar orientation='horizontal'>
-        <ScrollbarThumb />
-      </Scrollbar>
-      <ScrollbarCorner />
-    </ScrollRoot>
-  );
-});
+const ScrollContainer = forwardRef<HTMLDivElement, Props>(
+  ({ className, children, isHorizontalScrollDisabled = false }, ref) => {
+    return (
+      <ScrollRoot type='hover' ref={ref} className={className}>
+        <ScrollViewport isHorizontalScrollDisabled={isHorizontalScrollDisabled}>{children}</ScrollViewport>
+        <Scrollbar orientation='vertical'>
+          <ScrollbarThumb />
+        </Scrollbar>
+        <Scrollbar orientation='horizontal'>
+          <ScrollbarThumb />
+        </Scrollbar>
+        <ScrollbarCorner />
+      </ScrollRoot>
+    );
+  },
+);
 
 export default ScrollContainer;
 
@@ -29,12 +33,19 @@ const ScrollRoot = styled(ScrollArea.Root)`
   position: relative;
 `;
 
-const ScrollViewport = styled(ScrollArea.Viewport)`
+const ScrollViewport = styled(ScrollArea.Viewport)<{ isHorizontalScrollDisabled: boolean }>`
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+
+  ${({ isHorizontalScrollDisabled }) =>
+    isHorizontalScrollDisabled &&
+    css`
+      /* MEMO: @radix-ui/react-scroll-area 내부 inline style을 덮어쓰기 위해 important 사용 */
+      overflow-x: hidden !important;
+    `};
 `;
 
 const SCROLLBAR_SIZE = '8px';

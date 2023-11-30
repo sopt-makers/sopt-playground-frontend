@@ -111,7 +111,7 @@ interface BodyProps {
 
 const Body = forwardRef<HTMLDivElement, PropsWithChildren<BodyProps>>(({ className, children }, ref) => {
   return (
-    <StyledBody ref={ref} className={className}>
+    <StyledBody ref={ref} className={className} isHorizontalScrollDisabled>
       <Flex direction='column' css={{ position: 'absolute', inset: 0 }}>
         {children}
       </Flex>
