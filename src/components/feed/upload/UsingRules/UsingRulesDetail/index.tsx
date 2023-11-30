@@ -383,6 +383,4 @@ const Detail = styled.div`
   padding: 0 8px;
   ${colors.gray10};
   ${fonts.BODY_13_L};
-
-  overflow-y: scroll;
 `;
