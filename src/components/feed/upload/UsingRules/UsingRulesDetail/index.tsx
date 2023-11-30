@@ -20,18 +20,22 @@ export default function UsingRulesDetail({ isOpen = false, onClose }: UsingRules
       <Responsive only='desktop'>
         <Modal isOpen={isOpen} onClose={onClose} hideCloseButton className='rules-detail'>
           <ModalContents>
-            <Title>커뮤니티 이용규칙</Title>
-            <Detail>
-              <CommunityRules />
-            </Detail>
+            <Overflow>
+              <Title>커뮤니티 이용규칙</Title>
+              <Detail>
+                <CommunityRules />
+              </Detail>
+            </Overflow>
           </ModalContents>
         </Modal>
       </Responsive>
       <Responsive only='mobile'>
         <BottomSheet header={<Title>커뮤니티 이용규칙</Title>} isOpen={isOpen} onClose={onClose}>
-          <Detail>
-            <CommunityRules />
-          </Detail>
+          <Overflow>
+            <Detail>
+              <CommunityRules />
+            </Detail>
+          </Overflow>
         </BottomSheet>
       </Responsive>
     </>
@@ -364,8 +368,6 @@ const ModalContents = styled.div`
   padding: 24px 8px 0;
   max-width: 358px;
   max-height: 496px;
-  overflow-x: hidden;
-  overflow-y: scroll;
 `;
 
 const Title = styled.h2`
@@ -383,4 +385,9 @@ const Detail = styled.div`
   padding: 0 8px;
   ${colors.gray10};
   ${fonts.BODY_13_L};
+`;
+
+const Overflow = styled.div`
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
