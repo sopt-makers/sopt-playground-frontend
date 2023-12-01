@@ -56,6 +56,13 @@ export interface ClickEvents {
   };
   mentorApplicationButton: undefined;
   wordchainEntry: undefined;
+  // 커뮤니티(피드)
+  feedCategory: {
+    category: string;
+  };
+  shareButton: {
+    feedId: string;
+  };
 }
 
 export interface SubmitEvents {
@@ -92,4 +99,17 @@ export interface PageViewEvents {
     mentorId: number;
   };
   wordchain: undefined;
+  // 커뮤니티(피드)
+  feedList: undefined;
+  feedDetail: {
+    feedId: string;
+    category?: string;
+  };
+}
+
+export interface ImpressionEvents {
+  feedCard: {
+    feedId: string;
+    categoryId: string;
+  };
 }
