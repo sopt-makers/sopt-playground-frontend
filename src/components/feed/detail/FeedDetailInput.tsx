@@ -47,7 +47,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
 
           const { isSuccess } = await refetchCommentQuery();
           if (isSuccess) {
-            logSubmitEvent('postComment', { feedId: postId, referral });
+            logSubmitEvent('postComment', { feedId: postId, referral, isBlindWriter: commentData.isBlindWriter });
             onSubmitted();
           }
         },

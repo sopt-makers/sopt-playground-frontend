@@ -105,6 +105,7 @@ export interface SubmitEvents {
   postComment: {
     feedId: string;
     referral: 'more' | 'detail';
+    isBlindWriter: boolean;
   };
 }
 
