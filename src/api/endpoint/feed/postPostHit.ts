@@ -1,18 +1,14 @@
-import { useMutation } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
 
 export const postPostHit = createEndpoint({
-  request: (postId: string) => ({
+  request: (postIdList: string[]) => ({
     method: 'POST',
-    url: `api/v1/community/posts/${postId}/hit`,
+    url: `api/v1/community/posts/hit`,
+    data: {
+      postIdList: postIdList.map((id) => Number(id)).filter((value) => !Number.isNaN(value)),
+    },
   }),
   serverResponseScheme: z.unknown(),
 });
-
-export const usePostPostHitMutation = () => {
-  return useMutation({
-    mutationFn: (postId: string) => postPostHit.request(postId),
-  });
-};
