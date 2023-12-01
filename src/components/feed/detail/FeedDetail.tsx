@@ -6,6 +6,7 @@ import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import useToast from '@/components/common/Toast/useToast';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
@@ -56,9 +57,14 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
         })}
         right={
           <>
-            <button onClick={() => handleShareFeed(postId)}>
-              <DetailFeedCard.Icon name='share' />
-            </button>
+            <LoggingClick
+              eventKey='feedShareButton'
+              param={{ feedId: postId, referral: categoryId == null ? 'detail' : 'more' }}
+            >
+              <button onClick={() => handleShareFeed(postId)}>
+                <DetailFeedCard.Icon name='share' />
+              </button>
+            </LoggingClick>
             <FeedDropdown
               trigger={
                 <button>

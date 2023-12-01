@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 
 import AuthRequired from '@/components/auth/AuthRequired';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
@@ -20,18 +21,24 @@ const FeedDetailPage = () => {
           <DetailSlot>
             <FeedDetail
               postId={query.id}
-              renderBackLink={({ children }) => <Link href={playgroundLink.feedList()}>{children}</Link>}
+              renderBackLink={({ children }) => (
+                <LoggingClick eventKey='feedBackButton' param={{ feedId: query.id, referral: 'detail' }}>
+                  <Link href={playgroundLink.feedList()}>{children}</Link>
+                </LoggingClick>
+              )}
               renderCategoryLink={({ children, categoryId }) => (
-                <Link
-                  href={{
-                    pathname: playgroundLink.feedList(),
-                    query: {
-                      category: categoryId,
-                    },
-                  }}
-                >
-                  {children}
-                </Link>
+                <LoggingClick eventKey='feedCategoryChipLink' param={{ feedId: query.id }}>
+                  <Link
+                    href={{
+                      pathname: playgroundLink.feedList(),
+                      query: {
+                        category: categoryId,
+                      },
+                    }}
+                  >
+                    {children}
+                  </Link>
+                </LoggingClick>
               )}
             />
           </DetailSlot>

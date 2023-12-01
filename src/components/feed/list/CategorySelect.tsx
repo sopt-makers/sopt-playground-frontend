@@ -31,7 +31,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
       <HorizontalScroller>
         <CategoryBox>
           <LoggingClick
-            eventKey='feedCategory'
+            eventKey='feedListCategoryFilter'
             param={{
               category: '전체',
             }}
@@ -41,7 +41,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
             </Category>
           </LoggingClick>
           {categories.map((category) => (
-            <LoggingClick key={category.id} eventKey='feedCategory' param={{ category: category.name }}>
+            <LoggingClick key={category.id} eventKey='feedListCategoryFilter' param={{ category: category.name }}>
               <Category
                 categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
                 active={parentCategory?.id === category.id}
@@ -56,14 +56,14 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
         <HorizontalScroller css={{ marginBottom: '8px' }}>
           <TagBox>
             {parentCategory.hasAllCategory && (
-              <LoggingClick eventKey='feedCategory' param={{ category: '전체' }}>
+              <LoggingClick eventKey='feedListCategoryFilter' param={{ category: '전체' }}>
                 <Chip categoryId={parentCategory.id} active={parentCategory.id === currentCategoryId}>
                   전체
                 </Chip>
               </LoggingClick>
             )}
             {parentCategory.tags.map((tag) => (
-              <LoggingClick key={tag.id} eventKey='feedCategory' param={{ category: tag.name }}>
+              <LoggingClick key={tag.id} eventKey='feedListCategoryFilter' param={{ category: tag.name }}>
                 <Chip key={tag.id} categoryId={tag.id} active={tag.id === currentCategoryId}>
                   {tag.name}
                 </Chip>

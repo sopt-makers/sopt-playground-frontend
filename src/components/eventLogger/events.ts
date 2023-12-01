@@ -57,12 +57,24 @@ export interface ClickEvents {
   mentorApplicationButton: undefined;
   wordchainEntry: undefined;
   // 커뮤니티(피드)
-  feedCategory: {
+  feedListCategoryFilter: {
     category: string;
   };
-  shareButton: {
+  feedCard: {
     feedId: string;
   };
+  feedShareButton: {
+    feedId: string;
+    referral: 'list' | 'more' | 'detail';
+  };
+  feedBackButton: {
+    feedId: string;
+    referral: 'more' | 'detail';
+  };
+  feedCategoryChipLink: {
+    feedId: string;
+  };
+  feedUploadButton: undefined;
 }
 
 export interface SubmitEvents {
@@ -89,6 +101,10 @@ export interface SubmitEvents {
     word: string;
   };
   wordchainNewGame: undefined;
+  // 커뮤니티(피드)
+  postComment: {
+    referral: 'more' | 'detail';
+  };
 }
 
 export interface PageViewEvents {

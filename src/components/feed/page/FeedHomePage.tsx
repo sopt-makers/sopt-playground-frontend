@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { CategoryLink, FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import FeedList from '@/components/feed/list/FeedList';
@@ -20,7 +21,9 @@ const CommunityPage: FC = () => {
           listSlot={
             <FeedList
               renderFeedDetailLink={({ children, feedId }) => (
-                <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                <LoggingClick eventKey='feedCard' param={{ feedId }}>
+                  <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                </LoggingClick>
               )}
             />
           }
@@ -28,7 +31,11 @@ const CommunityPage: FC = () => {
             postId ? (
               <FeedDetail
                 postId={postId}
-                renderBackLink={({ children }) => <FeedDetailLink feedId={undefined}>{children}</FeedDetailLink>}
+                renderBackLink={({ children }) => (
+                  <LoggingClick eventKey='feedBackButton' param={{ feedId: postId, referral: 'more' }}>
+                    <FeedDetailLink feedId={undefined}>{children}</FeedDetailLink>
+                  </LoggingClick>
+                )}
                 renderCategoryLink={({ children, categoryId }) => (
                   <CategoryLink categoryId={categoryId}>{children}</CategoryLink>
                 )}
@@ -43,7 +50,9 @@ const CommunityPage: FC = () => {
           listSlot={
             <FeedList
               renderFeedDetailLink={({ children, feedId }) => (
-                <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                <LoggingClick eventKey='feedCard' param={{ feedId }}>
+                  <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                </LoggingClick>
               )}
             />
           }
@@ -51,7 +60,11 @@ const CommunityPage: FC = () => {
             postId ? (
               <FeedDetail
                 postId={postId}
-                renderBackLink={({ children }) => <FeedDetailLink feedId={undefined}>{children}</FeedDetailLink>}
+                renderBackLink={({ children }) => (
+                  <LoggingClick eventKey='feedBackButton' param={{ feedId: postId, referral: 'more' }}>
+                    <FeedDetailLink feedId={undefined}>{children}</FeedDetailLink>
+                  </LoggingClick>
+                )}
                 renderCategoryLink={({ children, categoryId }) => (
                   <CategoryLink categoryId={categoryId} transformQuery={(query) => ({ ...query, feed: '' })}>
                     {children}
