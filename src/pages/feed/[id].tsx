@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { LoggingPageView } from '@/components/eventLogger/components/LoggingPageView';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
@@ -19,28 +20,30 @@ const FeedDetailPage = () => {
       {status === 'success' ? (
         <Container>
           <DetailSlot>
-            <FeedDetail
-              postId={query.id}
-              renderBackLink={({ children }) => (
-                <LoggingClick eventKey='feedBackButton' param={{ feedId: query.id, referral: 'detail' }}>
-                  <Link href={playgroundLink.feedList()}>{children}</Link>
-                </LoggingClick>
-              )}
-              renderCategoryLink={({ children, categoryId }) => (
-                <LoggingClick eventKey='feedCategoryChipLink' param={{ feedId: query.id }}>
-                  <Link
-                    href={{
-                      pathname: playgroundLink.feedList(),
-                      query: {
-                        category: categoryId,
-                      },
-                    }}
-                  >
-                    {children}
-                  </Link>
-                </LoggingClick>
-              )}
-            />
+            <LoggingPageView eventKey='feedDetail' param={{ feedId: query.id }}>
+              <FeedDetail
+                postId={query.id}
+                renderBackLink={({ children }) => (
+                  <LoggingClick eventKey='feedBackButton' param={{ feedId: query.id, referral: 'detail' }}>
+                    <Link href={playgroundLink.feedList()}>{children}</Link>
+                  </LoggingClick>
+                )}
+                renderCategoryLink={({ children, categoryId }) => (
+                  <LoggingClick eventKey='feedCategoryChipLink' param={{ feedId: query.id }}>
+                    <Link
+                      href={{
+                        pathname: playgroundLink.feedList(),
+                        query: {
+                          category: categoryId,
+                        },
+                      }}
+                    >
+                      {children}
+                    </Link>
+                  </LoggingClick>
+                )}
+              />
+            </LoggingPageView>
           </DetailSlot>
         </Container>
       ) : null}

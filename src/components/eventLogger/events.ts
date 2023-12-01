@@ -103,6 +103,7 @@ export interface SubmitEvents {
   wordchainNewGame: undefined;
   // 커뮤니티(피드)
   postComment: {
+    feedId: string;
     referral: 'more' | 'detail';
   };
 }
@@ -119,13 +120,11 @@ export interface PageViewEvents {
   feedList: undefined;
   feedDetail: {
     feedId: string;
-    category?: string;
   };
 }
 
 export interface ImpressionEvents {
   feedCard: {
     feedId: string;
-    categoryId: string;
   };
 }

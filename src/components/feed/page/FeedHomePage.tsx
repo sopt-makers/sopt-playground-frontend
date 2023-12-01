@@ -2,6 +2,7 @@ import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { CategoryLink, FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import FeedList from '@/components/feed/list/FeedList';
@@ -21,9 +22,12 @@ const CommunityPage: FC = () => {
           listSlot={
             <FeedList
               renderFeedDetailLink={({ children, feedId }) => (
-                <LoggingClick eventKey='feedCard' param={{ feedId }}>
-                  <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
-                </LoggingClick>
+                // TODO: to @tekiter 조회수 구현 시 변경해주세욤
+                <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
+                  <LoggingClick eventKey='feedCard' param={{ feedId }}>
+                    <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                  </LoggingClick>
+                </LoggingImpression>
               )}
             />
           }
@@ -50,9 +54,12 @@ const CommunityPage: FC = () => {
           listSlot={
             <FeedList
               renderFeedDetailLink={({ children, feedId }) => (
-                <LoggingClick eventKey='feedCard' param={{ feedId }}>
-                  <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
-                </LoggingClick>
+                // TODO: to @tekiter 조회수 구현 시 변경해주세욤
+                <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
+                  <LoggingClick eventKey='feedCard' param={{ feedId }}>
+                    <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                  </LoggingClick>
+                </LoggingImpression>
               )}
             />
           }
