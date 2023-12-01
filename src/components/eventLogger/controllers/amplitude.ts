@@ -22,5 +22,8 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
     pageViewEvent(key, ...params) {
       instance.track(`Pageview-${key}`, ...params);
     },
+    impressionEvent(key, ...params) {
+      instance.track(`Impression-${key}`, ...params);
+    },
   };
 }
