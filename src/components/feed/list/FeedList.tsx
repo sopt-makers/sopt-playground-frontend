@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
-import { LoggingPageView } from '@/components/eventLogger/components/LoggingPageView';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
 import CategorySelect from '@/components/feed/list/CategorySelect';
 import FeedListItems from '@/components/feed/list/FeedListItems';
@@ -36,26 +36,26 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
   }));
 
   return (
-    <LoggingPageView eventKey='feedList'>
-      <Container>
-        <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
-        <HeightSpacer>
-          <ErrorBoundary
-            renderFallback={(error) => (
-              <div css={{ textAlign: 'center' }}>
-                게시글을 보여주는데 문제가 발생했어요.
-                <br />({error.error.message})
-              </div>
-            )}
-          >
-            <FeedListItems categoryId={categoryId} renderFeedDetailLink={renderFeedDetailLink} />
-          </ErrorBoundary>
-        </HeightSpacer>
+    <Container>
+      <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
+      <HeightSpacer>
+        <ErrorBoundary
+          renderFallback={(error) => (
+            <div css={{ textAlign: 'center' }}>
+              게시글을 보여주는데 문제가 발생했어요.
+              <br />({error.error.message})
+            </div>
+          )}
+        >
+          <FeedListItems categoryId={categoryId} renderFeedDetailLink={renderFeedDetailLink} />
+        </ErrorBoundary>
+      </HeightSpacer>
+      <LoggingClick eventKey='feedUploadButton'>
         <UploadLink href={playgroundLink.feedUpload()}>
           <UploadIcon />
         </UploadLink>
-      </Container>
-    </LoggingPageView>
+      </LoggingClick>
+    </Container>
   );
 };
 
