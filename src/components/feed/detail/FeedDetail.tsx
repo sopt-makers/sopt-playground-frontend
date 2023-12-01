@@ -11,6 +11,7 @@ import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
+import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
@@ -37,6 +38,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const containerRef = useRef<HTMLDivElement>(null);
   const [categoryId] = useCategoryParam();
   const { findParentCategory } = useCategory();
+  const { referral } = useFeedReferral();
 
   if (postData == null || commentData == null) {
     return null;
@@ -57,10 +59,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
         })}
         right={
           <>
-            <LoggingClick
-              eventKey='feedShareButton'
-              param={{ feedId: postId, referral: categoryId == null ? 'detail' : 'more' }}
-            >
+            <LoggingClick eventKey='feedShareButton' param={{ feedId: postId, referral }}>
               <button onClick={() => handleShareFeed(postId)}>
                 <DetailFeedCard.Icon name='share' />
               </button>
