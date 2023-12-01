@@ -10,6 +10,7 @@ import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
@@ -137,14 +138,16 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                         수정
                       </FeedDropdown.Item>
                     ) : null}
-                    <FeedDropdown.Item
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleShareFeed(`${post.id}`);
-                      }}
-                    >
-                      공유
-                    </FeedDropdown.Item>
+                    <LoggingClick eventKey='feedShareButton' param={{ feedId: String(post.id), referral: 'list' }}>
+                      <FeedDropdown.Item
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleShareFeed(`${post.id}`);
+                        }}
+                      >
+                        공유
+                      </FeedDropdown.Item>
+                    </LoggingClick>
                     {post.isMine ? (
                       <FeedDropdown.Item
                         onClick={(e) => {
