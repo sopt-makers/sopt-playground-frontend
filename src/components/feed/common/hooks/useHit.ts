@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { postPostHit } from '@/api/endpoint/feed/postPostHit';
 
@@ -13,10 +13,10 @@ export const useHit = () => {
 
   const handleFeedImpression = (feedId: string) => {
     viewedSet.current.add(feedId);
-    fn();
+    scheduleProcess();
   };
 
-  const fn = () => {
+  const scheduleProcess = () => {
     if (timeoutTokenRef.current != null) {
       return;
     }
@@ -31,6 +31,14 @@ export const useHit = () => {
       timeoutTokenRef.current = null;
     }, 5000);
   };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutTokenRef.current != null) {
+        clearTimeout(timeoutTokenRef.current);
+      }
+    };
+  }, []);
 
   return {
     queueHit: handleFeedImpression,
