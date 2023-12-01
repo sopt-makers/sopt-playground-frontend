@@ -21,6 +21,7 @@ export const useHit = () => {
       return;
     }
 
+    // 페이지를 벗어나도 조회수 요청이 나가도록 일부러 cleanup 때 정리 안함
     timeoutTokenRef.current = setTimeout(() => {
       const ids = [...viewedSet.current.values()];
       if (ids.length > 0) {
@@ -31,14 +32,6 @@ export const useHit = () => {
       timeoutTokenRef.current = null;
     }, 5000);
   };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutTokenRef.current != null) {
-        clearTimeout(timeoutTokenRef.current);
-      }
-    };
-  }, []);
 
   return {
     queueHit: handleFeedImpression,
