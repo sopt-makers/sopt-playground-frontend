@@ -9,6 +9,7 @@ const useEventLogger = () => {
     logClickEvent: controller.clickEvent,
     logSubmitEvent: controller.submitEvent,
     logPageViewEvent: controller.pageViewEvent,
+    logImpressionEvent: controller.impressionEvent,
   };
 };
 
