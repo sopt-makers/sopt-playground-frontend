@@ -22,9 +22,10 @@ import { textStyles } from '@/styles/typography';
 interface FeedListItemsProps {
   categoryId: string | undefined;
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
+  onScrollChange?: (scrolling: boolean) => void;
 }
 
-const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLink }) => {
+const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLink, onScrollChange }) => {
   const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
     categoryId,
   });
@@ -77,6 +78,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
         endReached={() => {
           fetchNextPage();
         }}
+        isScrolling={onScrollChange}
         itemContent={(_, post) => {
           return renderFeedDetailLink({
             feedId: `${post.id}`,

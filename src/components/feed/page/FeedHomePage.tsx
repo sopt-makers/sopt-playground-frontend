@@ -1,9 +1,10 @@
 import { ImpressionArea } from '@toss/impression-area';
-import { FC, useEffect, useRef } from 'react';
+import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
+import { useHit } from '@/components/feed/common/hooks/useHit';
 import { CategoryLink, FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import FeedList from '@/components/feed/list/FeedList';
@@ -12,36 +13,9 @@ import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunity
 
 const CommunityPage: FC = () => {
   const [postId] = useFeedDetailParam();
+  const { queueHit } = useHit();
 
   const isDetailOpen = postId != null && postId !== '';
-
-  const viewedSet = useRef(new Set<string>());
-  const timeoutTokenRef = useRef<null | ReturnType<typeof setTimeout>>(null);
-
-  const handleFeedImpression = (feedId: string) => {
-    viewedSet.current.add(feedId);
-  };
-
-  useEffect(() => {
-    const fn = () => {
-      if (timeoutTokenRef.current != null) {
-        return;
-      }
-
-      timeoutTokenRef.current = setTimeout(() => {
-        const ids = [...viewedSet.current.values()];
-
-        console.log(ids);
-
-        viewedSet.current.clear();
-        timeoutTokenRef.current = null;
-      }, 5000);
-    };
-
-    window.addEventListener('scroll', fn);
-
-    return () => window.removeEventListener('scroll', fn);
-  }, []);
 
   return (
     <>
@@ -51,7 +25,7 @@ const CommunityPage: FC = () => {
           listSlot={
             <FeedList
               renderFeedDetailLink={({ children, feedId }) => (
-                <ImpressionArea onImpressionStart={() => handleFeedImpression(feedId)}>
+                <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
                   <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
                     <LoggingClick eventKey='feedCard' param={{ feedId }}>
                       <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
@@ -84,7 +58,7 @@ const CommunityPage: FC = () => {
           listSlot={
             <FeedList
               renderFeedDetailLink={({ children, feedId }) => (
-                <ImpressionArea onImpressionStart={() => handleFeedImpression(feedId)}>
+                <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
                   <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
                     <LoggingClick eventKey='feedCard' param={{ feedId }}>
                       <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
