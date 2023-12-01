@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 import { atomFamily, useRecoilState } from 'recoil';
@@ -7,7 +6,6 @@ import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral';
-import { useCategoryParam } from '@/components/feed/common/queryParam';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
 
