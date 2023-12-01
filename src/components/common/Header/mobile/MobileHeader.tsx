@@ -2,10 +2,11 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-import { MENU_SVG, SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/imageData';
+import { MENU_SVG } from '@/components/common/Header/imageData';
 import MobileSideBar from '@/components/common/Header/mobile/MobileSideBar';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
+import PlaygroundLogoIcon from '@/public/icons/icon-playground-logo.svg';
 
 interface MobileHeaderProps {
   user: {
@@ -36,10 +37,11 @@ const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout, renderLink, activ
         href: playgroundLink.memberList(),
         children: (
           <BrandButton>
-            <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' />
+            <PlaygroundLogoIcon />
           </BrandButton>
         ),
       })}
+      <FakeBox />
     </Container>
   );
 };
@@ -48,9 +50,10 @@ export default MobileHeader;
 
 const Container = styled.header`
   display: flex;
+  justify-content: space-between;
   background-color: ${colors.gray950};
-  padding: 0 16px;
-  height: 56px;
+  padding: 12px;
+  height: 64px;
   color: ${colors.gray10};
 `;
 
@@ -65,11 +68,15 @@ const NavButton = styled.button`
 const BrandButton = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 10px;
-  width: 64px;
+  width: 120px;
   height: 100%;
 
-  & > img {
-    width: 52px;
+  & > svg {
+    width: 120px;
   }
+`;
+
+const FakeBox = styled.div`
+  visibility: visible;
+  width: 32px;
 `;

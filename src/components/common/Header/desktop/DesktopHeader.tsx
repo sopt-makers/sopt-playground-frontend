@@ -5,9 +5,9 @@ import { FC } from 'react';
 
 import ProfileButton from '@/components/common/Header/desktop/ProfileButton';
 import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown';
-import { SOPT_LOGO_IMG_BASE64 } from '@/components/common/Header/imageData';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
+import PlaygroundLogoIcon from '@/public/icons/icon-playground-logo.svg';
 import { textStyles } from '@/styles/typography';
 
 interface DesktopHeaderProps {
@@ -26,7 +26,7 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
   return (
     <Container>
       <StyledBrandLink>
-        {renderLink({ href: playgroundLink.memberList(), children: <img src={SOPT_LOGO_IMG_BASE64} alt='SOPT' /> })}
+        {renderLink({ href: playgroundLink.memberList(), children: <PlaygroundLogoIcon /> })}
       </StyledBrandLink>
       <NavArea>
         {renderLink({
@@ -43,8 +43,12 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
         })}
         <NavItem isActive={false}>|</NavItem>
         {renderLink({
+          href: playgroundLink.wordchain(),
+          children: <NavItem isActive={activePathMatcher(playgroundLink.wordchain())}>끝말잇기</NavItem>,
+        })}
+        {renderLink({
           href: playgroundLink.sopticle(),
-          children: <NavItem isActive={activePathMatcher(playgroundLink.sopticle())}>솝티클</NavItem>,
+          children: <NavItem isActive={activePathMatcher(playgroundLink.sopticle())}>솝티클 업로드</NavItem>,
         })}
       </NavArea>
       <ActionArea>
@@ -66,18 +70,23 @@ export default DesktopHeader;
 
 const Container = styled.header`
   display: flex;
+  border-bottom: 1px solid ${colors.gray800};
   background-color: ${colors.gray950};
   height: 80px;
   color: ${colors.gray10};
 `;
 
 const StyledBrandLink = styled.div`
-  margin: 0 44px;
+  margin: 0 36px;
 
   & > * {
     display: flex;
     align-items: center;
     height: 100%;
+  }
+
+  & > a > svg {
+    width: 120px;
   }
 `;
 
