@@ -5,17 +5,15 @@ import { forwardRef, ReactNode } from 'react';
 
 interface Props {
   className?: string;
+  isHorizontalScrollDisabled?: boolean;
   children: ReactNode;
 }
 
-const ScrollContainer = forwardRef<HTMLDivElement, Props>(({ className, children }, ref) => {
+const VerticalScroller = forwardRef<HTMLDivElement, Props>(({ className, children }, ref) => {
   return (
     <ScrollRoot type='hover' ref={ref} className={className}>
       <ScrollViewport>{children}</ScrollViewport>
       <Scrollbar orientation='vertical'>
-        <ScrollbarThumb />
-      </Scrollbar>
-      <Scrollbar orientation='horizontal'>
         <ScrollbarThumb />
       </Scrollbar>
       <ScrollbarCorner />
@@ -23,7 +21,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, Props>(({ className, children
   );
 });
 
-export default ScrollContainer;
+export default VerticalScroller;
 
 const ScrollRoot = styled(ScrollArea.Root)`
   position: relative;
@@ -35,6 +33,9 @@ const ScrollViewport = styled(ScrollArea.Viewport)`
   right: 0;
   bottom: 0;
   left: 0;
+
+  /* MEMO: @radix-ui/react-scroll-area 내부 inline style을 덮어쓰기 위해 important 사용 */
+  overflow-x: hidden !important;
 `;
 
 const SCROLLBAR_SIZE = '8px';

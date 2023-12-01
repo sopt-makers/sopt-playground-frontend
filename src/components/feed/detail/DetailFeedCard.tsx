@@ -10,7 +10,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Loading from '@/components/common/Loading';
-import ScrollContainer from '@/components/common/ScrollContainer';
+import VerticalScroller from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import {
@@ -119,7 +119,7 @@ const Body = forwardRef<HTMLDivElement, PropsWithChildren<BodyProps>>(({ classNa
   );
 });
 
-const StyledBody = styled(ScrollContainer)`
+const StyledBody = styled(VerticalScroller)`
   position: relative;
   flex: 1;
   padding: 16px 24px;
