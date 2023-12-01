@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import Responsive from '@/components/common/Responsive';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import HelpIc from '@/public/icons/icon_help.svg';
 import ArrowIc from '@/public/icons/icon_more.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -12,9 +13,16 @@ interface UsingRulesButtonProp {
 }
 
 export default function UsingRulesButton({ onClick }: UsingRulesButtonProp) {
+  const { logClickEvent } = useEventLogger();
+
+  const handleShowUsingRules = () => {
+    logClickEvent('communityRulesClick');
+    onClick();
+  };
+
   return (
     <>
-      <ShowMoreButton type='button' onClick={onClick}>
+      <ShowMoreButton type='button' onClick={handleShowUsingRules}>
         <Responsive only='desktop'>
           <ButtonWrapper>
             <HelpIc />

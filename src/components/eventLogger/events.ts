@@ -6,6 +6,14 @@ type ProjectCard = {
   id: number;
   name: string;
 };
+type CommunityFeedData = {
+  categoryId: number;
+  title: string | null;
+  content: string;
+  isQuestion: boolean;
+  isBlindWriter: boolean;
+  images: string[];
+};
 
 export interface ClickEvents {
   memberCard: MemberCard;
@@ -56,6 +64,11 @@ export interface ClickEvents {
   };
   mentorApplicationButton: undefined;
   wordchainEntry: undefined;
+  communityRulesClick: undefined;
+  communityUploadCodeButton: undefined;
+  quitUploadCommunity: {
+    feedData: CommunityFeedData;
+  };
 }
 
 export interface SubmitEvents {
@@ -82,6 +95,7 @@ export interface SubmitEvents {
     word: string;
   };
   wordchainNewGame: undefined;
+  submitCommunity: undefined;
 }
 
 export interface PageViewEvents {

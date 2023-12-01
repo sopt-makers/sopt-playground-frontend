@@ -10,6 +10,7 @@ import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
@@ -81,8 +82,11 @@ export default function FeedUploadPage() {
 
   const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
+  const { logSubmitEvent, logClickEvent } = useEventLogger();
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    logSubmitEvent('submitCommunity');
     handleUploadFeed({
       categoryId: feedData.categoryId ?? 0,
       title: feedData.title,
@@ -93,8 +97,9 @@ export default function FeedUploadPage() {
     });
   };
 
-  const hanldeQuitUpload = () => {
-    router.push('/community');
+  const handleQuitUpload = async () => {
+    quitUploading();
+    await router.push('/community');
   };
 
   const { data: categories } = useQuery({
@@ -110,9 +115,33 @@ export default function FeedUploadPage() {
       )) ??
     null;
 
+  const quitUploading = () => {
+    logClickEvent('quitUploadCommunity', {
+      feedData: {
+        categoryId: feedData.categoryId ?? 0,
+        title: feedData.title,
+        content: feedData.content,
+        isQuestion: feedData.isQuestion,
+        isBlindWriter: feedData.isBlindWriter,
+        images: feedData.images,
+      },
+    });
+  };
+
   useEffect(() => {
     localStorage.setItem('isFirst', 'true');
   }, []);
+
+  useEffect(() => {
+    // MEMO: 뒤로가기 감지 시, quitUploading 수행
+    const handleBack = () => {
+      quitUploading();
+    };
+
+    window.addEventListener('popstate', handleBack);
+
+    return () => window.removeEventListener('popstate', handleBack);
+  }, [feedData]);
 
   if (isPending)
     return (
@@ -128,7 +157,7 @@ export default function FeedUploadPage() {
           header={
             <>
               <BackArrowWrapper>
-                <BackArrow onClick={hanldeQuitUpload} />
+                <BackArrow onClick={handleQuitUpload} />
               </BackArrowWrapper>
               <Category
                 feedData={feedData}
@@ -199,7 +228,7 @@ export default function FeedUploadPage() {
           header={
             <>
               <TopHeader>
-                <Button type='button' disabled={false} onClick={hanldeQuitUpload}>
+                <Button type='button' disabled={false} onClick={handleQuitUpload}>
                   취소
                 </Button>
                 <Button type='submit' disabled={!checkReadyToUpload()}>
