@@ -11,7 +11,7 @@ const NavigationPanel: FC = () => {
     <Panel title='주요 페이지 이동'>
       <PanelContent>
         <ActionBox>
-          <Link href={playgroundLink.memberList()} passHref legacyBehavior>
+          <Link href={playgroundLink.feedList()} passHref legacyBehavior>
             <ActionButton variant='primary'>홈</ActionButton>
           </Link>
           <Link href={playgroundLink.login()} passHref legacyBehavior>
