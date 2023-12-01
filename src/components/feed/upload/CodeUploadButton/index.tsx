@@ -6,7 +6,7 @@ import { BottomSheet } from '@/components/common/BottomSheet';
 import Modal from '@/components/common/Modal';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import carbonCodeBlockImg from '@/public/icons/img/carbon_code_block.png';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -15,35 +15,31 @@ const CARBON_LINK = 'https://carbon.now.sh/';
 
 export default function CodeUploadButton() {
   const { isOpen, onClose, onOpen } = useModalState();
-  const { logClickEvent } = useEventLogger();
-
-  const handleOpenCode = () => {
-    logClickEvent('communityUploadCodeButton');
-    onOpen();
-  };
 
   return (
-    <>
-      <Button onClick={handleOpenCode} type='button'>
-        {codeSvg}코드
-      </Button>
-      <Responsive only='desktop' asChild>
-        <Modal onClose={onClose} isOpen={isOpen} hideCloseButton>
-          <Modal.Content style={{ width: 'fit-content' }}>
+    <LoggingClick eventKey='communityUploadCodeButton'>
+      <>
+        <Button onClick={onOpen} type='button'>
+          {codeSvg}코드
+        </Button>
+        <Responsive only='desktop' asChild>
+          <Modal onClose={onClose} isOpen={isOpen} hideCloseButton>
+            <Modal.Content style={{ width: 'fit-content' }}>
+              <UnsupportedCodeMessage />
+            </Modal.Content>
+            <StyledModalFooter align='stretch'>
+              <StyledModalButton action='close'>확인</StyledModalButton>
+            </StyledModalFooter>
+          </Modal>
+        </Responsive>
+        <Responsive only='mobile' asChild>
+          <StyledBottomSheet isOpen={isOpen} onClose={onClose}>
             <UnsupportedCodeMessage />
-          </Modal.Content>
-          <StyledModalFooter align='stretch'>
-            <StyledModalButton action='close'>확인</StyledModalButton>
-          </StyledModalFooter>
-        </Modal>
-      </Responsive>
-      <Responsive only='mobile' asChild>
-        <StyledBottomSheet isOpen={isOpen} onClose={onClose}>
-          <UnsupportedCodeMessage />
-          <BottomSheetButton onClick={onClose}>확인</BottomSheetButton>
-        </StyledBottomSheet>
-      </Responsive>
-    </>
+            <BottomSheetButton onClick={onClose}>확인</BottomSheetButton>
+          </StyledBottomSheet>
+        </Responsive>
+      </>
+    </LoggingClick>
   );
 }
 

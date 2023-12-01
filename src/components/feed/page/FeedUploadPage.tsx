@@ -10,6 +10,7 @@ import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
@@ -82,11 +83,10 @@ export default function FeedUploadPage() {
 
   const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
-  const { logSubmitEvent, logClickEvent } = useEventLogger();
+  const { logClickEvent } = useEventLogger();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    logSubmitEvent('submitCommunity');
     handleUploadFeed({
       categoryId: feedData.categoryId ?? 0,
       title: feedData.title,
@@ -97,9 +97,8 @@ export default function FeedUploadPage() {
     });
   };
 
-  const handleQuitUpload = async () => {
-    quitUploading();
-    await router.push('/community');
+  const handleQuitUpload = () => {
+    router.push('/community');
   };
 
   const { data: categories } = useQuery({
@@ -156,9 +155,23 @@ export default function FeedUploadPage() {
         <DesktopFeedUploadLayout
           header={
             <>
-              <BackArrowWrapper>
-                <BackArrow onClick={handleQuitUpload} />
-              </BackArrowWrapper>
+              <LoggingClick
+                eventKey='quitUploadCommunity'
+                param={{
+                  feedData: {
+                    categoryId: feedData.categoryId ?? 0,
+                    title: feedData.title,
+                    content: feedData.content,
+                    isQuestion: feedData.isQuestion,
+                    isBlindWriter: feedData.isBlindWriter,
+                    images: feedData.images,
+                  },
+                }}
+              >
+                <BackArrowWrapper onClick={handleQuitUpload}>
+                  <BackArrow />
+                </BackArrowWrapper>
+              </LoggingClick>
               <Category
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
@@ -228,9 +241,23 @@ export default function FeedUploadPage() {
           header={
             <>
               <TopHeader>
-                <Button type='button' disabled={false} onClick={handleQuitUpload}>
-                  취소
-                </Button>
+                <LoggingClick
+                  eventKey='quitUploadCommunity'
+                  param={{
+                    feedData: {
+                      categoryId: feedData.categoryId ?? 0,
+                      title: feedData.title,
+                      content: feedData.content,
+                      isQuestion: feedData.isQuestion,
+                      isBlindWriter: feedData.isBlindWriter,
+                      images: feedData.images,
+                    },
+                  }}
+                >
+                  <Button type='button' disabled={false} onClick={handleQuitUpload}>
+                    취소
+                  </Button>
+                </LoggingClick>
                 <Button type='submit' disabled={!checkReadyToUpload()}>
                   올리기
                 </Button>
