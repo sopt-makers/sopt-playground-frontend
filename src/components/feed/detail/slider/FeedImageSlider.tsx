@@ -93,6 +93,7 @@ const CloseButton = styled.button`
   bottom: 48px;
   flex-shrink: 0;
   transition: background-color 0.2s ease-in-out;
+  z-index: 1;
   border-radius: 50%;
   background-color: ${colors.gray10};
   padding: 12px;

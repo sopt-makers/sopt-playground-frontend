@@ -49,6 +49,4 @@ const StyledText = styled.span<TextProps>`
       color: ${colors.error};
     `}
   ${space};
-
-  cursor: pointer;
 `;

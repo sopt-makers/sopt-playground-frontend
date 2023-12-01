@@ -11,5 +11,8 @@ export function createConsoleLogController(): EventLoggerController {
     pageViewEvent(key, ...params) {
       console.log('[EventLogger.pageviewEvent]', key, ...params);
     },
+    impressionEvent(key, ...params) {
+      console.log('[EventLogger.impressionEvent]', key, ...params);
+    },
   };
 }

@@ -35,7 +35,7 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
     if (router.isReady && accessToken === null) {
       runOnce(() => {
         lastUnauthorized.setPath(router.asPath);
-        router.replace(playgroundLink.login());
+        router.replace(playgroundLink.intro());
       });
     }
   }, [router, router.isReady, accessToken, lastUnauthorized, runOnce]);
@@ -48,7 +48,7 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
           if (err.response?.status === 401) {
             runOnce(() => {
               resetAccessToken();
-              router.replace(playgroundLink.login());
+              router.replace(playgroundLink.intro());
             });
           }
         }

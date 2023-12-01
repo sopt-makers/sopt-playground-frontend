@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
 import CategorySelect from '@/components/feed/list/CategorySelect';
 import FeedListItems from '@/components/feed/list/FeedListItems';
@@ -49,9 +50,11 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
           <FeedListItems categoryId={categoryId} renderFeedDetailLink={renderFeedDetailLink} />
         </ErrorBoundary>
       </HeightSpacer>
-      <UploadLink href={playgroundLink.feedUpload()}>
-        <UploadIcon />
-      </UploadLink>
+      <LoggingClick eventKey='feedUploadButton'>
+        <UploadLink href={playgroundLink.feedUpload()}>
+          <UploadIcon />
+        </UploadLink>
+      </LoggingClick>
     </Container>
   );
 };

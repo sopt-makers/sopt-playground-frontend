@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
+import { forwardRef, MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
 
 interface HorizontalScrollerProps {
   className?: string;
@@ -58,7 +58,9 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
       };
     }, []);
 
-    function scrollLeft() {
+    function scrollLeft(e: MouseEvent) {
+      e.preventDefault();
+
       const scrollWidth = containerRef?.current?.clientWidth ?? 0;
 
       containerRef.current?.scrollBy({
@@ -67,7 +69,9 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
       });
     }
 
-    function scrollRight() {
+    function scrollRight(e: MouseEvent) {
+      e.preventDefault();
+
       const scrollWidth = containerRef?.current?.clientWidth ?? 0;
 
       containerRef.current?.scrollBy({

@@ -4,13 +4,13 @@ import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Loading from '@/components/common/Loading';
-import ScrollContainer from '@/components/common/ScrollContainer';
+import VerticalScroller from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import {
@@ -119,7 +119,7 @@ const Body = forwardRef<HTMLDivElement, PropsWithChildren<BodyProps>>(({ classNa
   );
 });
 
-const StyledBody = styled(ScrollContainer)`
+const StyledBody = styled(VerticalScroller)`
   position: relative;
   flex: 1;
   padding: 16px 24px;
@@ -441,11 +441,12 @@ interface InputProps {
 }
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
+  const id = useId();
   const [isFocus, setIsFocus] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
-  const is버튼액티브 = isFocus && value.length > 0 && !isPending;
+  const is버튼액티브 = (isFocus || value.length > 0) && !isPending;
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -470,15 +471,22 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     <Container ref={containerRef} showInputAnimateArea={showInputAnimateArea}>
       <InputAnimateArea
         initial={{ height: 0 }}
-        animate={{ height: isFocus || isBlindChecked ? '28px' : 0 }}
+        animate={{ height: isFocus || isBlindChecked || value.length > 0 ? '28px' : 0 }}
         transition={{ bounce: 0, stiffness: 1000, duration: 0.2 }}
       >
         <InputContent>
-          <Checkbox size='small' checked={isBlindChecked} onChange={(e) => handleCheckBlindWriter(e.target.checked)} />
-          <Text typography='SUIT_12_M'>익명으로 남기기</Text>
+          <Checkbox
+            size='small'
+            id={`${id}-check`}
+            checked={isBlindChecked}
+            onChange={(e) => handleCheckBlindWriter(e.target.checked)}
+          />
+          <label htmlFor={`${id}-check`} css={{ display: 'flex' }}>
+            <Text typography='SUIT_12_M'>익명으로 남기기</Text>
+          </label>
         </InputContent>
       </InputAnimateArea>
-      <Flex align='flex-end'>
+      <Flex align='flex-end' css={{ gap: '4px' }}>
         <StyledTextArea
           value={value}
           onChange={(e) => onChange(e.target.value)}
