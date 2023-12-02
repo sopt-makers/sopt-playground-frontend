@@ -261,7 +261,7 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
         typography='SUIT_14_R'
         lineHeight={20}
         color={colors.gray300}
-      >{`댓글 ${commentLength}개 ∙ ${hits}명 읽음`}</Text>
+      >{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
       <FeedImageSlider opened={openSlider} images={images} onClose={() => setOpenSlider(false)} />
     </>
   );
