@@ -19,6 +19,7 @@ import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
 import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
 import GoogleTagManagerScript from '@/components/googleTagManager/Script';
+import NavigationProvider from '@/components/navigation/NavigationProvider';
 import { AMPLITUDE_API_KEY, DEBUG, ORIGIN } from '@/constants/env';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { getLayout } from '@/utils/layout';
@@ -89,9 +90,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <GlobalStyle />
                 <ResponsiveProvider>
                   <OverlayProvider>
-                    <Layout>
-                      <Component {...pageProps} />
-                    </Layout>
+                    <NavigationProvider>
+                      <Layout>
+                        <Component {...pageProps} />
+                      </Layout>
+                    </NavigationProvider>
                   </OverlayProvider>
                 </ResponsiveProvider>
                 {DEBUG && <Debugger />}

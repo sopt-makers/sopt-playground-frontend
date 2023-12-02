@@ -28,6 +28,7 @@ interface BaseProps {
   rightIcon?: ReactNode;
   memberId: number;
   isShowInfo: boolean;
+  onClick?: () => void;
 }
 
 const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
@@ -47,6 +48,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       rightIcon,
       memberId,
       isShowInfo,
+      onClick,
     },
     ref,
   ) => {
@@ -59,6 +61,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           gap: 8,
           borderBottom: `1px solid ${colors.gray800}`,
         }}
+        onClick={onClick}
       >
         {isBlindWriter || profileImage == null ? (
           <div css={{ flexShrink: 0 }}>

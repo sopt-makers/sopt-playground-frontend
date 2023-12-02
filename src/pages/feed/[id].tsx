@@ -51,7 +51,7 @@ const FeedDetailPage = () => {
   );
 };
 
-setLayout(FeedDetailPage, 'header');
+setLayout(FeedDetailPage, 'headerOnlyDesktop');
 
 export default FeedDetailPage;
 
