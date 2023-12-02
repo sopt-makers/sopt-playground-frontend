@@ -1,25 +1,15 @@
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
 
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
-import { playgroundLink } from '@/constants/links';
+import AuthRequired from '@/components/auth/AuthRequired';
+import FeedHomePage from '@/components/feed/page/FeedHomePage';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
-  const router = useRouter();
-  const accessToken = useRecoilValue(accessTokenAtom);
-
-  useEffect(() => {
-    if (router.isReady && accessToken === null) {
-      router.replace(playgroundLink.intro());
-    } else {
-      router.replace(playgroundLink.memberList());
-    }
-  }, [accessToken, router, router.isReady]);
-
-  return null;
+  return (
+    <AuthRequired>
+      <FeedHomePage />
+    </AuthRequired>
+  );
 };
 
 setLayout(Home, 'header');
