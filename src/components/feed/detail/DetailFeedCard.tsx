@@ -63,7 +63,7 @@ const Header = ({
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
-        {left}
+        <div css={{ width: '24px', height: '24px' }}>{left}</div>
 
         {renderCategoryLink({
           children: (
