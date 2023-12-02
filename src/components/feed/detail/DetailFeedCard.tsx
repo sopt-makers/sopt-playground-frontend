@@ -86,7 +86,6 @@ const Header = ({
 };
 
 const StyledHeader = styled(Flex)`
-  border-top: 1px solid ${colors.gray800};
   padding: 15px 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {

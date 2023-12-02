@@ -53,7 +53,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
         </CategoryBox>
       </HorizontalScroller>
       {parentCategory && parentCategory.tags.length > 0 && (
-        <HorizontalScroller css={{ marginBottom: '8px' }}>
+        <HorizontalScroller css={{ marginBottom: '12px' }}>
           <TagBox>
             {parentCategory.hasAllCategory && (
               <LoggingClick eventKey='feedListCategoryFilter' param={{ category: '전체' }}>
@@ -79,7 +79,6 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
 export default CategorySelect;
 
 export const Container = styled.div`
-  border-top: 1px solid ${colors.gray800};
   border-bottom: 1px solid ${colors.gray800};
 `;
 
