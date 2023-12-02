@@ -167,8 +167,10 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: T
         {isBlindWriter || memberId == null ? (
           <IconMember size={36} />
         ) : (
-          <Link href={playgroundLink.memberDetail(memberId)} css={{ height: 40 }}>
-            {profileImage == null ? <IconMember size={40} /> : <ProfileImage src={profileImage} alt='profileImage' />}
+          <Link href={playgroundLink.memberDetail(memberId)}>
+            <ProfileImageBox css={{ height: 40 }}>
+              {profileImage && <ProfileImage width={40} src={profileImage} alt='profileImage' />}
+            </ProfileImageBox>
           </Link>
         )}
         <Stack.Vertical gutter={0} justify='center'>
@@ -197,11 +199,16 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: T
   );
 };
 
-const ProfileImage = styled.img`
+const ProfileImageBox = styled.div`
   flex-shrink: 0;
-  border-radius: 50%;
   width: 40px;
   height: 40px;
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `;
 
@@ -307,7 +314,7 @@ const ImageBox = styled.div`
   flex: 0;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 12px;
-  height: 320px;
+  height: 322px;
 `;
 
 const ImageItem = styled(ResizedImage)`
@@ -366,7 +373,9 @@ const Comment = ({
           </div>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
-            <CommentProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+            <CommentProfileImageBox>
+              <CommentProfileImage width={32} src={profileImage} alt='profileImage' />
+            </CommentProfileImageBox>
           </Link>
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
@@ -423,11 +432,16 @@ const StyledText = styled(Text)`
   }
 `;
 
-const CommentProfileImage = styled.img`
+const CommentProfileImageBox = styled.div`
   flex-shrink: 0;
-  border-radius: 50%;
   width: 32px;
   height: 32px;
+`;
+
+const CommentProfileImage = styled(ResizedImage)`
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `;
 
