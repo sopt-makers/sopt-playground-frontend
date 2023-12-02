@@ -18,7 +18,7 @@ const DesktopCommunityLayout: FC<DesktopCommunityLayoutProps> = ({ isDetailOpen,
     <Container>
       <ListSlot>{listSlot}</ListSlot>
       <DetailSlot
-        initial={{ width: 0 }}
+        initial={{ width: isDetailOpen ? DETAIL_SLOT_WIDTH : 0 }}
         animate={{ width: isDetailOpen ? DETAIL_SLOT_WIDTH : 0 }}
         transition={{ bounce: 0 }}
       >
