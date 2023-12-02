@@ -251,7 +251,7 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
           <ImageScrollContainer>
             {images.map((image, index) => (
               <ImageBox key={index} onClick={() => setOpenSlider(true)}>
-                <ImageItem src={image} alt='image' height={240} />
+                <ImageItem src={image} alt='image' height={320} />
               </ImageBox>
             ))}
           </ImageScrollContainer>
@@ -306,7 +306,8 @@ const QuestionBadge = styled.div`
 const ImageBox = styled.div`
   flex: 0;
   border: 1px solid rgb(255 255 255 / 10%);
-  height: 240px;
+  border-radius: 12px;
+  height: 320px;
 `;
 
 const ImageItem = styled(ResizedImage)`
