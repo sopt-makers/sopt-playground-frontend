@@ -98,7 +98,7 @@ export default function FeedUploadPage() {
   };
 
   const handleQuitUpload = () => {
-    router.push('/community');
+    router.back();
   };
 
   const { data: categories } = useQuery({
