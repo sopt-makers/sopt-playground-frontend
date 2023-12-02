@@ -86,11 +86,11 @@ const HeightSpacer = styled.div`
 const UploadLink = styled(Link)`
   display: flex;
   position: sticky;
-  bottom: 32px;
+  bottom: 24px;
   align-items: center;
   justify-content: center;
   z-index: 1; /* Virtuoso가 sticky 위에 와버리는 문제때문에 z-index로 제어 */
-  margin-right: 32px;
+  margin-right: 24px;
   margin-left: auto;
   border-radius: 18px;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 15%);
@@ -99,7 +99,7 @@ const UploadLink = styled(Link)`
   height: 48px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    bottom: 16px;
+    bottom: 20px;
     margin-right: 16px;
   }
 `;
