@@ -183,7 +183,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 {post.images.length !== 0 && (
                   <FeedCard.Image>
                     {post.images.map((image, index) => (
-                      <FeedCard.ImageItem key={`${image}-${index}`} src={image} />
+                      <FeedCard.ImageItem key={`${image}-${index}`} src={image} height={160} />
                     ))}
                   </FeedCard.Image>
                 )}

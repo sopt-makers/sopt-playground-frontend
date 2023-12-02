@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
+import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
@@ -65,7 +66,13 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           </div>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
-            <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+            <ProfileImageBox>
+              {profileImage ? (
+                <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+              ) : (
+                <EmptyProfileImage />
+              )}
+            </ProfileImageBox>
           </Link>
         )}
         <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
@@ -127,12 +134,26 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
   },
 );
 
-const ProfileImage = styled.img`
+const ProfileImageBox = styled.div`
   flex-shrink: 0;
-  border-radius: 50%;
   width: 32px;
   height: 32px;
   object-fit: cover;
+`;
+
+const ProfileImage = styled(ResizedImage)`
+  flex-shrink: 0;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const EmptyProfileImage = styled.div`
+  border-radius: 50%;
+  background-color: ${colors.gray700};
+  width: 100%;
+  height: 100%;
 `;
 
 const Top = styled(Flex)`
@@ -206,7 +227,7 @@ const Image = ({ children }: PropsWithChildren<unknown>) => {
   );
 };
 
-const ImageItem = styled.img`
+const ImageItem = styled(ResizedImage)`
   border-radius: 12px;
   height: 160px;
   object-fit: cover;
