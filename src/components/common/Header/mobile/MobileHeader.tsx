@@ -2,11 +2,10 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-import { MENU_SVG } from '@/components/common/Header/imageData';
+import { MENU_SVG, SOPT_MAKRES_LOGO_SVG } from '@/components/common/Header/imageData';
 import MobileSideBar from '@/components/common/Header/mobile/MobileSideBar';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
-import PlaygroundLogoIcon from '@/public/icons/icon-playground-logo.svg';
 
 interface MobileHeaderProps {
   user: {
@@ -37,7 +36,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout, renderLink, activ
         href: playgroundLink.feedList(),
         children: (
           <BrandButton>
-            <PlaygroundLogoIcon />
+            <SOPT_MAKRES_LOGO_SVG />
           </BrandButton>
         ),
       })}

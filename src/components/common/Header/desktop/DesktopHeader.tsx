@@ -5,9 +5,9 @@ import { FC } from 'react';
 
 import ProfileButton from '@/components/common/Header/desktop/ProfileButton';
 import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown';
+import { SOPT_MAKRES_LOGO_SVG } from '@/components/common/Header/imageData';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import { playgroundLink } from '@/constants/links';
-import PlaygroundLogoIcon from '@/public/icons/icon-playground-logo.svg';
 import { textStyles } from '@/styles/typography';
 
 interface DesktopHeaderProps {
@@ -26,7 +26,10 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
   return (
     <Container>
       <StyledBrandLink>
-        {renderLink({ href: playgroundLink.feedList(), children: <PlaygroundLogoIcon /> })}
+        {renderLink({
+          href: playgroundLink.feedList(),
+          children: <SOPT_MAKRES_LOGO_SVG />,
+        })}
       </StyledBrandLink>
       <NavArea>
         {renderLink({
