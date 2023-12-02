@@ -155,7 +155,7 @@ export const 이미지와함께 = () => {
     <FeedCard {...defaultProps} title='이번에 당근 리브랜딩' content='너무 귀엽지 않나요? 당근이 배경화면 공유합니다'>
       <FeedCard.Image>
         {IMAGES.map((image) => (
-          <FeedCard.ImageItem key={image} src={image} />
+          <FeedCard.ImageItem key={image} src={image} height={200} />
         ))}
       </FeedCard.Image>
       <FeedCard.Comment>
