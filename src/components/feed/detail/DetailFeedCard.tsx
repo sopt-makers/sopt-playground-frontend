@@ -169,7 +169,11 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: T
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
             <ProfileImageBox css={{ height: 40 }}>
-              {profileImage && <ProfileImage width={40} src={profileImage} alt='profileImage' />}
+              {profileImage ? (
+                <ProfileImage width={40} src={profileImage} alt='profileImage' />
+              ) : (
+                <IconMember size={40} />
+              )}
             </ProfileImageBox>
           </Link>
         )}
@@ -289,7 +293,7 @@ const StyledContent = styled(Text)`
   line-height: 26px;
   white-space: pre-wrap;
   color: ${colors.gray30};
-  ${textStyles.SUIT_16_M};
+  ${textStyles.SUIT_16_R};
 
   a {
     text-decoration: underline;
@@ -407,7 +411,7 @@ const Comment = ({
               {moreIcon}
             </Flex>
           </Flex>
-          <StyledText typography='SUIT_15_M' lineHeight={22} color={colors.gray50}>
+          <StyledText typography='SUIT_15_R' lineHeight={22} color={colors.gray50}>
             {parseTextToLink(comment)}
           </StyledText>
         </Stack>
