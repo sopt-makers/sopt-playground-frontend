@@ -189,21 +189,29 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 )}
                 {post.comments.length !== 0 && (
                   <FeedCard.Comment>
-                    {post.comments.map((comment) =>
-                      comment.isBlindWriter ? (
-                        <FeedCard.CommentItem
-                          key={comment.id}
-                          comment={comment.content}
-                          isBlindWriter={comment.isBlindWriter}
-                        />
-                      ) : comment.member ? (
-                        <FeedCard.CommentItem
-                          key={comment.id}
-                          comment={comment.content}
-                          isBlindWriter={comment.isBlindWriter}
-                          name={comment.member.name}
-                        />
-                      ) : null,
+                    {post.comments
+                      .slice(0, 2)
+                      .map((comment) =>
+                        comment.isBlindWriter ? (
+                          <FeedCard.CommentItem
+                            key={comment.id}
+                            comment={comment.content}
+                            isBlindWriter={comment.isBlindWriter}
+                          />
+                        ) : comment.member ? (
+                          <FeedCard.CommentItem
+                            key={comment.id}
+                            comment={comment.content}
+                            isBlindWriter={comment.isBlindWriter}
+                            name={comment.member.name}
+                          />
+                        ) : null,
+                      )}
+                    {post.commentCount > 2 && (
+                      <MoreCommentItem>
+                        {`댓글 ${post.commentCount - 2}개 더 보기`}
+                        <p>{`>`}</p>
+                      </MoreCommentItem>
                     )}
                   </FeedCard.Comment>
                 )}
@@ -230,4 +238,24 @@ const AlertText = styled.div`
   width: 100%;
   color: ${colors.gray300};
   ${textStyles.SUIT_14_M};
+`;
+
+const MoreCommentItem = styled.div`
+  display: flex;
+  flex-grow: 1;
+  border-radius: 10px;
+  background-color: ${colors.gray900};
+  padding: 10px 12px;
+
+  ${textStyles.SUIT_13_R};
+
+  &:hover {
+    transition: 0.2s;
+    background-color: ${colors.gray800};
+  }
+
+  & > p {
+    margin-left: 4px;
+    color: ${colors.gray400};
+  }
 `;

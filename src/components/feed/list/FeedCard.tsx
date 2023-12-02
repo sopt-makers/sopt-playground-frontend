@@ -83,7 +83,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   <Text typography='SUIT_14_SB' lineHeight={20}>
                     익명
                   </Text>
-                  <InfoText typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                  <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray300}>
                     {isShowInfo && info}
                   </InfoText>
                 </Top>
@@ -93,14 +93,14 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                     <Text typography='SUIT_14_SB' lineHeight={20}>
                       {name}
                     </Text>
-                    <InfoText typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                    <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
                       {info}
                     </InfoText>
                   </Top>
                 </Link>
               )}
               <Stack.Horizontal gutter={4} align='center'>
-                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                <Text typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
                   {getRelativeTime(createdAt)}
                 </Text>
                 {rightIcon}
@@ -115,6 +115,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
               )}
               <Text
                 typography='SUIT_15_L'
+                color={colors.gray10}
                 lineHeight={22}
                 css={{
                   whiteSpace: 'pre-wrap',
