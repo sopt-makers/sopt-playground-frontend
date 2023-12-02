@@ -313,7 +313,7 @@ const QuestionBadge = styled.div`
 const ImageBox = styled.div`
   flex: 0;
   border: 1px solid rgb(255 255 255 / 10%);
-  height: 240px;
+  height: 242px;
 `;
 
 const ImageItem = styled(ResizedImage)`
