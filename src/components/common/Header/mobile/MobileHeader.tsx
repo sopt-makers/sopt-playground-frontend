@@ -34,7 +34,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ user, onLogout, renderLink, activ
         <NavButton>{MENU_SVG}</NavButton>
       </MobileSideBar>
       {renderLink({
-        href: playgroundLink.memberList(),
+        href: playgroundLink.feedList(),
         children: (
           <BrandButton>
             <PlaygroundLogoIcon />

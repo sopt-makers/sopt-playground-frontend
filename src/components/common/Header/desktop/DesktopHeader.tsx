@@ -26,7 +26,7 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
   return (
     <Container>
       <StyledBrandLink>
-        {renderLink({ href: playgroundLink.memberList(), children: <PlaygroundLogoIcon /> })}
+        {renderLink({ href: playgroundLink.feedList(), children: <PlaygroundLogoIcon /> })}
       </StyledBrandLink>
       <NavArea>
         {renderLink({
