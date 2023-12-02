@@ -1,8 +1,10 @@
+import { ImpressionArea } from '@toss/impression-area';
 import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
+import { useHit } from '@/components/feed/common/hooks/useHit';
 import { CategoryLink, FeedDetailLink, useFeedDetailParam } from '@/components/feed/common/queryParam';
 import FeedDetail from '@/components/feed/detail/FeedDetail';
 import FeedList from '@/components/feed/list/FeedList';
@@ -11,6 +13,7 @@ import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunity
 
 const CommunityPage: FC = () => {
   const [postId] = useFeedDetailParam();
+  const { queueHit } = useHit();
 
   const isDetailOpen = postId != null && postId !== '';
 
@@ -22,12 +25,13 @@ const CommunityPage: FC = () => {
           listSlot={
             <FeedList
               renderFeedDetailLink={({ children, feedId }) => (
-                // TODO: to @tekiter 조회수 구현 시 변경해주세욤
-                <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
-                  <LoggingClick eventKey='feedCard' param={{ feedId }}>
-                    <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
-                  </LoggingClick>
-                </LoggingImpression>
+                <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
+                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
+                    <LoggingClick eventKey='feedCard' param={{ feedId }}>
+                      <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                    </LoggingClick>
+                  </LoggingImpression>
+                </ImpressionArea>
               )}
             />
           }
@@ -54,12 +58,13 @@ const CommunityPage: FC = () => {
           listSlot={
             <FeedList
               renderFeedDetailLink={({ children, feedId }) => (
-                // TODO: to @tekiter 조회수 구현 시 변경해주세욤
-                <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
-                  <LoggingClick eventKey='feedCard' param={{ feedId }}>
-                    <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
-                  </LoggingClick>
-                </LoggingImpression>
+                <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
+                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
+                    <LoggingClick eventKey='feedCard' param={{ feedId }}>
+                      <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                    </LoggingClick>
+                  </LoggingImpression>
+                </ImpressionArea>
               )}
             />
           }

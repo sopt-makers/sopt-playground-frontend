@@ -16,9 +16,10 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface FeedListProps {
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
+  onScrollChange?: (scrolling: boolean) => void;
 }
 
-const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
+const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) => {
   const [categoryId] = useCategoryParam({ defaultValue: '' });
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
@@ -47,7 +48,11 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink }) => {
             </div>
           )}
         >
-          <FeedListItems categoryId={categoryId} renderFeedDetailLink={renderFeedDetailLink} />
+          <FeedListItems
+            categoryId={categoryId}
+            renderFeedDetailLink={renderFeedDetailLink}
+            onScrollChange={onScrollChange}
+          />
         </ErrorBoundary>
       </HeightSpacer>
       <LoggingClick eventKey='feedUploadButton'>
