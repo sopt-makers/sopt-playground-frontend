@@ -243,7 +243,7 @@ const Image = ({ children }: PropsWithChildren<unknown>) => {
 
 const ImageItem = styled(ResizedImage)`
   border-radius: 12px;
-  height: 162px;
+  height: 242px;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.1);
 `;

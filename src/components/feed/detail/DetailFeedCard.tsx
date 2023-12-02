@@ -258,7 +258,7 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
           <ImageScrollContainer>
             {images.map((image, index) => (
               <ImageBox key={index} onClick={() => setOpenSlider(true)}>
-                <ImageItem src={image} alt='image' height={240} />
+                <ImageItem src={image} alt='image' height={320} />
               </ImageBox>
             ))}
           </ImageScrollContainer>
@@ -268,7 +268,7 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
         typography='SUIT_14_R'
         lineHeight={20}
         color={colors.gray300}
-      >{`댓글 ${commentLength}개 ∙ ${hits}명 읽음`}</Text>
+      >{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
       <FeedImageSlider opened={openSlider} images={images} onClose={() => setOpenSlider(false)} />
     </>
   );
@@ -313,7 +313,8 @@ const QuestionBadge = styled.div`
 const ImageBox = styled.div`
   flex: 0;
   border: 1px solid rgb(255 255 255 / 10%);
-  height: 242px;
+  border-radius: 12px;
+  height: 322px;
 `;
 
 const ImageItem = styled(ResizedImage)`
