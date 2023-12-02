@@ -10,6 +10,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Loading from '@/components/common/Loading';
+import ResizedImage from '@/components/common/ResizedImage';
 import VerticalScroller from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
@@ -253,7 +254,9 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
         >
           <ImageScrollContainer>
             {images.map((image, index) => (
-              <ImageItem key={index} src={image} alt='image' onClick={() => setOpenSlider(true)} />
+              <ImageBox key={index} onClick={() => setOpenSlider(true)}>
+                <ImageItem src={image} alt='image' height={240} />
+              </ImageBox>
             ))}
           </ImageScrollContainer>
         </HorizontalScroller>
@@ -299,12 +302,17 @@ const QuestionBadge = styled.div`
   ${textStyles.SUIT_14_SB};
 `;
 
-const ImageItem = styled.img`
+const ImageBox = styled.div`
   flex: 0;
   border: 1px solid rgb(255 255 255 / 10%);
+  height: 240px;
+`;
+
+const ImageItem = styled(ResizedImage)`
   border-radius: 12px;
   cursor: pointer;
-  height: 240px;
+  width: fit-content;
+  height: 100%;
   object-fit: cover;
 `;
 

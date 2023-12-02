@@ -1,27 +1,36 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useCallback, useRef, useState } from 'react';
 
 import useEnterScreen from '@/hooks/useEnterScreen';
 
 const WAIT_TIME = 2000;
 
-const getResizedImage = (src: string, width: number) => {
-  return `https://wsrv.nl/?url=${encodeURIComponent(src)}&w=${width}&output=webp`;
-};
-
-interface ImageProps {
+type ImageProps = {
   className?: string;
   src: string;
-  width: number;
+  width?: number;
   height?: number;
   alt?: string;
 
   onLoad?: () => void;
-}
+} & ({ width: number } | { height: number }); // Width나 Height 둘중 하나는 있어야함
 
-const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) => {
+const ResizedImage: FC<ImageProps> = ({ className, src, width, height, alt, onLoad }) => {
   const [isUsingOriginal, setIsUsingOriginal] = useState(false);
 
   const timeoutTokenRef = useRef<ReturnType<typeof setTimeout>>();
+
+  const getResizedImage = useCallback(
+    (scale: number) => {
+      if (width != null) {
+        return `https://wsrv.nl/?url=${encodeURIComponent(src)}&w=${width * scale}&output=webp`;
+      }
+      if (height != null) {
+        return `https://wsrv.nl/?url=${encodeURIComponent(src)}&h=${height * scale}&output=webp`;
+      }
+      return undefined;
+    },
+    [height, src, width],
+  );
 
   const cancelReplacementTimer = () => {
     if (timeoutTokenRef.current !== undefined) {
@@ -59,8 +68,8 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, alt, onLoad }) =>
       ) : (
         <img
           ref={imgRef}
-          src={getResizedImage(src, width)}
-          srcSet={`${getResizedImage(src, width)} 1x, ${getResizedImage(src, width * 2)} 2x`}
+          src={getResizedImage(1)}
+          srcSet={`${getResizedImage(1)} 1x, ${getResizedImage(2)} 2x`}
           alt={alt}
           className={className}
           loading='lazy'
