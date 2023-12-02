@@ -164,14 +164,14 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: T
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
-        {isBlindWriter || profileImage == null || memberId == null ? (
-          <IconMember size={40} />
+        {isBlindWriter || memberId == null ? (
+          <IconMember size={36} />
         ) : (
-          <Link href={playgroundLink.memberDetail(memberId)}>
-            <ProfileImage width={40} height={40} src={profileImage} alt='profileImage' />
+          <Link href={playgroundLink.memberDetail(memberId)} css={{ height: 40 }}>
+            {profileImage == null ? <IconMember size={40} /> : <ProfileImage src={profileImage} alt='profileImage' />}
           </Link>
         )}
-        <Stack.Vertical gutter={4} justify='center'>
+        <Stack.Vertical gutter={0} justify='center'>
           {isBlindWriter || memberId == null ? (
             <Name color={colors.gray10}>익명</Name>
           ) : (
@@ -181,7 +181,7 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: T
           )}
           {!isBlindWriter && memberId !== null && (
             <Link href={playgroundLink.memberDetail(memberId)}>
-              <Text typography='SUIT_13_R' color={colors.gray100}>
+              <Text typography='SUIT_13_M' color={colors.gray400}>
                 {info}
               </Text>
             </Link>
@@ -189,9 +189,9 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: T
         </Stack.Vertical>
       </Flex>
       <Flex align='center'>
-        <RelativeTimeText typography='SUIT_14_R' color={colors.gray300}>
+        <Text typography='SUIT_14_M' color={colors.gray400}>
           {getRelativeTime(createdAt)}
-        </RelativeTimeText>
+        </Text>
       </Flex>
     </Flex>
   );
@@ -213,14 +213,6 @@ const Name = styled(Text)`
   }
 `;
 
-const RelativeTimeText = styled(Text)`
-  ${textStyles.SUIT_14_R};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_13_R};
-  }
-`;
-
 interface ContentProps {
   isQuestion?: boolean;
   title: string;
@@ -235,7 +227,7 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
 
   return (
     <>
-      <Stack gutter={8}>
+      <Stack gutter={12}>
         {title && (
           <Text typography='SUIT_20_SB' lineHeight={26}>
             {isQuestion && <QuestionBadge>질문</QuestionBadge>}
@@ -289,8 +281,8 @@ const ImageScrollContainer = styled(Flex)`
 const StyledContent = styled(Text)`
   line-height: 26px;
   white-space: pre-wrap;
-  color: ${colors.gray10};
-  ${textStyles.SUIT_16_L};
+  color: ${colors.gray30};
+  ${textStyles.SUIT_16_M};
 
   a {
     text-decoration: underline;
@@ -381,31 +373,31 @@ const Comment = ({
             <Stack.Horizontal gutter={2}>
               {!isBlindWriter ? (
                 <Link href={playgroundLink.memberDetail(memberId)}>
-                  <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                  <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                     {name}
                   </Text>
                 </Link>
               ) : (
-                <Text typography='SUIT_13_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                   익명
                 </Text>
               )}
               {!isBlindWriter && (
                 <Link href={playgroundLink.memberDetail(memberId)}>
-                  <InfoText typography='SUIT_13_R' color={colors.gray100}>
+                  <InfoText typography='SUIT_14_M' color={colors.gray400}>
                     {`∙ ${info}`}
                   </InfoText>
                 </Link>
               )}
             </Stack.Horizontal>
             <Flex>
-              <Text typography='SUIT_13_R' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
+              <Text typography='SUIT_14_M' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
                 {getRelativeTime(createdAt)}
               </Text>
               {moreIcon}
             </Flex>
           </Flex>
-          <StyledText typography='SUIT_14_R' lineHeight={22}>
+          <StyledText typography='SUIT_15_M' lineHeight={22} color={colors.gray50}>
             {parseTextToLink(comment)}
           </StyledText>
         </Stack>
@@ -415,10 +407,10 @@ const Comment = ({
 };
 
 const StyledComment = styled.div`
-  padding: 16px 24px;
+  padding: 12px 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 14px 16px;
+    padding: 12px 16px;
   }
 `;
 
