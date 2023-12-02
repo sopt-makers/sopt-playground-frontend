@@ -174,7 +174,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         `}
       >
         <Responsive only='mobile'>{banner}</Responsive>
-        <Responsive only='mobile'>
+        <Responsive only='mobile' css={{ marginTop: '40px' }}>
           <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
           <StyledMobileFilterWrapper>
             <StyledMobileFilter
@@ -279,6 +279,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         <Responsive
           only='desktop'
           css={css`
+            margin-top: 64px;
             width: 100%;
           `}
         >

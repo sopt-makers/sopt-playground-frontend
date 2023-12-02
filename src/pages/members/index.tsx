@@ -4,11 +4,8 @@ import { FC } from 'react';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AuthRequired from '@/components/auth/AuthRequired';
 import ActiveBannerSlot from '@/components/common/Banner/ActiveBannerSlot';
-import { MemberPageContentLayout } from '@/components/members/common/MemberPageLayout';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
-import MentoringList from '@/components/mentoring/MentoringList';
-import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -21,10 +18,6 @@ const MemberPage: FC = () => {
   return (
     <AuthRequired>
       <ActiveBannerSlot />
-      <MemberPageContentLayout>
-        <StyledWordChainEntry />
-      </MemberPageContentLayout>
-      <MentoringList />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
   );
@@ -33,14 +26,6 @@ const MemberPage: FC = () => {
 setLayout(MemberPage, 'headerFooter');
 
 export default MemberPage;
-
-const StyledWordChainEntry = styled(WordChainEntry)`
-  margin-top: 52px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 23px;
-  }
-`;
 
 const StyledOnBoardingBanner = styled(OnBoardingBanner)`
   margin-bottom: 90px;

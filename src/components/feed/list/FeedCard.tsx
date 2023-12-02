@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
-import { PropsWithChildren, ReactNode } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
@@ -30,103 +30,109 @@ interface BaseProps {
   isShowInfo: boolean;
 }
 
-const Base = ({
-  profileImage,
-  name,
-  info,
-  title,
-  content,
-  createdAt,
-  isBlindWriter = false,
-  isQuestion = false,
-  commentLength,
-  hits,
-  children,
-  rightIcon,
-  memberId,
-  isShowInfo,
-}: PropsWithChildren<BaseProps>) => {
-  return (
-    <Flex
-      css={{
-        backgroundColor: colors.gray950,
-        padding: '16px',
-        gap: 8,
-        borderBottom: `1px solid ${colors.gray800}`,
-      }}
-    >
-      {isBlindWriter || profileImage == null ? (
-        <div css={{ flexShrink: 0 }}>
-          <IconMember />
-        </div>
-      ) : (
-        <Link href={playgroundLink.memberDetail(memberId)}>
-          <ProfileImageBox>
-            {profileImage ? (
-              <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
-            ) : (
-              <EmptyProfileImage />
-            )}
-          </ProfileImageBox>
-        </Link>
-      )}
-      <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
-        <Stack gutter={title ? 8 : 4}>
-          <Flex justify='space-between'>
-            {isBlindWriter ? (
-              <Top align='center'>
-                <Text typography='SUIT_14_SB' lineHeight={20}>
-                  익명
-                </Text>
-                <InfoText typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                  {isShowInfo && info}
-                </InfoText>
-              </Top>
-            ) : (
-              <Link href={playgroundLink.memberDetail(memberId)}>
+const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
+  (
+    {
+      profileImage,
+      name,
+      info,
+      title,
+      content,
+      createdAt,
+      isBlindWriter = false,
+      isQuestion = false,
+      commentLength,
+      hits,
+      children,
+      rightIcon,
+      memberId,
+      isShowInfo,
+    },
+    ref,
+  ) => {
+    return (
+      <Flex
+        ref={ref}
+        css={{
+          backgroundColor: colors.gray950,
+          padding: '16px',
+          gap: 8,
+          borderBottom: `1px solid ${colors.gray800}`,
+        }}
+      >
+        {isBlindWriter || profileImage == null ? (
+          <div css={{ flexShrink: 0 }}>
+            <IconMember />
+          </div>
+        ) : (
+          <Link href={playgroundLink.memberDetail(memberId)}>
+            <ProfileImageBox>
+              {profileImage ? (
+                <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+              ) : (
+                <EmptyProfileImage />
+              )}
+            </ProfileImageBox>
+          </Link>
+        )}
+        <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
+          <Stack gutter={title ? 8 : 4}>
+            <Flex justify='space-between'>
+              {isBlindWriter ? (
                 <Top align='center'>
                   <Text typography='SUIT_14_SB' lineHeight={20}>
-                    {name}
+                    익명
                   </Text>
                   <InfoText typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                    {info}
+                    {isShowInfo && info}
                   </InfoText>
                 </Top>
-              </Link>
-            )}
-            <Stack.Horizontal gutter={4} align='center'>
-              <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
-                {getRelativeTime(createdAt)}
+              ) : (
+                <Link href={playgroundLink.memberDetail(memberId)}>
+                  <Top align='center'>
+                    <Text typography='SUIT_14_SB' lineHeight={20}>
+                      {name}
+                    </Text>
+                    <InfoText typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                      {info}
+                    </InfoText>
+                  </Top>
+                </Link>
+              )}
+              <Stack.Horizontal gutter={4} align='center'>
+                <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                  {getRelativeTime(createdAt)}
+                </Text>
+                {rightIcon}
+              </Stack.Horizontal>
+            </Flex>
+            <Stack gutter={8}>
+              {title && (
+                <Title typography='SUIT_17_SB'>
+                  {isQuestion && <QuestionBadge>질문</QuestionBadge>}
+                  {title}
+                </Title>
+              )}
+              <Text
+                typography='SUIT_15_L'
+                lineHeight={22}
+                css={{
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                {renderContent(content)}
               </Text>
-              {rightIcon}
-            </Stack.Horizontal>
-          </Flex>
-          <Stack gutter={8}>
-            {title && (
-              <Title typography='SUIT_17_SB'>
-                {isQuestion && <QuestionBadge>질문</QuestionBadge>}
-                {title}
-              </Title>
-            )}
-            <Text
-              typography='SUIT_15_L'
-              lineHeight={22}
-              css={{
-                whiteSpace: 'pre-wrap',
-              }}
-            >
-              {renderContent(content)}
-            </Text>
+            </Stack>
           </Stack>
-        </Stack>
-        {children}
-        <Bottom gutter={2}>
-          <Text typography='SUIT_14_R'>{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
-        </Bottom>
+          {children}
+          <Bottom gutter={2}>
+            <Text typography='SUIT_14_R'>{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+          </Bottom>
+        </Flex>
       </Flex>
-    </Flex>
-  );
-};
+    );
+  },
+);
 
 const ProfileImageBox = styled.div`
   flex-shrink: 0;

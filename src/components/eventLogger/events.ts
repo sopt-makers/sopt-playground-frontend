@@ -6,6 +6,14 @@ type ProjectCard = {
   id: number;
   name: string;
 };
+type CommunityFeedData = {
+  categoryId: number;
+  title: string | null;
+  content: string;
+  isQuestion: boolean;
+  isBlindWriter: boolean;
+  images: string[];
+};
 
 export interface ClickEvents {
   memberCard: MemberCard;
@@ -56,6 +64,11 @@ export interface ClickEvents {
   };
   mentorApplicationButton: undefined;
   wordchainEntry: undefined;
+  communityRulesClick: undefined;
+  communityUploadCodeButton: undefined;
+  quitUploadCommunity: {
+    feedData: CommunityFeedData;
+  };
   // 커뮤니티(피드)
   feedListCategoryFilter: {
     category: string;
@@ -101,6 +114,7 @@ export interface SubmitEvents {
     word: string;
   };
   wordchainNewGame: undefined;
+  submitCommunity: undefined;
   // 커뮤니티(피드)
   postComment: {
     feedId: string;

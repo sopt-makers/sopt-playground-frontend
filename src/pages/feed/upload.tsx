@@ -4,7 +4,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import FeedUploadPage from '@/components/feed/page/FeedUploadPage';
 import { setLayout } from '@/utils/layout';
 
-const CommunityUpload: FC = () => {
+const FeedUpload: FC = () => {
   return (
     <AuthRequired>
       <FeedUploadPage />
@@ -12,6 +12,6 @@ const CommunityUpload: FC = () => {
   );
 };
 
-setLayout(CommunityUpload, 'empty');
+setLayout(FeedUpload, 'empty');
 
-export default CommunityUpload;
+export default FeedUpload;

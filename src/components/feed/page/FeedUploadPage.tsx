@@ -10,6 +10,8 @@ import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
@@ -81,6 +83,8 @@ export default function FeedUploadPage() {
 
   const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
 
+  const { logClickEvent } = useEventLogger();
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleUploadFeed({
@@ -93,7 +97,7 @@ export default function FeedUploadPage() {
     });
   };
 
-  const hanldeQuitUpload = () => {
+  const handleQuitUpload = () => {
     router.push('/community');
   };
 
@@ -110,9 +114,33 @@ export default function FeedUploadPage() {
       )) ??
     null;
 
+  const quitUploading = () => {
+    logClickEvent('quitUploadCommunity', {
+      feedData: {
+        categoryId: feedData.categoryId ?? 0,
+        title: feedData.title,
+        content: feedData.content,
+        isQuestion: feedData.isQuestion,
+        isBlindWriter: feedData.isBlindWriter,
+        images: feedData.images,
+      },
+    });
+  };
+
   useEffect(() => {
     localStorage.setItem('isFirst', 'true');
   }, []);
+
+  useEffect(() => {
+    // MEMO: 뒤로가기 감지 시, quitUploading 수행
+    const handleBack = () => {
+      quitUploading();
+    };
+
+    window.addEventListener('popstate', handleBack);
+
+    return () => window.removeEventListener('popstate', handleBack);
+  }, [feedData]);
 
   if (isPending)
     return (
@@ -127,9 +155,23 @@ export default function FeedUploadPage() {
         <DesktopFeedUploadLayout
           header={
             <>
-              <BackArrowWrapper>
-                <BackArrow onClick={hanldeQuitUpload} />
-              </BackArrowWrapper>
+              <LoggingClick
+                eventKey='quitUploadCommunity'
+                param={{
+                  feedData: {
+                    categoryId: feedData.categoryId ?? 0,
+                    title: feedData.title,
+                    content: feedData.content,
+                    isQuestion: feedData.isQuestion,
+                    isBlindWriter: feedData.isBlindWriter,
+                    images: feedData.images,
+                  },
+                }}
+              >
+                <BackArrowWrapper onClick={handleQuitUpload}>
+                  <BackArrow />
+                </BackArrowWrapper>
+              </LoggingClick>
               <Category
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
@@ -199,9 +241,23 @@ export default function FeedUploadPage() {
           header={
             <>
               <TopHeader>
-                <Button type='button' disabled={false} onClick={hanldeQuitUpload}>
-                  취소
-                </Button>
+                <LoggingClick
+                  eventKey='quitUploadCommunity'
+                  param={{
+                    feedData: {
+                      categoryId: feedData.categoryId ?? 0,
+                      title: feedData.title,
+                      content: feedData.content,
+                      isQuestion: feedData.isQuestion,
+                      isBlindWriter: feedData.isBlindWriter,
+                      images: feedData.images,
+                    },
+                  }}
+                >
+                  <Button type='button' disabled={false} onClick={handleQuitUpload}>
+                    취소
+                  </Button>
+                </LoggingClick>
                 <Button type='submit' disabled={!checkReadyToUpload()}>
                   올리기
                 </Button>
