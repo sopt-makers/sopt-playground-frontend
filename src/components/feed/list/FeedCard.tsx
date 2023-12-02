@@ -62,13 +62,13 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       >
         {isBlindWriter || profileImage == null ? (
           <div css={{ flexShrink: 0 }}>
-            <IconMember />
+            <IconMember size={36} />
           </div>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
             <ProfileImageBox>
               {profileImage ? (
-                <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+                <ProfileImage width={36} height={36} src={profileImage} alt='profileImage' />
               ) : (
                 <EmptyProfileImage />
               )}
@@ -136,8 +136,9 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
 
 const ProfileImageBox = styled.div`
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   object-fit: cover;
 `;
 
@@ -219,10 +220,22 @@ const renderContent = (content: string) => {
   return content;
 };
 
+const FEED_CARD_LEFT_SPACE = 58;
+const FEED_CARD_RIGHT_SPACE = 16;
+
 const Image = ({ children }: PropsWithChildren<unknown>) => {
   return (
-    <HorizontalScroller css={{ marginLeft: -54, marginRight: -16 }}>
-      <Flex css={{ paddingLeft: 54, paddingRight: 16, gap: '8px', whiteSpace: 'nowrap' }}>{children}</Flex>
+    <HorizontalScroller css={{ marginLeft: -FEED_CARD_LEFT_SPACE, marginRight: -FEED_CARD_RIGHT_SPACE }}>
+      <Flex
+        css={{
+          paddingLeft: FEED_CARD_LEFT_SPACE,
+          paddingRight: FEED_CARD_RIGHT_SPACE,
+          gap: '8px',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {children}
+      </Flex>
     </HorizontalScroller>
   );
 };
@@ -236,8 +249,12 @@ const ImageItem = styled(ResizedImage)`
 
 const Comment = ({ children }: PropsWithChildren<unknown>) => {
   return (
-    <HorizontalScroller css={{ marginTop: '4px', marginLeft: -54, marginRight: -16 }}>
-      <StyledComment css={{ paddingLeft: 54, paddingRight: 16 }}>{children}</StyledComment>
+    <HorizontalScroller
+      css={{ marginTop: '4px', marginLeft: -FEED_CARD_LEFT_SPACE, marginRight: -FEED_CARD_RIGHT_SPACE }}
+    >
+      <StyledComment css={{ paddingLeft: FEED_CARD_LEFT_SPACE, paddingRight: FEED_CARD_RIGHT_SPACE }}>
+        {children}
+      </StyledComment>
     </HorizontalScroller>
   );
 };
