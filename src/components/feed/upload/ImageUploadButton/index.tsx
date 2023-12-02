@@ -56,7 +56,7 @@ const imageSvg = (
 );
 
 const Length = styled.div`
-  color: ${colors.orange100};
+  color: ${colors.secondary};
 
   ${textStyles.SUIT_13_M}
 `;
