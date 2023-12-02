@@ -247,10 +247,15 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
       </Stack>
       {images.length !== 0 ? (
         <HorizontalScroller
-          css={{
-            marginRight: -24,
-            marginLeft: -24,
-          }}
+          css={css`
+            margin-right: -24px;
+            margin-left: -24px;
+
+            @media ${MOBILE_MEDIA_QUERY} {
+              margin-right: -16px;
+              margin-left: -16px;
+            }
+          `}
         >
           <ImageScrollContainer>
             {images.map((image, index) => (
@@ -275,6 +280,11 @@ const ImageScrollContainer = styled(Flex)`
   gap: 8px;
   padding-right: 24px;
   padding-left: 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
 `;
 
 const StyledContent = styled(Text)`
