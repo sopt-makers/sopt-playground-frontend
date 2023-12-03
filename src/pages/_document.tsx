@@ -1,5 +1,4 @@
 import { Head, Html, Main, NextScript } from 'next/document';
-import Script from 'next/script';
 
 import GoogleTagManagerNoscript from '@/components/googleTagManager/Noscript';
 
@@ -13,8 +12,9 @@ export default function Document() {
         <link rel='preload' href='/fonts/SUIT-Medium.woff2' as='font' type='font/woff2' crossOrigin='' />
         <link rel='preload' href='/fonts/SUIT-Regular.woff2' as='font' type='font/woff2' crossOrigin='' />
         <link rel='preload' href='/fonts/SUIT-Light.woff2' as='font' type='font/woff2' crossOrigin='' />
-        <Script
-          onLoad={() => {
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `  
             const inappdeny_exec_vanillajs = (callback: { (): void; (this: Document, ev: Event): unknown }) => {
               if (document.readyState !== 'loading') {
                 callback();
@@ -71,6 +71,8 @@ export default function Document() {
                 }
               }
             });
+          }
+          `,
           }}
         />
       </Head>
