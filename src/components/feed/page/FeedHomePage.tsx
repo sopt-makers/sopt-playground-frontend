@@ -1,4 +1,5 @@
 import { ImpressionArea } from '@toss/impression-area';
+import Link from 'next/link';
 import { FC } from 'react';
 
 import Responsive from '@/components/common/Responsive';
@@ -10,6 +11,7 @@ import FeedDetail from '@/components/feed/detail/FeedDetail';
 import FeedList from '@/components/feed/list/FeedList';
 import DesktopCommunityLayout from '@/components/feed/page/layout/DesktopCommunityLayout';
 import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunityLayout';
+import { playgroundLink } from '@/constants/links';
 
 const CommunityPage: FC = () => {
   const [postId] = useFeedDetailParam();
@@ -61,7 +63,13 @@ const CommunityPage: FC = () => {
                 <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
                   <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
                     <LoggingClick eventKey='feedCard' param={{ feedId }}>
-                      <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
+                      <Link
+                        href={{
+                          pathname: playgroundLink.feedDetail(feedId),
+                        }}
+                      >
+                        {children}
+                      </Link>
                     </LoggingClick>
                   </LoggingImpression>
                 </ImpressionArea>

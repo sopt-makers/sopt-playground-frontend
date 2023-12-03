@@ -2,8 +2,9 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
-import { FC, ReactNode } from 'react';
-import { Virtuoso } from 'react-virtuoso';
+import { FC, ReactNode, useRef } from 'react';
+import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
+import { atom, useRecoilState } from 'recoil';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
@@ -17,6 +18,7 @@ import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
+import { useNavigateBack } from '@/components/navigation/useNavigateBack';
 import { textStyles } from '@/styles/typography';
 
 interface FeedListItemsProps {
@@ -24,6 +26,11 @@ interface FeedListItemsProps {
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
   onScrollChange?: (scrolling: boolean) => void;
 }
+
+const scrollIndexAtom = atom<Record<string, number>>({
+  key: 'scrollAtom',
+  default: {},
+});
 
 const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLink, onScrollChange }) => {
   const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
@@ -70,20 +77,38 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
     }
   };
 
+  const [map, setMap] = useRecoilState(scrollIndexAtom);
+  const virtuoso = useRef<VirtuosoHandle>(null);
+
+  useNavigateBack(() => {
+    const idx = map[categoryId ?? ''];
+    if (idx != null) {
+      virtuoso.current?.scrollToIndex({
+        index: idx,
+        align: 'center',
+      });
+    }
+  });
+
   return (
     <>
       <Virtuoso
         data={flattenData}
+        ref={virtuoso}
+        rangeChanged={({ startIndex, endIndex }) => {
+          setMap((map) => ({ ...map, [categoryId ?? '']: (startIndex + endIndex) / 2 }));
+        }}
         useWindowScroll
         endReached={() => {
           fetchNextPage();
         }}
         isScrolling={onScrollChange}
-        itemContent={(_, post) => {
+        itemContent={(idx, post) => {
           return renderFeedDetailLink({
             feedId: `${post.id}`,
             children: (
               <FeedCard
+                onClick={() => setMap((map) => ({ ...map, [categoryId ?? '']: idx }))}
                 name={post.member?.name ?? '익명'}
                 title={post.title}
                 content={post.content}
