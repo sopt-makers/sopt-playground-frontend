@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryParamProvider } from 'use-query-params';
 
+import InAppBrowserImpossibleBanner from '@/components/common/Banner/InAppBrowserImpossibleBanner';
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
 import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
@@ -75,28 +76,26 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
     };
     inappdeny_exec_vanillajs(() => {
-      function copytoclipboard(val: string) {
-        const t = document.createElement('textarea');
-        document.body.appendChild(t);
-        t.value = val;
-        t.select();
-        document.execCommand('copy');
-        document.body.removeChild(t);
-      }
-      function inappbrowserout() {
-        copytoclipboard(window.location.href);
-        alert(
-          'URL주소가 복사되었습니다.\n\nSafari가 열리면 주소창을 길게 터치한 뒤, "붙여놓기 및 이동"를 누르면 정상적으로 이용하실 수 있습니다.',
-        );
-        location.href = 'x-web-search://?';
-      }
-
       const useragt = navigator.userAgent.toLowerCase();
       const target_url = location.href;
 
       if (useragt.match(/kakaotalk/i)) {
         // MEMO: 카카오톡 외부브라우저로 호출
         location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(target_url);
+      } else if (
+        useragt.match(
+          /inapp|naver|snapchat|wirtschaftswoche|thunderbird|instagram|everytimeapp|whatsApp|electron|wadiz|aliapp|zumapp|iphone(.*)whale|android(.*)whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill|SamsungBrowser\/[^1]/i,
+        )
+      ) {
+        // MEMO: 그외 다른 인앱들
+        if (useragt.match(/iphone|ipad|ipod/i)) {
+          // MEMO: 아이폰은 강제로 사파리를 실행할 수 없으므로, 모바일 대응 뷰 마운트
+          return <InAppBrowserImpossibleBanner />;
+        } else {
+          // MEMO: 안드로이드는 Chrome이 설치되어있음으로 강제로 스킴실행한다.
+          location.href =
+            'intent://' + target_url.replace(/https?:\/\//i, '') + '#Intent;scheme=http;package=com.android.chrome;end';
+        }
       }
     });
   }, []);
