@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
 
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { CategoryLink, useCategoryParam } from '@/components/feed/common/queryParam';
@@ -20,6 +22,7 @@ interface CategorySelectProps {
 }
 
 const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
+  const queryClient = useQueryClient();
   const [currentCategoryId] = useCategoryParam({ defaultValue: '' });
   const parentCategory =
     categories.find(
@@ -43,6 +46,9 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
           {categories.map((category) => (
             <LoggingClick key={category.id} eventKey='feedListCategoryFilter' param={{ category: category.name }}>
               <Category
+                onClick={() => {
+                  queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(category.id) });
+                }}
                 categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
                 active={parentCategory?.id === category.id}
               >
@@ -64,7 +70,14 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
             )}
             {parentCategory.tags.map((tag) => (
               <LoggingClick key={tag.id} eventKey='feedListCategoryFilter' param={{ category: tag.name }}>
-                <Chip key={tag.id} categoryId={tag.id} active={tag.id === currentCategoryId}>
+                <Chip
+                  key={tag.id}
+                  categoryId={tag.id}
+                  active={tag.id === currentCategoryId}
+                  onClick={() => {
+                    queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(tag.id) });
+                  }}
+                >
                   {tag.name}
                 </Chip>
               </LoggingClick>
