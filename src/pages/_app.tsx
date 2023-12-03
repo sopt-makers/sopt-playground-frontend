@@ -95,7 +95,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           mobile.content = 'width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui';
           document.getElementsByTagName('head')[0].appendChild(mobile);
           document.body.innerHTML =
-            "<style>body{margin:0;padding:0;font-family: 'SUIT'; sans-serif;overflow: hidden;height: 100%;}</style><article style='text-align:center; font-size:14px; font-weight: 400; line-height: 22px; letter-spacing: -0.14px; word-break:keep-all;color:#FCFCFC;'>인앱브라우저에서는 소셜로그인이 불가능해요 😭 <br/> 링크를 복사해 기본 브라우저에서 다시 시도해주시겠어요?</article>";
+            "<style>body{margin:0;padding:0;font-family: 'SUIT'; sans-serif;overflow: hidden;height: 100vw; width:100%; display:flex; justify-content:center; align-items: center; flex-wrap:wrap;}</style><article style='text-align:center; font-size:14px; font-weight: 400; line-height: 22px; letter-spacing: -0.14px; word-break:keep-all;color:#FCFCFC;'>인앱브라우저에서는 소셜로그인이 불가능해요 😭 <br/> 링크를 복사해 기본 브라우저에서 다시 시도해주시겠어요?</article>";
         } else {
           // MEMO: 안드로이드는 Chrome이 설치되어있음으로 강제로 스킴실행한다.
           location.href =
