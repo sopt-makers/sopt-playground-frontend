@@ -91,16 +91,14 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   </InfoText>
                 </Top>
               ) : (
-                <Link href={playgroundLink.memberDetail(memberId)}>
-                  <Top align='center'>
-                    <Text typography='SUIT_14_SB' lineHeight={20}>
-                      {name}
-                    </Text>
-                    <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
-                      {info}
-                    </InfoText>
-                  </Top>
-                </Link>
+                <Top align='center'>
+                  <Text typography='SUIT_14_SB' lineHeight={20}>
+                    {name}
+                  </Text>
+                  <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
+                    {info}
+                  </InfoText>
+                </Top>
               )}
               <Stack.Horizontal gutter={4} align='center'>
                 <Text typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
@@ -173,8 +171,8 @@ const Top = styled(Flex)`
 const InfoText = styled(Text)`
   white-space: nowrap;
 
-  @media screen and (max-width: 460px) {
-    max-width: 220px;
+  @media ${'screen and (max-width: 460px)'} {
+    max-width: 230px;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;

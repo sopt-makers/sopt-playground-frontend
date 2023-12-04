@@ -398,11 +398,9 @@ const Comment = ({
                 </Text>
               )}
               {!isBlindWriter && (
-                <Link href={playgroundLink.memberDetail(memberId)}>
-                  <InfoText typography='SUIT_14_M' color={colors.gray400}>
-                    {`∙ ${info}`}
-                  </InfoText>
-                </Link>
+                <InfoText typography='SUIT_14_M' color={colors.gray400}>
+                  {`∙ ${info}`}
+                </InfoText>
               )}
             </Stack.Horizontal>
             <Flex>
@@ -454,7 +452,7 @@ const InfoText = styled(Text)`
   white-space: nowrap;
 
   @media ${'screen and (max-width: 460px)'} {
-    max-width: 178px;
+    max-width: 230px;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
