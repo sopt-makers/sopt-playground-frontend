@@ -292,6 +292,7 @@ const ImageScrollContainer = styled(Flex)`
 const StyledContent = styled(Text)`
   line-height: 26px;
   white-space: pre-wrap;
+  word-break: break-all;
   color: ${colors.gray30};
   ${textStyles.SUIT_16_R};
 

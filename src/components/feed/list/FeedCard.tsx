@@ -122,6 +122,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                 lineHeight={22}
                 css={{
                   whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-all',
                 }}
               >
                 {renderContent(content)}
