@@ -14,7 +14,7 @@ const IntroPage: FC<IntroPageProps> = ({}) => {
 
   useEffect(() => {
     if (!(router.isReady && accessToken === null)) {
-      router.replace(playgroundLink.memberList());
+      router.replace(playgroundLink.feedList());
     }
   }, [accessToken, router, router.isReady]);
 
