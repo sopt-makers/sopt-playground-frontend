@@ -22,7 +22,9 @@ const SideBar = forwardRef<HTMLDivElement, SidePanelProps>(({ isOpen, onClose, t
         <HeaderTitle>{title}</HeaderTitle>
         <CloseButton onClick={() => onClose()}>X</CloseButton>
       </Header>
-      <Content>{children}</Content>
+      <Content>
+        <ContentScroller>{children}</ContentScroller>
+      </Content>
     </StyledSidePanel>
   );
 });
@@ -41,17 +43,17 @@ const StyledSidePanel = styled.div<{ isOpen: boolean }>`
   z-index: 99999999;
   border-right: 1px solid gray;
   background-color: #373737;
-  width: 500px;
+  width: min(100vw, 500px);
   overflow: visible;
   color: white;
 
   ${(props) =>
     props.isOpen
-      ? css`
+      ? `
           right: 0;
           transform: none;
         `
-      : css`
+      : `
           transform: translateX(100%);
         `}
 `;
@@ -69,9 +71,17 @@ const HeaderTitle = styled.h2`
 
 const Content = styled.div`
   display: flex;
+  position: relative;
+  flex: 1 1 0;
   flex-direction: column;
   gap: 15px;
   padding: 15px 0 0;
+`;
+
+const ContentScroller = styled.div`
+  position: absolute;
+  inset: 0;
+  overflow-y: scroll;
 `;
 
 const CloseButton = styled.button`
