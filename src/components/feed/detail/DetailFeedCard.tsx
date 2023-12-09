@@ -123,7 +123,7 @@ const StyledBody = styled(VerticalScroller)`
   position: relative;
   flex: 1;
   padding: 16px 24px;
-  overflow: auto;
+  overflow: hidden;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 16px;
@@ -540,8 +540,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
 const Container = styled.div<{ showInputAnimateArea: boolean }>`
   --card-max-width: 560px;
 
-  position: fixed;
-  bottom: 0;
   border-top: 1px solid ${colors.gray800};
   border-right: 1px solid ${colors.gray800};
   background-color: ${colors.gray950};
