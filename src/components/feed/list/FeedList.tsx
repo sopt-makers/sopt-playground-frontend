@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ErrorBoundary } from '@toss/error-boundary';
 import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
 import CategorySelect from '@/components/feed/list/CategorySelect';
@@ -20,6 +21,7 @@ interface FeedListProps {
 }
 
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) => {
+  const queryClient = useQueryClient();
   const [categoryId] = useCategoryParam({ defaultValue: '' });
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
@@ -36,9 +38,16 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
     })),
   }));
 
+  const handleCategoryChange = (categoryId: string) => {
+    queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
+    window.scrollTo({ top: 0 });
+  };
+
   return (
     <Container>
-      <CategoryArea>{categories && <CategorySelect categories={categories} />}</CategoryArea>
+      <CategoryArea>
+        {categories && <CategorySelect categories={categories} onCategoryChange={handleCategoryChange} />}
+      </CategoryArea>
       <HeightSpacer>
         <ErrorBoundary
           renderFallback={(error) => (

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
@@ -19,10 +18,10 @@ interface CategorySelectProps {
       name: string;
     }[];
   }[];
+  onCategoryChange: (categoryId: string) => void;
 }
 
-const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
-  const queryClient = useQueryClient();
+const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange }) => {
   const [currentCategoryId] = useCategoryParam({ defaultValue: '' });
   const parentCategory =
     categories.find(
@@ -39,16 +38,14 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
               category: '전체',
             }}
           >
-            <Category categoryId={undefined} active={currentCategoryId === ''}>
+            <Category categoryId={undefined} active={currentCategoryId === ''} onClick={() => onCategoryChange('')}>
               전체
             </Category>
           </LoggingClick>
           {categories.map((category) => (
             <LoggingClick key={category.id} eventKey='feedListCategoryFilter' param={{ category: category.name }}>
               <Category
-                onClick={() => {
-                  queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(category.id) });
-                }}
+                onClick={() => onCategoryChange(category.id)}
                 categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
                 active={parentCategory?.id === category.id}
               >
@@ -74,9 +71,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories }) => {
                   key={tag.id}
                   categoryId={tag.id}
                   active={tag.id === currentCategoryId}
-                  onClick={() => {
-                    queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(tag.id) });
-                  }}
+                  onClick={() => onCategoryChange(tag.id)}
                 >
                   {tag.name}
                 </Chip>

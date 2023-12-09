@@ -1,7 +1,9 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { ImpressionArea } from '@toss/impression-area';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
@@ -14,6 +16,7 @@ import MobileCommunityLayout from '@/components/feed/page/layout/MobileCommunity
 import { playgroundLink } from '@/constants/links';
 
 const CommunityPage: FC = () => {
+  const queryClient = useQueryClient();
   const [postId] = useFeedDetailParam();
   const { queueHit } = useHit();
 
@@ -47,7 +50,15 @@ const CommunityPage: FC = () => {
                   </LoggingClick>
                 )}
                 renderCategoryLink={({ children, categoryId }) => (
-                  <CategoryLink categoryId={categoryId}>{children}</CategoryLink>
+                  <CategoryLink
+                    categoryId={categoryId}
+                    onClick={() => {
+                      queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
+                      window.scrollTo({ top: 0 });
+                    }}
+                  >
+                    {children}
+                  </CategoryLink>
                 )}
               />
             ) : null
