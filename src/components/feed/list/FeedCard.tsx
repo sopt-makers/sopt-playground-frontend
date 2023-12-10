@@ -63,17 +63,17 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
         }}
         onClick={onClick}
       >
-        {isBlindWriter || profileImage == null ? (
+        {isBlindWriter ? (
           <div css={{ flexShrink: 0 }}>
             <IconMember size={36} />
           </div>
         ) : (
-          <Link href={playgroundLink.memberDetail(memberId)}>
+          <Link href={playgroundLink.memberDetail(memberId)} css={{ height: 'fit-content' }}>
             <ProfileImageBox>
               {profileImage ? (
                 <ProfileImage width={36} height={36} src={profileImage} alt='profileImage' />
               ) : (
-                <EmptyProfileImage />
+                <IconMember size={36} />
               )}
             </ProfileImageBox>
           </Link>
@@ -92,9 +92,11 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                 </Top>
               ) : (
                 <Top align='center'>
-                  <Text typography='SUIT_14_SB' lineHeight={20}>
-                    {name}
-                  </Text>
+                  <Link href={playgroundLink.memberDetail(memberId)}>
+                    <Text typography='SUIT_14_SB' lineHeight={20}>
+                      {name}
+                    </Text>
+                  </Link>
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
                     {info}
                   </InfoText>
@@ -151,13 +153,6 @@ const ProfileImage = styled(ResizedImage)`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`;
-
-const EmptyProfileImage = styled.div`
-  border-radius: 50%;
-  background-color: ${colors.gray700};
-  width: 100%;
-  height: 100%;
 `;
 
 const Top = styled(Flex)`
