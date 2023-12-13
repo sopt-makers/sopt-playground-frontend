@@ -19,12 +19,9 @@ const ContentsInput = forwardRef(({ onChange }: ContentsInputProp, ref: Ref<HTML
 export default ContentsInput;
 
 const Contents = styled(TextareaAutosize)`
-  margin-bottom: 80px;
   outline: none;
   background-color: transparent;
   width: 100%;
-
-  /* min-height: 100vw; */
   resize: none;
   line-height: 26px;
   white-space: pre-wrap;

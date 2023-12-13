@@ -10,17 +10,32 @@ interface DesktopFeedUploadLayoutProps {
 
 export default function DesktopFeedUploadLayout({ header, body, footer }: DesktopFeedUploadLayoutProps) {
   return (
-    <>
-      <HeaderWrapper>{header}</HeaderWrapper>
-      <BodyContainer>
-        <BodyWrapper>{body}</BodyWrapper>
-      </BodyContainer>
+    <Layout>
+      <TopLayout>
+        <HeaderWrapper>{header}</HeaderWrapper>
+        <BodyContainer>
+          <BodyWrapper>{body}</BodyWrapper>
+        </BodyContainer>
+      </TopLayout>
       <FooterContainer>
         <FooterWrapper>{footer}</FooterWrapper>
       </FooterContainer>
-    </>
+    </Layout>
   );
 }
+
+const Layout = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: space-around;
+  height: 100dvh;
+  @supports (height: 100dvh) {
+    max-height: 100dvh;
+  }
+`;
+
+const TopLayout = styled.div``;
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -54,8 +69,7 @@ const FooterWrapper = styled.div`
 
 const FooterContainer = styled.footer`
   display: flex;
-  position: fixed;
-  bottom: 0;
+  align-items: flex-end;
   justify-content: center;
   width: 100%;
 `;
