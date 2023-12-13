@@ -29,7 +29,8 @@ const Layout = styled.div`
   flex-flow: row wrap;
   align-items: stretch;
   justify-content: space-around;
-  height: 100dvh;
+  height: 100vh;
+
   @supports (height: 100dvh) {
     max-height: 100dvh;
   }
