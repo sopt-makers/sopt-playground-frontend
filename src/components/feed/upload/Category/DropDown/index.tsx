@@ -66,7 +66,7 @@ const ModalWrapper = styled.div`
 
 const StyledBackground = styled.div`
   display: flex;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   justify-content: center;
