@@ -36,7 +36,9 @@ const Layout = styled.div`
   }
 `;
 
-const TopLayout = styled.div``;
+const TopLayout = styled.div`
+  width: 100%;
+`;
 
 const HeaderWrapper = styled.header`
   display: flex;
