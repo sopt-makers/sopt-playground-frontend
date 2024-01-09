@@ -9,10 +9,6 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
   const { findParentCategory } = useCategory();
 
-  // useEffect(() => {
-  //   setFeedData(initialForm);
-  // }, [initialForm]);
-
   const resetIsBlindWriter = (categoryId: number) => {
     !findParentCategory(categoryId)?.hasBlind && setFeedData((feedData) => ({ ...feedData, isBlindWriter: false }));
   };
