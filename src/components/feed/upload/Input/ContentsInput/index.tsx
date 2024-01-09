@@ -8,13 +8,23 @@ import { textStyles } from '@/styles/typography';
 
 interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
+  value: string | null;
 }
 
-const ContentsInput = forwardRef(({ onChange }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
-  return (
-    <Contents placeholder='내용을 입력해주세요' maxLength={20000} spellCheck='false' onChange={onChange} ref={ref} />
-  );
-});
+const ContentsInput = forwardRef(
+  ({ onChange, value }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
+    return (
+      <Contents
+        placeholder='내용을 입력해주세요'
+        maxLength={20000}
+        spellCheck='false'
+        onChange={onChange}
+        ref={ref}
+        value={value ?? ''}
+      />
+    );
+  },
+);
 
 export default ContentsInput;
 

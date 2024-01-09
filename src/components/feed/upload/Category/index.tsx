@@ -15,6 +15,7 @@ interface CateogryProps {
   onSaveMainCategory: (categoryId: number) => void;
   openUsingRules: () => void;
   closeUsingRules: () => void;
+  isEdit?: boolean;
 }
 
 export default function Category({
@@ -23,8 +24,9 @@ export default function Category({
   onSaveMainCategory,
   openUsingRules,
   closeUsingRules,
+  isEdit,
 }: CateogryProps) {
-  const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect('openCategory');
+  const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect(isEdit ? 'closeAll' : 'openCategory');
 
   const { data: categories } = useQuery({
     queryKey: getCategory.cacheKey(),

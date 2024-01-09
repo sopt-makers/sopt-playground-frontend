@@ -1,30 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { getCategory } from '@/api/endpoint/feed/getCategory';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
+import useCategory from '@/components/feed/common/hooks/useCategory';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 
 export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   const [feedData, setFeedData] = useState(initialForm);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
+  const { findParentCategory } = useCategory();
 
-  const { data: categoryData } = useQuery({
-    queryKey: getCategory.cacheKey(),
-    queryFn: getCategory.request,
-  });
-
-  const findParentCategory = (categoryId: number) => {
-    const category =
-      categoryData &&
-      categoryData.find((category) =>
-        category.children.length > 0
-          ? category.children.some((tag) => tag.id === categoryId)
-          : category.id === categoryId,
-      );
-
-    return category;
-  };
+  // useEffect(() => {
+  //   setFeedData(initialForm);
+  // }, [initialForm]);
 
   const resetIsBlindWriter = (categoryId: number) => {
     !findParentCategory(categoryId)?.hasBlind && setFeedData((feedData) => ({ ...feedData, isBlindWriter: false }));

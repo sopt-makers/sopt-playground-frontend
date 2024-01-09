@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
+import Link from 'next/link';
+import { playgroundLink } from 'playground-common/export';
 import { FC, ReactNode, useRef } from 'react';
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 import { atom, useRecoilState } from 'recoil';
@@ -156,14 +158,9 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                     }
                   >
                     {post.isMine ? (
-                      <FeedDropdown.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toast.show({ message: '아직 지원하지 않는 기능이에요.' });
-                        }}
-                      >
-                        수정
-                      </FeedDropdown.Item>
+                      <Link href={playgroundLink.feedEdit(post.id)}>
+                        <FeedDropdown.Item>수정</FeedDropdown.Item>
+                      </Link>
                     ) : null}
                     <LoggingClick eventKey='feedShareButton' param={{ feedId: String(post.id), referral: 'list' }}>
                       <FeedDropdown.Item

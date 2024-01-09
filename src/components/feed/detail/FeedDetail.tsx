@@ -1,5 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorBoundary } from '@toss/error-boundary';
+import Link from 'next/link';
+import { playgroundLink } from 'playground-common/export';
 import { ReactNode, useRef } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
@@ -72,14 +74,9 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
               }
             >
               {postData.isMine ? (
-                <FeedDropdown.Item
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toast.show({ message: '아직 지원하지 않는 기능이에요.' });
-                  }}
-                >
-                  수정
-                </FeedDropdown.Item>
+                <Link href={playgroundLink.feedEdit(postId)}>
+                  <FeedDropdown.Item>수정</FeedDropdown.Item>
+                </Link>
               ) : null}
               {postData.isMine ? (
                 <FeedDropdown.Item

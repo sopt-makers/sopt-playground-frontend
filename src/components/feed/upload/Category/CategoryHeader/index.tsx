@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useQuery } from '@tanstack/react-query';
 
-import { getCategory } from '@/api/endpoint/feed/getCategory';
+import useCategory from '@/components/feed/common/hooks/useCategory';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 import DetailArrow from '@/public/icons/icon-chevron-right.svg';
 import ExpandMoreArrow from '@/public/icons/icon-expand-more.svg';
@@ -17,21 +16,10 @@ interface CategoryHeaderProp {
 }
 
 export default function CategoryHeader({ feedData, openCategory, openTag }: CategoryHeaderProp) {
-  const { data: categories } = useQuery({
-    queryKey: getCategory.cacheKey(),
-    queryFn: getCategory.request,
-  });
+  const { findMainCategory, findChildrenCategory } = useCategory();
 
-  const parentCategory =
-    (categories &&
-      categories.find(
-        (category) =>
-          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
-      )) ??
-    null;
-
-  const childrenCategory =
-    (parentCategory && parentCategory.children.find((tag) => tag.id === feedData.categoryId)) ?? null;
+  const parentCategory = findMainCategory(feedData.categoryId, feedData.mainCategoryId);
+  const childrenCategory = findChildrenCategory(feedData.categoryId);
 
   return (
     <>
