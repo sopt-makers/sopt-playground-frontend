@@ -1,11 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import { FormEvent, useEffect, useRef } from 'react';
 
 import { useSaveEditFeedData } from '@/api/endpoint/feed/editFeed';
-import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
+import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
 import Loading from '@/components/common/Loading';
@@ -93,22 +96,33 @@ export default function FeedUploadPage({ isEdit, feedId = '' }: FeedUploadPagePr
 
   const { mutate: handleUploadFeed, isPending: isUploading } = useSaveUploadFeedData();
 
-  const { mutate: handleEditFeed, isPending: isEditing } = useSaveEditFeedData(feedId);
+  const { mutate: handleEditFeed, isPending: isEditing } = useSaveEditFeedData();
 
-  const { logClickEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent } = useEventLogger();
+  const queryClient = useQueryClient();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     isEdit
-      ? handleEditFeed({
-          postId: Number(feedId) ?? 0,
-          categoryId: feedData.categoryId ?? 0,
-          title: feedData.title,
-          content: feedData.content,
-          isQuestion: feedData.isQuestion,
-          isBlindWriter: feedData.isBlindWriter,
-          images: feedData.images,
-        })
+      ? handleEditFeed(
+          {
+            postId: Number(feedId) ?? 0,
+            categoryId: feedData.categoryId ?? 0,
+            title: feedData.title,
+            content: feedData.content,
+            isQuestion: feedData.isQuestion,
+            isBlindWriter: feedData.isBlindWriter,
+            images: feedData.images,
+          },
+          {
+            onSuccess: async () => {
+              logSubmitEvent('editCommunity');
+              queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
+              queryClient.invalidateQueries({ queryKey: getPost.cacheKey(feedId) });
+              await router.push(playgroundLink.feedList());
+            },
+          },
+        )
       : handleUploadFeed({
           categoryId: feedData.categoryId ?? 0,
           title: feedData.title,
