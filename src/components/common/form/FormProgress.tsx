@@ -10,10 +10,8 @@ import { textStyles } from '@/styles/typography';
 
 interface FormProgressProps {
   className?: string;
-
   title: string;
   progressLabel: string;
-
   items: FormProgressItem[];
 }
 
@@ -38,7 +36,7 @@ const FormProgress: FC<FormProgressProps> = ({ className, title, progressLabel, 
         </ProgressNumber>
       </StyledHeader>
       <Divider />
-      <Text typography='SUIT_16_M' color={colors.gray600}>
+      <Text typography='SUIT_16_M' color={colors.gray400}>
         {progressLabel}
       </Text>
       <StyledProgressRoot value={progressPercentage}>
@@ -122,7 +120,7 @@ const ListItem = styled.li<{ isDirty?: boolean }>`
   justify-content: space-between;
   transition: color 0.2s;
   padding: 14px 20px;
-  color: ${({ isDirty }) => (isDirty ? colors.gray10 : colors.gray600)};
+  color: ${({ isDirty }) => (isDirty ? colors.gray10 : colors.gray400)};
   ${textStyles.SUIT_16_M};
 `;
 

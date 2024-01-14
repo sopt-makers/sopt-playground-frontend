@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { isEmpty } from 'lodash-es';
@@ -239,6 +240,7 @@ const StyledMemberSearch = styled(MemberSearch)`
 const StyledSelect = styled(Select)`
   border: 1px solid ${colors.gray600};
   border-radius: 6px;
+  color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid-area: role;
@@ -252,6 +254,10 @@ const StyledInput = styled(Input)`
 
   & > input {
     border: 1px solid ${colors.gray600};
+
+    ::placeholder {
+      color: ${colors.gray400};
+    }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -264,7 +270,7 @@ const StyledEditCompleteButton = styled.button`
   background-color: ${colors.gray600};
   padding: 16px 36px;
   white-space: nowrap;
-  color: ${colors.gray600};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_14_M};
 

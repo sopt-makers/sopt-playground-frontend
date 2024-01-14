@@ -77,7 +77,7 @@ const MemberSearch: FC<MemberSearchProps> = ({
               >
                 <MemberInfo>
                   <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
-                  <Text>{member.name}</Text>
+                  <Text color={colors.gray400}>{member.name}</Text>
                 </MemberInfo>
                 <Text>{`${member.generation}기`}</Text>
               </StyledItem>

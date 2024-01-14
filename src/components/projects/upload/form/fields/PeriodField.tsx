@@ -71,6 +71,10 @@ const StyledPeriodField = styled.div``;
 
 const StyledInput = styled(Input)`
   max-width: 163px;
+
+  input::placeholder {
+    color: ${colors.gray400};
+  }
 `;
 
 const InputGroup = styled.div`
