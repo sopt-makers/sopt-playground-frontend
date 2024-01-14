@@ -100,12 +100,12 @@ const ProjectForm: FC<ProjectFormProps> = ({
         <StyledTitle>
           <Text typography='SUIT_24_B'>프로젝트</Text>
           <Responsive only='desktop'>
-            <Text typography='SUIT_16_M' color={colors.gray600}>
+            <Text typography='SUIT_16_M' color={colors.gray400}>
               프로젝트가 등록되면 SOPT 공식홈페이지에도 업로드 되기 때문에 꼼꼼하게 작성해주세요!
             </Text>
           </Responsive>
           <Responsive only='mobile'>
-            <Text typography='SUIT_14_M' color={colors.gray600}>
+            <Text typography='SUIT_14_M' color={colors.gray400}>
               프로젝트가 등록되면 SOPT 공식홈페이지에도 <br />
               업로드 되기 때문에 꼼꼼하게 작성해주세요!
             </Text>
@@ -451,6 +451,10 @@ const StyledAddButton = styled.button`
 const StyledInput = styled(Input)`
   width: 340px;
 
+  input::placeholder {
+    color: ${colors.gray400};
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
     ${textStyles.SUIT_14_M};
@@ -459,6 +463,10 @@ const StyledInput = styled(Input)`
 
 const StyledTextArea = styled(TextArea)`
   min-height: 170px;
+
+  ::placeholder {
+    color: ${colors.gray400};
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_M};

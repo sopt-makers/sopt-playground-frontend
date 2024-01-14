@@ -69,7 +69,7 @@ const StyledLabel = styled.label<{ checked?: boolean }>`
   padding: 14px 0;
   width: 163px;
   height: 42px;
-  color: ${colors.gray600};
+  color: ${colors.gray400};
 
   ${({ checked }) =>
     checked &&

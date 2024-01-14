@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import React, { FC } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
@@ -36,6 +37,8 @@ const StyledCategoryField = styled.div`
 `;
 
 const StyledSelect = styled(Select)`
+  color: ${colors.gray400};
+
   @media ${MOBILE_MEDIA_QUERY} {
     width: 160px;
     ${textStyles.SUIT_14_M}

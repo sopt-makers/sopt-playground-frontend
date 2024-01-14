@@ -176,6 +176,7 @@ const StyledLinkView = styled.div`
 const StyledSelect = styled(Select)`
   border: 1px solid ${colors.gray600};
   border-radius: 6px;
+  color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid-area: title;
@@ -189,6 +190,10 @@ const StyledInput = styled(Input)`
 
   & > input {
     border: 1px solid ${colors.gray600};
+
+    ::placeholder {
+      color: ${colors.gray400};
+    }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

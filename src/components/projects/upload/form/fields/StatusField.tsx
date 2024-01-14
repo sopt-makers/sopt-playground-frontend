@@ -48,7 +48,7 @@ const StyledStatusField = styled.div`
 `;
 
 const StyledSubTitle = styled(Text)`
-  color: ${colors.gray600};
+  color: ${colors.gray400};
   ${textStyles.SUIT_14_M};
 `;
 

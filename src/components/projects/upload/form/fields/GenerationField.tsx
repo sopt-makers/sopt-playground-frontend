@@ -62,6 +62,7 @@ const StyledGenerationField = styled.div`
 
 const StyledSelect = styled(Select)`
   width: 236px;
+  color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_M}
