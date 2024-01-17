@@ -1,32 +1,21 @@
 import { useMutation } from '@tanstack/react-query';
-// import { playgroundLink } from 'playground-common/export';
 import { z } from 'zod';
 
-// import { getPost } from '@/api/endpoint/feed/getPost';
-// import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { createEndpoint } from '@/api/typedAxios';
-
-interface RequestBody {
-  postId: number;
-  categoryId: number;
-  title: string | null;
-  content: string;
-  isQuestion: boolean;
-  isBlindWriter: boolean;
-  images: string[];
-}
+import { EditFeedDataType, FeedDataType } from '@/components/feed/upload/types';
 
 export const editFeed = createEndpoint({
-  request: (reqeustBody: RequestBody) => ({
+  request: (requestBody: EditFeedDataType) => ({
     method: 'PUT',
     url: 'api/v1/community/posts',
-    data: reqeustBody,
+    data: requestBody,
   }),
   serverResponseScheme: z.unknown(),
 });
 
 export const useSaveEditFeedData = () => {
   return useMutation({
-    mutationFn: (reqeustBody: RequestBody) => editFeed.request(reqeustBody),
+    mutationFn: (requestBody: { data: FeedDataType; id: number | null }) =>
+      editFeed.request({ postId: requestBody.id ?? 0, ...requestBody.data }),
   });
 };

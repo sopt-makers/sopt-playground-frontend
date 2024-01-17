@@ -48,7 +48,7 @@ export default function Category({
     }, myProfile.soptActivities[0]).part;
   }, [myProfile?.soptActivities]);
 
-  const handleSaveMainCategory = (categoryId: number) => {
+  const handleSaveParentCategory = (categoryId: number) => {
     const selectedMainCategory = categories?.find((category) => category.id === categoryId);
 
     if (selectedMainCategory == null) {
@@ -97,7 +97,7 @@ export default function Category({
       <CategorySelector
         isOpen={isSelectorOpen === 'openCategory'}
         onClose={closeAll}
-        onSelect={handleSaveMainCategory}
+        onSelect={handleSaveParentCategory}
         feedData={feedData}
       />
       <TagSelector

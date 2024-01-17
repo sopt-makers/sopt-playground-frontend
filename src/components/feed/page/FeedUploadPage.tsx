@@ -1,17 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useQueryClient } from '@tanstack/react-query';
+import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { FormEvent, useEffect, useRef } from 'react';
 
-import { useSaveEditFeedData } from '@/api/endpoint/feed/editFeed';
-import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
+import { getPost } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
-import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -28,6 +25,7 @@ import ContentsInput from '@/components/feed/upload/Input/ContentsInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
+import { FeedDataType, UploadFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
@@ -35,23 +33,14 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface FeedUploadPageProp {
-  isEdit?: boolean;
-  feedId?: string;
+  editingId?: number | null;
+  initialForm: UploadFeedDataType;
+  onSubmit: UseMutateFunction<unknown, Error, { data: FeedDataType; id: number | null }, unknown>;
 }
 
-export default function FeedUploadPage({ isEdit, feedId = '' }: FeedUploadPageProp) {
+export default function FeedUploadPage({ initialForm, editingId, onSubmit }: FeedUploadPageProp) {
   const router = useRouter();
-  const { data: postData } = useGetPostQuery(feedId);
-
-  const initialData = {
-    mainCategoryId: postData?.posts.categoryId ?? null,
-    categoryId: postData?.posts.categoryId ?? null,
-    title: postData?.posts.title ?? '',
-    content: postData?.posts.content ?? '',
-    isQuestion: postData?.posts.isQuestion ?? false,
-    isBlindWriter: postData?.posts.isBlindWriter ?? false,
-    images: postData?.posts.images ?? [],
-  };
+  const isEdit = editingId !== null;
 
   const {
     feedData,
@@ -65,7 +54,7 @@ export default function FeedUploadPage({ isEdit, feedId = '' }: FeedUploadPagePr
     handleSaveContent,
     resetFeedData,
     checkReadyToUpload,
-  } = useUploadFeedData(initialData);
+  } = useUploadFeedData(initialForm);
 
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -93,44 +82,33 @@ export default function FeedUploadPage({ isEdit, feedId = '' }: FeedUploadPagePr
   });
 
   const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
-
-  const { mutate: handleUploadFeed, isPending: isUploading } = useSaveUploadFeedData();
-
-  const { mutate: handleEditFeed, isPending: isEditing } = useSaveEditFeedData();
-
   const { logClickEvent, logSubmitEvent } = useEventLogger();
   const queryClient = useQueryClient();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    isEdit
-      ? handleEditFeed(
-          {
-            postId: Number(feedId) ?? 0,
-            categoryId: feedData.categoryId ?? 0,
-            title: feedData.title,
-            content: feedData.content,
-            isQuestion: feedData.isQuestion,
-            isBlindWriter: feedData.isBlindWriter,
-            images: feedData.images,
-          },
-          {
-            onSuccess: async () => {
-              logSubmitEvent('editCommunity');
-              queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
-              queryClient.invalidateQueries({ queryKey: getPost.cacheKey(feedId) });
-              await router.push(playgroundLink.feedList());
-            },
-          },
-        )
-      : handleUploadFeed({
-          categoryId: feedData.categoryId ?? 0,
+
+    onSubmit(
+      {
+        data: {
+          categoryId: feedData.categoryId,
           title: feedData.title,
           content: feedData.content,
           isQuestion: feedData.isQuestion,
           isBlindWriter: feedData.isBlindWriter,
           images: feedData.images,
-        });
+        },
+        id: editingId ?? null,
+      },
+      {
+        onSuccess: async () => {
+          logSubmitEvent(editingId ? 'editCommunity' : 'submitCommunity');
+          queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
+          editingId && queryClient.invalidateQueries({ queryKey: getPost.cacheKey(`${editingId}`) });
+          await router.push(playgroundLink.feedList());
+        },
+      },
+    );
   };
 
   const handleQuitUpload = () => {
@@ -168,13 +146,6 @@ export default function FeedUploadPage({ isEdit, feedId = '' }: FeedUploadPagePr
 
     return () => window.removeEventListener('popstate', handleBack);
   }, [feedData]);
-
-  if (isUploading || isEditing)
-    return (
-      <LoadingWrapper>
-        <Loading />
-      </LoadingWrapper>
-    );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -477,7 +448,7 @@ const TagAndCheckboxWrapper = styled.div`
   margin-top: 20px;
 `;
 
-const LoadingWrapper = styled.div`
+export const LoadingWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
