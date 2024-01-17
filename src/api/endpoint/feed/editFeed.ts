@@ -16,6 +16,6 @@ export const editFeed = createEndpoint({
 export const useSaveEditFeedData = () => {
   return useMutation({
     mutationFn: (requestBody: { data: FeedDataType; id: number | null }) =>
-      editFeed.request({ postId: requestBody.id ?? 0, ...requestBody.data }),
+      editFeed.request({ postId: requestBody.id, ...requestBody.data }),
   });
 };

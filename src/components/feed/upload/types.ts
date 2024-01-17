@@ -16,5 +16,5 @@ export interface UploadFeedDataType extends FeedDataType {
 }
 
 export interface EditFeedDataType extends FeedDataType {
-  postId: number;
+  postId: number | null;
 }

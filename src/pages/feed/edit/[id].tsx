@@ -47,7 +47,7 @@ const FeedEdit: FC = () => {
                 images: data.posts.images,
               }}
               onSubmit={handleEditFeed}
-              editingId={data.posts.categoryId}
+              editingId={data.posts.id}
             />
           </AuthRequired>
         )}
