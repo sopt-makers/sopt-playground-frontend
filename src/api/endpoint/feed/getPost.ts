@@ -59,5 +59,6 @@ export const useGetPostQuery = (postId: string) => {
   return useQuery({
     queryKey: getPost.cacheKey(postId),
     queryFn: () => getPost.request(postId),
+    enabled: !!postId,
   });
 };
