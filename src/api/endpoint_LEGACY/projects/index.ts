@@ -15,7 +15,7 @@ export const getProjectById = async (id: string) => {
 
 // project 전체 조회
 export const getProjects = async (params: ProjectsRequestParams) => {
-  const { data } = await axiosInstance.request<{ projectList: ProjectDetail[]; hasNext: boolean }>({
+  const { data } = await axiosInstance.request<{ projectList: ProjectDetail[]; hasNext: boolean; totalCount: number }>({
     method: 'GET',
     url: `api/v1/projects${QS.create(params)}`,
   });

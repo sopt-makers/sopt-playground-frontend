@@ -16,11 +16,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const ProjectList = () => {
-  const {
-    data: projects,
-    isLoading,
-    fetchNextPage,
-  } = useGetProjectListQuery({
+  const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
   });
   const { logClickEvent } = useEventLogger();
@@ -47,7 +43,7 @@ const ProjectList = () => {
           </Responsive>
         </TopWrapper>
         <LengthWrapper>
-          {/* {uniqueProjects && <StyledLength typography='SUIT_18_M'>{uniqueProjects.length}개의 프로젝트</StyledLength>} */}
+          {data?.pages && <StyledLength typography='SUIT_18_M'>{data.pages[0].totalCount}개의 프로젝트</StyledLength>}
           <ProjectMobileUploadButton
             onClick={() =>
               logClickEvent('projectUpload', {
@@ -59,11 +55,11 @@ const ProjectList = () => {
             <IconPen />
           </ProjectMobileUploadButton>
         </LengthWrapper>
-        {!isLoading && projects?.pages == null ? (
+        {!isLoading && data?.pages == null ? (
           <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
         ) : (
           <StyledGridContainer>
-            {projects?.pages.map((page) =>
+            {data?.pages.map((page) =>
               page.projectList.map((project) => <ProjectCard key={project.id} {...project} />),
             )}
             <ImpressionArea onImpressionStart={fetchNextPage} />
