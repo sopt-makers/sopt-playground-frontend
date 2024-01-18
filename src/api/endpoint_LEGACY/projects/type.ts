@@ -1,5 +1,11 @@
 import { PROJECT_CATEGORY } from '@/components/projects/constants';
 
+export interface ProjectsRequestParams {
+  limit?: number;
+  cursor?: number;
+  name?: string;
+}
+
 export type ProjectDetail = {
   id: number;
   name: string;
