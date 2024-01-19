@@ -1,10 +1,12 @@
+import { useMutation } from '@tanstack/react-query';
 import { FC } from 'react';
 
-import { useSaveEditFeedData } from '@/api/endpoint/feed/editFeed';
+import { editFeed } from '@/api/endpoint/feed/editFeed';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
 import FeedUploadPage, { LoadingWrapper } from '@/components/feed/page/FeedUploadPage';
+import { FeedDataType } from '@/components/feed/upload/types';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -13,7 +15,10 @@ const FeedEdit: FC = () => {
   const feedId = query ? query.id : '';
   const { data } = useGetPostQuery(feedId);
 
-  const { mutate: handleEditFeed, isPending } = useSaveEditFeedData();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (requestBody: { data: FeedDataType; id: number | null }) =>
+      editFeed.request({ postId: requestBody.id, ...requestBody.data }),
+  });
 
   if (isPending) {
     return (
@@ -46,7 +51,7 @@ const FeedEdit: FC = () => {
                 isBlindWriter: data.posts.isBlindWriter,
                 images: data.posts.images,
               }}
-              onSubmit={handleEditFeed}
+              onSubmit={mutate}
               editingId={data.posts.id}
             />
           </AuthRequired>

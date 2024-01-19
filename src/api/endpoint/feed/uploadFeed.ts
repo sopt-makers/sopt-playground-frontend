@@ -1,4 +1,3 @@
-import { useMutation } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
@@ -12,9 +11,3 @@ export const uploadFeed = createEndpoint({
   }),
   serverResponseScheme: z.unknown(),
 });
-
-export const useSaveUploadFeedData = () => {
-  return useMutation({
-    mutationFn: (reqeustBody: { data: FeedDataType; id: number | null }) => uploadFeed.request({ ...reqeustBody.data }),
-  });
-};

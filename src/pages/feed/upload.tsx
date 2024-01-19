@@ -1,13 +1,17 @@
+import { useMutation } from '@tanstack/react-query';
 import { FC } from 'react';
 
-import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
+import { uploadFeed } from '@/api/endpoint/feed/uploadFeed';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
 import FeedUploadPage, { LoadingWrapper } from '@/components/feed/page/FeedUploadPage';
+import { FeedDataType } from '@/components/feed/upload/types';
 import { setLayout } from '@/utils/layout';
 
 const FeedUpload: FC = () => {
-  const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (reqeustBody: { data: FeedDataType; id: number | null }) => uploadFeed.request({ ...reqeustBody.data }),
+  });
 
   if (isPending) {
     return (
@@ -29,7 +33,7 @@ const FeedUpload: FC = () => {
           isBlindWriter: false,
           images: [],
         }}
-        onSubmit={handleUploadFeed}
+        onSubmit={mutate}
       />
     </AuthRequired>
   );
