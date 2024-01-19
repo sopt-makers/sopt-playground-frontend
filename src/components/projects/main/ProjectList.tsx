@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { ImpressionArea } from '@toss/impression-area';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
 
@@ -15,18 +16,10 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const ProjectList = () => {
-  const { data: projects, isLoading } = useGetProjectListQuery();
+  const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
+    limit: 20,
+  });
   const { logClickEvent } = useEventLogger();
-
-  // 최신순
-  const sortedProjects = projects && [...projects].sort((a, b) => b.id - a.id);
-
-  const uniqueProjects =
-    sortedProjects &&
-    sortedProjects.filter((project, index) => {
-      const latestProjectIndex = sortedProjects.findIndex(({ name }) => name === project.name);
-      return latestProjectIndex === index;
-    });
 
   return (
     <StyledContainer>
@@ -50,7 +43,7 @@ const ProjectList = () => {
           </Responsive>
         </TopWrapper>
         <LengthWrapper>
-          {uniqueProjects && <StyledLength typography='SUIT_18_M'>{uniqueProjects.length}개의 프로젝트</StyledLength>}
+          {data?.pages && <StyledLength typography='SUIT_18_M'>{data.pages[0].totalCount}개의 프로젝트</StyledLength>}
           <ProjectMobileUploadButton
             onClick={() =>
               logClickEvent('projectUpload', {
@@ -62,18 +55,14 @@ const ProjectList = () => {
             <IconPen />
           </ProjectMobileUploadButton>
         </LengthWrapper>
-        {!isLoading && uniqueProjects == null ? (
+        {!isLoading && data?.pages == null ? (
           <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
         ) : (
           <StyledGridContainer>
-            {uniqueProjects?.map((project) => (
-              <ProjectCard
-                key={project.id}
-                {...project}
-                // FIXME: 서버쪽에서 link가 중복으로 내려오는 이슈가 있어 임시처리합니다.
-                links={_uniqBy(project.links, 'linkId')}
-              />
-            ))}
+            {data?.pages.map((page) =>
+              page.projectList.map((project) => <ProjectCard key={project.id} {...project} />),
+            )}
+            <ImpressionArea onImpressionStart={fetchNextPage} />
           </StyledGridContainer>
         )}
       </StyledContent>

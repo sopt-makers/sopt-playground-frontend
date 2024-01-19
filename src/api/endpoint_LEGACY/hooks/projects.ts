@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
-import { getProjectById, getProjects } from '@/api/endpoint_LEGACY/projects';
+import { getProjectById } from '@/api/endpoint_LEGACY/projects';
 
 // project id로 조회
 export const useGetProjectById = (id?: string) => {
@@ -22,17 +22,6 @@ export const useGetProjectById = (id?: string) => {
         }),
       );
       return { ...data, members: membersWithProfileImage };
-    },
-  });
-};
-
-// project 전체 조회
-export const useGetProjects = () => {
-  return useQuery({
-    queryKey: ['getProjects'],
-    queryFn: async () => {
-      const data = await getProjects();
-      return data;
     },
   });
 };
