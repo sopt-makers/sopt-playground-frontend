@@ -56,10 +56,6 @@ export default function FeedUploadPage({ initialForm, editingId, onSubmit }: Fee
     checkReadyToUpload,
   } = useUploadFeedData(initialForm);
 
-  console.log(feedData);
-  console.log('asdfsafdsa');
-  console.log('isEdit' + isEdit);
-
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
