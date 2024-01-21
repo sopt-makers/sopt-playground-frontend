@@ -12,8 +12,7 @@ import { setLayout } from '@/utils/layout';
 
 const FeedEdit: FC = () => {
   const { status, query } = useStringRouterQuery(['id'] as const);
-  const feedId = query ? query.id : '';
-  const { data } = useGetPostQuery(feedId);
+  const { data } = useGetPostQuery(query?.id);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (requestBody: { data: FeedDataType; id: number | null }) =>
