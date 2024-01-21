@@ -33,14 +33,14 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface FeedUploadPageProp {
-  editingId?: number | null;
+  editingId?: number;
   initialForm: UploadFeedDataType;
   onSubmit: UseMutateFunction<unknown, Error, { data: FeedDataType; id: number | null }, unknown>;
 }
 
 export default function FeedUploadPage({ initialForm, editingId, onSubmit }: FeedUploadPageProp) {
   const router = useRouter();
-  const isEdit = editingId !== null;
+  const isEdit = editingId !== undefined;
 
   const {
     feedData,
@@ -55,6 +55,10 @@ export default function FeedUploadPage({ initialForm, editingId, onSubmit }: Fee
     resetFeedData,
     checkReadyToUpload,
   } = useUploadFeedData(initialForm);
+
+  console.log(feedData);
+  console.log('asdfsafdsa');
+  console.log('isEdit' + isEdit);
 
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
