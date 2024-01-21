@@ -125,6 +125,7 @@ const StyledBackImage = styled(BackGraphic)`
   height: fit-content;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    transform: translateY(-60px);
     width: 180px;
   }
 `;
