@@ -4,8 +4,8 @@ import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriter
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import { UploadFeedDataType } from '@/components/feed/upload/types';
 
-export default function useUploadFeedData(initialForm: UploadFeedDataType) {
-  const [feedData, setFeedData] = useState(initialForm);
+export default function useUploadFeedData(defaultValue: UploadFeedDataType) {
+  const [feedData, setFeedData] = useState(defaultValue);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
   const { findParentCategory } = useCategory();
 
@@ -61,7 +61,7 @@ export default function useUploadFeedData(initialForm: UploadFeedDataType) {
   };
 
   const resetFeedData = () => {
-    setFeedData(initialForm);
+    setFeedData(defaultValue);
   };
 
   return {

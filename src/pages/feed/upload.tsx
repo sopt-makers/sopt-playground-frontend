@@ -24,7 +24,7 @@ const FeedUpload: FC = () => {
   return (
     <AuthRequired>
       <FeedUploadPage
-        initialForm={{
+        defaultValue={{
           mainCategoryId: null,
           categoryId: null,
           title: '',

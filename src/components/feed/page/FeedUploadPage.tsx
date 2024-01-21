@@ -34,11 +34,11 @@ import { textStyles } from '@/styles/typography';
 
 interface FeedUploadPageProp {
   editingId?: number;
-  initialForm: UploadFeedDataType;
+  defaultValue: UploadFeedDataType;
   onSubmit: UseMutateFunction<unknown, Error, { data: FeedDataType; id: number | null }, unknown>;
 }
 
-export default function FeedUploadPage({ initialForm, editingId, onSubmit }: FeedUploadPageProp) {
+export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: FeedUploadPageProp) {
   const router = useRouter();
   const isEdit = editingId !== undefined;
 
@@ -54,7 +54,7 @@ export default function FeedUploadPage({ initialForm, editingId, onSubmit }: Fee
     handleSaveContent,
     resetFeedData,
     checkReadyToUpload,
-  } = useUploadFeedData(initialForm);
+  } = useUploadFeedData(defaultValue);
 
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

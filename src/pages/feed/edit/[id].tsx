@@ -41,7 +41,7 @@ const FeedEdit: FC = () => {
         {data != null && (
           <AuthRequired>
             <FeedUploadPage
-              initialForm={{
+              defaultValue={{
                 mainCategoryId: data.posts.categoryId,
                 categoryId: data.posts.categoryId,
                 title: data.posts.title,
