@@ -14,7 +14,6 @@ import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAto
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 const LoginPage: FC = () => {
@@ -41,6 +40,9 @@ const LoginPage: FC = () => {
 
   return (
     <StyledLoginPage>
+      <BackgroundLayer>
+        <StyledBackImage />
+      </BackgroundLayer>
       <LoginBox>
         <LoginTitle>
           SOPT 회원으로 인증된
@@ -105,6 +107,25 @@ export const StyledLoginPage = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 20px;
+  }
+`;
+
+const BackgroundLayer = styled.div`
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+`;
+
+const StyledBackImage = styled(BackGraphic)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 447px;
+  height: fit-content;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 180px;
   }
 `;
 
@@ -296,6 +317,27 @@ function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
         fill='#808087'
       />
       <circle cx={15.5} cy={15} r={9.953} transform='rotate(-45 15.5 15)' stroke='#808087' strokeWidth={0.864} />
+    </svg>
+  );
+}
+
+function BackGraphic(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox='0 0 617 811' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+      <g opacity={0.05}>
+        <path
+          d='M766.126 420.261L399.881 810.572h100.62l366.851-390.311H766.126zM497.518 497.14l-289.95 313.432h100.114L497.517 602.88l.001-105.74zM278.576 503.05L.461 807.611h100.616l177.499-191.415V503.05zM366.706-114.941L.461 275.371H101.08l366.851-390.312H366.706z'
+          fill='#989BA0'
+        />
+        <path
+          d='M101.054 275.369v532.242H.459V275.369h100.595zM305.202 278.329v532.243H204.607V278.329h100.595zM500.474 278.329v532.243H399.879V278.329h100.595z'
+          fill='#FCFCFC'
+        />
+        <path
+          d='M570.855-111.985L204.61 278.326h100.619L672.08-111.985H570.855zM766.126-111.985L399.881 278.326h100.62l366.851-390.311H766.126z'
+          fill='#989BA0'
+        />
+      </g>
     </svg>
   );
 }
