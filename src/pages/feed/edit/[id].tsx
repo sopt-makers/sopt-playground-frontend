@@ -8,7 +8,9 @@ import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
+import useModalState from '@/components/common/Modal/useModalState';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import EditImpossibleModal from '@/components/feed/edit/EditImpossibleModal';
 import FeedUploadPage, { LoadingWrapper } from '@/components/feed/page/FeedUploadPage';
 import { FeedDataType } from '@/components/feed/upload/types';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
@@ -21,6 +23,7 @@ const FeedEdit: FC = () => {
   const router = useRouter();
   const { logSubmitEvent } = useEventLogger();
   const queryClient = useQueryClient();
+  const { isOpen, onOpen, onClose } = useModalState(true);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (requestBody: { data: FeedDataType; id: number | null }) =>
@@ -62,19 +65,23 @@ const FeedEdit: FC = () => {
       <>
         {data != null && (
           <AuthRequired>
-            <FeedUploadPage
-              defaultValue={{
-                mainCategoryId: data.posts.categoryId,
-                categoryId: data.posts.categoryId,
-                title: data.posts.title,
-                content: data.posts.content,
-                isQuestion: data.posts.isQuestion,
-                isBlindWriter: data.posts.isBlindWriter,
-                images: data.posts.images,
-              }}
-              onSubmit={handleEditSubmit}
-              editingId={data.posts.id}
-            />
+            {data.isMine ? (
+              <FeedUploadPage
+                defaultValue={{
+                  mainCategoryId: data.posts.categoryId,
+                  categoryId: data.posts.categoryId,
+                  title: data.posts.title,
+                  content: data.posts.content,
+                  isQuestion: data.posts.isQuestion,
+                  isBlindWriter: data.posts.isBlindWriter,
+                  images: data.posts.images,
+                }}
+                onSubmit={handleEditSubmit}
+                editingId={data.posts.id}
+              />
+            ) : (
+              <EditImpossibleModal isOpen={isOpen} onClose={onClose} />
+            )}
           </AuthRequired>
         )}
       </>
