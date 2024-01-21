@@ -1,13 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { playgroundLink } from 'playground-common/export';
 import { FormEvent, useEffect, useRef } from 'react';
 
-import { getPost } from '@/api/endpoint/feed/getPost';
-import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Checkbox from '@/components/common/Checkbox';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
@@ -35,7 +31,7 @@ import { textStyles } from '@/styles/typography';
 interface FeedUploadPageProp {
   editingId?: number;
   defaultValue: UploadFeedDataType;
-  onSubmit: UseMutateFunction<unknown, Error, { data: FeedDataType; id: number | null }, unknown>;
+  onSubmit: ({ data, id }: { data: FeedDataType; id: number | null }) => void;
 }
 
 export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: FeedUploadPageProp) {
@@ -82,33 +78,22 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   });
 
   const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
-  const { logClickEvent, logSubmitEvent } = useEventLogger();
-  const queryClient = useQueryClient();
+  const { logClickEvent } = useEventLogger();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    onSubmit(
-      {
-        data: {
-          categoryId: feedData.categoryId,
-          title: feedData.title,
-          content: feedData.content,
-          isQuestion: feedData.isQuestion,
-          isBlindWriter: feedData.isBlindWriter,
-          images: feedData.images,
-        },
-        id: editingId ?? null,
+    onSubmit({
+      data: {
+        categoryId: feedData.categoryId,
+        title: feedData.title,
+        content: feedData.content,
+        isQuestion: feedData.isQuestion,
+        isBlindWriter: feedData.isBlindWriter,
+        images: feedData.images,
       },
-      {
-        onSuccess: async () => {
-          logSubmitEvent(editingId ? 'editCommunity' : 'submitCommunity');
-          queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
-          editingId && queryClient.invalidateQueries({ queryKey: getPost.cacheKey(`${editingId}`) });
-          await router.push(playgroundLink.feedList());
-        },
-      },
-    );
+      id: editingId ?? null,
+    });
   };
 
   const handleQuitUpload = () => {
