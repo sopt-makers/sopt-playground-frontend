@@ -20,5 +20,24 @@ export default function useCategory() {
     return category;
   };
 
-  return { findParentCategory };
+  const findMainCategory = (categoryId: number | null, mainCategoryId?: number | null) => {
+    const parentCategory =
+      (categoryData &&
+        categoryData.find(
+          (category) => category.id === mainCategoryId || category.children.some((tag) => tag.id === categoryId),
+        )) ??
+      null;
+
+    return parentCategory;
+  };
+
+  const findChildrenCategory = (categoryId: number | null) => {
+    const parentCategory = findMainCategory(categoryId);
+
+    const category = (parentCategory && parentCategory.children.find((tag) => tag.id === categoryId)) ?? null;
+
+    return category;
+  };
+
+  return { findParentCategory, findMainCategory, findChildrenCategory };
 }

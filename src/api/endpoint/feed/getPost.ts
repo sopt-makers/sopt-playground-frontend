@@ -55,9 +55,12 @@ export const getPost = createEndpoint({
   }),
 });
 
-export const useGetPostQuery = (postId: string) => {
+export const useGetPostQuery = (postId: string | undefined) => {
+  const id = postId ?? '';
+
   return useQuery({
-    queryKey: getPost.cacheKey(postId),
-    queryFn: () => getPost.request(postId),
+    queryKey: getPost.cacheKey(id),
+    queryFn: () => getPost.request(id),
+    enabled: !!postId,
   });
 };

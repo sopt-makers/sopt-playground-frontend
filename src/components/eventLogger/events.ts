@@ -115,6 +115,7 @@ export interface SubmitEvents {
   };
   wordchainNewGame: undefined;
   submitCommunity: undefined;
+  editCommunity: undefined;
   // 커뮤니티(피드)
   postComment: {
     feedId: string;

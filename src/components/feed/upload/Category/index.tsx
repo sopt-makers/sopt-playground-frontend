@@ -15,6 +15,7 @@ interface CateogryProps {
   onSaveMainCategory: (categoryId: number) => void;
   openUsingRules: () => void;
   closeUsingRules: () => void;
+  isEdit?: boolean;
 }
 
 export default function Category({
@@ -23,8 +24,9 @@ export default function Category({
   onSaveMainCategory,
   openUsingRules,
   closeUsingRules,
+  isEdit,
 }: CateogryProps) {
-  const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect('openCategory');
+  const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect(isEdit ? 'closeAll' : 'openCategory');
 
   const { data: categories } = useQuery({
     queryKey: getCategory.cacheKey(),
@@ -46,7 +48,7 @@ export default function Category({
     }, myProfile.soptActivities[0]).part;
   }, [myProfile?.soptActivities]);
 
-  const handleSaveMainCategory = (categoryId: number) => {
+  const handleSaveParentCategory = (categoryId: number) => {
     const selectedMainCategory = categories?.find((category) => category.id === categoryId);
 
     if (selectedMainCategory == null) {
@@ -95,7 +97,7 @@ export default function Category({
       <CategorySelector
         isOpen={isSelectorOpen === 'openCategory'}
         onClose={closeAll}
-        onSelect={handleSaveMainCategory}
+        onSelect={handleSaveParentCategory}
         feedData={feedData}
       />
       <TagSelector

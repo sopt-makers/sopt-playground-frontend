@@ -1,17 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef } from 'react';
 
-import { getCategory } from '@/api/endpoint/feed/getCategory';
-import { useSaveUploadFeedData } from '@/api/endpoint/feed/uploadFeed';
 import Checkbox from '@/components/common/Checkbox';
-import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import useCategory from '@/components/feed/common/hooks/useCategory';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
@@ -24,13 +21,23 @@ import ContentsInput from '@/components/feed/upload/Input/ContentsInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
+import { FeedDataType, UploadFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-export default function FeedUploadPage() {
+interface FeedUploadPageProp {
+  editingId?: number;
+  defaultValue: UploadFeedDataType;
+  onSubmit: ({ data, id }: { data: FeedDataType; id: number | null }) => void;
+}
+
+export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: FeedUploadPageProp) {
+  const router = useRouter();
+  const isEdit = editingId !== undefined;
+
   const {
     feedData,
     handleSaveCategory,
@@ -43,15 +50,8 @@ export default function FeedUploadPage() {
     handleSaveContent,
     resetFeedData,
     checkReadyToUpload,
-  } = useUploadFeedData({
-    mainCategoryId: null,
-    categoryId: null,
-    title: '',
-    content: '',
-    isQuestion: false,
-    isBlindWriter: false,
-    images: [],
-  });
+  } = useUploadFeedData(defaultValue);
+
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
@@ -68,8 +68,6 @@ export default function FeedUploadPage() {
     }
   };
 
-  const router = useRouter();
-
   const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } = useImageUploader({
     onSuccess: saveImageUrls,
     resizeHeight: 240,
@@ -80,20 +78,21 @@ export default function FeedUploadPage() {
   });
 
   const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
-
-  const { mutate: handleUploadFeed, isPending } = useSaveUploadFeedData();
-
   const { logClickEvent } = useEventLogger();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleUploadFeed({
-      categoryId: feedData.categoryId ?? 0,
-      title: feedData.title,
-      content: feedData.content,
-      isQuestion: feedData.isQuestion,
-      isBlindWriter: feedData.isBlindWriter,
-      images: feedData.images,
+
+    onSubmit({
+      data: {
+        categoryId: feedData.categoryId,
+        title: feedData.title,
+        content: feedData.content,
+        isQuestion: feedData.isQuestion,
+        isBlindWriter: feedData.isBlindWriter,
+        images: feedData.images,
+      },
+      id: editingId ?? null,
     });
   };
 
@@ -101,18 +100,9 @@ export default function FeedUploadPage() {
     router.back();
   };
 
-  const { data: categories } = useQuery({
-    queryKey: getCategory.cacheKey(),
-    queryFn: getCategory.request,
-  });
+  const { findMainCategory } = useCategory();
 
-  const parentCategory =
-    (categories &&
-      categories.find(
-        (category) =>
-          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
-      )) ??
-    null;
+  const parentCategory = findMainCategory(feedData.categoryId, feedData.mainCategoryId);
 
   const quitUploading = () => {
     logClickEvent('quitUploadCommunity', {
@@ -141,13 +131,6 @@ export default function FeedUploadPage() {
 
     return () => window.removeEventListener('popstate', handleBack);
   }, [feedData]);
-
-  if (isPending)
-    return (
-      <LoadingWrapper>
-        <Loading />
-      </LoadingWrapper>
-    );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -178,6 +161,7 @@ export default function FeedUploadPage() {
                 onSaveMainCategory={handleSaveMainCategory}
                 openUsingRules={openUsingRules}
                 closeUsingRules={closeUsingRules}
+                isEdit={isEdit}
               />
               <ButtonContainer>
                 <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
@@ -194,7 +178,7 @@ export default function FeedUploadPage() {
                   onKeyDown={handleDesktopKeyPressToContents}
                   value={feedData.title}
                 />
-                <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} />
+                <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
               </InputWrapper>
               <BlindWriterWarningWrapper>{feedData.isBlindWriter && <BlindWriterWarning />}</BlindWriterWarningWrapper>
             </Body>
@@ -268,6 +252,7 @@ export default function FeedUploadPage() {
                 onSaveMainCategory={handleSaveMainCategory}
                 openUsingRules={openUsingRules}
                 closeUsingRules={closeUsingRules}
+                isEdit={isEdit}
               />
             </>
           }
@@ -300,7 +285,7 @@ export default function FeedUploadPage() {
                   onKeyDown={handleMobileKeyPressToContents}
                   value={feedData.title}
                 />
-                <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} />
+                <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
               </InputWrapper>
               <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagsWrapper>
@@ -448,7 +433,7 @@ const TagAndCheckboxWrapper = styled.div`
   margin-top: 20px;
 `;
 
-const LoadingWrapper = styled.div`
+export const LoadingWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

@@ -31,4 +31,5 @@ export const playgroundLink = {
   feedList: () => `/`,
   feedDetail: (id: string | number) => `/feed/${id}`,
   feedUpload: () => `/feed/upload`,
+  feedEdit: (id: string | number) => `/feed/edit/${id}`,
 };
