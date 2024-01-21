@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { m, Variants } from 'framer-motion';
+import { m } from 'framer-motion';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -16,30 +16,6 @@ import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
-
-const tooltipVariants: Variants = {
-  init: {
-    opacity: 0,
-    scale: 0.8,
-    y: '50%',
-  },
-  open: {
-    opacity: 1,
-    y: '0',
-    scale: 1,
-    transition: {
-      type: 'spring',
-    },
-  },
-  hover: {
-    y: '-5px',
-    opacity: 1,
-    scale: 1,
-    transition: {
-      ease: 'easeOut',
-    },
-  },
-};
 
 const LoginPage: FC = () => {
   const { logClickEvent } = useEventLogger();
@@ -125,7 +101,7 @@ export const StyledLoginPage = styled.div`
   align-items: center;
   justify-content: space-around;
   height: 100%;
-  min-height: 700px;
+  min-height: 550px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 20px;
@@ -143,19 +119,7 @@ const LoginTitle = styled.h2`
   ${fonts.HEADING_32_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_24_B}
-  }
-`;
-
-export const LoginDescription = styled.p`
-  margin-top: 12px;
-  text-align: center;
-  color: ${colors.gray400};
-
-  ${textStyles.SUIT_16_M};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 20px;
+    ${fonts.TITLE_24_SB}
   }
 `;
 
@@ -167,7 +131,8 @@ const LinkContainer = styled.div`
   width: 420px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    row-gap: 10px;
+    row-gap: 8px;
+    margin-top: 24px;
     width: 100%;
   }
 `;
@@ -187,7 +152,7 @@ const ResetLoginCard = styled(Link)`
   max-width: 420px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 12px;
+    margin-top: 8px;
   }
 `;
 
@@ -203,13 +168,13 @@ const ResetLoginDescription = styled.div`
   line-height: 135%;
   color: #e4edff; /* TODO: 컬러 시스템 완성되면 변경 필요 */
 
-  ${textStyles.SUIT_14_M}
+  ${fonts.BODY_14_R}
 `;
 
 const ResetLoginAction = styled.div`
   grid-area: action;
 
-  ${textStyles.SUIT_14_M}
+  ${fonts.BODY_14_M}
 `;
 
 const LastLogin = styled(m.div)`
@@ -218,23 +183,31 @@ const LastLogin = styled(m.div)`
   color: ${colors.gray100};
 
   ${fonts.BODY_18_M}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-top: 20px;
+
+    ${fonts.BODY_14_M}
+  }
 `;
 
 const HLine = styled.div`
   margin: 30px 0;
   border-bottom: 1px solid ${colors.gray700};
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 16px 0;
+  }
 `;
 
 const RegisterInfo = styled.div`
   color: ${colors.gray500};
 
-  ${textStyles.SUIT_16_M};
+  ${fonts.BODY_18_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 37px;
-
-    ${textStyles.SUIT_12_M}
+    ${fonts.BODY_14_M}
   }
 `;
 
@@ -255,16 +228,33 @@ const RegisterLink = styled(Link)`
   &:hover {
     background-color: ${colors.gray800};
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+
+    ${fonts.BODY_14_M}
+  }
 `;
 
 const RegisterIcon = styled(ArrowIcon)`
-  width: 31px;
+  width: 30px;
   height: 30px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 20px;
+    height: 20px;
+
+    ${fonts.BODY_14_M}
+  }
 `;
 
 const MadeByTitle = styled.h3`
   color: ${colors.gray600};
   ${fonts.BODY_16_R}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_13_R}
+  }
 `;
 
 const MadeByMakersLink = styled(Link)`
@@ -276,10 +266,10 @@ const MadeByMakersLink = styled(Link)`
 `;
 
 const StyledMakersLogo = styled.img`
-  height: 53px;
+  height: 51px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    height: 35px;
+    height: 26px;
   }
 `;
 
