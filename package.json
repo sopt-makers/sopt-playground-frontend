@@ -8,7 +8,7 @@
   "scripts": {
     "analyze": "cross-env ANALYZE=true next build",
     "build": "next build",
-    "build-storybook": "storybook build",
+    "build-storybook": "NODE_OPTIONS='--max-old-space-size=4096' storybook build",
     "check": "conc -s all \"yarn:lint\" \"yarn:typecheck\" \"yarn:stylelint\" \"yarn:test:ci\"",
     "dev": "next dev",
     "test": "jest --watch",
