@@ -7,20 +7,16 @@ interface ContentsCardProps {
   title: string;
   top: string;
   bottom: string;
-  isCurrent?: boolean;
 }
 
-export default function ContentsCard({ thumbnail, title, top, bottom, isCurrent }: ContentsCardProps) {
+export default function ContentsCard({ thumbnail, title, top, bottom }: ContentsCardProps) {
   return (
     <Card>
       <Thumbnail src={thumbnail} alt={`${title} 이미지`} />
       <Contents>
         <Description>{top}</Description>
         <Title>{title}</Title>
-        <Bottom>
-          {isCurrent !== undefined && <Circle isCurrent={isCurrent} />}
-          <Description>{bottom}</Description>
-        </Bottom>
+        <Description>{bottom}</Description>
       </Contents>
     </Card>
   );
@@ -55,13 +51,6 @@ const Description = styled.p`
   ${fonts.LABEL_14_SB};
 `;
 
-const Circle = styled.div<{ isCurrent: boolean }>`
-  border-radius: 50%;
-  background-color: ${({ isCurrent }) => (isCurrent ? '#CDF47C' : colors.gray300)};
-  width: 6px;
-  height: 6px;
-`;
-
 const Title = styled.h1`
   max-width: 227px;
   overflow: hidden;
@@ -77,10 +66,4 @@ const Contents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-`;
-
-const Bottom = styled.footer`
-  display: flex;
-  gap: 8px;
-  align-items: center;
 `;
