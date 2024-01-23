@@ -10,7 +10,7 @@ interface ContentsCardProps {
   isCurrent?: boolean;
 }
 
-export default function ContentsCars({ thumbnail, title, top, bottom, isCurrent }: ContentsCardProps) {
+export default function ContentsCard({ thumbnail, title, top, bottom, isCurrent }: ContentsCardProps) {
   return (
     <Card>
       <Thumbnail src={thumbnail} alt={`${title} 이미지`} />
