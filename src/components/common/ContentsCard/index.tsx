@@ -1,18 +1,21 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { ReactNode } from 'react';
+
+import ResizedImage from '@/components/common/ResizedImage';
 
 interface ContentsCardProps {
   thumbnail: string;
-  title: string;
-  top: string;
-  bottom: string;
+  title: ReactNode;
+  top: ReactNode;
+  bottom: ReactNode;
 }
 
 export default function ContentsCard({ thumbnail, title, top, bottom }: ContentsCardProps) {
   return (
     <Card>
-      <Thumbnail src={thumbnail} alt={`${title} 이미지`} />
+      <Thumbnail src={thumbnail} alt={`${title} 이미지`} height={84} />
       <Contents>
         <Description>{top}</Description>
         <Title>{title}</Title>
@@ -33,7 +36,7 @@ const Card = styled.article`
   height: 116px;
 `;
 
-const Thumbnail = styled.img`
+const Thumbnail = styled(ResizedImage)`
   border-radius: 14px;
   width: 84px;
   height: 84px;
