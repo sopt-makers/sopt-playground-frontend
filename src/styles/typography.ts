@@ -4,6 +4,7 @@ export const baseTextStyles = css`
   letter-spacing: -0.005em;
 `;
 
+/** @deprecated `@sopt-makers/fonts`의 fonts 객체를 사용해주세요. (MDS의 폰트 시스템을 사용하도록 변경되었습니다.) */
 export const textStyles = (() => {
   const sizes = [10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 40, 60] as const;
   const weights = [

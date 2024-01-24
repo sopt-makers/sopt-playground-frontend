@@ -103,7 +103,7 @@ export function AndroidIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export function Icon(props: React.SVGProps<SVGSVGElement>) {
+export function MakersIdentityImage(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg width={541} height={447} viewBox='0 0 541 447' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
       <mask
