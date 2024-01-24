@@ -26,7 +26,7 @@ export default function ContentsCard({ thumbnail, title, top, bottom }: Contents
 }
 
 const Card = styled.article`
-  display: center;
+  display: flex;
   gap: 16px;
   align-items: center;
   border-radius: 20px;
@@ -44,7 +44,6 @@ const Thumbnail = styled(ResizedImage)`
 `;
 
 const Description = styled.p`
-  max-width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -55,7 +54,6 @@ const Description = styled.p`
 `;
 
 const Title = styled.h1`
-  max-width: 227px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -69,4 +67,5 @@ const Contents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  max-width: calc(100% - 132px);
 `;
