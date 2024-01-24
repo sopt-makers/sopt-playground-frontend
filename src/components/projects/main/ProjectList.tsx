@@ -4,46 +4,44 @@ import { ImpressionArea } from '@toss/impression-area';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
 
-import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import IconPen from '@/public/icons/icon-pen.svg';
-import IconPlusWhite from '@/public/icons/icon-plus-black.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import ProjectSearch from '@/components/projects/main/ProjectSearch';
+import { StringParam, useQueryParam, withDefault } from 'use-query-params';
+import { useDebounce } from '@toss/react';
+import { fonts } from '@sopt-makers/fonts';
+import { useState } from 'react';
 
 const ProjectList = () => {
+  const [query, setQuery] = useQueryParam('name', withDefault(StringParam, undefined));
+  const [value, setValue] = useState(query);
+  const debouncedChangeName = useDebounce(setQuery, 300);
   const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
+    name: query,
   });
   const { logClickEvent } = useEventLogger();
 
   return (
     <StyledContainer>
       <StyledContent>
-        <TopWrapper>
-          <Title as='h1' typography='SUIT_32_B'>
-            ✨ 솝트에서 진행된 프로젝트 둘러보기
-          </Title>
-          <Responsive only='desktop'>
-            <ProjectUploadButton
-              href={playgroundLink.projectUpload()}
-              onClick={() =>
-                logClickEvent('projectUpload', {
-                  referral: 'projectPage',
-                })
-              }
-            >
-              <IconPlusWhite />
-              <Text typography='SUIT_18_B'>내 프로젝트 올리기</Text>
-            </ProjectUploadButton>
-          </Responsive>
-        </TopWrapper>
+        <ProjectSearch
+          value={value ?? query}
+          onValueChange={(value) => {
+            setValue(value);
+            debouncedChangeName(value);
+          }}
+          placeholder='프로젝트 검색'
+        />
+
         <LengthWrapper>
-          {data?.pages && <StyledLength typography='SUIT_18_M'>{data.pages[0].totalCount}개의 프로젝트</StyledLength>}
+          {data?.pages && <StyledLength typography='SUIT_18_M'>전체 {data.pages[0].totalCount}개</StyledLength>}
           <ProjectMobileUploadButton
             onClick={() =>
               logClickEvent('projectUpload', {
@@ -66,6 +64,10 @@ const ProjectList = () => {
           </StyledGridContainer>
         )}
       </StyledContent>
+      <ProjectUploadButton href={playgroundLink.projectUpload()}>
+        <PlusIcon />
+        프로젝트 올리기
+      </ProjectUploadButton>
     </StyledContainer>
   );
 };
@@ -92,21 +94,6 @@ const StyledContent = styled.div`
   }
 `;
 
-const Title = styled(Text)`
-  ${textStyles.SUIT_32_B};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin: 0 6px;
-    ${textStyles.SUIT_20_B};
-  }
-`;
-
-const TopWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const ProjectMobileUploadButton = styled(Link)`
   display: none;
   @media ${MOBILE_MEDIA_QUERY} {
@@ -118,23 +105,43 @@ const ProjectMobileUploadButton = styled(Link)`
 
 const ProjectUploadButton = styled(Link)`
   display: flex;
-  gap: 12px;
+  position: fixed;
+  right: 60px;
+  bottom: 80px;
+  gap: 8px;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 18px;
   background-color: ${colors.gray10};
-  padding: 18px 24px 18px 20px;
+  padding: 14px 30px 14px 27px;
   color: ${colors.gray950};
+  ${fonts.TITLE_20_SB};
 
   &:hover {
     background-color: ${colors.gray50};
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    right: 16px;
+    bottom: 16px;
+    padding: 12px;
+    ${fonts.LABEL_16_SB}
+  }
 `;
+
+const PlusIcon = () => (
+  <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <path
+      d='M10.9208 2.58751C10.9208 2.07966 10.5091 1.66797 10.0013 1.66797C9.49345 1.66797 9.08176 2.07966 9.08176 2.58751V9.08176H2.58751C2.07966 9.08176 1.66797 9.49345 1.66797 10.0013C1.66797 10.5091 2.07966 10.9208 2.58751 10.9208H9.08176V17.4151C9.08176 17.9229 9.49345 18.3346 10.0013 18.3346C10.5091 18.3346 10.9208 17.9229 10.9208 17.4151V10.9208H17.4151C17.9229 10.9208 18.3346 10.5091 18.3346 10.0013C18.3346 9.49345 17.9229 9.08176 17.4151 9.08176H10.9208V2.58751Z'
+      fill='#0F0F12'
+    />
+  </svg>
+);
 
 const LengthWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 48px;
+  margin-top: 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 30px 6px 0;
@@ -142,10 +149,10 @@ const LengthWrapper = styled.div`
 `;
 
 const StyledLength = styled(Text)`
-  ${textStyles.SUIT_18_M};
+  ${fonts.BODY_16_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_16_M};
+    ${fonts.BODY_14_M};
   }
 `;
 
