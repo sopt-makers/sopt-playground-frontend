@@ -43,52 +43,54 @@ const LoginPage: FC = () => {
       <BackgroundLayer>
         <StyledBackImage />
       </BackgroundLayer>
-      <LoginBox>
-        <LoginTitle>
-          SOPT 회원으로 인증된
-          <br />
-          사용자만 로그인할 수 있어요
-        </LoginTitle>
-        <LinkContainer>
-          {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
-          {appleAuth.isAvailable && <AppleAuthButton onClick={appleAuth.login}>Apple로 로그인</AppleAuthButton>}
-        </LinkContainer>
-        <ResetLoginCard href={playgroundLink.resetLogin()}>
-          <StyledWarningIcon />
-          <ResetLoginDescription>
-            Facebook 정책이 변경되어, 앞으로 Facebook 로그인이 불가해요. 다른 계정으로 재설정 부탁드려요.
-          </ResetLoginDescription>
-          <ResetLoginAction>소셜 계정 재설정하기 {'>'}</ResetLoginAction>
-        </ResetLoginCard>
+      <ContentLayer>
+        <LoginBox>
+          <LoginTitle>
+            SOPT 회원으로 인증된
+            <br />
+            사용자만 로그인할 수 있어요
+          </LoginTitle>
+          <LinkContainer>
+            {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
+            {appleAuth.isAvailable && <AppleAuthButton onClick={appleAuth.login}>Apple로 로그인</AppleAuthButton>}
+          </LinkContainer>
+          <ResetLoginCard href={playgroundLink.resetLogin()}>
+            <StyledWarningIcon />
+            <ResetLoginDescription>
+              Facebook 정책이 변경되어, 앞으로 Facebook 로그인이 불가해요. 다른 계정으로 재설정 부탁드려요.
+            </ResetLoginDescription>
+            <ResetLoginAction>소셜 계정 재설정하기 {'>'}</ResetLoginAction>
+          </ResetLoginCard>
 
-        {lastLoginMessage != null && (
-          <LastLogin
-            initial='hide'
-            animate='show'
-            variants={{
-              show: {
-                opacity: 1,
-              },
-              hide: {
-                opacity: 0,
-              },
-            }}
-          >
-            마지막으로 로그인한 계정은 {lastLoginMessage}이에요.
-          </LastLogin>
-        )}
-        <HLine />
-        <RegisterInfo>Playground가 처음이신가요?</RegisterInfo>
-        <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink')}>
-          <span>회원 인증하고 Playground 가입하러 가기</span>
-          <RegisterIcon />
-        </RegisterLink>
-      </LoginBox>
+          {lastLoginMessage != null && (
+            <LastLogin
+              initial='hide'
+              animate='show'
+              variants={{
+                show: {
+                  opacity: 1,
+                },
+                hide: {
+                  opacity: 0,
+                },
+              }}
+            >
+              마지막으로 로그인한 계정은 {lastLoginMessage}이에요.
+            </LastLogin>
+          )}
+          <HLine />
+          <RegisterInfo>Playground가 처음이신가요?</RegisterInfo>
+          <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink')}>
+            <span>회원 인증하고 Playground 가입하러 가기</span>
+            <RegisterIcon />
+          </RegisterLink>
+        </LoginBox>
 
-      <MadeByMakersLink href={playgroundLink.makers()}>
-        <MadeByTitle>이 서비스를 만든 SOPT makers가 궁금하다면?</MadeByTitle>
-        <StyledMakersLogo src='/logos/logo-makers-full.svg' alt='makers-logo' />
-      </MadeByMakersLink>
+        <MadeByMakersLink href={playgroundLink.makers()}>
+          <MadeByTitle>이 서비스를 만든 SOPT makers가 궁금하다면?</MadeByTitle>
+          <StyledMakersLogo src='/logos/logo-makers-full.svg' alt='makers-logo' />
+        </MadeByMakersLink>
+      </ContentLayer>
     </StyledLoginPage>
   );
 };
@@ -98,22 +100,28 @@ export default LoginPage;
 setLayout(LoginPage, 'fullScreen');
 
 export const StyledLoginPage = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+  position: relative;
   height: 100%;
-  min-height: 550px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 0 20px;
-  }
 `;
 
 const BackgroundLayer = styled.div`
   position: absolute;
   inset: 0;
   overflow: hidden;
+`;
+
+const ContentLayer = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  min-height: 600px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 0 20px;
+  }
 `;
 
 const StyledBackImage = styled(BackGraphic)`
