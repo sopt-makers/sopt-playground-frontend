@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { m, Variants } from 'framer-motion';
+import { fonts } from '@sopt-makers/fonts';
+import { m } from 'framer-motion';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -13,32 +14,7 @@ import { lastLoginMethodAtom } from '@/components/auth/states/lastLoginMethodAto
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
-
-const tooltipVariants: Variants = {
-  init: {
-    opacity: 0,
-    scale: 0.8,
-    y: '50%',
-  },
-  open: {
-    opacity: 1,
-    y: '0',
-    scale: 1,
-    transition: {
-      type: 'spring',
-    },
-  },
-  hover: {
-    y: '-5px',
-    opacity: 1,
-    scale: 1,
-    transition: {
-      ease: 'easeOut',
-    },
-  },
-};
 
 const LoginPage: FC = () => {
   const { logClickEvent } = useEventLogger();
@@ -64,61 +40,57 @@ const LoginPage: FC = () => {
 
   return (
     <StyledLoginPage>
-      <LoginBox>
-        <LoginTitle>
-          <LoginPrefix>SOPT Playground에</LoginPrefix> 오신 것을 환영해요!
-        </LoginTitle>
-        <LoginDescription>
-          Playground는 SOPT 회원만을 위한 공간이에요.
-          <br />
-          지금 회원가입하고, 역대 SOPT 구성원들과 소통해 보아요!
-        </LoginDescription>
-        <LinkContainer>
-          {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
-          {appleAuth.isAvailable && <AppleAuthButton onClick={appleAuth.login}>Apple로 로그인</AppleAuthButton>}
-        </LinkContainer>
-        <ResetLoginCard href={playgroundLink.resetLogin()}>
-          <StyledWarningIcon />
-          <ResetLoginDescription>
-            Facebook 정책이 변경되어, 앞으로 Facebook 로그인이 불가해요. 다른 계정으로 재설정 부탁드려요.
-          </ResetLoginDescription>
-          <ResetLoginAction>소셜 계정 재설정하기 {'>'}</ResetLoginAction>
-        </ResetLoginCard>
-        <RegisterInfo>
-          Playground가 처음이신가요?{' '}
+      <BackgroundLayer>
+        <StyledBackImage />
+      </BackgroundLayer>
+      <ContentLayer>
+        <LoginBox>
+          <LoginTitle>
+            SOPT 회원으로 인증된
+            <br />
+            사용자만 로그인할 수 있어요
+          </LoginTitle>
+          <LinkContainer>
+            {googleAuth.isAvailable && <GoogleAuthButton onClick={googleAuth.login}>Google로 로그인</GoogleAuthButton>}
+            {appleAuth.isAvailable && <AppleAuthButton onClick={appleAuth.login}>Apple로 로그인</AppleAuthButton>}
+          </LinkContainer>
+          <ResetLoginCard href={playgroundLink.resetLogin()}>
+            <StyledWarningIcon />
+            <ResetLoginDescription>
+              Facebook 정책이 변경되어, 앞으로 Facebook 로그인이 불가해요. 다른 계정으로 재설정 부탁드려요.
+            </ResetLoginDescription>
+            <ResetLoginAction>소셜 계정 재설정하기 {'>'}</ResetLoginAction>
+          </ResetLoginCard>
+
+          {lastLoginMessage != null && (
+            <LastLogin
+              initial='hide'
+              animate='show'
+              variants={{
+                show: {
+                  opacity: 1,
+                },
+                hide: {
+                  opacity: 0,
+                },
+              }}
+            >
+              마지막으로 로그인한 계정은 {lastLoginMessage}이에요.
+            </LastLogin>
+          )}
+          <HLine />
+          <RegisterInfo>Playground가 처음이신가요?</RegisterInfo>
           <RegisterLink href={playgroundLink.register()} onClick={() => logClickEvent('registerLink')}>
-            회원가입하기
+            <span>회원 인증하고 Playground 가입하러 가기</span>
+            <RegisterIcon />
           </RegisterLink>
-        </RegisterInfo>
+        </LoginBox>
 
-        <LastLogin
-          initial='hide'
-          animate={lastLoginMessage ? 'show' : 'hide'}
-          variants={{
-            show: {
-              opacity: 1,
-            },
-            hide: {
-              opacity: 0,
-            },
-          }}
-        >
-          마지막으로 로그인한 계정은 {lastLoginMessage}이에요.
-        </LastLogin>
-      </LoginBox>
-
-      <MotionMakersContainer initial='init' animate='open' whileHover='hover'>
         <MadeByMakersLink href={playgroundLink.makers()}>
-          <MadeByTitle>made by</MadeByTitle>
+          <MadeByTitle>이 서비스를 만든 SOPT makers가 궁금하다면?</MadeByTitle>
           <StyledMakersLogo src='/logos/logo-makers-full.svg' alt='makers-logo' />
         </MadeByMakersLink>
-        <TooltipHolder>
-          <MotionTooltip variants={tooltipVariants}>
-            <TooltipRect>이 서비스를 만든 sopt makers 사람들이 궁금하다면?</TooltipRect>
-            <TooltipArrow />
-          </MotionTooltip>
-        </TooltipHolder>
-      </MotionMakersContainer>
+      </ContentLayer>
     </StyledLoginPage>
   );
 };
@@ -126,15 +98,43 @@ const LoginPage: FC = () => {
 export default LoginPage;
 
 setLayout(LoginPage, 'fullScreen');
+
 export const StyledLoginPage = styled.div`
+  position: relative;
+  height: 100%;
+`;
+
+const BackgroundLayer = styled.div`
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+`;
+
+const ContentLayer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   height: 100%;
+  min-height: 600px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 20px;
+  }
+`;
+
+const StyledBackImage = styled(BackGraphic)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 447px;
+  height: fit-content;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    transform: translateY(-60px);
+    width: 180px;
   }
 `;
 
@@ -146,40 +146,23 @@ const LoginBox = styled.div`
 
 const LoginTitle = styled.h2`
   text-align: center;
-  ${textStyles.SUIT_32_SB}
+  ${fonts.HEADING_32_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_24_B}
-  }
-`;
-
-const LoginPrefix = styled.span`
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: block;
-  }
-`;
-
-export const LoginDescription = styled.p`
-  margin-top: 12px;
-  text-align: center;
-  color: ${colors.gray400};
-
-  ${textStyles.SUIT_16_M};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 20px;
+    ${fonts.TITLE_24_SB}
   }
 `;
 
 const LinkContainer = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
-  margin-top: 50px;
+  row-gap: 12px;
+  margin-top: 36px;
   width: 420px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    row-gap: 10px;
+    row-gap: 8px;
+    margin-top: 24px;
     width: 100%;
   }
 `;
@@ -190,16 +173,16 @@ const ResetLoginCard = styled(Link)`
     'icon description' auto
     'icon action' auto
     / auto 1fr;
-  row-gap: 8px;
-  column-gap: 14px;
-  margin-top: 24px;
+  row-gap: 14px;
+  column-gap: 9px;
+  margin-top: 12px;
   border-radius: 10px;
   background: rgb(24 119 242 / 20%);
   padding: 16px;
   max-width: 420px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 12px;
+    margin-top: 8px;
   }
 `;
 
@@ -215,101 +198,108 @@ const ResetLoginDescription = styled.div`
   line-height: 135%;
   color: #e4edff; /* TODO: 컬러 시스템 완성되면 변경 필요 */
 
-  ${textStyles.SUIT_14_M}
+  ${fonts.BODY_14_R}
 `;
 
 const ResetLoginAction = styled.div`
   grid-area: action;
 
-  ${textStyles.SUIT_14_M}
-`;
-
-const RegisterInfo = styled.div`
-  margin-top: 30px;
-  color: ${colors.gray400};
-
-  ${textStyles.SUIT_16_M};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 37px;
-
-    ${textStyles.SUIT_12_M}
-  }
+  ${fonts.BODY_14_M}
 `;
 
 const LastLogin = styled(m.div)`
-  margin-top: 25px;
-  color: ${colors.gray10};
+  padding-top: 25px;
+  overflow: hidden;
+  color: ${colors.gray100};
 
-  ${textStyles.SUIT_16_SB}
-`;
-
-const RegisterLink = styled(Link)`
-  transition: 0.2s color;
-  text-decoration: underline;
-  color: ${colors.gray10};
-`;
-
-const MotionMakersContainer = styled(m.div)`
-  position: relative;
-  margin-top: 40px;
-`;
-
-const TooltipHolder = styled.div`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, calc(-100% - 20px));
-`;
-
-const MotionTooltip = styled(m.div)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TooltipRect = styled.div`
-  border-radius: 12px;
-  background-color: ${colors.gray700};
-  padding: 18px 16px;
-  white-space: nowrap;
-  color: ${colors.gray30};
-
-  ${textStyles.SUIT_16_M}
+  ${fonts.BODY_18_M}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 15px 20px;
+    padding-top: 20px;
 
-    ${textStyles.SUIT_12_M};
+    ${fonts.BODY_14_M}
   }
 `;
 
-const TooltipArrow = styled.div`
-  border: 10px solid transparent;
-  border-top: 12px solid ${colors.gray700};
-  border-bottom: 0;
-  width: 0;
-  height: 0;
+const HLine = styled.div`
+  margin: 30px 0;
+  border-bottom: 1px solid ${colors.gray700};
+  width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 16px 0;
+  }
+`;
+
+const RegisterInfo = styled.div`
+  color: ${colors.gray500};
+
+  ${fonts.BODY_18_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_14_M}
+  }
+`;
+
+const RegisterLink = styled(Link)`
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s background-color;
+  margin-top: 13px;
+  border-radius: 100px;
+  background-color: ${colors.gray900};
+  padding: 14px;
+  color: ${colors.gray300};
+
+  ${fonts.LABEL_16_SB}
+
+  &:hover {
+    background-color: ${colors.gray800};
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+
+    ${fonts.BODY_14_M}
+  }
+`;
+
+const RegisterIcon = styled(ArrowIcon)`
+  width: 30px;
+  height: 30px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 20px;
+    height: 20px;
+
+    ${fonts.BODY_14_M}
+  }
+`;
+
+const MadeByTitle = styled.h3`
+  color: ${colors.gray600};
+  ${fonts.BODY_16_R}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_13_R}
+  }
 `;
 
 const MadeByMakersLink = styled(Link)`
   display: flex;
   flex-direction: column;
+  gap: 20px;
   align-items: center;
-  width: 100%;
-  max-width: 234px;
-`;
-
-const MadeByTitle = styled.h3`
-  ${textStyles.SUIT_20_R};
+  text-align: center;
 `;
 
 const StyledMakersLogo = styled.img`
-  margin-top: 10px;
-  height: 53px;
+  height: 51px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    height: 35px;
+    height: 26px;
   }
 `;
 
@@ -322,6 +312,41 @@ function WarningIcon(props: React.SVGProps<SVGSVGElement>) {
         d='M7 0a7 7 0 100 14A7 7 0 007 0zm.572 4.143a.571.571 0 00-1.143 0v3.214a.571.571 0 101.143 0V4.143zM7 10.572a.714.714 0 100-1.43.714.714 0 000 1.43z'
         fill='#E4EDFF'
       />
+    </svg>
+  );
+}
+
+function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox='0 0 31 30' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+      <path
+        fillRule='evenodd'
+        clipRule='evenodd'
+        d='M18.07 11.696c-.895.895-2.526.895-3.422 0l-.367-.367-.734.734.367.367c.651.651 1.548.977 2.445.977l-4.53 4.53.734.735 4.53-4.53c0 .896.326 1.793.977 2.444l.367.367.735-.734-.368-.367c-.895-.896-.895-2.527 0-3.422l.368-.367-.735-.735-.367.368z'
+        fill='#808087'
+      />
+      <circle cx={15.5} cy={15} r={9.953} transform='rotate(-45 15.5 15)' stroke='#808087' strokeWidth={0.864} />
+    </svg>
+  );
+}
+
+function BackGraphic(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox='0 0 617 811' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+      <g opacity={0.05}>
+        <path
+          d='M766.126 420.261L399.881 810.572h100.62l366.851-390.311H766.126zM497.518 497.14l-289.95 313.432h100.114L497.517 602.88l.001-105.74zM278.576 503.05L.461 807.611h100.616l177.499-191.415V503.05zM366.706-114.941L.461 275.371H101.08l366.851-390.312H366.706z'
+          fill='#989BA0'
+        />
+        <path
+          d='M101.054 275.369v532.242H.459V275.369h100.595zM305.202 278.329v532.243H204.607V278.329h100.595zM500.474 278.329v532.243H399.879V278.329h100.595z'
+          fill='#FCFCFC'
+        />
+        <path
+          d='M570.855-111.985L204.61 278.326h100.619L672.08-111.985H570.855zM766.126-111.985L399.881 278.326h100.62l366.851-390.311H766.126z'
+          fill='#989BA0'
+        />
+      </g>
     </svg>
   );
 }

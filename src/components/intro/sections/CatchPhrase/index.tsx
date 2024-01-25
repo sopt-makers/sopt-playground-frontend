@@ -8,8 +8,8 @@ import {
   AndroidIcon,
   AppleIcon,
   ArrowIcon,
-  Icon,
   MakersIcon,
+  MakersIdentityImage,
   PlaygroundIcon,
   SOPTIcon,
 } from '@/components/intro/sections/CatchPhrase/icons';
@@ -99,7 +99,7 @@ const BackgroundLayer = styled.div`
   overflow: hidden;
 `;
 
-const StyledBackImage = styled(Icon)`
+const StyledBackImage = styled(MakersIdentityImage)`
   position: absolute;
   top: 0;
   right: 0;

@@ -1,18 +1,21 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { ReactNode } from 'react';
+
+import ResizedImage from '@/components/common/ResizedImage';
 
 interface ContentsCardProps {
   thumbnail: string;
-  title: string;
-  top: string;
-  bottom: string;
+  title: ReactNode;
+  top: ReactNode;
+  bottom: ReactNode;
 }
 
 export default function ContentsCard({ thumbnail, title, top, bottom }: ContentsCardProps) {
   return (
     <Card>
-      <Thumbnail src={thumbnail} alt={`${title} 이미지`} />
+      <Thumbnail src={thumbnail} alt={`${title} 이미지`} height={84} />
       <Contents>
         <Description>{top}</Description>
         <Title>{title}</Title>
@@ -23,7 +26,7 @@ export default function ContentsCard({ thumbnail, title, top, bottom }: Contents
 }
 
 const Card = styled.article`
-  display: center;
+  display: flex;
   gap: 16px;
   align-items: center;
   border-radius: 20px;
@@ -33,7 +36,7 @@ const Card = styled.article`
   height: 116px;
 `;
 
-const Thumbnail = styled.img`
+const Thumbnail = styled(ResizedImage)`
   border-radius: 14px;
   width: 84px;
   height: 84px;
@@ -41,7 +44,6 @@ const Thumbnail = styled.img`
 `;
 
 const Description = styled.p`
-  max-width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -52,7 +54,6 @@ const Description = styled.p`
 `;
 
 const Title = styled.h1`
-  max-width: 227px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -66,4 +67,5 @@ const Contents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  max-width: calc(100% - 132px);
 `;
