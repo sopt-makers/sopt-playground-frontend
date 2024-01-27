@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import Link from 'next/link';
 import { FC } from 'react';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -12,7 +13,9 @@ const Footer: FC<FooterProps> = ({}) => {
     <Container>
       <HLine />
       <Reserved>All rights reserved by</Reserved>
-      <StyledMakersLogo />
+      <a href='https://makers.sopt.org' rel='noopener noreferrer' target='_blank'>
+        <StyledMakersLogo />
+      </a>
     </Container>
   );
 };
