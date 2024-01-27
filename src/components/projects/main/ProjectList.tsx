@@ -42,16 +42,6 @@ const ProjectList = () => {
 
         <LengthWrapper>
           {data?.pages && <StyledLength typography='SUIT_18_M'>전체 {data.pages[0].totalCount}개</StyledLength>}
-          <ProjectMobileUploadButton
-            onClick={() =>
-              logClickEvent('projectUpload', {
-                referral: 'projectPage',
-              })
-            }
-            href={playgroundLink.projectUpload()}
-          >
-            <IconPen />
-          </ProjectMobileUploadButton>
         </LengthWrapper>
         {!isLoading && data?.pages == null ? (
           <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
@@ -144,7 +134,7 @@ const LengthWrapper = styled.div`
   margin-top: 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 30px 6px 0;
+    margin-top: 18.5px;
   }
 `;
 
