@@ -11,28 +11,41 @@ import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import ProjectSearch from '@/components/projects/main/ProjectSearch';
-import { BooleanParam, StringParam, useQueryParam, useQueryParams, withDefault } from 'use-query-params';
+import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 import { useDebounce } from '@toss/react';
 import { fonts } from '@sopt-makers/fonts';
 import { useEffect, useState } from 'react';
-import { Flex } from '@toss/emotion-utils';
+import { Flex, Spacing, width100 } from '@toss/emotion-utils';
 import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
 import Responsive from '@/components/common/Responsive';
+import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
+
+type ProjectCategory = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'ETC';
+
+const PROJECT_CATEGORY_LIST: Array<{ value: ProjectCategory; label: string }> = [
+  { value: 'APPJAM', label: '앱잼' },
+  { value: 'SOPKATHON', label: '솝커톤' },
+  { value: 'SOPTERM', label: '솝텀 프로젝트' },
+  { value: 'STUDY', label: '스터디' },
+  { value: 'ETC', label: '사이드 프로젝트' },
+];
 
 const ProjectList = () => {
   const [queryParams, setQueryParams] = useQueryParams({
     name: withDefault(StringParam, undefined),
     isAvailable: withDefault(BooleanParam, undefined),
     isFounding: withDefault(BooleanParam, undefined),
+    category: createEnumParam<ProjectCategory>(['APPJAM', 'SOPKATHON', 'SOPTERM', 'STUDY', 'ETC']),
   });
   const [value, setValue] = useState(queryParams.name);
   const [totalCount, setTotalCount] = useState<number>();
   const debouncedChangeName = useDebounce((value: string) => setQueryParams({ name: value }), 300);
-  const { data, isLoading, fetchNextPage, isFetched } = useGetProjectListQuery({
+  const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
     name: queryParams.name,
     isAvailable: queryParams.isAvailable,
     isFounding: queryParams.isFounding,
+    category: queryParams.category ?? undefined,
   });
 
   useEffect(() => {
@@ -57,7 +70,7 @@ const ProjectList = () => {
           <LengthWrapper>
             <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
             <Responsive only='desktop'>
-              <Flex css={{ gap: 6 }}>
+              <Flex css={{ gap: 6 }} align='center'>
                 <ProjectFilterChip
                   checked={queryParams.isAvailable ?? false}
                   onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
@@ -70,10 +83,24 @@ const ProjectList = () => {
                 >
                   창업 중
                 </ProjectFilterChip>
+                <ProjectCategorySelect
+                  css={{ marginLeft: 10 }}
+                  placeholder='프로젝트 전체'
+                  allowClear
+                  onClear={() => setQueryParams({ category: undefined })}
+                  value={queryParams.category ?? undefined}
+                  onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
+                >
+                  {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
+                    <ProjectCategorySelect.Item key={value} value={value}>
+                      {label}
+                    </ProjectCategorySelect.Item>
+                  ))}
+                </ProjectCategorySelect>
               </Flex>
             </Responsive>
-            <Responsive only='mobile'>
-              <Flex css={{ marginTop: 4.5, padding: '8px 0' }} justify='space-between'>
+            <Responsive only='mobile' css={width100}>
+              <Flex css={{ marginTop: 4.5, padding: '8px 0' }} justify='space-between' align='center'>
                 <Flex css={{ gap: 6 }}>
                   <ProjectFilterChip
                     size='small'
@@ -90,6 +117,20 @@ const ProjectList = () => {
                     창업 중
                   </ProjectFilterChip>
                 </Flex>
+                <ProjectCategorySelect
+                  placeholder='프로젝트 전체'
+                  size='small'
+                  allowClear
+                  onClear={() => setQueryParams({ category: undefined })}
+                  value={queryParams.category ?? undefined}
+                  onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
+                >
+                  {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
+                    <ProjectCategorySelect.Item key={value} value={value}>
+                      {label}
+                    </ProjectCategorySelect.Item>
+                  ))}
+                </ProjectCategorySelect>
               </Flex>
             </Responsive>
           </LengthWrapper>
