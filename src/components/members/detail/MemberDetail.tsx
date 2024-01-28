@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
+import { Spacing } from '@toss/emotion-utils';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -56,8 +57,8 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
   const { data: me } = useGetMemberOfMe();
   const { data: meetingList } = useQuery({
-    queryKey: ['getMeetings'],
-    queryFn: () => getMeetings(Number(memberId) ?? undefined),
+    queryKey: ['getMeetings', memberId],
+    queryFn: () => getMeetings(memberId),
   });
 
   const sortedSoptActivities = useMemo(() => {
@@ -276,6 +277,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           {meetingList && meetingList.length === 0 && <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>}
         </ProjectContainer>
       </Wrapper>
+      <Spacing size={400} />
     </Container>
   );
 };

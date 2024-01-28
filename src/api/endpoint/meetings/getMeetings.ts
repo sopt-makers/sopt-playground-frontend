@@ -46,7 +46,7 @@ export const CREW_ORIGIN =
 //     });
 //   };
 
-export async function getMeetings(orgUserId: number) {
+export async function getMeetings(orgUserId: string) {
   const data = await axios.get(`https://crew.api.dev.sopt.org/meeting/v2/org-user?orgUserId=${orgUserId}`);
 
   return data.data?.meetings;
