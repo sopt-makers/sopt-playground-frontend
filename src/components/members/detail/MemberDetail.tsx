@@ -530,6 +530,7 @@ const ProjectDisplay = styled.div`
   row-gap: 20px;
   column-gap: 29px;
   margin-top: 32px;
+  
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
     flex-direction: column;
