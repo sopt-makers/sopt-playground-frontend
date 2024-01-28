@@ -7,10 +7,16 @@ import { PropsWithChildren } from 'react';
 interface ProjectFilterChipProps {
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
+  size?: 'medium' | 'small';
 }
-const ProjectFilterChip = ({ checked, children, onCheckedChange }: PropsWithChildren<ProjectFilterChipProps>) => {
+const ProjectFilterChip = ({
+  size = 'medium',
+  checked,
+  children,
+  onCheckedChange,
+}: PropsWithChildren<ProjectFilterChipProps>) => {
   return (
-    <Chip checked={checked} css={{ background: checked ? colors.success : colors.gray800 }}>
+    <Chip checked={checked} css={{ background: checked ? colors.success : colors.gray800 }} size={size}>
       <input type='checkbox' checked={checked} onChange={(e) => onCheckedChange(e.target.checked)} />
       {children}
     </Chip>
@@ -19,7 +25,7 @@ const ProjectFilterChip = ({ checked, children, onCheckedChange }: PropsWithChil
 
 export default ProjectFilterChip;
 
-const Chip = styled.label<{ checked: boolean }>`
+const Chip = styled.label<Pick<ProjectFilterChipProps, 'checked' | 'size'>>`
   transition: background 0.2s;
   border-radius: 20px;
   cursor: pointer;
@@ -42,6 +48,14 @@ const Chip = styled.label<{ checked: boolean }>`
             background-color: ${colors.gray600};
           }
         `}
-
-  ${fonts.LABEL_14_SB};
+  ${({ size }) =>
+    size === 'medium' &&
+    css`
+      ${fonts.LABEL_14_SB};
+    `}
+    ${({ size }) =>
+    size === 'small' &&
+    css`
+      ${fonts.LABEL_12_SB};
+    `}
 `;

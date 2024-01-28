@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 
 import { getProjects } from '@/api/endpoint_LEGACY/projects';
 import { ProjectsRequestParams } from '@/api/endpoint_LEGACY/projects/type';

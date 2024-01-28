@@ -5,44 +5,95 @@ import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
 
 import Text from '@/components/common/Text';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
-import IconPen from '@/public/icons/icon-pen.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import ProjectSearch from '@/components/projects/main/ProjectSearch';
-import { StringParam, useQueryParam, withDefault } from 'use-query-params';
+import { BooleanParam, StringParam, useQueryParam, useQueryParams, withDefault } from 'use-query-params';
 import { useDebounce } from '@toss/react';
 import { fonts } from '@sopt-makers/fonts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Flex } from '@toss/emotion-utils';
+import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
+import Responsive from '@/components/common/Responsive';
 
 const ProjectList = () => {
-  const [query, setQuery] = useQueryParam('name', withDefault(StringParam, undefined));
-  const [value, setValue] = useState(query);
-  const debouncedChangeName = useDebounce(setQuery, 300);
-  const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
-    limit: 20,
-    name: query,
+  const [queryParams, setQueryParams] = useQueryParams({
+    name: withDefault(StringParam, undefined),
+    isAvailable: withDefault(BooleanParam, undefined),
+    isFounding: withDefault(BooleanParam, undefined),
   });
-  const { logClickEvent } = useEventLogger();
+  const [value, setValue] = useState(queryParams.name);
+  const [totalCount, setTotalCount] = useState<number>();
+  const debouncedChangeName = useDebounce((value: string) => setQueryParams({ name: value }), 300);
+  const { data, isLoading, fetchNextPage, isFetched } = useGetProjectListQuery({
+    limit: 20,
+    name: queryParams.name,
+    isAvailable: queryParams.isAvailable,
+    isFounding: queryParams.isFounding,
+  });
+
+  useEffect(() => {
+    if (data?.pages) {
+      const newTotalCount = data.pages[0].totalCount;
+      setTotalCount(newTotalCount);
+    }
+  }, [data]);
 
   return (
     <StyledContainer>
       <StyledContent>
         <ProjectSearch
-          value={value ?? query}
+          value={value ?? queryParams.name}
           onValueChange={(value) => {
             setValue(value);
             debouncedChangeName(value);
           }}
           placeholder='프로젝트 검색'
         />
-
-        <LengthWrapper>
-          {data?.pages && <StyledLength typography='SUIT_18_M'>전체 {data.pages[0].totalCount}개</StyledLength>}
-        </LengthWrapper>
+        {totalCount ? (
+          <LengthWrapper>
+            <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
+            <Responsive only='desktop'>
+              <Flex css={{ gap: 6 }}>
+                <ProjectFilterChip
+                  checked={queryParams.isAvailable ?? false}
+                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
+                >
+                  서비스 이용 중
+                </ProjectFilterChip>
+                <ProjectFilterChip
+                  checked={queryParams.isFounding ?? false}
+                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
+                >
+                  창업 중
+                </ProjectFilterChip>
+              </Flex>
+            </Responsive>
+            <Responsive only='mobile'>
+              <Flex css={{ marginTop: 4.5, padding: '8px 0' }} justify='space-between'>
+                <Flex css={{ gap: 6 }}>
+                  <ProjectFilterChip
+                    size='small'
+                    checked={queryParams.isAvailable ?? false}
+                    onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
+                  >
+                    서비스 이용 중
+                  </ProjectFilterChip>
+                  <ProjectFilterChip
+                    size='small'
+                    checked={queryParams.isFounding ?? false}
+                    onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
+                  >
+                    창업 중
+                  </ProjectFilterChip>
+                </Flex>
+              </Flex>
+            </Responsive>
+          </LengthWrapper>
+        ) : null}
         {!isLoading && data?.pages == null ? (
           <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
         ) : (
@@ -81,15 +132,6 @@ const StyledContent = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
-  }
-`;
-
-const ProjectMobileUploadButton = styled(Link)`
-  display: none;
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 `;
 
@@ -132,8 +174,11 @@ const LengthWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    align-items: flex-start;
     margin-top: 18.5px;
   }
 `;

@@ -4,6 +4,9 @@ export interface ProjectsRequestParams {
   limit?: number;
   cursor?: number;
   name?: string;
+  isAvailable?: boolean;
+  isFounding?: boolean;
+  category?: string;
 }
 
 export type ProjectDetail = {
