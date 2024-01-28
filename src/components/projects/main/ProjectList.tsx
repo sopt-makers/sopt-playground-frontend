@@ -161,10 +161,6 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 12px 10px;
-  }
 `;
 
 const StyledContent = styled.div`
@@ -173,6 +169,7 @@ const StyledContent = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
+    padding: 12px 10px;
     width: 100%;
   }
 `;
