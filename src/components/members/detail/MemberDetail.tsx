@@ -274,7 +274,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               </ProjectDisplay>
             </>
           )}
-          {meetingList && meetingList.length === 0 && <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>}
+          {meetingList && meetingList.length === 0 && <ProjectSub>아직 참여한 모임이 없어요</ProjectSub>}
         </ProjectContainer>
       </Wrapper>
       <Spacing size={400} />
