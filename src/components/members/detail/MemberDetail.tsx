@@ -59,7 +59,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     queryKey: ['getMeetings'],
     queryFn: () => getMeetings(Number(memberId) ?? undefined),
   });
-  console.log(meetingList);
+
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
       return [];
@@ -263,7 +263,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         </ProjectContainer>
         <ProjectContainer>
           <ProjectTitle>{profile.name}님이 참여한 모임</ProjectTitle>
-          {meetingList && meetingList?.length > 0 && (
+          {meetingList && meetingList.length > 0 && (
             <>
               <ProjectSub>{meetingList.length}개의 프로젝트에 참여</ProjectSub>
               <ProjectDisplay>
@@ -273,7 +273,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               </ProjectDisplay>
             </>
           )}
-          {meetingList?.length === 0 && <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>}
+          {meetingList && meetingList.length === 0 && <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>}
         </ProjectContainer>
       </Wrapper>
     </Container>
@@ -530,7 +530,7 @@ const ProjectDisplay = styled.div`
   row-gap: 20px;
   column-gap: 29px;
   margin-top: 32px;
-  
+
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
     flex-direction: column;
