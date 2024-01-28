@@ -5,54 +5,136 @@ import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
 
 import Text from '@/components/common/Text';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import ProjectCard from '@/components/projects/main/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
-import IconPen from '@/public/icons/icon-pen.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import ProjectSearch from '@/components/projects/main/ProjectSearch';
-import { StringParam, useQueryParam, withDefault } from 'use-query-params';
+import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 import { useDebounce } from '@toss/react';
 import { fonts } from '@sopt-makers/fonts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Flex, Spacing, width100 } from '@toss/emotion-utils';
+import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
+import Responsive from '@/components/common/Responsive';
+import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
+
+type ProjectCategory = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'ETC';
+
+const PROJECT_CATEGORY_LIST: Array<{ value: ProjectCategory; label: string }> = [
+  { value: 'APPJAM', label: '앱잼' },
+  { value: 'SOPKATHON', label: '솝커톤' },
+  { value: 'SOPTERM', label: '솝텀 프로젝트' },
+  { value: 'STUDY', label: '스터디' },
+  { value: 'ETC', label: '사이드 프로젝트' },
+];
 
 const ProjectList = () => {
-  const [query, setQuery] = useQueryParam('name', withDefault(StringParam, undefined));
-  const [value, setValue] = useState(query);
-  const debouncedChangeName = useDebounce(setQuery, 300);
+  const [queryParams, setQueryParams] = useQueryParams({
+    name: withDefault(StringParam, undefined),
+    isAvailable: withDefault(BooleanParam, undefined),
+    isFounding: withDefault(BooleanParam, undefined),
+    category: createEnumParam<ProjectCategory>(['APPJAM', 'SOPKATHON', 'SOPTERM', 'STUDY', 'ETC']),
+  });
+  const [value, setValue] = useState(queryParams.name);
+  const [totalCount, setTotalCount] = useState<number>();
+  const debouncedChangeName = useDebounce((value: string) => setQueryParams({ name: value }), 300);
   const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
-    name: query,
+    name: queryParams.name,
+    isAvailable: queryParams.isAvailable,
+    isFounding: queryParams.isFounding,
+    category: queryParams.category ?? undefined,
   });
-  const { logClickEvent } = useEventLogger();
+
+  useEffect(() => {
+    if (data?.pages) {
+      const newTotalCount = data.pages[0].totalCount;
+      setTotalCount(newTotalCount);
+    }
+  }, [data]);
 
   return (
     <StyledContainer>
       <StyledContent>
         <ProjectSearch
-          value={value ?? query}
+          value={value ?? queryParams.name}
           onValueChange={(value) => {
             setValue(value);
             debouncedChangeName(value);
           }}
           placeholder='프로젝트 검색'
         />
-
-        <LengthWrapper>
-          {data?.pages && <StyledLength typography='SUIT_18_M'>전체 {data.pages[0].totalCount}개</StyledLength>}
-          <ProjectMobileUploadButton
-            onClick={() =>
-              logClickEvent('projectUpload', {
-                referral: 'projectPage',
-              })
-            }
-            href={playgroundLink.projectUpload()}
-          >
-            <IconPen />
-          </ProjectMobileUploadButton>
-        </LengthWrapper>
+        {totalCount ? (
+          <LengthWrapper>
+            <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
+            <Responsive only='desktop'>
+              <Flex css={{ gap: 6 }} align='center'>
+                <ProjectFilterChip
+                  checked={queryParams.isAvailable ?? false}
+                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
+                >
+                  서비스 이용 중
+                </ProjectFilterChip>
+                <ProjectFilterChip
+                  checked={queryParams.isFounding ?? false}
+                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
+                >
+                  창업 중
+                </ProjectFilterChip>
+                <ProjectCategorySelect
+                  css={{ marginLeft: 10 }}
+                  placeholder='프로젝트 전체'
+                  allowClear
+                  onClear={() => setQueryParams({ category: undefined })}
+                  value={queryParams.category ?? undefined}
+                  onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
+                >
+                  {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
+                    <ProjectCategorySelect.Item key={value} value={value}>
+                      {label}
+                    </ProjectCategorySelect.Item>
+                  ))}
+                </ProjectCategorySelect>
+              </Flex>
+            </Responsive>
+            <Responsive only='mobile' css={width100}>
+              <Flex css={{ marginTop: 4.5, padding: '8px 0' }} justify='space-between' align='center'>
+                <Flex css={{ gap: 6 }}>
+                  <ProjectFilterChip
+                    size='small'
+                    checked={queryParams.isAvailable ?? false}
+                    onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
+                  >
+                    서비스 이용 중
+                  </ProjectFilterChip>
+                  <ProjectFilterChip
+                    size='small'
+                    checked={queryParams.isFounding ?? false}
+                    onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
+                  >
+                    창업 중
+                  </ProjectFilterChip>
+                </Flex>
+                <ProjectCategorySelect
+                  placeholder='프로젝트 전체'
+                  size='small'
+                  allowClear
+                  onClear={() => setQueryParams({ category: undefined })}
+                  value={queryParams.category ?? undefined}
+                  onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
+                >
+                  {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
+                    <ProjectCategorySelect.Item key={value} value={value}>
+                      {label}
+                    </ProjectCategorySelect.Item>
+                  ))}
+                </ProjectCategorySelect>
+              </Flex>
+            </Responsive>
+          </LengthWrapper>
+        ) : null}
         {!isLoading && data?.pages == null ? (
           <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
         ) : (
@@ -91,15 +173,6 @@ const StyledContent = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
-  }
-`;
-
-const ProjectMobileUploadButton = styled(Link)`
-  display: none;
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 `;
 
@@ -142,9 +215,12 @@ const LengthWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 30px 6px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 18.5px;
   }
 `;
 
