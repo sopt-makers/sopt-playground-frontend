@@ -505,14 +505,15 @@ const ProjectSub = styled.div`
 const ProjectDisplay = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 64px;
+  row-gap: 20px;
   column-gap: 29px;
-  margin-top: 60px;
+  margin-top: 32px;
+
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
     flex-direction: column;
-    gap: 26px;
-    margin-top: 26px;
+    gap: 24px;
+    margin-top: 24px;
   }
 `;
 
