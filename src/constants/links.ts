@@ -17,6 +17,7 @@ export const playgroundLink = {
   projectUpload: () => `/projects/upload`,
   projectEdit: (id: string | number) => `/projects/edit/${id}`,
   groupList: () => '/group',
+  groupDetail: (id: string | number) => `/group/detail?id=${id}`,
   intro: () => `/intro`,
   login: () => `/auth/login`,
   register: () => `/auth/verify`,

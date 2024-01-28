@@ -15,3 +15,14 @@ export type Career =
       endDate: string;
       isCurrent: false;
     };
+
+export type MeetingType = {
+  id: number;
+  isMeetingLeader: boolean;
+  title: string;
+  imageUrl: string;
+  category: string;
+  isActiveMeeting: boolean;
+  mstartDate: string;
+  mendDate: string;
+};

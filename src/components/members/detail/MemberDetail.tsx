@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -10,6 +11,7 @@ import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useMemo } from 'react';
 
+import { getMeetings } from '@/api/endpoint/meetings/getMeetings';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
@@ -21,9 +23,11 @@ import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
+import MemberMeetingCard from '@/components/members/detail/MemberMeetingCard';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import MessageSection from '@/components/members/detail/MessageSection';
 import PartItem from '@/components/members/detail/PartItem';
+import { MeetingType } from '@/components/members/detail/types';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { Category } from '@/components/projects/types';
 import { playgroundLink } from '@/constants/links';
@@ -51,7 +55,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
   const { data: me } = useGetMemberOfMe();
-
+  const { data: meetingList } = useQuery({
+    queryKey: ['getMeetings'],
+    queryFn: () => getMeetings(Number(memberId) ?? undefined),
+  });
+  console.log(meetingList);
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
       return [];
@@ -252,6 +260,20 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               )}
             </>
           )}
+        </ProjectContainer>
+        <ProjectContainer>
+          <ProjectTitle>{profile.name}님이 참여한 모임</ProjectTitle>
+          {meetingList && meetingList?.length > 0 && (
+            <>
+              <ProjectSub>{meetingList.length}개의 프로젝트에 참여</ProjectSub>
+              <ProjectDisplay>
+                {meetingList.map((meeting: MeetingType) => (
+                  <MemberMeetingCard key={meeting.id} userName={profile.name} {...meeting} />
+                ))}
+              </ProjectDisplay>
+            </>
+          )}
+          {meetingList?.length === 0 && <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>}
         </ProjectContainer>
       </Wrapper>
     </Container>
@@ -505,14 +527,14 @@ const ProjectSub = styled.div`
 const ProjectDisplay = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 64px;
+  row-gap: 20px;
   column-gap: 29px;
-  margin-top: 60px;
+  margin-top: 32px;
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
     flex-direction: column;
-    gap: 26px;
-    margin-top: 26px;
+    gap: 24px;
+    margin-top: 24px;
   }
 `;
 
