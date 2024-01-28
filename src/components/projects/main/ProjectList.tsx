@@ -173,6 +173,7 @@ const StyledContent = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
+    width: 100%;
   }
 `;
 
