@@ -31,7 +31,7 @@ export const generation3: MakersGeneration = {
     {
       title: '플레이그라운드 팀',
       description:
-        'SOPT 구성원들을 위한 서비스, SOPT 플레이그라운드를 만들고 있어요. 앱잼, 솝커톤, 솝텀 등 멋진 프로젝트들이 잘 기록될 수 있도록 프로젝트 기능을 담당해요. 또한 이천여명의 SOPT 구성원들이 어떻게 하면 더 잘 소통하고 가치를 연결할 수 있을지 고민하는 팀이에요.',
+        'SOPT 구성원들을 위한 서비스, SOPT 플레이그라운드를 만들고 있어요. 모두가 연결될 수 있는 커뮤니티 기능과 멋진 프로젝트들이 잘 기록될 수 있도록 프로젝트 기능 등 다양한 기능을 담당해요. 또한 삼천여명의 SOPT 구성원들이 어떻게 하면 더 잘 소통하고 가치를 연결할 수 있을지 고민하는 팀이에요.',
       people: [
         { type: 'member', id: 396, name: '김수연', position: 'PM' },
         { type: 'member', id: 570, name: '김재민', position: 'PM' },
