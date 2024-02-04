@@ -4,6 +4,7 @@ import { fonts } from '@sopt-makers/fonts';
 import { ReactNode } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ContentsCardProps {
   thumbnail: string;
@@ -33,7 +34,12 @@ const Card = styled.article`
   background: ${colors.gray900};
   padding: 16px;
   width: 100%;
+  max-width: 381px;
   height: 116px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 100%;
+  }
 `;
 
 const Thumbnail = styled(ResizedImage)`
