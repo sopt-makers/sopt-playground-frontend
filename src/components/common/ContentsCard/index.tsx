@@ -34,12 +34,8 @@ const Card = styled.article`
   background: ${colors.gray900};
   padding: 16px;
   width: 100%;
-  max-width: 381px;
+  min-width: 0;
   height: 116px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 100%;
-  }
 `;
 
 const Thumbnail = styled(ResizedImage)`
@@ -71,7 +67,8 @@ const Title = styled.h1`
 
 const Contents = styled.div`
   display: flex;
+  flex: 1 1 0;
   flex-direction: column;
   gap: 4px;
-  max-width: calc(100% - 132px);
+  min-width: 0;
 `;

@@ -504,7 +504,7 @@ const ProjectSub = styled.div`
 
 const ProjectDisplay = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(10px, 1fr));
   row-gap: 20px;
   column-gap: 29px;
   margin-top: 32px;
