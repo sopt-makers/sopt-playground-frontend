@@ -20,8 +20,6 @@ const MemberProjectCard: FC<MemberProject> = ({
     ? `${serviceType} | ${generation}기 ${PROJECT_CATEGORY_LABEL[category]}`
     : PROJECT_CATEGORY_LABEL[category];
 
-  console.log(id);
-
   return (
     <Link href={playgroundLink.projectDetail(id)}>
       <ContentsCard

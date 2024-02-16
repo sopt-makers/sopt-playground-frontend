@@ -17,12 +17,13 @@ const RECRUITING_URL =
 const Notifier: FC<NotifierProps> = ({ className }) => {
   return (
     <StyledJoinNotifier className={className}>
-      {/* <Title>makers 4기 지원이 곧 시작될 예정이에요.</Title> */}
-      {/* <Title>makers 4기 지원이 시작되었어요.</Title> */}
+      {/* MEMO: 5기 모집 시작 시 주석 해제 */}
+      {/* <Title>makers 5기 지원이 곧 시작될 예정이에요.</Title> */}
+      {/* <Title>makers 5기 지원이 시작되었어요.</Title> */}
       <Title>현재 makers 4기 진행 중이에요. 5기에서 만나요!</Title>
-      {/* MEMO: 4기 모집 끝나면 주석 해제 */}
       <SubTitle>5기 모집은 2024년 8-9월 중에 진행될 예정이에요.</SubTitle>
-      {/* <SubTitle>4기 모집은 2024년 1월 29일 월요일부터 2월 7일 수요일 13:00까지 진행될 예정이에요.</SubTitle> */}
+      {/* MEMO: 5기 모집 시작 시 주석 해제 */}
+      {/* <SubTitle>5기 모집은 2024년 1월 29일 월요일부터 2월 7일 수요일 13:00까지 진행될 예정이에요.</SubTitle> */}
       <ButtonGroup>
         {/* MEMO: 5기 모집 알림 신청시에 다시 주석 해제 */}
         {/* <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
