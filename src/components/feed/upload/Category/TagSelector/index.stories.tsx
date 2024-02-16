@@ -23,10 +23,6 @@ export const Default = {
   render: function Render() {
     const { isOpen, onClose, onOpen } = useModalState();
 
-    const handleEvent = () => {
-      console.log('event');
-    };
-
     const parentCategory = categories[1];
     const feedData = {
       categoryId: 2,
@@ -47,7 +43,11 @@ export const Default = {
           onClose={onClose}
           header={
             <Title>
-              <BackArrowIc onClick={handleEvent} />
+              <BackArrowIc
+                onClick={() => {
+                  //
+                }}
+              />
               {parentCategory && parentCategory.name}
             </Title>
           }
@@ -56,12 +56,23 @@ export const Default = {
             {parentCategory && parentCategory.children.length > 0 && (
               <>
                 {parentCategory.hasAll && (
-                  <Option onClick={handleEvent}>주제 선택 안 함{!isInitial && <CheckIcon />}</Option>
+                  <Option
+                    onClick={() => {
+                      //
+                    }}
+                  >
+                    주제 선택 안 함{!isInitial && <CheckIcon />}
+                  </Option>
                 )}
                 <>
                   {parentCategory.children.map((tag: BasicCategory) => {
                     return (
-                      <Option key={tag.id} onClick={handleEvent}>
+                      <Option
+                        key={tag.id}
+                        onClick={() => {
+                          //
+                        }}
+                      >
                         {tag.name}
                         {tag.id === feedData.categoryId && <CheckIcon />}
                       </Option>

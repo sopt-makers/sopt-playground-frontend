@@ -17,10 +17,10 @@ export const Default = {
       images: [],
     },
     openCategory: () => {
-      console.log('openCategory');
+      //
     },
     openTag: () => {
-      console.log('openCategory');
+      //
     },
   },
   name: '카테고리 헤더',

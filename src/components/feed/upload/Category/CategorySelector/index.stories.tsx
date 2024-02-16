@@ -42,7 +42,7 @@ export const Default = {
                   <Option
                     key={category.id}
                     onClick={() => {
-                      console.log('click');
+                      //
                     }}
                     isSelected={category.id === feedData.categoryId}
                   >
