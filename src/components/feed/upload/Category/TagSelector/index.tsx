@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
-import { useQuery } from '@tanstack/react-query';
 
-import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { BottomSheet } from '@/components/common/BottomSheet';
 import Responsive from '@/components/common/Responsive';
+import useCategory from '@/components/feed/common/hooks/useCategory';
 import { DropDown } from '@/components/feed/upload/Category/DropDown';
 import TagSelectOptions from '@/components/feed/upload/Category/TagSelector/TagSelectOptions';
-import { UploadFeedDataType } from '@/components/feed/upload/types';
+import { FeedDataType } from '@/components/feed/upload/types';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -16,21 +15,12 @@ interface TagSelectorProps {
   onBack: () => void;
   onClose: () => void;
   onSave: (categoryId: number) => void;
-  feedData: UploadFeedDataType;
+  feedData: FeedDataType;
 }
 export default function TagSelector({ isOpen = false, onBack, onClose, onSave, feedData }: TagSelectorProps) {
-  const { data: categories } = useQuery({
-    queryKey: getCategory.cacheKey(),
-    queryFn: getCategory.request,
-  });
+  const { findParentCategory } = useCategory();
 
-  const parentCategory =
-    (categories &&
-      categories.find(
-        (category) =>
-          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
-      )) ??
-    null;
+  const parentCategory = findParentCategory(feedData.categoryId);
 
   return (
     <>

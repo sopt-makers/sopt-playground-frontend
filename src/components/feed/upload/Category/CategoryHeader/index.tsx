@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import useCategory from '@/components/feed/common/hooks/useCategory';
-import { UploadFeedDataType } from '@/components/feed/upload/types';
+import { FeedDataType } from '@/components/feed/upload/types';
 import DetailArrow from '@/public/icons/icon-chevron-right.svg';
 import ExpandMoreArrow from '@/public/icons/icon-expand-more.svg';
 import Arrow from '@/public/icons/icon-select-arrow.svg';
@@ -10,15 +10,15 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface CategoryHeaderProp {
-  feedData: UploadFeedDataType;
+  feedData: FeedDataType;
   openCategory: () => void;
   openTag: () => void;
 }
 
 export default function CategoryHeader({ feedData, openCategory, openTag }: CategoryHeaderProp) {
-  const { findMainCategory, findChildrenCategory } = useCategory();
+  const { findParentCategory, findChildrenCategory } = useCategory();
 
-  const parentCategory = findMainCategory(feedData.categoryId, feedData.mainCategoryId);
+  const parentCategory = findParentCategory(feedData.categoryId);
   const childrenCategory = findChildrenCategory(feedData.categoryId);
 
   return (

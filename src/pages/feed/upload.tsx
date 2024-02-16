@@ -46,7 +46,6 @@ const FeedUpload: FC = () => {
     <AuthRequired>
       <FeedUploadPage
         defaultValue={{
-          mainCategoryId: null,
           categoryId: null,
           title: '',
           content: '',

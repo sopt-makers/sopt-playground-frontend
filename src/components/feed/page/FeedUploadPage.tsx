@@ -21,7 +21,7 @@ import ContentsInput from '@/components/feed/upload/Input/ContentsInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import { FeedDataType, UploadFeedDataType } from '@/components/feed/upload/types';
+import { FeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
@@ -30,7 +30,7 @@ import { textStyles } from '@/styles/typography';
 
 interface FeedUploadPageProp {
   editingId?: number;
-  defaultValue: UploadFeedDataType;
+  defaultValue: FeedDataType;
   onSubmit: ({ data, id }: { data: FeedDataType; id: number | null }) => void;
 }
 
@@ -42,7 +42,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     feedData,
     handleSaveCategory,
     handleSaveIsQuestion,
-    handleSaveMainCategory,
     handleSaveIsBlindWriter,
     saveImageUrls,
     removeImage,
@@ -100,9 +99,9 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     router.back();
   };
 
-  const { findMainCategory } = useCategory();
+  const { findParentCategory } = useCategory();
 
-  const parentCategory = findMainCategory(feedData.categoryId, feedData.mainCategoryId);
+  const parentCategory = findParentCategory(feedData.categoryId);
 
   const quitUploading = () => {
     logClickEvent('quitUploadCommunity', {
@@ -158,7 +157,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
               <Category
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
-                onSaveMainCategory={handleSaveMainCategory}
                 openUsingRules={openUsingRules}
                 closeUsingRules={closeUsingRules}
                 isEdit={isEdit}
@@ -249,7 +247,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
               <Category
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
-                onSaveMainCategory={handleSaveMainCategory}
                 openUsingRules={openUsingRules}
                 closeUsingRules={closeUsingRules}
                 isEdit={isEdit}

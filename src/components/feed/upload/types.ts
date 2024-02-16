@@ -11,10 +11,6 @@ export interface PostedFeedDataType extends FeedDataType {
   id: number;
 }
 
-export interface UploadFeedDataType extends FeedDataType {
-  mainCategoryId: number | null;
-}
-
 export interface EditFeedDataType extends FeedDataType {
   postId: number | null;
 }

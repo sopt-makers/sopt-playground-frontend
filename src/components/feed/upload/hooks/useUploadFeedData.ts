@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import useCategory from '@/components/feed/common/hooks/useCategory';
-import { UploadFeedDataType } from '@/components/feed/upload/types';
+import { FeedDataType } from '@/components/feed/upload/types';
 
-export default function useUploadFeedData(defaultValue: UploadFeedDataType) {
+export default function useUploadFeedData(defaultValue: FeedDataType) {
   const [feedData, setFeedData] = useState(defaultValue);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
   const { findParentCategory } = useCategory();
@@ -15,10 +15,6 @@ export default function useUploadFeedData(defaultValue: UploadFeedDataType) {
 
   const resetIsQuestion = (categoryId: number) => {
     !findParentCategory(categoryId)?.hasQuestion && setFeedData((feedData) => ({ ...feedData, isQuestion: false }));
-  };
-
-  const handleSaveMainCategory = (categoryId: number) => {
-    setFeedData((feedData) => ({ ...feedData, mainCategoryId: categoryId }));
   };
 
   const handleSaveCategory = (categoryId: number) => {
@@ -68,7 +64,6 @@ export default function useUploadFeedData(defaultValue: UploadFeedDataType) {
     feedData,
     handleSaveCategory,
     handleSaveIsQuestion,
-    handleSaveMainCategory,
     handleSaveIsBlindWriter,
     saveImageUrls,
     removeImage,

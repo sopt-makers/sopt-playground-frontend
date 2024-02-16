@@ -8,36 +8,26 @@ export default function useCategory() {
     queryFn: getCategory.request,
   });
 
-  const findParentCategory = (categoryId: number) => {
+  const findParentCategory = (categoryId: number | null) => {
     const category =
       categoryData &&
-      categoryData.find((category) =>
-        category.children.length > 0
-          ? category.children.some((tag) => tag.id === categoryId)
-          : category.id === categoryId,
+      categoryData.find(
+        (category) =>
+          // MEMO: 피드 업로드에서는 categoryId자체가 부모 카테고리 id일 수 있습니다.
+          category.id === categoryId ||
+          (category.children.length > 0 && category.children.some((tag) => tag.id === categoryId)),
       );
 
     return category;
   };
 
-  const findMainCategory = (categoryId: number | null, mainCategoryId?: number | null) => {
-    const parentCategory =
-      (categoryData &&
-        categoryData.find(
-          (category) => category.id === mainCategoryId || category.children.some((tag) => tag.id === categoryId),
-        )) ??
-      null;
-
-    return parentCategory;
-  };
-
   const findChildrenCategory = (categoryId: number | null) => {
-    const parentCategory = findMainCategory(categoryId);
+    const parentCategory = findParentCategory(categoryId);
 
     const category = (parentCategory && parentCategory.children.find((tag) => tag.id === categoryId)) ?? null;
 
     return category;
   };
 
-  return { findParentCategory, findMainCategory, findChildrenCategory };
+  return { findParentCategory, findChildrenCategory };
 }

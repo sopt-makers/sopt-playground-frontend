@@ -68,7 +68,6 @@ const FeedEdit: FC = () => {
             {data.isMine ? (
               <FeedUploadPage
                 defaultValue={{
-                  mainCategoryId: data.posts.categoryId,
                   categoryId: data.posts.categoryId,
                   title: data.posts.title,
                   content: data.posts.content,
