@@ -1,12 +1,27 @@
 import { Meta } from '@storybook/react';
 
-import CategorySelectorHeader from '@/components/feed/upload/Category/CategoryHeader';
+import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
 
 export default {
-  component: CategorySelectorHeader,
-} as Meta<typeof CategorySelectorHeader>;
+  component: CategoryHeader,
+} as Meta<typeof CategoryHeader>;
 
 export const Default = {
-  args: {},
+  args: {
+    feedData: {
+      categoryId: null,
+      title: '',
+      content: '',
+      isQuestion: false,
+      isBlindWriter: false,
+      images: [],
+    },
+    openCategory: () => {
+      console.log('openCategory');
+    },
+    openTag: () => {
+      console.log('openCategory');
+    },
+  },
   name: '카테고리 헤더',
 };
