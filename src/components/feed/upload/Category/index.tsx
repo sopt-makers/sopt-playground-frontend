@@ -7,25 +7,17 @@ import CategoryHeader from '@/components/feed/upload/Category/CategoryHeader';
 import CategorySelector from '@/components/feed/upload/Category/CategorySelector';
 import TagSelector from '@/components/feed/upload/Category/TagSelector';
 import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
-import { UploadFeedDataType } from '@/components/feed/upload/types';
+import { FeedDataType } from '@/components/feed/upload/types';
 
 interface CateogryProps {
-  feedData: UploadFeedDataType;
+  feedData: FeedDataType;
   onSaveCategory: (categoryId: number) => void;
-  onSaveMainCategory: (categoryId: number) => void;
   openUsingRules: () => void;
   closeUsingRules: () => void;
   isEdit?: boolean;
 }
 
-export default function Category({
-  feedData,
-  onSaveCategory,
-  onSaveMainCategory,
-  openUsingRules,
-  closeUsingRules,
-  isEdit,
-}: CateogryProps) {
+export default function Category({ feedData, onSaveCategory, openUsingRules, closeUsingRules, isEdit }: CateogryProps) {
   const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect(isEdit ? 'closeAll' : 'openCategory');
 
   const { data: categories } = useQuery({
@@ -55,7 +47,7 @@ export default function Category({
       return;
     }
 
-    onSaveMainCategory(categoryId);
+    onSaveCategory(categoryId);
 
     if (selectedMainCategory.children.length === 0) {
       onSaveCategory(categoryId);
