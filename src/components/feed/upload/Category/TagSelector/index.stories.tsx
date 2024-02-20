@@ -20,7 +20,6 @@ export const Default = {
           onClose={onClose}
           onBack={onClose}
           feedData={{
-            mainCategoryId: 0,
             categoryId: 0,
             title: '',
             content: '',

@@ -4,7 +4,7 @@ import { BottomSheet } from '@/components/common/BottomSheet';
 import Responsive from '@/components/common/Responsive';
 import CategorySelectOptions from '@/components/feed/upload/Category/CategorySelector/CategorySelectOptions';
 import { DropDown } from '@/components/feed/upload/Category/DropDown';
-import { UploadFeedDataType } from '@/components/feed/upload/types';
+import { FeedDataType } from '@/components/feed/upload/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -12,7 +12,7 @@ interface CategorySelectorProps {
   isOpen?: boolean;
   onClose: () => void;
   onSelect: (categoryId: number) => void;
-  feedData: UploadFeedDataType;
+  feedData: FeedDataType;
 }
 
 export default function CategorySelector({ isOpen = false, onClose, onSelect, feedData }: CategorySelectorProps) {

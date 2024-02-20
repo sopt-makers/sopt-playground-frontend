@@ -4,12 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { BasicCategory } from '@/components/feed/upload/Category/types';
-import { UploadFeedDataType } from '@/components/feed/upload/types';
+import { FeedDataType } from '@/components/feed/upload/types';
 import { textStyles } from '@/styles/typography';
 
 interface CategorySelectOptionsProp {
   onSave: (categoryId: number) => void;
-  feedData: UploadFeedDataType;
+  feedData: FeedDataType;
 }
 
 export default function CategorySelectOptions({ onSave, feedData }: CategorySelectOptionsProp) {
@@ -31,7 +31,7 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
             <Option
               key={category.id}
               onClick={() => handleSelectCategory(category.id)}
-              isSelected={category.id === feedData.mainCategoryId}
+              isSelected={category.id === feedData.categoryId}
             >
               <OptionTitle>{category.name}</OptionTitle>
               <OptionContents>{category.content}</OptionContents>

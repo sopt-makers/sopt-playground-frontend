@@ -1,18 +1,17 @@
 import styled from '@emotion/styled';
-import { useQuery } from '@tanstack/react-query';
 
-import { getCategory } from '@/api/endpoint/feed/getCategory';
 import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
+import useCategory from '@/components/feed/common/hooks/useCategory';
 import { BasicCategory } from '@/components/feed/upload/Category/types';
-import { UploadFeedDataType } from '@/components/feed/upload/types';
+import { FeedDataType } from '@/components/feed/upload/types';
 import CheckIcon from '@/public/icons/icon_check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface TagSelectOptionsProp {
   onClose: () => void;
   onSave: (categoryId: number) => void;
-  feedData: UploadFeedDataType;
+  feedData: FeedDataType;
 }
 
 export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelectOptionsProp) {
@@ -24,27 +23,9 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
   const handleSelectTagMobile = (id: number) => {
     onSave(id);
   };
-
-  const { data: categories } = useQuery({
-    queryKey: getCategory.cacheKey(),
-    queryFn: getCategory.request,
-  });
-
-  const parentCategory =
-    (categories &&
-      categories.find(
-        (category: BasicCategory) =>
-          category.id === feedData.mainCategoryId || category.children.some((tag) => tag.id === feedData.categoryId),
-      )) ??
-    null;
-
-  const isInitial =
-    (categories &&
-      categories.find(
-        (category: BasicCategory) =>
-          category.id === feedData.mainCategoryId && category.children.some((tag) => tag.id === feedData.categoryId),
-      )) ??
-    null;
+  const { findParentCategory, findChildrenCategory } = useCategory();
+  const parentCategory = findParentCategory(feedData.categoryId);
+  const isInitial = findChildrenCategory(feedData.categoryId);
 
   return (
     <>
@@ -54,12 +35,12 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
             {parentCategory.hasAll && (
               <>
                 <Responsive only='desktop'>
-                  <Option onClick={() => handleSelectTagDesktop(feedData.mainCategoryId ?? 0)}>
+                  <Option onClick={() => handleSelectTagDesktop(feedData.categoryId ?? 0)}>
                     주제 선택 안 함{!isInitial && <CheckIcon />}
                   </Option>
                 </Responsive>
                 <Responsive only='mobile'>
-                  <Option onClick={() => handleSelectTagMobile(feedData.mainCategoryId ?? 0)}>
+                  <Option onClick={() => handleSelectTagMobile(feedData.categoryId ?? 0)}>
                     주제 선택 안 함{!isInitial && <CheckIcon />}
                   </Option>
                 </Responsive>
