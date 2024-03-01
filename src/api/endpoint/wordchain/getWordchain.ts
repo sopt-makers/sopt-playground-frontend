@@ -101,7 +101,7 @@ const useGetRecentWordchain: UseGetRecentWordchain = <TData>(
 
     queryFn: async () => {
       const data = await getWordchain.request({
-        limit: 0,
+        limit: 1,
         cursor: 0,
       });
       return data;
