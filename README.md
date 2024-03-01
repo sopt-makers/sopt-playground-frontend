@@ -67,10 +67,59 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
 
 ## 👨‍👩‍👧‍👦 Authors
 
-현재 Playground를 만들고 있는 makers에요.  
+현재 Playground를 만들고 있는 makers에요.
 
 <table align="center">
     <tr align="center">
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/seojisoosoo">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/586e267e-5d8c-4ace-abe8-6fed7c2e09c2" width="200" height="150" style="object-fit :cover">
+              <br />
+              <b>Seojisoosoo</b>
+            </a> 
+        </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/solar3070">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/8e9710fa-666d-44c9-9af9-0f927733c89d" width="200" height="150" style="object-fit :cover">
+              <br />
+              <b>solar3070</b>
+            </a> 
+        </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/simeunseo">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/51331279-c053-4f3f-a120-90b2926ad9f1" width="200" height="150" style="object-fit :cover">
+              <br />
+              <b>simeunseo</b>
+            </a> 
+        </td>
+    </tr>
+    <tr align="center">
+        <td>
+            🩵 지수 🩵<br />
+            FE Developer
+        </td>
+        <td>
+            💙 혜준 💙<br />
+            FE Developer
+        </td>
+        <td>
+            💜 은서 💜<br />
+            FE Developer
+        </td>
+    </tr>
+</table>
+
+## 명예의 전당
+
+<table align="center">
+    <tr align="center"> 
+    <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/danmin20">
+              <img src="https://ca.slack-edge.com/T040QGZF77H-U0425VDVC20-f4aa143ab5cb-512" width="200" height="150" style="object-fit :cover">
+              <br />
+              <b>Danmin</b>
+            </a> 
+        </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/NamJwong">
               <img src="https://user-images.githubusercontent.com/26808056/215305813-e46a08bb-d65f-4eec-bd15-55bdd8ec1937.jpeg" width="200" height="150" style="object-fit :cover">
@@ -92,43 +141,26 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
               <b>Jun</b>
             </a>
         </td>
-        <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/danmin20">
-              <img src="https://ca.slack-edge.com/T040QGZF77H-U0425VDVC20-f4aa143ab5cb-512" width="200" height="150" style="object-fit :cover">
-              <br />
-              <b>Danmin</b>
-            </a> 
-        </td>
-        <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/seojisoosoo">
-              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/586e267e-5d8c-4ace-abe8-6fed7c2e09c2" width="200" height="150" style="object-fit :cover">
-              <br />
-              <b>Seojisoosoo</b>
-            </a> 
-        </td>
     </tr>
     <tr align="center">
         <td>
+            💖 정민 💖<br />
+            1기 <br />FE Developer
+        </td>
+        <td>
             💛 주영 💛 <br/>
-            FE Developer
+            1, 2, 3기 <br />FE Developer
       </td>
         <td>
             💚 건영 💚 <br />
-            FE Developer
+            1, 2, 3기 <br />FE Developer
         </td>
         <td>
             🤍 준호 🤍<br />
-            FE Developer
-        </td>
-        <td>
-            💖 정민 💖<br />
-            FE Developer
-        </td>
-        <td>
-            🩵 지수 🩵<br />
-            FE Developer
+            1, 2, 3기 <br />FE Developer
         </td>
     </tr>
+
 </table>
 
 ## License
