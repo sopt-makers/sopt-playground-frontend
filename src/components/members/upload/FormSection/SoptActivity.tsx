@@ -11,15 +11,15 @@ import FormHeader from '@/components/members/upload/forms/FormHeader';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import SelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { GENERATIONS } from '@/constants/generation';
+import { GENERATIONS, LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const FILTERED_GENERATIONS = GENERATIONS.filter((generation) => parseInt(generation) <= 30).map(
-  (generation) => generation + '기',
-);
+interface MemberSoptActivityFormSectionProps {
+  isEditable?: boolean;
+}
 
-export default function MemberSoptActivityFormSection() {
+export default function MemberSoptActivityFormSection({ isEditable }: MemberSoptActivityFormSectionProps) {
   const {
     control,
     register,
@@ -49,10 +49,10 @@ export default function MemberSoptActivityFormSection() {
 
   return (
     <StyledFormSection>
-      <FormHeader title='SOPT 활동 정보' required description='31기 이후의 기수와 파트 정보는 수정이 불가능해요.' />
+      <FormHeader title='SOPT 활동 정보' required />
       <StyledAddableWrapper onAppend={onAppend}>
         {fields.map((field, index) =>
-          parseInt(field.generation) <= 30 || !field.generation ? (
+          isEditable ? (
             <AddableItem
               onRemove={() => onRemove(index)}
               key={field.id}
@@ -114,6 +114,10 @@ export default function MemberSoptActivityFormSection() {
     </StyledFormSection>
   );
 }
+
+const FILTERED_GENERATIONS = GENERATIONS.filter((generation) => parseInt(generation) <= LATEST_GENERATION - 1).map(
+  (generation) => generation + '기',
+);
 
 const StyledFormSection = styled(FormSection)`
   @media ${MOBILE_MEDIA_QUERY} {
