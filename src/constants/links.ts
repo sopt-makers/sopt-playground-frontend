@@ -12,6 +12,7 @@ export const playgroundLink = {
   memberDetail: (id: string | number) => `/members/${id}`,
   memberUpload: () => `/members/upload`,
   memberEdit: () => '/members/edit',
+  memberCheckSoptActivity: () => '/members/checkSoptActivity',
   projectList: () => `/projects`,
   projectDetail: (id: string | number) => `/projects/${id}`,
   projectUpload: () => `/projects/upload`,
