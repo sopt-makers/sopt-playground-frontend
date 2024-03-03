@@ -48,18 +48,19 @@ export default function CheckSoptActivity() {
   return (
     <FormProvider {...formMethods}>
       {isEditMode ? (
-        <MemberSoptActivityFormSection isEditable />
+        <>
+          <MemberSoptActivityFormSection isEditable />
+          {/* FIXME: 개발 중 수정 모드 전환을 위한 임시 핸들러 */}
+          <button onClick={() => setIsEditMode(false)}>수정 완료</button>
+        </>
       ) : (
-        <SoptActivitySection soptActivities={sortedSoptActivities} />
-      )}
-      {isEditMode ? (
-        // FIXME: 개발 중 수정 모드 전환을 위한 임시 핸들러
-        <button onClick={() => setIsEditMode(false)}>수정 완료</button>
-      ) : (
-        <div>
-          <button onClick={() => setIsEditMode(true)}>활동 정보 수정하기</button>
-          <button>이대로 등록하기</button>
-        </div>
+        <>
+          <SoptActivitySection soptActivities={sortedSoptActivities} />
+          <div>
+            <button onClick={() => setIsEditMode(true)}>활동 정보 수정하기</button>
+            <button>이대로 등록하기</button>
+          </div>
+        </>
       )}
     </FormProvider>
   );
