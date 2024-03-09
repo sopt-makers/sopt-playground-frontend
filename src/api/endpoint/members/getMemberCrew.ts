@@ -42,11 +42,11 @@ export const useGetMemberCrewInfiniteQuery = () => {
   return useInfiniteQuery({
     queryKey: useGetMemberCrewInfiniteQuery.getKey(),
     queryFn: async ({ pageParam }) => {
-      return await getMemberCrew.request({ page: pageParam, take: 9 });
+      return await getMemberCrew.request({ page: pageParam, take: 3 });
     },
-    initialPageParam: 0,
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      return lastPage.meta.hasNextPage ? lastPage.meetings[lastPage.meetings.length - 1].id : null;
+      return lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : null;
     },
   });
 };
