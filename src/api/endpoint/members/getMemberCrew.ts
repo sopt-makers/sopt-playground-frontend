@@ -1,3 +1,4 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { QS } from '@toss/utils';
 import { z } from 'zod';
 
@@ -36,3 +37,18 @@ export const getMemberCrew = createEndpoint({
     }),
   }),
 });
+
+export const useGetMemberCrewInfiniteQuery = () => {
+  return useInfiniteQuery({
+    queryKey: useGetMemberCrewInfiniteQuery.getKey(),
+    queryFn: async ({ pageParam }) => {
+      return await getMemberCrew.request({ page: pageParam, take: 9 });
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage.meta.hasNextPage ? lastPage.meetings[lastPage.meetings.length - 1].id : null;
+    },
+  });
+};
+
+useGetMemberCrewInfiniteQuery.getKey = () => ['INFINITE', ...getMemberCrew.cacheKey({ page: 0, take: 0 })];
