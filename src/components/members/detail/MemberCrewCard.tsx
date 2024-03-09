@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -65,6 +66,9 @@ const CrewDate = styled.span`
   display: flex;
   gap: 8px;
   align-items: center;
+  ${fonts.LABEL_14_SB};
+
+  color: ${colors.gray30};
 `;
 
 const CrewStatus = styled.span<{ $isActiveMeeting: boolean }>`
