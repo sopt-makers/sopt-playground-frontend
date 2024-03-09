@@ -20,6 +20,7 @@ import CareerSection from '@/components/members/detail/CareerSection';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
+import MemberCrewCard from '@/components/members/detail/MemberCrewCard';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import MessageSection from '@/components/members/detail/MessageSection';
@@ -31,6 +32,96 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
+
+const DUMMY = {
+  meetings: [
+    {
+      id: 91,
+      isMeetingLeader: false,
+      title: '네네네네네네네네네네네네네네네네네네네네ㅔ네네네네네네네네네',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/12/09/127b44eb-cc90-4b3a-a01c-6d202b781d58.jpeg',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2023-04-11T00:00:00',
+      mendDate: '2023-05-27T00:00:00',
+    },
+    {
+      id: 90,
+      isMeetingLeader: false,
+      title: '\b커피 한잔 할래요 ?',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/17/9c185091-7575-48e2-95f2-67f06aea0335.jpeg',
+      category: '스터디',
+      isActiveMeeting: true,
+      mstartDate: '2023-12-10T00:00:00',
+      mendDate: '2024-05-10T00:00:00',
+    },
+    {
+      id: 85,
+      isMeetingLeader: false,
+      title: '주술사되는법',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/01/21c6ea54-8965-4ed7-a691-bb0a1e11382c.png',
+      category: '스터디',
+      isActiveMeeting: true,
+      mstartDate: '2023-10-04T00:00:00',
+      mendDate: '2024-10-04T00:00:00',
+    },
+    {
+      id: 83,
+      isMeetingLeader: false,
+      title: 'QA 모임',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/e604fd62-6b6f-4f48-a5fa-85a1806126c0.png',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2023-01-09T00:00:00',
+      mendDate: '2024-01-01T00:00:00',
+    },
+    {
+      id: 82,
+      isMeetingLeader: true,
+      title: '고기 좋아요',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/270911ef-e176-4323-b713-b0352a8363a7.jpeg',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2100-01-01T00:00:00',
+      mendDate: '2100-01-02T00:00:00',
+    },
+    {
+      id: 67,
+      isMeetingLeader: true,
+      title: '내가 최고야',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/17/bc1d00b7-9770-4cde-ba04-69bbd5a9ae72.png',
+      category: '스터디',
+      isActiveMeeting: true,
+      mstartDate: '2023-09-17T00:00:00',
+      mendDate: '9999-12-30T00:00:00',
+    },
+    {
+      id: 13,
+      isMeetingLeader: true,
+      title: '행사',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/17/bc1d00b7-9770-4cde-ba04-69bbd5a9ae72.png',
+      category: '행사',
+      isActiveMeeting: true,
+      mstartDate: '2023-09-17T00:00:00',
+      mendDate: '',
+    },
+  ],
+  meta: {
+    page: 1,
+    take: 6,
+    itemCount: 22,
+    pageCount: 4,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  },
+};
 
 interface MemberDetailProps {
   memberId: string;
@@ -216,21 +307,21 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
         )}
 
-        <ProjectContainer>
-          <ProjectTitle>{profile.name}님이 참여한 프로젝트</ProjectTitle>
+        <ActivityContainer>
+          <ActivityTitle>{profile.name}님이 참여한 프로젝트</ActivityTitle>
           {profile.projects.length > 0 && (
             <>
-              <ProjectSub>{profile.projects.length}개의 프로젝트에 참여</ProjectSub>
-              <ProjectDisplay>
+              <ActivitySub>{profile.projects.length}개의 프로젝트에 참여</ActivitySub>
+              <ActivityDisplay>
                 {profile.projects.map((project) => (
                   <MemberProjectCard key={project.id} {...project} />
                 ))}
-              </ProjectDisplay>
+              </ActivityDisplay>
             </>
           )}
           {profile.projects.length === 0 && (
             <>
-              <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>
+              <ActivitySub>아직 참여한 프로젝트가 없어요</ActivitySub>
               {String(me?.id) === memberId && (
                 <ProjectUploadNudge>
                   <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
@@ -252,7 +343,20 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               )}
             </>
           )}
-        </ProjectContainer>
+        </ActivityContainer>
+        <ActivityContainer>
+          <ActivityTitle>{profile.name}님이 참여한 모임</ActivityTitle>
+          {DUMMY.meetings.length > 0 && (
+            <>
+              <ActivitySub>{DUMMY.meetings.length}개의 모임에 참여</ActivitySub>
+              <ActivityDisplay>
+                {DUMMY.meetings.map((meeting) => (
+                  <MemberCrewCard key={meeting.id} {...meeting} userName={profile.name} />
+                ))}
+              </ActivityDisplay>
+            </>
+          )}
+        </ActivityContainer>
       </Wrapper>
     </Container>
   );
@@ -474,14 +578,11 @@ const AddressBadge = styled.div`
   ${textStyles.SUIT_14_M};
 `;
 
-const ProjectContainer = styled.div`
-  margin-top: 110px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 80px;
-  }
+const ActivityContainer = styled.div`
+  margin-top: 80px;
 `;
 
-const ProjectTitle = styled.div`
+const ActivityTitle = styled.div`
   line-height: 100%;
   font-size: 32px;
   font-weight: 700;
@@ -490,7 +591,7 @@ const ProjectTitle = styled.div`
   }
 `;
 
-const ProjectSub = styled.div`
+const ActivitySub = styled.div`
   margin-top: 18px;
   line-height: 100%;
   color: #989ba0;
@@ -502,7 +603,7 @@ const ProjectSub = styled.div`
   }
 `;
 
-const ProjectDisplay = styled.div`
+const ActivityDisplay = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(10px, 1fr));
   row-gap: 20px;
