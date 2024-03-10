@@ -46,8 +46,8 @@ const MemberCrewCard: FC<MemberCrewCardProps> = ({
   const crewDate = (
     <CrewDate>
       <CrewStatus $isActiveMeeting={isActiveMeeting} />
-      <div>{`${dayjs(mstartDate).format('YY.MM.DD')}${
-        mstartDate === mendDate ? '' : ' - ' + dayjs(mendDate).format('YY.MM.DD')
+      <div>{`${dayjs(mstartDate).format('YYYY.MM.DD')}${
+        mstartDate === mendDate ? '' : ' - ' + dayjs(mendDate).format('YYYY.MM.DD')
       }`}</div>
     </CrewDate>
   );
