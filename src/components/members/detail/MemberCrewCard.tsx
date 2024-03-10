@@ -17,7 +17,7 @@ interface MemberCrewCardProps {
   mstartDate: string;
   mendDate: string;
   imageUrl: string;
-  userName: string;
+  userName?: string;
 }
 
 const MemberCrewCard: FC<MemberCrewCardProps> = ({

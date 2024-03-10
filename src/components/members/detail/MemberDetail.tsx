@@ -494,7 +494,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               <ActivitySub>{DUMMY.meetings.length}개의 모임에 참여</ActivitySub>
               <ActivityDisplay>
                 {DUMMY.meetings.map((meeting) => (
-                  <MemberCrewCard key={meeting.id} {...meeting} userName={profile.name} />
+                  <MemberCrewCard
+                    key={meeting.id}
+                    {...meeting}
+                    {...(meeting.isMeetingLeader && { userName: profile.name })}
+                  />
                 ))}
               </ActivityDisplay>
             </>
