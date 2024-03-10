@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import MemberCrewCard from '@/components/members/detail/MemberCrewCard';
+import MemberCrewCard from '@/components/members/detail/ActivitySection/MemberCrewCard';
 
 export default {
   component: MemberCrewCard,
