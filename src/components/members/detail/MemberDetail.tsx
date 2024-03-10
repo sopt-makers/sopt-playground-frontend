@@ -35,83 +35,83 @@ import { safeParseInt } from '@/utils';
 
 const DUMMY = {
   meetings: [
-    // {
-    //   id: 91,
-    //   isMeetingLeader: false,
-    //   title: '네네네네네네네네네네네네네네네네네네네네ㅔ네네네네네네네네네',
-    //   imageUrl:
-    //     'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/12/09/127b44eb-cc90-4b3a-a01c-6d202b781d58.jpeg',
-    //   category: '스터디',
-    //   isActiveMeeting: false,
-    //   mstartDate: '2023-04-11T00:00:00',
-    //   mendDate: '2023-05-27T00:00:00',
-    // },
-    // {
-    //   id: 90,
-    //   isMeetingLeader: false,
-    //   title: '\b커피 한잔 할래요 ?',
-    //   imageUrl:
-    //     'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/17/9c185091-7575-48e2-95f2-67f06aea0335.jpeg',
-    //   category: '스터디',
-    //   isActiveMeeting: true,
-    //   mstartDate: '2023-12-10T00:00:00',
-    //   mendDate: '2024-05-10T00:00:00',
-    // },
-    // {
-    //   id: 85,
-    //   isMeetingLeader: false,
-    //   title: '주술사되는법',
-    //   imageUrl:
-    //     'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/01/21c6ea54-8965-4ed7-a691-bb0a1e11382c.png',
-    //   category: '스터디',
-    //   isActiveMeeting: true,
-    //   mstartDate: '2023-10-04T00:00:00',
-    //   mendDate: '2024-10-04T00:00:00',
-    // },
-    // {
-    //   id: 83,
-    //   isMeetingLeader: false,
-    //   title: 'QA 모임',
-    //   imageUrl:
-    //     'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/e604fd62-6b6f-4f48-a5fa-85a1806126c0.png',
-    //   category: '스터디',
-    //   isActiveMeeting: false,
-    //   mstartDate: '2023-01-09T00:00:00',
-    //   mendDate: '2024-01-01T00:00:00',
-    // },
-    // {
-    //   id: 82,
-    //   isMeetingLeader: true,
-    //   title: '고기 좋아요',
-    //   imageUrl:
-    //     'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/270911ef-e176-4323-b713-b0352a8363a7.jpeg',
-    //   category: '스터디',
-    //   isActiveMeeting: false,
-    //   mstartDate: '2100-01-01T00:00:00',
-    //   mendDate: '2100-01-02T00:00:00',
-    // },
-    // {
-    //   id: 67,
-    //   isMeetingLeader: true,
-    //   title: '내가 최고야',
-    //   imageUrl:
-    //     'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/17/bc1d00b7-9770-4cde-ba04-69bbd5a9ae72.png',
-    //   category: '스터디',
-    //   isActiveMeeting: true,
-    //   mstartDate: '2023-09-17T00:00:00',
-    //   mendDate: '9999-12-30T00:00:00',
-    // },
-    // {
-    //   id: 13,
-    //   isMeetingLeader: true,
-    //   title: '행사',
-    //   imageUrl:
-    //     'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/17/bc1d00b7-9770-4cde-ba04-69bbd5a9ae72.png',
-    //   category: '행사',
-    //   isActiveMeeting: true,
-    //   mstartDate: '2023-09-17T00:00:00',
-    //   mendDate: '',
-    // },
+    {
+      id: 91,
+      isMeetingLeader: false,
+      title: '네네네네네네네네네네네네네네네네네네네네ㅔ네네네네네네네네네',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/12/09/127b44eb-cc90-4b3a-a01c-6d202b781d58.jpeg',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2023-04-11T00:00:00',
+      mendDate: '2023-05-27T00:00:00',
+    },
+    {
+      id: 90,
+      isMeetingLeader: false,
+      title: '\b커피 한잔 할래요 ?',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/17/9c185091-7575-48e2-95f2-67f06aea0335.jpeg',
+      category: '스터디',
+      isActiveMeeting: true,
+      mstartDate: '2023-12-10T00:00:00',
+      mendDate: '2024-05-10T00:00:00',
+    },
+    {
+      id: 85,
+      isMeetingLeader: false,
+      title: '주술사되는법',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/01/21c6ea54-8965-4ed7-a691-bb0a1e11382c.png',
+      category: '스터디',
+      isActiveMeeting: true,
+      mstartDate: '2023-10-04T00:00:00',
+      mendDate: '2024-10-04T00:00:00',
+    },
+    {
+      id: 83,
+      isMeetingLeader: false,
+      title: 'QA 모임',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/e604fd62-6b6f-4f48-a5fa-85a1806126c0.png',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2023-01-09T00:00:00',
+      mendDate: '2024-01-01T00:00:00',
+    },
+    {
+      id: 82,
+      isMeetingLeader: true,
+      title: '고기 좋아요',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/270911ef-e176-4323-b713-b0352a8363a7.jpeg',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2100-01-01T00:00:00',
+      mendDate: '2100-01-02T00:00:00',
+    },
+    {
+      id: 67,
+      isMeetingLeader: true,
+      title: '내가 최고야',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/17/bc1d00b7-9770-4cde-ba04-69bbd5a9ae72.png',
+      category: '스터디',
+      isActiveMeeting: true,
+      mstartDate: '2023-09-17T00:00:00',
+      mendDate: '9999-12-30T00:00:00',
+    },
+    {
+      id: 13,
+      isMeetingLeader: true,
+      title: '행사',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/17/bc1d00b7-9770-4cde-ba04-69bbd5a9ae72.png',
+      category: '행사',
+      isActiveMeeting: true,
+      mstartDate: '2023-09-17T00:00:00',
+      mendDate: '2023-09-17T00:00:00',
+    },
   ],
   meta: {
     page: 1,
