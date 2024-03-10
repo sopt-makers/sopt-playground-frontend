@@ -68,7 +68,7 @@ const CrewDate = styled.span`
   display: flex;
   gap: 8px;
   align-items: center;
-  ${fonts.LABEL_14_SB};
+  ${fonts.LABEL_12_SB};
 
   color: ${colors.gray30};
 `;
