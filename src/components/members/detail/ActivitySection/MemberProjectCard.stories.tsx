@@ -10,9 +10,9 @@ export const Default = {
   args: {
     id: 1,
     name: '프로젝트',
-    category: '앱잼',
+    category: 'APPJAM',
     generation: 33,
-    serviceType: ['APPJAM'],
+    serviceType: ['WEB'],
     summary: '프로젝트 설명입니다.',
     thumbnailImage:
       'https://wsrv.nl/?url=https%3A%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fsopt-makers-internal%2F%2Fprod%2Fimage%2Fproject%2F825e15cb-5cc0-4265-9cee-6a44012c33ca-%E1%84%8A%E1%85%A5%E1%86%B7%E1%84%82%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AF2.png&w=760&output=webp',
