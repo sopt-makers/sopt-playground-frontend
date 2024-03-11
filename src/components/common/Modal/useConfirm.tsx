@@ -67,4 +67,5 @@ const StyledOkButton = styled(Modal.Button)<{ color?: string; okButtonTextColor?
 
 const StyleModalDescription = styled.div`
   width: 100%;
+  white-space: pre-wrap;
 `;

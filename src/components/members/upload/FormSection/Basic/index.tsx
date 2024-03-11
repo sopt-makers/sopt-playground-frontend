@@ -13,6 +13,10 @@ import { MemberFormSection as FormSection } from '@/components/members/upload/fo
 import { MemberUploadForm } from '@/components/members/upload/types';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import Switch from '@/components/common/Switch';
+import Text from '@/components/common/Text';
+import { fonts } from '@sopt-makers/fonts';
+import useMaskingModal from '@/components/members/upload/hooks/useMaskingModal';
 
 export default function MemberBasicFormSection() {
   const {
@@ -20,6 +24,7 @@ export default function MemberBasicFormSection() {
     register,
     formState: { errors },
     getValues,
+    setValue,
   } = useFormContext<MemberUploadForm>();
 
   const getBirthdayErrorMessage = () => {
@@ -27,6 +32,49 @@ export default function MemberBasicFormSection() {
     if (errors.birthday?.month) return errors.birthday?.month.message;
     if (errors.birthday?.day) return errors.birthday?.day.message;
     return '';
+  };
+
+  const maskingModalStyle = {
+    listStyleType: 'disc',
+    marginLeft: '24px',
+    fontSize: '16px',
+    fontWeight: '500',
+    lineHeight: '26px',
+    letterSpacing: '-0.24px',
+    color: colors.gray300,
+  };
+
+  const { openMaskingModal: openMaskingPhoneModal } = useMaskingModal({
+    title: '연락처를 숨기시겠어요?',
+    description: (
+      <ul style={maskingModalStyle}>
+        <li>내 프로필에 연락처가 노출되지 않아요!</li>
+        <li>연락처를 숨겨도 동일 모임장, 임원진, 메이커스 운영진은 해당 정보를 확인할 수 있어요.</li>
+      </ul>
+    ),
+  });
+
+  const { openMaskingModal: openMaskingEmailModal } = useMaskingModal({
+    title: '이메일을 숨기시겠어요?',
+    description: (
+      <ul style={maskingModalStyle}>
+        <li>내 프로필에 이메일이 노출되지 않아요!</li>
+        <li>이메일을 숨겨도 쪽지는 전달될 수 있어요.</li>
+        <li>이메일을 숨겨도 동일 모임장, 임원진, 메이커스 운영진은 해당 정보를 확인할 수 있어요.</li>
+      </ul>
+    ),
+  });
+
+  type ValueName = keyof MemberUploadForm;
+
+  const handleBlind = async (e: React.MouseEvent, name: ValueName, openMaskingModal: () => Promise<boolean>) => {
+    if (getValues(name)) {
+      setValue(name, false);
+      return;
+    }
+    e.preventDefault();
+    const result = await openMaskingModal();
+    setValue(name, result);
   };
 
   return (
@@ -70,10 +118,24 @@ export default function MemberBasicFormSection() {
             />
           </StyledBirthdayInputWrapper>
         </FormItem>
-        <FormItem title='연락처' errorMessage={errors.phone?.message} required>
+        <FormItem title='연락처' errorMessage={errors.phone?.message} required className='maskable'>
+          <StyledBlindSwitch>
+            <StyledBlindSwitchTitle>정보 숨기기</StyledBlindSwitchTitle>
+            <Switch
+              {...register('isPhoneBlind')}
+              onClick={(e) => handleBlind(e, 'isPhoneBlind', openMaskingPhoneModal)}
+            />
+          </StyledBlindSwitch>
           <StyledInput {...register('phone')} placeholder='010-XXXX-XXXX' />
         </FormItem>
-        <FormItem title='이메일' required errorMessage={errors.email?.message}>
+        <FormItem title='이메일' required errorMessage={errors.email?.message} className='maskable'>
+          <StyledBlindSwitch>
+            <StyledBlindSwitchTitle>정보 숨기기</StyledBlindSwitchTitle>
+            <Switch
+              {...register('isEmailBlind')}
+              onClick={(e) => handleBlind(e, 'isEmailBlind', openMaskingEmailModal)}
+            />
+          </StyledBlindSwitch>
           <StyledInput {...register('email')} type='email' placeholder='이메일 입력' />
         </FormItem>
         <FormItem
@@ -126,6 +188,10 @@ const StyledFormItems = styled.div`
   flex-direction: column;
   gap: 46px;
   margin-top: 46px;
+
+  .maskable {
+    position: relative;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 30px;
@@ -188,4 +254,24 @@ const StyledCountableTextarea = styled(MemberCountableTextArea)`
   margin-top: 10px;
   width: 100%;
   height: 115px;
+`;
+
+const StyledBlindSwitch = styled.div`
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 70px;
+  column-gap: 8px;
+  align-items: center;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    left: 60px;
+  }
+`;
+
+const StyledBlindSwitchTitle = styled(Text)`
+  ${fonts.BODY_16_M};
+
+  line-height: 22px;
+  color: ${colors.gray300};
 `;
