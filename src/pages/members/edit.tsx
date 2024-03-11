@@ -1,11 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
-import { putMemberProfile } from '@/api/endpoint_LEGACY/members';
 import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
@@ -39,6 +37,11 @@ import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
 import { useGetMemberOfMe } from '../../api/endpoint/members/getMemberOfMe';
+import {
+  usePutEmailBlindMutation,
+  usePutMemberProfileMutation,
+  usePutPhoneBlindMutation,
+} from '@/api/endpoint/members/putMemberProfile';
 
 export default function MemberEditPage() {
   const { logSubmitEvent } = useEventLogger();
@@ -48,9 +51,11 @@ export default function MemberEditPage() {
     resolver: yupResolver(memberFormSchema),
   });
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { data: myProfile, isLoading: isLoadingMyProfile } = useGetMemberProfileOfMe();
   const { data: me, isLoading: isLoadingMe } = useGetMemberOfMe();
+  const { mutateAsync: memberProfileMutateAsync } = usePutMemberProfileMutation();
+  const { mutateAsync: phoneBlindMutateAsync } = usePutPhoneBlindMutation();
+  const { mutateAsync: emailBlindMutateAsync } = usePutEmailBlindMutation();
   const toast = useToast();
 
   const lastUnauthorized = useLastUnauthorized();
@@ -137,17 +142,11 @@ export default function MemberEditPage() {
       selfIntroduction: longIntroduction,
     };
 
-    const response = await putMemberProfile(requestBody);
-
-    queryClient.invalidateQueries({
-      queryKey: ['getMemberProfileOfMe']
-    });
-    queryClient.invalidateQueries({
-      queryKey: ['getMemberProfileById', response.id]
-    });
-    queryClient.invalidateQueries({
-      queryKey: ['getMemberProfile']
-    });
+    const [response] = await Promise.all([
+      memberProfileMutateAsync(requestBody),
+      phoneBlindMutateAsync({ blind: isPhoneBlind }),
+      emailBlindMutateAsync({ blind: isEmailBlind }),
+    ]);
 
     router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberDetail(response.id));
 
