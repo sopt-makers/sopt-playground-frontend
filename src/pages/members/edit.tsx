@@ -94,6 +94,8 @@ export default function MemberEditPage() {
       mbtiDescription,
       interest,
       idealType,
+      isPhoneBlind,
+      isEmailBlind,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -179,6 +181,8 @@ export default function MemberEditPage() {
             team: team ?? UNSELECTED,
           })),
         allowOfficial: myProfile.allowOfficial,
+        isPhoneBlind: myProfile.isPhoneBlind,
+        isEmailBlind: myProfile.isEmailBlind,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
           ? myProfile.careers.map((career) =>
