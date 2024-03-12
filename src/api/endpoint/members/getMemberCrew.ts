@@ -5,14 +5,14 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 
 interface Params {
-  page: number;
-  take: number;
+  page?: number;
+  take?: number;
 }
 
 export const getMemberCrew = createEndpoint({
-  request: (params: Params) => ({
+  request: ({ params, id }: { params: Params; id: number }) => ({
     method: 'GET',
-    url: `api/v1/members/crew${QS.create(params)}`,
+    url: `api/v1/members/crew/${id}/${QS.create(params)}`,
   }),
   serverResponseScheme: z.object({
     meetings: z.array(
@@ -38,11 +38,12 @@ export const getMemberCrew = createEndpoint({
   }),
 });
 
-export const useGetMemberCrewInfiniteQuery = () => {
+export const useGetMemberCrewInfiniteQuery = (id?: number) => {
+  if (typeof id === 'undefined') throw new Error('Invalid id');
   return useInfiniteQuery({
-    queryKey: useGetMemberCrewInfiniteQuery.getKey(),
+    queryKey: useGetMemberCrewInfiniteQuery.getKey(id),
     queryFn: async ({ pageParam }) => {
-      return await getMemberCrew.request({ page: pageParam, take: 3 });
+      return await getMemberCrew.request({ id: id, params: { page: pageParam, take: 3 } });
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
@@ -51,4 +52,7 @@ export const useGetMemberCrewInfiniteQuery = () => {
   });
 };
 
-useGetMemberCrewInfiniteQuery.getKey = () => ['INFINITE', ...getMemberCrew.cacheKey({ page: 0, take: 0 })];
+useGetMemberCrewInfiniteQuery.getKey = (id: number) => [
+  'INFINITE',
+  ...getMemberCrew.cacheKey({ id: id, params: { page: 0, take: 0 } }),
+];

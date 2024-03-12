@@ -53,7 +53,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
   const { ref, isVisible } = useIntersectionObserver();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
-  const { data: memberCrewData, fetchNextPage } = useGetMemberCrewInfiniteQuery();
+  const { data: memberCrewData, fetchNextPage } = useGetMemberCrewInfiniteQuery(safeParseInt(memberId) ?? undefined);
   const { data: me } = useGetMemberOfMe();
   console.log(memberCrewData);
 
