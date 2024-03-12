@@ -55,7 +55,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
   const { data: memberCrewData, fetchNextPage } = useGetMemberCrewInfiniteQuery(safeParseInt(memberId) ?? undefined);
   const { data: me } = useGetMemberOfMe();
-  console.log(memberCrewData);
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
