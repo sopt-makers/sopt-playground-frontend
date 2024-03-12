@@ -43,12 +43,13 @@ const MemberCrewCard: FC<MemberCrewCardProps> = ({
     </CrewCategory>
   );
 
+  const formattedStartDate = dayjs(mstartDate).format('YYYY.MM.DD');
+  const formattedEndDate = dayjs(mendDate).format('YYYY.MM.DD');
+
   const crewDate = (
     <CrewDate>
       <CrewStatus $isActiveMeeting={isActiveMeeting} />
-      <div>{`${dayjs(mstartDate).format('YYYY.MM.DD')}${
-        mstartDate === mendDate ? '' : `${' - '}${dayjs(mendDate).format('YYYY.MM.DD')}`
-      }`}</div>
+      <div>{`${formattedStartDate}${mstartDate === mendDate ? '' : `${' - '}${formattedEndDate}`}`}</div>
     </CrewDate>
   );
 
