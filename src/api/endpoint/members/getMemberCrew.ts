@@ -47,7 +47,7 @@ export const useGetMemberCrewInfiniteQuery = (id?: number) => {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      return lastPage.meta.hasNextPage && lastPage.meta.page ? lastPage.meta.page + 1 : null;
+      return lastPage.meta.hasNextPage && lastPage.meta.page ? lastPage.meta.page + 1 : undefined;
     },
   });
 };
