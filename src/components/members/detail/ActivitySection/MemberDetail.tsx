@@ -17,8 +17,8 @@ import Loading from '@/components/common/Loading';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import MemberCrewCard from '@/components/members/detail/ActivitySection/MemberCrewCard';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
+import MemberMeetingCard from '@/components/members/detail/ActivitySection/MemberMeetingCard';
 import MemberProjectCard from '@/components/members/detail/ActivitySection/MemberProjectCard';
 import CareerSection from '@/components/members/detail/CareerSection';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
@@ -330,7 +330,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               <ActivitySub>{DUMMY.meetings.length}개의 모임에 참여</ActivitySub>
               <ActivityDisplay>
                 {DUMMY.meetings.map((meeting) => (
-                  <MemberCrewCard
+                  <MemberMeetingCard
                     key={meeting.id}
                     {...meeting}
                     {...(meeting.isMeetingLeader && { userName: profile.name })}
@@ -349,7 +349,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     SOPT 구성원들과의 추억을 쌓아보세요!
                   </Text>
                   <ActivityUploadButton href={playgroundLink.groupList()}>모임 둘러보러 가기</ActivityUploadButton>
-                  <ActivityUploadMaskImg src='/icons/img/crew-mask.png' alt='crew-mask-image' height={134} />
+                  <ActivityUploadMaskImg src='/icons/img/meeting-mask.png' alt='meeting-mask-image' height={134} />
                 </ActivityUploadNudge>
               )}
             </>

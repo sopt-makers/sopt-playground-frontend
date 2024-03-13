@@ -8,7 +8,7 @@ import ContentsCard from '@/components/common/ContentsCard';
 import { playgroundLink } from '@/constants/links';
 import { dateIntoPeriod } from '@/utils/parseDate';
 
-interface MemberCrewCardProps {
+interface MemberMeetingCardProps {
   id: number;
   title: string;
   category: string;
@@ -20,7 +20,7 @@ interface MemberCrewCardProps {
   userName?: string;
 }
 
-const MemberCrewCard: FC<MemberCrewCardProps> = ({
+const MemberMeetingCard: FC<MemberMeetingCardProps> = ({
   id,
   title,
   category,
@@ -31,8 +31,8 @@ const MemberCrewCard: FC<MemberCrewCardProps> = ({
   imageUrl,
   userName,
 }) => {
-  const crewCategory = (
-    <CrewCategory>
+  const meetingCategory = (
+    <MeetingCategory>
       {category}
       {isMeetingLeader && (
         <>
@@ -40,29 +40,29 @@ const MemberCrewCard: FC<MemberCrewCardProps> = ({
           <div>{userName}님이 만든 모임</div>
         </>
       )}
-    </CrewCategory>
+    </MeetingCategory>
   );
 
-  const crewDate = (
-    <CrewDate>
-      <CrewStatus $isActiveMeeting={isActiveMeeting} />
+  const meetingDate = (
+    <MeetingDate>
+      <MeetingStatus $isActiveMeeting={isActiveMeeting} />
       <div>{dateIntoPeriod(mstartDate, mendDate)}</div>
-    </CrewDate>
+    </MeetingDate>
   );
 
   return (
     <Link href={playgroundLink.groupDetail(id)}>
-      <ContentsCard thumbnail={imageUrl} title={title} top={crewCategory} bottom={crewDate} />
+      <ContentsCard thumbnail={imageUrl} title={title} top={meetingCategory} bottom={meetingDate} />
     </Link>
   );
 };
 
-const CrewCategory = styled.span`
+const MeetingCategory = styled.span`
   display: flex;
   gap: 4px;
 `;
 
-const CrewDate = styled.span`
+const MeetingDate = styled.span`
   display: flex;
   gap: 8px;
   align-items: center;
@@ -71,11 +71,11 @@ const CrewDate = styled.span`
   color: ${colors.gray30};
 `;
 
-const CrewStatus = styled.span<{ $isActiveMeeting: boolean }>`
+const MeetingStatus = styled.span<{ $isActiveMeeting: boolean }>`
   border-radius: 50%;
   background-color: ${({ $isActiveMeeting }) => ($isActiveMeeting ? '#CDF47C' : colors.gray100)};
   width: 6px;
   height: 6px;
 `;
 
-export default MemberCrewCard;
+export default MemberMeetingCard;

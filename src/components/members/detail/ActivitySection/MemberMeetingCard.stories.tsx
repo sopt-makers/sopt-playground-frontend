@@ -1,10 +1,10 @@
 import { Meta } from '@storybook/react';
 
-import MemberCrewCard from '@/components/members/detail/ActivitySection/MemberCrewCard';
+import MemberMeetingCard from '@/components/members/detail/ActivitySection/MemberMeetingCard';
 
 export default {
-  component: MemberCrewCard,
-} as Meta<typeof MemberCrewCard>;
+  component: MemberMeetingCard,
+} as Meta<typeof MemberMeetingCard>;
 
 export const Default = {
   args: {
