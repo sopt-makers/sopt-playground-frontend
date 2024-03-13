@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import useInterval from '@/hooks/useInterval';
-import { convertMillisecondsIntoDateValues } from '@/utils';
+import { convertMillisecondsIntoDateValues } from '@/utils/parseDate';
 
 export default function useCountdown(targetDate: Date) {
   const getCountdownMilliseconds = () => {

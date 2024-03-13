@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import dayjs from 'dayjs';
 import Link from 'next/link';
 import { FC } from 'react';
 
 import ContentsCard from '@/components/common/ContentsCard';
 import { playgroundLink } from '@/constants/links';
+import { dateIntoPeriod } from '@/utils/parseDate';
 
 interface MemberCrewCardProps {
   id: number;
@@ -43,13 +43,10 @@ const MemberCrewCard: FC<MemberCrewCardProps> = ({
     </CrewCategory>
   );
 
-  const formattedStartDate = dayjs(mstartDate).format('YYYY.MM.DD');
-  const formattedEndDate = dayjs(mendDate).format('YYYY.MM.DD');
-
   const crewDate = (
     <CrewDate>
       <CrewStatus $isActiveMeeting={isActiveMeeting} />
-      <div>{`${formattedStartDate}${mstartDate === mendDate ? '' : `${' - '}${formattedEndDate}`}`}</div>
+      <div>{dateIntoPeriod(mstartDate, mendDate)}</div>
     </CrewDate>
   );
 

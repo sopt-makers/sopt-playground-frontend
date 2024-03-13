@@ -14,6 +14,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
 import Loading from '@/components/common/Loading';
+import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MemberCrewCard from '@/components/members/detail/ActivitySection/MemberCrewCard';
@@ -155,7 +156,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
       <Wrapper>
         <ProfileContainer>
           {profile.profileImage ? (
-            <ProfileImage src={profile.profileImage} />
+            <ProfileImage src={profile.profileImage} height={88} />
           ) : (
             <EmptyProfileImage>
               <ProfileIcon />
@@ -316,7 +317,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                   >
                     + 내 프로젝트 올리기
                   </ActivityUploadButton>
-                  <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' />
+                  <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={32} />
                 </ActivityUploadNudge>
               )}
             </>
@@ -348,7 +349,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     SOPT 구성원들과의 추억을 쌓아보세요!
                   </Text>
                   <ActivityUploadButton href={playgroundLink.groupList()}>모임 둘러보러 가기</ActivityUploadButton>
-                  <ActivityUploadMaskImg src='/icons/img/crew-mask.png' alt='crew-mask-image' />
+                  <ActivityUploadMaskImg src='/icons/img/crew-mask.png' alt='crew-mask-image' height={134} />
                 </ActivityUploadNudge>
               )}
             </>
@@ -426,7 +427,7 @@ const EmptyProfileImage = styled.div`
   height: 171px;
 `;
 
-const ProfileImage = styled.img`
+const ProfileImage = styled(ResizedImage)`
   border-radius: 36px;
   width: 171px;
   height: 171px;
@@ -632,7 +633,7 @@ const ActivityUploadNudge = styled.div`
   }
 `;
 
-const ActivityUploadMaskImg = styled.img`
+const ActivityUploadMaskImg = styled(ResizedImage)`
   position: absolute;
   max-height: 317px;
   object-fit: cover;
