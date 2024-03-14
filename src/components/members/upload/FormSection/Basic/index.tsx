@@ -34,34 +34,24 @@ export default function MemberBasicFormSection() {
     return '';
   };
 
-  const maskingModalStyle = {
-    listStyleType: 'disc',
-    marginLeft: '24px',
-    fontSize: '16px',
-    fontWeight: '500',
-    lineHeight: '26px',
-    letterSpacing: '-0.24px',
-    color: colors.gray300,
-  };
-
   const { openMaskingModal: openMaskingPhoneModal } = useMaskingModal({
     title: '연락처를 숨기시겠어요?',
     description: (
-      <ul style={maskingModalStyle}>
+      <StyledMaskingModalDesc>
         <li>내 프로필에 연락처가 노출되지 않아요!</li>
         <li>연락처를 숨겨도 동일 모임장, 임원진, 메이커스 운영진은 해당 정보를 확인할 수 있어요.</li>
-      </ul>
+      </StyledMaskingModalDesc>
     ),
   });
 
   const { openMaskingModal: openMaskingEmailModal } = useMaskingModal({
     title: '이메일을 숨기시겠어요?',
     description: (
-      <ul style={maskingModalStyle}>
+      <StyledMaskingModalDesc>
         <li>내 프로필에 이메일이 노출되지 않아요!</li>
         <li>이메일을 숨겨도 쪽지는 전달될 수 있어요.</li>
         <li>이메일을 숨겨도 동일 모임장, 임원진, 메이커스 운영진은 해당 정보를 확인할 수 있어요.</li>
-      </ul>
+      </StyledMaskingModalDesc>
     ),
   });
 
@@ -273,5 +263,13 @@ const StyledBlindSwitchTitle = styled(Text)`
   ${fonts.BODY_16_M};
 
   line-height: 22px;
+  color: ${colors.gray300};
+`;
+
+const StyledMaskingModalDesc = styled.ul`
+  ${fonts.BODY_16_R};
+
+  margin-left: 24px;
+  list-style-type: disc;
   color: ${colors.gray300};
 `;
