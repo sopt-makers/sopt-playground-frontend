@@ -16,7 +16,8 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
 import { fonts } from '@sopt-makers/fonts';
-import useMaskingModal from '@/components/members/upload/hooks/useMaskingModal';
+import useConfirm from '@/components/common/Modal/useConfirm';
+import { ReactNode, MouseEvent } from 'react';
 
 export default function MemberBasicFormSection() {
   const {
@@ -34,36 +35,40 @@ export default function MemberBasicFormSection() {
     return '';
   };
 
-  const { openMaskingModal: openMaskingPhoneModal } = useMaskingModal({
-    title: '연락처를 숨기시겠어요?',
-    description: (
+  const { confirm } = useConfirm();
+
+  const openMaskingModal = (title: ReactNode, description: ReactNode) => {
+    return confirm({ title, description, okButtonText: '확인', cancelButtonText: '취소', maxWidth: 400 });
+  };
+
+  const openMaskingPhoneModal = () => {
+    return openMaskingModal(
+      '연락처를 숨기시겠어요?',
       <StyledMaskingModalDesc>
         <li>내 프로필에 연락처가 노출되지 않아요!</li>
         <li>연락처를 숨겨도 동일 모임장, 임원진, 메이커스 운영진은 해당 정보를 확인할 수 있어요.</li>
-      </StyledMaskingModalDesc>
-    ),
-  });
+      </StyledMaskingModalDesc>,
+    );
+  };
 
-  const { openMaskingModal: openMaskingEmailModal } = useMaskingModal({
-    title: '이메일을 숨기시겠어요?',
-    description: (
+  const openMaskingEmailModal = () => {
+    return openMaskingModal(
+      '이메일을 숨기시겠어요?',
       <StyledMaskingModalDesc>
         <li>내 프로필에 이메일이 노출되지 않아요!</li>
         <li>이메일을 숨겨도 쪽지는 전달될 수 있어요.</li>
         <li>이메일을 숨겨도 동일 모임장, 임원진, 메이커스 운영진은 해당 정보를 확인할 수 있어요.</li>
-      </StyledMaskingModalDesc>
-    ),
-  });
+      </StyledMaskingModalDesc>,
+    );
+  };
 
-  type ValueName = keyof MemberUploadForm;
-
-  const handleBlind = async (e: React.MouseEvent, name: ValueName, openMaskingModal: () => Promise<boolean>) => {
+  const handleBlind = async (e: MouseEvent, name: keyof MemberUploadForm, openModal: () => Promise<boolean>) => {
     if (getValues(name)) {
       setValue(name, false);
       return;
     }
     e.preventDefault();
-    const result = await openMaskingModal();
+    const result = await openModal();
     setValue(name, result);
   };
 
