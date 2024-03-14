@@ -186,6 +186,10 @@ const StyledFormItems = styled.div`
 
   .maskable {
     position: relative;
+
+    input[type='checkbox'] {
+      padding: 0;
+    }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
