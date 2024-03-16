@@ -12,7 +12,6 @@ import { FC, useMemo } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
-import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -23,9 +22,8 @@ import InterestSection from '@/components/members/detail/InterestSection';
 import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import MessageSection from '@/components/members/detail/MessageSection';
-import PartItem from '@/components/members/detail/PartItem';
+import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
-import { Category } from '@/components/projects/types';
 import { playgroundLink } from '@/constants/links';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -161,21 +159,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           </MemberDetailSection>
         )}
 
-        <MemberDetailSection style={{ gap: '34px' }}>
-          {sortedSoptActivities.map(({ generation, part, projects, team }, idx) => (
-            <PartItem
-              key={idx}
-              generation={`${generation}`}
-              part={part}
-              activities={projects.map((project) => ({
-                name: project.name,
-                type: convertProjectType(project.category) ?? '',
-                href: playgroundLink.projectDetail(project.id),
-              }))}
-              teams={team !== null ? [team] : []}
-            />
-          ))}
-        </MemberDetailSection>
+        <SoptActivitySection soptActivities={sortedSoptActivities} />
 
         {(profile.sojuCapacity ||
           profile.mbti ||
@@ -257,28 +241,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     </Container>
   );
 };
-
-function convertProjectType(typeCode: Category) {
-  if (!isProjectCategory(typeCode)) throw new Error('project category type error');
-
-  switch (typeCode) {
-    case 'APPJAM':
-      return '앱잼';
-    case 'ETC':
-      return '사이드 프로젝트';
-    case 'JOINTSEMINAR':
-      return '합동 세미나';
-    case 'SOPKATHON':
-      return '솝커톤';
-    case 'SOPTERM':
-      return '솝텀 프로젝트';
-    case 'STUDY':
-      return '스터디';
-    default:
-      const exhaustiveCheck: never = typeCode;
-      throw new Error(`project category ${exhaustiveCheck} type error`);
-  }
-}
 
 const Container = styled.div`
   display: flex;
