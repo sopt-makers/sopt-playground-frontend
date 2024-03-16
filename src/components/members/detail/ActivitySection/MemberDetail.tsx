@@ -54,8 +54,16 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { logClickEvent, logPageViewEvent } = useEventLogger();
   const router = useRouter();
   const { ref, isVisible } = useIntersectionObserver();
-  const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
-  const { data: memberCrewData, fetchNextPage } = useGetMemberCrewInfiniteQuery(safeParseInt(memberId) ?? undefined);
+  const {
+    data: profile,
+    isLoading,
+    error: profileError,
+  } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const {
+    data: memberCrewData,
+    fetchNextPage,
+    error: crewError,
+  } = useGetMemberCrewInfiniteQuery(safeParseInt(memberId) ?? undefined);
   const { data: me } = useGetMemberOfMe();
   const meetingList = memberCrewData?.pages.map((page) => page.meetings).flat() ?? [];
 
@@ -83,7 +91,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     }
   }, [isVisible, fetchNextPage]);
 
-  if (error?.response?.status === 400) {
+  if (profileError?.response?.status === 400 || crewError?.response?.status === 400) {
     return <EmptyProfile />;
   }
 
