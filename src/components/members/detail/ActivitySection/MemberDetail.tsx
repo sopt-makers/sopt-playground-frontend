@@ -15,14 +15,16 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
 import Loading from '@/components/common/Loading';
+import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
+import MemberMeetingCard from '@/components/members/detail/ActivitySection/MemberMeetingCard';
+import MemberProjectCard from '@/components/members/detail/ActivitySection/MemberProjectCard';
 import CareerSection from '@/components/members/detail/CareerSection';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
-import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
-import MemberProjectCard from '@/components/members/detail/MemberProjectCard';
 import MessageSection from '@/components/members/detail/MessageSection';
 import PartItem from '@/components/members/detail/PartItem';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
@@ -33,6 +35,74 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
+
+const DUMMY = {
+  meetings: [
+    {
+      id: 91,
+      isMeetingLeader: false,
+      title: '네네네네네네네네네네네네네네네네네네네네ㅔ네네네네네네네네네',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/12/09/127b44eb-cc90-4b3a-a01c-6d202b781d58.jpeg',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2023-04-11T00:00:00',
+      mendDate: '2023-05-27T00:00:00',
+    },
+    {
+      id: 90,
+      isMeetingLeader: false,
+      title: '\b커피 한잔 할래요 ?',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/17/9c185091-7575-48e2-95f2-67f06aea0335.jpeg',
+      category: '스터디',
+      isActiveMeeting: true,
+      mstartDate: '2023-12-10T00:00:00',
+      mendDate: '2024-05-10T00:00:00',
+    },
+    {
+      id: 85,
+      isMeetingLeader: false,
+      title: '주술사되는법',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/01/21c6ea54-8965-4ed7-a691-bb0a1e11382c.png',
+      category: '스터디',
+      isActiveMeeting: true,
+      mstartDate: '2023-10-04T00:00:00',
+      mendDate: '2024-10-04T00:00:00',
+    },
+    {
+      id: 83,
+      isMeetingLeader: false,
+      title: 'QA 모임',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/e604fd62-6b6f-4f48-a5fa-85a1806126c0.png',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2023-01-09T00:00:00',
+      mendDate: '2024-01-01T00:00:00',
+    },
+    {
+      id: 82,
+      isMeetingLeader: true,
+      title: '고기 좋아요',
+      imageUrl:
+        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/270911ef-e176-4323-b713-b0352a8363a7.jpeg',
+      category: '스터디',
+      isActiveMeeting: false,
+      mstartDate: '2100-01-01T00:00:00',
+      mendDate: '2100-01-02T00:00:00',
+    },
+  ],
+  meta: {
+    page: 1,
+    take: 6,
+    itemCount: 22,
+    pageCount: 4,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  },
+};
 
 interface MemberDetailProps {
   memberId: string;
@@ -96,7 +166,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
       <Wrapper>
         <ProfileContainer>
           {profile.profileImage ? (
-            <ProfileImage src={profile.profileImage} />
+            <ProfileImage src={profile.profileImage} height={171} />
           ) : (
             <EmptyProfileImage>
               <ProfileIcon />
@@ -226,28 +296,28 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
         )}
 
-        <ProjectContainer>
-          <ProjectTitle>{profile.name}님이 참여한 프로젝트</ProjectTitle>
+        <ActivityContainer>
+          <ActivityTitle>{profile.name}님이 참여한 프로젝트</ActivityTitle>
           {profile.projects.length > 0 && (
             <>
-              <ProjectSub>{profile.projects.length}개의 프로젝트에 참여</ProjectSub>
-              <ProjectDisplay>
+              <ActivitySub>{profile.projects.length}개의 프로젝트에 참여</ActivitySub>
+              <ActivityDisplay>
                 {profile.projects.map((project) => (
                   <MemberProjectCard key={project.id} {...project} />
                 ))}
-              </ProjectDisplay>
+              </ActivityDisplay>
             </>
           )}
           {profile.projects.length === 0 && (
             <>
-              <ProjectSub>아직 참여한 프로젝트가 없어요</ProjectSub>
+              <ActivitySub>아직 참여한 프로젝트가 없어요</ActivitySub>
               {String(me?.id) === memberId && (
-                <ProjectUploadNudge>
+                <ActivityUploadNudge>
                   <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
                     참여한 프로젝트를 등록하면 <br />
                     공식 홈페이지에도 프로젝트가 업로드 돼요!
                   </Text>
-                  <ProjectUploadButton
+                  <ActivityUploadButton
                     onClick={() =>
                       logClickEvent('projectUpload', {
                         referral: 'myPage',
@@ -256,13 +326,45 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     href={playgroundLink.projectUpload()}
                   >
                     + 내 프로젝트 올리기
-                  </ProjectUploadButton>
-                  <ProjectUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' />
-                </ProjectUploadNudge>
+                  </ActivityUploadButton>
+                  <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
+                </ActivityUploadNudge>
               )}
             </>
           )}
-        </ProjectContainer>
+        </ActivityContainer>
+        <ActivityContainer>
+          <ActivityTitle>{profile.name}님이 참여한 모임</ActivityTitle>
+          {DUMMY.meetings.length > 0 && (
+            <>
+              <ActivitySub>{DUMMY.meetings.length}개의 모임에 참여</ActivitySub>
+              <ActivityDisplay>
+                {DUMMY.meetings.map((meeting) => (
+                  <MemberMeetingCard
+                    key={meeting.id}
+                    {...meeting}
+                    {...(meeting.isMeetingLeader && { userName: profile.name })}
+                  />
+                ))}
+              </ActivityDisplay>
+            </>
+          )}
+          {DUMMY.meetings.length === 0 && (
+            <>
+              <ActivitySub>아직 참여한 모임이 없어요</ActivitySub>
+              {String(me?.id) === memberId && (
+                <ActivityUploadNudge>
+                  <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
+                    모임을 참여하여 <br />
+                    SOPT 구성원들과의 추억을 쌓아보세요!
+                  </Text>
+                  <ActivityUploadButton href={playgroundLink.groupList()}>모임 둘러보러 가기</ActivityUploadButton>
+                  <ActivityUploadMaskImg src='/icons/img/meeting-mask.png' alt='meeting-mask-image' height={134} />
+                </ActivityUploadNudge>
+              )}
+            </>
+          )}
+        </ActivityContainer>
       </Wrapper>
     </Container>
   );
@@ -335,7 +437,7 @@ const EmptyProfileImage = styled.div`
   height: 171px;
 `;
 
-const ProfileImage = styled.img`
+const ProfileImage = styled(ResizedImage)`
   border-radius: 36px;
   width: 171px;
   height: 171px;
@@ -484,14 +586,11 @@ const AddressBadge = styled.div`
   ${textStyles.SUIT_14_M};
 `;
 
-const ProjectContainer = styled.div`
-  margin-top: 110px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 80px;
-  }
+const ActivityContainer = styled.div`
+  margin-top: 80px;
 `;
 
-const ProjectTitle = styled.div`
+const ActivityTitle = styled.div`
   line-height: 100%;
   font-size: 32px;
   font-weight: 700;
@@ -500,7 +599,7 @@ const ProjectTitle = styled.div`
   }
 `;
 
-const ProjectSub = styled.div`
+const ActivitySub = styled.div`
   margin-top: 18px;
   line-height: 100%;
   color: #989ba0;
@@ -512,7 +611,7 @@ const ProjectSub = styled.div`
   }
 `;
 
-const ProjectDisplay = styled.div`
+const ActivityDisplay = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(10px, 1fr));
   row-gap: 20px;
@@ -527,7 +626,7 @@ const ProjectDisplay = styled.div`
   }
 `;
 
-const ProjectUploadNudge = styled.div`
+const ActivityUploadNudge = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
@@ -544,7 +643,7 @@ const ProjectUploadNudge = styled.div`
   }
 `;
 
-const ProjectUploadMaskImg = styled.img`
+const ActivityUploadMaskImg = styled(ResizedImage)`
   position: absolute;
   max-height: 317px;
   object-fit: cover;
@@ -555,7 +654,7 @@ const ProjectUploadMaskImg = styled.img`
   }
 `;
 
-const ProjectUploadButton = styled(Link)`
+const ActivityUploadButton = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;

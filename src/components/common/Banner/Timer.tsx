@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 
 import useInterval from '@/hooks/useInterval';
-import { convertMillisecondsIntoDateValues } from '@/utils';
+import { convertMillisecondsIntoDateValues } from '@/utils/parseDate';
 
 interface TimerProps {
   targetDate: Date;
