@@ -7,8 +7,8 @@ import { Flex } from '@toss/emotion-utils';
 const MEMBER_CIRCLE_WIDTH = 30;
 
 export interface MemberType {
-  id: string;
-  profileImage: string;
+  id: number;
+  profileImage?: string | null;
 }
 
 interface ProjectCardMemberListProps {
@@ -17,7 +17,7 @@ interface ProjectCardMemberListProps {
 
 const ProjectCardMemberList = ({ memberList }: ProjectCardMemberListProps) => {
   return (
-    <Flex align='center' css={{ gap: 8 }}>
+    <Flex align='center' css={{ gap: 8, width: '100%' }} justify='flex-end'>
       <Flex align='center' css={{ position: 'relative' }}>
         {memberList.slice(0, 3).map((member, index) => (
           <MemberCircle
@@ -36,7 +36,7 @@ export default ProjectCardMemberList;
 
 interface MemberCircleProps {
   className?: string;
-  profileImage: string;
+  profileImage?: string | null;
 }
 
 const MemberCircle = ({ className, profileImage }: MemberCircleProps) => {
@@ -56,7 +56,7 @@ const MemberCircle = ({ className, profileImage }: MemberCircleProps) => {
           border: `2px solid ${colors.background}`,
           objectFit: 'cover',
         }}
-        src={profileImage}
+        src={profileImage ?? '/icons/icon-member-default.svg'}
         alt='프로젝트_멤버_프로필'
       />
     </div>

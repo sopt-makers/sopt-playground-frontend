@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -36,15 +35,13 @@ const ProjectCard = ({
       <Image src={image} alt='프로젝트_이미지' />
       <Stack gutter={4}>
         <Flex align='center'>
-          <h1
-            css={css`
-              ${fonts.HEADING_18_B}
-
-              margin-right: 6px;
-            `}
+          <Title
+            css={{
+              marginRight: 6,
+            }}
           >
             {title}
-          </h1>
+          </Title>
           <Separated with={<ServiceType>∙</ServiceType>}>
             {serviceType.map((service) => (
               <ServiceType key={service}>{service}</ServiceType>
@@ -60,6 +57,7 @@ const ProjectCard = ({
             {isFounding && <ProjectCardStatus>창업 중</ProjectCardStatus>}
           </Flex>
         )}
+
         <ProjectCardMemberList memberList={memberList} />
       </Footer>
     </StyledCard>
@@ -74,9 +72,18 @@ const StyledCard = styled(m.div)`
   gap: 10px;
   border: 1px solid ${colors.gray700};
   border-radius: 20px;
-  cursor: pointer;
   padding: 14px;
   width: 352px;
+`;
+
+const Title = styled.h1`
+  /* stylelint-disable-next-line value-no-vendor-prefix */
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  ${fonts.HEADING_18_B};
 `;
 
 const Image = styled(m.img)`

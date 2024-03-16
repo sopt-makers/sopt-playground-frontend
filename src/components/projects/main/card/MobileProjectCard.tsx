@@ -7,7 +7,7 @@ import { Flex, Stack } from '@toss/emotion-utils';
 import { Separated } from '@toss/react';
 
 interface MobileProjectCardProps {
-  thumbnailImage: string;
+  logoImage: string;
   title: string;
   serviceType: string[];
   summary: string;
@@ -17,7 +17,7 @@ interface MobileProjectCardProps {
 }
 
 const MobileProjectCard = ({
-  thumbnailImage,
+  logoImage,
   title,
   serviceType,
   summary,
@@ -26,10 +26,10 @@ const MobileProjectCard = ({
   memberList,
 }: MobileProjectCardProps) => {
   return (
-    <Stack gutter={12}>
+    <Stack gutter={12} css={{ padding: '16px 0' }}>
       <Flex css={{ gap: 12 }} align='center'>
-        <Image src={thumbnailImage} alt='프로젝트_썸네일_이미지' />
-        <Flex align='center'>
+        <Image src={logoImage} alt='프로젝트_썸네일_이미지' />
+        <Flex align='center' css={{ gap: 5 }}>
           <Title>{title}</Title>
           <Separated with={<ServiceType>∙</ServiceType>}>
             {serviceType.map((service) => (
@@ -62,6 +62,12 @@ const Image = styled.img`
 `;
 
 const Title = styled.h1`
+  /* stylelint-disable-next-line value-no-vendor-prefix */
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   color: ${colors.white};
   ${fonts.HEADING_18_B}
 `;
