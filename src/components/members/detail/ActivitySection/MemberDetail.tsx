@@ -156,7 +156,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
       <Wrapper>
         <ProfileContainer>
           {profile.profileImage ? (
-            <ProfileImage src={profile.profileImage} height={88} />
+            <ProfileImage src={profile.profileImage} height={171} />
           ) : (
             <EmptyProfileImage>
               <ProfileIcon />
@@ -317,7 +317,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                   >
                     + 내 프로젝트 올리기
                   </ActivityUploadButton>
-                  <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={32} />
+                  <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
                 </ActivityUploadNudge>
               )}
             </>
