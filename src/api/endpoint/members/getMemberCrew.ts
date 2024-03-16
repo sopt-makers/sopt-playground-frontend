@@ -38,12 +38,12 @@ export const getMemberCrew = createEndpoint({
   }),
 });
 
-export const useGetMemberCrewInfiniteQuery = (id?: number) => {
+export const useGetMemberCrewInfiniteQuery = (limit: number, id?: number) => {
   if (typeof id === 'undefined') throw new Error('Invalid id');
   return useInfiniteQuery({
     queryKey: useGetMemberCrewInfiniteQuery.getKey(id),
     queryFn: async ({ pageParam }) => {
-      return await getMemberCrew.request({ id: id, params: { page: pageParam, take: 20 } });
+      return await getMemberCrew.request({ id: id, params: { page: pageParam, take: limit } });
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {

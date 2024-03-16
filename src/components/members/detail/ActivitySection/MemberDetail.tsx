@@ -63,7 +63,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     data: memberCrewData,
     fetchNextPage,
     error: crewError,
-  } = useGetMemberCrewInfiniteQuery(safeParseInt(memberId) ?? undefined);
+  } = useGetMemberCrewInfiniteQuery(20, safeParseInt(memberId) ?? undefined);
   const { data: me } = useGetMemberOfMe();
   const meetingList = memberCrewData?.pages.map((page) => page.meetings).flat() ?? [];
 
