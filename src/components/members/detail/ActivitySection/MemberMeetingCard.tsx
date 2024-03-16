@@ -11,12 +11,12 @@ import { dateIntoPeriod } from '@/utils/parseDate';
 interface MemberMeetingCardProps {
   id: number;
   title: string;
-  category: string;
+  category: string | null;
   isMeetingLeader: boolean;
   isActiveMeeting: boolean;
   mstartDate: string;
   mendDate: string;
-  imageUrl: string;
+  imageUrl: string | null;
   userName?: string;
 }
 

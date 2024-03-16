@@ -43,7 +43,7 @@ export const useGetMemberCrewInfiniteQuery = (id?: number) => {
   return useInfiniteQuery({
     queryKey: useGetMemberCrewInfiniteQuery.getKey(id),
     queryFn: async ({ pageParam }) => {
-      return await getMemberCrew.request({ id: id, params: { page: pageParam, take: 3 } });
+      return await getMemberCrew.request({ id: id, params: { page: pageParam, take: 20 } });
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
