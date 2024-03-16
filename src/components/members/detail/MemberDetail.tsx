@@ -8,8 +8,9 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 
+import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
@@ -27,6 +28,7 @@ import PartItem from '@/components/members/detail/PartItem';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { Category } from '@/components/projects/types';
 import { playgroundLink } from '@/constants/links';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -49,7 +51,9 @@ const convertBirthdayFormat = (birthday?: string) => {
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { logClickEvent, logPageViewEvent } = useEventLogger();
   const router = useRouter();
+  const { ref, isVisible } = useIntersectionObserver();
   const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const { data: memberCrewData, fetchNextPage } = useGetMemberCrewInfiniteQuery(safeParseInt(memberId) ?? undefined);
   const { data: me } = useGetMemberOfMe();
 
   const sortedSoptActivities = useMemo(() => {
@@ -69,6 +73,12 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
       });
     }
   }, [profile, memberId]);
+
+  useEffect(() => {
+    if (isVisible) {
+      fetchNextPage();
+    }
+  }, [isVisible, fetchNextPage]);
 
   if (error?.response?.status === 400) {
     return <EmptyProfile />;
