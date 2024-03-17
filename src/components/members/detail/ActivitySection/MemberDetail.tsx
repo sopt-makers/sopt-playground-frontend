@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -8,7 +9,7 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -30,79 +31,11 @@ import PartItem from '@/components/members/detail/PartItem';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { Category } from '@/components/projects/types';
 import { playgroundLink } from '@/constants/links';
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import useEnterScreen from '@/hooks/useEnterScreen';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
-
-const DUMMY = {
-  meetings: [
-    {
-      id: 91,
-      isMeetingLeader: false,
-      title: '네네네네네네네네네네네네네네네네네네네네ㅔ네네네네네네네네네',
-      imageUrl:
-        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/12/09/127b44eb-cc90-4b3a-a01c-6d202b781d58.jpeg',
-      category: '스터디',
-      isActiveMeeting: false,
-      mstartDate: '2023-04-11T00:00:00',
-      mendDate: '2023-05-27T00:00:00',
-    },
-    {
-      id: 90,
-      isMeetingLeader: false,
-      title: '\b커피 한잔 할래요 ?',
-      imageUrl:
-        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/17/9c185091-7575-48e2-95f2-67f06aea0335.jpeg',
-      category: '스터디',
-      isActiveMeeting: true,
-      mstartDate: '2023-12-10T00:00:00',
-      mendDate: '2024-05-10T00:00:00',
-    },
-    {
-      id: 85,
-      isMeetingLeader: false,
-      title: '주술사되는법',
-      imageUrl:
-        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/10/01/21c6ea54-8965-4ed7-a691-bb0a1e11382c.png',
-      category: '스터디',
-      isActiveMeeting: true,
-      mstartDate: '2023-10-04T00:00:00',
-      mendDate: '2024-10-04T00:00:00',
-    },
-    {
-      id: 83,
-      isMeetingLeader: false,
-      title: 'QA 모임',
-      imageUrl:
-        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/e604fd62-6b6f-4f48-a5fa-85a1806126c0.png',
-      category: '스터디',
-      isActiveMeeting: false,
-      mstartDate: '2023-01-09T00:00:00',
-      mendDate: '2024-01-01T00:00:00',
-    },
-    {
-      id: 82,
-      isMeetingLeader: true,
-      title: '고기 좋아요',
-      imageUrl:
-        'https://makers-web-img.s3.ap-northeast-2.amazonaws.com/meeting/2023/09/28/270911ef-e176-4323-b713-b0352a8363a7.jpeg',
-      category: '스터디',
-      isActiveMeeting: false,
-      mstartDate: '2100-01-01T00:00:00',
-      mendDate: '2100-01-02T00:00:00',
-    },
-  ],
-  meta: {
-    page: 1,
-    take: 6,
-    itemCount: 22,
-    pageCount: 4,
-    hasPreviousPage: false,
-    hasNextPage: true,
-  },
-};
 
 interface MemberDetailProps {
   memberId: string;
@@ -121,10 +54,25 @@ const convertBirthdayFormat = (birthday?: string) => {
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { logClickEvent, logPageViewEvent } = useEventLogger();
   const router = useRouter();
-  const { ref, isVisible } = useIntersectionObserver();
-  const { data: profile, isLoading, error } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
-  const { data: memberCrewData, fetchNextPage } = useGetMemberCrewInfiniteQuery(safeParseInt(memberId) ?? undefined);
+
+  const { ref } = useEnterScreen({
+    onEnter: () => {
+      fetchNextPage();
+    },
+  });
+
+  const {
+    data: profile,
+    isLoading,
+    error: profileError,
+  } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const {
+    data: memberCrewData,
+    fetchNextPage,
+    error: crewError,
+  } = useGetMemberCrewInfiniteQuery(20, safeParseInt(memberId) ?? undefined);
   const { data: me } = useGetMemberOfMe();
+  const meetingList = memberCrewData?.pages.map((page) => page.meetings).flat() ?? [];
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -144,13 +92,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     }
   }, [profile, memberId]);
 
-  useEffect(() => {
-    if (isVisible) {
-      fetchNextPage();
-    }
-  }, [isVisible, fetchNextPage]);
-
-  if (error?.response?.status === 400) {
+  if (profileError?.response?.status === 400 || (axios.isAxiosError(crewError) && crewError.response?.status === 400)) {
     return <EmptyProfile />;
   }
 
@@ -335,11 +277,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         </ActivityContainer>
         <ActivityContainer>
           <ActivityTitle>{profile.name}님이 참여한 모임</ActivityTitle>
-          {DUMMY.meetings.length > 0 && (
+          {meetingList.length > 0 && (
             <>
-              <ActivitySub>{DUMMY.meetings.length}개의 모임에 참여</ActivitySub>
+              <ActivitySub>{meetingList.length}개의 모임에 참여</ActivitySub>
               <ActivityDisplay>
-                {DUMMY.meetings.map((meeting) => (
+                {meetingList.map((meeting) => (
                   <MemberMeetingCard
                     key={meeting.id}
                     {...meeting}
@@ -349,7 +291,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               </ActivityDisplay>
             </>
           )}
-          {DUMMY.meetings.length === 0 && (
+          {meetingList.length === 0 && (
             <>
               <ActivitySub>아직 참여한 모임이 없어요</ActivitySub>
               {String(me?.id) === memberId && (
@@ -364,6 +306,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               )}
             </>
           )}
+          <Target ref={ref} />
         </ActivityContainer>
       </Wrapper>
     </Container>
@@ -671,6 +614,10 @@ const ActivityUploadButton = styled(Link)`
     margin-top: 50px;
     width: 100%;
   }
+`;
+
+const Target = styled.div`
+  width: 100%;
 `;
 
 export default MemberDetail;
