@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -91,7 +92,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     }
   }, [profile, memberId]);
 
-  if (profileError?.response?.status === 400 || crewError?.response?.status === 400) {
+  if (profileError?.response?.status === 400 || (axios.isAxiosError(crewError) && crewError.response?.status === 400)) {
     return <EmptyProfile />;
   }
 
