@@ -16,7 +16,7 @@ interface MemberMeetingCardProps {
   isActiveMeeting: boolean;
   mstartDate: string;
   mendDate: string;
-  imageUrl: string | null;
+  imageUrl: string;
   userName?: string;
 }
 
