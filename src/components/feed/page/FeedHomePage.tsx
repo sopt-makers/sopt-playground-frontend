@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import WelcomeBanner from '@/components/common/Banner/WelcomeBanner';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
@@ -24,6 +25,7 @@ const CommunityPage: FC = () => {
 
   return (
     <>
+      <WelcomeBanner />
       <Responsive only='desktop'>
         <DesktopCommunityLayout
           isDetailOpen={isDetailOpen}

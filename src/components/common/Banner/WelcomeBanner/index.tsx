@@ -3,19 +3,19 @@ import { colors } from '@sopt-makers/colors';
 import { useEffect, useState } from 'react';
 
 import Responsive from '@/components/common/Responsive';
-import desktopBackground from '@/public/icons/img/Desktop.gif';
-import BalloonImg from '@/public/icons/img/illust_balloon.png';
-import Rocket from '@/public/icons/img/illust_rocket.svg';
-import mobileBackground from '@/public/icons/img/Mobile.gif';
+import desktopBanner1 from '@/public/icons/img/banner_34_desktop_ver1.gif';
+import desktopBanner2 from '@/public/icons/img/banner_34_desktop_ver2.gif';
+import mobileBanner1 from '@/public/icons/img/banner_34_mobile_ver1.gif';
+import mobileBanner2 from '@/public/icons/img/banner_34_mobile_ver2.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const WelcomeBanner = () => {
   // 이미지 랜덤 생성을 위한 코드
-  const [isShowRocketInt, setIsShowRocketInt] = useState(1);
+  const [bannerVersion, setBannerVersion] = useState(1);
 
   const getRandomArbitrary = () => {
-    setIsShowRocketInt(Math.floor(Math.random() * (3 - 1) + 1));
+    setBannerVersion(Math.floor(Math.random() * (3 - 1) + 1));
   };
 
   useEffect(() => {
@@ -24,58 +24,69 @@ const WelcomeBanner = () => {
 
   return (
     <WelcomeBannerWrapper>
-      <ContentWrapper>
-        {isShowRocketInt === 1 ? <Rocket /> : <BalloonIcon src={BalloonImg.src} alt='풍선 이미지' />}
-        <Title>33기 여러분, SOPT에서 만나게 되어 기뻐요!</Title>
-        <SubTitle>SOPT의 놀이터, Playground에 오신 걸 환영해요</SubTitle>
-      </ContentWrapper>
-      <Responsive only='desktop'>
-        <img src={desktopBackground.src} width='1920px' height='212px' alt='환영 배너 배경' />
-      </Responsive>
-      <Responsive only='mobile'>
-        <img src={mobileBackground.src} width='375px' height='164px' alt='환영 배너 배경' />
-      </Responsive>
+      <ButtonWrapper>
+        <ResolutionButton type='button'>NOW, 다짐하러 가기</ResolutionButton>
+      </ButtonWrapper>
+      <BannerWrapper>
+        <Responsive only='desktop'>
+          {bannerVersion === 1 ? (
+            <img src={desktopBanner1.src} alt='데스크탑 환영 배너 v1' />
+          ) : (
+            <img src={desktopBanner2.src} alt='데스크탑 환영 배너 v2' />
+          )}
+        </Responsive>
+        <Responsive only='mobile'>
+          {bannerVersion === 1 ? (
+            <img src={mobileBanner1.src} alt='모바일 환영 배너 v1' />
+          ) : (
+            <img src={mobileBanner2.src} alt='모바일 환영 배너 v2' />
+          )}
+        </Responsive>
+      </BannerWrapper>
     </WelcomeBannerWrapper>
   );
 };
 
 export default WelcomeBanner;
 
-const WelcomeBannerWrapper = styled.header`
-  margin-top: 53px;
+const BannerWrapper = styled.div`
+  width: 1440px;
+
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 12px;
+    width: 375px;
   }
 `;
 
-const ContentWrapper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   position: absolute;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 168px;
+`;
+
+const ResolutionButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #effdb4 0%, #bdec00 100%);
+  padding: 10px 16px;
+  color: ${colors.gray800};
+  ${textStyles.SUIT_12_EB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 28px;
+  }
+`;
+
+const WelcomeBannerWrapper = styled.header`
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 212px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
-    height: 164px;
-  }
-`;
-
-const Title = styled.div`
-  margin-top: 8px;
-  color: ${colors.gray10};
-  ${textStyles.SUIT_18_B};
-`;
-
-const SubTitle = styled.div`
-  margin-top: 4px;
-  color: ${colors.gray300};
-  ${textStyles.SUIT_12_M};
-`;
-
-const BalloonIcon = styled.img`
-  width: 60px;
-  height: 60px;
+  height: 168px;
+  overflow: hidden;
 `;
