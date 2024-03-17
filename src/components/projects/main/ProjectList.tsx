@@ -76,7 +76,7 @@ const ProjectList = () => {
                   checked={queryParams.isAvailable ?? false}
                   onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
                 >
-                  서비스 이용 중
+                  이용 가능한 서비스
                 </ProjectFilterChip>
                 <ProjectFilterChip
                   checked={queryParams.isFounding ?? false}
@@ -108,7 +108,7 @@ const ProjectList = () => {
                     checked={queryParams.isAvailable ?? false}
                     onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
                   >
-                    서비스 이용 중
+                    이용 가능한 서비스
                   </ProjectFilterChip>
                   <ProjectFilterChip
                     size='small'
