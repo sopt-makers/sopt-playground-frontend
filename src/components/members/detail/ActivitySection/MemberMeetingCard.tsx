@@ -16,7 +16,7 @@ interface MemberMeetingCardProps {
   isActiveMeeting: boolean;
   mstartDate: string;
   mendDate: string;
-  imageUrl: string;
+  imageUrl: string | null;
   userName?: string;
 }
 
@@ -52,7 +52,7 @@ const MemberMeetingCard: FC<MemberMeetingCardProps> = ({
 
   return (
     <Link href={playgroundLink.groupDetail(id)}>
-      <ContentsCard thumbnail={imageUrl} title={title} top={meetingCategory} bottom={meetingDate} />
+      <ContentsCard thumbnail={imageUrl ? imageUrl : ''} title={title} top={meetingCategory} bottom={meetingDate} />
     </Link>
   );
 };
