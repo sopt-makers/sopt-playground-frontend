@@ -53,7 +53,8 @@ const BannerWrapper = styled.div`
   width: 1440px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 375px;
+    width: 100%;
+    max-width: 375px;
   }
 `;
 
