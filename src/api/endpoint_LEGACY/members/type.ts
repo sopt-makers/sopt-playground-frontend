@@ -61,6 +61,8 @@ export type ProfileDetail = {
   careers: Career[];
   allowOfficial: boolean;
   isMine: boolean;
+  isPhoneBlind: boolean;
+  isEmailBlind: boolean;
 };
 
 export type SoptActivity = {
@@ -151,6 +153,8 @@ export interface ProfileRequest {
   };
   idealType: string | null;
   selfIntroduction: string | null;
+  isPhoneBlind?: boolean;
+  isEmailBlind?: boolean;
 }
 
 export interface PostMemberMessageVariables {

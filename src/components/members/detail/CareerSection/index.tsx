@@ -5,9 +5,9 @@ import Link from 'next/link';
 import LinkIcon from 'public/icons/icon-link.svg';
 
 import { MemberLink } from '@/api/endpoint_LEGACY/members/type';
+import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import CareerItem from '@/components/members/detail/CareerSection/CareerItem';
 import InfoItem from '@/components/members/detail/InfoItem';
-import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import { Career } from '@/components/members/detail/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 

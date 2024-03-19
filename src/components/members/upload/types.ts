@@ -32,6 +32,8 @@ export interface MemberUploadForm {
   interest: string;
   idealType: string;
   longIntroduction: string;
+  isPhoneBlind: boolean;
+  isEmailBlind: boolean;
 }
 
 export interface SoptActivity {
