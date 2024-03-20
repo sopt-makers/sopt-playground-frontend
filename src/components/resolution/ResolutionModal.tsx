@@ -19,12 +19,12 @@ import { textStyles } from '@/styles/typography';
 
 // 서버 변경 후 반영 필요
 export enum ResolutionTag {
-  SKILL_ENHANCEMENT = '능력 향상',
-  IT_KNOWLEDGE = 'IT 지식',
-  FRIENDSHIP = '친목',
   ENTREPRENEURSHIP_FOUNDATION = '창업 기반',
+  PROBLEM_SOLVING = '문제해결 능력',
+  PROFESSIONALISM = '전문성 강화',
   COLLABORATION_EXPERIENCE = '협업 경험',
-  GREAT_TEAM = '좋은 팀',
+  PRODUCT_RELEASE = '프로덕트 릴리즈',
+  NETWORKING = '네트워킹',
 }
 
 interface Tag {
@@ -35,27 +35,27 @@ interface Tag {
 const TAG: Tag[] = [
   {
     icon: '🏃',
-    value: ResolutionTag.SKILL_ENHANCEMENT,
-  },
-  {
-    icon: '👨‍💻',
-    value: ResolutionTag.IT_KNOWLEDGE,
-  },
-  {
-    icon: '🍻',
-    value: ResolutionTag.FRIENDSHIP,
-  },
-  {
-    icon: '🚀',
     value: ResolutionTag.ENTREPRENEURSHIP_FOUNDATION,
   },
   {
-    icon: '🤝',
+    icon: '💡',
+    value: ResolutionTag.PROBLEM_SOLVING,
+  },
+  {
+    icon: '📈',
+    value: ResolutionTag.PROFESSIONALISM,
+  },
+  {
+    icon: '👩‍👩‍👧‍👦',
     value: ResolutionTag.COLLABORATION_EXPERIENCE,
   },
   {
-    icon: '👍',
-    value: ResolutionTag.GREAT_TEAM,
+    icon: '🎉',
+    value: ResolutionTag.PRODUCT_RELEASE,
+  },
+  {
+    icon: '🤝🏻',
+    value: ResolutionTag.NETWORKING,
   },
 ];
 
@@ -143,6 +143,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
                 component={StyledInput}
                 control={control}
                 type='checkbox'
+                style={{ display: 'none' }}
               />
               <StyledTagItem
                 key={index}
@@ -150,7 +151,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
                 onClick={() => onClickTag(tag.value)}
                 isSelected={selectedTag.includes(tag.value)}
               >
-                <Text typography='SUIT_16_SB' color={colors.gray200}>
+                <Text typography='SUIT_14_SB' color={colors.gray200}>
                   {tag.icon} {tag.value}
                 </Text>
               </StyledTagItem>
@@ -198,6 +199,10 @@ const StyledModal = styled(Modal)`
   @supports (height: 100dvh) {
     max-height: 100dvh;
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 100%;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -206,15 +211,24 @@ const StyledForm = styled.form`
   align-items: center;
   padding: 0 20px;
   width: 426px;
+  overflow-y: scroll;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    @supports (height: 100dvw) {
+      max-width: 100dvw;
+    }
+
+    padding: 0 18px;
+  }
 `;
 
 const ProfileImage = styled.img`
+  margin-top: 56px;
   border-radius: 20px;
   width: 84px;
   height: 84px;
   object-fit: cover;
   @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 20px;
     width: 88px;
     height: 88px;
   }
@@ -224,6 +238,7 @@ const EmptyProfileImage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 56px;
   border-radius: 20px;
   background: ${colors.gray700};
   width: 84px;
@@ -235,12 +250,9 @@ const EmptyProfileImage = styled.div`
 `;
 
 const StyledTags = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 10px;
-  column-gap: 12px;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
   margin-top: 12px;
 `;
 
@@ -255,6 +267,7 @@ const StyledTagItem = styled.label<{ isSelected: boolean }>`
   background-color: ${colors.gray800};
   cursor: pointer;
   padding: 6px 16px 6px 10px;
+  width: max-content;
 `;
 
 const StyledTextArea = styled(TextArea)`
@@ -262,6 +275,12 @@ const StyledTextArea = styled(TextArea)`
   background-color: ${colors.gray800};
   width: 386px;
   height: 198px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    @supports (height: 100dvw) {
+      max-width: calc(100vw - 40px);
+    }
+  }
 `;
 
 const StyledInput = styled.input``;
