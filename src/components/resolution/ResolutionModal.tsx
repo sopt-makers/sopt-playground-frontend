@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useEffect, useState } from 'react';
+import IconWarning from 'public/icons/icon-warning.svg';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -14,6 +15,7 @@ import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 // 서버 변경 후 반영 필요
 export enum ResolutionTag {
@@ -58,6 +60,10 @@ const TAG: Tag[] = [
 ];
 
 const schema = yup.object().shape({
+  tags: yup
+    .array()
+    .of(yup.boolean())
+    .test('tags', '목표를 선택해 주세요', (value) => value?.some((v) => v === true) ?? false),
   content: yup.string().required('내용을 입력해주세요.').max(300, '300자 이내로 입력해주세요.'),
 });
 
@@ -129,17 +135,36 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
         </TagTextWrapper>
         <StyledTags>
           {TAG.map((tag, index) => (
-            <StyledTagItem
-              key={index}
-              onClick={() => onClickTag(tag.value)}
-              isSelected={selectedTag.includes(tag.value)}
-            >
-              <Text typography='SUIT_16_SB' color={colors.gray200}>
-                {tag.icon} {tag.value}
-              </Text>
-            </StyledTagItem>
+            <>
+              <RHFControllerFormItem
+                key={index}
+                name={`tags.${index}`}
+                id={`tags.${index}`}
+                component={StyledInput}
+                control={control}
+                type='checkbox'
+              />
+              <StyledTagItem
+                key={index}
+                htmlFor={`tags.${index}`}
+                onClick={() => onClickTag(tag.value)}
+                isSelected={selectedTag.includes(tag.value)}
+              >
+                <Text typography='SUIT_16_SB' color={colors.gray200}>
+                  {tag.icon} {tag.value}
+                </Text>
+              </StyledTagItem>
+            </>
           ))}
         </StyledTags>
+        <TagErrorWrapper>
+          {formState.errors?.tags && (
+            <>
+              <IconWarning />
+              <TagErrorMessage>{formState.errors?.tags.message}</TagErrorMessage>
+            </>
+          )}
+        </TagErrorWrapper>
         <RHFControllerFormItem
           maxCount={300}
           control={control}
@@ -219,7 +244,7 @@ const StyledTags = styled.section`
   margin-top: 12px;
 `;
 
-const StyledTagItem = styled.div<{ isSelected: boolean }>`
+const StyledTagItem = styled.label<{ isSelected: boolean }>`
   display: flex;
   gap: 4px;
   align-items: center;
@@ -233,12 +258,13 @@ const StyledTagItem = styled.div<{ isSelected: boolean }>`
 `;
 
 const StyledTextArea = styled(TextArea)`
-  margin-top: 40px;
   border: 1px solid ${colors.gray800};
   background-color: ${colors.gray800};
   width: 386px;
   height: 198px;
 `;
+
+const StyledInput = styled.input``;
 
 const StyledButton = styled.button<{ isDisabled: boolean }>`
   display: flex;
@@ -258,4 +284,20 @@ const TagTextWrapper = styled.div`
   display: flex;
   gap: 3px;
   margin-top: 36px;
+`;
+
+const TagErrorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+
+  & > svg {
+    margin-right: 6px;
+  }
+`;
+
+const TagErrorMessage = styled(Text)`
+  color: ${colors.error};
+  ${textStyles.SUIT_12_M}
 `;
