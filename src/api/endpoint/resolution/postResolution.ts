@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
-
+import { ResolutionTag } from '@/components/resolution/ResolutionModal';
 import { createEndpoint } from '@/api/typedAxios';
-import { ResolutionTag } from '@/components/resolutiion/ResolutionModal';
+import { useMutation } from '@tanstack/react-query';
+import z from 'zod';
 
 interface RequestBody {
   content: string;
