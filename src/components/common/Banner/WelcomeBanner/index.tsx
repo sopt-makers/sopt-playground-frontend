@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
+import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import desktop34Banner1 from '@/public/icons/img/banner_34_desktop_ver1.gif';
 import desktop34Banner2 from '@/public/icons/img/banner_34_desktop_ver2.gif';
@@ -26,12 +27,17 @@ interface WelcomeBannerProp {
 const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
   // 이미지 랜덤 생성을 위한 코드
   const [bannerVersion, setBannerVersion] = useState(1);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const getRandomArbitrary = () => {
     setBannerVersion(Math.floor(Math.random() * 2 + 1));
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getRandomArbitrary();
   }, []);
 
@@ -47,25 +53,36 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
 
   return (
     <WelcomeBannerWrapper>
-      {is34 && (
-        <ButtonWrapper>
-          <ResolutionButton type='button'>NOW, 다짐하러 가기</ResolutionButton>
-        </ButtonWrapper>
+      {isMounted ? (
+        <>
+          {is34 ? (
+            <>
+              <ButtonWrapper>
+                <ResolutionButton type='button'>NOW, 다짐하러 가기</ResolutionButton>
+              </ButtonWrapper>
+              <BannerWrapper>
+                <Responsive only='desktop'>
+                  <img src={Welcome34Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                </Responsive>
+                <Responsive only='mobile'>
+                  <img src={Welcome34Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                </Responsive>
+              </BannerWrapper>
+            </>
+          ) : (
+            <BannerWrapper>
+              <Responsive only='desktop'>
+                <img src={WelcomeOthersBanner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+              </Responsive>
+              <Responsive only='mobile'>
+                <img src={WelcomeOthersBanner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+              </Responsive>
+            </BannerWrapper>
+          )}
+        </>
+      ) : (
+        <Loading />
       )}
-      <BannerWrapper>
-        <Responsive only='desktop'>
-          <img
-            src={is34 ? Welcome34Banner.desktop[bannerVersion] : WelcomeOthersBanner.desktop[bannerVersion]}
-            alt={`데스크탑 환영 배너 v${bannerVersion}`}
-          />
-        </Responsive>
-        <Responsive only='mobile'>
-          <img
-            src={is34 ? Welcome34Banner.mobile[bannerVersion] : WelcomeOthersBanner.mobile[bannerVersion]}
-            alt={`모바일 환영 배너 v${bannerVersion}`}
-          />
-        </Responsive>
-      </BannerWrapper>
     </WelcomeBannerWrapper>
   );
 };
