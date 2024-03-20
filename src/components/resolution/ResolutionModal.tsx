@@ -253,6 +253,7 @@ const EmptyProfileImage = styled.div`
 const StyledTags = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 12px;
   justify-items: center;
   margin-top: 12px;
 `;
