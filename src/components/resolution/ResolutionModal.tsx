@@ -16,6 +16,7 @@ import TextArea from '@/components/common/TextArea';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { zIndex } from '@/styles/zIndex';
 
 // 서버 변경 후 반영 필요
 export enum ResolutionTag {
@@ -110,7 +111,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
   };
 
   return (
-    <StyledModal isOpen {...props} zIndex={101}>
+    <StyledModal isOpen {...props} zIndex={zIndex.헤더}>
       <StyledForm onSubmit={handleSubmit(submit)}>
         {profileImageUrl ? (
           <ProfileImage src={profileImageUrl} />
@@ -122,7 +123,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
         <Text mt={30} typography='SUIT_24_B'>
           SOPT 34기를 마친 나에게
         </Text>
-        <Text mt={4} typography='SUIT_14_M' color={colors.gray200}>
+        <Text mt={10} typography='SUIT_14_M' color={colors.gray200}>
           종무식을 맞이하고 있을 미래의 나를 상상하며 적어봐요!
         </Text>
         <TagTextWrapper>
