@@ -51,6 +51,10 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
     mobile: { 1: mobileOthersBanner1.src, 2: mobileOthersBanner2.src },
   };
 
+  const handleStartResolution = () => {
+    // TODO: 은서의 다짐 메시지 모달 연결하기
+  };
+
   return (
     <WelcomeBannerWrapper>
       {isMounted ? (
@@ -58,7 +62,9 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
           {is34 ? (
             <>
               <ButtonWrapper>
-                <ResolutionButton type='button'>NOW, 다짐하러 가기</ResolutionButton>
+                <ResolutionButton type='button' onClick={handleStartResolution}>
+                  NOW, 다짐하러 가기
+                </ResolutionButton>
               </ButtonWrapper>
               <BannerWrapper>
                 <Responsive only='desktop'>
