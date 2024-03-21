@@ -11,7 +11,7 @@ interface CheckModalProps {
 
 function CheckModal({ isOpen, onClose, moveToCheck }: CheckModalProps) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} hideCloseButton>
+    <Modal isOpen={isOpen} onClose={onClose} hideCloseButton zIndex={200}>
       <Modal.Content style={{ maxWidth: '303px' }}>
         <MobileModalTitle>활동 정보를 확인해주세요</MobileModalTitle>
         <MobileModalDesc>
