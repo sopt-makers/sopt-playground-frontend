@@ -22,11 +22,16 @@ export const ModalDescription = styled.div`
   ${textStyles.SUIT_14_R};
 `;
 
-export const ModalFooter = styled.div<{ align: 'left' | 'right' | 'stretch' }>`
+export const ModalFooter = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizontal' | 'vertical' }>`
   display: grid;
-  grid-auto-flow: column;
-  column-gap: 8px;
   margin-top: 24px;
+
+  ${(props) =>
+    props.stack !== 'vertical' &&
+    css`
+      grid-auto-flow: column;
+      column-gap: 8px;
+    `}
 
   ${(props) =>
     props.align === 'stretch' &&
