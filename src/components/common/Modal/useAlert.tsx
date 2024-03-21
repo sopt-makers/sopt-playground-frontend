@@ -33,7 +33,7 @@ const useAlert = () => {
             <StyledModalContent maxWidth={options.maxWidth}>
               <Modal.Title>{options.title}</Modal.Title>
               <StyleModalDescription>{options.description}</StyleModalDescription>
-              <Modal.Footer align='stretch'>
+              <Modal.Footer align='right'>
                 <StyledButton action='close' color={options.buttonTextColor} backgroundColor={options.buttonColor}>
                   {options.buttonText ?? '확인'}
                 </StyledButton>
@@ -52,6 +52,7 @@ export default useAlert;
 
 const StyledButton = styled(Modal.Button)<{ color?: string; backgroundColor?: string }>`
   background-color: ${(props) => props.backgroundColor ?? colors.gray700};
+  width: max-content;
   color: ${(props) => props.color ?? colors.gray10};
 `;
 

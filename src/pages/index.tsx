@@ -1,10 +1,14 @@
+import { colors } from '@sopt-makers/colors';
 import type { NextPage } from 'next';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import { getResolutionValidation, useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import AuthRequired from '@/components/auth/AuthRequired';
+import useAlert from '@/components/common/Modal/useAlert';
 import useModalState from '@/components/common/Modal/useModalState';
 import FeedHomePage from '@/components/feed/page/FeedHomePage';
 import ResolutionModal from '@/components/resolution/ResolutionModal';
+import { zIndex } from '@/styles/zIndex';
 import { setLayout } from '@/utils/layout';
 
 const Home: NextPage = () => {
@@ -14,16 +18,32 @@ const Home: NextPage = () => {
     onClose: onCloseResolutionModal,
   } = useModalState();
 
-  // 서버에 resolution GET 요청시 프로필이미지링크 주도록 요청함. 추후 변경 필요
-  const { data: me } = useGetMemberOfMe();
+  const { alert } = useAlert();
+  const { data: { memberProfileImgUrl, isRegistration } = {} } = useGetResolutionValidation();
+
+  const handleModalOpen = () => {
+    if (isRegistration) {
+      alert({
+        title: '편지는 한번만 전송할 수 있어요',
+        description: '전송된 편지는 종무식 때 열어볼 수 있어요!',
+        buttonText: '확인',
+        maxWidth: 400,
+        zIndex: zIndex.헤더,
+        buttonColor: colors.white,
+        buttonTextColor: colors.black,
+      });
+    } else {
+      onOpenResolutionModal();
+    }
+  };
 
   return (
     <AuthRequired>
       {/* 이 부분은 테스트코드로, 환영배너 컴포넌트로 옮겨질 예정 */}
-      <button onClick={onOpenResolutionModal}>모달테스트</button>
+      <button onClick={handleModalOpen}>모달테스트</button>
       {isOpenResolutionModal && (
         <ResolutionModal
-          profileImageUrl={me && me.profileImage ? me.profileImage : ''}
+          profileImageUrl={memberProfileImgUrl ? memberProfileImgUrl : ''}
           onClose={onCloseResolutionModal}
         />
       )}
