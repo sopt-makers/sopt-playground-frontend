@@ -108,16 +108,18 @@ export default function MemberUploadPage() {
     const response = await postMemberProfile(requestBody);
 
     queryClient.invalidateQueries({
-      queryKey: ['getMemberProfileOfMe']
+      queryKey: ['getMemberProfileOfMe'],
     });
     queryClient.invalidateQueries({
-      queryKey: ['getMemberProfileById', response.id]
+      queryKey: ['getMemberProfileById', response.id],
     });
     queryClient.invalidateQueries({
-      queryKey: ['getMemberProfile']
+      queryKey: ['getMemberProfile'],
     });
 
-    router.replace(lastUnauthorized.popPath() ?? '/');
+    // 테스트 필요
+    // router.replace(lastUnauthorized.popPath() ?? '/');
+    router.replace('/members/complete'); // 프로필 등록 완료 페이지로 이동
   };
 
   useEffect(() => {
