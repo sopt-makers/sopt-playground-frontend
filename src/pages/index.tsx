@@ -1,8 +1,7 @@
 import { colors } from '@sopt-makers/colors';
 import type { NextPage } from 'next';
 
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
-import { getResolutionValidation, useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
+import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useAlert from '@/components/common/Modal/useAlert';
 import useModalState from '@/components/common/Modal/useModalState';
