@@ -31,6 +31,7 @@ const Home: NextPage = () => {
         zIndex: zIndex.헤더,
         buttonColor: colors.white,
         buttonTextColor: colors.black,
+        hideCloseButton: true,
       });
     } else {
       onOpenResolutionModal();
@@ -42,10 +43,7 @@ const Home: NextPage = () => {
       {/* 이 부분은 테스트코드로, 환영배너 컴포넌트로 옮겨질 예정 */}
       <button onClick={handleModalOpen}>모달테스트</button>
       {isOpenResolutionModal && (
-        <ResolutionModal
-          profileImageUrl={memberProfileImgUrl ? memberProfileImgUrl : ''}
-          onClose={onCloseResolutionModal}
-        />
+        <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
       )}
       <FeedHomePage />
     </AuthRequired>
