@@ -2,8 +2,12 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
+import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import Loading from '@/components/common/Loading';
+import useAlert from '@/components/common/Modal/useAlert';
+import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
+import ResolutionModal from '@/components/resolution/ResolutionModal';
 import desktop34Banner1 from '@/public/icons/img/banner_34_desktop_ver1.gif';
 import desktop34Banner2 from '@/public/icons/img/banner_34_desktop_ver2.gif';
 import mobile34Banner1 from '@/public/icons/img/banner_34_mobile_ver1.gif';
@@ -14,6 +18,7 @@ import mobileOthersBanner1 from '@/public/icons/img/banner_other_mobile_ver1.gif
 import mobileOthersBanner2 from '@/public/icons/img/banner_other_mobile_ver2.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { zIndex } from '@/styles/zIndex';
 
 type BannerType = {
   desktop: { [ver: number]: string };
@@ -51,8 +56,30 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
     mobile: { 1: mobileOthersBanner1.src, 2: mobileOthersBanner2.src },
   };
 
-  const handleStartResolution = () => {
-    // TODO: 은서의 다짐 메시지 모달 연결하기
+  const {
+    isOpen: isOpenResolutionModal,
+    onOpen: onOpenResolutionModal,
+    onClose: onCloseResolutionModal,
+  } = useModalState();
+
+  const { alert } = useAlert();
+  const { data: { memberProfileImgUrl, isRegistration } = {} } = useGetResolutionValidation();
+
+  const handleResolutionModalOpen = () => {
+    if (isRegistration) {
+      alert({
+        title: '편지는 한번만 전송할 수 있어요',
+        description: '전송된 편지는 종무식 때 열어볼 수 있어요!',
+        buttonText: '확인',
+        maxWidth: 400,
+        zIndex: zIndex.헤더,
+        buttonColor: colors.white,
+        buttonTextColor: colors.black,
+        hideCloseButton: true,
+      });
+    } else {
+      onOpenResolutionModal();
+    }
   };
 
   return (
@@ -62,9 +89,12 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
           {is34 ? (
             <>
               <ButtonWrapper>
-                <ResolutionButton type='button' onClick={handleStartResolution}>
+                <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
                   NOW, 다짐하러 가기
                 </ResolutionButton>
+                {isOpenResolutionModal && (
+                  <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
+                )}
               </ButtonWrapper>
               <BannerWrapper>
                 <Responsive only='desktop'>
