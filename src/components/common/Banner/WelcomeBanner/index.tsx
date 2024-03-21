@@ -83,43 +83,45 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
   };
 
   return (
-    <WelcomeBannerWrapper>
-      {isMounted ? (
-        <>
-          {is34 ? (
-            <>
-              <ButtonWrapper>
-                <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
-                  NOW, 다짐하러 가기
-                </ResolutionButton>
-                {isOpenResolutionModal && (
-                  <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
-                )}
-              </ButtonWrapper>
+    <WelcomeBannerContainer>
+      <WelcomeBannerWrapper>
+        {isMounted ? (
+          <>
+            {is34 ? (
+              <>
+                <ButtonWrapper>
+                  <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
+                    NOW, 다짐하러 가기
+                  </ResolutionButton>
+                  {isOpenResolutionModal && (
+                    <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
+                  )}
+                </ButtonWrapper>
+                <BannerWrapper>
+                  <Responsive only='desktop'>
+                    <img src={Welcome34Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                  </Responsive>
+                  <Responsive only='mobile'>
+                    <img src={Welcome34Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                  </Responsive>
+                </BannerWrapper>
+              </>
+            ) : (
               <BannerWrapper>
                 <Responsive only='desktop'>
-                  <img src={Welcome34Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                  <img src={WelcomeOthersBanner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
                 </Responsive>
                 <Responsive only='mobile'>
-                  <img src={Welcome34Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                  <img src={WelcomeOthersBanner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
                 </Responsive>
               </BannerWrapper>
-            </>
-          ) : (
-            <BannerWrapper>
-              <Responsive only='desktop'>
-                <img src={WelcomeOthersBanner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
-              </Responsive>
-              <Responsive only='mobile'>
-                <img src={WelcomeOthersBanner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
-              </Responsive>
-            </BannerWrapper>
-          )}
-        </>
-      ) : (
-        <Loading />
-      )}
-    </WelcomeBannerWrapper>
+            )}
+          </>
+        ) : (
+          <Loading />
+        )}
+      </WelcomeBannerWrapper>
+    </WelcomeBannerContainer>
   );
 };
 
@@ -161,11 +163,20 @@ const ResolutionButton = styled.button`
   }
 `;
 
-const WelcomeBannerWrapper = styled.header`
+const WelcomeBannerContainer = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 168px;
   overflow: hidden;
+`;
+
+const WelcomeBannerWrapper = styled.div`
+  position: fixed;
+  z-index: 101;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    position: relative;
+  }
 `;
