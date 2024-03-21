@@ -4,6 +4,7 @@ import { useOverlay } from '@toss/use-overlay';
 import { ReactNode, useCallback } from 'react';
 
 import Modal from '@/components/common/Modal';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const useAlert = () => {
   const { open, close } = useOverlay();
@@ -54,6 +55,10 @@ const StyledButton = styled(Modal.Button)<{ color?: string; backgroundColor?: st
   background-color: ${(props) => props.backgroundColor ?? colors.gray700};
   width: max-content;
   color: ${(props) => props.color ?? colors.gray10};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const StyledModalContent = styled(Modal.Content)<{ maxWidth?: number }>`
