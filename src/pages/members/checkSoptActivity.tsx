@@ -19,7 +19,7 @@ const PageWrapper = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 142px auto 0;
+  margin: 142px auto;
   padding: 0 20px;
   max-width: 790px;
 `;

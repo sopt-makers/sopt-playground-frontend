@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
-import { useGetMemberProfileById, useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
+import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import Loading from '@/components/common/Loading';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
 import { UNSELECTED } from '@/components/members/upload/constants';
@@ -15,14 +14,15 @@ import { fonts } from '@sopt-makers/fonts';
 import { css } from '@emotion/react';
 import { colors } from '@sopt-makers/colors';
 import { usePutMemberProfileMutation } from '@/api/endpoint/members/putMemberProfile';
+import { usePutMemberActivityCheck } from '@/api/endpoint/members/putMemberActivityCheck';
 
 export default function CheckSoptActivity() {
   const router = useRouter();
   const [isEditMode, setIsEditMode] = useState(false);
   const [isClickDisabled, setIsClickDisabled] = useState(false);
-  const { data: me } = useGetMemberOfMe();
-  const { data: profile, isLoading } = useGetMemberProfileById(me?.id);
-  const { mutate } = usePutMemberProfileMutation();
+  const { data: profile, isLoading } = useGetMemberProfileOfMe();
+  const profileUpdate = usePutMemberProfileMutation();
+  const activityCheck = usePutMemberActivityCheck();
   const { confirm } = useRegisterModal();
 
   const sortedSoptActivities = (() => {
@@ -82,8 +82,10 @@ export default function CheckSoptActivity() {
               }
             : profile.userFavor,
       };
-      mutate(data);
-      router.push(router.query?.ob ? playgroundLink.memberEdit() : playgroundLink.memberUpload());
+
+      await Promise.all([profileUpdate.mutateAsync(data), activityCheck.mutate({ isCheck: false })]).then(() =>
+        router.replace(router.query?.ob ? playgroundLink.memberEdit() : playgroundLink.memberUpload()),
+      );
     }
   };
 
