@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import Text from '@/components/common/Text';
 import CardBack from '@/components/resolution/CardBack';
-import MemberCardOfMe from '@/components/resolution/MemberCardofMe';
+import MemberCardOfMe from '@/components/resolution/MemberCardOfMe';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
