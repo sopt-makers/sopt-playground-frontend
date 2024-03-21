@@ -18,11 +18,13 @@ import { textStyles } from '@/styles/typography';
 interface MemberSoptActivityFormSectionProps {
   isEditable?: boolean;
   isCheckPage?: boolean;
+  handleClickDisabled?: () => void;
 }
 
 export default function MemberSoptActivityFormSection({
   isEditable,
   isCheckPage = false,
+  handleClickDisabled,
 }: MemberSoptActivityFormSectionProps) {
   const {
     control,
@@ -67,14 +69,14 @@ export default function MemberSoptActivityFormSection({
             >
               <StyledSelectWrapper>
                 <StyledSelect
-                  {...register(`activities.${index}.generation`)}
+                  {...register(`activities.${index}.generation`, { onChange: handleClickDisabled })}
                   error={errors?.activities?.[index]?.hasOwnProperty('generation')}
                   placeholder='활동기수'
                 >
                   <SelectOptions options={FILTERED_GENERATIONS} />
                 </StyledSelect>
                 <StyledSelect
-                  {...register(`activities.${index}.part`)}
+                  {...register(`activities.${index}.part`, { onChange: handleClickDisabled })}
                   error={errors?.activities?.[index]?.hasOwnProperty('part')}
                   placeholder='파트'
                 >
