@@ -152,17 +152,15 @@ const Bottom = styled.div`
 `;
 
 const Title = styled.div`
-  ${fonts.TITLE_32_SB}
-
   letter-spacing: -0.36px;
   color: ${colors.gray10};
+  ${fonts.TITLE_32_SB}
 `;
 
 const SubTitle = styled.div`
-  ${fonts.BODY_16_M}
-
   margin-bottom: 29px;
   color: var(--gray80, #808388);
+  ${fonts.BODY_16_M}
 `;
 
 const ButtonWrapper = styled.div`
@@ -172,8 +170,6 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.button<{ theme: 'light' | 'dark' }>`
-  ${fonts.LABEL_14_SB};
-
   display: flex;
   gap: 10px;
   align-items: center;
@@ -183,6 +179,7 @@ const Button = styled.button<{ theme: 'light' | 'dark' }>`
   width: 163px;
   height: 42px;
   letter-spacing: -0.14px;
+  ${fonts.LABEL_14_SB};
 
   ${({ theme }) =>
     theme === 'dark' &&
