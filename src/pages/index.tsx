@@ -23,7 +23,7 @@ const Home: NextPage = () => {
       <button onClick={onOpenResolutionModal}>모달테스트</button>
       {isOpenResolutionModal && (
         <ResolutionModal
-          profileImageUrl={me && !me.profileImage ? me.profileImage : ''}
+          profileImageUrl={me && me.profileImage ? me.profileImage : ''}
           onClose={onCloseResolutionModal}
         />
       )}
