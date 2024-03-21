@@ -11,7 +11,7 @@ import FormHeader from '@/components/members/upload/forms/FormHeader';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import SelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { GENERATIONS, LATEST_GENERATION } from '@/constants/generation';
+import { GENERATIONS, LAST_EDITABLE_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -60,7 +60,7 @@ export default function MemberSoptActivityFormSection({
       )}
       <StyledAddableWrapper onAppend={onAppend} isCheckPage={isCheckPage}>
         {fields.map((field, index) =>
-          isEditable ? (
+          isEditable && Number(field.generation.slice(0, 2)) <= LAST_EDITABLE_GENERATION ? (
             <AddableItem
               onRemove={() => onRemove(index)}
               key={field.id}
@@ -124,7 +124,7 @@ export default function MemberSoptActivityFormSection({
   );
 }
 
-const FILTERED_GENERATIONS = GENERATIONS.filter((generation) => parseInt(generation) <= LATEST_GENERATION - 1).map(
+const FILTERED_GENERATIONS = GENERATIONS.filter((generation) => parseInt(generation) <= LAST_EDITABLE_GENERATION).map(
   (generation) => generation + '기',
 );
 
