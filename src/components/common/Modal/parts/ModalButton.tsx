@@ -29,8 +29,6 @@ const StyledButton = styled.button<{ background: 'dark' | 'light' }>`
   padding: 12px 20px;
   height: 48px;
 
-  ${textStyles.SUIT_16_SB};
-
   ${({ background }) =>
     background === 'dark' &&
     css`
@@ -43,4 +41,6 @@ const StyledButton = styled.button<{ background: 'dark' | 'light' }>`
       background-color: ${colors.white};
       color: ${colors.black};
     `}
+
+  ${textStyles.SUIT_14_SB};
 `;

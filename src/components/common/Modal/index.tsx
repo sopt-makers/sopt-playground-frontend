@@ -67,7 +67,7 @@ const StyledBackground = styled(Dialog.Overlay)<{ zIndex?: number }>`
   inset: 0;
   align-items: center;
   justify-content: center;
-  background-color: rgb(0 0 0 / 30%);
+  background: var(--semantic-color-background-dimmed, rgb(15 15 18 / 80%));
 
   ${({ zIndex }) =>
     zIndex &&

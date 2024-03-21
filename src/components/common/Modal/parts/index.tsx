@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 export { default as ModalButton } from './ModalButton';
@@ -49,4 +50,8 @@ export const ModalFooter = styled.div<{ align: 'left' | 'right' | 'stretch'; sta
       grid-auto-columns: max-content;
       justify-content: end;
     `}
+
+    @media ${MOBILE_MEDIA_QUERY} {
+    grid-auto-columns: minmax(10px, 1fr);
+  }
 `;

@@ -85,6 +85,15 @@ import { playgroundLink } from '@sopt-makers/playground-common';
 console.log(playgroundLink.memberDetail('3')); /* /members?id=3 */
 ```
 
+### WelcomeBanner
+
+34기 환영 배너에요.
+
+```ts
+// 로그인한 유저가 34인지 boolean값을 내려주세요.
+return <WelcomeBanner is34={is34} />;
+```
+
 ## License
 
 [MIT License](https://github.com/sopt-makers/sopt-playground-frontend/blob/main/LICENSE.md)
