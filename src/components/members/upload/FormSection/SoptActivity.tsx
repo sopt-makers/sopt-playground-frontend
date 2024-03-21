@@ -30,6 +30,7 @@ export default function MemberSoptActivityFormSection({
     control,
     register,
     formState: { errors },
+    getValues,
   } = useFormContext<MemberUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -53,6 +54,21 @@ export default function MemberSoptActivityFormSection({
     return activityError.team?.message;
   };
 
+  const checkDuplicateGeneration = (value: string, id: number) => {
+    const activities = getValues('activities');
+    return (
+      activities.find(({ generation }, index) => index !== id && generation === value) === undefined ||
+      '기수가 중복되었어요.'
+    );
+  };
+
+  const checkEditableGeneration = (generation: string) => {
+    if (generation === '') return true;
+    const num = generation.match(/\d+/g);
+    if (!num) return false;
+    return Number(num[0]) <= LAST_EDITABLE_GENERATION;
+  };
+
   return (
     <StyledFormSection>
       {!isCheckPage && (
@@ -60,7 +76,7 @@ export default function MemberSoptActivityFormSection({
       )}
       <StyledAddableWrapper onAppend={onAppend} isCheckPage={isCheckPage}>
         {fields.map((field, index) =>
-          isEditable && Number(field.generation.slice(0, 2)) <= LAST_EDITABLE_GENERATION ? (
+          isEditable && checkEditableGeneration(field.generation) ? (
             <AddableItem
               onRemove={() => onRemove(index)}
               key={field.id}
@@ -69,7 +85,10 @@ export default function MemberSoptActivityFormSection({
             >
               <StyledSelectWrapper>
                 <StyledSelect
-                  {...register(`activities.${index}.generation`, { onChange: handleClickDisabled })}
+                  {...register(`activities.${index}.generation`, {
+                    onChange: handleClickDisabled,
+                    validate: (value) => checkDuplicateGeneration(value, index),
+                  })}
                   error={errors?.activities?.[index]?.hasOwnProperty('generation')}
                   placeholder='활동기수'
                 >

@@ -34,7 +34,11 @@ export default function CheckSoptActivity() {
   })();
 
   const formMethods = useForm<{ activities: SoptActivity[] }>({ mode: 'onChange' });
-  const { handleSubmit } = formMethods;
+  const {
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = formMethods;
 
   useEffect(() => {
     if (profile) {
@@ -91,13 +95,14 @@ export default function CheckSoptActivity() {
 
   useEffect(() => {
     handleClickDisabled();
-  }, [formMethods.getValues('activities')]);
+  }, [getValues('activities'), Object.keys(errors).length]);
 
   const handleClickDisabled = () => {
-    const activities = formMethods.getValues('activities');
+    const activities = getValues('activities');
     const emptyActivity = activities?.find(({ generation, part }) => generation === '' || part === '');
+    const errorCount = Object.keys(errors).length;
 
-    if (emptyActivity !== undefined) {
+    if (emptyActivity !== undefined || errorCount > 0) {
       setIsClickDisabled(true);
       return;
     }
