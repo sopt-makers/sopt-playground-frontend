@@ -67,7 +67,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
 
   const handleResolutionModalOpen = () => {
     refetch();
-    if (isRegistration) {
+    if (!isRegistration) {
       alert({
         title: '편지는 한번만 전송할 수 있어요',
         description: '전송된 편지는 종무식 때 열어볼 수 있어요!',

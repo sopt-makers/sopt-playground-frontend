@@ -252,9 +252,11 @@ const EmptyProfileImage = styled.div`
 `;
 
 const StyledTags = styled.section`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-row-gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 12px;
+  column-gap: 10px;
+  justify-content: center;
   justify-items: center;
   margin-top: 12px;
 `;
