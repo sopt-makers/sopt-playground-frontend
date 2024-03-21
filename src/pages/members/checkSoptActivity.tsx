@@ -1,13 +1,25 @@
-import CheckSoptActivity from '@/components/members/CheckSoptActivity';
+import AuthRequired from '@/components/auth/AuthRequired';
+import CheckSoptActivity from '@/components/members/upload/CheckActivity/CheckSoptActivity';
+import { setLayout } from '@/utils/layout';
+import styled from '@emotion/styled';
 
 export default function CheckSoptActivityPage() {
   return (
-    <div>
-      <h1>활동 정보 확인</h1>
-      <div>
-        등록된 활동 정보가 정확한지 확인하고, 이외 활동 정보나 운팀/미팀 활동 내역이 있다면 추가로 등록해주세요.
-      </div>
-      <CheckSoptActivity />
-    </div>
+    <AuthRequired>
+      <PageWrapper>
+        <CheckSoptActivity />
+      </PageWrapper>
+    </AuthRequired>
   );
 }
+
+setLayout(CheckSoptActivityPage, 'header');
+
+const PageWrapper = styled.main`
+  display: flex;
+  flex-direction: column;
+  gap: 29px;
+  justify-content: center;
+  margin: 142px auto 0;
+  max-width: 790px;
+`;
