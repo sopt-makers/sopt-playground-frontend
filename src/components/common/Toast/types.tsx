@@ -5,7 +5,6 @@ export interface ToastEntryData {
 export interface ToastOption {
   title?: string;
   message: string;
-  isMDS?: boolean;
 }
 
 export interface ToastController {

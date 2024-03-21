@@ -29,7 +29,6 @@ export const useConfirmResolution = () => {
         okButtonTextColor: colors.black,
       });
 
-      toast.show({ message: '💌 전송이 완료되었어요. 종무식 때 만나요!' });
       if (result) {
         mutateAsync(options, {
           onSuccess: () => {
