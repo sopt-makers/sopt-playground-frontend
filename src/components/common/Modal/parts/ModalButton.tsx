@@ -27,5 +27,5 @@ const StyledButton = styled.button`
   height: 48px;
   color: ${colors.gray10};
 
-  ${textStyles.SUIT_16_SB};
+  ${textStyles.SUIT_14_SB};
 `;
