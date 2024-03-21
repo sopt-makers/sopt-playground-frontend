@@ -35,13 +35,8 @@ import { memberFormSchema } from '@/components/members/upload/schema';
 import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
-
 import { useGetMemberOfMe } from '../../api/endpoint/members/getMemberOfMe';
-import {
-  usePutEmailBlindMutation,
-  usePutMemberProfileMutation,
-  usePutPhoneBlindMutation,
-} from '@/api/endpoint/members/putMemberProfile';
+import { usePutMemberProfileMutation } from '@/api/endpoint/members/putMemberProfile';
 
 export default function MemberEditPage() {
   const { logSubmitEvent } = useEventLogger();
@@ -53,9 +48,7 @@ export default function MemberEditPage() {
   const router = useRouter();
   const { data: myProfile, isLoading: isLoadingMyProfile } = useGetMemberProfileOfMe();
   const { data: me, isLoading: isLoadingMe } = useGetMemberOfMe();
-  const { mutateAsync: memberProfileMutateAsync } = usePutMemberProfileMutation();
-  const { mutateAsync: phoneBlindMutateAsync } = usePutPhoneBlindMutation();
-  const { mutateAsync: emailBlindMutateAsync } = usePutEmailBlindMutation();
+  const { mutate } = usePutMemberProfileMutation();
   const toast = useToast();
 
   const lastUnauthorized = useLastUnauthorized();
@@ -140,15 +133,13 @@ export default function MemberEditPage() {
         isRiceTteokLover: favor.tteokbokki === null ? null : favor.tteokbokki === '쌀떡',
       },
       selfIntroduction: longIntroduction,
+      isEmailBlind,
+      isPhoneBlind,
     };
 
-    const [response] = await Promise.all([
-      memberProfileMutateAsync(requestBody),
-      phoneBlindMutateAsync({ blind: isPhoneBlind }),
-      emailBlindMutateAsync({ blind: isEmailBlind }),
-    ]);
-
-    router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberDetail(response.id));
+    mutate(requestBody, {
+      onSuccess: ({ id }) => router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberDetail(id)),
+    });
 
     logSubmitEvent('editProfile');
   };
