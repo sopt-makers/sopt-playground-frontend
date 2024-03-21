@@ -10,10 +10,10 @@ export interface ResolutionRequestBody {
 }
 
 export const postResolution = createEndpoint({
-  request: (reqestBody: ResolutionRequestBody) => ({
+  request: (requestBody: ResolutionRequestBody) => ({
     method: 'POST',
     url: `api/v1/resolution`,
-    data: reqestBody,
+    data: requestBody,
   }),
   serverResponseScheme: z.unknown(),
 });
