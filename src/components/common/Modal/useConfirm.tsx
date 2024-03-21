@@ -32,7 +32,7 @@ const useConfirm = () => {
             <StyledModalContent maxWidth={options.maxWidth}>
               <Modal.Title>{options.title}</Modal.Title>
               <StyleModalDescription>{options.description}</StyleModalDescription>
-              <Modal.Footer align='stretch'>
+              <Modal.Footer align='right'>
                 <Modal.Button action='close'>{options.cancelButtonText}</Modal.Button>
                 <StyledOkButton
                   color={options.okButtonColor}
