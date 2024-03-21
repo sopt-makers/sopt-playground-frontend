@@ -17,9 +17,13 @@ import { textStyles } from '@/styles/typography';
 
 interface MemberSoptActivityFormSectionProps {
   isEditable?: boolean;
+  isCheckPage?: boolean;
 }
 
-export default function MemberSoptActivityFormSection({ isEditable }: MemberSoptActivityFormSectionProps) {
+export default function MemberSoptActivityFormSection({
+  isEditable,
+  isCheckPage = false,
+}: MemberSoptActivityFormSectionProps) {
   const {
     control,
     register,
@@ -49,13 +53,16 @@ export default function MemberSoptActivityFormSection({ isEditable }: MemberSopt
 
   return (
     <StyledFormSection>
-      <FormHeader title='SOPT 활동 정보' required />
-      <StyledAddableWrapper onAppend={onAppend}>
+      {!isCheckPage && (
+        <FormHeader title='SOPT 활동 정보' description='추가적인 수정은 채널톡 문의를 통해서만 가능합니다.' required />
+      )}
+      <StyledAddableWrapper onAppend={onAppend} isCheckPage={isCheckPage}>
         {fields.map((field, index) =>
           isEditable ? (
             <AddableItem
               onRemove={() => onRemove(index)}
               key={field.id}
+              isFirstItem={index === 0}
               errorMessage={getActivityErrorMessage(errors.activities?.[index])}
             >
               <StyledSelectWrapper>
@@ -125,11 +132,11 @@ const StyledFormSection = styled(FormSection)`
   }
 `;
 
-const StyledAddableWrapper = styled(AddableWrapper)`
-  margin-top: 46px;
+const StyledAddableWrapper = styled(AddableWrapper)<{ isCheckPage: boolean }>`
+  margin-top: ${({ isCheckPage }) => !isCheckPage && '32px'};
   width: 683px;
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 30px;
+    margin-top: ${({ isCheckPage }) => !isCheckPage && '30px'};
     width: 100%;
   }
 `;
