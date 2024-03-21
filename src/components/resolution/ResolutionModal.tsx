@@ -112,7 +112,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
   };
 
   return (
-    <StyledModal isOpen {...props} zIndex={zIndex.헤더}>
+    <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
       <StyledForm onSubmit={handleSubmit(submit)}>
         {profileImageUrl ? (
           <ProfileImage src={profileImageUrl} />

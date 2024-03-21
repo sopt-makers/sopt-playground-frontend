@@ -73,7 +73,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
         description: '전송된 편지는 종무식 때 열어볼 수 있어요!',
         buttonText: '확인',
         maxWidth: 400,
-        zIndex: zIndex.헤더,
+        zIndex: zIndex.헤더 + 101,
         buttonColor: colors.white,
         buttonTextColor: colors.black,
         hideCloseButton: true,
