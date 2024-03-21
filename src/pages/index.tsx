@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 
 import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import AuthRequired from '@/components/auth/AuthRequired';
+import ActiveBannerSlot from '@/components/common/Banner/ActiveBannerSlot';
 import useAlert from '@/components/common/Modal/useAlert';
 import useModalState from '@/components/common/Modal/useModalState';
 import FeedHomePage from '@/components/feed/page/FeedHomePage';
@@ -44,6 +45,7 @@ const Home: NextPage = () => {
       {isOpenResolutionModal && (
         <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
       )}
+      <ActiveBannerSlot />
       <FeedHomePage />
     </AuthRequired>
   );
