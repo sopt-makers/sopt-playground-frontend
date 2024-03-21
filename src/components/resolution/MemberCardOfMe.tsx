@@ -7,7 +7,7 @@ import ResizedImage from '@/components/common/ResizedImage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-interface MemberCardProps {
+interface MemberCardOfMeProps {
   name: string;
   belongs: string;
   intro: string;
@@ -18,7 +18,7 @@ interface MemberCardProps {
   imageUrl?: string;
 }
 
-const MemberCardOfMe: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl }) => {
+const MemberCardOfMe: FC<MemberCardOfMeProps> = ({ name, belongs, badges, intro, imageUrl }) => {
   return (
     <MemberCard>
       <StyledImageArea>
@@ -97,7 +97,7 @@ const DefaultImage = styled.img`
   width: 40%;
 `;
 
-const TitleBox = styled(m.div)`
+const TitleBox = styled.div`
   display: flex;
   align-items: center;
 `;
