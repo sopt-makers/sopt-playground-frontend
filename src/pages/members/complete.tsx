@@ -6,7 +6,6 @@ import { FC } from 'react';
 
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import Text from '@/components/common/Text';
-import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import CardBack from '@/components/resolution/CardBack';
 import MemberCardOfMe from '@/components/resolution/MemberCardofMe';
 import { LATEST_GENERATION } from '@/constants/generation';
