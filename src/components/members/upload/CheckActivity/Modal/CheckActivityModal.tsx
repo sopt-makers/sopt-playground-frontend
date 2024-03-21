@@ -14,7 +14,10 @@ function CheckActivity() {
   };
 
   const moveToCheck = () => {
-    router.push(playgroundLink.memberCheckSoptActivity());
+    router.push({
+      pathname: playgroundLink.memberCheckSoptActivity(),
+      query: { ob: true },
+    });
   };
 
   return (
