@@ -10,6 +10,7 @@ import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import CardBack from '@/components/resolution/CardBack';
 import MemberCardOfMe from '@/components/resolution/MemberCardofMe';
 import { LATEST_GENERATION } from '@/constants/generation';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
  * @desc 신규 프로필 등록 후 다짐 메시지를 유도하는 페이지입니다.
  */
@@ -30,7 +31,7 @@ const CompletePage: FC = () => {
 
   return (
     <>
-      {profile ? (
+      {profile && (
         <StyledCompletePage>
           <Text typography='SUIT_32_B'>프로필 등록 완료!</Text>
           <CardsWrapper>
@@ -60,8 +61,6 @@ const CompletePage: FC = () => {
             </CtaButton>
           </ButtonsWrapper>
         </StyledCompletePage>
-      ) : (
-        <EmptyProfile />
       )}
     </>
   );
@@ -76,6 +75,7 @@ const StyledCompletePage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0 16px;
   width: 100%;
   @supports (height: 100dvh) {
     height: 100dvh;
@@ -119,6 +119,10 @@ const DefaultButton = styled.button`
   color: ${colors.gray10};
 
   ${textStyles.SUIT_16_SB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 const CtaButton = styled.button`
   display: flex;
@@ -131,10 +135,21 @@ const CtaButton = styled.button`
   color: ${colors.black};
 
   ${textStyles.SUIT_16_SB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    order: -1;
+    width: 100%;
+  }
 `;
 
 const ButtonsWrapper = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 56px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
 `;
