@@ -14,6 +14,7 @@ import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
+import { useConfirmResolution } from '@/components/resolution/useConfirmResolution';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { zIndex } from '@/styles/zIndex';
@@ -78,6 +79,7 @@ interface ResolutionModalProps extends ModalProps {
 }
 
 const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }) => {
+  const { handleConfirmResolution, isPending } = useConfirmResolution();
   const [selectedTag, setSelectedTag] = useState<ResolutionTag[]>([]);
   const { handleSubmit, control, formState } = useForm<ResolutionForm>({
     resolver: yupResolver(schema),
@@ -85,8 +87,6 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
   });
 
   const isValid = formState.isValid;
-
-  const { mutateAsync, isPending } = usePostResolutionMutation();
 
   const onClickTag = (tag: ResolutionTag) => {
     if (selectedTag.includes(tag)) {
@@ -97,14 +97,15 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
   };
 
   const submit = async ({ content }: ResolutionForm) => {
-    // 재확인 모달 추가하기
     try {
       if (!isValid) return;
-      await mutateAsync({
+      handleConfirmResolution({
         content,
         tags: selectedTag,
+        onSuccess: () => {
+          props.onClose();
+        },
       });
-      props.onClose();
     } catch (error) {
       throw error;
     }
@@ -136,9 +137,9 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
         </TagTextWrapper>
         <StyledTags>
           {TAG.map((tag, index) => (
-            <>
+            <div key={'wrapper' + index}>
               <RHFControllerFormItem
-                key={index}
+                key={'controller' + index}
                 name={`tags.${index}`}
                 id={`tags.${index}`}
                 component={StyledInput}
@@ -147,7 +148,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
                 style={{ display: 'none' }}
               />
               <StyledTagItem
-                key={index}
+                key={'tagItem' + index}
                 htmlFor={`tags.${index}`}
                 onClick={() => onClickTag(tag.value)}
                 isSelected={selectedTag.includes(tag.value)}
@@ -156,7 +157,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
                   {tag.icon} {tag.value}
                 </Text>
               </StyledTagItem>
-            </>
+            </div>
           ))}
         </StyledTags>
         <TagErrorWrapper>

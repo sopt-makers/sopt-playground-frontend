@@ -1,15 +1,16 @@
-import { ResolutionTag } from '@/components/resolution/ResolutionModal';
-import { createEndpoint } from '@/api/typedAxios';
 import { useMutation } from '@tanstack/react-query';
 import z from 'zod';
 
-interface RequestBody {
+import { createEndpoint } from '@/api/typedAxios';
+import { ResolutionTag } from '@/components/resolution/ResolutionModal';
+
+export interface ResolutionRequestBody {
   content: string;
   tags: ResolutionTag[];
 }
 
 export const postResolution = createEndpoint({
-  request: (reqestBody: RequestBody) => ({
+  request: (reqestBody: ResolutionRequestBody) => ({
     method: 'POST',
     url: `api/v1/resolution`,
     data: reqestBody,
@@ -20,7 +21,7 @@ export const postResolution = createEndpoint({
 export const usePostResolutionMutation = () => {
   return useMutation({
     mutationKey: ['postResolution'],
-    mutationFn: async (requestBody: RequestBody) => {
+    mutationFn: async (requestBody: ResolutionRequestBody) => {
       const response = await postResolution.request(requestBody);
       return response;
     },
