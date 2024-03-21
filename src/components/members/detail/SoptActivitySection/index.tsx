@@ -2,7 +2,7 @@ import { playgroundLink } from 'playground-common/export';
 
 import { SoptActivity } from '@/api/endpoint_LEGACY/members/type';
 import { isProjectCategory } from '@/api/endpoint_LEGACY/projects/type';
-import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
+import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import PartItem from '@/components/members/detail/PartItem';
 import { Category } from '@/components/projects/types';
 
