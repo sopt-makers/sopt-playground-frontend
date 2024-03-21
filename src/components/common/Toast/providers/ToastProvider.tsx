@@ -13,7 +13,7 @@ interface ToastProviderProps {
   children: ReactNode;
   duration?: number;
 }
-const ToastProvider: FC<ToastProviderProps> = ({ duration = 40000, children }) => {
+const ToastProvider: FC<ToastProviderProps> = ({ duration = 4000, children }) => {
   const [toast, setToast] = useState<ToastEntryData | null>(null);
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out' | 'slide-reset'>('slide-in');
   const toastTimeout = useAtomicTimeout();
