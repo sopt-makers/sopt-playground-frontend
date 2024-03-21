@@ -21,5 +21,6 @@ export const useGetResolutionValidation = () => {
       const data = await getResolutionValidation.request();
       return data;
     },
+    enabled: false,
   });
 };

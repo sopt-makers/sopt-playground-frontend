@@ -63,9 +63,10 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
   } = useModalState();
 
   const { alert } = useAlert();
-  const { data: { memberProfileImgUrl, isRegistration } = {} } = useGetResolutionValidation();
+  const { data: { memberProfileImgUrl, isRegistration } = {}, refetch } = useGetResolutionValidation();
 
   const handleResolutionModalOpen = () => {
+    refetch();
     if (isRegistration) {
       alert({
         title: '편지는 한번만 전송할 수 있어요',
