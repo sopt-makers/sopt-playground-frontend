@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import z from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
@@ -19,11 +20,15 @@ export const postResolution = createEndpoint({
 });
 
 export const usePostResolutionMutation = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['postResolution'],
     mutationFn: async (requestBody: ResolutionRequestBody) => {
       const response = await postResolution.request(requestBody);
       return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getResolutionValidation'] });
     },
   });
 };

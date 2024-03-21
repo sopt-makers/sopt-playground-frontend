@@ -63,11 +63,10 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
   } = useModalState();
 
   const { alert } = useAlert();
-  const { data: { memberProfileImgUrl, isRegistration } = {}, refetch } = useGetResolutionValidation();
+  const { data } = useGetResolutionValidation();
 
   const handleResolutionModalOpen = () => {
-    refetch();
-    if (!isRegistration) {
+    if (data?.isRegistration) {
       alert({
         title: '편지는 한번만 전송할 수 있어요',
         description: '전송된 편지는 종무식 때 열어볼 수 있어요!',
@@ -95,7 +94,10 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
                     NOW, 다짐하러 가기
                   </ResolutionButton>
                   {isOpenResolutionModal && (
-                    <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
+                    <ResolutionModal
+                      profileImageUrl={data?.memberProfileImgUrl ?? ''}
+                      onClose={onCloseResolutionModal}
+                    />
                   )}
                 </ButtonWrapper>
                 <BannerWrapper>
