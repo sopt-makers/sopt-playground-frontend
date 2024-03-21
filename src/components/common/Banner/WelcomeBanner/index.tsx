@@ -128,11 +128,9 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
 export default WelcomeBanner;
 
 const BannerWrapper = styled.div`
-  border-bottom: 1px solid ${colors.gray800};
   width: 1440px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    border-bottom: 0;
     width: 100%;
     max-width: 375px;
   }
@@ -168,15 +166,21 @@ const WelcomeBannerContainer = styled.header`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 168px;
   overflow: hidden;
 `;
 
 const WelcomeBannerWrapper = styled.div`
+  display: flex;
   position: fixed;
-  z-index: 101;
+  justify-content: center;
+  z-index: 100;
+  border-bottom: 1px solid ${colors.gray800};
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
+    border-bottom: 0;
   }
 `;
