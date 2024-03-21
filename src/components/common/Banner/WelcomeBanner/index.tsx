@@ -177,8 +177,8 @@ const WelcomeBannerContainer = styled.header`
 const WelcomeBannerWrapper = styled.div`
   display: flex;
   position: fixed;
-  z-index: 2;
   justify-content: center;
+  z-index: 2;
   border-bottom: 1px solid ${colors.gray800};
   width: 100%;
 
