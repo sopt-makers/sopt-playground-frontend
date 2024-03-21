@@ -175,7 +175,7 @@ const WelcomeBannerContainer = styled.header`
 
 const WelcomeBannerWrapper = styled.div`
   position: fixed;
-  z-index: 101;
+  z-index: 2;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
