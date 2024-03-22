@@ -89,11 +89,15 @@ const StyledCompletePage = styled.div`
   padding: 0 16px;
   width: 100%;
   @supports (height: 100dvh) {
-    height: 100dvh;
+    height: calc(100dvh - 100px);
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 20px 0;
+
+    @supports (height: 100dvh) {
+      height: 100dvh;
+    }
   }
 `;
 
