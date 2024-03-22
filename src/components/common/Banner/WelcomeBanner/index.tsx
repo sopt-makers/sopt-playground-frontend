@@ -61,7 +61,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
       <WelcomeBannerWrapper>
         {isMounted ? (
           <>
-            {!is34 ? (
+            {is34 ? (
               <>
                 <ButtonWrapper>
                   <ResolutionButton type='button' onClick={handleResolutionModalOpen}>

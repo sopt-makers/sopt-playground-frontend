@@ -3,7 +3,6 @@ import { FC } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AuthRequired from '@/components/auth/AuthRequired';
-import ActiveBannerSlot from '@/components/common/Banner/ActiveBannerSlot';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -17,7 +16,6 @@ const MemberPage: FC = () => {
 
   return (
     <AuthRequired>
-      <ActiveBannerSlot />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
   );
