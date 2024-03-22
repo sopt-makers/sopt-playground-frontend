@@ -13,6 +13,7 @@ import Text from '@/components/common/Text';
 import CardBack from '@/components/resolution/CardBack';
 import MemberCardOfMe from '@/components/resolution/MemberCardOfMe';
 import ResolutionModal from '@/components/resolution/ResolutionModal';
+import { useOpenResolutionModal } from '@/components/resolution/useOpenResolutionModal';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
@@ -34,31 +35,8 @@ const CompletePage: FC = () => {
       isActive: activity.generation === LATEST_GENERATION,
     }));
 
-  const {
-    isOpen: isOpenResolutionModal,
-    onOpen: onOpenResolutionModal,
-    onClose: onCloseResolutionModal,
-  } = useModalState();
-
-  const { alert } = useAlert();
-  const { data: { memberProfileImgUrl, isRegistration } = {} } = useGetResolutionValidation();
-
-  const handleResolutionModalOpen = () => {
-    if (isRegistration) {
-      alert({
-        title: '편지는 한번만 전송할 수 있어요',
-        description: '전송된 편지는 종무식 때 열어볼 수 있어요!',
-        buttonText: '확인',
-        maxWidth: 400,
-        zIndex: zIndex.헤더,
-        buttonColor: colors.white,
-        buttonTextColor: colors.black,
-        hideCloseButton: true,
-      });
-    } else {
-      onOpenResolutionModal();
-    }
-  };
+  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, memberProfileImgUrl } =
+    useOpenResolutionModal();
 
   return (
     <>
