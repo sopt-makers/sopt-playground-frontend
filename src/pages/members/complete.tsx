@@ -4,10 +4,14 @@ import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 
+import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
+import useAlert from '@/components/common/Modal/useAlert';
+import useModalState from '@/components/common/Modal/useModalState';
 import Text from '@/components/common/Text';
 import CardBack from '@/components/resolution/CardBack';
 import MemberCardOfMe from '@/components/resolution/MemberCardOfMe';
+import ResolutionModal from '@/components/resolution/ResolutionModal';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
@@ -27,6 +31,32 @@ const CompletePage: FC = () => {
       content: `${activity.generation}기 ${activity.part}`,
       isActive: activity.generation === LATEST_GENERATION,
     }));
+
+  const {
+    isOpen: isOpenResolutionModal,
+    onOpen: onOpenResolutionModal,
+    onClose: onCloseResolutionModal,
+  } = useModalState();
+
+  const { alert } = useAlert();
+  const { data: { memberProfileImgUrl, isRegistration } = {} } = useGetResolutionValidation();
+
+  const handleResolutionModalOpen = () => {
+    if (isRegistration) {
+      alert({
+        title: '편지는 한번만 전송할 수 있어요',
+        description: '전송된 편지는 종무식 때 열어볼 수 있어요!',
+        buttonText: '확인',
+        maxWidth: 400,
+        zIndex: zIndex.헤더,
+        buttonColor: colors.white,
+        buttonTextColor: colors.black,
+        hideCloseButton: true,
+      });
+    } else {
+      onOpenResolutionModal();
+    }
+  };
 
   return (
     <>
@@ -51,13 +81,10 @@ const CompletePage: FC = () => {
             >
               홈으로 돌아가기
             </DefaultButton>
-            <CtaButton
-              onClick={() => {
-                //다짐메시지 모달
-              }}
-            >
-              NOW, 다짐하러 가기
-            </CtaButton>
+            <CtaButton onClick={handleResolutionModalOpen}>NOW, 다짐하러 가기</CtaButton>
+            {isOpenResolutionModal && (
+              <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
+            )}
           </ButtonsWrapper>
         </StyledCompletePage>
       )}
@@ -87,7 +114,6 @@ const CardsWrapper = styled.div`
   transform-style: preserve-3d;
   transition: transform 0.3s;
   margin-top: 32px;
-  margin-bottom: 55px;
   width: 100%;
   animation-name: flip;
   animation-duration: 1s;
@@ -148,6 +174,7 @@ const ButtonsWrapper = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 56px;
+  margin-bottom: 55px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
