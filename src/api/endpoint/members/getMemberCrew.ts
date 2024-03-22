@@ -39,7 +39,7 @@ export const getMemberCrew = createEndpoint({
 });
 
 export const useGetMemberCrewInfiniteQuery = (limit: number, id?: number) => {
-  // if (typeof id === 'undefined') throw new Error('Invalid id');
+  if (typeof id === 'undefined') throw new Error('Invalid id');
   return useInfiniteQuery({
     queryKey: useGetMemberCrewInfiniteQuery.getKey(id),
     queryFn: async ({ pageParam }) => {
