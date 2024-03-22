@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-import ToastMDSEntry from '@/components/common/Toast/ToastMDSEntry';
-import IconCheck from '@/public/icons/icon-check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -12,31 +10,20 @@ export interface ToastEntryProps {
   message: string;
 }
 
-const ToastEntry: FC<ToastEntryProps> = ({ title, message }) => {
+const ToastMDSEntry: FC<ToastEntryProps> = ({ title, message }) => {
   return (
-    <>
-      {message === '💌 전송이 완료되었어요. 종무식 때 만나요!' ? (
-        <ToastMDSEntry title={title} message={message} />
-      ) : (
-        <StyledToastWrapper>
-          <StyledToastEntry>
-            <IconBox>
-              <IconCheck />
-            </IconBox>
-            <HeaderBox>
-              {title && <Title>{title}</Title>}
-              <ContentBox>{message}</ContentBox>
-            </HeaderBox>
-          </StyledToastEntry>
-        </StyledToastWrapper>
-      )}
-    </>
+    <StyledToastWrapper>
+      <StyledToastEntry>
+        <HeaderBox>
+          {title && <Title>{title}</Title>}
+          <ContentBox>{message}</ContentBox>
+        </HeaderBox>
+      </StyledToastEntry>
+    </StyledToastWrapper>
   );
 };
 
-export default ToastEntry;
-
-const TOAST_CONTAINER_LEFT = 36;
+export default ToastMDSEntry;
 
 const StyledToastWrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
@@ -48,19 +35,19 @@ const StyledToastWrapper = styled.div`
 const StyledToastEntry = styled.div`
   display: flex;
   border-radius: 18px;
-  background: ${colors.gray700};
-  padding: 16px;
-  width: fit-content;
+  background: ${colors.gray10};
+  padding: 14px 16px;
+  width: 380px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    max-width: calc(100vw - ${TOAST_CONTAINER_LEFT * 2}px);
+    max-width: 343px;
   }
 `;
 
 const HeaderBox = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  justify-content: center;
 `;
 
 const Title = styled.h2`
@@ -84,5 +71,6 @@ const IconBox = styled.div`
 `;
 
 const ContentBox = styled.div`
-  color: ${colors.gray200};
+  color: ${colors.gray900};
+  ${textStyles.SUIT_14_SB};
 `;

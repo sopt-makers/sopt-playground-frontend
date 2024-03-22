@@ -24,7 +24,7 @@ export const useConfirmResolution = () => {
         okButtonText: '그대로 전송하기',
         cancelButtonText: '취소',
         maxWidth: 400,
-        zIndex: zIndex.헤더,
+        zIndex: zIndex.헤더 + 101,
         okButtonColor: 'linear-gradient(90deg, #effdb4 0%, #bdec00 100%)',
         okButtonTextColor: colors.black,
       });

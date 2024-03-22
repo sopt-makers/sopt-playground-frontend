@@ -7,7 +7,6 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { usePostResolutionMutation } from '@/api/endpoint/resolution/postResolution';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/Modal';
@@ -112,7 +111,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
   };
 
   return (
-    <StyledModal isOpen {...props} zIndex={zIndex.헤더}>
+    <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
       <StyledForm onSubmit={handleSubmit(submit)}>
         {profileImageUrl ? (
           <ProfileImage src={profileImageUrl} />
@@ -153,7 +152,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
                 onClick={() => onClickTag(tag.value)}
                 isSelected={selectedTag.includes(tag.value)}
               >
-                <Text typography='SUIT_14_SB' color={colors.gray200}>
+                <Text typography='SUIT_14_SB' color={selectedTag.includes(tag.value) ? colors.white : colors.gray200}>
                   {tag.icon} {tag.value}
                 </Text>
               </StyledTagItem>
@@ -252,9 +251,11 @@ const EmptyProfileImage = styled.div`
 `;
 
 const StyledTags = styled.section`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-row-gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 12px;
+  column-gap: 10px;
+  justify-content: center;
   justify-items: center;
   margin-top: 12px;
 `;
@@ -278,6 +279,7 @@ const StyledTextArea = styled(TextArea)`
   background-color: ${colors.gray800};
   width: 386px;
   height: 198px;
+  line-height: 26px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     @supports (height: 100dvw) {

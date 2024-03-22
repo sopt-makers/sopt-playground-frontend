@@ -153,8 +153,8 @@ export interface ProfileRequest {
   };
   idealType: string | null;
   selfIntroduction: string | null;
-  isPhoneBlind?: boolean;
-  isEmailBlind?: boolean;
+  isPhoneBlind: boolean | null;
+  isEmailBlind: boolean | null;
 }
 
 export interface PostMemberMessageVariables {
