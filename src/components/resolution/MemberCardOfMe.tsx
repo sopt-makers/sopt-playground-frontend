@@ -59,7 +59,7 @@ const MemberCard = styled.div`
   align-items: center;
   justify-content: center;
   transform: rotateY(180deg);
-  border: 0.5px solid rgb(255 255 255 / 8%);
+  border: 0.5px solid rgb(255 255 255 / 20%);
   border-radius: 16px;
   background-color: var(--black90, #17181b);
   padding: 30.5px 24px;
