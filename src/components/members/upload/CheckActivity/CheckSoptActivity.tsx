@@ -1,20 +1,21 @@
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+
+import { usePutMemberActivityCheck } from '@/api/endpoint/members/putMemberActivityCheck';
+import { usePutMemberProfileMutation } from '@/api/endpoint/members/putMemberProfile';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import Loading from '@/components/common/Loading';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
+import useRegisterModal from '@/components/members/hooks/useRegisterModal';
 import { UNSELECTED } from '@/components/members/upload/constants';
 import MemberSoptActivityFormSection from '@/components/members/upload/FormSection/SoptActivity';
 import { SoptActivity } from '@/components/members/upload/types';
-import styled from '@emotion/styled';
-import useRegisterModal from '@/components/members/hooks/useRegisterModal';
-import { useRouter } from 'next/router';
-import { playgroundLink } from 'playground-common/export';
-import { fonts } from '@sopt-makers/fonts';
-import { css } from '@emotion/react';
-import { colors } from '@sopt-makers/colors';
-import { usePutMemberProfileMutation } from '@/api/endpoint/members/putMemberProfile';
-import { usePutMemberActivityCheck } from '@/api/endpoint/members/putMemberActivityCheck';
 
 export default function CheckSoptActivity() {
   const router = useRouter();
@@ -117,7 +118,8 @@ export default function CheckSoptActivity() {
     <FormProvider {...formMethods}>
       <Title>활동 정보 {isEditMode ? '수정' : '확인'}</Title>
       <SubTitle>
-        등록된 활동 정보가 정확한지 확인하고, 이외 활동 정보나 운팀/미팀 활동 내역이 있다면 추가로 등록해주세요.
+        등록된 활동 정보가 정확한지 확인하고, 이외 활동 정보나 운팀/미팀 활동 내역이 있다면 추가로 등록해주세요. <br />*
+        31기부터는 임의로 기수와 파트 수정이 불가능해요.
       </SubTitle>
       {isEditMode ? (
         <Bottom>
