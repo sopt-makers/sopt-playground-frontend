@@ -1,8 +1,8 @@
-import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
 
-import { createEndpoint } from '@/api/typedAxios';
 import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
+import { createEndpoint } from '@/api/typedAxios';
 
 /**
  * @desc 멤버 프로필 수정
@@ -77,6 +77,7 @@ export const usePutMemberProfileMutation = () => {
       queryClient.invalidateQueries({ queryKey: ['getMemberProfileOfMe'] });
       queryClient.invalidateQueries({ queryKey: ['getMemberProfileById', response.id] });
       queryClient.invalidateQueries({ queryKey: ['getMemberProfile'] });
+      queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
     },
   });
 };
