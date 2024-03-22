@@ -11,19 +11,26 @@ import FormHeader from '@/components/members/upload/forms/FormHeader';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import SelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { GENERATIONS } from '@/constants/generation';
+import { GENERATIONS, LAST_EDITABLE_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const FILTERED_GENERATIONS = GENERATIONS.filter((generation) => parseInt(generation) <= 30).map(
-  (generation) => generation + '기',
-);
+interface MemberSoptActivityFormSectionProps {
+  isEditable?: boolean;
+  isCheckPage?: boolean;
+  handleClickDisabled?: () => void;
+}
 
-export default function MemberSoptActivityFormSection() {
+export default function MemberSoptActivityFormSection({
+  isEditable,
+  isCheckPage = false,
+  handleClickDisabled,
+}: MemberSoptActivityFormSectionProps) {
   const {
     control,
     register,
     formState: { errors },
+    getValues,
   } = useFormContext<MemberUploadForm>();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -47,27 +54,48 @@ export default function MemberSoptActivityFormSection() {
     return activityError.team?.message;
   };
 
+  const checkDuplicateGeneration = (value: string, id: number) => {
+    const activities = getValues('activities');
+    return (
+      activities.find(({ generation }, index) => index !== id && generation === value) === undefined ||
+      '기수가 중복되었어요.'
+    );
+  };
+
+  const checkEditableGeneration = (generation: string) => {
+    if (generation === '') return true;
+    const num = generation.match(/\d+/g);
+    if (!num) return false;
+    return Number(num[0]) <= LAST_EDITABLE_GENERATION;
+  };
+
   return (
     <StyledFormSection>
-      <FormHeader title='SOPT 활동 정보' required description='31기 이후의 기수와 파트 정보는 수정이 불가능해요.' />
-      <StyledAddableWrapper onAppend={onAppend}>
+      {!isCheckPage && (
+        <FormHeader title='SOPT 활동 정보' description='추가적인 수정은 채널톡 문의를 통해서만 가능합니다.' required />
+      )}
+      <StyledAddableWrapper onAppend={onAppend} isCheckPage={isCheckPage}>
         {fields.map((field, index) =>
-          parseInt(field.generation) <= 30 || !field.generation ? (
+          isEditable && checkEditableGeneration(field.generation) ? (
             <AddableItem
               onRemove={() => onRemove(index)}
               key={field.id}
+              isFirstItem={index === 0}
               errorMessage={getActivityErrorMessage(errors.activities?.[index])}
             >
               <StyledSelectWrapper>
                 <StyledSelect
-                  {...register(`activities.${index}.generation`)}
+                  {...register(`activities.${index}.generation`, {
+                    onChange: handleClickDisabled,
+                    validate: (value) => checkDuplicateGeneration(value, index),
+                  })}
                   error={errors?.activities?.[index]?.hasOwnProperty('generation')}
                   placeholder='활동기수'
                 >
                   <SelectOptions options={FILTERED_GENERATIONS} />
                 </StyledSelect>
                 <StyledSelect
-                  {...register(`activities.${index}.part`)}
+                  {...register(`activities.${index}.part`, { onChange: handleClickDisabled })}
                   error={errors?.activities?.[index]?.hasOwnProperty('part')}
                   placeholder='파트'
                 >
@@ -115,17 +143,21 @@ export default function MemberSoptActivityFormSection() {
   );
 }
 
+const FILTERED_GENERATIONS = GENERATIONS.filter((generation) => parseInt(generation) <= LAST_EDITABLE_GENERATION).map(
+  (generation) => generation + '기',
+);
+
 const StyledFormSection = styled(FormSection)`
   @media ${MOBILE_MEDIA_QUERY} {
     padding-bottom: 17px;
   }
 `;
 
-const StyledAddableWrapper = styled(AddableWrapper)`
-  margin-top: 46px;
+const StyledAddableWrapper = styled(AddableWrapper)<{ isCheckPage: boolean }>`
+  margin-top: ${({ isCheckPage }) => !isCheckPage && '32px'};
   width: 683px;
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 30px;
+    margin-top: ${({ isCheckPage }) => !isCheckPage && '30px'};
     width: 100%;
   }
 `;

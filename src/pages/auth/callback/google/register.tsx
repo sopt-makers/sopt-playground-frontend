@@ -69,7 +69,7 @@ const GoogleRegisterCallbackPage: FC = () => {
   const handleSuccess = () => {
     setLastLoginMethod('google');
     if (registerToken?.type === 'register') {
-      router.replace(playgroundLink.memberUpload());
+      router.replace(playgroundLink.memberCheckSoptActivity());
     } else if (registerToken?.type === 'reset') {
       router.replace('/');
     }

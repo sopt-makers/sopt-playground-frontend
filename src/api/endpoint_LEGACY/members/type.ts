@@ -55,17 +55,7 @@ export type ProfileDetail = {
   };
   idealType: string;
   selfIntroduction: string;
-  soptActivities: {
-    generation: number;
-    part: string;
-    team: string | null;
-    projects: {
-      id: number;
-      generation: number;
-      name: string;
-      category: ProjectCategory;
-    }[];
-  }[];
+  soptActivities: SoptActivity[];
   links: MemberLink[];
   projects: MemberProject[];
   careers: Career[];
@@ -75,12 +65,16 @@ export type ProfileDetail = {
   isEmailBlind: boolean;
 };
 
-export type Activity = {
-  id: number;
+export type SoptActivity = {
   generation: number;
-  team: string;
   part: string;
-  isProject: boolean;
+  team: string | null;
+  projects: {
+    id: number;
+    generation: number;
+    name: string;
+    category: ProjectCategory;
+  }[];
 };
 
 export type MemberLink = {

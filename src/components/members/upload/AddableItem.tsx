@@ -13,6 +13,7 @@ interface MemberAddableItemProps extends HTMLAttributes<HTMLDivElement> {
   errorMessage?: string;
   children: ReactNode;
   required?: boolean;
+  isFirstItem?: boolean;
 }
 
 export default function MemberAddableItem({
@@ -20,23 +21,20 @@ export default function MemberAddableItem({
   errorMessage,
   children,
   required,
+  isFirstItem = false,
   ...props
 }: MemberAddableItemProps) {
-  const [isHover, setIsHover] = useState(false);
-  const onMouseOver = () => setIsHover(true);
-  const onMouseLeave = () => setIsHover(false);
-
   return (
     <StyledContainer {...props}>
-      <StyledItemWrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+      <StyledItemWrapper>
         {children}
         <Responsive only='desktop' asChild>
-          <StyledDeleteButton onClick={required ? undefined : onRemove} isVisible={required ? false : isHover}>
+          <StyledDeleteButton onClick={required ? undefined : onRemove} isVisible={!required && !isFirstItem}>
             <IconDelete />
           </StyledDeleteButton>
         </Responsive>
         <Responsive only='mobile' asChild>
-          <MobileDeleteButton onClick={required ? undefined : onRemove} isVisible={!required}>
+          <MobileDeleteButton onClick={required ? undefined : onRemove} isVisible={!required && !isFirstItem}>
             삭제
           </MobileDeleteButton>
         </Responsive>

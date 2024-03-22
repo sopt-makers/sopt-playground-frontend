@@ -34,6 +34,7 @@ import { memberFormSchema } from '@/components/members/upload/schema';
 import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
+import CheckActivity from '@/components/members/upload/CheckActivity/Modal/CheckActivityModal';
 import { useGetMemberOfMe } from '../../api/endpoint/members/getMemberOfMe';
 import { usePutMemberProfileMutation } from '@/api/endpoint/members/putMemberProfile';
 
@@ -231,6 +232,7 @@ export default function MemberEditPage() {
 
   return (
     <AuthRequired>
+      {me && me.editActivitiesAble && <CheckActivity />}
       <FormProvider {...formMethods}>
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
