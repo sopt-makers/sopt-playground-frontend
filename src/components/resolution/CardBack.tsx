@@ -22,8 +22,9 @@ const MemberCard = styled.div`
   justify-content: center;
   border: 0.5px solid rgb(255 255 255 / 8%);
   border-radius: 16px;
-  background-color: #17181b;
-  width: 303px;
+  background-color: var(--black90, #17181b);
+  width: 100%;
+  max-width: 303px;
   height: 368px;
 `;
 

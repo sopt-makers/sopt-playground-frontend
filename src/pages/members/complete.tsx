@@ -83,9 +83,11 @@ const StyledCompletePage = styled.div`
 
 const CardsWrapper = styled.div`
   display: inline-grid;
+  justify-items: center;
   transform-style: preserve-3d;
   transition: transform 0.3s;
   margin-top: 32px;
+  width: 100%;
   animation-name: flip;
   animation-duration: 1s;
   animation-delay: 0.8s;

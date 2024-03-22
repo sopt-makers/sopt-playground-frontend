@@ -61,9 +61,10 @@ const MemberCard = styled.div`
   transform: rotateY(180deg);
   border: 0.5px solid rgb(255 255 255 / 8%);
   border-radius: 16px;
-  background-color: #17181b;
+  background-color: var(--black90, #17181b);
   padding: 30.5px 24px;
-  width: 303px;
+  width: 100%;
+  max-width: 303px;
 `;
 
 const StyledImageArea = styled.div`
