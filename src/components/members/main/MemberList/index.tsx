@@ -549,18 +549,18 @@ const StyledMemberSearch = styled(MemberSearch)`
 
 const StyledCardWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, minmax(auto, 303px));
+  grid-template-columns: repeat(4, minmax(10px, 303px));
   gap: 30px;
   align-items: center;
   justify-items: stretch;
   margin-top: 28px;
 
   @media ${DESKTOP_ONE_MEDIA_QUERY} {
-    grid-template-columns: repeat(3, minmax(auto, 303px));
+    grid-template-columns: repeat(3, minmax(10px, 303px));
   }
 
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
-    grid-template-columns: repeat(2, minmax(auto, 303px));
+    grid-template-columns: repeat(2, minmax(10px, 303px));
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
