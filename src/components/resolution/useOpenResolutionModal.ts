@@ -39,5 +39,6 @@ export const useOpenResolutionModal = () => {
     onCloseResolutionModal,
     handleResolutionModalOpen,
     profileImage,
+    isRegistration,
   };
 };
