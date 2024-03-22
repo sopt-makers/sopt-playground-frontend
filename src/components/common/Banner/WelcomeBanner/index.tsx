@@ -87,7 +87,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
       <WelcomeBannerWrapper>
         {isMounted ? (
           <>
-            {is34 ? (
+            {!is34 ? (
               <>
                 <ButtonWrapper>
                   <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
@@ -102,20 +102,23 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
                 </ButtonWrapper>
                 <BannerWrapper>
                   <Responsive only='desktop'>
-                    <img src={Welcome34Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                    <Banner src={Welcome34Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
                   </Responsive>
                   <Responsive only='mobile'>
-                    <img src={Welcome34Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                    <Banner src={Welcome34Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
                   </Responsive>
                 </BannerWrapper>
               </>
             ) : (
               <BannerWrapper>
                 <Responsive only='desktop'>
-                  <img src={WelcomeOthersBanner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                  <Banner
+                    src={WelcomeOthersBanner.desktop[bannerVersion]}
+                    alt={`데스크탑 환영 배너 v${bannerVersion}`}
+                  />
                 </Responsive>
                 <Responsive only='mobile'>
-                  <img src={WelcomeOthersBanner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                  <Banner src={WelcomeOthersBanner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
                 </Responsive>
               </BannerWrapper>
             )}
@@ -130,7 +133,9 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
 
 export default WelcomeBanner;
 
-const BannerWrapper = styled.div`
+const BannerWrapper = styled.div``;
+
+const Banner = styled.img`
   width: 1440px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -170,7 +175,7 @@ const WelcomeBannerContainer = styled.header`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 168px;
+  min-height: 168px;
   overflow: hidden;
 `;
 
@@ -181,6 +186,7 @@ const WelcomeBannerWrapper = styled.div`
   z-index: 2;
   border-bottom: 1px solid ${colors.gray800};
   width: 100%;
+  min-height: 168px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
