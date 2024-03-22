@@ -4,10 +4,7 @@ import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 
-import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
-import useAlert from '@/components/common/Modal/useAlert';
-import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import CardBack from '@/components/resolution/CardBack';
@@ -35,7 +32,7 @@ const CompletePage: FC = () => {
       isActive: activity.generation === LATEST_GENERATION,
     }));
 
-  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, memberProfileImgUrl } =
+  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, profileImage } =
     useOpenResolutionModal();
 
   return (
@@ -68,7 +65,7 @@ const CompletePage: FC = () => {
             </DefaultButton>
             <CtaButton onClick={handleResolutionModalOpen}>NOW, 다짐하러 가기</CtaButton>
             {isOpenResolutionModal && (
-              <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
+              <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
             )}
           </ButtonsWrapper>
         </StyledCompletePage>

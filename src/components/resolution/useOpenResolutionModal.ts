@@ -1,5 +1,6 @@
 import { colors } from '@sopt-makers/colors';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import useAlert from '@/components/common/Modal/useAlert';
 import useModalState from '@/components/common/Modal/useModalState';
@@ -13,10 +14,12 @@ export const useOpenResolutionModal = () => {
   } = useModalState();
 
   const { alert } = useAlert();
-  const { data: { memberProfileImgUrl, isRegistration } = {} } = useGetResolutionValidation();
+  const { data: { isRegistration } = {} } = useGetResolutionValidation();
+
+  const { data: { profileImage } = {} } = useGetMemberOfMe();
 
   const handleResolutionModalOpen = () => {
-    if (isRegistration) {
+    if (!isRegistration) {
       alert({
         title: '편지는 한번만 전송할 수 있어요',
         description: '전송된 편지는 종무식 때 열어볼 수 있어요!',
@@ -36,6 +39,6 @@ export const useOpenResolutionModal = () => {
     isOpenResolutionModal,
     onCloseResolutionModal,
     handleResolutionModalOpen,
-    memberProfileImgUrl,
+    profileImage,
   };
 };

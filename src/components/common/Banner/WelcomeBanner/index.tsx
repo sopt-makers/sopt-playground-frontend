@@ -2,10 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
-import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import Loading from '@/components/common/Loading';
-import useAlert from '@/components/common/Modal/useAlert';
-import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import ResolutionModal from '@/components/resolution/ResolutionModal';
 import { useOpenResolutionModal } from '@/components/resolution/useOpenResolutionModal';
@@ -19,7 +16,6 @@ import mobileOthersBanner1 from '@/public/icons/img/banner_other_mobile_ver1.gif
 import mobileOthersBanner2 from '@/public/icons/img/banner_other_mobile_ver2.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import { zIndex } from '@/styles/zIndex';
 
 type BannerType = {
   desktop: { [ver: number]: string };
@@ -57,7 +53,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
     mobile: { 1: mobileOthersBanner1.src, 2: mobileOthersBanner2.src },
   };
 
-  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, memberProfileImgUrl } =
+  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, profileImage } =
     useOpenResolutionModal();
 
   return (
@@ -72,7 +68,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
                     NOW, 다짐하러 가기
                   </ResolutionButton>
                   {isOpenResolutionModal && (
-                    <ResolutionModal profileImageUrl={memberProfileImgUrl ?? ''} onClose={onCloseResolutionModal} />
+                    <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
                   )}
                 </ButtonWrapper>
                 <BannerWrapper>
