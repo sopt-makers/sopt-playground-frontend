@@ -20,7 +20,7 @@ export const getMemberCrew = createEndpoint({
         id: z.number(),
         isMeetingLeader: z.boolean(),
         title: z.string(),
-        imageUrl: z.string().nullable(),
+        imageUrl: z.string(),
         category: z.string().nullable(),
         isActiveMeeting: z.boolean(),
         mstartDate: z.string(),

@@ -273,6 +273,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                   />
                 ))}
               </ActivityDisplay>
+              <Target ref={ref} />
             </>
           )}
           {meetingList.length === 0 && (
@@ -290,7 +291,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               )}
             </>
           )}
-          <Target ref={ref} />
         </ActivityContainer>
       </Wrapper>
     </Container>
