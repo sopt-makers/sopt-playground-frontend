@@ -14,28 +14,31 @@ export const getMemberCrew = createEndpoint({
     method: 'GET',
     url: `api/v1/members/crew/${id}/${QS.create(params)}`,
   }),
-  serverResponseScheme: z.object({
-    meetings: z.array(
-      z.object({
-        id: z.number(),
-        isMeetingLeader: z.boolean(),
-        title: z.string(),
-        imageUrl: z.string(),
-        category: z.string().nullable(),
-        isActiveMeeting: z.boolean(),
-        mstartDate: z.string(),
-        mendDate: z.string(),
+  serverResponseScheme: z.union([
+    z.object({
+      meetings: z.array(
+        z.object({
+          id: z.number(),
+          isMeetingLeader: z.boolean(),
+          title: z.string(),
+          imageUrl: z.string(),
+          category: z.string().nullable(),
+          isActiveMeeting: z.boolean(),
+          mstartDate: z.string(),
+          mendDate: z.string(),
+        }),
+      ),
+      meta: z.object({
+        page: z.number().nullable(),
+        take: z.number().nullable(),
+        itemCount: z.number().nullable(),
+        pageCount: z.number().nullable(),
+        hasPreviousPage: z.boolean().nullable(),
+        hasNextPage: z.boolean().nullable(),
       }),
-    ),
-    meta: z.object({
-      page: z.number().nullable(),
-      take: z.number().nullable(),
-      itemCount: z.number().nullable(),
-      pageCount: z.number().nullable(),
-      hasPreviousPage: z.boolean().nullable(),
-      hasNextPage: z.boolean().nullable(),
     }),
-  }),
+    z.string(),
+  ]),
 });
 
 export const useGetMemberCrewInfiniteQuery = (limit: number, id?: number) => {
