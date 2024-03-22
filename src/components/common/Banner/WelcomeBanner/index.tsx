@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ResolutionModal from '@/components/resolution/ResolutionModal';
 import { useOpenResolutionModal } from '@/components/resolution/useOpenResolutionModal';
 import desktop34Banner1 from '@/public/icons/img/banner_34_desktop_ver1.gif';
@@ -53,7 +54,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
     mobile: { 1: mobileOthersBanner1.src, 2: mobileOthersBanner2.src },
   };
 
-  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, profileImage } =
+  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, profileImage, isRegistration } =
     useOpenResolutionModal();
 
   return (
@@ -64,9 +65,14 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
             {is34 ? (
               <>
                 <ButtonWrapper>
-                  <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
-                    NOW, 다짐하러 가기
-                  </ResolutionButton>
+                  <LoggingClick
+                    eventKey='WelcomeBannerResolution'
+                    param={{ isAlreadySubmitted: isRegistration ?? false }}
+                  >
+                    <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
+                      NOW, 다짐하러 가기
+                    </ResolutionButton>
+                  </LoggingClick>
                   {isOpenResolutionModal && (
                     <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
                   )}

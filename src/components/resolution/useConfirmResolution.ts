@@ -5,6 +5,7 @@ import { ResolutionRequestBody } from '@/api/endpoint/resolution/postResolution'
 import { usePostResolutionMutation } from '@/api/endpoint/resolution/postResolution';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { zIndex } from '@/styles/zIndex';
 
 interface Options extends ResolutionRequestBody {
@@ -15,6 +16,7 @@ export const useConfirmResolution = () => {
   const { confirm } = useConfirm();
   const { mutateAsync, isPending } = usePostResolutionMutation();
   const toast = useToast();
+  const { logSubmitEvent } = useEventLogger();
 
   const handleConfirmResolution = useCallback(
     async (options: Options) => {
@@ -32,13 +34,14 @@ export const useConfirmResolution = () => {
       if (result) {
         mutateAsync(options, {
           onSuccess: () => {
+            logSubmitEvent('postResolution');
             toast.show({ message: '💌 전송이 완료되었어요. 종무식 때 만나요!' });
             options.onSuccess?.();
           },
         });
       }
     },
-    [confirm, mutateAsync, toast],
+    [confirm, mutateAsync, toast, logSubmitEvent],
   );
 
   return { handleConfirmResolution, isPending };
