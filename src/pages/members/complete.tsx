@@ -63,7 +63,7 @@ const CompletePage: FC = () => {
             >
               홈으로 돌아가기
             </DefaultButton>
-            <LoggingClick eventKey='ProfileUploadResolution'>
+            <LoggingClick eventKey='profileUploadResolution'>
               <CtaButton onClick={handleResolutionModalOpen}>NOW, 다짐하러 가기</CtaButton>
             </LoggingClick>
             {isOpenResolutionModal && (

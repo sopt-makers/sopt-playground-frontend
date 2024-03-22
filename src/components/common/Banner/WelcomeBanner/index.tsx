@@ -66,7 +66,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
               <>
                 <ButtonWrapper>
                   <LoggingClick
-                    eventKey='WelcomeBannerResolution'
+                    eventKey='welcomeBannerResolution'
                     param={{ isAlreadySubmitted: isRegistration ?? false }}
                   >
                     <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
