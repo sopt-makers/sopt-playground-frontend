@@ -87,6 +87,7 @@ const CardsWrapper = styled.div`
   transform-style: preserve-3d;
   transition: transform 0.3s;
   margin-top: 32px;
+  margin-bottom: 55px;
   width: 100%;
   animation-name: flip;
   animation-duration: 1s;

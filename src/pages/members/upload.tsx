@@ -119,6 +119,7 @@ export default function MemberUploadPage() {
 
     // 테스트 필요
     // router.replace(lastUnauthorized.popPath() ?? '/');
+    console.log('등록'); // 테스트 후 삭제
     router.replace('/members/complete'); // 프로필 등록 완료 페이지로 이동
   };
 
