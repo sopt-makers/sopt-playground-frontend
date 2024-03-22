@@ -30,7 +30,6 @@ import MemberForm from '@/components/members/upload/forms/Form';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import BasicFormSection from '@/components/members/upload/FormSection/Basic';
 import CareerFormSection from '@/components/members/upload/FormSection/Career';
-import PublicQuestionFormSection from '@/components/members/upload/FormSection/PublicQuestion';
 import SoptActivityFormSection from '@/components/members/upload/FormSection/SoptActivity';
 import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
