@@ -119,6 +119,7 @@ const ImageHolder = styled(m.div)`
 
 const ContentArea = styled.div`
   grid-area: content;
+  min-width: 0;
   min-height: 120px;
 
   @media ${MOBILE_MEDIA_QUERY} {
