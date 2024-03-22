@@ -7,7 +7,6 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { usePostResolutionMutation } from '@/api/endpoint/resolution/postResolution';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/Modal';
@@ -153,7 +152,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
                 onClick={() => onClickTag(tag.value)}
                 isSelected={selectedTag.includes(tag.value)}
               >
-                <Text typography='SUIT_14_SB' color={colors.gray200}>
+                <Text typography='SUIT_14_SB' color={selectedTag.includes(tag.value) ? colors.white : colors.gray200}>
                   {tag.icon} {tag.value}
                 </Text>
               </StyledTagItem>
@@ -280,6 +279,7 @@ const StyledTextArea = styled(TextArea)`
   background-color: ${colors.gray800};
   width: 386px;
   height: 198px;
+  line-height: 26px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     @supports (height: 100dvw) {
