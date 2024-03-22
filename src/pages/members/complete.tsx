@@ -8,6 +8,7 @@ import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolut
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import useAlert from '@/components/common/Modal/useAlert';
 import useModalState from '@/components/common/Modal/useModalState';
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import CardBack from '@/components/resolution/CardBack';
 import MemberCardOfMe from '@/components/resolution/MemberCardOfMe';
@@ -18,6 +19,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
  * @desc 신규 프로필 등록 후 다짐 메시지를 유도하는 페이지입니다.
  */
 import { textStyles } from '@/styles/typography';
+import { zIndex } from '@/styles/zIndex';
 import { setLayout } from '@/utils/layout';
 
 const CompletePage: FC = () => {
@@ -62,7 +64,12 @@ const CompletePage: FC = () => {
     <>
       {profile && (
         <StyledCompletePage>
-          <Text typography='SUIT_32_B'>프로필 등록 완료!</Text>
+          <Responsive only='desktop'>
+            <Text typography='SUIT_32_B'>프로필 등록 완료!</Text>
+          </Responsive>
+          <Responsive only='mobile'>
+            <Text typography='SUIT_24_B'>프로필 등록 완료!</Text>
+          </Responsive>
           <CardsWrapper>
             <CardBack />
             <MemberCardOfMe
@@ -105,6 +112,10 @@ const StyledCompletePage = styled.div`
   width: 100%;
   @supports (height: 100dvh) {
     height: 100dvh;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 20px 0;
   }
 `;
 
@@ -174,7 +185,6 @@ const ButtonsWrapper = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 56px;
-  margin-bottom: 55px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
