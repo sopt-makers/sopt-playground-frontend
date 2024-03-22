@@ -9,6 +9,7 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { FEEDBACK_FORM_URL, MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
 import useScroll from '@/hooks/useScroll';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { zIndex } from '@/styles/zIndex';
 
 interface FooterProps {
   className?: string;
@@ -43,7 +44,7 @@ const StyledFooter = styled.div<{ hide: boolean }>`
   position: fixed;
   bottom: 0;
   transition: transform 0.3s;
-  z-index: 99999;
+  z-index: ${zIndex.헤더}+1;
   border-top: 1px solid ${colors.gray600};
   background-color: ${colors.gray800};
   padding: 0 0 0 38px;

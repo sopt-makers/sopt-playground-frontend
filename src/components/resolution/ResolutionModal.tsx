@@ -219,7 +219,7 @@ const StyledForm = styled.form`
       max-width: 100dvw;
     }
 
-    padding: 0 18px;
+    padding: 0;
   }
 `;
 
