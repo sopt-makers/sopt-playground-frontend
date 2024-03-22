@@ -1,8 +1,9 @@
 import { colors } from '@sopt-makers/colors';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import { useCallback } from 'react';
 
-import { ResolutionRequestBody } from '@/api/endpoint/resolution/postResolution';
-import { usePostResolutionMutation } from '@/api/endpoint/resolution/postResolution';
+import { ResolutionRequestBody, usePostResolutionMutation } from '@/api/endpoint/resolution/postResolution';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -17,6 +18,7 @@ export const useConfirmResolution = () => {
   const { mutateAsync, isPending } = usePostResolutionMutation();
   const toast = useToast();
   const { logSubmitEvent } = useEventLogger();
+  const router = useRouter();
 
   const handleConfirmResolution = useCallback(
     async (options: Options) => {
@@ -35,8 +37,10 @@ export const useConfirmResolution = () => {
         mutateAsync(options, {
           onSuccess: () => {
             logSubmitEvent('postResolution');
+          onSuccess: async () => {
             toast.show({ message: '💌 전송이 완료되었어요. 종무식 때 만나요!' });
             options.onSuccess?.();
+            await router.push(playgroundLink.feedList());
           },
         });
       }

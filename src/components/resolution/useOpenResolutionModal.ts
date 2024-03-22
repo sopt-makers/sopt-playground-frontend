@@ -1,7 +1,7 @@
 import { colors } from '@sopt-makers/colors';
 
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
+import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import useAlert from '@/components/common/Modal/useAlert';
 import useModalState from '@/components/common/Modal/useModalState';
 import { zIndex } from '@/styles/zIndex';
@@ -16,7 +16,7 @@ export const useOpenResolutionModal = () => {
   const { alert } = useAlert();
   const { data: { isRegistration } = {} } = useGetResolutionValidation();
 
-  const { data: { profileImage } = {} } = useGetMemberOfMe();
+  const { data: { profileImage } = {} } = useGetMemberProfileOfMe();
 
   const handleResolutionModalOpen = () => {
     if (isRegistration) {
@@ -34,7 +34,6 @@ export const useOpenResolutionModal = () => {
       onOpenResolutionModal();
     }
   };
-
   return {
     isOpenResolutionModal,
     onCloseResolutionModal,
