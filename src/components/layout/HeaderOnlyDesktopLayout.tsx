@@ -29,7 +29,8 @@ export default HeaderOnlyDesktopLayout;
 const StyledContainer = styled.div`
   padding-top: 80px;
 
-  ${createLayoutCSSVariable({ headerHeight: 80 })}
+  /* TODO: 환영배너 내려간 후, headerHeight: 80으로 반드시 변경 */
+  ${createLayoutCSSVariable({ headerHeight: 248 })}
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding-top: 0;
