@@ -78,25 +78,18 @@ const CompletePage: FC = () => {
 
 export default CompletePage;
 
-setLayout(CompletePage, 'headerFooter');
+setLayout(CompletePage, 'header');
 
 const StyledCompletePage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 16px;
+  margin: 50px 0;
+  padding: 16px;
   width: 100%;
-  @supports (height: 100dvh) {
-    height: calc(100dvh - 100px);
-  }
-
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 20px 0;
-
-    @supports (height: 100dvh) {
-      height: 100dvh;
-    }
+    margin: 30px 0;
   }
 `;
 

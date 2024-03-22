@@ -146,7 +146,6 @@ const Badge = styled.div`
   ${textStyles.SUIT_11_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.gray800};
     padding: 4px 6px;
     color: ${colors.gray100};
 
