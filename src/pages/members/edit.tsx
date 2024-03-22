@@ -2,6 +2,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+
+import { usePutMemberProfileMutation } from '@/api/endpoint/members/putMemberProfile';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
@@ -10,6 +12,7 @@ import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';
 import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import CheckActivity from '@/components/members/upload/CheckActivity/Modal/CheckActivityModal';
 import {
   DEFAULT_CAREER,
   DEFAULT_FAVOR,
@@ -34,9 +37,8 @@ import { memberFormSchema } from '@/components/members/upload/schema';
 import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
-import CheckActivity from '@/components/members/upload/CheckActivity/Modal/CheckActivityModal';
+
 import { useGetMemberOfMe } from '../../api/endpoint/members/getMemberOfMe';
-import { usePutMemberProfileMutation } from '@/api/endpoint/members/putMemberProfile';
 
 export default function MemberEditPage() {
   const { logSubmitEvent } = useEventLogger();
@@ -246,7 +248,6 @@ export default function MemberEditPage() {
               <CareerFormSection />
             </FormAccordion>
           </Responsive>
-          <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>
     </AuthRequired>

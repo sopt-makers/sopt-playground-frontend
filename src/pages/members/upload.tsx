@@ -160,7 +160,6 @@ export default function MemberUploadPage() {
               <CareerFormSection />
             </FormAccordion>
           </Responsive>
-          <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>
     </AuthRequired>
