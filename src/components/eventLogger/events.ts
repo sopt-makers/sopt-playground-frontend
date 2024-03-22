@@ -89,10 +89,10 @@ export interface ClickEvents {
   };
   feedUploadButton: undefined;
   //다짐메시지
-  WelcomeBannerResolution: {
+  welcomeBannerResolution: {
     isAlreadySubmitted: boolean;
   };
-  ProfileUploadResolution: undefined;
+  profileUploadResolution: undefined;
 }
 
 export interface SubmitEvents {
