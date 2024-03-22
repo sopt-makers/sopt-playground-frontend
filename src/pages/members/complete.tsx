@@ -76,7 +76,7 @@ const CompletePage: FC = () => {
 
 export default CompletePage;
 
-setLayout(CompletePage, 'headerFooter');
+setLayout(CompletePage, 'header');
 
 const StyledCompletePage = styled.div`
   display: flex;
