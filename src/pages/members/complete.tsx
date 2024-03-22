@@ -7,6 +7,7 @@ import { FC } from 'react';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import CardBack from '@/components/resolution/CardBack';
 import MemberCardOfMe from '@/components/resolution/MemberCardOfMe';
 import ResolutionModal from '@/components/resolution/ResolutionModal';
@@ -17,7 +18,6 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
  * @desc 신규 프로필 등록 후 다짐 메시지를 유도하는 페이지입니다.
  */
 import { textStyles } from '@/styles/typography';
-import { zIndex } from '@/styles/zIndex';
 import { setLayout } from '@/utils/layout';
 
 const CompletePage: FC = () => {
@@ -63,7 +63,9 @@ const CompletePage: FC = () => {
             >
               홈으로 돌아가기
             </DefaultButton>
-            <CtaButton onClick={handleResolutionModalOpen}>NOW, 다짐하러 가기</CtaButton>
+            <LoggingClick eventKey='profileUploadResolution'>
+              <CtaButton onClick={handleResolutionModalOpen}>NOW, 다짐하러 가기</CtaButton>
+            </LoggingClick>
             {isOpenResolutionModal && (
               <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
             )}
