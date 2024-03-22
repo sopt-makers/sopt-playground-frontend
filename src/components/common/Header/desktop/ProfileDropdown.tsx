@@ -6,6 +6,7 @@ import { FC, ReactNode, useState } from 'react';
 
 import { LinkRenderer } from '@/components/common/Header/types';
 import { textStyles } from '@/styles/typography';
+import { zIndex } from '@/styles/zIndex';
 
 const DropdownPortal = dynamic<DropdownMenu.DropdownMenuPortalProps>(
   () => import('@radix-ui/react-dropdown-menu').then((r) => r.DropdownMenuPortal),
@@ -46,6 +47,7 @@ export default ProfileDropdown;
 const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
+  z-index: ${zIndex.헤더 + 100};
   border-radius: 14px;
   box-shadow: 0 10px 38px -10px rgb(22 23 24 / 35%), 0 10px 20px -15px rgb(22 23 24 / 20%);
   background: ${colors.gray700};
