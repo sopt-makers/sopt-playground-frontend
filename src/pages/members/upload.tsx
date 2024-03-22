@@ -64,6 +64,8 @@ export default function MemberUploadPage() {
       mbtiDescription,
       interest,
       idealType,
+      isEmailBlind,
+      isPhoneBlind,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -103,6 +105,8 @@ export default function MemberUploadPage() {
         isRiceTteokLover: favor.tteokbokki === null ? null : favor.tteokbokki === '쌀떡',
       },
       selfIntroduction: longIntroduction,
+      isEmailBlind,
+      isPhoneBlind,
     };
 
     const response = await postMemberProfile(requestBody);

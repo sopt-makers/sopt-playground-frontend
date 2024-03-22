@@ -68,34 +68,6 @@ export const putMemberProfile = createEndpoint({
   }),
 });
 
-/**
- * @desc 멤버 프로필 연락처 마스킹
- */
-export const putMemberPhoneBlind = createEndpoint({
-  request: (body: { blind: boolean }) => ({
-    method: 'PUT',
-    url: 'api/v1/members/phone/blind',
-    data: body,
-  }),
-  serverResponseScheme: z.object({
-    '전화번호 마스킹 변경 성공': z.boolean(),
-  }),
-});
-
-/**
- * @desc 멤버 프로필 이메일 마스킹
- */
-export const putMemberEmailBlind = createEndpoint({
-  request: (body: { blind: boolean }) => ({
-    method: 'PUT',
-    url: 'api/v1/members/email/blind',
-    data: body,
-  }),
-  serverResponseScheme: z.object({
-    '이메일 마스킹 변경 성공': z.boolean(),
-  }),
-});
-
 export const usePutMemberProfileMutation = () => {
   const queryClient = useQueryClient();
 
@@ -106,17 +78,5 @@ export const usePutMemberProfileMutation = () => {
       queryClient.invalidateQueries({ queryKey: ['getMemberProfileById', response.id] });
       queryClient.invalidateQueries({ queryKey: ['getMemberProfile'] });
     },
-  });
-};
-
-export const usePutPhoneBlindMutation = () => {
-  return useMutation({
-    mutationFn: (body: { blind: boolean }) => putMemberPhoneBlind.request(body),
-  });
-};
-
-export const usePutEmailBlindMutation = () => {
-  return useMutation({
-    mutationFn: (body: { blind: boolean }) => putMemberEmailBlind.request(body),
   });
 };
