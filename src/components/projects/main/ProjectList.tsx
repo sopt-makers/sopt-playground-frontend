@@ -269,14 +269,16 @@ const StyledLength = styled(Text)`
   }
 `;
 
+const CONTAINER_MAX_WIDTH = 1480;
+
 const StyledGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
   margin-top: 22px;
-  min-width: 1480px;
+  min-width: ${CONTAINER_MAX_WIDTH}px;
 
-  @media screen and (max-width: 1480px) {
+  @media screen and (max-width: ${CONTAINER_MAX_WIDTH}px) {
     grid-template-columns: repeat(3, 1fr);
     justify-content: start;
     min-width: 0;
