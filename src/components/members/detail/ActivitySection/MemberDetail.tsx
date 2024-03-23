@@ -341,6 +341,11 @@ const EmptyProfileImage = styled.div`
   background: ${colors.gray700};
   width: 171px;
   height: 171px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 20px;
+    width: 78px;
+    height: 78px;
+  }
 `;
 
 const ProfileImage = styled(ResizedImage)`
