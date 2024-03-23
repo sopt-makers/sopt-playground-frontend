@@ -1,12 +1,11 @@
 import { themes } from '@storybook/theming';
-import React from 'react';
-// import { LazyMotion } from 'framer-motion';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { OverlayProvider } from '@toss/use-overlay';
 import { LazyMotion } from 'framer-motion';
 import { initialize, mswDecorator } from 'msw-storybook-addon';
 import NextAdapterPages from 'next-query-params/pages';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryParamProvider } from 'use-query-params';
 
