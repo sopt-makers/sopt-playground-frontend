@@ -274,7 +274,7 @@ const StyledGridContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
   margin-top: 22px;
-  min-width: 1200px;
+  min-width: 1480px;
 
   @media screen and (max-width: 1480px) {
     grid-template-columns: repeat(3, 1fr);
