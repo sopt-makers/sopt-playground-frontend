@@ -105,7 +105,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileContainer>
-          {!profile.profileImage ? (
+          {profile.profileImage ? (
             <ProfileImage src={profile.profileImage} height={171} />
           ) : (
             <EmptyProfileImage>
