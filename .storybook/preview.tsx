@@ -3,7 +3,7 @@ import React from 'react';
 // import { LazyMotion } from 'framer-motion';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { OverlayProvider } from '@toss/use-overlay';
-import { m } from 'framer-motion';
+import { LazyMotion } from 'framer-motion';
 import { initialize, mswDecorator } from 'msw-storybook-addon';
 import NextAdapterPages from 'next-query-params/pages';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
@@ -49,9 +49,7 @@ export const decorators = [
     <QueryClientProvider client={queryClient}>
       <QueryParamProvider adapter={NextAdapterPages}>
         <RecoilRoot>
-          {/* FIXME: break tree shaking 발생으로 주석 처리 */}
-          {/* <LazyMotion strict features={() => import('framer-motion').then((mod) => mod.domAnimation)}> */}
-          <m.div>
+          <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
             <StorybookEventLoggerProvider>
               <StorybookToastProvider>
                 <GlobalStyle />
@@ -62,8 +60,7 @@ export const decorators = [
                 </ResponsiveProvider>
               </StorybookToastProvider>
             </StorybookEventLoggerProvider>
-          </m.div>
-          {/* </LazyMotion> */}
+          </LazyMotion>
         </RecoilRoot>
       </QueryParamProvider>
     </QueryClientProvider>
