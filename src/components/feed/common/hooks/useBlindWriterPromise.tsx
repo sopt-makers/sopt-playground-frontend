@@ -1,4 +1,5 @@
 import useAlert from '@/components/common/Modal/useAlert';
+import { zIndex } from '@/styles/zIndex';
 
 export default function useBlindWriterPromise() {
   const { alert } = useAlert();
@@ -13,6 +14,7 @@ export default function useBlindWriterPromise() {
       buttonColor: 'white',
       buttonTextColor: 'black',
       maxWidth: 324,
+      zIndex: zIndex.헤더 + 1,
     });
   };
 
