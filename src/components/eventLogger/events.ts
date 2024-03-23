@@ -88,6 +88,11 @@ export interface ClickEvents {
     feedId: string;
   };
   feedUploadButton: undefined;
+  //다짐메시지
+  welcomeBannerResolution: {
+    isAlreadySubmitted: boolean;
+  };
+  profileUploadResolution: undefined;
 }
 
 export interface SubmitEvents {
@@ -122,6 +127,8 @@ export interface SubmitEvents {
     referral: 'more' | 'detail';
     isBlindWriter: boolean;
   };
+  //다짐메시지
+  postResolution: undefined;
 }
 
 export interface PageViewEvents {

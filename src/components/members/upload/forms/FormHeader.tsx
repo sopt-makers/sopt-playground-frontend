@@ -51,7 +51,6 @@ const StyledLine = styled.hr`
 const StyledRequired = styled(Text)`
   display: inline-block;
   transform: translateY(-10px);
-  margin-bottom: 20px;
   margin-left: 4px;
   line-height: 8px;
   color: ${colors.secondary};
@@ -61,7 +60,7 @@ const StyledRequired = styled(Text)`
 
 const Description = styled(Text)`
   display: block;
-  margin-top: 10px;
+  margin-top: 12px;
   color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {

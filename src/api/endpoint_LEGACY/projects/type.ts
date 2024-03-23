@@ -41,6 +41,36 @@ export type ProjectDetail = {
   }[];
 };
 
+interface ProjectMember {
+  memberId: number;
+  memberName: string;
+  memberProfileImage?: string | null;
+}
+
+interface ProjectLink {
+  linkId: number;
+  linkTitle: string;
+  linkUrl: string;
+}
+
+export interface ProjectListResponse {
+  id: number;
+  writerId: number;
+  generation: number | null;
+  category: ProjectCategory;
+  startAt: string;
+  isAvailable: boolean;
+  isFounding: boolean;
+  detail: string;
+  members: ProjectMember[];
+  name: string;
+  logoImage: string;
+  links: ProjectLink[];
+  serviceType: ServiceType[];
+  summary: string;
+  thumbnailImage: string;
+}
+
 export type ProjectInput = {
   name: string;
   writerId: number;

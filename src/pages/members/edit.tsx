@@ -1,11 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { usePutMemberProfileMutation } from '@/api/endpoint/members/putMemberProfile';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
-import { putMemberProfile } from '@/api/endpoint_LEGACY/members';
 import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
@@ -13,6 +12,7 @@ import FormAccordion from '@/components/common/form/FormCollapsible';
 import Responsive from '@/components/common/Responsive';
 import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import CheckActivity from '@/components/members/upload/CheckActivity/Modal/CheckActivityModal';
 import {
   DEFAULT_CAREER,
   DEFAULT_FAVOR,
@@ -30,7 +30,6 @@ import MemberForm from '@/components/members/upload/forms/Form';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import BasicFormSection from '@/components/members/upload/FormSection/Basic';
 import CareerFormSection from '@/components/members/upload/FormSection/Career';
-import PublicQuestionFormSection from '@/components/members/upload/FormSection/PublicQuestion';
 import SoptActivityFormSection from '@/components/members/upload/FormSection/SoptActivity';
 import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
@@ -48,9 +47,9 @@ export default function MemberEditPage() {
     resolver: yupResolver(memberFormSchema),
   });
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { data: myProfile, isLoading: isLoadingMyProfile } = useGetMemberProfileOfMe();
   const { data: me, isLoading: isLoadingMe } = useGetMemberOfMe();
+  const { mutate } = usePutMemberProfileMutation();
   const toast = useToast();
 
   const lastUnauthorized = useLastUnauthorized();
@@ -94,6 +93,8 @@ export default function MemberEditPage() {
       mbtiDescription,
       interest,
       idealType,
+      isPhoneBlind,
+      isEmailBlind,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -133,21 +134,13 @@ export default function MemberEditPage() {
         isRiceTteokLover: favor.tteokbokki === null ? null : favor.tteokbokki === '쌀떡',
       },
       selfIntroduction: longIntroduction,
+      isEmailBlind,
+      isPhoneBlind,
     };
 
-    const response = await putMemberProfile(requestBody);
-
-    queryClient.invalidateQueries({
-      queryKey: ['getMemberProfileOfMe']
+    mutate(requestBody, {
+      onSuccess: ({ id }) => router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberDetail(id)),
     });
-    queryClient.invalidateQueries({
-      queryKey: ['getMemberProfileById', response.id]
-    });
-    queryClient.invalidateQueries({
-      queryKey: ['getMemberProfile']
-    });
-
-    router.replace(lastUnauthorized.popPath() ?? playgroundLink.memberDetail(response.id));
 
     logSubmitEvent('editProfile');
   };
@@ -179,6 +172,8 @@ export default function MemberEditPage() {
             team: team ?? UNSELECTED,
           })),
         allowOfficial: myProfile.allowOfficial,
+        isPhoneBlind: myProfile.isPhoneBlind,
+        isEmailBlind: myProfile.isEmailBlind,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
           ? myProfile.careers.map((career) =>
@@ -238,6 +233,7 @@ export default function MemberEditPage() {
 
   return (
     <AuthRequired>
+      {me && me.editActivitiesAble && <CheckActivity />}
       <FormProvider {...formMethods}>
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
@@ -251,7 +247,6 @@ export default function MemberEditPage() {
               <CareerFormSection />
             </FormAccordion>
           </Responsive>
-          <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>
     </AuthRequired>

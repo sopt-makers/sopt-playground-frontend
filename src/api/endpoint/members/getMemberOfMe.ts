@@ -17,6 +17,7 @@ export const getMemberOfMe = createEndpoint({
     generation: z.number(),
     hasProfile: z.boolean(),
     profileImage: z.string().nullable(),
+    editActivitiesAble: z.boolean(),
   }),
 });
 

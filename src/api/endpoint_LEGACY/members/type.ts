@@ -55,30 +55,26 @@ export type ProfileDetail = {
   };
   idealType: string;
   selfIntroduction: string;
-  soptActivities: {
-    generation: number;
-    part: string;
-    team: string | null;
-    projects: {
-      id: number;
-      generation: number;
-      name: string;
-      category: ProjectCategory;
-    }[];
-  }[];
+  soptActivities: SoptActivity[];
   links: MemberLink[];
   projects: MemberProject[];
   careers: Career[];
   allowOfficial: boolean;
   isMine: boolean;
+  isPhoneBlind: boolean;
+  isEmailBlind: boolean;
 };
 
-export type Activity = {
-  id: number;
+export type SoptActivity = {
   generation: number;
-  team: string;
   part: string;
-  isProject: boolean;
+  team: string | null;
+  projects: {
+    id: number;
+    generation: number;
+    name: string;
+    category: ProjectCategory;
+  }[];
 };
 
 export type MemberLink = {
@@ -157,6 +153,8 @@ export interface ProfileRequest {
   };
   idealType: string | null;
   selfIntroduction: string | null;
+  isPhoneBlind: boolean | null;
+  isEmailBlind: boolean | null;
 }
 
 export interface PostMemberMessageVariables {

@@ -17,7 +17,6 @@ import MemberForm from '@/components/members/upload/forms/Form';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import BasicFormSection from '@/components/members/upload/FormSection/Basic';
 import CareerFormSection from '@/components/members/upload/FormSection/Career';
-import PublicQuestionFormSection from '@/components/members/upload/FormSection/PublicQuestion';
 import SoptActivityFormSection from '@/components/members/upload/FormSection/SoptActivity';
 import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
@@ -64,6 +63,8 @@ export default function MemberUploadPage() {
       mbtiDescription,
       interest,
       idealType,
+      isEmailBlind,
+      isPhoneBlind,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -103,21 +104,24 @@ export default function MemberUploadPage() {
         isRiceTteokLover: favor.tteokbokki === null ? null : favor.tteokbokki === '쌀떡',
       },
       selfIntroduction: longIntroduction,
+      isEmailBlind,
+      isPhoneBlind,
     };
 
     const response = await postMemberProfile(requestBody);
 
     queryClient.invalidateQueries({
-      queryKey: ['getMemberProfileOfMe']
+      queryKey: ['getMemberProfileOfMe'],
     });
     queryClient.invalidateQueries({
-      queryKey: ['getMemberProfileById', response.id]
+      queryKey: ['getMemberProfileById', response.id],
     });
     queryClient.invalidateQueries({
-      queryKey: ['getMemberProfile']
+      queryKey: ['getMemberProfile'],
     });
 
-    router.replace(lastUnauthorized.popPath() ?? '/');
+    // router.replace(lastUnauthorized.popPath() ?? '/');
+    router.replace('/members/complete'); // 프로필 등록 완료 페이지로 이동
   };
 
   useEffect(() => {
@@ -153,7 +157,6 @@ export default function MemberUploadPage() {
               <CareerFormSection />
             </FormAccordion>
           </Responsive>
-          <PublicQuestionFormSection />
         </MemberForm>
       </FormProvider>
     </AuthRequired>

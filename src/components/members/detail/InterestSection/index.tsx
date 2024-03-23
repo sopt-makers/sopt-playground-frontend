@@ -3,8 +3,8 @@ import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
 import Text from '@/components/common/Text';
+import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import InfoItem from '@/components/members/detail/InfoItem';
-import MemberDetailSection from '@/components/members/detail/MemberDetailSection';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 

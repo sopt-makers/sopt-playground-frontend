@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { useOverlay } from '@toss/use-overlay';
 import { ReactNode, useCallback } from 'react';
 
 import Modal from '@/components/common/Modal';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const useConfirm = () => {
   const { open, close } = useOverlay();
-
   const confirm = useCallback(
     (options: {
       title: ReactNode;
@@ -32,7 +33,7 @@ const useConfirm = () => {
             <StyledModalContent maxWidth={options.maxWidth}>
               <Modal.Title>{options.title}</Modal.Title>
               <StyleModalDescription>{options.description}</StyleModalDescription>
-              <Modal.Footer align='stretch'>
+              <Modal.Footer align='right'>
                 <Modal.Button action='close'>{options.cancelButtonText}</Modal.Button>
                 <StyledOkButton
                   color={options.okButtonColor}
@@ -58,13 +59,20 @@ export default useConfirm;
 const StyledModalContent = styled(Modal.Content)<{ maxWidth?: number }>`
   min-width: 320px;
   max-width: ${({ maxWidth }) => maxWidth}px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 324px;
+  }
 `;
 
 const StyledOkButton = styled(Modal.Button)<{ color?: string; okButtonTextColor?: string }>`
-  background-color: ${(props) => props.color ?? colors.white};
+  background: ${(props) => props.color ?? colors.white};
   color: ${(props) => props.okButtonTextColor ?? colors.black};
 `;
 
 const StyleModalDescription = styled.div`
   width: 100%;
+  line-height: 26px;
+  white-space: pre-wrap;
+  color: ${colors.gray100};
 `;

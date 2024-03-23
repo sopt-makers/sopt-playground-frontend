@@ -3,7 +3,7 @@ import { NextSeo } from 'next-seo';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import MemberDetail from '@/components/members/detail/MemberDetail';
+import MemberDetail from '@/components/members/detail/ActivitySection/MemberDetail';
 import { ORIGIN } from '@/constants/env';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';

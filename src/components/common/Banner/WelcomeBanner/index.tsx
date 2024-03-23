@@ -1,81 +1,172 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
+import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
-import desktopBackground from '@/public/icons/img/Desktop.gif';
-import BalloonImg from '@/public/icons/img/illust_balloon.png';
-import Rocket from '@/public/icons/img/illust_rocket.svg';
-import mobileBackground from '@/public/icons/img/Mobile.gif';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import ResolutionModal from '@/components/resolution/ResolutionModal';
+import { useOpenResolutionModal } from '@/components/resolution/useOpenResolutionModal';
+import desktop34Banner1 from '@/public/icons/img/banner_34_desktop_ver1.gif';
+import desktop34Banner2 from '@/public/icons/img/banner_34_desktop_ver2.gif';
+import mobile34Banner1 from '@/public/icons/img/banner_34_mobile_ver1.gif';
+import mobile34Banner2 from '@/public/icons/img/banner_34_mobile_ver2.gif';
+import desktopOthersBanner1 from '@/public/icons/img/banner_other_desktop_ver1.gif';
+import desktopOthersBanner2 from '@/public/icons/img/banner_other_desktop_ver2.gif';
+import mobileOthersBanner1 from '@/public/icons/img/banner_other_mobile_ver1.gif';
+import mobileOthersBanner2 from '@/public/icons/img/banner_other_mobile_ver2.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const WelcomeBanner = () => {
-  // 이미지 랜덤 생성을 위한 코드
-  const [isShowRocketInt, setIsShowRocketInt] = useState(1);
+type BannerType = {
+  desktop: { [ver: number]: string };
+  mobile: { [ver: number]: string };
+};
 
-  const getRandomArbitrary = () => {
-    setIsShowRocketInt(Math.floor(Math.random() * (3 - 1) + 1));
-  };
+interface WelcomeBannerProp {
+  is34: boolean;
+}
+
+const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
+  // 이미지 랜덤 생성을 위한 코드
+  const [bannerVersion, setBannerVersion] = useState(1);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const getRandomArbitrary = () => {
+    setBannerVersion(Math.floor(Math.random() * 2 + 1));
+  };
+
+  useLayoutEffect(() => {
     getRandomArbitrary();
   }, []);
 
+  const Welcome34Banner: BannerType = {
+    desktop: { 1: desktop34Banner1.src, 2: desktop34Banner2.src },
+    mobile: { 1: mobile34Banner1.src, 2: mobile34Banner2.src },
+  };
+
+  const WelcomeOthersBanner: BannerType = {
+    desktop: { 1: desktopOthersBanner1.src, 2: desktopOthersBanner2.src },
+    mobile: { 1: mobileOthersBanner1.src, 2: mobileOthersBanner2.src },
+  };
+
+  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, profileImage, isRegistration } =
+    useOpenResolutionModal();
+
   return (
-    <WelcomeBannerWrapper>
-      <ContentWrapper>
-        {isShowRocketInt === 1 ? <Rocket /> : <BalloonIcon src={BalloonImg.src} alt='풍선 이미지' />}
-        <Title>33기 여러분, SOPT에서 만나게 되어 기뻐요!</Title>
-        <SubTitle>SOPT의 놀이터, Playground에 오신 걸 환영해요</SubTitle>
-      </ContentWrapper>
-      <Responsive only='desktop'>
-        <img src={desktopBackground.src} width='1920px' height='212px' alt='환영 배너 배경' />
-      </Responsive>
-      <Responsive only='mobile'>
-        <img src={mobileBackground.src} width='375px' height='164px' alt='환영 배너 배경' />
-      </Responsive>
-    </WelcomeBannerWrapper>
+    <WelcomeBannerContainer>
+      <WelcomeBannerWrapper>
+        {isMounted ? (
+          <>
+            {is34 ? (
+              <>
+                <ButtonWrapper>
+                  <LoggingClick
+                    eventKey='welcomeBannerResolution'
+                    param={{ isAlreadySubmitted: isRegistration ?? false }}
+                  >
+                    <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
+                      NOW, 다짐하러 가기
+                    </ResolutionButton>
+                  </LoggingClick>
+                  {isOpenResolutionModal && (
+                    <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
+                  )}
+                </ButtonWrapper>
+                <BannerWrapper>
+                  <Responsive only='desktop'>
+                    <Banner src={Welcome34Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                  </Responsive>
+                  <Responsive only='mobile'>
+                    <Banner src={Welcome34Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                  </Responsive>
+                </BannerWrapper>
+              </>
+            ) : (
+              <BannerWrapper>
+                <Responsive only='desktop'>
+                  <Banner
+                    src={WelcomeOthersBanner.desktop[bannerVersion]}
+                    alt={`데스크탑 환영 배너 v${bannerVersion}`}
+                  />
+                </Responsive>
+                <Responsive only='mobile'>
+                  <Banner src={WelcomeOthersBanner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                </Responsive>
+              </BannerWrapper>
+            )}
+          </>
+        ) : (
+          <Loading />
+        )}
+      </WelcomeBannerWrapper>
+    </WelcomeBannerContainer>
   );
 };
 
 export default WelcomeBanner;
 
-const WelcomeBannerWrapper = styled.header`
-  margin-top: 53px;
+const BannerWrapper = styled.div``;
+
+const Banner = styled.img`
+  width: 1440px;
+
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 12px;
+    width: 100%;
+    max-width: 375px;
   }
 `;
 
-const ContentWrapper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   position: absolute;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 168px;
+`;
+
+const ResolutionButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #effdb4 0%, #bdec00 100%);
+  padding: 10px 16px;
+  color: ${colors.gray800};
+  ${textStyles.SUIT_12_EB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 28px;
+  }
+`;
+
+const WelcomeBannerContainer = styled.header`
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 212px;
+  min-height: 168px;
+  overflow: hidden;
+`;
+
+const WelcomeBannerWrapper = styled.div`
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  z-index: 2;
+  border-bottom: 1px solid ${colors.gray800};
+  width: 100%;
+  min-height: 168px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
-    height: 164px;
+    position: relative;
+    border-bottom: 0;
   }
-`;
-
-const Title = styled.div`
-  margin-top: 8px;
-  color: ${colors.gray10};
-  ${textStyles.SUIT_18_B};
-`;
-
-const SubTitle = styled.div`
-  margin-top: 4px;
-  color: ${colors.gray300};
-  ${textStyles.SUIT_12_M};
-`;
-
-const BalloonIcon = styled.img`
-  width: 60px;
-  height: 60px;
 `;

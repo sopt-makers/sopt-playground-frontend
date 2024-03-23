@@ -7,7 +7,7 @@ import { textStyles } from '@/styles/typography';
 export const MemberFormSection = styled.section`
   border-radius: 30px;
   background-color: ${colors.gray800};
-  padding: 40px 40px 60px;
+  padding: 40px 40px 50px;
 
   input {
     border-radius: 14px;

@@ -28,7 +28,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         />
         {count && (
           <StyledCountValue>
-            <Text color={colors.gray600} typography='SUIT_12_M'>
+            <Text color={colors.gray200} typography='SUIT_12_M'>
               {`${value.length}/${maxCount}`}
             </Text>
           </StyledCountValue>
@@ -52,7 +52,7 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
   ${textStyles.SUIT_16_M}
 
   &::placeholder {
-    color: ${colors.gray600};
+    color: ${colors.gray400};
   }
 
   &:focus {
@@ -76,4 +76,5 @@ const StyledCountValue = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 12px;
+  margin-bottom: -24px; /* count와 error message가 같이 쓰일경우 같은 라인에 위치하도록 하기 위함. */
 `;

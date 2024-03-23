@@ -5,7 +5,7 @@ import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
 
 import Text from '@/components/common/Text';
-import ProjectCard from '@/components/projects/main/ProjectCard';
+import ProjectCard from '@/components/projects/main/card/ProjectCard';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -15,10 +15,11 @@ import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault
 import { useDebounce } from '@toss/react';
 import { fonts } from '@sopt-makers/fonts';
 import { useEffect, useState } from 'react';
-import { Flex, Spacing, width100 } from '@toss/emotion-utils';
+import { Flex, width100 } from '@toss/emotion-utils';
 import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
 import Responsive from '@/components/common/Responsive';
 import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
+import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 
 type ProjectCategory = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'ETC';
 
@@ -75,7 +76,7 @@ const ProjectList = () => {
                   checked={queryParams.isAvailable ?? false}
                   onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
                 >
-                  서비스 이용 중
+                  이용 가능한 서비스
                 </ProjectFilterChip>
                 <ProjectFilterChip
                   checked={queryParams.isFounding ?? false}
@@ -107,7 +108,7 @@ const ProjectList = () => {
                     checked={queryParams.isAvailable ?? false}
                     onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
                   >
-                    서비스 이용 중
+                    이용 가능한 서비스
                   </ProjectFilterChip>
                   <ProjectFilterChip
                     size='small'
@@ -140,7 +141,45 @@ const ProjectList = () => {
         ) : (
           <StyledGridContainer>
             {data?.pages.map((page) =>
-              page.projectList.map((project) => <ProjectCard key={project.id} {...project} />),
+              page.projectList.map((project, index) => {
+                const memberList = project.members.map((member) => ({
+                  id: member.memberId,
+                  profileImage: member.memberProfileImage,
+                }));
+                return (
+                  <>
+                    <Responsive only='desktop' asChild>
+                      <Link href={playgroundLink.projectDetail(project.id)}>
+                        <ProjectCard
+                          key={project.id}
+                          image={project.thumbnailImage}
+                          title={project.name}
+                          serviceType={project.serviceType}
+                          summary={project.summary}
+                          memberList={memberList}
+                          isAvailable={project.isAvailable}
+                          isFounding={project.isFounding}
+                        />
+                      </Link>
+                    </Responsive>
+                    <Responsive only='mobile' asChild>
+                      <Link href={playgroundLink.projectDetail(project.id)}>
+                        <MobileProjectCard
+                          key={project.id}
+                          logoImage={project.logoImage}
+                          title={project.name}
+                          serviceType={project.serviceType}
+                          summary={project.summary}
+                          memberList={memberList}
+                          isAvailable={project.isAvailable}
+                          isFounding={project.isFounding}
+                        />
+                        <div css={{ width: '100%', height: '1px', background: colors.gray700 }} />
+                      </Link>
+                    </Responsive>
+                  </>
+                );
+              }),
             )}
             <ImpressionArea onImpressionStart={fetchNextPage} />
           </StyledGridContainer>
@@ -232,28 +271,28 @@ const StyledLength = styled(Text)`
 
 const StyledGridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  row-gap: 64px;
-  column-gap: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
   margin-top: 22px;
   min-width: 1200px;
 
-  @media screen and (max-width: 1250px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media screen and (max-width: 1480px) {
+    grid-template-columns: repeat(3, 1fr);
     justify-content: start;
     min-width: 0;
     min-width: 790px;
   }
 
-  @media screen and (max-width: 850px) {
-    grid-template-columns: 1fr;
+  @media screen and (max-width: 1120px) {
+    grid-template-columns: repeat(2, 1fr);
     min-width: 0;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    row-gap: 24px;
-    column-gap: 0;
+    grid-template-columns: 1fr;
+    gap: 0;
     justify-content: start;
+    margin-top: 0;
   }
 `;
 

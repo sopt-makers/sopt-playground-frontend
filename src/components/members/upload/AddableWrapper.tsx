@@ -10,20 +10,30 @@ interface MemberAddableWrapperProps {
   children: ReactNode;
   onAppend: () => void;
   className?: string;
+  isCheckPage?: boolean;
 }
 
-export default function MemberAddableWrapper({ onAppend, children, className }: MemberAddableWrapperProps) {
+export default function MemberAddableWrapper({
+  onAppend,
+  children,
+  className,
+  isCheckPage,
+}: MemberAddableWrapperProps) {
   return (
     <StyledContainer>
       <StyledAddableItems className={className}>{children}</StyledAddableItems>
-      <StyledAddButton onClick={onAppend} className='pc-only'>
-        <IconPlus stroke={colors.gray10} />
-        <div>추가</div>
-      </StyledAddButton>
-      <MobileAddButton onClick={onAppend}>
-        <IconPlus stroke={colors.gray50} />
-        <div>추가</div>
-      </MobileAddButton>
+      {isCheckPage && (
+        <>
+          <StyledAddButton onClick={onAppend} className='pc-only'>
+            <IconPlus stroke={colors.gray10} />
+            <div>추가</div>
+          </StyledAddButton>
+          <MobileAddButton onClick={onAppend}>
+            <IconPlus stroke={colors.gray50} />
+            <div>추가</div>
+          </MobileAddButton>
+        </>
+      )}
     </StyledContainer>
   );
 }

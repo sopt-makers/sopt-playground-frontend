@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import Link from 'next/link';
+import { playgroundLink } from 'playground-common/export';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
+import Button from '@/components/common/Button';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function EmptyProfile() {
@@ -11,6 +14,9 @@ export default function EmptyProfile() {
         <ProfileIcon />
       </EmptyProfileImage>
       <Description>{`이 멤버는 아직 프로필을 \n등록하지 않았어요.`}</Description>
+      <Link href={playgroundLink.memberUpload()}>
+        <Button variant='primary'>프로필 등록하기</Button>
+      </Link>
     </Container>
   );
 }
@@ -49,7 +55,7 @@ const EmptyProfileImage = styled.div`
 `;
 
 const Description = styled.div`
-  margin-top: 24px;
+  margin: 24px 0;
   line-height: 30px;
   color: ${colors.gray400};
   font-size: 24px;
