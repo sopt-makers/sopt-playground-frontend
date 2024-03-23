@@ -105,7 +105,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileContainer>
-          {profile.profileImage ? (
+          {!profile.profileImage ? (
             <ProfileImage src={profile.profileImage} height={171} />
           ) : (
             <EmptyProfileImage>
@@ -344,7 +344,13 @@ const EmptyProfileImage = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 20px;
     width: 78px;
+    min-width: 78px;
     height: 78px;
+
+    & > svg {
+      width: 40px;
+      height: 40px;
+    }
   }
 `;
 
