@@ -1,8 +1,10 @@
+import ResizedImage from '@/components/common/ResizedImage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Flex } from '@toss/emotion-utils';
+import { useState } from 'react';
 
 const MEMBER_CIRCLE_WIDTH = 30;
 
@@ -52,30 +54,34 @@ const MemberCircle = ({ className, profileImage }: MemberCircleProps) => {
         align='center'
         justify='center'
         css={{
-          borderRadius: 30,
+          borderRadius: '100%',
           width: 30,
           height: 30,
           border: `2px solid ${colors.background}`,
         }}
       >
-        {profileImage == null ? (
-          <DefaultProfileImage />
-        ) : (
-          <img
-            css={{
-              borderRadius: 26,
-              width: 26,
-              height: 26,
-              objectFit: 'cover',
-            }}
-            src={profileImage}
-            alt='프로젝트_멤버_프로필'
-          />
-        )}
+        {profileImage == null ? <DefaultProfileImage /> : <ProfileImage src={profileImage} />}
       </Flex>
     </div>
   );
 };
+
+const ProfileImage = ({ src }: { src: string }) => {
+  const [isError, setIsError] = useState<boolean>(false);
+
+  return isError ? (
+    <DefaultProfileImage />
+  ) : (
+    <Profile width={26} height={26} src={src} alt='' onError={() => setIsError(true)} />
+  );
+};
+
+const Profile = styled(ResizedImage)`
+  border-radius: 100%;
+  width: 26px;
+  height: 26px;
+  object-fit: cover;
+`;
 
 const DefaultProfileImage = () => (
   <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'>
