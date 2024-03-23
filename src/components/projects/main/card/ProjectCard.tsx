@@ -6,6 +6,7 @@ import { m } from 'framer-motion';
 import { Separated } from '@toss/react';
 import ProjectCardMemberList, { MemberType } from '@/components/projects/main/card/ProjectCardMemberList';
 import ProjectCardStatus from '@/components/projects/main/card/ProjectCardStatus';
+import ResizedImage from '@/components/common/ResizedImage';
 
 interface ProjectCardProps {
   image: string;
@@ -32,7 +33,7 @@ const ProjectCard = ({
         y: -8,
       }}
     >
-      <Image src={image} alt='프로젝트_이미지' />
+      <Image height={192} src={image} alt='프로젝트_이미지' />
       <Stack gutter={4}>
         <Flex align='center'>
           <Title
@@ -86,7 +87,7 @@ const Title = styled.h1`
   ${fonts.HEADING_18_B};
 `;
 
-const Image = styled(m.img)`
+const Image = styled(ResizedImage)`
   flex: none;
   border-radius: 8px;
   width: 100%;
