@@ -1,4 +1,4 @@
-import { FC, useCallback, useRef, useState } from 'react';
+import { FC, ComponentProps, useCallback, useRef, useState, SyntheticEvent } from 'react';
 
 import useEnterScreen from '@/hooks/useEnterScreen';
 
@@ -10,11 +10,11 @@ type ImageProps = {
   width?: number;
   height?: number;
   alt?: string;
-
+  onError?: ComponentProps<'img'>['onError'];
   onLoad?: () => void;
 } & ({ width: number } | { height: number }); // Width나 Height 둘중 하나는 있어야함
 
-const ResizedImage: FC<ImageProps> = ({ className, src, width, height, alt, onLoad }) => {
+const ResizedImage: FC<ImageProps> = ({ className, src, width, height, alt, onLoad, onError }) => {
   const [isUsingOriginal, setIsUsingOriginal] = useState(false);
 
   const timeoutTokenRef = useRef<ReturnType<typeof setTimeout>>();
@@ -38,8 +38,9 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, height, alt, onLo
     }
   };
 
-  const handleResizedLoadError = () => {
+  const handleResizedLoadError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     setIsUsingOriginal(true);
+    onError?.(e);
   };
 
   const handleResizedLoaded = () => {
@@ -64,7 +65,15 @@ const ResizedImage: FC<ImageProps> = ({ className, src, width, height, alt, onLo
   return (
     <>
       {isUsingOriginal ? (
-        <img src={src} alt={alt} className={className} onLoad={onLoad} loading='lazy' decoding='async' />
+        <img
+          src={src}
+          alt={alt}
+          className={className}
+          onLoad={onLoad}
+          onError={onError}
+          loading='lazy'
+          decoding='async'
+        />
       ) : (
         <img
           ref={imgRef}

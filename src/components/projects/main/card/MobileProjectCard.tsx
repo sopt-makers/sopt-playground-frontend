@@ -1,3 +1,4 @@
+import ResizedImage from '@/components/common/ResizedImage';
 import ProjectCardMemberList, { MemberType } from '@/components/projects/main/card/ProjectCardMemberList';
 import ProjectCardStatus from '@/components/projects/main/card/ProjectCardStatus';
 import styled from '@emotion/styled';
@@ -28,7 +29,7 @@ const MobileProjectCard = ({
   return (
     <Stack gutter={12} css={{ padding: '16px 0' }}>
       <Flex css={{ gap: 12 }} align='center'>
-        <Image src={logoImage} alt='프로젝트_썸네일_이미지' />
+        <Image width={40} height={40} src={logoImage} alt='프로젝트_썸네일_이미지' />
         <Flex align='center' css={{ gap: 5 }}>
           <Title>{title}</Title>
           <Separated with={<ServiceType>∙</ServiceType>}>
@@ -54,7 +55,7 @@ const MobileProjectCard = ({
   );
 };
 
-const Image = styled.img`
+const Image = styled(ResizedImage)`
   flex-shrink: 0;
   border-radius: 8px;
   width: 40px;
