@@ -328,6 +328,7 @@ const ProfileContainer = styled.div`
   letter-spacing: -0.01em;
   font-weight: 500;
   @media ${MOBILE_MEDIA_QUERY} {
+    gap: 20px;
     align-items: flex-start;
   }
 `;
@@ -340,6 +341,17 @@ const EmptyProfileImage = styled.div`
   background: ${colors.gray700};
   width: 171px;
   height: 171px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 20px;
+    width: 78px;
+    min-width: 78px;
+    height: 78px;
+
+    & > svg {
+      width: 40px;
+      height: 40px;
+    }
+  }
 `;
 
 const ProfileImage = styled(ResizedImage)`
@@ -349,8 +361,8 @@ const ProfileImage = styled(ResizedImage)`
   object-fit: cover;
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 20px;
-    width: 88px;
-    height: 88px;
+    width: 78px;
+    height: 78px;
   }
 `;
 
@@ -396,7 +408,7 @@ const EditButton = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    top: -12px;
+    top: 5px;
     width: 32px;
     height: 32px;
 
@@ -442,7 +454,7 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
     gap: 4px;
     align-items: center;
     @media ${MOBILE_MEDIA_QUERY} {
-      gap: 7;
+      gap: 7px;
     }
   }
 
