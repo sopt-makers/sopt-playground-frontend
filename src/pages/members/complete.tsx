@@ -61,11 +61,11 @@ const CompletePage: FC = () => {
                 router.push(playgroundLink.feedList());
               }}
             >
-              홈으로 돌아가기
+              플레이그라운드 시작하기
             </DefaultButton>
-            <LoggingClick eventKey='profileUploadResolution'>
+            {/* <LoggingClick eventKey='profileUploadResolution'>
               <CtaButton onClick={handleResolutionModalOpen}>NOW, 다짐하러 가기</CtaButton>
-            </LoggingClick>
+            </LoggingClick> */}
             {isOpenResolutionModal && (
               <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
             )}

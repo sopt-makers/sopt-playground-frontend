@@ -7,7 +7,7 @@ const CardBack: FC = () => {
   return (
     <MemberCard>
       <ImageHolder>
-        <Image className='image' src='/logos/now-sopt.svg' width={187} alt='now_sopt' />
+        <Image className='image' src='/logos/logo-makers-full.svg' width={187} alt='now_sopt' />
       </ImageHolder>
     </MemberCard>
   );
