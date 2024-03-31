@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import Welcome34 from '@/components/common/Banner/WelcomeBanner/Welcome34';
-
 interface ActiveBannerSlotProps {}
 
 const ActiveBannerSlot: FC<ActiveBannerSlotProps> = ({}) => {
