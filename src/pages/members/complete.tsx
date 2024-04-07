@@ -5,6 +5,7 @@ import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
+import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
@@ -36,7 +37,7 @@ const CompletePage: FC = () => {
     useOpenResolutionModal();
 
   return (
-    <>
+    <AuthRequired>
       {profile && (
         <StyledCompletePage>
           <Responsive only='desktop'>
@@ -73,7 +74,7 @@ const CompletePage: FC = () => {
           </ButtonWrapper>
         </StyledCompletePage>
       )}
-    </>
+    </AuthRequired>
   );
 };
 
