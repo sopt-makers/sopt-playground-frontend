@@ -14,7 +14,6 @@ const Home: NextPage = () => {
   );
 };
 
-// 환영배너 삽입시, 'headerOnlyDesktop'로 변경
 setLayout(Home, 'header');
 
 export default Home;
