@@ -55,21 +55,22 @@ const CompletePage: FC = () => {
               imageUrl={profile.profileImage}
             />
           </CardsWrapper>
-          <ButtonsWrapper>
+
+          <ButtonWrapper>
+            <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
+              솝트 구성원들의 이야기가 궁금하다면?
+            </Text>
             <DefaultButton
               onClick={() => {
                 router.push(playgroundLink.feedList());
               }}
             >
-              홈으로 돌아가기
+              플레이그라운드 시작하기
             </DefaultButton>
-            <LoggingClick eventKey='profileUploadResolution'>
-              <CtaButton onClick={handleResolutionModalOpen}>NOW, 다짐하러 가기</CtaButton>
-            </LoggingClick>
             {isOpenResolutionModal && (
               <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
             )}
-          </ButtonsWrapper>
+          </ButtonWrapper>
         </StyledCompletePage>
       )}
     </>
@@ -128,6 +129,7 @@ const DefaultButton = styled.button`
   border-radius: 10px;
   background-color: ${colors.gray700};
   padding: 12px 20px;
+  width: fit-content;
   height: 48px;
   color: ${colors.gray10};
 
@@ -137,32 +139,12 @@ const DefaultButton = styled.button`
     width: 100%;
   }
 `;
-const CtaButton = styled.button`
+
+const ButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 12px;
   align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #effdb4 0%, #bdec00 100%);
-  padding: 12px 20px;
-  height: 48px;
-  color: ${colors.black};
-
-  ${textStyles.SUIT_16_SB};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    order: -1;
-    width: 100%;
-  }
-`;
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 56px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-  }
+  margin-top: 44px;
+  width: 100%;
 `;

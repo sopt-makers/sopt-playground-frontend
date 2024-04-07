@@ -14,7 +14,6 @@ const Home: NextPage = () => {
   );
 };
 
-// TODO: 환영배너 내린 후, 'header'로 변경
-setLayout(Home, 'headerOnlyDesktop');
+setLayout(Home, 'header');
 
 export default Home;
