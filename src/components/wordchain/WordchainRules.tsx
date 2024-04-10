@@ -70,5 +70,11 @@ const StyledTitle = styled(Text)`
 `;
 
 const StyledModal = styled(Modal)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  min-height: 316px;
+
   /* TODO: 모바일 대응 */
 `;
