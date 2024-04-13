@@ -209,34 +209,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                     ))}
                   </FeedCard.Image>
                 )}
-                {post.comments.length !== 0 && (
-                  <FeedCard.Comment>
-                    {post.comments
-                      .slice(0, 2)
-                      .map((comment) =>
-                        comment.isBlindWriter ? (
-                          <FeedCard.CommentItem
-                            key={comment.id}
-                            comment={comment.content}
-                            isBlindWriter={comment.isBlindWriter}
-                          />
-                        ) : comment.member ? (
-                          <FeedCard.CommentItem
-                            key={comment.id}
-                            comment={comment.content}
-                            isBlindWriter={comment.isBlindWriter}
-                            name={comment.member.name}
-                          />
-                        ) : null,
-                      )}
-                    {post.commentCount > 2 && (
-                      <MoreCommentItem>
-                        {`댓글 ${post.commentCount - 2}개 더 보기`}
-                        <p>{`>`}</p>
-                      </MoreCommentItem>
-                    )}
-                  </FeedCard.Comment>
-                )}
               </FeedCard>
             ),
           });

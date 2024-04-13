@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
-import { forwardRef, PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode, forwardRef } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
@@ -131,7 +131,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           </Stack>
           {children}
           <Bottom gutter={2}>
-            <Text typography='SUIT_14_R'>{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+            <Text typography='SUIT_14_R'>{`댓글 ${commentLength}개`}</Text>
           </Bottom>
         </Flex>
       </Flex>
