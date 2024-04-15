@@ -142,8 +142,8 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
 const ProfileImageBox = styled.div`
   flex-shrink: 0;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
 `;
 
