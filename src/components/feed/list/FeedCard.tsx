@@ -57,7 +57,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
         ref={ref}
         css={{
           backgroundColor: colors.gray950,
-          padding: '16px',
+          padding: '16px 16px 22px',
           gap: 12,
           borderBottom: `1px solid ${colors.gray800}`,
         }}
@@ -78,8 +78,8 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
             </ProfileImageBox>
           </Link>
         )}
-        <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
-          <Stack gutter={title ? 8 : 4}>
+        <Flex direction='column' css={{ minWidth: 0, gap: '12px', width: '100%' }}>
+          <Stack gutter={title ? 12 : 4}>
             <Flex justify='space-between' css={{ height: '32px' }}>
               {isBlindWriter ? (
                 <Top align='center'>
