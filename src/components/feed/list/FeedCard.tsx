@@ -3,13 +3,12 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
-import { forwardRef, PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode, forwardRef } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
-import { getRelativeTime } from '@/components/feed/common/utils';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -103,9 +102,6 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                 </Top>
               )}
               <Stack.Horizontal gutter={4} align='center'>
-                <Text typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
-                  {getRelativeTime(createdAt)}
-                </Text>
                 {rightIcon}
               </Stack.Horizontal>
             </Flex>
