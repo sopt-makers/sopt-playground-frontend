@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
-import { PropsWithChildren, ReactNode, forwardRef } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
@@ -57,30 +57,30 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
         ref={ref}
         css={{
           backgroundColor: colors.gray950,
-          padding: '16px',
-          gap: 8,
+          padding: '16px 16px 22px',
+          gap: 12,
           borderBottom: `1px solid ${colors.gray800}`,
         }}
         onClick={onClick}
       >
         {isBlindWriter ? (
           <div css={{ flexShrink: 0 }}>
-            <IconMember size={36} />
+            <IconMember size={32} />
           </div>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)} css={{ height: 'fit-content' }}>
             <ProfileImageBox>
               {profileImage ? (
-                <ProfileImage width={36} height={36} src={profileImage} alt='profileImage' />
+                <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
               ) : (
-                <IconMember size={36} />
+                <IconMember size={32} />
               )}
             </ProfileImageBox>
           </Link>
         )}
-        <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
-          <Stack gutter={title ? 8 : 4}>
-            <Flex justify='space-between'>
+        <Flex direction='column' css={{ minWidth: 0, gap: '12px', width: '100%' }}>
+          <Stack gutter={title ? 12 : 4}>
+            <Flex justify='space-between' css={{ height: '32px' }}>
               {isBlindWriter ? (
                 <Top align='center'>
                   <Text typography='SUIT_14_SB' lineHeight={20}>
@@ -142,8 +142,8 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
 const ProfileImageBox = styled.div`
   flex-shrink: 0;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
 `;
 
