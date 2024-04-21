@@ -6,11 +6,11 @@ export default function useBlindWriterPromise() {
 
   const handleShowBlindWriterPromise = () => {
     alert({
-      title: '플레이그라운드는 건전하고 기분좋은 소통을 지향해요',
+      title: '기분좋은 소통을 부탁드려요!',
       description:
-        '타인을 비난하거나 저격하는 글을 작성하는 등 커뮤니티 이용규칙을 위반할 경우, 서비스 이용이 제한될 수 있으며 내부 절차에 따라 익명 작성자를 식별하여 징계위원회를 열 수 있습니다.',
+        '익명으로 타인을 비난하거나 문제가 될 수 있는 글을 작성하면, 커뮤니티 이용규칙 및 SOPT 회칙에 따라 이용이 제한될 수 있어요.',
       hideCloseButton: true,
-      buttonText: '명심할게요',
+      buttonText: '확인',
       buttonColor: 'white',
       buttonTextColor: 'black',
       maxWidth: 324,

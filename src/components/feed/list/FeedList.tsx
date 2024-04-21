@@ -7,6 +7,7 @@ import { FC, ReactNode } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
 import CategorySelect from '@/components/feed/list/CategorySelect';
@@ -66,7 +67,10 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
       </HeightSpacer>
       <LoggingClick eventKey='feedUploadButton'>
         <UploadLink href={playgroundLink.feedUpload()}>
-          <UploadIcon />
+          <UploadIcon src='/icons/icon-pencil-simple.svg' />
+          <Text typography='SUIT_16_SB' color={colors.black}>
+            글쓰기
+          </Text>
         </UploadLink>
       </LoggingClick>
     </Container>
@@ -96,6 +100,7 @@ const UploadLink = styled(Link)`
   display: flex;
   position: sticky;
   bottom: 24px;
+  gap: 8px;
   align-items: center;
   justify-content: center;
   z-index: 1; /* Virtuoso가 sticky 위에 와버리는 문제때문에 z-index로 제어 */
@@ -104,22 +109,15 @@ const UploadLink = styled(Link)`
   border-radius: 18px;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 15%);
   background-color: ${colors.gray10};
-  width: 48px;
+  width: 102px;
   height: 48px;
-
   @media ${MOBILE_MEDIA_QUERY} {
     bottom: 20px;
     margin-right: 16px;
   }
 `;
 
-function UploadIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg width={20} height={20} fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
-      <path
-        d='M11.103 1.103a1.103 1.103 0 10-2.206 0v7.794H1.103a1.103 1.103 0 100 2.206h7.794v7.794a1.103 1.103 0 002.206 0v-7.794h7.794a1.103 1.103 0 100-2.206h-7.794V1.103z'
-        fill='#0F0F12'
-      />
-    </svg>
-  );
-}
+const UploadIcon = styled.img`
+  width: 20px;
+  height: 20px;
+`;

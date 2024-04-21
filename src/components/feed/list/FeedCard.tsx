@@ -9,7 +9,6 @@ import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
-import { getRelativeTime } from '@/components/feed/common/utils';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -57,30 +56,30 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
         ref={ref}
         css={{
           backgroundColor: colors.gray950,
-          padding: '16px',
-          gap: 8,
+          padding: '16px 16px 22px',
+          gap: 12,
           borderBottom: `1px solid ${colors.gray800}`,
         }}
         onClick={onClick}
       >
         {isBlindWriter ? (
           <div css={{ flexShrink: 0 }}>
-            <IconMember size={36} />
+            <IconMember size={32} />
           </div>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)} css={{ height: 'fit-content' }}>
             <ProfileImageBox>
               {profileImage ? (
-                <ProfileImage width={36} height={36} src={profileImage} alt='profileImage' />
+                <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
               ) : (
-                <IconMember size={36} />
+                <IconMember size={32} />
               )}
             </ProfileImageBox>
           </Link>
         )}
-        <Flex direction='column' css={{ minWidth: 0, gap: '8px', width: '100%' }}>
-          <Stack gutter={title ? 8 : 4}>
-            <Flex justify='space-between'>
+        <Flex direction='column' css={{ minWidth: 0, gap: '12px', width: '100%' }}>
+          <Stack gutter={title ? 12 : 4}>
+            <Flex justify='space-between' css={{ height: '32px' }}>
               {isBlindWriter ? (
                 <Top align='center'>
                   <Text typography='SUIT_14_SB' lineHeight={20}>
@@ -103,9 +102,6 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                 </Top>
               )}
               <Stack.Horizontal gutter={4} align='center'>
-                <Text typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
-                  {getRelativeTime(createdAt)}
-                </Text>
                 {rightIcon}
               </Stack.Horizontal>
             </Flex>
@@ -142,8 +138,8 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
 const ProfileImageBox = styled.div`
   flex-shrink: 0;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
 `;
 
