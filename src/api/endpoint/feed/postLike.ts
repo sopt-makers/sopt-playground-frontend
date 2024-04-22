@@ -11,8 +11,22 @@ export const postLike = createEndpoint({
   serverResponseScheme: z.unknown(),
 });
 
+export const postUnlike = createEndpoint({
+  request: (postId: number) => ({
+    method: 'DELETE',
+    url: `api/v1/community/posts/unlike/${postId}`,
+  }),
+  serverResponseScheme: z.unknown(),
+});
+
 export const usePostLikeMutation = () => {
   return useMutation({
     mutationFn: (postId: number) => postLike.request(postId),
+  });
+};
+
+export const usePostUnlikeMutation = () => {
+  return useMutation({
+    mutationFn: (postId: number) => postUnlike.request(postId),
   });
 };
