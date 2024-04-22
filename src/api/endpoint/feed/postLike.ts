@@ -1,4 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
@@ -20,13 +21,22 @@ export const postUnlike = createEndpoint({
 });
 
 export const usePostLikeMutation = () => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (postId: number) => postLike.request(postId),
+    mutationFn: ({ postId }: { postId: number; queryKey: (string | Params | undefined)[] }) => postLike.request(postId),
+    onSuccess: (data, { queryKey }) => {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+    },
   });
 };
 
 export const usePostUnlikeMutation = () => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (postId: number) => postUnlike.request(postId),
+    mutationFn: ({ postId }: { postId: number; queryKey: (string | Params | undefined)[] }) =>
+      postUnlike.request(postId),
+    onSuccess: (data, { queryKey }) => {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+    },
   });
 };

@@ -211,8 +211,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      handleToggleLike(post.id, post.isLiked);
-                      queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
+                      handleToggleLike(post.id, post.isLiked, useGetPostsInfiniteQuery.getKey(categoryId));
                     }}
                   />
                 }
