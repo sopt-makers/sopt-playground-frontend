@@ -205,7 +205,16 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                     ) : null}
                   </FeedDropdown>
                 }
-                like={<FeedLike postId={post.id} isLiked={post.isLiked} />}
+                like={
+                  <FeedLike
+                    isLiked={post.isLiked}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      handlePostLike(post.id);
+                    }}
+                  />
+                }
               >
                 {post.images.length !== 0 && (
                   <FeedCard.Image>

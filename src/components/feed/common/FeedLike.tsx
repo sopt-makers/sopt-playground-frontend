@@ -1,25 +1,17 @@
 import { Flex } from '@toss/emotion-utils';
+import React from 'react';
 
 import Text from '@/components/common/Text';
-import { usePostLike } from '@/components/feed/common/hooks/usePostLike';
 import { IconHeart } from '@/components/feed/common/Icon';
 
 interface FeedLikeProps {
-  postId: number;
   isLiked: boolean;
+  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export const FeedLike = ({ postId, isLiked }: FeedLikeProps) => {
-  const { handlePostLike } = usePostLike();
+export const FeedLike = ({ isLiked, onClick }: FeedLikeProps) => {
   return (
-    <Flex
-      align='center'
-      css={{ gap: '4px' }}
-      onClick={(e) => {
-        e.stopPropagation();
-        handlePostLike(postId);
-      }}
-    >
+    <Flex align='center' css={{ gap: '4px' }} onClick={onClick}>
       <IconHeart fill={isLiked ? undefined : 'none'} />
       <Text typography='SUIT_13_R'>{`좋아요 ${'개수'}`}</Text>
     </Flex>
