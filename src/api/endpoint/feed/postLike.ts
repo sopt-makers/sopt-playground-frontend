@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import { z } from 'zod';
 
+import { PostsType } from '@/api/endpoint/feed/getPosts';
 import { createEndpoint } from '@/api/typedAxios';
 
 export const postLike = createEndpoint({
@@ -26,9 +27,11 @@ export const usePostLikeMutation = () => {
     mutationFn: ({ postId }: { postId: number; queryKey: (string | Params | undefined)[] }) => postLike.request(postId),
     onMutate: async ({ postId, queryKey }) => {
       await queryClient.cancelQueries({ queryKey: queryKey });
-      const previousData = queryClient.getQueryData(queryKey);
+      const previousData = queryClient.getQueryData<{ pages: PostsType[] }>(queryKey);
 
-      queryClient.setQueryData(queryKey, (oldData) => {
+      queryClient.setQueryData<{ pages: PostsType[] }>(queryKey, (oldData) => {
+        if (!oldData) return oldData;
+
         return {
           ...oldData,
           pages: oldData.pages.map((page) => ({
@@ -37,7 +40,7 @@ export const usePostLikeMutation = () => {
           })),
         };
       });
-      return { previousData, queryKey };
+      return { previousData };
     },
     onSuccess: (_, { queryKey }) => {
       queryClient.invalidateQueries({ queryKey: queryKey });
@@ -52,9 +55,11 @@ export const usePostUnlikeMutation = () => {
       postUnlike.request(postId),
     onMutate: async ({ postId, queryKey }) => {
       await queryClient.cancelQueries({ queryKey: queryKey });
-      const previousData = queryClient.getQueryData(queryKey);
+      const previousData = queryClient.getQueryData<{ pages: PostsType[] }>(queryKey);
 
-      queryClient.setQueryData(queryKey, (oldData) => {
+      queryClient.setQueryData<{ pages: PostsType[] }>(queryKey, (oldData) => {
+        if (!oldData) return oldData;
+
         return {
           ...oldData,
           pages: oldData.pages.map((page) => ({

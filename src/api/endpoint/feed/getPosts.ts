@@ -10,95 +10,99 @@ interface Params {
   cursor?: number | null;
 }
 
+const PostsSchema = z.object({
+  categoryId: z.number().nullable(),
+  hasNext: z.boolean(),
+  posts: z.array(
+    z.object({
+      id: z.number(),
+      member: z
+        .object({
+          id: z.number(),
+          name: z.string(),
+          profileImage: z.string().nullable(),
+          activity: z.object({
+            id: z.number(),
+            memberId: z.number(),
+            part: z.string(),
+            generation: z.number(),
+            team: z.string().nullable(),
+          }),
+          careers: z
+            .object({
+              id: z.number(),
+              memberId: z.number(),
+              companyName: z.string(),
+              title: z.string(),
+              startDate: z.string(),
+              endDate: z.string().nullable(),
+              isCurrent: z.boolean(),
+            })
+            .nullable(),
+        })
+        .nullable(),
+      writerId: z.number().nullable(),
+      isMine: z.boolean(),
+      categoryId: z.number(),
+      categoryName: z.string(),
+      title: z.string(),
+      content: z.string(),
+      hits: z.number(),
+      commentCount: z.number(),
+      images: z.array(z.string()),
+      isQuestion: z.boolean(),
+      isBlindWriter: z.boolean(),
+      createdAt: z.string(),
+      isLiked: z.boolean(),
+      comments: z.array(
+        z.object({
+          id: z.number(),
+          member: z
+            .object({
+              id: z.number(),
+              name: z.string(),
+              profileImage: z.string().nullable(),
+              activity: z.object({
+                id: z.number(),
+                memberId: z.number(),
+                part: z.string(),
+                generation: z.number(),
+                team: z.string().nullable(),
+              }),
+              careers: z
+                .object({
+                  id: z.number(),
+                  memberId: z.number(),
+                  companyName: z.string(),
+                  title: z.string(),
+                  startDate: z.string(),
+                  endDate: z.string().nullable(),
+                  isCurrent: z.boolean(),
+                })
+                .nullable(),
+            })
+            .nullable(),
+          isMine: z.boolean(),
+          postId: z.number(),
+          parentCommentId: z.number().nullable(),
+          content: z.string(),
+          isBlindWriter: z.boolean(),
+          isReported: z.boolean(),
+          createdAt: z.string(),
+        }),
+      ),
+    }),
+  ),
+});
+
+export type PostsType = z.infer<typeof PostsSchema>;
+
 export const getPosts = createEndpoint({
   request: (params: Params = {}) => ({
     method: 'GET',
     url: `api/v1/community/posts${QS.create(params)}`,
   }),
-  serverResponseScheme: z.object({
-    categoryId: z.number().nullable(),
-    hasNext: z.boolean(),
-    posts: z.array(
-      z.object({
-        id: z.number(),
-        member: z
-          .object({
-            id: z.number(),
-            name: z.string(),
-            profileImage: z.string().nullable(),
-            activity: z.object({
-              id: z.number(),
-              memberId: z.number(),
-              part: z.string(),
-              generation: z.number(),
-              team: z.string().nullable(),
-            }),
-            careers: z
-              .object({
-                id: z.number(),
-                memberId: z.number(),
-                companyName: z.string(),
-                title: z.string(),
-                startDate: z.string(),
-                endDate: z.string().nullable(),
-                isCurrent: z.boolean(),
-              })
-              .nullable(),
-          })
-          .nullable(),
-        writerId: z.number().nullable(),
-        isMine: z.boolean(),
-        categoryId: z.number(),
-        categoryName: z.string(),
-        title: z.string(),
-        content: z.string(),
-        hits: z.number(),
-        commentCount: z.number(),
-        images: z.array(z.string()),
-        isQuestion: z.boolean(),
-        isBlindWriter: z.boolean(),
-        createdAt: z.string(),
-        isLiked: z.boolean(),
-        comments: z.array(
-          z.object({
-            id: z.number(),
-            member: z
-              .object({
-                id: z.number(),
-                name: z.string(),
-                profileImage: z.string().nullable(),
-                activity: z.object({
-                  id: z.number(),
-                  memberId: z.number(),
-                  part: z.string(),
-                  generation: z.number(),
-                  team: z.string().nullable(),
-                }),
-                careers: z
-                  .object({
-                    id: z.number(),
-                    memberId: z.number(),
-                    companyName: z.string(),
-                    title: z.string(),
-                    startDate: z.string(),
-                    endDate: z.string().nullable(),
-                    isCurrent: z.boolean(),
-                  })
-                  .nullable(),
-              })
-              .nullable(),
-            isMine: z.boolean(),
-            postId: z.number(),
-            parentCommentId: z.number().nullable(),
-            content: z.string(),
-            isBlindWriter: z.boolean(),
-            isReported: z.boolean(),
-            createdAt: z.string(),
-          }),
-        ),
-      }),
-    ),
-  }),
+  serverResponseScheme: PostsSchema,
 });
 
 export const useGetPostsInfiniteQuery = ({ categoryId }: { categoryId?: string } = {}) => {
