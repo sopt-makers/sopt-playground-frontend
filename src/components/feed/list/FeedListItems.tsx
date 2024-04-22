@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useQuery } from '@tanstack/react-query';
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
@@ -20,7 +20,6 @@ import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { usePostLike } from '@/components/feed/common/hooks/usePostLike';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
-import { IconHeart } from '@/components/feed/common/Icon';
 import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
@@ -53,6 +52,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
   });
+  const queryClient = useQueryClient();
 
   const parentCategory = (categoryId: number, tag: string) => {
     const category =
@@ -212,6 +212,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                       e.stopPropagation();
                       e.preventDefault();
                       handlePostLike(post.id);
+                      queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
                     }}
                   />
                 }
