@@ -8,7 +8,7 @@ import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
-import { IconHeart, IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
+import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';

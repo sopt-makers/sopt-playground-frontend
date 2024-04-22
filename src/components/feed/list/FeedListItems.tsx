@@ -15,9 +15,12 @@ import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
+import FeedLike from '@/components/feed/common/FeedLike';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
+import { usePostLike } from '@/components/feed/common/hooks/usePostLike';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
+import { IconHeart } from '@/components/feed/common/Icon';
 import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
@@ -42,6 +45,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteFeed } = useDeleteFeed();
   const { handleReport } = useReportFeed();
+  const { handlePostLike } = usePostLike();
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
   const toast = useToast();
@@ -122,7 +126,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 isQuestion={post.isQuestion}
                 isShowInfo={categoryId === ''}
                 memberId={post.member?.id ?? 0}
-                isLiked={post.isLiked}
                 info={
                   categoryId ? (
                     <>
@@ -202,6 +205,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                     ) : null}
                   </FeedDropdown>
                 }
+                like={<FeedLike postId={post.id} isLiked={post.isLiked} />}
               >
                 {post.images.length !== 0 && (
                   <FeedCard.Image>
