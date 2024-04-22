@@ -24,7 +24,22 @@ export const usePostLikeMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ postId }: { postId: number; queryKey: (string | Params | undefined)[] }) => postLike.request(postId),
-    onSuccess: (data, { queryKey }) => {
+    onMutate: async ({ postId, queryKey }) => {
+      await queryClient.cancelQueries({ queryKey: queryKey });
+      const previousData = queryClient.getQueryData(queryKey);
+
+      queryClient.setQueryData(queryKey, (oldData) => {
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page) => ({
+            ...page,
+            posts: page.posts.map((post) => (post.id === postId ? { ...post, isLiked: !post.isLiked } : post)),
+          })),
+        };
+      });
+      return { previousData, queryKey };
+    },
+    onSuccess: (_, { queryKey }) => {
       queryClient.invalidateQueries({ queryKey: queryKey });
     },
   });
@@ -35,7 +50,22 @@ export const usePostUnlikeMutation = () => {
   return useMutation({
     mutationFn: ({ postId }: { postId: number; queryKey: (string | Params | undefined)[] }) =>
       postUnlike.request(postId),
-    onSuccess: (data, { queryKey }) => {
+    onMutate: async ({ postId, queryKey }) => {
+      await queryClient.cancelQueries({ queryKey: queryKey });
+      const previousData = queryClient.getQueryData(queryKey);
+
+      queryClient.setQueryData(queryKey, (oldData) => {
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page) => ({
+            ...page,
+            posts: page.posts.map((post) => (post.id === postId ? { ...post, isLiked: !post.isLiked } : post)),
+          })),
+        };
+      });
+      return { previousData, queryKey };
+    },
+    onSuccess: (_, { queryKey }) => {
       queryClient.invalidateQueries({ queryKey: queryKey });
     },
   });
