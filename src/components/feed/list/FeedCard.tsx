@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
-import { PropsWithChildren, ReactNode, forwardRef } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
-import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
+import { IconHeart, IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -28,6 +28,7 @@ interface BaseProps {
   memberId: number;
   isShowInfo: boolean;
   onClick?: () => void;
+  like: ReactNode;
 }
 
 const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
@@ -48,6 +49,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       memberId,
       isShowInfo,
       onClick,
+      like,
     },
     ref,
   ) => {
@@ -127,7 +129,12 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           </Stack>
           {children}
           <Bottom gutter={2}>
-            <Text typography='SUIT_14_R'>{`댓글 ${commentLength}개`}</Text>
+            {like}
+            {/* <Flex align='center' css={{ gap: '4px' }}>
+              <IconHeart fill={isLiked ? undefined : 'none'} />
+              <Text typography='SUIT_13_R'>{`좋아요 ${commentLength}`}</Text>
+            </Flex> */}
+            <Text typography='SUIT_13_R' mr='28px'>{`댓글 ${commentLength}개`}</Text>
           </Bottom>
         </Flex>
       </Flex>
@@ -197,6 +204,8 @@ const QuestionBadge = styled.div`
 const Bottom = styled(Stack.Horizontal)`
   color: ${colors.gray400};
   ${textStyles.SUIT_13_R}
+  display:flex;
+  justify-content: space-between;
 `;
 
 const renderContent = (content: string) => {

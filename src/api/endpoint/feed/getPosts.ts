@@ -58,6 +58,7 @@ export const getPosts = createEndpoint({
         isQuestion: z.boolean(),
         isBlindWriter: z.boolean(),
         createdAt: z.string(),
+        isLiked: z.boolean(),
         comments: z.array(
           z.object({
             id: z.number(),

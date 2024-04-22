@@ -122,6 +122,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 isQuestion={post.isQuestion}
                 isShowInfo={categoryId === ''}
                 memberId={post.member?.id ?? 0}
+                isLiked={post.isLiked}
                 info={
                   categoryId ? (
                     <>
