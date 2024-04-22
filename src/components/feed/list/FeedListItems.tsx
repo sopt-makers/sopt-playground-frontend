@@ -17,9 +17,9 @@ import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
-import { usePostLike } from '@/components/feed/common/hooks/usePostLike';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
+import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
 import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
@@ -44,7 +44,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteFeed } = useDeleteFeed();
   const { handleReport } = useReportFeed();
-  const { handlePostLike } = usePostLike();
+  const { handleToggleLike } = useToggleLike();
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
   const toast = useToast();
@@ -211,7 +211,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      handlePostLike(post.id, post.isLiked);
+                      handleToggleLike(post.id, post.isLiked);
                       queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
                     }}
                   />
