@@ -54,6 +54,7 @@ const PostsSchema = z.object({
       isBlindWriter: z.boolean(),
       createdAt: z.string(),
       isLiked: z.boolean(),
+      likes: z.number(),
       comments: z.array(
         z.object({
           id: z.number(),

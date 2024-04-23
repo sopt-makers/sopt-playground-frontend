@@ -76,7 +76,8 @@ export const usePostLikeMutation = () => {
 
       return { previousAllPostsData, previousPostsData, previousPostData };
     },
-    onSuccess: (_, { postsQueryKey, postQueryKey }) => {
+    onSuccess: (_, { allPostsQueryKey, postsQueryKey, postQueryKey }) => {
+      queryClient.invalidateQueries({ queryKey: allPostsQueryKey });
       queryClient.invalidateQueries({ queryKey: postQueryKey });
       queryClient.invalidateQueries({ queryKey: postsQueryKey });
     },
@@ -127,7 +128,8 @@ export const usePostUnlikeMutation = () => {
 
       return { previousAllPostsData, previousPostsData, previousPostData };
     },
-    onSuccess: (_, { postsQueryKey, postQueryKey }) => {
+    onSuccess: (_, { allPostsQueryKey, postsQueryKey, postQueryKey }) => {
+      queryClient.invalidateQueries({ queryKey: allPostsQueryKey });
       queryClient.invalidateQueries({ queryKey: postQueryKey });
       queryClient.invalidateQueries({ queryKey: postsQueryKey });
     },

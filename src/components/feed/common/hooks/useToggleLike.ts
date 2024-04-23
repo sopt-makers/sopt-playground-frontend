@@ -5,6 +5,7 @@ import { usePostLikeMutation, usePostUnlikeMutation } from '@/api/endpoint/feed/
 interface HandleToggleLikeParams {
   postId: number;
   isLiked: boolean;
+  likes: number;
   allPostsQueryKey: (string | Params | undefined)[];
   postsQueryKey: (string | Params | undefined)[];
   postQueryKey: string[];
@@ -17,11 +18,12 @@ export const useToggleLike = () => {
   const handleToggleLike = async ({
     postId,
     isLiked,
+    likes,
     allPostsQueryKey,
     postsQueryKey,
     postQueryKey,
   }: HandleToggleLikeParams) => {
-    const mutationParams = { postId, allPostsQueryKey, postsQueryKey, postQueryKey };
+    const mutationParams = { postId, likes, allPostsQueryKey, postsQueryKey, postQueryKey };
     if (isLiked) {
       unLikeMutate(mutationParams);
     } else {

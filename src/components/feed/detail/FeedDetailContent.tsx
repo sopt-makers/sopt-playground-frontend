@@ -53,12 +53,14 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         like={
           <FeedLike
             isLiked={postData.isLiked}
+            likes={postData.likes}
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
               handleToggleLike({
                 postId: Number(postId),
                 isLiked: postData.isLiked,
+                likes: postData.likes,
                 allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
                 postsQueryKey: useGetPostsInfiniteQuery.getKey(postData.posts.categoryId.toString()),
                 postQueryKey: getPost.cacheKey(postId),

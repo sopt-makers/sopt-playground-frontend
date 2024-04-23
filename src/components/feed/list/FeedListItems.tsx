@@ -207,12 +207,14 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 like={
                   <FeedLike
                     isLiked={post.isLiked}
+                    likes={post.likes}
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
                       handleToggleLike({
                         postId: post.id,
                         isLiked: post.isLiked,
+                        likes: post.likes,
                         allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
                         postsQueryKey: useGetPostsInfiniteQuery.getKey(post.categoryId.toString()),
                         postQueryKey: getPost.cacheKey(post.id.toString()),
