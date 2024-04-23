@@ -130,10 +130,6 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           {children}
           <Bottom gutter={2}>
             {like}
-            {/* <Flex align='center' css={{ gap: '4px' }}>
-              <IconHeart fill={isLiked ? undefined : 'none'} />
-              <Text typography='SUIT_13_R'>{`좋아요 ${commentLength}`}</Text>
-            </Flex> */}
             <Text typography='SUIT_13_R' mr='28px'>{`댓글 ${commentLength}개`}</Text>
           </Bottom>
         </Flex>

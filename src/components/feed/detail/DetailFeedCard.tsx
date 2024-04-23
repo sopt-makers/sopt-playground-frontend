@@ -231,9 +231,10 @@ interface ContentProps {
   hits: number;
   commentLength: number;
   images: string[];
+  like: ReactNode;
 }
 
-const Content = ({ isQuestion = false, title, content, hits, commentLength, images }: ContentProps) => {
+const Content = ({ isQuestion = false, title, content, hits, commentLength, images, like }: ContentProps) => {
   const [openSlider, setOpenSlider] = useState(false);
 
   return (
@@ -268,11 +269,14 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
           </ImageScrollContainer>
         </HorizontalScroller>
       ) : null}
-      <Text
-        typography='SUIT_14_R'
-        lineHeight={20}
-        color={colors.gray300}
-      >{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+      <Flex justify='space-between'>
+        {like}
+        <Text
+          typography='SUIT_14_R'
+          lineHeight={20}
+          color={colors.gray300}
+        >{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+      </Flex>
       <FeedImageSlider opened={openSlider} images={images} onClose={() => setOpenSlider(false)} />
     </>
   );

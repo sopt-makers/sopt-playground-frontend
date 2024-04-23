@@ -34,6 +34,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteFeed } = useDeleteFeed();
   const { handleReport: handleReportFeed } = useReportFeed();
+
   const { data: postData } = useGetPostQuery(postId);
   const { data: commentData } = useGetCommentQuery(postId);
   const currentCategory = useCategoryInfo(postData?.posts.categoryId.toString());

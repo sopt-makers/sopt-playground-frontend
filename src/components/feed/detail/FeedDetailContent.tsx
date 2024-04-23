@@ -1,7 +1,10 @@
 import { FC } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
-import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
+import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import FeedLike from '@/components/feed/common/FeedLike';
+import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
@@ -12,6 +15,7 @@ interface FeedDetailContentProps {
 const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
   const { data: commentData } = useGetCommentQuery(postId);
   const { data: postData } = useGetPostQuery(postId);
+  const { handleToggleLike } = useToggleLike();
 
   if (postData == null) {
     return null;
@@ -46,6 +50,21 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         commentLength={commentData?.length ?? 0}
         content={postData.posts.content}
         images={postData.posts.images}
+        like={
+          <FeedLike
+            isLiked={postData.isLiked}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              handleToggleLike({
+                postId: Number(postId),
+                isLiked: postData.isLiked,
+                postsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                postQueryKey: getPost.cacheKey(postId),
+              });
+            }}
+          />
+        }
       />
     </DetailFeedCard.Main>
   );

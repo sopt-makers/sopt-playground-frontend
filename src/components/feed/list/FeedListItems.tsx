@@ -9,6 +9,7 @@ import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 import { atom, useRecoilState } from 'recoil';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
+import { getPost } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/common/Text';
@@ -52,8 +53,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
   });
-  const queryClient = useQueryClient();
-
   const parentCategory = (categoryId: number, tag: string) => {
     const category =
       categoryData &&
@@ -211,7 +210,12 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      handleToggleLike(post.id, post.isLiked, useGetPostsInfiniteQuery.getKey(categoryId));
+                      handleToggleLike({
+                        postId: post.id,
+                        isLiked: post.isLiked,
+                        postsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                        postQueryKey: getPost.cacheKey(post.id.toString()),
+                      });
                     }}
                   />
                 }

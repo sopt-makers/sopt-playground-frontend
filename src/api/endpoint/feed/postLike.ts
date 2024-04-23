@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import { z } from 'zod';
 
+import { PostType } from '@/api/endpoint/feed/getPost';
 import { PostsType } from '@/api/endpoint/feed/getPosts';
 import { createEndpoint } from '@/api/typedAxios';
 
@@ -21,17 +22,33 @@ export const postUnlike = createEndpoint({
   serverResponseScheme: z.unknown(),
 });
 
+interface usePostMutationParams {
+  postId: number;
+  postsQueryKey: (string | Params | undefined)[];
+  postQueryKey: string[];
+}
+
 export const usePostLikeMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ postId }: { postId: number; queryKey: (string | Params | undefined)[] }) => postLike.request(postId),
-    onMutate: async ({ postId, queryKey }) => {
-      await queryClient.cancelQueries({ queryKey: queryKey });
-      const previousData = queryClient.getQueryData<{ pages: PostsType[] }>(queryKey);
+    mutationFn: ({ postId }: usePostMutationParams) => postLike.request(postId),
+    onMutate: async ({ postId, postsQueryKey, postQueryKey }) => {
+      await queryClient.cancelQueries({ queryKey: postsQueryKey });
+      await queryClient.cancelQueries({ queryKey: postQueryKey });
 
-      queryClient.setQueryData<{ pages: PostsType[] }>(queryKey, (oldData) => {
+      const previousPostsData = queryClient.getQueryData<{ pages: PostsType[] }>(postsQueryKey);
+      const previousPostData = queryClient.getQueryData<PostType>(postQueryKey);
+
+      queryClient.setQueryData<{ pages: PostType[] }>(postQueryKey, (oldData) => {
         if (!oldData) return oldData;
+        return {
+          ...oldData,
+          isLiked: true,
+        };
+      });
 
+      queryClient.setQueryData<{ pages: PostsType[] }>(postsQueryKey, (oldData) => {
+        if (!oldData) return oldData;
         return {
           ...oldData,
           pages: oldData.pages.map((page) => ({
@@ -40,10 +57,12 @@ export const usePostLikeMutation = () => {
           })),
         };
       });
-      return { previousData };
+
+      return { previousPostsData, previousPostData };
     },
-    onSuccess: (_, { queryKey }) => {
-      queryClient.invalidateQueries({ queryKey: queryKey });
+    onSuccess: (_, { postsQueryKey, postQueryKey }) => {
+      queryClient.invalidateQueries({ queryKey: postQueryKey });
+      queryClient.invalidateQueries({ queryKey: postsQueryKey });
     },
   });
 };
@@ -51,15 +70,24 @@ export const usePostLikeMutation = () => {
 export const usePostUnlikeMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ postId }: { postId: number; queryKey: (string | Params | undefined)[] }) =>
-      postUnlike.request(postId),
-    onMutate: async ({ postId, queryKey }) => {
-      await queryClient.cancelQueries({ queryKey: queryKey });
-      const previousData = queryClient.getQueryData<{ pages: PostsType[] }>(queryKey);
+    mutationFn: ({ postId }: usePostMutationParams) => postUnlike.request(postId),
+    onMutate: async ({ postId, postsQueryKey, postQueryKey }) => {
+      await queryClient.cancelQueries({ queryKey: postsQueryKey });
+      await queryClient.cancelQueries({ queryKey: postQueryKey });
 
-      queryClient.setQueryData<{ pages: PostsType[] }>(queryKey, (oldData) => {
+      const previousPostsData = queryClient.getQueryData<{ pages: PostsType[] }>(postsQueryKey);
+      const previousPostData = queryClient.getQueryData<PostType>(postQueryKey);
+
+      queryClient.setQueryData<{ pages: PostType[] }>(postQueryKey, (oldData) => {
         if (!oldData) return oldData;
+        return {
+          ...oldData,
+          isLiked: true,
+        };
+      });
 
+      queryClient.setQueryData<{ pages: PostsType[] }>(postsQueryKey, (oldData) => {
+        if (!oldData) return oldData;
         return {
           ...oldData,
           pages: oldData.pages.map((page) => ({
@@ -68,10 +96,12 @@ export const usePostUnlikeMutation = () => {
           })),
         };
       });
-      return { previousData, queryKey };
+
+      return { previousPostsData, previousPostData };
     },
-    onSuccess: (_, { queryKey }) => {
-      queryClient.invalidateQueries({ queryKey: queryKey });
+    onSuccess: (_, { postsQueryKey, postQueryKey }) => {
+      queryClient.invalidateQueries({ queryKey: postQueryKey });
+      queryClient.invalidateQueries({ queryKey: postsQueryKey });
     },
   });
 };
