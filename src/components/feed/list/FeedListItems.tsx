@@ -213,7 +213,8 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                       handleToggleLike({
                         postId: post.id,
                         isLiked: post.isLiked,
-                        postsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                        allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                        postsQueryKey: useGetPostsInfiniteQuery.getKey(post.categoryId.toString()),
                         postQueryKey: getPost.cacheKey(post.id.toString()),
                       });
                     }}
