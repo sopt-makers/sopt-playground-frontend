@@ -1,6 +1,6 @@
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 
-import { usePostLikeMutation, usePostUnlikeMutation } from '@/api/endpoint/feed/postLike';
+import { useToggleLikeMutation } from '@/api/endpoint/feed/postLike';
 
 interface HandleToggleLikeParams {
   postId: number;
@@ -12,8 +12,7 @@ interface HandleToggleLikeParams {
 }
 
 export const useToggleLike = () => {
-  const { mutate: likeMutate } = usePostLikeMutation();
-  const { mutate: unLikeMutate } = usePostUnlikeMutation();
+  const { mutate } = useToggleLikeMutation();
 
   const handleToggleLike = async ({
     postId,
@@ -23,12 +22,9 @@ export const useToggleLike = () => {
     postsQueryKey,
     postQueryKey,
   }: HandleToggleLikeParams) => {
-    const mutationParams = { postId, likes, allPostsQueryKey, postsQueryKey, postQueryKey };
-    if (isLiked) {
-      unLikeMutate(mutationParams);
-    } else {
-      likeMutate(mutationParams);
-    }
+    const action: 'unlike' | 'like' = isLiked ? 'unlike' : 'like';
+    const mutationParams = { postId, action, likes, allPostsQueryKey, postsQueryKey, postQueryKey };
+    mutate(mutationParams);
   };
   return { handleToggleLike };
 };
