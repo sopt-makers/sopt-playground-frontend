@@ -34,6 +34,7 @@ export const usePostLikeMutation = () => {
   return useMutation({
     mutationFn: ({ postId }: usePostMutationParams) => postLike.request(postId),
     onMutate: async ({ postId, allPostsQueryKey, postsQueryKey, postQueryKey }) => {
+      await queryClient.cancelQueries({ queryKey: allPostsQueryKey });
       await queryClient.cancelQueries({ queryKey: postsQueryKey });
       await queryClient.cancelQueries({ queryKey: postQueryKey });
 
@@ -89,6 +90,7 @@ export const usePostUnlikeMutation = () => {
   return useMutation({
     mutationFn: ({ postId }: usePostMutationParams) => postUnlike.request(postId),
     onMutate: async ({ postId, allPostsQueryKey, postsQueryKey, postQueryKey }) => {
+      await queryClient.cancelQueries({ queryKey: allPostsQueryKey });
       await queryClient.cancelQueries({ queryKey: postsQueryKey });
       await queryClient.cancelQueries({ queryKey: postQueryKey });
 
