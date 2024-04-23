@@ -346,6 +346,7 @@ type CommentProps = {
   | {
       isBlindWriter: false;
       profileImage: string | null;
+      anonymousProfile?: null;
       info: string;
       name: string;
       memberId?: number;
@@ -353,6 +354,7 @@ type CommentProps = {
   | {
       isBlindWriter: true;
       profileImage?: null;
+      anonymousProfile: { nickname: string; profileImgUrl: string } | null;
       info?: null;
       name?: null;
       memberId?: number;
@@ -365,6 +367,7 @@ const Comment = ({
   info,
   comment,
   isBlindWriter,
+  anonymousProfile,
   createdAt,
   moreIcon,
   memberId = 0,
@@ -372,16 +375,20 @@ const Comment = ({
   return (
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
-        {isBlindWriter || profileImage == null ? (
+        {isBlindWriter ? (
+          <Link href={playgroundLink.memberDetail(memberId)}>
+            <CommentProfileImageBox>
+              <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl ?? ''} alt='profileImage' />
+            </CommentProfileImageBox>
+          </Link>
+        ) : profileImage == null ? (
           <div css={{ flexShrink: 0 }}>
             <IconMember />
           </div>
         ) : (
-          <Link href={playgroundLink.memberDetail(memberId)}>
-            <CommentProfileImageBox>
-              <CommentProfileImage width={32} src={profileImage} alt='profileImage' />
-            </CommentProfileImageBox>
-          </Link>
+          <CommentProfileImageBox>
+            <CommentProfileImage width={32} src={profileImage} alt='anonymousProfileImage' />
+          </CommentProfileImageBox>
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
@@ -394,7 +401,7 @@ const Comment = ({
                 </Link>
               ) : (
                 <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                  익명
+                  {anonymousProfile?.nickname}
                 </Text>
               )}
               {!isBlindWriter && (

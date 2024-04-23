@@ -258,23 +258,13 @@ const StyledComment = styled(Flex)`
   white-space: nowrap;
 `;
 
-type CommentItemProps =
-  | { comment: string } & (
-      | {
-          name?: null;
-          isBlindWriter: true;
-        }
-      | {
-          name: string;
-          isBlindWriter: false;
-        }
-    );
+type CommentItemProps = { comment: string; name: string };
 
-const CommentItem = ({ name, comment, isBlindWriter }: CommentItemProps) => {
+const CommentItem = ({ name, comment }: CommentItemProps) => {
   return (
     <StyledCommentItem>
       <Text typography='SUIT_13_R' color={colors.gray10}>
-        {isBlindWriter ? '익명' : name}
+        {name}
       </Text>
       <Text typography='SUIT_13_R' color={colors.gray300}>
         <CommentWrapper>{comment}</CommentWrapper>
