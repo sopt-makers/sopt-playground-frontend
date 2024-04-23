@@ -384,33 +384,35 @@ const Comment = ({
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
         {isBlindWriter ? (
+          <CommentProfileImageBox>
+            <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl ?? ''} alt='profileImage' />
+          </CommentProfileImageBox>
+        ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
             <CommentProfileImageBox>
-              <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl ?? ''} alt='profileImage' />
+              {profileImage ? (
+                <CommentProfileImage width={32} src={profileImage} alt='anonymousProfileImage' />
+              ) : (
+                <div css={{ flexShrink: 0 }}>
+                  <IconMember />
+                </div>
+              )}
             </CommentProfileImageBox>
           </Link>
-        ) : profileImage == null ? (
-          <div css={{ flexShrink: 0 }}>
-            <IconMember />
-          </div>
-        ) : (
-          <CommentProfileImageBox>
-            <CommentProfileImage width={32} src={profileImage} alt='anonymousProfileImage' />
-          </CommentProfileImageBox>
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
             <Stack.Horizontal gutter={2}>
-              {!isBlindWriter ? (
+              {isBlindWriter ? (
+                <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                  {anonymousProfile?.nickname}
+                </Text>
+              ) : (
                 <Link href={playgroundLink.memberDetail(memberId)}>
                   <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                     {name}
                   </Text>
                 </Link>
-              ) : (
-                <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                  {anonymousProfile?.nickname}
-                </Text>
               )}
               {!isBlindWriter && (
                 <InfoText typography='SUIT_14_M' color={colors.gray400}>
