@@ -123,15 +123,16 @@ export const IconSendFill = () => (
   </svg>
 );
 
-export const IconHeart = ({ fill = '#F04251' }) => (
+export const IconHeart = ({ fill = colors.error, className }: { fill: string | undefined; className: string }) => (
   <svg width='22' height='22' viewBox='0 0 22 22' fill={fill} xmlns='http://www.w3.org/2000/svg'>
     <g id='Icon / Interaction / heart'>
       <path
-        id='Icon'
+        className={fill === 'none' ? className : ''}
+        id='icon'
         fill-rule='evenodd'
         clip-rule='evenodd'
         d='M10.9939 5.95914C9.62516 3.20813 6.10493 1.98885 3.80863 3.95086C1.51234 5.91286 1.18905 9.19324 2.99234 11.5137C4.49166 13.443 9.02912 17.5121 10.5163 18.8291C10.6826 18.9765 10.7658 19.0501 10.8629 19.0791C10.9475 19.1043 11.0402 19.1043 11.1249 19.0791C11.2219 19.0501 11.3051 18.9765 11.4715 18.8291C12.9586 17.5121 17.4961 13.443 18.9954 11.5137C20.7987 9.19324 20.5149 5.89223 18.1791 3.95086C15.8434 2.00949 12.3752 3.20813 10.9939 5.95914Z'
-        stroke={fill === 'none' ? '#66666D' : '#F04251'}
+        stroke={fill === 'none' ? colors.gray400 : colors.error}
         stroke-width='1.5'
         stroke-linecap='round'
         stroke-linejoin='round'
