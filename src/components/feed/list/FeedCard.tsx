@@ -21,7 +21,7 @@ interface BaseProps {
   content: string;
   createdAt: string;
   isBlindWriter?: boolean;
-  anonymousProfile: { nickname: string; profileImgUrl: string } | null;
+  anonymousProfile?: { nickname: string; profileImgUrl: string } | null;
   isQuestion?: boolean;
   commentLength: number;
   hits: number;
