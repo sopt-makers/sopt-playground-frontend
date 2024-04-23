@@ -1,6 +1,8 @@
 import { Meta } from '@storybook/react';
 import { ComponentProps } from 'react';
 
+import FeedLike from '@/components/feed/common/FeedLike';
+
 import FeedCard from './FeedCard';
 
 const meta = {
@@ -48,6 +50,15 @@ const defaultProps: ComponentProps<typeof FeedCard> = {
   commentLength: COMMENTS.length,
   isShowInfo: true,
   memberId: 0,
+  like: (
+    <FeedLike
+      isLiked={true}
+      likes={3}
+      onClick={() => {
+        return;
+      }}
+    />
+  ),
 };
 
 export const 기본 = () => {
