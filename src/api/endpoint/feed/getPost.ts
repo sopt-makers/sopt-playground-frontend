@@ -9,6 +9,12 @@ export const getPost = createEndpoint({
     url: `api/v1/community/posts/${postId}`,
   }),
   serverResponseScheme: z.object({
+    anonymousProfile: z
+      .object({
+        nickname: z.string(),
+        profileImgUrl: z.string(),
+      })
+      .nullable(),
     member: z
       .object({
         id: z.number(),

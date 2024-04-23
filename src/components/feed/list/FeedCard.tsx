@@ -21,6 +21,7 @@ interface BaseProps {
   content: string;
   createdAt: string;
   isBlindWriter?: boolean;
+  anonymousProfile: { nickname: string; profileImgUrl: string } | null;
   isQuestion?: boolean;
   commentLength: number;
   hits: number;
@@ -47,6 +48,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       rightIcon,
       memberId,
       isShowInfo,
+      anonymousProfile,
       onClick,
     },
     ref,
@@ -63,9 +65,13 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
         onClick={onClick}
       >
         {isBlindWriter ? (
-          <div css={{ flexShrink: 0 }}>
-            <IconMember size={32} />
-          </div>
+          <ProfileImageBox>
+            {anonymousProfile ? (
+              <ProfileImage width={32} height={32} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />
+            ) : (
+              <IconMember size={32} />
+            )}
+          </ProfileImageBox>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)} css={{ height: 'fit-content' }}>
             <ProfileImageBox>
@@ -83,7 +89,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
               {isBlindWriter ? (
                 <Top align='center'>
                   <Text typography='SUIT_14_SB' lineHeight={20}>
-                    익명
+                    {anonymousProfile?.nickname}
                   </Text>
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray300}>
                     {isShowInfo && info}

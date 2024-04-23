@@ -111,7 +111,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
             children: (
               <FeedCard
                 onClick={() => setMap((map) => ({ ...map, [categoryId ?? '']: idx }))}
-                name={post.member?.name ?? '익명'}
+                name={post.member?.name ?? ''}
                 title={post.title}
                 content={post.content}
                 profileImage={post.member?.profileImage ?? null}
@@ -119,6 +119,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 commentLength={post.commentCount}
                 hits={post.hits}
                 isBlindWriter={post.isBlindWriter}
+                anonymousProfile={post.anonymousProfile}
                 isQuestion={post.isQuestion}
                 isShowInfo={categoryId === ''}
                 memberId={post.member?.id ?? 0}

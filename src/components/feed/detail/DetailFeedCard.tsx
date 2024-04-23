@@ -146,6 +146,7 @@ const StyledMain = styled(Flex)`
 type TopProps = { createdAt: string } & (
   | {
       isBlindWriter: true;
+      anonymousProfile: { nickname: string; profileImgUrl: string } | null;
       profileImage?: null;
       name?: null;
       info?: null;
@@ -153,6 +154,7 @@ type TopProps = { createdAt: string } & (
     }
   | {
       isBlindWriter: false;
+      anonymousProfile?: null;
       profileImage: string | null;
       name: string;
       info: string;
@@ -160,12 +162,18 @@ type TopProps = { createdAt: string } & (
     }
 );
 
-const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: TopProps) => {
+const Top = ({ isBlindWriter, anonymousProfile, profileImage, name, info, memberId, createdAt }: TopProps) => {
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
         {isBlindWriter || memberId == null ? (
-          <IconMember size={36} />
+          <ProfileImageBox css={{ height: 40 }}>
+            {anonymousProfile ? (
+              <ProfileImage width={40} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />
+            ) : (
+              <IconMember size={40} />
+            )}
+          </ProfileImageBox>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
             <ProfileImageBox css={{ height: 40 }}>
@@ -179,7 +187,7 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: T
         )}
         <Stack.Vertical gutter={0} justify='center'>
           {isBlindWriter || memberId == null ? (
-            <Name color={colors.gray10}>익명</Name>
+            <Name color={colors.gray10}>{anonymousProfile?.nickname}</Name>
           ) : (
             <Link href={playgroundLink.memberDetail(memberId)}>
               <Name color={colors.gray10}>{name}</Name>
