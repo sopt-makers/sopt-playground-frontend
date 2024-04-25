@@ -52,6 +52,12 @@ const PostsSchema = z.object({
       images: z.array(z.string()),
       isQuestion: z.boolean(),
       isBlindWriter: z.boolean(),
+      anonymousProfile: z
+        .object({
+          nickname: z.string(),
+          profileImgUrl: z.string(),
+        })
+        .nullable(),
       createdAt: z.string(),
       isLiked: z.boolean(),
       likes: z.number(),

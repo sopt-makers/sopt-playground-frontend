@@ -4,6 +4,12 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 
 const PostSchema = z.object({
+  anonymousProfile: z
+    .object({
+      nickname: z.string(),
+      profileImgUrl: z.string(),
+    })
+    .nullable(),
   member: z
     .object({
       id: z.number(),
