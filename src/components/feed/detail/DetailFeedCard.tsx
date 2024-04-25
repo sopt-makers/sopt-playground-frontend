@@ -416,7 +416,7 @@ const Comment = ({
               ) : (
                 <Link href={playgroundLink.memberDetail(memberId)}>
                   <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                    {name ?? '익명'}
+                    {name}
                   </Text>
                 </Link>
               )}
