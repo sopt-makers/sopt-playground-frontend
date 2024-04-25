@@ -189,7 +189,7 @@ const Top = ({ isBlindWriter, anonymousProfile, profileImage, name, info, member
         )}
         <Stack.Vertical gutter={0} justify='center'>
           {isBlindWriter || memberId == null ? (
-            <Name color={colors.gray10}>{anonymousProfile?.nickname}</Name>
+            <Name color={colors.gray10}>{anonymousProfile?.nickname ?? '익명'}</Name>
           ) : (
             <Link href={playgroundLink.memberDetail(memberId)}>
               <Name color={colors.gray10}>{name}</Name>
@@ -411,7 +411,7 @@ const Comment = ({
             <Stack.Horizontal gutter={2}>
               {isBlindWriter ? (
                 <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                  {anonymousProfile?.nickname}
+                  {anonymousProfile?.nickname ?? '익명'}
                 </Text>
               ) : (
                 <Link href={playgroundLink.memberDetail(memberId)}>

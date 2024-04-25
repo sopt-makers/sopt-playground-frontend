@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
-import { forwardRef, PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode, forwardRef } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
@@ -96,7 +96,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
               {isBlindWriter ? (
                 <Top align='center'>
                   <Text typography='SUIT_14_SB' lineHeight={20}>
-                    {anonymousProfile?.nickname}
+                    {anonymousProfile?.nickname ?? '익명'}
                   </Text>
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray300}>
                     {isShowInfo && info}
