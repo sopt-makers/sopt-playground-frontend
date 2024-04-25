@@ -40,6 +40,12 @@ export const getComment = createEndpoint({
       parentCommentId: z.number().nullable(),
       content: z.string(),
       isBlindWriter: z.boolean(),
+      anonymousProfile: z
+        .object({
+          nickname: z.string(),
+          profileImgUrl: z.string(),
+        })
+        .nullable(),
       isReported: z.boolean(),
       isMine: z.boolean(),
       createdAt: z.string(),

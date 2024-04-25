@@ -57,6 +57,12 @@ export const getPosts = createEndpoint({
         images: z.array(z.string()),
         isQuestion: z.boolean(),
         isBlindWriter: z.boolean(),
+        anonymousProfile: z
+          .object({
+            nickname: z.string(),
+            profileImgUrl: z.string(),
+          })
+          .nullable(),
         createdAt: z.string(),
         comments: z.array(
           z.object({
