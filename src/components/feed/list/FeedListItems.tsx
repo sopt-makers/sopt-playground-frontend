@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
@@ -114,7 +114,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
             children: (
               <FeedCard
                 onClick={() => setMap((map) => ({ ...map, [categoryId ?? '']: idx }))}
-                name={post.member?.name ?? ''}
+                name={post.member?.name ?? '익명'}
                 title={post.title}
                 content={post.content}
                 profileImage={post.member?.profileImage ?? null}
