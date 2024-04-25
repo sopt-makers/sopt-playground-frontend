@@ -13,6 +13,11 @@ import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
+interface RandomProfile {
+  nickname: string;
+  profileImgUrl: string;
+}
+
 interface BaseProps {
   profileImage: string | null;
   name: string;
@@ -21,7 +26,7 @@ interface BaseProps {
   content: string;
   createdAt: string;
   isBlindWriter?: boolean;
-  anonymousProfile?: { nickname: string; profileImgUrl: string } | null;
+  anonymousProfile?: RandomProfile | null;
   isQuestion?: boolean;
   commentLength: number;
   hits: number;

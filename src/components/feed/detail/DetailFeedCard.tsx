@@ -143,10 +143,12 @@ const StyledMain = styled(Flex)`
   }
 `;
 
+type RandomProfile = { nickname: string; profileImgUrl: string };
+
 type TopProps = { createdAt: string } & (
   | {
       isBlindWriter: true;
-      anonymousProfile: { nickname: string; profileImgUrl: string } | null;
+      anonymousProfile: RandomProfile | null;
       profileImage?: null;
       name?: null;
       info?: null;
@@ -362,7 +364,7 @@ type CommentProps = {
   | {
       isBlindWriter: true;
       profileImage?: null;
-      anonymousProfile: { nickname: string; profileImgUrl: string } | null;
+      anonymousProfile: RandomProfile | null;
       info?: null;
       name?: null;
       memberId?: number;
