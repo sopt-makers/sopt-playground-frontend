@@ -66,7 +66,7 @@ export const 기본 = () => {
     <FeedCard {...defaultProps}>
       <FeedCard.Comment>
         {COMMENTS.map((comment) => (
-          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} isBlindWriter={false} />
+          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} />
         ))}
       </FeedCard.Comment>
     </FeedCard>
@@ -78,7 +78,7 @@ export const 익명 = () => {
     <FeedCard {...defaultProps} isBlindWriter>
       <FeedCard.Comment>
         {COMMENTS.map((comment) => (
-          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} isBlindWriter={false} />
+          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} />
         ))}
       </FeedCard.Comment>
     </FeedCard>
@@ -111,7 +111,7 @@ export const 질문 = () => {
     >
       <FeedCard.Comment>
         {QURESTION_COMMENTS.map((comment) => (
-          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} isBlindWriter={false} />
+          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} />
         ))}
       </FeedCard.Comment>
     </FeedCard>
@@ -129,7 +129,7 @@ export const 댓글한개 = () => {
             comment: 'LGTM!',
           },
         ].map((comment) => (
-          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} isBlindWriter={false} />
+          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} />
         ))}
       </FeedCard.Comment>
     </FeedCard>
@@ -171,7 +171,7 @@ export const 이미지와함께 = () => {
       </FeedCard.Image>
       <FeedCard.Comment>
         {IMAGES_COMMENTS.map((comment) => (
-          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} isBlindWriter={false} />
+          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} />
         ))}
       </FeedCard.Comment>
     </FeedCard>
@@ -186,7 +186,7 @@ export const 제목겁나길때 = () => {
     >
       <FeedCard.Comment>
         {COMMENTS.map((comment) => (
-          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} isBlindWriter={false} />
+          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} />
         ))}
       </FeedCard.Comment>
     </FeedCard>
@@ -198,7 +198,7 @@ export const 제목없을때 = () => {
     <FeedCard {...defaultProps} title=''>
       <FeedCard.Comment>
         {COMMENTS.map((comment) => (
-          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} isBlindWriter={false} />
+          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} />
         ))}
       </FeedCard.Comment>
     </FeedCard>
@@ -216,7 +216,7 @@ export const 내용겁나길때 = () => {
     >
       <FeedCard.Comment>
         {COMMENTS.map((comment) => (
-          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} isBlindWriter={false} />
+          <FeedCard.CommentItem key={comment.id} name={comment.name} comment={comment.comment} />
         ))}
       </FeedCard.Comment>
     </FeedCard>

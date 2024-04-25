@@ -26,6 +26,7 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
       {postData.posts.isBlindWriter ? (
         <DetailFeedCard.Top
           isBlindWriter={postData.posts.isBlindWriter}
+          anonymousProfile={postData.anonymousProfile}
           createdAt={postData.posts.createdAt}
           memberId={null}
         />
