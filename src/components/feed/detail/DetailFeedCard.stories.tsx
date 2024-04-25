@@ -1,6 +1,8 @@
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
+import FeedLike from '@/components/feed/common/FeedLike';
+
 import DetailFeedCard from './DetailFeedCard';
 
 const meta = {
@@ -99,6 +101,15 @@ export const Default = () => {
             commentLength={COMMENTS.length}
             content='라면을 끓일때 엄청난 비법이 필요하기보단 정량의 물을 넣고, 레시피에 주어진 시간만큼 끓이는 것이 중요하듯 기본적인 조언이지만 스타트업 경영과 성장 역시도 필수적인 것을 지키지 않았을 때 크리티컬한 만큼'
             images={[당근데탑큰것, 당근데탑작은것, 당근데탑큰것]}
+            like={
+              <FeedLike
+                isLiked={true}
+                likes={3}
+                onClick={() => {
+                  return;
+                }}
+              />
+            }
           />
         </DetailFeedCard.Main>
         <DetailFeedCard.Divider />

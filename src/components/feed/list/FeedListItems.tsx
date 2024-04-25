@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useQuery } from '@tanstack/react-query';
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
@@ -9,15 +9,18 @@ import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 import { atom, useRecoilState } from 'recoil';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
+import { getPost } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Loading from '@/components/common/Loading';
 import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
+import FeedLike from '@/components/feed/common/FeedLike';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
+import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
 import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
@@ -42,6 +45,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
   const { handleShareFeed } = useShareFeed();
   const { handleDeleteFeed } = useDeleteFeed();
   const { handleReport } = useReportFeed();
+  const { handleToggleLike } = useToggleLike();
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
   const toast = useToast();
@@ -49,7 +53,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
   });
-
   const parentCategory = (categoryId: number, tag: string) => {
     const category =
       categoryData &&
@@ -201,6 +204,24 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                       </FeedDropdown.Item>
                     ) : null}
                   </FeedDropdown>
+                }
+                like={
+                  <FeedLike
+                    isLiked={post.isLiked}
+                    likes={post.likes}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      handleToggleLike({
+                        postId: post.id,
+                        isLiked: post.isLiked,
+                        likes: post.likes,
+                        allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                        postsQueryKey: useGetPostsInfiniteQuery.getKey(post.categoryId.toString()),
+                        postQueryKey: getPost.cacheKey(post.id.toString()),
+                      });
+                    }}
+                  />
                 }
               >
                 {post.images.length !== 0 && (
