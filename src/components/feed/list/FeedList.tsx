@@ -68,7 +68,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
       <LoggingClick eventKey='feedUploadButton'>
         <UploadLink href={playgroundLink.feedUpload()}>
           <UploadIcon src='/icons/icon-pencil-simple.svg' />
-          <Text typography='SUIT_16_SB' color={colors.black}>
+          <Text typography='SUIT_18_SB' color={colors.black}>
             글쓰기
           </Text>
         </UploadLink>
@@ -100,7 +100,7 @@ const UploadLink = styled(Link)`
   display: flex;
   position: sticky;
   bottom: 24px;
-  gap: 8px;
+  gap: 4px;
   align-items: center;
   justify-content: center;
   z-index: 1; /* Virtuoso가 sticky 위에 와버리는 문제때문에 z-index로 제어 */
@@ -109,7 +109,7 @@ const UploadLink = styled(Link)`
   border-radius: 18px;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 15%);
   background-color: ${colors.gray10};
-  width: 102px;
+  width: 103px;
   height: 48px;
   @media ${MOBILE_MEDIA_QUERY} {
     bottom: 20px;
@@ -118,6 +118,6 @@ const UploadLink = styled(Link)`
 `;
 
 const UploadIcon = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 `;
