@@ -365,6 +365,7 @@ const TopHeader = styled.header`
   display: flex;
   position: fixed;
   justify-content: space-between;
+  z-index: 2;
   background-color: ${colors.gray950};
   padding: 0 16px;
   width: 100%;
