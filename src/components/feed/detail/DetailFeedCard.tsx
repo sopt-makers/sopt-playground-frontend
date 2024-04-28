@@ -206,7 +206,7 @@ const Top = ({ isBlindWriter, anonymousProfile, profileImage, name, info, member
       </Flex>
       <Flex align='center'>
         <Text typography='SUIT_14_M' color={colors.gray400}>
-          {getRelativeTime(createdAt)}
+          {createdAt && getRelativeTime(createdAt)}
         </Text>
       </Flex>
     </Flex>
@@ -432,7 +432,7 @@ const Comment = ({
             </Stack.Horizontal>
             <Flex>
               <Text typography='SUIT_14_M' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
-                {getRelativeTime(createdAt)}
+                {createdAt && getRelativeTime(createdAt)}
               </Text>
               {moreIcon}
             </Flex>
