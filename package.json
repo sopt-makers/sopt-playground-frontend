@@ -55,6 +55,7 @@
     "dayjs": "^1.11.3",
     "focus-trap-react": "^10.0.2",
     "framer-motion": "^8.1.3",
+    "immer": "^10.0.4",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.0",
     "next": "^13.1.1",

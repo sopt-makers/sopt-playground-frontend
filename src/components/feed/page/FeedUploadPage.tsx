@@ -244,6 +244,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   올리기
                 </Button>
               </TopHeader>
+            </>
+          }
+          body={
+            <BodyWrapper>
               <Category
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
@@ -251,49 +255,47 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                 closeUsingRules={closeUsingRules}
                 isEdit={isEdit}
               />
-            </>
-          }
-          body={
-            <Body>
-              {feedData.isBlindWriter && <BlindWriterWarning />}
-              <CheckBoxesWrapper>
-                {parentCategory?.hasQuestion && (
-                  <CheckboxFormItem label='질문글'>
-                    <Checkbox
-                      checked={feedData.isQuestion}
-                      onChange={(e) => handleSaveIsQuestion(e.target.checked)}
-                      size='medium'
-                    />
-                  </CheckboxFormItem>
-                )}
-                {parentCategory?.hasBlind && (
-                  <CheckboxFormItem label='익명'>
-                    <Checkbox
-                      checked={feedData.isBlindWriter}
-                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
-                      size='medium'
-                    />
-                  </CheckboxFormItem>
-                )}
-              </CheckBoxesWrapper>
-              <InputWrapper>
-                <TitleInput
-                  onChange={handleSaveTitle}
-                  onKeyDown={handleMobileKeyPressToContents}
-                  value={feedData.title}
-                />
-                <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
-              </InputWrapper>
-              <ImagePreview images={feedData.images} onRemove={removeImage} />
-              <TagsWrapper>
-                <ImageUploadButton
-                  imageLength={feedData.images.length}
-                  onClick={handleMobileClickImageInput}
-                  imageInputRef={mobileRef}
-                />
-                <CodeUploadButton />
-              </TagsWrapper>
-            </Body>
+              <Body>
+                {feedData.isBlindWriter && <BlindWriterWarning />}
+                <CheckBoxesWrapper>
+                  {parentCategory?.hasQuestion && (
+                    <CheckboxFormItem label='질문글'>
+                      <Checkbox
+                        checked={feedData.isQuestion}
+                        onChange={(e) => handleSaveIsQuestion(e.target.checked)}
+                        size='medium'
+                      />
+                    </CheckboxFormItem>
+                  )}
+                  {parentCategory?.hasBlind && (
+                    <CheckboxFormItem label='익명'>
+                      <Checkbox
+                        checked={feedData.isBlindWriter}
+                        onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                        size='medium'
+                      />
+                    </CheckboxFormItem>
+                  )}
+                </CheckBoxesWrapper>
+                <InputWrapper>
+                  <TitleInput
+                    onChange={handleSaveTitle}
+                    onKeyDown={handleMobileKeyPressToContents}
+                    value={feedData.title}
+                  />
+                  <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
+                </InputWrapper>
+                <ImagePreview images={feedData.images} onRemove={removeImage} />
+                <TagsWrapper>
+                  <ImageUploadButton
+                    imageLength={feedData.images.length}
+                    onClick={handleMobileClickImageInput}
+                    imageInputRef={mobileRef}
+                  />
+                  <CodeUploadButton />
+                </TagsWrapper>
+              </Body>
+            </BodyWrapper>
           }
           footer={
             <Footer>
@@ -306,7 +308,13 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   );
 }
 
-const Body = styled.section`
+const BodyWrapper = styled.section`
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 44px;
+  }
+`;
+
+const Body = styled.div`
   display: flex;
   justify-content: space-between;
 
@@ -355,7 +363,9 @@ const ButtonContainer = styled.div`
 
 const TopHeader = styled.header`
   display: flex;
+  position: fixed;
   justify-content: space-between;
+  background-color: ${colors.gray950};
   padding: 0 16px;
   width: 100%;
   height: 44px;

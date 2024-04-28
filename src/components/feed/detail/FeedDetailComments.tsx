@@ -31,6 +31,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
             key={comment.id}
             comment={comment.content}
             isBlindWriter={comment.isBlindWriter}
+            anonymousProfile={comment.anonymousProfile}
             createdAt={comment.createdAt}
             moreIcon={
               <FeedDropdown

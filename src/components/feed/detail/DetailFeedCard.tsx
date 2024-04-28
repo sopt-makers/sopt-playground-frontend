@@ -143,9 +143,12 @@ const StyledMain = styled(Flex)`
   }
 `;
 
+type RandomProfile = { nickname: string; profileImgUrl: string };
+
 type TopProps = { createdAt: string } & (
   | {
       isBlindWriter: true;
+      anonymousProfile: RandomProfile | null;
       profileImage?: null;
       name?: null;
       info?: null;
@@ -153,6 +156,7 @@ type TopProps = { createdAt: string } & (
     }
   | {
       isBlindWriter: false;
+      anonymousProfile?: null;
       profileImage: string | null;
       name: string;
       info: string;
@@ -160,12 +164,18 @@ type TopProps = { createdAt: string } & (
     }
 );
 
-const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: TopProps) => {
+const Top = ({ isBlindWriter, anonymousProfile, profileImage, name, info, memberId, createdAt }: TopProps) => {
   return (
     <Flex justify='space-between'>
       <Flex css={{ gap: 8 }}>
         {isBlindWriter || memberId == null ? (
-          <IconMember size={36} />
+          <ProfileImageBox css={{ height: 40 }}>
+            {anonymousProfile ? (
+              <ProfileImage width={40} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />
+            ) : (
+              <IconMember size={40} />
+            )}
+          </ProfileImageBox>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
             <ProfileImageBox css={{ height: 40 }}>
@@ -179,7 +189,7 @@ const Top = ({ isBlindWriter, profileImage, name, info, memberId, createdAt }: T
         )}
         <Stack.Vertical gutter={0} justify='center'>
           {isBlindWriter || memberId == null ? (
-            <Name color={colors.gray10}>익명</Name>
+            <Name color={colors.gray10}>{anonymousProfile?.nickname ?? '익명'}</Name>
           ) : (
             <Link href={playgroundLink.memberDetail(memberId)}>
               <Name color={colors.gray10}>{name}</Name>
@@ -231,9 +241,10 @@ interface ContentProps {
   hits: number;
   commentLength: number;
   images: string[];
+  like: ReactNode;
 }
 
-const Content = ({ isQuestion = false, title, content, hits, commentLength, images }: ContentProps) => {
+const Content = ({ isQuestion = false, title, content, hits, commentLength, images, like }: ContentProps) => {
   const [openSlider, setOpenSlider] = useState(false);
 
   return (
@@ -268,11 +279,14 @@ const Content = ({ isQuestion = false, title, content, hits, commentLength, imag
           </ImageScrollContainer>
         </HorizontalScroller>
       ) : null}
-      <Text
-        typography='SUIT_14_R'
-        lineHeight={20}
-        color={colors.gray300}
-      >{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+      <Flex justify='space-between'>
+        {like}
+        <Text
+          typography='SUIT_14_R'
+          lineHeight={20}
+          color={colors.gray300}
+        >{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+      </Flex>
       <FeedImageSlider opened={openSlider} images={images} onClose={() => setOpenSlider(false)} />
     </>
   );
@@ -346,6 +360,7 @@ type CommentProps = {
   | {
       isBlindWriter: false;
       profileImage: string | null;
+      anonymousProfile?: null;
       info: string;
       name: string;
       memberId?: number;
@@ -353,6 +368,7 @@ type CommentProps = {
   | {
       isBlindWriter: true;
       profileImage?: null;
+      anonymousProfile: RandomProfile | null;
       info?: null;
       name?: null;
       memberId?: number;
@@ -365,6 +381,7 @@ const Comment = ({
   info,
   comment,
   isBlindWriter,
+  anonymousProfile,
   createdAt,
   moreIcon,
   memberId = 0,
@@ -372,30 +389,36 @@ const Comment = ({
   return (
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
-        {isBlindWriter || profileImage == null ? (
-          <div css={{ flexShrink: 0 }}>
-            <IconMember />
-          </div>
+        {isBlindWriter ? (
+          <CommentProfileImageBox>
+            <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl ?? ''} alt='profileImage' />
+          </CommentProfileImageBox>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
             <CommentProfileImageBox>
-              <CommentProfileImage width={32} src={profileImage} alt='profileImage' />
+              {profileImage ? (
+                <CommentProfileImage width={32} src={profileImage} alt='anonymousProfileImage' />
+              ) : (
+                <div css={{ flexShrink: 0 }}>
+                  <IconMember />
+                </div>
+              )}
             </CommentProfileImageBox>
           </Link>
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
             <Stack.Horizontal gutter={2}>
-              {!isBlindWriter ? (
+              {isBlindWriter ? (
+                <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                  {anonymousProfile?.nickname ?? '익명'}
+                </Text>
+              ) : (
                 <Link href={playgroundLink.memberDetail(memberId)}>
                   <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                     {name}
                   </Text>
                 </Link>
-              ) : (
-                <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                  익명
-                </Text>
               )}
               {!isBlindWriter && (
                 <InfoText typography='SUIT_14_M' color={colors.gray400}>
