@@ -391,13 +391,17 @@ const Comment = ({
       <Flex css={{ gap: 8, minWidth: 0 }}>
         {isBlindWriter ? (
           <CommentProfileImageBox>
-            <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl ?? ''} alt='profileImage' />
+            {anonymousProfile ? (
+              <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />
+            ) : (
+              <IconMember size={32} />
+            )}
           </CommentProfileImageBox>
         ) : (
           <Link href={playgroundLink.memberDetail(memberId)}>
             <CommentProfileImageBox>
               {profileImage ? (
-                <CommentProfileImage width={32} src={profileImage} alt='anonymousProfileImage' />
+                <CommentProfileImage width={32} src={profileImage} alt='profileImage' />
               ) : (
                 <div css={{ flexShrink: 0 }}>
                   <IconMember />
