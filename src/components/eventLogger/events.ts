@@ -88,6 +88,13 @@ export interface ClickEvents {
     feedId: string;
   };
   feedUploadButton: undefined;
+  feedLike: {
+    feedId: string;
+  };
+  feedUnlike: {
+    feedId: string;
+  };
+
   //다짐메시지
   welcomeBannerResolution: {
     isAlreadySubmitted: boolean;

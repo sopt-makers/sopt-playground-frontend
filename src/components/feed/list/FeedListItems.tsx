@@ -206,22 +206,24 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                   </FeedDropdown>
                 }
                 like={
-                  <FeedLike
-                    isLiked={post.isLiked}
-                    likes={post.likes}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
-                      handleToggleLike({
-                        postId: post.id,
-                        isLiked: post.isLiked,
-                        likes: post.likes,
-                        allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
-                        postsQueryKey: useGetPostsInfiniteQuery.getKey(post.categoryId.toString()),
-                        postQueryKey: getPost.cacheKey(post.id.toString()),
-                      });
-                    }}
-                  />
+                  <LoggingClick eventKey={post.isLiked ? 'feedUnlike' : 'feedLike'} param={{ feedId: String(post.id) }}>
+                    <FeedLike
+                      isLiked={post.isLiked}
+                      likes={post.likes}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleToggleLike({
+                          postId: post.id,
+                          isLiked: post.isLiked,
+                          likes: post.likes,
+                          allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                          postsQueryKey: useGetPostsInfiniteQuery.getKey(post.categoryId.toString()),
+                          postQueryKey: getPost.cacheKey(post.id.toString()),
+                        });
+                      }}
+                    />
+                  </LoggingClick>
                 }
               >
                 {post.images.length !== 0 && (
