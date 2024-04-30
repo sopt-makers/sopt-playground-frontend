@@ -17,7 +17,7 @@ export default function MemberAddableWrapper({
   onAppend,
   children,
   className,
-  isCheckPage,
+  isCheckPage = true,
 }: MemberAddableWrapperProps) {
   return (
     <StyledContainer>
