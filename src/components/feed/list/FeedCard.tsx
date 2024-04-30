@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
-import { PropsWithChildren, ReactNode, forwardRef } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
@@ -120,12 +120,13 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
             </Flex>
             <Stack gutter={8}>
               {title && (
-                <Title typography='SUIT_17_SB'>
+                <Title typography='SUIT_17_SB' mr='28px'>
                   {isQuestion && <QuestionBadge>질문</QuestionBadge>}
                   {title}
                 </Title>
               )}
               <Text
+                mr='28px'
                 typography='SUIT_15_L'
                 color={colors.gray10}
                 lineHeight={22}
