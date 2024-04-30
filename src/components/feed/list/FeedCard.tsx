@@ -142,7 +142,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           {children}
           <Bottom gutter={2}>
             {like}
-            <Text typography='SUIT_14_R' mr='28px'>{`댓글 ${commentLength}개`}</Text>
+            <Text typography='SUIT_14_SB' mr='28px'>{`댓글 ${commentLength}개`}</Text>
           </Bottom>
         </Flex>
       </Flex>

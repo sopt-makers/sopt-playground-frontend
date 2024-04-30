@@ -22,7 +22,7 @@ export const FeedLike = ({ isLiked, likes, onClick }: FeedLikeProps) => {
   return (
     <Flex align='center' css={[{ gap: '4px', cursor: 'pointer' }, hoverStyle]} onClick={onClick}>
       <IconHeart fill={isLiked ? undefined : 'none'} className='icon-heart-hover' />
-      <Text typography='SUIT_14_R' color={isLiked ? colors.error : colors.gray400}>{`좋아요 ${likes}`}</Text>
+      <Text typography='SUIT_14_SB' color={isLiked ? colors.error : colors.gray400}>{`좋아요 ${likes}`}</Text>
     </Flex>
   );
 };
