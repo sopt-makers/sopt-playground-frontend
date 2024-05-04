@@ -3,6 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { useOverlay } from '@toss/use-overlay';
 import { ReactNode, useCallback } from 'react';
 import Modal from '@/components/common/Modal';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const useRegisterModal = () => {
   const { open, close } = useOverlay();
@@ -29,8 +30,9 @@ const useRegisterModal = () => {
             }}
             zIndex={options.zIndex}
             hideCloseButton={true}
+            style={{ minWidth: '310px', maxWidth: options.maxWidth, width: 'calc(100% - 60px)' }}
           >
-            <ModalContent maxWidth={options.maxWidth}>
+            <ModalContent>
               <ModalTitle>{options.title}</ModalTitle>
               <ModalDescription>{options.description}</ModalDescription>
               <Modal.Footer align='stretch' stack='vertical'>
@@ -63,6 +65,10 @@ const ModalTitle = styled(Modal.Title)`
   color: ${colors.gray10};
   font-size: 20px;
   font-weight: 700;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    font-size: 18px;
+  }
 `;
 
 const ModalDescription = styled.div`
@@ -77,9 +83,6 @@ const ModalDescription = styled.div`
 
 const ModalContent = styled(Modal.Content)<{ maxWidth?: number }>`
   padding: 30px 30px 24px;
-  width: ${({ maxWidth }) => maxWidth}px;
-  min-width: 320px;
-  max-width: ${({ maxWidth }) => maxWidth}px;
 `;
 
 const OkButton = styled(Modal.Button)<{ color?: string; okButtonTextColor?: string }>`
