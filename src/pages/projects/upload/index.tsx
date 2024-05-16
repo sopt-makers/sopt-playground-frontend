@@ -34,13 +34,20 @@ const ProjectUploadPage = () => {
     });
     if (notify && myProfileData) {
       createProjectMutate(convertToProjectData(formData, myProfileData.id), {
-        onSuccess: () => {
-          toast.show({ message: '프로젝트를 성공적으로 업로드 했어요.' });
+        onSuccess: async () => {
           queryClient.invalidateQueries({ queryKey: getProjectListQueryKey() });
-          router.push(playgroundLink.projectList());
+
           logSubmitEvent('projectUpload', {
             writerId: String(myProfileData.id),
           });
+          toast.show({
+            message: '프로젝트를 하면서 배우고 느낀 점을 SOPT 회원들에게 공유해보세요.',
+            isMds: true,
+            buttonText: '공유하러 가기',
+            linkUrl: playgroundLink.feedUpload(),
+            status: 'success',
+          });
+          await router.push(playgroundLink.projectList());
         },
       });
     }

@@ -5,7 +5,7 @@ import { createEndpoint } from '@/api/typedAxios';
 export const getMembersSearchByName = createEndpoint({
   request: (name: string) => ({
     method: 'GET',
-    url: `api/v1/members/search?name=${encodeURIComponent(name)}`,
+    url: `api/v1/members/search?cond=${encodeURIComponent(name)}`,
   }),
   serverResponseScheme: z.array(
     z.object({
