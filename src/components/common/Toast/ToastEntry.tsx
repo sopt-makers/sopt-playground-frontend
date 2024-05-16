@@ -2,25 +2,34 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-import { ToastOption } from '@/components/common/Toast/types';
+import ToastMDSEntry from '@/components/common/Toast/ToastMDSEntry';
 import IconCheck from '@/public/icons/icon-check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const ToastEntry: FC<ToastOption> = ({ title, message }) => {
+export interface ToastEntryProps {
+  title?: string;
+  message: string;
+}
+
+const ToastEntry: FC<ToastEntryProps> = ({ title, message }) => {
   return (
     <>
-      <StyledToastWrapper>
-        <StyledToastEntry>
-          <IconBox>
-            <IconCheck />
-          </IconBox>
-          <HeaderBox>
-            {title && <Title>{title}</Title>}
-            <ContentBox>{message}</ContentBox>
-          </HeaderBox>
-        </StyledToastEntry>
-      </StyledToastWrapper>
+      {message === '💌 전송이 완료되었어요. 종무식 때 만나요!' ? (
+        <ToastMDSEntry title={title} message={message} />
+      ) : (
+        <StyledToastWrapper>
+          <StyledToastEntry>
+            <IconBox>
+              <IconCheck />
+            </IconBox>
+            <HeaderBox>
+              {title && <Title>{title}</Title>}
+              <ContentBox>{message}</ContentBox>
+            </HeaderBox>
+          </StyledToastEntry>
+        </StyledToastWrapper>
+      )}
     </>
   );
 };

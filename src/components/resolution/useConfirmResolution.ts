@@ -37,7 +37,7 @@ export const useConfirmResolution = () => {
         mutateAsync(options, {
           onSuccess: async () => {
             logSubmitEvent('postResolution');
-            toast.show({ message: '💌 전송이 완료되었어요. 종무식 때 만나요!', isMds: true });
+            toast.show({ message: '💌 전송이 완료되었어요. 종무식 때 만나요!' });
             options.onSuccess?.();
             await router.push(playgroundLink.feedList());
           },

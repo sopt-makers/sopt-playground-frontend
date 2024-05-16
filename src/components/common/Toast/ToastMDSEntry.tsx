@@ -1,25 +1,22 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
-import Link from 'next/link';
 import { FC } from 'react';
 
-import { ToastOption } from '@/components/common/Toast/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const ToastMDSEntry: FC<ToastOption> = ({ status, message, buttonText, linkUrl = '' }) => {
+export interface ToastEntryProps {
+  title?: string;
+  message: string;
+}
+
+const ToastMDSEntry: FC<ToastEntryProps> = ({ title, message }) => {
   return (
     <StyledToastWrapper>
       <StyledToastEntry>
         <HeaderBox>
-          {status === 'success' && <ToastIconSuccess />}
+          {title && <Title>{title}</Title>}
           <ContentBox>{message}</ContentBox>
-          {buttonText && (
-            <ActionButton type='button' href={linkUrl}>
-              {buttonText}
-            </ActionButton>
-          )}
         </HeaderBox>
       </StyledToastEntry>
     </StyledToastWrapper>
@@ -27,27 +24,6 @@ const ToastMDSEntry: FC<ToastOption> = ({ status, message, buttonText, linkUrl =
 };
 
 export default ToastMDSEntry;
-
-const ToastIconSuccess = () => {
-  return (
-    <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <rect width='20' height='20' rx='10' fill='#82F6CB' />
-      <path
-        d='M5.33325 9.1835L8.44436 12.3335L14.6666 7.0835'
-        stroke='#136D4C'
-        strokeWidth='1.5'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
-    </svg>
-  );
-};
-
-const ActionButton = styled(Link)`
-  min-width: max-content;
-  color: ${colors.blue400};
-  ${fonts.LABEL_14_SB};
-`;
 
 const StyledToastWrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
@@ -70,11 +46,27 @@ const StyledToastEntry = styled.div`
 
 const HeaderBox = styled.div`
   display: flex;
-  gap: 8px;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+`;
 
-  > svg {
-    min-width: max-content;
+const Title = styled.h2`
+  margin-bottom: 7px;
+  color: ${colors.gray10};
+
+  ${textStyles.SUIT_20_B};
+`;
+
+const IconBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 11px;
+  width: 23px;
+  height: 23px;
+
+  & > svg {
+    width: 14px;
   }
 `;
 
