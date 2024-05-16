@@ -14,7 +14,7 @@ interface ToastProviderProps {
 }
 const ToastProvider: FC<ToastProviderProps> = ({ duration = 4000, children }) => {
   const [toast, setToast] = useState<ToastEntryData | null>(null);
-  const [animation, setAnimation] = useState<'slide-in' | 'slide-out' | 'slide-reset'>('slide-reset');
+  const [animation, setAnimation] = useState<'slide-in' | 'slide-out' | 'slide-reset'>('slide-in');
   const toastTimeout = useAtomicTimeout();
   const controller: ToastController = useMemo(
     () => ({
