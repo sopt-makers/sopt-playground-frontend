@@ -13,7 +13,7 @@ interface ToastProviderProps {
   children: ReactNode;
   duration?: number;
 }
-const ToastProvider: FC<ToastProviderProps> = ({ duration = 6000, children }) => {
+const ToastProvider: FC<ToastProviderProps> = ({ duration = 4000, children }) => {
   const [toast, setToast] = useState<ToastEntryData | null>(null);
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out' | 'slide-reset'>('slide-reset');
   const toastTimeout = useAtomicTimeout();
@@ -21,7 +21,7 @@ const ToastProvider: FC<ToastProviderProps> = ({ duration = 6000, children }) =>
     () => ({
       show: async ({ title, message, status, isMds, buttonText, linkUrl }: ToastOption) => {
         setToast({ option: { title, message, status, isMds, buttonText, linkUrl } });
-        setAnimation('slide-out');
+        setAnimation('slide-reset');
 
         // slide-reset 값 세팅이 무시되지 않도록, slide-in 값 세팅을 이벤트 루프 뒤로 보내기
         await sleep(0);
