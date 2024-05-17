@@ -72,13 +72,16 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           gap: 12,
           borderBottom: `1px solid ${colors.gray800}`,
           ...(isFor솝커톤 && {
-            'border': '0.5px solid #F77234',
+            'border': `0.5px solid ${colors.orangeAlpha900}`,
             'boxShadow': '2px 2px 10px 2px rgba(247, 114, 52, 0.20)',
             'borderRadius': '8px',
             'position': 'relative',
-            'transition': 'transform 0.3s ease',
+            'transition': 'all 0.3s ease',
             '&:hover': {
               transform: 'translateY(3px)',
+              borderWidth: '1px',
+              borderCollapse: 'collapse',
+              boxShadow: '2px 2px 20px 5px rgba(247, 114, 52, 0.30);',
             },
           }),
         }}
