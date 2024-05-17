@@ -13,15 +13,16 @@ interface SlidUpProviderProps {
   children: ReactNode;
   duration?: number;
 }
-const SlidUpProvider: FC<SlidUpProviderProps> = ({ duration = 10000, children }) => {
+
+const SlideUpProvider: FC<SlidUpProviderProps> = ({ duration = 10000, children }) => {
   const [slideUp, setSlideUp] = useState<SlideUpEntryData | null>(null);
   const [animation, setAnimation] = useState<'slide-in' | 'slide-out' | 'slide-reset'>('slide-reset');
   const slideUpTimeout = useAtomicTimeout();
 
   const controller: SlideUpController = useMemo(
     () => ({
-      show: async ({ message, status, buttonText, linkUrl }: SlideUpOption) => {
-        setSlideUp({ option: { message, status, buttonText, linkUrl } });
+      show: async ({ message, status, buttonText, action }: SlideUpOption) => {
+        setSlideUp({ option: { message, status, buttonText, action } });
         setAnimation('slide-out');
 
         // slide-reset 값 세팅이 무시되지 않도록, slide-in 값 세팅을 이벤트 루프 뒤로 보내기
@@ -31,6 +32,9 @@ const SlidUpProvider: FC<SlidUpProviderProps> = ({ duration = 10000, children })
         slideUpTimeout.set(() => {
           setAnimation('slide-in');
         }, duration);
+      },
+      close: () => {
+        setSlideUp(null);
       },
     }),
     [duration, slideUpTimeout],
@@ -46,7 +50,7 @@ const SlidUpProvider: FC<SlidUpProviderProps> = ({ duration = 10000, children })
               message={slideUp.option.message}
               status={slideUp.option.status}
               buttonText={slideUp.option.buttonText}
-              linkUrl={slideUp.option.linkUrl}
+              action={slideUp.option.action}
             />
           )}
         </SlidUpContainer>
@@ -55,7 +59,7 @@ const SlidUpProvider: FC<SlidUpProviderProps> = ({ duration = 10000, children })
   );
 };
 
-export default SlidUpProvider;
+export default SlideUpProvider;
 
 const SlidUpContainer = styled.div<{ animation: string }>`
   display: flex;

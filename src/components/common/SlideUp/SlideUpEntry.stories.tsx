@@ -10,7 +10,9 @@ export const Default = {
   args: {
     message: '프로젝트를 하면서 배우고 느낀 점을 SOPT 회원들에게 공유해보세요.',
     buttonText: '공유하러 가기',
-    linkUrl: '',
+    action: () => {
+      //
+    },
     status: 'success',
   },
 };

@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import Link from 'next/link';
 import { FC } from 'react';
 
 import { SlideUpOption } from '@/components/common/SlideUp/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const SlideUpEntry: FC<SlideUpOption> = ({ status, message, buttonText, linkUrl = '' }) => {
+const SlideUpEntry: FC<SlideUpOption> = ({ status, message, buttonText, action }) => {
   return (
     <StyledToastWrapper>
       <StyledToastEntry>
@@ -16,7 +15,7 @@ const SlideUpEntry: FC<SlideUpOption> = ({ status, message, buttonText, linkUrl 
           {status === 'success' && <SlideUpIconSuccess />}
           <ContentBox>{message}</ContentBox>
           {buttonText && (
-            <ActionButton type='button' href={linkUrl}>
+            <ActionButton type='button' onClick={action}>
               {buttonText}
             </ActionButton>
           )}
@@ -43,7 +42,7 @@ const SlideUpIconSuccess = () => {
   );
 };
 
-const ActionButton = styled(Link)`
+const ActionButton = styled.button`
   min-width: max-content;
   color: ${colors.blue400};
   ${fonts.LABEL_14_SB};

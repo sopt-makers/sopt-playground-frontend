@@ -43,7 +43,10 @@ const ProjectUploadPage = () => {
           slideUp.show({
             message: '프로젝트를 하면서 배우고 느낀 점을 SOPT 회원들에게 공유해보세요.',
             buttonText: '공유하러 가기',
-            linkUrl: playgroundLink.feedUpload(),
+            action: async () => {
+              slideUp.close();
+              await router.push(playgroundLink.feedUpload());
+            },
             status: 'success',
           });
           await router.push(playgroundLink.projectList());

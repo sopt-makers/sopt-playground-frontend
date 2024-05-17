@@ -10,6 +10,9 @@ const useSlideUp = () => {
     show(slidUp: SlideUpOption) {
       controller.show(slidUp);
     },
+    close() {
+      controller.close();
+    },
   };
 };
 
