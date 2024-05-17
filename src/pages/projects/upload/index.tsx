@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useConfirm from '@/components/common/Modal/useConfirm';
-import useToast from '@/components/common/Toast/useToast';
+import useSlideUp from '@/components/common/SlideUp/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import ProjectForm from '@/components/projects/upload/form/ProjectForm';
 import { ProjectFormType } from '@/components/projects/upload/form/schema';
@@ -20,7 +20,7 @@ const ProjectUploadPage = () => {
   const { mutate: createProjectMutate } = useCreateProjectMutation();
   const { data: myProfileData } = useGetMemberOfMe();
   const router = useRouter();
-  const toast = useToast();
+  const slideUp = useSlideUp();
   const queryClient = useQueryClient();
   const { logSubmitEvent } = useEventLogger();
   const { confirm } = useConfirm();
@@ -34,13 +34,22 @@ const ProjectUploadPage = () => {
     });
     if (notify && myProfileData) {
       createProjectMutate(convertToProjectData(formData, myProfileData.id), {
-        onSuccess: () => {
-          toast.show({ message: '프로젝트를 성공적으로 업로드 했어요.' });
+        onSuccess: async () => {
           queryClient.invalidateQueries({ queryKey: getProjectListQueryKey() });
-          router.push(playgroundLink.projectList());
+
           logSubmitEvent('projectUpload', {
             writerId: String(myProfileData.id),
           });
+          slideUp.show({
+            message: '프로젝트를 하면서 배우고 느낀 점을 SOPT 회원들에게 공유해보세요.',
+            buttonText: '공유하러 가기',
+            action: async () => {
+              slideUp.close();
+              await router.push(playgroundLink.feedUpload());
+            },
+            status: 'success',
+          });
+          await router.push(playgroundLink.projectList());
         },
       });
     }

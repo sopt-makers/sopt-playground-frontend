@@ -4,17 +4,18 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { OverlayProvider } from '@toss/use-overlay';
 import { LazyMotion } from 'framer-motion';
+import NextAdapterPages from 'next-query-params/pages';
+import { NextSeo } from 'next-seo';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
-import NextAdapterPages from 'next-query-params/pages';
-import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryParamProvider } from 'use-query-params';
 
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
+import SlidUpProvider from '@/components/common/SlideUp/providers/SlideUpProvider';
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
 import AmplitudeProvider from '@/components/eventLogger/providers/AmplitudeProvider';
 import * as gtm from '@/components/googleTagManager/gtm';
@@ -125,19 +126,21 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RecoilRoot>
           <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
             <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
-              <ToastProvider>
-                <GlobalStyle />
-                <ResponsiveProvider>
-                  <OverlayProvider>
-                    <NavigationProvider>
-                      <Layout>
-                        <Component {...pageProps} />
-                      </Layout>
-                    </NavigationProvider>
-                  </OverlayProvider>
-                </ResponsiveProvider>
-                {DEBUG && <Debugger />}
-              </ToastProvider>
+              <SlidUpProvider>
+                <ToastProvider>
+                  <GlobalStyle />
+                  <ResponsiveProvider>
+                    <OverlayProvider>
+                      <NavigationProvider>
+                        <Layout>
+                          <Component {...pageProps} />
+                        </Layout>
+                      </NavigationProvider>
+                    </OverlayProvider>
+                  </ResponsiveProvider>
+                  {DEBUG && <Debugger />}
+                </ToastProvider>
+              </SlidUpProvider>
             </LazyMotion>
           </AmplitudeProvider>
         </RecoilRoot>
