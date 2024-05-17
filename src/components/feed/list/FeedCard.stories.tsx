@@ -38,6 +38,7 @@ const COMMENTS = [
 ];
 
 const defaultProps: ComponentProps<typeof FeedCard> = {
+  postId: 196, // 솝커톤용 : 삭제할 것
   name: '이준호',
   info: 'Frontend Developer @Toss',
   profileImage:
