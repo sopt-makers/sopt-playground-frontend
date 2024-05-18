@@ -22,7 +22,7 @@ const ProjectUploadPage = () => {
   const router = useRouter();
   const slideUp = useSlideUp();
   const queryClient = useQueryClient();
-  const { logSubmitEvent } = useEventLogger();
+  const { logSubmitEvent, logClickEvent } = useEventLogger();
   const { confirm } = useConfirm();
 
   const handleSubmit = async (formData: ProjectFormType) => {
@@ -44,6 +44,7 @@ const ProjectUploadPage = () => {
             message: '프로젝트를 하면서 배우고 느낀 점을 SOPT 회원들에게 공유해보세요.',
             buttonText: '공유하러 가기',
             action: async () => {
+              logClickEvent('clickProjectShare');
               slideUp.close();
               await router.push(playgroundLink.feedUpload());
             },
