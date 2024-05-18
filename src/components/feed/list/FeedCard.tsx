@@ -62,7 +62,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
     },
     ref,
   ) => {
-    const isFor솝커톤 = postId === 196; //TODO : 솝커톤용 게시물 id로 변경
+    const isFor솝커톤 = postId === 388; //TODO : 솝커톤용 게시물 id로 변경
     return (
       <Flex
         ref={ref}
