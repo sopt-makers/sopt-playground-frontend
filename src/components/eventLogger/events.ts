@@ -100,6 +100,9 @@ export interface ClickEvents {
     isAlreadySubmitted: boolean;
   };
   profileUploadResolution: undefined;
+
+  // 프로젝트 등록 후 공유하러 가기
+  clickProjectShare: undefined;
 }
 
 export interface SubmitEvents {
