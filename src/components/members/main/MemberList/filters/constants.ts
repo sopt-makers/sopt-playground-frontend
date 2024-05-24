@@ -109,18 +109,18 @@ export const WORKING_OPTIONS: Option[] = [{ value: '1', label: '재직 중이에
 export const ORDER_OPTIONS: Option[] = [
   {
     value: '1',
-    label: '최근에 등록했순',
+    label: '최근등록순',
   },
   {
     value: '2',
-    label: '예전에 등록했순',
+    label: '예전등록순',
   },
   {
     value: '3',
-    label: '최근에 활동했순',
+    label: '최근활동순',
   },
   {
     value: '4',
-    label: '예전에 활동했순',
+    label: '예전활동순',
   },
 ];
