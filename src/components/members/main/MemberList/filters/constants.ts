@@ -24,7 +24,7 @@ export const PART_OPTIONS: Option[] = [
     value: '',
   },
   {
-    label: 'PM',
+    label: '기획',
     value: PART_VALUE.PM,
   },
   {
@@ -32,15 +32,15 @@ export const PART_OPTIONS: Option[] = [
     value: PART_VALUE.DESIGN,
   },
   {
-    label: 'WEB',
+    label: '웹',
     value: PART_VALUE.WEB,
   },
   {
-    label: 'SERVER',
+    label: '서버',
     value: PART_VALUE.SERVER,
   },
   {
-    label: 'Android',
+    label: '안드로이드',
     value: PART_VALUE.ANDROID,
   },
   {
