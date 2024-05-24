@@ -1,6 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { getMembersSearchByName } from '@/api/endpoint/members/getMembersSearchByName';
+
 interface GetMembersByNameQueryVariables {
   name: string;
 }
