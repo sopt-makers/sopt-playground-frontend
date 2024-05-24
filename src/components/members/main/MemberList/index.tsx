@@ -175,7 +175,12 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       >
         <Responsive only='mobile'>{banner}</Responsive>
         <Responsive only='mobile' css={{ marginTop: '40px' }}>
-          <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+          <StyledMemberSearch
+            placeholder='이름, 학교, 회사를 검색해보세요!'
+            value={name}
+            onChange={setName}
+            onSearch={handleSearch}
+          />
           <StyledMobileFilterWrapper>
             <StyledMobileFilter
               value={generation}
@@ -345,7 +350,12 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     onChange={handleSelectWorking}
                   />
                 </StyledFilterWrapper>
-                <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+                <StyledMemberSearch
+                  placeholder='이름, 학교, 회사를 검색해보세요!'
+                  value={name}
+                  onChange={setName}
+                  onSearch={handleSearch}
+                />
               </div>
               {memberProfileData && (
                 <div
@@ -524,6 +534,7 @@ const StyledMakersLink = styled.div`
 `;
 
 const StyledMemberSearch = styled(MemberSearch)`
+  min-width: 335px;
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
     grid-area: 'search';
     order: 1;
