@@ -43,8 +43,8 @@ export interface ClickEvents {
   filterMbti: {
     mbti: string;
   };
-  filterSojuCapacity: {
-    sojuCapacity: string;
+  filterWorking: {
+    working: string;
   };
   filterOrderBy: {
     orderBy: string;

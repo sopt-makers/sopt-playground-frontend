@@ -23,8 +23,8 @@ import {
   MBTI_OPTIONS,
   ORDER_OPTIONS,
   PART_OPTIONS,
-  SOJU_CAPACITY_OPTIONS,
   TEAM_OPTIONS,
+  WORKING_OPTIONS,
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
@@ -64,7 +64,7 @@ type MessageModalState =
 const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [part, setPart] = useState<string | undefined>(undefined);
-  const [sojuCapacity, setSojuCapacity] = useState<string | undefined>(undefined);
+  const [working, setWorking] = useState<string | undefined>(undefined);
   const [team, setTeam] = useState<string | undefined>(undefined);
   const [mbti, setMbti] = useState<string | undefined>(undefined);
   const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
@@ -108,7 +108,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, filter, name, sojuCapacity, team, mbti, orderBy } = router.query;
+      const { generation, filter, name, working, team, mbti, orderBy } = router.query;
       if (typeof generation === 'string' || generation === undefined) {
         setGeneration(generation);
       }
@@ -124,8 +124,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       if (typeof mbti === 'string' || mbti === undefined) {
         setMbti(mbti);
       }
-      if (typeof sojuCapacity === 'string' || sojuCapacity === undefined) {
-        setSojuCapacity(sojuCapacity);
+      if (typeof working === 'string' || working === undefined) {
+        setWorking(working);
       }
       if (typeof orderBy === 'string') {
         setOrderBy(orderBy);
@@ -149,9 +149,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     addQueryParamsToUrl({ mbti });
     logClickEvent('filterMbti', { mbti });
   };
-  const handleSelectSojuCapacity = (sojuCapacity: string) => {
-    addQueryParamsToUrl({ sojuCapacity });
-    logClickEvent('filterSojuCapacity', { sojuCapacity });
+  const handleSelectWorking = (working: string) => {
+    addQueryParamsToUrl({ working });
+    logClickEvent('filterWorking', { working });
   };
   const handleSelectOrderBy = (orderBy: string) => {
     addQueryParamsToUrl({ orderBy });
@@ -229,13 +229,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             />
             <StyledMobileFilter
-              placeholder='주량'
+              placeholder='재직 상태'
               defaultOption={FILTER_DEFAULT_OPTION}
-              options={SOJU_CAPACITY_OPTIONS}
-              value={sojuCapacity}
-              onChange={handleSelectSojuCapacity}
+              options={WORKING_OPTIONS}
+              value={working}
+              onChange={handleSelectWorking}
               trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(sojuCapacity)}>
+                <MobileFilterTrigger selected={Boolean(working)}>
                   {placeholder}
                   <IconExpand />
                 </MobileFilterTrigger>
@@ -338,11 +338,11 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     onChange={handleSelectMbti}
                   />
                   <MemberListFilter
-                    placeholder='주량'
+                    placeholder='재직 상태'
                     defaultOption={FILTER_DEFAULT_OPTION}
-                    options={SOJU_CAPACITY_OPTIONS}
-                    value={sojuCapacity}
-                    onChange={handleSelectSojuCapacity}
+                    options={WORKING_OPTIONS}
+                    value={working}
+                    onChange={handleSelectWorking}
                   />
                 </StyledFilterWrapper>
                 <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />

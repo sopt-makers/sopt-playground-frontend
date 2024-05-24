@@ -85,7 +85,7 @@ export const MBTI = [
   'ENTJ',
 ] as const;
 
-export const MBTI_OPTIONS: Option<typeof MBTI[number]>[] = [
+export const MBTI_OPTIONS: Option<(typeof MBTI)[number]>[] = [
   { value: 'ISTJ', label: 'ISTJ' },
   { value: 'ISFJ', label: 'ISFJ' },
   { value: 'INFJ', label: 'INFJ' },
@@ -104,15 +104,7 @@ export const MBTI_OPTIONS: Option<typeof MBTI[number]>[] = [
   { value: 'ENTJ', label: 'ENTJ' },
 ];
 
-export const SOJU_CAPACITY_OPTIONS: Option[] = [
-  { value: '0', label: '못마셔요' },
-  { value: '0.5', label: '0.5병' },
-  { value: '1', label: '1병' },
-  { value: '1.5', label: '1.5병' },
-  { value: '2', label: '2병' },
-  { value: '2.5', label: '2.5병' },
-  { value: '3', label: '3병 이상' },
-];
+export const WORKING_OPTIONS: Option[] = [{ value: '1', label: '재직 중이에요' }];
 
 export const ORDER_OPTIONS: Option[] = [
   {
