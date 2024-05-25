@@ -17,6 +17,7 @@ import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/m
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import {
+  EMPLOYED_OPTIONS,
   FILTER_DEFAULT_OPTION,
   GENERATION_DEFAULT_OPTION,
   GENERATION_OPTIONS,
@@ -24,7 +25,6 @@ import {
   ORDER_OPTIONS,
   PART_OPTIONS,
   TEAM_OPTIONS,
-  WORKING_OPTIONS,
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
@@ -64,7 +64,7 @@ type MessageModalState =
 const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [part, setPart] = useState<string | undefined>(undefined);
-  const [working, setWorking] = useState<string | undefined>(undefined);
+  const [employed, setEmployed] = useState<string | undefined>(undefined);
   const [team, setTeam] = useState<string | undefined>(undefined);
   const [mbti, setMbti] = useState<string | undefined>(undefined);
   const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
@@ -108,7 +108,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, filter, cond, working, team, mbti, orderBy } = router.query;
+      const { generation, filter, cond, employed, team, mbti, orderBy } = router.query;
       if (typeof generation === 'string' || generation === undefined) {
         setGeneration(generation);
       }
@@ -124,8 +124,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       if (typeof mbti === 'string' || mbti === undefined) {
         setMbti(mbti);
       }
-      if (typeof working === 'string' || working === undefined) {
-        setWorking(working);
+      if (typeof employed === 'string' || employed === undefined) {
+        setEmployed(employed);
       }
       if (typeof orderBy === 'string') {
         setOrderBy(orderBy);
@@ -135,23 +135,23 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   const handleSelectPart = (filter: string) => {
     addQueryParamsToUrl({ filter });
-    logClickEvent('filterPart', { part: filter });
+    logClickEvent('filterPart', { part: filter || 'all' });
   };
-  const handleSelectGeneration = (generation: string | undefined) => {
+  const handleSelectGeneration = (generation: string) => {
     addQueryParamsToUrl({ generation });
-    logClickEvent('filterGeneration', { generation: generation ?? 'all' });
+    logClickEvent('filterGeneration', { generation: generation || 'all' });
   };
   const handleSelectTeam = (team: string) => {
     addQueryParamsToUrl({ team });
-    logClickEvent('filterTeam', { team });
+    logClickEvent('filterTeam', { team: team || 'all' });
   };
   const handleSelectMbti = (mbti: string) => {
     addQueryParamsToUrl({ mbti });
-    logClickEvent('filterMbti', { mbti });
+    logClickEvent('filterMbti', { mbti: mbti || 'all' });
   };
-  const handleSelectWorking = (working: string) => {
-    addQueryParamsToUrl({ working });
-    logClickEvent('filterWorking', { working });
+  const handleSelectEmployed = (employed: string) => {
+    addQueryParamsToUrl({ employed });
+    logClickEvent('filterEmployed', { employed: employed || 'all' });
   };
   const handleSelectOrderBy = (orderBy: string) => {
     addQueryParamsToUrl({ orderBy });
@@ -236,11 +236,11 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             <StyledMobileFilter
               placeholder='재직 상태'
               defaultOption={FILTER_DEFAULT_OPTION}
-              options={WORKING_OPTIONS}
-              value={working}
-              onChange={handleSelectWorking}
+              options={EMPLOYED_OPTIONS}
+              value={employed}
+              onChange={handleSelectEmployed}
               trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(working)}>
+                <MobileFilterTrigger selected={Boolean(employed)}>
                   {placeholder}
                   <IconExpand />
                 </MobileFilterTrigger>
@@ -345,9 +345,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   <MemberListFilter
                     placeholder='재직 상태'
                     defaultOption={FILTER_DEFAULT_OPTION}
-                    options={WORKING_OPTIONS}
-                    value={working}
-                    onChange={handleSelectWorking}
+                    options={EMPLOYED_OPTIONS}
+                    value={employed}
+                    onChange={handleSelectEmployed}
                   />
                 </StyledFilterWrapper>
                 <StyledMemberSearch

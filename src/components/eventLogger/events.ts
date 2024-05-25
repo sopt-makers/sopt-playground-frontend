@@ -43,8 +43,8 @@ export interface ClickEvents {
   filterMbti: {
     mbti: string;
   };
-  filterWorking: {
-    working: string;
+  filterEmployed: {
+    employed: string;
   };
   filterOrderBy: {
     orderBy: string;
