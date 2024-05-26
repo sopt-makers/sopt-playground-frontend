@@ -183,6 +183,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
         <SoptActivitySection soptActivities={sortedSoptActivities} />
 
+        {(profile.careers?.length > 0 || profile.skill || profile.links?.length > 0) && (
+          <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
+        )}
+
         {(profile.sojuCapacity ||
           profile.mbti ||
           profile.interest ||
@@ -214,10 +218,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             interest={profile.interest}
             selfIntroduction={profile.selfIntroduction}
           />
-        )}
-
-        {(profile.careers?.length > 0 || profile.skill || profile.links?.length > 0) && (
-          <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
         )}
 
         <ActivityContainer>
