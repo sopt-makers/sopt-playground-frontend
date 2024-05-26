@@ -19,7 +19,6 @@ interface RandomProfile {
 }
 
 interface BaseProps {
-  postId: number; // 솝커톤용 : 삭제할 것
   profileImage: string | null;
   name: string;
   info: ReactNode;
@@ -41,7 +40,6 @@ interface BaseProps {
 const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
   (
     {
-      postId, // 솝커톤용 : 삭제할 것
       profileImage,
       name,
       info,
@@ -62,7 +60,6 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
     },
     ref,
   ) => {
-    const isFor솝커톤 = postId === 388; //TODO : 솝커톤용 게시물 id로 변경
     return (
       <Flex
         ref={ref}
@@ -71,19 +68,6 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           padding: '16px 16px 22px',
           gap: 12,
           borderBottom: `1px solid ${colors.gray800}`,
-          ...(isFor솝커톤 && {
-            'border': `0.5px solid ${colors.orangeAlpha900}`,
-            'boxShadow': '2px 2px 10px 2px rgba(247, 114, 52, 0.20)',
-            'borderRadius': '8px',
-            'position': 'relative',
-            'transition': 'all 0.3s ease',
-            '&:hover': {
-              transform: 'translateY(3px)',
-              borderWidth: '1px',
-              borderCollapse: 'collapse',
-              boxShadow: '2px 2px 20px 5px rgba(247, 114, 52, 0.30);',
-            },
-          }),
         }}
         onClick={onClick}
       >

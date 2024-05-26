@@ -113,7 +113,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
             feedId: `${post.id}`,
             children: (
               <FeedCard
-                postId={post.id} // 솝커톤용 : 삭제할 것
                 onClick={() => setMap((map) => ({ ...map, [categoryId ?? '']: idx }))}
                 name={post.member?.name ?? '익명'}
                 title={post.title}
