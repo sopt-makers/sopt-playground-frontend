@@ -32,7 +32,7 @@ export default function CareerSection({ careers, links, skill, shouldNeedOnlyIte
                     <div className='circle' />
                     <div className='line' />
                   </CareerItemDecoration>
-                  <CareerItem career={career} />
+                  <CareerItem career={career} isCurrent={career.isCurrent} />
                 </CareerWrapper>
               ))}
             </CareerItems>
@@ -107,7 +107,7 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
   & > .circle {
     margin-top: 6px;
     border-radius: 50%;
-    background-color: ${({ isCurrent }) => (isCurrent ? '#CDF47C' : colors.gray300)};
+    background-color: ${({ isCurrent }) => (isCurrent ? colors.secondary : colors.gray300)};
     width: 6px;
     height: 6px;
   }
