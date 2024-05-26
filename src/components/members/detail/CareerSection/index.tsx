@@ -58,7 +58,7 @@ export default function CareerSection({
             </CareerItems>
           </InfoItem>
         )}
-        {skill?.length > 0 && <InfoItem label='스킬' content={skill} />}
+        {skill?.length > 0 && <InfoItem label='스킬' content={<SkillContent>{skill}</SkillContent>} />}
         {links?.length > 0 && (
           <InfoItem
             label='링크'
@@ -212,4 +212,12 @@ const MoveButton = styled.div`
 const WriteIcon = styled.img`
   width: 20px;
   height: 20px;
+`;
+
+const SkillContent = styled.div`
+  width: 512px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
