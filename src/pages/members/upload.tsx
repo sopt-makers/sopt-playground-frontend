@@ -146,15 +146,8 @@ export default function MemberUploadPage() {
         <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
           <SoptActivityFormSection />
+          <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
           <TmiFormSection />
-          <Responsive only='desktop'>
-            <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
-          </Responsive>
-          <Responsive only='mobile'>
-            <FormAccordion title='나의 커리어' description='나의 경력, 스킬 등을 작성해 볼 수 있어요.'>
-              <CareerFormSection />
-            </FormAccordion>
-          </Responsive>
         </MemberForm>
       </FormProvider>
     </AuthRequired>
