@@ -45,7 +45,6 @@ export function MemberListFilter<T extends string>({
 export default MemberListFilter;
 
 const StyledSelect = styled(Select)<{ selected: boolean }>`
-  gap: 12px;
   ${({ selected }) =>
     selected &&
     css`
@@ -57,7 +56,8 @@ const StyledSelect = styled(Select)<{ selected: boolean }>`
 
   transition: background-color 0.2s;
   border-radius: 20px;
-  padding: 11px 16px;
+  padding: 9px 26px 9px 22px;
+  min-width: 110px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 14px;
