@@ -153,17 +153,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           )}
         </ProfileContainer>
 
-        {!profile.isMine && (
-          <>
-            <MessageSection
-              name={profile.name}
-              email={profile.email}
-              profileImage={profile.profileImage}
-              memberId={memberId}
-            />
-          </>
-        )}
-
         {(profile.birthday || profile.address || profile.university || profile.address) && (
           <MemberDetailSection style={{ gap: '30px' }}>
             {profile.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile.birthday)} />}
@@ -184,7 +173,16 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         <SoptActivitySection soptActivities={sortedSoptActivities} />
 
         {(profile.careers?.length > 0 || profile.skill || profile.links?.length > 0) && (
-          <CareerSection careers={profile.careers} links={profile.links} skill={profile.skill} />
+          <CareerSection
+            careers={profile.careers}
+            links={profile.links}
+            skill={profile.skill}
+            name={profile.name}
+            email={profile.email}
+            profileImage={profile.profileImage}
+            memberId={memberId}
+            isMine={profile.isMine}
+          />
         )}
 
         {(profile.sojuCapacity ||

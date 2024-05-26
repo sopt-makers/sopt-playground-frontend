@@ -9,16 +9,37 @@ import CareerItem from '@/components/members/detail/CareerSection/CareerItem';
 import InfoItem from '@/components/members/detail/InfoItem';
 import { Career } from '@/components/members/detail/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import MessageSection from '@/components/members/detail/MessageSection';
+import { textStyles } from '@/styles/typography';
+import { playgroundLink } from 'playground-common/export';
+import { useRouter } from 'next/router';
 
 interface CareerSectionProps {
   careers: Career[];
   links: MemberLink[];
   skill: string;
+  name: string;
+  email: string;
+  profileImage: string;
+  memberId: string;
+  isMine: boolean;
   shouldNeedOnlyItems?: boolean;
 }
 
-export default function CareerSection({ careers, links, skill, shouldNeedOnlyItems = false }: CareerSectionProps) {
+export default function CareerSection({
+  careers,
+  links,
+  skill,
+  name,
+  email,
+  profileImage,
+  memberId,
+  isMine,
+  shouldNeedOnlyItems = false,
+}: CareerSectionProps) {
+  const router = useRouter();
   const Container = shouldNeedOnlyItems ? Slot : StyledMemberDetailSection;
+
   return (
     <Container>
       <>
@@ -53,6 +74,14 @@ export default function CareerSection({ careers, links, skill, shouldNeedOnlyIte
           />
         )}
       </>
+      {isMine ? (
+        <MoveButton onClick={() => router.push(playgroundLink.feedUpload())}>
+          <WriteIcon src='/icons/icon-pencil-simple.svg' />
+          직무 경험 SOPT와 공유하기
+        </MoveButton>
+      ) : (
+        <MessageSection name={name} email={email} profileImage={profileImage} memberId={memberId} />
+      )}
     </Container>
   );
 }
@@ -75,6 +104,7 @@ const getLinkIcon = (linkTitle: string) => {
 };
 
 const StyledMemberDetailSection = styled(MemberDetailSection)`
+  position: relative;
   gap: 35px;
 `;
 
@@ -148,4 +178,38 @@ const CareerWrapper = styled.div`
 const LinkIcon = styled.img`
   width: 32px;
   height: 32px;
+`;
+
+const MoveButton = styled.div`
+  display: flex;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 90px;
+  background-color: ${colors.gray10};
+  cursor: pointer;
+  padding: 12px 20px;
+  height: 42px;
+  color: ${colors.gray950};
+
+  &:hover {
+    background-color: ${colors.gray50};
+    color: ${colors.gray950};
+  }
+
+  ${textStyles.SUIT_15_SB}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    position: static;
+    border-radius: 10px;
+    ${textStyles.SUIT_16_SB};
+  }
+`;
+
+const WriteIcon = styled.img`
+  width: 20px;
+  height: 20px;
 `;
