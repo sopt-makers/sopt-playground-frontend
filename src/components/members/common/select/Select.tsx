@@ -54,7 +54,7 @@ const SelectRoot: FC<PropsWithChildren<SelectProps>> = ({
         <StyledWrapper allowClear={allowClear && hasValue}>
           <Select.Trigger className={className} asChild>
             <StyledTrigger error={error}>
-              {props.value === undefined ? placeholder : label}
+              {!props.value ? placeholder : label}
               <StyledIconArrow className='icon-arrow'>
                 <IconSelectArrow width={18} height={18} alt='select-arrow-icon' />
               </StyledIconArrow>
