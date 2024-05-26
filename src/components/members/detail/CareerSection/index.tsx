@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
 import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
-import LinkIcon from 'public/icons/icon-link.svg';
 
 import { MemberLink } from '@/api/endpoint_LEGACY/members/type';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
@@ -46,8 +45,7 @@ export default function CareerSection({ careers, links, skill, shouldNeedOnlyIte
               <LinkItems>
                 {links.map((item, idx) => (
                   <Link href={item.url} key={idx} target='_blank'>
-                    <LinkIcon />
-                    <span>{item.title}</span>
+                    <LinkIcon src={getLinkIcon(item.title)} alt={item.title} />
                   </Link>
                 ))}
               </LinkItems>
@@ -59,13 +57,30 @@ export default function CareerSection({ careers, links, skill, shouldNeedOnlyIte
   );
 }
 
+const getLinkIcon = (linkTitle: string) => {
+  switch (linkTitle) {
+    case 'Facebook':
+      return '/icons/icon-facebook-gray.svg';
+    case 'LinkedIn':
+      return '/icons/icon-linkedin-gray.svg';
+    case 'GitHub':
+      return '/icons/icon-github-gray.svg';
+    case 'Instagram':
+      return '/icons/icon-instagram-gray.svg';
+    case 'Behance':
+      return '/icons/icon-behance-gray.svg';
+    default:
+      return '/icons/icon-link-gray.svg';
+  }
+};
+
 const StyledMemberDetailSection = styled(MemberDetailSection)`
   gap: 35px;
 `;
 
 const LinkItems = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 12px;
 
   & > a {
@@ -87,10 +102,6 @@ const LinkItems = styled.div`
   svg {
     width: 26px;
     height: auto;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    gap: 21px;
   }
 `;
 
@@ -132,4 +143,9 @@ const CareerItemDecoration = styled.div<{ isCurrent: boolean; isEnd: boolean }>`
 const CareerWrapper = styled.div`
   display: flex;
   gap: 12px;
+`;
+
+const LinkIcon = styled.img`
+  width: 32px;
+  height: 32px;
 `;
