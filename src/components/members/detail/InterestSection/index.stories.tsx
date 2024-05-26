@@ -22,7 +22,6 @@ export const Default = {
       isSojuLover: true,
       isRiceTteokLover: null,
     },
-    idealType: '코딩을 잘하는 사람',
     selfIntroduction: '안녕하세요. 저는 코딩을 좋아하는 사람입니다.',
   },
 
@@ -44,7 +43,6 @@ export const Optional = {
       isSojuLover: null,
       isRiceTteokLover: null,
     },
-    idealType: '코딩을 잘하는 사람',
   },
 
   name: '선택',

@@ -53,7 +53,6 @@ export type ProfileDetail = {
     isSojuLover: boolean;
     isRiceTteokLover: boolean;
   };
-  idealType: string;
   selfIntroduction: string;
   soptActivities: SoptActivity[];
   links: MemberLink[];
@@ -151,7 +150,6 @@ export interface ProfileRequest {
     isSojuLover: boolean | null;
     isRiceTteokLover: boolean | null;
   };
-  idealType: string | null;
   selfIntroduction: string | null;
   isPhoneBlind: boolean | null;
   isEmailBlind: boolean | null;

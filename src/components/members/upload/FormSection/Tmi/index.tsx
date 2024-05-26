@@ -142,21 +142,6 @@ export default function TmiFormSection() {
         </FavorWrapper>
       </StyledMemberFormItem>
 
-      <StyledMemberFormItem title='나의 이상형은? 😏'>
-        <Responsive only='desktop' asChild>
-          <StyledInput
-            {...register('idealType')}
-            placeholder='ex) 마음이 따뜻한 사람, 아이스 아메리카노만 마시는 사람'
-          />
-        </Responsive>
-        <Responsive only='mobile' asChild>
-          <StyledTextArea
-            {...register('idealType')}
-            placeholder={`ex) 마음이 따뜻한 사람,\n아이스 아메리카노만 마시는 사람`}
-          />
-        </Responsive>
-      </StyledMemberFormItem>
-
       <StyledMemberFormItem title='자유로운 자기소개'>
         <Controller
           name='longIntroduction'

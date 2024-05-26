@@ -62,7 +62,6 @@ export default function MemberUploadPage() {
       allowOfficial,
       mbtiDescription,
       interest,
-      idealType,
       isEmailBlind,
       isPhoneBlind,
     } = formData;
@@ -80,7 +79,6 @@ export default function MemberUploadPage() {
       allowOfficial,
       mbtiDescription,
       interest,
-      idealType,
       activities: activities.map((activity) => {
         const newActivity: SoptActivity = { ...activity, generation: activity.generation.replace(/기/g, '') };
         if (activity.team === UNSELECTED || activity.team === '') {

@@ -92,7 +92,6 @@ export default function MemberEditPage() {
       allowOfficial,
       mbtiDescription,
       interest,
-      idealType,
       isPhoneBlind,
       isEmailBlind,
     } = formData;
@@ -110,7 +109,6 @@ export default function MemberEditPage() {
       allowOfficial,
       mbtiDescription,
       interest,
-      idealType,
       activities: activities.map((activity) => {
         const newActivity: SoptActivity = { ...activity, generation: activity.generation.replace(/기/g, '') };
         if (activity.team === UNSELECTED || activity.team === '') {
@@ -225,7 +223,6 @@ export default function MemberEditPage() {
                   : '밀떡',
             }
           : DEFAULT_FAVOR,
-        idealType: myProfile.idealType,
         longIntroduction: myProfile.selfIntroduction,
       });
     }

@@ -185,7 +185,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
         {(profile.sojuCapacity ||
           profile.mbti ||
-          profile.idealType ||
           profile.interest ||
           profile.selfIntroduction ||
           profile.userFavor?.isSojuLover ||
@@ -212,7 +211,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                   }
                 : null
             }
-            idealType={profile.idealType}
             interest={profile.interest}
             selfIntroduction={profile.selfIntroduction}
           />

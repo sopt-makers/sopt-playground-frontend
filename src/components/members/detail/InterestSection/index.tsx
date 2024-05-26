@@ -57,14 +57,12 @@ interface InterestSectionProps {
   sojuCapacity?: number;
   interest?: string;
   balanceGame: BalanceGame;
-  idealType?: string;
   selfIntroduction?: string;
 }
 const InterestSection: FC<InterestSectionProps> = ({
   mbti,
   sojuCapacity,
   balanceGame,
-  idealType,
   interest,
   selfIntroduction,
 }) => {
@@ -96,11 +94,6 @@ const InterestSection: FC<InterestSectionProps> = ({
               <BalanceGameItem key={index}>{balanceGameResult}</BalanceGameItem>
             ))}
           </BalanceGameWrapper>
-        </InfoItem>
-      )}
-      {idealType && (
-        <InfoItem label='나의 이상형은? 😏'>
-          <Description>{idealType}</Description>
         </InfoItem>
       )}
       {selfIntroduction && (
