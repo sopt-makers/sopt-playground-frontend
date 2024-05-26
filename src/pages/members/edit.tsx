@@ -145,7 +145,6 @@ export default function MemberEditPage() {
 
   useEffect(() => {
     if (myProfile) {
-      console.log('yProfile.skill', myProfile.skill);
       reset({
         name: myProfile.name,
         birthday: myProfile.birthday

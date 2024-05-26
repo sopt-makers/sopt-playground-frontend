@@ -210,7 +210,15 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
               required
               errorMessage={errors.skill?.message}
             >
-              <StyledTextArea {...register('skill')} placeholder='ex) Node, Product Managing, BI/BX' value={skills} />
+              <StyledTextArea
+                {...register('skill')}
+                placeholder='ex) Node, Product Managing, BI/BX'
+                value={skills}
+                onChange={(e) => {
+                  e.target.value === '' ? setError('skill', { message: '스킬을 입력해주세요.' }) : clearErrors('skill');
+                  setValue('skill', e.target.value, { shouldDirty: true });
+                }}
+              />
             </MemberFormItem>
             <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
               <StyledAddableWrapper onAppend={handleAppendLink}>
