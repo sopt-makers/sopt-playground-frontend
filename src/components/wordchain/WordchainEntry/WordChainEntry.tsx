@@ -16,6 +16,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { fonts } from '@sopt-makers/fonts';
+import { Flex } from '@toss/emotion-utils';
 
 interface WordChainEntryProps {
   className?: string;
@@ -40,7 +41,9 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
       {wordList && (
         <>
           <LeftSection>
-            <StyledIconMessageChat />
+            <Responsive only='desktop'>
+              <StyledIconMessageChat />
+            </Responsive>
             <div>
               <TitleWrapper>
                 <SwitchCase
@@ -58,10 +61,13 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                         <MobileResponsive only='mobile'>
                           <GotoWordChainWrapper>
                             <GotoWordChainContents>
-                              <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                              <Flex align='center' style={{ gap: 4 }}>
+                                <StyledIconMessageChat />
+                                <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                              </Flex>
                               <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
                             </GotoWordChainContents>
-                            <IconArrowMobile />
+                            <ArrowIcon />
                           </GotoWordChainWrapper>
                         </MobileResponsive>
                       </>
@@ -77,7 +83,10 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                         <MobileResponsive only='mobile'>
                           <GotoWordChainWrapper>
                             <GotoWordChainContents>
-                              <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                              <Flex align='center' style={{ gap: 4 }}>
+                                <StyledIconMessageChat />
+                                <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                              </Flex>
                               {lastWord != null && (
                                 <GotoWordChainSub>
                                   {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>(으)로 이었어요.
@@ -85,7 +94,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                                 </GotoWordChainSub>
                               )}
                             </GotoWordChainContents>
-                            <IconArrowMobile />
+                            <ArrowIcon />
                           </GotoWordChainWrapper>
                         </MobileResponsive>
                       </>
@@ -151,10 +160,16 @@ const Container = styled(Link)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 0;
     border-radius: 0;
     background-color: ${colors.gray950};
-    padding: 0 20px;
+    padding: 0;
     width: 100%;
+
+    &:hover {
+      background-color: transparent;
+      cursor: default;
+    }
   }
 `;
 
@@ -169,8 +184,8 @@ const TitleWrapper = styled.div`
 
 const StyledIconMessageChat = styled(IconMessageChat)`
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -178,6 +193,10 @@ const LeftSection = styled.div`
   display: flex;
   gap: 12px;
   width: 100%;
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: contents;
+    gap: 0;
+  }
 `;
 
 const StyledTitle = styled(Text)`
@@ -236,16 +255,27 @@ const WordWrapper = styled.div`
 
 const GotoWordChainWrapper = styled.aside`
   display: flex;
+  gap: 16px;
   align-items: center;
   justify-content: space-between;
   border-radius: 12px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.gray900};
   padding: 16px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 14px;
+    padding: 18px 20px;
+
+    &:hover {
+      background-color: ${colors.gray800};
+      cursor: pointer;
+    }
+  }
 `;
 
 const GotoWordChainContents = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 20px;
 `;
 
 const GotoWordChainTitle = styled.h1`
@@ -253,13 +283,14 @@ const GotoWordChainTitle = styled.h1`
 `;
 
 const GotoWordChainSub = styled.div`
-  margin-top: 6px;
-
   ${textStyles.SUIT_14_R};
+
+  width: 163px;
+  white-space: pre-line;
 `;
 
 const LastWord = styled.span`
-  color: ${colors.secondary};
+  color: ${colors.yellow300};
 `;
 
 function ArrowIcon() {
