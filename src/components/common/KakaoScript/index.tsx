@@ -6,7 +6,7 @@ export default function KakaoScript() {
     const initializeKakao = () => {
       if (window.Kakao && !window.Kakao.isInitialized()) {
         window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
-        console.log('Kakao SDK initialized');
+        console.debug('Kakao SDK initialized');
       }
     };
 
