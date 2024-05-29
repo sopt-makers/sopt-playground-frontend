@@ -6,7 +6,8 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { FEEDBACK_FORM_URL, MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
+import { MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
+import useKakao from '@/hooks/useKakao';
 import useScroll from '@/hooks/useScroll';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
@@ -19,6 +20,7 @@ const Footer: FC<FooterProps> = ({}) => {
   const { isScrollingDown, isScrollTop } = useScroll();
   const { logClickEvent } = useEventLogger();
   const { pathname } = useRouter();
+  const { handleKakaoChat } = useKakao();
 
   return (
     <StyledFooter hide={isScrollingDown && !isScrollTop}>
@@ -30,9 +32,9 @@ const Footer: FC<FooterProps> = ({}) => {
       <FooterLink href={MAKERS_TEAM_URL} target='_blank'>
         메이커스 소개
       </FooterLink>
-      <FooterLink href={FEEDBACK_FORM_URL} target='_blank'>
+      <FooterButton type='button' onClick={handleKakaoChat}>
         의견 제안하기
-      </FooterLink>
+      </FooterButton>
     </StyledFooter>
   );
 };
@@ -63,6 +65,19 @@ const StyledFooter = styled.div<{ hide: boolean }>`
 `;
 
 const FooterLink = styled.a<{ highlight?: boolean }>`
+  padding: 17px 10px;
+
+  ${(props) =>
+    props.highlight
+      ? css`
+          color: ${colors.white};
+        `
+      : css`
+          color: ${colors.gray200};
+        `}
+`;
+
+const FooterButton = styled.button<{ highlight?: boolean }>`
   padding: 17px 10px;
 
   ${(props) =>

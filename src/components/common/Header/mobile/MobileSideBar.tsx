@@ -7,7 +7,8 @@ import { FC, ReactNode, useState } from 'react';
 import { DEFAULT_PROFILE_IMAGE_MOBILE_SVG, RIGHT_ARROW_SVG } from '@/components/common/Header/imageData';
 import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 import ResizedImage from '@/components/common/ResizedImage';
-import { FEEDBACK_FORM_URL, MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
+import { MAKERS_TEAM_URL, playgroundLink } from '@/constants/links';
+import useKakao from '@/hooks/useKakao';
 import { textStyles } from '@/styles/typography';
 
 const DialogPortal = dynamic<Dialog.DialogPortalProps>(
@@ -37,6 +38,7 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
   activePathMatcher,
 }) => {
   const [open, setOpen] = useState(false);
+  const { handleKakaoChat } = useKakao();
 
   function close() {
     setOpen(false);
@@ -114,9 +116,7 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
             <a href={MAKERS_TEAM_URL} target='_blank' rel='noreferrer'>
               <NavLinkSmall onClick={close}>메이커스 소개</NavLinkSmall>
             </a>
-            <a href={FEEDBACK_FORM_URL} target='_blank' rel='noreferrer'>
-              <NavLinkSmall onClick={close}>의견 제안하기</NavLinkSmall>
-            </a>
+            <NavLinkSmall onClick={handleKakaoChat}>의견 제안하기</NavLinkSmall>
             <NavLinkSmall
               onClick={() => {
                 onLogout?.();
