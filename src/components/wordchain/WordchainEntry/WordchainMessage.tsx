@@ -6,6 +6,7 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { fonts } from '@sopt-makers/fonts';
 
 type User = {
   id: number;
@@ -60,7 +61,7 @@ export default function WordchainMessage(props: WordchainMessageProps) {
 
 const Container = styled.div`
   display: flex;
-  gap: 14px;
+  gap: 10px;
   align-items: flex-end;
   justify-content: flex-end;
   width: 100%;
@@ -73,9 +74,9 @@ const MessageBox = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
-  border-radius: 20px 20px 0;
+  border-radius: 15.869px 15.869px 0;
   background-color: ${colors.gray700};
-  padding: 16px 20px;
+  padding: 10px 16px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 4px;
@@ -88,7 +89,7 @@ const Word = styled.div`
   line-height: 120%;
   color: ${colors.gray10};
 
-  ${textStyles.SUIT_16_M}
+  ${fonts.BODY_13_M}
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_12_SB};
@@ -112,7 +113,7 @@ const Name = styled.div`
   line-height: 100%;
   color: ${colors.gray300};
 
-  ${textStyles.SUIT_14_SB}
+  ${fonts.BODY_13_M}
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_12_SB};
@@ -121,8 +122,8 @@ const Name = styled.div`
 
 const ProfileImage = styled.img`
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -137,8 +138,8 @@ const EmptyProfileImage = styled.div`
   justify-content: center;
   border-radius: 50%;
   background-color: ${colors.gray700};
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
 
   & > svg {
     width: 20px;

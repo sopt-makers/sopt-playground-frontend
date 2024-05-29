@@ -11,11 +11,11 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
 import { playgroundLink } from '@/constants/links';
 import IconArrowMobile from '@/public/icons/icon-chevron-right.svg';
-import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
-import IconWordchainMessage from '@/public/icons/icon-wordchain-message.svg';
+import IconMessageChat from '@/public/icons/icon-message-chat.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
+import { fonts } from '@sopt-makers/fonts';
 
 interface WordChainEntryProps {
   className?: string;
@@ -40,66 +40,66 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
       {wordList && (
         <>
           <LeftSection>
-            <TitleWrapper>
+            <StyledIconMessageChat />
+            <div>
+              <TitleWrapper>
+                <SwitchCase
+                  value={status}
+                  caseBy={{
+                    start: (
+                      <>
+                        <Responsive only='desktop'>
+                          <StyledTitle>
+                            SOPT 회원들과 끝말잇기 할 사람,
+                            <br />
+                            지금이 바로 명예의 전당에 오를 기회!
+                          </StyledTitle>
+                        </Responsive>
+                        <MobileResponsive only='mobile'>
+                          <GotoWordChainWrapper>
+                            <GotoWordChainContents>
+                              <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                              <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
+                            </GotoWordChainContents>
+                            <IconArrowMobile />
+                          </GotoWordChainWrapper>
+                        </MobileResponsive>
+                      </>
+                    ),
+                    progress: (
+                      <>
+                        <Responsive only='desktop'>
+                          <StyledTitle>
+                            현재 {`'${data?.currentWinner?.name}'`}님이 <br />
+                            끝말잇기를 이기고 있어요!
+                          </StyledTitle>
+                        </Responsive>
+                        <MobileResponsive only='mobile'>
+                          <GotoWordChainWrapper>
+                            <GotoWordChainContents>
+                              <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                              {lastWord != null && (
+                                <GotoWordChainSub>
+                                  {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>(으)로 이었어요.
+                                  끝말을 이어주세요!
+                                </GotoWordChainSub>
+                              )}
+                            </GotoWordChainContents>
+                            <IconArrowMobile />
+                          </GotoWordChainWrapper>
+                        </MobileResponsive>
+                      </>
+                    ),
+                  }}
+                />
+              </TitleWrapper>
               <Responsive only='desktop'>
-                <StyledIconWordchainMessage />
+                <WordchainText>
+                  SOPT 회원들과 끝말잇기 하러 가기
+                  <ArrowIcon />
+                </WordchainText>
               </Responsive>
-              <SwitchCase
-                value={status}
-                caseBy={{
-                  start: (
-                    <>
-                      <Responsive only='desktop'>
-                        <StyledTitle>
-                          SOPT 회원들과 끝말잇기 할 사람,
-                          <br />
-                          지금이 바로 명예의 전당에 오를 기회!
-                        </StyledTitle>
-                      </Responsive>
-                      <MobileResponsive only='mobile'>
-                        <GotoWordChainWrapper>
-                          <GotoWordChainContents>
-                            <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
-                            <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
-                          </GotoWordChainContents>
-                          <IconArrowMobile />
-                        </GotoWordChainWrapper>
-                      </MobileResponsive>
-                    </>
-                  ),
-                  progress: (
-                    <>
-                      <Responsive only='desktop'>
-                        <StyledTitle>
-                          현재 {`'${data?.currentWinner?.name}'`}님이 <br />
-                          끝말잇기를 이기고 있어요!
-                        </StyledTitle>
-                      </Responsive>
-                      <MobileResponsive only='mobile'>
-                        <GotoWordChainWrapper>
-                          <GotoWordChainContents>
-                            <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
-                            {lastWord != null && (
-                              <GotoWordChainSub>
-                                {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>(으)로 이었어요.
-                                끝말을 이어주세요!
-                              </GotoWordChainSub>
-                            )}
-                          </GotoWordChainContents>
-                          <IconArrowMobile />
-                        </GotoWordChainWrapper>
-                      </MobileResponsive>
-                    </>
-                  ),
-                }}
-              />
-            </TitleWrapper>
-            <Responsive only='desktop'>
-              <WordchainText>
-                SOPT 회원들과 끝말잇기 하러 가기
-                <IconArrow />
-              </WordchainText>
-            </Responsive>
+            </div>
           </LeftSection>
           <RightSection>
             <Responsive only='desktop'>
@@ -125,7 +125,7 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 163px;
+  height: 164px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     height: 91.5px;
@@ -135,11 +135,17 @@ const LoadingContainer = styled.div`
 const Container = styled(Link)`
   display: flex;
   justify-content: space-between;
-  border-radius: 16px;
-  background-color: ${colors.gray800};
-  padding: 39px 45px 39px 70px;
+  transition: background-color 0.2s;
+  margin: 20px 0;
+  border-radius: 14px;
+  background-color: ${colors.gray900};
+  padding: 36px;
   width: 100%;
   height: 100%;
+
+  &:hover {
+    background-color: ${colors.gray800};
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
@@ -153,6 +159,7 @@ const Container = styled(Link)`
 `;
 
 const TitleWrapper = styled.div`
+  white-space: nowrap;
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
     gap: 4px;
@@ -160,7 +167,7 @@ const TitleWrapper = styled.div`
   }
 `;
 
-const StyledIconWordchainMessage = styled(IconWordchainMessage)`
+const StyledIconMessageChat = styled(IconMessageChat)`
   @media ${MOBILE_MEDIA_QUERY} {
     width: 40px;
     height: 40px;
@@ -168,13 +175,14 @@ const StyledIconWordchainMessage = styled(IconWordchainMessage)`
 `;
 
 const LeftSection = styled.div`
+  display: flex;
+  gap: 12px;
   width: 100%;
 `;
 
 const StyledTitle = styled(Text)`
   display: block;
-  margin-top: 8px;
-  ${textStyles.SUIT_24_B};
+  ${fonts.HEADING_18_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
@@ -184,10 +192,11 @@ const StyledTitle = styled(Text)`
 
 const WordchainText = styled(Text)`
   display: flex;
-  column-gap: 8px;
+  column-gap: 2px;
   align-items: center;
-  margin-top: 16px;
-  ${textStyles.SUIT_16_SB}
+  margin-top: 20px;
+  white-space: nowrap;
+  ${fonts.LABEL_12_SB}
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
@@ -210,7 +219,6 @@ const RightSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  justify-content: flex-end;
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -223,7 +231,7 @@ const WordWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 `;
 
 const GotoWordChainWrapper = styled.aside`
@@ -253,3 +261,11 @@ const GotoWordChainSub = styled.div`
 const LastWord = styled.span`
   color: ${colors.secondary};
 `;
+
+function ArrowIcon() {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'>
+      <path d='M6 12L10 8L6 4' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' />
+    </svg>
+  );
+}
