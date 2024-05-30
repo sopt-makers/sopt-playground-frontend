@@ -3,9 +3,9 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 
 export const getMembersSearchByName = createEndpoint({
-  request: (cond: string) => ({
+  request: (search: string) => ({
     method: 'GET',
-    url: `api/v1/members/search?cond=${encodeURIComponent(cond)}`,
+    url: `api/v1/members/search?search=${encodeURIComponent(search)}`,
   }),
   serverResponseScheme: z.array(
     z.object({

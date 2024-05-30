@@ -69,7 +69,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [mbti, setMbti] = useState<string | undefined>(undefined);
   const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
 
-  const [cond, setCond] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
   const router = useRouter();
@@ -108,15 +108,15 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, filter, cond, employed, team, mbti, orderBy } = router.query;
+      const { generation, filter, search, employed, team, mbti, orderBy } = router.query;
       if (typeof generation === 'string' || generation === undefined) {
         setGeneration(generation);
       }
       if (typeof filter === 'string' || filter === undefined) {
         setPart(filter);
       }
-      if (typeof cond === 'string') {
-        setCond(cond);
+      if (typeof search === 'string') {
+        setSearch(search);
       }
       if (typeof team === 'string' || team === undefined) {
         setTeam(team);
@@ -158,7 +158,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     logClickEvent('filterOrderBy', { orderBy });
   };
   const handleSearch = (searchQuery: string) => {
-    addQueryParamsToUrl({ cond: searchQuery });
+    addQueryParamsToUrl({ search: searchQuery });
     logSubmitEvent('searchMember', { content: 'searchQuery' });
   };
   const handleClickCard = (profile: Profile) => {
@@ -177,8 +177,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         <Responsive only='mobile' css={{ marginTop: '40px' }}>
           <StyledMemberSearch
             placeholder='이름, 학교, 회사를 검색해보세요!'
-            value={cond}
-            onChange={setCond}
+            value={search}
+            onChange={setSearch}
             onSearch={handleSearch}
           />
           <StyledMobileFilterWrapper>
@@ -352,8 +352,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 </StyledFilterWrapper>
                 <StyledMemberSearch
                   placeholder='이름, 학교, 회사를 검색해보세요!'
-                  value={cond}
-                  onChange={setCond}
+                  value={search}
+                  onChange={setSearch}
                   onSearch={handleSearch}
                 />
               </div>
