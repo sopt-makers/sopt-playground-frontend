@@ -17,13 +17,13 @@ import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/m
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
 import {
+  EMPLOYED_OPTIONS,
   FILTER_DEFAULT_OPTION,
   GENERATION_DEFAULT_OPTION,
   GENERATION_OPTIONS,
   MBTI_OPTIONS,
   ORDER_OPTIONS,
   PART_OPTIONS,
-  SOJU_CAPACITY_OPTIONS,
   TEAM_OPTIONS,
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
@@ -64,12 +64,12 @@ type MessageModalState =
 const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [generation, setGeneration] = useState<string | undefined>(undefined);
   const [part, setPart] = useState<string | undefined>(undefined);
-  const [sojuCapacity, setSojuCapacity] = useState<string | undefined>(undefined);
+  const [employed, setEmployed] = useState<string | undefined>(undefined);
   const [team, setTeam] = useState<string | undefined>(undefined);
   const [mbti, setMbti] = useState<string | undefined>(undefined);
   const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
 
-  const [name, setName] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
   const router = useRouter();
@@ -108,15 +108,15 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, filter, name, sojuCapacity, team, mbti, orderBy } = router.query;
+      const { generation, filter, search, employed, team, mbti, orderBy } = router.query;
       if (typeof generation === 'string' || generation === undefined) {
         setGeneration(generation);
       }
       if (typeof filter === 'string' || filter === undefined) {
         setPart(filter);
       }
-      if (typeof name === 'string') {
-        setName(name);
+      if (typeof search === 'string') {
+        setSearch(search);
       }
       if (typeof team === 'string' || team === undefined) {
         setTeam(team);
@@ -124,8 +124,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       if (typeof mbti === 'string' || mbti === undefined) {
         setMbti(mbti);
       }
-      if (typeof sojuCapacity === 'string' || sojuCapacity === undefined) {
-        setSojuCapacity(sojuCapacity);
+      if (typeof employed === 'string' || employed === undefined) {
+        setEmployed(employed);
       }
       if (typeof orderBy === 'string') {
         setOrderBy(orderBy);
@@ -135,30 +135,30 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   const handleSelectPart = (filter: string) => {
     addQueryParamsToUrl({ filter });
-    logClickEvent('filterPart', { part: filter });
+    logClickEvent('filterPart', { part: filter || 'all' });
   };
-  const handleSelectGeneration = (generation: string | undefined) => {
+  const handleSelectGeneration = (generation: string) => {
     addQueryParamsToUrl({ generation });
-    logClickEvent('filterGeneration', { generation: generation ?? 'all' });
+    logClickEvent('filterGeneration', { generation: generation || 'all' });
   };
   const handleSelectTeam = (team: string) => {
     addQueryParamsToUrl({ team });
-    logClickEvent('filterTeam', { team });
+    logClickEvent('filterTeam', { team: team || 'all' });
   };
   const handleSelectMbti = (mbti: string) => {
     addQueryParamsToUrl({ mbti });
-    logClickEvent('filterMbti', { mbti });
+    logClickEvent('filterMbti', { mbti: mbti || 'all' });
   };
-  const handleSelectSojuCapacity = (sojuCapacity: string) => {
-    addQueryParamsToUrl({ sojuCapacity });
-    logClickEvent('filterSojuCapacity', { sojuCapacity });
+  const handleSelectEmployed = (employed: string) => {
+    addQueryParamsToUrl({ employed });
+    logClickEvent('filterEmployed', { employed: employed || 'all' });
   };
   const handleSelectOrderBy = (orderBy: string) => {
     addQueryParamsToUrl({ orderBy });
     logClickEvent('filterOrderBy', { orderBy });
   };
   const handleSearch = (searchQuery: string) => {
-    addQueryParamsToUrl({ name: searchQuery });
+    addQueryParamsToUrl({ search: searchQuery });
     logSubmitEvent('searchMember', { content: 'searchQuery' });
   };
   const handleClickCard = (profile: Profile) => {
@@ -175,7 +175,12 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       >
         <Responsive only='mobile'>{banner}</Responsive>
         <Responsive only='mobile' css={{ marginTop: '40px' }}>
-          <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+          <StyledMemberSearch
+            placeholder='이름, 학교, 회사를 검색해보세요!'
+            value={search}
+            onChange={setSearch}
+            onSearch={handleSearch}
+          />
           <StyledMobileFilterWrapper>
             <StyledMobileFilter
               value={generation}
@@ -229,13 +234,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             />
             <StyledMobileFilter
-              placeholder='주량'
+              placeholder='재직 상태'
               defaultOption={FILTER_DEFAULT_OPTION}
-              options={SOJU_CAPACITY_OPTIONS}
-              value={sojuCapacity}
-              onChange={handleSelectSojuCapacity}
+              options={EMPLOYED_OPTIONS}
+              value={employed}
+              onChange={handleSelectEmployed}
               trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(sojuCapacity)}>
+                <MobileFilterTrigger selected={Boolean(employed)}>
                   {placeholder}
                   <IconExpand />
                 </MobileFilterTrigger>
@@ -307,19 +312,19 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     placeholder='기수'
                     defaultOption={GENERATION_DEFAULT_OPTION}
                     options={GENERATION_OPTIONS}
-                    value={generation}
+                    value={generation ?? ''}
                     onChange={handleSelectGeneration}
                   />
                   <MemberListFilter
                     placeholder='파트'
-                    value={part}
+                    value={part ?? ''}
                     onChange={handleSelectPart}
                     options={PART_OPTIONS}
                   />
                   <MemberListFilter
                     placeholder='활동'
                     options={TEAM_OPTIONS}
-                    value={team}
+                    value={team ?? ''}
                     onChange={handleSelectTeam}
                     defaultOption={FILTER_DEFAULT_OPTION}
                   >
@@ -334,18 +339,23 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     placeholder='MBTI'
                     defaultOption={FILTER_DEFAULT_OPTION}
                     options={MBTI_OPTIONS}
-                    value={mbti}
+                    value={mbti ?? ''}
                     onChange={handleSelectMbti}
                   />
                   <MemberListFilter
-                    placeholder='주량'
+                    placeholder='재직 상태'
                     defaultOption={FILTER_DEFAULT_OPTION}
-                    options={SOJU_CAPACITY_OPTIONS}
-                    value={sojuCapacity}
-                    onChange={handleSelectSojuCapacity}
+                    options={EMPLOYED_OPTIONS}
+                    value={employed ?? ''}
+                    onChange={handleSelectEmployed}
                   />
                 </StyledFilterWrapper>
-                <StyledMemberSearch placeholder='멤버 검색' value={name} onChange={setName} onSearch={handleSearch} />
+                <StyledMemberSearch
+                  placeholder='이름, 학교, 회사를 검색해보세요!'
+                  value={search}
+                  onChange={setSearch}
+                  onSearch={handleSearch}
+                />
               </div>
               {memberProfileData && (
                 <div
@@ -524,6 +534,7 @@ const StyledMakersLink = styled.div`
 `;
 
 const StyledMemberSearch = styled(MemberSearch)`
+  min-width: 335px;
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
     grid-area: 'search';
     order: 1;

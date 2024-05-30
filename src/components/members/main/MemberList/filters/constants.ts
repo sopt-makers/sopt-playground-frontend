@@ -24,7 +24,7 @@ export const PART_OPTIONS: Option[] = [
     value: '',
   },
   {
-    label: 'PM',
+    label: '기획',
     value: PART_VALUE.PM,
   },
   {
@@ -32,15 +32,15 @@ export const PART_OPTIONS: Option[] = [
     value: PART_VALUE.DESIGN,
   },
   {
-    label: 'WEB',
+    label: '웹',
     value: PART_VALUE.WEB,
   },
   {
-    label: 'SERVER',
+    label: '서버',
     value: PART_VALUE.SERVER,
   },
   {
-    label: 'Android',
+    label: '안드로이드',
     value: PART_VALUE.ANDROID,
   },
   {
@@ -85,7 +85,7 @@ export const MBTI = [
   'ENTJ',
 ] as const;
 
-export const MBTI_OPTIONS: Option<typeof MBTI[number]>[] = [
+export const MBTI_OPTIONS: Option<(typeof MBTI)[number]>[] = [
   { value: 'ISTJ', label: 'ISTJ' },
   { value: 'ISFJ', label: 'ISFJ' },
   { value: 'INFJ', label: 'INFJ' },
@@ -104,31 +104,23 @@ export const MBTI_OPTIONS: Option<typeof MBTI[number]>[] = [
   { value: 'ENTJ', label: 'ENTJ' },
 ];
 
-export const SOJU_CAPACITY_OPTIONS: Option[] = [
-  { value: '0', label: '못마셔요' },
-  { value: '0.5', label: '0.5병' },
-  { value: '1', label: '1병' },
-  { value: '1.5', label: '1.5병' },
-  { value: '2', label: '2병' },
-  { value: '2.5', label: '2.5병' },
-  { value: '3', label: '3병 이상' },
-];
+export const EMPLOYED_OPTIONS: Option[] = [{ value: '1', label: '재직 중이에요' }];
 
 export const ORDER_OPTIONS: Option[] = [
   {
     value: '1',
-    label: '최근에 등록했순',
+    label: '최근등록순',
   },
   {
     value: '2',
-    label: '예전에 등록했순',
+    label: '예전등록순',
   },
   {
     value: '3',
-    label: '최근에 활동했순',
+    label: '최근활동순',
   },
   {
     value: '4',
-    label: '예전에 활동했순',
+    label: '예전활동순',
   },
 ];

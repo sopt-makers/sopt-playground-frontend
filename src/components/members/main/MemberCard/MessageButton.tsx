@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { FC, MouseEvent } from 'react';
 
 import IconMessage from '@/public/icons/icon-message.svg';
@@ -23,9 +24,9 @@ const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => 
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <TooltipContent sideOffset={5}>
-            {name}님께 하고 싶은 말이 있다면,
+            {name}님이 궁금하시다면
             <br />
-            작성해 볼까요?
+            쪽지를 보내보세요!
             <TooltipArrow />
           </TooltipContent>
         </Tooltip.Portal>
@@ -58,19 +59,17 @@ const Button = styled.div`
 `;
 
 const TooltipContent = styled(Tooltip.Content)`
-  border-radius: 4px;
-  box-shadow: hsl(206deg 22% 7% / 35%) 0 10px 38px -10px, hsl(206deg 22% 7% / 20%) 0 10px 20px -15px;
-  background-color: ${colors.gray700};
-  padding: 17px 26px;
+  ${fonts.BODY_14_M};
+
+  border-radius: 14px;
+  background-color: ${colors.gray600};
+  padding: 10px 20px;
   animation-duration: 400ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
-  line-height: 1;
-  font-size: 15px;
+  color: ${colors.gray100};
   will-change: transform, opacity;
   user-select: none;
-
-  ${textStyles.SUIT_12_M}
 
   &[data-state='delayed-open'] {
     &[data-side='top'] {
@@ -108,5 +107,7 @@ const TooltipContent = styled(Tooltip.Content)`
 `;
 
 const TooltipArrow = styled(Tooltip.Arrow)`
-  fill: ${colors.gray700};
+  fill: ${colors.gray600};
+  width: 11px;
+  height: 11px;
 `;
