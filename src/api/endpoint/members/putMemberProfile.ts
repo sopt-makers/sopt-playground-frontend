@@ -37,7 +37,6 @@ export const putMemberProfile = createEndpoint({
       isSojuLover: z.boolean().nullable(),
       isRiceTteokLover: z.boolean().nullable(),
     }),
-    idealType: z.string().nullable(),
     selfIntroduction: z.string().nullable(),
     activities: z.array(
       z.object({

@@ -92,7 +92,6 @@ export default function MemberEditPage() {
       allowOfficial,
       mbtiDescription,
       interest,
-      idealType,
       isPhoneBlind,
       isEmailBlind,
     } = formData;
@@ -110,7 +109,6 @@ export default function MemberEditPage() {
       allowOfficial,
       mbtiDescription,
       interest,
-      idealType,
       activities: activities.map((activity) => {
         const newActivity: SoptActivity = { ...activity, generation: activity.generation.replace(/기/g, '') };
         if (activity.team === UNSELECTED || activity.team === '') {
@@ -225,7 +223,6 @@ export default function MemberEditPage() {
                   : '밀떡',
             }
           : DEFAULT_FAVOR,
-        idealType: myProfile.idealType,
         longIntroduction: myProfile.selfIntroduction,
       });
     }
@@ -238,15 +235,8 @@ export default function MemberEditPage() {
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
           <SoptActivityFormSection />
+          <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
           <TmiFormSection />
-          <Responsive only='desktop'>
-            <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
-          </Responsive>
-          <Responsive only='mobile'>
-            <FormAccordion title='나의 커리어' description='나의 경력, 스킬 등을 작성해 볼 수 있어요.'>
-              <CareerFormSection />
-            </FormAccordion>
-          </Responsive>
         </MemberForm>
       </FormProvider>
     </AuthRequired>

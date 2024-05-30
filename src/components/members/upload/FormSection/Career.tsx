@@ -9,6 +9,7 @@ import Input from '@/components/common/Input';
 import MonthPicker from '@/components/common/MonthPicker';
 import Responsive from '@/components/common/Responsive';
 import Switch from '@/components/common/Switch';
+import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
@@ -29,6 +30,8 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
     register,
     watch,
     setValue,
+    setError,
+    clearErrors,
     trigger,
     formState: { errors },
   } = useFormContext<MemberUploadForm>();
@@ -50,6 +53,7 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
   });
   const careers = useWatch({ control, name: 'careers' });
   const linkCategories = useWatch({ control, name: 'links' });
+  const skills = useWatch({ control, name: 'skill' });
 
   const handleAppendCareer = () => appendCareer(DEFAULT_CAREER);
   const handleRemoveCareer = (index: number) => removeCareer(index);
@@ -104,6 +108,7 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
       <FormItems>
         <div>
           <CareerTitle>커리어</CareerTitle>
+          <CareerDescription>원활한 검색을 위해 한국어로 기입하는 걸 지향해요!</CareerDescription>
           <StyledCareerAddableWrapper onAppend={handleAppendCareer}>
             {careerFields.map((field, index) => (
               <AddableItem
@@ -112,8 +117,11 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
                 key={field.id}
               >
                 <CareerItem>
-                  <Input {...register(`careers.${index}.companyName`)} placeholder='회사 입력' />
-                  <Input {...register(`careers.${index}.title`)} placeholder='직무 입력' />
+                  <Input
+                    {...register(`careers.${index}.companyName`)}
+                    placeholder='회사 입력 ex. 토스, 네이버, 당근, 쿠팡'
+                  />
+                  <Input {...register(`careers.${index}.title`)} placeholder='직무 입력 ex. 프로덕트 디자이너' />
                   <IsCurrent>
                     현재 재직 중
                     <Switch
@@ -145,11 +153,18 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
 
         <Responsive only='desktop' asChild>
           <>
-            <MemberFormItem
-              title='스킬'
-              description='내가 자신있는 스킬에 대해 작성해주세요. 쉼표(,)로 구분해서 적어주세요.'
-            >
-              <StyledInput {...register('skill')} placeholder='ex) Node, Product Managing, Branding, UI' />
+            <MemberFormItem title='스킬' required errorMessage={errors.skill?.message}>
+              <SkillDescription>{`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요.
+              \n쉼표(,)로 구분해서 적어주세요.`}</SkillDescription>
+              <StyledInput
+                {...register('skill')}
+                placeholder='ex) Node, Product Managing, Branding, UI'
+                value={skills}
+                onChange={(e) => {
+                  e.target.value === '' ? setError('skill', { message: '스킬을 입력해주세요.' }) : clearErrors('skill');
+                  setValue('skill', e.target.value, { shouldDirty: true });
+                }}
+              />
             </MemberFormItem>
             <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
               <StyledAddableWrapper onAppend={handleAppendLink}>
@@ -191,9 +206,19 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
           <>
             <MemberFormItem
               title='스킬'
-              description={`내가 자신있는 스킬에 대해 작성해주세요.\n쉼표(,)로 구분해서 적어주세요.`}
+              description={`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요. 쉼표(,)로 구분해서 적어주세요.`}
+              required
+              errorMessage={errors.skill?.message}
             >
-              <StyledTextArea {...register('skill')} placeholder='ex) Node, Product Managing, BI/BX' />
+              <StyledTextArea
+                {...register('skill')}
+                placeholder='ex) Node, Product Managing, BI/BX'
+                value={skills}
+                onChange={(e) => {
+                  e.target.value === '' ? setError('skill', { message: '스킬을 입력해주세요.' }) : clearErrors('skill');
+                  setValue('skill', e.target.value, { shouldDirty: true });
+                }}
+              />
             </MemberFormItem>
             <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
               <StyledAddableWrapper onAppend={handleAppendLink}>
@@ -280,13 +305,33 @@ const CareerItem = styled.div`
 
 const CareerTitle = styled.div`
   grid-column: 1 / span 2;
-  margin-bottom: 18px;
-
   ${textStyles.SUIT_18_SB}
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 14px;
   }
+`;
+
+const CareerDescription = styled(Text)`
+  display: block;
+  margin-top: 10px;
+  color: ${colors.gray400};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    line-height: 150%;
+    white-space: pre-line;
+
+    ${textStyles.SUIT_13_M}
+  }
+`;
+
+const SkillDescription = styled(Text)`
+  display: block;
+  margin-top: 10px;
+  line-height: 11px;
+  white-space: pre-line;
+  color: ${colors.gray400};
 `;
 
 const EndDateWrapper = styled.div`
@@ -376,6 +421,7 @@ const StyledCareerAddableWrapper = styled(AddableWrapper)`
   display: flex;
   flex-direction: column;
   gap: 36px;
+  margin-top: 18px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 20px;

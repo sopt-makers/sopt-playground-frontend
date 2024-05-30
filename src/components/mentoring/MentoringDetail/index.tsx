@@ -112,12 +112,13 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
                 </Link>
               </Career.Header>
               <Career.InfoItemWrapper>
-                <CareerItems
+                {/* NOTE: 현재 사용되지 않는 기능에서 타입 에러가 나서 주석처리 합니다. */}
+                {/* <CareerItems
                   careers={mentorProfile?.careers ?? []}
                   links={mentorProfile?.links ?? []}
                   skill={mentorProfile?.skill ?? ''}
                   shouldNeedOnlyItems
-                />
+                /> */}
               </Career.InfoItemWrapper>
             </Career.Section>
           )}

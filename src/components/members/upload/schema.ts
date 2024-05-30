@@ -76,6 +76,7 @@ export const memberFormSchema = yup.object().shape({
     )
     .nullable(),
   allowOfficial: yup.boolean().nullable(),
+  skill: yup.string().required('스킬을 입력해주세요.'),
   careers: yup
     .array()
     .of(

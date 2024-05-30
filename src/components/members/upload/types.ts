@@ -30,7 +30,6 @@ export interface MemberUploadForm {
   };
   sojuCapacity: typeof SOJU_CAPACITY_RANGE[number];
   interest: string;
-  idealType: string;
   longIntroduction: string;
   isPhoneBlind: boolean;
   isEmailBlind: boolean;

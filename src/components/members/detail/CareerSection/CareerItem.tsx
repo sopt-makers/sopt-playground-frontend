@@ -6,15 +6,21 @@ import { FC } from 'react';
 import { Career } from '@/components/members/detail/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { Flex } from '@toss/emotion-utils';
+import { fonts } from '@sopt-makers/fonts';
 
 type CareerItemProps = {
   career: Career;
+  isCurrent: boolean;
 };
 
-const CareerItem: FC<CareerItemProps> = ({ career }) => {
+const CareerItem: FC<CareerItemProps> = ({ career, isCurrent }) => {
   return (
     <div>
-      <CompanyName>{career.companyName}</CompanyName>
+      <Flex align='center' style={{ gap: 10, marginBottom: 10 }}>
+        <CompanyName>{career.companyName}</CompanyName>
+        {isCurrent && <NowBadge>NOW</NowBadge>}
+      </Flex>
       <SubContent>
         <div className='job-position'>{career.title}</div>
         <Divider />
@@ -25,6 +31,8 @@ const CareerItem: FC<CareerItemProps> = ({ career }) => {
     </div>
   );
 };
+
+export default CareerItem;
 
 const SubContent = styled.div`
   display: flex;
@@ -56,7 +64,6 @@ const Divider = styled.div`
 `;
 
 const CompanyName = styled.div`
-  margin-bottom: 10px;
   line-height: 18px;
   color: ${colors.gray10};
 
@@ -69,4 +76,13 @@ const CompanyName = styled.div`
   }
 `;
 
-export default CareerItem;
+const NowBadge = styled.div`
+  border-radius: 5px;
+  background: ${colors.orangeAlpha200};
+  padding: 2px 5px;
+  line-height: 16px;
+  letter-spacing: -0.24px;
+  color: ${colors.secondary};
+
+  ${fonts.LABEL_12_SB}
+`;
