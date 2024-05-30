@@ -312,19 +312,19 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     placeholder='기수'
                     defaultOption={GENERATION_DEFAULT_OPTION}
                     options={GENERATION_OPTIONS}
-                    value={generation}
+                    value={generation ?? ''}
                     onChange={handleSelectGeneration}
                   />
                   <MemberListFilter
                     placeholder='파트'
-                    value={part}
+                    value={part ?? ''}
                     onChange={handleSelectPart}
                     options={PART_OPTIONS}
                   />
                   <MemberListFilter
                     placeholder='활동'
                     options={TEAM_OPTIONS}
-                    value={team}
+                    value={team ?? ''}
                     onChange={handleSelectTeam}
                     defaultOption={FILTER_DEFAULT_OPTION}
                   >
@@ -339,14 +339,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     placeholder='MBTI'
                     defaultOption={FILTER_DEFAULT_OPTION}
                     options={MBTI_OPTIONS}
-                    value={mbti}
+                    value={mbti ?? ''}
                     onChange={handleSelectMbti}
                   />
                   <MemberListFilter
                     placeholder='재직 상태'
                     defaultOption={FILTER_DEFAULT_OPTION}
                     options={EMPLOYED_OPTIONS}
-                    value={employed}
+                    value={employed ?? ''}
                     onChange={handleSelectEmployed}
                   />
                 </StyledFilterWrapper>
