@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryParamProvider } from 'use-query-params';
 
+import KakaoScript from '@/components/common/KakaoScript';
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
 import SlidUpProvider from '@/components/common/SlideUp/providers/SlideUpProvider';
 import ToastProvider from '@/components/common/Toast/providers/ToastProvider';
@@ -117,6 +118,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           images: [{ url: `${ORIGIN}/icons/img/og_playground.jpeg` }],
         }}
       />
+      <KakaoScript />
       <Head>
         <meta name='theme-color' media='(prefers-color-scheme: dark)' content={colors.gray400} />
       </Head>
