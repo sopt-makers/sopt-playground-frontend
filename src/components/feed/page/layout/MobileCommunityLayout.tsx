@@ -5,6 +5,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 
 import MenuEntryIcons from '@/components/feed/list/MenuEntryIcons/MenuEntryIcons';
 import { zIndex } from '@/styles/zIndex';
+import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
 
 interface MobileCommunityLayoutProps {
   isDetailOpen: boolean;
@@ -16,6 +17,9 @@ const MobileCommunityLayout: FC<MobileCommunityLayoutProps> = ({ listSlot, detai
   return (
     <Container>
       <StyledMenuEntryIcons />
+      <WordChainWrapper>
+        <WordChainEntry />
+      </WordChainWrapper>
       <ListSlotBox>{listSlot}</ListSlotBox>
       {isDetailOpen && (
         <Overlay>
@@ -30,12 +34,18 @@ const MobileCommunityLayout: FC<MobileCommunityLayoutProps> = ({ listSlot, detai
 
 export default MobileCommunityLayout;
 
+const WordChainWrapper = styled.div`
+  margin: 0 auto;
+  min-width: 0;
+  max-width: 560px;
+`;
+
 const Container = styled.div`
   position: relative;
 `;
 
 const StyledMenuEntryIcons = styled(MenuEntryIcons)`
-  margin: 36px 0 32px;
+  margin: 36px 0 24px;
 `;
 
 const ListSlotBox = styled.div`

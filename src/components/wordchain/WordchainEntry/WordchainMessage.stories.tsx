@@ -21,10 +21,6 @@ export const Default: StoryObj = {
   ),
 };
 
-export const Helper: StoryObj = {
-  render: () => <WordchainMessage type='helper' word="'과'로 시작하는 단어는?" />,
-};
-
 export const StartWord: StoryObj = {
   render: () => <WordchainMessage type='startWord' word='토스' />,
 };

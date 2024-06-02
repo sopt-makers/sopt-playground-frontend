@@ -10,12 +10,13 @@ import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
 import { playgroundLink } from '@/constants/links';
-import IconArrowMobile from '@/public/icons/icon-chevron-right.svg';
-import IconArrow from '@/public/icons/icon-wordchain-arrow.svg';
-import IconWordchainMessage from '@/public/icons/icon-wordchain-message.svg';
+import IconMessageChat from '@/public/icons/icon-message-chat.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
+import { fonts } from '@sopt-makers/fonts';
+import { Flex } from '@toss/emotion-utils';
+import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
 
 interface WordChainEntryProps {
   className?: string;
@@ -23,12 +24,15 @@ interface WordChainEntryProps {
 
 const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { data, isLoading } = useGetEntryWordchain();
+  const { data: wordchainWinnersData } = useWordchainWinnersQuery({ limit: 1 });
   const { logClickEvent } = useEventLogger();
 
   const wordList = data?.wordList;
   const lastWord = data?.wordList[data?.wordList.length - 1]?.word;
+  const lastUser = data?.wordList[data?.wordList.length - 1]?.user;
   const isGameStart = wordList?.length === 0 && data?.currentWinner === null;
   const status = isGameStart ? 'start' : 'progress';
+  const lastWinner = wordchainWinnersData?.pages[0].winners[0];
 
   return (
     <Container className={className} href={playgroundLink.wordchain()} onClick={() => logClickEvent('wordchainEntry')}>
@@ -40,76 +44,98 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
       {wordList && (
         <>
           <LeftSection>
-            <TitleWrapper>
-              <Responsive only='desktop'>
-                <StyledIconWordchainMessage />
-              </Responsive>
-              <SwitchCase
-                value={status}
-                caseBy={{
-                  start: (
-                    <>
-                      <Responsive only='desktop'>
-                        <StyledTitle>
-                          SOPT 회원들과 끝말잇기 할 사람,
-                          <br />
-                          지금이 바로 명예의 전당에 오를 기회!
-                        </StyledTitle>
-                      </Responsive>
-                      <MobileResponsive only='mobile'>
-                        <GotoWordChainWrapper>
-                          <GotoWordChainContents>
-                            <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
-                            <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
-                          </GotoWordChainContents>
-                          <IconArrowMobile />
-                        </GotoWordChainWrapper>
-                      </MobileResponsive>
-                    </>
-                  ),
-                  progress: (
-                    <>
-                      <Responsive only='desktop'>
-                        <StyledTitle>
-                          현재 {`'${data?.currentWinner?.name}'`}님이 <br />
-                          끝말잇기를 이기고 있어요!
-                        </StyledTitle>
-                      </Responsive>
-                      <MobileResponsive only='mobile'>
-                        <GotoWordChainWrapper>
-                          <GotoWordChainContents>
-                            <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
-                            {lastWord != null && (
-                              <GotoWordChainSub>
-                                {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>(으)로 이었어요.
-                                끝말을 이어주세요!
-                              </GotoWordChainSub>
-                            )}
-                          </GotoWordChainContents>
-                          <IconArrowMobile />
-                        </GotoWordChainWrapper>
-                      </MobileResponsive>
-                    </>
-                  ),
-                }}
-              />
-            </TitleWrapper>
             <Responsive only='desktop'>
-              <WordchainText>
-                SOPT 회원들과 끝말잇기 하러 가기
-                <IconArrow />
-              </WordchainText>
+              <StyledIconMessageChat />
             </Responsive>
+            <div>
+              <TitleWrapper>
+                <SwitchCase
+                  value={status}
+                  caseBy={{
+                    start: (
+                      <>
+                        <Responsive only='desktop'>
+                          {lastWinner ? (
+                            <StyledTitle>
+                              {lastWinner?.roomId}번째 우승자는
+                              <br />
+                              <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
+                            </StyledTitle>
+                          ) : (
+                            <StyledTitle>
+                              SOPT 회원들과 끝말잇기 할 사람,
+                              <br />
+                              지금이 바로 명예의 전당에 오를 기회!
+                            </StyledTitle>
+                          )}
+                        </Responsive>
+                        <MobileResponsive only='mobile'>
+                          <GotoWordChainWrapper>
+                            <GotoWordChainContents>
+                              <Flex align='center' style={{ gap: 4 }}>
+                                <StyledIconMessageChat />
+                                <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                              </Flex>
+                              {lastWinner ? (
+                                <GotoWordChainSub>
+                                  이번 우승자는 <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
+                                  <br />'{data.nextSyllable}'(으)로 시작하는 단어는?
+                                </GotoWordChainSub>
+                              ) : (
+                                <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
+                              )}
+                            </GotoWordChainContents>
+                            <ArrowIcon width={20} height={20} />
+                          </GotoWordChainWrapper>
+                        </MobileResponsive>
+                      </>
+                    ),
+                    progress: (
+                      <>
+                        <Responsive only='desktop'>
+                          <StyledTitle>
+                            현재 {`'${data?.currentWinner?.name}'`}님이 <br />
+                            끝말잇기를 이기고 있어요!
+                          </StyledTitle>
+                        </Responsive>
+                        <MobileResponsive only='mobile'>
+                          <GotoWordChainWrapper>
+                            <GotoWordChainContents>
+                              <Flex align='center' style={{ gap: 4 }}>
+                                <StyledIconMessageChat />
+                                <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
+                              </Flex>
+                              {lastWord != null && (
+                                <GotoWordChainSub>
+                                  {`${data?.currentWinner?.name}`}님이 <LastWord>{data.nextSyllable}</LastWord>(으)로
+                                  끝냈어요.
+                                  <br />
+                                  끝말을 이어주세요!
+                                </GotoWordChainSub>
+                              )}
+                            </GotoWordChainContents>
+                            <ArrowIcon width={20} height={20} />
+                          </GotoWordChainWrapper>
+                        </MobileResponsive>
+                      </>
+                    ),
+                  }}
+                />
+              </TitleWrapper>
+              <Responsive only='desktop'>
+                <WordchainText>
+                  {(lastWinner?.roomId ?? 0) + 1}번째 끝말잇기 우승자 도전하러 가기
+                  <ArrowIcon />
+                </WordchainText>
+              </Responsive>
+            </div>
           </LeftSection>
-          <RightSection>
+          <RightSection isStart={status === 'start'}>
             <Responsive only='desktop'>
               <WordWrapper>
-                {status === 'start' && <WordchainMessage type='startWord' word={data.startWord} />}
-                {wordList.map(({ word, user }, index) => (
-                  <WordchainMessage key={index} type='word' word={word} user={user} />
-                ))}
+                {status === 'start' && <WordchainMessage type='startWord' word={data.nextSyllable} />}
+                {lastUser && <WordchainMessage type='word' word={data.nextSyllable} user={lastUser} />}
               </WordWrapper>
-              <WordchainMessage type='helper' word={`'${data.nextSyllable}'(으)로 시작하는 단어는?`} />
             </Responsive>
           </RightSection>
         </>
@@ -125,7 +151,7 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 163px;
+  height: 164px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     height: 91.5px;
@@ -135,24 +161,37 @@ const LoadingContainer = styled.div`
 const Container = styled(Link)`
   display: flex;
   justify-content: space-between;
-  border-radius: 16px;
-  background-color: ${colors.gray800};
-  padding: 39px 45px 39px 70px;
+  transition: background-color 0.2s;
+  margin: 20px 0;
+  border-radius: 14px;
+  background-color: ${colors.gray900};
+  padding: 36px;
   width: 100%;
   height: 100%;
+
+  &:hover {
+    background-color: ${colors.gray800};
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 0;
     border-radius: 0;
     background-color: ${colors.gray950};
-    padding: 0 20px;
+    padding: 0;
     width: 100%;
+
+    &:hover {
+      background-color: transparent;
+      cursor: default;
+    }
   }
 `;
 
 const TitleWrapper = styled.div`
+  white-space: nowrap;
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
     gap: 4px;
@@ -160,21 +199,26 @@ const TitleWrapper = styled.div`
   }
 `;
 
-const StyledIconWordchainMessage = styled(IconWordchainMessage)`
+const StyledIconMessageChat = styled(IconMessageChat)`
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
   }
 `;
 
 const LeftSection = styled.div`
+  display: flex;
+  gap: 12px;
   width: 100%;
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: contents;
+    gap: 0;
+  }
 `;
 
 const StyledTitle = styled(Text)`
   display: block;
-  margin-top: 8px;
-  ${textStyles.SUIT_24_B};
+  ${fonts.HEADING_18_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0;
@@ -184,10 +228,11 @@ const StyledTitle = styled(Text)`
 
 const WordchainText = styled(Text)`
   display: flex;
-  column-gap: 8px;
+  column-gap: 2px;
   align-items: center;
-  margin-top: 16px;
-  ${textStyles.SUIT_16_SB}
+  margin-top: 20px;
+  white-space: nowrap;
+  ${fonts.LABEL_12_SB}
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
@@ -206,11 +251,11 @@ const MobileResponsive = styled(Responsive)`
   width: 100%;
 `;
 
-const RightSection = styled.div`
+const RightSection = styled.div<{ isStart: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  justify-content: flex-end;
+  justify-content: ${({ isStart }) => (isStart ? 'flex-start' : 'flex-end')};
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -222,22 +267,39 @@ const RightSection = styled.div`
 const WordWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 18px;
+  margin-bottom: 12px;
 `;
 
 const GotoWordChainWrapper = styled.aside`
   display: flex;
+  gap: 16px;
   align-items: center;
   justify-content: space-between;
   border-radius: 12px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.gray900};
   padding: 16px;
+  width: 335px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 8px;
+    border-radius: 14px;
+    padding: 18px 17px;
+
+    &:hover {
+      background-color: ${colors.gray800};
+      cursor: pointer;
+    }
+  }
 `;
 
 const GotoWordChainContents = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 16px;
+  }
 `;
 
 const GotoWordChainTitle = styled.h1`
@@ -245,11 +307,20 @@ const GotoWordChainTitle = styled.h1`
 `;
 
 const GotoWordChainSub = styled.div`
-  margin-top: 6px;
-
   ${textStyles.SUIT_14_R};
+
+  width: 179px;
+  white-space: pre-line;
 `;
 
 const LastWord = styled.span`
-  color: ${colors.secondary};
+  color: ${colors.yellow300};
 `;
+
+function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width={16} height={16} viewBox='0 0 16 16 ' fill='none' {...props}>
+      <path d='M6 12L10 8L6 4' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' />
+    </svg>
+  );
+}
