@@ -18061,6 +18061,7 @@ __metadata:
     "@amplitude/analytics-browser": ^1.10.4
     "@babel/core": ^7.22.5
     "@badrap/bar-of-progress": ^0.2.2
+    "@changesets/cli": ^2.27.5
     "@cloudflare/workers-types": ^3.18.0
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
