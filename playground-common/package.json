@@ -15,6 +15,7 @@
     "version": "yarn version"
   },
   "dependencies": {
+    "@changesets/cli": "^2.27.5",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@radix-ui/react-dialog": "1.0.2",
