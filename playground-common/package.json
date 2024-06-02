@@ -1,6 +1,6 @@
 {
   "name": "@sopt-makers/playground-common",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -12,10 +12,10 @@
   "sideEffects": false,
   "scripts": {
     "clean": "rm -rf dist",
-    "version": "yarn version"
+    "version": "yarn version",
+    "changeset": "changeset"
   },
   "dependencies": {
-    "@changesets/cli": "^2.27.5",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@radix-ui/react-dialog": "1.0.2",
@@ -31,5 +31,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sopt-makers/sopt-playground-frontend.git"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.5"
   }
 }
