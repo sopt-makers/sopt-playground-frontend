@@ -1,23 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function useKakao() {
-  const [isKakaoInitialized, setIsKakaoInitialized] = useState(false);
-
   useEffect(() => {
     if (window.Kakao && window.Kakao.isInitialized()) {
-      setIsKakaoInitialized(true);
     } else {
       const checkKakao = setInterval(() => {
         if (window.Kakao && window.Kakao.isInitialized()) {
-          setIsKakaoInitialized(true);
           clearInterval(checkKakao);
+          handleInitializeKakao();
         }
       }, 100);
     }
   }, []);
 
+  const handleInitializeKakao = () => {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
+      alert('Kakao SDK initialized');
+    }
+  };
+
   const handleKakaoChat = () => {
-    if (window.Kakao && isKakaoInitialized) {
+    if (window.Kakao && window.Kakao.isInitialized()) {
       window.Kakao.Channel.chat({
         channelPublicId: '_sxaIWG',
       });
@@ -26,5 +30,5 @@ export default function useKakao() {
     }
   };
 
-  return { handleKakaoChat };
+  return { handleKakaoChat, handleInitializeKakao };
 }
