@@ -73,7 +73,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                                 <br />'{data.nextSyllable}'(으)로 시작하는 단어는?
                               </GotoWordChainSub>
                             </GotoWordChainContents>
-                            <ArrowIcon />
+                            <ArrowIcon width={20} height={20} />
                           </GotoWordChainWrapper>
                         </MobileResponsive>
                       </>
@@ -96,11 +96,13 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                               {lastWord != null && (
                                 <GotoWordChainSub>
                                   {`${data?.currentWinner?.name}`}님이 <LastWord>{data.nextSyllable}</LastWord>(으)로
-                                  끝냈어요. 끝말을 이어주세요!
+                                  끝냈어요.
+                                  <br />
+                                  끝말을 이어주세요!
                                 </GotoWordChainSub>
                               )}
                             </GotoWordChainContents>
-                            <ArrowIcon />
+                            <ArrowIcon width={20} height={20} />
                           </GotoWordChainWrapper>
                         </MobileResponsive>
                       </>
@@ -295,7 +297,7 @@ const GotoWordChainTitle = styled.h1`
 const GotoWordChainSub = styled.div`
   ${textStyles.SUIT_14_R};
 
-  width: 179px;
+  max-width: 179px;
   white-space: pre-line;
 `;
 
@@ -303,9 +305,9 @@ const LastWord = styled.span`
   color: ${colors.yellow300};
 `;
 
-function ArrowIcon() {
+function ArrowIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'>
+    <svg xmlns='http://www.w3.org/2000/svg' width={16} height={16} viewBox='0 0 16 16 ' fill='none' {...props}>
       <path d='M6 12L10 8L6 4' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' />
     </svg>
   );
