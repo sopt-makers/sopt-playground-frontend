@@ -1,30 +1,34 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function useKakao() {
-  const [isKakaoInitialized, setIsKakaoInitialized] = useState(false);
-
   useEffect(() => {
     if (window.Kakao && window.Kakao.isInitialized()) {
-      setIsKakaoInitialized(true);
     } else {
       const checkKakao = setInterval(() => {
         if (window.Kakao && window.Kakao.isInitialized()) {
-          setIsKakaoInitialized(true);
           clearInterval(checkKakao);
+          handleInitializeKakao();
         }
       }, 100);
     }
   }, []);
 
+  const handleInitializeKakao = () => {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
+      console.debug('Kakao SDK initialized');
+    }
+  };
+
   const handleKakaoChat = () => {
-    if (window.Kakao && isKakaoInitialized) {
+    if (window.Kakao && window.Kakao.isInitialized()) {
       window.Kakao.Channel.chat({
         channelPublicId: '_sxaIWG',
       });
     } else {
-      console.error('Kakao SDK is not initialized');
+      console.debug('Kakao SDK is not initialized');
     }
   };
 
-  return { handleKakaoChat };
+  return { handleKakaoChat, handleInitializeKakao };
 }
