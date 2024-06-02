@@ -59,7 +59,7 @@ jobs:
 
       - name: Publish to npm
         if: steps.changesets.outputs.hasChangesets == 'true'
-        run: yarn publish-packages
+        run: yarn publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
