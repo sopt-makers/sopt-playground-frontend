@@ -13,6 +13,7 @@ import MessageSection from '@/components/members/detail/MessageSection';
 import { textStyles } from '@/styles/typography';
 import { playgroundLink } from 'playground-common/export';
 import { useRouter } from 'next/router';
+import { fonts } from '@sopt-makers/fonts';
 
 interface CareerSectionProps {
   careers: Career[];
@@ -65,9 +66,10 @@ export default function CareerSection({
             content={
               <LinkItems>
                 {links.map((item, idx) => (
-                  <Link href={item.url} key={idx} target='_blank'>
+                  <StyledLink href={item.url} key={idx} target='_blank'>
                     <LinkIcon src={getLinkIcon(item.title)} alt={item.title} />
-                  </Link>
+                    <LinkTitle>{item.title}</LinkTitle>
+                  </StyledLink>
                 ))}
               </LinkItems>
             }
@@ -85,6 +87,25 @@ export default function CareerSection({
     </Container>
   );
 }
+
+const StyledLink = styled(Link)`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${colors.gray700};
+  border-radius: 9999px;
+  background: ${colors.gray800};
+  padding: 9px 14px;
+  height: 42px;
+`;
+
+const LinkTitle = styled.span`
+  line-height: 18px; /* 128.571% */
+  letter-spacing: -0.28px;
+  color: ${colors.gray300};
+  ${fonts.LABEL_14_SB}
+`;
 
 const getLinkIcon = (linkTitle: string) => {
   switch (linkTitle) {
@@ -111,27 +132,21 @@ const StyledMemberDetailSection = styled(MemberDetailSection)`
 const LinkItems = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
 
   & > a {
     display: flex;
-    gap: 10px;
     align-items: center;
     cursor: pointer;
-    @media ${MOBILE_MEDIA_QUERY} {
-      gap: 6px;
-
-      span {
-        box-sizing: border-box;
-        border-bottom: 1.5px solid #3c3d40;
-        padding: 5px 0;
-      }
-    }
   }
 
   svg {
     width: 26px;
     height: auto;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 6px;
   }
 `;
 
@@ -176,8 +191,9 @@ const CareerWrapper = styled.div`
 `;
 
 const LinkIcon = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 14px;
+  height: 14px;
+  color: ${colors.gray300};
 `;
 
 const MoveButton = styled.div`
