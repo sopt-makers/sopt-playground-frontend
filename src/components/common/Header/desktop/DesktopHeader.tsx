@@ -1,13 +1,13 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
-import { FC } from 'react';
+import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
 
+import { FC } from 'react';
 import ProfileButton from '@/components/common/Header/desktop/ProfileButton';
 import ProfileDropdown from '@/components/common/Header/desktop/ProfileDropdown';
 import { SOPT_MAKRES_LOGO_SVG } from '@/components/common/Header/imageData';
-import { LinkRenderer, PathMatcher } from '@/components/common/Header/types';
+import { colors } from '@sopt-makers/colors';
+import { css } from '@emotion/react';
 import { playgroundLink } from '@/constants/links';
+import styled from '@emotion/styled';
 import { textStyles } from '@/styles/typography';
 
 interface DesktopHeaderProps {
@@ -45,10 +45,6 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
           children: <NavItem isActive={activePathMatcher(playgroundLink.groupList())}>모임</NavItem>,
         })}
         <NavItem isActive={false}>|</NavItem>
-        {renderLink({
-          href: playgroundLink.wordchain(),
-          children: <NavItem isActive={activePathMatcher(playgroundLink.wordchain())}>끝말잇기</NavItem>,
-        })}
         {renderLink({
           href: playgroundLink.sopticle(),
           children: <NavItem isActive={activePathMatcher(playgroundLink.sopticle())}>솝티클 업로드</NavItem>,
