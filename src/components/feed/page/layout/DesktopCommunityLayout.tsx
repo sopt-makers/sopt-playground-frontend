@@ -16,7 +16,7 @@ const DETAIL_SLOT_WIDTH = 560;
 
 const DesktopCommunityLayout: FC<DesktopCommunityLayoutProps> = ({ isDetailOpen, listSlot, detailSlot }) => {
   return (
-    <>
+    <div style={{ margin: '0 30px' }}>
       <WordChainWrapper>
         <WordChainEntry />
       </WordChainWrapper>
@@ -32,7 +32,7 @@ const DesktopCommunityLayout: FC<DesktopCommunityLayoutProps> = ({ isDetailOpen,
           </DetailSlotSticky>
         </DetailSlot>
       </Container>
-    </>
+    </div>
   );
 };
 
@@ -41,7 +41,7 @@ export default DesktopCommunityLayout;
 const WordChainWrapper = styled.div`
   margin: 0 auto;
   min-width: 0;
-  max-width: 560px;
+  max-width: 912px;
 `;
 
 const Container = styled.div`

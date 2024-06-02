@@ -10,13 +10,13 @@ import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
 import { playgroundLink } from '@/constants/links';
-import IconArrowMobile from '@/public/icons/icon-chevron-right.svg';
 import IconMessageChat from '@/public/icons/icon-message-chat.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { fonts } from '@sopt-makers/fonts';
 import { Flex } from '@toss/emotion-utils';
+import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
 
 interface WordChainEntryProps {
   className?: string;
@@ -24,12 +24,15 @@ interface WordChainEntryProps {
 
 const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
   const { data, isLoading } = useGetEntryWordchain();
+  const { data: wordchainWinnersData } = useWordchainWinnersQuery({ limit: 1 });
   const { logClickEvent } = useEventLogger();
 
   const wordList = data?.wordList;
   const lastWord = data?.wordList[data?.wordList.length - 1]?.word;
+  const lastUser = data?.wordList[data?.wordList.length - 1]?.user;
   const isGameStart = wordList?.length === 0 && data?.currentWinner === null;
   const status = isGameStart ? 'start' : 'progress';
+  const lastWinner = wordchainWinnersData?.pages[0].winners[0];
 
   return (
     <Container className={className} href={playgroundLink.wordchain()} onClick={() => logClickEvent('wordchainEntry')}>
@@ -53,9 +56,9 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                       <>
                         <Responsive only='desktop'>
                           <StyledTitle>
-                            SOPT 회원들과 끝말잇기 할 사람,
+                            {lastWinner?.roomId}번째 우승자는
                             <br />
-                            지금이 바로 명예의 전당에 오를 기회!
+                            <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
                           </StyledTitle>
                         </Responsive>
                         <MobileResponsive only='mobile'>
@@ -65,7 +68,10 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                                 <StyledIconMessageChat />
                                 <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
                               </Flex>
-                              <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
+                              <GotoWordChainSub>
+                                이번 우승자는 <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
+                                <br />'{data.nextSyllable}'(으)로 시작하는 단어는?
+                              </GotoWordChainSub>
                             </GotoWordChainContents>
                             <ArrowIcon />
                           </GotoWordChainWrapper>
@@ -89,8 +95,8 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                               </Flex>
                               {lastWord != null && (
                                 <GotoWordChainSub>
-                                  {`${data?.currentWinner?.name}`}님이 <LastWord>{lastWord}</LastWord>(으)로 이었어요.
-                                  끝말을 이어주세요!
+                                  {`${data?.currentWinner?.name}`}님이 <LastWord>{data.nextSyllable}</LastWord>(으)로
+                                  끝냈어요. 끝말을 이어주세요!
                                 </GotoWordChainSub>
                               )}
                             </GotoWordChainContents>
@@ -104,21 +110,18 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
               </TitleWrapper>
               <Responsive only='desktop'>
                 <WordchainText>
-                  SOPT 회원들과 끝말잇기 하러 가기
+                  {(lastWinner?.roomId ?? 0) + 1}번째 끝말잇기 우승자 도전하러 가기
                   <ArrowIcon />
                 </WordchainText>
               </Responsive>
             </div>
           </LeftSection>
-          <RightSection>
+          <RightSection isStart={status === 'start'}>
             <Responsive only='desktop'>
               <WordWrapper>
-                {status === 'start' && <WordchainMessage type='startWord' word={data.startWord} />}
-                {wordList.map(({ word, user }, index) => (
-                  <WordchainMessage key={index} type='word' word={word} user={user} />
-                ))}
+                {status === 'start' && <WordchainMessage type='startWord' word={data.nextSyllable} />}
+                {lastUser && <WordchainMessage type='word' word={data.nextSyllable} user={lastUser} />}
               </WordWrapper>
-              <WordchainMessage type='helper' word={`'${data.nextSyllable}'(으)로 시작하는 단어는?`} />
             </Responsive>
           </RightSection>
         </>
@@ -234,10 +237,11 @@ const MobileResponsive = styled(Responsive)`
   width: 100%;
 `;
 
-const RightSection = styled.div`
+const RightSection = styled.div<{ isStart: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  justify-content: ${({ isStart }) => (isStart ? 'flex-start' : 'flex-end')};
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -249,7 +253,7 @@ const RightSection = styled.div`
 const WordWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 18px;
   margin-bottom: 12px;
 `;
 
@@ -261,8 +265,10 @@ const GotoWordChainWrapper = styled.aside`
   border-radius: 12px;
   background-color: ${colors.gray900};
   padding: 16px;
+  width: 335px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    gap: 8px;
     border-radius: 14px;
     padding: 18px 20px;
 
@@ -276,6 +282,10 @@ const GotoWordChainWrapper = styled.aside`
 const GotoWordChainContents = styled.div`
   display: flex;
   gap: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 16px;
+  }
 `;
 
 const GotoWordChainTitle = styled.h1`
@@ -285,7 +295,7 @@ const GotoWordChainTitle = styled.h1`
 const GotoWordChainSub = styled.div`
   ${textStyles.SUIT_14_R};
 
-  width: 163px;
+  width: 179px;
   white-space: pre-line;
 `;
 

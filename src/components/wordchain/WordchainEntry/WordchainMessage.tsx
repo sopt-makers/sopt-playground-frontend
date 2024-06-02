@@ -20,7 +20,7 @@ type WordchainMessageProps = { word: string } & (
       user: User;
     }
   | {
-      type: 'startWord' | 'helper';
+      type: 'startWord';
     }
 );
 
@@ -28,22 +28,10 @@ export default function WordchainMessage(props: WordchainMessageProps) {
   return (
     <Container>
       <MessageBox>
-        <Word>{props.word}</Word>
-        {(props.type === 'word' || props.type === 'startWord') && (
-          <>
-            <Divider>|</Divider>
-            {props.type === 'word' && (
-              <Link href={playgroundLink.memberDetail(props.user.id)}>
-                <Name>{props.user.name}</Name>
-              </Link>
-            )}
-            {props.type === 'startWord' && <Name>제시어</Name>}
-          </>
-        )}
+        <Word>
+          <LastWord>'{props.word}'</LastWord>(으)로 시작하는 단어는?
+        </Word>
       </MessageBox>
-      {(props.type === 'helper' || props.type === 'startWord') && (
-        <ProfileImage src='/logos/img/logo-makers-circle.png' />
-      )}
       {props.type === 'word' && (
         <Link href={playgroundLink.memberDetail(props.user.id)}>
           {props.user.profileImage ? (
@@ -55,6 +43,7 @@ export default function WordchainMessage(props: WordchainMessageProps) {
           )}
         </Link>
       )}
+      {props.type === 'startWord' && <ProfileImage src='/logos/img/logo-makers-circle.png' />}
     </Container>
   );
 }
@@ -88,30 +77,6 @@ const MessageBox = styled.div`
 const Word = styled.div`
   line-height: 120%;
   color: ${colors.gray10};
-
-  ${fonts.BODY_13_M}
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_12_SB};
-  }
-`;
-
-const Divider = styled.div`
-  line-height: 120%;
-  color: ${colors.gray600};
-
-  ${textStyles.SUIT_16_M}
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: flex;
-    align-items: center;
-    height: 14px;
-  }
-`;
-
-const Name = styled.div`
-  line-height: 100%;
-  color: ${colors.gray300};
 
   ${fonts.BODY_13_M}
 
@@ -155,4 +120,8 @@ const EmptyProfileImage = styled.div`
       height: 12px;
     }
   }
+`;
+
+const LastWord = styled.span`
+  color: ${colors.yellow300};
 `;
