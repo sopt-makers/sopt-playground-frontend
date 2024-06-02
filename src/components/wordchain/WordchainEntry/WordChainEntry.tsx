@@ -272,7 +272,7 @@ const GotoWordChainWrapper = styled.aside`
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 8px;
     border-radius: 14px;
-    padding: 18px 20px;
+    padding: 18px 17px;
 
     &:hover {
       background-color: ${colors.gray800};
@@ -297,7 +297,7 @@ const GotoWordChainTitle = styled.h1`
 const GotoWordChainSub = styled.div`
   ${textStyles.SUIT_14_R};
 
-  max-width: 179px;
+  width: 179px;
   white-space: pre-line;
 `;
 
