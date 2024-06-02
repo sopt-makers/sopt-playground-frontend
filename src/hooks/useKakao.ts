@@ -16,7 +16,7 @@ export default function useKakao() {
   const handleInitializeKakao = () => {
     if (window.Kakao && !window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
-      alert('Kakao SDK initialized');
+      console.debug('Kakao SDK initialized');
     }
   };
 
@@ -26,7 +26,7 @@ export default function useKakao() {
         channelPublicId: '_sxaIWG',
       });
     } else {
-      alert('Kakao SDK is not initialized');
+      console.debug('Kakao SDK is not initialized');
     }
   };
 
