@@ -6,7 +6,7 @@ export default function KakaoScript() {
     const initializeKakao = () => {
       if (window.Kakao && !window.Kakao.isInitialized()) {
         window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
-        console.debug('Kakao SDK initialized');
+        alert('Kakao SDK initialized');
       }
     };
 
@@ -19,7 +19,7 @@ export default function KakaoScript() {
   }, []);
 
   const handleAddChannel = () => {
-    console.debug('Kakao SDK script loaded');
+    alert('Kakao SDK script loaded');
   };
 
   return (

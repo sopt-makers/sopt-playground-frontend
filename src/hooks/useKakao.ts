@@ -22,7 +22,7 @@ export default function useKakao() {
         channelPublicId: '_sxaIWG',
       });
     } else {
-      console.error('Kakao SDK is not initialized');
+      alert('Kakao SDK is not initialized');
     }
   };
 
