@@ -15,7 +15,7 @@ export default function useKakao() {
 
   const handleInitializeKakao = () => {
     if (window.Kakao && !window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_TALK_PLUGIN_KEY);
       console.debug('Kakao SDK initialized');
     }
   };
