@@ -55,11 +55,19 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                     start: (
                       <>
                         <Responsive only='desktop'>
-                          <StyledTitle>
-                            {lastWinner?.roomId}번째 우승자는
-                            <br />
-                            <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
-                          </StyledTitle>
+                          {lastWinner ? (
+                            <StyledTitle>
+                              {lastWinner?.roomId}번째 우승자는
+                              <br />
+                              <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
+                            </StyledTitle>
+                          ) : (
+                            <StyledTitle>
+                              SOPT 회원들과 끝말잇기 할 사람,
+                              <br />
+                              지금이 바로 명예의 전당에 오를 기회!
+                            </StyledTitle>
+                          )}
                         </Responsive>
                         <MobileResponsive only='mobile'>
                           <GotoWordChainWrapper>
@@ -68,10 +76,14 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                                 <StyledIconMessageChat />
                                 <GotoWordChainTitle>끝말잇기</GotoWordChainTitle>
                               </Flex>
-                              <GotoWordChainSub>
-                                이번 우승자는 <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
-                                <br />'{data.nextSyllable}'(으)로 시작하는 단어는?
-                              </GotoWordChainSub>
+                              {lastWinner ? (
+                                <GotoWordChainSub>
+                                  이번 우승자는 <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
+                                  <br />'{data.nextSyllable}'(으)로 시작하는 단어는?
+                                </GotoWordChainSub>
+                              ) : (
+                                <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
+                              )}
                             </GotoWordChainContents>
                             <ArrowIcon width={20} height={20} />
                           </GotoWordChainWrapper>
