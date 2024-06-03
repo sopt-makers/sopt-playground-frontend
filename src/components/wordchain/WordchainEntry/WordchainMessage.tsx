@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import { fonts } from '@sopt-makers/fonts';
 
 type User = {
   id: number;
@@ -29,7 +29,7 @@ export default function WordchainMessage(props: WordchainMessageProps) {
     <Container>
       <MessageBox>
         <Word>
-          <LastWord>'{props.word}'</LastWord>(으)로 시작하는 단어는?
+          <LastWord isWhite={props.type === 'startWord'}>'{props.word}'</LastWord>(으)로 시작하는 단어는?
         </Word>
       </MessageBox>
       {props.type === 'word' && (
@@ -122,6 +122,6 @@ const EmptyProfileImage = styled.div`
   }
 `;
 
-const LastWord = styled.span`
-  color: ${colors.yellow300};
+const LastWord = styled.span<{ isWhite: boolean }>`
+  color: ${(props) => (props.isWhite ? colors.white : colors.yellow300)};
 `;
