@@ -104,7 +104,7 @@ export const MBTI_OPTIONS: Option<(typeof MBTI)[number]>[] = [
   { value: 'ENTJ', label: 'ENTJ' },
 ];
 
-export const EMPLOYED_OPTIONS: Option[] = [{ value: '1', label: '재직 중이에요' }];
+export const EMPLOYED_OPTIONS: Option[] = [{ value: '1', label: '재직 중' }];
 
 export const ORDER_OPTIONS: Option[] = [
   {
