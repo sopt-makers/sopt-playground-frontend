@@ -36,8 +36,7 @@ export default MobileCommunityLayout;
 
 const WordChainWrapper = styled.div`
   margin: 0 auto;
-  min-width: 0;
-  max-width: 560px;
+  padding: 0 20px;
 `;
 
 const Container = styled.div`
@@ -45,7 +44,7 @@ const Container = styled.div`
 `;
 
 const StyledMenuEntryIcons = styled(MenuEntryIcons)`
-  margin: 36px 0 24px;
+  margin: 36px 0 10px;
 `;
 
 const ListSlotBox = styled.div`

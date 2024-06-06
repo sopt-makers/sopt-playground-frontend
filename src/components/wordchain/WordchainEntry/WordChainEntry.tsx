@@ -47,7 +47,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
             <Responsive only='desktop'>
               <StyledIconMessageChat />
             </Responsive>
-            <div>
+            <div style={{ width: '100%' }}>
               <TitleWrapper>
                 <SwitchCase
                   value={status}
@@ -78,14 +78,16 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                               </Flex>
                               {lastWinner ? (
                                 <GotoWordChainSub>
-                                  이번 우승자는 <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다!
-                                  <br />'{data.nextSyllable}'(으)로 시작하는 단어는?
+                                  이번 우승자는 <LastWord>{lastWinner?.winner.name}</LastWord>님 입니다! '
+                                  {data.nextSyllable}'(으)로 시작하는 단어는?
                                 </GotoWordChainSub>
                               ) : (
                                 <GotoWordChainSub>우승하고 명예의 전당에 올라가보세요!</GotoWordChainSub>
                               )}
                             </GotoWordChainContents>
-                            <ArrowIcon width={20} height={20} />
+                            <div style={{ minWidth: 20 }}>
+                              <ArrowIcon width={20} height={20} />
+                            </div>
                           </GotoWordChainWrapper>
                         </MobileResponsive>
                       </>
@@ -108,13 +110,13 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
                               {lastWord != null && (
                                 <GotoWordChainSub>
                                   {`${data?.currentWinner?.name}`}님이 <LastWord>{data.nextSyllable}</LastWord>(으)로
-                                  끝냈어요.
-                                  <br />
-                                  끝말을 이어주세요!
+                                  끝냈어요. 끝말을 이어주세요!
                                 </GotoWordChainSub>
                               )}
                             </GotoWordChainContents>
-                            <ArrowIcon width={20} height={20} />
+                            <div style={{ minWidth: 20 }}>
+                              <ArrowIcon width={20} height={20} />
+                            </div>
                           </GotoWordChainWrapper>
                         </MobileResponsive>
                       </>
@@ -151,7 +153,7 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 164px;
+  height: 92px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     height: 91.5px;
@@ -279,7 +281,7 @@ const GotoWordChainWrapper = styled.aside`
   border-radius: 12px;
   background-color: ${colors.gray900};
   padding: 16px;
-  width: 335px;
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 8px;
@@ -309,8 +311,8 @@ const GotoWordChainTitle = styled.h1`
 const GotoWordChainSub = styled.div`
   ${textStyles.SUIT_14_R};
 
-  width: 179px;
-  white-space: pre-line;
+  white-space: normal;
+  word-break: keep-all;
 `;
 
 const LastWord = styled.span`

@@ -5,10 +5,9 @@ import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
 import { ReactNode } from 'react';
 
-import Text from '@/components/common/Text';
-import { CrewIcon, MemberIcon, ProjectIcon, WordchainIcon } from '@/components/feed/list/MenuEntryIcons/Icons';
+import { CrewIcon, MemberIcon, ProjectIcon } from '@/components/feed/list/MenuEntryIcons/Icons';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
+import { fonts } from '@sopt-makers/fonts';
 
 interface MenuEntry {
   icon: ReactNode;
@@ -20,7 +19,6 @@ const MENU_ENTRY_LIST: MenuEntry[] = [
   { icon: <CrewIcon />, label: '모임', href: playgroundLink.groupList() },
   { icon: <MemberIcon />, label: '멤버', href: playgroundLink.memberList() },
   { icon: <ProjectIcon />, label: '프로젝트', href: playgroundLink.projectList() },
-  { icon: <WordchainIcon />, label: '끝말잇기', href: playgroundLink.wordchain() },
 ];
 
 interface MenuEntryIconsProps {
@@ -40,7 +38,7 @@ const MenuEntryIcons = ({ className }: MenuEntryIconsProps) => {
 const StyledMenuEntryIcons = styled(Flex)`
   width: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
-    gap: 20px;
+    gap: 6px;
   }
 `;
 
@@ -54,12 +52,8 @@ interface MenuIconProps {
 
 const MenuIcon = ({ label, icon, href }: MenuIconProps) => {
   return (
-    <MenuIconWrapper direction='column' align='center'>
-      <Link href={href}>
-        <StyledMenuIcon align='center' justify='center'>
-          {icon}
-        </StyledMenuIcon>
-      </Link>
+    <MenuIconWrapper align='center'>
+      <Link href={href}>{icon}</Link>
       <MenuLabel>{label}</MenuLabel>
     </MenuIconWrapper>
   );
@@ -67,21 +61,21 @@ const MenuIcon = ({ label, icon, href }: MenuIconProps) => {
 
 const MenuIconWrapper = styled(Flex)`
   @media ${MOBILE_MEDIA_QUERY} {
-    gap: 8px;
+    display: flex;
+    border-radius: 14px;
+    background: ${colors.gray900};
+    padding: 16px 12px;
+    width: 108px;
   }
 `;
 
-const StyledMenuIcon = styled(Flex)`
+const MenuLabel = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 14.67px;
-    background-color: ${colors.gray700};
-    width: 44px;
-    height: 44px;
-  }
-`;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    white-space: nowrap;
 
-const MenuLabel = styled(Text)`
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_13_M}
+    ${fonts.TITLE_14_SB}
   }
 `;
