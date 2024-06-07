@@ -52,16 +52,17 @@ interface MenuIconProps {
 
 const MenuIcon = ({ label, icon, href }: MenuIconProps) => {
   return (
-    <MenuIconWrapper align='center'>
-      <Link href={href}>{icon}</Link>
+    <MenuIconWrapper href={href}>
+      <div>{icon}</div>
       <MenuLabel>{label}</MenuLabel>
     </MenuIconWrapper>
   );
 };
 
-const MenuIconWrapper = styled(Flex)`
+const MenuIconWrapper = styled(Link)`
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
+    align-items: center;
     border-radius: 14px;
     background: ${colors.gray900};
     padding: 16px 12px;
