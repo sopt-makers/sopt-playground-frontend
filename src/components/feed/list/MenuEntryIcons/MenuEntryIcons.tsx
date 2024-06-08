@@ -39,6 +39,7 @@ const StyledMenuEntryIcons = styled(Flex)`
   width: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 6px;
+    padding: 0 20px;
   }
 `;
 
@@ -53,7 +54,7 @@ interface MenuIconProps {
 const MenuIcon = ({ label, icon, href }: MenuIconProps) => {
   return (
     <MenuIconWrapper href={href}>
-      <div>{icon}</div>
+      <Flex align='center'>{icon}</Flex>
       <MenuLabel>{label}</MenuLabel>
     </MenuIconWrapper>
   );
@@ -62,21 +63,19 @@ const MenuIcon = ({ label, icon, href }: MenuIconProps) => {
 const MenuIconWrapper = styled(Link)`
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
+    gap: 5px;
     align-items: center;
+    justify-content: center;
     border-radius: 14px;
     background: ${colors.gray900};
     padding: 16px 12px;
-    width: 108px;
+    width: 100%;
   }
 `;
 
 const MenuLabel = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
-    display: flex;
-    justify-content: center;
-    width: 100%;
     white-space: nowrap;
-
     ${fonts.TITLE_14_SB}
   }
 `;
