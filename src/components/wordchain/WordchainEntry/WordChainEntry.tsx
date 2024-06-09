@@ -278,6 +278,7 @@ const GotoWordChainWrapper = styled.aside`
   gap: 16px;
   align-items: center;
   justify-content: space-between;
+  transition: background-color 0.2s;
   border-radius: 12px;
   background-color: ${colors.gray900};
   padding: 16px;

@@ -66,10 +66,15 @@ const MenuIconWrapper = styled(Link)`
     gap: 5px;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.2s;
     border-radius: 14px;
     background: ${colors.gray900};
     padding: 16px 12px;
     width: 100%;
+
+    &:hover {
+      background-color: ${colors.gray800};
+    }
   }
 `;
 
