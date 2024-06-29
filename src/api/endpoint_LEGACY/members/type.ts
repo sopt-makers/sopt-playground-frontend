@@ -61,7 +61,6 @@ export type ProfileDetail = {
   allowOfficial: boolean;
   isMine: boolean;
   isPhoneBlind: boolean;
-  isEmailBlind: boolean;
 };
 
 export type SoptActivity = {
@@ -152,7 +151,6 @@ export interface ProfileRequest {
   };
   selfIntroduction: string | null;
   isPhoneBlind: boolean | null;
-  isEmailBlind: boolean | null;
 }
 
 export interface PostMemberMessageVariables {

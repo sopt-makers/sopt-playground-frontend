@@ -93,7 +93,6 @@ export default function MemberEditPage() {
       mbtiDescription,
       interest,
       isPhoneBlind,
-      isEmailBlind,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -132,7 +131,6 @@ export default function MemberEditPage() {
         isRiceTteokLover: favor.tteokbokki === null ? null : favor.tteokbokki === '쌀떡',
       },
       selfIntroduction: longIntroduction,
-      isEmailBlind,
       isPhoneBlind,
     };
 
@@ -171,7 +169,6 @@ export default function MemberEditPage() {
           })),
         allowOfficial: myProfile.allowOfficial,
         isPhoneBlind: myProfile.isPhoneBlind,
-        isEmailBlind: myProfile.isEmailBlind,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
           ? myProfile.careers.map((career) =>
