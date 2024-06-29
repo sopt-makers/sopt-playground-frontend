@@ -51,17 +51,6 @@ export default function MemberBasicFormSection() {
     );
   };
 
-  const openMaskingEmailModal = () => {
-    return openMaskingModal(
-      '이메일을 숨기시겠어요?',
-      <StyledMaskingModalDesc>
-        <li>내 프로필에 이메일이 노출되지 않아요!</li>
-        <li>이메일을 숨겨도 쪽지는 전달될 수 있어요.</li>
-        <li>이메일을 숨겨도 동일 모임장, 임원진, 메이커스 운영진은 해당 정보를 확인할 수 있어요.</li>
-      </StyledMaskingModalDesc>,
-    );
-  };
-
   const handleBlind = async (e: MouseEvent, name: keyof MemberUploadForm, openModal: () => Promise<boolean>) => {
     if (getValues(name)) {
       setValue(name, false);
@@ -124,13 +113,6 @@ export default function MemberBasicFormSection() {
           <StyledInput {...register('phone')} placeholder='010-XXXX-XXXX' />
         </FormItem>
         <FormItem title='이메일' required errorMessage={errors.email?.message} className='maskable'>
-          <StyledBlindSwitch>
-            <StyledBlindSwitchTitle>정보 숨기기</StyledBlindSwitchTitle>
-            <Switch
-              {...register('isEmailBlind')}
-              onClick={(e) => handleBlind(e, 'isEmailBlind', openMaskingEmailModal)}
-            />
-          </StyledBlindSwitch>
           <StyledInput {...register('email')} type='email' placeholder='이메일 입력' />
         </FormItem>
         <FormItem

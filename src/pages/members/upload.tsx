@@ -62,7 +62,6 @@ export default function MemberUploadPage() {
       allowOfficial,
       mbtiDescription,
       interest,
-      isEmailBlind,
       isPhoneBlind,
     } = formData;
 
@@ -102,7 +101,6 @@ export default function MemberUploadPage() {
         isRiceTteokLover: favor.tteokbokki === null ? null : favor.tteokbokki === '쌀떡',
       },
       selfIntroduction: longIntroduction,
-      isEmailBlind,
       isPhoneBlind,
     };
 
