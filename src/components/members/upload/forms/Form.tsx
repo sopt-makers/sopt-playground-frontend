@@ -1,10 +1,10 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
 
+import Responsive from '@/components/common/Responsive';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 type FormType = 'upload' | 'edit';
 const TYPE_MAP: Record<FormType, string> = { upload: '업로드', edit: '수정' };
@@ -25,9 +25,16 @@ export default function MemberForm({ type, children, onSubmit, isValid }: Member
       </StyledHeader>
       <StyledForm onSubmit={(e) => e.preventDefault()}>
         {children}
-        <SubmitButton onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
-          프로필 {TYPE_MAP[type]}하기
-        </SubmitButton>
+        <Responsive only='desktop'>
+          <SubmitButton rounded='lg' theme='white' disabled={!isValid} onClick={onSubmit}>
+            프로필 {TYPE_MAP[type]}하기
+          </SubmitButton>
+        </Responsive>
+        <Responsive only='mobile'>
+          <SubmitButton theme='white' disabled={!isValid} onClick={onSubmit}>
+            프로필 {TYPE_MAP[type]}하기
+          </SubmitButton>
+        </Responsive>
       </StyledForm>
     </StyledContainer>
   );
@@ -97,40 +104,9 @@ const StyledForm = styled.form`
   }
 `;
 
-const SubmitButton = styled.button<{ isDisabled: boolean }>`
-  display: flex;
-  align-items: center;
-  align-self: flex-end;
-  justify-content: center;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  margin-top: 30px;
-  border-radius: 31px;
-  background-color: ${colors.white};
-  width: 163px;
-  height: 42px;
-  line-height: 120%;
-  color: ${colors.gray950};
-
-  ${({ isDisabled }) =>
-    isDisabled &&
-    css`
-      background-color: ${colors.gray800};
-      color: ${colors.gray400};
-    `}
-
-  &:hover {
-    background-color: ${colors.gray50};
-    color: ${colors.gray950};
-  }
-
-  ${textStyles.SUIT_14_M}
-
+const SubmitButton = styled(Button)`
+  float: right;
   @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 12px;
     width: 100%;
-    height: 52px;
-    line-height: 100%;
-
-    ${textStyles.SUIT_16_SB}
   }
 `;
