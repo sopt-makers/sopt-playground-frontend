@@ -242,13 +242,14 @@ export const reset = css`
   /**
   * Correct the inability to style clickable types in iOS and Safari.
   */
-  button,
+
+  /* button,
   [type='button'],
   [type='reset'],
   [type='submit'] {
     appearance: button;
     color: ${colors.gray10};
-  }
+  } */
 
   /**
   * Remove the inner border and padding in Firefox.
