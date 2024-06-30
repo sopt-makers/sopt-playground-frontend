@@ -384,7 +384,7 @@ const StyledEditableSelect = styled(EditableSelect)`
   padding: 16px 34px 16px 20px;
 
   option {
-    color: white;
+    color: ${colors.white};
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
