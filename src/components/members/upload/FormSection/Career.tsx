@@ -385,6 +385,10 @@ const StyledEditableSelect = styled(EditableSelect)`
 
   ${textStyles.SUIT_16_M};
 
+  option {
+    color: ${colors.white};
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
     border-radius: 12px;
