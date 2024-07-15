@@ -32,11 +32,11 @@ interface ResolutionForm {
   content: string;
 }
 
-interface ResolutionModalProps extends ModalProps {
+interface ResolutionSubmitModalProps extends ModalProps {
   profileImageUrl: string;
 }
 
-const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }) => {
+const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl, ...props }) => {
   const { handleConfirmResolution, isPending } = useConfirmResolution();
   const [selectedTag, setSelectedTag] = useState<ResolutionTag[]>([]);
   const { handleSubmit, control, formState } = useForm<ResolutionForm>({
@@ -148,7 +148,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
   );
 };
 
-export default ResolutionModal;
+export default ResolutionSubmitModal;
 
 const StyledModal = styled(Modal)`
   background-color: ${colors.gray900};
