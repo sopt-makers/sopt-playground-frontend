@@ -5,6 +5,7 @@ import { FC } from 'react';
 import Modal from '@/components/common/Modal';
 import { ModalButton, ModalContent, ModalFooter } from '@/components/common/Modal/parts';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
+import { BackgroundOrange } from '@/components/resolution/read/images';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
