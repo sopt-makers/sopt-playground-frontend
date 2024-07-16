@@ -9,8 +9,8 @@ const message = '은서야 멋진 시간 보냈지?';
 const ResolutionMessage = () => {
   return (
     <ResolutionMessageWrapper>
-      ResolutionMessage
       <BackgroundImage />
+      <Contents>ResolutionMessage</Contents>
     </ResolutionMessageWrapper>
   );
 };
@@ -18,18 +18,24 @@ const ResolutionMessage = () => {
 export default ResolutionMessage;
 
 const ResolutionMessageWrapper = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-  background-color: ${colors.black};
+  position: relative;
   width: 100%;
   max-width: 335px;
 `;
 
+const Contents = styled.div`
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+`;
+
 const BackgroundImage = styled(BackgroundOrange)`
-  & > svg {
-    border-radius: 20px;
-  }
+  position: absolute;
+  width: 100%;
+  height: 100%;
 `;
