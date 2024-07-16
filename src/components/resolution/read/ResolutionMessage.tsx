@@ -14,7 +14,7 @@ import {
 import { TitleDecoration } from '@/components/resolution/read/images';
 
 const name = '은서';
-const tags = ['창업 기반', '문제 해결 능력', '전문성 강화', '협업 경험', '프로덕트 릴리즈', '네트워킹'];
+const tags = ['전문성 강화', '프로덕트 릴리즈', '문제 해결 능력', '협업 경험', '창업 기반', '네트워킹'].sort();
 const message = '아자아자메이커스화이팅! 아자아자메이커스화이팅! 아자아자메이커스화이팅! ';
 
 const ResolutionMessage = () => {
@@ -109,8 +109,7 @@ const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  justify-content: flex-start;
-  padding: 0 15px;
+  justify-content: center;
 `;
 
 const Tag = styled(Text)`
