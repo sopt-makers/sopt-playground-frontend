@@ -13,9 +13,9 @@ import {
 } from '@/components/resolution/read/images';
 import { TitleDecoration } from '@/components/resolution/read/images';
 
+const name = '은서';
 const tags = ['창업 기반', '문제 해결 능력', '전문성 강화', '협업 경험', '프로덕트 릴리즈', '네트워킹'];
-const message =
-  '300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까어';
+const message = '아자아자메이커스화이팅! 아자아자메이커스화이팅! 아자아자메이커스화이팅! ';
 
 const ResolutionMessage = () => {
   const BackgroundComponents = [
@@ -35,7 +35,7 @@ const ResolutionMessage = () => {
       <Contents>
         <TitleWrapper>
           <TitleText color={colors.white} typography='SUIT_18_B'>
-            NOW SOPT를 마친 태희에게
+            NOW SOPT를 마친 {name}에게
           </TitleText>
           <StyledTitleDecoration />
         </TitleWrapper>
@@ -69,14 +69,14 @@ const ResolutionMessageWrapper = styled.main`
 const Contents = styled.div`
   display: flex;
   position: absolute;
-  top: 43%;
+  top: 0;
   left: 50%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
+  margin-top: 13px;
   width: 100%;
-  height: 100%;
 `;
 
 const BackgroundWrapper = styled.div`
