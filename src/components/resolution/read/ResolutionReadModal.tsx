@@ -5,7 +5,6 @@ import { FC } from 'react';
 import Modal from '@/components/common/Modal';
 import { ModalButton, ModalContent, ModalFooter } from '@/components/common/Modal/parts';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { BackgroundOrange } from '@/components/resolution/read/images';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
@@ -20,7 +19,7 @@ const ResolutionReadModal: FC<ResolutionReadModalProps> = ({ ...props }) => {
       </ModalContent>
       <StyledModalFooter align='stretch'>
         <ModalButton>이미지로 저장하기</ModalButton>
-        <ModalButton background='light'>이미지로 저장하기</ModalButton>
+        <ModalButton background='light'>활동 후기 작성하기</ModalButton>
       </StyledModalFooter>
     </StyledModal>
   );

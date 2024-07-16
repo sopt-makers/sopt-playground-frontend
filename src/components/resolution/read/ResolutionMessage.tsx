@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
-import ResizedImage from '@/components/common/ResizedImage';
 import { BackgroundOrange } from '@/components/resolution/read/images';
 
 const tags = ['창업 기반', '문제 해결 능력', '전문성 강화', '협업 경험', '프로덕트 릴리즈'];

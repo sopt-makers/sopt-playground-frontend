@@ -1,8 +1,9 @@
 export const BackgroundOrange = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1014)' />
       <mask
-        id='mask0_2216_15547'
+        id='mask0_2432_1014'
         style={{ maskType: 'alpha' }}
         maskUnits='userSpaceOnUse'
         x='0'
@@ -10,16 +11,20 @@ export const BackgroundOrange = () => {
         width='335'
         height='524'
       >
-        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2216_15547)' />
+        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint1_linear_2432_1014)' />
       </mask>
-      <g mask='url(#mask0_2216_15547)'>
-        <g filter='url(#filter0_f_2216_15547)'>
+      <g mask='url(#mask0_2432_1014)'>
+        <g filter='url(#filter0_f_2432_1014)'>
           <ellipse cx='168' cy='650.071' rx='250' ry='259.925' fill='#FF6E1D' fill-opacity='0.6' />
+          <path
+            d='M417.5 650.071C417.5 793.366 305.777 909.496 168 909.496C30.2231 909.496 -81.5 793.366 -81.5 650.071C-81.5 506.776 30.2231 390.646 168 390.646C305.777 390.646 417.5 506.776 417.5 650.071Z'
+            stroke='url(#paint2_linear_2432_1014)'
+          />
         </g>
       </g>
       <defs>
         <filter
-          id='filter0_f_2216_15547'
+          id='filter0_f_2432_1014'
           x='-282'
           y='190.146'
           width='900'
@@ -29,18 +34,40 @@ export const BackgroundOrange = () => {
         >
           <feFlood flood-opacity='0' result='BackgroundImageFix' />
           <feBlend mode='normal' in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
-          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2216_15547' />
+          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2432_1014' />
         </filter>
         <linearGradient
-          id='paint0_linear_2216_15547'
-          x1='346.246'
-          y1='536.414'
-          x2='-30.3065'
-          y2='11.8627'
+          id='paint0_linear_2432_1014'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#3D3D3D' />
-          <stop offset='1' stop-color='#666666' />
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint1_linear_2432_1014'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint2_linear_2432_1014'
+          x1='440.446'
+          y1='922.88'
+          x2='127.751'
+          y2='284.035'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
         </linearGradient>
       </defs>
     </svg>
@@ -50,8 +77,9 @@ export const BackgroundOrange = () => {
 export const BackgroundYellow = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1019)' />
       <mask
-        id='mask0_2216_15594'
+        id='mask0_2432_1019'
         style={{ maskType: 'alpha' }}
         maskUnits='userSpaceOnUse'
         x='0'
@@ -59,16 +87,20 @@ export const BackgroundYellow = () => {
         width='335'
         height='524'
       >
-        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2216_15594)' />
+        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint1_linear_2432_1019)' />
       </mask>
-      <g mask='url(#mask0_2216_15594)'>
-        <g filter='url(#filter0_f_2216_15594)'>
-          <ellipse cx='168' cy='650.071' rx='250' ry='259.925' fill='#FFCA00' fill-opacity='0.6' />
+      <g mask='url(#mask0_2432_1019)'>
+        <g filter='url(#filter0_f_2432_1019)'>
+          <ellipse cx='168' cy='650.071' rx='250' ry='259.925' fill='white' fill-opacity='0.6' />
+          <path
+            d='M417.5 650.071C417.5 793.366 305.777 909.496 168 909.496C30.2231 909.496 -81.5 793.366 -81.5 650.071C-81.5 506.776 30.2231 390.646 168 390.646C305.777 390.646 417.5 506.776 417.5 650.071Z'
+            stroke='url(#paint2_linear_2432_1019)'
+          />
         </g>
       </g>
       <defs>
         <filter
-          id='filter0_f_2216_15594'
+          id='filter0_f_2432_1019'
           x='-282'
           y='190.146'
           width='900'
@@ -78,18 +110,40 @@ export const BackgroundYellow = () => {
         >
           <feFlood flood-opacity='0' result='BackgroundImageFix' />
           <feBlend mode='normal' in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
-          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2216_15594' />
+          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2432_1019' />
         </filter>
         <linearGradient
-          id='paint0_linear_2216_15594'
-          x1='346.246'
-          y1='536.414'
-          x2='-30.3065'
-          y2='11.8627'
+          id='paint0_linear_2432_1019'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#3D3D3D' />
-          <stop offset='1' stop-color='#666666' />
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint1_linear_2432_1019'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint2_linear_2432_1019'
+          x1='440.446'
+          y1='922.88'
+          x2='127.751'
+          y2='284.035'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
         </linearGradient>
       </defs>
     </svg>
@@ -99,8 +153,9 @@ export const BackgroundYellow = () => {
 export const BackgroundBlue = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1016)' />
       <mask
-        id='mask0_2216_15597'
+        id='mask0_2432_1016'
         style={{ maskType: 'alpha' }}
         maskUnits='userSpaceOnUse'
         x='0'
@@ -108,16 +163,20 @@ export const BackgroundBlue = () => {
         width='335'
         height='524'
       >
-        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2216_15597)' />
+        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint1_linear_2432_1016)' />
       </mask>
-      <g mask='url(#mask0_2216_15597)'>
-        <g filter='url(#filter0_f_2216_15597)'>
+      <g mask='url(#mask0_2432_1016)'>
+        <g filter='url(#filter0_f_2432_1016)'>
           <ellipse cx='168' cy='650.071' rx='250' ry='259.925' fill='#5DDBFF' fill-opacity='0.6' />
+          <path
+            d='M417.5 650.071C417.5 793.366 305.777 909.496 168 909.496C30.2231 909.496 -81.5 793.366 -81.5 650.071C-81.5 506.776 30.2231 390.646 168 390.646C305.777 390.646 417.5 506.776 417.5 650.071Z'
+            stroke='url(#paint2_linear_2432_1016)'
+          />
         </g>
       </g>
       <defs>
         <filter
-          id='filter0_f_2216_15597'
+          id='filter0_f_2432_1016'
           x='-282'
           y='190.146'
           width='900'
@@ -127,18 +186,40 @@ export const BackgroundBlue = () => {
         >
           <feFlood flood-opacity='0' result='BackgroundImageFix' />
           <feBlend mode='normal' in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
-          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2216_15597' />
+          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2432_1016' />
         </filter>
         <linearGradient
-          id='paint0_linear_2216_15597'
-          x1='346.246'
-          y1='536.414'
-          x2='-30.3065'
-          y2='11.8627'
+          id='paint0_linear_2432_1016'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#3D3D3D' />
-          <stop offset='1' stop-color='#666666' />
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint1_linear_2432_1016'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint2_linear_2432_1016'
+          x1='440.446'
+          y1='922.88'
+          x2='127.751'
+          y2='284.035'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
         </linearGradient>
       </defs>
     </svg>
@@ -148,8 +229,9 @@ export const BackgroundBlue = () => {
 export const BackgroundPink = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1017)' />
       <mask
-        id='mask0_2216_15600'
+        id='mask0_2432_1017'
         style={{ maskType: 'alpha' }}
         maskUnits='userSpaceOnUse'
         x='0'
@@ -157,16 +239,20 @@ export const BackgroundPink = () => {
         width='335'
         height='524'
       >
-        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2216_15600)' />
+        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint1_linear_2432_1017)' />
       </mask>
-      <g mask='url(#mask0_2216_15600)'>
-        <g filter='url(#filter0_f_2216_15600)'>
+      <g mask='url(#mask0_2432_1017)'>
+        <g filter='url(#filter0_f_2432_1017)'>
           <ellipse cx='168' cy='650.071' rx='250' ry='259.925' fill='#FDBBF9' fill-opacity='0.6' />
+          <path
+            d='M417.5 650.071C417.5 793.366 305.777 909.496 168 909.496C30.2231 909.496 -81.5 793.366 -81.5 650.071C-81.5 506.776 30.2231 390.646 168 390.646C305.777 390.646 417.5 506.776 417.5 650.071Z'
+            stroke='url(#paint2_linear_2432_1017)'
+          />
         </g>
       </g>
       <defs>
         <filter
-          id='filter0_f_2216_15600'
+          id='filter0_f_2432_1017'
           x='-282'
           y='190.146'
           width='900'
@@ -176,18 +262,40 @@ export const BackgroundPink = () => {
         >
           <feFlood flood-opacity='0' result='BackgroundImageFix' />
           <feBlend mode='normal' in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
-          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2216_15600' />
+          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2432_1017' />
         </filter>
         <linearGradient
-          id='paint0_linear_2216_15600'
-          x1='346.246'
-          y1='536.414'
-          x2='-30.3065'
-          y2='11.8627'
+          id='paint0_linear_2432_1017'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#3D3D3D' />
-          <stop offset='1' stop-color='#666666' />
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint1_linear_2432_1017'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint2_linear_2432_1017'
+          x1='440.446'
+          y1='922.88'
+          x2='127.751'
+          y2='284.035'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
         </linearGradient>
       </defs>
     </svg>
@@ -197,8 +305,9 @@ export const BackgroundPink = () => {
 export const BackgroundNavy = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1018)' />
       <mask
-        id='mask0_2216_15603'
+        id='mask0_2432_1018'
         style={{ maskType: 'alpha' }}
         maskUnits='userSpaceOnUse'
         x='0'
@@ -206,16 +315,20 @@ export const BackgroundNavy = () => {
         width='335'
         height='524'
       >
-        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2216_15603)' />
+        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint1_linear_2432_1018)' />
       </mask>
-      <g mask='url(#mask0_2216_15603)'>
-        <g filter='url(#filter0_f_2216_15603)'>
+      <g mask='url(#mask0_2432_1018)'>
+        <g filter='url(#filter0_f_2432_1018)'>
           <ellipse cx='168' cy='650.071' rx='250' ry='259.925' fill='#1F299C' fill-opacity='0.6' />
+          <path
+            d='M417.5 650.071C417.5 793.366 305.777 909.496 168 909.496C30.2231 909.496 -81.5 793.366 -81.5 650.071C-81.5 506.776 30.2231 390.646 168 390.646C305.777 390.646 417.5 506.776 417.5 650.071Z'
+            stroke='url(#paint2_linear_2432_1018)'
+          />
         </g>
       </g>
       <defs>
         <filter
-          id='filter0_f_2216_15603'
+          id='filter0_f_2432_1018'
           x='-282'
           y='190.146'
           width='900'
@@ -225,18 +338,40 @@ export const BackgroundNavy = () => {
         >
           <feFlood flood-opacity='0' result='BackgroundImageFix' />
           <feBlend mode='normal' in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
-          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2216_15603' />
+          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2432_1018' />
         </filter>
         <linearGradient
-          id='paint0_linear_2216_15603'
-          x1='346.246'
-          y1='536.414'
-          x2='-30.3065'
-          y2='11.8627'
+          id='paint0_linear_2432_1018'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#3D3D3D' />
-          <stop offset='1' stop-color='#666666' />
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint1_linear_2432_1018'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint2_linear_2432_1018'
+          x1='440.446'
+          y1='922.88'
+          x2='127.751'
+          y2='284.035'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
         </linearGradient>
       </defs>
     </svg>
@@ -246,8 +381,9 @@ export const BackgroundNavy = () => {
 export const BackgroundGray = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1019)' />
       <mask
-        id='mask0_2216_15606'
+        id='mask0_2432_1019'
         style={{ maskType: 'alpha' }}
         maskUnits='userSpaceOnUse'
         x='0'
@@ -255,16 +391,20 @@ export const BackgroundGray = () => {
         width='335'
         height='524'
       >
-        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2216_15606)' />
+        <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint1_linear_2432_1019)' />
       </mask>
-      <g mask='url(#mask0_2216_15606)'>
-        <g filter='url(#filter0_f_2216_15606)'>
+      <g mask='url(#mask0_2432_1019)'>
+        <g filter='url(#filter0_f_2432_1019)'>
           <ellipse cx='168' cy='650.071' rx='250' ry='259.925' fill='white' fill-opacity='0.6' />
+          <path
+            d='M417.5 650.071C417.5 793.366 305.777 909.496 168 909.496C30.2231 909.496 -81.5 793.366 -81.5 650.071C-81.5 506.776 30.2231 390.646 168 390.646C305.777 390.646 417.5 506.776 417.5 650.071Z'
+            stroke='url(#paint2_linear_2432_1019)'
+          />
         </g>
       </g>
       <defs>
         <filter
-          id='filter0_f_2216_15606'
+          id='filter0_f_2432_1019'
           x='-282'
           y='190.146'
           width='900'
@@ -274,18 +414,40 @@ export const BackgroundGray = () => {
         >
           <feFlood flood-opacity='0' result='BackgroundImageFix' />
           <feBlend mode='normal' in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
-          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2216_15606' />
+          <feGaussianBlur stdDeviation='100' result='effect1_foregroundBlur_2432_1019' />
         </filter>
         <linearGradient
-          id='paint0_linear_2216_15606'
-          x1='346.246'
-          y1='536.414'
-          x2='-30.3065'
-          y2='11.8627'
+          id='paint0_linear_2432_1019'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#3D3D3D' />
-          <stop offset='1' stop-color='#666666' />
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint1_linear_2432_1019'
+          x1='350.039'
+          y1='536.987'
+          x2='-31.0884'
+          y2='19.42'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
+        </linearGradient>
+        <linearGradient
+          id='paint2_linear_2432_1019'
+          x1='440.446'
+          y1='922.88'
+          x2='127.751'
+          y2='284.035'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stop-color='#777777' />
+          <stop offset='1' stop-color='#191919' />
         </linearGradient>
       </defs>
     </svg>
