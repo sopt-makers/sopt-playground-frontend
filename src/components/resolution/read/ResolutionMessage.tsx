@@ -2,11 +2,12 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import Text from '@/components/common/Text';
-import { BackgroundOrange } from '@/components/resolution/read/images';
+import { BackgroundOrange, SoptLogo } from '@/components/resolution/read/images';
 import { TitleDecoration } from '@/components/resolution/read/images';
 
 const tags = ['창업 기반', '문제 해결 능력', '전문성 강화', '협업 경험', '프로덕트 릴리즈', '네트워킹'];
-const message = '은서야 멋진 시간 보냈지?';
+const message =
+  '300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까어';
 
 const ResolutionMessage = () => {
   return (
@@ -26,7 +27,13 @@ const ResolutionMessage = () => {
             </Tag>
           ))}
         </TagWrapper>
+        <Message color={colors.gray10} typography='SUIT_14_M'>
+          {message}
+        </Message>
       </Contents>
+      <SoptLogoWrapper>
+        <SoptLogo />
+      </SoptLogoWrapper>
     </ResolutionMessageWrapper>
   );
 };
@@ -42,7 +49,7 @@ const ResolutionMessageWrapper = styled.main`
 const Contents = styled.div`
   display: flex;
   position: absolute;
-  top: 50%;
+  top: 43%;
   left: 50%;
   flex-direction: column;
   align-items: center;
@@ -94,4 +101,18 @@ const Tag = styled(Text)`
   background-color: ${colors.gray900};
   padding: 6px 16px;
   color: ${colors.gray200};
+`;
+
+const Message = styled(Text)`
+  margin: 20px 0;
+  padding: 0 16px;
+  overflow-y: scroll;
+  text-align: center;
+`;
+
+const SoptLogoWrapper = styled.div`
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
