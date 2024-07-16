@@ -43,7 +43,7 @@ export default ResolutionMessage;
 const ResolutionMessageWrapper = styled.main`
   position: relative;
   width: 100%;
-  max-width: 335px;
+  min-width: 335px;
 `;
 
 const Contents = styled.div`

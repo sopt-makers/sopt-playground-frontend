@@ -14,9 +14,9 @@ interface ResolutionReadModalProps extends ModalProps {}
 const ResolutionReadModal: FC<ResolutionReadModalProps> = ({ ...props }) => {
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
-      <ModalContent>
+      <StyledModalContent>
         <ResolutionMessage />
-      </ModalContent>
+      </StyledModalContent>
       <StyledModalFooter align='stretch'>
         <ModalButton>이미지로 저장하기</ModalButton>
         <ModalButton background='light'>활동 후기 작성하기</ModalButton>
@@ -40,6 +40,10 @@ const StyledModal = styled(Modal)`
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 100%;
   }
+`;
+
+const StyledModalContent = styled(ModalContent)`
+  align-items: center;
 `;
 
 const StyledModalFooter = styled(ModalFooter)`
