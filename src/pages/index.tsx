@@ -10,7 +10,11 @@ const Home: NextPage = () => {
   return (
     <AuthRequired>
       <ActiveBannerSlot />
-      <ResolutionReadModal profileImageUrl={''} onClose={() => {}} />
+      <ResolutionReadModal
+        onClose={() => {
+          console.log('모달 닫기');
+        }}
+      />
       <FeedHomePage />
     </AuthRequired>
   );
