@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 
 import Example, { API_PATH } from '@/components/common/Example';
 
@@ -16,8 +16,8 @@ export const Default: StoryObj = {
   parameters: {
     msw: {
       handlers: [
-        rest.get(API_PATH, (_req, res, ctx) => {
-          return res(ctx.json({ data: random }));
+        http.get(API_PATH, () => {
+          return HttpResponse.json({ data: random });
         }),
       ],
     },
