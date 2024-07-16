@@ -15627,14 +15627,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw-storybook-addon@npm:^1.8.0":
-  version: 1.8.0
-  resolution: "msw-storybook-addon@npm:1.8.0"
+"msw-storybook-addon@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "msw-storybook-addon@npm:2.0.3"
   dependencies:
     is-node-process: ^1.0.1
   peerDependencies:
-    msw: ">=0.35.0 <2.0.0"
-  checksum: 14d7ab064fcc548fe8169f029a2f02184387bd85267ea3c36d8076e671a13dc36349123f2f66fbd2930cedac929cf3ecbe7d45221d72918a9e83321305f3072c
+    msw: ^2.0.0
+  checksum: 13b607849aadf1f8f67c2f7447b27acbea2582363c76a9b7fe98ecab3ee5a101a078009fb1c93ac63e5dc52a723c38a8e0761e88d0494299e69965abca12e16a
   languageName: node
   linkType: hard
 
@@ -18535,7 +18535,7 @@ __metadata:
     jscodeshift: ^0.15.1
     lodash-es: ^4.17.21
     msw: ^2.3.1
-    msw-storybook-addon: ^1.8.0
+    msw-storybook-addon: ^2.0.3
     nanoid: ^4.0.0
     next: ^13.1.1
     next-query-params: ^4.2.3
