@@ -454,7 +454,7 @@ export const BackgroundGray = () => {
   );
 };
 
-export const TitleBackground = () => {
+export const TitleDecoration = () => {
   return (
     <svg width='160' height='100' viewBox='0 0 160 100' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path
