@@ -5,7 +5,7 @@ import Text from '@/components/common/Text';
 import { BackgroundOrange } from '@/components/resolution/read/images';
 import { TitleDecoration } from '@/components/resolution/read/images';
 
-const tags = ['창업 기반', '문제 해결 능력', '전문성 강화', '협업 경험', '프로덕트 릴리즈'];
+const tags = ['창업 기반', '문제 해결 능력', '전문성 강화', '협업 경험', '프로덕트 릴리즈', '네트워킹'];
 const message = '은서야 멋진 시간 보냈지?';
 
 const ResolutionMessage = () => {
@@ -19,6 +19,13 @@ const ResolutionMessage = () => {
           </TitleText>
           <StyledTitleDecoration />
         </TitleWrapper>
+        <TagWrapper>
+          {tags.map((tag) => (
+            <Tag key={tag} color={colors.gray200} typography='SUIT_14_SB'>
+              {tag}
+            </Tag>
+          ))}
+        </TagWrapper>
       </Contents>
     </ResolutionMessageWrapper>
   );
@@ -69,4 +76,22 @@ const TitleText = styled(Text)`
   transform: translate(-48%, -49%);
   min-width: 138px;
   text-align: center;
+`;
+
+const TagWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-start;
+  padding: 0 15px;
+`;
+
+const Tag = styled(Text)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background-color: ${colors.gray900};
+  padding: 6px 16px;
+  color: ${colors.gray200};
 `;
