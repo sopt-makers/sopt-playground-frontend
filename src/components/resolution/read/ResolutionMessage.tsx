@@ -2,7 +2,15 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import Text from '@/components/common/Text';
-import { BackgroundOrange, SoptLogo } from '@/components/resolution/read/images';
+import {
+  Background0,
+  Background1,
+  Background2,
+  Background3,
+  Background4,
+  Background5,
+  SoptLogo,
+} from '@/components/resolution/read/images';
 import { TitleDecoration } from '@/components/resolution/read/images';
 
 const tags = ['창업 기반', '문제 해결 능력', '전문성 강화', '협업 경험', '프로덕트 릴리즈', '네트워킹'];
@@ -10,9 +18,20 @@ const message =
   '300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까어';
 
 const ResolutionMessage = () => {
+  const BackgroundComponents = [
+    <Background0 key={0} />,
+    <Background1 key={1} />,
+    <Background2 key={2} />,
+    <Background3 key={3} />,
+    <Background4 key={4} />,
+    <Background5 key={5} />,
+  ];
+
+  const randomBackground = BackgroundComponents[Math.floor(Math.random() * BackgroundComponents.length)];
+
   return (
     <ResolutionMessageWrapper>
-      <BackgroundImage />
+      <BackgroundWrapper>{randomBackground}</BackgroundWrapper>
       <Contents>
         <TitleWrapper>
           <TitleText color={colors.white} typography='SUIT_18_B'>
@@ -44,6 +63,7 @@ const ResolutionMessageWrapper = styled.main`
   position: relative;
   width: 100%;
   min-width: 335px;
+  min-height: 524px;
 `;
 
 const Contents = styled.div`
@@ -59,7 +79,7 @@ const Contents = styled.div`
   height: 100%;
 `;
 
-const BackgroundImage = styled(BackgroundOrange)`
+const BackgroundWrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;

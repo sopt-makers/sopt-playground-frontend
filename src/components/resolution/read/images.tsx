@@ -1,4 +1,4 @@
-export const BackgroundOrange = () => {
+export const Background0 = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1014)' />
@@ -74,7 +74,7 @@ export const BackgroundOrange = () => {
   );
 };
 
-export const BackgroundYellow = () => {
+export const Background1 = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1019)' />
@@ -150,7 +150,7 @@ export const BackgroundYellow = () => {
   );
 };
 
-export const BackgroundBlue = () => {
+export const Background2 = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1016)' />
@@ -226,7 +226,7 @@ export const BackgroundBlue = () => {
   );
 };
 
-export const BackgroundPink = () => {
+export const Background3 = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1017)' />
@@ -302,7 +302,7 @@ export const BackgroundPink = () => {
   );
 };
 
-export const BackgroundNavy = () => {
+export const Background4 = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1018)' />
@@ -378,7 +378,7 @@ export const BackgroundNavy = () => {
   );
 };
 
-export const BackgroundGray = () => {
+export const Background5 = () => {
   return (
     <svg width='335' height='524' viewBox='0 0 335 524' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <rect x='0.5' y='0.5' width='334' height='523' rx='19.5' fill='black' stroke='url(#paint0_linear_2432_1019)' />
