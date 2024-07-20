@@ -13,37 +13,77 @@ type BannerType = {
   mobile: { [key: string]: string };
 };
 
+type textType = {
+  default: {
+    title: string;
+    subtitle: string;
+    buttonContent: string;
+  };
+  resolution: {
+    title: string;
+    subtitle: string;
+    buttonContentPrimary: string;
+    buttonContentSecondary: string;
+  };
+};
+
 export const ClosingCeremonyBanner = () => {
+  const isValidated = true;
+
   const Banner: BannerType = {
     desktop: desktopBanner.src,
     mobile: { default: mobileBanner.src, resolution: mobileResolutionBanner.src },
   };
 
+  const text: textType = {
+    default: {
+      title: 'NOW SOPT 종무식을 축하합니다!',
+      subtitle: 'NOW SOPT 활동 후기가 궁금하다면?',
+      buttonContent: '34기 활동 후기 보러가기',
+    },
+    resolution: {
+      title: 'SOPT에서 외쳤던 다짐, 모두 이루셨나요?',
+      subtitle: 'NOW SOPT를 처음 만났던 순간으로 돌아가보기',
+      buttonContentPrimary: '내 다짐 보러가기',
+      buttonContentSecondary: '활동 후기 작성하기',
+    },
+  };
+
   return (
     <ClosingCeremonyBannerWrapper>
-      <Responsive only='desktop'>
-        <Contents>
-          <TextWrapper>
-            <Text typography='SUIT_18_B' color={colors.white}>
-              SOPT에서 외쳤던 다짐, 모두 이루셨나요?
-            </Text>
-            <Text typography='SUIT_12_M' color={colors.gray300}>
-              NOW SOPT를 처음 만났던 순간으로 돌아가보기
-            </Text>
-          </TextWrapper>
-          <ButtonWrapper>
-            <Button color='secondary'>
-              <Text typography='SUIT_12_EB' color={colors.gray700}>
-                활동 후기 작성하기
-              </Text>
-            </Button>
+      <Contents>
+        <TextWrapper>
+          <Text typography='SUIT_18_B' color={colors.white}>
+            {isValidated ? text.resolution.title : text.default.title}
+          </Text>
+          <Text typography='SUIT_12_M' color={colors.gray300}>
+            {isValidated ? text.resolution.subtitle : text.default.subtitle}
+          </Text>
+        </TextWrapper>
+        <ButtonWrapper>
+          {isValidated ? (
+            <>
+              <Button color='secondary'>
+                <Text typography='SUIT_12_EB' color={colors.gray700}>
+                  {text.resolution.buttonContentSecondary}
+                </Text>
+              </Button>
+              <Button color='primary'>
+                <Text typography='SUIT_12_EB' color={colors.gray700}>
+                  {text.resolution.buttonContentPrimary}
+                </Text>
+              </Button>
+            </>
+          ) : (
             <Button color='primary'>
               <Text typography='SUIT_12_EB' color={colors.gray700}>
-                내 다짐 보러가기
+                {text.default.buttonContent}
               </Text>
             </Button>
-          </ButtonWrapper>
-        </Contents>
+          )}
+        </ButtonWrapper>
+      </Contents>
+      <Responsive only='desktop'>
         <StyledBanner src={Banner.desktop} />
       </Responsive>
     </ClosingCeremonyBannerWrapper>
