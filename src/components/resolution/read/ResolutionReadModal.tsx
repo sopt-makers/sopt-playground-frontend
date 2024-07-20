@@ -7,19 +7,21 @@ import { FC } from 'react';
 import Modal from '@/components/common/Modal';
 import { ModalButton, ModalContent, ModalFooter } from '@/components/common/Modal/parts';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
+import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 const ResolutionReadModal: FC<ModalProps> = ({ ...props }) => {
+  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload();
   const router = useRouter();
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
-      <StyledModalContent>
+      <StyledModalContent ref={imageRef}>
         <ResolutionMessage />
       </StyledModalContent>
       <StyledModalFooter align='stretch'>
-        <ModalButton>이미지로 저장하기</ModalButton>
+        <ModalButton onClick={onDownloadButtonClick}>이미지로 저장하기</ModalButton>
         <ModalButton background='light' onClick={() => router.push(playgroundLink.remember())}>
           활동 후기 작성하기
         </ModalButton>

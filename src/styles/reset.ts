@@ -13,6 +13,10 @@ export const reset = css`
     touch-action: manipulation;
   }
 
+  img {
+    display: initial !important;
+  }
+
   /* stylelint-disable-next-line selector-id-pattern */
   #__next,
   #root {

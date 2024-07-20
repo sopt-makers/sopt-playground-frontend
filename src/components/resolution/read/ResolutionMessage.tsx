@@ -18,7 +18,7 @@ const ResolutionMessage = () => {
       <Contents>
         <TitleWrapper>
           <TitleText color={colors.white} typography='SUIT_18_B'>
-            NOW SOPT를 마친 {resolutionData?.memberName.slice(1)}에게
+            {`NOW SOPT를\n마친 ${resolutionData?.memberName.slice(1)}에게`}
           </TitleText>
           <StyledTitleDecoration />
         </TitleWrapper>
@@ -84,8 +84,8 @@ const TitleText = styled(Text)`
   top: 50%;
   left: 50%;
   transform: translate(-48%, -49%);
-  min-width: 138px;
   text-align: center;
+  white-space: pre;
 `;
 
 const TagWrapper = styled.div`
@@ -108,8 +108,8 @@ const Tag = styled(Text)`
 const Message = styled(Text)`
   margin: 20px 0;
   padding: 0 16px;
-  overflow-y: scroll;
   text-align: center;
+  word-break: keep-all;
 `;
 
 const SoptLogoWrapper = styled.div`
