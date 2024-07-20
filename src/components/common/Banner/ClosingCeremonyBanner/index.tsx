@@ -53,9 +53,9 @@ export const ClosingCeremonyBanner = () => {
     <ClosingCeremonyBannerWrapper>
       <Contents>
         <TextWrapper>
-          <Text typography='SUIT_18_B' color={colors.white}>
+          <ResponsiveText typography='SUIT_18_B' color={colors.white}>
             {isValidated ? text.resolution.title : text.default.title}
-          </Text>
+          </ResponsiveText>
           <Text typography='SUIT_12_M' color={colors.gray300}>
             {isValidated ? text.resolution.subtitle : text.default.subtitle}
           </Text>
@@ -85,6 +85,9 @@ export const ClosingCeremonyBanner = () => {
       </Contents>
       <Responsive only='desktop'>
         <StyledBanner src={Banner.desktop} />
+      </Responsive>
+      <Responsive only='mobile'>
+        <StyledBanner src={isValidated ? Banner.mobile.resolution : Banner.mobile.default} />
       </Responsive>
     </ClosingCeremonyBannerWrapper>
   );
@@ -125,6 +128,7 @@ const TextWrapper = styled.section`
   flex-direction: column;
   gap: 10px;
   align-items: center;
+  text-align: center;
 `;
 
 const ButtonWrapper = styled.section`
@@ -138,4 +142,10 @@ const Button = styled.button<{ color: 'primary' | 'secondary' }>`
   background-color: ${({ color }) => (color === 'primary' ? '#BDEC00' : colors.white)};
   padding: 10px 16px;
   width: fit-content;
+`;
+
+const ResponsiveText = styled(Text)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 192px;
+  }
 `;
