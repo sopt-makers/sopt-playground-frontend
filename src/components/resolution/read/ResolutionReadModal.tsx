@@ -6,6 +6,7 @@ import { FC } from 'react';
 
 import Modal from '@/components/common/Modal';
 import { ModalButton, ModalContent, ModalFooter } from '@/components/common/Modal/parts';
+import useSlideUp from '@/components/common/SlideUp/useToast';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
@@ -14,14 +15,29 @@ import { zIndex } from '@/styles/zIndex';
 
 const ResolutionReadModal: FC<ModalProps> = ({ ...props }) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload();
+  const slideUp = useSlideUp();
   const router = useRouter();
+
+  const handleClickDownloadButton = () => {
+    onDownloadButtonClick();
+    props.onClose();
+    slideUp.show({
+      message: '이미지가 저장되었어요.',
+      buttonText: '활동 후기 작성하기',
+      action: () => {
+        router.push(playgroundLink.remember());
+      },
+      status: 'success',
+    });
+  };
+
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
       <StyledModalContent ref={imageRef}>
         <ResolutionMessage />
       </StyledModalContent>
       <StyledModalFooter align='stretch'>
-        <ModalButton onClick={onDownloadButtonClick}>이미지로 저장하기</ModalButton>
+        <ModalButton onClick={handleClickDownloadButton}>이미지로 저장하기</ModalButton>
         <ModalButton background='light' onClick={() => router.push(playgroundLink.remember())}>
           활동 후기 작성하기
         </ModalButton>
