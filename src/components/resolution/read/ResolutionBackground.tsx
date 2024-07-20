@@ -8,16 +8,17 @@ import {
 } from '@/components/resolution/read/images';
 
 const ResolutionBackground = () => {
-  const BackgroundComponents = [
-    <Background0 key={0} />,
-    <Background1 key={1} />,
-    <Background2 key={2} />,
-    <Background3 key={3} />,
-    <Background4 key={4} />,
-    <Background5 key={5} />,
-  ];
+  const BackgroundComponents: { [key: number]: JSX.Element } = {
+    0: <Background0 />,
+    1: <Background1 />,
+    2: <Background2 />,
+    3: <Background3 />,
+    4: <Background4 />,
+    5: <Background5 />,
+  };
 
-  const randomBackground = BackgroundComponents[Math.floor(Math.random() * BackgroundComponents.length)];
+  const randomIndex = Math.floor(Math.random() * Object.keys(BackgroundComponents).length);
+  const randomBackground = BackgroundComponents[randomIndex];
   return <>{randomBackground}</>;
 };
 
