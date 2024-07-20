@@ -17,16 +17,10 @@ export default function ReviewCard({ id, content }: ReviewCardProp) {
     'rgba(255, 255, 255, 0.3)',
     'rgba(31, 41, 156, 0.6)',
     'rgba(253, 187, 249, 0.6)',
-
-    'rgba(93, 219, 255, 0.6)',
-    'rgba(253, 187, 249, 0.6)',
-    'rgba(255, 110, 29, 0.6)',
-    'rgba(255, 255, 255, 0.3)',
-    'rgba(255, 202, 0, 0.6)',
   ];
 
   return (
-    <Card color={cardColor[id % 12]}>
+    <Card color={cardColor[id % 7]}>
       <CardInner>{content}</CardInner>
     </Card>
   );
@@ -56,7 +50,7 @@ const CardInner = styled.div`
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: pre;
+  white-space: pre-wrap;
   -webkit-line-clamp: 7;
   -webkit-box-orient: vertical;
 
