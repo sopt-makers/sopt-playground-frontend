@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { isResSent } from 'next/dist/shared/lib/utils';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
@@ -74,8 +75,14 @@ export const ClosingCeremonyBanner = () => {
         <Contents>
           <TextWrapper>
             <Text typography='SUIT_18_B' color={colors.white}>
-              <Responsive only='desktop'>{text.resolution.title.desktop}</Responsive>
-              <Responsive only='mobile'>{text.resolution.title.mobile}</Responsive>
+              {isRegistration ? (
+                <>
+                  <Responsive only='desktop'>{text.resolution.title.desktop}</Responsive>
+                  <Responsive only='mobile'>{text.resolution.title.mobile}</Responsive>
+                </>
+              ) : (
+                text.default.title
+              )}
             </Text>
             <Text typography='SUIT_12_M' color={colors.gray300}>
               {isRegistration ? text.resolution.subtitle : text.default.subtitle}
