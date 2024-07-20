@@ -9,9 +9,7 @@ import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
-interface ResolutionReadModalProps extends ModalProps {}
-
-const ResolutionReadModal: FC<ResolutionReadModalProps> = ({ ...props }) => {
+const ResolutionReadModal: FC<ModalProps> = ({ ...props }) => {
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
       <StyledModalContent>
