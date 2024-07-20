@@ -2,36 +2,20 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import Text from '@/components/common/Text';
-import {
-  Background0,
-  Background1,
-  Background2,
-  Background3,
-  Background4,
-  Background5,
-  SoptLogo,
-} from '@/components/resolution/read/images';
+import { SoptLogo } from '@/components/resolution/read/images';
 import { TitleDecoration } from '@/components/resolution/read/images';
+import ResolutionBackground from '@/components/resolution/read/ResolutionBackground';
 
 const name = '은서';
 const tags = ['전문성 강화', '프로덕트 릴리즈', '문제 해결 능력', '협업 경험', '창업 기반', '네트워킹'].sort();
 const message = '아자아자메이커스화이팅! 아자아자메이커스화이팅! 아자아자메이커스화이팅! ';
 
 const ResolutionMessage = () => {
-  const BackgroundComponents = [
-    <Background0 key={0} />,
-    <Background1 key={1} />,
-    <Background2 key={2} />,
-    <Background3 key={3} />,
-    <Background4 key={4} />,
-    <Background5 key={5} />,
-  ];
-
-  const randomBackground = BackgroundComponents[Math.floor(Math.random() * BackgroundComponents.length)];
-
   return (
     <ResolutionMessageWrapper>
-      <BackgroundWrapper>{randomBackground}</BackgroundWrapper>
+      <BackgroundWrapper>
+        <ResolutionBackground />
+      </BackgroundWrapper>
       <Contents>
         <TitleWrapper>
           <TitleText color={colors.white} typography='SUIT_18_B'>
