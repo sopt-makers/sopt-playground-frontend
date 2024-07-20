@@ -135,6 +135,7 @@ const ClosingCeremonyBannerWrapper = styled.header`
 const StyledBanner = styled.img`
   width: 100%;
   max-height: 100%;
+  object-fit: contain;
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
     max-width: 375px;
