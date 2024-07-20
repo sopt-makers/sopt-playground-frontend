@@ -25,7 +25,10 @@ type textType = {
     buttonContent: string;
   };
   resolution: {
-    title: string;
+    title: {
+      desktop: string;
+      mobile: string;
+    };
     subtitle: string;
     buttonContentPrimary: string;
     buttonContentSecondary: string;
@@ -55,7 +58,10 @@ export const ClosingCeremonyBanner = () => {
       buttonContent: '34기 활동 후기 보러가기',
     },
     resolution: {
-      title: 'SOPT에서 외쳤던 다짐, 모두 이루셨나요?',
+      title: {
+        desktop: 'SOPT에서 외쳤던 다짐, 모두 이루셨나요?',
+        mobile: `SOPT에서 외쳤던 다짐,\n모두 이루셨나요?`,
+      },
       subtitle: 'NOW SOPT를 처음 만났던 순간으로 돌아가보기',
       buttonContentPrimary: '내 다짐 보러가기',
       buttonContentSecondary: '활동 후기 작성하기',
@@ -67,9 +73,10 @@ export const ClosingCeremonyBanner = () => {
       <ClosingCeremonyBannerWrapper>
         <Contents>
           <TextWrapper>
-            <ResponsiveText typography='SUIT_18_B' color={colors.white}>
-              {isRegistration ? text.resolution.title : text.default.title}
-            </ResponsiveText>
+            <Text typography='SUIT_18_B' color={colors.white}>
+              <Responsive only='desktop'>{text.resolution.title.desktop}</Responsive>
+              <Responsive only='mobile'>{text.resolution.title.mobile}</Responsive>
+            </Text>
             <Text typography='SUIT_12_M' color={colors.gray300}>
               {isRegistration ? text.resolution.subtitle : text.default.subtitle}
             </Text>
@@ -145,6 +152,7 @@ const TextWrapper = styled.section`
   gap: 10px;
   align-items: center;
   text-align: center;
+  white-space: pre;
 `;
 
 const ButtonWrapper = styled.section`
@@ -158,10 +166,4 @@ const Button = styled.button<{ color: 'primary' | 'secondary' }>`
   background-color: ${({ color }) => (color === 'primary' ? '#BDEC00' : colors.white)};
   padding: 10px 16px;
   width: fit-content;
-`;
-
-const ResponsiveText = styled(Text)`
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 188px;
-  }
 `;
