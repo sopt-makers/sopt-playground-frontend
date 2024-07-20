@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
+import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import desktopBanner from '@/public/icons/img/banner_closing-ceremony_desktop.png';
@@ -28,7 +29,8 @@ type textType = {
 };
 
 export const ClosingCeremonyBanner = () => {
-  const isValidated = true;
+  const { data } = useGetResolutionValidation();
+  const isRegistration = data?.isRegistration;
 
   const Banner: BannerType = {
     desktop: desktopBanner.src,
@@ -54,14 +56,14 @@ export const ClosingCeremonyBanner = () => {
       <Contents>
         <TextWrapper>
           <ResponsiveText typography='SUIT_18_B' color={colors.white}>
-            {isValidated ? text.resolution.title : text.default.title}
+            {isRegistration ? text.resolution.title : text.default.title}
           </ResponsiveText>
           <Text typography='SUIT_12_M' color={colors.gray300}>
-            {isValidated ? text.resolution.subtitle : text.default.subtitle}
+            {isRegistration ? text.resolution.subtitle : text.default.subtitle}
           </Text>
         </TextWrapper>
         <ButtonWrapper>
-          {isValidated ? (
+          {isRegistration ? (
             <>
               <Button color='secondary'>
                 <Text typography='SUIT_12_EB' color={colors.gray700}>
@@ -87,7 +89,7 @@ export const ClosingCeremonyBanner = () => {
         <StyledBanner src={Banner.desktop} />
       </Responsive>
       <Responsive only='mobile'>
-        <StyledBanner src={isValidated ? Banner.mobile.resolution : Banner.mobile.default} />
+        <StyledBanner src={isRegistration ? Banner.mobile.resolution : Banner.mobile.default} />
       </Responsive>
     </ClosingCeremonyBannerWrapper>
   );
