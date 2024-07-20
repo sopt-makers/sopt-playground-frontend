@@ -13,13 +13,13 @@ const SlideUpEntry: FC<SlideUpOption> = ({ status, message, buttonText, action }
       <StyledToastEntry>
         <HeaderBox>
           {status === 'success' && <SlideUpIconSuccess />}
-          <ContentBox>{message}</ContentBox>
-          {buttonText && (
-            <ActionButton type='button' onClick={action}>
-              {buttonText}
-            </ActionButton>
-          )}
+          {message}
         </HeaderBox>
+        {buttonText && (
+          <ActionButton type='button' onClick={action}>
+            {buttonText}
+          </ActionButton>
+        )}
       </StyledToastEntry>
     </StyledToastWrapper>
   );
@@ -49,6 +49,8 @@ const ActionButton = styled.button`
 `;
 
 const StyledToastWrapper = styled.div`
+  position: absolute;
+  top: 35px;
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
     justify-content: center;
@@ -57,10 +59,11 @@ const StyledToastWrapper = styled.div`
 `;
 const StyledToastEntry = styled.div`
   display: flex;
+  justify-content: space-between;
   border-radius: 18px;
   background: ${colors.gray10};
   padding: 14px 16px;
-  width: 380px;
+  width: 343px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 343px;
@@ -71,13 +74,10 @@ const HeaderBox = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  color: ${colors.gray900};
+  ${textStyles.SUIT_14_SB};
 
   > svg {
     min-width: max-content;
   }
-`;
-
-const ContentBox = styled.div`
-  color: ${colors.gray900};
-  ${textStyles.SUIT_14_SB};
 `;

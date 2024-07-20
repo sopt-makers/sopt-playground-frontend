@@ -67,27 +67,26 @@ const SlidUpContainer = styled.div<{ animation: string }>`
   top: -155px;
   left: 0;
   justify-content: center;
-  transform: translatex(-50%);
   z-index: ${zIndex.헤더};
   width: 100%;
   animation: 0.3s forwards ${(props) => props.animation};
-  @keyframes slide-in {
+  @keyframes slide-out {
     from {
-      transform: translateY(300%);
+      top: -155px;
     }
 
     to {
-      transform: translateY(0%);
+      top: 0;
     }
   }
 
-  @keyframes slide-out {
+  @keyframes slide-in {
     from {
-      transform: translateY(0%);
+      top: 0;
     }
 
     to {
-      transform: translateY(300%);
+      top: -155px;
     }
   }
 
