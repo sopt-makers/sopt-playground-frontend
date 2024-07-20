@@ -7,7 +7,7 @@ const useImageDownload = () => {
   const onClick = () => {
     html2canvas(ref.current as HTMLDivElement, {
       backgroundColor: null,
-      scale: 2,
+      scale: 4,
     })
       .then((canvas) => {
         const link = document.createElement('a');
