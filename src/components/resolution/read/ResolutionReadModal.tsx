@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 
 import Modal from '@/components/common/Modal';
@@ -10,6 +12,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 const ResolutionReadModal: FC<ModalProps> = ({ ...props }) => {
+  const router = useRouter();
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
       <StyledModalContent>
@@ -17,7 +20,9 @@ const ResolutionReadModal: FC<ModalProps> = ({ ...props }) => {
       </StyledModalContent>
       <StyledModalFooter align='stretch'>
         <ModalButton>이미지로 저장하기</ModalButton>
-        <ModalButton background='light'>활동 후기 작성하기</ModalButton>
+        <ModalButton background='light' onClick={() => router.push(playgroundLink.remember())}>
+          활동 후기 작성하기
+        </ModalButton>
       </StyledModalFooter>
     </StyledModal>
   );
