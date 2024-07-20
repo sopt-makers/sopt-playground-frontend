@@ -5,8 +5,8 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
-import ResolutionModal from '@/components/resolution/ResolutionModal';
-import { useOpenResolutionModal } from '@/components/resolution/useOpenResolutionModal';
+import ResolutionSubmitModal from '@/components/resolution/submit/ResolutionSubmitModal';
+import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import desktop34Banner1 from '@/public/icons/img/banner_34_desktop_ver1.gif';
 import desktop34Banner2 from '@/public/icons/img/banner_34_desktop_ver2.gif';
 import mobile34Banner1 from '@/public/icons/img/banner_34_mobile_ver1.gif';
@@ -74,7 +74,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
                     </ResolutionButton>
                   </LoggingClick>
                   {isOpenResolutionModal && (
-                    <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
+                    <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
                   )}
                 </ButtonWrapper>
                 <BannerWrapper>

@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import z from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
-import { ResolutionTag } from '@/components/resolution/ResolutionModal';
+import { ResolutionTag } from '@/components/resolution/constants';
 
 export interface ResolutionRequestBody {
   content: string;

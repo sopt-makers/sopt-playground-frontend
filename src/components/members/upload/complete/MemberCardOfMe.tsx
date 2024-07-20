@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { m } from 'framer-motion';
 import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';

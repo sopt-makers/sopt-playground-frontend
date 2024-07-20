@@ -8,11 +8,9 @@ import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
-import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
-import CardBack from '@/components/resolution/CardBack';
-import MemberCardOfMe from '@/components/resolution/MemberCardOfMe';
-import ResolutionModal from '@/components/resolution/ResolutionModal';
-import { useOpenResolutionModal } from '@/components/resolution/useOpenResolutionModal';
+import CardBack from '@/components/members/upload/complete/CardBack';
+import MemberCardOfMe from '@/components/members/upload/complete/MemberCardOfMe';
+import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
@@ -33,8 +31,7 @@ const CompletePage: FC = () => {
       isActive: activity.generation === LATEST_GENERATION,
     }));
 
-  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, profileImage } =
-    useOpenResolutionModal();
+  const { isOpenResolutionModal, onCloseResolutionModal, profileImage } = useOpenResolutionModal();
 
   return (
     <AuthRequired>
@@ -68,9 +65,6 @@ const CompletePage: FC = () => {
             >
               플레이그라운드 시작하기
             </DefaultButton>
-            {isOpenResolutionModal && (
-              <ResolutionModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
-            )}
           </ButtonWrapper>
         </StyledCompletePage>
       )}

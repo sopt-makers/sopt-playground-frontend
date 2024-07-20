@@ -13,52 +13,11 @@ import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { useConfirmResolution } from '@/components/resolution/useConfirmResolution';
+import { ResolutionTag, TAG } from '@/components/resolution/constants';
+import { useConfirmResolution } from '@/components/resolution/submit/useConfirmResolution';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { zIndex } from '@/styles/zIndex';
-
-// 서버 변경 후 반영 필요
-export enum ResolutionTag {
-  ENTREPRENEURSHIP_FOUNDATION = '창업 기반',
-  PROBLEM_SOLVING = '문제해결 능력',
-  PROFESSIONALISM = '전문성 강화',
-  COLLABORATION_EXPERIENCE = '협업 경험',
-  PRODUCT_RELEASE = '프로덕트 릴리즈',
-  NETWORKING = '네트워킹',
-}
-
-interface Tag {
-  icon: string;
-  value: ResolutionTag;
-}
-// 서버 변경 후 반영 필요
-const TAG: Tag[] = [
-  {
-    icon: '🏃',
-    value: ResolutionTag.ENTREPRENEURSHIP_FOUNDATION,
-  },
-  {
-    icon: '💡',
-    value: ResolutionTag.PROBLEM_SOLVING,
-  },
-  {
-    icon: '📈',
-    value: ResolutionTag.PROFESSIONALISM,
-  },
-  {
-    icon: '👩‍👩‍👧‍👦',
-    value: ResolutionTag.COLLABORATION_EXPERIENCE,
-  },
-  {
-    icon: '🎉',
-    value: ResolutionTag.PRODUCT_RELEASE,
-  },
-  {
-    icon: '🤝🏻',
-    value: ResolutionTag.NETWORKING,
-  },
-];
 
 const schema = yup.object().shape({
   tags: yup
@@ -73,11 +32,11 @@ interface ResolutionForm {
   content: string;
 }
 
-interface ResolutionModalProps extends ModalProps {
+interface ResolutionSubmitModalProps extends ModalProps {
   profileImageUrl: string;
 }
 
-const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }) => {
+const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl, ...props }) => {
   const { handleConfirmResolution, isPending } = useConfirmResolution();
   const [selectedTag, setSelectedTag] = useState<ResolutionTag[]>([]);
   const { handleSubmit, control, formState } = useForm<ResolutionForm>({
@@ -189,7 +148,7 @@ const ResolutionModal: FC<ResolutionModalProps> = ({ profileImageUrl, ...props }
   );
 };
 
-export default ResolutionModal;
+export default ResolutionSubmitModal;
 
 const StyledModal = styled(Modal)`
   background-color: ${colors.gray900};
