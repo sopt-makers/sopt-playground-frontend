@@ -11,10 +11,6 @@ export const reset = css`
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
     touch-action: manipulation;
-
-    & > div:last-child > span + img {
-      display: inline !important;
-    }
   }
 
   /* stylelint-disable-next-line selector-id-pattern */
