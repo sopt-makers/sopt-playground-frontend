@@ -9,13 +9,13 @@ const useImageDownload = () => {
       backgroundColor: null,
       scale: 4,
     })
-      .then((canvas) => {
+      .then((canvas: HTMLCanvasElement) => {
         const link = document.createElement('a');
         link.href = canvas.toDataURL('image/png');
         link.download = 'test.png';
         link.click();
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.error(error);
       });
   };
