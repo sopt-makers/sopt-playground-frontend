@@ -9,7 +9,6 @@ const getResolutionValidation = createEndpoint({
     url: 'api/v1/resolution/validation',
   },
   serverResponseScheme: z.object({
-    memberProfileImgUrl: z.string(),
     isRegistration: z.boolean(),
   }),
 });
