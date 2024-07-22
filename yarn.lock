@@ -2399,6 +2399,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cfcs/core@npm:^0.0.24":
+  version: 0.0.24
+  resolution: "@cfcs/core@npm:0.0.24"
+  dependencies:
+    "@egjs/component": ^3.0.4
+  checksum: 6e1873f0ce85d2a401f3938a5bc9ce396c49b1fdcac0a3b2369245be25d7a7522e98515b7b7157ad6f0ce7b4e0a996b47ed2d3b8c70a4531e57d83b6dedbafa9
+  languageName: node
+  linkType: hard
+
+"@cfcs/core@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@cfcs/core@npm:0.0.5"
+  dependencies:
+    "@egjs/component": ^3.0.2
+  checksum: 4c2043e15f3330461de2519acc64581310e1078923034e27565a64938df9b9ff8e1066137ebba635ea16e937daace76154770b17fd44913156e078b1bf5ad6f0
+  languageName: node
+  linkType: hard
+
 "@cloudflare/workers-types@npm:^3.18.0":
   version: 3.19.0
   resolution: "@cloudflare/workers-types@npm:3.19.0"
@@ -2623,6 +2641,72 @@ __metadata:
   version: 0.5.7
   resolution: "@discoveryjs/json-ext@npm:0.5.7"
   checksum: 2176d301cc258ea5c2324402997cf8134ebb212469c0d397591636cea8d3c02f2b3cf9fd58dcb748c7a0dade77ebdc1b10284fa63e608c033a1db52fddc69918
+  languageName: node
+  linkType: hard
+
+"@egjs/children-differ@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@egjs/children-differ@npm:1.0.1"
+  dependencies:
+    "@egjs/list-differ": ^1.0.0
+  checksum: 087f286822a93cc5ac2ba0beb9f332f3828a8870fea0e9d0a177078c96fc265ce74979be827a78dab674a833e3a22d4fe60636112a1aae93252e0a38f58ff754
+  languageName: node
+  linkType: hard
+
+"@egjs/component@npm:^3.0.0, @egjs/component@npm:^3.0.1, @egjs/component@npm:^3.0.2, @egjs/component@npm:^3.0.4":
+  version: 3.0.5
+  resolution: "@egjs/component@npm:3.0.5"
+  checksum: d2ca53cc86b82df0fac3f21045a05d70a542c1f6a061cf534c67b336830644d0fbef07e322fcbe5bd809f59504103319a2c6467af58a9f8009a81655c3fe366f
+  languageName: node
+  linkType: hard
+
+"@egjs/grid@npm:~1.16.0":
+  version: 1.16.0
+  resolution: "@egjs/grid@npm:1.16.0"
+  dependencies:
+    "@egjs/children-differ": ^1.0.1
+    "@egjs/component": ^3.0.0
+    "@egjs/imready": ^1.3.0
+  checksum: d43cfe76a516a278974093381712902aa4892d64350d7d41e79a5c58972f6ff1242ed11889b026d104bb4a04e63e4a0068f16ba0bec3c394cd3165c9ad2a6a74
+  languageName: node
+  linkType: hard
+
+"@egjs/imready@npm:^1.3.0":
+  version: 1.4.1
+  resolution: "@egjs/imready@npm:1.4.1"
+  dependencies:
+    "@cfcs/core": ^0.0.24
+    "@egjs/component": ^3.0.1
+  checksum: 719afe734c4346555ffb75a5a487242c02a26509cfda9cc77272c7ec878e5058fff68027ea64a70a460b3e9393164df8adb70cba9a008d13d2029e8932687df9
+  languageName: node
+  linkType: hard
+
+"@egjs/infinitegrid@npm:~4.12.0":
+  version: 4.12.0
+  resolution: "@egjs/infinitegrid@npm:4.12.0"
+  dependencies:
+    "@cfcs/core": ^0.0.5
+    "@egjs/children-differ": ^1.0.1
+    "@egjs/component": ^3.0.0
+    "@egjs/grid": ~1.16.0
+    "@egjs/list-differ": ^1.0.0
+  checksum: 0aa2d8e000c6341515c16508cf16a7b3370f5cd2465789bf0c36fe39e342486054a8ef80052f8c5d02b006b1434157ba9fd421a8e1c4c6759b1efb455c62e146
+  languageName: node
+  linkType: hard
+
+"@egjs/list-differ@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@egjs/list-differ@npm:1.0.1"
+  checksum: 2c126c66d7753c1b86816192f265fa8a58fc45b62b739ebce9008202c2485dcc81d62a9e8d26ceb73efd1679140d39dd5ae3638d63e1ebaf5ca9d6bc824a16c7
+  languageName: node
+  linkType: hard
+
+"@egjs/react-infinitegrid@npm:^4.12.0":
+  version: 4.12.0
+  resolution: "@egjs/react-infinitegrid@npm:4.12.0"
+  dependencies:
+    "@egjs/infinitegrid": ~4.12.0
+  checksum: 16adb9cba668d8847be7a9e9504f0f7a14ed436f5c1b26981592c93bb0177ae6d55d305e279a1d50fbac38188b199937b87d86b6d6db731c1c98c2f5f1f0f0df
   languageName: node
   linkType: hard
 
@@ -18465,6 +18549,7 @@ __metadata:
     "@cloudflare/workers-types": ^3.18.0
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
+    "@egjs/react-infinitegrid": ^4.12.0
     "@emotion/babel-preset-css-prop": ^11.11.0
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
