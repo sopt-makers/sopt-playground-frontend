@@ -9,7 +9,6 @@ const getResolution = createEndpoint({
     url: 'api/v1/resolution',
   },
   serverResponseScheme: z.object({
-    memberImageUrl: z.string().or(z.null()),
     memberName: z.string(),
     tags: z.array(z.string()),
     content: z.string(),

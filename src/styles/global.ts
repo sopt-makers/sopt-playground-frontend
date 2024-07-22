@@ -66,9 +66,4 @@ export const global = css`
   button {
     cursor: pointer;
   }
-
-  /* Remove extra padding when using html2canvas */
-  body > div:last-child > span + img {
-    display: inline !important;
-  }
 `;
