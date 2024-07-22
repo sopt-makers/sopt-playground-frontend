@@ -1,4 +1,6 @@
+import { useGetReviewsInfiniteQuery } from '@/api/endpoint/remember/getReviews';
 import { useUploadReviewMutation } from '@/api/endpoint/remember/uploadReview';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -8,9 +10,10 @@ import TextareaAutosize from 'react-textarea-autosize';
 const MAX_LENGTH = 3000;
 
 export default function ReviewInput() {
-  const [content, setContent] = useState<string>();
+  const [content, setContent] = useState<string>('');
   const [inputStatus, setInputStatus] = useState<'error' | 'focus'>();
   const { mutate } = useUploadReviewMutation();
+  const { refetch } = useGetReviewsInfiniteQuery();
 
   const handleWrite = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const content = e.target.value;
@@ -35,7 +38,15 @@ export default function ReviewInput() {
 
   const handleSubmit = () => {
     if (content !== undefined && content !== '') {
-      mutate({ content: content });
+      mutate(
+        { content: content },
+        {
+          onSuccess: () => {
+            refetch();
+            setContent('');
+          },
+        },
+      );
     }
   };
 
@@ -43,7 +54,7 @@ export default function ReviewInput() {
   const isFocus = inputStatus === 'focus';
 
   return (
-    <>
+    <ReviewInputWrapper>
       <InputBox isFocus={isFocus} isError={isError}>
         <Input
           value={content}
@@ -59,9 +70,9 @@ export default function ReviewInput() {
       </InputBox>
       <Bottom>
         {isError ? <Error /> : <div />}
-        <Length>{content ? content.length : 0}/3,000</Length>
+        <Length>{content ? content.length.toLocaleString() : 0}/3,000</Length>
       </Bottom>
-    </>
+    </ReviewInputWrapper>
   );
 }
 
@@ -110,6 +121,15 @@ const SendIcon = ({ isActivate }: { isActivate: boolean }) => {
   );
 };
 
+const ReviewInputWrapper = styled.section`
+  width: 100%;
+  max-width: 1037px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 100%;
+  }
+`;
+
 const ErrorWrapper = styled.div`
   display: flex;
   gap: 4px;
@@ -133,6 +153,7 @@ const Length = styled.div`
 const SendButton = styled.i`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const InputBox = styled.div<{ isFocus: boolean; isError: boolean }>`
@@ -144,10 +165,6 @@ const InputBox = styled.div<{ isFocus: boolean; isError: boolean }>`
   background-color: ${colors.gray800};
   padding: 11px 16px;
   width: 100%;
-
-  > svg {
-    cursor: pointer;
-  }
 `;
 
 const Input = styled(TextareaAutosize)`

@@ -1,6 +1,6 @@
 'use client';
 import styled from '@emotion/styled';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import RememberPage from '@/components/remember';
@@ -8,27 +8,6 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
 const Remember34Page: FC = () => {
-  const [isMocking, setIsMocking] = useState(false);
-  const isWorkerStarted = useRef(false);
-
-  useEffect(() => {
-    async function enableApiMocking() {
-      if (typeof window !== 'undefined' && !isWorkerStarted.current) {
-        isWorkerStarted.current = true;
-        const { worker } = await import('@/components/remember/mocks/browser');
-        await worker.start();
-        console.log('Worker started');
-        setIsMocking(true);
-      }
-    }
-
-    enableApiMocking();
-  }, []);
-
-  if (!isMocking) {
-    return null;
-  }
-
   return (
     <AuthRequired>
       <StyledRemember34Page>
@@ -40,7 +19,7 @@ const Remember34Page: FC = () => {
 
 export default Remember34Page;
 
-setLayout(Remember34Page, 'header');
+setLayout(Remember34Page, 'headerOnlyDesktop');
 
 const StyledRemember34Page = styled.div`
   display: flex;
@@ -49,6 +28,6 @@ const StyledRemember34Page = styled.div`
   padding: 64px 0;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 24px 20px;
+    padding: 10px 20px 24px;
   }
 `;
