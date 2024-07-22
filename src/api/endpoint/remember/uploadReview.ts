@@ -10,7 +10,7 @@ interface RequestBody {
 export const uploadReview = createEndpoint({
   request: (reqeustBody: RequestBody) => ({
     method: 'POST',
-    url: 'review/upload',
+    url: `api/v1/review`,
     data: reqeustBody,
   }),
   serverResponseScheme: z.unknown(),
@@ -21,8 +21,5 @@ export const useUploadReviewMutation = () => {
 
   return useMutation({
     mutationFn: (reqeustBody: RequestBody) => uploadReview.request(reqeustBody),
-    onSuccess: () => {
-      //   queryClient.invalidateQueries({ queryKey: useGetReviewsInfiniteQuery.getKey('') }); // review
-    },
   });
 };

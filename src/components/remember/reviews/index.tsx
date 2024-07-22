@@ -1,16 +1,14 @@
-import { getReviews } from '@/api/endpoint/remember/getReviews';
+import { useGetReviewsInfiniteQuery } from '@/api/endpoint/remember/getReviews';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import ReviewCard from '@/components/remember/reviews/ReviewCard';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import styled from '@emotion/styled';
-import { useQuery } from '@tanstack/react-query';
 
 export default function Reviews() {
-  const { data: reviewData, isFetching } = useQuery({
-    queryKey: ['getReviews'],
-    queryFn: () => getReviews.request(),
-  });
+  const { data, isPending } = useGetReviewsInfiniteQuery();
+
+  const reviewData = data?.pages.flatMap((page) => page) ?? [];
 
   const renderedReviewData =
     reviewData &&
@@ -20,26 +18,32 @@ export default function Reviews() {
     });
 
   return (
-    <Container>
-      {isFetching ? (
+    <ReviewsContainer>
+      {isPending ? (
         <Loading />
       ) : (
-        <>
+        <ReviewsWrapper>
           <Responsive only='mobile'>
             <ReviewCardMobileWrapper>{renderedReviewData}</ReviewCardMobileWrapper>
           </Responsive>
           <Responsive only='desktop'>
-            <MasonryInfiniteGrid align='center' gap={16} column={3}>
+            <ReviewCardDesktopWrapper align='center' gap={16} column={3}>
               {renderedReviewData}
-            </MasonryInfiniteGrid>
+            </ReviewCardDesktopWrapper>
           </Responsive>
-        </>
+        </ReviewsWrapper>
       )}
-    </Container>
+    </ReviewsContainer>
   );
 }
 
-const Container = styled.div`
+const ReviewsWrapper = styled.div`
+  width: 100%;
+`;
+
+const ReviewsContainer = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100%;
 `;
 
@@ -47,7 +51,10 @@ const ReviewCardMobileWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: 32px;
   width: 100%;
 `;
 
-const ReviewCardDesktopWrapper = styled(MasonryInfiniteGrid)``;
+const ReviewCardDesktopWrapper = styled(MasonryInfiniteGrid)`
+  margin-top: 48px;
+`;
