@@ -4,6 +4,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
 import RememberPage from '@/components/remember';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
 const Remember34Page: FC = () => {
@@ -46,4 +47,8 @@ const StyledRemember34Page = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 64px 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 24px 20px;
+  }
 `;
