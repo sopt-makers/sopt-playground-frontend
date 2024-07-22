@@ -63,7 +63,8 @@ const StyledToastEntry = styled.div`
   border-radius: 18px;
   background: ${colors.gray10};
   padding: 14px 16px;
-  width: 343px;
+  min-width: 343px;
+  max-width: 380px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 343px;
