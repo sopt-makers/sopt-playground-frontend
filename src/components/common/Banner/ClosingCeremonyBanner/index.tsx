@@ -44,7 +44,7 @@ export const ClosingCeremonyBanner = () => {
     onOpen: onOpenResolutionModal,
   } = useModalState();
 
-  const { data } = useGetResolutionValidation();
+  const { data, isLoading } = useGetResolutionValidation();
   const isRegistration = data?.isRegistration;
 
   const Banner: BannerType = {
@@ -71,53 +71,56 @@ export const ClosingCeremonyBanner = () => {
 
   return (
     <>
-      <ClosingCeremonyBannerWrapper>
-        <Contents>
-          <TextWrapper>
-            <Text typography='SUIT_18_B' color={colors.white}>
+      {!isLoading && (
+        <ClosingCeremonyBannerWrapper>
+          <Contents>
+            <TextWrapper>
+              <Text typography='SUIT_18_B' color={colors.white}>
+                {isRegistration ? (
+                  <>
+                    <Responsive only='desktop'>{text.resolution.title.desktop}</Responsive>
+                    <Responsive only='mobile'>{text.resolution.title.mobile}</Responsive>
+                  </>
+                ) : (
+                  text.default.title
+                )}
+              </Text>
+              <Text typography='SUIT_12_M' color={colors.gray300}>
+                {isRegistration ? text.resolution.subtitle : text.default.subtitle}
+              </Text>
+            </TextWrapper>
+            <ButtonWrapper>
               {isRegistration ? (
                 <>
-                  <Responsive only='desktop'>{text.resolution.title.desktop}</Responsive>
-                  <Responsive only='mobile'>{text.resolution.title.mobile}</Responsive>
+                  <Button color='secondary' onClick={() => router.push(playgroundLink.remember())}>
+                    <Text typography='SUIT_12_EB' color={colors.gray700}>
+                      {text.resolution.buttonContentSecondary}
+                    </Text>
+                  </Button>
+                  <Button color='primary' onClick={onOpenResolutionModal}>
+                    <Text typography='SUIT_12_EB' color={colors.gray700}>
+                      {text.resolution.buttonContentPrimary}
+                    </Text>
+                  </Button>
                 </>
               ) : (
-                text.default.title
+                <Button color='primary' onClick={() => router.push(playgroundLink.remember())}>
+                  <Text typography='SUIT_12_EB' color={colors.gray700}>
+                    {text.default.buttonContent}
+                  </Text>
+                </Button>
               )}
-            </Text>
-            <Text typography='SUIT_12_M' color={colors.gray300}>
-              {isRegistration ? text.resolution.subtitle : text.default.subtitle}
-            </Text>
-          </TextWrapper>
-          <ButtonWrapper>
-            {isRegistration ? (
-              <>
-                <Button color='secondary' onClick={() => router.push(playgroundLink.remember())}>
-                  <Text typography='SUIT_12_EB' color={colors.gray700}>
-                    {text.resolution.buttonContentSecondary}
-                  </Text>
-                </Button>
-                <Button color='primary' onClick={onOpenResolutionModal}>
-                  <Text typography='SUIT_12_EB' color={colors.gray700}>
-                    {text.resolution.buttonContentPrimary}
-                  </Text>
-                </Button>
-              </>
-            ) : (
-              <Button color='primary' onClick={() => router.push(playgroundLink.remember())}>
-                <Text typography='SUIT_12_EB' color={colors.gray700}>
-                  {text.default.buttonContent}
-                </Text>
-              </Button>
-            )}
-          </ButtonWrapper>
-        </Contents>
-        <Responsive only='desktop'>
-          <StyledBanner src={Banner.desktop} />
-        </Responsive>
-        <Responsive only='mobile'>
-          <StyledBanner src={isRegistration ? Banner.mobile.resolution : Banner.mobile.default} />
-        </Responsive>
-      </ClosingCeremonyBannerWrapper>
+            </ButtonWrapper>
+          </Contents>
+          <Responsive only='desktop'>
+            <StyledBanner src={Banner.desktop} />
+          </Responsive>
+          <Responsive only='mobile'>
+            <StyledBanner src={isRegistration ? Banner.mobile.resolution : Banner.mobile.default} />
+          </Responsive>
+        </ClosingCeremonyBannerWrapper>
+      )}
+
       {isOpenResolutionModal && <ResolutionReadModal onClose={onCloseResolutionModal} />}
     </>
   );
@@ -135,6 +138,7 @@ const ClosingCeremonyBannerWrapper = styled.header`
 const StyledBanner = styled.img`
   width: 100%;
   max-height: 100%;
+  object-fit: contain;
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
     max-width: 375px;
