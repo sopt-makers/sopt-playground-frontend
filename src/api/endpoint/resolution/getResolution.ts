@@ -3,21 +3,23 @@ import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
 
-const getResolutionValidation = createEndpoint({
+const getResolution = createEndpoint({
   request: {
     method: 'GET',
-    url: 'api/v1/resolution/validation',
+    url: 'api/v1/resolution',
   },
   serverResponseScheme: z.object({
-    isRegistration: z.boolean(),
+    memberName: z.string(),
+    tags: z.array(z.string()),
+    content: z.string(),
   }),
 });
 
-export const useGetResolutionValidation = () => {
+export const useGetResolution = () => {
   return useQuery({
-    queryKey: ['getResolutionValidation'],
+    queryKey: ['getResolution'],
     queryFn: async () => {
-      const data = await getResolutionValidation.request();
+      const data = await getResolution.request();
       return data;
     },
   });

@@ -1,16 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
+import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
 import Text from '@/components/common/Text';
 import { SoptLogo } from '@/components/resolution/read/images';
 import { TitleDecoration } from '@/components/resolution/read/images';
 import ResolutionBackground from '@/components/resolution/read/ResolutionBackground';
 
-const name = '은서';
-const tags = ['전문성 강화', '프로덕트 릴리즈', '문제 해결 능력', '협업 경험', '창업 기반', '네트워킹'].sort();
-const message = '아자아자메이커스화이팅! 아자아자메이커스화이팅! 아자아자메이커스화이팅! ';
-
 const ResolutionMessage = () => {
+  const { data: resolutionData } = useGetResolution();
+
   return (
     <ResolutionMessageWrapper>
       <BackgroundWrapper>
@@ -19,19 +18,19 @@ const ResolutionMessage = () => {
       <Contents>
         <TitleWrapper>
           <TitleText color={colors.white} typography='SUIT_18_B'>
-            NOW SOPT를 마친 {name}에게
+            {`NOW SOPT를\n마친 ${resolutionData?.memberName.slice(1)}에게`}
           </TitleText>
           <StyledTitleDecoration />
         </TitleWrapper>
         <TagWrapper>
-          {tags.map((tag) => (
+          {resolutionData?.tags.map((tag) => (
             <Tag key={tag} color={colors.gray200} typography='SUIT_14_SB'>
               {tag}
             </Tag>
           ))}
         </TagWrapper>
         <Message color={colors.gray10} typography='SUIT_14_M'>
-          {message}
+          {resolutionData?.content}
         </Message>
       </Contents>
       <SoptLogoWrapper>
@@ -85,8 +84,8 @@ const TitleText = styled(Text)`
   top: 50%;
   left: 50%;
   transform: translate(-48%, -49%);
-  min-width: 138px;
   text-align: center;
+  white-space: pre;
 `;
 
 const TagWrapper = styled.div`
@@ -109,8 +108,8 @@ const Tag = styled(Text)`
 const Message = styled(Text)`
   margin: 20px 0;
   padding: 0 16px;
-  overflow-y: scroll;
   text-align: center;
+  word-break: keep-all;
 `;
 
 const SoptLogoWrapper = styled.div`
