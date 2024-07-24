@@ -27,9 +27,17 @@ export default function Reviews() {
             <ReviewCardMobileWrapper>{renderedReviewData}</ReviewCardMobileWrapper>
           </Responsive>
           <Responsive only='desktop'>
-            <ReviewCardDesktopWrapper align='center' gap={16} column={3}>
-              {renderedReviewData}
-            </ReviewCardDesktopWrapper>
+            <ReviewDesktopContainer>
+              <ReviewCardDesktopWrapper
+                className='container'
+                align='center'
+                gap={16}
+                useFirstRender={true}
+                attributePrefix={'data-grid-'}
+              >
+                {renderedReviewData}
+              </ReviewCardDesktopWrapper>
+            </ReviewDesktopContainer>
           </Responsive>
         </ReviewsWrapper>
       )}
@@ -57,4 +65,12 @@ const ReviewCardMobileWrapper = styled.section`
 
 const ReviewCardDesktopWrapper = styled(MasonryInfiniteGrid)`
   margin-top: 48px;
+  width: 100%;
+  max-width: 1037px;
+`;
+
+const ReviewDesktopContainer = styled.section`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;

@@ -25,7 +25,7 @@ const StyledRemember34Page = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 64px 0;
+  padding: 64px 16px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 10px 20px 24px;

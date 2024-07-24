@@ -1,4 +1,4 @@
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MOBILE_MEDIA_QUERY, TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { fonts } from '@sopt-makers/fonts';
 
@@ -10,17 +10,15 @@ interface ReviewCardProp {
 export default function ReviewCard({ id, content }: ReviewCardProp) {
   const cardColor = [
     'rgba(31, 41, 156, 0.6)',
-
     'rgba(255, 110, 29, 0.6)',
     'rgba(255, 202, 0, 0.6)',
     'rgba(93, 219, 255, 0.6)',
     'rgba(255, 255, 255, 0.3)',
-    'rgba(31, 41, 156, 0.6)',
     'rgba(253, 187, 249, 0.6)',
   ];
 
   return (
-    <Card color={cardColor[id % 7]}>
+    <Card color={cardColor[id % 6]}>
       <CardInner>{content}</CardInner>
     </Card>
   );
@@ -31,13 +29,19 @@ const Card = styled.article<{ color: string }>`
   border-radius: 10px;
   background: ${({ color }) => color};
   padding: 16px 20px;
-  width: 100%;
-  max-width: 335px;
+  width: 32%;
+
+  /* max-width: 335px; */
   max-height: 214px;
 
   ${fonts.BODY_16_M};
 
+  @media ${TABLET_MEDIA_QUERY} {
+    width: 49%;
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
     max-width: 100%;
     max-height: 138px;
   }
