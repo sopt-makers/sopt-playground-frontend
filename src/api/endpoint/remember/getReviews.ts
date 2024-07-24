@@ -3,12 +3,15 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-const ReviewSchema = z.array(
-  z.object({
-    id: z.number(),
-    content: z.string(),
-  }),
-);
+const ReviewSchema = z.object({
+  reviews: z.array(
+    z.object({
+      id: z.number(),
+      content: z.string(),
+    }),
+  ),
+  hasNext: z.boolean(),
+});
 
 export const getReviews = createEndpoint({
   request: ({ page, size }: { page: number; size: number }) => ({
@@ -28,8 +31,8 @@ export const useGetReviewsInfiniteQuery = () => {
       return response;
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === SIZE ? allPages.length : null;
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasNext ? lastPage.reviews[lastPage.reviews.length - 1].id : null;
     },
   });
 };
