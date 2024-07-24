@@ -3,13 +3,16 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
+import RememberPage from '@/components/remember';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
 const Remember34Page: FC = () => {
   return (
     <AuthRequired>
-      <StyledRemember34Page>{/* <RememberPage /> */}</StyledRemember34Page>
+      <StyledRemember34Page>
+        <RememberPage />
+      </StyledRemember34Page>
     </AuthRequired>
   );
 };
