@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 export default function Reviews() {
   const { data, isPending } = useGetReviewsInfiniteQuery();
 
-  const reviewData = data?.pages.flatMap((page) => page) ?? [];
+  const reviewData = data?.pages.flatMap(({ reviews }) => reviews) ?? [];
 
   const renderedReviewData =
     reviewData &&
