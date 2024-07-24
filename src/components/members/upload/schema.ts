@@ -35,13 +35,7 @@ export const memberFormSchema = yup.object().shape({
       ),
     })
     .nullable(),
-  phone: yup.lazy(() =>
-    yup
-      .string()
-      .nullable()
-      .required('연락처를 입력해주세요.')
-      .matches(PHONE_REG_EXP, `'-'를 넣어 휴대폰 번호 양식에 맞게 입력해주세요.`),
-  ),
+  phone: yup.lazy(() => yup.string().nullable().required('연락처를 입력해주세요.')),
   email: yup.lazy((value) =>
     value === ''
       ? yup.string().required('이메일을 입력해주세요.')
