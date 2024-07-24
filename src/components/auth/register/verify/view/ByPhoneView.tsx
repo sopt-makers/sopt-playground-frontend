@@ -65,7 +65,7 @@ const ByPhoneView: FC<ByPhoneProps> = (props) => {
       <InputArea onSubmit={handleSubmitPhone}>
         <StyledPhoneInput
           name='phone'
-          placeholder='010-XXXX-XXXX'
+          placeholder='010XXXXXXXX'
           error={(phone !== '' && !isPhoneValid) || type === 'phoneError'}
           autoFocus
           value={phone}
