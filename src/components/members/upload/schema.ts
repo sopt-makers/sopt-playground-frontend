@@ -1,3 +1,4 @@
+import { PHONE_REGEX_SHORT } from '@/components/auth/register/verify/regex';
 import * as yup from 'yup';
 
 const PHONE_REG_EXP = /^01([0|1|5|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
@@ -35,7 +36,13 @@ export const memberFormSchema = yup.object().shape({
       ),
     })
     .nullable(),
-  phone: yup.lazy(() => yup.string().nullable().required('연락처를 입력해주세요.')),
+  phone: yup.lazy(() =>
+    yup
+      .string()
+      .nullable()
+      .required('연락처를 입력해주세요.')
+      .matches(PHONE_REGEX_SHORT, "잘못된 전화번호 형식입니다. '-'을 제외한 11자의 번호를 입력해주세요."),
+  ),
   email: yup.lazy((value) =>
     value === ''
       ? yup.string().required('이메일을 입력해주세요.')

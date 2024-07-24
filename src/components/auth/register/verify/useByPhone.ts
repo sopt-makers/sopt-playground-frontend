@@ -40,7 +40,7 @@ const useByPhone = ({
     if (!PHONE_REGEX.test(phone) && !PHONE_REGEX_SHORT.test(phone)) {
       setState({
         type: 'phoneError',
-        message: "'-'를 넣어 휴대폰 번호 양식에 맞게 입력해주세요.",
+        message: "잘못된 전화번호 형식입니다. '-'을 제외한 11자의 번호를 입력해주세요.",
       });
 
       return;
