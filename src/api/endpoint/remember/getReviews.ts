@@ -21,18 +21,19 @@ export const getReviews = createEndpoint({
   serverResponseScheme: ReviewSchema,
 });
 
-const SIZE = 1000;
+const SIZE = 20;
 
 export const useGetReviewsInfiniteQuery = () => {
   return useInfiniteQuery({
     queryKey: useGetReviewsInfiniteQuery.getKey(),
-    queryFn: async ({ pageParam = 0 }) => {
+    queryFn: async ({ pageParam = 1 }) => {
       const response = await getReviews.request({ page: pageParam, size: SIZE });
       return response;
     },
-    initialPageParam: 0,
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNext ? lastPage.reviews[lastPage.reviews.length - 1].id : null;
+      console.log(lastPage);
+      return lastPage.hasNext ? lastPage.reviews[0].id : null;
     },
   });
 };
