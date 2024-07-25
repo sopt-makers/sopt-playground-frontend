@@ -26,16 +26,15 @@ const SIZE = 20;
 export const useGetReviewsInfiniteQuery = () => {
   return useInfiniteQuery({
     queryKey: useGetReviewsInfiniteQuery.getKey(),
-    queryFn: async ({ pageParam = 1 }) => {
+    queryFn: async ({ pageParam = 0 }) => {
       const response = await getReviews.request({ page: pageParam, size: SIZE });
       return response;
     },
-    initialPageParam: 1,
+    initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      console.log(lastPage);
-      return lastPage.hasNext ? lastPage.reviews[0].id : null;
+      return lastPage.hasNext ? lastPage.reviews[lastPage.reviews.length - 1].id : null;
     },
   });
 };
 
-useGetReviewsInfiniteQuery.getKey = () => ['infiniteReviews'];
+useGetReviewsInfiniteQuery.getKey = () => ['INFINITE', ...getReviews.cacheKey({ page: 0, size: 0 })];
