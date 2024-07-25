@@ -21,7 +21,7 @@ export const getReviews = createEndpoint({
   serverResponseScheme: ReviewSchema,
 });
 
-const SIZE = 1000;
+const SIZE = 20;
 
 export const useGetReviewsInfiniteQuery = () => {
   return useInfiniteQuery({
@@ -37,4 +37,4 @@ export const useGetReviewsInfiniteQuery = () => {
   });
 };
 
-useGetReviewsInfiniteQuery.getKey = () => ['infiniteReviews'];
+useGetReviewsInfiniteQuery.getKey = () => ['INFINITE', ...getReviews.cacheKey({ page: 0, size: 0 })];

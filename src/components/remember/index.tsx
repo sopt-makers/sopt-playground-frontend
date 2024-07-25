@@ -6,12 +6,19 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { useRouter } from 'next/router';
 
 export default function RememberPage() {
+  const router = useRouter();
+
+  const handleMoveToPrev = () => {
+    router.back();
+  };
+
   return (
     <>
       <MobileHeader only='mobile'>
-        <BackArrowWrapper>
+        <BackArrowWrapper onClick={handleMoveToPrev}>
           <BackArrow />
         </BackArrowWrapper>
       </MobileHeader>
