@@ -1,7 +1,5 @@
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetReviewsInfiniteQuery } from '@/api/endpoint/remember/getReviews';
 import { useUploadReviewMutation } from '@/api/endpoint/remember/uploadReview';
-import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -11,13 +9,11 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 const MAX_LENGTH = 3000;
 
-export default function ReviewInput() {
+export default function ReviewInput({ is34 }: { is34: boolean }) {
   const [content, setContent] = useState<string>('');
   const [inputStatus, setInputStatus] = useState<'error' | 'focus'>();
   const { mutate } = useUploadReviewMutation();
   const { refetch } = useGetReviewsInfiniteQuery();
-  const { data: myData } = useGetMemberOfMe();
-  const is34 = myData?.generation === LATEST_GENERATION;
 
   const handleWrite = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const content = e.target.value;
