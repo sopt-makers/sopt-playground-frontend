@@ -17,8 +17,12 @@ export default function RememberPage() {
     router.back();
   };
 
-  const { data: myData } = useGetMemberOfMe();
+  const { data: myData, isPending } = useGetMemberOfMe();
   const is34 = myData?.generation === LATEST_GENERATION;
+
+  if (isPending) {
+    return <></>;
+  }
 
   return (
     <>
