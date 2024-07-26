@@ -1,7 +1,7 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
-import { useInfiniteQuery } from '@tanstack/react-query';
 
 const ReviewSchema = z.object({
   reviews: z.array(

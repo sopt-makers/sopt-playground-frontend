@@ -1,12 +1,19 @@
+import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
+import styled from '@emotion/styled';
+
 import { useGetReviewsInfiniteQuery } from '@/api/endpoint/remember/getReviews';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import ReviewCard from '@/components/remember/reviews/ReviewCard';
-import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
-import styled from '@emotion/styled';
+import useEnterScreen from '@/hooks/useEnterScreen';
 
 export default function Reviews() {
-  const { data, isPending } = useGetReviewsInfiniteQuery();
+  const { ref } = useEnterScreen({
+    onEnter: () => {
+      fetchNextPage();
+    },
+  });
+  const { data, fetchNextPage, isPending } = useGetReviewsInfiniteQuery();
 
   const reviewData = data?.pages.flatMap(({ reviews }) => reviews) ?? [];
 
@@ -39,6 +46,7 @@ export default function Reviews() {
               </ReviewCardDesktopWrapper>
             </ReviewDesktopContainer>
           </Responsive>
+          <Target ref={ref} />
         </ReviewsWrapper>
       )}
     </ReviewsContainer>
@@ -72,5 +80,9 @@ const ReviewCardDesktopWrapper = styled(MasonryInfiniteGrid)`
 const ReviewDesktopContainer = styled.section`
   display: flex;
   justify-content: center;
+  width: 100%;
+`;
+
+const Target = styled.div`
   width: 100%;
 `;
