@@ -1,6 +1,8 @@
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Responsive from '@/components/common/Responsive';
 import ReviewInput from '@/components/remember/ReviewInput';
 import Reviews from '@/components/remember/reviews';
+import { LATEST_GENERATION } from '@/constants/generation';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
@@ -15,6 +17,13 @@ export default function RememberPage() {
     router.back();
   };
 
+  const { data: myData, isPending } = useGetMemberOfMe();
+  const is34 = myData?.generation === LATEST_GENERATION;
+
+  if (isPending) {
+    return <></>;
+  }
+
   return (
     <>
       <MobileHeader only='mobile'>
@@ -22,8 +31,8 @@ export default function RememberPage() {
           <BackArrow />
         </BackArrowWrapper>
       </MobileHeader>
-      <Header>{'34기 NOW SOPT \n활동 후기를 남겨주세요!'}</Header>
-      <ReviewInput />
+      <Header>{is34 ? '34기 NOW SOPT \n활동 후기를 남겨주세요!' : '34기 NOW SOPT \n활동 후기를 구경해보세요!'}</Header>
+      {is34 && <ReviewInput />}
       <Reviews />
     </>
   );

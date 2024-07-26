@@ -1,7 +1,5 @@
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetReviewsInfiniteQuery } from '@/api/endpoint/remember/getReviews';
 import { useUploadReviewMutation } from '@/api/endpoint/remember/uploadReview';
-import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -16,8 +14,6 @@ export default function ReviewInput() {
   const [inputStatus, setInputStatus] = useState<'error' | 'focus'>();
   const { mutate } = useUploadReviewMutation();
   const { refetch } = useGetReviewsInfiniteQuery();
-  const { data: myData } = useGetMemberOfMe();
-  const is34 = myData?.generation === LATEST_GENERATION;
 
   const handleWrite = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const content = e.target.value;
@@ -59,27 +55,25 @@ export default function ReviewInput() {
 
   return (
     <>
-      {is34 && (
-        <ReviewInputWrapper>
-          <InputBox isFocus={isFocus} isError={isError}>
-            <Input
-              value={content}
-              placeholder='SOPT를 하며 재밌었던 일, 힘들었던 기억 등을 자유롭게 공유해주세요!'
-              maxLength={MAX_LENGTH}
-              onChange={(e) => handleWrite(e)}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-            <SendButton onClick={handleSubmit}>
-              <SendIcon isActivate={isError || isFocus} />
-            </SendButton>
-          </InputBox>
-          <Bottom>
-            {isError ? <Error /> : <div />}
-            <Length>{content ? content.length.toLocaleString() : 0}/3,000</Length>
-          </Bottom>
-        </ReviewInputWrapper>
-      )}
+      <ReviewInputWrapper>
+        <InputBox isFocus={isFocus} isError={isError}>
+          <Input
+            value={content}
+            placeholder='SOPT를 하며 재밌었던 일, 힘들었던 기억 등을 자유롭게 공유해주세요!'
+            maxLength={MAX_LENGTH}
+            onChange={(e) => handleWrite(e)}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+          <SendButton onClick={handleSubmit}>
+            <SendIcon isActivate={isError || isFocus} />
+          </SendButton>
+        </InputBox>
+        <Bottom>
+          {isError ? <Error /> : <div />}
+          <Length>{content ? content.length.toLocaleString() : 0}/3,000</Length>
+        </Bottom>
+      </ReviewInputWrapper>
     </>
   );
 }
