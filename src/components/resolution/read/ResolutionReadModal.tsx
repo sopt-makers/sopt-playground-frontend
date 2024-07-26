@@ -14,7 +14,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 const ResolutionReadModal: FC<ModalProps> = ({ ...props }) => {
-  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload();
+  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('now-sopt');
   const slideUp = useSlideUp();
   const router = useRouter();
 

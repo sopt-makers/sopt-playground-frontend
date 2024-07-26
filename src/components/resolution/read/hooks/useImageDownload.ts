@@ -1,7 +1,7 @@
 import html2canvas from 'html2canvas';
 import { useRef } from 'react';
 
-const useImageDownload = () => {
+const useImageDownload = (fileName: string) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const removePaddingCss = `
@@ -33,7 +33,7 @@ const useImageDownload = () => {
         removeStyle();
         const link = document.createElement('a');
         link.href = canvas.toDataURL('image/png');
-        link.download = 'test.png';
+        link.download = `${fileName}.png`;
         link.click();
       })
       .catch((error: Error) => {
