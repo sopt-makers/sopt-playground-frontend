@@ -130,6 +130,7 @@ const ClosingCeremonyBannerWrapper = styled.header`
   display: flex;
   position: relative;
   justify-content: center;
+  margin-bottom: 16px;
   border-bottom: 1px solid ${colors.gray800};
   width: 100%;
   height: 168px;

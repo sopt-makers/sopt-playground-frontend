@@ -41,7 +41,7 @@ export default DesktopCommunityLayout;
 const WordChainWrapper = styled.div`
   margin: 0 auto;
   min-width: 0;
-  max-width: 912px;
+  max-width: 560px;
 `;
 
 const Container = styled.div`
