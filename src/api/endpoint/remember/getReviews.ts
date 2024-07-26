@@ -31,8 +31,12 @@ export const useGetReviewsInfiniteQuery = () => {
       return response;
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      return lastPage.hasNext ? lastPage.reviews[lastPage.reviews.length - 1].id : null;
+    getNextPageParam: (lastPage, pages) => {
+      if (!lastPage.hasNext) {
+        return undefined;
+      }
+
+      return pages.length;
     },
   });
 };
