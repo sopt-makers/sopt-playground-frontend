@@ -28,7 +28,7 @@ export default function RememberPage() {
         </BackArrowWrapper>
       </MobileHeader>
       <Header>{is34 ? '34기 NOW SOPT \n활동 후기를 남겨주세요!' : '34기 NOW SOPT \n활동 후기를 구경해보세요!'}</Header>
-      <ReviewInput is34={is34} />
+      {is34 && <ReviewInput />}
       <Reviews />
     </>
   );

@@ -9,7 +9,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 const MAX_LENGTH = 3000;
 
-export default function ReviewInput({ is34 }: { is34: boolean }) {
+export default function ReviewInput() {
   const [content, setContent] = useState<string>('');
   const [inputStatus, setInputStatus] = useState<'error' | 'focus'>();
   const { mutate } = useUploadReviewMutation();
@@ -55,27 +55,25 @@ export default function ReviewInput({ is34 }: { is34: boolean }) {
 
   return (
     <>
-      {is34 && (
-        <ReviewInputWrapper>
-          <InputBox isFocus={isFocus} isError={isError}>
-            <Input
-              value={content}
-              placeholder='SOPT를 하며 재밌었던 일, 힘들었던 기억 등을 자유롭게 공유해주세요!'
-              maxLength={MAX_LENGTH}
-              onChange={(e) => handleWrite(e)}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-            <SendButton onClick={handleSubmit}>
-              <SendIcon isActivate={isError || isFocus} />
-            </SendButton>
-          </InputBox>
-          <Bottom>
-            {isError ? <Error /> : <div />}
-            <Length>{content ? content.length.toLocaleString() : 0}/3,000</Length>
-          </Bottom>
-        </ReviewInputWrapper>
-      )}
+      <ReviewInputWrapper>
+        <InputBox isFocus={isFocus} isError={isError}>
+          <Input
+            value={content}
+            placeholder='SOPT를 하며 재밌었던 일, 힘들었던 기억 등을 자유롭게 공유해주세요!'
+            maxLength={MAX_LENGTH}
+            onChange={(e) => handleWrite(e)}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+          <SendButton onClick={handleSubmit}>
+            <SendIcon isActivate={isError || isFocus} />
+          </SendButton>
+        </InputBox>
+        <Bottom>
+          {isError ? <Error /> : <div />}
+          <Length>{content ? content.length.toLocaleString() : 0}/3,000</Length>
+        </Bottom>
+      </ReviewInputWrapper>
     </>
   );
 }
