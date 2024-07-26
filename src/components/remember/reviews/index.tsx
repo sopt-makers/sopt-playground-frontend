@@ -2,11 +2,17 @@ import { useGetReviewsInfiniteQuery } from '@/api/endpoint/remember/getReviews';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import ReviewCard from '@/components/remember/reviews/ReviewCard';
+import useEnterScreen from '@/hooks/useEnterScreen';
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import styled from '@emotion/styled';
 
 export default function Reviews() {
-  const { data, isPending } = useGetReviewsInfiniteQuery();
+  const { ref } = useEnterScreen({
+    onEnter: () => {
+      fetchNextPage();
+    },
+  });
+  const { data, fetchNextPage, isPending } = useGetReviewsInfiniteQuery();
 
   const reviewData = data?.pages.flatMap(({ reviews }) => reviews) ?? [];
 
@@ -39,11 +45,16 @@ export default function Reviews() {
               </ReviewCardDesktopWrapper>
             </ReviewDesktopContainer>
           </Responsive>
+          <Target ref={ref} />
         </ReviewsWrapper>
       )}
     </ReviewsContainer>
   );
 }
+
+const Target = styled.div`
+  width: 100%;
+`;
 
 const ReviewsWrapper = styled.div`
   width: 100%;
