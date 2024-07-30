@@ -13,7 +13,7 @@ const AboutMakers: FC = () => {
         <StyledLogo />
       </MakersLogoBox>
       <Intro>
-        sopt makers는 SOPT 구성원들이 가진 불편함을 제품을 통해 해결하여, 3000여명의 구성원들에게 더 많은 가치를
+        SOPT makers는 SOPT 구성원들이 가진 불편함을 제품을 통해 해결하여, 3000여명의 구성원들에게 더 많은 가치를
         연결하기 위해 신설된 특수 기구에요.
       </Intro>
       <StyledNotifier />
