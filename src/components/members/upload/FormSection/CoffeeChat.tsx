@@ -10,17 +10,19 @@ import { useState } from 'react';
 import Input from '@/components/common/Input';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { AnimatePresence, m } from 'framer-motion';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import HorizontalScroller from '@/components/common/HorizontalScroller';
 
 function CoffeeChatFormSection() {
   const { getValues } = useFormContext<MemberUploadForm>();
 
   const [isCoffeeChatActivate, setIsCoffeeChatActivate] = useState(false);
-
   const { open } = useToast();
 
   const skills = getValues('skill')
     .split(',')
-    .map((skill) => skill.trim());
+    .map((skill) => skill.trim())
+    .filter(Boolean);
 
   const handleClickGoToSkill = () => {
     const element = document.querySelector('.skill');
@@ -33,7 +35,7 @@ function CoffeeChatFormSection() {
 
   return (
     <FormSection>
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', overflow: 'hidden' }}>
         <Flex align='center' style={{ gap: 12 }}>
           <Tag size='sm' shape='rect' variant='primary' type='solid'>
             NEW
@@ -61,13 +63,15 @@ function CoffeeChatFormSection() {
           <Flex direction='column' style={{ gap: 12, marginTop: 12 }}>
             <Skill>
               *현재 보유한 스킬
-              <Flex style={{ gap: 4, marginTop: 4 }}>
-                {skills.map((skill) => (
-                  <Tag size='sm' shape='rect' variant='secondary' type='solid'>
-                    {skill}
-                  </Tag>
-                ))}
-              </Flex>
+              <HorizontalScroller>
+                <Flex style={{ gap: 4, marginTop: 4 }}>
+                  {skills.map((skill) => (
+                    <Tag size='sm' shape='rect' variant='secondary' type='solid'>
+                      {skill}
+                    </Tag>
+                  ))}
+                </Flex>
+              </HorizontalScroller>
             </Skill>
             <Button size='sm' theme='black' style={{ width: 'fit-content' }} onClick={handleClickGoToSkill}>
               스킬 추가하기
@@ -75,7 +79,7 @@ function CoffeeChatFormSection() {
           </Flex>
         ) : (
           <Flex align='center' style={{ gap: 8, marginTop: 12 }}>
-            <Skill>*현재 보유한 스킬이 없어요'</Skill>
+            <Skill>*현재 보유한 스킬이 없어요</Skill>
             <Button size='sm' theme='black' onClick={handleClickGoToSkill}>
               스킬 작성하러 가기
             </Button>
@@ -185,6 +189,10 @@ const ProfileImage = styled.div`
   width: 116px;
   height: 116px;
   overflow: hidden;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
 `;
 
 const Image = styled(ResizedImage)`
