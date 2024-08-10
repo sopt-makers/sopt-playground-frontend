@@ -22,6 +22,15 @@ function CoffeeChatFormSection() {
     .split(',')
     .map((skill) => skill.trim());
 
+  const handleClickGoToSkill = () => {
+    const element = document.querySelector('.skill');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const skills = element.querySelector('input') || element.querySelector('textarea');
+      skills?.focus({ preventScroll: true });
+    }
+  };
+
   return (
     <FormSection>
       <div style={{ width: '100%' }}>
@@ -60,14 +69,14 @@ function CoffeeChatFormSection() {
                 ))}
               </Flex>
             </Skill>
-            <Button size='sm' theme='black' style={{ width: 'fit-content' }}>
+            <Button size='sm' theme='black' style={{ width: 'fit-content' }} onClick={handleClickGoToSkill}>
               스킬 추가하기
             </Button>
           </Flex>
         ) : (
           <Flex align='center' style={{ gap: 8, marginTop: 12 }}>
             <Skill>*현재 보유한 스킬이 없어요'</Skill>
-            <Button size='sm' theme='black'>
+            <Button size='sm' theme='black' onClick={handleClickGoToSkill}>
               스킬 작성하러 가기
             </Button>
           </Flex>
