@@ -1,3 +1,5 @@
+import '@sopt-makers/ui/dist/index.css';
+
 import { css } from '@emotion/react';
 import { colors } from '@sopt-makers/colors';
 import { fontBase } from '@sopt-makers/fonts';
