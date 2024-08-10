@@ -205,9 +205,8 @@ const Title = styled.div`
   font-style: normal;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    /* Heading/16_B */
+    line-height: 24px;
     font-size: 16px;
-    line-height: 24px; /* 150% */
     letter-spacing: -0.24px;
   }
 `;
@@ -259,9 +258,8 @@ const Description = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 6px;
 
-    /* Body/13_M */
+    line-height: 20px;
     font-size: 13px;
-    line-height: 20px; /* 153.846% */
     letter-spacing: -0.195px;
     white-space: pre-wrap;
   }
@@ -278,10 +276,9 @@ const Skill = styled.div`
   font-style: normal;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    /* Body/13_L */
+    line-height: 20px;
     font-size: 13px;
     font-weight: 300;
-    line-height: 20px; /* 153.846% */
     letter-spacing: -0.195px;
   }
 `;
@@ -320,11 +317,10 @@ const IconContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-
+  border-radius: 50%;
+  padding: 5px;
   width: 32px;
   height: 32px;
-  padding: 5px;
-  border-radius: 50%;
   background: ${colors.blue400};
 `;
 

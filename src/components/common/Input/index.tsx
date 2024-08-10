@@ -120,7 +120,6 @@ const StyledCountValue = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 8px;
-
   line-height: 16px; /* 133.333% */
   letter-spacing: -0.24px;
   color: ${colors.gray300};
