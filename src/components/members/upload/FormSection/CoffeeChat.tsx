@@ -7,6 +7,9 @@ import { useFormContext } from 'react-hook-form';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import ResizedImage from '@/components/common/ResizedImage';
 import { useState } from 'react';
+import Input from '@/components/common/Input';
+import FormItem from '@/components/members/upload/forms/FormItem';
+import { AnimatePresence, m } from 'framer-motion';
 
 function CoffeeChatFormSection() {
   const { getValues } = useFormContext<MemberUploadForm>();
@@ -61,6 +64,16 @@ function CoffeeChatFormSection() {
             </Button>
           </Flex>
         )}
+        <AnimatePresence>
+          {isCoffeeChatActivate && (
+            <m.div key='intro' initial={{ y: -15, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ opacity: 0 }}>
+              <CoffeeChatIntroForm required title='커피챗 소개 한줄'>
+                <CoffeeChatIntroInput placeholder='어떤 이야기를 나누고 싶은지 작성해보세요!' />
+                <Count>23/40</Count>
+              </CoffeeChatIntroForm>
+            </m.div>
+          )}
+        </AnimatePresence>
       </div>
       <ProfileImage>
         {getValues('profileImage') ? (
@@ -165,4 +178,43 @@ const Image = styled(ResizedImage)`
 
 const DefaultImage = styled.img`
   width: 40%;
+`;
+
+const CoffeeChatIntroForm = styled(FormItem)`
+  margin-top: 32px;
+
+  & span {
+    font-size: 14px;
+  }
+
+  & > div:nth-of-type(1) {
+    margin: 8px 0;
+  }
+`;
+
+const CoffeeChatIntroInput = styled(Input)`
+  margin-top: 20px;
+  width: 100%;
+
+  input {
+    border-radius: 14px;
+    padding: 14.5px 20px;
+
+    &::placeholder {
+      color: ${colors.gray400};
+    }
+  }
+`;
+
+const Count = styled.div`
+  align-self: stretch;
+  text-align: right;
+  line-height: 16px; /* 133.333% */
+  letter-spacing: -0.24px;
+  color: var(--gray-gray200, #808087);
+
+  /* Label/12_SB */
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
 `;
