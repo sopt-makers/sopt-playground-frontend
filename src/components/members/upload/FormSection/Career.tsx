@@ -153,19 +153,23 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
 
         <Responsive only='desktop' asChild>
           <>
-            <MemberFormItem title='스킬' required errorMessage={errors.skill?.message}>
-              <SkillDescription>{`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요.
+            <div className='skill'>
+              <MemberFormItem title='스킬' required errorMessage={errors.skill?.message}>
+                <SkillDescription>{`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요.
               \n쉼표(,)로 구분해서 적어주세요.`}</SkillDescription>
-              <StyledInput
-                {...register('skill')}
-                placeholder='ex) Node, Product Managing, Branding, UI'
-                value={skills}
-                onChange={(e) => {
-                  e.target.value === '' ? setError('skill', { message: '스킬을 입력해주세요.' }) : clearErrors('skill');
-                  setValue('skill', e.target.value, { shouldDirty: true });
-                }}
-              />
-            </MemberFormItem>
+                <StyledInput
+                  {...register('skill')}
+                  placeholder='ex) Node, Product Managing, Branding, UI'
+                  value={skills}
+                  onChange={(e) => {
+                    e.target.value === ''
+                      ? setError('skill', { message: '스킬을 입력해주세요.' })
+                      : clearErrors('skill');
+                    setValue('skill', e.target.value, { shouldDirty: true });
+                  }}
+                />
+              </MemberFormItem>
+            </div>
             <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
               <StyledAddableWrapper onAppend={handleAppendLink}>
                 {linkFields.map((field, index) => (
@@ -204,22 +208,26 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
 
         <Responsive only='mobile' asChild>
           <>
-            <MemberFormItem
-              title='스킬'
-              description={`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요. 쉼표(,)로 구분해서 적어주세요.`}
-              required
-              errorMessage={errors.skill?.message}
-            >
-              <StyledTextArea
-                {...register('skill')}
-                placeholder='ex) Node, Product Managing, BI/BX'
-                value={skills}
-                onChange={(e) => {
-                  e.target.value === '' ? setError('skill', { message: '스킬을 입력해주세요.' }) : clearErrors('skill');
-                  setValue('skill', e.target.value, { shouldDirty: true });
-                }}
-              />
-            </MemberFormItem>
+            <div className='skill'>
+              <MemberFormItem
+                title='스킬'
+                description={`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요. 쉼표(,)로 구분해서 적어주세요.`}
+                required
+                errorMessage={errors.skill?.message}
+              >
+                <StyledTextArea
+                  {...register('skill')}
+                  placeholder='ex) Node, Product Managing, BI/BX'
+                  value={skills}
+                  onChange={(e) => {
+                    e.target.value === ''
+                      ? setError('skill', { message: '스킬을 입력해주세요.' })
+                      : clearErrors('skill');
+                    setValue('skill', e.target.value, { shouldDirty: true });
+                  }}
+                />
+              </MemberFormItem>
+            </div>
             <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
               <StyledAddableWrapper onAppend={handleAppendLink}>
                 {linkFields.map((field, index) => (

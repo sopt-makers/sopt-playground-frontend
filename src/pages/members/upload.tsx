@@ -9,8 +9,6 @@ import { postMemberProfile } from '@/api/endpoint_LEGACY/members';
 import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
-import FormAccordion from '@/components/common/form/FormCollapsible';
-import Responsive from '@/components/common/Responsive';
 import { MEMBER_DEFAULT_VALUES, UNSELECTED } from '@/components/members/upload/constants';
 import { formatBirthday, getSojuCapacityApiValue } from '@/components/members/upload/format';
 import MemberForm from '@/components/members/upload/forms/Form';
@@ -22,6 +20,7 @@ import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
 import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
 import { setLayout } from '@/utils/layout';
+import CoffeeChatFormSection from '@/components/members/upload/FormSection/CoffeeChat';
 
 export default function MemberUploadPage() {
   const formMethods = useForm<MemberUploadForm>({
@@ -63,6 +62,8 @@ export default function MemberUploadPage() {
       mbtiDescription,
       interest,
       isPhoneBlind,
+      isCoffeeChatActivate,
+      coffeeChatBio,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -102,6 +103,8 @@ export default function MemberUploadPage() {
       },
       selfIntroduction: longIntroduction,
       isPhoneBlind,
+      isCoffeeChatActivate,
+      coffeeChatBio,
     };
 
     const response = await postMemberProfile(requestBody);
@@ -142,6 +145,7 @@ export default function MemberUploadPage() {
     <AuthRequired>
       <FormProvider {...formMethods}>
         <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
+          <CoffeeChatFormSection />
           <BasicFormSection />
           <SoptActivityFormSection />
           <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />

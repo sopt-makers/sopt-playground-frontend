@@ -23,9 +23,9 @@ export default function MemberForm({ type, children, onSubmit, isValid }: Member
         <div className='title'>프로필 {TYPE_MAP[type]}</div>
         <div className='description'>SOPT 멤버들을 위한 프로필을 {TYPE_MAP[type]}해주세요</div>
       </StyledHeader>
-      <StyledForm onSubmit={(e) => e.preventDefault()}>
+      <StyledForm>
         {children}
-        <SubmitButton onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
+        <SubmitButton type='submit' onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
           프로필 {TYPE_MAP[type]}하기
         </SubmitButton>
       </StyledForm>
@@ -84,7 +84,7 @@ const StyledHeader = styled.header`
   }
 `;
 
-const StyledForm = styled.form`
+const StyledForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -112,16 +112,18 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
   color: ${colors.gray950};
 
   ${({ isDisabled }) =>
-    isDisabled &&
-    css`
-      background-color: ${colors.gray800};
-      color: ${colors.gray400};
-    `}
-
-  &:hover {
-    background-color: ${colors.gray50};
-    color: ${colors.gray950};
-  }
+    isDisabled
+      ? css`
+          background-color: ${colors.gray800};
+          color: ${colors.gray400};
+          cursor: not-allowed;
+        `
+      : css`
+          &:hover {
+            background-color: ${colors.gray50};
+            color: ${colors.gray950};
+          }
+        `}
 
   ${textStyles.SUIT_14_M}
 
