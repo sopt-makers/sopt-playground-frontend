@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Button, Tag, Toggle } from '@sopt-makers/ui';
+import { Button, Tag, Toggle, useToast } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 import Text from '@/components/common/Text';
 import { colors } from '@sopt-makers/colors';
@@ -14,11 +14,13 @@ import { AnimatePresence, m } from 'framer-motion';
 function CoffeeChatFormSection() {
   const { getValues } = useFormContext<MemberUploadForm>();
 
+  const [isCoffeeChatActivate, setIsCoffeeChatActivate] = useState(false);
+
+  const { open } = useToast();
+
   const skills = getValues('skill')
     .split(',')
     .map((skill) => skill.trim());
-
-  const [isCoffeeChatActivate, setIsCoffeeChatActivate] = useState(false);
 
   return (
     <FormSection>
@@ -34,6 +36,12 @@ function CoffeeChatFormSection() {
           <CoffeeChatToggle
             onClick={() => {
               setIsCoffeeChatActivate((prev) => !prev);
+              open({
+                icon: 'success',
+                content: isCoffeeChatActivate
+                  ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
+                  : '여러분의 좋은 경험을 공유해주셔서 고마워요',
+              });
             }}
           >
             <Toggle size='lg' checked={isCoffeeChatActivate} />
@@ -211,7 +219,7 @@ const Count = styled.div`
   text-align: right;
   line-height: 16px; /* 133.333% */
   letter-spacing: -0.24px;
-  color: var(--gray-gray200, #808087);
+  color: ${colors.gray300};
 
   /* Label/12_SB */
   font-size: 12px;

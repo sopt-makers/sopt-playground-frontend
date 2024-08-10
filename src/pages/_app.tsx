@@ -13,6 +13,7 @@ import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryParamProvider } from 'use-query-params';
+import { ToastProvider as MDSToastProvider } from '@sopt-makers/ui';
 
 import KakaoScript from '@/components/common/KakaoScript';
 import ResponsiveProvider from '@/components/common/Responsive/ResponsiveProvider';
@@ -130,17 +131,19 @@ function MyApp({ Component, pageProps }: AppProps) {
             <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
               <SlidUpProvider>
                 <ToastProvider>
-                  <GlobalStyle />
-                  <ResponsiveProvider>
-                    <OverlayProvider>
-                      <NavigationProvider>
-                        <Layout>
-                          <Component {...pageProps} />
-                        </Layout>
-                      </NavigationProvider>
-                    </OverlayProvider>
-                  </ResponsiveProvider>
-                  {DEBUG && <Debugger />}
+                  <MDSToastProvider>
+                    <GlobalStyle />
+                    <ResponsiveProvider>
+                      <OverlayProvider>
+                        <NavigationProvider>
+                          <Layout>
+                            <Component {...pageProps} />
+                          </Layout>
+                        </NavigationProvider>
+                      </OverlayProvider>
+                    </ResponsiveProvider>
+                    {DEBUG && <Debugger />}
+                  </MDSToastProvider>
                 </ToastProvider>
               </SlidUpProvider>
             </LazyMotion>
