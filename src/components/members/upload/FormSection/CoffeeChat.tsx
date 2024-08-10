@@ -6,6 +6,7 @@ import { colors } from '@sopt-makers/colors';
 import { useFormContext } from 'react-hook-form';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import ResizedImage from '@/components/common/ResizedImage';
+import { useState } from 'react';
 
 function CoffeeChatFormSection() {
   const { getValues } = useFormContext<MemberUploadForm>();
@@ -14,9 +15,11 @@ function CoffeeChatFormSection() {
     .split(',')
     .map((skill) => skill.trim());
 
+  const [isCoffeeChatActivate, setIsCoffeeChatActivate] = useState(false);
+
   return (
     <FormSection>
-      <div>
+      <div style={{ width: '100%' }}>
         <Flex align='center' style={{ gap: 12 }}>
           <Tag size='sm' shape='rect' variant='primary' type='solid'>
             NEW
@@ -25,7 +28,13 @@ function CoffeeChatFormSection() {
             SOPT 구성원과 커피챗으로 경험 공유하기
             <Required>*</Required>
           </Title>
-          <Toggle size='lg' checked={false} />
+          <CoffeeChatToggle
+            onClick={() => {
+              setIsCoffeeChatActivate((prev) => !prev);
+            }}
+          >
+            <Toggle size='lg' checked={isCoffeeChatActivate} />
+          </CoffeeChatToggle>
         </Flex>
         <Description>토글을 켜면 프로필 상단에 노출이 되니, 커리어를 더 상세히 작성해주세요.</Description>
         {skills.length > 0 ? (
@@ -68,6 +77,7 @@ export default CoffeeChatFormSection;
 
 const FormSection = styled.section`
   display: flex;
+  gap: 18px;
   justify-content: space-between;
   border-radius: 30px;
   background: var(--grayscale-scale-900, #17181c);
@@ -92,6 +102,24 @@ const Required = styled(Text)`
   color: ${colors.secondary};
   font-size: 16px;
   font-weight: 500;
+`;
+
+const CoffeeChatToggle = styled.div`
+  cursor: pointer;
+
+  & > button {
+    justify-content: flex-start;
+  }
+
+  & span {
+    transform: translateX(0);
+    transition: transform 200ms;
+    will-change: transform;
+  }
+
+  & span[data-state='true'] {
+    transform: translateX(16px);
+  }
 `;
 
 const Description = styled.div`
