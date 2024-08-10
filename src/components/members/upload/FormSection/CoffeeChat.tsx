@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Button, Tag, Toggle, useToast } from '@sopt-makers/ui';
-import { Flex } from '@toss/emotion-utils';
+import { Flex, Spacing } from '@toss/emotion-utils';
 import Text from '@/components/common/Text';
 import { colors } from '@sopt-makers/colors';
 import { useFormContext } from 'react-hook-form';
@@ -12,6 +12,7 @@ import FormItem from '@/components/members/upload/forms/FormItem';
 import { AnimatePresence, m } from 'framer-motion';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
+import Responsive from '@/components/common/Responsive';
 
 function CoffeeChatFormSection() {
   const { getValues } = useFormContext<MemberUploadForm>();
@@ -36,29 +37,56 @@ function CoffeeChatFormSection() {
   return (
     <FormSection>
       <div style={{ width: '100%', overflow: 'hidden' }}>
-        <Flex align='center' style={{ gap: 12 }}>
+        <Responsive only='desktop'>
+          <Header align='center'>
+            <Tag size='sm' shape='rect' variant='primary' type='solid'>
+              NEW
+            </Tag>
+            <Title>
+              SOPT 구성원과 커피챗으로 경험 공유하기
+              <Required>*</Required>
+            </Title>
+            <CoffeeChatToggle
+              onClick={() => {
+                setIsCoffeeChatActivate((prev) => !prev);
+                open({
+                  icon: 'success',
+                  content: isCoffeeChatActivate
+                    ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
+                    : '여러분의 좋은 경험을 공유해주셔서 고마워요',
+                });
+              }}
+            >
+              <Toggle size='lg' checked={isCoffeeChatActivate} />
+            </CoffeeChatToggle>
+          </Header>
+        </Responsive>
+        <Responsive only='mobile'>
           <Tag size='sm' shape='rect' variant='primary' type='solid'>
             NEW
           </Tag>
-          <Title>
-            SOPT 구성원과 커피챗으로 경험 공유하기
-            <Required>*</Required>
-          </Title>
-          <CoffeeChatToggle
-            onClick={() => {
-              setIsCoffeeChatActivate((prev) => !prev);
-              open({
-                icon: 'success',
-                content: isCoffeeChatActivate
-                  ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
-                  : '여러분의 좋은 경험을 공유해주셔서 고마워요',
-              });
-            }}
-          >
-            <Toggle size='lg' checked={isCoffeeChatActivate} />
-          </CoffeeChatToggle>
-        </Flex>
-        <Description>토글을 켜면 프로필 상단에 노출이 되니, 커리어를 더 상세히 작성해주세요.</Description>
+          <Spacing size={6} />
+          <Header align='center'>
+            <Title>
+              SOPT 구성원과 커피챗으로 경험 공유하기
+              <Required>*</Required>
+            </Title>
+            <CoffeeChatToggle
+              onClick={() => {
+                setIsCoffeeChatActivate((prev) => !prev);
+                open({
+                  icon: 'success',
+                  content: isCoffeeChatActivate
+                    ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
+                    : '여러분의 좋은 경험을 공유해주셔서 고마워요',
+                });
+              }}
+            >
+              <Toggle size='sm' checked={isCoffeeChatActivate} />
+            </CoffeeChatToggle>
+          </Header>
+        </Responsive>
+        <Description>{'토글을 켜면 프로필 상단에 노출이 되니,\n커리어를 더 상세히 작성해주세요.'}</Description>
         {skills.length > 0 ? (
           <Flex direction='column' style={{ gap: 12, marginTop: 12 }}>
             <Skill>
@@ -116,6 +144,19 @@ const FormSection = styled.section`
   border-radius: 30px;
   background: var(--grayscale-scale-900, #17181c);
   padding: 40px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 12px;
+    padding: 16px 14px;
+  }
+`;
+
+const Header = styled(Flex)`
+  gap: 12px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 4px;
+  }
 `;
 
 const Title = styled.div`
@@ -127,6 +168,13 @@ const Title = styled.div`
   font-size: 18px;
   font-weight: 700;
   font-style: normal;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    /* Heading/16_B */
+    font-size: 16px;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.24px;
+  }
 `;
 
 const Required = styled(Text)`
@@ -154,6 +202,12 @@ const CoffeeChatToggle = styled.div`
   & span[data-state='true'] {
     transform: translateX(16px);
   }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    & span[data-state='true'] {
+      transform: translateX(12px);
+    }
+  }
 `;
 
 const Description = styled.div`
@@ -166,6 +220,16 @@ const Description = styled.div`
   font-size: 18px;
   font-weight: 500;
   font-style: normal;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 6px;
+
+    /* Body/13_M */
+    font-size: 13px;
+    line-height: 20px; /* 153.846% */
+    letter-spacing: -0.195px;
+    white-space: pre-wrap;
+  }
 `;
 
 const Skill = styled.div`
@@ -177,6 +241,14 @@ const Skill = styled.div`
   font-size: 14px;
   font-weight: 500;
   font-style: normal;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    /* Body/13_L */
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 20px; /* 153.846% */
+    letter-spacing: -0.195px;
+  }
 `;
 
 const ProfileImage = styled.div`
