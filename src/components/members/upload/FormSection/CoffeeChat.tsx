@@ -206,8 +206,8 @@ const Title = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     line-height: 24px;
-    font-size: 16px;
     letter-spacing: -0.24px;
+    font-size: 16px;
   }
 `;
 
@@ -257,10 +257,9 @@ const Description = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 6px;
-
     line-height: 20px;
-    font-size: 13px;
     letter-spacing: -0.195px;
+    font-size: 13px;
     white-space: pre-wrap;
   }
 `;
@@ -277,9 +276,9 @@ const Skill = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     line-height: 20px;
+    letter-spacing: -0.195px;
     font-size: 13px;
     font-weight: 300;
-    letter-spacing: -0.195px;
   }
 `;
 
@@ -319,9 +318,9 @@ const IconContainer = styled.div`
   left: 0;
   border-radius: 50%;
   padding: 5px;
+  background: ${colors.blue400};
   width: 32px;
   height: 32px;
-  background: ${colors.blue400};
 `;
 
 const CoffeeChatIntroForm = styled(FormItem)`
