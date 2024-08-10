@@ -13,6 +13,7 @@ import { AnimatePresence, m } from 'framer-motion';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Responsive from '@/components/common/Responsive';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
 
 function CoffeeChatFormSection() {
   const { getValues } = useFormContext<MemberUploadForm>();
@@ -124,13 +125,20 @@ function CoffeeChatFormSection() {
           )}
         </AnimatePresence>
       </div>
-      <ProfileImage>
-        {getValues('profileImage') ? (
-          <Image src={getValues('profileImage')} width={116} alt='member_image' />
-        ) : (
-          <DefaultImage src='/icons/icon-member-default.svg' alt='default_member_image' />
+      <ProfileSection>
+        {isCoffeeChatActivate && (
+          <IconContainer>
+            <IconCoffee />
+          </IconContainer>
         )}
-      </ProfileImage>
+        <ProfileImage>
+          {getValues('profileImage') ? (
+            <Image src={getValues('profileImage')} width={116} alt='member_image' />
+          ) : (
+            <DefaultImage src='/icons/icon-member-default.svg' alt='default_member_image' />
+          )}
+        </ProfileImage>
+      </ProfileSection>
     </FormSection>
   );
 }
@@ -142,7 +150,7 @@ const FormSection = styled.section`
   gap: 18px;
   justify-content: space-between;
   border-radius: 30px;
-  background: var(--grayscale-scale-900, #17181c);
+  background: ${colors.gray900};
   padding: 40px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -261,10 +269,6 @@ const ProfileImage = styled.div`
   width: 116px;
   height: 116px;
   overflow: hidden;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
 `;
 
 const Image = styled(ResizedImage)`
@@ -275,6 +279,26 @@ const Image = styled(ResizedImage)`
 
 const DefaultImage = styled.img`
   width: 40%;
+`;
+
+const ProfileSection = styled.div`
+  position: relative;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
+`;
+
+const IconContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  border-radius: 50%;
+  background: ${colors.blue400};
 `;
 
 const CoffeeChatIntroForm = styled(FormItem)`
