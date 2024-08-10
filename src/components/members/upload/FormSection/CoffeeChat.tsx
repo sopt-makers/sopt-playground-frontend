@@ -3,7 +3,7 @@ import { Button, Tag, Toggle, useToast } from '@sopt-makers/ui';
 import { Flex, Spacing } from '@toss/emotion-utils';
 import Text from '@/components/common/Text';
 import { colors } from '@sopt-makers/colors';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useFormState, useWatch } from 'react-hook-form';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import ResizedImage from '@/components/common/ResizedImage';
 import { useState } from 'react';
@@ -16,9 +16,10 @@ import Responsive from '@/components/common/Responsive';
 import IconCoffee from '@/public/icons/icon-coffee.svg';
 
 function CoffeeChatFormSection() {
-  const { getValues } = useFormContext<MemberUploadForm>();
+  const { control, getValues } = useFormContext<MemberUploadForm>();
+  const { errors } = useFormState({ control });
+  const isCoffeeChatActivate = useWatch({ control, name: 'isCoffeeChatActivate' });
 
-  const [isCoffeeChatActivate, setIsCoffeeChatActivate] = useState(false);
   const { open } = useToast();
 
   const skills = getValues('skill')
@@ -47,19 +48,26 @@ function CoffeeChatFormSection() {
               SOPT 구성원과 커피챗으로 경험 공유하기
               <Required>*</Required>
             </Title>
-            <CoffeeChatToggle
-              onClick={() => {
-                setIsCoffeeChatActivate((prev) => !prev);
-                open({
-                  icon: 'success',
-                  content: isCoffeeChatActivate
-                    ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
-                    : '여러분의 좋은 경험을 공유해주셔서 고마워요',
-                });
-              }}
-            >
-              <Toggle size='lg' checked={isCoffeeChatActivate} />
-            </CoffeeChatToggle>
+            <Controller
+              name='isCoffeeChatActivate'
+              control={control}
+              render={({ field }) => (
+                <CoffeeChatToggle
+                  {...field}
+                  onClick={() => {
+                    field.onChange(!field.value);
+                    open({
+                      icon: 'success',
+                      content: field.value
+                        ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
+                        : '여러분의 좋은 경험을 공유해주셔서 고마워요',
+                    });
+                  }}
+                >
+                  <Toggle size='lg' checked={field.value} />
+                </CoffeeChatToggle>
+              )}
+            />
           </Header>
         </Responsive>
         <Responsive only='mobile'>
@@ -72,19 +80,26 @@ function CoffeeChatFormSection() {
               SOPT 구성원과 커피챗으로 경험 공유하기
               <Required>*</Required>
             </Title>
-            <CoffeeChatToggle
-              onClick={() => {
-                setIsCoffeeChatActivate((prev) => !prev);
-                open({
-                  icon: 'success',
-                  content: isCoffeeChatActivate
-                    ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
-                    : '여러분의 좋은 경험을 공유해주셔서 고마워요',
-                });
-              }}
-            >
-              <Toggle size='sm' checked={isCoffeeChatActivate} />
-            </CoffeeChatToggle>
+            <Controller
+              name='isCoffeeChatActivate'
+              control={control}
+              render={({ field }) => (
+                <CoffeeChatToggle
+                  {...field}
+                  onClick={() => {
+                    field.onChange(!field.value);
+                    open({
+                      icon: 'success',
+                      content: field.value
+                        ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
+                        : '여러분의 좋은 경험을 공유해주셔서 고마워요',
+                    });
+                  }}
+                >
+                  <Toggle size='sm' checked={field.value} />
+                </CoffeeChatToggle>
+              )}
+            />
           </Header>
         </Responsive>
         <Description>{'토글을 켜면 프로필 상단에 노출이 되니,\n커리어를 더 상세히 작성해주세요.'}</Description>
@@ -117,9 +132,21 @@ function CoffeeChatFormSection() {
         <AnimatePresence>
           {isCoffeeChatActivate && (
             <m.div key='intro' initial={{ y: -15, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ opacity: 0 }}>
-              <CoffeeChatIntroForm required title='커피챗 소개 한줄'>
-                <CoffeeChatIntroInput placeholder='어떤 이야기를 나누고 싶은지 작성해보세요!' />
-                <Count>23/40</Count>
+              <CoffeeChatIntroForm required title='커피챗 한줄 소개'>
+                <Controller
+                  name='coffeeChatBio'
+                  control={control}
+                  render={({ field }) => (
+                    <CoffeeChatIntroInput
+                      {...field}
+                      placeholder='어떤 이야기를 나누고 싶은지 작성해보세요!'
+                      onChange={field.onChange}
+                      errorMessage={errors.coffeeChatBio?.message}
+                      count={true}
+                      maxCount={40}
+                    />
+                  )}
+                />
               </CoffeeChatIntroForm>
             </m.div>
           )}

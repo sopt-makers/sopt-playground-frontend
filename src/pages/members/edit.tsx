@@ -92,6 +92,8 @@ export default function MemberEditPage() {
       mbtiDescription,
       interest,
       isPhoneBlind,
+      isCoffeeChatActivate,
+      coffeeChatBio,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -131,6 +133,8 @@ export default function MemberEditPage() {
       },
       selfIntroduction: longIntroduction,
       isPhoneBlind,
+      isCoffeeChatActivate,
+      coffeeChatBio,
     };
 
     mutate(requestBody, {
@@ -168,6 +172,8 @@ export default function MemberEditPage() {
           })),
         allowOfficial: myProfile.allowOfficial,
         isPhoneBlind: myProfile.isPhoneBlind,
+        isCoffeeChatActivate: myProfile.isCoffeeChatActivate,
+        coffeeChatBio: myProfile.coffeeChatBio,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
           ? myProfile.careers.map((career) =>

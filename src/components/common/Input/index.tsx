@@ -65,15 +65,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {errorMessage !== undefined || !!count ? (
           <Additional>
             <StyledErrorMessage message={errorMessage} />
-            <div>
-              {count && (
-                <StyledCountValue>
-                  <Text color={colors.gray600} typography='SUIT_12_M'>
-                    {`${value?.length ?? 0}/${maxCount}`}
-                  </Text>
-                </StyledCountValue>
-              )}
-            </div>
+            <div>{count && <StyledCountValue>{`${value?.length ?? 0}/${maxCount}`}</StyledCountValue>}</div>
           </Additional>
         ) : null}
       </div>
@@ -116,7 +108,7 @@ const StyledInput = styled.input<InputProps>`
 `;
 
 const StyledErrorMessage = styled(ErrorMessage)`
-  margin-top: 11px;
+  margin-top: 8px;
 `;
 
 const Additional = styled.div`
@@ -127,5 +119,14 @@ const Additional = styled.div`
 const StyledCountValue = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 12px;
+  margin-top: 8px;
+
+  line-height: 16px; /* 133.333% */
+  letter-spacing: -0.24px;
+  color: ${colors.gray300};
+
+  /* Label/12_SB */
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
 `;

@@ -112,16 +112,18 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
   color: ${colors.gray950};
 
   ${({ isDisabled }) =>
-    isDisabled &&
-    css`
-      background-color: ${colors.gray800};
-      color: ${colors.gray400};
-    `}
-
-  &:hover {
-    background-color: ${colors.gray50};
-    color: ${colors.gray950};
-  }
+    isDisabled
+      ? css`
+          background-color: ${colors.gray800};
+          color: ${colors.gray400};
+          cursor: not-allowed;
+        `
+      : css`
+          &:hover {
+            background-color: ${colors.gray50};
+            color: ${colors.gray950};
+          }
+        `}
 
   ${textStyles.SUIT_14_M}
 

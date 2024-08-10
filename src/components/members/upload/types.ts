@@ -28,10 +28,12 @@ export interface MemberUploadForm {
     fishBread: FavorFishBread | null;
     tteokbokki: FavorTteokbokki | null;
   };
-  sojuCapacity: typeof SOJU_CAPACITY_RANGE[number];
+  sojuCapacity: (typeof SOJU_CAPACITY_RANGE)[number];
   interest: string;
   longIntroduction: string;
   isPhoneBlind: boolean;
+  isCoffeeChatActivate: boolean;
+  coffeeChatBio: string;
 }
 
 export interface SoptActivity {
