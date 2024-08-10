@@ -6,7 +6,6 @@ import { colors } from '@sopt-makers/colors';
 import { Controller, useFormContext, useFormState, useWatch } from 'react-hook-form';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import ResizedImage from '@/components/common/ResizedImage';
-import { useState } from 'react';
 import Input from '@/components/common/Input';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { AnimatePresence, m } from 'framer-motion';
@@ -259,8 +258,8 @@ const Description = styled.div`
     margin-top: 6px;
     line-height: 20px;
     letter-spacing: -0.195px;
-    font-size: 13px;
     white-space: pre-wrap;
+    font-size: 13px;
   }
 `;
 
@@ -317,8 +316,8 @@ const IconContainer = styled.div`
   top: 0;
   left: 0;
   border-radius: 50%;
-  padding: 5px;
   background: ${colors.blue400};
+  padding: 5px;
   width: 32px;
   height: 32px;
 `;
