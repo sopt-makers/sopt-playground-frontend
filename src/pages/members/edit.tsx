@@ -8,8 +8,6 @@ import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import { ProfileRequest } from '@/api/endpoint_LEGACY/members/type';
 import AuthRequired from '@/components/auth/AuthRequired';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
-import FormAccordion from '@/components/common/form/FormCollapsible';
-import Responsive from '@/components/common/Responsive';
 import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import CheckActivity from '@/components/members/upload/CheckActivity/Modal/CheckActivityModal';
@@ -38,6 +36,7 @@ import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
 import { useGetMemberOfMe } from '../../api/endpoint/members/getMemberOfMe';
+import CoffeeChatFormSection from '@/components/members/upload/FormSection/CoffeeChat';
 
 export default function MemberEditPage() {
   const { logSubmitEvent } = useEventLogger();
@@ -230,6 +229,7 @@ export default function MemberEditPage() {
       {me && me.editActivitiesAble && <CheckActivity />}
       <FormProvider {...formMethods}>
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
+          <CoffeeChatFormSection />
           <BasicFormSection />
           <SoptActivityFormSection />
           <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
