@@ -1,3 +1,4 @@
+import AdsBanner from '@/components/common/Banner/AdsBanner';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
@@ -8,6 +9,7 @@ const ActiveBannerSlot: FC<ActiveBannerSlotProps> = ({}) => {
     <StyledActiveBanner>
       {/* 이 밑에 노출할 배너를 넣으세요. */}
       {/* ==== */}
+      <AdsBanner />
     </StyledActiveBanner>
   );
 };
