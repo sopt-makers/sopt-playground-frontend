@@ -102,12 +102,12 @@ const Container = styled(m.div)<{ isBlurred?: boolean }>`
   gap: 11px;
   align-items: center;
   justify-content: space-between;
-  padding: 32px 36px;
   border-radius: 24px;
+  padding: 32px 36px;
+  background: ${colors.gray900};
   width: 419px;
   min-width: 419px;
   height: 198px;
-  background: ${colors.gray900};
   cursor: pointer;
 
   ${({ isBlurred }) =>
@@ -127,18 +127,18 @@ const Container = styled(m.div)<{ isBlurred?: boolean }>`
 
 const Title = styled.div`
   display: ${'-webkit-box'};
-  overflow: hidden;
   height: 56px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   /* Title/18_SB */
   line-height: 28px; /* 155.556% */
   letter-spacing: -0.36px;
+  color: ${colors.white};
   font-size: 18px;
   font-weight: 600;
-  color: ${colors.white};
-  text-overflow: ellipsis;
-  word-break: break-word;
   white-space: pre-line;
+  word-break: break-word;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
@@ -156,9 +156,9 @@ const Mentor = styled.div`
   /* Label/14_SB */
   line-height: 18px; /* 128.571% */
   letter-spacing: -0.28px;
+  color: ${colors.gray300};
   font-size: 14px;
   font-weight: 600;
-  color: ${colors.gray300};
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 170px;
@@ -168,8 +168,8 @@ const Mentor = styled.div`
     /* Label/12_SB */
     line-height: 16px; /* 133.333% */
     letter-spacing: -0.24px;
-    font-size: 12px;
     white-space: nowrap;
+    font-size: 12px;
   }
 `;
 
@@ -221,9 +221,9 @@ const IconContainer = styled.div`
   border-radius: 50%;
   background: ${colors.blue400};
   padding: 5px;
+  cursor: pointer;
   width: 32px;
   height: 32px;
-  cursor: pointer;
 
   &:hover {
     background-color: ${colors.blue200};

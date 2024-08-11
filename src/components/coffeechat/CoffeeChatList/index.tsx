@@ -257,17 +257,15 @@ const Title = styled.div`
   /* Heading/24_B */
   line-height: 36px; /* 150% */
   letter-spacing: -0.48px;
+  color: ${colors.white};
   font-size: 24px;
   font-weight: 700;
 
-  color: ${colors.white};
-
   @media ${MOBILE_MEDIA_QUERY} {
-    white-space: pre-wrap;
-
     /* Heading/18_B */
     line-height: 28px; /* 155.556% */
     letter-spacing: -0.36px;
+    white-space: pre-wrap;
     font-size: 18px;
   }
 `;
