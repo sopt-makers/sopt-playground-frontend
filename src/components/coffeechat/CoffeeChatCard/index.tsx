@@ -104,8 +104,8 @@ const Container = styled(m.div)<{ isBlurred?: boolean }>`
   justify-content: space-between;
   border-radius: 24px;
   background: ${colors.gray900};
-  padding: 32px 36px;
   cursor: pointer;
+  padding: 32px 36px;
   width: 419px;
   min-width: 419px;
   height: 198px;
@@ -134,11 +134,11 @@ const Title = styled.div`
   /* Title/18_SB */
   line-height: 28px; /* 155.556% */
   letter-spacing: -0.36px;
-  color: ${colors.white};
   white-space: pre-line;
+  word-break: break-word;
+  color: ${colors.white};
   font-size: 18px;
   font-weight: 600;
-  word-break: break-word;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
