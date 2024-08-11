@@ -118,6 +118,9 @@ export default function MemberUploadPage() {
     queryClient.invalidateQueries({
       queryKey: ['getMemberProfile'],
     });
+    queryClient.invalidateQueries({
+      queryKey: ['getMembersCoffeeChat'],
+    });
 
     // router.replace(lastUnauthorized.popPath() ?? '/');
     router.replace('/members/complete'); // 프로필 등록 완료 페이지로 이동
