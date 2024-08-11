@@ -87,6 +87,19 @@ export default function CoffeeChatList() {
           </Flex>
         </Header>
       </Responsive>
+      <Responsive only='mobile'>
+        <Header>
+          <Title>{'아래의 커피챗 멘토님들이\n여러분을 기다리고 있어요'}</Title>
+          <Flex style={{ gap: 8 }}>
+            <Button size='md' theme='black'>
+              커피챗 이용 가이드
+            </Button>
+            <Button size='md' theme='white' style={{ color: colors.black }}>
+              커피챗 오픈하기
+            </Button>
+          </Flex>
+        </Header>
+      </Responsive>
       {(listType === undefined || listType === 'carousel-large') && (
         <StyledCarousel
           itemList={coffeeChatCardList}
@@ -119,7 +132,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 100px;
-  margin-bottom: 103px;
 
   .${SCREEN_SIZE.desktopSmall.className} {
     display: none;
@@ -144,9 +156,8 @@ const Container = styled.div`
   }
 
   @media ${DESKTOP_SMALL_MEDIA_QUERY} {
-    gap: 36px;
+    gap: 32px;
     margin-top: 104px;
-    margin-bottom: 48px;
 
     .${SCREEN_SIZE.desktopLarge.className} {
       display: none;
@@ -164,7 +175,6 @@ const Container = styled.div`
   @media ${TABLET_MEDIA_QUERY} {
     gap: 24px;
     margin-top: 24px;
-    margin-bottom: 40px;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -175,15 +185,52 @@ const Container = styled.div`
   }
 `;
 
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1302px;
+
+  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
+    width: 969px;
+  }
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    width: 636px;
+  }
+
+  @media ${TABLET_MEDIA_QUERY} {
+    gap: 12px;
+    padding: 0 20px;
+    width: 100%;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 10px;
+  }
+`;
+
 const Title = styled.div`
   text-align: start;
   line-height: 100%;
-  color: ${colors.gray10};
+  color: ${colors.white};
 
-  ${textStyles.SUIT_24_B}
+  /* Heading/24_B */
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 36px; /* 150% */
+  letter-spacing: -0.48px;
 
-  @media ${TABLET_MEDIA_QUERY} {
-    white-space: pre-line;
+  @media ${MOBILE_MEDIA_QUERY} {
+    white-space: pre-wrap;
+
+    /* Heading/18_B */
+    font-size: 18px;
+    line-height: 28px; /* 155.556% */
+    letter-spacing: -0.36px;
   }
 `;
 
@@ -200,12 +247,18 @@ const CoffeeChatScrollWrapper = styled.div`
 
   @media ${TABLET_MEDIA_QUERY} {
     width: 100%;
+    padding: 0 20px;
   }
+`;
+
+export const CardContainer = styled.div`
+  display: flex;
+  gap: 24px;
 `;
 
 const CoffeeChatScrollList = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 24px;
   overflow-x: auto;
 
   &::-webkit-scrollbar {
@@ -227,37 +280,4 @@ const CoffeeChatScrollList = styled.div`
     margin-top: 16px;
     overflow-y: hidden;
   }
-`;
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 1302px;
-
-  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-    width: 969px;
-  }
-
-  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-    width: 636px;
-  }
-
-  @media ${TABLET_MEDIA_QUERY} {
-    gap: 12px;
-    padding: 0 20px;
-    width: 100%;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    gap: 0;
-  }
-`;
-
-export const CardContainer = styled.div`
-  display: flex;
-  gap: 24px;
 `;

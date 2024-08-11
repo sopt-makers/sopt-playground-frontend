@@ -3,8 +3,6 @@ import { colors } from '@sopt-makers/colors';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
-import { getScreenMaxWidthMediaQuery } from '@/utils';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import { Flex } from '@toss/emotion-utils';
 import { Tag } from '@sopt-makers/ui';
@@ -42,7 +40,7 @@ export default function CoffeeChatCard({
         </HorizontalScroller>
         <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>
       </Flex>
-      <Flex direction='column' align='end' justify='space-between' style={{ height: '100%' }}>
+      <ProfileSection>
         {profileImage ? (
           <ProfileImage src={profileImage} />
         ) : (
@@ -53,12 +51,10 @@ export default function CoffeeChatCard({
         <IconContainer>
           <IconCoffee />
         </IconContainer>
-      </Flex>
+      </ProfileSection>
     </Container>
   );
 }
-
-const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery('1200px');
 
 const Container = styled(Flex)`
   width: 419px;
@@ -71,10 +67,12 @@ const Container = styled(Flex)`
   background: ${colors.gray900};
   gap: 11px;
 
-  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
-  }
-
   @media ${MOBILE_MEDIA_QUERY} {
+    width: 335px;
+    min-width: 335px;
+    height: 140px;
+    padding: 18px 20px;
+    border-radius: 16px;
   }
 `;
 
@@ -95,6 +93,50 @@ const Title = styled.div`
   white-space: pre-line;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 40px;
+    /* Title/14_SB */
+    font-size: 14px;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.21px;
+  }
+`;
+
+const Mentor = styled.div`
+  grid-area: mentor;
+  line-height: 120%;
+  color: ${colors.gray300};
+
+  /* Label/14_SB */
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px; /* 128.571% */
+  letter-spacing: -0.28px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    /* Label/12_SB */
+    font-size: 12px;
+    line-height: 16px; /* 133.333% */
+    letter-spacing: -0.24px;
+  }
+`;
+
+const ProfileSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: space-between;
+  height: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    justify-content: flex-end;
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -105,9 +147,8 @@ const ProfileImage = styled.img`
   height: 68px;
   object-fit: cover;
 
-  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
-    width: 20px;
-    height: 20px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
   }
 `;
 
@@ -127,31 +168,8 @@ const EmptyProfileImage = styled.div`
     height: 34px;
   }
 
-  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
-    width: 20px;
-    height: 20px;
-
-    & > svg {
-      width: 10px;
-      height: 10px;
-    }
-  }
-`;
-
-const Mentor = styled.div`
-  grid-area: mentor;
-  line-height: 120%;
-  color: ${colors.gray300};
-
-  ${textStyles.SUIT_14_M};
-
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 170px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    ${textStyles.SUIT_12_R};
+    display: none;
   }
 `;
 
