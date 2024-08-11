@@ -10,6 +10,8 @@ import IconCoffee from '@/public/icons/icon-coffee.svg';
 import { useState } from 'react';
 import { MessageModalState } from '@/components/members/main/MemberList';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 
 interface MentoringCardProps {
   id: string;
@@ -30,10 +32,15 @@ export default function CoffeeChatCard({
   title,
   onClick,
 }: MentoringCardProps) {
+  const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
   return (
-    <Container onClick={onClick}>
+    <Container
+      onClick={() => {
+        router.push(playgroundLink.memberDetail(id));
+      }}
+    >
       <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
         <Title>{title}</Title>
         <HorizontalScroller>
@@ -90,6 +97,7 @@ const Container = styled(Flex)`
   border-radius: 24px;
   background: ${colors.gray900};
   gap: 11px;
+  cursor: pointer;
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 335px;

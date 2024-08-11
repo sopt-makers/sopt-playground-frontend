@@ -5,13 +5,15 @@ import { ReactNode, startTransition, useEffect, useState } from 'react';
 import Carousel from '@/components/common/Carousel';
 import Responsive from '@/components/common/Responsive';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
+import { playgroundLink } from 'playground-common/export';
+import { useRouter } from 'next/router';
+import { COFFEECHAT_GUIDE } from '@/constants/links';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
@@ -28,9 +30,9 @@ const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.siz
 
 export default function CoffeeChatList() {
   const [listType, setListType] = useState<ListType>();
+  const router = useRouter();
 
   const { data } = useGetMembersCoffeeChat();
-  console.log('data', data);
 
   const coffeeChatCardList = (data?.coffeeChatList ?? []).map((item) => (
     <CoffeeChatCard
@@ -79,10 +81,19 @@ export default function CoffeeChatList() {
         <Header>
           <Title>아래의 커피챗 멘토님들이 여러분을 기다리고 있어요</Title>
           <Flex style={{ gap: 8 }}>
-            <Button size='md' theme='black'>
-              커피챗 이용 가이드
-            </Button>
-            <Button size='md' theme='white' style={{ color: colors.black }}>
+            <a href={COFFEECHAT_GUIDE} target='_blank' rel='noreferrer'>
+              <Button size='md' theme='black'>
+                커피챗 이용 가이드
+              </Button>
+            </a>
+            <Button
+              size='md'
+              theme='white'
+              style={{ color: colors.black }}
+              onClick={() => {
+                router.push(playgroundLink.memberEdit());
+              }}
+            >
               커피챗 오픈하기
             </Button>
           </Flex>
