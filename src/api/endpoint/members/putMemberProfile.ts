@@ -77,6 +77,7 @@ export const usePutMemberProfileMutation = () => {
       queryClient.invalidateQueries({ queryKey: ['getMemberProfileById', response.id] });
       queryClient.invalidateQueries({ queryKey: ['getMemberProfile'] });
       queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
+      queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
     },
   });
 };
