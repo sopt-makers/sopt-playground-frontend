@@ -34,6 +34,7 @@ export default function CoffeeChatList() {
 
   const coffeeChatCardList = (data?.coffeeChatList ?? []).map((item) => (
     <CoffeeChatCard
+      id={String(item.memberId)}
       name={item.name ?? ''}
       profileImage={item.memberProfileImage ?? ''}
       organization={item.organization ?? ''}

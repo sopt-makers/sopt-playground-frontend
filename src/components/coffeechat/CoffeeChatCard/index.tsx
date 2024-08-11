@@ -7,8 +7,12 @@ import HorizontalScroller from '@/components/common/HorizontalScroller';
 import { Flex } from '@toss/emotion-utils';
 import { Tag } from '@sopt-makers/ui';
 import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { useState } from 'react';
+import { MessageModalState } from '@/components/members/main/MemberList';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 
 interface MentoringCardProps {
+  id: string;
   name: string;
   profileImage: string;
   organization: string;
@@ -18,6 +22,7 @@ interface MentoringCardProps {
 }
 
 export default function CoffeeChatCard({
+  id,
   name,
   profileImage,
   organization,
@@ -25,6 +30,8 @@ export default function CoffeeChatCard({
   title,
   onClick,
 }: MentoringCardProps) {
+  const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
+
   return (
     <Container onClick={onClick}>
       <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
@@ -48,10 +55,27 @@ export default function CoffeeChatCard({
             <ProfileIcon />
           </EmptyProfileImage>
         )}
-        <IconContainer>
+        <IconContainer
+          onClick={(e) => {
+            e.stopPropagation();
+            setMessageModalState({
+              show: true,
+              data: { targetId: id, name, profileUrl: profileImage },
+            });
+          }}
+        >
           <IconCoffee />
         </IconContainer>
       </ProfileSection>
+      {messageModalState.show && (
+        <MessageModal
+          receiverId={messageModalState.data.targetId}
+          name={messageModalState.data.name}
+          profileImageUrl={messageModalState.data.profileUrl}
+          onClose={() => setMessageModalState({ show: false })}
+          defaultCategory={MessageCategory.COFFEE_CHAT}
+        />
+      )}
     </Container>
   );
 }
@@ -179,4 +203,9 @@ const IconContainer = styled.div`
   padding: 5px;
   width: 32px;
   height: 32px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${colors.blue200};
+  }
 `;

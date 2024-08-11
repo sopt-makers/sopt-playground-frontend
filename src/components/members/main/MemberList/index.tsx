@@ -48,7 +48,7 @@ interface MemberListProps {
   banner: ReactNode;
 }
 
-type MessageModalState =
+export type MessageModalState =
   | {
       show: false;
     }
