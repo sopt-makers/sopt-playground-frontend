@@ -36,7 +36,8 @@ export default function CoffeeChatList() {
 
   const { data, isLoading } = useGetMembersCoffeeChat();
 
-  const dataList = data?.coffeeChatList != null ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
+  const isEmptyData = data?.coffeeChatList == null;
+  const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
 
   const coffeeChatCardList = dataList.map((item, index) => (
     <CoffeeChatCard
@@ -46,7 +47,7 @@ export default function CoffeeChatList() {
       organization={item.organization ?? ''}
       skills={item.careerTitle ?? ''}
       title={item.coffeeChatBio ?? ''}
-      isBlurred={data?.coffeeChatList == null && index > 0}
+      isBlurred={isEmptyData && index > 0}
     />
   ));
 
@@ -84,7 +85,13 @@ export default function CoffeeChatList() {
     <Container>
       <Responsive only='desktop'>
         <Header>
-          <Title>아래의 커피챗 멘토님들이 여러분을 기다리고 있어요</Title>
+          <Title>
+            {isLoading
+              ? ''
+              : isEmptyData
+              ? '커피챗 멘토님을 기다리고 있어요'
+              : '아래의 커피챗 멘토님들이 여러분을 기다리고 있어요'}
+          </Title>
           <Flex style={{ gap: 8 }}>
             <a href={COFFEECHAT_GUIDE} target='_blank' rel='noreferrer'>
               <Button size='md' theme='black'>
@@ -106,7 +113,13 @@ export default function CoffeeChatList() {
       </Responsive>
       <Responsive only='mobile'>
         <Header>
-          <Title>{'아래의 커피챗 멘토님들이\n여러분을 기다리고 있어요'}</Title>
+          <Title>
+            {isLoading
+              ? ''
+              : isEmptyData
+              ? '커피챗 멘토님을 기다리고 있어요'
+              : '아래의 커피챗 멘토님들이\n여러분을 기다리고 있어요'}
+          </Title>
           <Flex style={{ gap: 8 }}>
             <Button size='md' theme='black'>
               커피챗 이용 가이드
