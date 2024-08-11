@@ -103,12 +103,12 @@ const Container = styled(m.div)<{ isBlurred?: boolean }>`
   align-items: center;
   justify-content: space-between;
   border-radius: 24px;
-  padding: 32px 36px;
   background: ${colors.gray900};
+  padding: 32px 36px;
+  cursor: pointer;
   width: 419px;
   min-width: 419px;
   height: 198px;
-  cursor: pointer;
 
   ${({ isBlurred }) =>
     isBlurred &&
@@ -135,9 +135,9 @@ const Title = styled.div`
   line-height: 28px; /* 155.556% */
   letter-spacing: -0.36px;
   color: ${colors.white};
+  white-space: pre-line;
   font-size: 18px;
   font-weight: 600;
-  white-space: pre-line;
   word-break: break-word;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -220,8 +220,8 @@ const EmptyProfileImage = styled.div`
 const IconContainer = styled.div`
   border-radius: 50%;
   background: ${colors.blue400};
-  padding: 5px;
   cursor: pointer;
+  padding: 5px;
   width: 32px;
   height: 32px;
 
