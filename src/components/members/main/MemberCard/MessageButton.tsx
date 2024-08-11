@@ -4,29 +4,40 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { FC, MouseEvent } from 'react';
 
-import IconMessage from '@/public/icons/icon-message.svg';
-import { textStyles } from '@/styles/typography';
+import IconSend from '@/public/icons/icon-send.svg';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { Tag } from '@sopt-makers/ui';
+import { Flex } from '@toss/emotion-utils';
 
 interface MessageButtonProps {
   className?: string;
   name: string;
+  isCoffeeChatActivate: boolean;
   onClick?: (e: MouseEvent) => void;
 }
 
-const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => {
+const MessageButton: FC<MessageButtonProps> = ({ className, name, isCoffeeChatActivate, onClick }) => {
   return (
     <Tooltip.Provider>
       <Tooltip.Root delayDuration={300}>
         <Tooltip.Trigger asChild>
-          <Button className={className} onClick={onClick}>
-            <IconMessage />
+          <Button className={className} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onClick}>
+            {isCoffeeChatActivate ? <IconCoffee /> : <IconSend />}
           </Button>
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <TooltipContent sideOffset={5}>
-            {name}님이 궁금하시다면
-            <br />
-            쪽지를 보내보세요!
+            {isCoffeeChatActivate ? (
+              <Flex style={{ gap: 6 }}>
+                <Tag size='sm' shape='rect' variant='primary' type='solid'>
+                  NEW
+                </Tag>
+                커피챗 기능이 오픈됐어요!
+              </Flex>
+            ) : (
+              `${name}님이 궁금하시다면\n쪽지를 보내보세요!`
+            )}
+
             <TooltipArrow />
           </TooltipContent>
         </Tooltip.Portal>
@@ -37,24 +48,19 @@ const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => 
 
 export default MessageButton;
 
-const Button = styled.div`
+const Button = styled.div<{ isCoffeeChatActivate: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
   border-radius: 50%;
-  background-color: ${colors.gray600};
+  background-color: ${({ isCoffeeChatActivate }) => (isCoffeeChatActivate ? colors.blue400 : colors.gray600)};
+  padding: 5px;
   width: 32px;
   height: 32px;
 
   &:hover {
-    background-color: ${colors.gray400};
-  }
-
-  & svg {
-    fill: ${colors.gray100};
-    width: 16px;
-    height: 16px;
+    background-color: ${({ isCoffeeChatActivate }) => (isCoffeeChatActivate ? colors.blue200 : colors.gray400)};
   }
 `;
 
@@ -67,6 +73,7 @@ const TooltipContent = styled(Tooltip.Content)`
   animation-duration: 400ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
+  white-space: pre-wrap;
   color: ${colors.gray100};
   will-change: transform, opacity;
   user-select: none;

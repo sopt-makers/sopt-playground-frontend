@@ -18,6 +18,7 @@ interface MemberCardProps {
     isActive: boolean;
   }[];
   imageUrl?: string;
+  isCoffeeChatActivate: boolean;
 
   onMessage?: (e: SyntheticEvent) => void;
 }
@@ -28,7 +29,15 @@ const imageVariants = {
   },
 };
 
-const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUrl, onMessage }) => {
+const MemberCard: FC<MemberCardProps> = ({
+  name,
+  belongs,
+  badges,
+  intro,
+  imageUrl,
+  isCoffeeChatActivate,
+  onMessage,
+}) => {
   return (
     <MotionMemberCard whileHover='hover'>
       <StyledAspectRatio ratio={1 / 1}>
@@ -60,7 +69,7 @@ const MemberCard: FC<MemberCardProps> = ({ name, belongs, badges, intro, imageUr
         </BadgesBox>
         <Intro>{intro}</Intro>
       </ContentArea>
-      <StyledTooltip name={name} onClick={onMessage} />
+      <StyledTooltip name={name} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onMessage} />
     </MotionMemberCard>
   );
 };

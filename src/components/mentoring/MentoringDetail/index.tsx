@@ -132,7 +132,8 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
           </Section>
         </Main>
       </Container>
-      {isOpenMessageModal && (
+       {/* NOTE: 현재 사용되지 않는 기능에서 타입 에러가 나서 주석처리 합니다. */}
+      {/* {isOpenMessageModal && (
         <MessageModal
           receiverId={mentorId.toString()}
           name={mentorName}
@@ -141,7 +142,7 @@ export default function MentoringDetail({ mentorId }: MentoringDetailProps) {
           defaultCategory={MessageCategory.MENTORING}
           onLog={(options) => eventLogger.submitMentoringApplication(mentorId, options?.category?.toString() ?? '')}
         />
-      )}
+      )} */}
     </>
   );
 }

@@ -48,7 +48,7 @@ interface MemberListProps {
   banner: ReactNode;
 }
 
-type MessageModalState =
+export type MessageModalState =
   | {
       show: false;
     }
@@ -398,6 +398,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                         badges={badges}
                         intro={profile.introduction}
                         imageUrl={profile.profileImage}
+                        isCoffeeChatActivate={profile.isCoffeeChatActivate}
                         onMessage={(e) => {
                           e.preventDefault();
                           setMessageModalState({
