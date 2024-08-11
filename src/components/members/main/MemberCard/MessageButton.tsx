@@ -55,10 +55,9 @@ const Button = styled.div<{ isCoffeeChatActivate: boolean }>`
   transition: background-color 0.2s;
   border-radius: 50%;
   background-color: ${({ isCoffeeChatActivate }) => (isCoffeeChatActivate ? colors.blue400 : colors.gray600)};
-
+  padding: 5px;
   width: 32px;
   height: 32px;
-  padding: 5px;
 
   &:hover {
     background-color: ${({ isCoffeeChatActivate }) => (isCoffeeChatActivate ? colors.blue200 : colors.gray400)};
@@ -75,9 +74,9 @@ const TooltipContent = styled(Tooltip.Content)`
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
   color: ${colors.gray100};
+  white-space: pre-wrap;
   will-change: transform, opacity;
   user-select: none;
-  white-space: pre-wrap;
 
   &[data-state='delayed-open'] {
     &[data-side='top'] {

@@ -99,15 +99,15 @@ export default function CoffeeChatCard({
 
 const Container = styled(m.div)<{ isBlurred?: boolean }>`
   display: flex;
+  gap: 11px;
   width: 419px;
   min-width: 419px;
-  height: 198px;
-  padding: 32px 36px;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 32px 36px;
+  height: 198px;
   border-radius: 24px;
   background: ${colors.gray900};
-  gap: 11px;
   cursor: pointer;
 
   ${({ isBlurred }) =>
@@ -117,27 +117,26 @@ const Container = styled(m.div)<{ isBlurred?: boolean }>`
     `};
 
   @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 16px;
+    padding: 18px 20px;
     width: 335px;
     min-width: 335px;
     height: 140px;
-    padding: 18px 20px;
-    border-radius: 16px;
   }
 `;
 
 const Title = styled.div`
-  display: -webkit-box;
+  display: ${'-webkit-box'};
   height: 56px;
   color: ${colors.white};
 
   /* Title/18_SB */
-  font-size: 18px;
-  font-weight: 600;
   line-height: 28px; /* 155.556% */
   letter-spacing: -0.36px;
-
-  word-break: break-word;
+  font-weight: 600;
+  font-size: 18px;
   overflow: hidden;
+  word-break: break-word;
   text-overflow: ellipsis;
   white-space: pre-line;
   -webkit-line-clamp: 2;
@@ -145,23 +144,22 @@ const Title = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     height: 40px;
+
     /* Title/14_SB */
-    font-size: 14px;
     line-height: 20px; /* 142.857% */
     letter-spacing: -0.21px;
+    font-size: 14px;
   }
 `;
 
 const Mentor = styled.div`
-  grid-area: mentor;
-  line-height: 120%;
   color: ${colors.gray300};
 
   /* Label/14_SB */
-  font-size: 14px;
-  font-weight: 600;
   line-height: 18px; /* 128.571% */
   letter-spacing: -0.28px;
+  font-weight: 600;
+  font-size: 14px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 170px;
@@ -170,9 +168,9 @@ const Mentor = styled.div`
     white-space: nowrap;
 
     /* Label/12_SB */
-    font-size: 12px;
     line-height: 16px; /* 133.333% */
     letter-spacing: -0.24px;
+    font-size: 12px;
   }
 `;
 
@@ -189,7 +187,6 @@ const ProfileSection = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  grid-area: profileImage;
   align-self: center;
   border-radius: 50%;
   width: 68px;
@@ -203,7 +200,6 @@ const ProfileImage = styled.img`
 
 const EmptyProfileImage = styled.div`
   display: flex;
-  grid-area: profileImage;
   align-items: center;
   align-self: center;
   justify-content: center;
@@ -223,12 +219,12 @@ const EmptyProfileImage = styled.div`
 `;
 
 const IconContainer = styled.div`
+  cursor: pointer;
   border-radius: 50%;
   background: ${colors.blue400};
   padding: 5px;
   width: 32px;
   height: 32px;
-  cursor: pointer;
 
   &:hover {
     background-color: ${colors.blue200};

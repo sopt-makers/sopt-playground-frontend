@@ -253,14 +253,13 @@ const Header = styled.div`
 
 const Title = styled.div`
   text-align: start;
-  line-height: 100%;
   color: ${colors.white};
 
   /* Heading/24_B */
-  font-size: 24px;
-  font-weight: 700;
   line-height: 36px; /* 150% */
   letter-spacing: -0.48px;
+  font-weight: 700;
+  font-size: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     white-space: pre-wrap;
@@ -289,8 +288,8 @@ const LoadingContainer = styled.div`
 `;
 
 const StyledCarousel = styled(Carousel)`
-  width: 1414px;
   padding-top: 8px;
+  width: 1414px;
 
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
     width: 975px;
@@ -301,8 +300,8 @@ const CoffeeChatScrollWrapper = styled.div`
   width: 636px;
 
   @media ${TABLET_MEDIA_QUERY} {
-    width: 100%;
     padding: 0 20px;
+    width: 100%;
   }
 `;
 
@@ -314,8 +313,8 @@ export const CardContainer = styled.div`
 const CoffeeChatScrollList = styled.div`
   display: flex;
   gap: 24px;
-  overflow-x: auto;
   padding-top: 8px;
+  overflow-x: auto;
 
   &::-webkit-scrollbar {
     display: none;
