@@ -14,6 +14,7 @@ import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
 import { playgroundLink } from 'playground-common/export';
 import { useRouter } from 'next/router';
 import { COFFEECHAT_GUIDE } from '@/constants/links';
+import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
@@ -34,7 +35,9 @@ export default function CoffeeChatList() {
 
   const { data } = useGetMembersCoffeeChat();
 
-  const coffeeChatCardList = (data?.coffeeChatList ?? []).map((item) => (
+  const dataList = data?.coffeeChatList != null ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
+
+  const coffeeChatCardList = dataList.map((item, index) => (
     <CoffeeChatCard
       id={String(item.memberId)}
       name={item.name ?? ''}
@@ -42,6 +45,7 @@ export default function CoffeeChatList() {
       organization={item.organization ?? ''}
       skills={item.careerTitle ?? ''}
       title={item.coffeeChatBio ?? ''}
+      isBlurred={data?.coffeeChatList == null && index > 0}
     />
   ));
 

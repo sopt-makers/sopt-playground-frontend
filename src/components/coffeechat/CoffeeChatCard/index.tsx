@@ -12,6 +12,7 @@ import { MessageModalState } from '@/components/members/main/MemberList';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
+import { css } from '@emotion/react';
 
 interface MentoringCardProps {
   id: string;
@@ -20,6 +21,7 @@ interface MentoringCardProps {
   organization: string;
   skills: string;
   title: string;
+  isBlurred?: boolean;
 }
 
 export default function CoffeeChatCard({
@@ -29,6 +31,7 @@ export default function CoffeeChatCard({
   organization,
   skills,
   title,
+  isBlurred,
 }: MentoringCardProps) {
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
@@ -38,6 +41,7 @@ export default function CoffeeChatCard({
       onClick={() => {
         router.push(playgroundLink.memberDetail(id));
       }}
+      isBlurred={isBlurred}
     >
       <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
         <Title>{title}</Title>
@@ -89,7 +93,7 @@ export default function CoffeeChatCard({
   );
 }
 
-const Container = styled(Flex)`
+const Container = styled(Flex)<{ isBlurred?: boolean }>`
   width: 419px;
   min-width: 419px;
   height: 198px;
@@ -100,6 +104,12 @@ const Container = styled(Flex)`
   background: ${colors.gray900};
   gap: 11px;
   cursor: pointer;
+
+  ${({ isBlurred }) =>
+    isBlurred &&
+    css`
+      filter: blur(5px);
+    `};
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 335px;
