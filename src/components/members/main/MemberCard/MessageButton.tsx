@@ -73,8 +73,8 @@ const TooltipContent = styled(Tooltip.Content)`
   animation-duration: 400ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
-  color: ${colors.gray100};
   white-space: pre-wrap;
+  color: ${colors.gray100};
   will-change: transform, opacity;
   user-select: none;
 

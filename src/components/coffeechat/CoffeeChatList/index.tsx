@@ -253,21 +253,22 @@ const Header = styled.div`
 
 const Title = styled.div`
   text-align: start;
-  color: ${colors.white};
 
   /* Heading/24_B */
   line-height: 36px; /* 150% */
   letter-spacing: -0.48px;
-  font-weight: 700;
   font-size: 24px;
+  font-weight: 700;
+
+  color: ${colors.white};
 
   @media ${MOBILE_MEDIA_QUERY} {
     white-space: pre-wrap;
 
     /* Heading/18_B */
-    font-size: 18px;
     line-height: 28px; /* 155.556% */
     letter-spacing: -0.36px;
+    font-size: 18px;
   }
 `;
 

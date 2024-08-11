@@ -100,13 +100,13 @@ export default function CoffeeChatCard({
 const Container = styled(m.div)<{ isBlurred?: boolean }>`
   display: flex;
   gap: 11px;
-  width: 419px;
-  min-width: 419px;
   align-items: center;
   justify-content: space-between;
   padding: 32px 36px;
-  height: 198px;
   border-radius: 24px;
+  width: 419px;
+  min-width: 419px;
+  height: 198px;
   background: ${colors.gray900};
   cursor: pointer;
 
@@ -127,17 +127,17 @@ const Container = styled(m.div)<{ isBlurred?: boolean }>`
 
 const Title = styled.div`
   display: ${'-webkit-box'};
+  overflow: hidden;
   height: 56px;
-  color: ${colors.white};
 
   /* Title/18_SB */
   line-height: 28px; /* 155.556% */
   letter-spacing: -0.36px;
-  font-weight: 600;
   font-size: 18px;
-  overflow: hidden;
-  word-break: break-word;
+  font-weight: 600;
+  color: ${colors.white};
   text-overflow: ellipsis;
+  word-break: break-word;
   white-space: pre-line;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -153,24 +153,23 @@ const Title = styled.div`
 `;
 
 const Mentor = styled.div`
-  color: ${colors.gray300};
-
   /* Label/14_SB */
   line-height: 18px; /* 128.571% */
   letter-spacing: -0.28px;
-  font-weight: 600;
   font-size: 14px;
+  font-weight: 600;
+  color: ${colors.gray300};
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 
     /* Label/12_SB */
     line-height: 16px; /* 133.333% */
     letter-spacing: -0.24px;
     font-size: 12px;
+    white-space: nowrap;
   }
 `;
 
@@ -219,12 +218,12 @@ const EmptyProfileImage = styled.div`
 `;
 
 const IconContainer = styled.div`
-  cursor: pointer;
   border-radius: 50%;
   background: ${colors.blue400};
   padding: 5px;
   width: 32px;
   height: 32px;
+  cursor: pointer;
 
   &:hover {
     background-color: ${colors.blue200};
