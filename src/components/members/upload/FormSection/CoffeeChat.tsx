@@ -347,16 +347,3 @@ const CoffeeChatIntroInput = styled(Input)`
     }
   }
 `;
-
-const Count = styled.div`
-  align-self: stretch;
-  text-align: right;
-  line-height: 16px; /* 133.333% */
-  letter-spacing: -0.24px;
-  color: ${colors.gray300};
-
-  /* Label/12_SB */
-  font-size: 12px;
-  font-weight: 600;
-  font-style: normal;
-`;

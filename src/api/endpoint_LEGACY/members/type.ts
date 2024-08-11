@@ -22,6 +22,7 @@ export type Profile = {
   links: MemberLink[];
   allowOfficial: boolean;
   careers: Career[];
+  isCoffeeChatActivate: boolean;
 };
 
 export type PagedMemberProfile = {
