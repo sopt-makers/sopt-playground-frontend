@@ -60,6 +60,7 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
 
     function scrollLeft(e: MouseEvent) {
       e.preventDefault();
+      e.stopPropagation();
 
       const scrollWidth = containerRef?.current?.clientWidth ?? 0;
 
@@ -71,6 +72,7 @@ const HorizontalScroller = forwardRef<HTMLDivElement, HorizontalScrollerProps>(
 
     function scrollRight(e: MouseEvent) {
       e.preventDefault();
+      e.stopPropagation();
 
       const scrollWidth = containerRef?.current?.clientWidth ?? 0;
 

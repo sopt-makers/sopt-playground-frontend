@@ -20,7 +20,6 @@ interface MentoringCardProps {
   organization: string;
   skills: string;
   title: string;
-  onClick?: () => void;
 }
 
 export default function CoffeeChatCard({
@@ -30,7 +29,6 @@ export default function CoffeeChatCard({
   organization,
   skills,
   title,
-  onClick,
 }: MentoringCardProps) {
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
@@ -45,11 +43,15 @@ export default function CoffeeChatCard({
         <Title>{title}</Title>
         <HorizontalScroller>
           <Flex style={{ gap: 4, marginTop: 4 }}>
-            {skills.split(',').map((skill) => (
-              <Tag size='sm' shape='rect' variant='secondary' type='solid'>
-                {skill}
-              </Tag>
-            ))}
+            {skills
+              .split(',')
+              .map((skill) => skill.trim())
+              .filter(Boolean)
+              .map((skill) => (
+                <Tag size='sm' shape='rect' variant='secondary' type='solid'>
+                  {skill}
+                </Tag>
+              ))}
           </Flex>
         </HorizontalScroller>
         <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>
