@@ -15,6 +15,7 @@ import { playgroundLink } from 'playground-common/export';
 import { useRouter } from 'next/router';
 import { COFFEECHAT_GUIDE } from '@/constants/links';
 import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
+import Loading from '@/components/common/Loading';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
@@ -33,7 +34,7 @@ export default function CoffeeChatList() {
   const [listType, setListType] = useState<ListType>();
   const router = useRouter();
 
-  const { data } = useGetMembersCoffeeChat();
+  const { data, isLoading } = useGetMembersCoffeeChat();
 
   const dataList = data?.coffeeChatList != null ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
 
@@ -116,26 +117,34 @@ export default function CoffeeChatList() {
           </Flex>
         </Header>
       </Responsive>
-      {(listType === undefined || listType === 'carousel-large') && (
-        <StyledCarousel
-          itemList={coffeeChatCardList}
-          limit={3}
-          renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
-          className={SCREEN_SIZE.desktopLarge.className}
-        />
-      )}
-      {(listType === undefined || listType === 'carousel-small') && (
-        <StyledCarousel
-          itemList={coffeeChatCardList}
-          limit={2}
-          renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
-          className={SCREEN_SIZE.desktopSmall.className}
-        />
-      )}
-      {(listType === undefined || listType === 'scroll') && (
-        <CoffeeChatScrollWrapper className={SCREEN_SIZE.tablet.className}>
-          <CoffeeChatScrollList>{coffeeChatCardList}</CoffeeChatScrollList>
-        </CoffeeChatScrollWrapper>
+      {isLoading ? (
+        <LoadingContainer>
+          <Loading />
+        </LoadingContainer>
+      ) : (
+        <>
+          {(listType === undefined || listType === 'carousel-large') && (
+            <StyledCarousel
+              itemList={coffeeChatCardList}
+              limit={3}
+              renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
+              className={SCREEN_SIZE.desktopLarge.className}
+            />
+          )}
+          {(listType === undefined || listType === 'carousel-small') && (
+            <StyledCarousel
+              itemList={coffeeChatCardList}
+              limit={2}
+              renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
+              className={SCREEN_SIZE.desktopSmall.className}
+            />
+          )}
+          {(listType === undefined || listType === 'scroll') && (
+            <CoffeeChatScrollWrapper className={SCREEN_SIZE.tablet.className}>
+              <CoffeeChatScrollList>{coffeeChatCardList}</CoffeeChatScrollList>
+            </CoffeeChatScrollWrapper>
+          )}
+        </>
       )}
     </Container>
   );
@@ -247,6 +256,22 @@ const Title = styled.div`
     font-size: 18px;
     line-height: 28px; /* 155.556% */
     letter-spacing: -0.36px;
+  }
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 238px;
+
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+    height: 206px;
+  }
+
+  @media ${TABLET_MEDIA_QUERY} {
+    height: 164px;
   }
 `;
 
