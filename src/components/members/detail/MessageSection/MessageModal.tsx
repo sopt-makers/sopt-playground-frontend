@@ -18,10 +18,9 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export enum MessageCategory {
   COFFEE_CHAT = '커피챗',
-  MENTORING = '멘토링',
   NETWORK = '친목',
-  PROJECT_SUGGESTION = '프로젝트 제안',
   APPJAM_TEAM_BUILDING = '앱잼 팀 빌딩',
+  PROJECT_SUGGESTION = '프로젝트 제안',
   ETC = '기타',
 }
 interface Category {
@@ -34,21 +33,16 @@ const CATEGORY: Category[] = [
     value: MessageCategory.COFFEE_CHAT,
   },
   {
-    icon: '/icons/icon-mentoring.svg',
-    value: MessageCategory.MENTORING,
-  },
-  {
     icon: '/icons/icon-network.svg',
     value: MessageCategory.NETWORK,
-  },
-
-  {
-    icon: '/icons/icon-project-suggest.svg',
-    value: MessageCategory.PROJECT_SUGGESTION,
   },
   {
     icon: '/icons/icon-appjam-build.svg',
     value: MessageCategory.APPJAM_TEAM_BUILDING,
+  },
+  {
+    icon: '/icons/icon-project-suggest.svg',
+    value: MessageCategory.PROJECT_SUGGESTION,
   },
   {
     icon: '/icons/icon-postnote-etc.svg',
@@ -61,11 +55,7 @@ const schema = yup.object().shape({
   content: yup.string().required('내용을 입력해주세요.').max(750, '750자 이내로 입력해주세요.'),
 });
 
-const MENTORING_PLACEHOLDER = `멘토링을 통해 어떤 것을 얻고 싶은지
-자세히 적으면 더욱 알찬 멘토링이 될 거예요.
-
-예시) 취업을 준비하면서 제가 하고 있는 일들의 
-우선순위를 정하는 것이 어려워요.`;
+const COFFEECHAT_PLACEHOLDER = '커피챗을 통해 어떤 걸 얻고 싶은지 자세하게 적어주세요. 멘토님의 스킬과 소개와 관련된 내용으로 작성한다면 멘토님이 더욱 자세하게 공유해주실 거예요.';
 
 interface MessageForm {
   email: string;
@@ -177,7 +167,7 @@ const MessageModal: FC<MessageModalProps> = ({
           name='content'
           component={StyledTextArea}
           placeholder={
-            selectedCategory === MessageCategory.MENTORING ? MENTORING_PLACEHOLDER : '전달할 내용을 입력해주세요!'
+            selectedCategory === MessageCategory.COFFEE_CHAT ? COFFEECHAT_PLACEHOLDER : '전달할 내용을 입력해주세요!'
           }
         />
         <StyledButton isDisabled={!isValid}>
