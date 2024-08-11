@@ -13,6 +13,7 @@ import MessageModal, { MessageCategory } from '@/components/members/detail/Messa
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { css } from '@emotion/react';
+import { m } from 'framer-motion';
 
 interface MentoringCardProps {
   id: string;
@@ -38,6 +39,9 @@ export default function CoffeeChatCard({
 
   return (
     <Container
+      whileHover={{
+        y: -4,
+      }}
       onClick={() => {
         router.push(playgroundLink.memberDetail(id));
       }}
@@ -93,7 +97,8 @@ export default function CoffeeChatCard({
   );
 }
 
-const Container = styled(Flex)<{ isBlurred?: boolean }>`
+const Container = styled(m.div)<{ isBlurred?: boolean }>`
+  display: flex;
   width: 419px;
   min-width: 419px;
   height: 198px;

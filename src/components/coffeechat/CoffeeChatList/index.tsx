@@ -172,7 +172,7 @@ const Container = styled.div`
   }
 
   @media ${DESKTOP_SMALL_MEDIA_QUERY} {
-    gap: 32px;
+    gap: 24px;
     margin-top: 104px;
 
     .${SCREEN_SIZE.desktopLarge.className} {
@@ -189,7 +189,7 @@ const Container = styled.div`
   }
 
   @media ${TABLET_MEDIA_QUERY} {
-    gap: 24px;
+    gap: 16px;
     margin-top: 24px;
   }
 
@@ -252,6 +252,7 @@ const Title = styled.div`
 
 const StyledCarousel = styled(Carousel)`
   width: 1414px;
+  padding-top: 8px;
 
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
     width: 975px;
@@ -276,6 +277,7 @@ const CoffeeChatScrollList = styled.div`
   display: flex;
   gap: 24px;
   overflow-x: auto;
+  padding-top: 8px;
 
   &::-webkit-scrollbar {
     display: none;
