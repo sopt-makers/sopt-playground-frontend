@@ -5,6 +5,7 @@ import { FC, ReactNode } from 'react';
 
 import { layoutCSSVariable } from '@/components/layout/utils';
 import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
+import { MOBILE_MAX_WIDTH } from '@/styles/mediaQuery';
 
 interface DesktopCommunityLayoutProps {
   isDetailOpen: boolean;
@@ -41,7 +42,11 @@ export default DesktopCommunityLayout;
 const WordChainWrapper = styled.div`
   margin: 0 auto;
   min-width: 0;
-  max-width: 912px;
+  max-width: 560px;
+
+  @media ${MOBILE_MAX_WIDTH} {
+    max-width: 912px;
+  }
 `;
 
 const Container = styled.div`
