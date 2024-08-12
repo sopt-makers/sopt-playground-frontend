@@ -4,7 +4,6 @@ import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { CustomArrowProps, Settings } from 'react-slick';
-
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 const Slider = require('react-slick').default;
@@ -28,7 +27,7 @@ const AdsBanner: React.FC = () => {
   return (
     <SliderWrapper>
       {ADS && ADS.length > 0 && (
-        <AdsSlider {...settings} isSingle={ADS.length < 2}>
+        <AdsSlider {...settings}>
           {ADS.map(({ id, image, url }) => {
             return <AdsBox key={id} image={image} url={url} />;
           })}
@@ -50,7 +49,7 @@ const SliderWrapper = styled.div`
   }
 `;
 
-const AdsSlider = styled(Slider)<{ isSingle: true }>`
+const AdsSlider = styled(Slider)`
   display: flex;
   align-items: center;
   justify-content: center;
