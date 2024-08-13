@@ -213,6 +213,7 @@ const StyledContent = styled.div`
   gap: 20px;
   align-items: center;
   margin: 64px 0;
+  min-width: ${CONTAINER_MAX_WIDTH}px;
   min-height: 100vh;
 
   @media screen and (max-width: ${CONTAINER_MAX_WIDTH}px) {
