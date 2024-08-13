@@ -41,13 +41,15 @@ const ProjectList = () => {
   const [value, setValue] = useState(queryParams.name);
   const [totalCount, setTotalCount] = useState<number>();
   const debouncedChangeName = useDebounce((value: string | undefined) => setQueryParams({ name: value }), 300);
-  const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
+  const { data, fetchNextPage, isLoading } = useGetProjectListQuery({
     limit: 20,
     name: queryParams.name,
     isAvailable: queryParams.isAvailable,
     isFounding: queryParams.isFounding,
     category: queryParams.category ?? undefined,
   });
+
+  const isEmpty = data?.pages[0].totalCount === 0;
 
   useEffect(() => {
     if (data?.pages) {
@@ -67,77 +69,78 @@ const ProjectList = () => {
           }}
           placeholder='프로젝트 검색'
         />
-        {totalCount ? (
-          <LengthWrapper>
-            <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
-            <Responsive only='desktop'>
-              <Flex css={{ gap: 6 }} align='center'>
+        <LengthWrapper>
+          <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
+          <Responsive only='desktop'>
+            <Flex css={{ gap: 6 }} align='center'>
+              <ProjectFilterChip
+                checked={queryParams.isAvailable ?? false}
+                onCheckedChange={(checked) => setQueryParams({ isAvailable: checked || undefined })}
+              >
+                이용 가능한 서비스
+              </ProjectFilterChip>
+              <ProjectFilterChip
+                checked={queryParams.isFounding ?? false}
+                onCheckedChange={(checked) => setQueryParams({ isFounding: checked || undefined })}
+              >
+                창업 중
+              </ProjectFilterChip>
+              <ProjectCategorySelect
+                css={{ marginLeft: 10 }}
+                placeholder='프로젝트 전체'
+                allowClear
+                onClear={() => setQueryParams({ category: undefined })}
+                value={queryParams.category ?? undefined}
+                onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
+              >
+                {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
+                  <ProjectCategorySelect.Item key={value} value={value}>
+                    {label}
+                  </ProjectCategorySelect.Item>
+                ))}
+              </ProjectCategorySelect>
+            </Flex>
+          </Responsive>
+          <Responsive only='mobile' css={width100}>
+            <Flex css={{ marginTop: 4.5, padding: '8px 0' }} justify='space-between' align='center'>
+              <Flex css={{ gap: 6 }}>
                 <ProjectFilterChip
+                  size='small'
                   checked={queryParams.isAvailable ?? false}
                   onCheckedChange={(checked) => setQueryParams({ isAvailable: checked || undefined })}
                 >
                   이용 가능한 서비스
                 </ProjectFilterChip>
                 <ProjectFilterChip
+                  size='small'
                   checked={queryParams.isFounding ?? false}
                   onCheckedChange={(checked) => setQueryParams({ isFounding: checked || undefined })}
                 >
                   창업 중
                 </ProjectFilterChip>
-                <ProjectCategorySelect
-                  css={{ marginLeft: 10 }}
-                  placeholder='프로젝트 전체'
-                  allowClear
-                  onClear={() => setQueryParams({ category: undefined })}
-                  value={queryParams.category ?? undefined}
-                  onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
-                >
-                  {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
-                    <ProjectCategorySelect.Item key={value} value={value}>
-                      {label}
-                    </ProjectCategorySelect.Item>
-                  ))}
-                </ProjectCategorySelect>
               </Flex>
-            </Responsive>
-            <Responsive only='mobile' css={width100}>
-              <Flex css={{ marginTop: 4.5, padding: '8px 0' }} justify='space-between' align='center'>
-                <Flex css={{ gap: 6 }}>
-                  <ProjectFilterChip
-                    size='small'
-                    checked={queryParams.isAvailable ?? false}
-                    onCheckedChange={(checked) => setQueryParams({ isAvailable: checked || undefined })}
-                  >
-                    이용 가능한 서비스
-                  </ProjectFilterChip>
-                  <ProjectFilterChip
-                    size='small'
-                    checked={queryParams.isFounding ?? false}
-                    onCheckedChange={(checked) => setQueryParams({ isFounding: checked || undefined })}
-                  >
-                    창업 중
-                  </ProjectFilterChip>
-                </Flex>
-                <ProjectCategorySelect
-                  placeholder='프로젝트 전체'
-                  size='small'
-                  allowClear
-                  onClear={() => setQueryParams({ category: undefined })}
-                  value={queryParams.category ?? undefined}
-                  onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
-                >
-                  {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
-                    <ProjectCategorySelect.Item key={value} value={value}>
-                      {label}
-                    </ProjectCategorySelect.Item>
-                  ))}
-                </ProjectCategorySelect>
-              </Flex>
-            </Responsive>
-          </LengthWrapper>
-        ) : null}
-        {!isLoading && data?.pages == null ? (
-          <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
+              <ProjectCategorySelect
+                placeholder='프로젝트 전체'
+                size='small'
+                allowClear
+                onClear={() => setQueryParams({ category: undefined })}
+                value={queryParams.category ?? undefined}
+                onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
+              >
+                {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
+                  <ProjectCategorySelect.Item key={value} value={value}>
+                    {label}
+                  </ProjectCategorySelect.Item>
+                ))}
+              </ProjectCategorySelect>
+            </Flex>
+          </Responsive>
+        </LengthWrapper>
+        {isEmpty ? (
+          <StyledEmpty>
+            <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
+            <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
+          </StyledEmpty>
         ) : (
           <StyledGridContainer>
             {data?.pages.map((page) =>
@@ -195,6 +198,8 @@ const ProjectList = () => {
 
 export default ProjectList;
 
+const CONTAINER_MAX_WIDTH = 1480;
+
 const StyledContainer = styled.div`
   display: flex;
   align-items: center;
@@ -203,13 +208,27 @@ const StyledContainer = styled.div`
 `;
 
 const StyledContent = styled.div`
-  justify-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
   margin: 64px 0;
+  min-height: 100vh;
+
+  @media screen and (max-width: ${CONTAINER_MAX_WIDTH}px) {
+    min-width: 1086px;
+  }
+
+  @media screen and (max-width: 1120px) {
+    min-width: 719px;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    gap: 0;
     margin: 0;
     padding: 12px 10px;
     width: 100%;
+    min-width: 0;
   }
 `;
 
@@ -251,7 +270,6 @@ const LengthWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -269,13 +287,10 @@ const StyledLength = styled(Text)`
   }
 `;
 
-const CONTAINER_MAX_WIDTH = 1480;
-
 const StyledGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
-  margin-top: 22px;
   min-width: ${CONTAINER_MAX_WIDTH}px;
 
   @media screen and (max-width: ${CONTAINER_MAX_WIDTH}px) {
@@ -292,17 +307,35 @@ const StyledGridContainer = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid-template-columns: 1fr;
-    gap: 0;
-    justify-content: start;
     margin-top: 0;
+    width: 100%;
   }
 `;
 
-const StyledNoData = styled.div`
-  margin-top: 120px;
-  color: ${colors.gray300};
-  ${textStyles.SUIT_16_M}
+const EmptyTitle = styled.span`
+  ${textStyles.SUIT_32_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_24_B};
+  }
+`;
+
+const EmptyDescription = styled.span`
+  color: ${colors.gray400};
+  ${textStyles.SUIT_16_M};
+
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_M}
   }
+`;
+
+const StyledEmpty = styled.div`
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 100%;
 `;
