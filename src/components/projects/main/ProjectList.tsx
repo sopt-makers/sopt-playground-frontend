@@ -1,25 +1,25 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { Flex, width100 } from '@toss/emotion-utils';
 import { ImpressionArea } from '@toss/impression-area';
+import { useDebounce } from '@toss/react';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 import ProjectCard from '@/components/projects/main/card/ProjectCard';
+import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
+import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
+import ProjectSearch from '@/components/projects/main/ProjectSearch';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import ProjectSearch from '@/components/projects/main/ProjectSearch';
-import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
-import { useDebounce } from '@toss/react';
-import { fonts } from '@sopt-makers/fonts';
-import { useEffect, useState } from 'react';
-import { Flex, width100 } from '@toss/emotion-utils';
-import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
-import Responsive from '@/components/common/Responsive';
-import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
-import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 
 type ProjectCategory = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'ETC';
 
@@ -40,7 +40,7 @@ const ProjectList = () => {
   });
   const [value, setValue] = useState(queryParams.name);
   const [totalCount, setTotalCount] = useState<number>();
-  const debouncedChangeName = useDebounce((value: string) => setQueryParams({ name: value }), 300);
+  const debouncedChangeName = useDebounce((value: string | undefined) => setQueryParams({ name: value }), 300);
   const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
     name: queryParams.name,
@@ -63,7 +63,7 @@ const ProjectList = () => {
           value={value ?? queryParams.name}
           onValueChange={(value) => {
             setValue(value);
-            debouncedChangeName(value);
+            debouncedChangeName(value || undefined);
           }}
           placeholder='프로젝트 검색'
         />
@@ -74,13 +74,13 @@ const ProjectList = () => {
               <Flex css={{ gap: 6 }} align='center'>
                 <ProjectFilterChip
                   checked={queryParams.isAvailable ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
+                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked || undefined })}
                 >
                   이용 가능한 서비스
                 </ProjectFilterChip>
                 <ProjectFilterChip
                   checked={queryParams.isFounding ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
+                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked || undefined })}
                 >
                   창업 중
                 </ProjectFilterChip>
@@ -106,14 +106,14 @@ const ProjectList = () => {
                   <ProjectFilterChip
                     size='small'
                     checked={queryParams.isAvailable ?? false}
-                    onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
+                    onCheckedChange={(checked) => setQueryParams({ isAvailable: checked || undefined })}
                   >
                     이용 가능한 서비스
                   </ProjectFilterChip>
                   <ProjectFilterChip
                     size='small'
                     checked={queryParams.isFounding ?? false}
-                    onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
+                    onCheckedChange={(checked) => setQueryParams({ isFounding: checked || undefined })}
                   >
                     창업 중
                   </ProjectFilterChip>
