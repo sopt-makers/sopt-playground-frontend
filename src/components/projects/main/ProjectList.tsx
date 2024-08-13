@@ -41,7 +41,7 @@ const ProjectList = () => {
   const [value, setValue] = useState(queryParams.name);
   const [totalCount, setTotalCount] = useState<number>();
   const debouncedChangeName = useDebounce((value: string | undefined) => setQueryParams({ name: value }), 300);
-  const { data, fetchNextPage, isLoading } = useGetProjectListQuery({
+  const { data, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
     name: queryParams.name,
     isAvailable: queryParams.isAvailable,
