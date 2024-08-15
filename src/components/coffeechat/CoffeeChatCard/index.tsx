@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -14,6 +13,7 @@ import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { css } from '@emotion/react';
 import { m } from 'framer-motion';
+import ResizedImage from '@/components/common/ResizedImage';
 
 interface MentoringCardProps {
   id: string;
@@ -36,6 +36,7 @@ export default function CoffeeChatCard({
 }: MentoringCardProps) {
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
     <>
@@ -66,13 +67,19 @@ export default function CoffeeChatCard({
           <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>
         </Flex>
         <ProfileSection>
-          {profileImage ? (
-            <ProfileImage src={profileImage} />
-          ) : (
-            <EmptyProfileImage>
-              <ProfileIcon />
+          <ImageBox>
+            <EmptyProfileImage hide={isImageLoaded}>
+              <DefaultImage src='/icons/icon-profile.svg' loading='lazy' decoding='async' />
             </EmptyProfileImage>
-          )}
+            {profileImage && (
+              <ResizedProfileImage
+                src={profileImage}
+                onLoad={() => setIsImageLoaded(true)}
+                hide={!isImageLoaded}
+                width={68}
+              />
+            )}
+          </ImageBox>
           <IconContainer
             onClick={(e) => {
               e.stopPropagation();
@@ -186,37 +193,53 @@ const ProfileSection = styled.div`
     justify-content: flex-end;
   }
 `;
-
-const ProfileImage = styled.img`
-  align-self: center;
-  border-radius: 50%;
+const ImageBox = styled.div`
+  position: relative;
   width: 68px;
   height: 68px;
-  object-fit: cover;
+  clip-path: circle(50%);
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
 `;
 
-const EmptyProfileImage = styled.div`
+const EmptyProfileImage = styled.div<{ hide?: boolean }>`
   display: flex;
   align-items: center;
-  align-self: center;
   justify-content: center;
-  border-radius: 50%;
+  position: absolute;
   background-color: ${colors.gray700};
   width: 68px;
   height: 68px;
 
-  & > svg {
-    width: 34px;
-    height: 34px;
-  }
+  ${(props) =>
+    props.hide &&
+    css`
+      visibility: hidden;
+    `};
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
+`;
+
+const DefaultImage = styled.img`
+  width: 34px;
+  height: 34px;
+`;
+
+const ResizedProfileImage = styled(ResizedImage)<{ hide?: boolean }>`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  ${(props) =>
+    props.hide &&
+    css`
+      visibility: hidden;
+    `};
 `;
 
 const IconContainer = styled.div`
