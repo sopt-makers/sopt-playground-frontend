@@ -103,6 +103,15 @@ export interface ClickEvents {
 
   // 프로젝트 등록 후 공유하러 가기
   clickProjectShare: undefined;
+
+  coffeechatCard: undefined;
+  coffeechatGuide: undefined;
+  openToCoffeechat: undefined;
+  coffeechatBadge: undefined;
+  memberBadge: undefined;
+  coffeechatToggleOff: undefined;
+  coffeechatToggleOn: undefined;
+  skillAdd: undefined;
 }
 
 export interface SubmitEvents {

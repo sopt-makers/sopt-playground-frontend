@@ -14,6 +14,7 @@ import { playgroundLink } from 'playground-common/export';
 import { css } from '@emotion/react';
 import { m } from 'framer-motion';
 import ResizedImage from '@/components/common/ResizedImage';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 
 interface MentoringCardProps {
   id: string;
@@ -38,6 +39,8 @@ export default function CoffeeChatCard({
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
+  const { logClickEvent } = useEventLogger();
+
   return (
     <>
       <Container
@@ -46,6 +49,7 @@ export default function CoffeeChatCard({
         }}
         onClick={() => {
           router.push(playgroundLink.memberDetail(id));
+          logClickEvent('coffeechatCard');
         }}
         isBlurred={isBlurred}
       >
@@ -87,6 +91,7 @@ export default function CoffeeChatCard({
                 show: true,
                 data: { targetId: id, name, profileUrl: profileImage },
               });
+              logClickEvent('coffeechatBadge');
             }}
           >
             <IconCoffee />

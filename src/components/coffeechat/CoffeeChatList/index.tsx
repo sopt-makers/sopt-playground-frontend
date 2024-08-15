@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { COFFEECHAT_GUIDE } from '@/constants/links';
 import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 import Loading from '@/components/common/Loading';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
@@ -33,6 +34,7 @@ const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.siz
 export default function CoffeeChatList() {
   const [listType, setListType] = useState<ListType>();
   const router = useRouter();
+  const { logClickEvent } = useEventLogger();
 
   const { data, isLoading } = useGetMembersCoffeeChat();
 
@@ -94,7 +96,13 @@ export default function CoffeeChatList() {
           </Title>
           <Flex style={{ gap: 8 }}>
             <a href={COFFEECHAT_GUIDE} target='_blank' rel='noreferrer'>
-              <Button size='md' theme='black'>
+              <Button
+                size='md'
+                theme='black'
+                onClick={() => {
+                  logClickEvent('coffeechatGuide');
+                }}
+              >
                 커피챗 이용 가이드
               </Button>
             </a>
@@ -104,6 +112,7 @@ export default function CoffeeChatList() {
               style={{ color: colors.black }}
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
+                logClickEvent('openToCoffeechat');
               }}
             >
               커피챗 오픈하기
@@ -122,7 +131,13 @@ export default function CoffeeChatList() {
           </Title>
           <Flex style={{ gap: 8 }}>
             <a href={COFFEECHAT_GUIDE} target='_blank' rel='noreferrer'>
-              <Button size='md' theme='black'>
+              <Button
+                size='md'
+                theme='black'
+                onClick={() => {
+                  logClickEvent('coffeechatGuide');
+                }}
+              >
                 커피챗 이용 가이드
               </Button>
             </a>
@@ -132,6 +147,7 @@ export default function CoffeeChatList() {
               style={{ color: colors.black }}
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
+                logClickEvent('openToCoffeechat');
               }}
             >
               커피챗 오픈하기

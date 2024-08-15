@@ -13,6 +13,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Responsive from '@/components/common/Responsive';
 import IconCoffee from '@/public/icons/icon-coffee.svg';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 
 function CoffeeChatFormSection() {
   const { control, getValues } = useFormContext<MemberUploadForm>();
@@ -34,6 +35,8 @@ function CoffeeChatFormSection() {
       skills?.focus({ preventScroll: true });
     }
   };
+
+  const { logClickEvent } = useEventLogger();
 
   return (
     <FormSection>
@@ -61,6 +64,7 @@ function CoffeeChatFormSection() {
                         ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
                         : '여러분의 좋은 경험을 공유해주셔서 고마워요',
                     });
+                    logClickEvent(field.value ? 'coffeechatToggleOff' : 'coffeechatToggleOn');
                   }}
                 >
                   <Toggle size='lg' checked={field.value} />
@@ -93,6 +97,7 @@ function CoffeeChatFormSection() {
                         ? '다음에는 여러분의 좋은 경험을 꼭 공유해주세요'
                         : '여러분의 좋은 경험을 공유해주셔서 고마워요',
                     });
+                    logClickEvent(field.value ? 'coffeechatToggleOff' : 'coffeechatToggleOn');
                   }}
                 >
                   <Toggle size='sm' checked={field.value} />
@@ -116,14 +121,29 @@ function CoffeeChatFormSection() {
                 </Flex>
               </HorizontalScroller>
             </Skill>
-            <Button size='sm' theme='black' style={{ width: 'fit-content' }} onClick={handleClickGoToSkill}>
+            <Button
+              size='sm'
+              theme='black'
+              style={{ width: 'fit-content' }}
+              onClick={() => {
+                handleClickGoToSkill();
+                logClickEvent('skillAdd');
+              }}
+            >
               스킬 추가하기
             </Button>
           </Flex>
         ) : (
           <Flex align='center' style={{ gap: 8, marginTop: 12 }}>
             <Skill>*현재 보유한 스킬이 없어요</Skill>
-            <Button size='sm' theme='black' onClick={handleClickGoToSkill}>
+            <Button
+              size='sm'
+              theme='black'
+              onClick={() => {
+                handleClickGoToSkill();
+                logClickEvent('skillAdd');
+              }}
+            >
               스킬 작성하러 가기
             </Button>
           </Flex>
