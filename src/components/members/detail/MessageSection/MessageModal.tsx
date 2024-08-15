@@ -55,7 +55,8 @@ const schema = yup.object().shape({
   content: yup.string().required('내용을 입력해주세요.').max(750, '750자 이내로 입력해주세요.'),
 });
 
-const COFFEECHAT_PLACEHOLDER = '커피챗을 통해 어떤 걸 얻고 싶은지 자세하게 적어주세요. 멘토님의 스킬과 소개와 관련된 내용으로 작성한다면 멘토님이 더욱 자세하게 공유해주실 거예요.';
+const COFFEECHAT_PLACEHOLDER =
+  '커피챗을 통해 어떤 걸 얻고 싶은지 자세하게 적어주세요. 멘토님의 스킬과 소개와 관련된 내용으로 작성한다면 멘토님이 더욱 자세하게 공유해주실 거예요.';
 
 interface MessageForm {
   email: string;
@@ -232,6 +233,7 @@ const StyledCategory = styled.section`
   align-items: center;
   justify-content: center;
   margin-top: 46px;
+  min-width: 370px;
 `;
 
 const StyledCategoryItem = styled.div<{ isSelected: boolean }>`

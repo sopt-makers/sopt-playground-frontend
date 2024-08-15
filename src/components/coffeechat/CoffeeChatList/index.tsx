@@ -121,10 +121,19 @@ export default function CoffeeChatList() {
               : '아래의 커피챗 멘토님들이\n여러분을 기다리고 있어요'}
           </Title>
           <Flex style={{ gap: 8 }}>
-            <Button size='md' theme='black'>
-              커피챗 이용 가이드
-            </Button>
-            <Button size='md' theme='white' style={{ color: colors.black }}>
+            <a href={COFFEECHAT_GUIDE} target='_blank' rel='noreferrer'>
+              <Button size='md' theme='black'>
+                커피챗 이용 가이드
+              </Button>
+            </a>
+            <Button
+              size='md'
+              theme='white'
+              style={{ color: colors.black }}
+              onClick={() => {
+                router.push(playgroundLink.memberEdit());
+              }}
+            >
               커피챗 오픈하기
             </Button>
           </Flex>
@@ -288,7 +297,7 @@ const LoadingContainer = styled.div`
 
 const StyledCarousel = styled(Carousel)`
   padding-top: 8px;
-  width: 1414px;
+  width: 1417px;
 
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
     width: 975px;
