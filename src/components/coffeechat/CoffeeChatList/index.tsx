@@ -288,7 +288,7 @@ const LoadingContainer = styled.div`
 
 const StyledCarousel = styled(Carousel)`
   padding-top: 8px;
-  width: 1414px;
+  width: 1417px;
 
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
     width: 975px;
