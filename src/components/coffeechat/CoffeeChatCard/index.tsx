@@ -205,8 +205,8 @@ const ImageBox = styled.div`
 `;
 
 const EmptyProfileImage = styled.div<{ hide?: boolean }>`
-  position: absolute;
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: center;
   background-color: ${colors.gray700};
