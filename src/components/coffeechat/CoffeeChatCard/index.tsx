@@ -38,52 +38,54 @@ export default function CoffeeChatCard({
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
   return (
-    <Container
-      whileHover={{
-        y: -4,
-      }}
-      onClick={() => {
-        router.push(playgroundLink.memberDetail(id));
-      }}
-      isBlurred={isBlurred}
-    >
-      <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
-        <Title>{title}</Title>
-        <HorizontalScroller>
-          <Flex style={{ gap: 4, marginTop: 4 }}>
-            {skills
-              .split(',')
-              .map((skill) => skill.trim())
-              .filter(Boolean)
-              .map((skill) => (
-                <Tag size='sm' shape='rect' variant='secondary' type='solid'>
-                  {skill}
-                </Tag>
-              ))}
-          </Flex>
-        </HorizontalScroller>
-        <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>
-      </Flex>
-      <ProfileSection>
-        {profileImage ? (
-          <ProfileImage src={profileImage} />
-        ) : (
-          <EmptyProfileImage>
-            <ProfileIcon />
-          </EmptyProfileImage>
-        )}
-        <IconContainer
-          onClick={(e) => {
-            e.stopPropagation();
-            setMessageModalState({
-              show: true,
-              data: { targetId: id, name, profileUrl: profileImage },
-            });
-          }}
-        >
-          <IconCoffee />
-        </IconContainer>
-      </ProfileSection>
+    <>
+      <Container
+        whileHover={{
+          y: -4,
+        }}
+        onClick={() => {
+          router.push(playgroundLink.memberDetail(id));
+        }}
+        isBlurred={isBlurred}
+      >
+        <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
+          <Title>{title}</Title>
+          <HorizontalScroller>
+            <Flex style={{ gap: 4, marginTop: 4 }}>
+              {skills
+                .split(',')
+                .map((skill) => skill.trim())
+                .filter(Boolean)
+                .map((skill) => (
+                  <Tag size='sm' shape='rect' variant='secondary' type='solid'>
+                    {skill}
+                  </Tag>
+                ))}
+            </Flex>
+          </HorizontalScroller>
+          <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>
+        </Flex>
+        <ProfileSection>
+          {profileImage ? (
+            <ProfileImage src={profileImage} />
+          ) : (
+            <EmptyProfileImage>
+              <ProfileIcon />
+            </EmptyProfileImage>
+          )}
+          <IconContainer
+            onClick={(e) => {
+              e.stopPropagation();
+              setMessageModalState({
+                show: true,
+                data: { targetId: id, name, profileUrl: profileImage },
+              });
+            }}
+          >
+            <IconCoffee />
+          </IconContainer>
+        </ProfileSection>
+      </Container>
       {messageModalState.show && (
         <MessageModal
           receiverId={messageModalState.data.targetId}
@@ -93,7 +95,7 @@ export default function CoffeeChatCard({
           defaultCategory={MessageCategory.COFFEE_CHAT}
         />
       )}
-    </Container>
+    </>
   );
 }
 
