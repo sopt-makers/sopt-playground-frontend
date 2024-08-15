@@ -8,6 +8,7 @@ import IconSend from '@/public/icons/icon-send.svg';
 import IconCoffee from '@/public/icons/icon-coffee.svg';
 import { Tag } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 
 interface MessageButtonProps {
   className?: string;
@@ -17,11 +18,20 @@ interface MessageButtonProps {
 }
 
 const MessageButton: FC<MessageButtonProps> = ({ className, name, isCoffeeChatActivate, onClick }) => {
+  const { logClickEvent } = useEventLogger();
+
   return (
     <Tooltip.Provider>
       <Tooltip.Root delayDuration={300}>
         <Tooltip.Trigger asChild>
-          <Button className={className} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onClick}>
+          <Button
+            className={className}
+            isCoffeeChatActivate={isCoffeeChatActivate}
+            onClick={(e) => {
+              onClick && onClick(e);
+              logClickEvent(isCoffeeChatActivate ? 'coffeechatBadge' : 'memberBadge');
+            }}
+          >
             {isCoffeeChatActivate ? <IconCoffee /> : <IconSend />}
           </Button>
         </Tooltip.Trigger>
