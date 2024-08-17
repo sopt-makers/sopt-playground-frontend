@@ -605,10 +605,10 @@ const ImageSection = styled.div`
 const IconContainer = styled.div`
   display: flex;
   position: absolute;
-  align-items: center;
-  justify-content: center;
   top: -8px;
   right: -8px;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
   background: ${colors.blue400};
   padding: 5px;
