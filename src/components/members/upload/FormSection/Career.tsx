@@ -94,11 +94,11 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
     trigger(`careers.${index}.endDate`);
   };
   const handleChangeStartDate = (date: Date, index: number) => {
-    setValue(`careers.${index}.startDate`, date ? dayjs(date).format('YYYY-MM') : '');
+    setValue(`careers.${index}.startDate`, date ? dayjs(date).format('YYYY-MM') : '', { shouldDirty: true });
     trigger(`careers.${index}.startDate`);
   };
   const handleChangeEndDate = (date: Date, index: number) => {
-    setValue(`careers.${index}.endDate`, date ? dayjs(date).format('YYYY-MM') : '');
+    setValue(`careers.${index}.endDate`, date ? dayjs(date).format('YYYY-MM') : '', { shouldDirty: true });
     trigger(`careers.${index}.endDate`);
   };
 
