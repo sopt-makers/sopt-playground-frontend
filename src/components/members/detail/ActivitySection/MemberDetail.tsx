@@ -305,7 +305,7 @@ const Container = styled.div`
   align-items: center;
   padding: 123px 0;
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 12px 20px;
+    padding: 16px 20px;
     padding-bottom: 100px;
   }
 `;
@@ -603,6 +603,9 @@ const ImageSection = styled.div`
 `;
 
 const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: -8px;
   right: -8px;
@@ -611,4 +614,15 @@ const IconContainer = styled.div`
   padding: 5px;
   width: 32px;
   height: 32px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 26px;
+    height: 26px;
+    padding: 3px;
+
+    & > svg {
+      width: 19px;
+      height: 19px;
+    }
+  }
 `;
