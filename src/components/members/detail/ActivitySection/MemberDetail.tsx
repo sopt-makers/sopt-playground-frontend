@@ -9,6 +9,7 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
@@ -25,7 +26,6 @@ import CareerSection from '@/components/members/detail/CareerSection';
 import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
-import MessageSection from '@/components/members/detail/MessageSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
@@ -105,14 +105,20 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileContainer>
-          {profile.profileImage ? (
-            <ProfileImage src={profile.profileImage} height={171} />
-          ) : (
-            <EmptyProfileImage>
-              <ProfileIcon />
-            </EmptyProfileImage>
-          )}
-
+          <ImageSection>
+            {profile.profileImage ? (
+              <ProfileImage src={profile.profileImage} height={171} />
+            ) : (
+              <EmptyProfileImage>
+                <ProfileIcon />
+              </EmptyProfileImage>
+            )}
+            {profile.isCoffeeChatActivate && (
+              <IconContainer>
+                <IconCoffee />
+              </IconContainer>
+            )}
+          </ImageSection>
           <ProfileContents>
             <div>
               <NameWrapper>
@@ -591,3 +597,18 @@ const Target = styled.div`
 `;
 
 export default MemberDetail;
+
+const ImageSection = styled.div`
+  position: relative;
+`;
+
+const IconContainer = styled.div`
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  border-radius: 50%;
+  background: ${colors.blue400};
+  padding: 5px;
+  width: 32px;
+  height: 32px;
+`;
