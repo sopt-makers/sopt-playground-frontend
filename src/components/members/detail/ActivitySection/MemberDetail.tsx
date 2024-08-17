@@ -604,9 +604,9 @@ const ImageSection = styled.div`
 
 const IconContainer = styled.div`
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: center;
-  position: absolute;
   top: -8px;
   right: -8px;
   border-radius: 50%;
@@ -616,9 +616,9 @@ const IconContainer = styled.div`
   height: 32px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    padding: 3px;
     width: 26px;
     height: 26px;
-    padding: 3px;
 
     & > svg {
       width: 19px;
