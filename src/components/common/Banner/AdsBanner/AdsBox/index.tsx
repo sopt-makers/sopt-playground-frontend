@@ -21,13 +21,11 @@ const AdsImage = styled.img`
 `;
 
 const AdsWrapper = styled.article`
-  border-radius: 12px;
   width: 912px;
   height: 164px;
   overflow: hidden;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 0;
     width: 335px;
     height: 168px;
   }

@@ -3,10 +3,9 @@ import { ADS } from '@/components/common/Banner/AdsBanner/constants/ads';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { CustomArrowProps, Settings } from 'react-slick';
+import Slider, { CustomArrowProps, Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-const Slider = require('react-slick').default;
 
 const AdsBanner: React.FC = () => {
   const settings: Settings = {
@@ -19,8 +18,8 @@ const AdsBanner: React.FC = () => {
     autoplaySpeed: 5000,
     arrows: true, // 좌,우 버튼
     initialSlide: 0, // 첫 컨텐츠 번호
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
+    prevArrow: ADS && ADS.length > 1 ? <PrevArrow /> : <></>,
+    nextArrow: ADS && ADS.length > 1 ? <NextArrow /> : <></>,
     dotsClass: ADS && ADS.length > 1 ? 'custom-dots' : 'hide-dots',
   };
 
@@ -49,11 +48,12 @@ const SliderWrapper = styled.div`
   }
 `;
 
-const AdsSlider = styled(Slider)`
+const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 16px 30px;
+  border-radius: 12px;
   width: 912px;
   height: 164px;
   overflow: hidden;
@@ -144,6 +144,7 @@ const AdsSlider = styled(Slider)`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 0 0 20px;
+    border-radius: 0;
     width: 335px;
     height: 168px;
   }
