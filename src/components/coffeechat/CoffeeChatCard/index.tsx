@@ -23,6 +23,7 @@ interface MentoringCardProps {
   organization: string;
   skills: string;
   title: string;
+  isEmptyData?: boolean;
   isBlurred?: boolean;
 }
 
@@ -33,6 +34,7 @@ export default function CoffeeChatCard({
   organization,
   skills,
   title,
+  isEmptyData,
   isBlurred,
 }: MentoringCardProps) {
   const router = useRouter();
@@ -51,6 +53,7 @@ export default function CoffeeChatCard({
           router.push(playgroundLink.memberDetail(id));
           logClickEvent('coffeechatCard');
         }}
+        isEmptyData={isEmptyData}
         isBlurred={isBlurred}
       >
         <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
@@ -111,7 +114,7 @@ export default function CoffeeChatCard({
   );
 }
 
-const Container = styled(m.div)<{ isBlurred?: boolean }>`
+const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
   display: flex;
   gap: 11px;
   align-items: center;
@@ -123,6 +126,12 @@ const Container = styled(m.div)<{ isBlurred?: boolean }>`
   width: 419px;
   min-width: 419px;
   height: 198px;
+
+  ${({ isEmptyData }) =>
+    isEmptyData &&
+    css`
+      pointer-events: none;
+    `};
 
   ${({ isBlurred }) =>
     isBlurred &&
