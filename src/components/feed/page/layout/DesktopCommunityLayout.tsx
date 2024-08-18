@@ -3,9 +3,10 @@ import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import { FC, ReactNode } from 'react';
 
+import { ADS } from '@/components/common/Banner/AdsBanner/constants/ads';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
-import { MOBILE_MAX_WIDTH } from '@/styles/mediaQuery';
+import { css } from '@emotion/react';
 
 interface DesktopCommunityLayoutProps {
   isDetailOpen: boolean;
@@ -16,9 +17,11 @@ interface DesktopCommunityLayoutProps {
 const DETAIL_SLOT_WIDTH = 560;
 
 const DesktopCommunityLayout: FC<DesktopCommunityLayoutProps> = ({ isDetailOpen, listSlot, detailSlot }) => {
+  const isBanner = ADS && ADS.length > 0;
+
   return (
     <div style={{ margin: '0 30px' }}>
-      <WordChainWrapper>
+      <WordChainWrapper isBanner={isBanner}>
         <WordChainEntry />
       </WordChainWrapper>
       <Container>
@@ -39,14 +42,17 @@ const DesktopCommunityLayout: FC<DesktopCommunityLayoutProps> = ({ isDetailOpen,
 
 export default DesktopCommunityLayout;
 
-const WordChainWrapper = styled.div`
+const WordChainWrapper = styled.div<{ isBanner: boolean }>`
   margin: 0 auto;
   min-width: 0;
-  max-width: 560px;
+  max-width: 912px;
 
-  @media ${MOBILE_MAX_WIDTH} {
-    max-width: 912px;
-  }
+  ${({ isBanner }) =>
+    isBanner &&
+    css`
+      margin-bottom: 16px;
+      max-width: 560px;
+    `}
 `;
 
 const Container = styled.div`
