@@ -38,7 +38,7 @@ export default function CoffeeChatList() {
 
   const { data, isLoading } = useGetMembersCoffeeChat();
 
-  const isEmptyData = data?.coffeeChatList == null;
+  const isEmptyData = data?.coffeeChatList == null || data?.totalCount === 0;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
 
   const coffeeChatCardList = dataList.map((item, index) => (
@@ -49,6 +49,7 @@ export default function CoffeeChatList() {
       organization={item.organization ?? ''}
       skills={item.careerTitle ?? ''}
       title={item.coffeeChatBio ?? ''}
+      isEmptyData={isEmptyData}
       isBlurred={isEmptyData && index > 0}
     />
   ));
