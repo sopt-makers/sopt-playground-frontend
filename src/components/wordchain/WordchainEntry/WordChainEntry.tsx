@@ -269,10 +269,10 @@ const Container = styled(Link)<{ isBanner?: boolean }>`
     padding: 0;
     width: 100%;
 
-    &:hover {
+    /* &:hover {
       background-color: transparent;
       cursor: default;
-    }
+    } */
   }
 `;
 
@@ -439,10 +439,10 @@ const GotoWordChainWrapper = styled.aside<{ isBanner?: boolean }>`
     border-radius: 14px;
     padding: 18px 17px;
 
-    &:hover {
+    /* &:hover {
       background-color: ${colors.gray800};
       cursor: pointer;
-    }
+    } */
   }
 `;
 
