@@ -49,6 +49,7 @@ export default function CoffeeChatList() {
       organization={item.organization ?? ''}
       skills={item.careerTitle ?? ''}
       title={item.coffeeChatBio ?? ''}
+      isEmptyData={isEmptyData}
       isBlurred={isEmptyData && index > 0}
     />
   ));
