@@ -41,13 +41,14 @@ export default AdsBanner;
 const SliderWrapper = styled.div`
   display: flex;
   justify-content: center;
+  margin: 16px 0;
 `;
 
 const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 16px 30px;
+  margin: 0 30px;
   border-radius: 12px;
   width: 912px;
   overflow: hidden;
@@ -137,7 +138,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 8px 20px -20px;
+    margin: -8px 20px -20px;
   }
 `;
 
