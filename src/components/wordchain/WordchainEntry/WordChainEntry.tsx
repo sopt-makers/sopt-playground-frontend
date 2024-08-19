@@ -190,16 +190,16 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
               )}
             </div>
           </LeftSection>
-          {!isBanner && (
-            <RightSection isStart={status === 'start'}>
+          <RightSection isStart={status === 'start'}>
+            {!isBanner && (
               <Responsive only='desktop'>
                 <WordWrapper>
                   {status === 'start' && <WordchainMessage type='startWord' word={data.nextSyllable} />}
                   {lastUser && <WordchainMessage type='word' word={data.nextSyllable} user={lastUser} />}
                 </WordWrapper>
               </Responsive>
-            </RightSection>
-          )}
+            )}
+          </RightSection>
         </>
       )}
     </Container>
@@ -268,11 +268,6 @@ const Container = styled(Link)<{ isBanner?: boolean }>`
     background-color: ${colors.gray950};
     padding: 0;
     width: 100%;
-
-    /* &:hover {
-      background-color: transparent;
-      cursor: default;
-    } */
   }
 `;
 
@@ -438,11 +433,6 @@ const GotoWordChainWrapper = styled.aside<{ isBanner?: boolean }>`
     gap: 8px;
     border-radius: 14px;
     padding: 18px 17px;
-
-    /* &:hover {
-      background-color: ${colors.gray800};
-      cursor: pointer;
-    } */
   }
 `;
 
