@@ -1,6 +1,6 @@
 import AdsBox from '@/components/common/Banner/AdsBanner/AdsBox';
 import { ADS } from '@/components/common/Banner/AdsBanner/constants/ads';
-import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import Slider, { CustomArrowProps, Settings } from 'react-slick';
@@ -42,20 +42,15 @@ const SliderWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 16px 0;
-
-  @media ${MOBILE_MAX_WIDTH} {
-    margin: 0 0 20px;
-  }
 `;
 
 const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 16px 30px;
+  margin: 0 30px;
   border-radius: 12px;
   width: 912px;
-  height: 164px;
   overflow: hidden;
 
   &:hover {
@@ -143,10 +138,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 0 0 20px;
-    border-radius: 0;
-    width: 335px;
-    height: 168px;
+    margin: -8px 20px -20px;
   }
 `;
 

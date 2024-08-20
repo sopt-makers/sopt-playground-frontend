@@ -21,12 +21,14 @@ const AdsImage = styled.img`
 `;
 
 const AdsWrapper = styled.article`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 912px;
   height: 164px;
   overflow: hidden;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 335px;
     height: 168px;
   }
 `;
