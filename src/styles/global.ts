@@ -1,4 +1,5 @@
 import '@sopt-makers/ui/dist/index.css';
+import { desktopVariables, mobileVariables } from '@sopt-makers/ui';
 
 import { css } from '@emotion/react';
 import { colors } from '@sopt-makers/colors';
@@ -11,6 +12,11 @@ import { reset } from '@/styles/reset';
 export const global = css`
   ${reset};
   ${font}
+
+  ${desktopVariables}
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${mobileVariables}
+  }
 
   * {
     ${fontBase}
