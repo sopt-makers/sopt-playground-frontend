@@ -81,7 +81,9 @@ const ProjectList = () => {
                 </ProjectFilterChip>
                 <ProjectFilterChip
                   checked={queryParams.isFounding ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
+                  onCheckedChange={(checked) => {
+                    return setQueryParams({ isFounding: checked ? true : undefined });
+                  }}
                 >
                   창업 중
                 </ProjectFilterChip>
