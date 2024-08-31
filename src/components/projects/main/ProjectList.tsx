@@ -40,7 +40,7 @@ const ProjectList = () => {
   });
   const [value, setValue] = useState(queryParams.name);
   const [totalCount, setTotalCount] = useState<number>();
-  const debouncedChangeName = useDebounce((value: string) => setQueryParams({ name: value }), 300);
+  const debouncedChangeName = useDebounce((value: string | undefined) => setQueryParams({ name: value }), 300);
   const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
     name: queryParams.name,
@@ -63,7 +63,8 @@ const ProjectList = () => {
           value={value ?? queryParams.name}
           onValueChange={(value) => {
             setValue(value);
-            debouncedChangeName(value);
+            if (value === '') debouncedChangeName(undefined);
+            else debouncedChangeName(value);
           }}
           placeholder='프로젝트 검색'
         />
