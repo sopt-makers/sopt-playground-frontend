@@ -70,7 +70,6 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
         <UploadLink
           LeftIcon={() => <UploadIcon src='/icons/icon-pencil-simple.svg' />}
           size='md'
-          theme='red'
           rounded='lg'
           onClick={() => router.push(playgroundLink.feedUpload())}
         >
