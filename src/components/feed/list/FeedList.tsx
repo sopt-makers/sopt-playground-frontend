@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ErrorBoundary } from '@toss/error-boundary';
-import Link from 'next/link';
 import { FC, ReactNode } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
@@ -15,6 +14,8 @@ import FeedListItems from '@/components/feed/list/FeedListItems';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { Button } from '@sopt-makers/ui';
+import router from 'next/router';
 
 interface FeedListProps {
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
@@ -66,8 +67,13 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
         </ErrorBoundary>
       </HeightSpacer>
       <LoggingClick eventKey='feedUploadButton'>
-        <UploadLink href={playgroundLink.feedUpload()}>
-          <UploadIcon src='/icons/icon-pencil-simple.svg' />
+        <UploadLink
+          LeftIcon={() => <UploadIcon src='/icons/icon-pencil-simple.svg' />}
+          size='md'
+          theme='red'
+          rounded='lg'
+          onClick={() => router.push(playgroundLink.feedUpload())}
+        >
           <Text typography='SUIT_18_SB' color={colors.black}>
             글쓰기
           </Text>
@@ -97,7 +103,7 @@ const HeightSpacer = styled.div`
   min-height: 80vh;
 `;
 
-const UploadLink = styled(Link)`
+const UploadLink = styled(Button)`
   display: flex;
   position: sticky;
   bottom: 24px;
@@ -110,6 +116,7 @@ const UploadLink = styled(Link)`
   border-radius: 18px;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 15%);
   background-color: ${colors.gray10};
+  padding: 0;
   width: 103px;
   height: 48px;
   @media ${MOBILE_MEDIA_QUERY} {
