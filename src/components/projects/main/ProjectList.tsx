@@ -75,7 +75,7 @@ const ProjectList = () => {
               <Flex css={{ gap: 6 }} align='center'>
                 <ProjectFilterChip
                   checked={queryParams.isAvailable ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
+                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked ? true : undefined })}
                 >
                   이용 가능한 서비스
                 </ProjectFilterChip>
