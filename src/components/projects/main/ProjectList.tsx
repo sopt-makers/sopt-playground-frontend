@@ -6,7 +6,7 @@ import { ImpressionArea } from '@toss/impression-area';
 import { useDebounce } from '@toss/react';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
 import Loading from '@/components/common/Loading';
@@ -47,8 +47,6 @@ const ProjectList = () => {
     isFounding: queryParams.isFounding,
     category: queryParams.category ?? undefined,
   });
-
-  console.log('data', data);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   const totalCount = useMemo(() => data?.pages[0].totalCount, [data?.pages[0].totalCount]);
@@ -155,7 +153,7 @@ const ProjectList = () => {
                   profileImage: member.memberProfileImage,
                 }));
                 return (
-                  <>
+                  <React.Fragment key={project.id}>
                     <Responsive only='desktop' asChild>
                       <Link href={playgroundLink.projectDetail(project.id)}>
                         <ProjectCard
@@ -185,7 +183,7 @@ const ProjectList = () => {
                         <div css={{ width: '100%', height: '1px', background: colors.gray700 }} />
                       </Link>
                     </Responsive>
-                  </>
+                  </React.Fragment>
                 );
               }),
             )}
