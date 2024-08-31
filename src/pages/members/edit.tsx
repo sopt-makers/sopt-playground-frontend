@@ -28,6 +28,7 @@ import MemberForm from '@/components/members/upload/forms/Form';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import BasicFormSection from '@/components/members/upload/FormSection/Basic';
 import CareerFormSection from '@/components/members/upload/FormSection/Career';
+import CoffeeChatFormSection from '@/components/members/upload/FormSection/CoffeeChat';
 import SoptActivityFormSection from '@/components/members/upload/FormSection/SoptActivity';
 import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
@@ -36,7 +37,6 @@ import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
 
 import { useGetMemberOfMe } from '../../api/endpoint/members/getMemberOfMe';
-import CoffeeChatFormSection from '@/components/members/upload/FormSection/CoffeeChat';
 
 export default function MemberEditPage() {
   const { logSubmitEvent } = useEventLogger();
@@ -161,7 +161,7 @@ export default function MemberEditPage() {
         university: myProfile.university,
         major: myProfile.major,
         introduction: myProfile.introduction,
-        skill: myProfile.skill,
+        skill: myProfile.skill ?? '',
         links: myProfile.links.length ? myProfile.links : [DEFAULT_LINK],
         activities: myProfile.soptActivities
           .sort((a, b) => a.generation - b.generation)
