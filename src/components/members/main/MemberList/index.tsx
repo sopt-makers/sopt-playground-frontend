@@ -164,7 +164,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const handleClickCard = (profile: Profile) => {
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
-
   return (
     <StyledContainer>
       <div
@@ -399,6 +398,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                         intro={profile.introduction}
                         imageUrl={profile.profileImage}
                         isCoffeeChatActivate={profile.isCoffeeChatActivate}
+                        email={profile.email}
                         onMessage={(e) => {
                           e.preventDefault();
                           setMessageModalState({
