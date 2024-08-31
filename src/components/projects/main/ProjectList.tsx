@@ -6,7 +6,7 @@ import { ImpressionArea } from '@toss/impression-area';
 import { useDebounce } from '@toss/react';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
 import Responsive from '@/components/common/Responsive';
@@ -19,7 +19,6 @@ import ProjectSearch from '@/components/projects/main/ProjectSearch';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 type ProjectCategory = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'ETC';
 
@@ -39,7 +38,6 @@ const ProjectList = () => {
     category: createEnumParam<ProjectCategory>(['APPJAM', 'SOPKATHON', 'SOPTERM', 'STUDY', 'ETC']),
   });
   const [value, setValue] = useState(queryParams.name);
-  const [totalCount, setTotalCount] = useState<number>();
   const debouncedChangeName = useDebounce((value: string | undefined) => setQueryParams({ name: value }), 300);
   const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
@@ -49,12 +47,8 @@ const ProjectList = () => {
     category: queryParams.category ?? undefined,
   });
 
-  useEffect(() => {
-    if (data?.pages) {
-      const newTotalCount = data.pages[0].totalCount;
-      setTotalCount(newTotalCount);
-    }
-  }, [data]);
+  /* eslint-disable react-hooks/exhaustive-deps */
+  const totalCount = useMemo(() => data?.pages[0].totalCount, [data?.pages[0].totalCount]);
 
   return (
     <StyledContainer>
@@ -68,7 +62,7 @@ const ProjectList = () => {
           }}
           placeholder='프로젝트 검색'
         />
-        {totalCount ? (
+        {data && (
           <LengthWrapper>
             <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
             <Responsive only='desktop'>
@@ -138,9 +132,13 @@ const ProjectList = () => {
               </Flex>
             </Responsive>
           </LengthWrapper>
-        ) : null}
-        {!isLoading && data?.pages == null ? (
-          <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
+        )}
+
+        {totalCount === 0 ? (
+          <StyledEmpty>
+            <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
+            <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
+          </StyledEmpty>
         ) : (
           <StyledGridContainer>
             {data?.pages.map((page) =>
@@ -205,14 +203,27 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
+const CONTAINER_MAX_WIDTH = 1480;
+
 const StyledContent = styled.div`
   justify-self: flex-start;
   margin: 64px 0;
+  min-width: ${CONTAINER_MAX_WIDTH}px;
+
+  @media screen and (max-width: ${CONTAINER_MAX_WIDTH}px) {
+    min-width: calc(352px * 3 + 15px * 2);
+  }
+
+  @media screen and (max-width: 1120px) {
+    min-width: calc(352px * 2 + 15px * 1);
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    gap: 12px;
     margin: 0;
     padding: 12px 10px;
     width: 100%;
+    min-width: 352px;
   }
 `;
 
@@ -272,8 +283,6 @@ const StyledLength = styled(Text)`
   }
 `;
 
-const CONTAINER_MAX_WIDTH = 1480;
-
 const StyledGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -301,11 +310,29 @@ const StyledGridContainer = styled.div`
   }
 `;
 
-const StyledNoData = styled.div`
-  margin-top: 120px;
-  color: ${colors.gray300};
-  ${textStyles.SUIT_16_M}
+const StyledEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 240px;
+`;
+
+const EmptyTitle = styled.p`
+  color: ${colors.gray10};
+  ${fonts.TITLE_32_SB};
+
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_14_M}
+    ${fonts.TITLE_24_SB};
+  }
+`;
+
+const EmptyDescription = styled.span`
+  color: ${colors.gray400};
+  ${fonts.BODY_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_14_M};
   }
 `;
