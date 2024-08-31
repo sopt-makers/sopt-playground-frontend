@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
+import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
@@ -47,6 +48,8 @@ const ProjectList = () => {
     category: queryParams.category ?? undefined,
   });
 
+  console.log('data', data);
+
   /* eslint-disable react-hooks/exhaustive-deps */
   const totalCount = useMemo(() => data?.pages[0].totalCount, [data?.pages[0].totalCount]);
 
@@ -62,7 +65,11 @@ const ProjectList = () => {
           }}
           placeholder='프로젝트 검색'
         />
-        {data && (
+        {isLoading && !data ? (
+          <LoadingContainer>
+            <Loading />
+          </LoadingContainer>
+        ) : (
           <LengthWrapper>
             <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
             <Responsive only='desktop'>
@@ -334,5 +341,17 @@ const EmptyDescription = styled.span`
 
   @media ${MOBILE_MEDIA_QUERY} {
     ${fonts.BODY_14_M};
+  }
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 290px 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 170px 0;
+    padding-bottom: 100px;
   }
 `;
