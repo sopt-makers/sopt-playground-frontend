@@ -1,25 +1,25 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { Flex, width100 } from '@toss/emotion-utils';
 import { ImpressionArea } from '@toss/impression-area';
+import { useDebounce } from '@toss/react';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 import ProjectCard from '@/components/projects/main/card/ProjectCard';
+import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
+import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
+import ProjectSearch from '@/components/projects/main/ProjectSearch';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import ProjectSearch from '@/components/projects/main/ProjectSearch';
-import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
-import { useDebounce } from '@toss/react';
-import { fonts } from '@sopt-makers/fonts';
-import { useEffect, useState } from 'react';
-import { Flex, width100 } from '@toss/emotion-utils';
-import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
-import Responsive from '@/components/common/Responsive';
-import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
-import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 
 type ProjectCategory = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'ETC';
 
