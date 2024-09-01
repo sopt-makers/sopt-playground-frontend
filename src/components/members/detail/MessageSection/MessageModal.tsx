@@ -73,9 +73,6 @@ interface MessageModalProps extends ModalProps {
   defaultCategory: MessageCategory;
   onLog?: (options?: { category?: MessageCategory }) => void;
 }
-interface Options extends ResolutionRequestBody {
-  onSuccess?: () => void;
-}
 
 const MessageModal: FC<MessageModalProps> = ({
   receiverId,
@@ -103,16 +100,17 @@ const MessageModal: FC<MessageModalProps> = ({
   };
 
   const submit = async ({ content, email }: MessageForm) => {
-      const result = await confirm({
-        title: '쪽지를 보내시겠습니까??',
-        description: '쪽지는 상대방의 이메일로 전달됩니다.',
-        okButtonColor: colors.white,
-        okButtonTextColor: colors.black,
-        okButtonText: '전송하기',
-        cancelButtonText: '돌아가기',
-        zIndex: zIndex.헤더+102,
-        maxWidth: 324,
-      });
+    const result=window.confirm("ss")
+      // const result = await confirm({
+      //   title: '쪽지를 보내시겠습니까??',
+      //   description: '쪽지는 상대방의 이메일로 전달됩니다.',
+      //   okButtonColor: colors.white,
+      //   okButtonTextColor: colors.black,
+      //   okButtonText: '전송하기',
+      //   cancelButtonText: '돌아가기',
+      //   zIndex: zIndex.헤더+102,
+      //   maxWidth: 324,
+      // });
     try {
       if (!selectedCategory) {
         return;
@@ -127,6 +125,7 @@ const MessageModal: FC<MessageModalProps> = ({
         await alert({
           title: '쪽지 보내기',
           description: '성공적으로 전송되었어요!',
+          zIndex:zIndex.헤더+103
         });
         onLog?.({ category: selectedCategory });
         props.onClose();
@@ -187,7 +186,7 @@ const MessageModal: FC<MessageModalProps> = ({
             selectedCategory === MessageCategory.COFFEE_CHAT ? COFFEECHAT_PLACEHOLDER : '전달할 내용을 입력해주세요!'
           }
         />
-        <StyledButton isDisabled={!isValid}>
+        <StyledButton isDisabled={!isValid||isPending}>
           {isPending ? (
             <Loading color='white' />
           ) : (
