@@ -6,15 +6,18 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+import { ResolutionRequestBody } from '@/api/endpoint/resolution/postResolution';
 import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
 import useAlert from '@/components/common/Modal/useAlert';
+import useConfirm from '@/components/common/Modal/useConfirm';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { zIndex } from '@/styles/zIndex';
 
 export enum MessageCategory {
   COFFEE_CHAT = '커피챗',
@@ -70,6 +73,9 @@ interface MessageModalProps extends ModalProps {
   defaultCategory: MessageCategory;
   onLog?: (options?: { category?: MessageCategory }) => void;
 }
+interface Options extends ResolutionRequestBody {
+  onSuccess?: () => void;
+}
 
 const MessageModal: FC<MessageModalProps> = ({
   receiverId,
@@ -91,17 +97,27 @@ const MessageModal: FC<MessageModalProps> = ({
   const isValid = _isValid && Boolean(selectedCategory);
   const { mutateAsync, isPending } = usePostMemberMessageMutation();
   const { alert } = useAlert();
-
+  const {confirm} = useConfirm();
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
   };
+
   const submit = async ({ content, email }: MessageForm) => {
-    const confirm = window.confirm('쪽지를 보내시겠습니까?');
+      const result = await confirm({
+        title: '쪽지를 보내시겠습니까??',
+        description: '쪽지는 상대방의 이메일로 전달됩니다.',
+        okButtonColor: colors.white,
+        okButtonTextColor: colors.black,
+        okButtonText: '전송하기',
+        cancelButtonText: '돌아가기',
+        zIndex: zIndex.헤더+102,
+        maxWidth: 324,
+      });
     try {
       if (!selectedCategory) {
         return;
       }
-      if (confirm) {
+      if (result) {
         await mutateAsync({
           senderEmail: email,
           content,
