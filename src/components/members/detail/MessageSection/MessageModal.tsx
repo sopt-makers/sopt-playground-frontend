@@ -100,17 +100,17 @@ const MessageModal: FC<MessageModalProps> = ({
   };
 
   const submit = async ({ content, email }: MessageForm) => {
-    const result=window.confirm("ss")
-      // const result = await confirm({
-      //   title: '쪽지를 보내시겠습니까??',
-      //   description: '쪽지는 상대방의 이메일로 전달됩니다.',
-      //   okButtonColor: colors.white,
-      //   okButtonTextColor: colors.black,
-      //   okButtonText: '전송하기',
-      //   cancelButtonText: '돌아가기',
-      //   zIndex: zIndex.헤더+102,
-      //   maxWidth: 324,
-      // });
+    // const result=window.confirm("ss")
+      const result = await confirm({
+        title: '쪽지를 보내시겠습니까??',
+        description: '쪽지는 상대방의 이메일로 전달됩니다.',
+        okButtonColor: colors.white,
+        okButtonTextColor: colors.black,
+        okButtonText: '전송하기',
+        cancelButtonText: '돌아가기',
+        zIndex: zIndex.헤더+102,
+        maxWidth: 324,
+      });
     try {
       if (!selectedCategory) {
         return;
