@@ -48,8 +48,7 @@ const ProjectList = () => {
     category: queryParams.category,
   });
 
-  /* eslint-disable react-hooks/exhaustive-deps */
-  const totalCount = useMemo(() => data?.pages[0].totalCount, [data?.pages[0].totalCount]);
+  const totalCount = data?.pages[0].totalCount;
 
   return (
     <StyledContainer>
