@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 
 import { getProjects } from '@/api/endpoint_LEGACY/projects';
 import { ProjectsRequestParams } from '@/api/endpoint_LEGACY/projects/type';
@@ -20,6 +20,7 @@ const useGetProjectListQuery = (params: ProjectsRequestParams = {}) => {
       }
       return lastPage.projectList[lastPage.projectList.length - 1].id;
     },
+    placeholderData: keepPreviousData,
   });
 };
 
