@@ -6,13 +6,12 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { ResolutionRequestBody } from '@/api/endpoint/resolution/postResolution';
 import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
 import useAlert from '@/components/common/Modal/useAlert';
-import useConfirm from '@/components/common/Modal/useConfirm';
+import useCustomConfirm from '@/components/common/Modal/useNotOverlayModal';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
@@ -94,13 +93,13 @@ const MessageModal: FC<MessageModalProps> = ({
   const isValid = _isValid && Boolean(selectedCategory);
   const { mutateAsync, isPending } = usePostMemberMessageMutation();
   const { alert } = useAlert();
-  const {confirm} = useConfirm();
+  const { confirm, ConfirmComponent } = useCustomConfirm();
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
   };
 
   const submit = async ({ content, email }: MessageForm) => {
-    // const result=window.confirm("ss")
+
       const result = await confirm({
         title: '쪽지를 보내시겠습니까??',
         description: '쪽지는 상대방의 이메일로 전달됩니다.',
@@ -196,6 +195,7 @@ const MessageModal: FC<MessageModalProps> = ({
           )}
         </StyledButton>
       </StyledForm>
+      {ConfirmComponent}
     </StyledModal>
   );
 };
