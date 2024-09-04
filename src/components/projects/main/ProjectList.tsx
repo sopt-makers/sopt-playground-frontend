@@ -48,7 +48,7 @@ const ProjectList = () => {
     category: queryParams.category,
   });
 
-  const totalCount = data?.pages[0].totalCount;
+  const totalCount = data?.pages && data.pages[0].totalCount;
 
   return (
     <StyledContainer>
