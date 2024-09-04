@@ -9,12 +9,8 @@ const useOnClickOutside = <T extends HTMLElement = HTMLElement>(ref: RefObject<T
       if (!el || el.contains((event?.target as Node) || null)) {
         return;
       }
-      if (el?.getAttribute('role') === 'dialog'&&el?.getAttribute('class')==='css-68r3cr') {
-        
-      }
-      else{
       handler(event);
-    } // Call the handler only if the click is outside of the element passed.
+   // Call the handler only if the click is outside of the element passed.
     };
 
     document.addEventListener('mousedown', listener);
