@@ -33,19 +33,19 @@ const PROJECT_CATEGORY_LIST: Array<{ value: ProjectCategory; label: string }> = 
 
 const ProjectList = () => {
   const [queryParams, setQueryParams] = useQueryParams({
-    name: withDefault(StringParam, undefined),
-    isAvailable: withDefault(BooleanParam, undefined),
-    isFounding: withDefault(BooleanParam, undefined),
+    name: withDefault(StringParam, null),
+    isAvailable: withDefault(BooleanParam, null),
+    isFounding: withDefault(BooleanParam, null),
     category: createEnumParam<ProjectCategory>(['APPJAM', 'SOPKATHON', 'SOPTERM', 'STUDY', 'ETC']),
   });
   const [value, setValue] = useState(queryParams.name);
-  const debouncedChangeName = useDebounce((value: string | undefined) => setQueryParams({ name: value }), 300);
+  const debouncedChangeName = useDebounce((value: string | null) => setQueryParams({ name: value }), 300);
   const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
     name: queryParams.name,
     isAvailable: queryParams.isAvailable,
     isFounding: queryParams.isFounding,
-    category: queryParams.category ?? undefined,
+    category: queryParams.category,
   });
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -55,15 +55,14 @@ const ProjectList = () => {
     <StyledContainer>
       <StyledContent>
         <ProjectSearch
-          value={value ?? queryParams.name}
+          value={value ?? ''}
           onValueChange={(value) => {
             setValue(value);
-            if (value === '') debouncedChangeName(undefined);
-            else debouncedChangeName(value);
+            debouncedChangeName(value === '' ? null : value);
           }}
           placeholder='프로젝트 검색'
         />
-        {isLoading && !data ? (
+        {isLoading ? (
           <LoadingContainer>
             <Loading />
           </LoadingContainer>
@@ -74,15 +73,13 @@ const ProjectList = () => {
               <Flex css={{ gap: 6 }} align='center'>
                 <ProjectFilterChip
                   checked={queryParams.isAvailable ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked ? true : undefined })}
+                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked || null })}
                 >
                   이용 가능한 서비스
                 </ProjectFilterChip>
                 <ProjectFilterChip
                   checked={queryParams.isFounding ?? false}
-                  onCheckedChange={(checked) => {
-                    return setQueryParams({ isFounding: checked ? true : undefined });
-                  }}
+                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked || null })}
                 >
                   창업 중
                 </ProjectFilterChip>
@@ -90,7 +87,7 @@ const ProjectList = () => {
                   css={{ marginLeft: 10 }}
                   placeholder='프로젝트 전체'
                   allowClear
-                  onClear={() => setQueryParams({ category: undefined })}
+                  onClear={() => setQueryParams({ category: null })}
                   value={queryParams.category ?? undefined}
                   onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
                 >
@@ -124,7 +121,7 @@ const ProjectList = () => {
                   placeholder='프로젝트 전체'
                   size='small'
                   allowClear
-                  onClear={() => setQueryParams({ category: undefined })}
+                  onClear={() => setQueryParams({ category: null })}
                   value={queryParams.category ?? undefined}
                   onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
                 >
