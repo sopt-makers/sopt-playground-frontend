@@ -1,13 +1,31 @@
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AdsBox from '@/components/common/Banner/AdsBanner/AdsBox';
 import { ADS } from '@/components/common/Banner/AdsBanner/constants/ads';
+import useDate from '@/components/common/Banner/AdsBanner/hooks/useData';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useState } from 'react';
 import Slider, { CustomArrowProps, Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 const AdsBanner: React.FC = () => {
+  const { data: myData } = useGetMemberOfMe();
+  const myId = myData && myData.id;
+  const { nowTime } = useDate();
+
+  const [currentTimes, setCurrentTimes] = useState(ADS.map(() => nowTime())); // 각 슬라이드의 시간 초기화
+
+  // 슬라이드가 변경될 때마다 시간 업데이트
+  const handleSliderChange = (oldIndex: number, newIndex: number) => {
+    const newTimes = [...currentTimes];
+    newTimes[newIndex] = nowTime(); // 새 슬라이드에 대해 시간 갱신
+    setCurrentTimes(newTimes);
+  };
+
   const settings: Settings = {
     dots: true,
     infinite: true,
@@ -21,14 +39,29 @@ const AdsBanner: React.FC = () => {
     prevArrow: ADS && ADS.length > 1 ? <PrevArrow /> : <></>,
     nextArrow: ADS && ADS.length > 1 ? <NextArrow /> : <></>,
     dotsClass: ADS && ADS.length > 1 ? 'custom-dots' : 'hide-dots',
+    beforeChange: handleSliderChange,
   };
 
   return (
     <SliderWrapper>
       {ADS && ADS.length > 0 && (
         <AdsSlider {...settings}>
-          {ADS.map(({ id, image, url }) => {
-            return <AdsBox key={id} image={image} url={url} />;
+          {ADS.map((ad, idx) => {
+            return (
+              <LoggingClick
+                eventKey='ads'
+                param={{ id: myId, bannerId: ad.id, pageUrl: ad.url, timeStamp: currentTimes[idx] }}
+              >
+                <LoggingImpression
+                  key={ad.id}
+                  areaThreshold={1}
+                  eventKey='ads'
+                  param={{ bannerId: ad.id, pageUrl: ad.url, timeStamp: currentTimes[idx] }}
+                >
+                  <AdsBox {...ad} />
+                </LoggingImpression>
+              </LoggingClick>
+            );
           })}
         </AdsSlider>
       )}
