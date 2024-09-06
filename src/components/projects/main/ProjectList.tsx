@@ -1,25 +1,25 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { Flex, width100 } from '@toss/emotion-utils';
 import { ImpressionArea } from '@toss/impression-area';
+import { useDebounce } from '@toss/react';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
+import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
+import Loading from '@/components/common/Loading';
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 import ProjectCard from '@/components/projects/main/card/ProjectCard';
+import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
+import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
+import ProjectSearch from '@/components/projects/main/ProjectSearch';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
-import ProjectSearch from '@/components/projects/main/ProjectSearch';
-import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
-import { useDebounce } from '@toss/react';
-import { fonts } from '@sopt-makers/fonts';
-import { useEffect, useState } from 'react';
-import { Flex, width100 } from '@toss/emotion-utils';
-import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
-import Responsive from '@/components/common/Responsive';
-import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
-import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 
 type ProjectCategory = 'APPJAM' | 'SOPKATHON' | 'SOPTERM' | 'STUDY' | 'ETC';
 
@@ -33,54 +33,52 @@ const PROJECT_CATEGORY_LIST: Array<{ value: ProjectCategory; label: string }> = 
 
 const ProjectList = () => {
   const [queryParams, setQueryParams] = useQueryParams({
-    name: withDefault(StringParam, undefined),
-    isAvailable: withDefault(BooleanParam, undefined),
-    isFounding: withDefault(BooleanParam, undefined),
+    name: withDefault(StringParam, null),
+    isAvailable: withDefault(BooleanParam, null),
+    isFounding: withDefault(BooleanParam, null),
     category: createEnumParam<ProjectCategory>(['APPJAM', 'SOPKATHON', 'SOPTERM', 'STUDY', 'ETC']),
   });
   const [value, setValue] = useState(queryParams.name);
-  const [totalCount, setTotalCount] = useState<number>();
-  const debouncedChangeName = useDebounce((value: string) => setQueryParams({ name: value }), 300);
+  const debouncedChangeName = useDebounce((value: string | null) => setQueryParams({ name: value }), 300);
   const { data, isLoading, fetchNextPage } = useGetProjectListQuery({
     limit: 20,
     name: queryParams.name,
     isAvailable: queryParams.isAvailable,
     isFounding: queryParams.isFounding,
-    category: queryParams.category ?? undefined,
+    category: queryParams.category,
   });
 
-  useEffect(() => {
-    if (data?.pages) {
-      const newTotalCount = data.pages[0].totalCount;
-      setTotalCount(newTotalCount);
-    }
-  }, [data]);
+  const totalCount = data?.pages && data.pages[0].totalCount;
 
   return (
     <StyledContainer>
       <StyledContent>
         <ProjectSearch
-          value={value ?? queryParams.name}
+          value={value ?? ''}
           onValueChange={(value) => {
             setValue(value);
-            debouncedChangeName(value);
+            debouncedChangeName(value === '' ? null : value);
           }}
           placeholder='프로젝트 검색'
         />
-        {totalCount ? (
+        {isLoading ? (
+          <LoadingContainer>
+            <Loading />
+          </LoadingContainer>
+        ) : (
           <LengthWrapper>
             <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
             <Responsive only='desktop'>
               <Flex css={{ gap: 6 }} align='center'>
                 <ProjectFilterChip
                   checked={queryParams.isAvailable ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
+                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked || null })}
                 >
                   이용 가능한 서비스
                 </ProjectFilterChip>
                 <ProjectFilterChip
                   checked={queryParams.isFounding ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
+                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked || null })}
                 >
                   창업 중
                 </ProjectFilterChip>
@@ -88,7 +86,7 @@ const ProjectList = () => {
                   css={{ marginLeft: 10 }}
                   placeholder='프로젝트 전체'
                   allowClear
-                  onClear={() => setQueryParams({ category: undefined })}
+                  onClear={() => setQueryParams({ category: null })}
                   value={queryParams.category ?? undefined}
                   onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
                 >
@@ -122,7 +120,7 @@ const ProjectList = () => {
                   placeholder='프로젝트 전체'
                   size='small'
                   allowClear
-                  onClear={() => setQueryParams({ category: undefined })}
+                  onClear={() => setQueryParams({ category: null })}
                   value={queryParams.category ?? undefined}
                   onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
                 >
@@ -135,9 +133,13 @@ const ProjectList = () => {
               </Flex>
             </Responsive>
           </LengthWrapper>
-        ) : null}
-        {!isLoading && data?.pages == null ? (
-          <StyledNoData>현재 등록된 프로젝트가 없습니다.</StyledNoData>
+        )}
+
+        {totalCount === 0 ? (
+          <StyledEmpty>
+            <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
+            <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
+          </StyledEmpty>
         ) : (
           <StyledGridContainer>
             {data?.pages.map((page) =>
@@ -147,7 +149,7 @@ const ProjectList = () => {
                   profileImage: member.memberProfileImage,
                 }));
                 return (
-                  <>
+                  <React.Fragment key={project.id}>
                     <Responsive only='desktop' asChild>
                       <Link href={playgroundLink.projectDetail(project.id)}>
                         <ProjectCard
@@ -177,7 +179,7 @@ const ProjectList = () => {
                         <div css={{ width: '100%', height: '1px', background: colors.gray700 }} />
                       </Link>
                     </Responsive>
-                  </>
+                  </React.Fragment>
                 );
               }),
             )}
@@ -202,14 +204,27 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
+const CONTAINER_MAX_WIDTH = 1480;
+
 const StyledContent = styled.div`
   justify-self: flex-start;
   margin: 64px 0;
+  min-width: ${CONTAINER_MAX_WIDTH}px;
+
+  @media screen and (max-width: ${CONTAINER_MAX_WIDTH}px) {
+    min-width: calc(352px * 3 + 15px * 2);
+  }
+
+  @media screen and (max-width: 1120px) {
+    min-width: calc(352px * 2 + 15px * 1);
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
+    gap: 12px;
     margin: 0;
     padding: 12px 10px;
     width: 100%;
+    min-width: 352px;
   }
 `;
 
@@ -269,8 +284,6 @@ const StyledLength = styled(Text)`
   }
 `;
 
-const CONTAINER_MAX_WIDTH = 1480;
-
 const StyledGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -298,11 +311,41 @@ const StyledGridContainer = styled.div`
   }
 `;
 
-const StyledNoData = styled.div`
-  margin-top: 120px;
-  color: ${colors.gray300};
-  ${textStyles.SUIT_16_M}
+const StyledEmpty = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 240px;
+`;
+
+const EmptyTitle = styled.p`
+  color: ${colors.gray10};
+  ${fonts.TITLE_32_SB};
+
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_14_M}
+    ${fonts.TITLE_24_SB};
+  }
+`;
+
+const EmptyDescription = styled.span`
+  color: ${colors.gray400};
+  ${fonts.BODY_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_14_M};
+  }
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 290px 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 170px 0;
+    padding-bottom: 100px;
   }
 `;
