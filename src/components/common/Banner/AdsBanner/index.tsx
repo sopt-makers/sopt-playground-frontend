@@ -163,7 +163,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   }
 
   .custom-dots li.slick-active {
-    background-color: ${colors.white};
+    background-color: ${colors.gray100};
   }
 
   .custom-dots li button {
@@ -197,7 +197,7 @@ const PrevArrow: React.FC<CustomArrowProps> = ({ className, onClick }) => {
           <path
             id='Icon'
             d='M18.75 22.5L11.25 15L18.75 7.5'
-            stroke='white'
+            stroke='#C3C3C6'
             stroke-width='2.25'
             stroke-linecap='round'
             stroke-linejoin='round'
@@ -216,7 +216,7 @@ const NextArrow: React.FC<CustomArrowProps> = ({ className, onClick }) => {
           <path
             id='Icon'
             d='M11.25 22.5L18.75 15L11.25 7.5'
-            stroke='white'
+            stroke='#C3C3C6'
             stroke-width='2.25'
             stroke-linecap='round'
             stroke-linejoin='round'
