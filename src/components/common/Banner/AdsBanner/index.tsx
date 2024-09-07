@@ -18,12 +18,10 @@ const AdsBanner: React.FC = () => {
   const { nowTime } = useDate();
 
   const [currentTimes, setCurrentTimes] = useState(ADS.map(() => nowTime())); // 각 슬라이드의 시간 초기화
+  const [flag, setFlag] = useState(false);
 
-  // 슬라이드가 변경될 때마다 시간 업데이트
-  const handleSliderChange = (oldIndex: number, newIndex: number) => {
-    const newTimes = [...currentTimes];
-    newTimes[newIndex] = nowTime(); // 새 슬라이드에 대해 시간 갱신
-    setCurrentTimes(newTimes);
+  const handleTimeFlag = () => {
+    setFlag((flag) => !flag);
   };
 
   const settings: Settings = {
@@ -39,7 +37,8 @@ const AdsBanner: React.FC = () => {
     prevArrow: ADS && ADS.length > 1 ? <PrevArrow /> : <></>,
     nextArrow: ADS && ADS.length > 1 ? <NextArrow /> : <></>,
     dotsClass: ADS && ADS.length > 1 ? 'custom-dots' : 'hide-dots',
-    beforeChange: handleSliderChange,
+    beforeChange: handleTimeFlag,
+    afterChange: handleTimeFlag,
   };
 
   return (
@@ -48,17 +47,16 @@ const AdsBanner: React.FC = () => {
         <AdsSlider {...settings}>
           {ADS.map((ad, idx) => {
             return (
-              <LoggingClick
-                eventKey='ads'
-                param={{ id: myId, bannerId: ad.id, pageUrl: ad.url, timeStamp: currentTimes[idx] }}
-              >
+              <LoggingClick eventKey='ads' param={{ id: myId, bannerId: ad.id, pageUrl: ad.url, timeStamp: nowTime() }}>
                 <LoggingImpression
                   key={ad.id}
                   areaThreshold={1}
                   eventKey='ads'
-                  param={{ bannerId: ad.id, pageUrl: ad.url, timeStamp: currentTimes[idx] }}
+                  param={{ bannerId: ad.id, pageUrl: ad.url, timeStamp: nowTime() }}
                 >
-                  <AdsBox {...ad} />
+                  <div onClick={handleTimeFlag}>
+                    <AdsBox {...ad} />
+                  </div>
                 </LoggingImpression>
               </LoggingClick>
             );
@@ -163,7 +161,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   }
 
   .custom-dots li.slick-active {
-    background-color: ${colors.gray100};
+    background-color: ${colors.gray50};
   }
 
   .custom-dots li button {
@@ -197,7 +195,7 @@ const PrevArrow: React.FC<CustomArrowProps> = ({ className, onClick }) => {
           <path
             id='Icon'
             d='M18.75 22.5L11.25 15L18.75 7.5'
-            stroke='#C3C3C6'
+            stroke='#E4E4E5'
             stroke-width='2.25'
             stroke-linecap='round'
             stroke-linejoin='round'
@@ -216,7 +214,7 @@ const NextArrow: React.FC<CustomArrowProps> = ({ className, onClick }) => {
           <path
             id='Icon'
             d='M11.25 22.5L18.75 15L11.25 7.5'
-            stroke='#C3C3C6'
+            stroke='#E4E4E5'
             stroke-width='2.25'
             stroke-linecap='round'
             stroke-linejoin='round'
