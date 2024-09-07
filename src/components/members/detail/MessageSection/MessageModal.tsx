@@ -11,7 +11,7 @@ import RHFControllerFormItem from '@/components/common/form/RHFControllerFormIte
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
 import useAlert from '@/components/common/Modal/useAlert';
-import useCustomConfirm from '@/components/common/Modal/useNotOverlayModal';
+import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
@@ -99,9 +99,11 @@ const MessageModal: FC<MessageModalProps> = ({
   };
 
   const submit = async ({ content, email }: MessageForm) => {
-
+    if(isPending){
+      return;
+    }
       const result = await confirm({
-        title: '쪽지를 보내시겠습니까??',
+        title: '쪽지를 보내시겠습니까?',
         description: '쪽지는 상대방의 이메일로 전달됩니다.',
         okButtonColor: colors.white,
         okButtonTextColor: colors.black,
