@@ -24,6 +24,9 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
   className?: string;
   onClose: () => void;
 }
+
+
+
 const Modal: FC<ModalProps> = (props) => {
   const { confirmIcon, children, title = '', content, isOpen, onClose, width, ...restProps } = props;
   const modalRef = useRef<HTMLDivElement>(null);
@@ -70,7 +73,7 @@ const StyledBackground = styled.div<{ visible?: boolean }>`
   left: 0;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  z-index: 200;
   background-color: rgb(0 0 0 / 30%);
   width: 100%;
   height: 100%;
