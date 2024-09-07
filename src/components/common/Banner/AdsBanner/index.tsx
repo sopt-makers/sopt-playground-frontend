@@ -39,7 +39,7 @@ const AdsBanner: React.FC = () => {
     afterChange: handleTimeFlag,
   };
 
-  const time = dayjs().format('YYYY-M-D HH:mm:ss');
+  const time = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
   return (
     <SliderWrapper>
