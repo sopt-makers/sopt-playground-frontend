@@ -27,7 +27,6 @@ import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import { Button } from '@sopt-makers/ui';
 
 interface FeedUploadPageProp {
   editingId?: number;
@@ -164,9 +163,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
               />
               <ButtonContainer>
                 <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-                <Button type='submit' theme='blue' size='sm' rounded='md' disabled={!checkReadyToUpload()}>
-                  올리기
-                </Button>
+                <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
           }
@@ -239,13 +236,13 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     },
                   }}
                 >
-                  <EndButton type='button' disabled={false} onClick={handleQuitUpload}>
+                  <Button type='button' disabled={false} onClick={handleQuitUpload}>
                     취소
-                  </EndButton>
+                  </Button>
                 </LoggingClick>
-                <EndButton type='submit' theme='black' disabled={!checkReadyToUpload()}>
+                <Button type='submit' disabled={!checkReadyToUpload()}>
                   올리기
-                </EndButton>
+                </Button>
               </TopHeader>
             </>
           }
@@ -375,7 +372,7 @@ const TopHeader = styled.header`
   height: 44px;
 `;
 
-const EndButton = styled.button<{ disabled: boolean }>`
+const Button = styled.button<{ disabled: boolean }>`
   ${textStyles.SUIT_16_M};
 
   color: ${({ disabled }) =>
@@ -386,6 +383,33 @@ const EndButton = styled.button<{ disabled: boolean }>`
       : css`
           ${colors.gray50}
         `};
+`;
+
+const SubmitButton = styled.button<{ disabled: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: ${({ disabled }) =>
+    disabled
+      ? css`
+          ${colors.gray700}
+        `
+      : css`
+          ${colors.blue400}
+        `};
+  padding: 8px 12px;
+  color: ${({ disabled }) =>
+    disabled
+      ? css`
+          ${colors.gray300}
+        `
+      : css`
+          ${colors.gray50}
+        `};
+
+  ${textStyles.SUIT_16_M};
 `;
 
 const TagsWrapper = styled.div`
