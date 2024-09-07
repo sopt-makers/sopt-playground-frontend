@@ -124,7 +124,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
 
   .slick-arrow {
     position: absolute;
-    z-index: 100;
+    z-index: 99;
     cursor: pointer;
 
     @media ${MOBILE_MEDIA_QUERY} {
