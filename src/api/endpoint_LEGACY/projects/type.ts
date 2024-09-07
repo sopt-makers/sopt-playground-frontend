@@ -3,10 +3,10 @@ import { PROJECT_CATEGORY } from '@/components/projects/constants';
 export interface ProjectsRequestParams {
   limit?: number;
   cursor?: number;
-  name?: string;
-  isAvailable?: boolean;
-  isFounding?: boolean;
-  category?: string;
+  name?: string | null;
+  isAvailable?: boolean | null;
+  isFounding?: boolean | null;
+  category?: string | null;
 }
 
 export type ProjectDetail = {
