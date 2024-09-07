@@ -83,7 +83,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   justify-content: center;
   margin: 0 30px;
   border-radius: 12px;
-  width: 912px;
+  max-width: 912px;
   overflow: hidden;
 
   &:hover {
@@ -168,6 +168,10 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
 
   .custom-dots li button {
     display: none;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 335px;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
