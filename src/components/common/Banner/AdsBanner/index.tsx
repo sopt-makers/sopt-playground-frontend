@@ -1,13 +1,29 @@
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AdsBox from '@/components/common/Banner/AdsBanner/AdsBox';
 import { ADS } from '@/components/common/Banner/AdsBanner/constants/ads';
+import useDate from '@/components/common/Banner/AdsBanner/hooks/useDate';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useState } from 'react';
 import Slider, { CustomArrowProps, Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 const AdsBanner: React.FC = () => {
+  const { data: myData } = useGetMemberOfMe();
+  const myId = myData && myData.id;
+  const { nowTime } = useDate();
+
+  const [currentTimes, setCurrentTimes] = useState(ADS.map(() => nowTime())); // 각 슬라이드의 시간 초기화
+  const [flag, setFlag] = useState(false);
+
+  const handleTimeFlag = () => {
+    setFlag((flag) => !flag);
+  };
+
   const settings: Settings = {
     dots: true,
     infinite: true,
@@ -21,14 +37,29 @@ const AdsBanner: React.FC = () => {
     prevArrow: ADS && ADS.length > 1 ? <PrevArrow /> : <></>,
     nextArrow: ADS && ADS.length > 1 ? <NextArrow /> : <></>,
     dotsClass: ADS && ADS.length > 1 ? 'custom-dots' : 'hide-dots',
+    beforeChange: handleTimeFlag,
+    afterChange: handleTimeFlag,
   };
 
   return (
     <SliderWrapper>
       {ADS && ADS.length > 0 && (
         <AdsSlider {...settings}>
-          {ADS.map(({ id, image, url }) => {
-            return <AdsBox key={id} image={image} url={url} />;
+          {ADS.map((ad, idx) => {
+            return (
+              <LoggingClick eventKey='ads' param={{ id: myId, bannerId: ad.id, pageUrl: ad.url, timeStamp: nowTime() }}>
+                <LoggingImpression
+                  key={ad.id}
+                  areaThreshold={1}
+                  eventKey='ads'
+                  param={{ bannerId: ad.id, pageUrl: ad.url, timeStamp: nowTime() }}
+                >
+                  <div onClick={handleTimeFlag}>
+                    <AdsBox {...ad} />
+                  </div>
+                </LoggingImpression>
+              </LoggingClick>
+            );
           })}
         </AdsSlider>
       )}
@@ -50,7 +81,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   justify-content: center;
   margin: 0 30px;
   border-radius: 12px;
-  width: 912px;
+  max-width: 912px;
   overflow: hidden;
 
   &:hover {
@@ -91,7 +122,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
 
   .slick-arrow {
     position: absolute;
-    z-index: 100;
+    z-index: 99;
     cursor: pointer;
 
     @media ${MOBILE_MEDIA_QUERY} {
@@ -130,11 +161,15 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   }
 
   .custom-dots li.slick-active {
-    background-color: ${colors.white};
+    background-color: ${colors.gray50};
   }
 
   .custom-dots li button {
     display: none;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 335px;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -160,7 +195,7 @@ const PrevArrow: React.FC<CustomArrowProps> = ({ className, onClick }) => {
           <path
             id='Icon'
             d='M18.75 22.5L11.25 15L18.75 7.5'
-            stroke='white'
+            stroke='#E4E4E5'
             stroke-width='2.25'
             stroke-linecap='round'
             stroke-linejoin='round'
@@ -179,7 +214,7 @@ const NextArrow: React.FC<CustomArrowProps> = ({ className, onClick }) => {
           <path
             id='Icon'
             d='M11.25 22.5L18.75 15L11.25 7.5'
-            stroke='white'
+            stroke='#E4E4E5'
             stroke-width='2.25'
             stroke-linecap='round'
             stroke-linejoin='round'
