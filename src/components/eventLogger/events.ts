@@ -112,6 +112,9 @@ export interface ClickEvents {
   coffeechatToggleOff: undefined;
   coffeechatToggleOn: undefined;
   skillAdd: undefined;
+
+  // 광고
+  ads: { id: number | undefined; bannerId: number; pageUrl: string; timeStamp: string };
 }
 
 export interface SubmitEvents {
@@ -169,4 +172,5 @@ export interface ImpressionEvents {
   feedCard: {
     feedId: string;
   };
+  ads: { bannerId: number; pageUrl: string; timeStamp: string };
 }
