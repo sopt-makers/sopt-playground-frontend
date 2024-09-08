@@ -1,22 +1,21 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { ReactNode, startTransition, useEffect, useState } from 'react';
-
-import Carousel from '@/components/common/Carousel';
-import Responsive from '@/components/common/Responsive';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { getScreenMaxWidthMediaQuery } from '@/utils';
-
 import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
+import { ReactNode, startTransition, useEffect, useState } from 'react';
+
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
-import { playgroundLink } from 'playground-common/export';
-import { useRouter } from 'next/router';
-import { COFFEECHAT_GUIDE } from '@/constants/links';
 import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
+import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
+import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { COFFEECHAT_GUIDE } from '@/constants/links';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
 
@@ -43,6 +42,7 @@ export default function CoffeeChatList() {
 
   const coffeeChatCardList = dataList.map((item, index) => (
     <CoffeeChatCard
+      key={String(item.memberId)}
       id={String(item.memberId)}
       name={item.name ?? ''}
       profileImage={item.memberProfileImage ?? ''}
@@ -145,7 +145,6 @@ export default function CoffeeChatList() {
             <Button
               size='md'
               theme='white'
-              style={{ color: colors.black }}
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
                 logClickEvent('openToCoffeechat');
