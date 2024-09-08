@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
@@ -547,18 +548,17 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           onFocus={() => setIsFocus(true)}
           placeholder='댓글을 남겨주세요.'
         />
-        <SendButton
+        <Button
           type='submit'
-          initial={{
-            backgroundColor: colors.gray800,
-          }}
-          animate={{
-            backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
-          }}
+          theme={is버튼액티브 ? 'blue' : 'black'}
           disabled={!is버튼액티브 || isPending}
-        >
-          {isPending ? <Loading size={4} /> : <IconSendFill />}
-        </SendButton>
+          rounded='md'
+          size='sm'
+          LeftIcon={() => {
+            return isPending ? <Loading size={4} /> : <IconSendFill />;
+          }}
+          style={{ padding: '8px 4px 8px 8px' }}
+        />
       </Flex>
     </Container>
   );
@@ -621,15 +621,6 @@ const StyledTextArea = styled(TextareaAutosize)`
   ::placeholder {
     color: ${colors.gray500};
   }
-`;
-
-const SendButton = styled(m.button)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  width: 36px;
-  height: 36px;
 `;
 
 const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizontal' }) => {
