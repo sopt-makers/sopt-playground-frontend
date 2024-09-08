@@ -12,6 +12,8 @@
 <img alt="Instagram" src="https://img.shields.io/badge/-Instagram-white?logo=Instagram&logoColor=d42121">
 </a>
 
+</div>
+
 <br />
 
 ## 💁🏻‍♂️ SOPT Playground를 소개해요!
@@ -81,28 +83,28 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
     <tr align="center">
         <td style="min-width: 150px;" background-color="white">
             <a href="https://github.com/seojisoosoo">
-              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/586e267e-5d8c-4ace-abe8-6fed7c2e09c2" width="200" height="150" style="object-fit :cover">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/586e267e-5d8c-4ace-abe8-6fed7c2e09c2" width="200" height="200" style="object-fit :contain">
               <br />
               <b>Seojisoosoo</b>
             </a> 
         </td>
         <td style="min-width: 150px;" background-color="white">
             <a href="https://github.com/simeunseo">
-              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/51331279-c053-4f3f-a120-90b2926ad9f1" width="200" height="150" style="object-fit :cover">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/51331279-c053-4f3f-a120-90b2926ad9f1" width="200" height="200" style="object-fit :contain">
               <br />
               <b>simeunseo</b>
             </a> 
         </td>
         <td style="min-width: 150px;" background-color="white">
             <a href="https://github.com/hayounSong">
-              <img src="https://github.com/user-attachments/assets/7eccf646-1764-4ff7-8ea7-059281e1dc9b" width="200" height="150" style="object-fit :cover">
+              <img src="https://github.com/user-attachments/assets/7eccf646-1764-4ff7-8ea7-059281e1dc9b" width="200" height="200" style="object-fit :contain">
               <br />
               <b>hayounSong</b>
             </a> 
         </td>
         <td style="min-width: 150px;" background-color="white">
             <a href="https://github.com/pepperdad">
-              <img src="https://github.com/user-attachments/assets/97bc9cb2-f6d8-4159-9ffe-f7f3aa625753" width="200" height="150" style="object-fit :cover">
+              <img src="https://github.com/user-attachments/assets/97bc9cb2-f6d8-4159-9ffe-f7f3aa625753" width="200" height="200" style="object-fit :contain">
               <br />
               <b>pepperdad</b>
             </a> 
