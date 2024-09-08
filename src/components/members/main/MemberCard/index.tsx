@@ -17,6 +17,7 @@ interface MemberCardProps {
     content: string;
     isActive: boolean;
   }[];
+  email?:string,
   imageUrl?: string;
   isCoffeeChatActivate: boolean;
 
@@ -34,6 +35,7 @@ const MemberCard: FC<MemberCardProps> = ({
   belongs,
   badges,
   intro,
+  email,
   imageUrl,
   isCoffeeChatActivate,
   onMessage,
@@ -69,7 +71,9 @@ const MemberCard: FC<MemberCardProps> = ({
         </BadgesBox>
         <Intro>{intro}</Intro>
       </ContentArea>
-      <StyledTooltip name={name} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onMessage} />
+      {email && email.length>0 ?( 
+      <StyledTooltip name={name} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onMessage} />)
+      :<></>}
     </MotionMemberCard>
   );
 };

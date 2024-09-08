@@ -11,10 +11,12 @@ import RHFControllerFormItem from '@/components/common/form/RHFControllerFormIte
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
 import useAlert from '@/components/common/Modal/useAlert';
+import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { zIndex } from '@/styles/zIndex';
 
 export enum MessageCategory {
   COFFEE_CHAT = '커피챗',
@@ -91,17 +93,30 @@ const MessageModal: FC<MessageModalProps> = ({
   const isValid = _isValid && Boolean(selectedCategory);
   const { mutateAsync, isPending } = usePostMemberMessageMutation();
   const { alert } = useAlert();
-
+  const { confirm, ConfirmComponent } = useCustomConfirm();
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
   };
+
   const submit = async ({ content, email }: MessageForm) => {
-    const confirm = window.confirm('쪽지를 보내시겠습니까?');
+    if(isPending){
+      return;
+    }
+      const result = await confirm({
+        title: '쪽지를 보내시겠습니까?',
+        description: '쪽지는 상대방의 이메일로 전달됩니다.',
+        okButtonColor: colors.white,
+        okButtonTextColor: colors.black,
+        okButtonText: '전송하기',
+        cancelButtonText: '돌아가기',
+        zIndex: zIndex.헤더+102,
+        maxWidth: 324,
+      });
     try {
       if (!selectedCategory) {
         return;
       }
-      if (confirm) {
+      if (result) {
         await mutateAsync({
           senderEmail: email,
           content,
@@ -111,6 +126,7 @@ const MessageModal: FC<MessageModalProps> = ({
         await alert({
           title: '쪽지 보내기',
           description: '성공적으로 전송되었어요!',
+          zIndex:zIndex.헤더+103
         });
         onLog?.({ category: selectedCategory });
         props.onClose();
@@ -171,7 +187,7 @@ const MessageModal: FC<MessageModalProps> = ({
             selectedCategory === MessageCategory.COFFEE_CHAT ? COFFEECHAT_PLACEHOLDER : '전달할 내용을 입력해주세요!'
           }
         />
-        <StyledButton isDisabled={!isValid}>
+        <StyledButton isDisabled={!isValid||isPending}>
           {isPending ? (
             <Loading color='white' />
           ) : (
@@ -181,6 +197,7 @@ const MessageModal: FC<MessageModalProps> = ({
           )}
         </StyledButton>
       </StyledForm>
+      {ConfirmComponent}
     </StyledModal>
   );
 };
