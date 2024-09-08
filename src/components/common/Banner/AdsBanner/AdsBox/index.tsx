@@ -15,13 +15,17 @@ export default function AdsBox({ moImage, pcImage, url }: AdsBoxProps) {
         <Responsive only='desktop'>
           <AdsImage src={pcImage} alt='PC 광고' />
         </Responsive>
-        <Responsive only='mobile'>
+        <MobileLayout only='mobile'>
           <AdsImage src={moImage} alt='모바일 광고' />
-        </Responsive>
+        </MobileLayout>
       </AdsWrapper>
     </AdsContainer>
   );
 }
+
+const MobileLayout = styled(Responsive)`
+  width: 100%;
+`;
 
 const AdsImage = styled.img`
   height: 100%;
