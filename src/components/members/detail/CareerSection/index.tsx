@@ -1,19 +1,20 @@
 import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { Button } from '@sopt-makers/ui';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 
 import { MemberLink } from '@/api/endpoint_LEGACY/members/type';
+import Responsive from '@/components/common/Responsive';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import CareerItem from '@/components/members/detail/CareerSection/CareerItem';
 import InfoItem from '@/components/members/detail/InfoItem';
+import MessageSection from '@/components/members/detail/MessageSection';
 import { Career } from '@/components/members/detail/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import MessageSection from '@/components/members/detail/MessageSection';
-import { textStyles } from '@/styles/typography';
-import { playgroundLink } from 'playground-common/export';
-import { useRouter } from 'next/router';
-import { fonts } from '@sopt-makers/fonts';
 
 interface CareerSectionProps {
   careers: Career[];
@@ -77,10 +78,29 @@ export default function CareerSection({
         )}
       </>
       {isMine ? (
-        <MoveButton onClick={() => router.push(playgroundLink.feedUpload())}>
-          <WriteIcon src='/icons/icon-pencil-simple.svg' />
-          직무 경험 SOPT와 공유하기
-        </MoveButton>
+        <MoveButtonWrapper>
+          <Responsive only='mobile'>
+            <Button
+              size='sm'
+              rounded='md'
+              onClick={() => router.push(playgroundLink.feedUpload())}
+              LeftIcon={() => <WriteIcon src='/icons/icon-pencil-simple.svg' />}
+              style={{ width: '100%' }}
+            >
+              직무 경험 SOPT와 공유하기
+            </Button>
+          </Responsive>
+          <Responsive only='desktop'>
+            <Button
+              size='sm'
+              rounded='lg'
+              onClick={() => router.push(playgroundLink.feedUpload())}
+              LeftIcon={() => <WriteIcon src='/icons/icon-pencil-simple.svg' />}
+            >
+              직무 경험 SOPT와 공유하기
+            </Button>
+          </Responsive>
+        </MoveButtonWrapper>
       ) : (
         <MessageSection name={name} email={email} profileImage={profileImage} memberId={memberId} />
       )}
@@ -196,32 +216,13 @@ const LinkIcon = styled.img`
   color: ${colors.gray300};
 `;
 
-const MoveButton = styled.div`
-  display: flex;
+const MoveButtonWrapper = styled.div`
   position: absolute;
   top: 40px;
   right: 40px;
-  gap: 4px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 90px;
-  background-color: ${colors.gray10};
-  cursor: pointer;
-  padding: 12px 20px;
-  height: 42px;
-  color: ${colors.gray950};
-
-  &:hover {
-    background-color: ${colors.gray50};
-    color: ${colors.gray950};
-  }
-
-  ${textStyles.SUIT_15_SB}
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: static;
-    border-radius: 10px;
-    ${textStyles.SUIT_16_SB};
   }
 `;
 

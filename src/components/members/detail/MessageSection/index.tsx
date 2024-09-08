@@ -1,13 +1,15 @@
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
-
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { colors } from '@sopt-makers/colors';
-import styled from '@emotion/styled';
-import { textStyles } from '@/styles/typography';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import useModalState from '@/components/common/Modal/useModalState';
-import useToast from '@/components/common/Toast/useToast';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
+
+import useModalState from '@/components/common/Modal/useModalState';
+import Responsive from '@/components/common/Responsive';
+import useToast from '@/components/common/Toast/useToast';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 interface MessageSectionProps {
   name: string;
@@ -33,10 +35,31 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
 
   return (
     <>
-      <MessageButton onClick={handleClickMessageButton} disabled={isEmptyEmail}>
-        <SendIcon disabled={isEmptyEmail} />
-        궁금한 점 질문해보기
-      </MessageButton>
+      <MessageButtonWrapper>
+        <Responsive only='mobile'>
+          <Button
+            size='sm'
+            rounded='md'
+            onClick={handleClickMessageButton}
+            LeftIcon={() => <SendIcon disabled={isEmptyEmail} />}
+            disabled={isEmptyEmail}
+            style={{ width: '100%' }}
+          >
+            궁금한 점 질문해보기
+          </Button>
+        </Responsive>
+        <Responsive only='desktop'>
+          <Button
+            size='sm'
+            rounded='lg'
+            onClick={handleClickMessageButton}
+            LeftIcon={() => <SendIcon disabled={isEmptyEmail} />}
+            disabled={isEmptyEmail}
+          >
+            궁금한 점 질문해보기
+          </Button>
+        </Responsive>
+      </MessageButtonWrapper>
       {isOpenMessageModal && (
         <MessageModal
           receiverId={memberId}
@@ -56,6 +79,16 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
     </>
   );
 }
+
+const MessageButtonWrapper = styled.div`
+  position: absolute;
+  top: 40px;
+  right: 40px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    position: static;
+  }
+`;
 
 const MessageButton = styled.div<{ disabled: boolean }>`
   display: flex;
