@@ -4,9 +4,9 @@
 
 **대학생 연합 IT벤처창업 동아리 SOPT 구성원들을 위한 서비스**
 
-<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fsopt-makers%2Fsopt-playground-frontend&count_bg=%238040FF&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
+<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fsopt-makers%2Fsopt-playground-frontend&count_bg=%232E2E35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
 <a href="https://github.com/sopt-makers/sopt-playground-frontend/actions/workflows/deploy-production.yml">
-<img alt="GitHub Workflow Status (with branch)" src="https://img.shields.io/github/actions/workflow/status/sopt-makers/sopt-playground-frontend/deploy-production.yml?branch=main&color=%238040FF"></a>
+<img alt="GitHub Workflow Status (with branch)" src="https://img.shields.io/github/actions/workflow/status/sopt-makers/sopt-playground-frontend/deploy-production.yml?branch=main&color=%232E2E35"></a>
 
 <a href="https://www.instagram.com/sopt_makers/">
 <img alt="Instagram" src="https://img.shields.io/badge/-Instagram-white?logo=Instagram&logoColor=d42121">
@@ -14,13 +14,21 @@
 
 <br />
 
-<img width="1424" alt="image" src="https://user-images.githubusercontent.com/73823388/215124144-daf665de-ca65-42d8-9440-bae754d680f9.png">
-</div>
-
 ## 💁🏻‍♂️ SOPT Playground를 소개해요!
 
-- ⚡️ SOPT의 꽃은 앱잼이죠! 앱잼을 비롯한 솝커톤, 솝텀 등의 **프로젝트**를 등록하고 조회하실 수 있어요.
-- 👀 SOPT에서 같이 사이드프로젝트 할 팀원 구할 때, 어려웠던 경험 있으시죠? SOPT 밖에서도 멋진 SOPT 구성원들의 **멤버 프로필**을 등록하고 조회하실 수 있어요.
+> SOPT 구성원들을 연결하는 Playground를 만드는 팀이에요.
+> Playground에서는 커뮤니티 게시판에 글을 업로드하며, SOPT 모든 기수의 구성원들과 함께 이야기하고 소통할 수 있어요.
+> 또한, 전체 회원들의 소개를 볼 수 있는 **‘멤버프로필’**, 프로젝트를 등록할 수 있는 **‘프로젝트’**, 가볍게 소통할 수 있는 **‘끝말잇기’** 기능이 있어요. 더불어 3000여명의 SOPT 구성원이 더욱 연결될 수 있도록 **'커뮤니티'** 기능을 확장하고 있어요.
+
+- Playground 팀은 100마디 말보다 한번의 빠른 실행이 더 많은 인사이트를 가져다 줄 수 있다고 믿고 작고 빠르게 실행하는걸 중요하게 생각해요.
+- 엠플리튜드로 정량적인 데이터를 확인하고, 설문조사를 통해 정성적인 피드백을 수집해요.
+- 플레이그라운드 팀은 앞으로도 여러 가치 있는 연결을 만들어가고자 해요.
+
+|                                                                  **커뮤니티**                                                                   |                                                                 **멤버 프로필**                                                                 |
+| :---------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="1429" alt="스크린샷 2024-09-08 오후 2 41 54" src="https://github.com/user-attachments/assets/2247cb3a-c7b4-4b67-a603-7f936d8b1fb1"> | <img width="1430" alt="스크린샷 2024-09-08 오후 2 44 05" src="https://github.com/user-attachments/assets/a039e7ab-2708-4bc1-96d0-9fa870906c47"> |
+|                                                                  **프로젝트**                                                                   |                                                                  **끝말잇기**                                                                   |
+| <img width="1428" alt="스크린샷 2024-09-08 오후 2 44 22" src="https://github.com/user-attachments/assets/073e8b15-cac6-438e-acf6-55fc58d6e985"> | <img width="1427" alt="스크린샷 2024-09-08 오후 2 44 38" src="https://github.com/user-attachments/assets/f23a0fc3-9586-48e6-a62c-7763390d376a"> |
 
 ## 🤓 시작하기
 
@@ -79,17 +87,24 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
             </a> 
         </td>
         <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/solar3070">
-              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/8e9710fa-666d-44c9-9af9-0f927733c89d" width="200" height="150" style="object-fit :cover">
-              <br />
-              <b>solar3070</b>
-            </a> 
-        </td>
-        <td style="min-width: 150px;" background-color="white">
             <a href="https://github.com/simeunseo">
               <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/51331279-c053-4f3f-a120-90b2926ad9f1" width="200" height="150" style="object-fit :cover">
               <br />
               <b>simeunseo</b>
+            </a> 
+        </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/hayounSong">
+              <img src="https://github.com/user-attachments/assets/7eccf646-1764-4ff7-8ea7-059281e1dc9b" width="200" height="150" style="object-fit :cover">
+              <br />
+              <b>hayounSong</b>
+            </a> 
+        </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/pepperdad">
+              <img src="https://github.com/user-attachments/assets/97bc9cb2-f6d8-4159-9ffe-f7f3aa625753" width="200" height="150" style="object-fit :cover">
+              <br />
+              <b>pepperdad</b>
             </a> 
         </td>
     </tr>
@@ -99,11 +114,15 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
             FE Developer
         </td>
         <td>
-            💙 혜준 💙<br />
+            💚 은서 💚<br />
             FE Developer
         </td>
         <td>
-            💜 은서 💜<br />
+            💜 하윤 💜<br />
+            FE Developer
+        </td>
+        <td>
+            🧡 도영 🧡<br />
             FE Developer
         </td>
     </tr>
@@ -141,6 +160,13 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
               <b>Jun</b>
             </a>
         </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/solar3070">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/8e9710fa-666d-44c9-9af9-0f927733c89d" width="200" height="150" style="object-fit :cover">
+              <br />
+              <b>solar3070</b>
+            </a> 
+        </td>
     </tr>
     <tr align="center">
         <td>
@@ -158,6 +184,10 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
         <td>
             🤍 준호 🤍<br />
             1, 2, 3기 <br />FE Developer
+        </td>
+        <td>
+            💙 혜준 💙<br />
+            4기 <br />FE Developer
         </td>
     </tr>
 
