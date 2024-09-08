@@ -81,7 +81,7 @@ export default function CareerSection({
         <MoveButtonWrapper>
           <Responsive only='mobile'>
             <Button
-              size='sm'
+              size='md'
               rounded='md'
               onClick={() => router.push(playgroundLink.feedUpload())}
               LeftIcon={() => <WriteIcon src='/icons/icon-pencil-simple.svg' />}

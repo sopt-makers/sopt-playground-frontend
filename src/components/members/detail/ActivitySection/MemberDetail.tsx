@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
@@ -9,7 +10,6 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
@@ -17,6 +17,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import Loading from '@/components/common/Loading';
 import ResizedImage from '@/components/common/ResizedImage';
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
@@ -31,6 +32,7 @@ import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import useEnterScreen from '@/hooks/useEnterScreen';
 import { useRunOnce } from '@/hooks/useRunOnce';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
@@ -148,14 +150,18 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           </ProfileContents>
 
           {profile.isMine && (
-            <EditButton
-              onClick={() => {
-                router.push(playgroundLink.memberEdit());
-                logClickEvent('editProfile');
-              }}
-            >
-              <EditIcon />
-            </EditButton>
+            <EditButtonWrapper>
+              <Button
+                rounded='lg'
+                theme='black'
+                LeftIcon={() => <EditIcon />}
+                onClick={() => {
+                  router.push(playgroundLink.memberEdit());
+                  logClickEvent('editProfile');
+                }}
+                style={{ padding: '5px 0 5px 5px' }}
+              />
+            </EditButtonWrapper>
           )}
         </ProfileContainer>
 
@@ -245,16 +251,34 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     참여한 프로젝트를 등록하면 <br />
                     공식 홈페이지에도 프로젝트가 업로드 돼요!
                   </Text>
-                  <ActivityUploadButton
-                    onClick={() =>
-                      logClickEvent('projectUpload', {
-                        referral: 'myPage',
-                      })
-                    }
-                    href={playgroundLink.projectUpload()}
-                  >
-                    + 내 프로젝트 올리기
-                  </ActivityUploadButton>
+                  <Responsive only='desktop'>
+                    <Button
+                      size='md'
+                      onClick={async () => {
+                        logClickEvent('projectUpload', {
+                          referral: 'myPage',
+                        });
+                        await router.push(playgroundLink.groupList());
+                      }}
+                      style={{ marginTop: '24px' }}
+                    >
+                      + 내 프로젝트 올리기
+                    </Button>
+                  </Responsive>
+                  <MobileButton only='mobile'>
+                    <Button
+                      size='lg'
+                      onClick={async () => {
+                        logClickEvent('projectUpload', {
+                          referral: 'myPage',
+                        });
+                        await router.push(playgroundLink.groupList());
+                      }}
+                      style={{ marginTop: '50px', width: '100%' }}
+                    >
+                      + 내 프로젝트 올리기
+                    </Button>
+                  </MobileButton>
                   <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
                 </ActivityUploadNudge>
               )}
@@ -287,7 +311,24 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     모임을 참여하여 <br />
                     SOPT 구성원들과의 추억을 쌓아보세요!
                   </Text>
-                  <ActivityUploadButton href={playgroundLink.groupList()}>모임 둘러보러 가기</ActivityUploadButton>
+                  <Responsive only='desktop'>
+                    <Button
+                      size='md'
+                      onClick={() => router.push(playgroundLink.groupList())}
+                      style={{ marginTop: '24px' }}
+                    >
+                      모임 둘러보러 가기
+                    </Button>
+                  </Responsive>
+                  <MobileButton only='mobile'>
+                    <Button
+                      size='lg'
+                      onClick={() => router.push(playgroundLink.groupList())}
+                      style={{ marginTop: '50px', width: '100%' }}
+                    >
+                      모임 둘러보러 가기
+                    </Button>
+                  </MobileButton>
                   <ActivityUploadMaskImg src='/icons/img/meeting-mask.png' alt='meeting-mask-image' height={134} />
                 </ActivityUploadNudge>
               )}
@@ -298,6 +339,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     </Container>
   );
 };
+
+const MobileButton = styled(Responsive)`
+  width: 100%;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -391,33 +436,10 @@ const ProfileContents = styled.div`
   }
 `;
 
-const EditButton = styled.div`
-  display: flex;
+const EditButtonWrapper = styled.div`
   position: absolute;
   top: 22px;
   right: 0;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #2c2d2e;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-
-  svg {
-    width: 26.05px;
-    height: auto;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    top: 5px;
-    width: 32px;
-    height: 32px;
-
-    svg {
-      width: 19.26px;
-    }
-  }
 `;
 
 const NameWrapper = styled.div`
@@ -570,25 +592,6 @@ const ActivityUploadMaskImg = styled(ResizedImage)`
   @media ${MOBILE_MEDIA_QUERY} {
     top: 0;
     max-height: 134px;
-  }
-`;
-
-const ActivityUploadButton = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  margin-top: 24px;
-  border-radius: 14px;
-  background-color: ${colors.gray10};
-  padding: 14px 48px;
-  color: ${colors.gray800};
-
-  ${textStyles.SUIT_15_SB};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 50px;
-    width: 100%;
   }
 `;
 

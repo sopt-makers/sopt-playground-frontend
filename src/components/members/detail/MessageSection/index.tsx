@@ -38,7 +38,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
       <MessageButtonWrapper>
         <Responsive only='mobile'>
           <Button
-            size='sm'
+            size='md'
             rounded='md'
             onClick={handleClickMessageButton}
             LeftIcon={() => <SendIcon disabled={isEmptyEmail} />}

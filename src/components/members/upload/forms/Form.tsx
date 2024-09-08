@@ -1,10 +1,10 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
 import { ReactNode } from 'react';
 
+import Responsive from '@/components/common/Responsive';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 type FormType = 'upload' | 'edit';
 const TYPE_MAP: Record<FormType, string> = { upload: '업로드', edit: '수정' };
@@ -25,9 +25,25 @@ export default function MemberForm({ type, children, onSubmit, isValid }: Member
       </StyledHeader>
       <StyledForm>
         {children}
-        <SubmitButton type='submit' onClick={onSubmit} isDisabled={!isValid} disabled={!isValid}>
-          프로필 {TYPE_MAP[type]}하기
-        </SubmitButton>
+        <SubmitButtonWrapper>
+          <Responsive only='desktop'>
+            <Button type='submit' rounded='lg' onClick={onSubmit} disabled={!isValid}>
+              프로필 {TYPE_MAP[type]}하기
+            </Button>
+          </Responsive>
+          <MobileButton only='mobile'>
+            <Button
+              type='submit'
+              size='lg'
+              rounded='md'
+              onClick={onSubmit}
+              disabled={!isValid}
+              style={{ width: '100%' }}
+            >
+              프로필 {TYPE_MAP[type]}하기
+            </Button>
+          </MobileButton>
+        </SubmitButtonWrapper>
       </StyledForm>
     </StyledContainer>
   );
@@ -97,42 +113,11 @@ const StyledForm = styled.div`
   }
 `;
 
-const SubmitButton = styled.button<{ isDisabled: boolean }>`
+const MobileButton = styled(Responsive)`
+  width: 100%;
+`;
+
+const SubmitButtonWrapper = styled.div`
   display: flex;
-  align-items: center;
   align-self: flex-end;
-  justify-content: center;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  margin-top: 30px;
-  border-radius: 31px;
-  background-color: ${colors.white};
-  width: 163px;
-  height: 42px;
-  line-height: 120%;
-  color: ${colors.gray950};
-
-  ${({ isDisabled }) =>
-    isDisabled
-      ? css`
-          background-color: ${colors.gray800};
-          color: ${colors.gray400};
-          cursor: not-allowed;
-        `
-      : css`
-          &:hover {
-            background-color: ${colors.gray50};
-            color: ${colors.gray950};
-          }
-        `}
-
-  ${textStyles.SUIT_14_M}
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 12px;
-    width: 100%;
-    height: 52px;
-    line-height: 100%;
-
-    ${textStyles.SUIT_16_SB}
-  }
 `;
