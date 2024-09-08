@@ -1,16 +1,18 @@
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import dayjs from 'dayjs';
+import { useState } from 'react';
+import Slider, { CustomArrowProps, Settings } from 'react-slick';
+
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AdsBox from '@/components/common/Banner/AdsBanner/AdsBox';
 import { ADS } from '@/components/common/Banner/AdsBanner/constants/ads';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
-import dayjs from 'dayjs';
-import { useState } from 'react';
-import Slider, { CustomArrowProps, Settings } from 'react-slick';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
 
 const AdsBanner: React.FC = () => {
   const { data: myData } = useGetMemberOfMe();
@@ -47,7 +49,11 @@ const AdsBanner: React.FC = () => {
         <AdsSlider {...settings}>
           {ADS.map((ad, idx) => {
             return (
-              <LoggingClick eventKey='ads' param={{ id: myId, bannerId: ad.id, pageUrl: ad.url, timeStamp: time }}>
+              <LoggingClick
+                key={ad.id}
+                eventKey='ads'
+                param={{ id: myId, bannerId: ad.id, pageUrl: ad.url, timeStamp: time }}
+              >
                 <LoggingImpression
                   key={ad.id}
                   areaThreshold={1}
@@ -166,10 +172,6 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
 
   .custom-dots li button {
     display: none;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 335px;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

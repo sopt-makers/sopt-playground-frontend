@@ -1,5 +1,6 @@
-import Responsive from '@/components/common/Responsive';
 import styled from '@emotion/styled';
+
+import Responsive from '@/components/common/Responsive';
 
 interface AdsBoxProps {
   moImage: string;
@@ -30,8 +31,8 @@ const AdsWrapper = styled.article`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   max-width: 912px;
-  height: 100%;
   overflow: hidden;
 `;
 
