@@ -120,4 +120,8 @@ const MobileButton = styled(Responsive)`
 const SubmitButtonWrapper = styled.div`
   display: flex;
   align-self: flex-end;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
