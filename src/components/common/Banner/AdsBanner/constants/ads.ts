@@ -18,8 +18,10 @@ export const ADS = [
   {
     // 마일
     id: 3,
-    moImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/mile_1.png',
-    pcImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/mile_banner.png',
+    moImage:
+      'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/%E1%84%86%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF_%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%89%E1%85%B3%E1%84%8F%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AF_%E1%84%87%E1%85%A2%E1%84%82%E1%85%A5_%E1%84%86%E1%85%A9%E1%84%87%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF.png',
+    pcImage:
+      'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/%E1%84%86%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF_%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%89%E1%85%B3%E1%84%8F%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AF_%E1%84%87%E1%85%A2%E1%84%82%E1%85%A5_%E1%84%83%E1%85%A6%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%90%E1%85%A1%E1%86%B8.png',
     url: 'https://www.milewriting.com/',
   },
   {
