@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
-// import IconBell from '@/public/icons/icon-bell.svg';
 import IconOutgoing from '@/public/icons/icon-link-outgoing.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -20,26 +19,25 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
       {/* MEMO: 5기 모집 시작 시 주석 해제 */}
       {/* <Title>makers 5기 지원이 곧 시작될 예정이에요.</Title> */}
       {/* <Title>makers 5기 지원이 시작되었어요.</Title> */}
-      <Title>현재 35기 SOPT makers 팀 모집이 진행 중이에요!</Title>
-      {/* <Title>현재 makers 4기 진행 중이에요. 5기에서 만나요!</Title>
-      <SubTitle>5기 모집은 2024년 8-9월 중에 진행될 예정이에요.</SubTitle> */}
-      {/* MEMO: 5기 모집 시작 시 주석 해제 */}
-      <SubTitle>35기 모집은 2024년 7월 31일 수요일부터 8월 7일 수요일 23:59까지 진행될 예정이에요.</SubTitle>
+      {/* <Title>현재 35기 SOPT makers 팀 모집이 진행 중이에요!</Title> */}
+      <Title>현재 makers 35기 진행 중이에요. 36기에서 만나요!</Title>
+      <SubTitle>35기 모집은 2025년 1-2월 중에 진행될 예정이에요.</SubTitle>
+      {/* <SubTitle>35기 모집은 2024년 7월 31일 수요일부터 8월 7일 수요일 23:59까지 진행될 예정이에요.</SubTitle> */}
       <ButtonGroup>
         {/* MEMO: 5기 모집 알림 신청시에 다시 주석 해제 */}
         {/* <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
           <StyledBellIcon />
           5기 모집 알림 신청
         </SubscribeButton> */}
-        <ExpiredButton href='https://makers.sopt.org' target='_blank'>
+        {/* <ExpiredButton href='https://makers.sopt.org' target='_blank'>
           <StyledOutgoingIcon />
           35기 메이커스팀 모집글 보기
-          {/* 모집 페이지 가기 */}
-        </ExpiredButton>
-        {/* <ExpiredButton href={RECRUITING_URL} target='_blank'>
-          <StyledOutgoingIcon />
-          4기 모집글 보기
+          {/* 모집 페이지 가기 
         </ExpiredButton> */}
+        <ExpiredButton href={RECRUITING_URL} target='_blank'>
+          <StyledOutgoingIcon />
+          35기 모집글 보기
+        </ExpiredButton>
       </ButtonGroup>
     </StyledJoinNotifier>
   );
