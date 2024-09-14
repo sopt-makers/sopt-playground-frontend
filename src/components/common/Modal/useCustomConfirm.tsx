@@ -103,14 +103,12 @@ const StyledBackground = styled.div<{ zIndex?: number }>`
 
 const StyledModalContainer = styled.div<{ maxWidth?: number }>`
   position: relative;
+  margin:36px;
   border-radius: 22px;
   box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
   background: ${colors.gray800};
-  width: 100%;
-  min-width: 320px;
-  max-width: ${({ maxWidth }) => maxWidth}px;
-  overflow: hidden;
-
+  width: ${({ maxWidth }) => maxWidth|| 400}px;
+  overflow: hidden; 
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 324px;
   }
@@ -127,6 +125,9 @@ const StyledModalDescription = styled.div`
   line-height: 26px;
   white-space: pre-wrap;
   color: ${colors.gray100};
+  @media ${MOBILE_MEDIA_QUERY} {
+    font-size: 14px;
+  }
 `;
 
 const StyledButton = styled.button<{ background: 'dark' | 'light' }>`
