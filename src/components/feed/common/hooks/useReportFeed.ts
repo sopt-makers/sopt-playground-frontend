@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 
 import { usePostReportPostMutation } from '@/api/endpoint/feed/postReportPost';
 import useConfirm from '@/components/common/Modal/useConfirm';
+import { zIndex } from '@/styles/zIndex';
 
 interface Options {
   postId: string;
@@ -22,6 +23,7 @@ export const useReportFeed = () => {
         okButtonText: '신고하기',
         cancelButtonText: '취소',
         maxWidth: 324,
+        zIndex: zIndex.헤더,
       });
 
       if (result) {
