@@ -17,7 +17,7 @@ interface ConfirmOptions {
   okButtonColor?: string;
   okButtonTextColor?: string;
   zIndex?: number;
-  maxWidth?: number;
+  width?: number;
 }
 
 const useCustomConfirm = () => {
@@ -101,13 +101,13 @@ const StyledBackground = styled.div<{ zIndex?: number }>`
   height: 100%;
 `;
 
-const StyledModalContainer = styled.div<{ maxWidth?: number }>`
+const StyledModalContainer = styled.div<{ width?: number }>`
   position: relative;
   margin:36px;
   border-radius: 22px;
   box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
   background: ${colors.gray800};
-  width: ${({ maxWidth }) => maxWidth|| 400}px;
+  width: ${({ width }) => width|| 400}px;
   overflow: hidden; 
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 324px;

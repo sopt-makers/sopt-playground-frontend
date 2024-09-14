@@ -110,7 +110,7 @@ const MessageModal: FC<MessageModalProps> = ({
         okButtonText: '전송하기',
         cancelButtonText: '돌아가기',
         zIndex: zIndex.헤더+102,
-        maxWidth: 400,
+        width: 400,
       });
     try {
       if (!selectedCategory) {
