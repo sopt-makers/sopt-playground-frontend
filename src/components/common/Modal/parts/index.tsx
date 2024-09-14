@@ -25,7 +25,7 @@ export const ModalDescription = styled.div`
 
 export const ModalFooter = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizontal' | 'vertical' }>`
   display: grid;
-  margin-top: 36px;
+  margin-top: 24px;
 
   ${(props) =>
     props.stack !== 'vertical' &&
@@ -53,6 +53,5 @@ export const ModalFooter = styled.div<{ align: 'left' | 'right' | 'stretch'; sta
 
     @media ${MOBILE_MEDIA_QUERY} {
     grid-auto-columns: minmax(10px, 1fr);
-    margin-top: 24px;
   }
 `;
