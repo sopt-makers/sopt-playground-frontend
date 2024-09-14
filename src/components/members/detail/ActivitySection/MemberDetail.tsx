@@ -9,7 +9,6 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
@@ -31,6 +30,8 @@ import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import useEnterScreen from '@/hooks/useEnterScreen';
 import { useRunOnce } from '@/hooks/useRunOnce';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
+import IconMore from '@/public/icons/icon-dots-vertical.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
@@ -147,7 +148,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </ContactWrapper>
           </ProfileContents>
 
-          {profile.isMine && (
+          {profile.isMine ? (
             <EditButton
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
@@ -156,6 +157,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             >
               <EditIcon />
             </EditButton>
+          ) : (
+            <MoreIconContainer>
+              <StyledIconMore />
+            </MoreIconContainer>
           )}
         </ProfileContainer>
 
@@ -423,7 +428,7 @@ const EditButton = styled.div`
 const NameWrapper = styled.div`
   display: flex;
   gap: 12px;
-  align-items: flex-end;
+  align-items: center;
 
   .name {
     line-height: 100%;
@@ -624,5 +629,26 @@ const IconContainer = styled.div`
       width: 19px;
       height: 19px;
     }
+  }
+`;
+
+const MoreIconContainer = styled.div`
+  width: 100%;
+  height: 171px;
+  text-align: right;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: auto;
+  }
+`;
+
+const StyledIconMore = styled(IconMore)`
+  cursor: pointer;
+  padding-top: 12px;
+  width: 24px;
+  height: 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-top: 4px;
   }
 `;
