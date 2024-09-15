@@ -21,7 +21,7 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
       {/* <Title>makers 5기 지원이 시작되었어요.</Title> */}
       {/* <Title>현재 35기 SOPT makers 팀 모집이 진행 중이에요!</Title> */}
       <Title>현재 makers 35기 진행 중이에요. 36기에서 만나요!</Title>
-      <SubTitle>35기 모집은 2025년 1-2월 중에 진행될 예정이에요.</SubTitle>
+      <SubTitle>36기 모집은 2025년 1-2월 중에 진행될 예정이에요.</SubTitle>
       {/* <SubTitle>35기 모집은 2024년 7월 31일 수요일부터 8월 7일 수요일 23:59까지 진행될 예정이에요.</SubTitle> */}
       <ButtonGroup>
         {/* MEMO: 5기 모집 알림 신청시에 다시 주석 해제 */}
