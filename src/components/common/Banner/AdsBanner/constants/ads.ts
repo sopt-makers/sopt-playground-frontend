@@ -40,13 +40,13 @@ export const ADS = [
       'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/%E1%84%81%E1%85%AE%E1%84%86%E1%85%AE%E1%86%AF%E1%84%81%E1%85%AE%E1%86%B7_PC+(1).png',
     url: 'https://www.instagram.com/kumulkum_official/',
   },
-  // {
-  //   // 터닝
-  //   id: 6,
-  //   moImage:
-  //     'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/terning_mobile+%E1%84%87%E1%85%A2%E1%84%82%E1%85%A5.png',
-  //   pcImage:
-  //     'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/terning_pc+%E1%84%87%E1%85%A2%E1%84%82%E1%85%A5.png',
-  //   url: 'https://terning.framer.website/',
-  // },
+  {
+    // 터닝
+    id: 6,
+    moImage:
+      'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/terning_mobile+%E1%84%87%E1%85%A2%E1%84%82%E1%85%A5.png',
+    pcImage:
+      'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/terning_pc+%E1%84%87%E1%85%A2%E1%84%82%E1%85%A5.png',
+    url: 'https://terning.framer.website/',
+  },
 ];
