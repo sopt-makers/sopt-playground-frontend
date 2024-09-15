@@ -27,6 +27,7 @@ import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
+import { useBlockMember } from '@/components/members/hooks/useBlockMember';
 import { useReportMember } from '@/components/members/hooks/useReportMember';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
@@ -114,6 +115,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   }, []);
 
   const { handleReportMember } = useReportMember();
+  const { handleBlockMember } = useBlockMember();
 
   if (profileError?.response?.status === 400 || (axios.isAxiosError(crewError) && crewError.response?.status === 400)) {
     return <EmptyProfile />;
@@ -191,7 +193,14 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 >
                   신고
                 </FeedDropdown.Item>
-                <FeedDropdown.Item type='danger'>차단</FeedDropdown.Item>
+                <FeedDropdown.Item
+                  type='danger'
+                  onClick={() => {
+                    handleBlockMember(safeParseInt(memberId) ?? undefined);
+                  }}
+                >
+                  차단
+                </FeedDropdown.Item>
               </FeedDropdown>
             </MoreIconContainer>
           )}
