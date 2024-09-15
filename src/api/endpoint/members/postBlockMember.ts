@@ -17,7 +17,6 @@ export const postBlockMember = createEndpoint({
 });
 
 export const usePostBlockMemberMutation = () => {
-  console.log('in hook');
   return useMutation({
     mutationFn: (requestBody: RequestBody) => postBlockMember.request(requestBody),
   });
