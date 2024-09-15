@@ -27,6 +27,7 @@ import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
+import { useReportMember } from '@/components/members/hooks/useReportMember';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import useEnterScreen from '@/hooks/useEnterScreen';
@@ -112,6 +113,8 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     window.addEventListener('resize', resizeMenuWidth);
   }, []);
 
+  const { handleReportMember } = useReportMember();
+
   if (profileError?.response?.status === 400 || (axios.isAxiosError(crewError) && crewError.response?.status === 400)) {
     return <EmptyProfile />;
   }
@@ -181,7 +184,13 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           ) : (
             <MoreIconContainer>
               <FeedDropdown trigger={<StyledIconMore />} style={dropdownOpenStyle}>
-                <FeedDropdown.Item>신고</FeedDropdown.Item>
+                <FeedDropdown.Item
+                  onClick={() => {
+                    handleReportMember(safeParseInt(memberId) ?? undefined);
+                  }}
+                >
+                  신고
+                </FeedDropdown.Item>
                 <FeedDropdown.Item type='danger'>차단</FeedDropdown.Item>
               </FeedDropdown>
             </MoreIconContainer>
