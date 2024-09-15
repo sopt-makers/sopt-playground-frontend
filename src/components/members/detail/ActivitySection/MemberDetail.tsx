@@ -9,7 +9,7 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { FC, useMemo } from 'react';
+import { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
 
 import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -18,6 +18,7 @@ import Loading from '@/components/common/Loading';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import MemberMeetingCard from '@/components/members/detail/ActivitySection/MemberMeetingCard';
 import MemberProjectCard from '@/components/members/detail/ActivitySection/MemberProjectCard';
@@ -60,6 +61,13 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     },
   });
 
+  const [dropdownOpenStyle, setDropdownOpenStyle] = useState<CSSProperties>({
+    position: 'absolute',
+    right: '-12px',
+    top: '10px',
+    minWidth: '133px',
+  });
+
   const {
     data: profile,
     isLoading,
@@ -90,6 +98,19 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
       });
     }
   }, [profile, memberId]);
+
+  useEffect(() => {
+    const resizeMenuWidth = () => {
+      setDropdownOpenStyle((prevStyle) => ({
+        ...prevStyle,
+        minWidth: window.innerWidth <= 768 ? '100px' : '133px',
+      }));
+    };
+
+    resizeMenuWidth();
+
+    window.addEventListener('resize', resizeMenuWidth);
+  }, []);
 
   if (profileError?.response?.status === 400 || (axios.isAxiosError(crewError) && crewError.response?.status === 400)) {
     return <EmptyProfile />;
@@ -159,7 +180,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </EditButton>
           ) : (
             <MoreIconContainer>
-              <StyledIconMore />
+              <FeedDropdown trigger={<StyledIconMore />} style={dropdownOpenStyle}>
+                <FeedDropdown.Item>신고</FeedDropdown.Item>
+                <FeedDropdown.Item type='danger'>차단</FeedDropdown.Item>
+              </FeedDropdown>
             </MoreIconContainer>
           )}
         </ProfileContainer>
@@ -633,6 +657,7 @@ const IconContainer = styled.div`
 `;
 
 const MoreIconContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 171px;
   text-align: right;
