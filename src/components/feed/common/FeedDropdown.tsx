@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { m } from 'framer-motion';
@@ -10,14 +11,20 @@ const DropdownPortal = dynamic(() => import('@radix-ui/react-dropdown-menu').the
 
 interface FeedDropdownProps {
   trigger?: ReactNode;
+  style?: React.CSSProperties;
 }
 
-const Base = ({ trigger, children }: PropsWithChildren<FeedDropdownProps>) => {
+const Base = ({ trigger, style, children }: PropsWithChildren<FeedDropdownProps>) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>{trigger}</DropdownMenu.Trigger>
       <DropdownPortal>
-        <StyledContent initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+        <StyledContent
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          style={style}
+        >
           {children}
         </StyledContent>
       </DropdownPortal>
