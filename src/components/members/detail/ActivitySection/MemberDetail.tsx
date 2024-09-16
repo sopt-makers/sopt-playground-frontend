@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconAlertTriangle, IconUserX } from '@sopt-makers/icons';
+import { Flex } from '@toss/emotion-utils';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
@@ -191,7 +193,10 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     handleReportMember(safeParseInt(memberId) ?? undefined);
                   }}
                 >
-                  신고
+                  <Flex align='center' css={{ gap: '4px', color: `${colors.gray10}` }}>
+                    <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                    신고
+                  </Flex>
                 </FeedDropdown.Item>
                 <FeedDropdown.Item
                   type='danger'
@@ -199,7 +204,9 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     handleBlockMember(safeParseInt(memberId) ?? undefined);
                   }}
                 >
-                  차단
+                  <Flex align='center' css={{ gap: '4px' }}>
+                    <IconUserX css={{ width: '16px', height: '16px' }} /> 차단
+                  </Flex>
                 </FeedDropdown.Item>
               </FeedDropdown>
             </MoreIconContainer>
