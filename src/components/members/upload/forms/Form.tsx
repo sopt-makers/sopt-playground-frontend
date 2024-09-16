@@ -34,7 +34,7 @@ export default function MemberForm({ type, children, onSubmit, isValid }: Member
           <MobileButton only='mobile'>
             <Button
               type='submit'
-              size='lg'
+              size='md'
               rounded='md'
               onClick={onSubmit}
               disabled={!isValid}

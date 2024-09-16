@@ -6247,6 +6247,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sopt-makers/icons@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@sopt-makers/icons@npm:1.0.5"
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 6dbaa9748508adb4fa21042789c0a2c3a3c1c586e45355b76280cba0e30d2da0414c288605fa841b76b71dec993a2d2fcec5b26aaf2fd4d0c8be8cd2c99f01db
+  languageName: node
+  linkType: hard
+
 "@sopt-makers/playground-common@workspace:playground-common":
   version: 0.0.0-use.local
   resolution: "@sopt-makers/playground-common@workspace:playground-common"
@@ -19737,6 +19746,7 @@ __metadata:
     "@radix-ui/react-tooltip": ^1.0.5
     "@sopt-makers/colors": ^3.0.0
     "@sopt-makers/fonts": ^1.0.0
+    "@sopt-makers/icons": ^1.0.5
     "@sopt-makers/ui": ^2.0.6
     "@storybook/addon-actions": ^7.0.23
     "@storybook/addon-docs": ^7.0.23

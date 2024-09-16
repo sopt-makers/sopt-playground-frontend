@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -260,23 +261,25 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                         });
                         await router.push(playgroundLink.groupList());
                       }}
+                      LeftIcon={IconPlus}
                       style={{ marginTop: '24px' }}
                     >
-                      + 내 프로젝트 올리기
+                      내 프로젝트 올리기
                     </Button>
                   </Responsive>
                   <MobileButton only='mobile'>
                     <Button
-                      size='lg'
+                      size='md'
                       onClick={async () => {
                         logClickEvent('projectUpload', {
                           referral: 'myPage',
                         });
                         await router.push(playgroundLink.groupList());
                       }}
+                      LeftIcon={IconPlus}
                       style={{ marginTop: '50px', width: '100%' }}
                     >
-                      + 내 프로젝트 올리기
+                      내 프로젝트 올리기
                     </Button>
                   </MobileButton>
                   <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
@@ -322,7 +325,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                   </Responsive>
                   <MobileButton only='mobile'>
                     <Button
-                      size='lg'
+                      size='md'
                       onClick={() => router.push(playgroundLink.groupList())}
                       style={{ marginTop: '50px', width: '100%' }}
                     >

@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { FC, MouseEvent } from 'react';
-
-import IconSend from '@/public/icons/icon-send.svg';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { IconSend } from '@sopt-makers/icons';
 import { Tag } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
+import { FC, MouseEvent } from 'react';
+
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
 
 interface MessageButtonProps {
   className?: string;

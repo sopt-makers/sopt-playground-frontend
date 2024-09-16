@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconSend } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 
 import useModalState from '@/components/common/Modal/useModalState';
@@ -41,7 +42,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
             size='md'
             rounded='md'
             onClick={handleClickMessageButton}
-            LeftIcon={() => <SendIcon disabled={isEmptyEmail} />}
+            LeftIcon={IconSend}
             disabled={isEmptyEmail}
             style={{ width: '100%' }}
           >
@@ -49,13 +50,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
           </Button>
         </Responsive>
         <Responsive only='desktop'>
-          <Button
-            size='sm'
-            rounded='lg'
-            onClick={handleClickMessageButton}
-            LeftIcon={() => <SendIcon disabled={isEmptyEmail} />}
-            disabled={isEmptyEmail}
-          >
+          <Button size='md' rounded='lg' onClick={handleClickMessageButton} LeftIcon={IconSend} disabled={isEmptyEmail}>
             궁금한 점 질문해보기
           </Button>
         </Responsive>

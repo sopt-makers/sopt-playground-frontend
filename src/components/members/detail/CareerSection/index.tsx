@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { IconWrite } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -84,7 +85,7 @@ export default function CareerSection({
               size='md'
               rounded='md'
               onClick={() => router.push(playgroundLink.feedUpload())}
-              LeftIcon={() => <WriteIcon src='/icons/icon-pencil-simple.svg' />}
+              LeftIcon={IconWrite}
               style={{ width: '100%' }}
             >
               직무 경험 SOPT와 공유하기
@@ -92,10 +93,10 @@ export default function CareerSection({
           </Responsive>
           <Responsive only='desktop'>
             <Button
-              size='sm'
+              size='md'
               rounded='lg'
               onClick={() => router.push(playgroundLink.feedUpload())}
-              LeftIcon={() => <WriteIcon src='/icons/icon-pencil-simple.svg' />}
+              LeftIcon={IconWrite}
             >
               직무 경험 SOPT와 공유하기
             </Button>
