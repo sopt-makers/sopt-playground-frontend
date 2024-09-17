@@ -193,7 +193,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     handleReportMember(safeParseInt(memberId) ?? undefined);
                   }}
                 >
-                  <Flex align='center' css={{ gap: '4px', color: `${colors.gray10}` }}>
+                  <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
                     <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
                     신고
                   </Flex>
@@ -204,7 +204,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                     handleBlockMember(safeParseInt(memberId) ?? undefined);
                   }}
                 >
-                  <Flex align='center' css={{ gap: '4px' }}>
+                  <Flex align='center' css={{ gap: '10px' }}>
                     <IconUserX css={{ width: '16px', height: '16px' }} /> 차단
                   </Flex>
                 </FeedDropdown.Item>
