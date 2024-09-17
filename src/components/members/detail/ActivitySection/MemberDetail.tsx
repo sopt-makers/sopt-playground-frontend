@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { IconAlertTriangle, IconUserX } from '@sopt-makers/icons';
 import { Flex } from '@toss/emotion-utils';
 import axios from 'axios';
@@ -149,13 +150,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             )}
           </ImageSection>
           <ProfileContents>
-            <div>
-              <NameWrapper>
-                <div className='name'>{profile.name}</div>
-                <div className='part'>{uniq(profile.soptActivities.map(({ part }) => part)).join('/')}</div>
-              </NameWrapper>
-              <div className='intro'>{profile.introduction}</div>
-            </div>
+            <NameWrapper>
+              <div className='name'>{profile.name}</div>
+              <div className='part'>{uniq(profile.soptActivities.map(({ part }) => part)).join('/')}</div>
+            </NameWrapper>
+            <div className='intro'>{profile.introduction}</div>
             <ContactWrapper shouldDivide={!!profile.phone && !!profile.email}>
               {profile.phone && (
                 <Link passHref href={`tel:${profile.phone}`} legacyBehavior>
@@ -417,8 +416,8 @@ const ProfileImage = styled(ResizedImage)`
   object-fit: cover;
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 20px;
-    width: 78px;
-    height: 78px;
+    width: 100px;
+    height: 100px;
   }
 `;
 
@@ -426,21 +425,23 @@ const ProfileContents = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
   height: 128px;
 
   .intro {
-    margin-top: 15px;
-    line-height: 100%;
+    margin-top: 16px;
     color: #c0c5c9;
-    font-size: 18px;
+    ${fonts.BODY_16_M}
+
     @media ${MOBILE_MEDIA_QUERY} {
-      margin-top: 14px;
-      font-size: 14px;
+      margin-top: 8px;
+
+      ${fonts.BODY_14_M}
     }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 8px;
+    width: 171px;
     height: auto;
   }
 `;
@@ -480,22 +481,26 @@ const NameWrapper = styled.div`
   align-items: center;
 
   .name {
-    line-height: 100%;
-    white-space: nowrap;
-    font-size: 36px;
-    font-weight: 700;
+    ${fonts.HEADING_32_B}
     @media ${MOBILE_MEDIA_QUERY} {
-      font-size: 24px;
+      ${fonts.HEADING_24_B}
     }
   }
 
   .part {
-    line-height: 100%;
     color: #808388;
-    font-size: 16px;
+    ${fonts.BODY_16_M}
+
     @media ${MOBILE_MEDIA_QUERY} {
-      font-size: 14px;
+      ${fonts.BODY_14_M}
     }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: flex-start;
   }
 `;
 
@@ -509,6 +514,7 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
     display: flex;
     gap: 4px;
     align-items: center;
+
     @media ${MOBILE_MEDIA_QUERY} {
       gap: 7px;
     }
@@ -526,6 +532,11 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
     }
   }
 
+  .email {
+    max-width: 140px;
+    overflow: visible;
+  }
+
   svg {
     width: 20px;
     height: auto;
@@ -534,7 +545,7 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     gap: 4px;
-    margin-top: 28px;
+    margin-top: 16px;
   }
 `;
 
@@ -683,11 +694,12 @@ const IconContainer = styled.div`
 
 const MoreIconContainer = styled.div`
   position: relative;
-  width: 100%;
+  width: auto;
   height: 171px;
   text-align: right;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
     height: auto;
   }
 `;
