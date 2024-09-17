@@ -112,9 +112,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
       }));
     };
 
-    resizeMenuWidth();
-
     window.addEventListener('resize', resizeMenuWidth);
+
+    return () => {
+      window.removeEventListener('resize', resizeMenuWidth);
+    };
   }, []);
 
   const { handleReportMember } = useReportMember();
