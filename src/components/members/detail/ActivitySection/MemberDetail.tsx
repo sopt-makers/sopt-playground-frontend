@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconAlertTriangle, IconUserX } from '@sopt-makers/icons';
-import { Flex } from '@toss/emotion-utils';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
@@ -11,7 +9,8 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { FC, useMemo } from 'react';
 
 import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -20,7 +19,6 @@ import Loading from '@/components/common/Loading';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import MemberMeetingCard from '@/components/members/detail/ActivitySection/MemberMeetingCard';
 import MemberProjectCard from '@/components/members/detail/ActivitySection/MemberProjectCard';
@@ -29,14 +27,10 @@ import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
-import { useBlockMember } from '@/components/members/hooks/useBlockMember';
-import { useReportMember } from '@/components/members/hooks/useReportMember';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import useEnterScreen from '@/hooks/useEnterScreen';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
-import IconMore from '@/public/icons/icon-dots-vertical.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
@@ -63,13 +57,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     onEnter: () => {
       fetchNextPage();
     },
-  });
-
-  const [dropdownOpenStyle, setDropdownOpenStyle] = useState<CSSProperties>({
-    position: 'absolute',
-    right: '-12px',
-    top: '10px',
-    minWidth: '133px',
   });
 
   const {
@@ -102,22 +89,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
       });
     }
   }, [profile, memberId]);
-
-  useEffect(() => {
-    const resizeMenuWidth = () => {
-      setDropdownOpenStyle((prevStyle) => ({
-        ...prevStyle,
-        minWidth: window.innerWidth <= 768 ? '100px' : '133px',
-      }));
-    };
-
-    resizeMenuWidth();
-
-    window.addEventListener('resize', resizeMenuWidth);
-  }, []);
-
-  const { handleReportMember } = useReportMember();
-  const { handleBlockMember } = useBlockMember();
 
   if (profileError?.response?.status === 400 || (axios.isAxiosError(crewError) && crewError.response?.status === 400)) {
     return <EmptyProfile />;
@@ -176,7 +147,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </ContactWrapper>
           </ProfileContents>
 
-          {profile.isMine ? (
+          {profile.isMine && (
             <EditButton
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
@@ -185,31 +156,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             >
               <EditIcon />
             </EditButton>
-          ) : (
-            <MoreIconContainer>
-              <FeedDropdown trigger={<StyledIconMore />} style={dropdownOpenStyle}>
-                <FeedDropdown.Item
-                  onClick={() => {
-                    handleReportMember(safeParseInt(memberId) ?? undefined);
-                  }}
-                >
-                  <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-                    <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
-                    신고
-                  </Flex>
-                </FeedDropdown.Item>
-                <FeedDropdown.Item
-                  type='danger'
-                  onClick={() => {
-                    handleBlockMember(safeParseInt(memberId) ?? undefined);
-                  }}
-                >
-                  <Flex align='center' css={{ gap: '10px' }}>
-                    <IconUserX css={{ width: '16px', height: '16px' }} /> 차단
-                  </Flex>
-                </FeedDropdown.Item>
-              </FeedDropdown>
-            </MoreIconContainer>
           )}
         </ProfileContainer>
 
@@ -477,7 +423,7 @@ const EditButton = styled.div`
 const NameWrapper = styled.div`
   display: flex;
   gap: 12px;
-  align-items: center;
+  align-items: flex-end;
 
   .name {
     line-height: 100%;
@@ -678,27 +624,5 @@ const IconContainer = styled.div`
       width: 19px;
       height: 19px;
     }
-  }
-`;
-
-const MoreIconContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 171px;
-  text-align: right;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    height: auto;
-  }
-`;
-
-const StyledIconMore = styled(IconMore)`
-  cursor: pointer;
-  padding-top: 12px;
-  width: 24px;
-  height: 24px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding-top: 4px;
   }
 `;

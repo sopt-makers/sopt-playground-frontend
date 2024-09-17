@@ -10,20 +10,14 @@ const DropdownPortal = dynamic(() => import('@radix-ui/react-dropdown-menu').the
 
 interface FeedDropdownProps {
   trigger?: ReactNode;
-  style?: React.CSSProperties;
 }
 
-const Base = ({ trigger, style, children }: PropsWithChildren<FeedDropdownProps>) => {
+const Base = ({ trigger, children }: PropsWithChildren<FeedDropdownProps>) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>{trigger}</DropdownMenu.Trigger>
       <DropdownPortal>
-        <StyledContent
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          style={style}
-        >
+        <StyledContent initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
           {children}
         </StyledContent>
       </DropdownPortal>
