@@ -1,18 +1,18 @@
 export const ADS = [
-  {
-    // 코드잇 1차
-    id: 1,
-    moImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1000059924.png',
-    pcImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1000059925.png',
-    url: 'https://sprint.codeit.kr/track/frontend-advanced?utm_source=SOPT&utm_medium=partnership&utm_content=frontend-adv',
-  },
   // {
-  //   // 코드잇 2차
-  //   id: 2,
-  //   moImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1000059927.png',
-  //   pcImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1000059926.png',
-  //   url: 'https://sprint.codeit.kr/track/frontend?utm_source=SOPT&utm_medium=partnership&utm_content=frontend',
+  //   // 코드잇 1차
+  //   id: 1,
+  //   moImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1000059924.png',
+  //   pcImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1000059925.png',
+  //   url: 'https://sprint.codeit.kr/track/frontend-advanced?utm_source=SOPT&utm_medium=partnership&utm_content=frontend-adv',
   // },
+  {
+    // 코드잇 2차
+    id: 2,
+    moImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1000059927.png',
+    pcImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1000059926.png',
+    url: 'https://sprint.codeit.kr/track/frontend?utm_source=SOPT&utm_medium=partnership&utm_content=frontend',
+  },
   {
     // 마일
     id: 3,
