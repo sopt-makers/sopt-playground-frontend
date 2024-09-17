@@ -1,4 +1,5 @@
 import { colors } from '@sopt-makers/colors';
+import { useToast } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
@@ -15,6 +16,7 @@ interface Options {
 export const useDeleteComment = () => {
   const { mutate } = useDeleteCommentMutation();
   const { confirm } = useConfirm();
+  const { open } = useToast();
   const queryClient = useQueryClient();
 
   const handleDeleteComment = useCallback(
@@ -32,14 +34,20 @@ export const useDeleteComment = () => {
 
       if (result) {
         mutate(options.commentId, {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
+
+            open({
+              icon: 'success',
+              content: '삭제가 완료되었어요.',
+            });
+
             options.onSuccess?.();
           },
         });
       }
     },
-    [confirm, mutate],
+    [confirm, mutate, open],
   );
 
   return { handleDeleteComment };

@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { IconAlertTriangle, IconUserX } from '@sopt-makers/icons';
+import { Flex } from '@toss/emotion-utils';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { uniq } from 'lodash-es';
@@ -9,8 +12,7 @@ import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
-import { FC, useMemo } from 'react';
+import { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
 
 import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -19,6 +21,7 @@ import Loading from '@/components/common/Loading';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import MemberMeetingCard from '@/components/members/detail/ActivitySection/MemberMeetingCard';
 import MemberProjectCard from '@/components/members/detail/ActivitySection/MemberProjectCard';
@@ -27,10 +30,14 @@ import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import InfoItem from '@/components/members/detail/InfoItem';
 import InterestSection from '@/components/members/detail/InterestSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
+import { useBlockMember } from '@/components/members/hooks/useBlockMember';
+import { useReportMember } from '@/components/members/hooks/useReportMember';
 import { DEFAULT_DATE } from '@/components/members/upload/constants';
 import { playgroundLink } from '@/constants/links';
 import useEnterScreen from '@/hooks/useEnterScreen';
 import { useRunOnce } from '@/hooks/useRunOnce';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
+import IconMore from '@/public/icons/icon-dots-vertical.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { safeParseInt } from '@/utils';
@@ -90,6 +97,9 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     }
   }, [profile, memberId]);
 
+  const { handleReportMember } = useReportMember();
+  const { handleBlockMember } = useBlockMember();
+
   if (profileError?.response?.status === 400 || (axios.isAxiosError(crewError) && crewError.response?.status === 400)) {
     return <EmptyProfile />;
   }
@@ -120,13 +130,11 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             )}
           </ImageSection>
           <ProfileContents>
-            <div>
-              <NameWrapper>
-                <div className='name'>{profile.name}</div>
-                <div className='part'>{uniq(profile.soptActivities.map(({ part }) => part)).join('/')}</div>
-              </NameWrapper>
-              <div className='intro'>{profile.introduction}</div>
-            </div>
+            <NameWrapper>
+              <div className='name'>{profile.name}</div>
+              <div className='part'>{uniq(profile.soptActivities.map(({ part }) => part)).join('/')}</div>
+            </NameWrapper>
+            <div className='intro'>{profile.introduction}</div>
             <ContactWrapper shouldDivide={!!profile.phone && !!profile.email}>
               {profile.phone && (
                 <Link passHref href={`tel:${profile.phone}`} legacyBehavior>
@@ -147,7 +155,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </ContactWrapper>
           </ProfileContents>
 
-          {profile.isMine && (
+          {profile.isMine ? (
             <EditButton
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
@@ -156,6 +164,31 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             >
               <EditIcon />
             </EditButton>
+          ) : (
+            <MoreIconContainer>
+              <FeedDropdown trigger={<StyledIconMore />}>
+                <FeedDropdown.Item
+                  onClick={() => {
+                    handleReportMember(safeParseInt(memberId) ?? undefined);
+                  }}
+                >
+                  <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                    <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                    신고
+                  </Flex>
+                </FeedDropdown.Item>
+                <FeedDropdown.Item
+                  type='danger'
+                  onClick={() => {
+                    handleBlockMember(safeParseInt(memberId) ?? undefined);
+                  }}
+                >
+                  <Flex align='center' css={{ gap: '10px' }}>
+                    <IconUserX css={{ width: '16px', height: '16px' }} /> 차단
+                  </Flex>
+                </FeedDropdown.Item>
+              </FeedDropdown>
+            </MoreIconContainer>
           )}
         </ProfileContainer>
 
@@ -363,8 +396,8 @@ const ProfileImage = styled(ResizedImage)`
   object-fit: cover;
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 20px;
-    width: 78px;
-    height: 78px;
+    width: 100px;
+    height: 100px;
   }
 `;
 
@@ -372,21 +405,23 @@ const ProfileContents = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
   height: 128px;
 
   .intro {
-    margin-top: 15px;
-    line-height: 100%;
+    margin-top: 16px;
     color: #c0c5c9;
-    font-size: 18px;
+    ${fonts.BODY_16_M}
+
     @media ${MOBILE_MEDIA_QUERY} {
-      margin-top: 14px;
-      font-size: 14px;
+      margin-top: 8px;
+
+      ${fonts.BODY_14_M}
     }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 8px;
+    width: 171px;
     height: auto;
   }
 `;
@@ -423,25 +458,29 @@ const EditButton = styled.div`
 const NameWrapper = styled.div`
   display: flex;
   gap: 12px;
-  align-items: flex-end;
+  align-items: center;
 
   .name {
-    line-height: 100%;
-    white-space: nowrap;
-    font-size: 36px;
-    font-weight: 700;
+    ${fonts.HEADING_32_B}
     @media ${MOBILE_MEDIA_QUERY} {
-      font-size: 24px;
+      ${fonts.HEADING_24_B}
     }
   }
 
   .part {
-    line-height: 100%;
     color: #808388;
-    font-size: 16px;
+    ${fonts.BODY_16_M}
+
     @media ${MOBILE_MEDIA_QUERY} {
-      font-size: 14px;
+      ${fonts.BODY_14_M}
     }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: flex-start;
   }
 `;
 
@@ -455,6 +494,7 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
     display: flex;
     gap: 4px;
     align-items: center;
+
     @media ${MOBILE_MEDIA_QUERY} {
       gap: 7px;
     }
@@ -472,6 +512,11 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
     }
   }
 
+  .email {
+    max-width: 140px;
+    overflow: visible;
+  }
+
   svg {
     width: 20px;
     height: auto;
@@ -480,7 +525,7 @@ const ContactWrapper = styled.div<{ shouldDivide: boolean }>`
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     gap: 4px;
-    margin-top: 28px;
+    margin-top: 16px;
   }
 `;
 
@@ -624,5 +669,28 @@ const IconContainer = styled.div`
       width: 19px;
       height: 19px;
     }
+  }
+`;
+
+const MoreIconContainer = styled.div`
+  position: relative;
+  width: auto;
+  height: 171px;
+  text-align: right;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+    height: auto;
+  }
+`;
+
+const StyledIconMore = styled(IconMore)`
+  cursor: pointer;
+  padding-top: 12px;
+  width: 24px;
+  height: 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-top: 4px;
   }
 `;

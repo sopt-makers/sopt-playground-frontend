@@ -1,4 +1,7 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { IconAlertTriangle, IconTrash } from '@sopt-makers/icons';
+import { Flex } from '@toss/emotion-utils';
 import { FC } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
@@ -53,12 +56,18 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                       })
                     }
                   >
-                    삭제
+                    <Flex align='center' css={{ gap: '10px' }}>
+                      <IconTrash css={{ width: '16px', height: '16px' }} />
+                      삭제
+                    </Flex>
                   </FeedDropdown.Item>
                 ) : null}
                 {!comment.isMine ? (
-                  <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
-                    신고
+                  <FeedDropdown.Item onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                    <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                      <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                      신고
+                    </Flex>
                   </FeedDropdown.Item>
                 ) : null}
               </FeedDropdown>
@@ -98,12 +107,18 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                       })
                     }
                   >
-                    삭제
+                    <Flex align='center' css={{ gap: '10px' }}>
+                      <IconTrash css={{ width: '16px', height: '16px' }} />
+                      삭제
+                    </Flex>
                   </FeedDropdown.Item>
                 ) : null}
                 {!comment.isMine ? (
                   <FeedDropdown.Item type='danger' onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
-                    신고
+                    <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                      <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                      신고
+                    </Flex>
                   </FeedDropdown.Item>
                 ) : null}
               </FeedDropdown>

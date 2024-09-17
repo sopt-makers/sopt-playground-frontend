@@ -1,4 +1,7 @@
+import { colors } from '@sopt-makers/colors';
+import { IconAlertTriangle, IconTrash, IconWrite } from '@sopt-makers/icons';
 import { useQueryClient } from '@tanstack/react-query';
+import { Flex } from '@toss/emotion-utils';
 import { ErrorBoundary } from '@toss/error-boundary';
 import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
@@ -75,30 +78,43 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
               }
             >
               {postData.isMine ? (
-                <Link href={playgroundLink.feedEdit(postId)}>
-                  <FeedDropdown.Item>수정</FeedDropdown.Item>
-                </Link>
-              ) : null}
-              {postData.isMine ? (
+                <>
+                  <Link href={playgroundLink.feedEdit(postId)}>
+                    <FeedDropdown.Item>
+                      <Flex align='center' css={{ gap: '10px', color: `${colors.gray10} ` }}>
+                        <IconWrite css={{ width: '16px', height: '16px' }} />
+                        수정
+                      </Flex>
+                    </FeedDropdown.Item>
+                  </Link>
+
+                  <FeedDropdown.Item
+                    type='danger'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteFeed({ postId });
+                    }}
+                  >
+                    <Flex align='center' css={{ gap: '10px' }}>
+                      <IconTrash css={{ width: '16px', height: '16px' }} />
+                      삭제
+                    </Flex>
+                  </FeedDropdown.Item>
+                </>
+              ) : (
                 <FeedDropdown.Item
                   type='danger'
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDeleteFeed({ postId });
+                    handleReportFeed({ postId });
                   }}
                 >
-                  삭제
+                  <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                    <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                    신고
+                  </Flex>
                 </FeedDropdown.Item>
-              ) : null}
-              <FeedDropdown.Item
-                type='danger'
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleReportFeed({ postId });
-                }}
-              >
-                신고
-              </FeedDropdown.Item>
+              )}
             </FeedDropdown>
           </>
         }

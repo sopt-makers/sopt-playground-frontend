@@ -1,3 +1,4 @@
+import { useToast } from '@sopt-makers/ui';
 import { useCallback } from 'react';
 
 import { usePostReportCommentMutation } from '@/api/endpoint/feed/postReportComment';
@@ -12,8 +13,8 @@ interface Options {
 
 export const useReportComment = () => {
   const { confirm } = useConfirm();
-  const { alert } = useAlert();
   const { mutate } = usePostReportCommentMutation();
+  const { open } = useToast();
 
   const handleReport = useCallback(
     async (options: Options) => {
@@ -28,17 +29,22 @@ export const useReportComment = () => {
       if (result) {
         mutate(options.commentId, {
           onSuccess: () => {
-            alert({
-              title: '신고해주셔서 감사해요',
-              description:
-                '메이커스에서 빠르게 검토 후 적절한 조치를 취할게요 :) 건전한 커뮤니티를 만드는데 기여해주셔서 감사해요!',
+            open({
+              icon: 'success',
+              content: '신고가 완료되었어요.\n건전한 커뮤니티를 함께 만들어주셔서 감사해요!',
+              style: {
+                content: {
+                  whiteSpace: 'pre-wrap',
+                },
+              },
             });
+
             options.onSuccess?.();
           },
         });
       }
     },
-    [confirm, alert, mutate],
+    [confirm, mutate, open],
   );
 
   return { handleReport };

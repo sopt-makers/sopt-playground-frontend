@@ -75,4 +75,8 @@ const StyleModalDescription = styled.div`
   line-height: 26px;
   white-space: pre-wrap;
   color: ${colors.gray100};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_14_R}
+  }
 `;
