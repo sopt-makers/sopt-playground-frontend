@@ -34,9 +34,7 @@ export const useBlockMember = () => {
         { blockedMemberId: memberId },
         {
           onSuccess: async () => {
-            queryClient.invalidateQueries({
-              predicate: (query) => query.queryKey.some((key) => String(key).includes('community')),
-            });
+            await queryClient.invalidateQueries();
             await router.push(playgroundLink.memberList());
 
             open({
