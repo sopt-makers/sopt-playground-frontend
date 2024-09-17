@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconAlertTriangle, IconShare, IconTrash, IconWrite } from '@sopt-makers/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
@@ -161,16 +160,10 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                         <FeedCard.Icon name='moreHorizon' />
                       </Flex>
                     }
-                    style={{ minWidth: '133px', position: 'relative', top: '10px', right: '52px' }}
                   >
                     {post.isMine ? (
                       <Link href={playgroundLink.feedEdit(post.id)}>
-                        <FeedDropdown.Item>
-                          <Flex align='center' css={{ gap: '10px', color: `${colors.gray10} ` }}>
-                            <IconWrite css={{ width: '16px', height: '16px' }} />
-                            수정
-                          </Flex>
-                        </FeedDropdown.Item>
+                        <FeedDropdown.Item>수정</FeedDropdown.Item>
                       </Link>
                     ) : null}
                     <LoggingClick eventKey='feedShareButton' param={{ feedId: String(post.id), referral: 'list' }}>
@@ -180,10 +173,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                           handleShareFeed(`${post.id}`);
                         }}
                       >
-                        <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-                          <IconShare css={{ width: '16px', height: '16px' }} />
-                          공유
-                        </Flex>
+                        공유
                       </FeedDropdown.Item>
                     </LoggingClick>
                     {post.isMine ? (
@@ -199,23 +189,18 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                         }}
                         type='danger'
                       >
-                        <Flex align='center' css={{ gap: '10px' }}>
-                          <IconTrash css={{ width: '16px', height: '16px' }} />
-                          삭제
-                        </Flex>
+                        삭제
                       </FeedDropdown.Item>
                     ) : null}
                     {!post.isMine ? (
                       <FeedDropdown.Item
+                        type='danger'
                         onClick={(e) => {
                           e.stopPropagation();
                           handleReport({ postId: `${post.id}` });
                         }}
                       >
-                        <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-                          <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
-                          신고
-                        </Flex>
+                        신고
                       </FeedDropdown.Item>
                     ) : null}
                   </FeedDropdown>
