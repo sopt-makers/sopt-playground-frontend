@@ -161,7 +161,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                         <FeedCard.Icon name='moreHorizon' />
                       </Flex>
                     }
-                    style={{ minWidth: '133px', position: 'relative', top: '10px', right: '52px' }}
                   >
                     {post.isMine ? (
                       <Link href={playgroundLink.feedEdit(post.id)}>

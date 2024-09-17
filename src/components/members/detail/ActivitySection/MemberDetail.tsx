@@ -66,13 +66,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     },
   });
 
-  const [dropdownOpenStyle, setDropdownOpenStyle] = useState<CSSProperties>({
-    position: 'absolute',
-    right: '-12px',
-    top: '10px',
-    minWidth: '133px',
-  });
-
   const {
     data: profile,
     isLoading,
@@ -103,21 +96,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
       });
     }
   }, [profile, memberId]);
-
-  useEffect(() => {
-    const resizeMenuWidth = () => {
-      setDropdownOpenStyle((prevStyle) => ({
-        ...prevStyle,
-        minWidth: window.innerWidth <= 768 ? '100px' : '133px',
-      }));
-    };
-
-    window.addEventListener('resize', resizeMenuWidth);
-
-    return () => {
-      window.removeEventListener('resize', resizeMenuWidth);
-    };
-  }, []);
 
   const { handleReportMember } = useReportMember();
   const { handleBlockMember } = useBlockMember();
@@ -188,7 +166,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             </EditButton>
           ) : (
             <MoreIconContainer>
-              <FeedDropdown trigger={<StyledIconMore />} style={dropdownOpenStyle}>
+              <FeedDropdown trigger={<StyledIconMore />}>
                 <FeedDropdown.Item
                   onClick={() => {
                     handleReportMember(safeParseInt(memberId) ?? undefined);

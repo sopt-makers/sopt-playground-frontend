@@ -4,6 +4,8 @@ import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import React, { PropsWithChildren, ReactNode } from 'react';
 
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+
 const DropdownPortal = dynamic(() => import('@radix-ui/react-dropdown-menu').then((mod) => mod.Portal), {
   ssr: false,
 });
@@ -32,10 +34,18 @@ const Base = ({ trigger, style, children }: PropsWithChildren<FeedDropdownProps>
 };
 
 const StyledContent = styled(m(DropdownMenu.Content))`
+  position: relative;
+  top: 10px;
+  right: 52px;
   z-index: 100;
   border-radius: 12px;
   background-color: #252525;
-  min-width: 176px;
+  min-width: 133px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    right: 12px;
+    min-width: 100px;
+  }
 `;
 
 interface ItemProps extends DropdownMenu.DropdownMenuItemProps {
