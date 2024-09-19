@@ -244,8 +244,9 @@ const StyledTagItem = styled.label<{ isSelected: boolean }>`
 const StyledTextArea = styled(TextArea)`
   border: 1px solid ${colors.gray800};
   background-color: ${colors.gray800};
+  padding: 11px 16px;
   width: 386px;
-  height: 198px;
+  height: 176px;
   line-height: 26px;
 
   @media ${MOBILE_MEDIA_QUERY} {
