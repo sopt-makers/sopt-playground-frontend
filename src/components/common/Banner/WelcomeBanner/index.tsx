@@ -72,7 +72,7 @@ const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
                     param={{ isAlreadySubmitted: isRegistration ?? false }}
                   >
                     <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
-                      NOW, 다짐하러 가기
+                      여러분의 다짐을 들려주세요
                     </ResolutionButton>
                   </LoggingClick>
                   {isOpenResolutionModal && (
@@ -135,7 +135,7 @@ const ResolutionButton = styled.button`
   justify-content: center;
   margin-bottom: 32px;
   border-radius: 100px;
-  background: linear-gradient(90deg, #effdb4 0%, #bdec00 100%);
+  background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
   padding: 10px 16px;
   color: ${colors.gray800};
   ${textStyles.SUIT_12_EB};
