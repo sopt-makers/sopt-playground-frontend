@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
+import { IconAlertCircle } from '@sopt-makers/icons';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import IconWarning from 'public/icons/icon-warning.svg';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -121,7 +121,7 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
         <TagErrorWrapper>
           {formState.errors?.tags && (
             <>
-              <IconWarning />
+              <StyledIconAlertCircle color={colors.error} />
               <TagErrorMessage>{formState.errors?.tags.message}</TagErrorMessage>
             </>
           )}
@@ -292,4 +292,9 @@ const TagErrorWrapper = styled.div`
 const TagErrorMessage = styled(Text)`
   color: ${colors.error};
   ${textStyles.SUIT_12_M}
+`;
+
+const StyledIconAlertCircle = styled(IconAlertCircle)`
+  width: 14px;
+  height: 14px;
 `;
