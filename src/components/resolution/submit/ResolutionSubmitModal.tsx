@@ -136,7 +136,7 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
             '(예시) 드디어 솝트 35기 시작! 이걸 보고 있다면 35기 종무식을 하고 있겠지?\n세미나 과제랑 스터디 진짜진짜 열심히 해서 많이 배우고, 앱잼 팀원과 좋은 프로덕트 꼭 만들어보자. 팟팅!'
           }
         />
-        <StyledButton isDisabled={!isValid}>
+        <StyledButton isDisabled={!isValid} isError={!formState.errors.content}>
           {isPending ? (
             <Loading color='white' />
           ) : (
@@ -258,12 +258,12 @@ const StyledTextArea = styled(TextArea)`
 
 const StyledInput = styled.input``;
 
-const StyledButton = styled.button<{ isDisabled: boolean }>`
+const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
-  margin-top: 40px;
+  margin-top: ${({ isError }) => (isError ? '40px' : '14px')};
   margin-bottom: 44px;
   border-radius: 12px;
   background: ${({ isDisabled }) =>
