@@ -263,7 +263,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
-  margin-top: 60px;
+  margin-top: 40px;
   margin-bottom: 44px;
   border-radius: 12px;
   background: ${({ isDisabled }) =>
