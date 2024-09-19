@@ -24,10 +24,10 @@ type BannerType = {
 };
 
 interface WelcomeBannerProp {
-  is34: boolean;
+  is35: boolean;
 }
 
-const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
+const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
   // 이미지 랜덤 생성을 위한 코드
   const [bannerVersion, setBannerVersion] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
@@ -62,7 +62,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
       <WelcomeBannerWrapper>
         {isMounted ? (
           <>
-            {is34 ? (
+            {is35 ? (
               <>
                 <ButtonWrapper>
                   <LoggingClick
