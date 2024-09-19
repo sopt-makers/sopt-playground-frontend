@@ -1,16 +1,16 @@
 import ProgressBar from '@badrap/bar-of-progress';
 import { colors } from '@sopt-makers/colors';
-import { ToastProvider as MDSToastProvider } from '@sopt-makers/ui';
+import { DialogProvider, ToastProvider as MDSToastProvider } from '@sopt-makers/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { OverlayProvider } from '@toss/use-overlay';
 import { LazyMotion } from 'framer-motion';
-import NextAdapterPages from 'next-query-params/pages';
-import { NextSeo } from 'next-seo';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
+import NextAdapterPages from 'next-query-params/pages';
+import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { QueryParamProvider } from 'use-query-params';
@@ -132,17 +132,19 @@ function MyApp({ Component, pageProps }: AppProps) {
               <SlidUpProvider>
                 <ToastProvider>
                   <MDSToastProvider>
-                    <GlobalStyle />
-                    <ResponsiveProvider>
-                      <OverlayProvider>
-                        <NavigationProvider>
-                          <Layout>
-                            <Component {...pageProps} />
-                          </Layout>
-                        </NavigationProvider>
-                      </OverlayProvider>
-                    </ResponsiveProvider>
-                    {DEBUG && <Debugger />}
+                    <DialogProvider>
+                      <GlobalStyle />
+                      <ResponsiveProvider>
+                        <OverlayProvider>
+                          <NavigationProvider>
+                            <Layout>
+                              <Component {...pageProps} />
+                            </Layout>
+                          </NavigationProvider>
+                        </OverlayProvider>
+                      </ResponsiveProvider>
+                      {DEBUG && <Debugger />}
+                    </DialogProvider>
                   </MDSToastProvider>
                 </ToastProvider>
               </SlidUpProvider>
