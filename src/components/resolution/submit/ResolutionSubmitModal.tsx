@@ -80,14 +80,14 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
           </EmptyProfileImage>
         )}
         <Text mt={30} typography='SUIT_24_B'>
-          SOPT 34기를 마친 나에게
+          SOPT 35기를 시작하며
         </Text>
-        <Text mt={10} typography='SUIT_14_M' color={colors.gray200}>
-          종무식을 맞이하고 있을 미래의 나를 상상하며 적어봐요!
-        </Text>
+        <Description mt={10} typography='SUIT_14_M' color={colors.gray200}>
+          {`솝트에 임하는 마음가짐을 적어주세요!\n보내주신 다짐은 종무식 때 다시 볼 수 있어요.`}
+        </Description>
         <TagTextWrapper>
           <Text typography='SUIT_14_M' color={colors.gray30}>
-            NOW SOPT에서 이루고 싶은 목표
+            어떤 목표를 이루고 싶나요?
           </Text>
           <Text typography='SUIT_14_M' color={colors.gray400}>
             (다중 선택 가능)
@@ -132,14 +132,16 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
           name='content'
           component={StyledTextArea}
           count={true}
-          placeholder='솝트에서 이루고 싶은 것, 현재의 다짐 등 34기 활동을 시작하는 스스로에게 하고 싶은 말을 자유롭게 적어주세요!'
+          placeholder={
+            '(예시) 드디어 솝트 35기 시작! 이걸 보고 있다면 35기 종무식을 하고 있겠지?\n세미나 과제랑 스터디 진짜진짜 열심히 해서 많이 배우고, 앱잼 팀원과 좋은 프로덕트 꼭 만들어보자. 팟팅!'
+          }
         />
         <StyledButton isDisabled={!isValid}>
           {isPending ? (
             <Loading color='white' />
           ) : (
             <Text typography='SUIT_14_SB' color={isValid ? colors.black : colors.gray500}>
-              미래의 나에게 편지 보내기
+              나의 다짐 보내기
             </Text>
           )}
         </StyledButton>
@@ -163,6 +165,12 @@ const StyledModal = styled(Modal)`
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 100%;
   }
+`;
+
+const Description = styled(Text)`
+  text-align: center;
+  line-height: 22px;
+  white-space: pre-wrap;
 `;
 
 const StyledForm = styled.form`
