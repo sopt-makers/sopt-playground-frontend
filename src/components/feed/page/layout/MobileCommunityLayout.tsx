@@ -4,8 +4,8 @@ import { FC, ReactNode } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
 import MenuEntryIcons from '@/components/feed/list/MenuEntryIcons/MenuEntryIcons';
-import { zIndex } from '@/styles/zIndex';
 import WordChainEntry from '@/components/wordchain/WordchainEntry/WordChainEntry';
+import { zIndex } from '@/styles/zIndex';
 
 interface MobileCommunityLayoutProps {
   isDetailOpen: boolean;
@@ -44,7 +44,7 @@ const Container = styled.div`
 `;
 
 const StyledMenuEntryIcons = styled(MenuEntryIcons)`
-  margin: 36px 0 10px;
+  margin: 24px 0 10px;
 `;
 
 const ListSlotBox = styled.div`
