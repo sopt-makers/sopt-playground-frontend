@@ -267,9 +267,9 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   margin-bottom: 44px;
   border-radius: 12px;
   background: ${({ isDisabled }) =>
-    isDisabled ? colors.gray800 : ' linear-gradient(90deg, #effdb4 0%, #bdec00 100%)'};
+    isDisabled ? colors.gray800 : ' linear-gradient(90deg, #8FC0FF 0%, #5BA3FF 100%)'};
   cursor: pointer;
-  padding: 14px 28px;
+  padding: 12px 20px;
 `;
 
 const TagTextWrapper = styled.div`
