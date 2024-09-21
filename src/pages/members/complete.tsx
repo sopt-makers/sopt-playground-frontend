@@ -16,7 +16,6 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
  * @desc 신규 프로필 등록 후 다짐 메시지를 유도하는 페이지입니다.
  */
-import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 const CompletePage: FC = () => {
@@ -63,7 +62,9 @@ const CompletePage: FC = () => {
                 router.push(playgroundLink.feedList());
               }}
             >
-              플레이그라운드 시작하기
+              <Text typography='SUIT_16_SB' color={colors.gray10}>
+                플레이그라운드 시작하기
+              </Text>
             </DefaultButton>
           </ButtonWrapper>
         </StyledCompletePage>
@@ -126,9 +127,6 @@ const DefaultButton = styled.button`
   padding: 12px 20px;
   width: fit-content;
   height: 48px;
-  color: ${colors.gray10};
-
-  ${textStyles.SUIT_16_SB};
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
