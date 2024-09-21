@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconChevronRight } from '@sopt-makers/icons';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ResolutionSubmitModal from '@/components/resolution/submit/ResolutionSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
@@ -14,7 +16,6 @@ import banner35Mobile2 from '@/public/icons/img/welcome-banner_35_mobile_ver2.gi
 import bannerOthersDesktop from '@/public/icons/img/welcome-banner_other_desktop.gif';
 import bannerOthersMobile from '@/public/icons/img/welcome-banner_other_mobile.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 type Banner35Type = {
   desktop: { [ver: number]: string };
@@ -72,7 +73,9 @@ const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
                     param={{ isAlreadySubmitted: isRegistration ?? false }}
                   >
                     <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
-                      여러분의 다짐을 들려주세요
+                      <Text color={colors.gray800} typography='SUIT_12_SB'>
+                        {'여러분의 다짐을 들려주세요 >'}
+                      </Text>
                     </ResolutionButton>
                   </LoggingClick>
                   {isOpenResolutionModal && (
@@ -137,8 +140,6 @@ const ResolutionButton = styled.button`
   border-radius: 100px;
   background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
   padding: 10px 16px;
-  color: ${colors.gray800};
-  ${textStyles.SUIT_12_EB};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 28px;
