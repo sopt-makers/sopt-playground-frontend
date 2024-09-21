@@ -67,20 +67,17 @@ const CompletePage: FC = () => {
                 size='lg'
                 theme='black'
               >
-                <Text typography='SUIT_18_SB' color={colors.gray10}>
-                  홈으로 가기
-                </Text>
+                홈으로 가기
               </Button>
               <Button
                 onClick={handleResolutionModalOpen}
                 size='lg'
                 style={{
                   background: 'linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%)',
+                  color: `${colors.black}`,
                 }}
               >
-                <Text typography='SUIT_18_SB' color={colors.black}>
-                  35기 다짐하러 가기
-                </Text>
+                35기 다짐하러 가기
               </Button>
               {isOpenResolutionModal && (
                 <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
@@ -98,9 +95,7 @@ const CompletePage: FC = () => {
                 size='lg'
                 theme='black'
               >
-                <Text typography='SUIT_18_SB' color={colors.gray10}>
-                  플레이그라운드 시작하기
-                </Text>
+                플레이그라운드 시작하기
               </Button>
             </BottomSection>
           )}
