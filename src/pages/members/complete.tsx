@@ -10,6 +10,7 @@ import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import CardBack from '@/components/members/upload/complete/CardBack';
 import MemberCardOfMe from '@/components/members/upload/complete/MemberCardOfMe';
 import ResolutionSubmitModal from '@/components/resolution/submit/ResolutionSubmitModal';
@@ -69,16 +70,18 @@ const CompletePage: FC = () => {
               >
                 홈으로 가기
               </Button>
-              <Button
-                onClick={handleResolutionModalOpen}
-                size='lg'
-                style={{
-                  background: 'linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%)',
-                  color: `${colors.black}`,
-                }}
-              >
-                35기 다짐하러 가기
-              </Button>
+              <LoggingClick eventKey='profileUploadResolution'>
+                <Button
+                  onClick={handleResolutionModalOpen}
+                  size='lg'
+                  style={{
+                    background: 'linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%)',
+                    color: `${colors.black}`,
+                  }}
+                >
+                  35기 다짐하러 가기
+                </Button>
+              </LoggingClick>
               {isOpenResolutionModal && (
                 <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
               )}
