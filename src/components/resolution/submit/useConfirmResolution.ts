@@ -23,9 +23,9 @@ export const useConfirmResolution = () => {
   const handleConfirmResolution = useCallback(
     async (options: Options) => {
       const result = await confirm({
-        title: '전송 후, 편지는 수정이 불가능해요!',
-        description: '한번 작성한 편지는 수정할 수 없고, 종무식 때 다시 열어볼 수 있어요. 신중히 전송해주세요!',
-        okButtonText: '그대로 전송하기',
+        title: '다짐을 보내시겠습니까?',
+        description: '한번 보낸 다짐은 수정할 수 없고, 종무식 때 다시 열어볼 수 있어요. 신중히 다짐해 주세요!',
+        okButtonText: '보내기',
         cancelButtonText: '취소',
         maxWidth: 400,
         zIndex: zIndex.헤더 + 101,
