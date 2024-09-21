@@ -29,7 +29,7 @@ export const useConfirmResolution = () => {
         cancelButtonText: '취소',
         maxWidth: 400,
         zIndex: zIndex.헤더 + 101,
-        okButtonColor: 'linear-gradient(90deg, #effdb4 0%, #bdec00 100%)',
+        okButtonColor: 'linear-gradient(90deg, #8FC0FF 0%, #5BA3FF 100%)',
         okButtonTextColor: colors.black,
       });
 
