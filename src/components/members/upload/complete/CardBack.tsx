@@ -1,14 +1,12 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
 
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import ResizedImage from '@/components/common/ResizedImage';
-import { LATEST_GENERATION } from '@/constants/generation';
 
-const CardBack: FC = () => {
-  const { data: myData } = useGetMemberOfMe();
-  const is35 = myData?.generation === LATEST_GENERATION;
+interface CardBackProps {
+  is35: boolean;
+}
 
+const CardBack = ({ is35 }: CardBackProps) => {
   const logoSrc = is35 ? '/logos/and-sopt.svg' : '/logos/logo-playground-full.svg';
   return (
     <MemberCard>

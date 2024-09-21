@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
@@ -29,6 +31,8 @@ const CompletePage: FC = () => {
       content: `${activity.generation}기 ${activity.part}`,
       isActive: activity.generation === LATEST_GENERATION,
     }));
+  const { data: myData } = useGetMemberOfMe();
+  const is35 = myData?.generation === LATEST_GENERATION;
 
   const { isOpenResolutionModal, onCloseResolutionModal, profileImage } = useOpenResolutionModal();
 
@@ -43,7 +47,7 @@ const CompletePage: FC = () => {
             <Text typography='SUIT_24_B'>프로필 등록 완료!</Text>
           </Responsive>
           <CardsWrapper>
-            <CardBack />
+            <CardBack is35={is35} />
             <MemberCardOfMe
               name={profile.name}
               belongs={belongs || ''}
@@ -52,21 +56,51 @@ const CompletePage: FC = () => {
               imageUrl={profile.profileImage}
             />
           </CardsWrapper>
-
-          <ButtonWrapper>
-            <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
-              솝트 구성원들의 이야기가 궁금하다면?
-            </Text>
-            <DefaultButton
-              onClick={() => {
-                router.push(playgroundLink.feedList());
-              }}
-            >
-              <Text typography='SUIT_16_SB' color={colors.gray10}>
-                플레이그라운드 시작하기
+          {is35 ? (
+            <ButtonWrapper>
+              <Button
+                onClick={() => {
+                  router.push(playgroundLink.feedList());
+                }}
+                size='lg'
+                theme='black'
+              >
+                <Text typography='SUIT_18_SB' color={colors.gray10}>
+                  홈으로 가기
+                </Text>
+              </Button>
+              <Button
+                onClick={() => {
+                  router.push(playgroundLink.feedList());
+                }}
+                size='lg'
+                style={{
+                  background: 'linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%)',
+                }}
+              >
+                <Text typography='SUIT_18_SB' color={colors.black}>
+                  35기 다짐하러 가기
+                </Text>
+              </Button>
+            </ButtonWrapper>
+          ) : (
+            <BottomSection>
+              <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
+                솝트 구성원들의 이야기가 궁금하다면?
               </Text>
-            </DefaultButton>
-          </ButtonWrapper>
+              <Button
+                onClick={() => {
+                  router.push(playgroundLink.feedList());
+                }}
+                size='lg'
+                theme='black'
+              >
+                <Text typography='SUIT_18_SB' color={colors.gray10}>
+                  플레이그라운드 시작하기
+                </Text>
+              </Button>
+            </BottomSection>
+          )}
         </StyledCompletePage>
       )}
     </AuthRequired>
@@ -122,7 +156,7 @@ const DefaultButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
   background-color: ${colors.gray700};
   padding: 12px 20px;
   width: fit-content;
@@ -133,11 +167,32 @@ const DefaultButton = styled.button`
   }
 `;
 
-const ButtonWrapper = styled.div`
+const ResolutionButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
+  padding: 12px 20px;
+  width: fit-content;
+  height: 48px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const BottomSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
   align-items: center;
   margin-top: 44px;
   width: 100%;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 56px;
 `;
