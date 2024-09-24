@@ -25,6 +25,7 @@ const SkeletonWrapper = styled(Skeleton)`
   padding: 16px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 16px;
     padding: 20px 16px;
     height: 80px;
   }

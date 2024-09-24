@@ -47,7 +47,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
       onClick={() => logClickEvent('wordchainEntry')}
       isBanner={isBanner}
     >
-      {isLoading || !wordList ? (
+      {!isLoading || !wordList ? (
         <WordchainSkeleton />
       ) : (
         <>
