@@ -97,7 +97,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
     }
   });
 
-  if (!isLoading) return <FeedSkeleton />;
+  if (isLoading) return <FeedSkeleton />;
 
   return (
     <>
@@ -258,7 +258,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
       <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
         {isError ? <AlertText>오류가 발생했어요.</AlertText> : null}
         {data != null && flattenData.length === 0 ? <AlertText>아직 작성된 글이 없어요(ㅠ_ㅠ)</AlertText> : null}
-        {isLoading ? <div>hi</div> : null}
       </div>
     </>
   );

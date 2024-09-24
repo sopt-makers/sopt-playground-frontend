@@ -12,10 +12,7 @@ import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
-import WordchainSkeleton, {
-  WordchainSkeletonDesktop,
-  WordchainSkeletonMobile,
-} from '@/components/wordchain/WordchainEntry/WordchainSkeleton';
+import WordchainSkeleton from '@/components/wordchain/WordchainEntry/WordchainSkeleton';
 import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
 import { playgroundLink } from '@/constants/links';
 import IconMessageChat from '@/public/icons/icon-message-chat.svg';
@@ -47,7 +44,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
       onClick={() => logClickEvent('wordchainEntry')}
       isBanner={isBanner}
     >
-      {!isLoading || !wordList ? (
+      {isLoading || !wordList ? (
         <WordchainSkeleton />
       ) : (
         <>

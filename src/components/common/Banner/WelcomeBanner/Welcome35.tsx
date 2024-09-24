@@ -7,7 +7,7 @@ const Welcome35 = () => {
   const { data: myData, isPending } = useGetMemberOfMe();
   const is35 = myData?.generation === LATEST_GENERATION;
 
-  if (!isPending) return <Skeleton height={168} margin='0 0 16px 0' />;
+  if (isPending) return <Skeleton height={168} margin='0 0 16px 0' />;
 
   return <WelcomeBanner is35={is35} />;
 };
