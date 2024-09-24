@@ -1,33 +1,36 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconChevronRight } from '@sopt-makers/icons';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ResolutionSubmitModal from '@/components/resolution/submit/ResolutionSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
-import desktop34Banner1 from '@/public/icons/img/banner_34_desktop_ver1.gif';
-import desktop34Banner2 from '@/public/icons/img/banner_34_desktop_ver2.gif';
-import mobile34Banner1 from '@/public/icons/img/banner_34_mobile_ver1.gif';
-import mobile34Banner2 from '@/public/icons/img/banner_34_mobile_ver2.gif';
-import desktopOthersBanner1 from '@/public/icons/img/banner_other_desktop_ver1.gif';
-import desktopOthersBanner2 from '@/public/icons/img/banner_other_desktop_ver2.gif';
-import mobileOthersBanner1 from '@/public/icons/img/banner_other_mobile_ver1.gif';
-import mobileOthersBanner2 from '@/public/icons/img/banner_other_mobile_ver2.gif';
+import banner35Desktop1 from '@/public/icons/img/welcome-banner_35_desktop_ver1.gif';
+import banner35Desktop2 from '@/public/icons/img/welcome-banner_35_desktop_ver2.gif';
+import banner35Mobile1 from '@/public/icons/img/welcome-banner_35_mobile_ver1.gif';
+import banner35Mobile2 from '@/public/icons/img/welcome-banner_35_mobile_ver2.gif';
+import bannerOthersDesktop from '@/public/icons/img/welcome-banner_other_desktop.gif';
+import bannerOthersMobile from '@/public/icons/img/welcome-banner_other_mobile.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
-type BannerType = {
+type Banner35Type = {
   desktop: { [ver: number]: string };
   mobile: { [ver: number]: string };
 };
+type BannerOthersType = {
+  desktop: string;
+  mobile: string;
+};
 
 interface WelcomeBannerProp {
-  is34: boolean;
+  is35: boolean;
 }
 
-const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
+const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
   // 이미지 랜덤 생성을 위한 코드
   const [bannerVersion, setBannerVersion] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
@@ -44,14 +47,14 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
     getRandomArbitrary();
   }, []);
 
-  const Welcome34Banner: BannerType = {
-    desktop: { 1: desktop34Banner1.src, 2: desktop34Banner2.src },
-    mobile: { 1: mobile34Banner1.src, 2: mobile34Banner2.src },
+  const Welcome35Banner: Banner35Type = {
+    desktop: { 1: banner35Desktop1.src, 2: banner35Desktop2.src },
+    mobile: { 1: banner35Mobile1.src, 2: banner35Mobile2.src },
   };
 
-  const WelcomeOthersBanner: BannerType = {
-    desktop: { 1: desktopOthersBanner1.src, 2: desktopOthersBanner2.src },
-    mobile: { 1: mobileOthersBanner1.src, 2: mobileOthersBanner2.src },
+  const WelcomeOthersBanner: BannerOthersType = {
+    desktop: bannerOthersDesktop.src,
+    mobile: bannerOthersMobile.src,
   };
 
   const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, profileImage, isRegistration } =
@@ -62,7 +65,7 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
       <WelcomeBannerWrapper>
         {isMounted ? (
           <>
-            {is34 ? (
+            {is35 ? (
               <>
                 <ButtonWrapper>
                   <LoggingClick
@@ -70,7 +73,9 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
                     param={{ isAlreadySubmitted: isRegistration ?? false }}
                   >
                     <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
-                      NOW, 다짐하러 가기
+                      <Text color={colors.gray800} typography='SUIT_12_SB'>
+                        {'여러분의 다짐을 들려주세요 >'}
+                      </Text>
                     </ResolutionButton>
                   </LoggingClick>
                   {isOpenResolutionModal && (
@@ -79,23 +84,20 @@ const WelcomeBanner = ({ is34 }: WelcomeBannerProp) => {
                 </ButtonWrapper>
                 <BannerWrapper>
                   <Responsive only='desktop'>
-                    <Banner src={Welcome34Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                    <Banner src={Welcome35Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
                   </Responsive>
                   <Responsive only='mobile'>
-                    <Banner src={Welcome34Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                    <Banner src={Welcome35Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
                   </Responsive>
                 </BannerWrapper>
               </>
             ) : (
               <BannerWrapper>
                 <Responsive only='desktop'>
-                  <Banner
-                    src={WelcomeOthersBanner.desktop[bannerVersion]}
-                    alt={`데스크탑 환영 배너 v${bannerVersion}`}
-                  />
+                  <Banner src={WelcomeOthersBanner.desktop} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
                 </Responsive>
                 <Responsive only='mobile'>
-                  <Banner src={WelcomeOthersBanner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                  <Banner src={WelcomeOthersBanner.mobile} alt={`모바일 환영 배너 v${bannerVersion}`} />
                 </Responsive>
               </BannerWrapper>
             )}
@@ -136,10 +138,8 @@ const ResolutionButton = styled.button`
   justify-content: center;
   margin-bottom: 32px;
   border-radius: 100px;
-  background: linear-gradient(90deg, #effdb4 0%, #bdec00 100%);
+  background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
   padding: 10px 16px;
-  color: ${colors.gray800};
-  ${textStyles.SUIT_12_EB};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 28px;
@@ -151,6 +151,7 @@ const WelcomeBannerContainer = styled.header`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 16px;
   width: 100%;
   min-height: 168px;
   overflow: hidden;

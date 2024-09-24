@@ -21,8 +21,8 @@ export const useOpenResolutionModal = () => {
   const handleResolutionModalOpen = () => {
     if (isRegistration) {
       alert({
-        title: '편지는 한번만 전송할 수 있어요',
-        description: '전송된 편지는 종무식 때 열어볼 수 있어요!',
+        title: '다짐은 한번만 보낼 수 있어요',
+        description: '보내주신 다짐은 종무식 때 전달드릴게요!',
         buttonText: '확인',
         maxWidth: 400,
         zIndex: zIndex.헤더 + 101,
