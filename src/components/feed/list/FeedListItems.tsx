@@ -24,6 +24,7 @@ import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
 import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
+import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
 import { textStyles } from '@/styles/typography';
 
@@ -95,6 +96,8 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
       });
     }
   });
+
+  if (!isLoading) return <FeedSkeleton />;
 
   return (
     <>
@@ -255,7 +258,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
       <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
         {isError ? <AlertText>오류가 발생했어요.</AlertText> : null}
         {data != null && flattenData.length === 0 ? <AlertText>아직 작성된 글이 없어요(ㅠ_ㅠ)</AlertText> : null}
-        {isLoading ? <Loading /> : null}
+        {isLoading ? <div>hi</div> : null}
       </div>
     </>
   );
