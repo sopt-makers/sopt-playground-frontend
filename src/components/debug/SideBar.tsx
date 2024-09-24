@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { forwardRef, ReactNode } from 'react';
 
 import { useEscapeCallback } from '@/hooks/useEscapeCallback';
@@ -90,7 +91,7 @@ const CloseButton = styled.button`
   cursor: pointer;
   width: 40px;
   height: 40px;
-  color: white;
+  color: ${colors.white};
 
   &:hover {
     background-color: rgb(200 200 200 / 30%);

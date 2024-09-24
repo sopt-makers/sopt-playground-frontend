@@ -247,7 +247,8 @@ export const reset = css`
   [type='reset'],
   [type='submit'] {
     appearance: button;
-    color: ${colors.gray10};
+
+    /* color: ${colors.gray10}; */
   }
 
   /**
