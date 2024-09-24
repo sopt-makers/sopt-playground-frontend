@@ -1,13 +1,18 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 
-const CardBack: FC = () => {
+interface CardBackProps {
+  is35: boolean;
+}
+
+const CardBack = ({ is35 }: CardBackProps) => {
+  const logoSrc = is35 ? '/logos/and-sopt.svg' : '/logos/logo-playground-full.svg';
+  const alt = is35 ? 'AND SOPT 로고' : 'playground 로고';
   return (
     <MemberCard>
       <ImageHolder>
-        <Image className='image' src='/logos/logo-playground-full.svg' width={187} alt='now_sopt' />
+        <Image className='image' src={logoSrc} width={187} alt={alt} />
       </ImageHolder>
     </MemberCard>
   );

@@ -1,22 +1,25 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import CardBack from '@/components/members/upload/complete/CardBack';
 import MemberCardOfMe from '@/components/members/upload/complete/MemberCardOfMe';
+import ResolutionSubmitModal from '@/components/resolution/submit/ResolutionSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
  * @desc 신규 프로필 등록 후 다짐 메시지를 유도하는 페이지입니다.
  */
-import { textStyles } from '@/styles/typography';
 import { setLayout } from '@/utils/layout';
 
 const CompletePage: FC = () => {
@@ -30,8 +33,11 @@ const CompletePage: FC = () => {
       content: `${activity.generation}기 ${activity.part}`,
       isActive: activity.generation === LATEST_GENERATION,
     }));
+  const { data: myData } = useGetMemberOfMe();
+  const is35 = myData?.generation === LATEST_GENERATION;
 
-  const { isOpenResolutionModal, onCloseResolutionModal, profileImage } = useOpenResolutionModal();
+  const { handleResolutionModalOpen, isOpenResolutionModal, onCloseResolutionModal, profileImage } =
+    useOpenResolutionModal();
 
   return (
     <AuthRequired>
@@ -44,7 +50,7 @@ const CompletePage: FC = () => {
             <Text typography='SUIT_24_B'>프로필 등록 완료!</Text>
           </Responsive>
           <CardsWrapper>
-            <CardBack />
+            <CardBack is35={is35} />
             <MemberCardOfMe
               name={profile.name}
               belongs={belongs || ''}
@@ -53,19 +59,49 @@ const CompletePage: FC = () => {
               imageUrl={profile.profileImage}
             />
           </CardsWrapper>
-
-          <ButtonWrapper>
-            <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
-              솝트 구성원들의 이야기가 궁금하다면?
-            </Text>
-            <DefaultButton
-              onClick={() => {
-                router.push(playgroundLink.feedList());
-              }}
-            >
-              플레이그라운드 시작하기
-            </DefaultButton>
-          </ButtonWrapper>
+          {is35 ? (
+            <ButtonWrapper>
+              <Button
+                onClick={() => {
+                  router.push(playgroundLink.feedList());
+                }}
+                size='lg'
+                theme='black'
+              >
+                홈으로 가기
+              </Button>
+              <LoggingClick eventKey='profileUploadResolution'>
+                <Button
+                  onClick={handleResolutionModalOpen}
+                  size='lg'
+                  style={{
+                    background: 'linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%)',
+                    color: `${colors.black}`,
+                  }}
+                >
+                  35기 다짐하러 가기
+                </Button>
+              </LoggingClick>
+              {isOpenResolutionModal && (
+                <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
+              )}
+            </ButtonWrapper>
+          ) : (
+            <BottomSection>
+              <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
+                솝트 구성원들의 이야기가 궁금하다면?
+              </Text>
+              <Button
+                onClick={() => {
+                  router.push(playgroundLink.feedList());
+                }}
+                size='lg'
+                theme='black'
+              >
+                플레이그라운드 시작하기
+              </Button>
+            </BottomSection>
+          )}
         </StyledCompletePage>
       )}
     </AuthRequired>
@@ -121,25 +157,43 @@ const DefaultButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
   background-color: ${colors.gray700};
   padding: 12px 20px;
   width: fit-content;
   height: 48px;
-  color: ${colors.gray10};
-
-  ${textStyles.SUIT_16_SB};
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
   }
 `;
 
-const ButtonWrapper = styled.div`
+const ResolutionButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
+  padding: 12px 20px;
+  width: fit-content;
+  height: 48px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const BottomSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
   align-items: center;
   margin-top: 44px;
   width: 100%;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 56px;
 `;
