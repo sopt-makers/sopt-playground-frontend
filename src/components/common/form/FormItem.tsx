@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconAlertCircle } from '@sopt-makers/icons';
 import React, { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
 import Text from '@/components/common/Text';
-import IconWarning from '@/public/icons/icon-warning.svg';
 import { textStyles } from '@/styles/typography';
 
 export interface FormItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -16,7 +16,7 @@ const FormItem: FC<PropsWithChildren<FormItemProps>> = ({ children, errorMessage
       {children}
       {errorMessage && (
         <StyledErrorWrapper>
-          <IconWarning />
+          <StyledIconAlertCircle color={colors.error} />
           <StyledErrorMessage>{errorMessage}</StyledErrorMessage>
         </StyledErrorWrapper>
       )}
@@ -44,4 +44,9 @@ const StyledErrorWrapper = styled.div`
 const StyledErrorMessage = styled(Text)`
   color: ${colors.error};
   ${textStyles.SUIT_12_M}
+`;
+
+const StyledIconAlertCircle = styled(IconAlertCircle)`
+  width: 14px;
+  height: 14px;
 `;
