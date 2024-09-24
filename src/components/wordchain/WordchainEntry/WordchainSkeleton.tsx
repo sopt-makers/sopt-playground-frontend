@@ -2,54 +2,66 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import Skeleton from '@/components/common/Skeleton';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-const WordchainSkeletonDesktop = () => {
+const WordchainSkeleton = () => {
   return (
-    <SkeletonWrapperDesktop borderRadius={14} height={60}>
-      <LeftWrapper>
-        <Skeleton width={28} height={28} borderRadius={8} color={colors.gray700} margin='0 8px 0 0' />
-        <Skeleton width={47} height={20} borderRadius={8} color={colors.gray700} margin='0 16px 0 0' />
-        <Skeleton width={286} height={20} borderRadius={8} color={colors.gray700} />
-      </LeftWrapper>
-      <Skeleton width={28} height={28} borderRadius={8} color={colors.gray700} />
-    </SkeletonWrapperDesktop>
+    <SkeletonWrapper borderRadius={14} height={60}>
+      <Skeleton1 width={28} height={28} borderRadius={8} color={colors.gray700} margin='0 8px 0 0' />
+      <MiddleWrapper>
+        <Skeleton2 width={47} height={20} borderRadius={8} color={colors.gray700} margin='0 16px 0 0' />
+        <Skeleton3 width={286} height={20} borderRadius={8} color={colors.gray700} />
+      </MiddleWrapper>
+      <Skeleton4 width={28} height={28} borderRadius={8} color={colors.gray700} margin='0 0 0 115px' />
+    </SkeletonWrapper>
   );
 };
 
-const WordchainSkeletonMobile = () => {
-  return (
-    <SkeletonWrapperMobile borderRadius={14} height={80}>
-      <Skeleton width={80} height={28} borderRadius={8} color={colors.gray700} margin='0 16px 0 0' />
-      <RightWrapper>
-        <Skeleton width={193} height={16} borderRadius={8} color={colors.gray700} />
-        <Skeleton width={150} height={16} borderRadius={8} color={colors.gray700} />
-      </RightWrapper>
-    </SkeletonWrapperMobile>
-  );
-};
+export default WordchainSkeleton;
 
-export { WordchainSkeletonDesktop, WordchainSkeletonMobile };
-
-const SkeletonWrapperDesktop = styled(Skeleton)`
+const SkeletonWrapper = styled(Skeleton)`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 16px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 20px 16px;
+    height: 80px;
+  }
 `;
 
-const SkeletonWrapperMobile = styled(Skeleton)`
+const MiddleWrapper = styled.div`
   display: flex;
-  align-items: center;
-  padding: 26px 16px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    gap: 8px;
+  }
 `;
 
-const LeftWrapper = styled.div`
-  display: flex;
-  align-items: center;
+const Skeleton1 = styled(Skeleton)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 80px;
+  }
 `;
 
-const RightWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+const Skeleton2 = styled(Skeleton)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-left: 16px;
+    width: 193px;
+    height: 16px;
+  }
+`;
+const Skeleton3 = styled(Skeleton)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-left: 16px;
+    width: 150px;
+    height: 16px;
+  }
+`;
+
+const Skeleton4 = styled(Skeleton)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    display: none;
+  }
 `;

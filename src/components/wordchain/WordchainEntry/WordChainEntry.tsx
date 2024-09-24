@@ -12,7 +12,7 @@ import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
-import {
+import WordchainSkeleton, {
   WordchainSkeletonDesktop,
   WordchainSkeletonMobile,
 } from '@/components/wordchain/WordchainEntry/WordchainSkeleton';
@@ -48,14 +48,7 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
       isBanner={isBanner}
     >
       {isLoading || !wordList ? (
-        <>
-          <Responsive only='desktop' asChild>
-            <WordchainSkeletonDesktop />
-          </Responsive>
-          <Responsive only='mobile' asChild>
-            <WordchainSkeletonMobile />
-          </Responsive>
-        </>
+        <WordchainSkeleton />
       ) : (
         <>
           <LeftSection>
