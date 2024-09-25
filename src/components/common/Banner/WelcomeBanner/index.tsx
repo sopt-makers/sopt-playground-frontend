@@ -60,7 +60,7 @@ const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
 
   return (
     <WelcomeBannerContainer>
-      <WelcomeBannerWrapper>
+      <WelcomeBannerWrapper is35={is35}>
         {isMounted && (
           <>
             {is35 ? (
@@ -157,9 +157,9 @@ const WelcomeBannerContainer = styled.header`
   overflow: hidden;
 `;
 
-const WelcomeBannerWrapper = styled.div`
+const WelcomeBannerWrapper = styled.div<{ is35: boolean }>`
   display: flex;
-  position: fixed;
+  position: ${({ is35 }) => (is35 ? 'fixed' : 'relative')};
   justify-content: center;
   z-index: 2;
   border-bottom: 1px solid ${colors.gray800};
