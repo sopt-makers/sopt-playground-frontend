@@ -137,6 +137,10 @@ const ResolutionButton = styled.button`
   background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
   padding: 10px 16px;
 
+  &:hover {
+    background: linear-gradient(0deg, rgb(255 255 255 / 40%) 0%, rgb(255 255 255 / 40%) 100%),
+      linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
+  }
   @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 28px;
   }
