@@ -17,7 +17,7 @@ interface ConfirmOptions {
   okButtonColor?: string;
   okButtonTextColor?: string;
   zIndex?: number;
-  maxWidth?: number;
+  width?: number;
 }
 
 const useCustomConfirm = () => {
@@ -53,12 +53,12 @@ const useCustomConfirm = () => {
   const ConfirmComponent = isOpen ? (
     <StyledBackground zIndex={options.zIndex}>
       <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
-        <StyledModalContainer maxWidth={options.maxWidth}>
+        <StyledModalContainer width={options.width}>
           <m.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ duration: 0.2 }}>
             <StyledModalContent>
-              <Modal.Title>{options.title}</Modal.Title>
+              <StyledModalTitle>{options.title}</StyledModalTitle>
               <StyledModalDescription>{options.description}</StyledModalDescription>
-              <Modal.Footer align="right">
+              <StyledFooter align="right">
                 <StyledButton
                   onClick={handleCancel}
                   background="dark"
@@ -75,7 +75,7 @@ const useCustomConfirm = () => {
                 >
                   {options.okButtonText}
                 </StyledButton>
-              </Modal.Footer>
+              </StyledFooter>
             </StyledModalContent>
           </m.div>
         </StyledModalContainer>
@@ -101,25 +101,38 @@ const StyledBackground = styled.div<{ zIndex?: number }>`
   height: 100%;
 `;
 
-const StyledModalContainer = styled.div<{ maxWidth?: number }>`
+const StyledModalContainer = styled.div<{ width?: number }>`
   position: relative;
-  border-radius: 22px;
+  border-radius: 14px;
   box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
   background: ${colors.gray800};
-  width: 100%;
-  min-width: 320px;
-  max-width: ${({ maxWidth }) => maxWidth}px;
+  width: ${({ width }) => width|| 400}px;
+  height:196px;
   overflow: hidden;
-
   @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 324px;
+    max-width: 303px;
+    height:166px;
   }
 `;
+export const StyledModalTitle = styled.h1`
+  margin-bottom: 12px;
+  line-height: 30px;
 
+  ${textStyles.SUIT_20_B}
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_18_B}
+
+    margin-bottom: 8px;
+    line-height: 28px;
+  }
+`;
 const StyledModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 24px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 20px;
+  }  
 `;
 
 const StyledModalDescription = styled.div`
@@ -127,6 +140,42 @@ const StyledModalDescription = styled.div`
   line-height: 26px;
   white-space: pre-wrap;
   color: ${colors.gray100};
+  @media ${MOBILE_MEDIA_QUERY} {
+    line-height: 22px;
+    font-size: 14px;
+  }
+`;
+const StyledFooter = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizontal' | 'vertical' }>`
+  display: grid;
+  margin-top: 36px;
+
+  ${(props) =>
+    props.stack !== 'vertical' &&
+    css`
+      grid-auto-flow: column;
+      column-gap: 8px;
+    `}
+
+  ${(props) =>
+    props.align === 'stretch' &&
+    css`
+      grid-auto-columns: minmax(10px, 1fr);
+    `}
+  ${(props) =>
+    props.align === 'left' &&
+    css`
+      grid-auto-columns: max-content;
+    `}
+    ${(props) =>
+    props.align === 'right' &&
+    css`
+      grid-auto-columns: max-content;
+      justify-content: end;
+    `}
+    @media ${MOBILE_MEDIA_QUERY} {
+    grid-auto-columns: minmax(10px, 1fr);
+    margin-top: 24px;
+  }
 `;
 
 const StyledButton = styled.button<{ background: 'dark' | 'light' }>`
@@ -135,7 +184,7 @@ const StyledButton = styled.button<{ background: 'dark' | 'light' }>`
   justify-content: center;
   border-radius: 10px;
   padding: 12px 20px;
-  height: 48px;
+  height: 44px;
 
   ${({ background }) =>
     background === 'dark' &&
