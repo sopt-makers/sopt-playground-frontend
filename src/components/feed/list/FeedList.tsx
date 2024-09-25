@@ -11,6 +11,7 @@ import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
 import CategorySelect from '@/components/feed/list/CategorySelect';
+import CategorySkeleton from '@/components/feed/list/CategorySkeleton';
 import FeedListItems from '@/components/feed/list/FeedListItems';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
@@ -24,7 +25,7 @@ interface FeedListProps {
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) => {
   const queryClient = useQueryClient();
   const [categoryId] = useCategoryParam({ defaultValue: '' });
-  const { data: categoryData } = useQuery({
+  const { data: categoryData, isLoading } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
   });
@@ -46,9 +47,16 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
 
   return (
     <Container>
-      <CategoryArea>
-        {categories && <CategorySelect categories={categories} onCategoryChange={handleCategoryChange} />}
-      </CategoryArea>
+      {isLoading ? (
+        <CategorySkeleton />
+      ) : (
+        categories && (
+          <CategoryArea>
+            <CategorySelect categories={categories} onCategoryChange={handleCategoryChange} />
+          </CategoryArea>
+        )
+      )}
+
       <HeightSpacer>
         <ErrorBoundary
           renderFallback={(error) => (
@@ -121,4 +129,10 @@ const UploadLink = styled(Link)`
 const UploadIcon = styled.img`
   width: 24px;
   height: 24px;
+`;
+
+const Test = styled.div`
+  background-color: white;
+  width: 100px;
+  height: 100px;
 `;
