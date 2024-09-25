@@ -24,7 +24,7 @@ const schema = yup.object().shape({
     .array()
     .of(yup.boolean())
     .test('tags', '목표를 선택해 주세요', (value) => value?.some((v) => v === true) ?? false),
-  content: yup.string().required('내용을 입력해주세요.').max(300, '300자 이내로 입력해주세요.'),
+  content: yup.string().required('내용을 입력해주세요').max(300, '300자 이내로 입력해주세요.'),
 });
 
 interface ResolutionForm {
@@ -291,6 +291,10 @@ const TagErrorWrapper = styled.div`
 
   & > svg {
     margin-right: 6px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-left: 20px;
   }
 `;
 
