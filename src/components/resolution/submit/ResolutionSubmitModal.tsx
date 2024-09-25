@@ -225,6 +225,7 @@ const StyledTags = styled.section`
   justify-content: center;
   justify-items: center;
   margin-top: 12px;
+  line-height: 22px;
 `;
 
 const StyledTagItem = styled.label<{ isSelected: boolean }>`
