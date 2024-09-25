@@ -158,12 +158,16 @@ const StyledModal = styled(Modal)`
   max-height: 100vh;
   overflow-y: auto;
 
-  @supports (height: 100dvh) {
-    max-height: 100dvh;
+  ::-webkit-scrollbar {
+    display: none;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 100%;
+  }
+
+  @supports (height: 100dvh) {
+    max-height: 100dvh;
   }
 `;
 
