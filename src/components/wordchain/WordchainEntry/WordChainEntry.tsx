@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -7,18 +8,17 @@ import { FC } from 'react';
 
 import { useGetEntryWordchain } from '@/api/endpoint/wordchain/getWordchain';
 import { ADS } from '@/components/common/Banner/AdsBanner/constants/ads';
-import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import WordchainMessage from '@/components/wordchain/WordchainEntry/WordchainMessage';
+import WordchainSkeleton from '@/components/wordchain/WordchainEntry/WordchainSkeleton';
 import { useWordchainWinnersQuery } from '@/components/wordchain/WordchainWinners/hooks/useWordchainWinnersQuery';
 import { playgroundLink } from '@/constants/links';
 import IconMessageChat from '@/public/icons/icon-message-chat.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
-import { css } from '@emotion/react';
 
 interface WordChainEntryProps {
   className?: string;
@@ -44,12 +44,9 @@ const WordChainEntry: FC<WordChainEntryProps> = ({ className }) => {
       onClick={() => logClickEvent('wordchainEntry')}
       isBanner={isBanner}
     >
-      {(isLoading || !wordList) && (
-        <LoadingContainer isBanner={isBanner}>
-          <Loading />
-        </LoadingContainer>
-      )}
-      {wordList && (
+      {isLoading || !wordList ? (
+        <WordchainSkeleton />
+      ) : (
         <>
           <LeftSection>
             {!isBanner && (

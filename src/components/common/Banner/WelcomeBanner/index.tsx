@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconChevronRight } from '@sopt-makers/icons';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
-import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
@@ -63,7 +61,7 @@ const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
   return (
     <WelcomeBannerContainer>
       <WelcomeBannerWrapper>
-        {isMounted ? (
+        {isMounted && (
           <>
             {is35 ? (
               <>
@@ -102,8 +100,6 @@ const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
               </BannerWrapper>
             )}
           </>
-        ) : (
-          <Loading />
         )}
       </WelcomeBannerWrapper>
     </WelcomeBannerContainer>
