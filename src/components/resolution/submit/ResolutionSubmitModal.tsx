@@ -127,6 +127,11 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
           )}
         </TagErrorWrapper>
         <RHFControllerFormItem
+          onFocus={(e: React.FocusEvent<HTMLElement>) => {
+            if (e.target instanceof HTMLTextAreaElement) {
+              e.target.blur();
+            }
+          }}
           maxCount={300}
           control={control}
           name='content'

@@ -76,7 +76,7 @@ const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
                       </Text>
                     </ResolutionButton>
                   </LoggingClick>
-                  {!isOpenResolutionModal && (
+                  {isOpenResolutionModal && (
                     <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
                   )}
                 </ButtonWrapper>
