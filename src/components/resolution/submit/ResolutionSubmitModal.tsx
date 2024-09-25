@@ -69,6 +69,14 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
     }
   };
 
+  const [isFirstFocus, setIsFirstFocus] = useState(true);
+
+  const handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+    if (isFirstFocus && e.target instanceof HTMLTextAreaElement) {
+      e.target.blur();
+      setIsFirstFocus(false);
+    }
+  };
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
       <StyledForm onSubmit={handleSubmit(submit)}>
@@ -127,11 +135,7 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
           )}
         </TagErrorWrapper>
         <RHFControllerFormItem
-          onFocus={(e: React.FocusEvent<HTMLElement>) => {
-            if (e.target instanceof HTMLTextAreaElement) {
-              e.target.blur();
-            }
-          }}
+          onFocus={handleFocus}
           maxCount={300}
           control={control}
           name='content'
