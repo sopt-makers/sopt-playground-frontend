@@ -20,10 +20,11 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
   onClose: () => void;
   hideCloseButton?: boolean;
   zIndex?: number;
+  onOpenAutoFocus?: (e: Event) => void;
 }
 
 const ModalComponent: FC<ModalProps> = (props) => {
-  const { children, hideCloseButton, isOpen, onClose, ...restProps } = props;
+  const { children, hideCloseButton, isOpen, onClose, onOpenAutoFocus, ...restProps } = props;
 
   if (!isOpen) {
     return null;
@@ -34,7 +35,7 @@ const ModalComponent: FC<ModalProps> = (props) => {
       <DialogPortal>
         <StyledBackground zIndex={props.zIndex} asChild>
           <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
-            <StyledModalContainer asChild {...restProps}>
+            <StyledModalContainer onOpenAutoFocus={onOpenAutoFocus} asChild {...restProps}>
               <m.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ duration: 0.2 }}>
                 {children}
                 {!hideCloseButton && (

@@ -24,7 +24,7 @@ const schema = yup.object().shape({
     .array()
     .of(yup.boolean())
     .test('tags', '목표를 선택해 주세요', (value) => value?.some((v) => v === true) ?? false),
-  content: yup.string().required('내용을 입력해주세요.').max(300, '300자 이내로 입력해주세요.'),
+  content: yup.string().required('내용을 입력해주세요').max(300, '300자 이내로 입력해주세요.'),
 });
 
 interface ResolutionForm {
@@ -70,7 +70,7 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
   };
 
   return (
-    <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
+    <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100} onOpenAutoFocus={(e) => e.preventDefault()}>
       <StyledForm onSubmit={handleSubmit(submit)}>
         {profileImageUrl ? (
           <ProfileImage src={profileImageUrl} />
@@ -158,12 +158,16 @@ const StyledModal = styled(Modal)`
   max-height: 100vh;
   overflow-y: auto;
 
-  @supports (height: 100dvh) {
-    max-height: 100dvh;
+  ::-webkit-scrollbar {
+    display: none;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 100%;
+  }
+
+  @supports (height: 100dvh) {
+    max-height: 100dvh;
   }
 `;
 
@@ -225,6 +229,7 @@ const StyledTags = styled.section`
   justify-content: center;
   justify-items: center;
   margin-top: 12px;
+  line-height: 22px;
 `;
 
 const StyledTagItem = styled.label<{ isSelected: boolean }>`
@@ -286,6 +291,10 @@ const TagErrorWrapper = styled.div`
 
   & > svg {
     margin-right: 6px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-left: 20px;
   }
 `;
 

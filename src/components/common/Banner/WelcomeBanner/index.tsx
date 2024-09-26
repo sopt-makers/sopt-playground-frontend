@@ -60,7 +60,7 @@ const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
 
   return (
     <WelcomeBannerContainer>
-      <WelcomeBannerWrapper>
+      <WelcomeBannerWrapper is35={is35}>
         {isMounted && (
           <>
             {is35 ? (
@@ -137,6 +137,10 @@ const ResolutionButton = styled.button`
   background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
   padding: 10px 16px;
 
+  &:hover {
+    background: linear-gradient(0deg, rgb(255 255 255 / 40%) 0%, rgb(255 255 255 / 40%) 100%),
+      linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
+  }
   @media ${MOBILE_MEDIA_QUERY} {
     margin-bottom: 28px;
   }
@@ -153,9 +157,9 @@ const WelcomeBannerContainer = styled.header`
   overflow: hidden;
 `;
 
-const WelcomeBannerWrapper = styled.div`
+const WelcomeBannerWrapper = styled.div<{ is35: boolean }>`
   display: flex;
-  position: fixed;
+  position: ${({ is35 }) => (is35 ? 'fixed' : 'relative')};
   justify-content: center;
   z-index: 2;
   border-bottom: 1px solid ${colors.gray800};
