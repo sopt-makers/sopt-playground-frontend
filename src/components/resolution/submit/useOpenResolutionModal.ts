@@ -19,7 +19,7 @@ export const useOpenResolutionModal = () => {
   const { data: { profileImage } = {} } = useGetMemberProfileOfMe();
 
   const handleResolutionModalOpen = () => {
-    if (!isRegistration) {
+    if (isRegistration) {
       alert({
         title: '다짐은 한번만 보낼 수 있어요',
         description: '보내주신 다짐은 종무식 때 전달드릴게요!',
