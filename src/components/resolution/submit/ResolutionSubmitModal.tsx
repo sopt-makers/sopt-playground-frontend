@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/Modal';
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
@@ -111,9 +112,12 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
                 onClick={() => onClickTag(tag.value)}
                 isSelected={selectedTag.includes(tag.value)}
               >
-                <Text typography='SUIT_14_SB' color={selectedTag.includes(tag.value) ? colors.white : colors.gray200}>
-                  {tag.icon} {tag.value}
-                </Text>
+                <StyledTagText
+                  typography='SUIT_16_SB'
+                  color={selectedTag.includes(tag.value) ? colors.white : colors.gray200}
+                >
+                  {tag.icon + tag.value}
+                </StyledTagText>
               </StyledTagItem>
             </div>
           ))}
@@ -181,7 +185,7 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 20px;
+  padding: 0;
   width: 426px;
   overflow-y: scroll;
 
@@ -226,10 +230,22 @@ const StyledTags = styled.section`
   flex-wrap: wrap;
   row-gap: 12px;
   column-gap: 10px;
-  justify-content: center;
+  justify-content: space-between;
   justify-items: center;
   margin-top: 12px;
+  padding: 0 20px;
   line-height: 22px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    column-gap: 0;
+    padding: 0 18.5px;
+  }
+`;
+
+const StyledTagText = styled(Text)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    font-size: 14px;
+  }
 `;
 
 const StyledTagItem = styled.label<{ isSelected: boolean }>`
@@ -242,7 +258,7 @@ const StyledTagItem = styled.label<{ isSelected: boolean }>`
   border-radius: 20px;
   background-color: ${colors.gray800};
   cursor: pointer;
-  padding: 6px 16px 6px 10px;
+  padding: 6px 14px;
   width: max-content;
 `;
 
