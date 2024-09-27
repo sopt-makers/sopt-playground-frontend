@@ -304,7 +304,7 @@ const TagErrorWrapper = styled.div`
   align-items: center;
   padding-left: 20px;
   width: 100%;
-  height: 40px;
+  height: 32px;
 
   & > svg {
     margin-right: 6px;
