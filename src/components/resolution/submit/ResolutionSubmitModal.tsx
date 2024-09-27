@@ -302,15 +302,12 @@ const TagTextWrapper = styled.div`
 const TagErrorWrapper = styled.div`
   display: flex;
   align-items: center;
+  padding-left: 20px;
   width: 100%;
   height: 40px;
 
   & > svg {
     margin-right: 6px;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding-left: 20px;
   }
 `;
 
