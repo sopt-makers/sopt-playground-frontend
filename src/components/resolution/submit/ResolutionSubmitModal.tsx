@@ -10,7 +10,6 @@ import * as yup from 'yup';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/Modal';
-import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
