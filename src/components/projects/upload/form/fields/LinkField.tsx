@@ -206,7 +206,7 @@ const StyledEditCompleteButton = styled.button`
   background-color: ${colors.gray600};
   padding: 16px 36px;
   white-space: nowrap;
-  color: ${colors.gray600};
+  color: ${colors.gray200};
 
   ${textStyles.SUIT_14_M};
 
