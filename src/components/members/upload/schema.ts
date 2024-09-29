@@ -1,5 +1,6 @@
-import { PHONE_REGEX_SHORT } from '@/components/auth/register/verify/regex';
 import * as yup from 'yup';
+
+import { PHONE_REGEX_SHORT } from '@/components/auth/register/verify/regex';
 
 const PHONE_REG_EXP = /^01([0|1|5|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
 const EMAIL_REG_EXP = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -85,7 +86,7 @@ export const memberFormSchema = yup.object().shape({
     )
     .nullable(),
   allowOfficial: yup.boolean().nullable(),
-  skill: yup.string().required('스킬을 입력해주세요.'),
+  skill: yup.string().trim().required('스킬을 입력해주세요.'),
   careers: yup
     .array()
     .of(
