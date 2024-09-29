@@ -45,6 +45,7 @@ export const CategoryList = {
 
 const 특수임원List = [
   '메이커스 리드',
+  '메이커스 팀장',
   '기획 파트장',
   '디자인 파트장',
   '웹 파트장',
