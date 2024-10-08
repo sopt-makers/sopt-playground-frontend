@@ -89,7 +89,7 @@ export const generation35: MakersGeneration = {
         { type: 'member', id: 752, name: '김지혜', position: 'PM' },
         { type: 'member', id: 661, name: '이지민', position: 'PM' },
         { type: 'member', id: 203, name: '노영선', position: '플랫폼 디자이너' },
-        { type: 'member', id: 859, name: '백채영', position: '플랫폼 디자이너' },
+        { type: 'member', id: 66, name: '손혜정', position: '플랫폼 디자이너' },
         { type: 'member', id: 251, name: '권소희', position: '프론트엔드 개발자' },
         { type: 'member', id: 115, name: '김형겸', position: '프론트엔드 개발자' },
         { type: 'member', id: 871, name: '서대원', position: '프론트엔드 개발자' },
