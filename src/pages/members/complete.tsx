@@ -34,7 +34,7 @@ const CompletePage: FC = () => {
       isActive: activity.generation === LATEST_GENERATION,
     }));
   const { data: myData } = useGetMemberOfMe();
-  const is35 = myData?.generation === LATEST_GENERATION;
+  const isLastGeneration = myData?.generation === LATEST_GENERATION;
   const isResolutionOpen = false; // 다짐메시지 오픈 기간에만 이 값을 true로 변경합니다.
 
   const { handleResolutionModalOpen, isOpenResolutionModal, onCloseResolutionModal, profileImage } =
@@ -51,7 +51,7 @@ const CompletePage: FC = () => {
             <Text typography='SUIT_24_B'>프로필 등록 완료!</Text>
           </Responsive>
           <CardsWrapper>
-            <CardBack is35={is35 && isResolutionOpen} />
+            <CardBack isLastGeneration={isLastGeneration && isResolutionOpen} />
             <MemberCardOfMe
               name={profile.name}
               belongs={belongs || ''}
@@ -60,7 +60,7 @@ const CompletePage: FC = () => {
               imageUrl={profile.profileImage}
             />
           </CardsWrapper>
-          {is35 && isResolutionOpen ? (
+          {isLastGeneration && isResolutionOpen ? (
             <ButtonWrapper>
               <Button
                 onClick={() => {

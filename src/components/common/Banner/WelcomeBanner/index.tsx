@@ -25,10 +25,10 @@ type BannerOthersType = {
 };
 
 interface WelcomeBannerProp {
-  is35: boolean;
+  isLastGeneration: boolean;
 }
 
-const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
+const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
   // 이미지 랜덤 생성을 위한 코드
   const [bannerVersion, setBannerVersion] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
@@ -60,10 +60,10 @@ const WelcomeBanner = ({ is35 }: WelcomeBannerProp) => {
 
   return (
     <WelcomeBannerContainer>
-      <WelcomeBannerWrapper is35={is35}>
+      <WelcomeBannerWrapper isLastGeneration={isLastGeneration}>
         {isMounted && (
           <>
-            {is35 ? (
+            {isLastGeneration ? (
               <>
                 <ButtonWrapper>
                   <LoggingClick
@@ -157,9 +157,9 @@ const WelcomeBannerContainer = styled.header`
   overflow: hidden;
 `;
 
-const WelcomeBannerWrapper = styled.div<{ is35: boolean }>`
+const WelcomeBannerWrapper = styled.div<{ isLastGeneration: boolean }>`
   display: flex;
-  position: ${({ is35 }) => (is35 ? 'fixed' : 'relative')};
+  position: ${({ isLastGeneration }) => (isLastGeneration ? 'fixed' : 'relative')};
   justify-content: center;
   z-index: 2;
   border-bottom: 1px solid ${colors.gray800};
