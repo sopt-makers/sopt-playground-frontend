@@ -18,7 +18,7 @@ import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenRe
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
- * @desc 신규 프로필 등록 후 다짐 메시지를 유도하는 페이지입니다.
+ * @desc 신규 프로필 등록 후 다짐 메시지를 유도하는 페이지입니다. 다짐메시지 기간 이외에는 홈으로 가는 CTA만 존재합니다.
  */
 import { setLayout } from '@/utils/layout';
 
@@ -34,7 +34,8 @@ const CompletePage: FC = () => {
       isActive: activity.generation === LATEST_GENERATION,
     }));
   const { data: myData } = useGetMemberOfMe();
-  const is35 = myData?.generation === LATEST_GENERATION;
+  const isLastGeneration = myData?.generation === LATEST_GENERATION;
+  const isResolutionOpen = false; // 다짐메시지 오픈 기간에만 이 값을 true로 변경합니다.
 
   const { handleResolutionModalOpen, isOpenResolutionModal, onCloseResolutionModal, profileImage } =
     useOpenResolutionModal();
@@ -50,7 +51,7 @@ const CompletePage: FC = () => {
             <Text typography='SUIT_24_B'>프로필 등록 완료!</Text>
           </Responsive>
           <CardsWrapper>
-            <CardBack is35={is35} />
+            <CardBack isLastGeneration={isLastGeneration && isResolutionOpen} />
             <MemberCardOfMe
               name={profile.name}
               belongs={belongs || ''}
@@ -59,7 +60,7 @@ const CompletePage: FC = () => {
               imageUrl={profile.profileImage}
             />
           </CardsWrapper>
-          {is35 ? (
+          {isLastGeneration && isResolutionOpen ? (
             <ButtonWrapper>
               <Button
                 onClick={() => {

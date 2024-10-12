@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 
 interface CardBackProps {
-  is35: boolean;
+  isLastGeneration: boolean;
 }
 
-const CardBack = ({ is35 }: CardBackProps) => {
-  const Logo = is35 ? <AndSoptLogo /> : <PlaygroundLogo />;
+const CardBack = ({ isLastGeneration }: CardBackProps) => {
+  const Logo = isLastGeneration ? <AndSoptLogo /> : <PlaygroundLogo />;
   return (
     <MemberCard>
       <ImageHolder>{Logo}</ImageHolder>
