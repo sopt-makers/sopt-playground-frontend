@@ -6,6 +6,7 @@ import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import CoffeeChatButton from '@/components/members/main/MemberCard/CoffeeChatButton';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -72,11 +73,11 @@ const MemberCard: FC<MemberCardProps> = ({
         </BadgesBox>
         <Intro typography='SUIT_12_M'>{intro}</Intro>
       </ContentArea>
-      {email && email.length > 0 ? (
-        <StyledTooltip name={name} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onMessage} />
-      ) : (
-        <></>
-      )}
+      <SideButtons>
+        {/* TODO: CoffeeChatButton에 커피챗 상세로 이동하는 onClick 넘겨주기 */}
+        {isCoffeeChatActivate && <CoffeeChatButton />}
+        {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
+      </SideButtons>
     </MotionMemberCard>
   );
 };
@@ -223,7 +224,7 @@ const BadgeActiveDot = styled.span`
 
 const Intro = styled(Text)`
   display: ${'-webkit-box'};
-  margin-top: 16px;
+  margin-top: 17px;
   width: 100%;
   min-height: 32px;
   overflow: hidden;
@@ -238,10 +239,13 @@ const Intro = styled(Text)`
   }
 `;
 
-const StyledTooltip = styled(MessageButton)`
+const SideButtons = styled.aside`
+  display: flex;
   position: absolute;
   top: 17px;
   right: 19px;
+  flex-direction: column;
+  gap: 10px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;
