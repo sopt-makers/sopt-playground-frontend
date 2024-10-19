@@ -58,23 +58,20 @@ export default function CoffeeChatCard({
         isBlurred={isBlurred}
       >
         <TitleSection>
-        <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
           <Title>{title}</Title>
-          
-            <Flex style={{ gap: 4, marginTop: 4 }}>
+          <TagSection>
               {skills
                 .split(',')
                 .map((skill) => skill.trim())
                 .filter(Boolean)
                 .map((skill) => (
-                  <Tag size='sm' shape='rect' variant='secondary' type='solid'>
+                  <Tag size='md' shape='rect' variant='secondary' type='solid'>
                     {skill}
                   </Tag>
                 ))}
-            </Flex>
-            </Flex>
+          </TagSection>
           </TitleSection>
-        <Divider/>
+        <Divider color='#3F3F47'/>
         <ProfileSection>
           <ImageBox>
             <EmptyProfileImage hide={isImageLoaded}>
@@ -109,20 +106,19 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 11px;
-  align-items: center;
   justify-content: space-between;
   border-radius: 24px;
   background: ${colors.gray900};
   cursor: pointer;
   padding: 32px;
-  width: 420px;
+  width:420px;
+  min-width: 420px;
   height: 280px;
   ${({ isEmptyData }) =>
     isEmptyData &&
     css`
       pointer-events: none;
     `};
-
   ${({ isBlurred }) =>
     isBlurred &&
     css`
@@ -133,12 +129,13 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
     border-radius: 16px;
     padding: 24px;
     width: 280px;
+    min-width:280px;
     height: 234px;
   }
 `;
 
 const Title = styled.div`
-  display: ${'-webkit-box'};
+  display: ${'-webkit-box'};;
   height: 56px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -160,7 +157,7 @@ const Title = styled.div`
     /* Title/14_SB */
     line-height: 20px; /* 142.857% */
     letter-spacing: -0.21px;
-    font-size: 14px;
+    font-size: 16px;
   }
 `;
 
@@ -245,4 +242,21 @@ const ResizedProfileImage = styled(ResizedImage)<{ hide?: boolean }>`
     `};
 `;
 
-const TitleSection=styled.div``
+const TitleSection=styled.div`
+display: flex;
+flex-direction: column;
+gap:16px;
+
+
+
+`
+const TagSection=styled.div`
+display: flex;
+flex-wrap: wrap;
+gap: 4px;
+
+div{@media ${MOBILE_MEDIA_QUERY} {
+    font-size: 11px  !important;
+  }
+}
+`
