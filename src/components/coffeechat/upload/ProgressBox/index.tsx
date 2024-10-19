@@ -4,7 +4,7 @@ import { fonts } from '@sopt-makers/fonts';
 import { IconCheck } from '@sopt-makers/icons';
 
 interface ProgressBoxProps {
-  uploadType: string;
+  uploadType: '오픈' | '수정';
   myInfoInprogress: boolean;
   coffeechatInfoInprogress: boolean;
 }
@@ -90,13 +90,7 @@ const Content = styled.div`
 const ProgressCheck = ({ isInprogress }: { isInprogress: boolean }) => {
   return (
     <>
-      {isInprogress ? (
-        <IconCheckCircle isInprogress>
-          <IconCheck />
-        </IconCheckCircle>
-      ) : (
-        <IconCheckCircle isInprogress={isInprogress} />
-      )}
+      <IconCheckCircle isInprogress={isInprogress}>{isInprogress && <IconCheck />}</IconCheckCircle>
     </>
   );
 };
