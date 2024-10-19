@@ -278,6 +278,7 @@ const Header = styled.div`
 `;
 
 const Title = styled.div`
+  max-height:56px;
   text-align: start;
 
   /* Heading/24_B */
@@ -332,7 +333,7 @@ const CoffeeChatScrollWrapper = styled.div`
 
 export const CardContainer = styled.div`
   display: flex;
-  gap: 24px;
+  gap: 20px;
 `;
 
 const CoffeeChatScrollList = styled.div`

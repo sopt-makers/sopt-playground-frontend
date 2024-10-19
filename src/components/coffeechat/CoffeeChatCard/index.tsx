@@ -6,7 +6,7 @@ import { Flex } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { useState } from 'react';
+import {useState } from 'react';
 
 import Divider from '@/components/common/Divider/Divider';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -14,8 +14,7 @@ import ResizedImage from '@/components/common/ResizedImage';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { MessageModalState } from '@/components/members/main/MemberList';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MentoringCardProps {
   id: string;
@@ -44,6 +43,7 @@ export default function CoffeeChatCard({
 
   const { logClickEvent } = useEventLogger();
 
+  
   return (
     <>
       <Container
@@ -106,6 +106,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 11px;
+  align-items: flex-start;
   justify-content: space-between;
   border-radius: 24px;
   background: ${colors.gray900};
@@ -124,13 +125,22 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
     css`
       filter: blur(5px);
     `};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 16px;
+  
+  @media ${MB_BIG_MEDIA_QUERY} {
+    gap:10px;
+    border-radius: 20px;
     padding: 24px;
-    width: 280px;
-    min-width:280px;
+    width: 400px;
+    min-width:400px;
     height: 234px;
+  }
+  @media ${MB_MID_MEDIA_QUERY}{
+    padding:24px;
+    width:320px;
+    min-width:320px;
+  }
+  @media ${MB_SM_MEDIA_QUERY}{
+    width:280px;
   }
 `;
 
@@ -147,17 +157,25 @@ const Title = styled.div`
   word-break: break-word;
   color: ${colors.white};
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    height: 40px;
-
-    /* Title/14_SB */
-    line-height: 20px; /* 142.857% */
-    letter-spacing: -0.21px;
-    font-size: 16px;
+  
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width:342px;
+    max-width:342px;
+    height:48px;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.24px;
+    font-size:16px;
+  }
+  @media ${MB_MID_MEDIA_QUERY}{
+    width: 272px;
+    max-width:272px;
+  }
+  @media ${MB_SM_MEDIA_QUERY}{
+    width: 232px;
+    max-width:232px;
   }
 `;
 
@@ -252,8 +270,11 @@ gap:16px;
 `
 const TagSection=styled.div`
 display: flex;
-flex-wrap: wrap;
+flex-wrap: nowrap;
 gap: 4px;
+max-width: 100%;
+overflow:  hidden;
+white-space: nowrap;
 
 div{@media ${MOBILE_MEDIA_QUERY} {
     font-size: 11px  !important;

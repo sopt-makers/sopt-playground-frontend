@@ -5,8 +5,8 @@ export const COFFECHAT_SAMPLE_DATA = {
       name: '차은우',
       memberProfileImage: '/icons/img/coffeechat_sample1.png',
       organization: 'Google',
-      careerTitle: '커리어, 면접, 포트폴리오 ',
-      coffeeChatBio: '디자인 관련 고민이 있다면, 함께 나눠봐요!',
+      careerTitle: '커리어, 면접, 포트폴리오, ,  ',
+      coffeeChatBio: '디자인 관련 고민이 있다면, 함께 나눠봐요!디자인 관련 고민이 있다면, 함께 나눠봐요! 디자인 관련 고민이 있다면, 함께 나눠봐요!',
     },
     {
       memberId: 2,
