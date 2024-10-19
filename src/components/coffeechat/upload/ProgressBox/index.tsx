@@ -72,7 +72,7 @@ const ProgressWrapper = styled.div`
     top: 20px;
     bottom: 20px;
     left: 7px;
-    transform: translateX(-50%); /* 세로줄을 정확히 가운데로 이동 */
+    transform: translateX(-50%);
     background-color: ${colors.gray800};
     width: 1px;
     content: '';
