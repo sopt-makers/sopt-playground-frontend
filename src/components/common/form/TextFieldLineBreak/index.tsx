@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { TextArea } from '@sopt-makers/ui';
 
@@ -25,6 +26,7 @@ export default function TextFieldLineBreak({
         value={value}
         maxLength={maxLength}
         fixedHeight={fixedHeight}
+        maxHeight={fixedHeight}
         isError={isError}
         errorMessage={errorMessage}
       />
@@ -32,7 +34,7 @@ export default function TextFieldLineBreak({
         <Placeholder>
           <p>ex.</p>
           {lineBreakPlaceholder.map((placeholder) => {
-            return <p>{placeholder}</p>;
+            return <p key={placeholder}>{placeholder}</p>;
           })}
         </Placeholder>
       )}
@@ -48,9 +50,9 @@ const Placeholder = styled.div`
   position: absolute;
   top: 8px;
   left: 16px;
-  color: #aaa;
+  white-space: pre-wrap;
+  color: ${colors.gray300};
   pointer-events: none;
-  white-space: pre-wrap; /* 줄바꿈 인식 */
 
   ${fonts.BODY_16_M}
 `;
