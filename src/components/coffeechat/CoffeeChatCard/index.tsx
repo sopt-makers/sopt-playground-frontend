@@ -1,20 +1,21 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import HorizontalScroller from '@/components/common/HorizontalScroller';
-import { Flex } from '@toss/emotion-utils';
 import { Tag } from '@sopt-makers/ui';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
-import { useState } from 'react';
-import { MessageModalState } from '@/components/members/main/MemberList';
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { Flex } from '@toss/emotion-utils';
+import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { css } from '@emotion/react';
-import { m } from 'framer-motion';
+import { useState } from 'react';
+
+import Divider from '@/components/common/Divider/Divider';
+import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { MessageModalState } from '@/components/members/main/MemberList';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MentoringCardProps {
   id: string;
@@ -56,9 +57,10 @@ export default function CoffeeChatCard({
         isEmptyData={isEmptyData}
         isBlurred={isBlurred}
       >
+        <TitleSection>
         <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
           <Title>{title}</Title>
-          <HorizontalScroller>
+          
             <Flex style={{ gap: 4, marginTop: 4 }}>
               {skills
                 .split(',')
@@ -70,9 +72,9 @@ export default function CoffeeChatCard({
                   </Tag>
                 ))}
             </Flex>
-          </HorizontalScroller>
-          <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>
-        </Flex>
+            </Flex>
+          </TitleSection>
+        <Divider/>
         <ProfileSection>
           <ImageBox>
             <EmptyProfileImage hide={isImageLoaded}>
@@ -87,18 +89,7 @@ export default function CoffeeChatCard({
               />
             )}
           </ImageBox>
-          <IconContainer
-            onClick={(e) => {
-              e.stopPropagation();
-              setMessageModalState({
-                show: true,
-                data: { targetId: id, name, profileUrl: profileImage },
-              });
-              logClickEvent('coffeechatBadge');
-            }}
-          >
-            <IconCoffee />
-          </IconContainer>
+          <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>     
         </ProfileSection>
       </Container>
       {messageModalState.show && (
@@ -116,17 +107,16 @@ export default function CoffeeChatCard({
 
 const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
   display: flex;
+  flex-direction: column;
   gap: 11px;
   align-items: center;
   justify-content: space-between;
   border-radius: 24px;
   background: ${colors.gray900};
   cursor: pointer;
-  padding: 32px 36px;
-  width: 419px;
-  min-width: 419px;
-  height: 198px;
-
+  padding: 32px;
+  width: 420px;
+  height: 280px;
   ${({ isEmptyData }) =>
     isEmptyData &&
     css`
@@ -141,10 +131,9 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 16px;
-    padding: 18px 20px;
-    width: 335px;
-    min-width: 335px;
-    height: 140px;
+    padding: 24px;
+    width: 280px;
+    height: 234px;
   }
 `;
 
@@ -198,8 +187,8 @@ const Mentor = styled.div`
 
 const ProfileSection = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: end;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   height: 100%;
 
@@ -256,15 +245,4 @@ const ResizedProfileImage = styled(ResizedImage)<{ hide?: boolean }>`
     `};
 `;
 
-const IconContainer = styled.div`
-  border-radius: 50%;
-  background: ${colors.blue400};
-  cursor: pointer;
-  padding: 5px;
-  width: 32px;
-  height: 32px;
-
-  &:hover {
-    background-color: ${colors.blue200};
-  }
-`;
+const TitleSection=styled.div``
