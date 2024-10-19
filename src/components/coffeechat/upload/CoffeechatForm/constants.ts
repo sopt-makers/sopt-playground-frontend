@@ -22,3 +22,18 @@ export const COFFECHAT_TOPIC = [
 ] as const;
 
 export const MEETING_TYPE = ['온라인', '오프라인', '온/오프라인'] as const;
+
+export const MEETING_TYPE_OPTIONS = [
+  {
+    label: '온라인',
+    value: 1,
+  },
+  {
+    label: '오프라인',
+    value: 2,
+  },
+  {
+    label: '온/오프라인',
+    value: 3,
+  },
+];

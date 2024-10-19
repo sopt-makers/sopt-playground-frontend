@@ -2,13 +2,15 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
-import Text from '@/components/common/Text';
-import { textStyles, Typography } from '@/styles/typography';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { Typography } from '@/styles/typography';
+import { fonts } from '@sopt-makers/fonts';
 
 export interface FormTitleProps extends HTMLAttributes<HTMLDivElement> {
   essential?: boolean;
   description?: string;
   typography?: Typography;
+  breakPoint?: string;
 }
 
 const FormTitle: FC<PropsWithChildren<FormTitleProps>> = ({
@@ -16,13 +18,16 @@ const FormTitle: FC<PropsWithChildren<FormTitleProps>> = ({
   typography = 'SUIT_18_SB',
   description,
   children,
+  breakPoint = MOBILE_MEDIA_QUERY,
   ...props
 }) => {
   return (
     <StyledTitle {...props}>
-      <Text typography={typography}>{children}</Text>
-      {essential && <Essential>*</Essential>}
-      {description && <Description>{description}</Description>}
+      <Label breakPoint={breakPoint}>
+        <>{children}</>
+        {essential && <Essential>*</Essential>}
+      </Label>
+      {description && <Descripiton breakPoint={breakPoint}>{description}</Descripiton>}
     </StyledTitle>
   );
 };
@@ -31,16 +36,31 @@ export default FormTitle;
 
 const StyledTitle = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
-const Essential = styled(Text)`
+const Label = styled.h2<{ breakPoint: string }>`
+  display: flex;
+  gap: 4px;
+  color: ${colors.white};
+  ${fonts.LABEL_16_SB};
+  margin-bottom: 8px;
+
+  @media ${({ breakPoint }) => breakPoint} {
+    ${fonts.LABEL_14_SB};
+  }
+`;
+
+const Essential = styled.p`
   margin: 0 0 0 4px;
   color: ${colors.secondary};
-  ${textStyles.SUIT_16_M};
 `;
 
-const Description = styled(Text)`
-  align-self: center;
-  margin: 0 0 0 10px;
-  color: ${colors.gray10};
+const Descripiton = styled.p<{ breakPoint: string }>`
+  color: ${colors.gray300};
+  ${fonts.LABEL_14_SB};
+
+  @media ${({ breakPoint }) => breakPoint} {
+    ${fonts.LABEL_12_SB};
+  }
 `;
