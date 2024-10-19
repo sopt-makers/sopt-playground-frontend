@@ -17,7 +17,7 @@ interface MemberCardProps {
     content: string;
     isActive: boolean;
   }[];
-  email?:string,
+  email?: string;
   imageUrl?: string;
   isCoffeeChatActivate: boolean;
 
@@ -42,8 +42,8 @@ const MemberCard: FC<MemberCardProps> = ({
 }) => {
   return (
     <MotionMemberCard whileHover='hover'>
-      <StyledAspectRatio ratio={1 / 1}>
-        <StyledImageArea>
+      <StyledImageArea>
+        <StyledAspectRatio ratio={1 / 1}>
           <ImageHolder variants={imageVariants}>
             {imageUrl ? (
               <Image className='image' src={imageUrl} width={235} alt='member_image' />
@@ -51,8 +51,9 @@ const MemberCard: FC<MemberCardProps> = ({
               <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
             )}
           </ImageHolder>
-        </StyledImageArea>
-      </StyledAspectRatio>
+        </StyledAspectRatio>
+      </StyledImageArea>
+
       <ContentArea>
         <TitleBox>
           <Name>{name}</Name>
@@ -71,9 +72,11 @@ const MemberCard: FC<MemberCardProps> = ({
         </BadgesBox>
         <Intro>{intro}</Intro>
       </ContentArea>
-      {email && email.length>0 ?( 
-      <StyledTooltip name={name} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onMessage} />)
-      :<></>}
+      {email && email.length > 0 ? (
+        <StyledTooltip name={name} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onMessage} />
+      ) : (
+        <></>
+      )}
     </MotionMemberCard>
   );
 };
@@ -82,7 +85,9 @@ export default MemberCard;
 
 const MotionMemberCard = styled(m.div)`
   display: grid;
+  display: flex;
   position: relative;
+  flex-direction: column;
   grid:
     [row1-start] 'image' auto [row1-end]
     [row2-start] 'content' auto [row2-end]
@@ -93,7 +98,7 @@ const MotionMemberCard = styled(m.div)`
   transition: box-shadow 0.3s;
   border-radius: 16px;
   background-color: ${colors.gray800};
-  padding: 24px;
+  padding: 29.5px 17.5px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
@@ -117,8 +122,7 @@ const StyledImageArea = styled.div`
   transform: translateZ(0);
   border-radius: 50%;
   background-color: ${colors.gray700};
-  width: 100%;
-  height: 100%;
+  width: 180px;
   overflow: hidden;
 `;
 
@@ -132,8 +136,7 @@ const ImageHolder = styled(m.div)`
 
 const ContentArea = styled.div`
   grid-area: content;
-  min-width: 0;
-  min-height: 120px;
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     min-height: unset;
@@ -159,7 +162,7 @@ const Name = styled.h3`
   flex-shrink: 0;
   color: ${colors.gray30};
 
-  ${textStyles.SUIT_18_B}
+  ${textStyles.SUIT_18_SB}
 `;
 
 const Belongs = styled.span`
@@ -170,7 +173,7 @@ const Belongs = styled.span`
   white-space: nowrap;
   color: ${colors.gray300};
 
-  ${textStyles.SUIT_12_M}
+  ${textStyles.SUIT_12_SB}
 `;
 
 const BadgesBox = styled.div`
@@ -230,6 +233,7 @@ const Intro = styled.p`
   display: ${'-webkit-box'};
   margin-top: 16px;
   width: 100%;
+  min-height: 32px;
   overflow: hidden;
   color: ${colors.gray300};
   -webkit-line-clamp: 2;
