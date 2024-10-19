@@ -27,7 +27,7 @@ const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => 
               logClickEvent('memberBadge');
             }}
           >
-            <IconSend />
+            <StyledIconSend />
           </Button>
         </Tooltip.Trigger>
         <Tooltip.Portal>
@@ -112,4 +112,9 @@ const TooltipArrow = styled(Tooltip.Arrow)`
   fill: ${colors.gray600};
   width: 11px;
   height: 11px;
+`;
+
+const StyledIconSend = styled(IconSend)`
+  width: 20px;
+  height: 20px;
 `;
