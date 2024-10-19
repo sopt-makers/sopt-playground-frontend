@@ -22,17 +22,17 @@ export default function CoffeechatForm() {
 }
 
 const SectionTitle = styled.header`
+  margin-top: 60px;
+  margin-bottom: 20px;
   border-bottom: 1px solid ${colors.gray800};
   padding-bottom: 12px;
   width: 100%;
   color: ${colors.white};
   ${fonts.HEADING_24_B};
-  margin-bottom: 20px;
-  margin-top: 60px;
 
   @media ${COFFEECHAT_MOBILE_MEDIA_QUERY} {
-    ${fonts.HEADING_20_B};
     margin-top: 40px;
+    ${fonts.HEADING_20_B};
   }
 `;
 
