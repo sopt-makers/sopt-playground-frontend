@@ -2,11 +2,11 @@ export const COFFECHAT_SAMPLE_DATA = {
   coffeeChatList: [
     {
       memberId: 1,
-      name: '홍길동',
+      name: '차은우',
       memberProfileImage: '/icons/img/coffeechat_sample1.png',
       organization: 'Google',
-      careerTitle: 'UX/UI Design, Product Design',
-      coffeeChatBio: '멘토님이 되어주실 분을 기다리고 있습니다. 커피챗을 오픈해주세요!',
+      careerTitle: '커리어, 면접, 포트폴리오 ',
+      coffeeChatBio: '디자인 관련 고민이 있다면, 함께 나눠봐요!',
     },
     {
       memberId: 2,
