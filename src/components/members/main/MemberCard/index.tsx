@@ -5,9 +5,9 @@ import { m } from 'framer-motion';
 import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
+import Text from '@/components/common/Text';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 interface MemberCardProps {
   name: string;
@@ -56,13 +56,13 @@ const MemberCard: FC<MemberCardProps> = ({
 
       <ContentArea>
         <TitleBox>
-          <Name>{name}</Name>
-          <Belongs>{belongs}</Belongs>
+          <Name typography='SUIT_18_SB'>{name}</Name>
+          <Belongs typography='SUIT_11_M'>{belongs}</Belongs>
         </TitleBox>
         <BadgesBox>
           <Badges>
             {badges.map((badge, idx) => (
-              <Badge key={idx}>
+              <Badge typography='SUIT_11_M' key={idx}>
                 {badge.isActive && <BadgeActiveDot />}
                 {badge.content}
               </Badge>
@@ -70,7 +70,7 @@ const MemberCard: FC<MemberCardProps> = ({
           </Badges>
           <DimShadow />
         </BadgesBox>
-        <Intro>{intro}</Intro>
+        <Intro typography='SUIT_12_M'>{intro}</Intro>
       </ContentArea>
       {email && email.length > 0 ? (
         <StyledTooltip name={name} isCoffeeChatActivate={isCoffeeChatActivate} onClick={onMessage} />
@@ -97,7 +97,7 @@ const MotionMemberCard = styled(m.div)`
   align-items: center;
   transition: box-shadow 0.3s;
   border-radius: 16px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.gray900};
   padding: 29.5px 17.5px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -158,22 +158,18 @@ const TitleBox = styled(m.div)`
   align-items: center;
 `;
 
-const Name = styled.h3`
+const Name = styled(Text)`
   flex-shrink: 0;
   color: ${colors.gray30};
-
-  ${textStyles.SUIT_18_SB}
 `;
 
-const Belongs = styled.span`
+const Belongs = styled(Text)`
   flex-grow: 1;
   margin-left: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: ${colors.gray300};
-
-  ${textStyles.SUIT_12_SB}
 `;
 
 const BadgesBox = styled.div`
@@ -200,7 +196,7 @@ const DimShadow = styled.span`
   }
 `;
 
-const Badge = styled.div`
+const Badge = styled(Text)`
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
@@ -211,14 +207,10 @@ const Badge = styled.div`
   padding: 6px 8px;
   color: ${colors.gray100};
 
-  ${textStyles.SUIT_11_M};
-
   @media ${MOBILE_MEDIA_QUERY} {
     background-color: ${colors.gray800};
     padding: 4px 6px;
     color: ${colors.gray100};
-
-    ${textStyles.SUIT_11_M};
   }
 `;
 
@@ -229,7 +221,7 @@ const BadgeActiveDot = styled.span`
   height: 6px;
 `;
 
-const Intro = styled.p`
+const Intro = styled(Text)`
   display: ${'-webkit-box'};
   margin-top: 16px;
   width: 100%;
@@ -238,8 +230,6 @@ const Intro = styled.p`
   color: ${colors.gray300};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
-  ${textStyles.SUIT_12_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
