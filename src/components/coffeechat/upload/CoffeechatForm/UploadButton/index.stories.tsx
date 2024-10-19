@@ -1,5 +1,6 @@
-import UploadButton from '@/components/coffeechat/upload/CoffeechatForm/UploadButton';
 import { Meta } from '@storybook/react';
+
+import UploadButton from '@/components/coffeechat/upload/CoffeechatForm/UploadButton';
 
 export default {
   component: UploadButton,

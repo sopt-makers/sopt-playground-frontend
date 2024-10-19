@@ -1,9 +1,10 @@
-import Responsive from '@/components/common/Responsive';
 import { IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 
+import Responsive from '@/components/common/Responsive';
+
 interface UploadButtonProps {
-  onClick?: () => {};
+  onClick?: () => void;
 }
 
 export default function UploadButton({ onClick }: UploadButtonProps) {

@@ -1,10 +1,11 @@
+import styled from '@emotion/styled';
+
 import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
 import ChipField from '@/components/coffeechat/upload/CoffeechatForm/ChipField';
 import { CAREER_LEVEL } from '@/components/coffeechat/upload/CoffeechatForm/constants';
 import FormTitle from '@/components/common/form/FormTitle';
 import TextFieldLineBreak from '@/components/common/form/TextFieldLineBreak';
 import Responsive from '@/components/common/Responsive';
-import styled from '@emotion/styled';
 
 export default function MyInfoForm() {
   return (

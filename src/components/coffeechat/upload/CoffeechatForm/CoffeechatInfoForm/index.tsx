@@ -1,3 +1,6 @@
+import styled from '@emotion/styled';
+import { SelectV2, TextArea } from '@sopt-makers/ui';
+
 import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
 import ChipField from '@/components/coffeechat/upload/CoffeechatForm/ChipField';
 import {
@@ -8,8 +11,6 @@ import {
 import FormTitle from '@/components/common/form/FormTitle';
 import TextFieldLineBreak from '@/components/common/form/TextFieldLineBreak';
 import Responsive from '@/components/common/Responsive';
-import styled from '@emotion/styled';
-import { SelectV2, TextArea } from '@sopt-makers/ui';
 
 export default function CoffeechatInfoForm() {
   return (

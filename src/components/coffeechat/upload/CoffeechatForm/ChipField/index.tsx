@@ -1,7 +1,8 @@
-import FormItem from '@/components/common/form/FormItem';
-import Responsive from '@/components/common/Responsive';
 import styled from '@emotion/styled';
 import { Chip } from '@sopt-makers/ui';
+
+import FormItem from '@/components/common/form/FormItem';
+import Responsive from '@/components/common/Responsive';
 
 interface ChipFieldProps {
   errorMessage: string;
@@ -36,6 +37,6 @@ export default function ChipField({ errorMessage, chipList, activeChipList }: Ch
 
 const CareerChips = styled.div`
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
 `;
