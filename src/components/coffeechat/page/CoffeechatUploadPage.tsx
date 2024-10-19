@@ -4,12 +4,12 @@ import { CoffeechatFormContent } from '@/components/coffeechat/upload/Coffeechat
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 
-interface CoffeechatFormProps {
+interface CoffeechatUploadPageProps {
   form: CoffeechatFormContent;
   onSubmit: () => void;
 }
 
-export default function CoffeechatUploadPage({ form, onSubmit }: CoffeechatFormProps) {
+export default function CoffeechatUploadPage({ form, onSubmit }: CoffeechatUploadPageProps) {
   const methods = useForm<CoffeechatFormContent>({ resolver: yupResolver(coffeChatchema), defaultValues: form });
   const { handleSubmit } = methods;
 
