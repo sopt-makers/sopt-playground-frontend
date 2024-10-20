@@ -164,6 +164,45 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const handleClickCard = (profile: Profile) => {
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
+
+  const MemberCardWrapper = ({ profile }: { profile: Profile }) => {
+    const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
+    const badges = sorted.map((activity) => ({
+      content: `${activity.generation}기 ${activity.part}`,
+      isActive: activity.generation === LATEST_GENERATION,
+    }));
+
+    const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
+
+    return (
+      <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} onClick={() => handleClickCard(profile)}>
+        <MemberCard
+          name={profile.name}
+          belongs={belongs}
+          badges={badges}
+          intro={profile.introduction}
+          imageUrl={profile.profileImage}
+          isCoffeeChatActivate={profile.isCoffeeChatActivate}
+          email={profile.email}
+          onMessage={(e) => {
+            e.preventDefault();
+            setMessageModalState({
+              show: true,
+              data: {
+                targetId: `${profile.id}`,
+                name: profile.name,
+                profileUrl: profile.profileImage,
+              },
+            });
+          }}
+        />
+        <Responsive only='mobile'>
+          <HLine />
+        </Responsive>
+      </Link>
+    );
+  };
+
   return (
     <StyledContainer>
       <div
@@ -376,47 +415,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           <StyledCardWrapper>
             {profiles?.map((profiles, index) => (
               <React.Fragment key={index}>
-                {profiles.map((profile) => {
-                  const sorted = [...profile.activities].sort((a, b) => b.generation - a.generation);
-                  const badges = sorted.map((activity) => ({
-                    content: `${activity.generation}기 ${activity.part}`,
-                    isActive: activity.generation === LATEST_GENERATION,
-                  }));
-
-                  const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
-
-                  return (
-                    <Link
-                      key={profile.id}
-                      href={playgroundLink.memberDetail(profile.id)}
-                      onClick={() => handleClickCard(profile)}
-                    >
-                      <MemberCard
-                        name={profile.name}
-                        belongs={belongs}
-                        badges={badges}
-                        intro={profile.introduction}
-                        imageUrl={profile.profileImage}
-                        isCoffeeChatActivate={profile.isCoffeeChatActivate}
-                        email={profile.email}
-                        onMessage={(e) => {
-                          e.preventDefault();
-                          setMessageModalState({
-                            show: true,
-                            data: {
-                              targetId: `${profile.id}`,
-                              name: profile.name,
-                              profileUrl: profile.profileImage,
-                            },
-                          });
-                        }}
-                      />
-                      <Responsive only='mobile'>
-                        <HLine />
-                      </Responsive>
-                    </Link>
-                  );
-                })}
+                {profiles.map((profile) => (
+                  <MemberCardWrapper key={profile.id} profile={profile} />
+                ))}
               </React.Fragment>
             ))}
           </StyledCardWrapper>
