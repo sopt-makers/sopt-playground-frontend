@@ -14,7 +14,7 @@ import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { COFFEECHAT_GUIDE } from '@/constants/links';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | undefined;
@@ -86,7 +86,7 @@ export default function CoffeeChatList() {
 
   return (
     <Container>
-      <Responsive only='desktop'>
+
         <Header>
           <Title>
             {isLoading
@@ -95,18 +95,7 @@ export default function CoffeeChatList() {
               ? '최근 진행된 커피챗이에요✨'
               : '최근 진행된 커피챗이에요✨'}
           </Title>
-          <Flex style={{ gap: 8 }}>
-            <a href={COFFEECHAT_GUIDE} target='_blank' rel='noreferrer'>
-              <Button
-                size='md'
-                theme='black'
-                onClick={() => {
-                  logClickEvent('coffeechatGuide');
-                }}
-              >
-                커피챗 이용 가이드
-              </Button>
-            </a>
+            <FixedButtonArea>
             <Button
               size='md'
               theme='white'
@@ -118,44 +107,8 @@ export default function CoffeeChatList() {
             >
               커피챗 오픈하기
             </Button>
-          </Flex>
+            </FixedButtonArea>
         </Header>
-      </Responsive>
-      <Responsive only='mobile'>
-        <Header>
-          <Title>
-            {isLoading
-              ? ''
-              : isEmptyData
-              ? '커피챗 멘토님을 기다리고 있어요'
-              : '아래의 커피챗 멘토님들이\n여러분을 기다리고 있어요'}
-          </Title>
-          <Flex style={{ gap: 8 }}>
-            <a href={COFFEECHAT_GUIDE} target='_blank' rel='noreferrer'>
-              <Button
-                size='md'
-                theme='black'
-                onClick={() => {
-                  logClickEvent('coffeechatGuide');
-                }}
-              >
-                커피챗 이용 가이드
-              </Button>
-            </a>
-            <Button
-              size='md'
-              theme='white'
-              style={{ color: colors.black }}
-              onClick={() => {
-                router.push(playgroundLink.memberEdit());
-                logClickEvent('openToCoffeechat');
-              }}
-            >
-              커피챗 오픈하기
-            </Button>
-          </Flex>
-        </Header>
-      </Responsive>
       {isLoading ? (
         <LoadingContainer>
           <Loading />
@@ -362,3 +315,14 @@ const CoffeeChatScrollList = styled.div`
     overflow-y: hidden;
   }
 `;
+const FixedButtonArea=styled.div`
+position:fixed;
+right: 90px;
+bottom:42px;
+z-index: 202;
+
+@media ${MB_BIG_MEDIA_QUERY}{
+  right:20px;
+  bottom:42px;
+}
+`
