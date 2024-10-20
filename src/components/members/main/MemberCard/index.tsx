@@ -6,6 +6,7 @@ import { FC, SyntheticEvent, useLayoutEffect, useRef, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import CoffeeChatButton from '@/components/members/main/MemberCard/CoffeeChatButton';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -44,33 +45,7 @@ const MemberCard: FC<MemberCardProps> = ({
   isCoffeeChatActivate,
   onMessage,
 }) => {
-  const badgesRef = useRef<(HTMLDivElement | null)[]>([]);
-  badgesRef.current = badges.map(() => null);
-  const [visibleBadges, setAvailableBadges] = useState<typeof badges>(badges);
-  const [isBadgeOverflow, setIsBadgeOverflow] = useState<boolean>(false);
-
-  useLayoutEffect(() => {
-    const calculateVisibleBadges = () => {
-      let totalWidth = 0;
-      const visible = [];
-      let overflow = false;
-
-      for (let i = 0; i < badges.length; i++) {
-        const badgeWidth = badgesRef.current[i]?.offsetWidth || 0;
-        if (totalWidth + badgeWidth > MAX_BADGE_WIDTH) {
-          overflow = true;
-          break;
-        }
-        visible.push(badges[i]);
-        totalWidth += badgeWidth + BADGE_GAP;
-      }
-
-      setAvailableBadges(visible);
-      setIsBadgeOverflow(overflow);
-    };
-
-    calculateVisibleBadges();
-  }, [badges]);
+  const { visibleBadges, isBadgeOverflow, badgeRefs } = useVisibleBadges(badges, MAX_BADGE_WIDTH, BADGE_GAP);
 
   return (
     <MotionMemberCard whileHover='hover'>
@@ -94,7 +69,7 @@ const MemberCard: FC<MemberCardProps> = ({
         <BadgesBox>
           <Badges>
             {visibleBadges.map((badge, idx) => (
-              <Badge ref={(el: HTMLDivElement) => (badgesRef.current[idx] = el)} isActive={badge.isActive} key={idx}>
+              <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
                 {badge.isActive && <BadgeActiveDot />}
                 <Text typography='SUIT_12_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
                   {badge.content}
