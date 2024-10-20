@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
-import { FC, SyntheticEvent } from 'react';
+import { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -41,6 +41,34 @@ const MemberCard: FC<MemberCardProps> = ({
   isCoffeeChatActivate,
   onMessage,
 }) => {
+  const badgesRef = useRef<(HTMLDivElement | null)[]>([]);
+  badgesRef.current = badges.map(() => null);
+  const [availableBadges, setAvailableBadges] = useState<typeof badges>(badges);
+  const [isBadgeOverflow, setIsBadgeOverflow] = useState<boolean>(false);
+
+  useEffect(() => {
+    const calculateAvailableBadges = () => {
+      let totalWidth = 0;
+      let availableBadgeNum = 0;
+
+      for (let i = 0; i < badges.length; i++) {
+        const badgeWidth = badgesRef.current[i]?.offsetWidth || 0;
+        if (totalWidth + badgeWidth > 242) {
+          break;
+        }
+        totalWidth += badgeWidth;
+        availableBadgeNum++;
+      }
+
+      if (availableBadgeNum < badges.length) {
+        setAvailableBadges(badges.slice(0, availableBadgeNum));
+        setIsBadgeOverflow(true);
+      }
+    };
+
+    calculateAvailableBadges();
+  }, [badges]);
+
   return (
     <MotionMemberCard whileHover='hover'>
       <StyledImageArea>
@@ -62,14 +90,22 @@ const MemberCard: FC<MemberCardProps> = ({
         </TitleBox>
         <BadgesBox>
           <Badges>
-            {badges.map((badge, idx) => (
-              <Badge typography='SUIT_11_M' key={idx}>
+            {availableBadges.map((badge, idx) => (
+              <Badge ref={(el: HTMLDivElement) => (badgesRef.current[idx] = el)} isActive={badge.isActive} key={idx}>
                 {badge.isActive && <BadgeActiveDot />}
-                {badge.content}
+                <Text typography='SUIT_12_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                  {badge.content}
+                </Text>
               </Badge>
             ))}
+            {isBadgeOverflow && (
+              <Badge isActive={false}>
+                <Text typography='SUIT_12_SB' color={colors.gray100}>
+                  ...
+                </Text>
+              </Badge>
+            )}
           </Badges>
-          <DimShadow />
         </BadgesBox>
         <Intro typography='SUIT_12_M'>{intro}</Intro>
       </ContentArea>
@@ -182,31 +218,21 @@ const BadgesBox = styled.div`
 const Badges = styled.div`
   display: flex;
   gap: 4px;
+  width: fit-content;
+  height: 22px;
 `;
 
-const DimShadow = styled.span`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.gray800} 100%);
-  width: 20px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    background: linear-gradient(90deg, rgb(0 0 0 / 0%) 0%, ${colors.gray950} 100%);
-  }
-`;
-
-const Badge = styled(Text)`
+const Badge = styled.div<{ isActive: boolean }>`
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
   gap: 6px;
   align-items: center;
   border-radius: 6px;
-  background-color: ${colors.gray700};
+  background-color: ${({ isActive }) => (isActive ? 'rgb(247 114 52 / 20%)' : colors.gray700)};
   padding: 6px 8px;
-  color: ${colors.gray100};
+  height: 22px;
+  line-height: 0;
 
   @media ${MOBILE_MEDIA_QUERY} {
     background-color: ${colors.gray800};
@@ -217,7 +243,7 @@ const Badge = styled(Text)`
 
 const BadgeActiveDot = styled.span`
   border-radius: 50%;
-  background-color: #cdf47c;
+  background-color: ${colors.secondary};
   width: 6px;
   height: 6px;
 `;
