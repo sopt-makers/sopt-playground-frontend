@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import {fonts} from '@sopt-makers/fonts'
 import { Tag } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
@@ -14,8 +15,7 @@ import ResizedImage from '@/components/common/ResizedImage';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { MessageModalState } from '@/components/members/main/MemberList';
-import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-
+import { MB_BIG_MEDIA_QUERY, MB_BIG_WIDTH, MB_MID_MEDIA_QUERY, MB_MID_WIDTH, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface MentoringCardProps {
   id: string;
   name: string;
@@ -86,7 +86,14 @@ export default function CoffeeChatCard({
               />
             )}
           </ImageBox>
-          <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>     
+          <InfoSection>
+          <UserName>{organization ? `${name} | ${organization}` : name}</UserName>
+          <Career>{organization ? `${name} | ${organization}` : name}</Career>
+          <SoptTagSection>
+            <Tag size='sm' shape='rect' variant='primary' type='solid'>35기 디자인</Tag>
+            <Tag size='sm' shape='rect' type='solid'>29기 디자인</Tag>
+          </SoptTagSection>
+          </InfoSection>
         </ProfileSection>
       </Container>
       {messageModalState.show && (
@@ -179,24 +186,19 @@ const Title = styled.div`
   }
 `;
 
-const Mentor = styled.div`
+const Career = styled.div`
   /* Label/14_SB */
-  line-height: 18px; /* 128.571% */
-  letter-spacing: -0.28px;
-  color: ${colors.gray300};
-  font-size: 14px;
-  font-weight: 600;
+ ${fonts.TITLE_14_SB}
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 170px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    /* Label/12_SB */
-    line-height: 16px; /* 133.333% */
-    letter-spacing: -0.24px;
-    white-space: nowrap;
-    font-size: 12px;
+ max-width:266px;
+ overflow: hidden;
+ text-overflow: ellipsis;  
+  white-space: nowrap;
+  color:${colors.gray400};
+  @media ${MB_BIG_MEDIA_QUERY} {
+    max-width:256px;
+    ${fonts.BODY_13_M}
+    
   }
 `;
 
@@ -264,6 +266,11 @@ const TitleSection=styled.div`
 display: flex;
 flex-direction: column;
 gap:16px;
+min-height:96px;
+
+@media ${MB_BIG_MEDIA_QUERY}{
+  min-height:80px;
+}
 
 
 
@@ -280,4 +287,31 @@ div{@media ${MOBILE_MEDIA_QUERY} {
     font-size: 11px  !important;
   }
 }
+`
+const InfoSection=styled.div`
+display:flex;
+flex-direction: column;
+justify-content: center;
+margin-left:20px;
+`
+const UserName=styled.div`
+  ${fonts.TITLE_16_SB}
+
+  margin-bottom:2px; 
+  max-width:266px;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media ${MB_MID_WIDTH} {
+    ${fonts.TITLE_14_SB}
+
+    max-width:256px;
+  }
+`
+const SoptTagSection=styled.div`
+display: flex;
+gap:4px;
+margin-top:12px; 
+color:${colors.gray200};
 `
