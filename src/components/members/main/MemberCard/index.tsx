@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
-import { FC, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { FC, SyntheticEvent, useLayoutEffect, useRef, useState } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -31,6 +31,9 @@ const imageVariants = {
   },
 };
 
+const MAX_BADGE_WIDTH = 242;
+const BADGE_GAP = 4;
+
 const MemberCard: FC<MemberCardProps> = ({
   name,
   belongs,
@@ -43,30 +46,30 @@ const MemberCard: FC<MemberCardProps> = ({
 }) => {
   const badgesRef = useRef<(HTMLDivElement | null)[]>([]);
   badgesRef.current = badges.map(() => null);
-  const [availableBadges, setAvailableBadges] = useState<typeof badges>(badges);
+  const [visibleBadges, setAvailableBadges] = useState<typeof badges>(badges);
   const [isBadgeOverflow, setIsBadgeOverflow] = useState<boolean>(false);
 
-  useEffect(() => {
-    const calculateAvailableBadges = () => {
+  useLayoutEffect(() => {
+    const calculateVisibleBadges = () => {
       let totalWidth = 0;
-      let availableBadgeNum = 0;
+      const visible = [];
+      let overflow = false;
 
       for (let i = 0; i < badges.length; i++) {
         const badgeWidth = badgesRef.current[i]?.offsetWidth || 0;
-        if (totalWidth + badgeWidth > 242) {
+        if (totalWidth + badgeWidth > MAX_BADGE_WIDTH) {
+          overflow = true;
           break;
         }
-        totalWidth += badgeWidth;
-        availableBadgeNum++;
+        visible.push(badges[i]);
+        totalWidth += badgeWidth + BADGE_GAP;
       }
 
-      if (availableBadgeNum < badges.length) {
-        setAvailableBadges(badges.slice(0, availableBadgeNum));
-        setIsBadgeOverflow(true);
-      }
+      setAvailableBadges(visible);
+      setIsBadgeOverflow(overflow);
     };
 
-    calculateAvailableBadges();
+    calculateVisibleBadges();
   }, [badges]);
 
   return (
@@ -90,7 +93,7 @@ const MemberCard: FC<MemberCardProps> = ({
         </TitleBox>
         <BadgesBox>
           <Badges>
-            {availableBadges.map((badge, idx) => (
+            {visibleBadges.map((badge, idx) => (
               <Badge ref={(el: HTMLDivElement) => (badgesRef.current[idx] = el)} isActive={badge.isActive} key={idx}>
                 {badge.isActive && <BadgeActiveDot />}
                 <Text typography='SUIT_12_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
@@ -217,7 +220,7 @@ const BadgesBox = styled.div`
 
 const Badges = styled.div`
   display: flex;
-  gap: 4px;
+  gap: ${BADGE_GAP}px;
   width: fit-content;
   height: 22px;
 `;
@@ -230,7 +233,7 @@ const Badge = styled.div<{ isActive: boolean }>`
   align-items: center;
   border-radius: 6px;
   background-color: ${({ isActive }) => (isActive ? 'rgb(247 114 52 / 20%)' : colors.gray700)};
-  padding: 6px 8px;
+  padding: 6px;
   height: 22px;
   line-height: 0;
 
