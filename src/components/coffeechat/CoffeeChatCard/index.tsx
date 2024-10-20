@@ -134,7 +134,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
     `};
   
   @media ${MB_BIG_MEDIA_QUERY} {
-    gap:10px;
+    gap:4px;
     border-radius: 20px;
     padding: 24px;
     width: 400px;
@@ -157,14 +157,11 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  /* Title/18_SB */
-  line-height: 28px; /* 155.556% */
-  letter-spacing: -0.36px;
+  ${fonts.HEADING_18_B}
+
   white-space: pre-line;
   word-break: break-word;
   color: ${colors.white};
-  font-size: 18px;
-  font-weight: 700;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   
@@ -172,9 +169,8 @@ const Title = styled.div`
     width:342px;
     max-width:342px;
     height:48px;
-    line-height: 24px; /* 150% */
-    letter-spacing: -0.24px;
-    font-size:16px;
+    max-height: 48px;
+    ${fonts.HEADING_16_B};
   }
   @media ${MB_MID_MEDIA_QUERY}{
     width: 272px;
@@ -208,20 +204,17 @@ const ProfileSection = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 100%;
-
+  
   @media ${MOBILE_MEDIA_QUERY} {
     justify-content: flex-end;
   }
 `;
 const ImageBox = styled.div`
   position: relative;
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
   clip-path: circle(50%);
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
 `;
 
 const EmptyProfileImage = styled.div<{ hide?: boolean }>`
@@ -230,8 +223,8 @@ const EmptyProfileImage = styled.div<{ hide?: boolean }>`
   align-items: center;
   justify-content: center;
   background-color: ${colors.gray700};
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
 
   ${(props) =>
     props.hide &&
@@ -239,9 +232,7 @@ const EmptyProfileImage = styled.div<{ hide?: boolean }>`
       visibility: hidden;
     `};
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
+
 `;
 
 const DefaultImage = styled.img`
@@ -266,13 +257,13 @@ const TitleSection=styled.div`
 display: flex;
 flex-direction: column;
 gap:16px;
+height:96px;
 min-height:96px;
-
 @media ${MB_BIG_MEDIA_QUERY}{
+  gap:4px;
+  height:80px;
   min-height:80px;
 }
-
-
 
 `
 const TagSection=styled.div`
