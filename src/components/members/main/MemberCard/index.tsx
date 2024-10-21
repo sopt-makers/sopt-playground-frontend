@@ -10,6 +10,8 @@ import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadg
 import CoffeeChatButton from '@/components/members/main/MemberCard/CoffeeChatButton';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import Responsive from '@/components/common/Responsive';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
 
 interface MemberCardProps {
   name: string;
@@ -66,7 +68,13 @@ const MemberCard: FC<MemberCardProps> = ({
           </StyledAspectRatio>
         </StyledImageArea>
       </ProfileImage>
-
+      <MobileCoffeeChatBadge only='mobile'>
+        {isCoffeeChatActivate && (
+          <IconCoffeeWrapper>
+            <IconCoffee />
+          </IconCoffeeWrapper>
+        )}
+      </MobileCoffeeChatBadge>
       <ContentArea>
         <TitleBox>
           <Name typography='SUIT_18_SB'>{name}</Name>
@@ -121,6 +129,7 @@ const MotionMemberCard = styled(m.div)`
   padding: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    position: relative;
     grid:
       [row1-start] 'image content' 1fr [row1-end]
       / 80px 1fr;
@@ -274,4 +283,25 @@ const SideButtons = styled.aside`
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
+`;
+
+const IconCoffeeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 80px;
+  background-color: ${colors.success};
+  padding-left: 1px;
+  width: 24px;
+  height: 24px;
+
+  & > svg {
+    width: 15.7px;
+    height: 15.2px;
+  }
+`;
+
+const MobileCoffeeChatBadge = styled(Responsive)`
+  position: absolute;
+  top: 22px;
 `;

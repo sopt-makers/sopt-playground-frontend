@@ -84,7 +84,7 @@ const StyledContent = styled(Select.Content)`
   border-radius: 12px;
   background: ${colors.gray700};
   padding: 7px;
-  width: var(--radix-select-trigger-width);
+  width: 100%;
   max-height: 262px;
   overflow: scroll;
   scrollbar-width: none;
