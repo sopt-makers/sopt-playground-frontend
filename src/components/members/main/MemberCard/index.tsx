@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
-import { FC, SyntheticEvent, useLayoutEffect, useRef, useState } from 'react';
+import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -78,9 +78,7 @@ const MemberCard: FC<MemberCardProps> = ({
             ))}
             {isBadgeOverflow && (
               <Badge isActive={false}>
-                <Text typography='SUIT_12_SB' color={colors.gray100}>
-                  ...
-                </Text>
+                <Text typography='SUIT_12_SB'>...</Text>
               </Badge>
             )}
           </Badges>
@@ -171,6 +169,7 @@ const DefaultImage = styled.img`
 const TitleBox = styled(m.div)`
   display: flex;
   align-items: center;
+  height: 24px;
 `;
 
 const Name = styled(Text)`
