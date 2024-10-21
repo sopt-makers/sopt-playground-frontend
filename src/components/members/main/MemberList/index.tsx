@@ -3,10 +3,9 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronDown, IconSwitchVertical } from '@sopt-makers/icons';
 import { uniq } from 'lodash-es';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { Profile } from '@/api/endpoint_LEGACY/members/type';
 import Responsive from '@/components/common/Responsive';
@@ -31,7 +30,6 @@ import {
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import MemberListFilterSheet from '@/components/members/main/MemberList/filters/MemberListFilterSheet';
-import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -40,6 +38,7 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { SearchField } from '@sopt-makers/ui';
 
 const PAGE_LIMIT = 30;
 
@@ -136,6 +135,11 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     }
   }, [router.isReady, router.query, router]);
 
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+  const handleSearchReset = () => {
+    setSearch('');
+  };
+
   const createTypeSafeHandler =
     <T extends string>(handler: (value: T) => void) =>
     (value: string | number | boolean) => {
@@ -174,7 +178,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     logClickEvent('filterOrderBy', { orderBy });
   });
 
-  const handleSearch = (searchQuery: string) => {
+  const handleSearchSubmit = (searchQuery: string) => {
     addQueryParamsToUrl({ search: searchQuery });
     logSubmitEvent('searchMember', { content: 'searchQuery' });
   };
@@ -196,8 +200,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           <StyledMemberSearch
             placeholder='이름, 학교, 회사를 검색해보세요!'
             value={search || ''}
-            onChange={setSearch}
-            onSearch={handleSearch}
+            onChange={handleSearchChange}
+            onSubmit={() => handleSearchSubmit(search as string)}
+            onReset={handleSearchReset}
           />
           <StyledMobileFilterWrapper>
             <StyledMobileFilter
@@ -429,9 +434,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 </StyledFilterWrapper>
                 <StyledMemberSearch
                   placeholder='이름, 학교, 회사를 검색해보세요!'
-                  value={search ?? ''}
-                  onChange={setSearch}
-                  onSearch={handleSearch}
+                  value={search || ''}
+                  onChange={handleSearchChange}
+                  onSubmit={() => handleSearchSubmit(search as string)}
+                  onReset={handleSearchReset}
                 />
               </div>
               {memberProfileData && (
@@ -553,7 +559,7 @@ const StyledMakersLink = styled(Text)`
   }
 `;
 
-const StyledMemberSearch = styled(MemberSearch)`
+const StyledMemberSearch = styled(SearchField)`
   min-width: 335px;
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
     grid-area: 'search';
