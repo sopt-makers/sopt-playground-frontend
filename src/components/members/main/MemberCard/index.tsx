@@ -32,7 +32,7 @@ const imageVariants = {
   },
 };
 
-const MAX_BADGE_WIDTH = 242;
+const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
 
 const MemberCard: FC<MemberCardProps> = ({
@@ -45,7 +45,11 @@ const MemberCard: FC<MemberCardProps> = ({
   isCoffeeChatActivate,
   onMessage,
 }) => {
-  const { visibleBadges, isBadgeOverflow, badgeRefs } = useVisibleBadges(badges, MAX_BADGE_WIDTH, BADGE_GAP);
+  const { visibleBadges, isBadgeOverflow, badgeRefs, badgeWrapperRef } = useVisibleBadges(
+    badges,
+    ELLIPSIS_WIDTH,
+    BADGE_GAP,
+  );
 
   return (
     <MotionMemberCard whileHover='hover'>
@@ -68,7 +72,7 @@ const MemberCard: FC<MemberCardProps> = ({
           <Name typography='SUIT_18_SB'>{name}</Name>
           <Belongs typography='SUIT_12_SB'>{belongs}</Belongs>
         </TitleBox>
-        <BadgesBox>
+        <BadgesBox ref={badgeWrapperRef}>
           <Badges>
             {visibleBadges.map((badge, idx) => (
               <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
