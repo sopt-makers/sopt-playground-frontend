@@ -58,7 +58,7 @@ const MemberCard: FC<MemberCardProps> = ({
           <StyledAspectRatio ratio={1 / 1}>
             <ImageHolder variants={imageVariants}>
               {imageUrl ? (
-                <Image className='image' src={imageUrl} width={235} alt='member_image' />
+                <Image className='image' src={imageUrl} width={196} alt='member_image' />
               ) : (
                 <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
               )}
@@ -77,19 +77,19 @@ const MemberCard: FC<MemberCardProps> = ({
             {visibleBadges.map((badge, idx) => (
               <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
                 {badge.isActive && <BadgeActiveDot />}
-                <Text typography='SUIT_12_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
                   {badge.content}
                 </Text>
               </Badge>
             ))}
             {isBadgeOverflow && (
               <Badge isActive={false}>
-                <Text typography='SUIT_12_SB'>...</Text>
+                <Text typography='SUIT_11_SB'>...</Text>
               </Badge>
             )}
           </Badges>
         </BadgesBox>
-        <Intro typography='SUIT_14_SB' color={colors.gray200}>
+        <Intro typography='SUIT_13_M' color={colors.gray200}>
           {intro}
         </Intro>
       </ContentArea>
@@ -118,7 +118,7 @@ const MotionMemberCard = styled(m.div)`
   transition: box-shadow 0.3s;
   border-radius: 16px;
   background-color: ${colors.gray900};
-  padding: 29.5px 17.5px;
+  padding: 24px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
@@ -150,7 +150,7 @@ const StyledImageArea = styled.div`
   border-radius: 50%;
   background-color: ${colors.gray700};
   width: 100%;
-  max-width: 180px;
+  max-width: 196px;
   overflow: hidden;
 `;
 
@@ -247,9 +247,9 @@ const BadgeActiveDot = styled.span`
 
 const Intro = styled(Text)`
   display: ${'-webkit-box'};
-  margin-top: 17px;
+  margin-top: 16px;
   width: 100%;
-  min-height: 32px;
+  min-height: 60px;
   overflow: hidden;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

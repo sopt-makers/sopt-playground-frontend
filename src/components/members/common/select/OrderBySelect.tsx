@@ -76,7 +76,6 @@ const SelectComp: FC<PropsWithChildren<SelectCompProps>> = ({ onChange, children
 const StyledTrigger = styled(Select.Trigger)`
   display: flex;
   align-items: center;
-  width: 136px;
 
   :focus {
     outline: none;
