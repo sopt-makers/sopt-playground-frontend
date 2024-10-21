@@ -216,111 +216,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         `}
       >
         <Responsive only='mobile'>{banner}</Responsive>
-        <Responsive only='mobile' css={{ marginTop: '40px' }}>
-          <StyledMemberSearch
-            placeholder='이름, 학교, 회사를 검색해보세요!'
-            value={search}
-            onChange={setSearch}
-            onSearch={handleSearch}
-          />
-          <StyledMobileFilterWrapper>
-            <StyledMobileFilter
-              value={generation}
-              onChange={handleSelectGeneration}
-              options={GENERATION_OPTIONS}
-              defaultOption={GENERATION_DEFAULT_OPTION}
-              placeholder='기수'
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(generation)}>
-                  {placeholder}
-                  <IconExpand />
-                </MobileFilterTrigger>
-              )}
-            />
-            <StyledMobileFilter
-              placeholder='파트'
-              value={part}
-              onChange={handleSelectPart}
-              options={PART_OPTIONS}
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(part)}>
-                  {placeholder}
-                  <IconExpand />
-                </MobileFilterTrigger>
-              )}
-            />
-            <StyledMobileFilter
-              options={TEAM_OPTIONS}
-              value={team}
-              onChange={handleSelectTeam}
-              defaultOption={FILTER_DEFAULT_OPTION}
-              placeholder='활동'
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(team)}>
-                  {placeholder}
-                  <IconExpand />
-                </MobileFilterTrigger>
-              )}
-            />
-            <StyledMobileFilter
-              placeholder='MBTI'
-              defaultOption={FILTER_DEFAULT_OPTION}
-              options={MBTI_OPTIONS}
-              value={mbti}
-              onChange={handleSelectMbti}
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(mbti)}>
-                  {placeholder}
-                  <IconExpand />
-                </MobileFilterTrigger>
-              )}
-            />
-            <StyledMobileFilter
-              placeholder='재직 상태'
-              defaultOption={FILTER_DEFAULT_OPTION}
-              options={EMPLOYED_OPTIONS}
-              value={employed}
-              onChange={handleSelectEmployed}
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(employed)}>
-                  {placeholder}
-                  <IconExpand />
-                </MobileFilterTrigger>
-              )}
-            />
-          </StyledMobileFilterWrapper>
-          {memberProfileData && (
-            <div
-              css={css`
-                display: flex;
-                justify-content: space-between;
-                margin-top: 30px;
-              `}
-            >
-              <Text>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-              <StyledMobileFilter
-                placeholder=''
-                options={ORDER_OPTIONS}
-                value={orderBy}
-                onChange={handleSelectOrderBy}
-                trigger={(placeholder) => (
-                  <div
-                    css={css`
-                      display: flex;
-                      align-items: center;
-                      cursor: pointer;
-                    `}
-                  >
-                    <IconArrowUpDown />
-                    <Text typography='SUIT_12_M' color={colors.gray400}>
-                      {placeholder}
-                    </Text>
-                  </div>
-                )}
-              />
-            </div>
-          )}
-        </Responsive>
       </div>
       <StyledMain>
         <Responsive
@@ -348,22 +243,22 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
             </StyledEmpty>
           )}
-          <Responsive only='desktop'>
-            <StyledTopWrapper>
-              <div
-                css={css`
-                  display: flex;
-                  justify-content: space-between;
-                  @media ${DESKTOP_TWO_MEDIA_QUERY} {
-                    display: grid;
-                    grid:
-                      [row1-start] 'search' [row1-end]
-                      [row2-start] 'filter' [row2-end]
-                      [row3-start] 'orderBy' [row3-end]
-                      / 1fr;
-                  }
-                `}
-              >
+          <StyledTopWrapper>
+            <div
+              css={css`
+                display: flex;
+                justify-content: space-between;
+                @media ${DESKTOP_TWO_MEDIA_QUERY} {
+                  display: grid;
+                  grid:
+                    [row1-start] 'search' [row1-end]
+                    [row2-start] 'filter' [row2-end]
+                    [row3-start] 'orderBy' [row3-end]
+                    / 1fr;
+                }
+              `}
+            >
+              <FilterScrollWrapper>
                 <StyledFilterWrapper>
                   <MemberListFilter
                     placeholder='기수'
@@ -400,29 +295,29 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     onChange={handleSelectEmployed}
                   />
                 </StyledFilterWrapper>
-                <StyledMemberSearch
-                  placeholder='이름, 학교, 회사를 검색해보세요!'
-                  value={search}
-                  onChange={setSearch}
-                  onSearch={handleSearch}
-                />
+              </FilterScrollWrapper>
+              <StyledMemberSearch
+                placeholder='이름, 학교, 회사를 검색해보세요!'
+                value={search}
+                onChange={setSearch}
+                onSearch={handleSearch}
+              />
+            </div>
+            {memberProfileData && (
+              <div
+                css={css`
+                  display: flex;
+                  grid-area: 'orderBy';
+                  justify-content: space-between;
+                  order: 3;
+                  margin-top: 30px;
+                `}
+              >
+                <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+                <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
               </div>
-              {memberProfileData && (
-                <div
-                  css={css`
-                    display: flex;
-                    grid-area: 'orderBy';
-                    justify-content: space-between;
-                    order: 3;
-                    margin-top: 30px;
-                  `}
-                >
-                  <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                  <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
-                </div>
-              )}
-            </StyledTopWrapper>
-          </Responsive>
+            )}
+          </StyledTopWrapper>
         </StyledRightWrapper>
       </StyledMain>
       <Target ref={ref} />
@@ -454,7 +349,6 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 100px;
-  min-height: 101vh;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 0;
@@ -482,35 +376,26 @@ const StyledRightWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledMobileFilterWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-top: 17px;
-  overflow-x: auto;
-
-  /* to disable scroll bar */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  ::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-`;
-
 const StyledTopWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
+const FilterScrollWrapper = styled.div`
+  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    display: flex;
+    grid-area: 'filter';
+    gap: 10px;
+    align-items: center;
+    order: 2;
+    margin-top: 17px;
+    overflow-x: auto;
+  }
+`;
+
 const StyledFilterWrapper = styled.div`
   display: flex;
   column-gap: 10px;
-
-  @media ${DESKTOP_TWO_MEDIA_QUERY} {
-    grid-area: 'filter';
-    order: 2;
-    margin-top: 35px;
-  }
 `;
 
 const StyledMakersLink = styled(Text)`

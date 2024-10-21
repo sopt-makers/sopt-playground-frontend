@@ -21,7 +21,7 @@ export function MemberListFilter<T extends string>({
   children,
 }: PropsWithChildren<MemberListFilterProps<T>>) {
   return (
-    <SelectV2.Root className={className} type='text' onChange={onChange}>
+    <StyledSelectRoot className={className} type='text' onChange={onChange}>
       <SelectV2.Trigger>
         <StyledSelectTrigger placeholder={placeholder} />
       </SelectV2.Trigger>
@@ -32,12 +32,17 @@ export function MemberListFilter<T extends string>({
         ))}
         {children}
       </SelectV2.Menu>
-    </SelectV2.Root>
+    </StyledSelectRoot>
   );
 }
 
 export default MemberListFilter;
 
+const StyledSelectRoot = styled(SelectV2.Root)`
+  position: unset;
+`;
+
 const StyledSelectTrigger = styled(SelectV2.TriggerContent)`
-  width: fit-content;
+  width: max-content;
+  min-width: fit-content;
 `;
