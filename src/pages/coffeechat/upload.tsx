@@ -2,7 +2,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import CoffeechatUploadPage from '@/components/coffeechat/page/CoffeechatUploadPage';
 import { setLayout } from '@/utils/layout';
 
-export default function CoffeechatUpload() {
+const CoffeechatUpload = () => {
   const defaultForm = {
     memberInfo: {
       career: '주니어',
@@ -23,6 +23,8 @@ export default function CoffeechatUpload() {
       <CoffeechatUploadPage uploadType='오픈' form={defaultForm} onSubmit={() => console.log('클릭')} />
     </AuthRequired>
   );
-}
+};
 
 setLayout(CoffeechatUpload, 'header');
+
+export default CoffeechatUpload;
