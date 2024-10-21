@@ -18,11 +18,13 @@ const PART_VALUE = {
   ANDROID: '5',
   iOS: '6',
 } as const;
+
+export const PART_DEFAULT_OPTION: Option = {
+  label: '전체',
+  value: '',
+};
+
 export const PART_OPTIONS: Option[] = [
-  {
-    label: '전체',
-    value: '',
-  },
   {
     label: '기획',
     value: PART_VALUE.PM,
@@ -60,7 +62,7 @@ export const GENERATION_OPTIONS = (() =>
     label: `${generation}기`,
   })))();
 
-export const TEAM_OPTIONS = [
+export const TEAM_OPTIONS: Option[] = [
   { value: '임원진', label: '임원진' },
   { value: '운영팀', label: '운영팀' },
   { value: '미디어팀', label: '미디어팀' },
