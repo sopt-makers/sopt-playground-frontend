@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 
@@ -16,10 +17,14 @@ export default function UploadButton({ onClick }: UploadButtonProps) {
         </Button>
       </Responsive>
       <Responsive only='mobile'>
-        <Button size='lg' LeftIcon={IconPlus} type='submit'>
+        <MobileButton size='lg' LeftIcon={IconPlus} type='submit'>
           커피챗 오픈하기
-        </Button>
+        </MobileButton>
       </Responsive>
     </div>
   );
 }
+
+const MobileButton = styled(Button)`
+  width: 100%;
+`;

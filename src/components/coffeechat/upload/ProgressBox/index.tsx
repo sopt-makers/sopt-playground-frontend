@@ -30,16 +30,17 @@ export default function ProgressBox({ uploadType, myInfoInprogress, coffeechatIn
   );
 }
 
-const Box = styled.aside`
+const Box = styled.div`
   display: flex;
-  position: fixed;
+  position: sticky;
+  top: 80px;
   flex-direction: column;
   gap: 36px;
   align-items: flex-start;
   border: 1px solid ${colors.gray800};
   border-radius: 15px;
   padding: 50px 40px 60px;
-  width: 100%;
+  width: 290px;
   color: ${colors.gray10};
 `;
 

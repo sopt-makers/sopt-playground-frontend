@@ -49,6 +49,8 @@ const TextAreaWrapper = styled.div`
 const Placeholder = styled.div`
   position: absolute;
   top: 8px;
+  right: 16px;
+  bottom: 8px;
   left: 16px;
   white-space: pre-wrap;
   color: ${colors.gray300};
