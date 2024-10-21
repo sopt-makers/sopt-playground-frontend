@@ -175,7 +175,11 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
 
     return (
-      <Link key={profile.id} href={playgroundLink.memberDetail(profile.id)} onClick={() => handleClickCard(profile)}>
+      <StyledLink
+        key={profile.id}
+        href={playgroundLink.memberDetail(profile.id)}
+        onClick={() => handleClickCard(profile)}
+      >
         <MemberCard
           name={profile.name}
           belongs={belongs}
@@ -199,7 +203,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         <Responsive only='mobile'>
           <HLine />
         </Responsive>
-      </Link>
+      </StyledLink>
     );
   };
 
@@ -624,10 +628,14 @@ const EmptyDescription = styled.span`
 `;
 
 const HLine = styled.hr`
+  position: absolute;
+  bottom: 0;
+  left: -20px;
   margin: 0;
   border: 0;
   border-bottom: 1px solid ${colors.gray800};
   padding: 0;
+  width: 100dvw;
 `;
 
 const Target = styled.div`
@@ -659,4 +667,8 @@ const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
     `}
 
   ${textStyles.SUIT_13_M};
+`;
+
+const StyledLink = styled(Link)`
+  position: relative;
 `;

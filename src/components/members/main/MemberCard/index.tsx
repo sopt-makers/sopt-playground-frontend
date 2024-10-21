@@ -49,22 +49,24 @@ const MemberCard: FC<MemberCardProps> = ({
 
   return (
     <MotionMemberCard whileHover='hover'>
-      <StyledImageArea>
-        <StyledAspectRatio ratio={1 / 1}>
-          <ImageHolder variants={imageVariants}>
-            {imageUrl ? (
-              <Image className='image' src={imageUrl} width={235} alt='member_image' />
-            ) : (
-              <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
-            )}
-          </ImageHolder>
-        </StyledAspectRatio>
-      </StyledImageArea>
+      <ProfileImage>
+        <StyledImageArea>
+          <StyledAspectRatio ratio={1 / 1}>
+            <ImageHolder variants={imageVariants}>
+              {imageUrl ? (
+                <Image className='image' src={imageUrl} width={235} alt='member_image' />
+              ) : (
+                <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
+              )}
+            </ImageHolder>
+          </StyledAspectRatio>
+        </StyledImageArea>
+      </ProfileImage>
 
       <ContentArea>
         <TitleBox>
           <Name typography='SUIT_18_SB'>{name}</Name>
-          <Belongs typography='SUIT_11_M'>{belongs}</Belongs>
+          <Belongs typography='SUIT_12_SB'>{belongs}</Belongs>
         </TitleBox>
         <BadgesBox>
           <Badges>
@@ -83,7 +85,9 @@ const MemberCard: FC<MemberCardProps> = ({
             )}
           </Badges>
         </BadgesBox>
-        <Intro typography='SUIT_12_M'>{intro}</Intro>
+        <Intro typography='SUIT_14_SB' color={colors.gray200}>
+          {intro}
+        </Intro>
       </ContentArea>
       <SideButtons>
         {/* TODO: CoffeeChatButton에 커피챗 상세로 이동하는 onClick 넘겨주기 */}
@@ -98,7 +102,6 @@ export default MemberCard;
 
 const MotionMemberCard = styled(m.div)`
   display: grid;
-  display: flex;
   position: relative;
   flex-direction: column;
   grid:
@@ -128,14 +131,22 @@ const MotionMemberCard = styled(m.div)`
 `;
 
 const StyledAspectRatio = styled(AspectRatio.Root)`
-  grid-area: image;
+  width: 100%;
+`;
+
+const ProfileImage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 `;
 
 const StyledImageArea = styled.div`
   transform: translateZ(0);
   border-radius: 50%;
   background-color: ${colors.gray700};
-  width: 180px;
+  width: 100%;
+  max-width: 180px;
   overflow: hidden;
 `;
 
@@ -144,6 +155,7 @@ const ImageHolder = styled(m.div)`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  width: 100%;
   height: 100%;
 `;
 
@@ -157,9 +169,9 @@ const ContentArea = styled.div`
 `;
 
 const Image = styled(ResizedImage)`
-  object-fit: cover;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 `;
 
 const DefaultImage = styled.img`
@@ -170,6 +182,10 @@ const TitleBox = styled(m.div)`
   display: flex;
   align-items: center;
   height: 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 28px;
+  }
 `;
 
 const Name = styled(Text)`
@@ -188,7 +204,7 @@ const Belongs = styled(Text)`
 
 const BadgesBox = styled.div`
   position: relative;
-  margin-top: 10px;
+  margin-top: 8px;
   overflow-x: hidden;
 `;
 
@@ -212,7 +228,6 @@ const Badge = styled.div<{ isActive: boolean }>`
   line-height: 0;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.gray800};
     padding: 4px 6px;
     color: ${colors.gray100};
   }
@@ -231,13 +246,14 @@ const Intro = styled(Text)`
   width: 100%;
   min-height: 32px;
   overflow: hidden;
-  color: ${colors.gray300};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
-    color: ${colors.gray600};
+    min-height: 20px;
+    font-size: 13px;
+    font-weight: 600;
     -webkit-line-clamp: 1;
   }
 `;
