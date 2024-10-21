@@ -333,6 +333,21 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           {banner}
         </Responsive>
         <StyledRightWrapper>
+          <StyledCardWrapper>
+            {profiles?.map((profiles, index) => (
+              <React.Fragment key={index}>
+                {profiles.map((profile) => (
+                  <MemberCardWrapper key={profile.id} profile={profile} />
+                ))}
+              </React.Fragment>
+            ))}
+          </StyledCardWrapper>
+          {isEmpty && (
+            <StyledEmpty>
+              <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
+              <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
+            </StyledEmpty>
+          )}
           <Responsive only='desktop'>
             <StyledTopWrapper>
               <div
@@ -354,41 +369,34 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     placeholder='기수'
                     defaultOption={GENERATION_DEFAULT_OPTION}
                     options={GENERATION_OPTIONS}
-                    value={generation ?? ''}
                     onChange={handleSelectGeneration}
                   />
-                  <MemberListFilter
-                    placeholder='파트'
-                    value={part ?? ''}
-                    onChange={handleSelectPart}
-                    options={PART_OPTIONS}
-                  />
+                  <MemberListFilter placeholder='파트' onChange={handleSelectPart} options={PART_OPTIONS} />
                   <MemberListFilter
                     placeholder='활동'
                     options={TEAM_OPTIONS}
-                    value={team ?? ''}
                     onChange={handleSelectTeam}
                     defaultOption={FILTER_DEFAULT_OPTION}
                   >
                     <Link href={playgroundLink.makers()}>
-                      <StyledMakersLink>
-                        메이커스
-                        <IconDiagonalArrow />
-                      </StyledMakersLink>
+                      <div>
+                        <StyledMakersLink typography='SUIT_16_M'>
+                          메이커스
+                          <IconDiagonalArrow />
+                        </StyledMakersLink>
+                      </div>
                     </Link>
                   </MemberListFilter>
                   <MemberListFilter
                     placeholder='MBTI'
                     defaultOption={FILTER_DEFAULT_OPTION}
                     options={MBTI_OPTIONS}
-                    value={mbti ?? ''}
                     onChange={handleSelectMbti}
                   />
                   <MemberListFilter
                     placeholder='재직 상태'
                     defaultOption={FILTER_DEFAULT_OPTION}
                     options={EMPLOYED_OPTIONS}
-                    value={employed ?? ''}
                     onChange={handleSelectEmployed}
                   />
                 </StyledFilterWrapper>
@@ -415,22 +423,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             </StyledTopWrapper>
           </Responsive>
-
-          <StyledCardWrapper>
-            {profiles?.map((profiles, index) => (
-              <React.Fragment key={index}>
-                {profiles.map((profile) => (
-                  <MemberCardWrapper key={profile.id} profile={profile} />
-                ))}
-              </React.Fragment>
-            ))}
-          </StyledCardWrapper>
-          {isEmpty && (
-            <StyledEmpty>
-              <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
-              <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
-            </StyledEmpty>
-          )}
         </StyledRightWrapper>
       </StyledMain>
       <Target ref={ref} />
@@ -486,7 +478,7 @@ const StyledMain = styled.main`
 const StyledRightWrapper = styled.div`
   display: flex;
   flex: 1;
-  flex-direction: column;
+  flex-direction: column-reverse;
   width: 100%;
 `;
 
@@ -521,21 +513,17 @@ const StyledFilterWrapper = styled.div`
   }
 `;
 
-const StyledMakersLink = styled.div`
+const StyledMakersLink = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: color 0.2s background-color 0.2s;
   outline: none;
   border-radius: 6px;
-  cursor: pointer;
-  padding: 5px 10px;
-  color: ${colors.gray200};
+  padding: 8px 12px;
 
   &:hover {
-    outline: none;
-    background-color: ${colors.gray600};
-    color: ${colors.white};
+    background-color: ${colors.gray700};
   }
 `;
 

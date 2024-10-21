@@ -1,6 +1,6 @@
 import { GENERATIONS } from '@/constants/generation';
 
-type Option<T = string> = {
+export type Option<T = string> = {
   value: T;
   label: string;
 };
