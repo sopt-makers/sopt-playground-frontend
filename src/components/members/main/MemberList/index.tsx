@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconChevronDown } from '@sopt-makers/icons';
+import { IconChevronDown, IconSwitchVertical } from '@sopt-makers/icons';
 import { uniq } from 'lodash-es';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -192,7 +192,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         `}
       >
         <Responsive only='mobile'>{banner}</Responsive>
-        <Responsive only='mobile' css={{ marginTop: '40px' }}>
+        <Responsive only='mobile' css={{ marginTop: '20px' }}>
           <StyledMemberSearch
             placeholder='이름, 학교, 회사를 검색해보세요!'
             value={search || ''}
@@ -270,29 +270,25 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             <div
               css={css`
                 display: flex;
+                align-items: center;
                 justify-content: space-between;
-                margin-top: 30px;
+                margin-top: 20px;
+                height: 48px;
               `}
             >
-              <Text>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+              <Text typography='SUIT_14_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
               <StyledMobileFilter
                 placeholder=''
                 options={ORDER_OPTIONS}
                 value={orderBy}
                 onChange={handleSelectOrderBy}
                 trigger={(placeholder) => (
-                  <div
-                    css={css`
-                      display: flex;
-                      align-items: center;
-                      cursor: pointer;
-                    `}
-                  >
-                    {/* <IconArrowUpDown /> */}
-                    <Text typography='SUIT_12_M' color={colors.gray400}>
+                  <OrderFilter>
+                    <Text typography='SUIT_16_M' color={colors.gray300}>
                       {placeholder}
                     </Text>
-                  </div>
+                    <StyledSwitchVertical />
+                  </OrderFilter>
                 )}
               />
             </div>
@@ -449,7 +445,19 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   `}
                 >
                   <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                  <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
+                  <OrderBySelect
+                    value={orderBy}
+                    onChange={handleSelectOrderBy}
+                    options={ORDER_OPTIONS}
+                    trigger={
+                      <OrderFilter>
+                        <Text typography='SUIT_16_M' color={colors.gray300}>
+                          {ORDER_OPTIONS.find((option: Option) => option.value === orderBy)?.label}
+                        </Text>
+                        <StyledSwitchVertical />
+                      </OrderFilter>
+                    }
+                  />
                 </div>
               )}
             </StyledTopWrapper>
@@ -590,6 +598,7 @@ const StyledCardWrapper = styled.div`
     grid-template-columns: repeat(1, 1fr);
     gap: 0 8px;
     justify-items: stretch;
+    margin-top: 0;
 
     & > div {
       width: 100%;
@@ -659,6 +668,7 @@ const StyledMobileFilterWrapper = styled.div`
   gap: 10px;
   align-items: center;
   margin-top: 17px;
+  margin-right: -20px;
   overflow-x: auto;
 
   /* to disable scroll bar */
@@ -695,4 +705,16 @@ const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
 const StyledChevronDown = styled(IconChevronDown)`
   width: 20px;
   height: 20px;
+`;
+
+const StyledSwitchVertical = styled(IconSwitchVertical)`
+  width: 20px;
+  height: 20px;
+  color: ${colors.gray300};
+`;
+
+const OrderFilter = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
 `;

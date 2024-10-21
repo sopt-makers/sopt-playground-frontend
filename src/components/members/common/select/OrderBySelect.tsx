@@ -22,11 +22,12 @@ interface OrderBySelectProps {
   onChange: (value: string) => void;
   options: { value: string; label: string }[];
   className?: string;
+  trigger?: ReactNode;
 }
 
-const OrderBySelect: FC<OrderBySelectProps> = ({ className, value, options, onChange }) => {
+const OrderBySelect: FC<OrderBySelectProps> = ({ className, value, options, onChange, trigger }) => {
   return (
-    <SelectComp className={className} value={value} onChange={onChange}>
+    <SelectComp className={className} value={value} onChange={onChange} trigger={trigger}>
       {options.map((option) => (
         <SelectItem key={option.value} value={option.value}>
           {option.label}
@@ -41,9 +42,10 @@ export default OrderBySelect;
 interface SelectCompProps extends Omit<Select.SelectProps, 'onValueChange'> {
   className?: string;
   onChange?: Select.SelectProps['onValueChange'];
+  trigger?: ReactNode;
 }
 
-const SelectComp: FC<PropsWithChildren<SelectCompProps>> = ({ onChange, children, ...props }) => {
+const SelectComp: FC<PropsWithChildren<SelectCompProps>> = ({ onChange, children, trigger, ...props }) => {
   const [open, onOpenChange] = useState<boolean>(false);
   const [label, onChangeLabel] = useState<ReactNode>();
 
@@ -56,12 +58,7 @@ const SelectComp: FC<PropsWithChildren<SelectCompProps>> = ({ onChange, children
       }}
     >
       <Select.Root onValueChange={onChange} {...props} open={open} onOpenChange={onOpenChange}>
-        <StyledTrigger>
-          <IconArrowUpDown />
-          <Text typography='SUIT_18_M' color={colors.gray400}>
-            {label}
-          </Text>
-        </StyledTrigger>
+        <StyledTrigger>{trigger}</StyledTrigger>
         <SelectPortal>
           <>
             <Overlay open={open} />
