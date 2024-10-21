@@ -22,6 +22,7 @@ import {
   GENERATION_DEFAULT_OPTION,
   GENERATION_OPTIONS,
   MBTI_OPTIONS,
+  Option,
   ORDER_OPTIONS,
   PART_OPTIONS,
   TEAM_OPTIONS,
@@ -33,9 +34,7 @@ import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import IconArrowUpDown from '@/public/icons/icon-arrow-up-down.svg';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
-import IconExpand from '@/public/icons/icon-expand-less.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -62,14 +61,13 @@ export type MessageModalState =
     };
 
 const MemberList: FC<MemberListProps> = ({ banner }) => {
-  const [generation, setGeneration] = useState<string | undefined>(undefined);
-  const [part, setPart] = useState<string | undefined>(undefined);
-  const [employed, setEmployed] = useState<string | undefined>(undefined);
-  const [team, setTeam] = useState<string | undefined>(undefined);
-  const [mbti, setMbti] = useState<string | undefined>(undefined);
+  const [generation, setGeneration] = useState<Option | null>(null);
+  const [part, setPart] = useState<Option | null>(null);
+  const [employed, setEmployed] = useState<Option | null>(null);
+  const [team, setTeam] = useState<Option | null>(null);
+  const [mbti, setMbti] = useState<Option | null>(null);
   const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
-
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string | undefined>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
   const router = useRouter();
@@ -109,23 +107,32 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   useEffect(() => {
     if (router.isReady) {
       const { generation, filter, search, employed, team, mbti, orderBy } = router.query;
-      if (typeof generation === 'string' || generation === undefined) {
-        setGeneration(generation);
+      if (typeof generation === 'string' || generation === null) {
+        const generationOption = GENERATION_OPTIONS.find((option) => option.value === generation);
+        setGeneration(generationOption as Option);
       }
-      if (typeof filter === 'string' || filter === undefined) {
-        setPart(filter);
+      if (typeof filter === 'string' || filter === null) {
+        const filterOption = PART_OPTIONS.find((option) => option.value === filter);
+        setPart(filterOption as Option);
       }
       if (typeof search === 'string') {
         setSearch(search);
       }
-      if (typeof team === 'string' || team === undefined) {
-        setTeam(team);
+      if (typeof team === 'string' || team === null) {
+        setTeam({
+          label: team,
+          value: team,
+        });
       }
-      if (typeof mbti === 'string' || mbti === undefined) {
-        setMbti(mbti);
+      if (typeof mbti === 'string' || mbti === null) {
+        setMbti({
+          label: mbti,
+          value: mbti,
+        });
       }
-      if (typeof employed === 'string' || employed === undefined) {
-        setEmployed(employed);
+      if (typeof employed === 'string' || employed === null) {
+        const employedOption = EMPLOYED_OPTIONS.find((option) => option.value === employed);
+        setEmployed(employedOption as Option);
       }
       if (typeof orderBy === 'string') {
         setOrderBy(orderBy);
@@ -133,34 +140,49 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     }
   }, [router.isReady, router.query, router]);
 
-  const handleSelectPart = (filter: string) => {
+  const createTypeSafeHandler =
+    <T extends string>(handler: (value: T) => void) =>
+    (value: string | number | boolean) => {
+      if (typeof value === 'string') {
+        handler(value as T);
+      }
+    };
+
+  const handleSelectPart = createTypeSafeHandler<string>((filter: string) => {
     addQueryParamsToUrl({ filter });
     logClickEvent('filterPart', { part: filter || 'all' });
-  };
-  const handleSelectGeneration = (generation: string) => {
+  });
+
+  const handleSelectGeneration = createTypeSafeHandler<string>((generation: string) => {
     addQueryParamsToUrl({ generation });
     logClickEvent('filterGeneration', { generation: generation || 'all' });
-  };
-  const handleSelectTeam = (team: string) => {
+  });
+
+  const handleSelectTeam = createTypeSafeHandler<string>((team: string) => {
     addQueryParamsToUrl({ team });
     logClickEvent('filterTeam', { team: team || 'all' });
-  };
-  const handleSelectMbti = (mbti: string) => {
+  });
+
+  const handleSelectMbti = createTypeSafeHandler<string>((mbti: string) => {
     addQueryParamsToUrl({ mbti });
     logClickEvent('filterMbti', { mbti: mbti || 'all' });
-  };
-  const handleSelectEmployed = (employed: string) => {
+  });
+
+  const handleSelectEmployed = createTypeSafeHandler<string>((employed: string) => {
     addQueryParamsToUrl({ employed });
     logClickEvent('filterEmployed', { employed: employed || 'all' });
-  };
-  const handleSelectOrderBy = (orderBy: string) => {
+  });
+
+  const handleSelectOrderBy = createTypeSafeHandler<string>((orderBy: string) => {
     addQueryParamsToUrl({ orderBy });
     logClickEvent('filterOrderBy', { orderBy });
-  };
+  });
+
   const handleSearch = (searchQuery: string) => {
     addQueryParamsToUrl({ search: searchQuery });
     logSubmitEvent('searchMember', { content: 'searchQuery' });
   };
+
   const handleClickCard = (profile: Profile) => {
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
@@ -265,13 +287,20 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     defaultOption={GENERATION_DEFAULT_OPTION}
                     options={GENERATION_OPTIONS}
                     onChange={handleSelectGeneration}
+                    value={generation ?? undefined}
                   />
-                  <MemberListFilter placeholder='파트' onChange={handleSelectPart} options={PART_OPTIONS} />
+                  <MemberListFilter
+                    placeholder='파트'
+                    onChange={handleSelectPart}
+                    options={PART_OPTIONS}
+                    value={part ?? undefined}
+                  />
                   <MemberListFilter
                     placeholder='활동'
                     options={TEAM_OPTIONS}
                     onChange={handleSelectTeam}
                     defaultOption={FILTER_DEFAULT_OPTION}
+                    value={team ?? undefined}
                   >
                     <Link href={playgroundLink.makers()}>
                       <div>
@@ -287,18 +316,20 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     defaultOption={FILTER_DEFAULT_OPTION}
                     options={MBTI_OPTIONS}
                     onChange={handleSelectMbti}
+                    value={mbti ?? undefined}
                   />
                   <MemberListFilter
                     placeholder='재직 상태'
                     defaultOption={FILTER_DEFAULT_OPTION}
                     options={EMPLOYED_OPTIONS}
                     onChange={handleSelectEmployed}
+                    value={employed ?? undefined}
                   />
                 </StyledFilterWrapper>
               </FilterScrollWrapper>
               <StyledMemberSearch
                 placeholder='이름, 학교, 회사를 검색해보세요!'
-                value={search}
+                value={search ?? ''}
                 onChange={setSearch}
                 onSearch={handleSearch}
               />
@@ -472,6 +503,7 @@ const StyledEmpty = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  min-height: 300px;
   max-height: 100%;
 
   & > span {
@@ -514,32 +546,6 @@ const HLine = styled.hr`
 const Target = styled.div`
   width: 100%;
   height: 40px;
-`;
-
-const StyledMobileFilter = styled(MemberListFilterSheet)`
-  flex: none;
-`;
-
-const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid transparent;
-  border-radius: 20.5px;
-  background: ${colors.gray800};
-  padding: 8px 12px;
-  min-width: 76px;
-  height: 32px;
-  color: ${colors.gray200};
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      border-color: ${colors.gray400};
-    `}
-
-  ${textStyles.SUIT_13_M};
 `;
 
 const StyledLink = styled(Link)`
