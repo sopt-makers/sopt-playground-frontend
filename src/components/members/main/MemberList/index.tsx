@@ -701,17 +701,18 @@ const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
   background: ${colors.gray800};
   padding: 11px 16px;
   height: 48px;
-  color: ${colors.white};
+  color: ${colors.gray300};
   ${({ selected }) =>
     selected &&
     css`
-      border-color: ${colors.white};
+      color: ${colors.white};
     `}
 `;
 
 const StyledChevronDown = styled(IconChevronDown)`
   width: 20px;
   height: 20px;
+  color: ${colors.white};
 `;
 
 const StyledSwitchVertical = styled(IconSwitchVertical)`
