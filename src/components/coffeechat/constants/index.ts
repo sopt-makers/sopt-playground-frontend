@@ -27,3 +27,40 @@ export const COFFECHAT_SAMPLE_DATA = {
   ],
   totalCount: 3,
 };
+export const categoryList={
+  categoryList:[
+    {
+      categoryName:"전체",
+      icon:'/icons/logo/coffeechatCategory/ic_default.svg',
+    },
+    {
+      categoryName:"SOPT 활동",
+      icon:'/icons/logo/coffeechatCategory/ic_sopt.svg',
+    },
+    {
+      categoryName:"기획",
+      icon:'/icons/logo/coffeechatCategory/ic_plan.svg',
+    },
+    {
+      categoryName:"디자인",
+      icon:'/icons/logo/coffeechatCategory/ic_design.svg',
+    },
+    {
+      categoryName:"프론트엔드",
+      icon:'/icons/logo/coffeechatCategory/ic_frontend.svg',
+    },
+    {
+      categoryName:"백엔드",
+      icon:'/icons/logo/coffeechatCategory/ic_backend.svg',
+    },
+    {
+      categoryName:"앱 개발",
+      icon:'/icons/logo/coffeechatCategory/ic_app.svg',
+    },
+    {
+      categoryName:"기타",
+      icon:'/icons/logo/coffeechatCategory/ic_etc.svg',
+    },
+  ]
+
+}
