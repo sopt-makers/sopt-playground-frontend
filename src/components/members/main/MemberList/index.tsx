@@ -676,6 +676,7 @@ const StyledMobileFilterWrapper = styled.div`
   align-items: center;
   margin-top: 17px;
   margin-right: -20px;
+  padding-right: 20px;
   overflow-x: auto;
 
   /* to disable scroll bar */
