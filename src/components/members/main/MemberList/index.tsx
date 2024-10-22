@@ -691,15 +691,15 @@ const StyledMobileFilter = styled(MemberListFilterSheet)`
 
 const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 12px;
-  min-width: fit-content;
-  width: max-content;
+  align-items: center;
+  justify-content: center;
   border: 1px solid transparent;
   border-radius: 10px;
   background: ${colors.gray800};
   padding: 11px 16px;
+  width: max-content;
+  min-width: fit-content;
   height: 48px;
   color: ${colors.gray300};
   ${({ selected }) =>
