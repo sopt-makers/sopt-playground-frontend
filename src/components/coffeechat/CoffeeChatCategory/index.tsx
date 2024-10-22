@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
+import {Select} from '@sopt-makers/ui'
+import { SearchField } from '@sopt-makers/ui';
 
 import { categoryList } from '@/components/coffeechat/constants';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -24,6 +26,27 @@ export default function CoffeeChatCategory() {
         ))}
         </CategoryList>
         </Header>
+        <FilterArea>
+        <SelectFilterArea>
+        <Select placeholder="주제" type={"text"} options={[]} onChange={function (value: string | number | boolean): void {
+                throw new Error('Function not implemented.');
+            } }></Select>
+                    <Select placeholder="경력" type={"text"} options={[]} onChange={function (value: string | number | boolean): void {
+                throw new Error('Function not implemented.');
+            } }></Select>
+                    <Select placeholder="파트" type={"text"} options={[]} onChange={function (value: string | number | boolean): void {
+                throw new Error('Function not implemented.');
+            } }></Select>
+        </SelectFilterArea>
+        <SearchField  placeholder='회사, 학교, 이름을 검색해보세요!' value={''}
+        style={{"fontSize":"16px","minWidth":"335px"}}
+        onSubmit={function (): void {
+                throw new Error('Function not implemented.');
+            } } onReset={function (): void {
+                throw new Error('Function not implemented.');
+            } } />
+        </FilterArea>
+        
     </Container>
 }
 
@@ -97,3 +120,14 @@ ${fonts.TITLE_16_SB}
 
 white-space: nowrap;
 `
+
+const FilterArea=styled.div`
+display: flex;
+justify-content: space-between;
+margin-top:48px;
+width: 1300px;
+`
+const SelectFilterArea=styled.div`
+
+display:flex;
+gap:12px`
