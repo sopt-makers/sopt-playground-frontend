@@ -138,6 +138,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
   const handleSearchReset = () => {
     setSearch('');
+    addQueryParamsToUrl({ search: '' });
   };
 
   const createTypeSafeHandler =
