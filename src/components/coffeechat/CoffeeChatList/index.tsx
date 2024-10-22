@@ -86,7 +86,6 @@ export default function CoffeeChatList() {
 
   return (
     <Container>
-
         <Header>
           <Title>
             {isLoading
@@ -206,7 +205,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 1302px;
+  width: 1300px;
 
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
     width: 969px;
@@ -241,7 +240,7 @@ const Title = styled.div`
   font-size: 24px;
   font-weight: 700;
 
-  @media ${MOBILE_MEDIA_QUERY} {
+  @media ${MB_BIG_MEDIA_QUERY} {
     /* Heading/18_B */
     line-height: 28px; /* 155.556% */
     letter-spacing: -0.36px;
