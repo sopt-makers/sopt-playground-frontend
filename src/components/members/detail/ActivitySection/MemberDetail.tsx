@@ -65,18 +65,16 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
 
         <SoptActivitySection soptActivities={sortedSoptActivities} />
 
-        {(profile.careers?.length > 0 || profile.skill || profile.links?.length > 0) && (
-          <CareerSection
-            careers={profile.careers}
-            links={profile.links}
-            skill={profile.skill}
-            name={profile.name}
-            email={profile.email}
-            profileImage={profile.profileImage}
-            memberId={memberId}
-            isMine={profile.isMine}
-          />
-        )}
+        <CareerSection
+          careers={profile.careers}
+          links={profile.links}
+          skill={profile.skill}
+          name={profile.name}
+          email={profile.email}
+          profileImage={profile.profileImage}
+          memberId={memberId}
+          isMine={profile.isMine}
+        />
 
         {(profile.sojuCapacity ||
           profile.mbti ||
