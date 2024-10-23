@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { FC, PropsWithChildren, ReactNode, useMemo, useState } from 'react';
 import ReactModalSheet from 'react-modal-sheet';
 
+import Text from '@/components/common/Text';
 import IconCheck from '@/public/icons/icon-filter-check.svg';
 import { textStyles } from '@/styles/typography';
 
