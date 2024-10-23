@@ -1,19 +1,19 @@
 import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 
 import { MemberLink } from '@/api/endpoint_LEGACY/members/type';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import CareerItem from '@/components/members/detail/CareerSection/CareerItem';
 import InfoItem from '@/components/members/detail/InfoItem';
+import MessageSection from '@/components/members/detail/MessageSection';
 import { Career } from '@/components/members/detail/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import MessageSection from '@/components/members/detail/MessageSection';
 import { textStyles } from '@/styles/typography';
-import { playgroundLink } from 'playground-common/export';
-import { useRouter } from 'next/router';
-import { fonts } from '@sopt-makers/fonts';
 
 interface CareerSectionProps {
   careers: Career[];
@@ -41,7 +41,9 @@ export default function CareerSection({
   const router = useRouter();
   const Container = shouldNeedOnlyItems ? Slot : StyledMemberDetailSection;
 
-  return (
+  const hasCareerOrSkillOrLinks = careers?.length > 0 || skill?.length > 0 || links?.length > 0;
+
+  return hasCareerOrSkillOrLinks ? (
     <Container>
       <>
         {careers?.length > 0 && (
@@ -85,7 +87,7 @@ export default function CareerSection({
         <MessageSection name={name} email={email} profileImage={profileImage} memberId={memberId} />
       )}
     </Container>
-  );
+  ) : null;
 }
 
 const StyledLink = styled(Link)`
