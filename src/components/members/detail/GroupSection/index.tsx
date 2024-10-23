@@ -1,24 +1,43 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import axios from 'axios';
 import Link from 'next/link';
 
-import { MeetingsResponse } from '@/api/endpoint/members/getMemberCrew';
+import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
 import { ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import MemberMeetingCard from '@/components/members/detail/ActivitySection/MemberMeetingCard';
+import EmptyProfile from '@/components/members/detail/EmptyProfile';
 import { playgroundLink } from '@/constants/links';
+import useEnterScreen from '@/hooks/useEnterScreen';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { safeParseInt } from '@/utils';
 
 interface GroupSectionProps {
   profile: ProfileDetail;
-  meetingList: MeetingsResponse;
-  ref: React.RefObject<HTMLDivElement>;
   meId?: number | undefined;
   memberId: string;
 }
 
-const GroupSection = ({ profile, meetingList, ref, meId, memberId }: GroupSectionProps) => {
+const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
+  const {
+    data: memberCrewData,
+    fetchNextPage,
+    error: crewError,
+  } = useGetMemberCrewInfiniteQuery(20, safeParseInt(memberId) ?? undefined);
+  const meetingList = memberCrewData?.pages.map((page) => page.meetings).flat() ?? [];
+
+  const { ref } = useEnterScreen({
+    onEnter: () => {
+      fetchNextPage();
+    },
+  });
+
+  if (axios.isAxiosError(crewError) && crewError.response?.status === 400) {
+    return <EmptyProfile />;
+  }
+
   return (
     <Container>
       <ActivityTitle>{profile.name}님이 참여한 모임</ActivityTitle>
