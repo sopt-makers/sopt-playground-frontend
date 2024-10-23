@@ -10,10 +10,15 @@ export const useVisibleBadges = (badges: Badge[], ellipsisWidth: number, badgeGa
   const badgeRefs = useRef<(HTMLDivElement | null)[]>([]);
   badgeRefs.current = badges.map(() => null);
   const badgeWrapperRef = useRef<HTMLDivElement>(null);
-  const [visibleBadges, setAvailableBadges] = useState<typeof badges>(badges);
+  const [visibleBadges, setVisibleBadges] = useState<typeof badges>(badges);
   const [isBadgeOverflow, setIsBadgeOverflow] = useState<boolean>(false);
 
   useLayoutEffect(() => {
+    // 뱃지 개수가 2이하면 계산 로직 스킵
+    if (badges.length <= 1) {
+      isCalculated.current = true;
+      return;
+    }
     if (isCalculated.current) return;
 
     const calculateVisibleBadges = () => {
@@ -33,7 +38,7 @@ export const useVisibleBadges = (badges: Badge[], ellipsisWidth: number, badgeGa
         totalWidth += badgeWidth + badgeGap;
       }
       isCalculated.current = true;
-      setAvailableBadges(visible);
+      setVisibleBadges(visible);
       setIsBadgeOverflow(overflow);
     };
 

@@ -5,13 +5,13 @@ import { m } from 'framer-motion';
 import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import CoffeeChatButton from '@/components/members/main/MemberCard/CoffeeChatButton';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import Responsive from '@/components/common/Responsive';
 import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MemberCardProps {
   name: string;
