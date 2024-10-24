@@ -4,24 +4,20 @@ import { Button } from '@sopt-makers/ui';
 
 import Responsive from '@/components/common/Responsive';
 
-interface UploadButtonProps {
-  onClick?: () => void;
-}
-
-export default function UploadButton({ onClick }: UploadButtonProps) {
+export default function UploadButton() {
   return (
-    <div onClick={onClick}>
+    <>
       <Responsive only='desktop'>
-        <Button size='md' LeftIcon={IconPlus} type='submit'>
+        <Button size='md' LeftIcon={IconPlus} type='submit' form='coffeechatForm'>
           커피챗 오픈하기
         </Button>
       </Responsive>
       <Responsive only='mobile'>
-        <MobileButton size='lg' LeftIcon={IconPlus} type='submit'>
+        <MobileButton size='lg' LeftIcon={IconPlus} type='submit' form='coffeechatForm'>
           커피챗 오픈하기
         </MobileButton>
       </Responsive>
-    </div>
+    </>
   );
 }
 

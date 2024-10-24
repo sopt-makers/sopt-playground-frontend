@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import DesktopCoffeechatUploadLayout from '@/components/coffeechat/page/layout/DesktopCoffeechatUploadLayout';
 import MobileCoffeechatUploadLayout from '@/components/coffeechat/page/layout/MobileCoffeechatUploadLayout';
@@ -13,16 +13,15 @@ import Responsive from '@/components/common/Responsive';
 interface CoffeechatUploadPageProps {
   uploadType: '오픈' | '수정';
   form: CoffeechatFormContent;
-  onSubmit: () => void;
+  onSubmit: SubmitHandler<CoffeechatFormContent>;
 }
 
 export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: CoffeechatUploadPageProps) {
   const methods = useForm<CoffeechatFormContent>({ resolver: yupResolver(coffeChatchema), defaultValues: form });
-  const { handleSubmit } = methods;
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form id='coffeechatForm' onSubmit={methods.handleSubmit(onSubmit)}>
         <Responsive only='desktop'>
           <DesktopCoffeechatUploadLayout
             main={<CoffeechatForm />}

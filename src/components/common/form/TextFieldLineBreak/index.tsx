@@ -10,6 +10,7 @@ interface TextFieldLineBreakProps {
   lineBreakPlaceholder: string[];
   isError?: boolean;
   errorMessage?: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 export default function TextFieldLineBreak({
@@ -19,6 +20,7 @@ export default function TextFieldLineBreak({
   lineBreakPlaceholder,
   isError = false,
   errorMessage,
+  onChange,
 }: TextFieldLineBreakProps) {
   return (
     <TextAreaWrapper>
@@ -29,6 +31,7 @@ export default function TextFieldLineBreak({
         maxHeight={fixedHeight}
         isError={isError}
         errorMessage={errorMessage}
+        onChange={onChange}
       />
       {!value && (
         <Placeholder>

@@ -34,7 +34,7 @@ export default {
       return (
         <FormProvider {...formMethods}>
           <Story />
-          <UploadButton onClick={() => formMethods.handleSubmit((formData) => console.log(formData))} />
+          <UploadButton />
         </FormProvider>
       );
     },

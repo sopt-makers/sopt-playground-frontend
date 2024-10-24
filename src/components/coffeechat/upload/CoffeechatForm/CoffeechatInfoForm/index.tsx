@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { SelectV2, TextArea } from '@sopt-makers/ui';
+import { useFormContext } from 'react-hook-form';
 
 import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
 import ChipField from '@/components/coffeechat/upload/CoffeechatForm/ChipField';
@@ -8,11 +9,25 @@ import {
   COFFECHAT_TOPIC,
   MEETING_TYPE_OPTIONS,
 } from '@/components/coffeechat/upload/CoffeechatForm/constants';
+import { CoffeechatFormContent, CoffeechatFormPaths } from '@/components/coffeechat/upload/CoffeechatForm/types';
 import FormTitle from '@/components/common/form/FormTitle';
 import TextFieldLineBreak from '@/components/common/form/TextFieldLineBreak';
 import Responsive from '@/components/common/Responsive';
 
 export default function CoffeechatInfoForm() {
+  const {
+    setValue,
+    watch,
+    control,
+    formState: { errors },
+  } = useFormContext<CoffeechatFormContent>();
+
+  const handleChange = (key: CoffeechatFormPaths, valueOrEvent: string | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = typeof valueOrEvent === 'string' ? valueOrEvent : valueOrEvent.target.value;
+
+    setValue(key, value);
+  };
+
   return (
     <>
       <CoffeechatSectionWrapper>
@@ -23,18 +38,23 @@ export default function CoffeechatInfoForm() {
         >
           관련 분야
         </FormTitle>
-        <ChipField errorMessage='관련 분야를 선택해주세요' chipList={COFFECHAT_SECTION} activeChipList={[]} />
+        <ChipField
+          field='coffeeChatInfo.sections'
+          errorMessage={errors.coffeeChatInfo?.sections ? '관련 분야를 선택해주세요' : ''}
+          chipList={COFFECHAT_SECTION}
+        />
       </CoffeechatSectionWrapper>
       <article>
         <FormTitle essential breakPoint={COFFEECHAT_MOBILE_MEDIA_QUERY}>
           커피챗 제목
         </FormTitle>
         <TextArea
-          value=''
+          value={watch('coffeeChatInfo.bio') ?? ''}
           placeholder='ex. 디자인 관련 고민이 있다면, 함께 나눠봐요!'
           maxLength={40}
-          isError={true}
+          isError={!!errors.coffeeChatInfo?.bio}
           errorMessage='커피챗 제목을 입력해주세요'
+          onChange={(e) => handleChange('coffeeChatInfo.bio', e)}
         />
       </article>
       <TopicWrapper>
@@ -45,11 +65,15 @@ export default function CoffeechatInfoForm() {
         >
           커피챗 주제 및 소개
         </FormTitle>
-        <ChipField errorMessage='관련 분야를 선택해주세요' chipList={COFFECHAT_TOPIC} activeChipList={[]} />
+        <ChipField
+          field='coffeeChatInfo.topicTypes'
+          errorMessage={errors.coffeeChatInfo?.topicTypes ? '커피챗 주제 소개를 입력해주세요' : ''}
+          chipList={COFFECHAT_TOPIC}
+        />
         <>
           <Responsive only='desktop'>
             <TextFieldLineBreak
-              value=''
+              value={watch('coffeeChatInfo.topic') ?? ''}
               maxLength={1000}
               fixedHeight={189}
               lineBreakPlaceholder={[
@@ -58,13 +82,14 @@ export default function CoffeechatInfoForm() {
                 '• 직무 전환 시 준비할 것들',
                 '• 당근, 토스, 넥슨, 하나은행, LG전자 면접 후기',
               ]}
-              isError
+              isError={!!errors.coffeeChatInfo?.topic}
               errorMessage='자기소개를 입력해주세요'
+              onChange={(e) => handleChange('coffeeChatInfo.topic', e)}
             />
           </Responsive>
           <Responsive only='mobile'>
             <TextFieldLineBreak
-              value=''
+              value={watch('coffeeChatInfo.topic') ?? ''}
               maxLength={1000}
               fixedHeight={176}
               lineBreakPlaceholder={[
@@ -73,17 +98,23 @@ export default function CoffeechatInfoForm() {
                 '• 직무 전환 시 준비할 것들',
                 '• 당근, 토스, 넥슨, 하나은행, LG전자 면접 후기',
               ]}
-              isError
+              isError={!!errors.coffeeChatInfo?.topic}
               errorMessage='자기소개를 입력해주세요'
+              onChange={(e) => handleChange('coffeeChatInfo.topic', e)}
             />
           </Responsive>
         </>
       </TopicWrapper>
       <article>
         <FormTitle breakPoint={COFFEECHAT_MOBILE_MEDIA_QUERY}>커피챗 진행 방식</FormTitle>
-        <SelectV2.Root type='text' visibleOptions={3}>
+        <SelectV2.Root
+          type='text'
+          visibleOptions={3}
+          defaultValue={MEETING_TYPE_OPTIONS.find((option) => option.value === watch('coffeeChatInfo.meetingType'))}
+          onChange={(value) => handleChange('coffeeChatInfo.meetingType', String(value))}
+        >
           <SelectV2.Trigger>
-            <SelectV2.TriggerContent placeholder='진행 방식 선택' />
+            <SelectV2.TriggerContent placeholder={'진행 방식 선택'} />
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {MEETING_TYPE_OPTIONS.map((option) => (
@@ -97,7 +128,7 @@ export default function CoffeechatInfoForm() {
         <>
           <Responsive only='desktop'>
             <TextFieldLineBreak
-              value=''
+              value={watch('coffeeChatInfo.guideline') ?? ''}
               maxLength={1000}
               fixedHeight={159}
               lineBreakPlaceholder={[
@@ -105,11 +136,12 @@ export default function CoffeechatInfoForm() {
                 '• 이런 분께 추천해요 ',
                 '• 커피챗 가능한 시간대',
               ]}
+              onChange={(e) => handleChange('coffeeChatInfo.guideline', e)}
             />
           </Responsive>
           <Responsive only='mobile'>
             <TextFieldLineBreak
-              value=''
+              value={watch('coffeeChatInfo.guideline') ?? ''}
               maxLength={1000}
               fixedHeight={150}
               lineBreakPlaceholder={[
@@ -117,6 +149,7 @@ export default function CoffeechatInfoForm() {
                 '• 이런 분께 추천해요 ',
                 '• 커피챗 가능한 시간대',
               ]}
+              onChange={(e) => handleChange('coffeeChatInfo.guideline', e)}
             />
           </Responsive>
         </>

@@ -36,4 +36,6 @@ export const playgroundLink = {
   feedUpload: () => `/feed/upload`,
   feedEdit: (id: string | number) => `/feed/edit/${id}`,
   remember: () => `/remember`,
+  coffeechatUpload: () => `/coffeechat/upload`,
+  coffeechatEdit: (id: string | number) => `/coffeechat/edit/${id}`,
 };
