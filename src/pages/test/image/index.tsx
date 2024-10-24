@@ -46,30 +46,12 @@ const Footer = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizo
   padding: 0 24px;
 
   ${(props) =>
-    props.stack !== 'vertical' &&
-    css`
-      grid-auto-flow: column;
-      column-gap: 8px;
-    `}
-
-  ${(props) =>
     props.align === 'stretch' &&
     css`
       grid-auto-columns: minmax(10px, 1fr);
     `}
-  ${(props) =>
-    props.align === 'left' &&
-    css`
-      grid-auto-columns: max-content;
-    `}
-    ${(props) =>
-    props.align === 'right' &&
-    css`
-      grid-auto-columns: max-content;
-      justify-content: end;
-    `}
 
-    @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     grid-auto-columns: minmax(10px, 1fr);
   }
 `;
