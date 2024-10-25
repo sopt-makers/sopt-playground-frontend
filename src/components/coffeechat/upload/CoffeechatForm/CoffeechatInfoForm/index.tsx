@@ -44,6 +44,7 @@ export default function CoffeechatInfoForm() {
           control={control}
           render={({ field }) => (
             <TextArea
+              name={field.name}
               value={field.value ?? ''}
               placeholder='ex. 디자인 관련 고민이 있다면, 함께 나눠봐요!'
               maxLength={40}
@@ -75,6 +76,7 @@ export default function CoffeechatInfoForm() {
             <>
               <Responsive only='desktop'>
                 <TextFieldLineBreak
+                  name={field.name}
                   value={field.value ?? ''}
                   maxLength={1000}
                   fixedHeight={189}
@@ -91,6 +93,7 @@ export default function CoffeechatInfoForm() {
               </Responsive>
               <Responsive only='mobile'>
                 <TextFieldLineBreak
+                  name={field.name}
                   value={field.value ?? ''}
                   maxLength={1000}
                   fixedHeight={176}
@@ -115,21 +118,23 @@ export default function CoffeechatInfoForm() {
           name='coffeeChatInfo.meetingType'
           control={control}
           render={({ field }) => (
-            <SelectV2.Root
-              type='text'
-              visibleOptions={3}
-              defaultValue={MEETING_TYPE_OPTIONS.find((option) => option.value === field.value)}
-              onChange={(value) => field.onChange(value)}
-            >
-              <SelectV2.Trigger>
-                <SelectV2.TriggerContent placeholder={'진행 방식 선택'} />
-              </SelectV2.Trigger>
-              <SelectV2.Menu>
-                {MEETING_TYPE_OPTIONS.map((option) => (
-                  <SelectV2.MenuItem key={option.value} option={option} />
-                ))}
-              </SelectV2.Menu>
-            </SelectV2.Root>
+            <div {...field}>
+              <SelectV2.Root
+                type='text'
+                visibleOptions={3}
+                defaultValue={MEETING_TYPE_OPTIONS.find((option) => option.value === field.value)}
+                onChange={(value) => field.onChange(value)}
+              >
+                <SelectV2.Trigger>
+                  <SelectV2.TriggerContent placeholder={'진행 방식 선택'} />
+                </SelectV2.Trigger>
+                <SelectV2.Menu>
+                  {MEETING_TYPE_OPTIONS.map((option) => (
+                    <SelectV2.MenuItem key={option.value} option={option} />
+                  ))}
+                </SelectV2.Menu>
+              </SelectV2.Root>
+            </div>
           )}
         />
       </article>
@@ -142,6 +147,7 @@ export default function CoffeechatInfoForm() {
             <>
               <Responsive only='desktop'>
                 <TextFieldLineBreak
+                  name={field.name}
                   value={field.value ?? ''}
                   maxLength={1000}
                   fixedHeight={159}
@@ -155,6 +161,7 @@ export default function CoffeechatInfoForm() {
               </Responsive>
               <Responsive only='mobile'>
                 <TextFieldLineBreak
+                  name={field.name}
                   value={field.value ?? ''}
                   maxLength={1000}
                   fixedHeight={150}

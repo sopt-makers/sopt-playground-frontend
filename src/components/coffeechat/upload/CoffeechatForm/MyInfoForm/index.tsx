@@ -43,6 +43,7 @@ export default function MyInfoForm() {
             <>
               <Responsive only='desktop'>
                 <TextFieldLineBreak
+                  name={field.name}
                   value={field.value ?? ''}
                   maxLength={200}
                   fixedHeight={126}
@@ -54,6 +55,7 @@ export default function MyInfoForm() {
               </Responsive>
               <Responsive only='mobile'>
                 <TextFieldLineBreak
+                  name={field.name}
                   value={field.value ?? ''}
                   maxLength={200}
                   fixedHeight={150}

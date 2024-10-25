@@ -3,7 +3,10 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { TextArea } from '@sopt-makers/ui';
 
+import { CoffeechatFormPaths } from '@/components/coffeechat/upload/CoffeechatForm/types';
+
 interface TextFieldLineBreakProps {
+  name: CoffeechatFormPaths;
   value: string;
   maxLength: number;
   fixedHeight: number;
@@ -14,6 +17,7 @@ interface TextFieldLineBreakProps {
 }
 
 export default function TextFieldLineBreak({
+  name,
   value,
   maxLength,
   fixedHeight,
@@ -25,6 +29,7 @@ export default function TextFieldLineBreak({
   return (
     <TextAreaWrapper>
       <TextArea
+        name={name}
         value={value}
         maxLength={maxLength}
         fixedHeight={fixedHeight}

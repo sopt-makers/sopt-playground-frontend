@@ -22,7 +22,7 @@ export default function ChipField({ field, errorMessage, chipList, isSingleSelec
         name={field}
         control={control}
         render={({ field }) => (
-          <ChipsWrapper>
+          <ChipsWrapper {...field}>
             {chipList.map((chip) => (
               <div
                 key={chip}

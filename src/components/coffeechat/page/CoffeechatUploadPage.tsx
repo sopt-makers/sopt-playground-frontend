@@ -54,7 +54,7 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
     if (firstErrorField) {
       setFocus(firstErrorField as keyof CoffeechatFormContent);
       const errorElement = document.querySelector(`[name="${firstErrorField}"]`);
-      console.log(errorElement);
+
       if (errorElement) {
         errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
