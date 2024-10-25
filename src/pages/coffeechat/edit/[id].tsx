@@ -40,13 +40,13 @@ const CoffeechatEdit = () => {
   // TODO: 데이터 get api 패칭 필요
   const defaultForm = {
     memberInfo: {
-      career: ['주니어 (0-3년)'], //TODO: 데이터 가져와서 배열에 담기
+      career: '주니어 (0-3년)', //TODO: 데이터 가져와서 배열에 담기
       introduction: '안녕하세요! 저는 프론트엔드 개발자로 다양한 프로젝트 경험을 쌓고 있습니다.',
     },
     coffeeChatInfo: {
-      sections: ['프론트엔드', '디자인'],
+      sections: ['프론트', '디자인'],
       bio: '프론트엔드 커리어 상담',
-      topicTypes: ['커리어', '포트폴리오'],
+      topicTypes: ['포트폴리오', '이력서/자소서'],
       topic: '프론트엔드 개발자로서의 커리어에 대해 상담하고 싶습니다.\n포트폴리오 제작과 인터뷰 팁도 나누고자 합니다.',
       meetingType: '온라인',
       guideline: '시간 약속을 꼭 지켜주세요.\n질문은 미리 준비해 오시면 더욱 좋습니다.',
