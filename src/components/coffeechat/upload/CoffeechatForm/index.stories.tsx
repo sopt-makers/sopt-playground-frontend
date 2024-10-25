@@ -34,7 +34,7 @@ export default {
       return (
         <FormProvider {...formMethods}>
           <Story />
-          <UploadButton />
+          <UploadButton uploadType='오픈' />
         </FormProvider>
       );
     },

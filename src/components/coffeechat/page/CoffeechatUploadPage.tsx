@@ -92,7 +92,7 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
                   }
                 />
               }
-              submitButton={<UploadButton />}
+              submitButton={<UploadButton uploadType={uploadType} />}
             />
           </Responsive>
           <Responsive only='mobile'>
@@ -103,7 +103,7 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
                   <CoffeechatForm />
                 </>
               }
-              submitButton={<UploadButton />}
+              submitButton={<UploadButton uploadType={uploadType} />}
             />
           </Responsive>
         </>
