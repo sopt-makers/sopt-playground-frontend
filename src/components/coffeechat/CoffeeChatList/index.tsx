@@ -7,6 +7,7 @@ import { playgroundLink } from 'playground-common/export';
 import { ReactNode, startTransition, useEffect, useState } from 'react';
 
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
+import { useGetRecentCoffeeChat } from '@/api/endpoint/members/getRecentCoffeeChats';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
 import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 import Carousel from '@/components/common/Carousel';
@@ -35,9 +36,9 @@ export default function CoffeeChatList() {
   const router = useRouter();
   const { logClickEvent } = useEventLogger();
 
-  const { data, isLoading } = useGetMembersCoffeeChat();
+  const { data, isLoading } = useGetRecentCoffeeChat();
 
-  const isEmptyData = data?.coffeeChatList == null || data?.totalCount === 0;
+  const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
 
   const coffeeChatCardList = dataList.map((item, index) => (
@@ -45,10 +46,12 @@ export default function CoffeeChatList() {
       key={String(item.memberId)}
       id={String(item.memberId)}
       name={item.name ?? ''}
-      profileImage={item.memberProfileImage ?? ''}
+      topicTypeList={item.topicTypeList ?? ['']}
+      career={item.career ?? ''}
+      profileImage={item.profileImage ?? ''}
       organization={item.organization ?? ''}
-      skills={item.careerTitle ?? ''}
-      title={item.coffeeChatBio ?? ''}
+      soptActivities={item.soptActivities ?? ['']}
+      title={item.bio ?? ''}
       isEmptyData={isEmptyData}
       isBlurred={isEmptyData && index > 0}
     />

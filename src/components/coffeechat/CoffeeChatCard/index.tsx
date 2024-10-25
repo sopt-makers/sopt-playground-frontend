@@ -18,31 +18,39 @@ import { MessageModalState } from '@/components/members/main/MemberList';
 import { MB_BIG_MEDIA_QUERY, MB_BIG_WIDTH, MB_MID_MEDIA_QUERY, MB_MID_WIDTH, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface MentoringCardProps {
   id: string;
-  name: string;
-  profileImage: string;
-  organization: string;
-  skills: string;
   title: string;
   isEmptyData?: boolean;
-  isBlurred?: boolean;
+  topicTypeList:Array<string>;
+  profileImage: string;
+  name: string;
+  career?:string
+  organization: string;
+  companyJob?: string;
+  soptActivities?:Array<string>;
+  isBlurred?:boolean
 }
 
 export default function CoffeeChatCard({
   id,
-  name,
-  profileImage,
-  organization,
-  skills,
   title,
   isEmptyData,
-  isBlurred,
+  topicTypeList,
+  profileImage,
+  name,
+  career,
+  organization,
+  companyJob,
+  soptActivities
+  ,isBlurred
 }: MentoringCardProps) {
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-
+  
   const { logClickEvent } = useEventLogger();
-
+  if(career=="아직 없어요"){
+    career=undefined
+  }
   
   return (
     <>
@@ -60,13 +68,12 @@ export default function CoffeeChatCard({
         <TitleSection>
           <Title>{title}</Title>
           <TagSection>
-              {skills
-                .split(',')
-                .map((skill) => skill.trim())
+              {topicTypeList
+                .map((topic) => topic.trim())
                 .filter(Boolean)
-                .map((skill) => (
-                  <Tag size='md' shape='rect' variant='secondary' type='solid'>
-                    {skill}
+                .map((topic) => (
+                  <Tag size='md' shape='rect' variant='secondary' type='solid' key={topic}>
+                    {topic}
                   </Tag>
                 ))}
           </TagSection>
@@ -87,8 +94,8 @@ export default function CoffeeChatCard({
             )}
           </ImageBox>
           <InfoSection>
-          <UserName>{organization ? `${name} | ${organization}` : name}</UserName>
-          <Career>{organization ? `${name} | ${organization}` : name}</Career>
+            {!career? <UserName> {name}</UserName>: <UserName> {name ? `${name} | ${career}` : career}</UserName>}
+          <Career>{organization ? `${organization} | ${companyJob}` : organization}</Career>
           <SoptTagSection>
             <Tag size='sm' shape='rect' variant='primary' type='solid'>35기 디자인</Tag>
             <Tag size='sm' shape='rect' type='solid'>29기 디자인</Tag>
