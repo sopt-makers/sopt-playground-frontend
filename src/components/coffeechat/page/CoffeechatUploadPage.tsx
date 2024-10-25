@@ -17,7 +17,7 @@ interface CoffeechatUploadPageProps {
 
 export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: CoffeechatUploadPageProps) {
   const methods = useForm<CoffeechatFormContent>({ resolver: yupResolver(coffeeChatchema), defaultValues: form });
-  const { handleSubmit, setFocus } = methods;
+  const { handleSubmit, setFocus, watch } = methods;
 
   const findFirstErrorFieldInOrder = (errors: FieldValues): string | null => {
     const fieldOrder = [
@@ -67,7 +67,20 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
         <Responsive only='desktop'>
           <DesktopCoffeechatUploadLayout
             main={<CoffeechatForm />}
-            aside={<ProgressBox uploadType={uploadType} myInfoInprogress={false} coffeechatInfoInprogress={false} />}
+            aside={
+              <ProgressBox
+                uploadType={uploadType}
+                myInfoInprogress={!!(watch('memberInfo.career') && watch('memberInfo.introduction'))}
+                coffeechatInfoInprogress={
+                  !!(
+                    watch('coffeeChatInfo.sections') &&
+                    watch('coffeeChatInfo.bio') &&
+                    watch('coffeeChatInfo.topicTypes') &&
+                    watch('coffeeChatInfo.topic')
+                  )
+                }
+              />
+            }
             submitButton={<UploadButton />}
           />
         </Responsive>

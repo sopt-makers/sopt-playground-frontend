@@ -52,6 +52,7 @@ const CoffeechatEdit = () => {
   };
 
   if (isPending) {
+    // TODO: 데이터 get 해올 때의 isPending도 추가
     return <Loading />;
   }
 
