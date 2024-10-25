@@ -29,7 +29,7 @@ export const useVisibleBadges = (badges: Badge[], ellipsisWidth: number, badgeGa
 
       for (let i = 0; i < badges.length; i++) {
         const badgeWidth = badgeRefs.current[i]?.offsetWidth || 0;
-        console.log('here', badgeWrapperWidth);
+        
         if (totalWidth + badgeWidth > badgeWrapperWidth - ellipsisWidth) {
           overflow = true;
           break;
