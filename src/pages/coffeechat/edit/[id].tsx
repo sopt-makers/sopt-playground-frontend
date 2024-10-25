@@ -5,7 +5,7 @@ import { CoffeechatFormContent } from '@/components/coffeechat/upload/Coffeechat
 import Loading from '@/components/common/Loading';
 import { setLayout } from '@/utils/layout';
 import { useMutation } from '@tanstack/react-query';
-import { SubmitHandler } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 
 const CoffeechatEdit = () => {
   // const router = useRouter();
@@ -15,8 +15,10 @@ const CoffeechatEdit = () => {
     mutationFn: (reqeustBody: CoffeechatFormContent) => editCoffeechat.request({ ...reqeustBody }),
   });
 
-  const onSubmit: SubmitHandler<CoffeechatFormContent> = (data: CoffeechatFormContent) => {
+  const onSubmit = <T extends FieldValues>(values: T) => {
+    const data: CoffeechatFormContent = values as unknown as CoffeechatFormContent;
     const { memberInfo, coffeeChatInfo } = data;
+
     mutate(
       {
         memberInfo: { ...memberInfo, career: memberInfo.career ? memberInfo.career[0] : null },

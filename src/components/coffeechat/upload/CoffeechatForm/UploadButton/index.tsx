@@ -8,12 +8,12 @@ export default function UploadButton() {
   return (
     <div>
       <Responsive only='desktop'>
-        <Button size='md' LeftIcon={IconPlus} type='button'>
+        <Button size='md' LeftIcon={IconPlus} type='submit'>
           커피챗 오픈하기
         </Button>
       </Responsive>
       <Responsive only='mobile'>
-        <MobileButton size='lg' LeftIcon={IconPlus} type='button'>
+        <MobileButton size='lg' LeftIcon={IconPlus} type='submit'>
           커피챗 오픈하기
         </MobileButton>
       </Responsive>

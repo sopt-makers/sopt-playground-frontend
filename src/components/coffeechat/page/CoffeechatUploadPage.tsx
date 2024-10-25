@@ -1,23 +1,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 
 import DesktopCoffeechatUploadLayout from '@/components/coffeechat/page/layout/DesktopCoffeechatUploadLayout';
 import MobileCoffeechatUploadLayout from '@/components/coffeechat/page/layout/MobileCoffeechatUploadLayout';
 import CoffeechatForm from '@/components/coffeechat/upload/CoffeechatForm';
 import { coffeeChatchema } from '@/components/coffeechat/upload/CoffeechatForm/schema';
+import SubmitDialog from '@/components/coffeechat/upload/CoffeechatForm/SubmitDialog';
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
 import UploadButton from '@/components/coffeechat/upload/CoffeechatForm/UploadButton';
 import ProgressBox from '@/components/coffeechat/upload/ProgressBox';
+import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 interface CoffeechatUploadPageProps {
   uploadType: '오픈' | '수정';
   form: CoffeechatFormContent;
-  onSubmit: SubmitHandler<CoffeechatFormContent>;
+  onSubmit: <T extends FieldValues>(values: T) => void;
 }
 
 export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: CoffeechatUploadPageProps) {
   const methods = useForm<CoffeechatFormContent>({ resolver: yupResolver(coffeeChatchema), defaultValues: form });
   const { handleSubmit, setFocus, watch } = methods;
+  const { isOpen, onClose, onOpen } = useModalState();
 
   const findFirstErrorFieldInOrder = (errors: FieldValues): string | null => {
     const fieldOrder = [
@@ -63,30 +66,33 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
 
   return (
     <FormProvider {...methods}>
-      <form id='coffeechatForm' onSubmit={handleSubmit(onSubmit, onError)}>
-        <Responsive only='desktop'>
-          <DesktopCoffeechatUploadLayout
-            main={<CoffeechatForm />}
-            aside={
-              <ProgressBox
-                uploadType={uploadType}
-                myInfoInprogress={!!(watch('memberInfo.career') && watch('memberInfo.introduction'))}
-                coffeechatInfoInprogress={
-                  !!(
-                    watch('coffeeChatInfo.sections') &&
-                    watch('coffeeChatInfo.bio') &&
-                    watch('coffeeChatInfo.topicTypes') &&
-                    watch('coffeeChatInfo.topic')
-                  )
-                }
-              />
-            }
-            submitButton={<UploadButton />}
-          />
-        </Responsive>
-        <Responsive only='mobile'>
-          <MobileCoffeechatUploadLayout main={<CoffeechatForm />} submitButton={<UploadButton />} />
-        </Responsive>
+      <form onSubmit={handleSubmit(onOpen, onError)}>
+        <SubmitDialog isOpen={isOpen} onClose={onClose} onSubmit={onSubmit} />
+        <>
+          <Responsive only='desktop'>
+            <DesktopCoffeechatUploadLayout
+              main={<CoffeechatForm />}
+              aside={
+                <ProgressBox
+                  uploadType={uploadType}
+                  myInfoInprogress={!!(watch('memberInfo.career') && watch('memberInfo.introduction'))}
+                  coffeechatInfoInprogress={
+                    !!(
+                      watch('coffeeChatInfo.sections') &&
+                      watch('coffeeChatInfo.bio') &&
+                      watch('coffeeChatInfo.topicTypes') &&
+                      watch('coffeeChatInfo.topic')
+                    )
+                  }
+                />
+              }
+              submitButton={<UploadButton />}
+            />
+          </Responsive>
+          <Responsive only='mobile'>
+            <MobileCoffeechatUploadLayout main={<CoffeechatForm />} submitButton={<UploadButton />} />
+          </Responsive>
+        </>
       </form>
     </FormProvider>
   );

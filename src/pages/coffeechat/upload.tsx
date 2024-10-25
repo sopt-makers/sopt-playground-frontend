@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-import { SubmitHandler } from 'react-hook-form';
 
 import { uploadCoffeechat } from '@/api/endpoint/coffeechat/uploadCoffeechat';
 import AuthRequired from '@/components/auth/AuthRequired';
@@ -7,6 +6,7 @@ import CoffeechatUploadPage from '@/components/coffeechat/page/CoffeechatUploadP
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
 import Loading from '@/components/common/Loading';
 import { setLayout } from '@/utils/layout';
+import { FieldValues } from 'react-hook-form';
 
 const CoffeechatUpload = () => {
   // const router = useRouter();
@@ -16,8 +16,10 @@ const CoffeechatUpload = () => {
     mutationFn: (reqeustBody: CoffeechatFormContent) => uploadCoffeechat.request({ ...reqeustBody }),
   });
 
-  const onSubmit: SubmitHandler<CoffeechatFormContent> = (data: CoffeechatFormContent) => {
+  const onSubmit = <T extends FieldValues>(values: T) => {
+    const data: CoffeechatFormContent = values as unknown as CoffeechatFormContent;
     const { memberInfo, coffeeChatInfo } = data;
+
     mutate(
       {
         memberInfo: { ...memberInfo, career: memberInfo.career ? memberInfo.career[0] : null },
@@ -35,6 +37,26 @@ const CoffeechatUpload = () => {
       },
     );
   };
+
+  // const onSubmit = (data: CoffeechatFormContent) => {
+  //   const { memberInfo, coffeeChatInfo } = data;
+  //   mutate(
+  //     {
+  //       memberInfo: { ...memberInfo, career: memberInfo.career ? memberInfo.career[0] : null },
+  //       coffeeChatInfo: { ...coffeeChatInfo },
+  //     },
+  //     {
+  //       onSuccess: async () => {
+  //         // TODO: 쿼리 무효화 및 페이지 이동 처리
+  //         // queryClient.invalidateQueries({ queryKey: 'coffeechat' });
+  //         // await router.push(playgroundLink.coffeechat());
+  //       },
+  //       onError: (error) => {
+  //         console.error('업로드 실패:', error);
+  //       },
+  //     },
+  //   );
+  // };
 
   const defaultForm = {
     memberInfo: {
