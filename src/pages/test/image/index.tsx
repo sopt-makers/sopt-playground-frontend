@@ -43,12 +43,11 @@ const Footer = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizo
   margin-top: 24px;
   padding: 0 24px;
 
-  ${(props) =>
-    props.align === 'stretch'
-      ? css`
-          grid-auto-columns: minmax(10px, 1fr);
-        `
-      : ''}
+  ${({ align }) =>
+    align === 'stretch' &&
+    css`
+      grid-auto-columns: minmax(10px, 1fr);
+    `}
 
   @media screen and (max-width: 768px) {
     grid-auto-columns: minmax(10px, 1fr);
