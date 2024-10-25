@@ -9,6 +9,7 @@ import SubmitDialog from '@/components/coffeechat/upload/CoffeechatForm/SubmitDi
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
 import UploadButton from '@/components/coffeechat/upload/CoffeechatForm/UploadButton';
 import ProgressBox from '@/components/coffeechat/upload/ProgressBox';
+import UploadHeader from '@/components/coffeechat/upload/UploadHeader';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 interface CoffeechatUploadPageProps {
@@ -71,7 +72,12 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
         <>
           <Responsive only='desktop'>
             <DesktopCoffeechatUploadLayout
-              main={<CoffeechatForm />}
+              main={
+                <>
+                  <UploadHeader uploadType={uploadType} />
+                  <CoffeechatForm />
+                </>
+              }
               aside={
                 <ProgressBox
                   uploadType={uploadType}
@@ -90,7 +96,15 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
             />
           </Responsive>
           <Responsive only='mobile'>
-            <MobileCoffeechatUploadLayout main={<CoffeechatForm />} submitButton={<UploadButton />} />
+            <MobileCoffeechatUploadLayout
+              main={
+                <>
+                  <UploadHeader uploadType={uploadType} />
+                  <CoffeechatForm />
+                </>
+              }
+              submitButton={<UploadButton />}
+            />
           </Responsive>
         </>
       </form>

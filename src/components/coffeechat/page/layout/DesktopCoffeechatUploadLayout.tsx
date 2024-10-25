@@ -1,3 +1,4 @@
+import { COFFEECHAT_TABLET_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
@@ -32,6 +33,12 @@ const Layout = styled.div`
   gap: 30px;
   justify-content: center;
   margin: 0 30px;
+  margin-top: 48px;
+  margin-bottom: 180px;
+
+  @media ${COFFEECHAT_TABLET_MEDIA_QUERY} {
+    margin-top: 0;
+  }
 `;
 
 const Body = styled.section`
