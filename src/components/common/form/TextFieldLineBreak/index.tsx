@@ -32,6 +32,7 @@ export default function TextFieldLineBreak({
         isError={isError}
         errorMessage={errorMessage}
         onChange={onChange}
+        autoFocus={isError}
       />
       {!value && (
         <Placeholder>

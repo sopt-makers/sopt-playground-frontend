@@ -16,24 +16,27 @@ const CoffeechatUpload = () => {
     mutationFn: (reqeustBody: CoffeechatFormContent) => uploadCoffeechat.request({ ...reqeustBody }),
   });
 
-  const handleUploadSubmit: SubmitHandler<CoffeechatFormContent> = (data) => {
-    console.log('폼 제출 데이터:', data);
-    // mutate(data, {
-    //   onSuccess: async () => {
-    //     console.log('업로드 성공!');
-    //     // TODO: 쿼리 무효화 및 페이지 이동 처리
-    //     // queryClient.invalidateQueries({ queryKey: 'coffeechat' });
-    //     // await router.push(playgroundLink.coffeechat());
-    //   },
-    //   onError: (error) => {
-    //     console.error('업로드 실패:', error);
-    //   },
-    // });
+  const onSubmit: SubmitHandler<CoffeechatFormContent> = (data: CoffeechatFormContent) => {
+    console.log(data);
+    const { memberInfo, coffeeChatInfo } = data;
+    mutate(
+      {
+        memberInfo: { ...memberInfo, career: memberInfo.career ? memberInfo.career[0] : null },
+        coffeeChatInfo: { ...coffeeChatInfo },
+      },
+      {
+        onSuccess: async () => {
+          console.log('업로드 성공!');
+          // TODO: 쿼리 무효화 및 페이지 이동 처리
+          // queryClient.invalidateQueries({ queryKey: 'coffeechat' });
+          // await router.push(playgroundLink.coffeechat());
+        },
+        onError: (error) => {
+          console.error('업로드 실패:', error);
+        },
+      },
+    );
   };
-
-  // const handleUploadSubmit = (data: CoffeechatFormContent) => {
-  //   console.log(data);
-  // };
 
   const defaultForm = {
     memberInfo: {
@@ -56,7 +59,7 @@ const CoffeechatUpload = () => {
 
   return (
     <AuthRequired>
-      <CoffeechatUploadPage uploadType='오픈' form={defaultForm} onSubmit={handleUploadSubmit} />
+      <CoffeechatUploadPage uploadType='오픈' form={defaultForm} onSubmit={onSubmit} />
     </AuthRequired>
   );
 };

@@ -1,6 +1,6 @@
 export interface CoffeechatFormContent {
   memberInfo: {
-    career: string | null;
+    career: string[] | string | null;
     introduction: string | null;
   };
   coffeeChatInfo: {
