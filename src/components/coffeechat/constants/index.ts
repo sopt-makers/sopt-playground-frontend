@@ -1,29 +1,55 @@
 export const COFFECHAT_SAMPLE_DATA = {
   coffeeChatList: [
     {
-      memberId: 1,
-      name: '차은우',
-      memberProfileImage: '/icons/img/coffeechat_sample1.png',
-      organization: 'Google',
-      careerTitle: '커리어, 면접, 포트폴리오, ,  ',
-      coffeeChatBio: '디자인 관련 고민이 있다면, 함께 나눠봐요!디자인 관련 고민이 있다면, 함께 나눠봐요! 디자인 관련 고민이 있다면, 함께 나눠봐요!',
+      memberId: 6,
+      bio: "놀기 상담",
+      topicTypeList: [
+          "직무 전문성"
+      ],
+      profileImage: null,
+      name: "이솝트",
+      career: "아직 없어요",
+      organization: null,
+      companyJob: null,
+      soptActivities: [
+          "29기 기획"
+      ]
     },
     {
-      memberId: 2,
-      name: '빌게이츠',
-      memberProfileImage: '/icons/img/coffeechat_sample2.png',
-      organization: '마이크로소프트',
-      careerTitle: 'Javascript, Python',
-      coffeeChatBio: '저랑 같이 코딩테스트 준비하실래요?',
+      memberId: 4,
+      bio: "솝트 활동 상담",
+      topicTypeList: [
+          "이력서/자소서"
+      ],
+      profileImage: "https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//dev/image/project/2e41c0b4-abe5-4aaa-be5d-39b5a5d51a63-스크린샷 2022-11-02 오후 9.16.25.png",
+      name: "이정민",
+      career: "미들 (4-8년)",
+      organization: "우아한형제들",
+      companyJob: "프론트엔드 개발",
+      soptActivities: [
+          "27기 디자인",
+          "30기 미디어 팀장",
+          "30기 미디어 팀장",
+          "27기 기획",
+          "30기 미디어 팀장",
+          "30기 미디어 팀장"
+      ]
     },
     {
       memberId: 3,
-      name: '일론머스크',
-      memberProfileImage: '/icons/img/coffeechat_sample3.png',
-      organization: 'X',
-      careerTitle: '',
-      coffeeChatBio: '저랑 같이 디자이너 포트폴리오에 관해 논의하실 분 구해요!',
-    },
+      bio: "디자인 커리어 상담",
+      topicTypeList: [
+          "포트폴리오"
+      ],
+      profileImage: null,
+      name: "김솝트",
+      career: "미들 (4-8년)",
+      organization: null,
+      companyJob: null,
+      soptActivities: [
+          "28기 기획"
+      ]
+  },
   ],
   totalCount: 3,
 };
