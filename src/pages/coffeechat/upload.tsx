@@ -17,7 +17,6 @@ const CoffeechatUpload = () => {
   });
 
   const onSubmit: SubmitHandler<CoffeechatFormContent> = (data: CoffeechatFormContent) => {
-    console.log(data);
     const { memberInfo, coffeeChatInfo } = data;
     mutate(
       {
@@ -26,7 +25,6 @@ const CoffeechatUpload = () => {
       },
       {
         onSuccess: async () => {
-          console.log('업로드 성공!');
           // TODO: 쿼리 무효화 및 페이지 이동 처리
           // queryClient.invalidateQueries({ queryKey: 'coffeechat' });
           // await router.push(playgroundLink.coffeechat());
