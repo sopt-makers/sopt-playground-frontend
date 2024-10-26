@@ -1,20 +1,20 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import {Select} from '@sopt-makers/ui'
+import {Select,SelectV2} from '@sopt-makers/ui'
 import { SearchField } from '@sopt-makers/ui';
 
-import { categoryList } from '@/components/coffeechat/constants';
-import { MB_BIG_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { CAREER_FILTER_OPTIONS, categoryList, PART_FILTER_OPTIONS, TOPIC_FILTER_OPTIONS } from '@/components/coffeechat/constants';
+import { MB_BIG_MEDIA_QUERY, PCTA_BIG_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function CoffeeChatCategory() {
     
-
     return <Container>
         <Header>
         <Title>
             어떤 분야가 궁금하신가요?
         </Title>
+        </Header>
         <CategoryList>
         {categoryList.categoryList.map((option)=>(
             <CategoryCard key={option.categoryName}>
@@ -23,18 +23,35 @@ export default function CoffeeChatCategory() {
             </CategoryCard>
         ))}
         </CategoryList>
-        </Header>
         <FilterArea>
         <SelectFilterArea>
-        <Select placeholder="주제" type={"text"} options={[]} onChange={function (value: string | number | boolean): void {
-                throw new Error('Function not implemented.');
-            } }></Select>
-                    <Select placeholder="경력" type={"text"} options={[]} onChange={function (value: string | number | boolean): void {
-                throw new Error('Function not implemented.');
-            } }></Select>
-                    <Select placeholder="파트" type={"text"} options={[]} onChange={function (value: string | number | boolean): void {
-                throw new Error('Function not implemented.');
-            } }></Select>
+        <SelectV2.Root type='text' visibleOptions={3}>
+          <SelectV2.Trigger>
+            <SelectV2.TriggerContent placeholder='주제' />
+          </SelectV2.Trigger>
+          <SelectV2.Menu>
+            {TOPIC_FILTER_OPTIONS.map((option)=>(
+                <SelectV2.MenuItem key={option.value} option={option}/>))}
+          </SelectV2.Menu>
+        </SelectV2.Root>
+        <SelectV2.Root  type='text' visibleOptions={3}>
+          <SelectV2.Trigger>
+            <SelectV2.TriggerContent placeholder='경력' />
+          </SelectV2.Trigger>
+          <SelectV2.Menu>
+          {CAREER_FILTER_OPTIONS.map((option)=>(
+                <SelectV2.MenuItem key={option.value} option={option}/>))}
+          </SelectV2.Menu>
+        </SelectV2.Root>
+        <SelectV2.Root type='text' visibleOptions={3}>
+          <SelectV2.Trigger>
+            <SelectV2.TriggerContent placeholder='파트' />
+          </SelectV2.Trigger>
+          <SelectV2.Menu>
+          {PART_FILTER_OPTIONS.map((option)=>(
+                <SelectV2.MenuItem key={option.value} option={option}/>))}
+          </SelectV2.Menu>
+        </SelectV2.Root>
         </SelectFilterArea>
         <SearchField  placeholder='회사, 학교, 이름을 검색해보세요!' value={''}
         style={{"fontSize":"16px","minWidth":"335px"}}
@@ -54,29 +71,37 @@ display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 48px;
+
   media ${PCTA_SM_MEDIA_QUERY}{
     width:420px;
   }
+
+
   `
 
 const Header = styled.div`
 display: flex;
-flex-direction: column;
 gap:24px;
 align-items: flex-start;
 justify-content: space-between;
+margin-bottom:24px;
 width: 1300px;
+@media ${PCTA_BIG_MEDIA_QUERY}{
+    width:860px;
+}
+@media ${PCTA_SM_MEDIA_QUERY}{
+    display: none;
+}
 `
 const Title = styled.div`
+  width: 100%;
   max-height:56px;
   text-align: start;
+   
+  ${fonts.HEADING_24_B}
 
-  /* Heading/24_B */
-  line-height: 36px; /* 150% */
-  letter-spacing: -0.48px;
   color: ${colors.white};
-  font-size: 24px;
-  font-weight: 700;
+
 
   @media ${MB_BIG_MEDIA_QUERY} {
     /* Heading/18_B */
@@ -91,6 +116,13 @@ const CategoryList=styled.div`
 
 display: flex;
 gap:16px;
+width:1300px;
+overflow: scroll;
+
+&::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 `
 
 
@@ -127,6 +159,9 @@ display: flex;
 justify-content: space-between;
 margin-top:48px;
 width: 1300px;
+@media ${PCTA_BIG_MEDIA_QUERY}{
+    width:860px;
+}
 `
 const SelectFilterArea=styled.div`
 

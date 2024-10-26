@@ -141,3 +141,108 @@ export const categoryList={
   ]
 
 }
+
+export const TOPIC_FILTER_OPTIONS=[
+  {
+    label:"전체",
+    value:1,
+  },
+  {
+    label:"창업",
+    value:2,
+  },
+  {
+    label:"네트워킹",
+    value:3,
+  },
+  {
+    label:"커리어",
+    value:4,
+  },
+  {
+    label:"포트폴리오",
+    value:5,
+  },
+  {
+    label:"이력서/자소서",
+    value:6,
+  },
+  {
+    label:"면접",
+    value:7,
+  },
+  {
+    label:"직무 전문성",
+    value:8,
+  },
+  {
+    label:"프로젝트",
+    value:9,
+  },
+  {
+    label:"자기개발",
+    value:10,
+  },
+  {
+    label:"기타",
+    value:11,
+  },
+]
+
+export const CAREER_FILTER_OPTIONS=[
+  {
+    label:"전체",
+    value:1
+  },
+  {
+    label:"아직 없음",
+    value:2
+  },
+  {
+    label:"인턴",
+    value:3
+  },
+  {
+    label:"주니어(0~3년차)",
+    value:4
+  },
+  {
+    label:"미들(4~8년차)",
+    value:5
+  },
+  {
+    label:"시니어(9년차 이상)",
+    value:6
+  },
+]
+
+export const PART_FILTER_OPTIONS=[
+  {
+    label:"전체",
+    value:1
+  },
+  {
+    label:"기획",
+    value:2
+  },
+  {
+    label:"디자인",
+    value:3
+  },
+  {
+    label:"안드로이드",
+    value:4
+  },
+  {
+    label:"iOS",
+    value:5
+  },
+  {
+    label:"웹",
+    value:6
+  },
+  {
+    label:"서버",
+    value:7
+  },
+]
