@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
+import { MB_BIG_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
+
 interface CarouselProps {
   itemList: ReactNode[];
   limit: number;
@@ -84,7 +86,10 @@ export default function ScrollCarousel({ itemList, limit, className, renderItemC
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 860px;
+  max-width: 860px;
+  media ${PCTA_SM_MEDIA_QUERY}{
+    max-width:420px;
+  }
 `;
 
 const CarouselWrapper = styled.div`

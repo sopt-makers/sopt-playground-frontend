@@ -1,16 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { Button } from '@sopt-makers/ui';
 import {Select} from '@sopt-makers/ui'
 import { SearchField } from '@sopt-makers/ui';
 
 import { categoryList } from '@/components/coffeechat/constants';
-import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function CoffeeChatCategory() {
     
-
 
     return <Container>
         <Header>
@@ -56,6 +54,9 @@ display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 48px;
+  media ${PCTA_SM_MEDIA_QUERY}{
+    width:420px;
+  }
   `
 
 const Header = styled.div`

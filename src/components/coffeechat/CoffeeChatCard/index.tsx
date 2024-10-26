@@ -158,6 +158,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
   width:420px;
   min-width: 420px;
   height: 280px;
+  overflow: hidden;
   ${({ isEmptyData }) =>
     isEmptyData &&
     css`
@@ -184,6 +185,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
   }
   @media ${MB_SM_MEDIA_QUERY}{
     width:280px;
+    max-width:280px;
   }
 `;
 
