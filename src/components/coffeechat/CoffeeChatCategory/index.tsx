@@ -124,10 +124,12 @@ display: flex;
   justify-content: center;
   margin-top: 48px;
 
-  media ${PCTA_SM_MEDIA_QUERY}{
-    width:420px;
+  @media ${PCTA_S_MEDIA_QUERY}{
+    margin-top: 28px;
   }
-
+  @media ${MB_BIG_MEDIA_QUERY}{
+    margin-top:0;
+  }
 
   `
 
@@ -235,6 +237,7 @@ width: 1300px;
 @media ${PCTA_S_MEDIA_QUERY}{
     flex-direction: column;
     align-items: center;
+    margin-top:0;
     padding-right:182px;
     padding-left:172px;
 }

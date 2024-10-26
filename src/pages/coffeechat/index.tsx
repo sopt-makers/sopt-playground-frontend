@@ -11,7 +11,7 @@ const CoffeeChatMainPage=()=>{
     <>
     <Header>
     </Header>
-    <AdsBanner/>
+    {/* <AdsBanner/> */}
     <CoffeeChatRecentList/>
     <CoffeeChatCategory/>
     </>)

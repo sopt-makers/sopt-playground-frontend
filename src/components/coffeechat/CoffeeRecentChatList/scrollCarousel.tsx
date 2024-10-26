@@ -95,7 +95,6 @@ const Container = styled.div`
 const CarouselWrapper = styled.div`
   display: flex;
   gap: 16px;
-  margin-bottom:12px;
   padding: 8px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -117,6 +116,7 @@ const Indicators = styled.div`
   grid-area: indicators;
   gap: 4px;
   justify-content: center;
+  margin-top:20px;
 `;
 
 const Indicator = styled.div<{ isActive?: boolean }>`
