@@ -10,7 +10,7 @@ import { ReactNode, startTransition, useEffect, useRef,useState } from 'react';
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
 import { useGetRecentCoffeeChat } from '@/api/endpoint/members/getRecentCoffeeChats';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
-import ScrollCarousel from '@/components/coffeechat/CoffeeChatList/scrollCarousel';
+import ScrollCarousel from '@/components/coffeechat/CoffeeRecentChatList/scrollCarousel';
 import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
@@ -44,7 +44,7 @@ export default function CoffeeChatList() {
   const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
 
-  const coffeeRecentChatCardList = dataList.map((item) => (
+  const coffeeChatRecentCardList = dataList.map((item) => (
     <CoffeeChatCard
       key={String(item.memberId)}
       id={String(item.memberId)}
@@ -129,7 +129,7 @@ export default function CoffeeChatList() {
         <>
           {(listType === undefined || listType === 'carousel-large') && (
             <StyledCarousel
-              itemList={coffeeRecentChatCardList}
+              itemList={coffeeChatRecentCardList}
               limit={3}
               renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
               className={SCREEN_SIZE.desktopLarge.className}
@@ -137,7 +137,7 @@ export default function CoffeeChatList() {
           )}
           {(listType === undefined || listType === 'carousel-small') && (
             <StyledCarousel
-              itemList={coffeeRecentChatCardList}
+              itemList={coffeeChatRecentCardList}
               limit={2}
               renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
               className={SCREEN_SIZE.desktopSmall.className}
@@ -145,7 +145,7 @@ export default function CoffeeChatList() {
           )}
           {(listType === undefined || listType === 'scroll') && (
             <StyledScrollCarousel
-            itemList={coffeeRecentChatCardList}
+            itemList={coffeeChatRecentCardList}
             limit={2}
             renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
             className={SCREEN_SIZE.tablet.className}
@@ -153,7 +153,7 @@ export default function CoffeeChatList() {
           )}
           {(listType === undefined || listType === 'tablet') && (
             <StyledScrollCarousel
-            itemList={coffeeRecentChatCardList}
+            itemList={coffeeChatRecentCardList}
             limit={1}
             renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
             className={SCREEN_SIZE.tablet.className}
@@ -231,7 +231,6 @@ const Header = styled.div`
 
   @media ${TABLET_MEDIA_QUERY} {
     gap: 12px;
-    padding: 0 20px;
     width: 420px;
   }
   @media ${PCTA_S_MEDIA_QUERY}{
@@ -256,7 +255,7 @@ const Title = styled.div`
  ${fonts.HEADING_24_B}
 
   color: ${colors.white};
-  
+
   @media ${MB_BIG_MEDIA_QUERY} {
     /* Heading/18_B */
     ${fonts.HEADING_18_B}
