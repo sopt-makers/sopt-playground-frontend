@@ -41,7 +41,7 @@ export default function CoffeeChatList() {
   const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
 
-  const coffeeChatCardList = dataList.map((item, index) => (
+  const coffeeRecentChatCardList = dataList.map((item) => (
     <CoffeeChatCard
       key={String(item.memberId)}
       id={String(item.memberId)}
@@ -50,10 +50,11 @@ export default function CoffeeChatList() {
       career={item.career ?? ''}
       profileImage={item.profileImage ?? ''}
       organization={item.organization ?? ''}
+      companyJob={item.companyJob ?? ''}
       soptActivities={item.soptActivities ?? ['']}
       title={item.bio ?? ''}
       isEmptyData={isEmptyData}
-      isBlurred={isEmptyData && index > 0}
+      isBlurred={false}
     />
   ));
 
@@ -119,7 +120,7 @@ export default function CoffeeChatList() {
         <>
           {(listType === undefined || listType === 'carousel-large') && (
             <StyledCarousel
-              itemList={coffeeChatCardList}
+              itemList={coffeeRecentChatCardList}
               limit={3}
               renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
               className={SCREEN_SIZE.desktopLarge.className}
@@ -127,7 +128,7 @@ export default function CoffeeChatList() {
           )}
           {(listType === undefined || listType === 'carousel-small') && (
             <StyledCarousel
-              itemList={coffeeChatCardList}
+              itemList={coffeeRecentChatCardList}
               limit={2}
               renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
               className={SCREEN_SIZE.desktopSmall.className}
@@ -135,7 +136,7 @@ export default function CoffeeChatList() {
           )}
           {(listType === undefined || listType === 'scroll') && (
             <CoffeeChatScrollWrapper className={SCREEN_SIZE.tablet.className}>
-              <CoffeeChatScrollList>{coffeeChatCardList}</CoffeeChatScrollList>
+              <CoffeeChatScrollList>{coffeeRecentChatCardList}</CoffeeChatScrollList>
             </CoffeeChatScrollWrapper>
           )}
         </>
