@@ -30,7 +30,7 @@ const AdsBanner: React.FC = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    // autoplay: true, // 자동 캐러셀
+    autoplay: true, // 자동 캐러셀
     autoplaySpeed: 5000,
     arrows: true, // 좌,우 버튼
     initialSlide: 0, // 첫 컨텐츠 번호
@@ -88,7 +88,6 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   justify-content: center;
   margin: 0 30px;
   border-radius: 12px;
-  background-color: blue;
   max-width: 912px;
   overflow: hidden;
 
@@ -177,7 +176,8 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: -8px 20px -20px;
+    aspect-ratio: 340 / 168;
+    margin: 0 20px -4px;
   }
 `;
 

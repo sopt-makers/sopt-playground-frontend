@@ -34,9 +34,8 @@ export const ADS = [
       'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/%E1%84%92%E1%85%A1%E1%86%AB%E1%84%81%E1%85%B5%E1%84%8C%E1%85%A9%E1%86%A8%E1%84%87%E1%85%A9_MOBILE.png',
     pcImage:
       'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/%E1%84%92%E1%85%A1%E1%86%AB%E1%84%81%E1%85%B5%E1%84%8C%E1%85%A9%E1%86%A8%E1%84%87%E1%85%A9_PC.png',
-    url: 'link.inpock.co.kr/hankkilink',
+    url: 'https://link.inpock.co.kr/hankkilink',
   },
-
   {
     // 메이커스 마케팅 오거나이저
     id: 6,

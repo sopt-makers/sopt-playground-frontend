@@ -1,6 +1,5 @@
-import styled from '@emotion/styled';
-
 import Responsive from '@/components/common/Responsive';
+import styled from '@emotion/styled';
 
 interface AdsProps {
   moImage: string;
@@ -13,7 +12,7 @@ interface AdsBoxProps extends AdsProps {
 
 export default function AdsBox({ moImage, pcImage, url }: AdsBoxProps) {
   return (
-    <AdsContainer>
+    <div>
       {url ? (
         <a href={url} target='_blank' rel='noopener noreferrer'>
           <Ads moImage={moImage} pcImage={pcImage} />
@@ -21,41 +20,26 @@ export default function AdsBox({ moImage, pcImage, url }: AdsBoxProps) {
       ) : (
         <Ads moImage={moImage} pcImage={pcImage} />
       )}
-    </AdsContainer>
+    </div>
   );
 }
 
 const Ads = ({ moImage, pcImage }: AdsProps) => {
   return (
-    <AdsWrapper>
+    <article>
       <Responsive only='desktop'>
         <AdsImage src={pcImage} alt='PC 광고' />
       </Responsive>
-      <MobileLayout only='mobile'>
+      <Responsive only='mobile'>
         <AdsImage src={moImage} alt='모바일 광고' />
-      </MobileLayout>
-    </AdsWrapper>
+      </Responsive>
+    </article>
   );
 };
 
-const MobileLayout = styled(Responsive)`
-  width: 100%;
-`;
-
 const AdsImage = styled.img`
-  height: 100%;
-`;
-
-const AdsWrapper = styled.article`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  max-width: 912px;
-  overflow: hidden;
-`;
-
-const AdsContainer = styled.div`
-  display: flex;
-  justify-content: center;
+  height: 100%;
+  object-fit: cover; 
+  object-position: center;
 `;
