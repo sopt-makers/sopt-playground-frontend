@@ -3,11 +3,12 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import {fonts} from '@sopt-makers/fonts'
 import { Tag } from '@sopt-makers/ui';
+import { action } from '@storybook/addon-actions';
 import { Flex } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import {useState } from 'react';
+import {useEffect, useState } from 'react';
 
 import Divider from '@/components/common/Divider/Divider';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -46,12 +47,26 @@ export default function CoffeeChatCard({
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  
+  const [sortedActivities, setSortedActivities] = useState<string[]>([]);
   const { logClickEvent } = useEventLogger();
   if(career=="아직 없어요"){
     career=undefined
   }
-  
+
+
+  useEffect(() => {
+    // 중복 제거 및 정렬
+    const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
+      const numA = parseInt(a.match(/\d+/)![0]); // 문자열에서 숫자 추출
+      const numB = parseInt(b.match(/\d+/)![0]);
+      return numB - numA; // 내림차순 정렬
+    });
+    
+    // 정렬된 결과를 상태에 저장
+    setSortedActivities(uniqueSortedActivities);
+  }, [soptActivities]);
+
+
   return (
     <>
       <Container
@@ -95,10 +110,24 @@ export default function CoffeeChatCard({
           </ImageBox>
           <InfoSection>
             {!career? <UserName> {name}</UserName>: <UserName> {name ? `${name} | ${career}` : career}</UserName>}
-          <Career>{organization ? `${organization} | ${companyJob}` : organization}</Career>
+          <Career>{companyJob ? `${organization} | ${companyJob}` : organization}</Career>
           <SoptTagSection>
-            <Tag size='sm' shape='rect' variant='primary' type='solid'>35기 디자인</Tag>
-            <Tag size='sm' shape='rect' type='solid'>29기 디자인</Tag>
+            {sortedActivities
+            ?.map((activity)=>(
+            <>
+            {activity.includes("35")? (
+          <Tag key={activity} size="sm" shape="rect" variant="primary" type="solid">
+            <TagEllipse alt='' src='/icons/logo/coffeechatCategory/ic_ellipse.svg'></TagEllipse>
+          {activity}
+          </Tag>
+          ) : (
+          <Tag key={activity} size="sm" shape="rect" type="solid">
+            <TagLabel>{activity}</TagLabel>
+          </Tag>
+          )}
+            </>
+            ))}
+            
           </SoptTagSection>
           </InfoSection>
         </ProfileSection>
@@ -312,4 +341,19 @@ display: flex;
 gap:4px;
 margin-top:12px; 
 color:${colors.gray200};
+
+div{
+  white-space: nowrap;
+}
 `
+const TagEllipse=styled.img`
+margin-right:4px;
+width:6px;
+height:6px;
+`
+//mds tag 색 커스텀 기능 적용전 임시 스타일링입니다.
+const TagLabel=styled.span` 
+  ${fonts.LABEL_11_SB};
+
+color:${colors.gray200}
+` 
