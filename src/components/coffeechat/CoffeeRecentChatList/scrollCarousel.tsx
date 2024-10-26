@@ -95,7 +95,6 @@ const Container = styled.div`
 const CarouselWrapper = styled.div`
   display: flex;
   gap: 16px;
-  padding: 8px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 

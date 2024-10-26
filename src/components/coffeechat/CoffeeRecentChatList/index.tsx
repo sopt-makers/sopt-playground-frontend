@@ -231,6 +231,7 @@ const Header = styled.div`
 
   @media ${TABLET_MEDIA_QUERY} {
     gap: 12px;
+    margin-bottom:10px;
     width: 420px;
   }
   @media ${PCTA_S_MEDIA_QUERY}{
@@ -291,7 +292,7 @@ const StyledScrollCarousel = styled(ScrollCarousel)`
   width: 860px;
   @media ${PCTA_SM_MEDIA_QUERY}{
     width:420px;
-    height:306px
+    height:100%;
   }
 
   @media ${MB_BIG_MEDIA_QUERY}{
