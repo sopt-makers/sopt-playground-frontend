@@ -1,15 +1,75 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import {Select,SelectV2} from '@sopt-makers/ui'
+import {SelectV2} from '@sopt-makers/ui'
 import { SearchField } from '@sopt-makers/ui';
+import { useState } from 'react';
 
-import { CAREER_FILTER_OPTIONS, categoryList, PART_FILTER_OPTIONS, TOPIC_FILTER_OPTIONS } from '@/components/coffeechat/constants';
+import { CAREER_FILTER_OPTIONS, categoryList, PART_FILTER_OPTIONS, SECTION_FILTER_OPTIONS,TOPIC_FILTER_OPTIONS } from '@/components/coffeechat/constants';
 import Responsive from '@/components/common/Responsive';
 import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, PCTA_BIG_MEDIA_QUERY, PCTA_MID_MEDIA_QUERY, PCTA_S_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY, PCTA_SM_WIDTH } from '@/styles/mediaQuery';
 
+
 export default function CoffeeChatCategory() {
+    const [section,setSection]=useState("");
+    const [topicType,setTopicType]=useState("");
+    const [career,setCareer]=useState("");
+    const [part,setPart]=useState("")
+    const [search,setSearch]=useState("")
     
+    const SelectionArea = (): JSX.Element => {
+      return (
+        <>
+          <SelectV2.Root 
+            onChange={(e: number) => setTopicType(TOPIC_FILTER_OPTIONS[e - 1].label)} 
+            type="text" 
+            defaultValue={TOPIC_FILTER_OPTIONS.find(option => option.label===topicType)}
+            visibleOptions={4}
+          >
+            <SelectV2.Trigger>
+              <SelectV2.TriggerContent placeholder="주제" />
+            </SelectV2.Trigger>
+            <SelectV2.Menu>
+              {TOPIC_FILTER_OPTIONS.map((option) => (
+                <SelectV2.MenuItem key={option.value} option={option} />
+              ))}
+            </SelectV2.Menu>
+          </SelectV2.Root>
+    
+          <SelectV2.Root 
+          onChange={(e: number) => setCareer(CAREER_FILTER_OPTIONS[e - 1].label)}
+          defaultValue={CAREER_FILTER_OPTIONS.find(option => option.label===career)}
+          type="text"
+          visibleOptions={4}
+          >
+            <SelectV2.Trigger>
+              <SelectV2.TriggerContent placeholder="경력" />
+            </SelectV2.Trigger>
+            <SelectV2.Menu>
+              {CAREER_FILTER_OPTIONS.map((option) => (
+                <SelectV2.MenuItem key={option.value} option={option} />
+              ))}
+            </SelectV2.Menu>
+          </SelectV2.Root>
+    
+          <SelectV2.Root 
+          onChange={(e: number) => setPart(PART_FILTER_OPTIONS[e - 1].label)} 
+          defaultValue={PART_FILTER_OPTIONS.find(option => option.label===part)}
+          type="text" 
+          visibleOptions={4}>
+            <SelectV2.Trigger>
+              <SelectV2.TriggerContent placeholder="파트" />
+            </SelectV2.Trigger>
+            <SelectV2.Menu>
+              {PART_FILTER_OPTIONS.map((option) => (
+                <SelectV2.MenuItem key={option.value} option={option} />
+              ))}
+            </SelectV2.Menu>
+          </SelectV2.Root>
+        </>
+      );
+    }
+
     return <Container>
         <Header>
         <Title>
@@ -27,36 +87,10 @@ export default function CoffeeChatCategory() {
         <Responsive only='desktop'>
         <FilterArea>
         <SelectFilterArea>
-        <SelectV2.Root type='text' visibleOptions={3}>
-          <SelectV2.Trigger>
-            <SelectV2.TriggerContent placeholder='주제' />
-          </SelectV2.Trigger>
-          <SelectV2.Menu>
-            {TOPIC_FILTER_OPTIONS.map((option)=>(
-                <SelectV2.MenuItem key={option.value} option={option}/>))}
-          </SelectV2.Menu>
-        </SelectV2.Root>
-        <SelectV2.Root  type='text' visibleOptions={3}>
-          <SelectV2.Trigger>
-            <SelectV2.TriggerContent placeholder='경력' />
-          </SelectV2.Trigger>
-          <SelectV2.Menu>
-          {CAREER_FILTER_OPTIONS.map((option)=>(
-                <SelectV2.MenuItem key={option.value} option={option}/>))}
-          </SelectV2.Menu>
-        </SelectV2.Root>
-        <SelectV2.Root type='text' visibleOptions={3}>
-          <SelectV2.Trigger>
-            <SelectV2.TriggerContent placeholder='파트' />
-          </SelectV2.Trigger>
-          <SelectV2.Menu>
-          {PART_FILTER_OPTIONS.map((option)=>(
-                <SelectV2.MenuItem key={option.value} option={option}/>))}
-          </SelectV2.Menu>
-        </SelectV2.Root>
+        <SelectionArea/>
         </SelectFilterArea>
-        <StyledSearchField  placeholder='회사, 학교, 이름을 검색해보세요!' value={''}
-    
+        <StyledSearchField  placeholder='회사, 학교, 이름을 검색해보세요!' value={search}
+        onChange={(e)=>{setSearch(e.target.value)}}
         onSubmit={function (): void {
                 throw new Error('Function not implemented.');
             } } onReset={function (): void {
@@ -66,7 +100,8 @@ export default function CoffeeChatCategory() {
         </Responsive>
         <Responsive only='mobile'>
         <FilterArea>
-        <StyledSearchField  placeholder='회사, 학교, 이름을 검색해보세요!' value={''}
+        <StyledSearchField  placeholder='회사, 학교, 이름을 검색해보세요!' value={search}
+        onChange={(e)=>{setSearch(e.target.value)}}
         style={{}}
         onSubmit={function (): void {
                 throw new Error('Function not implemented.');
@@ -74,42 +109,20 @@ export default function CoffeeChatCategory() {
                 throw new Error('Function not implemented.');
             } } />
         <SelectFilterArea>
-        <SelectV2.Root type='text' visibleOptions={3}>
+        <SelectV2.Root 
+        onChange={(e: number) => setSection(SECTION_FILTER_OPTIONS[e - 1].label)} 
+        defaultValue={SECTION_FILTER_OPTIONS.find(option => option.label===section)}
+        type='text' 
+        visibleOptions={4}>
           <SelectV2.Trigger>
             <SelectV2.TriggerContent placeholder='분야' />
           </SelectV2.Trigger>
           <SelectV2.Menu>
-            {TOPIC_FILTER_OPTIONS.map((option)=>(
+            {SECTION_FILTER_OPTIONS.map((option)=>(
                 <SelectV2.MenuItem key={option.value} option={option}/>))}
           </SelectV2.Menu>
         </SelectV2.Root>
-        <SelectV2.Root type='text' visibleOptions={3}>
-          <SelectV2.Trigger>
-            <SelectV2.TriggerContent placeholder='주제' />
-          </SelectV2.Trigger>
-          <SelectV2.Menu>
-            {TOPIC_FILTER_OPTIONS.map((option)=>(
-                <SelectV2.MenuItem key={option.value} option={option}/>))}
-          </SelectV2.Menu>
-        </SelectV2.Root>
-        <SelectV2.Root  type='text' visibleOptions={3}>
-          <SelectV2.Trigger>
-            <SelectV2.TriggerContent placeholder='경력' />
-          </SelectV2.Trigger>
-          <SelectV2.Menu>
-          {CAREER_FILTER_OPTIONS.map((option)=>(
-                <SelectV2.MenuItem key={option.value} option={option}/>))}
-          </SelectV2.Menu>
-        </SelectV2.Root>
-        <SelectV2.Root type='text' visibleOptions={3}>
-          <SelectV2.Trigger>
-            <SelectV2.TriggerContent placeholder='파트' />
-          </SelectV2.Trigger>
-          <SelectV2.Menu>
-          {PART_FILTER_OPTIONS.map((option)=>(
-                <SelectV2.MenuItem key={option.value} option={option}/>))}
-          </SelectV2.Menu>
-        </SelectV2.Root>
+        <SelectionArea/>
         </SelectFilterArea>
         </FilterArea>
         </Responsive>
@@ -173,11 +186,12 @@ display: flex;
 gap:16px;
 width:1300px;
 overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 
 &::-webkit-scrollbar {
     width: 0;
     height: 0;
-  }
+  } 
 @media ${PCTA_BIG_MEDIA_QUERY}{
     width:860px;
 }
@@ -260,25 +274,28 @@ const SelectFilterArea=styled.div`
 display:flex;
 gap:12px;
 width: 100%;
-
+-webkit-overflow-scrolling: touch; 
 
 &::-webkit-scrollbar {
     width: 0;
     height: 0;
+  }
+
+  div{
+    white-space: nowrap;
   }
 @media ${PCTA_S_MEDIA_QUERY}{
 display: block;
 gap:0;
 max-width: 424px;
 max-height:48px;
-overflow-x: auto;
+overflow-x: scroll;
 white-space: nowrap;
 
 div{
     margin-right:4px;
     width: auto;
     min-width:100px;
-    white-space: nowrap;
 }
 }
 `

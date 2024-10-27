@@ -246,3 +246,38 @@ export const PART_FILTER_OPTIONS=[
     value:7
   },
 ]
+
+export const SECTION_FILTER_OPTIONS=[
+  {
+    label:"전체",
+    value:1
+  },
+  {
+    label:"SOPT 활동",
+    value:2
+  },
+  {
+    label:"기획",
+    value:3
+  },
+  {
+    label:"디자인",
+    value:4
+  },
+  {
+    label:"프론트",
+    value:5
+  },
+  {
+    label:"백엔드",
+    value:6
+  },
+  {
+    label:"앱 개발",
+    value:7
+  },
+  {
+    label:"기타",
+    value:8
+  },
+]
