@@ -28,7 +28,8 @@ interface MentoringCardProps {
   organization: string;
   companyJob?: string;
   soptActivities?:Array<string>;
-  isBlurred?:boolean
+  isBlurred?:boolean,
+  isMine?:boolean,
 }
 
 export default function CoffeeChatCard({
@@ -42,7 +43,8 @@ export default function CoffeeChatCard({
   organization,
   companyJob,
   soptActivities
-  ,isBlurred
+  ,isBlurred,
+  isMine
 }: MentoringCardProps) {
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
@@ -84,7 +86,7 @@ export default function CoffeeChatCard({
           <Title>{title}</Title>
           <TagSection>
               {topicTypeList
-                .map((topic) => topic.trim())
+                ?.map((topic) => topic.trim())
                 .filter(Boolean)
                 .map((topic) => (
                   <Tag size='md' shape='rect' variant='secondary' type='solid' key={topic}>
