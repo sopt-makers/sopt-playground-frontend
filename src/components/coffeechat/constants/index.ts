@@ -180,7 +180,7 @@ export const TOPIC_FILTER_OPTIONS=[
     value:9,
   },
   {
-    label:"자기개발",
+    label:"자기계발",
     value:10,
   },
   {
@@ -203,15 +203,15 @@ export const CAREER_FILTER_OPTIONS=[
     value:3
   },
   {
-    label:"주니어(0~3년차)",
+    label:"주니어 (0-3년)",
     value:4
   },
   {
-    label:"미들(4~8년차)",
+    label:"미들 (4-8년)",
     value:5
   },
   {
-    label:"시니어(9년차 이상)",
+    label:"시니어 (9년 이상)",
     value:6
   },
 ]

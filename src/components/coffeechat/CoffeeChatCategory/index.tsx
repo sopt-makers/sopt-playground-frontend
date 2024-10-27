@@ -3,7 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import {SelectV2} from '@sopt-makers/ui'
 import { SearchField } from '@sopt-makers/ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
@@ -20,16 +20,38 @@ export default function CoffeeChatCategory() {
     const [part,setPart]=useState("")
     const [search,setSearch]=useState("")
     const [clientSearch,setClientSearch]=useState("")
-    const queryParams = {
+    const [queryParams,setQueryParams] =useState({
       ...(section && section !== "전체" && { section: section === "프론트엔드" ? "프론트" : section }),
       ...(topicType && topicType !== "전체" && { topicType }),
-      ...(career && career !== "전체" && { career }),
+      ...(career && career !== "전체" && { 
+          career: career === "인턴" 
+            ? "인턴 경험만 있어요" 
+            : career === "아직 없음" 
+            ? "아직 없어요" 
+            : career 
+        }),
       ...(part && part !== "전체" && { part }),
-      ...(search && { search }), // search는 빈 문자열이 아닌 경우만 추가
-    };
+      ...(search && { search }), // search는 빈 문자열이 아닌 경우만 추가}
+    });
+    useEffect(()=>{
+      setQueryParams({
+        ...(section && section !== "전체" && { section: section === "프론트엔드" ? "프론트" : section }),
+        ...(topicType && topicType !== "전체" && { topicType }),
+        ...(career && career !== "전체" && { 
+            career: career === "인턴" 
+              ? "인턴 경험만 있어요" 
+              : career === "아직 없음" 
+              ? "아직 없어요" 
+              : career 
+          }),
+        ...(part && part !== "전체" && { part }),
+        ...(search && { search }), // search는 빈 문자열이 아닌 경우만 추가}
+      })
+    },[section,topicType,career,part,search])
+    
     const {data,isLoading}=useGetMembersCoffeeChat(queryParams);
     const isEmpty = (data?.coffeeChatList.length===0) == null;
-
+    console.log(data);
     const SelectionArea = (): JSX.Element => {
       return (
         <>
@@ -290,7 +312,7 @@ justify-content: space-between;
 margin-top:48px;
 width: 1300px;
 @media ${PCTA_BIG_MEDIA_QUERY}{
-    width:860px;
+    width:100%;
 }
 @media ${PCTA_SM_MEDIA_QUERY}{
     padding-right:30px;
@@ -332,6 +354,10 @@ width: 100%;
 
   div{
     white-space: nowrap;
+  }
+
+  ul{
+    z-index:203;
   }
 @media ${PCTA_S_MEDIA_QUERY}{
 display: block;
