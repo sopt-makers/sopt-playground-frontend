@@ -11,7 +11,7 @@ export const ADS = [
     id: 2,
     moImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1027_PG_2_MO.png',
     pcImage: 'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/1027_PG_2_PC.png',
-    url: 'https://www.instagram.com/sopt_timi_tmi/?hl=ko',
+    url: 'https://www.instagram.com/sopt_manage_official/?hl=ko',
   },
   {
     // 이현진 님
