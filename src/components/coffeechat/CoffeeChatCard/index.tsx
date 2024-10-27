@@ -3,15 +3,12 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import {fonts} from '@sopt-makers/fonts'
 import { Tag } from '@sopt-makers/ui';
-import { action } from '@storybook/addon-actions';
-import { Flex } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import {useEffect, useState } from 'react';
 
 import Divider from '@/components/common/Divider/Divider';
-import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
@@ -81,7 +78,12 @@ export default function CoffeeChatCard({
         }}
         isEmptyData={isEmptyData}
         isBlurred={isBlurred}
+        isMine={isMine}
       >
+          {isBlurred?<BlurInfo>
+          커피챗을 숨긴 상태에요.<br/>
+          카드를 누르면 상세 페이지에서 다시 보이게 할 수 있어요.
+        </BlurInfo>:<></>}
         <TitleSection>
           <Title>{title}</Title>
           <TagSection>
@@ -147,7 +149,7 @@ export default function CoffeeChatCard({
   );
 }
 
-const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
+const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean,isMine?:boolean }>`
   display: flex;
   flex-direction: column;
   gap: 11px;
@@ -169,8 +171,15 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
   ${({ isBlurred }) =>
     isBlurred &&
     css`
-      filter: blur(5px);
+     position: relative;
+
+      /* filter: blur(5px); */
     `};
+  ${({ isMine }) =>
+    isMine &&
+    css`
+      border:1px solid ${colors.gray200}
+   `};
   
   @media ${MB_BIG_MEDIA_QUERY} {
     gap:4px;
@@ -360,4 +369,27 @@ const TagLabel=styled.span`
   ${fonts.LABEL_11_SB};
 
 color:${colors.gray200}
-` 
+`
+
+const BlurInfo=styled.div`
+  display: flex;
+position: absolute;
+  top: 50%; 
+  left: 50%;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  border-radius: 8px;
+  background-color: ${colors.grayAlpha700};
+  padding: 10px;
+  width: 100%;
+  height: 100%;  
+  text-align: center;
+  color: white; 
+  ${fonts.TITLE_16_SB}
+
+  stroke: 1px ${colors.gray300};
+ backdrop-filter: blur(7.5px);
+  ;
+`;
