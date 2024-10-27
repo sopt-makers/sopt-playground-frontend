@@ -51,7 +51,6 @@ export default function CoffeeChatCategory() {
     
     const {data,isLoading}=useGetMembersCoffeeChat(queryParams);
     const isEmpty = (data?.coffeeChatList.length===0) == null;
-    console.log(data);
     const SelectionArea = (): JSX.Element => {
       return (
         <>
@@ -171,8 +170,9 @@ export default function CoffeeChatCategory() {
           </StyledEmpty>
         )}
         <StyledCardList>
-          {data?.coffeeChatList?.map((item)=>(<CoffeeChatCard
-            key={String(item.memberId)}
+          {data?.coffeeChatList?.map((item)=>(
+      <CoffeeChatCard
+      key={String(item.memberId)}
       id={String(item.memberId)}
       name={item.name ?? ''}
       topicTypeList={item.topicTypeList ?? ['']}
@@ -182,10 +182,11 @@ export default function CoffeeChatCategory() {
       companyJob={item.companyJob ?? ''}
       soptActivities={item.soptActivities ?? ['']}
       title={item.bio ?? ''}
-      isBlurred={item.isBlind ?? ''}
-      isMine={item.isMine ?? ''}>
-          </CoffeeChatCard>))}
-          </StyledCardList></>}
+      isBlurred={item.isBlind ?? false}
+      isMine={item.isMine ?? false}/>
+        ))}
+          </StyledCardList>
+          </>}
     </Container>
 }
 
