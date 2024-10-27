@@ -7,14 +7,11 @@ import Header from "@/components/common/Header";
 
 const CoffeeChatMainPage=()=>{
     return (
-    // <AuthRequired>
-    <>
-    <Header>
-    </Header>
+    <AuthRequired>
+    <Header/>
     {/* <AdsBanner/> */}
     <CoffeeChatRecentList/>
     <CoffeeChatCategory/>
-    </>)
-    // </AuthRequired>)
+    </AuthRequired>)
 }
 export default CoffeeChatMainPage;

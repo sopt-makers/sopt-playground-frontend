@@ -2,12 +2,10 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
-import { Flex } from '@toss/emotion-utils';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { ReactNode, startTransition, useEffect, useRef,useState } from 'react';
 
-import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
 import { useGetRecentCoffeeChat } from '@/api/endpoint/members/getRecentCoffeeChats';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
 import ScrollCarousel from '@/components/coffeechat/CoffeeRecentChatList/scrollCarousel';
@@ -16,8 +14,6 @@ import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { COFFEECHAT_GUIDE } from '@/constants/links';
-import font from '@/styles/font';
 import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY, PCTA_BIG_MEDIA_QUERY, PCTA_S_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
@@ -108,7 +104,21 @@ export default function CoffeeChatList() {
               : '최근 진행된 커피챗이에요✨'}
           </Title>
             <FixedButtonArea>
-            <Button
+            <Responsive only="desktop">
+              <Button
+              size='lg'
+              theme='white'
+              style={{ color: colors.black }}
+              onClick={() => {
+                router.push(playgroundLink.memberEdit());
+                logClickEvent('openToCoffeechat');
+              }}
+            >
+              커피챗 오픈하기
+            </Button>
+            </Responsive>
+              <Responsive only='mobile'>
+              <Button
               size='md'
               theme='white'
               style={{ color: colors.black }}
@@ -119,6 +129,7 @@ export default function CoffeeChatList() {
             >
               커피챗 오픈하기
             </Button>
+              </Responsive>
             </FixedButtonArea>
         </Header>
       {isLoading ? (
@@ -320,7 +331,7 @@ right: 90px;
 bottom:42px;
 z-index: 202;
 
-@media ${MB_BIG_MEDIA_QUERY}{
+@media ${PCTA_S_MEDIA_QUERY}{
   right:20px;
   bottom:42px;
 }
