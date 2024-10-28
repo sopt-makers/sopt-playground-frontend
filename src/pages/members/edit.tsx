@@ -93,7 +93,6 @@ export default function MemberEditPage() {
       interest,
       isPhoneBlind,
       isCoffeeChatActivate,
-      coffeeChatBio,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -134,7 +133,6 @@ export default function MemberEditPage() {
       selfIntroduction: longIntroduction,
       isPhoneBlind,
       isCoffeeChatActivate,
-      coffeeChatBio,
     };
 
     mutate(requestBody, {

@@ -50,13 +50,6 @@ export const memberFormSchema = yup.object().shape({
       : yup.string().required('이메일을 입력해주세요.').matches(EMAIL_REG_EXP, `이메일 양식에 맞게 입력해주세요.`),
   ),
   isCoffeeChatActivate: yup.boolean().required().default(false),
-  coffeeChatBio: yup.lazy(() =>
-    yup.string().when('isCoffeeChatActivate', {
-      is: true,
-      then: (schema) => schema.required('커피챗 한줄 소개를 입력해주세요').max(40, '최대 40자까지 적을 수 있어요'),
-      otherwise: (schema) => schema.nullable(),
-    }),
-  ),
   address: yup.string().nullable(),
   university: yup.string().nullable(),
   major: yup.string().nullable(),

@@ -63,7 +63,6 @@ export default function MemberUploadPage() {
       interest,
       isPhoneBlind,
       isCoffeeChatActivate,
-      coffeeChatBio,
     } = formData;
 
     const requestBody: ProfileRequest = {
@@ -104,7 +103,6 @@ export default function MemberUploadPage() {
       selfIntroduction: longIntroduction,
       isPhoneBlind,
       isCoffeeChatActivate,
-      coffeeChatBio,
     };
 
     const response = await postMemberProfile(requestBody);
