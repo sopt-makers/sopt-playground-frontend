@@ -121,6 +121,7 @@ const MessageModal: FC<MessageModalProps> = ({
           style={{ width: '100%' }}
           control={control}
           name='phone'
+          defaultValue={phone}
           component={StyledInput}
           placeholder='연락처를 입력해주세요!'
         />
