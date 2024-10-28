@@ -153,7 +153,6 @@ export interface ProfileRequest {
   };
   selfIntroduction: string | null;
   isPhoneBlind: boolean | null;
-  isCoffeeChatActivate: boolean | null;
 }
 
 export interface PostMemberMessageVariables {

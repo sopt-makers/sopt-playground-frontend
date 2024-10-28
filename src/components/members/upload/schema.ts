@@ -49,7 +49,6 @@ export const memberFormSchema = yup.object().shape({
       ? yup.string().required('이메일을 입력해주세요.')
       : yup.string().required('이메일을 입력해주세요.').matches(EMAIL_REG_EXP, `이메일 양식에 맞게 입력해주세요.`),
   ),
-  isCoffeeChatActivate: yup.boolean().required().default(false),
   address: yup.string().nullable(),
   university: yup.string().nullable(),
   major: yup.string().nullable(),

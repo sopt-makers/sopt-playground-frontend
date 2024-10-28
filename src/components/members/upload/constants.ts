@@ -29,7 +29,6 @@ export const MEMBER_DEFAULT_VALUES: DefaultValues<MemberUploadForm> = {
   activities: [DEFAULT_ACTIVITY],
   allowOfficial: false,
   isPhoneBlind: false,
-  isCoffeeChatActivate: false,
   careers: [DEFAULT_CAREER],
   mbti: null,
   favor: { peach: null, alcohol: null, fishBread: null, tteokbokki: null, sweetAndSourPork: null, mintChocolate: null },
