@@ -15,12 +15,12 @@ import MemberForm from '@/components/members/upload/forms/Form';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import BasicFormSection from '@/components/members/upload/FormSection/Basic';
 import CareerFormSection from '@/components/members/upload/FormSection/Career';
+import CoffeeChatFormSection from '@/components/members/upload/FormSection/CoffeeChat';
 import SoptActivityFormSection from '@/components/members/upload/FormSection/SoptActivity';
 import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
 import { MemberUploadForm, SoptActivity } from '@/components/members/upload/types';
 import { setLayout } from '@/utils/layout';
-import CoffeeChatFormSection from '@/components/members/upload/FormSection/CoffeeChat';
 
 export default function MemberUploadPage() {
   const formMethods = useForm<MemberUploadForm>({
@@ -148,7 +148,6 @@ export default function MemberUploadPage() {
     <AuthRequired>
       <FormProvider {...formMethods}>
         <MemberForm type='upload' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
-          <CoffeeChatFormSection />
           <BasicFormSection />
           <SoptActivityFormSection />
           <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />

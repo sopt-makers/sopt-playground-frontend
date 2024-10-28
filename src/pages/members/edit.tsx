@@ -161,7 +161,7 @@ export default function MemberEditPage() {
         university: myProfile.university,
         major: myProfile.major,
         introduction: myProfile.introduction,
-        skill: myProfile.skill ?? '',
+        skill: myProfile.skill,
         links: myProfile.links.length ? myProfile.links : [DEFAULT_LINK],
         activities: myProfile.soptActivities
           .sort((a, b) => a.generation - b.generation)
@@ -172,8 +172,6 @@ export default function MemberEditPage() {
           })),
         allowOfficial: myProfile.allowOfficial,
         isPhoneBlind: myProfile.isPhoneBlind,
-        isCoffeeChatActivate: myProfile.isCoffeeChatActivate,
-        coffeeChatBio: myProfile.coffeeChatBio,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
           ? myProfile.careers.map((career) =>
@@ -235,7 +233,6 @@ export default function MemberEditPage() {
       {me && me.editActivitiesAble && <CheckActivity />}
       <FormProvider {...formMethods}>
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
-          <CoffeeChatFormSection />
           <BasicFormSection />
           <SoptActivityFormSection />
           <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />
