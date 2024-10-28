@@ -9,6 +9,7 @@ import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
 import GroupSection from '@/components/members/detail/GroupSection';
 import InterestSection from '@/components/members/detail/InterestSection';
+import MessageSection from '@/components/members/detail/MessageSection';
 import ProfileSection from '@/components/members/detail/ProfileSection';
 import ProjectSection from '@/components/members/detail/ProjectSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
@@ -60,11 +61,19 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileSection profile={profile} memberId={memberId} />
-
+        {!profile.isMine && (
+          <>
+            <MessageSection
+              name={profile.name}
+              email={profile.email}
+              profileImage={profile.profileImage}
+              memberId={memberId}
+              isCoffeeChatActivate={profile.isCoffeeChatActivate}
+            />
+          </>
+        )}
         <DetailInfoSection profile={profile} />
-
         <SoptActivitySection soptActivities={sortedSoptActivities} />
-
         <CareerSection
           careers={profile.careers}
           links={profile.links}
@@ -75,7 +84,6 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           memberId={memberId}
           isMine={profile.isMine}
         />
-
         {(profile.sojuCapacity ||
           profile.mbti ||
           profile.interest ||
@@ -108,9 +116,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             selfIntroduction={profile.selfIntroduction}
           />
         )}
-
         <ProjectSection profile={profile} memberId={memberId} meId={me?.id} />
-
         <GroupSection profile={profile} meId={me?.id} memberId={memberId} />
       </Wrapper>
     </Container>
