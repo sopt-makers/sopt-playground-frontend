@@ -99,6 +99,7 @@ const StyledBackground = styled.div<{ zIndex?: number }>`
   background: rgb(0 0 0 / 50%);
   width: 100%;
   height: 100%;
+  padding-bottom:20px;
 `;
 
 const StyledModalContainer = styled.div<{ width?: number }>`
@@ -107,11 +108,11 @@ const StyledModalContainer = styled.div<{ width?: number }>`
   box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
   background: ${colors.gray800};
   width: ${({ width }) => width|| 400}px;
-  height:196px;
+  height:auto;
   overflow: hidden;
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 303px;
-    height:166px;
+    height:auto;
   }
 `;
 export const StyledModalTitle = styled.h1`
@@ -148,7 +149,7 @@ const StyledModalDescription = styled.div`
 const StyledFooter = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizontal' | 'vertical' }>`
   display: grid;
   margin-top: 36px;
-
+  
   ${(props) =>
     props.stack !== 'vertical' &&
     css`
