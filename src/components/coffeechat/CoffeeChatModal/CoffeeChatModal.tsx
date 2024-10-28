@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { useToast } from '@sopt-makers/ui';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -64,9 +65,9 @@ const MessageModal: FC<MessageModalProps> = ({
   });
   const isValid = _isValid;
   const { mutateAsync, isPending } = usePostMemberMessageMutation();
-  const { alert } = useAlert();
-  const { confirm, ConfirmComponent } = useCustomConfirm();
 
+  const { confirm, ConfirmComponent } = useCustomConfirm();
+  const { open } = useToast();
 
   const submit = async ({ content, phone }: MessageForm) => {
     if(isPending){
@@ -90,11 +91,16 @@ const MessageModal: FC<MessageModalProps> = ({
           receiverId,
           category:"커피챗"
         });
-        await alert({
-          title: '쪽지 보내기',
-          description: '성공적으로 전송되었어요!',
-          zIndex:zIndex.헤더+103
-        });
+        open({
+            icon: 'success',
+            content: '커피챗 제안이 잘 전달되었어요!',
+            style: {
+              content: {
+                whiteSpace: 'pre-wrap',
+              },
+            },
+          });
+          props.onClose();
       }
     } catch (error) {
       throw error;
