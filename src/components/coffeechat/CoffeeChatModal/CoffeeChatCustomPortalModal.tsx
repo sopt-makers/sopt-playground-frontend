@@ -13,7 +13,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 /**
- * @deprecated MessageModal 만을 위한 임시 모달 입니다. 모바일 화면에 대응하기 위해 임시로 사용돼요.
+ * @deprecated CoffeeChatMessageModal 만을 위한 임시 모달 입니다. 모바일 화면에 대응하기 위해 임시로 사용돼요.
  */
 export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   confirmIcon?: boolean;
