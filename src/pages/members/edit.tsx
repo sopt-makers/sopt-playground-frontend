@@ -92,7 +92,6 @@ export default function MemberEditPage() {
       interest,
       isPhoneBlind,
     } = formData;
-
     const requestBody: ProfileRequest = {
       name,
       profileImage,

@@ -114,6 +114,7 @@ export const memberFormSchema = yup.object().shape({
       }),
     )
     .nullable(),
+  skill: yup.string().nullable(),
   mbti: yup
     .tuple([
       yup.string().required('MBTI 4자리를 모두 선택해주세요.'),

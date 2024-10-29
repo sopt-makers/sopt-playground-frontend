@@ -154,7 +154,11 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
               <MemberFormItem title='스킬'>
                 <SkillDescription>{`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요.
               \n쉼표(,)로 구분해서 적어주세요.`}</SkillDescription>
-                <StyledInput {...register('skill')} placeholder='ex) Node, Product Managing, Branding, UI' />
+                <StyledInput
+                  {...register('skill')}
+                  onChange={(e) => setValue('skill', e.target.value, { shouldDirty: true })}
+                  placeholder='ex) Node, Product Managing, Branding, UI'
+                />
               </MemberFormItem>
             </div>
             <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
