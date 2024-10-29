@@ -2,12 +2,14 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronDown, IconSwitchVertical } from '@sopt-makers/icons';
+import { SearchField } from '@sopt-makers/ui';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { Profile } from '@/api/endpoint_LEGACY/members/type';
+import EmptyView from '@/components/common/EmptyView';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -38,7 +40,6 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import { SearchField } from '@sopt-makers/ui';
 
 const PAGE_LIMIT = 30;
 
@@ -360,12 +361,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             ))}
           </StyledCardWrapper>
 
-          {isEmpty && (
-            <StyledEmpty>
-              <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
-              <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
-            </StyledEmpty>
-          )}
+          {isEmpty && <EmptyView />}
           <Responsive only='desktop'>
             <StyledTopWrapper>
               <div
@@ -610,43 +606,6 @@ const StyledCardWrapper = styled.div`
     & > div {
       width: 100%;
     }
-  }
-`;
-
-const StyledEmpty = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 24px;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 300px;
-  max-height: 100%;
-
-  & > span {
-    display: block;
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    gap: 12px;
-  }
-`;
-
-const EmptyTitle = styled.span`
-  ${textStyles.SUIT_32_B};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_24_B};
-  }
-`;
-
-const EmptyDescription = styled.span`
-  color: ${colors.gray400};
-  ${textStyles.SUIT_16_M};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_14_M}
   }
 `;
 
