@@ -9,17 +9,18 @@ const CoffeechatDetailSchema = z.object({
   name: z.string(),
   career: z.string(),
   organization: z.string().nullable(),
-  companyJob: z.string().nullable(),
+  memberCareerTitle: z.string().nullable(),
   phone: z.string(),
   email: z.string(),
   introduction: z.string(),
   topicTypeList: z.array(z.string()),
   topic: z.string(),
   meetingType: z.string(),
-  guideline: z.string(),
+  guideline: z.string().nullable(),
   isMine: z.boolean().nullable(),
   isBlind: z.boolean().nullable(),
-  profileImage: z.string(),
+  profileImage: z.string().nullable(),
+  isCoffeeChatActivate: z.boolean().nullable(),
 });
 
 export const getCoffeechatDetail = createEndpoint({

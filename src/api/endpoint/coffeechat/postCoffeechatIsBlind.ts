@@ -1,6 +1,5 @@
-import { z } from 'zod';
-
 import { createEndpoint } from '@/api/typedAxios';
+import { z } from 'zod';
 
 export const changeIsBlindCoffeechat = createEndpoint({
   request: (open: boolean) => ({

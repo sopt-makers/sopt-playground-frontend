@@ -1,3 +1,4 @@
+import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -10,18 +11,7 @@ interface OpenerProfileProps {
 }
 
 export default function OpenerProfile({ memberId }: OpenerProfileProps) {
-  //   const { data: openerProfile } = useGetCoffeechatDetail(memberId);
-  //  TODO 데이터 패칭한 내용으로 변경
-  const openerProfile = {
-    name: '서지수',
-    career: '주니어 (0~3년)',
-    organization: 'Google',
-    companyJob: 'CEOCEOCEOCEOCEOCEOCEOCEOCEOCEO',
-    phone: '01011111111',
-    email: '111@gmail.com',
-    profileImage:
-      'https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//prod/image/project/5193f63e-6910-4bd4-9591-8b42c5132419-IMG_6957.jpeg',
-  };
+  const { data: openerProfile } = useGetCoffeechatDetail(memberId);
 
   return (
     <>
@@ -40,8 +30,8 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
               <Career>{openerProfile.career}</Career>
             </ProfileHeader>
             <Company>
-              {openerProfile.organization && openerProfile.organization + ' | '}
-              {openerProfile.companyJob && openerProfile.companyJob}
+              {openerProfile.organization && openerProfile.organization}
+              {openerProfile.memberCareerTitle && ' | ' + openerProfile.memberCareerTitle}
             </Company>
             <InfoWrapper>
               <PhoneInfo>
