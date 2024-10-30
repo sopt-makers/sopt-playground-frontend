@@ -1,13 +1,20 @@
 import styled from '@emotion/styled';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
 import ChipField from '@/components/coffeechat/upload/CoffeechatForm/ChipField';
 import { CAREER_LEVEL } from '@/components/coffeechat/upload/CoffeechatForm/constants';
+import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
 import FormTitle from '@/components/common/form/FormTitle';
 import TextFieldLineBreak from '@/components/common/form/TextFieldLineBreak';
 import Responsive from '@/components/common/Responsive';
 
 export default function MyInfoForm() {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<CoffeechatFormContent>();
+
   return (
     <>
       <CareerWrapper>
@@ -18,32 +25,49 @@ export default function MyInfoForm() {
         >
           경력
         </FormTitle>
-        <ChipField errorMessage='경력을 선택해주세요' chipList={CAREER_LEVEL} activeChipList={[]} />
+        <ChipField
+          field='memberInfo.career'
+          errorMessage={errors.memberInfo?.career ? '경력을 선택해주세요' : ''}
+          chipList={CAREER_LEVEL}
+          isSingleSelect
+        />
       </CareerWrapper>
       <article>
         <FormTitle essential breakPoint={COFFEECHAT_MOBILE_MEDIA_QUERY}>
           자기소개
         </FormTitle>
-        <Responsive only='desktop'>
-          <TextFieldLineBreak
-            value=''
-            maxLength={200}
-            fixedHeight={126}
-            lineBreakPlaceholder={['• 직무 경험이나 관심 분야를 적어주면 더 좋아요!']}
-            isError
-            errorMessage='자기소개를 입력해주세요'
-          />
-        </Responsive>
-        <Responsive only='mobile'>
-          <TextFieldLineBreak
-            value=''
-            maxLength={200}
-            fixedHeight={150}
-            lineBreakPlaceholder={['• 직무 경험이나 관심 분야를 적어주면 더 좋아요!']}
-            isError
-            errorMessage='자기소개를 입력해주세요'
-          />
-        </Responsive>
+        <Controller
+          name='memberInfo.introduction'
+          control={control}
+          render={({ field }) => (
+            <>
+              <Responsive only='desktop'>
+                <TextFieldLineBreak
+                  name={field.name}
+                  value={field.value ?? ''}
+                  maxLength={200}
+                  fixedHeight={126}
+                  lineBreakPlaceholder={['• 직무 경험이나 관심 분야를 적어주면 더 좋아요!']}
+                  isError={!!errors.memberInfo?.introduction}
+                  errorMessage='자기소개를 입력해주세요'
+                  onChange={(e) => field.onChange(e.target.value)}
+                />
+              </Responsive>
+              <Responsive only='mobile'>
+                <TextFieldLineBreak
+                  name={field.name}
+                  value={field.value ?? ''}
+                  maxLength={200}
+                  fixedHeight={150}
+                  lineBreakPlaceholder={['• 직무 경험이나 관심 분야를 적어주면 더 좋아요!']}
+                  isError={!!errors.memberInfo?.introduction}
+                  errorMessage='자기소개를 입력해주세요'
+                  onChange={(e) => field.onChange(e.target.value)}
+                />
+              </Responsive>
+            </>
+          )}
+        />
       </article>
     </>
   );

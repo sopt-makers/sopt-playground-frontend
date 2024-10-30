@@ -3,32 +3,41 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { TextArea } from '@sopt-makers/ui';
 
+import { CoffeechatFormPaths } from '@/components/coffeechat/upload/CoffeechatForm/types';
+
 interface TextFieldLineBreakProps {
+  name: CoffeechatFormPaths;
   value: string;
   maxLength: number;
   fixedHeight: number;
   lineBreakPlaceholder: string[];
   isError?: boolean;
   errorMessage?: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 export default function TextFieldLineBreak({
+  name,
   value,
   maxLength,
   fixedHeight,
   lineBreakPlaceholder,
   isError = false,
   errorMessage,
+  onChange,
 }: TextFieldLineBreakProps) {
   return (
     <TextAreaWrapper>
       <TextArea
+        name={name}
         value={value}
         maxLength={maxLength}
         fixedHeight={fixedHeight}
         maxHeight={fixedHeight}
         isError={isError}
         errorMessage={errorMessage}
+        onChange={onChange}
+        autoFocus={isError}
       />
       {!value && (
         <Placeholder>

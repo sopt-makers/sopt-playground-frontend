@@ -74,7 +74,7 @@ const ProgressWrapper = styled.div`
     bottom: 20px;
     left: 7px;
     transform: translateX(-50%);
-    background-color: ${colors.gray800};
+    background-color: ${colors.gray600};
     width: 1px;
     content: '';
   }

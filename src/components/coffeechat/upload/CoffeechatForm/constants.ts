@@ -26,14 +26,14 @@ export const MEETING_TYPE = ['온라인', '오프라인', '온/오프라인'] as
 export const MEETING_TYPE_OPTIONS = [
   {
     label: '온라인',
-    value: 1,
+    value: '온라인',
   },
   {
     label: '오프라인',
-    value: 2,
+    value: '오프라인',
   },
   {
     label: '온/오프라인',
-    value: 3,
+    value: '온/오프라인',
   },
 ];

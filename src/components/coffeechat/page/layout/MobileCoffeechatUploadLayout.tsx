@@ -1,3 +1,5 @@
+import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
@@ -19,6 +21,15 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 20px;
+  margin-bottom: 180px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 48px;
+  }
+
+  @media ${COFFEECHAT_MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
+  }
 `;
 
 const Footer = styled.footer`

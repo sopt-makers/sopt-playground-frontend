@@ -19,11 +19,13 @@ export default function UploadHeader({ uploadType }: UploadHeaderProp) {
 }
 
 const Title = styled.h1`
+  margin-top: 44px;
   margin-bottom: 20px;
   color: ${colors.gray10};
   ${fonts.HEADING_32_B};
 
   @media ${COFFEECHAT_MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
     ${fonts.HEADING_24_B};
   }
 `;
