@@ -46,6 +46,7 @@ interface MessageModalProps {
   phone: string;
   name: string;
   receiverId: string;
+  onClose:()=>void
 }
 
 const MessageModal: FC<MessageModalProps> = ({
@@ -164,21 +165,20 @@ const MessageModal: FC<MessageModalProps> = ({
 export default MessageModal;
 
 const StyledModal = styled(Modal)`
-
-  max-height: 100vh;
-  overflow-y: auto;
-  padding: 32px 32px 48px 32px;
-  width: 588px;
   margin-top:143px;
   margin-bottom:143px;
+  padding: 32px 32px 48px;
+  width: 588px;
+  max-height: 100vh;
+  overflow-y: auto;
 
   @supports (height: 100dvh) {
     max-height: 100dvh;
   }
   @media ${MB_BIG_MEDIA_QUERY}{
+    margin-top:36px;
     width: 100vw;
     height:auto;
-    margin-top:36px;
   }
 
 `;
@@ -192,11 +192,11 @@ const StyledForm = styled.form`
 `;
 
 const ProfileImage = styled.img`
+  margin-top:40px;
   border-radius: 20px;
   width: 84px;
   height: 84px;
   object-fit: cover;
-  margin-top:40px;
   @media ${MB_BIG_MEDIA_QUERY} {
     border-radius: 20px;
     width: 88px;

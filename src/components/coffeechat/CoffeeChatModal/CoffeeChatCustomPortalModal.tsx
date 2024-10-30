@@ -22,7 +22,7 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
   isOpen?: boolean;
   width?: number;
   className?: string;
-  onClose?: () => void;
+  onClose: () => void;
 }
 
 
