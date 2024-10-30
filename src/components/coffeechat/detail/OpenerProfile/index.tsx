@@ -103,7 +103,7 @@ const InfoWrapper = styled.div`
 const IconInfo = styled.div`
   display: flex;
   gap: 4px;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const ProfileHeader = styled.header`
