@@ -97,9 +97,10 @@ const StyledBackground = styled.div<{ zIndex?: number }>`
   justify-content: center;
   z-index: ${({ zIndex }) => zIndex || 1000};
   background: rgb(0 0 0 / 50%);
+  padding-bottom:20px;
   width: 100%;
   height: 100%;
-  padding-bottom:20px;
+
 `;
 
 const StyledModalContainer = styled.div<{ width?: number }>`
