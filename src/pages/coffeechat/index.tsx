@@ -1,15 +1,16 @@
 import AuthRequired from "@/components/auth/AuthRequired";
 import CoffeeChatCategory from "@/components/coffeechat/CoffeeChatCategory";
 import CoffeeChatRecentList from "@/components/coffeechat/CoffeeRecentChatList";
-import AdsBanner from "@/components/common/Banner/AdsBanner";
 import Header from "@/components/common/Header";
-
+import { setLayout } from "@/utils/layout";
 
 const CoffeeChatMainPage=()=>{
+  setLayout(CoffeeChatMainPage, 'headerFooter');
+  setLayout(CoffeeChatMainPage, 'header');
+  setLayout(CoffeeChatMainPage, 'headerOnlyDesktop');
     return (
     <AuthRequired>
     <Header/>
-    {/* <AdsBanner/> */}
     <CoffeeChatRecentList/>
     <CoffeeChatCategory/>
     </AuthRequired>)

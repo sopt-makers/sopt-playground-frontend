@@ -232,11 +232,8 @@ const Title = styled.div`
 
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    /* Heading/18_B */
-    line-height: 28px; /* 155.556% */
-    letter-spacing: -0.36px;
-    white-space: pre-wrap;
-    font-size: 18px;
+
+    ${fonts.HEADING_18_B}
   }
 `;
 
