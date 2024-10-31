@@ -21,9 +21,6 @@ import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { MB_BIG_MEDIA_QUERY,MB_MID_MEDIA_QUERY,MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
-
-
-
 const schema = yup.object().shape({
   phone: yup.string()
   .nullable()
@@ -115,13 +112,13 @@ const MessageModal: FC<MessageModalProps> = ({
         <Text mt={30} typography='SUIT_24_B'>
           커피챗 제안하기
         </Text>
-        <Text style={{"textAlign":"center","lineHeight":"22px"}} mt={14} typography='SUIT_14_M' color={colors.gray300}>
+        <Text style={{textAlign:"center",lineHeight:"22px"}} mt={14} typography='SUIT_14_M' color={colors.gray300}>
         <Responsive only='desktop'>작성하신 내용은 회원님의 프로필과 함께 문자로 전달돼요</Responsive>
         <Responsive only='mobile'>작성하신 내용은<br/> 회원님의 프로필과 함께 문자로 전달돼요</Responsive>
         </Text>
         <TextWrapper>
           <StyledText mt={48} color={colors.white} >
-            회신 받을 본인 연락처 <span style={{"color":"#F77234"}}>*</span>
+            회신 받을 본인 연락처 <span style={{color:"#F77234"}}>*</span>
           </StyledText>
         </TextWrapper>
         <RHFControllerFormItem
@@ -134,7 +131,7 @@ const MessageModal: FC<MessageModalProps> = ({
         />
         <TextWrapper>
           <StyledText mt={46} color={colors.white} >
-            무엇이 궁금하신가요? <span style={{"color":"#F77234"}}>*</span>
+            무엇이 궁금하신가요? <span style={{color:"#F77234"}}>*</span>
           </StyledText>
         </TextWrapper>
         <InputWrapper>

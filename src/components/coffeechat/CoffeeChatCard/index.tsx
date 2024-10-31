@@ -1,20 +1,20 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import HorizontalScroller from '@/components/common/HorizontalScroller';
-import { Flex } from '@toss/emotion-utils';
 import { Tag } from '@sopt-makers/ui';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
-import { useState } from 'react';
-import { MessageModalState } from '@/components/members/main/MemberList';
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { Flex } from '@toss/emotion-utils';
+import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { css } from '@emotion/react';
-import { m } from 'framer-motion';
+import { useState } from 'react';
+
+import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { MessageModalState } from '@/components/members/main/MemberList';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MentoringCardProps {
   id: string;
