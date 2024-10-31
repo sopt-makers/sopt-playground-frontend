@@ -1,13 +1,13 @@
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
-
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { colors } from '@sopt-makers/colors';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { textStyles } from '@/styles/typography';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { colors } from '@sopt-makers/colors';
+
 import useModalState from '@/components/common/Modal/useModalState';
 import useToast from '@/components/common/Toast/useToast';
-import { css } from '@emotion/react';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
 
 interface MessageSectionProps {
   name: string;
@@ -21,7 +21,7 @@ export default function MessageSection({ name, email, profileImage, memberId }: 
   const toast = useToast();
   const { logSubmitEvent } = useEventLogger();
 
-  const isEmptyEmail = email === null || email.length < 1;
+  const isEmptyEmail = !email || email.length < 1;
 
   const handleClickMessageButton = () => {
     if (isEmptyEmail) {

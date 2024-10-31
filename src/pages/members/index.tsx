@@ -17,7 +17,6 @@ const MemberPage: FC = () => {
 
   return (
     <AuthRequired>
-      <CoffeeChatList />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
   );

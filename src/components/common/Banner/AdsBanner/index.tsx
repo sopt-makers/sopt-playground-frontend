@@ -77,6 +77,7 @@ export default AdsBanner;
 
 const SliderWrapper = styled.div`
   display: flex;
+  align-items: center;
   justify-content: center;
   margin: 16px 0;
 `;
@@ -175,7 +176,8 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: -8px 20px -20px;
+    aspect-ratio: 340 / 168;
+    margin: 0 20px -4px;
   }
 `;
 

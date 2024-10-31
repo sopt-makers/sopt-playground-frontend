@@ -2,18 +2,19 @@ import styled from '@emotion/styled';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconSend } from '@sopt-makers/icons';
+import { Tag } from '@sopt-makers/ui';
+import { Flex } from '@toss/emotion-utils';
 import { FC, MouseEvent } from 'react';
 
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import IconCoffee from '@/public/icons/icon-coffee.svg';
 
-interface MessageButtonProps {
+interface CoffeeChatButtonProps {
   className?: string;
-  name: string;
   onClick?: (e: MouseEvent) => void;
 }
 
-const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => {
+const CoffeeChatButton: FC<CoffeeChatButtonProps> = ({ className, onClick }) => {
   const { logClickEvent } = useEventLogger();
 
   return (
@@ -24,15 +25,20 @@ const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => 
             className={className}
             onClick={(e) => {
               onClick && onClick(e);
-              logClickEvent('memberBadge');
+              logClickEvent('coffeechatBadge');
             }}
           >
-            <StyledIconSend />
+            <IconCoffee />
           </Button>
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <TooltipContent sideOffset={5}>
-            {`${name}님이 궁금하시다면\n쪽지를 보내보세요!`}
+            <Flex style={{ gap: 6 }} align='center'>
+              <Tag size='sm' shape='rect' variant='primary' type='solid'>
+                NEW
+              </Tag>
+              커피챗 기능이 오픈됐어요!
+            </Flex>
             <TooltipArrow />
           </TooltipContent>
         </Tooltip.Portal>
@@ -41,7 +47,7 @@ const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => 
   );
 };
 
-export default MessageButton;
+export default CoffeeChatButton;
 
 const Button = styled.button`
   display: flex;
@@ -49,22 +55,22 @@ const Button = styled.button`
   justify-content: center;
   transition: background-color 0.2s;
   border-radius: 50%;
-  background-color: ${colors.gray600};
+  background-color: ${colors.blue400};
   padding: 5px;
   width: 32px;
   height: 32px;
 
   &:hover {
-    background-color: ${colors.gray400};
+    background-color: ${colors.blue200};
   }
 `;
 
 const TooltipContent = styled(Tooltip.Content)`
   ${fonts.BODY_14_M};
 
-  border-radius: 14px;
+  border-radius: 12px;
   background-color: ${colors.gray600};
-  padding: 10px 20px;
+  padding: 10px 12px;
   animation-duration: 400ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
@@ -112,9 +118,4 @@ const TooltipArrow = styled(Tooltip.Arrow)`
   fill: ${colors.gray600};
   width: 11px;
   height: 11px;
-`;
-
-const StyledIconSend = styled(IconSend)`
-  width: 20px;
-  height: 20px;
 `;

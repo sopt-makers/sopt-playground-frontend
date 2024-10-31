@@ -9,24 +9,28 @@ interface Params {
   take?: number;
 }
 
+const meetingsResponseScheme = z.array(
+  z.object({
+    id: z.number(),
+    isMeetingLeader: z.boolean(),
+    title: z.string(),
+    imageUrl: z.string(),
+    category: z.string().nullable(),
+    isActiveMeeting: z.boolean(),
+    mstartDate: z.string(),
+    mendDate: z.string(),
+  }),
+);
+
+export type MeetingsResponse = z.infer<typeof meetingsResponseScheme>;
+
 export const getMemberCrew = createEndpoint({
   request: ({ params, id }: { params: Params; id: number }) => ({
     method: 'GET',
     url: `api/v1/members/crew/${id}/${QS.create(params)}`,
   }),
   serverResponseScheme: z.object({
-    meetings: z.array(
-      z.object({
-        id: z.number(),
-        isMeetingLeader: z.boolean(),
-        title: z.string(),
-        imageUrl: z.string(),
-        category: z.string().nullable(),
-        isActiveMeeting: z.boolean(),
-        mstartDate: z.string(),
-        mendDate: z.string(),
-      }),
-    ),
+    meetings: meetingsResponseScheme,
     meta: z.object({
       page: z.number().nullable(),
       take: z.number().nullable(),
