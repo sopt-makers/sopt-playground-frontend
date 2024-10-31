@@ -6262,9 +6262,10 @@ __metadata:
     react-dom: ^16.8 || ^17.0 || ^18.0
   languageName: unknown
   linkType: soft
-"@sopt-makers/ui@npm:2.4.4":
-  version: 2.4.4
-  resolution: "@sopt-makers/ui@npm:2.4.4"
+
+"@sopt-makers/ui@npm:^2.4.4":
+  version: 2.7.1
+  resolution: "@sopt-makers/ui@npm:2.7.1"
   dependencies:
     "@radix-ui/react-dialog": ^1.0.5
     "@radix-ui/react-switch": ^1.0.3
@@ -6277,7 +6278,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: cddae8b5328294c56a4a2997160e1cb879afeef14d16fbabd1ee73cddea842bc206dc6014b96c48765cd226e09e1e8f580d1bff0f27613ac972b908bfb005ee6
+  checksum: edd1ca53740b1881b2c4cfdb21902665a4a606d33a4eb2d52b1c591a651529f7a9fef4bf14327d8cba4da713236c06017ae319b708190184f7824bfa703e39c2
   languageName: node
   linkType: hard
 
@@ -17120,7 +17121,7 @@ __metadata:
   resolution: "nth-check@npm:2.1.1"
   dependencies:
     boolbase: ^1.0.0
-  checksum: 5afc3dafcd1573b08877ca8e6148c52abd565f1d06b1eb08caf982e3fa289a82f2cae697ffb55b5021e146d6a5d6b944844e944714a5b549675bcd3
+  checksum: 5afc3dafcd1573b08877ca8e6148c52abd565f1d06b1eb08caf982e3fa289a82f2cae697ffb55b5021e146d60443f1590a5d6b944844e944714a5b549675bcd3
   languageName: node
   linkType: hard
 

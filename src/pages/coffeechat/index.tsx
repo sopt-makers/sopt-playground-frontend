@@ -5,14 +5,13 @@ import Header from "@/components/common/Header";
 import { setLayout } from "@/utils/layout";
 
 const CoffeeChatMainPage=()=>{
-  setLayout(CoffeeChatMainPage, 'headerFooter');
-  setLayout(CoffeeChatMainPage, 'header');
-  setLayout(CoffeeChatMainPage, 'headerOnlyDesktop');
     return (
     <AuthRequired>
-    <Header/>
     <CoffeeChatRecentList/>
     <CoffeeChatCategory/>
     </AuthRequired>)
 }
+setLayout(CoffeeChatMainPage, 'headerFooter');
+setLayout(CoffeeChatMainPage, 'header');
+setLayout(CoffeeChatMainPage, 'headerOnlyDesktop');
 export default CoffeeChatMainPage;
