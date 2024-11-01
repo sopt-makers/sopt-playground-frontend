@@ -21,7 +21,6 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   return (
     <>
-
       {openerProfile && (
         <OpenerProfileSection isMine={!!openerProfile.isMine}>
           <ProfileImageBox>
