@@ -1,7 +1,6 @@
-// functions/coffeechat.ts
+// /coffeechat 주소로 직접 접근 시 /coffeechat.html 로 보내기
 export const onRequest = async (context) => {
   const { next } = context;
 
-  // /coffeechat 접근 시 /coffeechat/index.html로 전달
-  return next('/coffeechat/index.html');
+  return next('/coffeechat');
 };
