@@ -58,7 +58,7 @@ const MemberCard: FC<MemberCardProps> = ({
   );
 
   const router = useRouter();
-  const onCoffeeChatButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onCoffeeChatButtonClick = (e: React.MouseEvent<Element, MouseEvent>) => {
     e.stopPropagation();
     router.push(playgroundLink.coffeechatDetail(memberId));
   };
