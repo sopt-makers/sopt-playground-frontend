@@ -44,7 +44,7 @@ export default function MessageSection({
   };
 
   const handleClickCoffeeChatButton = () => {
-    router.push(playgroundLink.coffeechat(memberId));
+    router.push(playgroundLink.coffeechatDetail(memberId));
   };
 
   return (
