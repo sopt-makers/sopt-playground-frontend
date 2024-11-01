@@ -100,7 +100,7 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
               href: playgroundLink.coffeechat(),
               children: (
                 <NavItem isActive={activePathMatcher(playgroundLink.coffeechat())} onClick={close}>
-                  커피챗
+                  커피솝
                 </NavItem>
               ),
             })}
