@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronDown, IconSwitchVertical } from '@sopt-makers/icons';
+import { SearchField } from '@sopt-makers/ui';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -38,7 +39,6 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
-import { SearchField } from '@sopt-makers/ui';
 
 const PAGE_LIMIT = 30;
 
@@ -181,10 +181,15 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   const handleSearchSubmit = (searchQuery: string) => {
     addQueryParamsToUrl({ search: searchQuery });
-    logSubmitEvent('searchMember', { content: 'searchQuery' });
+    logSubmitEvent('searchMember', { content: searchQuery });
+
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
   };
 
   const handleClickCard = (profile: Profile) => {
+    debugger;
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
 
@@ -331,6 +336,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                       onClick={() => handleClickCard(profile)}
                     >
                       <MemberCard
+                        memberId={profile.id}
                         name={profile.name}
                         belongs={belongs}
                         badges={badges}
