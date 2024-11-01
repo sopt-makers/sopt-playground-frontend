@@ -40,8 +40,7 @@ interface MessageForm {
 }
 
 interface MessageModalProps {
-  phone: string;
-  name: string;
+  phone?: string;
   receiverId: string;
   onClose:()=>void
 }
@@ -49,7 +48,6 @@ interface MessageModalProps {
 const MessageModal: FC<MessageModalProps> = ({
   receiverId,
   phone,
-  name,
   ...props
 }) => {
   
@@ -104,11 +102,11 @@ const MessageModal: FC<MessageModalProps> = ({
       throw error;
     }
   };
-
+  
   return (
     <StyledModal isOpen {...props}>
       <StyledForm onSubmit={handleSubmit(submit)}>
-        <ProfileImage src="./icons/icon_coffeechat.svg"/>
+        <ProfileImage src="/icons/icon_coffeechat.svg"/>
         <Text mt={30} typography='SUIT_24_B'>
           커피챗 제안하기
         </Text>
@@ -167,15 +165,16 @@ const StyledModal = styled(Modal)`
   padding: 32px 32px 48px;
   width: 588px;
   max-height: 100vh;
-  overflow-y: auto;
+  
 
   @supports (height: 100dvh) {
     max-height: 100dvh;
   }
   @media ${MB_BIG_MEDIA_QUERY}{
-    margin-top:36px;
+    margin-top:114px;
     width: 100vw;
     height:auto;
+    overflow-y: auto;
   }
 
 `;

@@ -6,8 +6,10 @@ import { IconMail } from '@sopt-makers/icons';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
+import MessageModal from '@/components/coffeechat/CoffeeChatModal/CoffeeChatModal';
 import RegisterCoffeechatButton from '@/components/coffeechat/detail/RegisterCoffeechatButton';
 import ShowCoffeechatToggle from '@/components/coffeechat/detail/ShowCoffeechatToggle';
+import useModalState from '@/components/common/Modal/useModalState';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface OpenerProfileProps {
@@ -16,9 +18,10 @@ interface OpenerProfileProps {
 
 export default function OpenerProfile({ memberId }: OpenerProfileProps) {
   const { data: openerProfile } = useGetCoffeechatDetail(memberId);
-
+  const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   return (
     <>
+
       {openerProfile && (
         <OpenerProfileSection isMine={!!openerProfile.isMine}>
           <ProfileImageBox>
@@ -52,11 +55,16 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
             ) : (
               <RegisterCoffeechatButton
                 onClick={() => {
-                  console.log('TODO: 커피챗 모달 열기 추가');
+                  onOpenMessageModal()
                 }}
               />
             )}
           </ButtonSection>
+          {isOpenMessageModal&&(
+    <MessageModal
+    receiverId={memberId}
+    onClose={onCloseMessageModal}
+  />)}
         </OpenerProfileSection>
       )}
     </>

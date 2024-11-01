@@ -10,12 +10,12 @@ export default function RegisterCoffeechatButton({ onClick }: RegisterCoffeechat
   return (
     <div onClick={onClick}>
       <Responsive only='desktop'>
-        <Button size='lg' style={{ float: 'right' }}>
+        <Button size='lg' style={{ cssFloat: 'right',whiteSpace:'nowrap' }}>
           커피챗 제안하기
         </Button>
       </Responsive>
       <Responsive only='mobile'>
-        <Button size='md' style={{ width: '100%' }}>
+        <Button size='md' style={{ width: '100%',whiteSpace:'nowrap'  }}>
           커피챗 제안하기
         </Button>
       </Responsive>
