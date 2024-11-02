@@ -20,11 +20,13 @@ import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import {
   MB_BIG_MEDIA_QUERY,
+  MB_BIG_WIDTH,
   MB_MID_MEDIA_QUERY,
   MOBILE_MEDIA_QUERY,
   PCTA_BIG_MEDIA_QUERY,
   PCTA_MID_MEDIA_QUERY,
   PCTA_S_MEDIA_QUERY,
+  PCTA_S_WIDTH,
   PCTA_SM_MEDIA_QUERY,
   PCTA_SM_WIDTH,
 } from '@/styles/mediaQuery';
@@ -65,6 +67,7 @@ export default function CoffeeChatCategory() {
     return (
       <>
         <SelectV2.Root
+          className='topicSelect'
           onChange={(e: number) => setTopicType(TOPIC_FILTER_OPTIONS[e - 1].label)}
           type='text'
           defaultValue={TOPIC_FILTER_OPTIONS.find((option) => option.label === topicType)}
@@ -81,6 +84,7 @@ export default function CoffeeChatCategory() {
         </SelectV2.Root>
 
         <SelectV2.Root
+        className='careerSelect'
           onChange={(e: number) => setCareer(CAREER_FILTER_OPTIONS[e - 1].label)}
           defaultValue={CAREER_FILTER_OPTIONS.find((option) => option.label === career)}
           type='text'
@@ -97,6 +101,7 @@ export default function CoffeeChatCategory() {
         </SelectV2.Root>
 
         <SelectV2.Root
+        className='partSelect'
           onChange={(e: number) => setPart(PART_FILTER_OPTIONS[e - 1].label)}
           defaultValue={PART_FILTER_OPTIONS.find((option) => option.label === part)}
           type='text'
@@ -170,8 +175,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='분야'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={Boolean(section)}>
-                {placeholder}
+              <MobileFilterTrigger selected={section.length>0} value={section}>
+                {section?section:placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -185,8 +190,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='주제'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={Boolean(topicType)}>
-                {placeholder}
+              <MobileFilterTrigger selected={topicType.length>0}>
+                 {topicType?topicType:placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -200,8 +205,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='경력'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={Boolean(career)}>
-                {placeholder}
+              <MobileFilterTrigger selected={career.length>0}>
+                {career?career:placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -215,8 +220,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='파트'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={Boolean(career)}>
-                {placeholder}
+              <MobileFilterTrigger selected={part.length>0}>
+                 {part?part:placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -280,11 +285,15 @@ const Header = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 24px;
+  width: 100%;
   width: 1300px;
-  @media ${PCTA_BIG_MEDIA_QUERY} {
-    width: 860px;
+  @media ${PCTA_BIG_MEDIA_QUERY}{
+    width:866px;
   }
-
+  @media ${PCTA_SM_MEDIA_QUERY}{
+    width: 100%;
+    padding-left:30px;
+  }
   @media ${PCTA_S_MEDIA_QUERY} {
     display: none;
   }
@@ -373,7 +382,7 @@ const FilterArea = styled.div`
   margin-top: 48px;
   width: 1300px;
   @media ${PCTA_BIG_MEDIA_QUERY} {
-    width: 100%;
+    width: 860px;
   }
   @media ${PCTA_SM_MEDIA_QUERY} {
     padding-right: 30px;
@@ -388,8 +397,6 @@ const FilterArea = styled.div`
     padding-left: 172px;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
-    margin-right: 20px;
-    margin-left: 20px;
     padding: 0;
     width: 100%;
   }
@@ -405,7 +412,33 @@ const SelectFilterArea = styled.div`
   gap: 12px;
   width: 100%;
   -webkit-overflow-scrolling: touch;
-
+  .topicSelect{
+    width: 130px;
+    button{
+      width:130px;
+      div{
+        width:130px;
+      }
+    }
+  }
+  .careerSelect{
+    width:162px;
+    button{
+      width:162px;
+      div{
+        width:162px;
+      }
+    }
+  }
+  .partSelect{
+    width:109px;
+    button{
+      width:109px;
+      div{
+        width:109px;
+      }
+    }
+  }
   &::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -418,6 +451,7 @@ const SelectFilterArea = styled.div`
   ul {
     z-index: 203;
   }
+
 `;
 
 const StyledSearchField = styled(SearchField)`
@@ -430,11 +464,15 @@ const StyledSearchField = styled(SearchField)`
     width: 424px;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
-    margin: 11px 20px;
+    padding-left:20px;
+    padding-right:20px;
     width: 100%;
+    button{
+      right:15px;
+    }
   }
   @media ${MB_MID_MEDIA_QUERY} {
-    width: 320px;
+    width: 100%
   }
 `;
 const LoadingContainer = styled.div`
@@ -520,6 +558,7 @@ const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
   width: max-content;
   min-width: fit-content;
   height: 48px;
+  white-space: nowrap;
   color: ${({ selected }) => (selected ? colors.white : colors.gray300)};
 `;
 
@@ -531,6 +570,7 @@ const StyledChevronDown = styled(IconChevronDown)`
 
 const StyledMobileFilter = styled(CoffeeChatFilterSheet)`
   flex: none;
+  
 `;
 
 const StyledMobileFilterWrapper = styled.div`
@@ -541,7 +581,20 @@ const StyledMobileFilterWrapper = styled.div`
   margin-right: -20px;
   padding: 0 20px;
   overflow-x: auto;
-
+  width: 100%;
+  button{
+    width:auto;
+  }
+  @media ${PCTA_S_MEDIA_QUERY}{
+    padding:0;
+    button{
+      min-width:100px;
+    }
+  }
+  @media ${MB_BIG_MEDIA_QUERY}{
+    padding-left:20px;
+    padding-right:20px;
+  }
   /* to disable scroll bar */
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

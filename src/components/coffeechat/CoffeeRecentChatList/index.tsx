@@ -249,14 +249,10 @@ const Header = styled.div`
     margin-top:12px;
   }
   @media ${MB_BIG_MEDIA_QUERY}{
-    width:390px;
-  }
-  @media ${MB_MID_MEDIA_QUERY}{
-    width:320px;
-  }
-  @media ${MB_SM_MEDIA_QUERY}{
-    width:280px;
-  }
+    width:100%;
+    padding-left:20px;
+    padding-right:20px;
+    }
 `;
 
 const Title = styled.div`
