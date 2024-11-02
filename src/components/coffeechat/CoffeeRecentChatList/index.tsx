@@ -249,9 +249,9 @@ const Header = styled.div`
     margin-top:12px;
   }
   @media ${MB_BIG_MEDIA_QUERY}{
-    width:100%;
-    padding-left:20px;
     padding-right:20px;
+    padding-left:20px;
+    width:100%;
     }
 `;
 
