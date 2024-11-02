@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
 import axios from 'axios';
 import Link from 'next/link';
 
@@ -85,10 +84,7 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
 export default GroupSection;
 
 const Container = styled.section`
-  margin-top: 30px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 16px;
-  }
+  margin-top: 80px;
 `;
 
 const ActivityTitle = styled.div`
@@ -121,7 +117,7 @@ const ActivityUploadNudge = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 32px;
+  margin-top: 60px;
   border-radius: 30px;
   background-color: ${colors.gray800};
   height: 317px;
