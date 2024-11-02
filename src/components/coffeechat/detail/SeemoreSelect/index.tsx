@@ -4,11 +4,14 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconDotsVertical, IconEdit, IconTrash } from '@sopt-makers/icons';
+import { DialogOptionType, useDialog, useToast } from '@sopt-makers/ui';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { useState } from 'react';
 
+import { deleteCoffeechat } from '@/api/endpoint/coffeechat/deleteCoffeechat';
 import Responsive from '@/components/common/Responsive';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -30,53 +33,80 @@ interface SeemoreSelectProp {
   memberId: string;
 }
 
+interface SeemoreContentProps {
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
 export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { open: toastOpen } = useToast();
+  const { open } = useDialog();
+  const option: DialogOptionType = {
+    title: '커피챗을 삭제하시겠습니까?',
+    description: '새 커피챗을 다시 열 수 있지만, 작성했던 내용은 저장되지 않아요.',
+    type: 'danger',
+    typeOptions: {
+      cancelButtonText: '취소',
+      approveButtonText: '삭제하기',
+      buttonFunction: () => handleDelete(),
+    },
+  };
 
-  const handleEdit = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => deleteCoffeechat.request(),
+  });
+
+  const onEdit = () => {
     router.push(playgroundLink.coffeechatEdit(memberId));
   };
 
   const handleDelete = () => {
-    router.push(playgroundLink.coffeechat());
+    mutate(undefined, {
+      onSuccess: async () => {
+        // TODO: 연결
+        // logSubmitEvent('');
+        // queryClient.invalidateQueries('')
+        toastOpen({ icon: 'success', content: '커피챗이 삭제되었어요. 다음에 또 만나요!' });
+        await router.push(playgroundLink.coffeechat());
+      },
+    });
+  };
+
+  const onDelete = () => {
+    console.log('ASdf');
+    open(option);
   };
 
   return (
     <>
       <Responsive only='desktop'>
-        <DropdownSeemore />
+        <DropdownSeemore onEdit={onEdit} onDelete={onDelete} />
       </Responsive>
       <Responsive only='mobile'>
-        <BottomSheetSeemore />
+        <BottomSheetSeemore onEdit={onEdit} onDelete={onDelete} />
       </Responsive>
     </>
   );
 }
 
-const DropdownSeemore = () => {
+const DropdownSeemore = ({ onEdit, onDelete }: SeemoreContentProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <DropdownMenu.Root open={open} onOpenChange={setOpen}>
+    <DropdownMenu.Root open={open} onOpenChange={setOpen} modal={false}>
       <DropdownMenu.Trigger asChild>
         <DotsVerticalIcon />
       </DropdownMenu.Trigger>
       <DropdownPortal>
         <DropdownMenu.Content sideOffset={10} align='end' side='bottom' asChild>
           <StyledContent>
-            <StyledItem
-              onClick={() => {
-                //
-              }}
-            >
+            <StyledItem onClick={onEdit}>
               <EditIcon />
               <>수정</>
             </StyledItem>
-            <StyledItem
-              onClick={() => {
-                //
-              }}
-            >
+            <StyledItem onClick={onDelete}>
               <TrashIcon />
               <>삭제</>
             </StyledItem>
@@ -87,11 +117,11 @@ const DropdownSeemore = () => {
   );
 };
 
-const BottomSheetSeemore = () => {
+const BottomSheetSeemore = ({ onEdit, onDelete }: SeemoreContentProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Root open={open} onOpenChange={setOpen} modal={false}>
       <Dialog.Trigger asChild>
         <DotsVerticalIcon />
       </Dialog.Trigger>
@@ -103,8 +133,8 @@ const BottomSheetSeemore = () => {
           <StyledContent>
             <StyledContentItem
               onClick={() => {
-                //
                 setOpen(false);
+                onEdit();
               }}
             >
               <EditIcon />
@@ -112,8 +142,8 @@ const BottomSheetSeemore = () => {
             </StyledContentItem>
             <StyledContentItem
               onClick={() => {
-                //
                 setOpen(false);
+                onDelete();
               }}
             >
               <TrashIcon />

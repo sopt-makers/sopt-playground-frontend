@@ -1,6 +1,6 @@
 import ProgressBar from '@badrap/bar-of-progress';
 import { colors } from '@sopt-makers/colors';
-import { ToastProvider as MDSToastProvider } from '@sopt-makers/ui';
+import { DialogProvider, ToastProvider as MDSToastProvider } from '@sopt-makers/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { OverlayProvider } from '@toss/use-overlay';
@@ -130,21 +130,23 @@ function MyApp({ Component, pageProps }: AppProps) {
           <AmplitudeProvider apiKey={AMPLITUDE_API_KEY}>
             <LazyMotion features={() => import('framer-motion').then((mod) => mod.domAnimation)}>
               <SlidUpProvider>
-                <ToastProvider>
-                  <MDSToastProvider>
-                    <GlobalStyle />
-                    <ResponsiveProvider>
-                      <OverlayProvider>
-                        <NavigationProvider>
-                          <Layout>
-                            <Component {...pageProps} />
-                          </Layout>
-                        </NavigationProvider>
-                      </OverlayProvider>
-                    </ResponsiveProvider>
-                    {DEBUG && <Debugger />}
-                  </MDSToastProvider>
-                </ToastProvider>
+                <DialogProvider>
+                  <ToastProvider>
+                    <MDSToastProvider>
+                      <GlobalStyle />
+                      <ResponsiveProvider>
+                        <OverlayProvider>
+                          <NavigationProvider>
+                            <Layout>
+                              <Component {...pageProps} />
+                            </Layout>
+                          </NavigationProvider>
+                        </OverlayProvider>
+                      </ResponsiveProvider>
+                      {DEBUG && <Debugger />}
+                    </MDSToastProvider>
+                  </ToastProvider>
+                </DialogProvider>
               </SlidUpProvider>
             </LazyMotion>
           </AmplitudeProvider>
