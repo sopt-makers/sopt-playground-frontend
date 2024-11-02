@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconDotsVertical } from '@sopt-makers/icons';
 import { useMemo } from 'react';
 
 import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
@@ -9,6 +8,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContents';
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
+import SeemoreSelect from '@/components/coffeechat/detail/SeemoreSelect';
 import Loading from '@/components/common/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
@@ -44,7 +44,7 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
             <CoffeechatHeader>
               <CoffeechatTitle>{openerProfile.bio}</CoffeechatTitle>
               {/* TODO: 더보기 버튼 기능 구현 */}
-              {/* <>{openerProfile.isMine && <DotsVerticalIcon />}</> */}
+              <>{openerProfile.isMine && <SeemoreSelect memberId={memberId} />}</>
             </CoffeechatHeader>
             <OpenerProfile memberId={memberId} />
 
@@ -131,11 +131,6 @@ const DetailPage = styled.div`
   }
 `;
 
-const DotsVerticalIcon = styled(IconDotsVertical)`
-  width: 24px;
-  height: 24px;
-`;
-
 const CoffeechatTitle = styled.h1`
   /* stylelint-disable-next-line value-no-vendor-prefix */
   display: -webkit-box;
@@ -157,7 +152,8 @@ const CoffeechatTitle = styled.h1`
 
 const CoffeechatHeader = styled.header`
   display: flex;
-  align-items: center;
+  gap: 20px;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 24px;
 `;
