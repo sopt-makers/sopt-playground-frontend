@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { Tag } from '@sopt-makers/ui';
 
 import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -27,11 +26,7 @@ export default function CoffeechatContents({ memberId }: CoffeechatContentsProps
               <Subtitle>제가 이야기 나누고 싶은 주제는</Subtitle>
               <Tags>
                 {openerProfile.topicTypeList.map((topicType) => {
-                  return (
-                    <CoffeechatTag key={topicType} shape='pill' size='lg' type='solid' variant='default'>
-                      {topicType}
-                    </CoffeechatTag>
-                  );
+                  return <CoffeechatTag key={topicType}>{topicType}</CoffeechatTag>;
                 })}
               </Tags>
               <Text>{openerProfile.topic}</Text>
@@ -39,9 +34,9 @@ export default function CoffeechatContents({ memberId }: CoffeechatContentsProps
             {openerProfile.meetingType && (
               <EachContent>
                 <Subtitle>진행방법</Subtitle>
-                <Tag shape='pill' size='lg' type='solid' variant='default'>
-                  {openerProfile.meetingType}
-                </Tag>
+                <Tags>
+                  <CoffeechatTag>{openerProfile.meetingType}</CoffeechatTag>
+                </Tags>
               </EachContent>
             )}
             {openerProfile.guideline && (
@@ -123,6 +118,20 @@ const Tags = styled.div`
   gap: 8px;
 `;
 
-const CoffeechatTag = styled(Tag)`
+// TODO: mds 태그로 변경
+const CoffeechatTag = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28px;
+  background: ${colors.gray700};
   padding: 4px 14px;
+  color: ${colors.gray10};
+
+  ${fonts.TITLE_14_SB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_14_M};
+  }
 `;

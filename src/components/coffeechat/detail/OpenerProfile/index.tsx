@@ -54,16 +54,12 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
             ) : (
               <RegisterCoffeechatButton
                 onClick={() => {
-                  onOpenMessageModal()
+                  onOpenMessageModal();
                 }}
               />
             )}
           </ButtonSection>
-          {isOpenMessageModal&&(
-    <MessageModal
-    receiverId={memberId}
-    onClose={onCloseMessageModal}
-  />)}
+          {isOpenMessageModal && <MessageModal receiverId={memberId} onClose={onCloseMessageModal} />}
         </OpenerProfileSection>
       )}
     </>
@@ -196,6 +192,7 @@ const OpenerProfileSection = styled.section<{ isMine: boolean }>`
           `}
 
     gap: 16px 24px;
+    align-items: flex-start;
     justify-content: start;
   }
 
@@ -204,7 +201,6 @@ const OpenerProfileSection = styled.section<{ isMine: boolean }>`
       [row1-start] 'profileImageBox profileInfoBox' auto [row1-end]
       [row2-start] 'buttonSection buttonSection' auto [row2-end]/ auto;
     grid-template-columns: 1fr 10fr;
-    align-items: flex-start;
   }
 `;
 
@@ -224,6 +220,11 @@ const ProfileImageBox = styled.div`
     border-radius: 21px;
     width: 120px;
     height: 120px;
+  }
+
+  @media (max-width: 430px) {
+    width: 100px;
+    height: 100px;
   }
 `;
 
