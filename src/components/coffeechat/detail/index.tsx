@@ -66,7 +66,7 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
             <SoptActivityTitle>SOPT 활동 정보</SoptActivityTitle>
             <SoptActivitySection soptActivities={sortedSoptActivities} />
             <ProfilPojectSection>
-              <ProjectSection profile={profile} memberId={memberId} meId={me?.id} isCoffeechatTap />
+              <ProjectSection profile={profile} memberId={memberId} meId={me?.id} />
             </ProfilPojectSection>
           </>
         ) : (
@@ -114,6 +114,7 @@ const SoptActivityTitle = styled.h2`
 const DetailPageLayout = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 200px;
 `;
 
 const DetailPage = styled.div`
@@ -135,7 +136,6 @@ const CoffeechatTitle = styled.h1`
   /* stylelint-disable-next-line value-no-vendor-prefix */
   display: -webkit-box;
   width: 100%;
-  max-width: 697px;
   height: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
