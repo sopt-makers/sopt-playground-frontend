@@ -5,7 +5,6 @@ import { IconChevronDown } from '@sopt-makers/icons';
 import { SelectV2 } from '@sopt-makers/ui';
 import { SearchField } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
-import css from 'styled-jsx/css';
 
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
@@ -521,12 +520,7 @@ const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
   width: max-content;
   min-width: fit-content;
   height: 48px;
-  color: ${colors.gray300};
-  ${({ selected }) =>
-    selected &&
-    css`
-      color: ${colors.white};
-    `}
+  color: ${({ selected }) => (selected ? colors.white : colors.gray300)};
 `;
 
 const StyledChevronDown = styled(IconChevronDown)`
