@@ -75,7 +75,6 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
   };
 
   const onDelete = () => {
-    console.log('ASdf');
     open(option);
   };
 
