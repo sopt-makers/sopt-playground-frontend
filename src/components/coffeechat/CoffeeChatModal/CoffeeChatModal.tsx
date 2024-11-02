@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useToast } from '@sopt-makers/ui';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -93,11 +93,11 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
       throw error;
     }
   };
-  console.log(profile?.phone);
+  const [currentContent,setCurrentContent]=useState("");
   return (
     <StyledModal isOpen {...props}>
       {profile && (
-        <StyledForm onSubmit={handleSubmit(submit)}>
+        <StyledForm  onSubmit={handleSubmit(submit)}>
           <ProfileImage src='/icons/icon_coffeechat.svg' />
           <Text mt={30} typography='SUIT_24_B'>
             커피챗 제안하기
@@ -140,8 +140,13 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
               component={StyledTextArea}
               placeholder={COFFEECHAT_PLACEHOLDER}
               maxCount={500}
+              onChange={(e:any)=>setCurrentContent(e.target.value)}
             />
+            {/* 향후 any 수정 */}
           </InputWrapper>
+          <TextCountWrapper>
+            {currentContent?currentContent.length:0}/500
+          </TextCountWrapper>
 
           <StyledButton isDisabled={!isValid || isPending}>
             {isPending ? (
@@ -258,3 +263,10 @@ const InputWrapper = styled.div`
 const StyledText = styled(Text)`
   ${fonts.LABEL_14_SB};
 `;
+const TextCountWrapper=styled.div`
+width: 100%;
+text-align: right;
+color:${colors.gray300};
+margin-top:8px;
+${fonts.LABEL_12_SB};
+`
