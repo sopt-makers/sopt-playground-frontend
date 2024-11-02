@@ -6263,7 +6263,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-
 "@sopt-makers/ui@npm:^2.7.1":
   version: 2.7.1
   resolution: "@sopt-makers/ui@npm:2.7.1"
