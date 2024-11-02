@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
 
@@ -22,11 +21,10 @@ const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps
 
   return (
     <Container>
+      <ActivityTitle>{profile.name}님이 참여한 프로젝트</ActivityTitle>
       {profile.projects.length > 0 && (
         <>
-          <ActivitySub>
-            {profile.name}님이 참여한 {profile.projects.length}개의 프로젝트예요!
-          </ActivitySub>
+          <ActivitySub>{profile.projects.length}개의 프로젝트에 참여</ActivitySub>
           <ActivityDisplay>
             {profile.projects.map((project) => (
               <MemberProjectCard key={project.id} {...project} />
@@ -36,29 +34,25 @@ const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps
       )}
       {profile.projects.length === 0 && (
         <>
-          {String(meId) === memberId ? (
-            <>
-              <ActivitySub>아직 등록한 프로젝트가 없어요</ActivitySub>
-              <ActivityUploadNudge>
-                <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
-                  참여한 프로젝트를 등록하면 <br />
-                  공식 홈페이지에도 프로젝트가 업로드 돼요!
-                </Text>
-                <ActivityUploadButton
-                  onClick={() =>
-                    logClickEvent('projectUpload', {
-                      referral: 'myPage',
-                    })
-                  }
-                  href={playgroundLink.projectUpload()}
-                >
-                  <Text typography='SUIT_15_SB'>+ 내 프로젝트 올리기</Text>
-                </ActivityUploadButton>
-                <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
-              </ActivityUploadNudge>
-            </>
-          ) : (
-            <ActivitySub>아직 {profile.name}님이 참여한 프로젝트가 없어요</ActivitySub>
+          <ActivitySub>아직 참여한 프로젝트가 없어요</ActivitySub>
+          {String(meId) === memberId && (
+            <ActivityUploadNudge>
+              <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
+                참여한 프로젝트를 등록하면 <br />
+                공식 홈페이지에도 프로젝트가 업로드 돼요!
+              </Text>
+              <ActivityUploadButton
+                onClick={() =>
+                  logClickEvent('projectUpload', {
+                    referral: 'myPage',
+                  })
+                }
+                href={playgroundLink.projectUpload()}
+              >
+                <Text typography='SUIT_15_SB'>+ 내 프로젝트 올리기</Text>
+              </ActivityUploadButton>
+              <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
+            </ActivityUploadNudge>
           )}
         </>
       )}
@@ -67,10 +61,7 @@ const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps
 };
 
 const Container = styled.section`
-  margin-top: 30px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 16px;
-  }
+  margin-top: 80px;
 `;
 
 const ActivityTitle = styled.div`
@@ -83,13 +74,7 @@ const ActivityTitle = styled.div`
 `;
 
 const ActivitySub = styled.div`
-  color: ${colors.white};
-  ${fonts.HEADING_28_B};
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${fonts.HEADING_20_B};
-  }
-
-  /* margin-top: 18px;
+  margin-top: 18px;
   line-height: 100%;
   color: #989ba0;
   font-size: 22px;
@@ -97,7 +82,7 @@ const ActivitySub = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 10px;
     font-size: 14px;
-  } */
+  }
 `;
 
 const ActivityDisplay = styled.div`
@@ -121,7 +106,7 @@ const ActivityUploadNudge = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 32px;
+  margin-top: 60px;
   border-radius: 30px;
   background-color: ${colors.gray800};
   height: 317px;
