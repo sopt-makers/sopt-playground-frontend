@@ -169,10 +169,30 @@ export default MessageModal;
 const StyledModal = styled(Modal)`
   margin-top: 143px;
   margin-bottom: 143px;
+  background-color: ${colors.gray900};
   padding: 32px 32px 48px;
   width: 588px;
   max-height: 100vh;
 
+  textarea{
+   background-color : ${colors.gray800};
+
+  &::placeholder {
+    color:${colors.gray300}
+  }
+
+  &:focus{
+    background-color : ${colors.gray800};
+  }
+  }
+
+  input{
+   background-color : ${colors.gray800};
+
+  &::placeholder {
+    color:${colors.gray300}
+  }
+  }
   @supports (height: 100dvh) {
     max-height: 100dvh;
   }
@@ -182,6 +202,7 @@ const StyledModal = styled(Modal)`
     height: auto;
     overflow-y: auto;
   }
+
 `;
 
 const StyledForm = styled.form`
@@ -240,7 +261,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   transition: background-color 0.2s;
   margin-top: 36px;
   border-radius: 12px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.gray700 : colors.gray10)};
+  background-color: ${({ isDisabled }) => (isDisabled ? colors.gray700 : colors.white)};
   cursor: pointer;
   padding: 14px 28px;
 
@@ -255,7 +276,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
 const InputWrapper = styled.div`
   width: 100%;
   height: 184px;
-
+  
   @media ${MB_BIG_MEDIA_QUERY} {
     height: 150px;
   }
@@ -264,9 +285,10 @@ const StyledText = styled(Text)`
   ${fonts.LABEL_14_SB};
 `;
 const TextCountWrapper=styled.div`
+margin-top:8px;
 width: 100%;
 text-align: right;
 color:${colors.gray300};
-margin-top:8px;
+
 ${fonts.LABEL_12_SB};
 `
