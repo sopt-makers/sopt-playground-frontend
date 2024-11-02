@@ -17,9 +17,11 @@ export default function CoffeechatContents({ memberId }: CoffeechatContentsProps
     <>
       {openerProfile && (
         <CoffeechatContentsWrapper>
-          <ContentsBox>
-            <Text>{openerProfile.introduction}</Text>
-          </ContentsBox>
+          {openerProfile.introduction.trim() && (
+            <ContentsBox>
+              <Text>{openerProfile.introduction}</Text>
+            </ContentsBox>
+          )}
           <ContentsBox>
             <EachContent>
               <Subtitle>제가 이야기 나누고 싶은 주제는</Subtitle>
@@ -34,16 +36,20 @@ export default function CoffeechatContents({ memberId }: CoffeechatContentsProps
               </Tags>
               <Text>{openerProfile.topic}</Text>
             </EachContent>
-            <EachContent>
-              <Subtitle>진행방법</Subtitle>
-              <Tag shape='pill' size='lg' type='solid' variant='default'>
-                {openerProfile.meetingType}
-              </Tag>
-            </EachContent>
-            <EachContent>
-              <Subtitle>유의사항</Subtitle>
-              <Text>{openerProfile.guideline}</Text>
-            </EachContent>
+            {openerProfile.meetingType && (
+              <EachContent>
+                <Subtitle>진행방법</Subtitle>
+                <Tag shape='pill' size='lg' type='solid' variant='default'>
+                  {openerProfile.meetingType}
+                </Tag>
+              </EachContent>
+            )}
+            {openerProfile.guideline && (
+              <EachContent>
+                <Subtitle>유의사항</Subtitle>
+                <Text>{openerProfile.guideline}</Text>
+              </EachContent>
+            )}
           </ContentsBox>
         </CoffeechatContentsWrapper>
       )}
@@ -82,12 +88,18 @@ const ContentsBox = styled.section`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  border-radius: 20px;
+  border-radius: 30px;
   background-color: ${colors.gray900};
-  padding: 32px 40px;
+  padding: 40px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 18px;
+    padding: 30px 20px;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 28px;
+    border-radius: 18px;
+    padding: 30px 20px;
   }
 `;
 

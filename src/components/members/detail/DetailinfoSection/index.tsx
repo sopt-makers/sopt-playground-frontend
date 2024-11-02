@@ -11,6 +11,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface DetailInfoSectionProps {
   profile: ProfileDetail;
+  isCoffeechat?: boolean;
 }
 
 const convertBirthdayFormat = (birthday?: string) => {
@@ -23,12 +24,14 @@ const convertBirthdayFormat = (birthday?: string) => {
   return '';
 };
 
-const DetailInfoSection = ({ profile }: DetailInfoSectionProps) => {
+const DetailInfoSection = ({ profile, isCoffeechat = false }: DetailInfoSectionProps) => {
   const hasProfileInfo = profile.birthday || profile.university || profile.major || profile.address;
 
   return hasProfileInfo ? (
     <MemberDetailSection style={{ gap: '30px' }}>
-      {profile.birthday && <InfoItem label='생년월일' content={convertBirthdayFormat(profile.birthday)} />}
+      {!isCoffeechat && profile.birthday && (
+        <InfoItem label='생년월일' content={convertBirthdayFormat(profile.birthday)} />
+      )}
       {profile.university && <InfoItem label='학교'>{profile.university}</InfoItem>}
       {profile.major && <InfoItem label='전공'>{profile.major}</InfoItem>}
       {profile.address && (
