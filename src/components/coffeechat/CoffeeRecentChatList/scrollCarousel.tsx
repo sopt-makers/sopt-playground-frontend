@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import { MB_BIG_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, PCTA_S_MEDIA_QUERY, PCTA_S_WIDTH, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface CarouselProps {
   itemList: ReactNode[];
@@ -108,6 +108,9 @@ const Slide = styled.div<{ limit: number }>`
   flex: 0 0 ${({ limit }) => 100 / limit}%;
   padding: 0 8px;
   scroll-snap-align: start;
+  @media ${PCTA_S_MEDIA_QUERY}{
+    padding:0;
+  }
 `;
 
 const Indicators = styled.div`
