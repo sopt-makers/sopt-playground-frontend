@@ -173,6 +173,11 @@ const StyledModal = styled(Modal)`
   padding: 32px 32px 48px;
   width: 588px;
   max-height: 100vh;
+  overflow-y:scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   textarea{
    background-color : ${colors.gray800};
