@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
 import { m } from 'framer-motion';
+import { uniq } from 'lodash-es';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { useEffect, useState } from 'react';
@@ -18,7 +19,6 @@ import { MessageModalState } from '@/components/members/main/MemberList';
 import { LATEST_GENERATION } from '@/constants/generation';
 import {
   MB_BIG_MEDIA_QUERY,
-  MB_BIG_WIDTH,
   MB_MID_MEDIA_QUERY,
   MB_MID_WIDTH,
   MB_SM_MEDIA_QUERY,
@@ -56,10 +56,18 @@ export default function CoffeeChatCard({
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [sortedActivities, setSortedActivities] = useState<string[]>([]);
   const { logClickEvent } = useEventLogger();
 
-  const soptActivityBadges = soptActivities.map((activity) =>
+  const sortSoptActivities = (soptActivities: string[]) => {
+    const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
+      const numA = parseInt(a.match(/\d+/)![0]); // 문자열에서 숫자 추출
+      const numB = parseInt(b.match(/\d+/)![0]);
+      return numB - numA; // 내림차순 정렬
+    });
+    return uniqueSortedActivities;
+  };
+
+  const soptActivityBadges = sortSoptActivities(soptActivities).map((activity) =>
     activity.includes(LATEST_GENERATION.toString())
       ? {
           content: activity,
@@ -82,18 +90,6 @@ export default function CoffeeChatCard({
   if (career == '아직 없어요') {
     career = undefined;
   }
-
-  useEffect(() => {
-    // 중복 제거 및 정렬
-    const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
-      const numA = parseInt(a.match(/\d+/)![0]); // 문자열에서 숫자 추출
-      const numB = parseInt(b.match(/\d+/)![0]);
-      return numB - numA; // 내림차순 정렬
-    });
-
-    // 정렬된 결과를 상태에 저장
-    setSortedActivities(uniqueSortedActivities);
-  }, [soptActivities]);
 
   return (
     <>
