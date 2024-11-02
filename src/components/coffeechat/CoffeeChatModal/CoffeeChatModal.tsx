@@ -43,12 +43,13 @@ interface MessageModalProps {
 const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) => {
   const {
     handleSubmit,
-    control,
+    control,watch,
     formState: { isValid: _isValid },
   } = useForm<MessageForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
+  const contentValue = watch('content');
   const isValid = _isValid;
   const { mutateAsync, isPending } = usePostMemberMessageMutation();
   const { confirm, ConfirmComponent } = useCustomConfirm();
@@ -93,7 +94,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
       throw error;
     }
   };
-  const [currentContent,setCurrentContent]=useState("");
+
   return (
     <StyledModal isOpen {...props}>
       {profile && (
@@ -140,12 +141,12 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
               component={StyledTextArea}
               placeholder={COFFEECHAT_PLACEHOLDER}
               maxCount={500}
-              onChange={(e:any)=>setCurrentContent(e.target.value)}
+
             />
             {/* 향후 any 수정 */}
           </InputWrapper>
           <TextCountWrapper>
-            {currentContent?currentContent.length:0}/500
+            {contentValue?contentValue.length:0}/500
           </TextCountWrapper>
 
           <StyledButton isDisabled={!isValid || isPending}>
