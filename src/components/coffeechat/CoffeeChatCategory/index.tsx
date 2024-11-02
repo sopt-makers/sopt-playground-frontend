@@ -4,6 +4,7 @@ import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
 import { SelectV2 } from '@sopt-makers/ui';
 import { SearchField } from '@sopt-makers/ui';
+import { width100 } from '@toss/emotion-utils';
 import { useEffect, useState } from 'react';
 
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
@@ -22,6 +23,7 @@ import {
   MB_BIG_MEDIA_QUERY,
   MB_BIG_WIDTH,
   MB_MID_MEDIA_QUERY,
+  MB_SM_MEDIA_QUERY,
   MOBILE_MEDIA_QUERY,
   PCTA_BIG_MEDIA_QUERY,
   PCTA_MID_MEDIA_QUERY,
@@ -137,7 +139,7 @@ export default function CoffeeChatCategory() {
           </CategoryCard>
         ))}
       </CategoryList>
-      <Responsive only='desktop'>
+      <Responsive only='desktop' className='responsive'>
         <FilterArea>
           <SelectFilterArea>
             <SelectionArea />
@@ -270,7 +272,12 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 48px;
-
+  
+  .responsive-mobile-only{
+    @media ${MB_BIG_MEDIA_QUERY}{
+    width:100%;
+  }
+  }
   @media ${PCTA_S_MEDIA_QUERY} {
     margin-top: 28px;
   }
@@ -400,9 +407,7 @@ const FilterArea = styled.div`
     padding: 0;
     width: 100%;
   }
-  @media ${MB_BIG_MEDIA_QUERY} {
-    width: 358px;
-  }
+
   @media ${MB_MID_MEDIA_QUERY} {
     width: 320px;
   }
@@ -588,12 +593,16 @@ const StyledMobileFilterWrapper = styled.div`
   @media ${PCTA_S_MEDIA_QUERY}{
     padding:0;
     button{
-      min-width:100px;
+      white-space: nowrap;
+      width:100px;
     }
+    width:424px;
   }
   @media ${MB_BIG_MEDIA_QUERY}{
     padding-left:20px;
     padding-right:20px;
+    max-width: 100%;
+    width:auto;
   }
   /* to disable scroll bar */
   -ms-overflow-style: none; /* IE and Edge */
