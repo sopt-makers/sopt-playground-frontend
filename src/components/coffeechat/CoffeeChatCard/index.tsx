@@ -4,10 +4,9 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
 import { m } from 'framer-motion';
-import { uniq } from 'lodash-es';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
