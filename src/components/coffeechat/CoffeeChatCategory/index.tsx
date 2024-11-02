@@ -69,7 +69,7 @@ export default function CoffeeChatCategory() {
     return (
       <>
         <SelectV2.Root
-          className='topicSelect'
+          className='topic-select'
           onChange={(e: number) => setTopicType(TOPIC_FILTER_OPTIONS[e - 1].label)}
           type='text'
           defaultValue={TOPIC_FILTER_OPTIONS.find((option) => option.label === topicType)}
@@ -86,7 +86,7 @@ export default function CoffeeChatCategory() {
         </SelectV2.Root>
 
         <SelectV2.Root
-        className='careerSelect'
+        className='career-select'
           onChange={(e: number) => setCareer(CAREER_FILTER_OPTIONS[e - 1].label)}
           defaultValue={CAREER_FILTER_OPTIONS.find((option) => option.label === career)}
           type='text'
@@ -103,7 +103,7 @@ export default function CoffeeChatCategory() {
         </SelectV2.Root>
 
         <SelectV2.Root
-        className='partSelect'
+        className='part-select'
           onChange={(e: number) => setPart(PART_FILTER_OPTIONS[e - 1].label)}
           defaultValue={PART_FILTER_OPTIONS.find((option) => option.label === part)}
           type='text'
@@ -298,8 +298,8 @@ const Header = styled.div`
     width:866px;
   }
   @media ${PCTA_SM_MEDIA_QUERY}{
-    width: 100%;
     padding-left:30px;
+    width: 100%;
   }
   @media ${PCTA_S_MEDIA_QUERY} {
     display: none;
@@ -417,36 +417,46 @@ const SelectFilterArea = styled.div`
   gap: 12px;
   width: 100%;
   -webkit-overflow-scrolling: touch;
-  .topicSelect{
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .topic-select{
     width: 130px;
+
     button{
       width:130px;
+
       div{
         width:130px;
       }
     }
   }
-  .careerSelect{
+
+  .career-select{
     width:162px;
+
     button{
       width:162px;
+
       div{
         width:162px;
       }
     }
   }
-  .partSelect{
+
+  .part-select{
     width:109px;
+
     button{
       width:109px;
+
       div{
         width:109px;
       }
     }
-  }
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
   }
 
   div {
@@ -469,9 +479,10 @@ const StyledSearchField = styled(SearchField)`
     width: 424px;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
-    padding-left:20px;
     padding-right:20px;
+    padding-left:20px;
     width: 100%;
+
     button{
       right:15px;
     }
@@ -585,29 +596,32 @@ const StyledMobileFilterWrapper = styled.div`
   margin-top: 17px;
   margin-right: -20px;
   padding: 0 20px;
-  overflow-x: auto;
   width: 100%;
-  button{
-    width:auto;
-  }
-  @media ${PCTA_S_MEDIA_QUERY}{
-    padding:0;
-    button{
-      white-space: nowrap;
-      width:100px;
-    }
-    width:424px;
-  }
-  @media ${MB_BIG_MEDIA_QUERY}{
-    padding-left:20px;
-    padding-right:20px;
-    max-width: 100%;
-    width:auto;
-  }
+  overflow-x: auto;
+
   /* to disable scroll bar */
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  button{
+    width:auto;
+  }
+
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
+  }
+  @media ${PCTA_S_MEDIA_QUERY}{
+    padding:0;
+    width:424px;
+
+    button{
+      width:100px;
+      white-space: nowrap;
+    }
+  }
+  @media ${MB_BIG_MEDIA_QUERY}{
+    padding-right:20px;
+    padding-left:20px;
+    width:auto;
+    max-width: 100%;
   }
 `;
