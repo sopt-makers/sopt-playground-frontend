@@ -3,12 +3,11 @@ import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
 
-export const getMembersCoffeeChat = createEndpoint({
-  request: ({ query }: { query?: { [key: string]: string} }) => ({
+export const getRecentCoffeeChat = createEndpoint({
+  request: {
     method: 'GET',
-    url: 'api/v1/members/coffeechat',
-    params: query, // 쿼리 파라미터 추가
-  }),
+    url: 'api/v1/members/coffeechat/recent',
+  },
   serverResponseScheme: z.object({
     coffeeChatList: z.array(
       z.object({
@@ -20,17 +19,15 @@ export const getMembersCoffeeChat = createEndpoint({
         career:z.string().nullable(),
         organization: z.string().nullable(),
         companyJob:z.string().nullable(),
-        soptActivities:z.array(z.string()).nullable(),
-        isBlind:z.boolean(),
-        isMine:z.boolean()
+        soptActivities:z.array(z.string()).nullable()
       }),
     ),
   }),
 });
 
-export const useGetMembersCoffeeChat = (queryParams?: { [key: string]: string}) => {
+export const useGetRecentCoffeeChat = () => {
   return useQuery({
-    queryKey: ['getMembersCoffeeChat',queryParams],
-    queryFn: () => getMembersCoffeeChat.request({query:queryParams}),
+    queryKey: ['getRecentCoffeeChat'],
+    queryFn: () => getRecentCoffeeChat.request(),
   });
 };
