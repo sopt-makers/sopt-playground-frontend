@@ -423,6 +423,10 @@ const SelectFilterArea = styled.div`
     height: 0;
   }
 
+  div {
+    white-space: nowrap;
+  }
+
   .topic-select{
     width: 130px;
 
@@ -459,9 +463,6 @@ const SelectFilterArea = styled.div`
     }
   }
 
-  div {
-    white-space: nowrap;
-  }
 
   ul {
     z-index: 203;
