@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
 
@@ -15,24 +14,17 @@ interface ProjectActivitySectionProps {
   profile: ProfileDetail;
   memberId: string;
   meId?: number | undefined;
-  isCoffeechatTap?: boolean;
 }
 
-const ProjectSection = ({ profile, memberId, meId, isCoffeechatTap = false }: ProjectActivitySectionProps) => {
+const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps) => {
   const { logClickEvent } = useEventLogger();
 
   return (
     <Container>
-      {!isCoffeechatTap && <ActivityTitle>{profile.name}님이 참여한 프로젝트</ActivityTitle>}
+      <ActivityTitle>{profile.name}님이 참여한 프로젝트</ActivityTitle>
       {profile.projects.length > 0 && (
         <>
-          {isCoffeechatTap ? (
-            <CoffeechatActivitySub>
-              {profile.name}님이 참여한 {profile.projects.length}개의 프로젝트예요!
-            </CoffeechatActivitySub>
-          ) : (
-            <ActivitySub>{profile.projects.length}개의 프로젝트에 참여</ActivitySub>
-          )}
+          <ActivitySub>{profile.projects.length}개의 프로젝트에 참여</ActivitySub>
           <ActivityDisplay>
             {profile.projects.map((project) => (
               <MemberProjectCard key={project.id} {...project} />
@@ -67,11 +59,6 @@ const ProjectSection = ({ profile, memberId, meId, isCoffeechatTap = false }: Pr
     </Container>
   );
 };
-
-const CoffeechatActivitySub = styled.p`
-  color: ${colors.white};
-  ${fonts.HEADING_28_B};
-`;
 
 const Container = styled.section`
   margin-top: 80px;
