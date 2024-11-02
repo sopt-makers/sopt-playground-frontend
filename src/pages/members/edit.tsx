@@ -28,7 +28,6 @@ import MemberForm from '@/components/members/upload/forms/Form';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import BasicFormSection from '@/components/members/upload/FormSection/Basic';
 import CareerFormSection from '@/components/members/upload/FormSection/Career';
-import CoffeeChatFormSection from '@/components/members/upload/FormSection/CoffeeChat';
 import SoptActivityFormSection from '@/components/members/upload/FormSection/SoptActivity';
 import TmiFormSection from '@/components/members/upload/FormSection/Tmi';
 import { memberFormSchema } from '@/components/members/upload/schema';
@@ -92,10 +91,7 @@ export default function MemberEditPage() {
       mbtiDescription,
       interest,
       isPhoneBlind,
-      isCoffeeChatActivate,
-      coffeeChatBio,
     } = formData;
-
     const requestBody: ProfileRequest = {
       name,
       profileImage,
@@ -133,8 +129,6 @@ export default function MemberEditPage() {
       },
       selfIntroduction: longIntroduction,
       isPhoneBlind,
-      isCoffeeChatActivate,
-      coffeeChatBio,
     };
 
     mutate(requestBody, {
@@ -161,7 +155,7 @@ export default function MemberEditPage() {
         university: myProfile.university,
         major: myProfile.major,
         introduction: myProfile.introduction,
-        skill: myProfile.skill ?? '',
+        skill: myProfile.skill,
         links: myProfile.links.length ? myProfile.links : [DEFAULT_LINK],
         activities: myProfile.soptActivities
           .sort((a, b) => a.generation - b.generation)
@@ -172,8 +166,6 @@ export default function MemberEditPage() {
           })),
         allowOfficial: myProfile.allowOfficial,
         isPhoneBlind: myProfile.isPhoneBlind,
-        isCoffeeChatActivate: myProfile.isCoffeeChatActivate,
-        coffeeChatBio: myProfile.coffeeChatBio,
         profileImage: myProfile.profileImage,
         careers: myProfile.careers.length
           ? myProfile.careers.map((career) =>
@@ -235,7 +227,6 @@ export default function MemberEditPage() {
       {me && me.editActivitiesAble && <CheckActivity />}
       <FormProvider {...formMethods}>
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
-          <CoffeeChatFormSection />
           <BasicFormSection />
           <SoptActivityFormSection />
           <CareerFormSection header={<MemberFormHeader title='나의 커리어' />} />

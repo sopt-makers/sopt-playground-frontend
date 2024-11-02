@@ -6,8 +6,8 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 export const MemberDetailSection = styled.section`
   display: flex;
   flex-direction: column;
-  border-radius: 30px;
-  background-color: ${colors.gray900};
+  border-radius: 20px;
+  background: ${colors.gray900};
   padding: 40px;
   width: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
