@@ -81,11 +81,19 @@ export default function CoffeeChatCard({
 
   const ELLIPSIS_WIDTH = 26;
   const BADGE_GAP = 4;
-  const { visibleBadges, isBadgeOverflow, badgeRefs, badgeWrapperRef } = useVisibleBadges(
-    soptActivityBadges,
-    ELLIPSIS_WIDTH,
-    BADGE_GAP,
-  );
+  const {
+    visibleBadges: visibleSoptActivities,
+    isBadgeOverflow: isSoptActivitiesOverflow,
+    badgeRefs: soptActivitiesRef,
+    badgeWrapperRef: soptActivitiesWrapperRef,
+  } = useVisibleBadges(soptActivityBadges, ELLIPSIS_WIDTH, BADGE_GAP);
+
+  const {
+    visibleBadges: visibleTopics,
+    isBadgeOverflow: isTopicsOverflow,
+    badgeRefs: topicsRef,
+    badgeWrapperRef: topicsWrapperRef,
+  } = useVisibleBadges(topicTypeList, ELLIPSIS_WIDTH, BADGE_GAP);
 
   if (career == '아직 없어요') {
     career = undefined;
@@ -116,15 +124,22 @@ export default function CoffeeChatCard({
         )}
         <TitleSection>
           <Title>{title}</Title>
-          <TagSection>
-            {topicTypeList
+          <TagSection ref={topicsWrapperRef}>
+            {visibleTopics
               ?.map((topic) => topic.trim())
               .filter(Boolean)
-              .map((topic) => (
-                <Tag size='md' shape='rect' variant='secondary' type='solid' key={topic}>
-                  {topic}
-                </Tag>
+              .map((topic, idx) => (
+                <div key={topic} ref={(el: HTMLDivElement) => (topicsRef.current[idx] = el)}>
+                  <Tag size='md' shape='rect' variant='secondary' type='solid'>
+                    {topic}
+                  </Tag>
+                </div>
               ))}
+            {isTopicsOverflow && (
+              <Tag size='md' shape='rect' variant='secondary' type='solid'>
+                ...
+              </Tag>
+            )}
           </TagSection>
         </TitleSection>
         <Divider color='#3F3F47' />
@@ -145,16 +160,20 @@ export default function CoffeeChatCard({
           <InfoSection>
             {!career ? <UserName> {name}</UserName> : <UserName> {name ? `${name} | ${career}` : career}</UserName>}
             <Career>{companyJob ? `${organization} | ${companyJob}` : organization}</Career>
-            <SoptTagSection ref={badgeWrapperRef}>
-              {visibleBadges.map((badge, idx) => (
-                <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
+            <SoptTagSection ref={soptActivitiesWrapperRef}>
+              {visibleSoptActivities.map((badge, idx) => (
+                <Badge
+                  ref={(el: HTMLDivElement) => (soptActivitiesRef.current[idx] = el)}
+                  isActive={badge.isActive}
+                  key={idx}
+                >
                   {badge.isActive && <BadgeActiveDot />}
                   <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
                     {badge.content}
                   </Text>
                 </Badge>
               ))}
-              {isBadgeOverflow && (
+              {isSoptActivitiesOverflow && (
                 <Badge isActive={false}>
                   <Text typography='SUIT_11_SB'>...</Text>
                 </Badge>
@@ -341,7 +360,7 @@ const TagSection = styled.div`
   display: flex;
   flex-wrap: nowrap;
   gap: 4px;
-  max-width: 100%;
+  width: 356px;
   overflow: hidden;
   white-space: nowrap;
 
