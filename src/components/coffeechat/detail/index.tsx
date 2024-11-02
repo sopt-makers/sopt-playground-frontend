@@ -96,7 +96,11 @@ const CoffeechatLoading = styled.div`
 `;
 
 const ProfilPojectSection = styled.div`
-  margin-top: -56px;
+  margin-top: 30px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 24px;
+  }
 `;
 
 const SoptActivityTitle = styled.h2`
