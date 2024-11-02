@@ -44,6 +44,10 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
           href: playgroundLink.groupList(),
           children: <NavItem isActive={activePathMatcher(playgroundLink.groupList())}>모임</NavItem>,
         })}
+        {renderLink({
+          href: playgroundLink.coffeechat(),
+          children: <NavItem isActive={activePathMatcher(playgroundLink.coffeechat())}>커피솝</NavItem>,
+        })}
         <NavItem isActive={false}>|</NavItem>
         {renderLink({
           href: playgroundLink.sopticle(),

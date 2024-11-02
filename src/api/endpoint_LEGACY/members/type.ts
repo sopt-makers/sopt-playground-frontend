@@ -63,7 +63,6 @@ export type ProfileDetail = {
   isMine: boolean;
   isPhoneBlind: boolean;
   isCoffeeChatActivate: boolean;
-  coffeeChatBio: string;
 };
 
 export type SoptActivity = {
@@ -154,13 +153,12 @@ export interface ProfileRequest {
   };
   selfIntroduction: string | null;
   isPhoneBlind: boolean | null;
-  isCoffeeChatActivate: boolean | null;
-  coffeeChatBio: string | null;
 }
 
 export interface PostMemberMessageVariables {
   receiverId: string;
-  senderEmail: string;
+  senderEmail?: string;
+  senderPhone?:string;
   category: string;
   content: string;
 }

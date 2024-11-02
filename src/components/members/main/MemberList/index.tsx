@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronDown, IconSwitchVertical } from '@sopt-makers/icons';
 import { SearchField } from '@sopt-makers/ui';
-import { uniq } from 'lodash-es';
+import { debounce, uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, FC, ReactNode, useEffect, useMemo, useState } from 'react';
@@ -179,14 +179,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     logClickEvent('filterOrderBy', { orderBy });
   });
 
-  const handleSearchSubmit = (searchQuery: string) => {
+  const handleSearchSubmit = debounce((searchQuery: string) => {
     addQueryParamsToUrl({ search: searchQuery });
     logSubmitEvent('searchMember', { content: searchQuery });
 
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
-  };
+  }, 0);
 
   const handleClickCard = (profile: Profile) => {
     debugger;
