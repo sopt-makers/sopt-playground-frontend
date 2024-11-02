@@ -11,6 +11,7 @@ import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContent
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
 import Loading from '@/components/common/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
+import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
 import ProjectSection from '@/components/members/detail/ProjectSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -38,7 +39,6 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
   return (
     <DetailPageLayout>
       <DetailPage>
-        <CoffeechatLoading />
         {openerProfile && profile && me ? (
           <>
             <CoffeechatHeader>
@@ -49,17 +49,20 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
             <OpenerProfile memberId={memberId} />
 
             <CoffeechatContents memberId={memberId} />
-            <CareerSection
-              careers={profile.careers}
-              links={profile.links}
-              skill={profile.skill}
-              name={profile.name}
-              email={profile.email}
-              profileImage={profile.profileImage}
-              memberId={memberId}
-              isMine={profile.isMine}
-              isCoffeechatTap
-            />
+            <ProfileContents>
+              <CareerSection
+                careers={profile.careers}
+                links={profile.links}
+                skill={profile.skill}
+                name={profile.name}
+                email={profile.email}
+                profileImage={profile.profileImage}
+                memberId={memberId}
+                isMine={profile.isMine}
+                isCoffeechatTap
+              />
+              <DetailInfoSection profile={profile} isCoffeechat />
+            </ProfileContents>
             <SoptActivityTitle>SOPT 활동 정보</SoptActivityTitle>
             <SoptActivitySection soptActivities={sortedSoptActivities} />
             <ProfilPojectSection>
@@ -75,6 +78,16 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
     </DetailPageLayout>
   );
 }
+
+const ProfileContents = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 18px;
+  }
+`;
 
 const CoffeechatLoading = styled.div`
   display: flex;
