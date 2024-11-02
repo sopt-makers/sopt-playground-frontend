@@ -108,7 +108,7 @@ export default function CoffeeChatList() {
               <Button
               size='lg'
               theme='white'
-              style={{ color: colors.black }}
+              style={{ color: colors.black,display:"none" }}
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
                 logClickEvent('openToCoffeechat');
@@ -121,7 +121,7 @@ export default function CoffeeChatList() {
               <Button
               size='md'
               theme='white'
-              style={{ color: colors.black }}
+              style={{ color: colors.black,display:"none" }}
               onClick={() => {
                 router.push(playgroundLink.memberEdit());
                 logClickEvent('openToCoffeechat');

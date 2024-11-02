@@ -16,4 +16,3 @@ export const MB_BIG_MEDIA_QUERY=`screen and (max-width: ${MB_BIG_WIDTH}px)`;
 export const MB_MID_MEDIA_QUERY=`screen and (max-width: ${MB_MID_WIDTH}px)`;
 export const MB_SM_MEDIA_QUERY=`screen and (max-width: ${MB_SM_WIDTH}px)`;
 export const PCTA_S_MEDIA_QUERY=`screen and (max-width: ${PCTA_S_WIDTH}px)`;
-export const MB_SM_MEDIA_QUERY=`screen and (max-width: ${MB_SM_WIDTH}px)`;

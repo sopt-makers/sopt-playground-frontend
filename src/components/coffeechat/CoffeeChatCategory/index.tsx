@@ -132,16 +132,13 @@ export default function CoffeeChatCategory() {
         </Responsive>
         <Responsive only='mobile'>
         <FilterArea>
-        <StyledSearchField  placeholder='회사, 학교, 이름을 검색해보세요!' value={search}
-        onChange={(e)=>{setSearch(e.target.value)}}
-        style={{}}
-        onSubmit={function (): void {
-                throw new Error('Function not implemented.');
-            } } onReset={function (): void {
-                throw new Error('Function not implemented.');
-            } } />
+        <StyledSearchField  placeholder='회사, 학교, 이름을 검색해보세요!' value={clientSearch}
+           onChange={(e)=>setClientSearch(e.target.value)}
+           onSubmit={()=>{setSearch(clientSearch)}}
+           onReset={()=>setClientSearch("")} />
         <SelectFilterArea>
-        <SelectV2.Root 
+        <SelectV2.Root
+        className='' 
         onChange={(e: number) => setSection(SECTION_FILTER_OPTIONS[e - 1].label)} 
         defaultValue={SECTION_FILTER_OPTIONS.find(option => option.label===section)}
         type='text' 
