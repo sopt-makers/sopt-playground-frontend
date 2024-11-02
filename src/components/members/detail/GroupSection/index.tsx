@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
 import axios from 'axios';
 import Link from 'next/link';
 
@@ -41,11 +40,10 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
 
   return (
     <Container>
+      <ActivityTitle>{profile.name}님이 참여한 모임</ActivityTitle>
       {meetingList.length > 0 && (
         <>
-          <ActivitySub>
-            {profile.name}님이 참여한 {meetingList.length}개의 모임이에요!
-          </ActivitySub>
+          <ActivitySub>{meetingList.length}개의 모임에 참여</ActivitySub>
           <ActivityDisplay>
             {meetingList.map((meeting) => (
               <MemberMeetingCard
@@ -60,22 +58,18 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
       )}
       {meetingList.length === 0 && (
         <>
-          {String(meId) === memberId ? (
-            <>
-              <ActivitySub>아직 참여한 모임이 없어요</ActivitySub>
-              <ActivityUploadNudge>
-                <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
-                  모임을 참여하여 <br />
-                  SOPT 구성원들과의 추억을 쌓아보세요!
-                </Text>
-                <ActivityUploadButton href={playgroundLink.groupList()}>
-                  <Text typography='SUIT_15_SB'>모임 둘러보러 가기</Text>
-                </ActivityUploadButton>
-                <ActivityUploadMaskImg src='/icons/img/meeting-mask.png' alt='meeting-mask-image' height={134} />
-              </ActivityUploadNudge>
-            </>
-          ) : (
-            <ActivitySub>아직 {profile.name}님이 참여한 모임이 없어요</ActivitySub>
+          <ActivitySub>아직 참여한 모임이 없어요</ActivitySub>
+          {String(meId) === memberId && (
+            <ActivityUploadNudge>
+              <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
+                모임을 참여하여 <br />
+                SOPT 구성원들과의 추억을 쌓아보세요!
+              </Text>
+              <ActivityUploadButton href={playgroundLink.groupList()}>
+                <Text typography='SUIT_15_SB'>모임 둘러보러 가기</Text>
+              </ActivityUploadButton>
+              <ActivityUploadMaskImg src='/icons/img/meeting-mask.png' alt='meeting-mask-image' height={134} />
+            </ActivityUploadNudge>
           )}
         </>
       )}
@@ -86,10 +80,7 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
 export default GroupSection;
 
 const Container = styled.section`
-  margin-top: 30px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 16px;
-  }
+  margin-top: 80px;
 `;
 
 const ActivityTitle = styled.div`
@@ -102,10 +93,14 @@ const ActivityTitle = styled.div`
 `;
 
 const ActivitySub = styled.div`
-  color: ${colors.white};
-  ${fonts.HEADING_28_B};
+  margin-top: 18px;
+  line-height: 100%;
+  color: #989ba0;
+  font-size: 22px;
+  font-weight: 500;
   @media ${MOBILE_MEDIA_QUERY} {
-    ${fonts.HEADING_20_B};
+    margin-top: 10px;
+    font-size: 14px;
   }
 `;
 
@@ -130,7 +125,7 @@ const ActivityUploadNudge = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 32px;
+  margin-top: 60px;
   border-radius: 30px;
   background-color: ${colors.gray800};
   height: 317px;
