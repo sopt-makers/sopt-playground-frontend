@@ -5,8 +5,7 @@ import { ReactNode } from 'react';
 
 import CarouselBody from '@/components/common/Carousel/Body';
 import useCarousel, { CarouselDirection } from '@/components/common/Carousel/useCarousel';
-import LeftArrowIcon from '@/public/icons/icon-arrow-mono.svg';
-
+import LeftArrowIcon from '@/public/icons/icon-arrow-left.svg';
 interface CarouselProps {
   itemList: ReactNode[];
   limit: number;
@@ -15,7 +14,7 @@ interface CarouselProps {
   onMove?: () => void;
 }
 
-export default function Carousel({ itemList, limit, className, renderItemContainer, onMove }: CarouselProps) {
+export default function Carousel({ itemList, limit, className, renderItemContainer, onMove}: CarouselProps) {
   const { page, direction, moveNext, movePrevious, currentItemList, totalPageSize, move } = useCarousel({
     limit,
     itemList,
@@ -54,10 +53,10 @@ export default function Carousel({ itemList, limit, className, renderItemContain
         </StyledMotionDiv>
       </AnimatePresence>
       <LeftControl onClick={handleClickLeftControl}>
-        <LeftArrowIcon />
+        <LeftArrowIcon/>
       </LeftControl>
       <RightControl onClick={handleClickRightControl}>
-        <RightArrowIcon />
+        <RightArrowIcon/>
       </RightControl>
       <Indicators>
         {Array(totalPageSize)
@@ -98,23 +97,32 @@ const Container = styled.div`
 const Control = styled.button`
   align-self: center;
   border-radius: 50%;
-  background-color: ${colors.gray700};
+  background-color: ${colors.gray800};
   width: 40px;
   height: 40px;
 
   &:hover {
+    background-color: ${colors.gray700};
+  }
+
+  &:active{
     background-color: ${colors.gray600};
   }
 `;
 
 const LeftControl = styled(Control)`
+display: flex;
   grid-area: left-control;
-  padding: 11px 17px 11px 12px;
+align-items: center;
+justify-content: center;
+
 `;
 
 const RightControl = styled(Control)`
+  display: flex;
   grid-area: right-control;
-  padding: 11px 12px 11px 17px;
+ align-items: center;
+ justify-content: center;
 `;
 
 const RightArrowIcon = styled(LeftArrowIcon)`
@@ -124,16 +132,16 @@ const RightArrowIcon = styled(LeftArrowIcon)`
 const Indicators = styled.div`
   display: flex;
   grid-area: indicators;
-  gap: 12px;
+  gap: 4px;
   justify-self: center;
 `;
 
 const Indicator = styled.div<{ isActive?: boolean }>`
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: ${({ isActive }) => (isActive ? colors.gray10 : colors.gray600)};
   cursor: ${({ isActive }) => (isActive ? 'default' : 'pointer')};
-  width: 8px;
-  height: 8px;
+  width: 16px;
+  height: 4px;
 `;
 
 const StyledMotionDiv = styled(m.div)`

@@ -22,6 +22,7 @@ interface CareerSectionProps {
   memberId: string;
   isMine: boolean;
   shouldNeedOnlyItems?: boolean;
+  isCoffeechatTap?: boolean;
 }
 
 export default function CareerSection({ careers, links, skill, shouldNeedOnlyItems = false }: CareerSectionProps) {
