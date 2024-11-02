@@ -34,16 +34,20 @@ export default function CoffeechatContents({ memberId }: CoffeechatContentsProps
               </Tags>
               <Text>{openerProfile.topic}</Text>
             </EachContent>
-            <EachContent>
-              <Subtitle>진행방법</Subtitle>
-              <Tag shape='pill' size='lg' type='solid' variant='default'>
-                {openerProfile.meetingType}
-              </Tag>
-            </EachContent>
-            <EachContent>
-              <Subtitle>유의사항</Subtitle>
-              <Text>{openerProfile.guideline}</Text>
-            </EachContent>
+            {openerProfile.meetingType && (
+              <EachContent>
+                <Subtitle>진행방법</Subtitle>
+                <Tag shape='pill' size='lg' type='solid' variant='default'>
+                  {openerProfile.meetingType}
+                </Tag>
+              </EachContent>
+            )}
+            {openerProfile.guideline && (
+              <EachContent>
+                <Subtitle>유의사항</Subtitle>
+                <Text>{openerProfile.guideline}</Text>
+              </EachContent>
+            )}
           </ContentsBox>
         </CoffeechatContentsWrapper>
       )}
