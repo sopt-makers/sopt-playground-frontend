@@ -96,7 +96,7 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
                 </NavItem>
               ),
             })}
-                        {renderLink({
+            {renderLink({
               href: playgroundLink.coffeechat(),
               children: (
                 <NavItem isActive={activePathMatcher(playgroundLink.coffeechat())} onClick={close}>
