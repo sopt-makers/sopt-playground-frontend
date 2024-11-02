@@ -1,47 +1,70 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import HorizontalScroller from '@/components/common/HorizontalScroller';
-import { Flex } from '@toss/emotion-utils';
+import {fonts} from '@sopt-makers/fonts'
 import { Tag } from '@sopt-makers/ui';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
-import { useState } from 'react';
-import { MessageModalState } from '@/components/members/main/MemberList';
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { css } from '@emotion/react';
-import { m } from 'framer-motion';
+import {useEffect, useState } from 'react';
+
+import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { MessageModalState } from '@/components/members/main/MemberList';
+import { MB_BIG_MEDIA_QUERY, MB_BIG_WIDTH, MB_MID_MEDIA_QUERY, MB_MID_WIDTH, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface MentoringCardProps {
   id: string;
-  name: string;
-  profileImage: string;
-  organization: string;
-  skills: string;
   title: string;
   isEmptyData?: boolean;
-  isBlurred?: boolean;
+  topicTypeList:Array<string>;
+  profileImage: string;
+  name: string;
+  career?:string
+  organization: string;
+  companyJob?: string;
+  soptActivities?:Array<string>;
+  isBlurred?:boolean,
+  isMine?:boolean,
 }
 
 export default function CoffeeChatCard({
   id,
-  name,
-  profileImage,
-  organization,
-  skills,
   title,
   isEmptyData,
-  isBlurred,
+  topicTypeList,
+  profileImage,
+  name,
+  career,
+  organization,
+  companyJob,
+  soptActivities
+  ,isBlurred,
+  isMine
 }: MentoringCardProps) {
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-
+  const [sortedActivities, setSortedActivities] = useState<string[]>([]);
   const { logClickEvent } = useEventLogger();
+  if(career=="아직 없어요"){
+    career=undefined
+  }
+
+
+  useEffect(() => {
+    // 중복 제거 및 정렬
+    const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
+      const numA = parseInt(a.match(/\d+/)![0]); // 문자열에서 숫자 추출
+      const numB = parseInt(b.match(/\d+/)![0]);
+      return numB - numA; // 내림차순 정렬
+    });
+    
+    // 정렬된 결과를 상태에 저장
+    setSortedActivities(uniqueSortedActivities);
+  }, [soptActivities]);
+
 
   return (
     <>
@@ -50,29 +73,31 @@ export default function CoffeeChatCard({
           y: -4,
         }}
         onClick={() => {
-          router.push(playgroundLink.memberDetail(id));
+          router.push(playgroundLink.coffeechatDetail(id));
           logClickEvent('coffeechatCard');
         }}
         isEmptyData={isEmptyData}
         isBlurred={isBlurred}
+        isMine={isMine}
       >
-        <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
+          {isBlurred?<BlurInfo>
+          커피챗을 숨긴 상태에요.<br/>
+          카드를 누르면 상세 페이지에서 다시 보이게 할 수 있어요.
+        </BlurInfo>:<></>}
+        <TitleSection>
           <Title>{title}</Title>
-          <HorizontalScroller>
-            <Flex style={{ gap: 4, marginTop: 4 }}>
-              {skills
-                .split(',')
-                .map((skill) => skill.trim())
+          <TagSection>
+              {topicTypeList
+                ?.map((topic) => topic.trim())
                 .filter(Boolean)
-                .map((skill) => (
-                  <Tag size='sm' shape='rect' variant='secondary' type='solid'>
-                    {skill}
+                .map((topic) => (
+                  <Tag size='md' shape='rect' variant='secondary' type='solid' key={topic}>
+                    {topic}
                   </Tag>
                 ))}
-            </Flex>
-          </HorizontalScroller>
-          <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>
-        </Flex>
+          </TagSection>
+          </TitleSection>
+        <Divider color='#3F3F47'/>
         <ProfileSection>
           <ImageBox>
             <EmptyProfileImage hide={isImageLoaded}>
@@ -87,18 +112,28 @@ export default function CoffeeChatCard({
               />
             )}
           </ImageBox>
-          <IconContainer
-            onClick={(e) => {
-              e.stopPropagation();
-              setMessageModalState({
-                show: true,
-                data: { targetId: id, name, profileUrl: profileImage },
-              });
-              logClickEvent('coffeechatBadge');
-            }}
-          >
-            <IconCoffee />
-          </IconContainer>
+          <InfoSection>
+            {!career? <UserName> {name}</UserName>: <UserName> {name ? `${name} | ${career}` : career}</UserName>}
+          <Career>{companyJob ? `${organization} | ${companyJob}` : organization}</Career>
+          <SoptTagSection>
+            {sortedActivities
+            ?.map((activity)=>(
+            <>
+            {activity.includes("35")? (
+          <Tag key={activity} size="sm" shape="rect" variant="primary" type="solid">
+            <TagEllipse alt='' src='/icons/logo/coffeechatCategory/ic_ellipse.svg'></TagEllipse>
+          {activity}
+          </Tag>
+          ) : (
+          <Tag key={activity} size="sm" shape="rect" type="solid">
+            <TagLabel>{activity}</TagLabel>
+          </Tag>
+          )}
+            </>
+            ))}
+            
+          </SoptTagSection>
+          </InfoSection>
         </ProfileSection>
       </Container>
       {messageModalState.show && (
@@ -114,108 +149,121 @@ export default function CoffeeChatCard({
   );
 }
 
-const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
+const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean,isMine?:boolean }>`
   display: flex;
+  flex-direction: column;
   gap: 11px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   border-radius: 24px;
   background: ${colors.gray900};
   cursor: pointer;
-  padding: 32px 36px;
-  width: 419px;
-  min-width: 419px;
-  height: 198px;
-
+  padding: 32px;
+  width:420px;
+  min-width: 420px;
+  height: 280px;
+  overflow: hidden;
   ${({ isEmptyData }) =>
     isEmptyData &&
     css`
       pointer-events: none;
     `};
-
   ${({ isBlurred }) =>
     isBlurred &&
     css`
-      filter: blur(5px);
-    `};
+     position: relative;
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 16px;
-    padding: 18px 20px;
-    width: 335px;
-    min-width: 335px;
-    height: 140px;
+      /* filter: blur(5px); */
+    `};
+  ${({ isMine }) =>
+    isMine &&
+    css`
+      border:1px solid ${colors.gray200}
+   `};
+  
+  @media ${MB_BIG_MEDIA_QUERY} {
+    gap:4px;
+    border-radius: 20px;
+    padding: 24px;
+    width: 400px;
+    min-width:400px;
+    height: 234px;
+  }
+  @media ${MB_MID_MEDIA_QUERY}{
+    padding:24px;
+    width:320px;
+    min-width:320px;
+  }
+  @media ${MB_SM_MEDIA_QUERY}{
+    width:280px;
+    max-width:280px;
   }
 `;
 
 const Title = styled.div`
-  display: ${'-webkit-box'};
+  display: ${'-webkit-box'};;
   height: 56px;
   overflow: hidden;
   text-overflow: ellipsis;
 
-  /* Title/18_SB */
-  line-height: 28px; /* 155.556% */
-  letter-spacing: -0.36px;
+  ${fonts.HEADING_18_B}
+
   white-space: pre-line;
   word-break: break-word;
   color: ${colors.white};
-  font-size: 18px;
-  font-weight: 600;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    height: 40px;
-
-    /* Title/14_SB */
-    line-height: 20px; /* 142.857% */
-    letter-spacing: -0.21px;
-    font-size: 14px;
+  
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width:342px;
+    max-width:342px;
+    height:48px;
+    max-height: 48px;
+    ${fonts.HEADING_16_B};
+  }
+  @media ${MB_MID_MEDIA_QUERY}{
+    width: 272px;
+    max-width:272px;
+  }
+  @media ${MB_SM_MEDIA_QUERY}{
+    width: 232px;
+    max-width:232px;
   }
 `;
 
-const Mentor = styled.div`
+const Career = styled.div`
   /* Label/14_SB */
-  line-height: 18px; /* 128.571% */
-  letter-spacing: -0.28px;
-  color: ${colors.gray300};
-  font-size: 14px;
-  font-weight: 600;
+ ${fonts.TITLE_14_SB}
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 170px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    /* Label/12_SB */
-    line-height: 16px; /* 133.333% */
-    letter-spacing: -0.24px;
-    white-space: nowrap;
-    font-size: 12px;
+ max-width:266px;
+ overflow: hidden;
+ text-overflow: ellipsis;  
+  white-space: nowrap;
+  color:${colors.gray400};
+  @media ${MB_BIG_MEDIA_QUERY} {
+    max-width:256px;
+    ${fonts.BODY_13_M}
+    
   }
 `;
 
 const ProfileSection = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: end;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   height: 100%;
-
+  
   @media ${MOBILE_MEDIA_QUERY} {
     justify-content: flex-end;
   }
 `;
 const ImageBox = styled.div`
   position: relative;
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
   clip-path: circle(50%);
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
 `;
 
 const EmptyProfileImage = styled.div<{ hide?: boolean }>`
@@ -224,8 +272,8 @@ const EmptyProfileImage = styled.div<{ hide?: boolean }>`
   align-items: center;
   justify-content: center;
   background-color: ${colors.gray700};
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
 
   ${(props) =>
     props.hide &&
@@ -233,9 +281,7 @@ const EmptyProfileImage = styled.div<{ hide?: boolean }>`
       visibility: hidden;
     `};
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
+
 `;
 
 const DefaultImage = styled.img`
@@ -256,15 +302,94 @@ const ResizedProfileImage = styled(ResizedImage)<{ hide?: boolean }>`
     `};
 `;
 
-const IconContainer = styled.div`
-  border-radius: 50%;
-  background: ${colors.blue400};
-  cursor: pointer;
-  padding: 5px;
-  width: 32px;
-  height: 32px;
+const TitleSection=styled.div`
+display: flex;
+flex-direction: column;
+gap:16px;
+height:96px;
+min-height:96px;
+@media ${MB_BIG_MEDIA_QUERY}{
+  gap:4px;
+  height:80px;
+  min-height:80px;
+}
 
-  &:hover {
-    background-color: ${colors.blue200};
+`
+const TagSection=styled.div`
+display: flex;
+flex-wrap: nowrap;
+gap: 4px;
+max-width: 100%;
+overflow:  hidden;
+white-space: nowrap;
+
+div{@media ${MOBILE_MEDIA_QUERY} {
+    font-size: 11px  !important;
   }
+}
+`
+const InfoSection=styled.div`
+display:flex;
+flex-direction: column;
+justify-content: center;
+margin-left:20px;
+`
+const UserName=styled.div`
+  ${fonts.TITLE_16_SB}
+
+  margin-bottom:2px; 
+  max-width:266px;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media ${MB_MID_WIDTH} {
+    ${fonts.TITLE_14_SB}
+
+    max-width:256px;
+  }
+`
+const SoptTagSection=styled.div`
+display: flex;
+gap:4px;
+margin-top:12px; 
+color:${colors.gray200};
+
+div{
+  white-space: nowrap;
+}
+`
+const TagEllipse=styled.img`
+margin-right:4px;
+width:6px;
+height:6px;
+`
+//mds tag 색 커스텀 기능 적용전 임시 스타일링입니다.
+const TagLabel=styled.span` 
+  ${fonts.LABEL_11_SB};
+
+color:${colors.gray200}
+`
+
+const BlurInfo=styled.div`
+  display: flex;
+position: absolute;
+  top: 50%; 
+  left: 50%;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  border-radius: 8px;
+  background-color: ${colors.grayAlpha700};
+  padding: 10px;
+  width: 100%;
+  height: 100%;  
+  text-align: center;
+  color: white; 
+  ${fonts.TITLE_16_SB}
+
+  stroke: 1px ${colors.gray300};
+ backdrop-filter: blur(7.5px);
+  ;
 `;
