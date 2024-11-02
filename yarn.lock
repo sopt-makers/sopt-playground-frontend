@@ -6263,7 +6263,8 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sopt-makers/ui@npm:^2.4.4":
+
+"@sopt-makers/ui@npm:^2.7.1":
   version: 2.7.1
   resolution: "@sopt-makers/ui@npm:2.7.1"
   dependencies:
@@ -19739,7 +19740,7 @@ __metadata:
     "@sopt-makers/colors": ^3.0.0
     "@sopt-makers/fonts": ^1.0.0
     "@sopt-makers/icons": ^1.0.5
-    "@sopt-makers/ui": ^2.4.4
+    "@sopt-makers/ui": ^2.7.1
     "@storybook/addon-actions": ^7.0.23
     "@storybook/addon-docs": ^7.0.23
     "@storybook/addon-essentials": ^7.0.23

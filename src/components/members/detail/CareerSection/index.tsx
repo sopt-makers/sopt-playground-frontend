@@ -25,6 +25,7 @@ interface CareerSectionProps {
   memberId: string;
   isMine: boolean;
   shouldNeedOnlyItems?: boolean;
+  isCoffeechatTap?: boolean;
 }
 
 export default function CareerSection({
@@ -37,6 +38,7 @@ export default function CareerSection({
   memberId,
   isMine,
   shouldNeedOnlyItems = false,
+  isCoffeechatTap = false,
 }: CareerSectionProps) {
   const router = useRouter();
   const Container = shouldNeedOnlyItems ? Slot : StyledMemberDetailSection;
@@ -78,13 +80,17 @@ export default function CareerSection({
           />
         )}
       </>
-      {isMine ? (
-        <MoveButton onClick={() => router.push(playgroundLink.feedUpload())}>
-          <WriteIcon src='/icons/icon-pencil-simple.svg' />
-          직무 경험 SOPT와 공유하기
-        </MoveButton>
-      ) : (
-        <MessageSection name={name} email={email} profileImage={profileImage} memberId={memberId} />
+      {!isCoffeechatTap && (
+        <>
+          {isMine ? (
+            <MoveButton onClick={() => router.push(playgroundLink.feedUpload())}>
+              <WriteIcon src='/icons/icon-pencil-simple.svg' />
+              직무 경험 SOPT와 공유하기
+            </MoveButton>
+          ) : (
+            <MessageSection name={name} email={email} profileImage={profileImage} memberId={memberId} />
+          )}
+        </>
       )}
     </Container>
   ) : null;

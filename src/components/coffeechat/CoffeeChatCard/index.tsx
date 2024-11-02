@@ -1,19 +1,24 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import {fonts} from '@sopt-makers/fonts'
+
 import { Tag } from '@sopt-makers/ui';
+import { Flex } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import {useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import Divider from '@/components/common/Divider/Divider';
+import HorizontalScroller from '@/components/common/HorizontalScroller';
+
 import ResizedImage from '@/components/common/ResizedImage';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { MessageModalState } from '@/components/members/main/MemberList';
-import { MB_BIG_MEDIA_QUERY, MB_BIG_WIDTH, MB_MID_MEDIA_QUERY, MB_MID_WIDTH, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+
+import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+
 interface MentoringCardProps {
   id: string;
   title: string;

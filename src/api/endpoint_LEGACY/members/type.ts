@@ -160,7 +160,8 @@ export interface ProfileRequest {
 
 export interface PostMemberMessageVariables {
   receiverId: string;
-  senderEmail: string;
+  senderEmail?: string;
+  senderPhone?:string;
   category: string;
   content: string;
 }
