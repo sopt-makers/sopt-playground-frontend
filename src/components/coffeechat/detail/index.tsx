@@ -106,12 +106,12 @@ const ProfilPojectSection = styled.div`
 const SoptActivityTitle = styled.h2`
   margin: 28px 0 32px;
   color: ${colors.white};
-  ${fonts.HEADING_32_B};
+  ${fonts.HEADING_28_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 24px 0;
 
-    ${fonts.HEADING_28_B};
+    ${fonts.HEADING_20_B};
   }
 `;
 

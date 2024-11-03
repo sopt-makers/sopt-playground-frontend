@@ -13,6 +13,7 @@ import { playgroundLink } from '@/constants/links';
 import useEnterScreen from '@/hooks/useEnterScreen';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { safeParseInt } from '@/utils';
+import { fonts } from '@sopt-makers/fonts';
 
 interface GroupSectionProps {
   profile: ProfileDetail;
@@ -88,11 +89,10 @@ const Container = styled.section`
 `;
 
 const ActivityTitle = styled.div`
-  line-height: 100%;
-  font-size: 32px;
-  font-weight: 700;
+  ${fonts.HEADING_28_B};
+
   @media ${MOBILE_MEDIA_QUERY} {
-    font-size: 22px;
+    ${fonts.HEADING_20_B};
   }
 `;
 
