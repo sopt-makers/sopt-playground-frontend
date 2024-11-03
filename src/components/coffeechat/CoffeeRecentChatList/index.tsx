@@ -4,7 +4,7 @@ import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { ReactNode, startTransition, useEffect, useRef,useState } from 'react';
+import { ReactNode, startTransition, useEffect, useState } from 'react';
 
 import { useGetRecentCoffeeChat } from '@/api/endpoint/members/getRecentCoffeeChats';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
@@ -14,10 +14,17 @@ import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY, PCTA_BIG_MEDIA_QUERY, PCTA_S_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
+import {
+  MB_BIG_MEDIA_QUERY,
+  MB_MID_MEDIA_QUERY,
+  MB_SM_MEDIA_QUERY,
+  MOBILE_MEDIA_QUERY,
+  PCTA_S_MEDIA_QUERY,
+  PCTA_SM_MEDIA_QUERY,
+} from '@/styles/mediaQuery';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
-type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet'| undefined;
+type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | undefined;
 
 const SCREEN_SIZE = {
   desktopLarge: { size: 1488, className: 'large-desktop-only' },
@@ -73,15 +80,15 @@ export default function CoffeeChatList() {
     };
     desktopLargeMedia.addEventListener('change', handleChangeDesktopLargeMedia);
     desktopSmallMedia.addEventListener('change', handleChangeDesktopSmallMedia);
-    tabletMedia.addEventListener('change',handleChangeTabletMedia)
+    tabletMedia.addEventListener('change', handleChangeTabletMedia);
     startTransition(() => {
-      if (tabletMedia.matches){
-        setListType('tablet')}
-      else if (desktopSmallMedia.matches) {
+      if (tabletMedia.matches) {
+        setListType('tablet');
+      } else if (desktopSmallMedia.matches) {
         setListType('scroll');
       } else if (desktopLargeMedia.matches) {
         setListType('carousel-small');
-      }else{
+      } else {
         setListType('carousel-large');
       }
     });
@@ -89,49 +96,41 @@ export default function CoffeeChatList() {
     return () => {
       desktopLargeMedia.removeEventListener('change', handleChangeDesktopLargeMedia);
       desktopSmallMedia.removeEventListener('change', handleChangeDesktopSmallMedia);
-      tabletMedia.removeEventListener('change',handleChangeTabletMedia)
+      tabletMedia.removeEventListener('change', handleChangeTabletMedia);
     };
   }, []);
 
   return (
     <Container>
-        <Header>
-          <Title>
-            {isLoading
-              ? ''
-              : isEmptyData
-              ? '최근 진행된 커피챗이에요✨'
-              : '최근 진행된 커피챗이에요✨'}
-          </Title>
-            <FixedButtonArea>
-            <Responsive only="desktop">
-              <Button
+      <Header>
+        <Title>{isLoading ? '' : isEmptyData ? '최근 진행된 커피챗이에요✨' : '최근 진행된 커피챗이에요✨'}</Title>
+        <FixedButtonArea>
+          <Responsive only='desktop'>
+            <Button
               size='lg'
               theme='white'
-              style={{ color: colors.black,display:"none" }}
               onClick={() => {
-                router.push(playgroundLink.memberEdit());
+                router.push(playgroundLink.coffeechatUpload());
                 logClickEvent('openToCoffeechat');
               }}
             >
               커피챗 오픈하기
             </Button>
-            </Responsive>
-              <Responsive only='mobile'>
-              <Button
+          </Responsive>
+          <Responsive only='mobile'>
+            <Button
               size='md'
               theme='white'
-              style={{ color: colors.black,display:"none" }}
               onClick={() => {
-                router.push(playgroundLink.memberEdit());
+                router.push(playgroundLink.coffeechatUpload());
                 logClickEvent('openToCoffeechat');
               }}
             >
               커피챗 오픈하기
             </Button>
-              </Responsive>
-            </FixedButtonArea>
-        </Header>
+          </Responsive>
+        </FixedButtonArea>
+      </Header>
       {isLoading ? (
         <LoadingContainer>
           <Loading />
@@ -156,18 +155,18 @@ export default function CoffeeChatList() {
           )}
           {(listType === undefined || listType === 'scroll') && (
             <StyledScrollCarousel
-            itemList={coffeeChatRecentCardList}
-            limit={2}
-            renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
-            className={SCREEN_SIZE.tablet.className}
+              itemList={coffeeChatRecentCardList}
+              limit={2}
+              renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
+              className={SCREEN_SIZE.tablet.className}
             ></StyledScrollCarousel>
           )}
           {(listType === undefined || listType === 'tablet') && (
             <StyledScrollCarousel
-            itemList={coffeeChatRecentCardList}
-            limit={1}
-            renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
-            className={SCREEN_SIZE.tablet.className}
+              itemList={coffeeChatRecentCardList}
+              limit={1}
+              renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
+              className={SCREEN_SIZE.tablet.className}
             ></StyledScrollCarousel>
           )}
         </>
@@ -185,7 +184,6 @@ const Container = styled.div`
   margin-top: 80px;
 
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-
     .${SCREEN_SIZE.desktopSmall.className} {
       display: grid;
     }
@@ -214,7 +212,6 @@ const Container = styled.div`
 
   @media ${TABLET_MEDIA_QUERY} {
     gap: 16px;
-
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -237,30 +234,29 @@ const Header = styled.div`
     flex-direction: column;
     gap: 20px;
     align-items: flex-start;
-
   }
 
   @media ${TABLET_MEDIA_QUERY} {
     gap: 12px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     width: 420px;
   }
-  @media ${PCTA_S_MEDIA_QUERY}{
-    margin-top:12px;
+  @media ${PCTA_S_MEDIA_QUERY} {
+    margin-top: 12px;
   }
-  @media ${MB_BIG_MEDIA_QUERY}{
-    padding-right:20px;
-    padding-left:20px;
-    width:100%;
-    }
+  @media ${MB_BIG_MEDIA_QUERY} {
+    padding-right: 20px;
+    padding-left: 20px;
+    width: 100%;
+  }
 `;
 
 const Title = styled.div`
-  max-height:56px;
+  max-height: 56px;
   text-align: start;
 
   /* Heading/24_B */
- ${fonts.HEADING_24_B}
+  ${fonts.HEADING_24_B}
 
   color: ${colors.white};
 
@@ -297,42 +293,36 @@ const StyledCarousel = styled(Carousel)`
 const StyledScrollCarousel = styled(ScrollCarousel)`
   padding-top: 8px;
   width: 860px;
-  @media ${PCTA_SM_MEDIA_QUERY}{
-    width:420px;
-    height:100%;
+  @media ${PCTA_SM_MEDIA_QUERY} {
+    width: 420px;
+    height: 100%;
   }
 
-  @media ${MB_BIG_MEDIA_QUERY}{
-    width:390px;
-    height:298px;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width: 390px;
+    height: 298px;
   }
-  @media ${MB_MID_MEDIA_QUERY}{
-    width:320px;
+  @media ${MB_MID_MEDIA_QUERY} {
+    width: 320px;
   }
-  @media ${MB_SM_MEDIA_QUERY}{
-    width:280px;
-    
+  @media ${MB_SM_MEDIA_QUERY} {
+    width: 280px;
   }
-`
+`;
 
 export const CardContainer = styled.div`
   display: flex;
   gap: 20px;
 `;
 
+const FixedButtonArea = styled.div`
+  position: fixed;
+  right: 90px;
+  bottom: 42px;
+  z-index: 202;
 
-const FixedButtonArea=styled.div`
-position:fixed;
-right: 90px;
-bottom:42px;
-z-index: 202;
-
-@media ${PCTA_S_MEDIA_QUERY}{
-  right:20px;
-  bottom:42px;
-}
-`
-
-
-
-
+  @media ${PCTA_S_MEDIA_QUERY} {
+    right: 20px;
+    bottom: 42px;
+  }
+`;
