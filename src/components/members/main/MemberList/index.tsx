@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { uniq } from 'lodash-es';
-import dynamic from 'next/dynamic';
+import { IconChevronDown, IconSwitchVertical } from '@sopt-makers/icons';
+import { SearchField } from '@sopt-makers/ui';
+import { debounce, uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { Profile } from '@/api/endpoint_LEGACY/members/type';
 import Responsive from '@/components/common/Responsive';
@@ -22,28 +23,25 @@ import {
   GENERATION_DEFAULT_OPTION,
   GENERATION_OPTIONS,
   MBTI_OPTIONS,
+  Option,
   ORDER_OPTIONS,
+  PART_DEFAULT_OPTION,
   PART_OPTIONS,
   TEAM_OPTIONS,
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
-import MemberSearch from '@/components/members/main/MemberList/MemberSearch';
+import MemberListFilterSheet from '@/components/members/main/MemberList/filters/MemberListFilterSheet';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
-import IconArrowUpDown from '@/public/icons/icon-arrow-up-down.svg';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
-import IconExpand from '@/public/icons/icon-expand-less.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 const PAGE_LIMIT = 30;
 
-const MemberListFilterSheet = dynamic(() => import('./filters/MemberListFilterSheet').then((comp) => comp.default), {
-  ssr: false,
-});
 interface MemberListProps {
   banner: ReactNode;
 }
@@ -62,14 +60,13 @@ export type MessageModalState =
     };
 
 const MemberList: FC<MemberListProps> = ({ banner }) => {
-  const [generation, setGeneration] = useState<string | undefined>(undefined);
-  const [part, setPart] = useState<string | undefined>(undefined);
-  const [employed, setEmployed] = useState<string | undefined>(undefined);
-  const [team, setTeam] = useState<string | undefined>(undefined);
-  const [mbti, setMbti] = useState<string | undefined>(undefined);
+  const [generation, setGeneration] = useState<Option | null | undefined>(null);
+  const [part, setPart] = useState<Option | null | undefined>(null);
+  const [employed, setEmployed] = useState<Option | null | undefined>(null);
+  const [team, setTeam] = useState<Option | null | undefined>(null);
+  const [mbti, setMbti] = useState<Option | null | undefined>(null);
   const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
-
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string | undefined>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
   const router = useRouter();
@@ -109,23 +106,28 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   useEffect(() => {
     if (router.isReady) {
       const { generation, filter, search, employed, team, mbti, orderBy } = router.query;
-      if (typeof generation === 'string' || generation === undefined) {
-        setGeneration(generation);
+      if (typeof generation === 'string' || generation === undefined || null) {
+        const generationOption = GENERATION_OPTIONS.find((option) => option.value === generation);
+        setGeneration(generationOption as Option);
       }
-      if (typeof filter === 'string' || filter === undefined) {
-        setPart(filter);
+      if (typeof filter === 'string' || filter === undefined || null) {
+        const filterOption = PART_OPTIONS.find((option) => option.value === filter);
+        setPart(filterOption as Option);
       }
       if (typeof search === 'string') {
         setSearch(search);
       }
-      if (typeof team === 'string' || team === undefined) {
-        setTeam(team);
+      if (typeof team === 'string' || team === undefined || null) {
+        const teamOption = TEAM_OPTIONS.find((option) => option.value === team);
+        setTeam(teamOption);
       }
-      if (typeof mbti === 'string' || mbti === undefined) {
-        setMbti(mbti);
+      if (typeof mbti === 'string' || mbti === undefined || null) {
+        const mbtiOption = MBTI_OPTIONS.find((option) => option.value === mbti);
+        setMbti(mbtiOption);
       }
-      if (typeof employed === 'string' || employed === undefined) {
-        setEmployed(employed);
+      if (typeof employed === 'string' || employed === undefined || null) {
+        const employedOption = EMPLOYED_OPTIONS.find((option) => option.value === employed);
+        setEmployed(employedOption as Option);
       }
       if (typeof orderBy === 'string') {
         setOrderBy(orderBy);
@@ -133,37 +135,64 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     }
   }, [router.isReady, router.query, router]);
 
-  const handleSelectPart = (filter: string) => {
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+  const handleSearchReset = () => {
+    setSearch('');
+    addQueryParamsToUrl({ search: '' });
+  };
+
+  const createTypeSafeHandler =
+    <T extends string>(handler: (value: T) => void) =>
+    (value: string | number | boolean) => {
+      if (typeof value === 'string') {
+        handler(value as T);
+      }
+    };
+
+  const handleSelectPart = createTypeSafeHandler<string>((filter: string) => {
     addQueryParamsToUrl({ filter });
     logClickEvent('filterPart', { part: filter || 'all' });
-  };
-  const handleSelectGeneration = (generation: string) => {
+  });
+
+  const handleSelectGeneration = createTypeSafeHandler<string>((generation: string) => {
     addQueryParamsToUrl({ generation });
     logClickEvent('filterGeneration', { generation: generation || 'all' });
-  };
-  const handleSelectTeam = (team: string) => {
+  });
+
+  const handleSelectTeam = createTypeSafeHandler<string>((team: string) => {
     addQueryParamsToUrl({ team });
     logClickEvent('filterTeam', { team: team || 'all' });
-  };
-  const handleSelectMbti = (mbti: string) => {
+  });
+
+  const handleSelectMbti = createTypeSafeHandler<string>((mbti: string) => {
     addQueryParamsToUrl({ mbti });
     logClickEvent('filterMbti', { mbti: mbti || 'all' });
-  };
-  const handleSelectEmployed = (employed: string) => {
+  });
+
+  const handleSelectEmployed = createTypeSafeHandler<string>((employed: string) => {
     addQueryParamsToUrl({ employed });
     logClickEvent('filterEmployed', { employed: employed || 'all' });
-  };
-  const handleSelectOrderBy = (orderBy: string) => {
+  });
+
+  const handleSelectOrderBy = createTypeSafeHandler<string>((orderBy: string) => {
     addQueryParamsToUrl({ orderBy });
     logClickEvent('filterOrderBy', { orderBy });
-  };
-  const handleSearch = (searchQuery: string) => {
+  });
+
+  const handleSearchSubmit = debounce((searchQuery: string) => {
     addQueryParamsToUrl({ search: searchQuery });
-    logSubmitEvent('searchMember', { content: 'searchQuery' });
-  };
+    logSubmitEvent('searchMember', { content: searchQuery });
+
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, 0);
+
   const handleClickCard = (profile: Profile) => {
+    debugger;
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
+
   return (
     <StyledContainer>
       <div
@@ -173,16 +202,17 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         `}
       >
         <Responsive only='mobile'>{banner}</Responsive>
-        <Responsive only='mobile' css={{ marginTop: '40px' }}>
+        <Responsive only='mobile' css={{ marginTop: '20px' }}>
           <StyledMemberSearch
             placeholder='이름, 학교, 회사를 검색해보세요!'
-            value={search}
-            onChange={setSearch}
-            onSearch={handleSearch}
+            value={search || ''}
+            onChange={handleSearchChange}
+            onSubmit={() => handleSearchSubmit(search as string)}
+            onReset={handleSearchReset}
           />
           <StyledMobileFilterWrapper>
             <StyledMobileFilter
-              value={generation}
+              value={generation?.value}
               onChange={handleSelectGeneration}
               options={GENERATION_OPTIONS}
               defaultOption={GENERATION_DEFAULT_OPTION}
@@ -190,32 +220,33 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               trigger={(placeholder) => (
                 <MobileFilterTrigger selected={Boolean(generation)}>
                   {placeholder}
-                  <IconExpand />
+                  <StyledChevronDown />
                 </MobileFilterTrigger>
               )}
             />
             <StyledMobileFilter
               placeholder='파트'
-              value={part}
+              value={part?.value}
               onChange={handleSelectPart}
               options={PART_OPTIONS}
+              defaultOption={PART_DEFAULT_OPTION}
               trigger={(placeholder) => (
                 <MobileFilterTrigger selected={Boolean(part)}>
                   {placeholder}
-                  <IconExpand />
+                  <StyledChevronDown />
                 </MobileFilterTrigger>
               )}
             />
             <StyledMobileFilter
               options={TEAM_OPTIONS}
-              value={team}
+              value={team?.value}
               onChange={handleSelectTeam}
               defaultOption={FILTER_DEFAULT_OPTION}
               placeholder='활동'
               trigger={(placeholder) => (
                 <MobileFilterTrigger selected={Boolean(team)}>
                   {placeholder}
-                  <IconExpand />
+                  <StyledChevronDown />
                 </MobileFilterTrigger>
               )}
             />
@@ -223,12 +254,12 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               placeholder='MBTI'
               defaultOption={FILTER_DEFAULT_OPTION}
               options={MBTI_OPTIONS}
-              value={mbti}
+              value={mbti?.value}
               onChange={handleSelectMbti}
               trigger={(placeholder) => (
                 <MobileFilterTrigger selected={Boolean(mbti)}>
                   {placeholder}
-                  <IconExpand />
+                  <StyledChevronDown />
                 </MobileFilterTrigger>
               )}
             />
@@ -236,12 +267,12 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               placeholder='재직 상태'
               defaultOption={FILTER_DEFAULT_OPTION}
               options={EMPLOYED_OPTIONS}
-              value={employed}
+              value={employed?.value}
               onChange={handleSelectEmployed}
               trigger={(placeholder) => (
                 <MobileFilterTrigger selected={Boolean(employed)}>
                   {placeholder}
-                  <IconExpand />
+                  <StyledChevronDown />
                 </MobileFilterTrigger>
               )}
             />
@@ -250,29 +281,25 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             <div
               css={css`
                 display: flex;
+                align-items: center;
                 justify-content: space-between;
-                margin-top: 30px;
+                margin-top: 20px;
+                height: 48px;
               `}
             >
-              <Text>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+              <Text typography='SUIT_14_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
               <StyledMobileFilter
                 placeholder=''
                 options={ORDER_OPTIONS}
                 value={orderBy}
                 onChange={handleSelectOrderBy}
                 trigger={(placeholder) => (
-                  <div
-                    css={css`
-                      display: flex;
-                      align-items: center;
-                      cursor: pointer;
-                    `}
-                  >
-                    <IconArrowUpDown />
-                    <Text typography='SUIT_12_M' color={colors.gray400}>
+                  <OrderFilter>
+                    <Text typography='SUIT_16_M' color={colors.gray300}>
                       {placeholder}
                     </Text>
-                  </div>
+                    <StyledSwitchVertical />
+                  </OrderFilter>
                 )}
               />
             </div>
@@ -290,94 +317,11 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           {banner}
         </Responsive>
         <StyledRightWrapper>
-          <Responsive only='desktop'>
-            <StyledTopWrapper>
-              <div
-                css={css`
-                  display: flex;
-                  justify-content: space-between;
-                  @media ${DESKTOP_TWO_MEDIA_QUERY} {
-                    display: grid;
-                    grid:
-                      [row1-start] 'search' [row1-end]
-                      [row2-start] 'filter' [row2-end]
-                      [row3-start] 'orderBy' [row3-end]
-                      / 1fr;
-                  }
-                `}
-              >
-                <StyledFilterWrapper>
-                  <MemberListFilter
-                    placeholder='기수'
-                    defaultOption={GENERATION_DEFAULT_OPTION}
-                    options={GENERATION_OPTIONS}
-                    value={generation ?? ''}
-                    onChange={handleSelectGeneration}
-                  />
-                  <MemberListFilter
-                    placeholder='파트'
-                    value={part ?? ''}
-                    onChange={handleSelectPart}
-                    options={PART_OPTIONS}
-                  />
-                  <MemberListFilter
-                    placeholder='활동'
-                    options={TEAM_OPTIONS}
-                    value={team ?? ''}
-                    onChange={handleSelectTeam}
-                    defaultOption={FILTER_DEFAULT_OPTION}
-                  >
-                    <Link href={playgroundLink.makers()}>
-                      <StyledMakersLink>
-                        메이커스
-                        <IconDiagonalArrow />
-                      </StyledMakersLink>
-                    </Link>
-                  </MemberListFilter>
-                  <MemberListFilter
-                    placeholder='MBTI'
-                    defaultOption={FILTER_DEFAULT_OPTION}
-                    options={MBTI_OPTIONS}
-                    value={mbti ?? ''}
-                    onChange={handleSelectMbti}
-                  />
-                  <MemberListFilter
-                    placeholder='재직 상태'
-                    defaultOption={FILTER_DEFAULT_OPTION}
-                    options={EMPLOYED_OPTIONS}
-                    value={employed ?? ''}
-                    onChange={handleSelectEmployed}
-                  />
-                </StyledFilterWrapper>
-                <StyledMemberSearch
-                  placeholder='이름, 학교, 회사를 검색해보세요!'
-                  value={search}
-                  onChange={setSearch}
-                  onSearch={handleSearch}
-                />
-              </div>
-              {memberProfileData && (
-                <div
-                  css={css`
-                    display: flex;
-                    grid-area: 'orderBy';
-                    justify-content: space-between;
-                    order: 3;
-                    margin-top: 30px;
-                  `}
-                >
-                  <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                  <OrderBySelect value={orderBy} onChange={handleSelectOrderBy} options={ORDER_OPTIONS} />
-                </div>
-              )}
-            </StyledTopWrapper>
-          </Responsive>
-
           <StyledCardWrapper>
             {profiles?.map((profiles, index) => (
               <React.Fragment key={index}>
                 {profiles.map((profile) => {
-                  const sorted = [...profile.activities].sort((a, b) => b.generation - a.generation);
+                  const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
                   const badges = sorted.map((activity) => ({
                     content: `${activity.generation}기 ${activity.part}`,
                     isActive: activity.generation === LATEST_GENERATION,
@@ -386,12 +330,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
 
                   return (
-                    <Link
+                    <StyledLink
                       key={profile.id}
                       href={playgroundLink.memberDetail(profile.id)}
                       onClick={() => handleClickCard(profile)}
                     >
                       <MemberCard
+                        memberId={profile.id}
                         name={profile.name}
                         belongs={belongs}
                         badges={badges}
@@ -414,18 +359,122 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                       <Responsive only='mobile'>
                         <HLine />
                       </Responsive>
-                    </Link>
+                    </StyledLink>
                   );
                 })}
               </React.Fragment>
             ))}
           </StyledCardWrapper>
+
           {isEmpty && (
             <StyledEmpty>
               <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
               <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
             </StyledEmpty>
           )}
+          <Responsive only='desktop'>
+            <StyledTopWrapper>
+              <div
+                css={css`
+                  display: flex;
+                  justify-content: space-between;
+                  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+                    display: grid;
+                    grid:
+                      [row1-start] 'search' [row1-end]
+                      [row2-start] 'filter' [row2-end]
+                      [row3-start] 'orderBy' [row3-end]
+                      / 1fr;
+                  }
+                `}
+              >
+                <StyledFilterWrapper>
+                  <MemberListFilter
+                    placeholder='기수'
+                    defaultOption={GENERATION_DEFAULT_OPTION}
+                    options={GENERATION_OPTIONS}
+                    onChange={handleSelectGeneration}
+                    value={generation ?? undefined}
+                    onDefaultClick={() => setGeneration(undefined)}
+                  />
+                  <MemberListFilter
+                    placeholder='파트'
+                    onChange={handleSelectPart}
+                    defaultOption={PART_DEFAULT_OPTION}
+                    options={PART_OPTIONS}
+                    value={part ?? undefined}
+                    onDefaultClick={() => setPart(undefined)}
+                  />
+                  <MemberListFilter
+                    placeholder='활동'
+                    options={TEAM_OPTIONS}
+                    onChange={handleSelectTeam}
+                    defaultOption={FILTER_DEFAULT_OPTION}
+                    value={team ?? undefined}
+                    onDefaultClick={() => setTeam(undefined)}
+                  >
+                    <Link href={playgroundLink.makers()}>
+                      <div>
+                        <StyledMakersLink typography='SUIT_16_M'>
+                          메이커스
+                          <IconDiagonalArrow />
+                        </StyledMakersLink>
+                      </div>
+                    </Link>
+                  </MemberListFilter>
+                  <MemberListFilter
+                    placeholder='MBTI'
+                    defaultOption={FILTER_DEFAULT_OPTION}
+                    options={MBTI_OPTIONS}
+                    onChange={handleSelectMbti}
+                    value={mbti ?? undefined}
+                    onDefaultClick={() => setMbti(undefined)}
+                  />
+                  <MemberListFilter
+                    placeholder='재직 상태'
+                    defaultOption={FILTER_DEFAULT_OPTION}
+                    options={EMPLOYED_OPTIONS}
+                    onChange={handleSelectEmployed}
+                    value={employed ?? undefined}
+                    onDefaultClick={() => setEmployed(undefined)}
+                  />
+                </StyledFilterWrapper>
+                <StyledMemberSearch
+                  placeholder='이름, 학교, 회사를 검색해보세요!'
+                  value={search || ''}
+                  onChange={handleSearchChange}
+                  onSubmit={() => handleSearchSubmit(search as string)}
+                  onReset={handleSearchReset}
+                />
+              </div>
+              {memberProfileData && (
+                <div
+                  css={css`
+                    display: flex;
+                    grid-area: 'orderBy';
+                    justify-content: space-between;
+                    order: 3;
+                    margin-top: 30px;
+                  `}
+                >
+                  <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+                  <OrderBySelect
+                    value={orderBy}
+                    onChange={handleSelectOrderBy}
+                    options={ORDER_OPTIONS}
+                    trigger={
+                      <OrderFilter>
+                        <Text typography='SUIT_16_M' color={colors.gray300}>
+                          {ORDER_OPTIONS.find((option: Option) => option.value === orderBy)?.label}
+                        </Text>
+                        <StyledSwitchVertical />
+                      </OrderFilter>
+                    }
+                  />
+                </div>
+              )}
+            </StyledTopWrapper>
+          </Responsive>
         </StyledRightWrapper>
       </StyledMain>
       <Target ref={ref} />
@@ -457,7 +506,6 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 100px;
-  min-height: 101vh;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 0;
@@ -481,23 +529,8 @@ const StyledMain = styled.main`
 const StyledRightWrapper = styled.div`
   display: flex;
   flex: 1;
-  flex-direction: column;
+  flex-direction: column-reverse;
   width: 100%;
-`;
-
-const StyledMobileFilterWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-top: 17px;
-  overflow-x: auto;
-
-  /* to disable scroll bar */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  ::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
 `;
 
 const StyledTopWrapper = styled.div`
@@ -510,31 +543,30 @@ const StyledFilterWrapper = styled.div`
   column-gap: 10px;
 
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    display: flex;
     grid-area: 'filter';
+    gap: 10px;
+    align-items: center;
     order: 2;
-    margin-top: 35px;
+    margin-top: 17px;
   }
 `;
 
-const StyledMakersLink = styled.div`
+const StyledMakersLink = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: color 0.2s background-color 0.2s;
   outline: none;
   border-radius: 6px;
-  cursor: pointer;
-  padding: 5px 10px;
-  color: ${colors.gray200};
+  padding: 8px 12px;
 
   &:hover {
-    outline: none;
-    background-color: ${colors.gray600};
-    color: ${colors.white};
+    background-color: ${colors.gray700};
   }
 `;
 
-const StyledMemberSearch = styled(MemberSearch)`
+const StyledMemberSearch = styled(SearchField)`
   min-width: 335px;
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
     grid-area: 'search';
@@ -561,24 +593,25 @@ const StyledMemberSearch = styled(MemberSearch)`
 
 const StyledCardWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, minmax(10px, 303px));
-  gap: 30px;
+  grid-template-columns: repeat(4, minmax(10px, 310px));
+  gap: 24px;
   align-items: center;
   justify-items: stretch;
   margin-top: 28px;
 
   @media ${DESKTOP_ONE_MEDIA_QUERY} {
-    grid-template-columns: repeat(3, minmax(10px, 303px));
+    grid-template-columns: repeat(3, minmax(10px, 310px));
   }
 
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
-    grid-template-columns: repeat(2, minmax(10px, 303px));
+    grid-template-columns: repeat(2, minmax(10px, 310px));
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid-template-columns: repeat(1, 1fr);
     gap: 0 8px;
     justify-items: stretch;
+    margin-top: 0;
 
     & > div {
       width: 100%;
@@ -594,6 +627,7 @@ const StyledEmpty = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  min-height: 300px;
   max-height: 100%;
 
   & > span {
@@ -623,10 +657,14 @@ const EmptyDescription = styled.span`
 `;
 
 const HLine = styled.hr`
+  position: absolute;
+  bottom: 0;
+  left: -20px;
   margin: 0;
   border: 0;
   border-bottom: 1px solid ${colors.gray800};
   padding: 0;
+  width: 100dvw;
 `;
 
 const Target = styled.div`
@@ -634,28 +672,64 @@ const Target = styled.div`
   height: 40px;
 `;
 
+const StyledLink = styled(Link)`
+  position: relative;
+`;
+
+const StyledMobileFilterWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 17px;
+  margin-right: -20px;
+  padding-right: 20px;
+  overflow-x: auto;
+
+  /* to disable scroll bar */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+`;
 const StyledMobileFilter = styled(MemberListFilterSheet)`
   flex: none;
 `;
 
 const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
   display: flex;
-  flex: none;
+  gap: 12px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   border: 1px solid transparent;
-  border-radius: 20.5px;
+  border-radius: 10px;
   background: ${colors.gray800};
-  padding: 8px 12px;
-  min-width: 76px;
-  height: 32px;
-  color: ${colors.gray200};
-
+  padding: 11px 16px;
+  width: max-content;
+  min-width: fit-content;
+  height: 48px;
+  color: ${colors.gray300};
   ${({ selected }) =>
     selected &&
     css`
-      border-color: ${colors.gray400};
+      color: ${colors.white};
     `}
+`;
 
-  ${textStyles.SUIT_13_M};
+const StyledChevronDown = styled(IconChevronDown)`
+  width: 20px;
+  height: 20px;
+  color: ${colors.white};
+`;
+
+const StyledSwitchVertical = styled(IconSwitchVertical)`
+  width: 20px;
+  height: 20px;
+  color: ${colors.gray300};
+`;
+
+const OrderFilter = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
 `;

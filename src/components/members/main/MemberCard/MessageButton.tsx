@@ -2,22 +2,18 @@ import styled from '@emotion/styled';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { IconSend } from '@sopt-makers/icons';
 import { FC, MouseEvent } from 'react';
 
-import IconSend from '@/public/icons/icon-send.svg';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
-import { Tag } from '@sopt-makers/ui';
-import { Flex } from '@toss/emotion-utils';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 
 interface MessageButtonProps {
   className?: string;
   name: string;
-  isCoffeeChatActivate: boolean;
   onClick?: (e: MouseEvent) => void;
 }
 
-const MessageButton: FC<MessageButtonProps> = ({ className, name, isCoffeeChatActivate, onClick }) => {
+const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => {
   const { logClickEvent } = useEventLogger();
 
   return (
@@ -26,28 +22,17 @@ const MessageButton: FC<MessageButtonProps> = ({ className, name, isCoffeeChatAc
         <Tooltip.Trigger asChild>
           <Button
             className={className}
-            isCoffeeChatActivate={isCoffeeChatActivate}
             onClick={(e) => {
               onClick && onClick(e);
-              logClickEvent(isCoffeeChatActivate ? 'coffeechatBadge' : 'memberBadge');
+              logClickEvent('memberBadge');
             }}
           >
-            {isCoffeeChatActivate ? <IconCoffee /> : <IconSend />}
+            <StyledIconSend />
           </Button>
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <TooltipContent sideOffset={5}>
-            {isCoffeeChatActivate ? (
-              <Flex style={{ gap: 6 }}>
-                <Tag size='sm' shape='rect' variant='primary' type='solid'>
-                  NEW
-                </Tag>
-                커피챗 기능이 오픈됐어요!
-              </Flex>
-            ) : (
-              `${name}님이 궁금하시다면\n쪽지를 보내보세요!`
-            )}
-
+            {`${name}님이 궁금하시다면\n쪽지를 보내보세요!`}
             <TooltipArrow />
           </TooltipContent>
         </Tooltip.Portal>
@@ -58,19 +43,19 @@ const MessageButton: FC<MessageButtonProps> = ({ className, name, isCoffeeChatAc
 
 export default MessageButton;
 
-const Button = styled.div<{ isCoffeeChatActivate: boolean }>`
+const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
   border-radius: 50%;
-  background-color: ${({ isCoffeeChatActivate }) => (isCoffeeChatActivate ? colors.blue400 : colors.gray600)};
+  background-color: ${colors.gray600};
   padding: 5px;
   width: 32px;
   height: 32px;
 
   &:hover {
-    background-color: ${({ isCoffeeChatActivate }) => (isCoffeeChatActivate ? colors.blue200 : colors.gray400)};
+    background-color: ${colors.gray400};
   }
 `;
 
@@ -127,4 +112,9 @@ const TooltipArrow = styled(Tooltip.Arrow)`
   fill: ${colors.gray600};
   width: 11px;
   height: 11px;
+`;
+
+const StyledIconSend = styled(IconSend)`
+  width: 20px;
+  height: 20px;
 `;

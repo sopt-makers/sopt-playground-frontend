@@ -38,4 +38,6 @@ export const playgroundLink = {
   remember: () => `/remember`,
   coffeechatUpload: () => `/coffeechat/upload`,
   coffeechatEdit: (id: string | number) => `/coffeechat/edit/${id}`,
+  coffeechat: () => `/coffeechat`,
+  coffeechatDetail: (id: string | number) => `/coffeechat/${id}`,
 };

@@ -3,11 +3,11 @@ import { FC } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AuthRequired from '@/components/auth/AuthRequired';
+import CoffeeChatList from '@/components/coffeechat/CoffeeRecentChatList';
 import MemberList from '@/components/members/main/MemberList';
 import OnBoardingBanner from '@/components/members/main/MemberList/OnBoardingBanner';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
-import CoffeeChatList from '@/components/coffeechat/CoffeeChatList';
 
 const MemberPage: FC = () => {
   const { data: memberOfMeData } = useGetMemberOfMe();
@@ -17,7 +17,6 @@ const MemberPage: FC = () => {
 
   return (
     <AuthRequired>
-      <CoffeeChatList />
       <MemberList banner={onboardingBanner} />
     </AuthRequired>
   );

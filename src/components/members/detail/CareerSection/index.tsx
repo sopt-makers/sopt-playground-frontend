@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Slot } from '@radix-ui/react-slot';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
 
 import { MemberLink } from '@/api/endpoint_LEGACY/members/type';
@@ -9,11 +10,7 @@ import CareerItem from '@/components/members/detail/CareerSection/CareerItem';
 import InfoItem from '@/components/members/detail/InfoItem';
 import { Career } from '@/components/members/detail/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import MessageSection from '@/components/members/detail/MessageSection';
 import { textStyles } from '@/styles/typography';
-import { playgroundLink } from 'playground-common/export';
-import { useRouter } from 'next/router';
-import { fonts } from '@sopt-makers/fonts';
 
 interface CareerSectionProps {
   careers: Career[];
@@ -25,23 +22,15 @@ interface CareerSectionProps {
   memberId: string;
   isMine: boolean;
   shouldNeedOnlyItems?: boolean;
+  isCoffeechatTap?: boolean;
 }
 
-export default function CareerSection({
-  careers,
-  links,
-  skill,
-  name,
-  email,
-  profileImage,
-  memberId,
-  isMine,
-  shouldNeedOnlyItems = false,
-}: CareerSectionProps) {
-  const router = useRouter();
+export default function CareerSection({ careers, links, skill, shouldNeedOnlyItems = false }: CareerSectionProps) {
   const Container = shouldNeedOnlyItems ? Slot : StyledMemberDetailSection;
 
-  return (
+  const hasCareerOrSkillOrLinks = careers?.length > 0 || skill?.length > 0 || links?.length > 0;
+
+  return hasCareerOrSkillOrLinks ? (
     <Container>
       <>
         {careers?.length > 0 && (
@@ -76,16 +65,8 @@ export default function CareerSection({
           />
         )}
       </>
-      {isMine ? (
-        <MoveButton onClick={() => router.push(playgroundLink.feedUpload())}>
-          <WriteIcon src='/icons/icon-pencil-simple.svg' />
-          직무 경험 SOPT와 공유하기
-        </MoveButton>
-      ) : (
-        <MessageSection name={name} email={email} profileImage={profileImage} memberId={memberId} />
-      )}
     </Container>
-  );
+  ) : null;
 }
 
 const StyledLink = styled(Link)`
