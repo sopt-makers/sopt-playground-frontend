@@ -1,15 +1,15 @@
 export interface CoffeechatFormContent {
   memberInfo: {
-    career: string[] | string | null;
-    introduction: string | null;
+    career: string[] | string | null | undefined;
+    introduction: string | null | undefined;
   };
   coffeeChatInfo: {
-    sections: string[];
-    bio: string | null;
-    topicTypes: string[];
-    topic: string | null;
-    meetingType: string | null;
-    guideline: string | null;
+    sections: string[] | undefined;
+    bio: string | null | undefined;
+    topicTypes: string[] | undefined;
+    topic: string | null | undefined;
+    meetingType: string | null | undefined;
+    guideline: string | null | undefined;
   };
 }
 

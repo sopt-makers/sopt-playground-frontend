@@ -6,9 +6,9 @@ import { FieldValues } from 'react-hook-form';
 
 import { uploadCoffeechat } from '@/api/endpoint/coffeechat/uploadCoffeechat';
 import AuthRequired from '@/components/auth/AuthRequired';
+import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CoffeechatUploadPage from '@/components/coffeechat/page/CoffeechatUploadPage';
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
-import Loading from '@/components/common/Loading';
 import { setLayout } from '@/utils/layout';
 
 const CoffeechatUpload = () => {
@@ -70,7 +70,7 @@ const CoffeechatUpload = () => {
   };
 
   if (isPending) {
-    return <Loading />;
+    return <CoffeechatLoading />;
   }
 
   return (
