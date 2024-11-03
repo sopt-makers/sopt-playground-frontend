@@ -31,10 +31,6 @@ interface Category {
 }
 const CATEGORY: Category[] = [
   {
-    icon: '/icons/icon-coffeechat.svg',
-    value: MessageCategory.COFFEE_CHAT,
-  },
-  {
     icon: '/icons/icon-network.svg',
     value: MessageCategory.NETWORK,
   },
@@ -99,19 +95,19 @@ const MessageModal: FC<MessageModalProps> = ({
   };
 
   const submit = async ({ content, email }: MessageForm) => {
-    if(isPending){
+    if (isPending) {
       return;
     }
-      const result = await confirm({
-        title: '쪽지를 보내시겠습니까?',
-        description: '쪽지는 상대방의 이메일로 전달됩니다.',
-        okButtonColor: colors.white,
-        okButtonTextColor: colors.black,
-        okButtonText: '전송하기',
-        cancelButtonText: '돌아가기',
-        zIndex: zIndex.헤더+102,
-        width: 400,
-      });
+    const result = await confirm({
+      title: '쪽지를 보내시겠습니까?',
+      description: '쪽지는 상대방의 이메일로 전달됩니다.',
+      okButtonColor: colors.white,
+      okButtonTextColor: colors.black,
+      okButtonText: '전송하기',
+      cancelButtonText: '돌아가기',
+      zIndex: zIndex.헤더 + 102,
+      width: 400,
+    });
     try {
       if (!selectedCategory) {
         return;
@@ -126,7 +122,7 @@ const MessageModal: FC<MessageModalProps> = ({
         await alert({
           title: '쪽지 보내기',
           description: '성공적으로 전송되었어요!',
-          zIndex:zIndex.헤더+103
+          zIndex: zIndex.헤더 + 103,
         });
         onLog?.({ category: selectedCategory });
         props.onClose();
@@ -187,7 +183,7 @@ const MessageModal: FC<MessageModalProps> = ({
             selectedCategory === MessageCategory.COFFEE_CHAT ? COFFEECHAT_PLACEHOLDER : '전달할 내용을 입력해주세요!'
           }
         />
-        <StyledButton isDisabled={!isValid||isPending}>
+        <StyledButton isDisabled={!isValid || isPending}>
           {isPending ? (
             <Loading color='white' />
           ) : (
@@ -218,6 +214,7 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 const ProfileImage = styled.img`
@@ -246,11 +243,11 @@ const StyledCategory = styled.section`
   display: flex;
   flex-wrap: wrap;
   row-gap: 10px;
-  column-gap: 12px;
+  column-gap: 10px;
   align-items: center;
   justify-content: center;
   margin-top: 46px;
-  min-width: 370px;
+  max-width: 224px;
 `;
 
 const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
