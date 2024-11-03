@@ -189,6 +189,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   }, 0);
 
   const handleClickCard = (profile: Profile) => {
+    debugger;
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
 
@@ -335,6 +336,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                       onClick={() => handleClickCard(profile)}
                     >
                       <MemberCard
+                        memberId={profile.id}
                         name={profile.name}
                         belongs={belongs}
                         badges={badges}

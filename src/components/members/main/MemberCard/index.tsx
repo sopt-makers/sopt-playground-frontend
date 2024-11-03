@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import { FC, SyntheticEvent } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
@@ -14,6 +16,7 @@ import IconCoffee from '@/public/icons/icon-coffee.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MemberCardProps {
+  memberId: number;
   name: string;
   belongs: string;
   intro: string;
@@ -38,6 +41,7 @@ const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
 
 const MemberCard: FC<MemberCardProps> = ({
+  memberId,
   name,
   belongs,
   badges,
@@ -52,6 +56,12 @@ const MemberCard: FC<MemberCardProps> = ({
     ELLIPSIS_WIDTH,
     BADGE_GAP,
   );
+
+  const router = useRouter();
+  const onCoffeeChatButtonClick = (e: React.MouseEvent<Element, MouseEvent>) => {
+    e.stopPropagation();
+    router.push(playgroundLink.coffeechatDetail(memberId));
+  };
 
   return (
     <MotionMemberCard whileHover='hover'>
@@ -102,8 +112,7 @@ const MemberCard: FC<MemberCardProps> = ({
         </Intro>
       </ContentArea>
       <SideButtons>
-        {/* TODO: CoffeeChatButton에 커피챗 상세로 이동하는 onClick 넘겨주기 */}
-        {isCoffeeChatActivate && <CoffeeChatButton />}
+        {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} />}
         {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
       </SideButtons>
     </MotionMemberCard>
