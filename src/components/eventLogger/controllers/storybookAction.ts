@@ -16,5 +16,8 @@ export function createStorybookActionController(): EventLoggerController {
     impressionEvent(key, ...params) {
       action('EventLogger.impressionEvent')(key, ...params);
     },
+    setUserProperties(properties) {
+      action('EventLogger.setUserProperties')(properties);
+    },
   };
 }

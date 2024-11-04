@@ -14,5 +14,8 @@ export function createConsoleLogController(): EventLoggerController {
     impressionEvent(key, ...params) {
       console.log('[EventLogger.impressionEvent]', key, ...params);
     },
+    setUserProperties(properties) {
+      console.log(`[EventLogger.User properties]`, properties);
+    },
   };
 }
