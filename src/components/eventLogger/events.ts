@@ -112,6 +112,7 @@ export interface ClickEvents {
   coffeechatToggleOff: undefined;
   coffeechatToggleOn: undefined;
   skillAdd: undefined;
+  messageBadge: undefined;
 
   // 광고
   ads: { id: number | undefined; bannerId: number; pageUrl: string; timeStamp: string };
