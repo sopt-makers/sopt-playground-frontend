@@ -216,7 +216,7 @@ const Container = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 0;
-    margin-top: 32px;
+    margin-top: 28px;
   }
 `;
 
