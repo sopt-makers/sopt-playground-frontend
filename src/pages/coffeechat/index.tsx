@@ -13,5 +13,4 @@ const CoffeeChatMainPage = () => {
 };
 setLayout(CoffeeChatMainPage, 'headerFooter');
 setLayout(CoffeeChatMainPage, 'header');
-setLayout(CoffeeChatMainPage, 'headerOnlyDesktop');
 export default CoffeeChatMainPage;

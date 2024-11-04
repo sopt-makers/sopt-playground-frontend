@@ -230,7 +230,7 @@ export default function CoffeeChatCategory() {
         </LoadingContainer>
       ) : (
         <>
-          {isEmpty && (
+          {(data?.coffeeChatList&&data?.coffeeChatList?.length<=0) && (
             <StyledEmpty>
               <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
               <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
