@@ -19,6 +19,7 @@ interface OpenerProfileProps {
 export default function OpenerProfile({ memberId }: OpenerProfileProps) {
   const { data: openerProfile } = useGetCoffeechatDetail(memberId);
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
+
   return (
     <>
       {openerProfile && (
@@ -173,7 +174,7 @@ const OpenerProfileSection = styled.section<{ isMine: boolean }>`
   grid: [row1-start] 'profileImageBox profileInfoBox  buttonSection' auto [row1-end]/ auto;
   grid-template-columns: 1fr 5fr 2fr;
   gap: 28px;
-  align-items: center;
+  align-items: ${({ isMine }) => (isMine ? 'flex-end' : 'center')};
   justify-content: space-between;
   width: 100%;
 
