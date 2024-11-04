@@ -189,7 +189,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   }, 0);
 
   const handleClickCard = (profile: Profile) => {
-    debugger;
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
 
