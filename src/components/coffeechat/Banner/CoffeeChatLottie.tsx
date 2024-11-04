@@ -14,7 +14,7 @@ function CoffeeChatLottie() {
     autoplay: true,
     animationData: coffeePC,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice', // 비율 유지하면서 화면 꽉 채우기
+      preserveAspectRatio: 'xMidYMid slice', 
     },
   };
   const defaultMobileOptions = {
@@ -22,7 +22,7 @@ function CoffeeChatLottie() {
     autoplay: true,
     animationData: mobilePC,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice', // 비율 유지하면서 화면 꽉 채우기
+      preserveAspectRatio: 'xMidYMid slice', 
     },
   };
   return (
@@ -31,7 +31,7 @@ function CoffeeChatLottie() {
     <DesktopLottieWrapper>
       <Lottie
         options={defaultDesktopOptions}
-        width={'100%'} // 화면 너비에 맞춤
+        width={'100%'}
       />
     </DesktopLottieWrapper>
     </Responsive>
@@ -39,7 +39,7 @@ function CoffeeChatLottie() {
         <MobileLottieWrapper>
         <Lottie
           options={defaultMobileOptions}
-          width={'100%'} // 화면 너비에 맞춤
+          width={'100%'} 
         />
       </MobileLottieWrapper>
       </Responsive>
