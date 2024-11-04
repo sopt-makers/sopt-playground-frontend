@@ -15,6 +15,16 @@ type CommunityFeedData = {
   images: string[];
 };
 
+export type UserProperties = {
+  id: number;
+  major: string;
+  university: string;
+  job: string;
+  company: string;
+  part: string[];
+  generation: number[];
+};
+
 export interface ClickEvents {
   memberCard: MemberCard;
   projectCard: ProjectCard;

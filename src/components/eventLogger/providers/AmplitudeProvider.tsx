@@ -1,6 +1,7 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import { getMemberProfileOfMe } from '@/api/endpoint_LEGACY/members';
 import { EventLoggerContext } from '@/components/eventLogger/context';
 import { createConsoleLogController } from '@/components/eventLogger/controllers/consoleLog';
 
@@ -18,9 +19,33 @@ const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) =
       setController(createConsoleLogController());
       return;
     }
-    import('@/components/eventLogger/controllers/amplitude').then(({ createAmplitudeController }) => {
-      setController(() => createAmplitudeController(apiKey, data?.id ? `${data.id}` : undefined));
-    });
+    const initializeAmplitude = async () => {
+      try {
+        const profile = await getMemberProfileOfMe();
+        const { createAmplitudeController } = await import('@/components/eventLogger/controllers/amplitude');
+
+        const amplitudeController = createAmplitudeController(apiKey, data?.id ? `${data.id}` : undefined);
+
+        // user_properties 설정
+        if (data && profile) {
+          amplitudeController.setUserProperties({
+            id: data.id,
+            major: profile.major,
+            university: profile.university,
+            job: profile.careers.length > 0 ? profile.careers[0].title : '',
+            company: profile.careers.length > 0 ? profile.careers[0].companyName : '',
+            generation: profile.soptActivities.map((activity) => activity.generation),
+            part: [...new Set(profile.soptActivities.map((activity) => activity.part))],
+          });
+        }
+
+        setController(() => amplitudeController);
+      } catch (error) {
+        console.error('Failed to initialize Amplitude:', error);
+      }
+    };
+
+    initializeAmplitude();
   }, [apiKey, data]);
 
   return <EventLoggerContext.Provider value={controller}>{children}</EventLoggerContext.Provider>;
