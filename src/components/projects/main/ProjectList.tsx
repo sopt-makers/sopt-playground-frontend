@@ -9,6 +9,7 @@ import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
 import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
+import EmptyView from '@/components/common/EmptyView';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
@@ -136,10 +137,7 @@ const ProjectList = () => {
         )}
 
         {totalCount === 0 ? (
-          <StyledEmpty>
-            <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
-            <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
-          </StyledEmpty>
+          <EmptyView />
         ) : (
           <StyledGridContainer>
             {data?.pages.map((page) =>
@@ -308,33 +306,6 @@ const StyledGridContainer = styled.div`
     gap: 0;
     justify-content: start;
     margin-top: 0;
-  }
-`;
-
-const StyledEmpty = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 240px;
-`;
-
-const EmptyTitle = styled.p`
-  color: ${colors.gray10};
-  ${fonts.TITLE_32_SB};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${fonts.TITLE_24_SB};
-  }
-`;
-
-const EmptyDescription = styled.span`
-  color: ${colors.gray400};
-  ${fonts.BODY_16_M};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${fonts.BODY_14_M};
   }
 `;
 
