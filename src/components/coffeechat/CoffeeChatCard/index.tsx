@@ -1,47 +1,102 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import HorizontalScroller from '@/components/common/HorizontalScroller';
-import { Flex } from '@toss/emotion-utils';
+import { fonts } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
-import IconCoffee from '@/public/icons/icon-coffee.svg';
-import { useState } from 'react';
-import { MessageModalState } from '@/components/members/main/MemberList';
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { css } from '@emotion/react';
-import { m } from 'framer-motion';
-import ResizedImage from '@/components/common/ResizedImage';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { useState } from 'react';
 
+import Divider from '@/components/common/Divider/Divider';
+import ResizedImage from '@/components/common/ResizedImage';
+import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
+import { MessageModalState } from '@/components/members/main/MemberList';
+import { LATEST_GENERATION } from '@/constants/generation';
+import {
+  MB_BIG_MEDIA_QUERY,
+  MB_MID_MEDIA_QUERY,
+  MB_MID_WIDTH,
+  MB_SM_MEDIA_QUERY,
+  MOBILE_MEDIA_QUERY,
+} from '@/styles/mediaQuery';
 interface MentoringCardProps {
   id: string;
-  name: string;
-  profileImage: string;
-  organization: string;
-  skills: string;
   title: string;
   isEmptyData?: boolean;
+  topicTypeList: Array<string>;
+  profileImage: string;
+  name: string;
+  career?: string;
+  organization: string;
+  companyJob?: string;
+  soptActivities: Array<string>;
   isBlurred?: boolean;
+  isMine?: boolean;
 }
 
 export default function CoffeeChatCard({
   id,
-  name,
-  profileImage,
-  organization,
-  skills,
   title,
   isEmptyData,
+  topicTypeList,
+  profileImage,
+  name,
+  career,
+  organization,
+  companyJob,
+  soptActivities,
   isBlurred,
+  isMine,
 }: MentoringCardProps) {
   const router = useRouter();
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-
   const { logClickEvent } = useEventLogger();
+
+  const sortSoptActivities = (soptActivities: string[]) => {
+    const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
+      const numA = parseInt(a.match(/\d+/)![0]); // 문자열에서 숫자 추출
+      const numB = parseInt(b.match(/\d+/)![0]);
+      return numB - numA; // 내림차순 정렬
+    });
+    return uniqueSortedActivities;
+  };
+
+  const soptActivityBadges = sortSoptActivities(soptActivities).map((activity) =>
+    activity.includes(LATEST_GENERATION.toString())
+      ? {
+          content: activity,
+          isActive: true,
+        }
+      : {
+          content: activity,
+          isActive: false,
+        },
+  );
+
+  const ELLIPSIS_WIDTH = 26;
+  const BADGE_GAP = 4;
+  const {
+    visibleBadges: visibleSoptActivities,
+    isBadgeOverflow: isSoptActivitiesOverflow,
+    badgeRefs: soptActivitiesRef,
+    badgeWrapperRef: soptActivitiesWrapperRef,
+  } = useVisibleBadges(soptActivityBadges, ELLIPSIS_WIDTH, BADGE_GAP);
+
+  const {
+    visibleBadges: visibleTopics,
+    isBadgeOverflow: isTopicsOverflow,
+    badgeRefs: topicsRef,
+    badgeWrapperRef: topicsWrapperRef,
+  } = useVisibleBadges(topicTypeList, ELLIPSIS_WIDTH, BADGE_GAP);
+
+  if (career == '아직 없어요') {
+    career = undefined;
+  }
 
   return (
     <>
@@ -50,29 +105,43 @@ export default function CoffeeChatCard({
           y: -4,
         }}
         onClick={() => {
-          router.push(playgroundLink.memberDetail(id));
+          router.push(playgroundLink.coffeechatDetail(id));
           logClickEvent('coffeechatCard');
         }}
         isEmptyData={isEmptyData}
         isBlurred={isBlurred}
+        isMine={isMine}
       >
-        <Flex direction='column' style={{ gap: 12, overflow: 'hidden' }}>
+        {isBlurred ? (
+          <BlurInfo>
+            커피챗을 숨긴 상태에요.
+            <br />
+            카드를 누르면 상세 페이지에서 다시 보이게 할 수 있어요.
+          </BlurInfo>
+        ) : (
+          <></>
+        )}
+        <TitleSection>
           <Title>{title}</Title>
-          <HorizontalScroller>
-            <Flex style={{ gap: 4, marginTop: 4 }}>
-              {skills
-                .split(',')
-                .map((skill) => skill.trim())
-                .filter(Boolean)
-                .map((skill) => (
-                  <Tag size='sm' shape='rect' variant='secondary' type='solid'>
-                    {skill}
+          <TagSection ref={topicsWrapperRef}>
+            {visibleTopics
+              ?.map((topic) => topic.trim())
+              .filter(Boolean)
+              .map((topic, idx) => (
+                <div key={topic} ref={(el: HTMLDivElement) => (topicsRef.current[idx] = el)}>
+                  <Tag size='md' shape='rect' variant='secondary' type='solid'>
+                    {topic}
                   </Tag>
-                ))}
-            </Flex>
-          </HorizontalScroller>
-          <Mentor>{organization ? `${name} · ${organization}` : name}</Mentor>
-        </Flex>
+                </div>
+              ))}
+            {isTopicsOverflow && (
+              <Tag size='md' shape='rect' variant='secondary' type='solid'>
+                ...
+              </Tag>
+            )}
+          </TagSection>
+        </TitleSection>
+        <Divider color='#3F3F47' />
         <ProfileSection>
           <ImageBox>
             <EmptyProfileImage hide={isImageLoaded}>
@@ -87,18 +156,29 @@ export default function CoffeeChatCard({
               />
             )}
           </ImageBox>
-          <IconContainer
-            onClick={(e) => {
-              e.stopPropagation();
-              setMessageModalState({
-                show: true,
-                data: { targetId: id, name, profileUrl: profileImage },
-              });
-              logClickEvent('coffeechatBadge');
-            }}
-          >
-            <IconCoffee />
-          </IconContainer>
+          <InfoSection>
+            {!career ? <UserName> {name}</UserName> : <UserName> {name ? `${name} | ${career}` : career}</UserName>}
+            <Career>{companyJob ? `${organization} | ${companyJob}` : organization}</Career>
+            <SoptTagSection ref={soptActivitiesWrapperRef}>
+              {visibleSoptActivities.map((badge, idx) => (
+                <Badge
+                  ref={(el: HTMLDivElement) => (soptActivitiesRef.current[idx] = el)}
+                  isActive={badge.isActive}
+                  key={idx}
+                >
+                  {badge.isActive && <BadgeActiveDot />}
+                  <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                    {badge.content}
+                  </Text>
+                </Badge>
+              ))}
+              {isSoptActivitiesOverflow && (
+                <Badge isActive={false}>
+                  <Text typography='SUIT_11_SB'>...</Text>
+                </Badge>
+              )}
+            </SoptTagSection>
+          </InfoSection>
         </ProfileSection>
       </Container>
       {messageModalState.show && (
@@ -114,37 +194,54 @@ export default function CoffeeChatCard({
   );
 }
 
-const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean }>`
+const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; isMine?: boolean }>`
   display: flex;
+  flex-direction: column;
   gap: 11px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   border-radius: 24px;
   background: ${colors.gray900};
   cursor: pointer;
-  padding: 32px 36px;
-  width: 419px;
-  min-width: 419px;
-  height: 198px;
-
+  padding: 32px;
+  width: 420px;
+  min-width: 420px;
+  height: 280px;
+  overflow: hidden;
   ${({ isEmptyData }) =>
     isEmptyData &&
     css`
       pointer-events: none;
     `};
-
   ${({ isBlurred }) =>
     isBlurred &&
     css`
-      filter: blur(5px);
+      position: relative;
+
+      /* filter: blur(5px); */
+    `};
+  ${({ isMine }) =>
+    isMine &&
+    css`
+      border: 1px solid ${colors.gray200};
     `};
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 16px;
-    padding: 18px 20px;
-    width: 335px;
-    min-width: 335px;
-    height: 140px;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    gap: 4px;
+    border-radius: 20px;
+    padding: 24px;
+    width: 400px;
+    min-width: 400px;
+    height: 234px;
+  }
+  @media ${MB_MID_MEDIA_QUERY} {
+    padding: 24px;
+    width: 320px;
+    min-width: 320px;
+  }
+  @media ${MB_SM_MEDIA_QUERY} {
+    width: 280px;
+    max-width: 280px;
   }
 `;
 
@@ -154,52 +251,50 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  /* Title/18_SB */
-  line-height: 28px; /* 155.556% */
-  letter-spacing: -0.36px;
+  ${fonts.HEADING_18_B}
+
   white-space: pre-line;
   word-break: break-word;
   color: ${colors.white};
-  font-size: 18px;
-  font-weight: 600;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    height: 40px;
-
-    /* Title/14_SB */
-    line-height: 20px; /* 142.857% */
-    letter-spacing: -0.21px;
-    font-size: 14px;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width: 342px;
+    max-width: 342px;
+    height: 48px;
+    max-height: 48px;
+    ${fonts.HEADING_16_B};
+  }
+  @media ${MB_MID_MEDIA_QUERY} {
+    width: 272px;
+    max-width: 272px;
+  }
+  @media ${MB_SM_MEDIA_QUERY} {
+    width: 232px;
+    max-width: 232px;
   }
 `;
 
-const Mentor = styled.div`
+const Career = styled.div`
   /* Label/14_SB */
-  line-height: 18px; /* 128.571% */
-  letter-spacing: -0.28px;
-  color: ${colors.gray300};
-  font-size: 14px;
-  font-weight: 600;
+  ${fonts.TITLE_14_SB}
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 170px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    /* Label/12_SB */
-    line-height: 16px; /* 133.333% */
-    letter-spacing: -0.24px;
-    white-space: nowrap;
-    font-size: 12px;
+  max-width:266px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: ${colors.gray400};
+  @media ${MB_BIG_MEDIA_QUERY} {
+    max-width: 256px;
+    ${fonts.BODY_13_M}
   }
 `;
 
 const ProfileSection = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: end;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   height: 100%;
 
@@ -209,13 +304,9 @@ const ProfileSection = styled.div`
 `;
 const ImageBox = styled.div`
   position: relative;
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
   clip-path: circle(50%);
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
 `;
 
 const EmptyProfileImage = styled.div<{ hide?: boolean }>`
@@ -224,18 +315,14 @@ const EmptyProfileImage = styled.div<{ hide?: boolean }>`
   align-items: center;
   justify-content: center;
   background-color: ${colors.gray700};
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
 
   ${(props) =>
     props.hide &&
     css`
       visibility: hidden;
     `};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    display: none;
-  }
 `;
 
 const DefaultImage = styled.img`
@@ -256,15 +343,109 @@ const ResizedProfileImage = styled(ResizedImage)<{ hide?: boolean }>`
     `};
 `;
 
-const IconContainer = styled.div`
-  border-radius: 50%;
-  background: ${colors.blue400};
-  cursor: pointer;
-  padding: 5px;
-  width: 32px;
-  height: 32px;
-
-  &:hover {
-    background-color: ${colors.blue200};
+const TitleSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 96px;
+  min-height: 96px;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    gap: 4px;
+    height: 80px;
+    min-height: 80px;
   }
+`;
+const TagSection = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  width: 356px;
+  overflow: hidden;
+  white-space: nowrap;
+
+  div {
+    @media ${MOBILE_MEDIA_QUERY} {
+      font-size: 11px !important;
+    }
+  }
+`;
+const InfoSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 20px;
+`;
+const UserName = styled.div`
+  ${fonts.TITLE_16_SB}
+
+  margin-bottom:2px;
+  max-width: 266px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media ${MB_MID_WIDTH} {
+    ${fonts.TITLE_14_SB}
+
+    max-width:256px;
+  }
+`;
+const SoptTagSection = styled.div`
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+  width: 266px;
+  overflow-x: hidden;
+  color: ${colors.gray200};
+
+  div {
+    white-space: nowrap;
+  }
+`;
+
+const BlurInfo = styled.div`
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  border-radius: 8px;
+  background-color: ${colors.grayAlpha700};
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: white;
+  ${fonts.TITLE_16_SB}
+
+  stroke: 1px ${colors.gray300};
+  backdrop-filter: blur(7.5px);
+`;
+
+const Badge = styled.div<{ isActive: boolean }>`
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  gap: 6px;
+  align-items: center;
+  border-radius: 6px;
+  background-color: ${({ isActive }) => (isActive ? 'rgb(247 114 52 / 20%)' : colors.gray700)};
+  padding: 6px;
+  height: 22px;
+  line-height: 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 4px 6px;
+    color: ${colors.gray100};
+  }
+`;
+
+const BadgeActiveDot = styled.span`
+  border-radius: 50%;
+  background-color: ${colors.secondary};
+  width: 6px;
+  height: 6px;
 `;

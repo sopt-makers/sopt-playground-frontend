@@ -21,38 +21,38 @@ const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps
 
   return (
     <Container>
-      <ActivityTitle>{profile.name}님이 참여한 프로젝트</ActivityTitle>
-      {profile.projects.length > 0 && (
+      {profile.projects.length > 0 ? (
         <>
-          <ActivitySub>{profile.projects.length}개의 프로젝트에 참여</ActivitySub>
+          <ActivityTitle>
+            {profile.name}님이 참여한 {profile.projects.length}개의 프로젝트예요!
+          </ActivityTitle>
           <ActivityDisplay>
             {profile.projects.map((project) => (
               <MemberProjectCard key={project.id} {...project} />
             ))}
           </ActivityDisplay>
         </>
-      )}
-      {profile.projects.length === 0 && (
+      ) : (
         <>
-          <ActivitySub>아직 참여한 프로젝트가 없어요</ActivitySub>
-          {String(meId) === memberId && (
-            <ActivityUploadNudge>
-              <Text typography='SUIT_14_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
-                참여한 프로젝트를 등록하면 <br />
-                공식 홈페이지에도 프로젝트가 업로드 돼요!
-              </Text>
-              <ActivityUploadButton
-                onClick={() =>
-                  logClickEvent('projectUpload', {
-                    referral: 'myPage',
-                  })
-                }
-                href={playgroundLink.projectUpload()}
-              >
-                <Text typography='SUIT_15_SB'>+ 내 프로젝트 올리기</Text>
-              </ActivityUploadButton>
-              <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
-            </ActivityUploadNudge>
+          {String(meId) === memberId ? (
+            <>
+              <ActivityTitle>아직 등록한 프로젝트가 없어요</ActivityTitle>
+              <ActivityUploadNudge>
+                <NudgeSubText typography='SUIT_16_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
+                  참여한 프로젝트를 등록하면 <br />
+                  공식 홈페이지에도 프로젝트가 업로드 돼요!
+                </NudgeSubText>
+                <ActivityUploadButton
+                  onClick={() => logClickEvent('projectUpload', { referral: 'myPage' })}
+                  href={playgroundLink.projectUpload()}
+                >
+                  <Text typography='SUIT_15_SB'>+ 내 프로젝트 올리기</Text>
+                </ActivityUploadButton>
+                <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
+              </ActivityUploadNudge>
+            </>
+          ) : (
+            <ActivityTitle>아직 {profile.name}님이 참여한 프로젝트가 없어요</ActivityTitle>
           )}
         </>
       )}
@@ -70,18 +70,6 @@ const ActivityTitle = styled.div`
   font-weight: 700;
   @media ${MOBILE_MEDIA_QUERY} {
     font-size: 22px;
-  }
-`;
-
-const ActivitySub = styled.div`
-  margin-top: 18px;
-  line-height: 100%;
-  color: #989ba0;
-  font-size: 22px;
-  font-weight: 500;
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 10px;
-    font-size: 14px;
   }
 `;
 
@@ -142,6 +130,12 @@ const ActivityUploadButton = styled(Link)`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 50px;
     width: 100%;
+  }
+`;
+
+const NudgeSubText = styled(Text)`
+  @media ${MOBILE_MEDIA_QUERY} {
+    font-size: 14px;
   }
 `;
 
