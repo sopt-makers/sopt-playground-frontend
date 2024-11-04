@@ -11,6 +11,7 @@ import { useState } from 'react';
 import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
@@ -97,16 +98,27 @@ export default function CoffeeChatCard({
   if (career == '아직 없어요') {
     career = undefined;
   }
+  console.log(   
+
+  "topicTypeList",topicTypeList,
+    profileImage,
+    name,
+    career,
+    organization,
+    companyJob,
+    soptActivities,
+    isBlurred,
+    isMine,
+  )
 
   return (
-    <>
+      <>
       <Container
         whileHover={{
           y: -4,
         }}
         onClick={() => {
           router.push(playgroundLink.coffeechatDetail(id));
-          logClickEvent('coffeechatCard');
         }}
         isEmptyData={isEmptyData}
         isBlurred={isBlurred}
@@ -190,7 +202,7 @@ export default function CoffeeChatCard({
           defaultCategory={MessageCategory.COFFEE_CHAT}
         />
       )}
-    </>
+      </>
   );
 }
 

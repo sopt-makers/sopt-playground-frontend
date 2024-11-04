@@ -17,6 +17,8 @@ import {
 } from '@/components/coffeechat/constants';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   MB_BIG_MEDIA_QUERY,
   MB_MID_MEDIA_QUERY,
@@ -59,6 +61,7 @@ export default function CoffeeChatCategory() {
 
   const { data, isLoading } = useGetMembersCoffeeChat(queryParams);
   const isEmpty = (data?.coffeeChatList.length === 0) == null;
+  const { logSubmitEvent } = useEventLogger();
   const SelectionArea = (): JSX.Element => {
     return (
       <>
@@ -74,7 +77,15 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {TOPIC_FILTER_OPTIONS.map((option) => (
+              <LoggingClick eventKey='coffeechatFilter'
+              param={{
+                topic_tag:topicType,
+                career:career,
+                part:part
+              }}
+            key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+           </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -91,7 +102,15 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {CAREER_FILTER_OPTIONS.map((option) => (
+                            <LoggingClick eventKey='coffeechatFilter'
+                            param={{
+                              topic_tag:topicType,
+                              career:career,
+                              part:part
+                            }}
+                          key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+            </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -123,6 +142,7 @@ export default function CoffeeChatCategory() {
       </Header>
       <CategoryList>
         {categoryList.categoryList.map((option) => (
+          <LoggingClick eventKey='coffeechatSection' key={option.categoryName} param={{section:option.categoryName}} >
           <CategoryCard
             isActive={section === option.categoryName}
             onClick={() => setSection(option.categoryName)}
@@ -131,6 +151,7 @@ export default function CoffeeChatCategory() {
             <CardIcon src={option.icon}></CardIcon>
             <CardName>{option.categoryName}</CardName>
           </CategoryCard>
+          </LoggingClick>
         ))}
       </CategoryList>
       <Responsive only='desktop' className='responsive'>
@@ -143,6 +164,9 @@ export default function CoffeeChatCategory() {
             value={clientSearch}
             onChange={(e) => setClientSearch(e.target.value)}
             onSubmit={() => {
+              logSubmitEvent('searchCoffeeChat',{
+               search_content:clientSearch
+              })
               setSearch(clientSearch);
             }}
             onReset={() => setClientSearch('')}
@@ -155,6 +179,9 @@ export default function CoffeeChatCategory() {
           value={clientSearch}
           onChange={(e) => setClientSearch(e.target.value)}
           onSubmit={() => {
+            logSubmitEvent('searchCoffeeChat',{
+             search_content:clientSearch
+            })
             setSearch(clientSearch);
           }}
           onReset={() => setClientSearch('')}
@@ -177,6 +204,12 @@ export default function CoffeeChatCategory() {
               </MobileFilterTrigger>
             )}
           />
+        <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={topicType}
             onChange={(e: string) => setTopicType(TOPIC_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -192,6 +225,13 @@ export default function CoffeeChatCategory() {
               </MobileFilterTrigger>
             )}
           />
+          </LoggingClick>
+         <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={career}
             onChange={(e: string) => setCareer(CAREER_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -207,6 +247,13 @@ export default function CoffeeChatCategory() {
               </MobileFilterTrigger>
             )}
           />
+          </LoggingClick>
+         <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={part}
             onChange={(e: string) => setPart(PART_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -221,7 +268,7 @@ export default function CoffeeChatCategory() {
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
-          />
+          /></LoggingClick>
         </StyledMobileFilterWrapper>
       </Responsive>
       {isLoading ? (
@@ -238,6 +285,24 @@ export default function CoffeeChatCategory() {
           )}
           <StyledCardList>
             {data?.coffeeChatList?.map((item) => (
+                  <LoggingClick key={String(item.memberId)} 
+                    eventKey='coffeechatCard' 
+                  param={{
+                    career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+                    company:undefined,
+                    university:undefined,
+                    job:undefined,
+                    section:undefined,
+                    title:undefined,
+                    topic_tag:undefined,
+                    topic_detail:undefined,
+                    meeting_type:undefined,
+                    guideline:undefined,
+                    generation:undefined,
+                    part:undefined,
+                    category:undefined
+                  }
+                  }>
               <CoffeeChatCard
                 key={String(item.memberId)}
                 id={String(item.memberId)}
@@ -252,6 +317,7 @@ export default function CoffeeChatCategory() {
                 isBlurred={item.isBlind ?? false}
                 isMine={item.isMine ?? false}
               />
+              </LoggingClick>
             ))}
           </StyledCardList>
         </>

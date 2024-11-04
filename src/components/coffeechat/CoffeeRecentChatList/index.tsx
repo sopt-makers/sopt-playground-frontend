@@ -13,6 +13,7 @@ import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   MB_BIG_MEDIA_QUERY,
@@ -106,28 +107,30 @@ export default function CoffeeChatList() {
         <Title>{isLoading ? '' : isEmptyData ? '최근 진행된 커피챗이에요✨' : '최근 진행된 커피챗이에요✨'}</Title>
         <FixedButtonArea>
           <Responsive only='desktop'>
+            <LoggingClick eventKey='openCoffeechat'> 
             <Button
               size='lg'
               theme='white'
               onClick={() => {
                 router.push(playgroundLink.coffeechatUpload());
-                logClickEvent('openToCoffeechat');
               }}
             >
               커피챗 오픈하기
             </Button>
+            </LoggingClick>
           </Responsive>
           <Responsive only='mobile'>
+          <LoggingClick eventKey='openCoffeechat'>
             <Button
               size='md'
               theme='white'
               onClick={() => {
                 router.push(playgroundLink.coffeechatUpload());
-                logClickEvent('openToCoffeechat');
               }}
             >
               커피챗 오픈하기
             </Button>
+            </LoggingClick>
           </Responsive>
         </FixedButtonArea>
       </Header>

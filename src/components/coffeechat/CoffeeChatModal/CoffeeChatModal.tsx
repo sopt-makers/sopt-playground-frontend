@@ -18,6 +18,7 @@ import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 const schema = yup.object().shape({
@@ -115,6 +116,8 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
               <br /> 회원님의 프로필과 함께 문자로 전달돼요
             </Responsive>
           </Text>
+          <LoggingClick eventKey='senderPhone'>
+            <>
           <TextWrapper>
             <StyledText mt={48} color={colors.white}>
               회신 받을 본인 연락처 <span style={{ color: '#F77234' }}>*</span>
@@ -128,6 +131,8 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
             component={StyledInput}
             placeholder='연락처를 입력해주세요!'
           />
+          </>
+          </LoggingClick>
           <TextWrapper>
             <StyledText mt={46} color={colors.white}>
               무엇이 궁금하신가요? <span style={{ color: '#F77234' }}>*</span>

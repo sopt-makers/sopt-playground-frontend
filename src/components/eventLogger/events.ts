@@ -103,8 +103,26 @@ export interface ClickEvents {
 
   // 프로젝트 등록 후 공유하러 가기
   clickProjectShare: undefined;
-
-  coffeechatCard: undefined;
+  coffeechatFilter:{
+    topic_tag:string|undefined,
+    career:string|undefined,
+    part:string|undefined
+  }
+  coffeechatCard:{
+    career:string|undefined,
+    company:string|undefined,
+    university:string|undefined,
+    job:string|undefined,
+    section:string|undefined,
+    title:string|undefined,
+    topic_tag:string|undefined,
+    topic_detail:string|undefined,
+    meeting_type:string|undefined,
+    guideline:string|undefined,
+    generation:number[]|undefined,
+    part:string[]|undefined,
+    category:string|undefined
+  }
   coffeechatGuide: undefined;
   openToCoffeechat: undefined;
   coffeechatBadge: undefined;
@@ -115,6 +133,13 @@ export interface ClickEvents {
 
   // 광고
   ads: { id: number | undefined; bannerId: number; pageUrl: string; timeStamp: string };
+  coffeechatSection:{
+    section:string;
+  }
+  openCoffeechat:undefined;
+  senderPhone:undefined;
+  coffeechatBanner:undefined;
+
 }
 
 export interface SubmitEvents {
@@ -151,6 +176,10 @@ export interface SubmitEvents {
   };
   //다짐메시지
   postResolution: undefined;
+  searchCoffeeChat:{
+    search_content:string;
+  }
+
 }
 
 export interface PageViewEvents {
