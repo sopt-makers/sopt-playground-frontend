@@ -102,13 +102,13 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {CAREER_FILTER_OPTIONS.map((option) => (
-                            <LoggingClick eventKey='coffeechatFilter'
-                            param={{
-                              topic_tag:topicType,
-                              career:career,
-                              part:part
-                            }}
-                          key={option.label}>
+             <LoggingClick eventKey='coffeechatFilter'
+               param={{
+               topic_tag:topicType,
+                career:career,
+                 part:part
+                 }}
+                key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
             </LoggingClick>
             ))}
@@ -287,10 +287,9 @@ export default function CoffeeChatCategory() {
             {data?.coffeeChatList?.map((item) => (
                   <LoggingClick key={String(item.memberId)} 
                     eventKey='coffeechatCard' 
-                  param={{
+                    param={{
                     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
-                    company:undefined,
-                    university:undefined,
+                    organization:item?.organization,
                     job:undefined,
                     section:undefined,
                     title:undefined,

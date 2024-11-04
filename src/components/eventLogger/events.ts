@@ -110,8 +110,7 @@ export interface ClickEvents {
   }
   coffeechatCard:{
     career:string|undefined,
-    company:string|undefined,
-    university:string|undefined,
+    organization:string|undefined|null,
     job:string|undefined,
     section:string|undefined,
     title:string|undefined,
