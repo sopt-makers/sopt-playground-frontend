@@ -68,8 +68,8 @@ const CoffeechatUpload = () => {
                 ? memberInfo.career[0]
                 : memberInfo.career
               : '',
-            company: profile?.careers[0].companyName ?? '',
-            job: profile?.careers[0].title ?? '',
+            company: profile?.careers && profile?.careers.length > 0 ? profile?.careers[0].companyName : '',
+            job: profile?.careers && profile?.careers.length > 0 ? profile?.careers[0].title : '',
             bio: memberInfo.introduction ?? '',
             section: coffeeChatInfo.sections ?? [],
             title: coffeeChatInfo.bio ?? '',
