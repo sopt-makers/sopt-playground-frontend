@@ -105,7 +105,7 @@ const DropdownSeemore = ({ onEdit, onDelete }: SeemoreContentProps) => {
               <EditIcon />
               <>수정</>
             </StyledItem>
-            <StyledItem onClick={onDelete}>
+            <StyledItem onClick={onDelete} isTrash>
               <TrashIcon />
               <>삭제</>
             </StyledItem>
@@ -144,6 +144,7 @@ const BottomSheetSeemore = ({ onEdit, onDelete }: SeemoreContentProps) => {
                 setOpen(false);
                 onDelete();
               }}
+              isTrash
             >
               <TrashIcon />
               <>삭제</>
@@ -193,30 +194,33 @@ const StyledContent = styled.div`
   }
 `;
 
-const StyledItem = styled(DropdownMenu.Item)`
+const StyledItem = styled(DropdownMenu.Item)<{ isTrash?: boolean }>`
   display: flex;
   gap: 10px;
   align-items: center;
   padding: 8px 12px;
+  color: ${({ isTrash }) => isTrash && colors.red400};
   ${fonts.BODY_16_M};
 `;
 
-const StyledContentItem = styled.div`
+const StyledContentItem = styled.div<{ isTrash?: boolean }>`
   display: flex;
   gap: 10px;
   align-items: center;
   padding: 10px;
+  color: ${({ isTrash }) => isTrash && colors.red400};
+
   ${fonts.BODY_14_M};
 `;
 
 const EditIcon = styled(IconEdit)`
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
 `;
 
 const TrashIcon = styled(IconTrash)`
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   color: ${colors.red400};
 `;
 
