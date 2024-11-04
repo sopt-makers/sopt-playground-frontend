@@ -15,6 +15,14 @@ type CommunityFeedData = {
   images: string[];
 };
 
+type GotoCoffeechat = {
+  company: string;
+  job: string;
+  generation: number[];
+  part: string[];
+  university: string;
+};
+
 export interface ClickEvents {
   memberCard: MemberCard;
   projectCard: ProjectCard;
@@ -113,6 +121,7 @@ export interface ClickEvents {
   coffeechatToggleOn: undefined;
   skillAdd: undefined;
   messageBadge: undefined;
+  gotoCoffeechat: GotoCoffeechat;
 
   // 광고
   ads: { id: number | undefined; bannerId: number; pageUrl: string; timeStamp: string };
