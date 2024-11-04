@@ -1,16 +1,21 @@
-import { useMutation } from '@tanstack/react-query';
+import { DialogOptionType, useDialog, useToast } from '@sopt-makers/ui';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
+import { FieldValues } from 'react-hook-form';
 
 import { uploadCoffeechat } from '@/api/endpoint/coffeechat/uploadCoffeechat';
 import AuthRequired from '@/components/auth/AuthRequired';
+import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CoffeechatUploadPage from '@/components/coffeechat/page/CoffeechatUploadPage';
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
-import Loading from '@/components/common/Loading';
 import { setLayout } from '@/utils/layout';
-import { FieldValues } from 'react-hook-form';
 
 const CoffeechatUpload = () => {
-  // const router = useRouter();
-  // const queryClient = useQueryClient();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { open: toastOpen } = useToast();
+  const { open } = useDialog();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (reqeustBody: CoffeechatFormContent) => uploadCoffeechat.request({ ...reqeustBody }),
@@ -22,41 +27,39 @@ const CoffeechatUpload = () => {
 
     mutate(
       {
-        memberInfo: { ...memberInfo, career: memberInfo.career ? memberInfo.career[0] : null },
-        coffeeChatInfo: { ...coffeeChatInfo },
+        memberInfo: {
+          ...memberInfo,
+          career: memberInfo.career
+            ? Array.isArray(memberInfo.career)
+              ? memberInfo.career[0]
+              : memberInfo.career
+            : null,
+        },
+        coffeeChatInfo: { ...coffeeChatInfo, meetingType: coffeeChatInfo.meetingType ?? '온/오프라인' },
       },
       {
         onSuccess: async () => {
-          // TODO: 쿼리 무효화 및 페이지 이동 처리
-          // queryClient.invalidateQueries({ queryKey: 'coffeechat' });
-          // await router.push(playgroundLink.coffeechat());
+          queryClient.invalidateQueries({
+            predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
+          });
+          toastOpen({ icon: 'success', content: '커피챗이 오픈됐어요! 경험을 나눠주셔서 감사해요.' });
+          await router.push(playgroundLink.coffeechat());
         },
         onError: (error) => {
-          console.error('업로드 실패:', error);
+          const option: DialogOptionType = {
+            title: `${error.message}`,
+            description: ``,
+            type: 'single',
+            typeOptions: {
+              approveButtonText: '확인',
+              buttonFunction: async () => await router.push(playgroundLink.coffeechat()),
+            },
+          };
+          open(option);
         },
       },
     );
   };
-
-  // const onSubmit = (data: CoffeechatFormContent) => {
-  //   const { memberInfo, coffeeChatInfo } = data;
-  //   mutate(
-  //     {
-  //       memberInfo: { ...memberInfo, career: memberInfo.career ? memberInfo.career[0] : null },
-  //       coffeeChatInfo: { ...coffeeChatInfo },
-  //     },
-  //     {
-  //       onSuccess: async () => {
-  //         // TODO: 쿼리 무효화 및 페이지 이동 처리
-  //         // queryClient.invalidateQueries({ queryKey: 'coffeechat' });
-  //         // await router.push(playgroundLink.coffeechat());
-  //       },
-  //       onError: (error) => {
-  //         console.error('업로드 실패:', error);
-  //       },
-  //     },
-  //   );
-  // };
 
   const defaultForm = {
     memberInfo: {
@@ -74,7 +77,7 @@ const CoffeechatUpload = () => {
   };
 
   if (isPending) {
-    return <Loading />;
+    return <CoffeechatLoading />;
   }
 
   return (

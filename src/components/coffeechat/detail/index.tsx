@@ -9,7 +9,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContents';
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
-import Loading from '@/components/common/Loading';
+import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
 import ProjectSection from '@/components/members/detail/ProjectSection';
@@ -70,9 +70,7 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
             </ProfilPojectSection>
           </>
         ) : (
-          <CoffeechatLoading>
-            <Loading />
-          </CoffeechatLoading>
+          <CoffeechatLoading />
         )}
       </DetailPage>
     </DetailPageLayout>
@@ -87,12 +85,6 @@ const ProfileContents = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 18px;
   }
-`;
-
-const CoffeechatLoading = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const ProfilPojectSection = styled.div`

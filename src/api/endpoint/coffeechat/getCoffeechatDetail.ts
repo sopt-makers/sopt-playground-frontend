@@ -1,7 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
-import { useQuery } from '@tanstack/react-query';
 
 const CoffeechatDetailSchema = z.object({
   bio: z.string(),
@@ -21,6 +21,7 @@ const CoffeechatDetailSchema = z.object({
   isBlind: z.boolean().nullable(),
   profileImage: z.string().nullable(),
   isCoffeeChatActivate: z.boolean().nullable(),
+  sections: z.array(z.string()),
 });
 
 export const getCoffeechatDetail = createEndpoint({

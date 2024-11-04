@@ -21,7 +21,7 @@ const coffeeChatInfoSchema = yup.object().shape({
     .min(1, '커피챗 주제 키워드를 선택해주세요')
     .required('커피챗 주제 키워드를 선택해주세요'),
   topic: yup.string().required('커피챗 주제 소개를 입력해주세요'),
-  meetingType: yup.string().nullable(),
+  meetingType: yup.string().nullable().required('커피챗 진행 방식을 선택해주세요'),
   guideline: yup.string().nullable(),
 });
 

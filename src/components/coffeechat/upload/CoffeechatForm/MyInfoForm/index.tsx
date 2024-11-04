@@ -27,7 +27,7 @@ export default function MyInfoForm() {
         </FormTitle>
         <ChipField
           field='memberInfo.career'
-          errorMessage={errors.memberInfo?.career ? '경력을 선택해주세요' : ''}
+          errorMessage={errors.memberInfo?.career?.message ?? ''}
           chipList={CAREER_LEVEL}
           isSingleSelect
         />
@@ -49,7 +49,7 @@ export default function MyInfoForm() {
                   fixedHeight={126}
                   lineBreakPlaceholder={['• 직무 경험이나 관심 분야를 적어주면 더 좋아요!']}
                   isError={!!errors.memberInfo?.introduction}
-                  errorMessage='자기소개를 입력해주세요'
+                  errorMessage={errors.memberInfo?.introduction?.message}
                   onChange={(e) => field.onChange(e.target.value)}
                 />
               </Responsive>
@@ -61,7 +61,7 @@ export default function MyInfoForm() {
                   fixedHeight={150}
                   lineBreakPlaceholder={['• 직무 경험이나 관심 분야를 적어주면 더 좋아요!']}
                   isError={!!errors.memberInfo?.introduction}
-                  errorMessage='자기소개를 입력해주세요'
+                  errorMessage={errors.memberInfo?.introduction?.message}
                   onChange={(e) => field.onChange(e.target.value)}
                 />
               </Responsive>
