@@ -19,7 +19,6 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 export enum MessageCategory {
-  COFFEE_CHAT = '커피챗',
   NETWORK = '친목',
   APPJAM_TEAM_BUILDING = '앱잼 팀 빌딩',
   PROJECT_SUGGESTION = '프로젝트 제안',
@@ -179,9 +178,7 @@ const MessageModal: FC<MessageModalProps> = ({
           control={control}
           name='content'
           component={StyledTextArea}
-          placeholder={
-            selectedCategory === MessageCategory.COFFEE_CHAT ? COFFEECHAT_PLACEHOLDER : '전달할 내용을 입력해주세요!'
-          }
+          placeholder={'전달할 내용을 입력해주세요!'}
         />
         <StyledButton isDisabled={!isValid || isPending}>
           {isPending ? (
