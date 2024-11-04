@@ -10,6 +10,7 @@ import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContent
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
 import SeemoreSelect from '@/components/coffeechat/detail/SeemoreSelect';
 import Loading from '@/components/common/Loading';
+import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
 import ProjectSection from '@/components/members/detail/ProjectSection';
@@ -70,9 +71,7 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
             </ProfilPojectSection>
           </>
         ) : (
-          <CoffeechatLoading>
-            <Loading />
-          </CoffeechatLoading>
+          <CoffeechatLoading />
         )}
       </DetailPage>
     </DetailPageLayout>
@@ -87,12 +86,6 @@ const ProfileContents = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 18px;
   }
-`;
-
-const CoffeechatLoading = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const ProfilPojectSection = styled.div`

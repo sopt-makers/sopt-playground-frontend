@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
-import { SelectV2 } from '@sopt-makers/ui';
-import { SearchField } from '@sopt-makers/ui';
-import { width100 } from '@toss/emotion-utils';
+import { SearchField, SelectV2 } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
@@ -21,16 +19,12 @@ import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import {
   MB_BIG_MEDIA_QUERY,
-  MB_BIG_WIDTH,
   MB_MID_MEDIA_QUERY,
-  MB_SM_MEDIA_QUERY,
   MOBILE_MEDIA_QUERY,
   PCTA_BIG_MEDIA_QUERY,
   PCTA_MID_MEDIA_QUERY,
   PCTA_S_MEDIA_QUERY,
-  PCTA_S_WIDTH,
   PCTA_SM_MEDIA_QUERY,
-  PCTA_SM_WIDTH,
 } from '@/styles/mediaQuery';
 
 export default function CoffeeChatCategory() {
@@ -86,7 +80,7 @@ export default function CoffeeChatCategory() {
         </SelectV2.Root>
 
         <SelectV2.Root
-        className='career-select'
+          className='career-select'
           onChange={(e: number) => setCareer(CAREER_FILTER_OPTIONS[e - 1].label)}
           defaultValue={CAREER_FILTER_OPTIONS.find((option) => option.label === career)}
           type='text'
@@ -103,7 +97,7 @@ export default function CoffeeChatCategory() {
         </SelectV2.Root>
 
         <SelectV2.Root
-        className='part-select'
+          className='part-select'
           onChange={(e: number) => setPart(PART_FILTER_OPTIONS[e - 1].label)}
           defaultValue={PART_FILTER_OPTIONS.find((option) => option.label === part)}
           type='text'
@@ -177,8 +171,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='분야'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={section.length>0} value={section}>
-                {section?section:placeholder}
+              <MobileFilterTrigger selected={section.length > 0} value={section}>
+                {section ? section : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -192,8 +186,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='주제'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={topicType.length>0}>
-                 {topicType?topicType:placeholder}
+              <MobileFilterTrigger selected={topicType.length > 0}>
+                {topicType ? topicType : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -207,8 +201,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='경력'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={career.length>0}>
-                {career?career:placeholder}
+              <MobileFilterTrigger selected={career.length > 0}>
+                {career ? career : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -222,8 +216,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='파트'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={part.length>0}>
-                 {part?part:placeholder}
+              <MobileFilterTrigger selected={part.length > 0}>
+                {part ? part : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -272,11 +266,11 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 48px;
-  
-  .responsive-mobile-only{
-    @media ${MB_BIG_MEDIA_QUERY}{
-    width:100%;
-  }
+
+  .responsive-mobile-only {
+    @media ${MB_BIG_MEDIA_QUERY} {
+      width: 100%;
+    }
   }
   @media ${PCTA_S_MEDIA_QUERY} {
     margin-top: 28px;
@@ -294,11 +288,11 @@ const Header = styled.div`
   margin-bottom: 24px;
   width: 100%;
   width: 1300px;
-  @media ${PCTA_BIG_MEDIA_QUERY}{
-    width:866px;
+  @media ${PCTA_BIG_MEDIA_QUERY} {
+    width: 866px;
   }
-  @media ${PCTA_SM_MEDIA_QUERY}{
-    padding-left:30px;
+  @media ${PCTA_SM_MEDIA_QUERY} {
+    padding-left: 30px;
     width: 100%;
   }
   @media ${PCTA_S_MEDIA_QUERY} {
@@ -427,47 +421,45 @@ const SelectFilterArea = styled.div`
     white-space: nowrap;
   }
 
-  .topic-select{
+  .topic-select {
     width: 130px;
 
-    button{
-      width:130px;
+    button {
+      width: 130px;
 
-      div{
-        width:130px;
+      div {
+        width: 130px;
       }
     }
   }
 
-  .career-select{
-    width:162px;
+  .career-select {
+    width: 162px;
 
-    button{
-      width:162px;
+    button {
+      width: 162px;
 
-      div{
-        width:162px;
+      div {
+        width: 162px;
       }
     }
   }
 
-  .part-select{
-    width:109px;
+  .part-select {
+    width: 109px;
 
-    button{
-      width:109px;
+    button {
+      width: 109px;
 
-      div{
-        width:109px;
+      div {
+        width: 109px;
       }
     }
   }
-
 
   ul {
-    z-index: 203;
+    z-index: 99;
   }
-
 `;
 
 const StyledSearchField = styled(SearchField)`
@@ -480,16 +472,16 @@ const StyledSearchField = styled(SearchField)`
     width: 424px;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
-    padding-right:20px;
-    padding-left:20px;
+    padding-right: 20px;
+    padding-left: 20px;
     width: 100%;
 
-    button{
-      right:15px;
+    button {
+      right: 15px;
     }
   }
   @media ${MB_MID_MEDIA_QUERY} {
-    width: 100%
+    width: 100%;
   }
 `;
 const LoadingContainer = styled.div`
@@ -587,7 +579,6 @@ const StyledChevronDown = styled(IconChevronDown)`
 
 const StyledMobileFilter = styled(CoffeeChatFilterSheet)`
   flex: none;
-  
 `;
 
 const StyledMobileFilterWrapper = styled.div`
@@ -603,26 +594,26 @@ const StyledMobileFilterWrapper = styled.div`
   /* to disable scroll bar */
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  button{
-    width:auto;
+  button {
+    width: auto;
   }
 
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
-  @media ${PCTA_S_MEDIA_QUERY}{
-    padding:0;
-    width:424px;
+  @media ${PCTA_S_MEDIA_QUERY} {
+    padding: 0;
+    width: 424px;
 
-    button{
-      width:100px;
+    button {
+      width: 100px;
       white-space: nowrap;
     }
   }
-  @media ${MB_BIG_MEDIA_QUERY}{
-    padding-right:20px;
-    padding-left:20px;
-    width:auto;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    padding-right: 20px;
+    padding-left: 20px;
+    width: auto;
     max-width: 100%;
   }
 `;

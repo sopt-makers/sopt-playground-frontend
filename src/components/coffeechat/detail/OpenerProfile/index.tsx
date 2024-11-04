@@ -41,9 +41,11 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
               {openerProfile.memberCareerTitle && ' | ' + openerProfile.memberCareerTitle}
             </Company>
             <InfoWrapper>
-              <IconInfo>
-                <PhoneIcon /> <InfoText>{openerProfile.phone}</InfoText>
-              </IconInfo>
+              {openerProfile.phone && (
+                <IconInfo>
+                  <PhoneIcon /> <InfoText>{openerProfile.phone}</InfoText>
+                </IconInfo>
+              )}
               <IconInfo>
                 <MailIcon /> <InfoText>{openerProfile.email}</InfoText>
               </IconInfo>
