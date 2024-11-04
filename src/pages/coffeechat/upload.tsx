@@ -27,7 +27,14 @@ const CoffeechatUpload = () => {
 
     mutate(
       {
-        memberInfo: { ...memberInfo, career: memberInfo.career ? memberInfo.career[0] : null },
+        memberInfo: {
+          ...memberInfo,
+          career: memberInfo.career
+            ? Array.isArray(memberInfo.career)
+              ? memberInfo.career[0]
+              : memberInfo.career
+            : null,
+        },
         coffeeChatInfo: { ...coffeeChatInfo, meetingType: coffeeChatInfo.meetingType ?? '온/오프라인' },
       },
       {
