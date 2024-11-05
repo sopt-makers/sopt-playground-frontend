@@ -47,8 +47,42 @@ export default function CoffeeChatList() {
 
   const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
-
+  const formatSoptActivities = (soptActivities: string[])=> {
+    const generations = soptActivities
+      .map((item) => parseInt(item.match(/^\d+/)?.[0] || "", 10)) // 숫자 문자열을 숫자로 변환
+      .filter((num) => !isNaN(num)); // NaN 값 제거
+    const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
+    return { generation: generations, part: parts };
+  };
   const coffeeChatRecentCardList = dataList.map((item) => (
+    <LoggingClick 
+     key={String(item?.name)} 
+    eventKey='coffeechatCard' 
+     param={{
+     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+     organization:item?.organization,  
+      job:item.companyJob||undefined,
+      section:undefined,
+       title:item.bio||undefined,
+      topic_tag:undefined,
+      ...formatSoptActivities(item?.soptActivities||[]),
+      }
+      }>
+        <div>
+        <LoggingClick 
+     key={String(item?.name)} 
+    eventKey='recentCoffeechatCard' 
+     param={{
+     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+     organization:item?.organization,  
+      job:item.companyJob||undefined,
+      section:undefined,
+       title:item.bio||undefined,
+      topic_tag:undefined,
+      ...formatSoptActivities(item?.soptActivities||[]),
+      }
+      }>
+      <div>
     <CoffeeChatCard
       key={String(item.memberId)}
       id={String(item.memberId)}
@@ -63,6 +97,10 @@ export default function CoffeeChatList() {
       isEmptyData={isEmptyData}
       isBlurred={false}
     />
+    </div>
+    </LoggingClick>
+    </div>
+    </LoggingClick>
   ));
 
   useEffect(() => {

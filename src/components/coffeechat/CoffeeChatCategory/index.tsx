@@ -58,9 +58,15 @@ export default function CoffeeChatCategory() {
       ...(search && { search }), // search는 빈 문자열이 아닌 경우만 추가}
     });
   }, [section, topicType, career, part, search]);
-
+  const formatSoptActivities = (soptActivities: string[])=> {
+    const generations = soptActivities
+      .map((item) => parseInt(item.match(/^\d+/)?.[0] || "", 10)) // 숫자 문자열을 숫자로 변환
+      .filter((num) => !isNaN(num)); // NaN 값 제거
+    const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
+    return { generation: generations, part: parts };
+  };
   const { data, isLoading } = useGetMembersCoffeeChat(queryParams);
-  const isEmpty = (data?.coffeeChatList.length === 0) == null;
+  
   const { logSubmitEvent } = useEventLogger();
   const SelectionArea = (): JSX.Element => {
     return (
@@ -127,7 +133,15 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {PART_FILTER_OPTIONS.map((option) => (
+              <LoggingClick eventKey='coffeechatFilter'
+               param={{
+               topic_tag:topicType,
+               career:career,
+               part:part
+                }}
+                key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+              </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -287,23 +301,20 @@ export default function CoffeeChatCategory() {
           {data?.coffeeChatList
           ?.sort((a, b) => (b.isMine === true ? 1 : -1) - (a.isMine === true ? 1 : -1)) // isMine이 true인 항목을 앞으로 정렬
           .map((item) => (
-                  <LoggingClick key={String(item.memberId)} 
+                  <LoggingClick 
+                  key={String(item?.name)} 
                     eventKey='coffeechatCard' 
                     param={{
                     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
-                    organization:item?.organization,
-                    job:undefined,
-                    section:undefined,
-                    title:undefined,
-                    topic_tag:undefined,
-                    topic_detail:undefined,
-                    meeting_type:undefined,
-                    guideline:undefined,
-                    generation:undefined,
-                    part:undefined,
-                    category:undefined
+                    organization:item?.organization,  
+                    job:item.companyJob||undefined,
+                    section:section,
+                    title:item.bio||undefined,
+                    topic_tag: topicType && topicType !== "" && topicType !== "전체" ? topicType : undefined,
+                    ...formatSoptActivities(item?.soptActivities||[]),
                   }
                   }>
+                    <div>
               <CoffeeChatCard
                 key={String(item.memberId)}
                 id={String(item.memberId)}
@@ -318,6 +329,7 @@ export default function CoffeeChatCategory() {
                 isBlurred={item.isBlind ?? false}
                 isMine={item.isMine ?? false}
               />
+              </div>
               </LoggingClick>
             ))}
           </StyledCardList>

@@ -98,18 +98,7 @@ export default function CoffeeChatCard({
   if (career == '아직 없어요') {
     career = undefined;
   }
-  console.log(   
 
-  "topicTypeList",topicTypeList,
-    profileImage,
-    name,
-    career,
-    organization,
-    companyJob,
-    soptActivities,
-    isBlurred,
-    isMine,
-  )
 
   return (
       <>

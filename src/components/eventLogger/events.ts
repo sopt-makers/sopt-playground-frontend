@@ -115,12 +115,18 @@ export interface ClickEvents {
     section:string|undefined,
     title:string|undefined,
     topic_tag:string|undefined,
-    topic_detail:string|undefined,
-    meeting_type:string|undefined,
-    guideline:string|undefined,
     generation:number[]|undefined,
     part:string[]|undefined,
-    category:string|undefined
+  }
+  recentCoffeechatCard:{
+    career:string|undefined,
+    organization:string|undefined|null,
+    job:string|undefined,
+    section:string|undefined,
+    title:string|undefined,
+    topic_tag:string|undefined,
+    generation:number[]|undefined,
+    part:string[]|undefined,
   }
   coffeechatGuide: undefined;
   openToCoffeechat: undefined;
