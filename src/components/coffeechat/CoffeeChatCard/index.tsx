@@ -13,9 +13,7 @@ import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
-import { MessageModalState } from '@/components/members/main/MemberList';
 import { LATEST_GENERATION } from '@/constants/generation';
 import {
   MB_BIG_MEDIA_QUERY,
@@ -54,7 +52,6 @@ export default function CoffeeChatCard({
   isMine,
 }: MentoringCardProps) {
   const router = useRouter();
-  const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const { logClickEvent } = useEventLogger();
 
@@ -182,16 +179,7 @@ export default function CoffeeChatCard({
           </InfoSection>
         </ProfileSection>
       </Container>
-      {messageModalState.show && (
-        <MessageModal
-          receiverId={messageModalState.data.targetId}
-          name={messageModalState.data.name}
-          profileImageUrl={messageModalState.data.profileUrl}
-          onClose={() => setMessageModalState({ show: false })}
-          defaultCategory={MessageCategory.COFFEE_CHAT}
-        />
-      )}
-      </>
+    </>
   );
 }
 

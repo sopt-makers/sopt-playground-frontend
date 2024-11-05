@@ -11,6 +11,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CoffeechatUploadPage from '@/components/coffeechat/page/CoffeechatUploadPage';
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -23,6 +24,7 @@ const CoffeechatEdit = () => {
   const { data: openerProfile, isError, error, isPending: isDetailPending } = useGetCoffeechatDetail(memberId);
   const { open } = useDialog();
   const { open: toastOpen } = useToast();
+  const { logSubmitEvent } = useEventLogger();
 
   const { mutate, isPending: isEditPending } = useMutation({
     mutationFn: (reqeustBody: CoffeechatFormContent) => editCoffeechat.request({ ...reqeustBody }),
@@ -50,7 +52,7 @@ const CoffeechatEdit = () => {
             predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
           });
           toastOpen({ icon: 'success', content: '커피챗이 오픈됐어요! 경험을 나눠주셔서 감사해요.' });
-
+          logSubmitEvent('editCoffeechat');
           await router.push(playgroundLink.coffeechatDetail(me?.id ?? ''));
         },
         onError: (error) => {
@@ -60,7 +62,7 @@ const CoffeechatEdit = () => {
             type: 'single',
             typeOptions: {
               approveButtonText: '확인',
-              buttonFunction: async () => await router.push(playgroundLink.coffeechat()),
+              buttonFunction: async () => router.push(playgroundLink.coffeechat()),
             },
           };
           open(option);
@@ -69,37 +71,21 @@ const CoffeechatEdit = () => {
     );
   };
 
-  // FIXME: url에서 직접 id 변경하여 접속하는 경우, 다른 사람의 커피챗 수정 불가능하도록 막기
-  // useEffect(() => {
-  //   if (memberId !== String(me?.id)) {
-  //     open({
-  //       title: '다른 사람의 커피챗은 수정할 수 없어요',
-  //       description: ``,
-  //       type: 'single',
-  //       typeOptions: {
-  //         approveButtonText: '확인',
-  //         buttonFunction: async () => await router.push(playgroundLink.coffeechat()),
-  //       },
-  //     });
-  //   }
-  // }, [me?.id, memberId, open, router]);
+  if (status === 'loading' || status === 'error') return null;
 
-  // FIXME: 존재하지 않는 커피챗 id 접속
-  // useEffect(() => {
-  //   if (isError) {
-  //     const axiosError = error as AxiosError;
+  // MEMO: url에서 직접 id 변경하여 접속하는 경우, 다른 사람의 커피챗 수정 불가능하도록 막기
+  if (status === 'success' && memberId && me?.id && memberId !== String(me?.id)) {
+    router.push(playgroundLink.coffeechat());
 
-  //     open({
-  //       title: `${axiosError?.response?.data}`,
-  //       description: ``,
-  //       type: 'single',
-  //       typeOptions: {
-  //         approveButtonText: '확인',
-  //         buttonFunction: async () => await router.push(playgroundLink.coffeechat()),
-  //       },
-  //     });
-  //   }
-  // }, [error, isError, open, router]);
+    return null;
+  }
+
+  // MEMO: 존재하지 않는 커피챗 id 접속
+  if (status === 'success' && isError) {
+    router.push(playgroundLink.coffeechat());
+
+    return null;
+  }
 
   const defaultForm = {
     memberInfo: {
@@ -122,7 +108,6 @@ const CoffeechatEdit = () => {
 
   return (
     <AuthRequired>
-      {(status === 'loading' || status === 'error') && null}
       {status === 'success' && openerProfile && memberId === String(me?.id) && !isError ? (
         <CoffeechatUploadPage uploadType='수정' form={defaultForm} onSubmit={onSubmit} />
       ) : null}
