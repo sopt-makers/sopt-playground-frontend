@@ -59,8 +59,8 @@ const CoffeechatEdit = () => {
         },
         onError: (error) => {
           const option: DialogOptionType = {
-            title: `${error.message}`,
-            description: ``,
+            title: `오류가 발생했어요.`,
+            description: `${error.message}`,
             type: 'single',
             typeOptions: {
               approveButtonText: '확인',

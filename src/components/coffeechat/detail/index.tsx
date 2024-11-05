@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
@@ -9,7 +9,6 @@ import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContents';
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
 import SeemoreSelect from '@/components/coffeechat/detail/SeemoreSelect';
-import Loading from '@/components/common/Loading';
 import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
@@ -17,16 +16,20 @@ import ProjectSection from '@/components/members/detail/ProjectSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { safeParseInt } from '@/utils';
+import { useDialog } from '@sopt-makers/ui';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 
 interface CoffeechatDetailProp {
   memberId: string;
 }
 
 export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
-  const { data: openerProfile } = useGetCoffeechatDetail(memberId);
+  const { data: openerProfile, isError, error } = useGetCoffeechatDetail(memberId);
   const { data: profile } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
-
   const { data: me } = useGetMemberOfMe();
+  const router = useRouter();
+  const { open } = useDialog();
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -37,6 +40,21 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
     return sorted;
   }, [profile?.soptActivities]);
 
+  useEffect(() => {
+    isError &&
+      open({
+        title: `커피챗 정보를 확인할 수 없는 유저입니다.`,
+        description: `${error.message}`,
+        type: 'single',
+        typeOptions: {
+          approveButtonText: '확인',
+          buttonFunction: async () => {
+            await router.push(playgroundLink.coffeechat());
+          },
+        },
+      });
+  }, [isError]);
+
   return (
     <DetailPageLayout>
       <DetailPage>
@@ -44,7 +62,6 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
           <>
             <CoffeechatHeader>
               <CoffeechatTitle>{openerProfile.bio}</CoffeechatTitle>
-              {/* TODO: 더보기 버튼 기능 구현 */}
               <>{openerProfile.isMine && <SeemoreSelect memberId={memberId} />}</>
             </CoffeechatHeader>
             <OpenerProfile memberId={memberId} />

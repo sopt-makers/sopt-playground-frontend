@@ -77,6 +77,7 @@ const CoffeechatUpload = () => {
           queryClient.invalidateQueries({
             predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
           });
+          queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
           logSubmitEvent('openCoffeechat', {
             career: memberInfo.career
               ? Array.isArray(memberInfo.career)
@@ -103,8 +104,8 @@ const CoffeechatUpload = () => {
         },
         onError: (error) => {
           const option: DialogOptionType = {
-            title: `${error.message}`,
-            description: ``,
+            title: `오류가 발생했어요.`,
+            description: `${error.message}`,
             type: 'single',
             typeOptions: {
               approveButtonText: '확인',
