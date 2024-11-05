@@ -15,6 +15,21 @@ type CommunityFeedData = {
   images: string[];
 };
 
+type Coffeechat = {
+  career: string;
+  organization: string;
+  job: string;
+  bio: string;
+  section: string[];
+  title: string;
+  topic_tag: string[];
+  topic_detail: string;
+  meeting_type: string;
+  guideline: string;
+  generation: number[];
+  part: string[];
+};
+
 export interface ClickEvents {
   memberCard: MemberCard;
   projectCard: ProjectCard;
@@ -115,6 +130,8 @@ export interface ClickEvents {
 
   // 광고
   ads: { id: number | undefined; bannerId: number; pageUrl: string; timeStamp: string };
+  sendCoffeechat: undefined;
+  senderPhone: undefined;
 }
 
 export interface SubmitEvents {
@@ -151,6 +168,10 @@ export interface SubmitEvents {
   };
   //다짐메시지
   postResolution: undefined;
+
+  openCoffeechat: Coffeechat;
+  coffeechatDelete: undefined;
+  editCoffeechat: undefined;
 }
 
 export interface PageViewEvents {

@@ -13,6 +13,7 @@ import { useState } from 'react';
 
 import { deleteCoffeechat } from '@/api/endpoint/coffeechat/deleteCoffeechat';
 import Responsive from '@/components/common/Responsive';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const DropdownPortal = dynamic<DropdownMenu.DropdownMenuPortalProps>(
@@ -53,6 +54,7 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
       buttonFunction: () => handleDelete(),
     },
   };
+  const { logSubmitEvent } = useEventLogger();
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteCoffeechat.request(),
@@ -65,9 +67,10 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
   const handleDelete = () => {
     mutate(undefined, {
       onSuccess: async () => {
-        // TODO: 연결
-        // logSubmitEvent('');
-        // queryClient.invalidateQueries('')
+        logSubmitEvent('coffeechatDelete');
+        queryClient.invalidateQueries({
+          predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
+        });
         toastOpen({ icon: 'success', content: '커피챗이 삭제되었어요. 다음에 또 만나요!' });
         await router.push(playgroundLink.coffeechat());
       },
