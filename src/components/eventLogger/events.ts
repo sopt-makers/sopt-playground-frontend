@@ -22,9 +22,9 @@ type Coffeechat = {
   bio: string;
   section: string[];
   title: string;
-  topicTag: string[];
-  topicDetail: string;
-  meetingType: string;
+  topic_tag: string[];
+  topic_detail: string;
+  meeting_type: string;
   guideline: string;
   generation: number[];
   part: string[];
@@ -170,8 +170,6 @@ export interface SubmitEvents {
   postResolution: undefined;
 
   openCoffeechat: Coffeechat;
-  sendCoffeechat: Coffeechat & { sendContent: string };
-
   coffeechatDelete: undefined;
   editCoffeechat: undefined;
 }

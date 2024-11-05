@@ -76,10 +76,10 @@ const CoffeechatUpload = () => {
             bio: memberInfo.introduction ?? '',
             section: coffeeChatInfo.sections ?? [],
             title: coffeeChatInfo.bio ?? '',
-            topicTag: coffeeChatInfo.topicTypes ?? [],
-            topicDetail: coffeeChatInfo.topic ?? '',
+            topic_tag: coffeeChatInfo.topicTypes ?? [],
+            topic_detail: coffeeChatInfo.topic ?? '',
             guideline: coffeeChatInfo.guideline ?? '',
-            meetingType: coffeeChatInfo.meetingType ?? '',
+            meeting_type: coffeeChatInfo.meetingType ?? '',
             generation: generations ?? [],
             part: part ?? [],
           });
