@@ -35,7 +35,7 @@ const CoffeechatUpload = () => {
               : memberInfo.career
             : null,
         },
-        coffeeChatInfo: { ...coffeeChatInfo, meetingType: coffeeChatInfo.meetingType ?? '온/오프라인' },
+        coffeeChatInfo: { ...coffeeChatInfo },
       },
       {
         onSuccess: async () => {
