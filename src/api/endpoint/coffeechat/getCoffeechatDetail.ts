@@ -10,7 +10,7 @@ const CoffeechatDetailSchema = z.object({
   career: z.string(),
   organization: z.string().nullable(),
   memberCareerTitle: z.string().nullable(),
-  phone: z.string(),
+  phone: z.string().nullable(),
   email: z.string(),
   introduction: z.string(),
   topicTypeList: z.array(z.string()),

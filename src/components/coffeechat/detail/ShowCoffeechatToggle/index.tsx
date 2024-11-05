@@ -47,12 +47,13 @@ const ToggleSection = styled.div`
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-  margin-bottom: 8px;
+  margin-top: 85px;
   color: ${colors.gray300};
   ${fonts.BODY_16_R};
 
   @media ${MOBILE_MEDIA_QUERY} {
     float: left;
+    margin-top: 0;
     margin-bottom: 0;
   }
 

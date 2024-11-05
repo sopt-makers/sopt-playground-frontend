@@ -174,7 +174,7 @@ const OpenerProfileSection = styled.section<{ isMine: boolean }>`
   grid: [row1-start] 'profileImageBox profileInfoBox  buttonSection' auto [row1-end]/ auto;
   grid-template-columns: 1fr 5fr 2fr;
   gap: 28px;
-  align-items: ${({ isMine }) => (isMine ? 'flex-end' : 'center')};
+  align-items: center;
   justify-content: space-between;
   width: 100%;
 
