@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { Button } from '@sopt-makers/ui';
+import { Button, useDialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { ReactNode, startTransition, useEffect, useState } from 'react';
@@ -41,7 +41,7 @@ export default function CoffeeChatList() {
   const [listType, setListType] = useState<ListType>();
   const router = useRouter();
   const { logClickEvent } = useEventLogger();
-
+  const { open } = useDialog();
   const { data, isLoading } = useGetRecentCoffeeChat();
 
   const isEmptyData = data?.coffeeChatList == null;
@@ -100,6 +100,36 @@ export default function CoffeeChatList() {
     };
   }, []);
 
+  const startOpenOption = () => {
+    logClickEvent('openToCoffeechat');
+    open({
+      title: `커피챗 오픈 전, 확인해주세요!`,
+      description: `커피챗을 열면 내 프로필 정보도 함께 공유돼요. 프로필을 최신 상태로 업데이트하고 오픈하는 것을 권장드려요.`,
+      type: 'default',
+      typeOptions: {
+        cancelButtonText: '닫기',
+        approveButtonText: '확인',
+        buttonFunction: async () => await router.push(playgroundLink.coffeechatUpload()),
+      },
+    });
+  };
+
+  const alreadyOpenedOption = () => {
+    open({
+      title: `이미 오픈한 커피챗이 있어요!`,
+      description: `커피챗은 한 개만 오픈할 수 있어요. 등록된 커피챗을 삭제한 후 다시 시도해주세요.`,
+      type: 'single',
+      typeOptions: {
+        approveButtonText: '확인',
+        buttonFunction: () => {
+          //
+        },
+      },
+    });
+  };
+  // TODO: 서버 데이터로 변경
+  const hasCoffeechat = false;
+
   return (
     <Container>
       <Header>
@@ -110,8 +140,7 @@ export default function CoffeeChatList() {
               size='lg'
               theme='white'
               onClick={() => {
-                router.push(playgroundLink.coffeechatUpload());
-                logClickEvent('openToCoffeechat');
+                hasCoffeechat ? alreadyOpenedOption() : startOpenOption();
               }}
             >
               커피챗 오픈하기
@@ -122,8 +151,7 @@ export default function CoffeeChatList() {
               size='md'
               theme='white'
               onClick={() => {
-                router.push(playgroundLink.coffeechatUpload());
-                logClickEvent('openToCoffeechat');
+                hasCoffeechat ? alreadyOpenedOption() : startOpenOption();
               }}
             >
               커피챗 오픈하기
