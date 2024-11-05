@@ -17,7 +17,7 @@ interface ShowCoffeechatToggleProps {
 }
 
 export default function ShowCoffeechatToggle({ isBlind, memberId }: ShowCoffeechatToggleProps) {
-  const { logSubmitEvent } = useEventLogger();
+  const { logClickEvent } = useEventLogger();
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -28,7 +28,11 @@ export default function ShowCoffeechatToggle({ isBlind, memberId }: ShowCoffeech
   const handlChangeIsBlind = () => {
     mutate(!isBlind, {
       onSuccess: async () => {
-        // logSubmitEvent('isBlindCoffeechat');
+        if (isBlind) {
+          logClickEvent('coffeechatToggleOn');
+        } else {
+          logClickEvent('coffeechatToggleOff');
+        }
         queryClient.invalidateQueries({ queryKey: getCoffeechatDetail.cacheKey(memberId) });
         await router.push(playgroundLink.coffeechatDetail(memberId));
       },

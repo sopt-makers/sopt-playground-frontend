@@ -11,6 +11,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CoffeechatUploadPage from '@/components/coffeechat/page/CoffeechatUploadPage';
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -23,6 +24,7 @@ const CoffeechatEdit = () => {
   const { data: openerProfile, isError, error, isPending: isDetailPending } = useGetCoffeechatDetail(memberId);
   const { open } = useDialog();
   const { open: toastOpen } = useToast();
+  const { logSubmitEvent } = useEventLogger();
 
   const { mutate, isPending: isEditPending } = useMutation({
     mutationFn: (reqeustBody: CoffeechatFormContent) => editCoffeechat.request({ ...reqeustBody }),
@@ -50,7 +52,7 @@ const CoffeechatEdit = () => {
             predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
           });
           toastOpen({ icon: 'success', content: '커피챗이 오픈됐어요! 경험을 나눠주셔서 감사해요.' });
-
+          logSubmitEvent('editCoffeechat');
           await router.push(playgroundLink.coffeechatDetail(me?.id ?? ''));
         },
         onError: (error) => {
