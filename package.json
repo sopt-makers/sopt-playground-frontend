@@ -42,7 +42,7 @@
     "@radix-ui/react-slot": "^1.0.1",
     "@radix-ui/react-tabs": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.5",
-    "@sopt-makers/colors": "^3.0.0",
+    "@sopt-makers/colors": "^3.0.2",
     "@sopt-makers/fonts": "^1.0.0",
     "@sopt-makers/icons": "^1.0.5",
     "@sopt-makers/ui": "^2.7.6",

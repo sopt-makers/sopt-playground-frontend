@@ -125,9 +125,6 @@ const BottomSheetSeemore = ({ onEdit, onDelete }: SeemoreContentProps) => {
         <DotsVerticalIcon />
       </Dialog.Trigger>
       <DialogPortal>
-        <Dialog.Overlay asChild>
-          <Overlay />
-        </Dialog.Overlay>
         <Dialog.Content asChild>
           <StyledContent>
             <StyledContentItem
@@ -151,6 +148,7 @@ const BottomSheetSeemore = ({ onEdit, onDelete }: SeemoreContentProps) => {
             </StyledContentItem>
           </StyledContent>
         </Dialog.Content>
+        <Overlay />
       </DialogPortal>
     </Dialog.Root>
   );
@@ -160,7 +158,7 @@ const Overlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: 101;
-  background-color: rgb(0 0 0 / 70%);
+  background-color: ${colors.backgroundDimmed};
   animation: overlay-show 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   @keyframes overlay-show {
@@ -180,6 +178,7 @@ const StyledContent = styled.div`
   gap: 6px;
   border-radius: 13px;
   background-color: ${colors.gray800};
+  cursor: pointer;
   padding: 8px;
 
   @media ${MOBILE_MEDIA_QUERY} {
