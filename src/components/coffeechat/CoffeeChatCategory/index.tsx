@@ -284,7 +284,9 @@ export default function CoffeeChatCategory() {
             </StyledEmpty>
           )}
           <StyledCardList>
-            {data?.coffeeChatList?.map((item) => (
+          {data?.coffeeChatList
+          ?.sort((a, b) => (b.isMine === true ? 1 : -1) - (a.isMine === true ? 1 : -1)) // isMine이 true인 항목을 앞으로 정렬
+          .map((item) => (
                   <LoggingClick key={String(item.memberId)} 
                     eventKey='coffeechatCard' 
                     param={{
