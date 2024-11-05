@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { ReactNode, startTransition, useEffect, useState } from 'react';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetRecentCoffeeChat } from '@/api/endpoint/members/getRecentCoffeeChats';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
 import ScrollCarousel from '@/components/coffeechat/CoffeeRecentChatList/scrollCarousel';
@@ -43,7 +44,7 @@ export default function CoffeeChatList() {
   const { logClickEvent } = useEventLogger();
   const { open } = useDialog();
   const { data, isLoading } = useGetRecentCoffeeChat();
-
+  const { data: me } = useGetMemberOfMe();
   const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
 
@@ -127,8 +128,6 @@ export default function CoffeeChatList() {
       },
     });
   };
-  // TODO: 서버 데이터로 변경
-  const hasCoffeechat = false;
 
   return (
     <Container>
@@ -140,7 +139,7 @@ export default function CoffeeChatList() {
               size='lg'
               theme='white'
               onClick={() => {
-                hasCoffeechat ? alreadyOpenedOption() : startOpenOption();
+                me?.isCoffeeChatActivate ? alreadyOpenedOption() : startOpenOption();
               }}
             >
               커피챗 오픈하기
@@ -151,7 +150,7 @@ export default function CoffeeChatList() {
               size='md'
               theme='white'
               onClick={() => {
-                hasCoffeechat ? alreadyOpenedOption() : startOpenOption();
+                me?.isCoffeeChatActivate ? alreadyOpenedOption() : startOpenOption();
               }}
             >
               커피챗 오픈하기
