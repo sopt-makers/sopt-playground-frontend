@@ -253,6 +253,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
   }
   @media ${MB_SM_MEDIA_QUERY} {
     width: 280px;
+    min-width: 280px;
     max-width: 280px;
   }
 `;
@@ -396,11 +397,12 @@ const UserName = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  @media ${MB_MID_WIDTH} {
+  @media ${MB_MID_MEDIA_QUERY} {
     ${fonts.TITLE_14_SB}
 
     max-width:256px;
   }
+
 `;
 const SoptTagSection = styled.div`
   display: flex;
