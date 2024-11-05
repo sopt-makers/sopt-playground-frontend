@@ -9,8 +9,8 @@ import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContents';
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
 import SeemoreSelect from '@/components/coffeechat/detail/SeemoreSelect';
-import Loading from '@/components/common/Loading';
 import CoffeechatLoading from '@/components/coffeechat/Loading';
+import Loading from '@/components/common/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
 import ProjectSection from '@/components/members/detail/ProjectSection';
@@ -89,20 +89,20 @@ const ProfileContents = styled.div`
 `;
 
 const ProfilPojectSection = styled.div`
-  margin-top: 30px;
+  margin: 60px 0 32px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 24px;
+    margin: 40px 0 20px;
   }
 `;
 
 const SoptActivityTitle = styled.h2`
-  margin: 28px 0 32px;
+  margin: 60px 0 32px;
   color: ${colors.white};
   ${fonts.HEADING_28_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 24px 0;
+    margin: 40px 0 20px;
 
     ${fonts.HEADING_20_B};
   }
