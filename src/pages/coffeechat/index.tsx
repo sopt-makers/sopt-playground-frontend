@@ -14,5 +14,5 @@ const CoffeeChatMainPage = () => {
   );
 };
 setLayout(CoffeeChatMainPage, 'headerFooter');
-setLayout(CoffeeChatMainPage, 'header');
+
 export default CoffeeChatMainPage;

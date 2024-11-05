@@ -27,26 +27,24 @@ function CoffeeChatLottie() {
     },
   };
   return (
-    <LoggingClick eventKey='coffeechatBanner'>
-    <a href='https://www.notion.so/sopt-makers/87ca4563b6ec49528b7d34372edff677?pvs=4'>
-    <Responsive only='desktop'>
+<LoggingClick eventKey='coffeechatBanner'>
+  <a href='https://www.notion.so/sopt-makers/87ca4563b6ec49528b7d34372edff677?pvs=4'>
+  <Responsive only='desktop'>
     <DesktopLottieWrapper>
       <Lottie
         options={defaultDesktopOptions}
-        width={'100%'}
-      />
+        width={'100%'}/>
     </DesktopLottieWrapper>
     </Responsive>
     <Responsive only='mobile'>
         <MobileLottieWrapper>
-        <Lottie
-          options={defaultMobileOptions}
-          width={'100%'} 
-        />
+          <Lottie
+            options={defaultMobileOptions}
+            width={'100%'} />
       </MobileLottieWrapper>
-      </Responsive>
-      </a>
-      </LoggingClick>
+    </Responsive>
+  </a>
+</LoggingClick>
   );
 }
 
