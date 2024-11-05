@@ -2,7 +2,7 @@ import { DialogOptionType, useDialog, useToast } from '@sopt-makers/ui';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 
 import { uploadCoffeechat } from '@/api/endpoint/coffeechat/uploadCoffeechat';
@@ -24,6 +24,21 @@ const CoffeechatUpload = () => {
 
   const { data: me } = useGetMemberOfMe();
   const { data: profile } = useGetMemberProfileById(me?.id ?? undefined);
+
+  useEffect(() => {
+    me?.isCoffeeChatActivate &&
+      open({
+        title: `이미 오픈한 커피챗이 있어요!`,
+        description: `커피챗은 한 개만 오픈할 수 있어요. 등록된 커피챗을 삭제한 후 다시 시도해주세요.`,
+        type: 'single',
+        typeOptions: {
+          approveButtonText: '확인',
+          buttonFunction: async () => {
+            await router.push(playgroundLink.coffeechat());
+          },
+        },
+      });
+  }, [me?.isCoffeeChatActivate]);
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
