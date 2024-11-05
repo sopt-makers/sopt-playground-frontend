@@ -71,6 +71,7 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
         queryClient.invalidateQueries({
           predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
         });
+        queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
         toastOpen({ icon: 'success', content: '커피챗이 삭제되었어요. 다음에 또 만나요!' });
         await router.push(playgroundLink.coffeechat());
       },

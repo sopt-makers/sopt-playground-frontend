@@ -129,10 +129,11 @@ export default function CoffeechatInfoForm() {
                   type='text'
                   visibleOptions={3}
                   defaultValue={
-                    MEETING_TYPE_OPTIONS.find((option) => option.value === field.value) ?? {
-                      label: '',
-                      value: '',
-                    }
+                    MEETING_TYPE_OPTIONS.find((option) => option.value === field.value)
+                    // ?? {
+                    //   label: '',
+                    //   value: '',
+                    // }
                   }
                   onChange={(value) => field.onChange(value)}
                 >
