@@ -287,16 +287,23 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
 const InputWrapper = styled.div`
   width: 100%;
   height: 184px;
-  
+
+  textarea{
+   min-height:184px; 
+  }
   @media ${MB_BIG_MEDIA_QUERY} {
     height: 150px;
+
+    textarea{
+      min-height:150px;
+    }
   }
 `;
 const StyledText = styled(Text)`
   ${fonts.LABEL_14_SB};
 `;
 const TextCountWrapper=styled.div`
-margin-top:8px;
+margin-top:24px;
 width: 100%;
 text-align: right;
 color:${colors.gray300};
