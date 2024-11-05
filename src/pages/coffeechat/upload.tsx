@@ -68,17 +68,20 @@ const CoffeechatUpload = () => {
                 ? memberInfo.career[0]
                 : memberInfo.career
               : '',
-            company: profile?.careers && profile?.careers.length > 0 ? profile?.careers[0].companyName : '',
+            organization:
+              profile?.careers && profile?.careers.length > 0
+                ? profile?.careers[0].companyName
+                : profile?.university ?? '',
             job: profile?.careers && profile?.careers.length > 0 ? profile?.careers[0].title : '',
             bio: memberInfo.introduction ?? '',
             section: coffeeChatInfo.sections ?? [],
             title: coffeeChatInfo.bio ?? '',
             topicTag: coffeeChatInfo.topicTypes ?? [],
             topicDetail: coffeeChatInfo.topic ?? '',
+            guideline: coffeeChatInfo.guideline ?? '',
             meetingType: coffeeChatInfo.meetingType ?? '',
             generation: generations ?? [],
             part: part ?? [],
-            university: profile?.university ?? '',
           });
           toastOpen({ icon: 'success', content: '커피챗이 오픈됐어요! 경험을 나눠주셔서 감사해요.' });
           await router.push(playgroundLink.coffeechat());

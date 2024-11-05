@@ -17,7 +17,7 @@ type CommunityFeedData = {
 
 type Coffeechat = {
   career: string;
-  company: string;
+  organization: string;
   job: string;
   bio: string;
   section: string[];
@@ -25,9 +25,9 @@ type Coffeechat = {
   topicTag: string[];
   topicDetail: string;
   meetingType: string;
+  guideline: string;
   generation: number[];
   part: string[];
-  university: string;
 };
 
 export interface ClickEvents {
