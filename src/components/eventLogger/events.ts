@@ -184,6 +184,9 @@ export interface SubmitEvents {
   searchCoffeeChat:{
     search_content:string;
   }
+  sendCoffeechat:{
+    content:string|undefined
+  }
 
 }
 

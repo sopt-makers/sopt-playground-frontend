@@ -19,6 +19,7 @@ import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 const schema = yup.object().shape({
@@ -57,7 +58,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
   const { open } = useToast();
   const { data: me } = useGetMemberOfMe();
   const { data: profile } = useGetMemberProfileById(me?.id ?? undefined);
-
+  const {logSubmitEvent}=useEventLogger()
   const submit = async ({ content, phone }: MessageForm) => {
     if (isPending) {
       return;
@@ -80,6 +81,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
           receiverId,
           category: '커피챗',
         });
+        logSubmitEvent('sendCoffeechat',{content:content})
         open({
           icon: 'success',
           content: '커피챗 제안이 잘 전달되었어요!',
@@ -181,7 +183,7 @@ const StyledModal = styled(Modal)`
   max-height: 100vh;
   overflow-y:scroll;
 
-  &::-webkit-scrollbar {
+  &::-webkit-scrollbar {  
     display: none;
   }
 
