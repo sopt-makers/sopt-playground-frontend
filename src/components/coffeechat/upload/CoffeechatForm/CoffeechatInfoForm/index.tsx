@@ -125,7 +125,17 @@ export default function CoffeechatInfoForm() {
             control={control}
             render={({ field }) => (
               <div {...field}>
-                <SelectV2.Root type='text' visibleOptions={3} onChange={(value) => field.onChange(value)}>
+                <SelectV2.Root
+                  type='text'
+                  visibleOptions={3}
+                  defaultValue={
+                    MEETING_TYPE_OPTIONS.find((option) => option.value === field.value) ?? {
+                      label: '',
+                      value: '',
+                    }
+                  }
+                  onChange={(value) => field.onChange(value)}
+                >
                   <SelectV2.Trigger>
                     <SelectV2.TriggerContent placeholder={'진행 방식 선택'} />
                   </SelectV2.Trigger>
