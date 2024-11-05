@@ -160,7 +160,6 @@ export interface ClickEvents {
   senderPhone:undefined;
   coffeechatBanner:undefined;
   sendCoffeechat: undefined;
-  senderPhone: undefined;
 }
 
 export interface SubmitEvents {
