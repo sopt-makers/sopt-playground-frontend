@@ -44,7 +44,7 @@ const Container = styled.div`
 `;
 
 const StyledMenuEntryIcons = styled(MenuEntryIcons)`
-  margin: 24px 0 10px;
+  margin: 24px 0 12px;
 `;
 
 const ListSlotBox = styled.div`
