@@ -16,7 +16,7 @@ export default function CoffeechatContents({ memberId }: CoffeechatContentsProps
     <>
       {openerProfile && (
         <CoffeechatContentsWrapper>
-          {openerProfile.introduction.trim() && (
+          {openerProfile.introduction && openerProfile.introduction.trim() && (
             <ContentsBox>
               <Text>{openerProfile.introduction}</Text>
             </ContentsBox>
