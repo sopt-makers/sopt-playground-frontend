@@ -365,14 +365,14 @@ const InfoSection = styled.div`
   margin-left: 20px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    /* margin-left: 0; */
+    max-width: 280px;
   }
 
   @media (max-width: 430px) {
     max-width: 256px;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 410px) {
     max-width: 200px;
   }
 
