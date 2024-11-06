@@ -52,7 +52,7 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
       cancelButtonText: '취소',
       approveButtonText: '삭제하기',
       buttonFunction: () => handleDelete(),
-    },
+    },  
   };
   const { logSubmitEvent } = useEventLogger();
 
@@ -62,6 +62,7 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
 
   const onEdit = () => {
     router.push(playgroundLink.coffeechatEdit(memberId));
+    queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
   };
 
   const handleDelete = () => {
@@ -72,6 +73,7 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
           predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
         });
         queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
+        queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
         toastOpen({ icon: 'success', content: '커피챗이 삭제되었어요. 다음에 또 만나요!' });
         await router.push(playgroundLink.coffeechat());
       },
