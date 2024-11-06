@@ -1,22 +1,24 @@
-import Responsive from '@/components/common/Responsive';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { Button, Dialog } from '@sopt-makers/ui';
 import { FieldValues, useFormContext } from 'react-hook-form';
+
+import Responsive from '@/components/common/Responsive';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface SubmitDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: <T extends FieldValues>(values: T) => void;
+  uploadType: '오픈' | '수정';
 }
 
-export default function SubmitDialog({ isOpen, onClose, onSubmit }: SubmitDialogProps) {
+export default function SubmitDialog({ isOpen, onClose, onSubmit, uploadType }: SubmitDialogProps) {
   const { getValues } = useFormContext();
 
   return (
     <>
       <Dialog isOpen={isOpen} onClose={onClose}>
-        <Dialog.Title>커피챗을 오픈하시겠습니까?</Dialog.Title>
+        <Dialog.Title>커피챗을 {uploadType}하시겠습니까?</Dialog.Title>
         <DescriptionWrapper>
           <Dialog.Description>
             커피챗은 한 개만 오픈할 수 있어요. 커피챗에 대한 설명이 충분히 작성되었는지 확인해주세요.
@@ -28,7 +30,7 @@ export default function SubmitDialog({ isOpen, onClose, onSubmit }: SubmitDialog
               취소
             </Button>
             <Button type='button' onClick={() => onSubmit(getValues())} rounded='md' size='md' theme='white'>
-              오픈하기
+              {uploadType}하기
             </Button>
           </Dialog.Footer>
         </Responsive>
@@ -45,7 +47,7 @@ export default function SubmitDialog({ isOpen, onClose, onSubmit }: SubmitDialog
               theme='white'
               style={{ width: '100%' }}
             >
-              오픈하기
+              {uploadType}하기
             </Button>
           </Dialog.Footer>
         </Responsive>

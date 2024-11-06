@@ -68,7 +68,7 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onOpen, onError)}>
-        <SubmitDialog isOpen={isOpen} onClose={onClose} onSubmit={onSubmit} />
+        <SubmitDialog isOpen={isOpen} onClose={onClose} onSubmit={onSubmit} uploadType={uploadType} />
         <>
           <Responsive only='desktop'>
             <DesktopCoffeechatUploadLayout

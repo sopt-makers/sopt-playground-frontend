@@ -2,9 +2,10 @@ import { DialogOptionType, useDialog, useToast } from '@sopt-makers/ui';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 
+import { getCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
 import { uploadCoffeechat } from '@/api/endpoint/coffeechat/uploadCoffeechat';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
@@ -24,21 +25,6 @@ const CoffeechatUpload = () => {
 
   const { data: me } = useGetMemberOfMe();
   const { data: profile } = useGetMemberProfileById(me?.id ?? undefined);
-
-  useEffect(() => {
-    me?.hasCoffeeChat &&
-      open({
-        title: `이미 오픈한 커피챗이 있어요!`,
-        description: `커피챗은 한 개만 오픈할 수 있어요. 등록된 커피챗을 삭제한 후 다시 시도해주세요.`,
-        type: 'single',
-        typeOptions: {
-          approveButtonText: '확인',
-          buttonFunction: async () => {
-            await router.push(playgroundLink.coffeechat());
-          },
-        },
-      });
-  }, [me?.hasCoffeeChat]);
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -74,10 +60,11 @@ const CoffeechatUpload = () => {
       },
       {
         onSuccess: async () => {
-          queryClient.invalidateQueries({
-            predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
-          });
+          queryClient.invalidateQueries({ queryKey: ['getRecentCoffeeChat'] });
+          queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
           queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
+          queryClient.invalidateQueries({ queryKey: getCoffeechatDetail.cacheKey(String(me?.id)) });
+
           logSubmitEvent('openCoffeechat', {
             career: memberInfo.career
               ? Array.isArray(memberInfo.career)
@@ -99,7 +86,7 @@ const CoffeechatUpload = () => {
             generation: generations ?? [],
             part: part ?? [],
           });
-          toastOpen({ icon: 'success', content: '커피챗이 오픈됐어요! 경험을 나눠주셔서 감사해요.' });
+          await toastOpen({ icon: 'success', content: '커피챗이 오픈됐어요! 경험을 나눠주셔서 감사해요.' });
           await router.push(playgroundLink.coffeechat());
         },
         onError: (error) => {
