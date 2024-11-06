@@ -62,7 +62,6 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
 
   const onEdit = () => {
     router.push(playgroundLink.coffeechatEdit(memberId));
-    queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
   };
 
   const handleDelete = () => {

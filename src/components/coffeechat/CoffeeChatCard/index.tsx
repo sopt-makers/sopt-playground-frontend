@@ -11,17 +11,10 @@ import { useState } from 'react';
 import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
-import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import { LATEST_GENERATION } from '@/constants/generation';
-import {
-  MB_BIG_MEDIA_QUERY,
-  MB_MID_MEDIA_QUERY,
-  MB_MID_WIDTH,
-  MB_SM_MEDIA_QUERY,
-  MOBILE_MEDIA_QUERY,
-} from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface MentoringCardProps {
   id: string;
   title: string;
@@ -96,9 +89,8 @@ export default function CoffeeChatCard({
     career = undefined;
   }
 
-
   return (
-      <>
+    <>
       <Container
         whileHover={{
           y: -4,
@@ -215,17 +207,18 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
       border: 1px solid ${colors.gray200};
     `};
 
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 24px;
+  }
+
   @media ${MB_BIG_MEDIA_QUERY} {
     gap: 4px;
     border-radius: 20px;
-    padding: 24px;
-    width: calc(100vw - 30px);;
+    width: calc(100vw - 30px);
     min-width: calc(100vw - 30px);
-  
   }
 
   @media ${MB_MID_MEDIA_QUERY} {
-    padding: 24px;
     width: 320px;
     min-width: 320px;
   }
@@ -251,20 +244,21 @@ const Title = styled.div`
   -webkit-box-orient: vertical;
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    width: 342px;
-    max-width: 342px;
+    /* width: 342px;
+    max-width: 342px; */
     height: 48px;
     max-height: 48px;
     ${fonts.HEADING_16_B};
   }
-  @media ${MB_MID_MEDIA_QUERY} {
+
+  /* @media ${MB_MID_MEDIA_QUERY} {
     width: 272px;
     max-width: 272px;
   }
   @media ${MB_SM_MEDIA_QUERY} {
     width: 232px;
     max-width: 232px;
-  }
+  } */
 `;
 
 const Career = styled.div`
@@ -290,7 +284,8 @@ const ProfileSection = styled.div`
   height: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    justify-content: flex-end;
+    justify-content: flex-start;
+    width: 100%;
   }
 `;
 const ImageBox = styled.div`
@@ -338,8 +333,10 @@ const TitleSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
   height: 96px;
   min-height: 96px;
+
   @media ${MB_BIG_MEDIA_QUERY} {
     gap: 4px;
     height: 80px;
@@ -360,17 +357,38 @@ const TagSection = styled.div`
     }
   }
 `;
+
 const InfoSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-left: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    /* margin-left: 0; */
+  }
+
+  @media (max-width: 430px) {
+    max-width: 256px;
+  }
+
+  @media (max-width: 400px) {
+    max-width: 200px;
+  }
+
+  @media (max-width: 360px) {
+    max-width: 186px;
+  }
+
+  @media (max-width: 320px) {
+    max-width: 146px;
+  }
 `;
+
 const UserName = styled.div`
   ${fonts.TITLE_16_SB}
 
   margin-bottom:2px;
-  max-width: 266px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -380,13 +398,11 @@ const UserName = styled.div`
 
     max-width:256px;
   }
-
 `;
 const SoptTagSection = styled.div`
   display: flex;
   gap: 4px;
   margin-top: 12px;
-  width: 266px;
   overflow-x: hidden;
   color: ${colors.gray200};
 
