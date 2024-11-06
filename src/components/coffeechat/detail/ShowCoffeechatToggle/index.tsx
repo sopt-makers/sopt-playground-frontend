@@ -33,8 +33,8 @@ export default function ShowCoffeechatToggle({ isBlind, memberId }: ShowCoffeech
         } else {
           logClickEvent('coffeechatToggleOff');
         }
-        queryClient.invalidateQueries({ queryKey: ['getRecentCoffeeChat'] });
-        queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
+        queryClient.refetchQueries({ queryKey: ['getRecentCoffeeChat'] });
+        queryClient.refetchQueries({ queryKey: ['getMembersCoffeeChat'] });
         queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
         queryClient.invalidateQueries({ queryKey: getCoffeechatDetail.cacheKey(memberId) });
 

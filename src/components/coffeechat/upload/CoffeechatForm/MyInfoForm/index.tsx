@@ -48,7 +48,7 @@ export default function MyInfoForm() {
                   maxLength={200}
                   fixedHeight={126}
                   lineBreakPlaceholder={[
-                    'ex. 안녕하세요, 서버 파트 수료 후 지금은 게임 업계 PM으로 일하고 있습니다. 개발자에서 PM으로 직무를 전환하는 과정이 쉽지 않았던 만큼, 제가 느낀 인사이트를 나누고 함께 고민하고 싶어요!',
+                    '안녕하세요, 서버 파트 수료 후 지금은 게임 업계 PM으로 일하고 있습니다. 개발자에서 PM으로 직무를 전환하는 과정이 쉽지 않았던 만큼, 제가 느낀 인사이트를 나누고 함께 고민하고 싶어요!',
                   ]}
                   isError={!!errors.memberInfo?.introduction}
                   errorMessage={errors.memberInfo?.introduction?.message}
@@ -62,7 +62,7 @@ export default function MyInfoForm() {
                   maxLength={200}
                   fixedHeight={150}
                   lineBreakPlaceholder={[
-                    'ex. 안녕하세요, 서버 파트 수료 후 지금은 게임 업계 PM으로 일하고 있습니다. 개발자에서 PM으로 직무를 전환하는 과정이 쉽지 않았던 만큼, 제가 느낀 인사이트를 나누고 함께 고민하고 싶어요!',
+                    '안녕하세요, 서버 파트 수료 후 지금은 게임 업계 PM으로 일하고 있습니다. 개발자에서 PM으로 직무를 전환하는 과정이 쉽지 않았던 만큼, 제가 느낀 인사이트를 나누고 함께 고민하고 싶어요!',
                   ]}
                   isError={!!errors.memberInfo?.introduction}
                   errorMessage={errors.memberInfo?.introduction?.message}
