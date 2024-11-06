@@ -345,11 +345,16 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 48px;
+  margin-bottom: 120px;
 
   .responsive-mobile-only {
     @media ${MB_BIG_MEDIA_QUERY} {
       width: 100%;
     }
+  }
+
+  @media ${PCTA_SM_MEDIA_QUERY} {
+    margin-bottom: 40px;
   }
   @media ${PCTA_S_MEDIA_QUERY} {
     margin-top: 28px;

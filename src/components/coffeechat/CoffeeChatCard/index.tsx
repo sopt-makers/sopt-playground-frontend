@@ -112,7 +112,7 @@ export default function CoffeeChatCard({
       >
         {isBlurred ? (
           <BlurInfo>
-            커피챗을 숨긴 상태에요.
+            커피챗을 숨긴 상태예요.
             <br />
             카드를 누르면 상세 페이지에서 다시 보이게 할 수 있어요.
           </BlurInfo>
