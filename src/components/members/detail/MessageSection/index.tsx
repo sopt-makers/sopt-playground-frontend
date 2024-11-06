@@ -39,11 +39,11 @@ export default function MessageSection({ memberId, profile }: MessageSectionProp
 
   const handleClickCoffeeChatButton = () => {
     logClickEvent('gotoCoffeechat', {
-      company: profile.careers.length > 0 ? profile.careers[0].companyName : '',
+      organization:
+        profile.careers.length > 0 ? profile.careers[0].companyName : profile.university ? profile.university : '',
       job: profile.careers.length > 0 ? profile.careers[0].title : '',
       generation: profile.soptActivities.map((activity) => activity.generation),
       part: [...new Set(profile.soptActivities.map((activity) => activity.part))],
-      university: profile.university ? profile.university : '',
     });
 
     router.push(playgroundLink.coffeechatDetail(memberId));
