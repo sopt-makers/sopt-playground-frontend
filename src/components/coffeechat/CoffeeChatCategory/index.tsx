@@ -17,6 +17,8 @@ import {
 } from '@/components/coffeechat/constants';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   MB_BIG_MEDIA_QUERY,
   MB_MID_MEDIA_QUERY,
@@ -56,9 +58,16 @@ export default function CoffeeChatCategory() {
       ...(search && { search }), // search는 빈 문자열이 아닌 경우만 추가}
     });
   }, [section, topicType, career, part, search]);
-
+  const formatSoptActivities = (soptActivities: string[])=> {
+    const generations = soptActivities
+      .map((item) => parseInt(item.match(/^\d+/)?.[0] || "", 10)) // 숫자 문자열을 숫자로 변환
+      .filter((num) => !isNaN(num)); // NaN 값 제거
+    const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
+    return { generation: generations, part: parts };
+  };
   const { data, isLoading } = useGetMembersCoffeeChat(queryParams);
-  const isEmpty = (data?.coffeeChatList.length === 0) == null;
+  
+  const { logSubmitEvent } = useEventLogger();
   const SelectionArea = (): JSX.Element => {
     return (
       <>
@@ -74,7 +83,15 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {TOPIC_FILTER_OPTIONS.map((option) => (
+              <LoggingClick eventKey='coffeechatFilter'
+              param={{
+                topic_tag:topicType,
+                career:career,
+                part:part
+              }}
+            key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+           </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -91,7 +108,15 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {CAREER_FILTER_OPTIONS.map((option) => (
+             <LoggingClick eventKey='coffeechatFilter'
+               param={{
+               topic_tag:topicType,
+                career:career,
+                 part:part
+                 }}
+                key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+            </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -108,7 +133,15 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {PART_FILTER_OPTIONS.map((option) => (
+              <LoggingClick eventKey='coffeechatFilter'
+               param={{
+               topic_tag:topicType,
+               career:career,
+               part:part
+                }}
+                key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+              </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -123,6 +156,7 @@ export default function CoffeeChatCategory() {
       </Header>
       <CategoryList>
         {categoryList.categoryList.map((option) => (
+          <LoggingClick eventKey='coffeechatSection' key={option.categoryName} param={{section:option.categoryName}} >
           <CategoryCard
             isActive={section === option.categoryName}
             onClick={() => setSection(option.categoryName)}
@@ -131,6 +165,7 @@ export default function CoffeeChatCategory() {
             <CardIcon src={option.icon}></CardIcon>
             <CardName>{option.categoryName}</CardName>
           </CategoryCard>
+          </LoggingClick>
         ))}
       </CategoryList>
       <Responsive only='desktop' className='responsive'>
@@ -143,6 +178,9 @@ export default function CoffeeChatCategory() {
             value={clientSearch}
             onChange={(e) => setClientSearch(e.target.value)}
             onSubmit={() => {
+              logSubmitEvent('searchCoffeeChat',{
+               search_content:clientSearch
+              })
               setSearch(clientSearch);
             }}
             onReset={() => setClientSearch('')}
@@ -155,6 +193,9 @@ export default function CoffeeChatCategory() {
           value={clientSearch}
           onChange={(e) => setClientSearch(e.target.value)}
           onSubmit={() => {
+            logSubmitEvent('searchCoffeeChat',{
+             search_content:clientSearch
+            })
             setSearch(clientSearch);
           }}
           onReset={() => setClientSearch('')}
@@ -177,6 +218,12 @@ export default function CoffeeChatCategory() {
               </MobileFilterTrigger>
             )}
           />
+        <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={topicType}
             onChange={(e: string) => setTopicType(TOPIC_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -192,6 +239,13 @@ export default function CoffeeChatCategory() {
               </MobileFilterTrigger>
             )}
           />
+          </LoggingClick>
+         <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={career}
             onChange={(e: string) => setCareer(CAREER_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -207,6 +261,13 @@ export default function CoffeeChatCategory() {
               </MobileFilterTrigger>
             )}
           />
+          </LoggingClick>
+         <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={part}
             onChange={(e: string) => setPart(PART_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -221,7 +282,7 @@ export default function CoffeeChatCategory() {
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
-          />
+          /></LoggingClick>
         </StyledMobileFilterWrapper>
       </Responsive>
       {isLoading ? (
@@ -230,14 +291,30 @@ export default function CoffeeChatCategory() {
         </LoadingContainer>
       ) : (
         <>
-          {isEmpty && (
+          {(data?.coffeeChatList&&data?.coffeeChatList?.length<=0) && (
             <StyledEmpty>
               <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
               <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
             </StyledEmpty>
           )}
           <StyledCardList>
-            {data?.coffeeChatList?.map((item) => (
+          {data?.coffeeChatList
+          ?.sort((a, b) => (b.isMine === true ? 1 : -1) - (a.isMine === true ? 1 : -1)) // isMine이 true인 항목을 앞으로 정렬
+          .map((item) => (
+                  <LoggingClick 
+                  key={String(item?.name)} 
+                    eventKey='coffeechatCard' 
+                    param={{
+                    career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+                    organization:item?.organization,  
+                    job:item.companyJob||undefined,
+                    section:section,
+                    title:item.bio||undefined,
+                    topic_tag: topicType && topicType !== "" && topicType !== "전체" ? topicType : undefined,
+                    ...formatSoptActivities(item?.soptActivities||[]),
+                  }
+                  }>
+                    <div>
               <CoffeeChatCard
                 key={String(item.memberId)}
                 id={String(item.memberId)}
@@ -252,6 +329,8 @@ export default function CoffeeChatCategory() {
                 isBlurred={item.isBlind ?? false}
                 isMine={item.isMine ?? false}
               />
+              </div>
+              </LoggingClick>
             ))}
           </StyledCardList>
         </>
@@ -266,11 +345,16 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 48px;
+  margin-bottom: 120px;
 
   .responsive-mobile-only {
     @media ${MB_BIG_MEDIA_QUERY} {
       width: 100%;
     }
+  }
+
+  @media ${PCTA_SM_MEDIA_QUERY} {
+    margin-bottom: 40px;
   }
   @media ${PCTA_S_MEDIA_QUERY} {
     margin-top: 28px;

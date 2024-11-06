@@ -17,4 +17,5 @@ const StyledDivider = styled.hr<Pick<DividerProps, 'color'>>`
   background-color: ${({ color }) => color};
   width: 100%;
   height: 1.5px;
+  min-height: 1.5px;;
 `;

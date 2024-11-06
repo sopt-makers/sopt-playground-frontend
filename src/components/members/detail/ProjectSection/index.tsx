@@ -62,7 +62,7 @@ const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps
 };
 
 const Container = styled.section`
-  margin-top: 80px;
+  margin-top: 40px;
 `;
 
 const ActivityTitle = styled.div`

@@ -15,6 +15,7 @@ type CommunityFeedData = {
   images: string[];
 };
 
+
 export type UserProperties = {
   id: number;
   major: string;
@@ -23,6 +24,28 @@ export type UserProperties = {
   company: string;
   part: string[];
   generation: number[];
+};
+
+type GotoCoffeechat = {
+  organization: string;
+  job: string;
+  generation: number[];
+  part: string[];
+};
+
+type Coffeechat = {
+  career: string;
+  organization: string;
+  job: string;
+  bio: string;
+  section: string[];
+  title: string;
+  topic_tag: string[];
+  topic_detail: string;
+  meeting_type: string;
+  guideline: string;
+  generation: number[];
+  part: string[];
 };
 
 export interface ClickEvents {
@@ -113,8 +136,31 @@ export interface ClickEvents {
 
   // 프로젝트 등록 후 공유하러 가기
   clickProjectShare: undefined;
-
-  coffeechatCard: undefined;
+  coffeechatFilter: {
+    topic_tag: string | undefined;
+    career: string | undefined;
+    part: string | undefined;
+  };
+  coffeechatCard: {
+    career: string | undefined;
+    organization: string | undefined | null;
+    job: string | undefined;
+    section: string | undefined;
+    title: string | undefined;
+    topic_tag: string | undefined;
+    generation: number[] | undefined;
+    part: string[] | undefined;
+  };
+  recentCoffeechatCard: {
+    career: string | undefined;
+    organization: string | undefined | null;
+    job: string | undefined;
+    section: string | undefined;
+    title: string | undefined;
+    topic_tag: string | undefined;
+    generation: number[] | undefined;
+    part: string[] | undefined;
+  };
   coffeechatGuide: undefined;
   openToCoffeechat: undefined;
   coffeechatBadge: undefined;
@@ -122,9 +168,18 @@ export interface ClickEvents {
   coffeechatToggleOff: undefined;
   coffeechatToggleOn: undefined;
   skillAdd: undefined;
+  messageBadge: undefined;
+  gotoCoffeechat: GotoCoffeechat;
 
   // 광고
   ads: { id: number | undefined; bannerId: number; pageUrl: string; timeStamp: string };
+  coffeechatSection: {
+    section: string;
+  };
+  openCoffeechat: undefined;
+  senderPhone: undefined;
+  coffeechatBanner: undefined;
+  sendCoffeechat: undefined;
 }
 
 export interface SubmitEvents {
@@ -161,6 +216,15 @@ export interface SubmitEvents {
   };
   //다짐메시지
   postResolution: undefined;
+  searchCoffeeChat: {
+    search_content: string;
+  };
+  sendCoffeechat: {
+    content: string | undefined;
+  };
+  openCoffeechat: Coffeechat;
+  coffeechatDelete: undefined;
+  editCoffeechat: undefined;
 }
 
 export interface PageViewEvents {

@@ -9,6 +9,7 @@ import { FC, SyntheticEvent } from 'react';
 import ResizedImage from '@/components/common/ResizedImage';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import CoffeeChatButton from '@/components/members/main/MemberCard/CoffeeChatButton';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
@@ -57,9 +58,11 @@ const MemberCard: FC<MemberCardProps> = ({
     BADGE_GAP,
   );
 
+  const { logClickEvent } = useEventLogger();
   const router = useRouter();
   const onCoffeeChatButtonClick = (e: React.MouseEvent<Element, MouseEvent>) => {
     e.preventDefault();
+    logClickEvent('coffeechatBadge');
     router.push(playgroundLink.coffeechatDetail(memberId));
   };
 

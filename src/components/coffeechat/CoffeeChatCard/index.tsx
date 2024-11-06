@@ -11,10 +11,9 @@ import { useState } from 'react';
 import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
-import { MessageModalState } from '@/components/members/main/MemberList';
 import { LATEST_GENERATION } from '@/constants/generation';
 import {
   MB_BIG_MEDIA_QUERY,
@@ -53,7 +52,6 @@ export default function CoffeeChatCard({
   isMine,
 }: MentoringCardProps) {
   const router = useRouter();
-  const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const { logClickEvent } = useEventLogger();
 
@@ -98,15 +96,15 @@ export default function CoffeeChatCard({
     career = undefined;
   }
 
+
   return (
-    <>
+      <>
       <Container
         whileHover={{
           y: -4,
         }}
         onClick={() => {
           router.push(playgroundLink.coffeechatDetail(id));
-          logClickEvent('coffeechatCard');
         }}
         isEmptyData={isEmptyData}
         isBlurred={isBlurred}
@@ -114,7 +112,7 @@ export default function CoffeeChatCard({
       >
         {isBlurred ? (
           <BlurInfo>
-            커피챗을 숨긴 상태에요.
+            커피챗을 숨긴 상태예요.
             <br />
             카드를 누르면 상세 페이지에서 다시 보이게 할 수 있어요.
           </BlurInfo>
@@ -181,15 +179,6 @@ export default function CoffeeChatCard({
           </InfoSection>
         </ProfileSection>
       </Container>
-      {messageModalState.show && (
-        <MessageModal
-          receiverId={messageModalState.data.targetId}
-          name={messageModalState.data.name}
-          profileImageUrl={messageModalState.data.profileUrl}
-          onClose={() => setMessageModalState({ show: false })}
-          defaultCategory={MessageCategory.COFFEE_CHAT}
-        />
-      )}
     </>
   );
 }
@@ -241,6 +230,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
   }
   @media ${MB_SM_MEDIA_QUERY} {
     width: 280px;
+    min-width: 280px;
     max-width: 280px;
   }
 `;
@@ -384,11 +374,12 @@ const UserName = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  @media ${MB_MID_WIDTH} {
+  @media ${MB_MID_MEDIA_QUERY} {
     ${fonts.TITLE_14_SB}
 
     max-width:256px;
   }
+
 `;
 const SoptTagSection = styled.div`
   display: flex;

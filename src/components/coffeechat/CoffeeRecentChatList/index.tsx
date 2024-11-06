@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { Button } from '@sopt-makers/ui';
+import { Button, useDialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { ReactNode, startTransition, useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   MB_BIG_MEDIA_QUERY,
@@ -41,13 +42,47 @@ export default function CoffeeChatList() {
   const [listType, setListType] = useState<ListType>();
   const router = useRouter();
   const { logClickEvent } = useEventLogger();
-
+  const { open } = useDialog();
   const { data, isLoading } = useGetRecentCoffeeChat();
 
   const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
-
+  const formatSoptActivities = (soptActivities: string[])=> {
+    const generations = soptActivities
+      .map((item) => parseInt(item.match(/^\d+/)?.[0] || "", 10)) // 숫자 문자열을 숫자로 변환
+      .filter((num) => !isNaN(num)); // NaN 값 제거
+    const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
+    return { generation: generations, part: parts };
+  };
   const coffeeChatRecentCardList = dataList.map((item) => (
+    <LoggingClick 
+     key={String(item?.name)} 
+    eventKey='coffeechatCard' 
+     param={{
+     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+     organization:item?.organization,  
+      job:item.companyJob||undefined,
+      section:undefined,
+       title:item.bio||undefined,
+      topic_tag:undefined,
+      ...formatSoptActivities(item?.soptActivities||[]),
+      }
+      }>
+        <div>
+        <LoggingClick 
+     key={String(item?.name)} 
+    eventKey='recentCoffeechatCard' 
+     param={{
+     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+     organization:item?.organization,  
+      job:item.companyJob||undefined,
+      section:undefined,
+       title:item.bio||undefined,
+      topic_tag:undefined,
+      ...formatSoptActivities(item?.soptActivities||[]),
+      }
+      }>
+      <div>
     <CoffeeChatCard
       key={String(item.memberId)}
       id={String(item.memberId)}
@@ -62,6 +97,10 @@ export default function CoffeeChatList() {
       isEmptyData={isEmptyData}
       isBlurred={false}
     />
+    </div>
+    </LoggingClick>
+    </div>
+    </LoggingClick>
   ));
 
   useEffect(() => {
@@ -100,34 +139,68 @@ export default function CoffeeChatList() {
     };
   }, []);
 
+  const startOpenOption = () => {
+    logClickEvent('openToCoffeechat');
+    open({
+      title: `커피챗 오픈 전, 확인해주세요!`,
+      description: `커피챗을 열면 내 프로필 정보도 함께 공유돼요. 프로필을 최신 상태로 업데이트하고 오픈하는 것을 권장드려요.`,
+      type: 'default',
+      typeOptions: {
+        cancelButtonText: '닫기',
+        approveButtonText: '확인',
+        buttonFunction: async () => await router.push(playgroundLink.coffeechatUpload()),
+      },
+    });
+  };
+
+  const alreadyOpenedOption = () => {
+    open({
+      title: `이미 오픈한 커피챗이 있어요!`,
+      description: `커피챗은 한 개만 오픈할 수 있어요. 등록된 커피챗을 삭제한 후 다시 시도해주세요.`,
+      type: 'single',
+      typeOptions: {
+        approveButtonText: '확인',
+        buttonFunction: () => {
+          //
+        },
+      },
+    });
+  };
+  // TODO: 서버 데이터로 변경
+  const hasCoffeechat = false;
+
   return (
     <Container>
       <Header>
         <Title>{isLoading ? '' : isEmptyData ? '최근 진행된 커피챗이에요✨' : '최근 진행된 커피챗이에요✨'}</Title>
         <FixedButtonArea>
           <Responsive only='desktop'>
+            <LoggingClick eventKey='openCoffeechat'> 
             <Button
               size='lg'
               theme='white'
               onClick={() => {
                 router.push(playgroundLink.coffeechatUpload());
-                logClickEvent('openToCoffeechat');
+                hasCoffeechat ? alreadyOpenedOption() : startOpenOption();
               }}
             >
               커피챗 오픈하기
             </Button>
+            </LoggingClick>
           </Responsive>
           <Responsive only='mobile'>
+          <LoggingClick eventKey='openCoffeechat'>
             <Button
               size='md'
               theme='white'
               onClick={() => {
                 router.push(playgroundLink.coffeechatUpload());
-                logClickEvent('openToCoffeechat');
+                hasCoffeechat ? alreadyOpenedOption() : startOpenOption();
               }}
             >
               커피챗 오픈하기
             </Button>
+            </LoggingClick>
           </Responsive>
         </FixedButtonArea>
       </Header>
@@ -216,7 +289,7 @@ const Container = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 0;
-    margin-top: 32px;
+    margin-top: 28px;
   }
 `;
 

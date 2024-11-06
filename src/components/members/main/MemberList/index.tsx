@@ -190,7 +190,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   }, 0);
 
   const handleClickCard = (profile: Profile) => {
-    debugger;
     logClickEvent('memberCard', { id: profile.id, name: profile.name });
   };
 
@@ -347,6 +346,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                         email={profile.email}
                         onMessage={(e) => {
                           e.preventDefault();
+                          logClickEvent('messageBadge');
                           setMessageModalState({
                             show: true,
                             data: {
@@ -480,7 +480,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           name={messageModalState.data.name}
           profileImageUrl={messageModalState.data.profileUrl}
           onClose={() => setMessageModalState({ show: false })}
-          defaultCategory={MessageCategory.COFFEE_CHAT}
+          defaultCategory={MessageCategory.NETWORK}
           onLog={(options) =>
             logSubmitEvent('sendMessage', {
               category: options?.category?.toString() ?? '',
