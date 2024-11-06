@@ -18,6 +18,8 @@ import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 const schema = yup.object().shape({
@@ -56,7 +58,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
   const { open } = useToast();
   const { data: me } = useGetMemberOfMe();
   const { data: profile } = useGetMemberProfileById(me?.id ?? undefined);
-
+  const {logSubmitEvent}=useEventLogger()
   const submit = async ({ content, phone }: MessageForm) => {
     if (isPending) {
       return;
@@ -79,6 +81,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
           receiverId,
           category: '커피챗',
         });
+        logSubmitEvent('sendCoffeechat',{content:content})
         open({
           icon: 'success',
           content: '커피챗 제안이 잘 전달되었어요!',
@@ -115,6 +118,8 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
               <br /> 회원님의 프로필과 함께 문자로 전달돼요
             </Responsive>
           </Text>
+          <LoggingClick eventKey='senderPhone'>
+            <>
           <TextWrapper>
             <StyledText mt={48} color={colors.white}>
               회신 받을 본인 연락처 <span style={{ color: '#F77234' }}>*</span>
@@ -128,6 +133,8 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
             component={StyledInput}
             placeholder='연락처를 입력해주세요!'
           />
+          </>
+          </LoggingClick>
           <TextWrapper>
             <StyledText mt={46} color={colors.white}>
               무엇이 궁금하신가요? <span style={{ color: '#F77234' }}>*</span>
@@ -176,7 +183,7 @@ const StyledModal = styled(Modal)`
   max-height: 100vh;
   overflow-y:scroll;
 
-  &::-webkit-scrollbar {
+  &::-webkit-scrollbar {  
     display: none;
   }
 
@@ -282,16 +289,23 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
 const InputWrapper = styled.div`
   width: 100%;
   height: 184px;
-  
+
+  textarea{
+   min-height:184px; 
+  }
   @media ${MB_BIG_MEDIA_QUERY} {
     height: 150px;
+
+    textarea{
+      min-height:150px;
+    }
   }
 `;
 const StyledText = styled(Text)`
   ${fonts.LABEL_14_SB};
 `;
 const TextCountWrapper=styled.div`
-margin-top:8px;
+margin-top:24px;
 width: 100%;
 text-align: right;
 color:${colors.gray300};

@@ -14,6 +14,7 @@ import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   MB_BIG_MEDIA_QUERY,
@@ -47,8 +48,42 @@ export default function CoffeeChatList() {
   const { data: me } = useGetMemberOfMe();
   const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
-
+  const formatSoptActivities = (soptActivities: string[])=> {
+    const generations = soptActivities
+      .map((item) => parseInt(item.match(/^\d+/)?.[0] || "", 10)) // 숫자 문자열을 숫자로 변환
+      .filter((num) => !isNaN(num)); // NaN 값 제거
+    const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
+    return { generation: generations, part: parts };
+  };
   const coffeeChatRecentCardList = dataList.map((item) => (
+    <LoggingClick 
+     key={String(item?.name)} 
+    eventKey='coffeechatCard' 
+     param={{
+     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+     organization:item?.organization,  
+      job:item.companyJob||undefined,
+      section:undefined,
+       title:item.bio||undefined,
+      topic_tag:undefined,
+      ...formatSoptActivities(item?.soptActivities||[]),
+      }
+      }>
+        <div>
+        <LoggingClick 
+     key={String(item?.name)} 
+    eventKey='recentCoffeechatCard' 
+     param={{
+     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+     organization:item?.organization,  
+      job:item.companyJob||undefined,
+      section:undefined,
+       title:item.bio||undefined,
+      topic_tag:undefined,
+      ...formatSoptActivities(item?.soptActivities||[]),
+      }
+      }>
+      <div>
     <CoffeeChatCard
       key={String(item.memberId)}
       id={String(item.memberId)}
@@ -63,6 +98,10 @@ export default function CoffeeChatList() {
       isEmptyData={isEmptyData}
       isBlurred={false}
     />
+    </div>
+    </LoggingClick>
+    </div>
+    </LoggingClick>
   ));
 
   useEffect(() => {
@@ -135,6 +174,7 @@ export default function CoffeeChatList() {
         <Title>{isLoading ? '' : isEmptyData ? '최근 진행된 커피챗이에요✨' : '최근 진행된 커피챗이에요✨'}</Title>
         <FixedButtonArea>
           <Responsive only='desktop'>
+            <LoggingClick eventKey='openCoffeechat'> 
             <Button
               size='lg'
               theme='white'
@@ -144,8 +184,10 @@ export default function CoffeeChatList() {
             >
               커피챗 오픈하기
             </Button>
+            </LoggingClick>
           </Responsive>
           <Responsive only='mobile'>
+          <LoggingClick eventKey='openCoffeechat'>
             <Button
               size='md'
               theme='white'
@@ -155,6 +197,7 @@ export default function CoffeeChatList() {
             >
               커피챗 오픈하기
             </Button>
+            </LoggingClick>
           </Responsive>
         </FixedButtonArea>
       </Header>
@@ -243,7 +286,7 @@ const Container = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 0;
-    margin-top: 32px;
+    margin-top: 28px;
   }
 `;
 
