@@ -15,6 +15,17 @@ type CommunityFeedData = {
   images: string[];
 };
 
+
+export type UserProperties = {
+  id: number;
+  major: string;
+  university: string;
+  job: string;
+  company: string;
+  part: string[];
+  generation: number[];
+};
+
 type GotoCoffeechat = {
   organization: string;
   job: string;

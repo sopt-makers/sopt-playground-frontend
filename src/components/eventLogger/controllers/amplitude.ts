@@ -1,5 +1,6 @@
-import { createInstance } from '@amplitude/analytics-browser';
+import { createInstance, Identify } from '@amplitude/analytics-browser';
 
+import { UserProperties } from '@/components/eventLogger/events';
 import { EventLoggerController } from '@/components/eventLogger/types';
 
 export function createAmplitudeController(apiKey: string, userId: string | undefined): EventLoggerController {
@@ -11,6 +12,14 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
       sessions: true,
     },
   });
+
+  const setUserProperties = (properties: UserProperties) => {
+    const identify = new Identify();
+    for (const [key, value] of Object.entries(properties)) {
+      identify.set(key, value);
+    }
+    instance.identify(identify);
+  };
 
   return {
     clickEvent(key, ...params) {
@@ -25,5 +34,6 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
     impressionEvent(key, ...params) {
       instance.track(`Impression-${key}`, ...params);
     },
+    setUserProperties,
   };
 }
