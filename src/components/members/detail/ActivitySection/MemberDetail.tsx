@@ -61,17 +61,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileSection profile={profile} memberId={memberId} />
-        {!profile.isMine && (
-          <>
-            <MessageSection
-              name={profile.name}
-              email={profile.email}
-              profileImage={profile.profileImage}
-              memberId={memberId}
-              isCoffeeChatActivate={profile.isCoffeeChatActivate}
-            />
-          </>
-        )}
+        {!profile.isMine && <MessageSection profile={profile} memberId={memberId} />}
         <DetailInfoSection profile={profile} />
         <SoptActivitySection soptActivities={sortedSoptActivities} />
         <CareerSection

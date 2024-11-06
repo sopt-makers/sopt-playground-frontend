@@ -15,6 +15,13 @@ type CommunityFeedData = {
   images: string[];
 };
 
+type GotoCoffeechat = {
+  organization: string;
+  job: string;
+  generation: number[];
+  part: string[];
+};
+
 type Coffeechat = {
   career: string;
   organization: string;
@@ -118,31 +125,31 @@ export interface ClickEvents {
 
   // 프로젝트 등록 후 공유하러 가기
   clickProjectShare: undefined;
-  coffeechatFilter:{
-    topic_tag:string|undefined,
-    career:string|undefined,
-    part:string|undefined
-  }
-  coffeechatCard:{
-    career:string|undefined,
-    organization:string|undefined|null,
-    job:string|undefined,
-    section:string|undefined,
-    title:string|undefined,
-    topic_tag:string|undefined,
-    generation:number[]|undefined,
-    part:string[]|undefined,
-  }
-  recentCoffeechatCard:{
-    career:string|undefined,
-    organization:string|undefined|null,
-    job:string|undefined,
-    section:string|undefined,
-    title:string|undefined,
-    topic_tag:string|undefined,
-    generation:number[]|undefined,
-    part:string[]|undefined,
-  }
+  coffeechatFilter: {
+    topic_tag: string | undefined;
+    career: string | undefined;
+    part: string | undefined;
+  };
+  coffeechatCard: {
+    career: string | undefined;
+    organization: string | undefined | null;
+    job: string | undefined;
+    section: string | undefined;
+    title: string | undefined;
+    topic_tag: string | undefined;
+    generation: number[] | undefined;
+    part: string[] | undefined;
+  };
+  recentCoffeechatCard: {
+    career: string | undefined;
+    organization: string | undefined | null;
+    job: string | undefined;
+    section: string | undefined;
+    title: string | undefined;
+    topic_tag: string | undefined;
+    generation: number[] | undefined;
+    part: string[] | undefined;
+  };
   coffeechatGuide: undefined;
   openToCoffeechat: undefined;
   coffeechatBadge: undefined;
@@ -150,15 +157,17 @@ export interface ClickEvents {
   coffeechatToggleOff: undefined;
   coffeechatToggleOn: undefined;
   skillAdd: undefined;
+  messageBadge: undefined;
+  gotoCoffeechat: GotoCoffeechat;
 
   // 광고
   ads: { id: number | undefined; bannerId: number; pageUrl: string; timeStamp: string };
-  coffeechatSection:{
-    section:string;
-  }
-  openCoffeechat:undefined;
-  senderPhone:undefined;
-  coffeechatBanner:undefined;
+  coffeechatSection: {
+    section: string;
+  };
+  openCoffeechat: undefined;
+  senderPhone: undefined;
+  coffeechatBanner: undefined;
   sendCoffeechat: undefined;
 }
 
@@ -196,12 +205,12 @@ export interface SubmitEvents {
   };
   //다짐메시지
   postResolution: undefined;
-  searchCoffeeChat:{
-    search_content:string;
-  }
-  sendCoffeechat:{
-    content:string|undefined
-  }
+  searchCoffeeChat: {
+    search_content: string;
+  };
+  sendCoffeechat: {
+    content: string | undefined;
+  };
   openCoffeechat: Coffeechat;
   coffeechatDelete: undefined;
   editCoffeechat: undefined;

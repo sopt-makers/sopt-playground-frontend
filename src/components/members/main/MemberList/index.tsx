@@ -346,6 +346,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                         email={profile.email}
                         onMessage={(e) => {
                           e.preventDefault();
+                          logClickEvent('messageBadge');
                           setMessageModalState({
                             show: true,
                             data: {

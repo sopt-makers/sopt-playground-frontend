@@ -5,6 +5,7 @@ import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
+import { ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
 import useModalState from '@/components/common/Modal/useModalState';
 import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
@@ -14,24 +15,17 @@ import MessageModal, { MessageCategory } from '@/components/members/detail/Messa
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MessageSectionProps {
-  name: string;
-  email: string;
-  profileImage: string;
   memberId: string;
-  isCoffeeChatActivate: boolean;
+  profile: ProfileDetail;
 }
 
-export default function MessageSection({
-  name,
-  email,
-  profileImage,
-  memberId,
-  isCoffeeChatActivate,
-}: MessageSectionProps) {
+export default function MessageSection({ memberId, profile }: MessageSectionProps) {
+  const { name, email, profileImage, isCoffeeChatActivate } = profile;
+
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const toast = useToast();
   const router = useRouter();
-  const { logSubmitEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent } = useEventLogger();
 
   const isEmptyEmail = !email || email.length < 1;
 
@@ -44,6 +38,14 @@ export default function MessageSection({
   };
 
   const handleClickCoffeeChatButton = () => {
+    logClickEvent('gotoCoffeechat', {
+      organization:
+        profile.careers.length > 0 ? profile.careers[0].companyName : profile.university ? profile.university : '',
+      job: profile.careers.length > 0 ? profile.careers[0].title : '',
+      generation: profile.soptActivities.map((activity) => activity.generation),
+      part: [...new Set(profile.soptActivities.map((activity) => activity.part))],
+    });
+
     router.push(playgroundLink.coffeechatDetail(memberId));
   };
 
