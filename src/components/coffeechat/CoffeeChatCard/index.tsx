@@ -403,6 +403,7 @@ const SoptTagSection = styled.div`
   display: flex;
   gap: 4px;
   margin-top: 12px;
+  width: 266px;
   overflow-x: hidden;
   color: ${colors.gray200};
 
