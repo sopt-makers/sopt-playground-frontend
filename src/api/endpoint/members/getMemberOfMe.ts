@@ -18,7 +18,7 @@ export const getMemberOfMe = createEndpoint({
     hasProfile: z.boolean(),
     profileImage: z.string().nullable(),
     editActivitiesAble: z.boolean(),
-    isCoffeeChatActivate: z.boolean(),
+    hasCoffeeChat: z.boolean(),
   }),
 });
 

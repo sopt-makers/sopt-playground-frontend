@@ -139,7 +139,7 @@ export default function CoffeeChatList() {
               size='lg'
               theme='white'
               onClick={() => {
-                me?.isCoffeeChatActivate ? alreadyOpenedOption() : startOpenOption();
+                me?.hasCoffeeChat ? alreadyOpenedOption() : startOpenOption();
               }}
             >
               커피챗 오픈하기
@@ -150,7 +150,7 @@ export default function CoffeeChatList() {
               size='md'
               theme='white'
               onClick={() => {
-                me?.isCoffeeChatActivate ? alreadyOpenedOption() : startOpenOption();
+                me?.hasCoffeeChat ? alreadyOpenedOption() : startOpenOption();
               }}
             >
               커피챗 오픈하기

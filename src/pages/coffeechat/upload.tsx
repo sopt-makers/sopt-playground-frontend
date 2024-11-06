@@ -26,7 +26,7 @@ const CoffeechatUpload = () => {
   const { data: profile } = useGetMemberProfileById(me?.id ?? undefined);
 
   useEffect(() => {
-    me?.isCoffeeChatActivate &&
+    me?.hasCoffeeChat &&
       open({
         title: `이미 오픈한 커피챗이 있어요!`,
         description: `커피챗은 한 개만 오픈할 수 있어요. 등록된 커피챗을 삭제한 후 다시 시도해주세요.`,
@@ -38,7 +38,7 @@ const CoffeechatUpload = () => {
           },
         },
       });
-  }, [me?.isCoffeeChatActivate]);
+  }, [me?.hasCoffeeChat]);
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {

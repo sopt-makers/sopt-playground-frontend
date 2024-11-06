@@ -11,6 +11,7 @@ import RegisterCoffeechatButton from '@/components/coffeechat/detail/RegisterCof
 import ShowCoffeechatToggle from '@/components/coffeechat/detail/ShowCoffeechatToggle';
 import useModalState from '@/components/common/Modal/useModalState';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { useDialog } from '@sopt-makers/ui';
 
 interface OpenerProfileProps {
   memberId: string;
@@ -19,6 +20,21 @@ interface OpenerProfileProps {
 export default function OpenerProfile({ memberId }: OpenerProfileProps) {
   const { data: openerProfile } = useGetCoffeechatDetail(memberId);
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
+  const { open } = useDialog();
+
+  const handleImpossibleToRegister = () => {
+    open({
+      title: `비활성화된 커피챗이에요.`,
+      description: ``,
+      type: 'single',
+      typeOptions: {
+        approveButtonText: '확인',
+        buttonFunction: async () => {
+          //
+        },
+      },
+    });
+  };
 
   return (
     <>
@@ -57,7 +73,7 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
             ) : (
               <RegisterCoffeechatButton
                 onClick={() => {
-                  onOpenMessageModal();
+                  openerProfile.isCoffeeChatActivate ? onOpenMessageModal() : handleImpossibleToRegister();
                 }}
               />
             )}
