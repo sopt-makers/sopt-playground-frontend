@@ -48,12 +48,11 @@ const CoffeechatEdit = () => {
       },
       {
         onSuccess: async () => {
-          queryClient.invalidateQueries({
-            predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
-          });
-
+          queryClient.invalidateQueries({ queryKey: ['getRecentCoffeeChat'] });
+          queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
+          queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
           queryClient.invalidateQueries({ queryKey: getCoffeechatDetail.cacheKey(memberId) });
-          toastOpen({ icon: 'success', content: '커피챗이 오픈됐어요! 경험을 나눠주셔서 감사해요.' });
+          toastOpen({ icon: 'success', content: '커피챗이 수정됐어요! 경험을 나눠주셔서 감사해요.' });
           logSubmitEvent('editCoffeechat');
           await router.push(playgroundLink.coffeechatDetail(me?.id ?? ''));
         },

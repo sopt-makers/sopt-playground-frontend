@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { useDialog } from '@sopt-makers/ui';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import { useEffect, useMemo } from 'react';
 
 import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
@@ -10,16 +13,12 @@ import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContent
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
 import SeemoreSelect from '@/components/coffeechat/detail/SeemoreSelect';
 import CoffeechatLoading from '@/components/coffeechat/Loading';
-import Loading from '@/components/common/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
 import ProjectSection from '@/components/members/detail/ProjectSection';
 import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { safeParseInt } from '@/utils';
-import { useDialog } from '@sopt-makers/ui';
-import { useRouter } from 'next/router';
-import { playgroundLink } from 'playground-common/export';
 
 interface CoffeechatDetailProp {
   memberId: string;
@@ -137,7 +136,7 @@ const DetailPage = styled.div`
   max-width: 790px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 24px 30px;
+    margin: 20px 24px;
     width: 100%;
   }
 `;

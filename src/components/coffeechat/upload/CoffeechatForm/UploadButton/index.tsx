@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { IconPlus } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 
 import Responsive from '@/components/common/Responsive';
@@ -12,12 +11,12 @@ export default function UploadButton({ uploadType }: UploadButtonProp) {
   return (
     <div>
       <Responsive only='desktop'>
-        <Button size='md' LeftIcon={IconPlus} type='submit'>
+        <Button size='md' type='submit'>
           커피챗 {uploadType}하기
         </Button>
       </Responsive>
       <Responsive only='mobile'>
-        <MobileButton size='lg' LeftIcon={IconPlus} type='submit'>
+        <MobileButton size='lg' type='submit'>
           커피챗 {uploadType}하기
         </MobileButton>
       </Responsive>
