@@ -136,8 +136,8 @@ const DetailPage = styled.div`
   max-width: 790px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 20px 24px;
-    width: 100%;
+    margin: 20px 0;
+    width: calc(100% - 48px);
   }
 `;
 
