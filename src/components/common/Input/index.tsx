@@ -87,7 +87,7 @@ const StyledInput = styled.input<InputProps>`
   ${textStyles.SUIT_16_M};
 
   &::placeholder {
-    color: ${colors.gray600};
+    color: ${colors.gray400};
   }
 
   &:focus {

@@ -75,7 +75,7 @@ export default function MessageSection({ memberId, profile }: MessageSectionProp
           name={name}
           profileImageUrl={profileImage}
           onClose={onCloseMessageModal}
-          defaultCategory={MessageCategory.COFFEE_CHAT}
+          defaultCategory={MessageCategory.NETWORK}
           onLog={(options) =>
             logSubmitEvent('sendMessage', {
               category: options?.category?.toString() ?? '',

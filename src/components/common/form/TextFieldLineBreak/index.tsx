@@ -38,6 +38,7 @@ export default function TextFieldLineBreak({
         errorMessage={errorMessage}
         onChange={onChange}
         autoFocus={isError}
+        disableEnterSubmit
       />
       {!value && (
         <Placeholder>

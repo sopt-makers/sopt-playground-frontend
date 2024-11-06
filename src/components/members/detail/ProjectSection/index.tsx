@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
 
@@ -65,11 +66,10 @@ const Container = styled.section`
 `;
 
 const ActivityTitle = styled.div`
-  line-height: 100%;
-  font-size: 32px;
-  font-weight: 700;
+  ${fonts.HEADING_28_B};
+
   @media ${MOBILE_MEDIA_QUERY} {
-    font-size: 22px;
+    ${fonts.HEADING_20_B};
   }
 `;
 

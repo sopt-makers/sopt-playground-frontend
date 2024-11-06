@@ -19,7 +19,6 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 export enum MessageCategory {
-  COFFEE_CHAT = '커피챗',
   NETWORK = '친목',
   APPJAM_TEAM_BUILDING = '앱잼 팀 빌딩',
   PROJECT_SUGGESTION = '프로젝트 제안',
@@ -50,11 +49,8 @@ const CATEGORY: Category[] = [
 
 const schema = yup.object().shape({
   email: yup.string().email('올바른 이메일 형태를 입력해주세요.').required('이메일을 입력해주세요.'),
-  content: yup.string().required('내용을 입력해주세요.').max(750, '750자 이내로 입력해주세요.'),
+  content: yup.string().required('내용을 입력해주세요.').max(500, '500자 이내로 입력해주세요.'),
 });
-
-const COFFEECHAT_PLACEHOLDER =
-  '커피챗을 통해 어떤 걸 얻고 싶은지 자세하게 적어주세요. 멘토님의 스킬과 소개와 관련된 내용으로 작성한다면 멘토님이 더욱 자세하게 공유해주실 거예요.';
 
 interface MessageForm {
   email: string;
@@ -180,7 +176,7 @@ const MessageModal: FC<MessageModalProps> = ({
           name='content'
           component={StyledTextArea}
           placeholder={
-            selectedCategory === MessageCategory.COFFEE_CHAT ? COFFEECHAT_PLACEHOLDER : '전달할 내용을 입력해주세요!'
+            '멤버에게 궁금한 점을 자세하게 적어주세요. 이야기 나누고 싶은 주제를 쉽게 이해할 수 있도록, 회원님에 대해 간단하게 소개해 주시면 더 좋아요.'
           }
         />
         <StyledButton isDisabled={!isValid || isPending}>

@@ -8,6 +8,7 @@ import { playgroundLink } from 'playground-common/export';
 
 import { getCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
 import { changeIsBlindCoffeechat } from '@/api/endpoint/coffeechat/postCoffeechatIsBlind';
+import { getMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -17,7 +18,7 @@ interface ShowCoffeechatToggleProps {
 }
 
 export default function ShowCoffeechatToggle({ isBlind, memberId }: ShowCoffeechatToggleProps) {
-  const { logSubmitEvent } = useEventLogger();
+  const { logClickEvent } = useEventLogger();
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -28,8 +29,13 @@ export default function ShowCoffeechatToggle({ isBlind, memberId }: ShowCoffeech
   const handlChangeIsBlind = () => {
     mutate(!isBlind, {
       onSuccess: async () => {
-        // logSubmitEvent('isBlindCoffeechat');
+        if (isBlind) {
+          logClickEvent('coffeechatToggleOn');
+        } else {
+          logClickEvent('coffeechatToggleOff');
+        }
         queryClient.invalidateQueries({ queryKey: getCoffeechatDetail.cacheKey(memberId) });
+        queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
         await router.push(playgroundLink.coffeechatDetail(memberId));
       },
     });

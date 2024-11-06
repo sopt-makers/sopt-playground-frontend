@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Chip } from '@sopt-makers/ui';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, ControllerRenderProps, useFormContext } from 'react-hook-form';
 
 import { CoffeechatFormContent, CoffeechatFormPaths } from '@/components/coffeechat/upload/CoffeechatForm/types';
 import FormItem from '@/components/common/form/FormItem';
@@ -15,6 +15,14 @@ interface ChipFieldProps {
 
 export default function ChipField({ field, errorMessage, chipList, isSingleSelect = false }: ChipFieldProps) {
   const { control } = useFormContext<CoffeechatFormContent>();
+
+  const isActive = (field: ControllerRenderProps<CoffeechatFormContent, CoffeechatFormPaths>, chip: string) => {
+    return Array.isArray(field.value)
+      ? isSingleSelect
+        ? field.value[0] === chip
+        : field.value.includes(chip)
+      : field.value === chip;
+  };
 
   return (
     <FormItem errorMessage={errorMessage}>
@@ -40,12 +48,12 @@ export default function ChipField({ field, errorMessage, chipList, isSingleSelec
                 }}
               >
                 <Responsive only='desktop'>
-                  <Chip size='sm' active={Array.isArray(field.value) && field.value.includes(chip)}>
+                  <Chip size='sm' active={isActive(field, chip)}>
                     {chip}
                   </Chip>
                 </Responsive>
                 <Responsive only='mobile'>
-                  <Chip size='md' active={Array.isArray(field.value) && field.value.includes(chip)}>
+                  <Chip size='md' active={isActive(field, chip)}>
                     {chip}
                   </Chip>
                 </Responsive>

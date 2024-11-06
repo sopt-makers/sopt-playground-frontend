@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconDotsVertical } from '@sopt-makers/icons';
 import { useMemo } from 'react';
 
 import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
@@ -9,7 +8,9 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContents';
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
+import SeemoreSelect from '@/components/coffeechat/detail/SeemoreSelect';
 import Loading from '@/components/common/Loading';
+import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
 import ProjectSection from '@/components/members/detail/ProjectSection';
@@ -44,7 +45,7 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
             <CoffeechatHeader>
               <CoffeechatTitle>{openerProfile.bio}</CoffeechatTitle>
               {/* TODO: 더보기 버튼 기능 구현 */}
-              {/* <>{openerProfile.isMine && <DotsVerticalIcon />}</> */}
+              <>{openerProfile.isMine && <SeemoreSelect memberId={memberId} />}</>
             </CoffeechatHeader>
             <OpenerProfile memberId={memberId} />
 
@@ -70,9 +71,7 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
             </ProfilPojectSection>
           </>
         ) : (
-          <CoffeechatLoading>
-            <Loading />
-          </CoffeechatLoading>
+          <CoffeechatLoading />
         )}
       </DetailPage>
     </DetailPageLayout>
@@ -89,12 +88,6 @@ const ProfileContents = styled.div`
   }
 `;
 
-const CoffeechatLoading = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const ProfilPojectSection = styled.div`
   margin-top: 30px;
 
@@ -106,12 +99,12 @@ const ProfilPojectSection = styled.div`
 const SoptActivityTitle = styled.h2`
   margin: 28px 0 32px;
   color: ${colors.white};
-  ${fonts.HEADING_32_B};
+  ${fonts.HEADING_28_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 24px 0;
 
-    ${fonts.HEADING_28_B};
+    ${fonts.HEADING_20_B};
   }
 `;
 
@@ -129,11 +122,6 @@ const DetailPage = styled.div`
     margin: 24px 30px;
     width: 100%;
   }
-`;
-
-const DotsVerticalIcon = styled(IconDotsVertical)`
-  width: 24px;
-  height: 24px;
 `;
 
 const CoffeechatTitle = styled.h1`
@@ -157,7 +145,8 @@ const CoffeechatTitle = styled.h1`
 
 const CoffeechatHeader = styled.header`
   display: flex;
-  align-items: center;
+  gap: 20px;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 24px;
 `;

@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
-import { SelectV2 } from '@sopt-makers/ui';
-import { SearchField } from '@sopt-makers/ui';
-import { width100 } from '@toss/emotion-utils';
+import { SearchField, SelectV2 } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
@@ -19,18 +17,16 @@ import {
 } from '@/components/coffeechat/constants';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   MB_BIG_MEDIA_QUERY,
-  MB_BIG_WIDTH,
   MB_MID_MEDIA_QUERY,
-  MB_SM_MEDIA_QUERY,
   MOBILE_MEDIA_QUERY,
   PCTA_BIG_MEDIA_QUERY,
   PCTA_MID_MEDIA_QUERY,
   PCTA_S_MEDIA_QUERY,
-  PCTA_S_WIDTH,
   PCTA_SM_MEDIA_QUERY,
-  PCTA_SM_WIDTH,
 } from '@/styles/mediaQuery';
 
 export default function CoffeeChatCategory() {
@@ -62,9 +58,16 @@ export default function CoffeeChatCategory() {
       ...(search && { search }), // search는 빈 문자열이 아닌 경우만 추가}
     });
   }, [section, topicType, career, part, search]);
-
+  const formatSoptActivities = (soptActivities: string[])=> {
+    const generations = soptActivities
+      .map((item) => parseInt(item.match(/^\d+/)?.[0] || "", 10)) // 숫자 문자열을 숫자로 변환
+      .filter((num) => !isNaN(num)); // NaN 값 제거
+    const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
+    return { generation: generations, part: parts };
+  };
   const { data, isLoading } = useGetMembersCoffeeChat(queryParams);
-  const isEmpty = (data?.coffeeChatList.length === 0) == null;
+  
+  const { logSubmitEvent } = useEventLogger();
   const SelectionArea = (): JSX.Element => {
     return (
       <>
@@ -80,13 +83,21 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {TOPIC_FILTER_OPTIONS.map((option) => (
+              <LoggingClick eventKey='coffeechatFilter'
+              param={{
+                topic_tag:topicType,
+                career:career,
+                part:part
+              }}
+            key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+           </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
 
         <SelectV2.Root
-        className='career-select'
+          className='career-select'
           onChange={(e: number) => setCareer(CAREER_FILTER_OPTIONS[e - 1].label)}
           defaultValue={CAREER_FILTER_OPTIONS.find((option) => option.label === career)}
           type='text'
@@ -97,13 +108,21 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {CAREER_FILTER_OPTIONS.map((option) => (
+             <LoggingClick eventKey='coffeechatFilter'
+               param={{
+               topic_tag:topicType,
+                career:career,
+                 part:part
+                 }}
+                key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+            </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
 
         <SelectV2.Root
-        className='part-select'
+          className='part-select'
           onChange={(e: number) => setPart(PART_FILTER_OPTIONS[e - 1].label)}
           defaultValue={PART_FILTER_OPTIONS.find((option) => option.label === part)}
           type='text'
@@ -114,7 +133,15 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {PART_FILTER_OPTIONS.map((option) => (
+              <LoggingClick eventKey='coffeechatFilter'
+               param={{
+               topic_tag:topicType,
+               career:career,
+               part:part
+                }}
+                key={option.label}>
               <SelectV2.MenuItem key={option.value} option={option} />
+              </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -129,6 +156,7 @@ export default function CoffeeChatCategory() {
       </Header>
       <CategoryList>
         {categoryList.categoryList.map((option) => (
+          <LoggingClick eventKey='coffeechatSection' key={option.categoryName} param={{section:option.categoryName}} >
           <CategoryCard
             isActive={section === option.categoryName}
             onClick={() => setSection(option.categoryName)}
@@ -137,6 +165,7 @@ export default function CoffeeChatCategory() {
             <CardIcon src={option.icon}></CardIcon>
             <CardName>{option.categoryName}</CardName>
           </CategoryCard>
+          </LoggingClick>
         ))}
       </CategoryList>
       <Responsive only='desktop' className='responsive'>
@@ -149,6 +178,9 @@ export default function CoffeeChatCategory() {
             value={clientSearch}
             onChange={(e) => setClientSearch(e.target.value)}
             onSubmit={() => {
+              logSubmitEvent('searchCoffeeChat',{
+               search_content:clientSearch
+              })
               setSearch(clientSearch);
             }}
             onReset={() => setClientSearch('')}
@@ -161,6 +193,9 @@ export default function CoffeeChatCategory() {
           value={clientSearch}
           onChange={(e) => setClientSearch(e.target.value)}
           onSubmit={() => {
+            logSubmitEvent('searchCoffeeChat',{
+             search_content:clientSearch
+            })
             setSearch(clientSearch);
           }}
           onReset={() => setClientSearch('')}
@@ -177,12 +212,18 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='분야'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={section.length>0} value={section}>
-                {section?section:placeholder}
+              <MobileFilterTrigger selected={section.length > 0} value={section}>
+                {section ? section : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
           />
+        <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={topicType}
             onChange={(e: string) => setTopicType(TOPIC_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -192,12 +233,19 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='주제'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={topicType.length>0}>
-                 {topicType?topicType:placeholder}
+              <MobileFilterTrigger selected={topicType.length > 0}>
+                {topicType ? topicType : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
           />
+          </LoggingClick>
+         <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={career}
             onChange={(e: string) => setCareer(CAREER_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -207,12 +255,19 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='경력'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={career.length>0}>
-                {career?career:placeholder}
+              <MobileFilterTrigger selected={career.length > 0}>
+                {career ? career : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
           />
+          </LoggingClick>
+         <LoggingClick eventKey='coffeechatFilter'
+            param={{
+           topic_tag:topicType,
+           career:career,
+           part:part
+          }}>
           <StyledMobileFilter
             value={part}
             onChange={(e: string) => setPart(PART_FILTER_OPTIONS[parseInt(e) - 1].label)}
@@ -222,12 +277,12 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='파트'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={part.length>0}>
-                 {part?part:placeholder}
+              <MobileFilterTrigger selected={part.length > 0}>
+                {part ? part : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
-          />
+          /></LoggingClick>
         </StyledMobileFilterWrapper>
       </Responsive>
       {isLoading ? (
@@ -236,14 +291,30 @@ export default function CoffeeChatCategory() {
         </LoadingContainer>
       ) : (
         <>
-          {isEmpty && (
+          {(data?.coffeeChatList&&data?.coffeeChatList?.length<=0) && (
             <StyledEmpty>
               <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
               <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
             </StyledEmpty>
           )}
           <StyledCardList>
-            {data?.coffeeChatList?.map((item) => (
+          {data?.coffeeChatList
+          ?.sort((a, b) => (b.isMine === true ? 1 : -1) - (a.isMine === true ? 1 : -1)) // isMine이 true인 항목을 앞으로 정렬
+          .map((item) => (
+                  <LoggingClick 
+                  key={String(item?.name)} 
+                    eventKey='coffeechatCard' 
+                    param={{
+                    career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
+                    organization:item?.organization,  
+                    job:item.companyJob||undefined,
+                    section:section,
+                    title:item.bio||undefined,
+                    topic_tag: topicType && topicType !== "" && topicType !== "전체" ? topicType : undefined,
+                    ...formatSoptActivities(item?.soptActivities||[]),
+                  }
+                  }>
+                    <div>
               <CoffeeChatCard
                 key={String(item.memberId)}
                 id={String(item.memberId)}
@@ -258,6 +329,8 @@ export default function CoffeeChatCategory() {
                 isBlurred={item.isBlind ?? false}
                 isMine={item.isMine ?? false}
               />
+              </div>
+              </LoggingClick>
             ))}
           </StyledCardList>
         </>
@@ -272,11 +345,11 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 48px;
-  
-  .responsive-mobile-only{
-    @media ${MB_BIG_MEDIA_QUERY}{
-    width:100%;
-  }
+
+  .responsive-mobile-only {
+    @media ${MB_BIG_MEDIA_QUERY} {
+      width: 100%;
+    }
   }
   @media ${PCTA_S_MEDIA_QUERY} {
     margin-top: 28px;
@@ -294,11 +367,11 @@ const Header = styled.div`
   margin-bottom: 24px;
   width: 100%;
   width: 1300px;
-  @media ${PCTA_BIG_MEDIA_QUERY}{
-    width:866px;
+  @media ${PCTA_BIG_MEDIA_QUERY} {
+    width: 866px;
   }
-  @media ${PCTA_SM_MEDIA_QUERY}{
-    padding-left:30px;
+  @media ${PCTA_SM_MEDIA_QUERY} {
+    padding-left: 30px;
     width: 100%;
   }
   @media ${PCTA_S_MEDIA_QUERY} {
@@ -427,47 +500,45 @@ const SelectFilterArea = styled.div`
     white-space: nowrap;
   }
 
-  .topic-select{
+  .topic-select {
     width: 130px;
 
-    button{
-      width:130px;
+    button {
+      width: 130px;
 
-      div{
-        width:130px;
+      div {
+        width: 130px;
       }
     }
   }
 
-  .career-select{
-    width:162px;
+  .career-select {
+    width: 162px;
 
-    button{
-      width:162px;
+    button {
+      width: 162px;
 
-      div{
-        width:162px;
+      div {
+        width: 162px;
       }
     }
   }
 
-  .part-select{
-    width:109px;
+  .part-select {
+    width: 109px;
 
-    button{
-      width:109px;
+    button {
+      width: 109px;
 
-      div{
-        width:109px;
+      div {
+        width: 109px;
       }
     }
   }
-
 
   ul {
-    z-index: 203;
+    z-index: 99;
   }
-
 `;
 
 const StyledSearchField = styled(SearchField)`
@@ -480,16 +551,16 @@ const StyledSearchField = styled(SearchField)`
     width: 424px;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
-    padding-right:20px;
-    padding-left:20px;
+    padding-right: 20px;
+    padding-left: 20px;
     width: 100%;
 
-    button{
-      right:15px;
+    button {
+      right: 15px;
     }
   }
   @media ${MB_MID_MEDIA_QUERY} {
-    width: 100%
+    width: 100%;
   }
 `;
 const LoadingContainer = styled.div`
@@ -587,7 +658,6 @@ const StyledChevronDown = styled(IconChevronDown)`
 
 const StyledMobileFilter = styled(CoffeeChatFilterSheet)`
   flex: none;
-  
 `;
 
 const StyledMobileFilterWrapper = styled.div`
@@ -603,26 +673,26 @@ const StyledMobileFilterWrapper = styled.div`
   /* to disable scroll bar */
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  button{
-    width:auto;
+  button {
+    width: auto;
   }
 
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
-  @media ${PCTA_S_MEDIA_QUERY}{
-    padding:0;
-    width:424px;
+  @media ${PCTA_S_MEDIA_QUERY} {
+    padding: 0;
+    width: 424px;
 
-    button{
-      width:100px;
+    button {
+      width: 100px;
       white-space: nowrap;
     }
   }
-  @media ${MB_BIG_MEDIA_QUERY}{
-    padding-right:20px;
-    padding-left:20px;
-    width:auto;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    padding-right: 20px;
+    padding-left: 20px;
+    width: auto;
     max-width: 100%;
   }
 `;

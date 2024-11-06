@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
 import { ReactNode } from 'react';
 
-import { CrewIcon, MemberIcon, ProjectIcon } from '@/components/feed/list/MenuEntryIcons/Icons';
+import { CoffeeChatIcon, CrewIcon, MemberIcon, ProjectIcon } from '@/components/feed/list/MenuEntryIcons/Icons';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { fonts } from '@sopt-makers/fonts';
 
 interface MenuEntry {
   icon: ReactNode;
@@ -19,6 +19,7 @@ const MENU_ENTRY_LIST: MenuEntry[] = [
   { icon: <CrewIcon />, label: '모임', href: playgroundLink.groupList() },
   { icon: <MemberIcon />, label: '멤버', href: playgroundLink.memberList() },
   { icon: <ProjectIcon />, label: '프로젝트', href: playgroundLink.projectList() },
+  { icon: <CoffeeChatIcon />, label: '커피솝', href: playgroundLink.coffeechat() },
 ];
 
 interface MenuEntryIconsProps {
@@ -38,8 +39,7 @@ const MenuEntryIcons = ({ className }: MenuEntryIconsProps) => {
 const StyledMenuEntryIcons = styled(Flex)`
   width: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
-    gap: 6px;
-    padding: 0 20px;
+    gap: 20px;
   }
 `;
 
@@ -54,7 +54,7 @@ interface MenuIconProps {
 const MenuIcon = ({ label, icon, href }: MenuIconProps) => {
   return (
     <MenuIconWrapper href={href}>
-      <Flex align='center'>{icon}</Flex>
+      <MenuIconBox>{icon}</MenuIconBox>
       <MenuLabel>{label}</MenuLabel>
     </MenuIconWrapper>
   );
@@ -63,19 +63,22 @@ const MenuIcon = ({ label, icon, href }: MenuIconProps) => {
 const MenuIconWrapper = styled(Link)`
   @media ${MOBILE_MEDIA_QUERY} {
     display: flex;
-    gap: 5px;
+    flex-direction: column;
+    gap: 4px;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s;
-    border-radius: 14px;
-    background: ${colors.gray900};
-    padding: 16px 12px;
-    width: 100%;
 
     &:hover {
       background-color: ${colors.gray800};
     }
   }
+`;
+
+const MenuIconBox = styled.div`
+  border-radius: 12px;
+  background-color: ${colors.gray900};
+  padding: 8px;
+  height: 46px;
 `;
 
 const MenuLabel = styled.div`
