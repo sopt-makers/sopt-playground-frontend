@@ -10,11 +10,11 @@ const CoffeechatDetailSchema = z.object({
   career: z.string(),
   organization: z.string().nullable(),
   memberCareerTitle: z.string().nullable(),
-  phone: z.string(),
+  phone: z.string().nullable(),
   email: z.string(),
-  introduction: z.string(),
+  introduction: z.string().nullable(), // TODO: 커피챗 오픈 후, nullable 삭제 필요
   topicTypeList: z.array(z.string()),
-  topic: z.string(),
+  topic: z.string().nullable(), // TODO: 커피챗 오픈 후, nullable 삭제 필요
   meetingType: z.string(),
   guideline: z.string().nullable(),
   isMine: z.boolean().nullable(),

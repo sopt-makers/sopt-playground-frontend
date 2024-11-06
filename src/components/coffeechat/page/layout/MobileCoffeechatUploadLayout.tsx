@@ -1,7 +1,8 @@
-import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
+
+import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface MobileCoffeechatUploadLayoutProps {
   main: ReactNode;
@@ -28,7 +29,7 @@ const Layout = styled.div`
   }
 
   @media ${COFFEECHAT_MOBILE_MEDIA_QUERY} {
-    margin-top: 0;
+    margin-top: 30px;
   }
 `;
 

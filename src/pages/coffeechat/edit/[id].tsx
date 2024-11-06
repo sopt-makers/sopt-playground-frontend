@@ -5,7 +5,7 @@ import { playgroundLink } from 'playground-common/export';
 import { FieldValues } from 'react-hook-form';
 
 import { editCoffeechat } from '@/api/endpoint/coffeechat/editCoffeechat';
-import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
+import { getCoffeechatDetail, useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AuthRequired from '@/components/auth/AuthRequired';
 import CoffeechatLoading from '@/components/coffeechat/Loading';
@@ -44,21 +44,23 @@ const CoffeechatEdit = () => {
               : memberInfo.career
             : null,
         },
-        coffeeChatInfo: { ...coffeeChatInfo, meetingType: coffeeChatInfo.meetingType ?? '온/오프라인' },
+        coffeeChatInfo: { ...coffeeChatInfo },
       },
       {
         onSuccess: async () => {
           queryClient.invalidateQueries({
             predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
           });
+
+          queryClient.invalidateQueries({ queryKey: getCoffeechatDetail.cacheKey(memberId) });
           toastOpen({ icon: 'success', content: '커피챗이 오픈됐어요! 경험을 나눠주셔서 감사해요.' });
           logSubmitEvent('editCoffeechat');
           await router.push(playgroundLink.coffeechatDetail(me?.id ?? ''));
         },
         onError: (error) => {
           const option: DialogOptionType = {
-            title: `${error.message}`,
-            description: ``,
+            title: `오류가 발생했어요.`,
+            description: `${error.message}`,
             type: 'single',
             typeOptions: {
               approveButtonText: '확인',

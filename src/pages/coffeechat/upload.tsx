@@ -2,7 +2,7 @@ import { DialogOptionType, useDialog, useToast } from '@sopt-makers/ui';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 
 import { uploadCoffeechat } from '@/api/endpoint/coffeechat/uploadCoffeechat';
@@ -24,6 +24,21 @@ const CoffeechatUpload = () => {
 
   const { data: me } = useGetMemberOfMe();
   const { data: profile } = useGetMemberProfileById(me?.id ?? undefined);
+
+  useEffect(() => {
+    me?.hasCoffeeChat &&
+      open({
+        title: `이미 오픈한 커피챗이 있어요!`,
+        description: `커피챗은 한 개만 오픈할 수 있어요. 등록된 커피챗을 삭제한 후 다시 시도해주세요.`,
+        type: 'single',
+        typeOptions: {
+          approveButtonText: '확인',
+          buttonFunction: async () => {
+            await router.push(playgroundLink.coffeechat());
+          },
+        },
+      });
+  }, [me?.hasCoffeeChat]);
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -55,13 +70,14 @@ const CoffeechatUpload = () => {
               : memberInfo.career
             : null,
         },
-        coffeeChatInfo: { ...coffeeChatInfo, meetingType: coffeeChatInfo.meetingType ?? '온/오프라인' },
+        coffeeChatInfo: { ...coffeeChatInfo },
       },
       {
         onSuccess: async () => {
           queryClient.invalidateQueries({
             predicate: (query) => ['getRecentCoffeeChat', 'getMembersCoffeeChat'].includes(query.queryKey[0] as string),
           });
+          queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
           logSubmitEvent('openCoffeechat', {
             career: memberInfo.career
               ? Array.isArray(memberInfo.career)
@@ -88,8 +104,8 @@ const CoffeechatUpload = () => {
         },
         onError: (error) => {
           const option: DialogOptionType = {
-            title: `${error.message}`,
-            description: ``,
+            title: `오류가 발생했어요.`,
+            description: `${error.message}`,
             type: 'single',
             typeOptions: {
               approveButtonText: '확인',
