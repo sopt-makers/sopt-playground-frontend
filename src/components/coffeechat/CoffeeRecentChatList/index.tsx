@@ -171,7 +171,7 @@ export default function CoffeeChatList() {
   return (
     <Container>
       <Header>
-        <Title>{isLoading ? '' : isEmptyData ? '최근 진행된 커피챗이에요✨' : '최근 진행된 커피챗이에요✨'}</Title>
+        <Title>{isLoading ? '' : isEmptyData ? '최근 커피챗 제안을 받은 멤버예요✨' : '최근 커피챗 제안을 받은 멤버예요✨'}</Title>
         <FixedButtonArea>
           <Responsive only='desktop'>
             <LoggingClick eventKey='openCoffeechat'> 
