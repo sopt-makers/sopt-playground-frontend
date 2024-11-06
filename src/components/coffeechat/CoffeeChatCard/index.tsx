@@ -219,10 +219,11 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
     gap: 4px;
     border-radius: 20px;
     padding: 24px;
-    width: 400px;
-    min-width: 400px;
-    height: 234px;
+    width: calc(100vw - 30px);;
+    min-width: calc(100vw - 30px);
+  
   }
+
   @media ${MB_MID_MEDIA_QUERY} {
     padding: 24px;
     width: 320px;

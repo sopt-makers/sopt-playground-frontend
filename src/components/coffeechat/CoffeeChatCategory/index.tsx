@@ -359,9 +359,7 @@ const Container = styled.div`
   @media ${PCTA_S_MEDIA_QUERY} {
     margin-top: 28px;
   }
-  @media ${MB_BIG_MEDIA_QUERY} {
-    margin-top: 0;
-  }
+
 `;
 
 const Header = styled.div`
