@@ -31,9 +31,13 @@ const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) =
           amplitudeController.setUserProperties({
             id: data.id,
             major: profile.major,
-            university: profile.university,
             job: profile.careers.length > 0 ? profile.careers[0].title : '',
-            company: profile.careers.length > 0 ? profile.careers[0].companyName : '',
+            organization:
+              profile.careers.length > 0
+                ? profile.careers[0].companyName
+                : profile.university
+                ? profile.university
+                : '',
             generation: profile.soptActivities.map((activity) => activity.generation),
             part: [...new Set(profile.soptActivities.map((activity) => activity.part))],
           });
