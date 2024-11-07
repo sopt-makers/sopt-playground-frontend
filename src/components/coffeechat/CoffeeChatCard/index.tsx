@@ -407,6 +407,9 @@ const SoptTagSection = styled.div`
   div {
     white-space: nowrap;
   }
+  @media ${MB_BIG_MEDIA_QUERY}{
+    width:206px;
+  }
 `;
 
 const BlurInfo = styled.div`

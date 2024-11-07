@@ -554,12 +554,15 @@ const StyledSearchField = styled(SearchField)`
     width: 424px;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
+    display: flex;
+    justify-content: center;
     padding-right: 20px;
     padding-left: 20px;
     width: 100%;
 
     button {
-      right: 15px;
+      display: flex;
+      align-items: center;
     }
   }
   @media ${MB_MID_MEDIA_QUERY} {
