@@ -64,17 +64,25 @@ export default function SeemoreSelect({ memberId }: SeemoreSelectProp) {
     router.push(playgroundLink.coffeechatEdit(memberId));
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     mutate(undefined, {
       onSuccess: async () => {
-        logSubmitEvent('coffeechatDelete');
-        queryClient.invalidateQueries({ queryKey: ['getRecentCoffeeChat'] });
-        queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
-        queryClient.refetchQueries({ queryKey: ['getRecentCoffeeChat'] });
-        queryClient.refetchQueries({ queryKey: ['getMembersCoffeeChat'] });
-        queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
-        await toastOpen({ icon: 'success', content: '커피챗이 삭제되었어요. 다음에 또 만나요!' });
-        await router.push(playgroundLink.coffeechat());
+        try {
+          logSubmitEvent('coffeechatDelete');
+
+          await Promise.all([
+            queryClient.refetchQueries({ queryKey: ['getRecentCoffeeChat'] }),
+            queryClient.refetchQueries({ queryKey: ['getMembersCoffeeChat'] }),
+            queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] }),
+          ]);
+
+          await toastOpen({ icon: 'success', content: '커피챗이 삭제되었어요. 다음에 또 만나요!' });
+          await router.push(playgroundLink.coffeechat());
+        } catch (error) {
+          console.error('쿼리 무효화 실패:', error);
+          await toastOpen({ icon: 'success', content: '커피챗이 삭제되었어요. 다음에 또 만나요!' });
+          await router.push(playgroundLink.coffeechat());
+        }
       },
     });
   };
