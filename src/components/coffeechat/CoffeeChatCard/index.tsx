@@ -187,7 +187,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
   padding: 32px;
   width: 420px;
   min-width: 420px;
-  height: 280px;
+  height: 100%;
   overflow: hidden;
   ${({ isEmptyData }) =>
     isEmptyData &&
@@ -214,19 +214,11 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
   @media ${MB_BIG_MEDIA_QUERY} {
     gap: 4px;
     border-radius: 20px;
-    width: calc(100vw - 30px);
-    min-width: calc(100vw - 30px);
+    width: calc(100vw - 40px);
+    min-width: calc(100vw - 40px);
   }
 
-  @media ${MB_MID_MEDIA_QUERY} {
-    width: 320px;
-    min-width: 320px;
-  }
-  @media ${MB_SM_MEDIA_QUERY} {
-    width: 280px;
-    min-width: 280px;
-    max-width: 280px;
-  }
+
 `;
 
 const Title = styled.div`
@@ -291,6 +283,7 @@ const ProfileSection = styled.div`
 const ImageBox = styled.div`
   position: relative;
   width: 70px;
+  min-width:70px;
   height: 70px;
   clip-path: circle(50%);
 `;
