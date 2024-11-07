@@ -210,10 +210,12 @@ const StyledModal = styled(Modal)`
     max-height: 100dvh;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
-    margin-top: 114px;
+    top:60px;
+    padding-top:16px;
     width: 100vw;
     height: auto;
-    overflow-y: auto;
+    min-height:100dvh;
+    overflow-y: scroll;
   }
 
 `;
@@ -284,6 +286,10 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
 
   &:active {
     background-color: ${colors.gray100};
+  }
+
+  @media ${MB_BIG_MEDIA_QUERY}{
+    margin-bottom:40px;
   }
 `;
 const InputWrapper = styled.div`
