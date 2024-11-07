@@ -350,6 +350,9 @@ const TagSection = styled.div`
       font-size: 11px !important;
     }
   }
+  @media ${MB_BIG_MEDIA_QUERY}{
+    width:100%;
+  }
 `;
 
 const InfoSection = styled.div`
