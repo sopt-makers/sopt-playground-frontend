@@ -187,7 +187,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
   padding: 32px;
   width: 420px;
   min-width: 420px;
-  height: 100%;
+  height: 280px;
   overflow: hidden;
   ${({ isEmptyData }) =>
     isEmptyData &&
@@ -216,8 +216,9 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
     border-radius: 20px;
     width: calc(100vw - 40px);
     min-width: calc(100vw - 40px);
+    height:234px;
   }
-
+  
 
 `;
 
