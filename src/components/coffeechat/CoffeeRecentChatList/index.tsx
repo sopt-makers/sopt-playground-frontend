@@ -369,15 +369,12 @@ const StyledScrollCarousel = styled(ScrollCarousel)`
   }
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    width: 390px;
-    height: 298px;
+    padding-right:20px;
+    padding-left:20px;
+    width: 100%;
+    height: 100%;
   }
-  @media ${MB_MID_MEDIA_QUERY} {
-    width: 320px;
-  }
-  @media ${MB_SM_MEDIA_QUERY} {
-    width: 280px;
-  }
+
 `;
 
 export const CardContainer = styled.div`
