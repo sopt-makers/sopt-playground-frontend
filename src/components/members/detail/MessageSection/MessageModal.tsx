@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import { IconUser } from '@sopt-makers/icons';
-import ProfileIcon from 'public/icons/icon-profile.svg';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -16,7 +15,7 @@ import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 import { Button } from '@sopt-makers/ui';
 
@@ -204,6 +203,10 @@ const StyledModal = styled(Modal)`
 
   @supports (height: 100dvh) {
     max-height: 100dvh;
+  }
+
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width: 100vw;
   }
 `;
 

@@ -120,7 +120,7 @@ const ModalContent = styled.div`
   padding: 32px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 80px;
+    padding: 24px 24px 40px;
   }
 `;
 
