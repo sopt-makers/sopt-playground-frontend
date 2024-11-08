@@ -45,7 +45,8 @@ interface MessageModalProps {
 const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) => {
   const {
     handleSubmit,
-    control,watch,
+    control,
+    watch,
     formState: { isValid: _isValid },
   } = useForm<MessageForm>({
     resolver: yupResolver(schema),
@@ -58,7 +59,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
   const { open } = useToast();
   const { data: me } = useGetMemberOfMe();
   const { data: profile } = useGetMemberProfileById(me?.id ?? undefined);
-  const {logSubmitEvent}=useEventLogger()
+  const { logSubmitEvent } = useEventLogger();
   const submit = async ({ content, phone }: MessageForm) => {
     if (isPending) {
       return;
@@ -81,7 +82,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
           receiverId,
           category: '커피챗',
         });
-        logSubmitEvent('sendCoffeechat',{content:content})
+        logSubmitEvent('sendCoffeechat', { content: content });
         open({
           icon: 'success',
           content: '커피챗 제안이 잘 전달되었어요!',
@@ -101,7 +102,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
   return (
     <StyledModal isOpen {...props}>
       {profile && (
-        <StyledForm  onSubmit={handleSubmit(submit)}>
+        <StyledForm onSubmit={handleSubmit(submit)}>
           <ProfileImage src='/icons/icon_coffeechat.svg' />
           <Text mt={30} typography='SUIT_24_B'>
             커피챗 제안하기
@@ -120,20 +121,20 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
           </Text>
           <LoggingClick eventKey='senderPhone'>
             <>
-          <TextWrapper>
-            <StyledText mt={48} color={colors.white}>
-              회신 받을 본인 연락처 <span style={{ color: '#F77234' }}>*</span>
-            </StyledText>
-          </TextWrapper>
-          <RHFControllerFormItem
-            style={{ width: '100%' }}
-            control={control}
-            name='phone'
-            defaultValue={profile?.phone ? profile?.phone : phone}
-            component={StyledInput}
-            placeholder='연락처를 입력해주세요!'
-          />
-          </>
+              <TextWrapper>
+                <StyledText mt={48} color={colors.white}>
+                  회신 받을 본인 연락처 <span style={{ color: '#F77234' }}>*</span>
+                </StyledText>
+              </TextWrapper>
+              <RHFControllerFormItem
+                style={{ width: '100%' }}
+                control={control}
+                name='phone'
+                defaultValue={profile?.phone ? profile?.phone : phone}
+                component={StyledInput}
+                placeholder='연락처를 입력해주세요!'
+              />
+            </>
           </LoggingClick>
           <TextWrapper>
             <StyledText mt={46} color={colors.white}>
@@ -148,13 +149,10 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
               component={StyledTextArea}
               placeholder={COFFEECHAT_PLACEHOLDER}
               maxCount={500}
-
             />
             {/* 향후 any 수정 */}
           </InputWrapper>
-          <TextCountWrapper>
-            {contentValue?contentValue.length:0}/500
-          </TextCountWrapper>
+          <TextCountWrapper>{contentValue ? contentValue.length : 0}/500</TextCountWrapper>
 
           <StyledButton isDisabled={!isValid || isPending}>
             {isPending ? (
@@ -181,43 +179,42 @@ const StyledModal = styled(Modal)`
   padding: 32px 32px 48px;
   width: 588px;
   max-height: 100vh;
-  overflow-y:scroll;
+  overflow-y: scroll;
 
-  &::-webkit-scrollbar {  
+  &::-webkit-scrollbar {
     display: none;
   }
 
-  textarea{
-   background-color : ${colors.gray800};
+  textarea {
+    background-color: ${colors.gray800};
 
-  &::placeholder {
-    color:${colors.gray300}
+    &::placeholder {
+      color: ${colors.gray300};
+    }
+
+    &:focus {
+      background-color: ${colors.gray800};
+    }
   }
 
-  &:focus{
-    background-color : ${colors.gray800};
-  }
-  }
+  input {
+    background-color: ${colors.gray800};
 
-  input{
-   background-color : ${colors.gray800};
-
-  &::placeholder {
-    color:${colors.gray300}
-  }
+    &::placeholder {
+      color: ${colors.gray300};
+    }
   }
   @supports (height: 100dvh) {
     max-height: 100dvh;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
-    top:60px;
-    padding-top:16px;
+    top: 60px;
+    padding-top: 16px;
     width: 100vw;
     height: auto;
-    min-height:100dvh;
+    min-height: 100dvh;
     overflow-y: scroll;
   }
-
 `;
 
 const StyledForm = styled.form`
@@ -288,33 +285,33 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
     background-color: ${colors.gray100};
   }
 
-  @media ${MB_BIG_MEDIA_QUERY}{
-    margin-bottom:40px;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    margin-bottom: 40px;
   }
 `;
 const InputWrapper = styled.div`
   width: 100%;
   height: 184px;
 
-  textarea{
-   min-height:184px; 
+  textarea {
+    min-height: 184px;
   }
   @media ${MB_BIG_MEDIA_QUERY} {
     height: 150px;
 
-    textarea{
-      min-height:150px;
+    textarea {
+      min-height: 150px;
     }
   }
 `;
 const StyledText = styled(Text)`
   ${fonts.LABEL_14_SB};
 `;
-const TextCountWrapper=styled.div`
-margin-top:24px;
-width: 100%;
-text-align: right;
-color:${colors.gray300};
+const TextCountWrapper = styled.div`
+  margin-top: 24px;
+  width: 100%;
+  text-align: right;
+  color: ${colors.gray300};
 
-${fonts.LABEL_12_SB};
-`
+  ${fonts.LABEL_12_SB};
+`;

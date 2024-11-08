@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconXClose } from '@sopt-makers/icons';
 import FocusTrap from 'focus-trap-react';
 import { FC, HTMLAttributes, PropsWithChildren, ReactNode, useRef } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -24,8 +25,6 @@ export interface ModalProps extends PropsWithChildren<HTMLAttributes<HTMLDivElem
   className?: string;
   onClose: () => void;
 }
-
-
 
 const Modal: FC<ModalProps> = (props) => {
   const { confirmIcon, children, title = '', content, isOpen, onClose, width, ...restProps } = props;
@@ -74,7 +73,7 @@ const StyledBackground = styled.div<{ visible?: boolean }>`
   align-items: center;
   justify-content: center;
   z-index: 200;
-  background-color: rgb(0 0 0 / 30%);
+  background-color: ${colors.backgroundDimmed};
   width: 100%;
   height: 100%;
 `;
@@ -104,7 +103,10 @@ const StyledCloseButton = styled.button`
   }
 `;
 
-const StyledIconClose = styled(IconModalClose)``;
+const StyledIconClose = styled(IconXClose)`
+  width: 24px;
+  height: 24px;
+`;
 
 const StyledIconCheck = styled(IconModalCheck)`
   margin-bottom: 18px;
@@ -115,7 +117,7 @@ const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 32px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 80px;
