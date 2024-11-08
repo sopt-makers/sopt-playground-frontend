@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconUser } from '@sopt-makers/icons';
 import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
@@ -25,7 +26,7 @@ const MemberCardOfMe: FC<MemberCardOfMeProps> = ({ name, belongs, badges, intro,
           {imageUrl ? (
             <Image className='image' src={imageUrl} width={180} alt='member_image' />
           ) : (
-            <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
+            <IconUser style={{ width: 115, height: 115, color: `${colors.gray400}`, paddingTop: '10px' }} />
           )}
         </ImageHolder>
       </StyledImageArea>

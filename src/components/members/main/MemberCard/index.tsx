@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { colors } from '@sopt-makers/colors';
+import { IconUser } from '@sopt-makers/icons';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
@@ -75,7 +76,7 @@ const MemberCard: FC<MemberCardProps> = ({
               {imageUrl ? (
                 <Image className='image' src={imageUrl} width={196} alt='member_image' />
               ) : (
-                <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
+                <IconUser style={{ width: 115, height: 115, color: `${colors.gray400}`, paddingTop: '10px' }} />
               )}
             </ImageHolder>
           </StyledAspectRatio>
