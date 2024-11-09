@@ -22,6 +22,9 @@ export type UserProperties = {
   job: string;
   part: string[];
   generation: number[];
+  coffeeChatStatus: string;
+  receivedCoffeeChatCount: number;
+  sentCoffeeChatCount: number;
 };
 
 type GotoCoffeechat = {
