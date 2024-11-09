@@ -4,6 +4,7 @@ export const CAREER_LEVEL = [
   '주니어 (0-3년)',
   '미들 (4-8년)',
   '시니어 (9년 이상)',
+  '창업 중',
 ] as const;
 
 export const COFFECHAT_SECTION = ['SOPT 활동', '기획', '디자인', '프론트', '백엔드', '앱 개발', '기타'] as const;
