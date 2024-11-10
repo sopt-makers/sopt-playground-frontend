@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
-import ProfileIcon from 'public/icons/icon-profile.svg';
+import { IconUser } from '@sopt-makers/icons';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -15,8 +15,9 @@ import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
+import { Button } from '@sopt-makers/ui';
 
 export enum MessageCategory {
   NETWORK = '친목',
@@ -134,11 +135,11 @@ const MessageModal: FC<MessageModalProps> = ({
         {profileImageUrl ? (
           <ProfileImage src={profileImageUrl} style={{ width: '84px', height: '84px', borderRadius: '20px' }} />
         ) : (
-          <EmptyProfileImage style={{ width: '84px', height: '84px' }}>
-            <ProfileIcon />
+          <EmptyProfileImage>
+            <IconUser style={{ width: '45px', height: '45px', color: `${colors.gray300}`, marginTop: '4px' }} />
           </EmptyProfileImage>
         )}
-        <Text mt={30} typography='SUIT_26_B'>
+        <Text mt={24} typography='SUIT_24_B'>
           {name}님에게 쪽지 보내기
         </Text>
         <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
@@ -159,9 +160,7 @@ const MessageModal: FC<MessageModalProps> = ({
           ))}
         </StyledCategory>
         <TextWrapper>
-          <Text mt={46} color={colors.gray200} typography='SUIT_14_M'>
-            회신 받을 본인 이메일
-          </Text>
+          <Text typography='SUIT_14_SB'>회신 받을 본인 이메일</Text>
         </TextWrapper>
         <RHFControllerFormItem
           style={{ width: '100%' }}
@@ -179,7 +178,7 @@ const MessageModal: FC<MessageModalProps> = ({
             '멤버에게 궁금한 점을 자세하게 적어주세요. 이야기 나누고 싶은 주제를 쉽게 이해할 수 있도록, 회원님에 대해 간단하게 소개해 주시면 더 좋아요.'
           }
         />
-        <StyledButton isDisabled={!isValid || isPending}>
+        <StyledButton type='submit' disabled={!isValid || isPending}>
           {isPending ? (
             <Loading color='white' />
           ) : (
@@ -197,12 +196,17 @@ const MessageModal: FC<MessageModalProps> = ({
 export default MessageModal;
 
 const StyledModal = styled(Modal)`
-  padding-top: 20px;
-  max-height: 100vh;
+  background: ${colors.gray900};
+  padding-top: 40px;
+  max-height: 792px;
   overflow-y: auto;
 
   @supports (height: 100dvh) {
     max-height: 100dvh;
+  }
+
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width: 100vw;
   }
 `;
 
@@ -229,10 +233,10 @@ const EmptyProfileImage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 36px;
+  border-radius: 19px;
   background: ${colors.gray700};
-  width: 171px;
-  height: 171px;
+  width: 84px;
+  height: 84px;
 `;
 
 const StyledCategory = styled.section`
@@ -242,7 +246,7 @@ const StyledCategory = styled.section`
   column-gap: 10px;
   align-items: center;
   justify-content: center;
-  margin-top: 46px;
+  margin-top: 40px;
   max-width: 224px;
 `;
 
@@ -267,26 +271,35 @@ const StyledIcon = styled.img`
 
 const TextWrapper = styled.div`
   display: flex;
+  padding-top: 40px;
   width: 100%;
 `;
 
 const StyledInput = styled(Input)`
-  margin-top: 12px;
+  margin-top: 8px;
+
+  & > input {
+    border: none;
+    border-radius: 10px;
+    background-color: ${colors.gray800};
+    padding: 15px 16px;
+
+    &::placeholder {
+      color: ${colors.gray400};
+    }
+  }
 `;
 
 const StyledTextArea = styled(TextArea)`
   margin-top: 14px;
+  border: none;
+  border-radius: 10px;
+  background-color: ${colors.gray800};
+  padding: 15px 16px;
   height: 172px;
+  line-height: 26px;
 `;
 
-const StyledButton = styled.button<{ isDisabled: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-  margin-top: 36px;
-  border-radius: 12px;
-  background-color: ${({ isDisabled }) => (isDisabled ? colors.gray700 : colors.gray10)};
-  cursor: pointer;
-  padding: 14px 28px;
+const StyledButton = styled(Button)`
+  margin-top: 40px;
 `;
