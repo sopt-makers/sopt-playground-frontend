@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconUser } from '@sopt-makers/icons';
 import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
+import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -25,7 +27,7 @@ const MemberCardOfMe: FC<MemberCardOfMeProps> = ({ name, belongs, badges, intro,
           {imageUrl ? (
             <Image className='image' src={imageUrl} width={180} alt='member_image' />
           ) : (
-            <DefaultImage className='image' src='/icons/icon-member-default.svg' alt='default_member_image' />
+            <IconUser style={{ width: 115, height: 115, color: `${colors.gray400}`, paddingTop: '10px' }} />
           )}
         </ImageHolder>
       </StyledImageArea>
@@ -37,9 +39,11 @@ const MemberCardOfMe: FC<MemberCardOfMeProps> = ({ name, belongs, badges, intro,
         <BadgesBox>
           <Badges>
             {badges.map((badge, idx) => (
-              <Badge key={idx}>
+              <Badge isActive={badge.isActive} key={idx}>
                 {badge.isActive && <BadgeActiveDot />}
-                {badge.content}
+                <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                  {badge.content}
+                </Text>
               </Badge>
             ))}
           </Badges>
@@ -131,34 +135,6 @@ const Badges = styled.div`
   gap: 4px;
 `;
 
-const Badge = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-shrink: 0;
-  gap: 6px;
-  align-items: center;
-  border-radius: 6px;
-  background-color: ${colors.gray700};
-  padding: 6px 8px;
-  color: ${colors.gray100};
-
-  ${textStyles.SUIT_11_M};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 4px 6px;
-    color: ${colors.gray100};
-
-    ${textStyles.SUIT_11_M};
-  }
-`;
-
-const BadgeActiveDot = styled.span`
-  border-radius: 50%;
-  background-color: #cdf47c;
-  width: 6px;
-  height: 6px;
-`;
-
 const Intro = styled.p`
   display: ${'-webkit-box'};
   margin-top: 16px;
@@ -175,4 +151,29 @@ const Intro = styled.p`
     color: ${colors.gray600};
     -webkit-line-clamp: 1;
   }
+`;
+
+const Badge = styled.div<{ isActive: boolean }>`
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  gap: 6px;
+  align-items: center;
+  border-radius: 6px;
+  background-color: ${({ isActive }) => (isActive ? 'rgb(247 114 52 / 20%)' : colors.gray700)};
+  padding: 6px;
+  height: 22px;
+  line-height: 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 4px 6px;
+    color: ${colors.gray100};
+  }
+`;
+
+const BadgeActiveDot = styled.span`
+  border-radius: 50%;
+  background-color: ${colors.secondary};
+  width: 6px;
+  height: 6px;
 `;
