@@ -1,5 +1,6 @@
-import Responsive from '@/components/common/Responsive';
 import styled from '@emotion/styled';
+
+import Responsive from '@/components/common/Responsive';
 
 interface AdsProps {
   moImage: string;
@@ -40,6 +41,6 @@ const Ads = ({ moImage, pcImage }: AdsProps) => {
 const AdsImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
   object-position: center;
 `;
