@@ -88,8 +88,10 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   justify-content: center;
   margin: 0 30px;
   border-radius: 12px;
+  width: 100%;
   max-width: 912px;
   overflow: hidden;
+  aspect-ratio: 912 / 164;
 
   &:hover {
     .slick-prev {
@@ -101,6 +103,11 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
       visibility: visible;
       opacity: 1;
     }
+  }
+
+  .slick-list {
+    width: 100%;
+    height: 100%;
   }
 
   /* stylelint-disable-next-line no-descending-specificity */
@@ -176,7 +183,7 @@ const AdsSlider = styled(Slider as React.ComponentType<Settings>)`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    aspect-ratio: 340 / 168;
+    aspect-ratio: 335 / 168;
     margin: 0 20px -4px;
   }
 `;
