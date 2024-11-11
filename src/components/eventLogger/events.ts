@@ -15,15 +15,16 @@ type CommunityFeedData = {
   images: string[];
 };
 
-
 export type UserProperties = {
   id: number;
   major: string;
-  university: string;
+  organization: string;
   job: string;
-  company: string;
   part: string[];
   generation: number[];
+  coffeeChatStatus: string;
+  receivedCoffeeChatCount: number;
+  sentCoffeeChatCount: number;
 };
 
 type GotoCoffeechat = {
