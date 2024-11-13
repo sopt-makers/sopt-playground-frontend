@@ -76,7 +76,14 @@ const MemberCard: FC<MemberCardProps> = ({
               {imageUrl ? (
                 <Image className='image' src={imageUrl} width={196} alt='member_image' />
               ) : (
-                <IconUser style={{ width: 115, height: 115, color: `${colors.gray400}`, paddingTop: '10px' }} />
+                <>
+                  <Responsive only='desktop'>
+                    <IconUser style={{ width: 115, height: 115, color: `${colors.gray400}`, paddingTop: '10px' }} />
+                  </Responsive>
+                  <Responsive only='mobile'>
+                    <IconUser style={{ width: 60, height: 60, color: `${colors.gray400}`, paddingTop: '10px' }} />
+                  </Responsive>
+                </>
               )}
             </ImageHolder>
           </StyledAspectRatio>
