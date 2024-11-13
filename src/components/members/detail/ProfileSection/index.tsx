@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconAlertTriangle, IconUserX } from '@sopt-makers/icons';
+import { IconAlertTriangle, IconUser, IconUserX } from '@sopt-makers/icons';
 import { Flex } from '@toss/emotion-utils';
 import { uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -10,10 +10,10 @@ import { playgroundLink } from 'playground-common/export';
 import CallIcon from 'public/icons/icon-call.svg';
 import EditIcon from 'public/icons/icon-edit.svg';
 import MailIcon from 'public/icons/icon-mail.svg';
-import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
 import ResizedImage from '@/components/common/ResizedImage';
+import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import { useBlockMember } from '@/components/members/hooks/useBlockMember';
@@ -42,7 +42,12 @@ const ProfileSection = ({ profile, memberId }: ProfileSectionProps) => {
           <ProfileImage src={profile.profileImage} height={171} />
         ) : (
           <EmptyProfileImage>
-            <ProfileIcon />
+            <Responsive only='desktop'>
+              <IconUser style={{ width: 130, height: 130, color: `${colors.gray400}`, paddingTop: '20px' }} />
+            </Responsive>
+            <Responsive only='mobile'>
+              <IconUser style={{ width: 60, height: 60, color: `${colors.gray400}`, paddingTop: '10px' }} />
+            </Responsive>
           </EmptyProfileImage>
         )}
         {profile.isCoffeeChatActivate && (
@@ -137,7 +142,7 @@ const EmptyProfileImage = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 36px;
-  background: ${colors.gray700};
+  background: ${colors.gray900};
   width: 171px;
   height: 171px;
   @media ${MOBILE_MEDIA_QUERY} {
@@ -145,11 +150,6 @@ const EmptyProfileImage = styled.div`
     width: 78px;
     min-width: 78px;
     height: 78px;
-
-    & > svg {
-      width: 40px;
-      height: 40px;
-    }
   }
 `;
 
@@ -312,12 +312,12 @@ const IconContainer = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 3px;
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
 
     & > svg {
-      width: 19px;
-      height: 19px;
+      width: 15px;
+      height: 15px;
     }
   }
 `;
