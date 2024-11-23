@@ -8,9 +8,8 @@ export const ADS = [
       'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/20241111-20241126/ASAP_banner_desktop.png',
     url: 'https://www.beginwithasap.com/',
   },
-
   {
-    // 김태희 님
+    // 이현진 님
     id: 2,
     moImage:
       'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/20241124-20241207/%E1%84%8F%E1%85%A5%E1%84%86%E1%85%B2%E1%84%82%E1%85%B5%E1%84%90%E1%85%B5+(%E1%84%86%E1%85%A9%E1%84%87%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF+%E1%84%87%E1%85%A5%E1%84%8C%E1%85%A5%E1%86%AB).png',
