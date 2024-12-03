@@ -18,7 +18,7 @@ const Intro: FC<IntroProps> = ({}) => {
     if (isClientSide()) {
       setPath(lastUnauthorized.popPath() ?? 'none');
     }
-  }, [lastUnauthorized]);
+  }, [lastUnauthorized, path]);
 
   return (
     <>
