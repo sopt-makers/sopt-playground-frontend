@@ -14,7 +14,7 @@ const Intro: FC<IntroProps> = ({}) => {
 
   return (
     <>
-      <p>path: {lastUnauthorized.popPath()}</p>
+      <p>path: {lastUnauthorized.popPath() ?? 'none'}</p>
       <Login />
       <CatchPhraseSection />
       <ValueSection />
