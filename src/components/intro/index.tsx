@@ -16,9 +16,16 @@ const Intro: FC<IntroProps> = ({}) => {
 
   useEffect(() => {
     if (isClientSide()) {
-      setPath(lastUnauthorized.popPath() ?? 'none');
+      const poppedPath = lastUnauthorized.popPath();
+      console.log('Popped path:', poppedPath);
+
+      setPath(poppedPath ?? 'none');
     }
-  }, [lastUnauthorized, path]);
+  }, [lastUnauthorized]);
+
+  useEffect(() => {
+    console.log('Current path state:', path);
+  }, [path]);
 
   return (
     <>
