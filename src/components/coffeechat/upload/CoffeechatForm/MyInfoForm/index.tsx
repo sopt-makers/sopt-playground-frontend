@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
+import { SelectV2 } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
-import ChipField from '@/components/coffeechat/upload/CoffeechatForm/ChipField';
-import { CAREER_LEVEL } from '@/components/coffeechat/upload/CoffeechatForm/constants';
+import { CAREER_LEVEL_OPTIONS } from '@/components/coffeechat/upload/CoffeechatForm/constants';
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
+import FormItem from '@/components/common/form/FormItem';
 import FormTitle from '@/components/common/form/FormTitle';
 import TextFieldLineBreak from '@/components/common/form/TextFieldLineBreak';
 import Responsive from '@/components/common/Responsive';
@@ -25,12 +26,35 @@ export default function MyInfoForm() {
         >
           경력
         </FormTitle>
-        <ChipField
-          field='memberInfo.career'
-          errorMessage={errors.memberInfo?.career?.message ?? ''}
-          chipList={CAREER_LEVEL}
-          isSingleSelect
-        />
+
+        <FormItem errorMessage={errors.memberInfo?.career?.message ?? ''}>
+          <Controller
+            name='memberInfo.career'
+            control={control}
+            render={({ field }) => (
+              <CareerOptionContainer>
+                <Responsive only='desktop' {...field}>
+                  <SelectV2.Root
+                    type='text'
+                    className='member-career'
+                    visibleOptions={6}
+                    defaultValue={CAREER_LEVEL_OPTIONS.find((option) => option.value === field.value)}
+                    onChange={(value) => field.onChange([value])}
+                  >
+                    <SelectV2.Trigger>
+                      <SelectV2.TriggerContent placeholder={'경력 선택'} />
+                    </SelectV2.Trigger>
+                    <SelectV2.Menu>
+                      {CAREER_LEVEL_OPTIONS.map((option) => (
+                        <SelectV2.MenuItem key={option.value} option={option} />
+                      ))}
+                    </SelectV2.Menu>
+                  </SelectV2.Root>
+                </Responsive>
+              </CareerOptionContainer>
+            )}
+          />
+        </FormItem>
       </CareerWrapper>
       <article>
         <FormTitle essential breakPoint={COFFEECHAT_MOBILE_MEDIA_QUERY}>
@@ -81,4 +105,18 @@ const CareerWrapper = styled.article`
   display: flex;
   flex-direction: column;
   gap: 12px;
+`;
+
+const CareerOptionContainer = styled.div`
+  .member-career {
+    width: 312px;
+
+    button {
+      width: 312px;
+
+      div {
+        width: 312px;
+      }
+    }
+  }
 `;
