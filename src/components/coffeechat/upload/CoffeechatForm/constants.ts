@@ -6,6 +6,7 @@ export const CAREER_LEVEL_OPTIONS = [
   { label: '시니어 (9년 이상)', value: '시니어 (9년 이상)' },
   { label: '창업 중', value: '창업 중' },
 ] as const;
+export type CareerLevelOptions = typeof CAREER_LEVEL_OPTIONS;
 
 export const COFFECHAT_SECTION = ['SOPT 활동', '기획', '디자인', '프론트', '백엔드', '앱 개발', '기타'] as const;
 

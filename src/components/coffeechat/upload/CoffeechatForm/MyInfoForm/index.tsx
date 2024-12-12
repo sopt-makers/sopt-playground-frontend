@@ -3,12 +3,14 @@ import { SelectV2 } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
+import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import { CAREER_LEVEL_OPTIONS } from '@/components/coffeechat/upload/CoffeechatForm/constants';
 import { CoffeechatFormContent } from '@/components/coffeechat/upload/CoffeechatForm/types';
 import FormItem from '@/components/common/form/FormItem';
 import FormTitle from '@/components/common/form/FormTitle';
 import TextFieldLineBreak from '@/components/common/form/TextFieldLineBreak';
 import Responsive from '@/components/common/Responsive';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MyInfoForm() {
   const {
@@ -32,26 +34,37 @@ export default function MyInfoForm() {
             name='memberInfo.career'
             control={control}
             render={({ field }) => (
-              <CareerOptionContainer>
-                <Responsive only='desktop' {...field}>
-                  <SelectV2.Root
-                    type='text'
-                    className='member-career'
-                    visibleOptions={6}
-                    defaultValue={CAREER_LEVEL_OPTIONS.find((option) => option.value === field.value)}
-                    onChange={(value) => field.onChange([value])}
-                  >
-                    <SelectV2.Trigger>
-                      <SelectV2.TriggerContent placeholder={'경력 선택'} />
-                    </SelectV2.Trigger>
-                    <SelectV2.Menu>
-                      {CAREER_LEVEL_OPTIONS.map((option) => (
-                        <SelectV2.MenuItem key={option.value} option={option} />
-                      ))}
-                    </SelectV2.Menu>
-                  </SelectV2.Root>
-                </Responsive>
-              </CareerOptionContainer>
+              <>
+                <CareerOptionContainer>
+                  <Responsive only='desktop' {...field}>
+                    <SelectV2.Root
+                      type='text'
+                      className='member-career'
+                      visibleOptions={6}
+                      defaultValue={CAREER_LEVEL_OPTIONS.find((option) => option.value === field.value)}
+                      onChange={(value) => field.onChange(value)}
+                    >
+                      <SelectV2.Trigger>
+                        <SelectV2.TriggerContent placeholder={'경력 선택'} />
+                      </SelectV2.Trigger>
+                      <SelectV2.Menu>
+                        {CAREER_LEVEL_OPTIONS.map((option) => (
+                          <SelectV2.MenuItem key={option.value} option={option} />
+                        ))}
+                      </SelectV2.Menu>
+                    </SelectV2.Root>
+                  </Responsive>
+
+                  <Responsive only='mobile' {...field}>
+                    <BottomSheetSelect
+                      options={[...CAREER_LEVEL_OPTIONS]}
+                      value={field.value}
+                      placeholder='경력 선택'
+                      onChange={(value) => field.onChange(value)}
+                    />
+                  </Responsive>
+                </CareerOptionContainer>
+              </>
             )}
           />
         </FormItem>
@@ -108,7 +121,7 @@ const CareerWrapper = styled.article`
 `;
 
 const CareerOptionContainer = styled.div`
-  .member-career {
+  .option-container {
     width: 312px;
 
     button {
@@ -116,6 +129,25 @@ const CareerOptionContainer = styled.div`
 
       div {
         width: 312px;
+      }
+    }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    .option-container {
+      width: 100%;
+
+      ul {
+        margin-bottom: 24px;
+        max-height: 400px !important;
+      }
+
+      button {
+        width: 100%;
+
+        div {
+          width: 100%;
+        }
       }
     }
   }
