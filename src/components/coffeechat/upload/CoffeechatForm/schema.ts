@@ -9,7 +9,6 @@ const myInfoSchema = yup.object().shape({
       (value) => typeof value === 'string' || (Array.isArray(value) && value.length > 0),
     )
     .required('경력을 선택해주세요'),
-  introduction: yup.string().required('자기소개를 입력해주세요'),
 });
 
 const coffeeChatInfoSchema = yup.object().shape({
