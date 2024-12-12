@@ -3,6 +3,7 @@ import { SelectV2, TextArea } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { COFFEECHAT_MOBILE_MEDIA_QUERY } from '@/components/coffeechat/mediaQuery';
+import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import ChipField from '@/components/coffeechat/upload/CoffeechatForm/ChipField';
 import {
   COFFECHAT_SECTION,
@@ -124,23 +125,33 @@ export default function CoffeechatInfoForm() {
             name='coffeeChatInfo.meetingType'
             control={control}
             render={({ field }) => (
-              <div {...field}>
-                <SelectV2.Root
-                  type='text'
-                  visibleOptions={3}
-                  defaultValue={MEETING_TYPE_OPTIONS.find((option) => option.value === field.value)}
-                  onChange={(value) => field.onChange(value)}
-                >
-                  <SelectV2.Trigger>
-                    <SelectV2.TriggerContent placeholder={'진행 방식 선택'} />
-                  </SelectV2.Trigger>
-                  <SelectV2.Menu>
-                    {MEETING_TYPE_OPTIONS.map((option) => (
-                      <SelectV2.MenuItem key={option.value} option={option} />
-                    ))}
-                  </SelectV2.Menu>
-                </SelectV2.Root>
-              </div>
+              <>
+                <Responsive only='desktop' {...field}>
+                  <SelectV2.Root
+                    type='text'
+                    visibleOptions={3}
+                    defaultValue={MEETING_TYPE_OPTIONS.find((option) => option.value === field.value)}
+                    onChange={(value) => field.onChange(value)}
+                  >
+                    <SelectV2.Trigger>
+                      <SelectV2.TriggerContent placeholder={'진행 방식 선택'} />
+                    </SelectV2.Trigger>
+                    <SelectV2.Menu>
+                      {MEETING_TYPE_OPTIONS.map((option) => (
+                        <SelectV2.MenuItem key={option.value} option={option} />
+                      ))}
+                    </SelectV2.Menu>
+                  </SelectV2.Root>
+                </Responsive>
+                <Responsive only='mobile' {...field}>
+                  <BottomSheetSelect
+                    options={[...MEETING_TYPE_OPTIONS]}
+                    value={field.value}
+                    placeholder='진행 방식 선택'
+                    onChange={(value) => field.onChange(value)}
+                  />
+                </Responsive>
+              </>
             )}
           />
         </FormItem>
