@@ -39,7 +39,7 @@ export default function MyInfoForm() {
                   <Responsive only='desktop' {...field}>
                     <SelectV2.Root
                       type='text'
-                      className='member-career'
+                      className='option-container'
                       visibleOptions={6}
                       defaultValue={CAREER_LEVEL_OPTIONS.find((option) => option.value === field.value)}
                       onChange={(value) => field.onChange(value)}
