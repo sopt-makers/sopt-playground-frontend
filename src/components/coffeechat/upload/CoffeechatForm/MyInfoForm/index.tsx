@@ -70,9 +70,7 @@ export default function MyInfoForm() {
         </FormItem>
       </CareerWrapper>
       <article>
-        <FormTitle essential breakPoint={COFFEECHAT_MOBILE_MEDIA_QUERY}>
-          자기소개
-        </FormTitle>
+        <FormTitle breakPoint={COFFEECHAT_MOBILE_MEDIA_QUERY}>자기소개</FormTitle>
         <Controller
           name='memberInfo.introduction'
           control={control}

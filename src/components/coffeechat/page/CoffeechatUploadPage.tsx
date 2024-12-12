@@ -81,7 +81,7 @@ export default function CoffeechatUploadPage({ uploadType, form, onSubmit }: Cof
               aside={
                 <ProgressBox
                   uploadType={uploadType}
-                  myInfoInprogress={!!(watch('memberInfo.career') && watch('memberInfo.introduction'))}
+                  myInfoInprogress={!!watch('memberInfo.career')}
                   coffeechatInfoInprogress={
                     !!(
                       watch('coffeeChatInfo.sections') &&
