@@ -61,7 +61,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileSection profile={profile} memberId={memberId} />
-        {!profile.isMine && <MessageSection profile={profile} memberId={memberId} />}
+        <MessageSection profile={profile} memberId={memberId} />
         <DetailInfoSection profile={profile} />
         <SoptActivitySection soptActivities={sortedSoptActivities} />
         <CareerSection
