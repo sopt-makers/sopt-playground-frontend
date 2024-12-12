@@ -84,12 +84,7 @@ export default function CoffeechatInfoForm() {
                   value={field.value ?? ''}
                   maxLength={1000}
                   fixedHeight={189}
-                  lineBreakPlaceholder={[
-                    '• PM과 서비스기획자로 일하는 방법',
-                    '• 포트폴리오 준비 및 작성 노하우',
-                    '• 직무 전환 시 준비할 것들',
-                    '• 당근, 토스, 넥슨, 하나은행, LG전자 면접 후기',
-                  ]}
+                  lineBreakPlaceholder={['• PM과 서비스 기획자로 일하는 방법', '• 앱잼 전 미리 준비하면 좋은 것']}
                   isError={!!errors.coffeeChatInfo?.topic}
                   errorMessage={errors.coffeeChatInfo?.topic?.message}
                   onChange={(e) => field.onChange(e.target.value)}
@@ -101,12 +96,7 @@ export default function CoffeechatInfoForm() {
                   value={field.value ?? ''}
                   maxLength={1000}
                   fixedHeight={176}
-                  lineBreakPlaceholder={[
-                    '• PM과 서비스기획자로 일하는 방법',
-                    '• 포트폴리오 준비 및 작성 노하우',
-                    '• 직무 전환 시 준비할 것들',
-                    '• 당근, 토스, 넥슨, 하나은행, LG전자 면접 후기',
-                  ]}
+                  lineBreakPlaceholder={['• PM과 서비스 기획자로 일하는 방법', '• 앱잼 전 미리 준비하면 좋은 것']}
                   isError={!!errors.coffeeChatInfo?.topic}
                   errorMessage={errors.coffeeChatInfo?.topic?.message}
                   onChange={(e) => field.onChange(e.target.value)}
