@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import axios from 'axios';
 import Link from 'next/link';
 
@@ -13,7 +14,6 @@ import { playgroundLink } from '@/constants/links';
 import useEnterScreen from '@/hooks/useEnterScreen';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { safeParseInt } from '@/utils';
-import { fonts } from '@sopt-makers/fonts';
 
 interface GroupSectionProps {
   profile: ProfileDetail;
@@ -40,9 +40,9 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
   }
 
   return (
-    <Container>
+    <>
       {meetingList.length > 0 ? (
-        <>
+        <Container>
           <ActivityTitle>
             {profile.name}님이 참여한 {meetingList.length}개의 모임이에요!
           </ActivityTitle>
@@ -56,11 +56,11 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
             ))}
           </ActivityDisplay>
           <Target ref={ref} />
-        </>
+        </Container>
       ) : (
         <>
-          {String(meId) === memberId ? (
-            <>
+          {String(meId) === memberId && (
+            <Container>
               <ActivityTitle>아직 참여한 모임이 없어요</ActivityTitle>
               <ActivityUploadNudge>
                 <NudgeSubText typography='SUIT_16_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
@@ -72,13 +72,11 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
                 </ActivityUploadButton>
                 <ActivityUploadMaskImg src='/icons/img/meeting-mask.png' alt='meeting-mask-image' height={134} />
               </ActivityUploadNudge>
-            </>
-          ) : (
-            <ActivityTitle>아직 {profile.name}님이 참여한 모임이 없어요</ActivityTitle>
+            </Container>
           )}
         </>
       )}
-    </Container>
+    </>
   );
 };
 
