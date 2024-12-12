@@ -53,7 +53,7 @@ export default function ChipField({ field, errorMessage, chipList, isSingleSelec
                   </Chip>
                 </Responsive>
                 <Responsive only='mobile'>
-                  <Chip size='md' active={isActive(field, chip)}>
+                  <Chip size='sm' active={isActive(field, chip)}>
                     {chip}
                   </Chip>
                 </Responsive>
