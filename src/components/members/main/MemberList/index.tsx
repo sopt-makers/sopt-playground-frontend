@@ -317,57 +317,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           {banner}
         </Responsive>
         <StyledRightWrapper>
-          <StyledCardWrapper>
-            {profiles?.map((profiles, index) => (
-              <React.Fragment key={index}>
-                {profiles.map((profile) => {
-                  const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
-                  const badges = sorted.map((activity) => ({
-                    content: `${activity.generation}기 ${activity.part}`,
-                    isActive: activity.generation === LATEST_GENERATION,
-                  }));
-
-                  const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
-
-                  return (
-                    <StyledLink
-                      key={profile.id}
-                      href={playgroundLink.memberDetail(profile.id)}
-                      onClick={() => handleClickCard(profile)}
-                    >
-                      <MemberCard
-                        memberId={profile.id}
-                        name={profile.name}
-                        belongs={belongs}
-                        badges={badges}
-                        intro={profile.introduction}
-                        imageUrl={profile.profileImage}
-                        isCoffeeChatActivate={profile.isCoffeeChatActivate}
-                        email={profile.email}
-                        onMessage={(e) => {
-                          e.preventDefault();
-                          logClickEvent('messageBadge');
-                          setMessageModalState({
-                            show: true,
-                            data: {
-                              targetId: `${profile.id}`,
-                              name: profile.name,
-                              profileUrl: profile.profileImage,
-                            },
-                          });
-                        }}
-                      />
-                      <Responsive only='mobile'>
-                        <HLine />
-                      </Responsive>
-                    </StyledLink>
-                  );
-                })}
-              </React.Fragment>
-            ))}
-          </StyledCardWrapper>
-
-          {isEmpty && <EmptyView />}
           <Responsive only='desktop'>
             <StyledTopWrapper>
               <div
@@ -471,6 +420,56 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             </StyledTopWrapper>
           </Responsive>
+          {isEmpty && <EmptyView />}
+          <StyledCardWrapper>
+            {profiles?.map((profiles, index) => (
+              <React.Fragment key={index}>
+                {profiles.map((profile) => {
+                  const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
+                  const badges = sorted.map((activity) => ({
+                    content: `${activity.generation}기 ${activity.part}`,
+                    isActive: activity.generation === LATEST_GENERATION,
+                  }));
+
+                  const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
+
+                  return (
+                    <StyledLink
+                      key={profile.id}
+                      href={playgroundLink.memberDetail(profile.id)}
+                      onClick={() => handleClickCard(profile)}
+                    >
+                      <MemberCard
+                        memberId={profile.id}
+                        name={profile.name}
+                        belongs={belongs}
+                        badges={badges}
+                        intro={profile.introduction}
+                        imageUrl={profile.profileImage}
+                        isCoffeeChatActivate={profile.isCoffeeChatActivate}
+                        email={profile.email}
+                        onMessage={(e) => {
+                          e.preventDefault();
+                          logClickEvent('messageBadge');
+                          setMessageModalState({
+                            show: true,
+                            data: {
+                              targetId: `${profile.id}`,
+                              name: profile.name,
+                              profileUrl: profile.profileImage,
+                            },
+                          });
+                        }}
+                      />
+                      <Responsive only='mobile'>
+                        <HLine />
+                      </Responsive>
+                    </StyledLink>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+          </StyledCardWrapper>
         </StyledRightWrapper>
       </StyledMain>
       <Target ref={ref} />
@@ -525,7 +524,7 @@ const StyledMain = styled.main`
 const StyledRightWrapper = styled.div`
   display: flex;
   flex: 1;
-  flex-direction: column-reverse;
+  flex-direction: column;
   width: 100%;
 `;
 
