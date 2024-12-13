@@ -12,7 +12,7 @@ interface SoptActivitySectionProps {
 
 export default function SoptActivitySection({ soptActivities }: SoptActivitySectionProps) {
   return (
-    <MemberDetailSection style={{ gap: '34px' }}>
+    <MemberDetailSection>
       {soptActivities.map(({ generation, part, projects, team }, idx) => (
         <PartItem
           key={idx}

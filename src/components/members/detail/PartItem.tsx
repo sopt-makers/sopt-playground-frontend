@@ -56,10 +56,9 @@ const Container = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid:
-      [row1-start] 'thumbnail generation' 1fr [row1-end]
-      [row2-start] 'thumbnail belongs' 1fr [row2-end]
-      [row2-start] 'activities activities' auto [row2-end]
-      / auto 1fr;
+      [row1-start] 'thumbnail generation belongs' 1fr [row1-end]
+      [row2-start] 'activities activities activities' 1fr [row2-end]
+      / auto auto 1fr;
   }
 `;
 
@@ -93,9 +92,6 @@ const Generation = styled.div`
   ${textStyles.SUIT_18_B}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    align-self: end;
-    margin-bottom: 2px;
-
     ${textStyles.SUIT_16_B}
   }
 `;
@@ -110,9 +106,6 @@ const BelongArea = styled.div`
   ${textStyles.SUIT_18_M}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    align-self: start;
-    margin-top: 2px;
-
     ${textStyles.SUIT_16_M}
   }
 `;
