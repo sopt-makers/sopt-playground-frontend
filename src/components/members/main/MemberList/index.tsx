@@ -32,6 +32,7 @@ import {
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import MemberListFilterSheet from '@/components/members/main/MemberList/filters/MemberListFilterSheet';
+import { MemberListOrder } from '@/components/members/main/MemberList/filters/MemberListOrder';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -66,7 +67,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [employed, setEmployed] = useState<Option | null | undefined>(null);
   const [team, setTeam] = useState<Option | null | undefined>(null);
   const [mbti, setMbti] = useState<Option | null | undefined>(null);
-  const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
+  const [orderBy, setOrderBy] = useState<Option>(ORDER_OPTIONS[0]);
   const [search, setSearch] = useState<string | undefined>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
@@ -131,7 +132,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         setEmployed(employedOption as Option);
       }
       if (typeof orderBy === 'string') {
-        setOrderBy(orderBy);
+        const orderByOption = ORDER_OPTIONS.find((option) => option.value === orderBy);
+        setOrderBy(orderByOption as Option);
       }
     }
   }, [router.isReady, router.query, router]);
@@ -291,7 +293,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               <StyledMobileFilter
                 placeholder=''
                 options={ORDER_OPTIONS}
-                value={orderBy}
+                value={orderBy.value}
                 onChange={handleSelectOrderBy}
                 trigger={(placeholder) => (
                   <OrderFilter>
@@ -397,25 +399,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   css={css`
                     display: flex;
                     grid-area: 'orderBy';
+                    align-items: center;
                     justify-content: space-between;
                     order: 3;
                     margin-top: 30px;
                   `}
                 >
                   <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                  <OrderBySelect
-                    value={orderBy}
-                    onChange={handleSelectOrderBy}
-                    options={ORDER_OPTIONS}
-                    trigger={
-                      <OrderFilter>
-                        <Text typography='SUIT_16_M' color={colors.gray300}>
-                          {ORDER_OPTIONS.find((option: Option) => option.value === orderBy)?.label}
-                        </Text>
-                        <StyledSwitchVertical />
-                      </OrderFilter>
-                    }
-                  />
+                  <MemberListOrder value={orderBy} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />
                 </div>
               )}
             </StyledTopWrapper>
