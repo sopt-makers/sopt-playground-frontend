@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import debounce from 'lodash-es/debounce';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
@@ -37,10 +38,23 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 
+  const debouncedChangeImageInput = useRef<(((s3Url: string[]) => void) & { cancel: () => void }) | null>(null);
+
+  useEffect(() => {
+    debouncedChangeImageInput.current = debounce((s3Url: string[]) => {
+      setPreviewImage(s3Url[0]);
+      onChange?.(s3Url[0]);
+    }, 200);
+
+    return () => {
+      debouncedChangeImageInput.current?.cancel(); // 클린업
+    };
+  }, [onChange]);
+
   const handleChangeImageInput = (s3Url: string[]) => {
-    setPreviewImage(s3Url[0]);
-    onChange?.(s3Url[0]);
+    debouncedChangeImageInput.current?.(s3Url);
   };
+
   const { imageInputRef, handleClickImageInput } = useImageUploader({ onSuccess: handleChangeImageInput });
 
   const previewImageSrc = value || previewImage || src;
