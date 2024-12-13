@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Tag } from '@sopt-makers/ui';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -27,7 +28,12 @@ const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities }) =>
       </Thumbnail>
       <Generation>{generation}기</Generation>
       <BelongArea>
-        {partLabel} {teams?.map((team) => `| ${team}`)}
+        {partLabel}{' '}
+        {teams?.map((team) => (
+          <Tag key={`${partLabel}-${team}`} variant='primary'>
+            {team}
+          </Tag>
+        ))}
       </BelongArea>
       <Badges>
         {activities.map((activity, idx) => (
@@ -95,7 +101,10 @@ const Generation = styled.div`
 `;
 
 const BelongArea = styled.div`
+  display: flex;
   grid-area: belongs;
+  gap: 8px;
+  align-items: center;
   color: ${colors.gray100};
 
   ${textStyles.SUIT_18_M}
@@ -114,7 +123,7 @@ const Badges = styled.div`
   grid-area: activities;
   gap: 8px;
   align-self: start;
-  margin-top: 2px;
+  margin-top: 12px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 12px;

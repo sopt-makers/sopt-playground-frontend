@@ -231,9 +231,6 @@ const ProfileContents = styled.div`
 
 const EditButton = styled.div`
   display: flex;
-  position: absolute;
-  top: 22px;
-  right: 0;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
