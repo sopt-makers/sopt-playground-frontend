@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
+import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 interface ActivityBadgeProps {
   category?: string;
@@ -13,8 +13,8 @@ interface ActivityBadgeProps {
 const ActivityBadge: FC<ActivityBadgeProps> = ({ category, name }) => {
   return (
     <Container>
-      <Category>{category}</Category>
-      {name}
+      <Category typography='SUIT_13_M'>{category}</Category>
+      <Text typography='SUIT_13_M'>{name}</Text>
     </Container>
   );
 };
@@ -37,7 +37,7 @@ const Container = styled.div`
   }
 `;
 
-const Category = styled.div`
+const Category = styled(Text)`
   display: flex;
   align-items: center;
 

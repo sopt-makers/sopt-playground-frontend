@@ -63,7 +63,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
         <ProfileSection profile={profile} memberId={memberId} />
         <MessageSection profile={profile} memberId={memberId} />
         <DetailInfoSection profile={profile} />
-        <SoptActivitySection soptActivities={sortedSoptActivities} />
+        <SoptActivitySection soptActivities={sortedSoptActivities} isMine={profile.isMine} />
         <CareerSection
           careers={profile.careers}
           links={profile.links}
