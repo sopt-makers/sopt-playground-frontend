@@ -416,10 +416,12 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               <React.Fragment key={index}>
                 {profiles.map((profile) => {
                   const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
-                  const badges = sorted.map((activity) => ({
-                    content: `${activity.generation}기 ${activity.part}`,
-                    isActive: activity.generation === LATEST_GENERATION,
-                  }));
+                  const badges = sorted
+                    .filter((activity) => activity.generation && activity.part)
+                    .map((activity) => ({
+                      content: `${activity.generation}기 ${activity.part}`,
+                      isActive: activity.generation === LATEST_GENERATION,
+                    }));
 
                   const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
 
