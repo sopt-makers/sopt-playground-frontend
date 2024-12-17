@@ -1,13 +1,13 @@
-import dynamic from 'next/dynamic';
-
-const Lottie = dynamic(() => import('react-lottie'), { ssr: false });
 import styled from '@emotion/styled';
+import dynamic from 'next/dynamic';
 
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import mobilePC from '@/public/lottie/coffee_MO.json';
 import coffeePC from '@/public/lottie/coffee_PC.json';
 import { PCTA_MID_MEDIA_QUERY } from '@/styles/mediaQuery';
+
+const Lottie = dynamic(() => import('react-lottie'), { ssr: false });
 
 function CoffeeChatLottie() {
   const defaultDesktopOptions = {

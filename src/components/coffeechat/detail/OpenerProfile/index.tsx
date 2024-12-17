@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconMail } from '@sopt-makers/icons';
+import { useDialog } from '@sopt-makers/ui';
+import Link from 'next/link';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
@@ -11,7 +13,6 @@ import RegisterCoffeechatButton from '@/components/coffeechat/detail/RegisterCof
 import ShowCoffeechatToggle from '@/components/coffeechat/detail/ShowCoffeechatToggle';
 import useModalState from '@/components/common/Modal/useModalState';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { useDialog } from '@sopt-makers/ui';
 
 interface OpenerProfileProps {
   memberId: string;
@@ -40,13 +41,15 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
     <>
       {openerProfile && (
         <OpenerProfileSection isMine={!!openerProfile.isMine}>
-          <ProfileImageBox>
-            {openerProfile.profileImage ? (
-              <ProfileImage src={openerProfile.profileImage} alt='프로필 이미지' />
-            ) : (
-              <ProfileIcon />
-            )}
-          </ProfileImageBox>
+          <Link href={"/members/"+memberId}>
+            <ProfileImageBox>
+             {openerProfile.profileImage ? (
+                <ProfileImage src={openerProfile.profileImage} alt='프로필 이미지' />
+              ) : (
+                <ProfileIcon />
+              )}
+            </ProfileImageBox>
+          </Link>
           <ProfileInfoBox>
             <ProfileHeader>
               <Name>{openerProfile.name}</Name>
