@@ -83,7 +83,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       if (useragt.match(/kakaotalk/i)) {
         // MEMO: 카카오톡 외부브라우저로 호출
-        location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(target_url);
+        const encodedReturnUrl = encodeURIComponent(target_url);
+
+        location.href = `kakaotalk://web/openExternal?url=${encodedReturnUrl}&returnUrl=${encodedReturnUrl}`;
       } else if (
         useragt.match(
           /inapp|naver|snapchat|wirtschaftswoche|thunderbird|instagram|everytimeapp|whatsApp|electron|wadiz|aliapp|zumapp|iphone(.*)whale|android(.*)whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS|trill|SamsungBrowser\/[^1]/i,

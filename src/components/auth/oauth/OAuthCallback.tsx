@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
@@ -43,8 +42,15 @@ const OAuthCallback: FC<OAuthCallbackProps> = ({ url }) => {
       }
 
       if (!accessToken) {
-        lastUnauthorized.setPath(url.href);
+        const returnUrl = new URLSearchParams(window.location.search).get('returnUrl');
+
+        if (returnUrl) {
+          lastUnauthorized.setPath(decodeURIComponent(returnUrl));
+        } else {
+          lastUnauthorized.setPath(url.href);
+        }
         location.href = playgroundLink.login();
+
         return;
       }
 
