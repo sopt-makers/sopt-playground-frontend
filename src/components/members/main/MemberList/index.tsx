@@ -13,7 +13,6 @@ import EmptyView from '@/components/common/EmptyView';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import OrderBySelect from '@/components/members/common/select/OrderBySelect';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
@@ -32,6 +31,7 @@ import {
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import MemberListFilterSheet from '@/components/members/main/MemberList/filters/MemberListFilterSheet';
+import { MemberListOrder } from '@/components/members/main/MemberList/filters/MemberListOrder';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -66,7 +66,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [employed, setEmployed] = useState<Option | null | undefined>(null);
   const [team, setTeam] = useState<Option | null | undefined>(null);
   const [mbti, setMbti] = useState<Option | null | undefined>(null);
-  const [orderBy, setOrderBy] = useState<string>(ORDER_OPTIONS[0].value);
+  const [orderBy, setOrderBy] = useState<Option>(ORDER_OPTIONS[0]);
   const [search, setSearch] = useState<string | undefined>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
 
@@ -131,7 +131,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         setEmployed(employedOption as Option);
       }
       if (typeof orderBy === 'string') {
-        setOrderBy(orderBy);
+        const orderByOption = ORDER_OPTIONS.find((option) => option.value === orderBy);
+        setOrderBy(orderByOption as Option);
       }
     }
   }, [router.isReady, router.query, router]);
@@ -291,7 +292,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               <StyledMobileFilter
                 placeholder=''
                 options={ORDER_OPTIONS}
-                value={orderBy}
+                value={orderBy.value}
                 onChange={handleSelectOrderBy}
                 trigger={(placeholder) => (
                   <OrderFilter>
@@ -317,57 +318,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
           {banner}
         </Responsive>
         <StyledRightWrapper>
-          <StyledCardWrapper>
-            {profiles?.map((profiles, index) => (
-              <React.Fragment key={index}>
-                {profiles.map((profile) => {
-                  const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
-                  const badges = sorted.map((activity) => ({
-                    content: `${activity.generation}기 ${activity.part}`,
-                    isActive: activity.generation === LATEST_GENERATION,
-                  }));
-
-                  const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
-
-                  return (
-                    <StyledLink
-                      key={profile.id}
-                      href={playgroundLink.memberDetail(profile.id)}
-                      onClick={() => handleClickCard(profile)}
-                    >
-                      <MemberCard
-                        memberId={profile.id}
-                        name={profile.name}
-                        belongs={belongs}
-                        badges={badges}
-                        intro={profile.introduction}
-                        imageUrl={profile.profileImage}
-                        isCoffeeChatActivate={profile.isCoffeeChatActivate}
-                        email={profile.email}
-                        onMessage={(e) => {
-                          e.preventDefault();
-                          logClickEvent('messageBadge');
-                          setMessageModalState({
-                            show: true,
-                            data: {
-                              targetId: `${profile.id}`,
-                              name: profile.name,
-                              profileUrl: profile.profileImage,
-                            },
-                          });
-                        }}
-                      />
-                      <Responsive only='mobile'>
-                        <HLine />
-                      </Responsive>
-                    </StyledLink>
-                  );
-                })}
-              </React.Fragment>
-            ))}
-          </StyledCardWrapper>
-
-          {isEmpty && <EmptyView />}
           <Responsive only='desktop'>
             <StyledTopWrapper>
               <div
@@ -448,29 +398,70 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   css={css`
                     display: flex;
                     grid-area: 'orderBy';
+                    align-items: center;
                     justify-content: space-between;
                     order: 3;
                     margin-top: 30px;
                   `}
                 >
                   <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                  <OrderBySelect
-                    value={orderBy}
-                    onChange={handleSelectOrderBy}
-                    options={ORDER_OPTIONS}
-                    trigger={
-                      <OrderFilter>
-                        <Text typography='SUIT_16_M' color={colors.gray300}>
-                          {ORDER_OPTIONS.find((option: Option) => option.value === orderBy)?.label}
-                        </Text>
-                        <StyledSwitchVertical />
-                      </OrderFilter>
-                    }
-                  />
+                  <MemberListOrder value={orderBy} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />
                 </div>
               )}
             </StyledTopWrapper>
           </Responsive>
+          {isEmpty && <EmptyView />}
+          <StyledCardWrapper>
+            {profiles?.map((profiles, index) => (
+              <React.Fragment key={index}>
+                {profiles.map((profile) => {
+                  const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
+                  const badges = sorted
+                    .filter((activity) => activity.generation && activity.part)
+                    .map((activity) => ({
+                      content: `${activity.generation}기 ${activity.part}`,
+                      isActive: activity.generation === LATEST_GENERATION,
+                    }));
+
+                  const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
+
+                  return (
+                    <StyledLink
+                      key={profile.id}
+                      href={playgroundLink.memberDetail(profile.id)}
+                      onClick={() => handleClickCard(profile)}
+                    >
+                      <MemberCard
+                        memberId={profile.id}
+                        name={profile.name}
+                        belongs={belongs}
+                        badges={badges}
+                        intro={profile.introduction}
+                        imageUrl={profile.profileImage}
+                        isCoffeeChatActivate={profile.isCoffeeChatActivate}
+                        email={profile.email}
+                        onMessage={(e) => {
+                          e.preventDefault();
+                          logClickEvent('messageBadge');
+                          setMessageModalState({
+                            show: true,
+                            data: {
+                              targetId: `${profile.id}`,
+                              name: profile.name,
+                              profileUrl: profile.profileImage,
+                            },
+                          });
+                        }}
+                      />
+                      <Responsive only='mobile'>
+                        <HLine />
+                      </Responsive>
+                    </StyledLink>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+          </StyledCardWrapper>
         </StyledRightWrapper>
       </StyledMain>
       <Target ref={ref} />
@@ -525,7 +516,7 @@ const StyledMain = styled.main`
 const StyledRightWrapper = styled.div`
   display: flex;
   flex: 1;
-  flex-direction: column-reverse;
+  flex-direction: column;
   width: 100%;
 `;
 
