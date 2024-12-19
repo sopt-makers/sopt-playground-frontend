@@ -16,10 +16,7 @@ export function MemberListOrder<T extends string>({ className, value, options, o
   return (
     <SelectV2.Root className={className} type='text' onChange={onChange} defaultValue={value}>
       <SelectV2.Trigger>
-        <TriggerContentWrapper>
-          <TriggerContent>{value?.label}</TriggerContent>
-          <StyledIconSwitchVertical />
-        </TriggerContentWrapper>
+        <StyledTriggerContent icon={<StyledIconSwitchVertical />} />
       </SelectV2.Trigger>
       <SelectV2.Menu>
         {options.map((option) => (
@@ -30,24 +27,16 @@ export function MemberListOrder<T extends string>({ className, value, options, o
   );
 }
 
-const TriggerContentWrapper = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 11px 16px;
-  width: 100%;
-`;
-
-const TriggerContent = styled.div`
-  color: ${colors.gray300};
-
-  & > svg {
-    display: none;
-  }
-`;
-
 const StyledIconSwitchVertical = styled(IconSwitchVertical)`
   width: 20px;
   height: 20px;
   color: ${colors.gray300};
+`;
+
+const StyledTriggerContent = styled(SelectV2.TriggerContent)`
+  background-color: transparent;
+
+  & > p {
+    color: ${colors.gray300};
+  }
 `;

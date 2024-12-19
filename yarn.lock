@@ -5965,12 +5965,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/icons@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "@sopt-makers/icons@npm:1.0.7"
+"@sopt-makers/icons@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@sopt-makers/icons@npm:1.1.0"
   peerDependencies:
     react: ^18.2.0
-  checksum: ffdc98414e47ab1711c47dd4d08aa8e8f95dd872361edd23cd986634694df5a89dd51d0136ece27c29e8561a3fa0027721f4286c674af1e75aa49fa4a9c73d01
+  checksum: fc525b038f2c5258b6c083e05d80fb75e93b773eac8455cba5e196890515eba51d646483f81447291fa614b4beb26359fac0b788565dc077fb0aa62d42aa908d
   languageName: node
   linkType: hard
 
@@ -5990,21 +5990,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sopt-makers/ui@npm:^2.8.1":
-  version: 2.8.1
-  resolution: "@sopt-makers/ui@npm:2.8.1"
+"@sopt-makers/ui@npm:^2.8.3":
+  version: 2.8.3
+  resolution: "@sopt-makers/ui@npm:2.8.3"
   dependencies:
     "@radix-ui/react-dialog": ^1.0.5
     "@radix-ui/react-switch": ^1.0.3
     "@sopt-makers/colors": ^3.0.3
     "@sopt-makers/fonts": ^2.0.2
-    "@sopt-makers/icons": ^1.0.7
+    "@sopt-makers/icons": ^1.1.0
     "@vanilla-extract/css": ^1.14.0
     "@vanilla-extract/sprinkles": ^1.6.1
   peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 8e92f3db85470ac36f1cd0aca6b3a15fc3add8a5ce2eef074a8d7166f8f7ab8d868c733b2ade61dffb41f2aae091a6b340bdcf99a651fb669ecbdff398006cd9
+  checksum: 6fa59bba37cbf9c27fda7be807ac683283cda4b84a6a8f2ff092e9603f90ee7fde79c0d2be29a7cf99a83a92667e7c02f8a413ee371c6a5f5878de93c17c877b
   languageName: node
   linkType: hard
 
@@ -19220,8 +19220,8 @@ __metadata:
     "@radix-ui/react-tooltip": ^1.0.5
     "@sopt-makers/colors": ^3.0.2
     "@sopt-makers/fonts": ^1.0.0
-    "@sopt-makers/icons": ^1.0.7
-    "@sopt-makers/ui": ^2.8.1
+    "@sopt-makers/icons": ^1.1.0
+    "@sopt-makers/ui": ^2.8.3
     "@storybook/addon-actions": ^7.0.23
     "@storybook/addon-docs": ^7.0.23
     "@storybook/addon-essentials": ^7.0.23
