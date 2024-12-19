@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconChevronDown, IconSwitchVertical } from '@sopt-makers/icons';
+import { IconSwitchVertical } from '@sopt-makers/icons';
 import { SearchField } from '@sopt-makers/ui';
 import { debounce, uniq } from 'lodash-es';
 import Link from 'next/link';
@@ -31,7 +31,6 @@ import {
   TEAM_OPTIONS,
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
-import MemberListFilterSheet from '@/components/members/main/MemberList/filters/MemberListFilterSheet';
 import { MemberListOrder } from '@/components/members/main/MemberList/filters/MemberListOrder';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
