@@ -59,13 +59,7 @@ interface InterestSectionProps {
   balanceGame: BalanceGame;
   selfIntroduction?: string;
 }
-const InterestSection: FC<InterestSectionProps> = ({
-  mbti,
-  sojuCapacity,
-  balanceGame,
-  interest,
-  selfIntroduction,
-}) => {
+const InterestSection: FC<InterestSectionProps> = ({ mbti, sojuCapacity, balanceGame, interest, selfIntroduction }) => {
   const balanceGameResults = getBalanceGameResults(balanceGame);
   const isBalanceGameAvailable = balanceGame && Object.values(balanceGame).some((value) => value !== null);
 
@@ -165,7 +159,7 @@ const BalanceGameWrapper = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 12px;
-    max-width: 236px;
+    max-width: 265px;
   }
 `;
 
@@ -176,5 +170,5 @@ const BalanceGameItem = styled.div`
   line-height: 16px;
   color: ${colors.gray10};
 
-  ${textStyles.SUIT_14_M};
+  ${textStyles.SUIT_16_SB};
 `;
