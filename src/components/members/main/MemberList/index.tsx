@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import React, { ChangeEvent, FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { Profile } from '@/api/endpoint_LEGACY/members/type';
+import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import EmptyView from '@/components/common/EmptyView';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
@@ -212,70 +213,40 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             onReset={handleSearchReset}
           />
           <StyledMobileFilterWrapper>
-            <StyledMobileFilter
-              value={generation?.value}
-              onChange={handleSelectGeneration}
+            <BottomSheetSelect
               options={GENERATION_OPTIONS}
               defaultOption={GENERATION_DEFAULT_OPTION}
+              value={generation?.value}
               placeholder='기수'
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(generation)}>
-                  {placeholder}
-                  <StyledChevronDown />
-                </MobileFilterTrigger>
-              )}
+              onChange={handleSelectGeneration}
             />
-            <StyledMobileFilter
-              placeholder='파트'
-              value={part?.value}
-              onChange={handleSelectPart}
+            <BottomSheetSelect
               options={PART_OPTIONS}
               defaultOption={PART_DEFAULT_OPTION}
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(part)}>
-                  {placeholder}
-                  <StyledChevronDown />
-                </MobileFilterTrigger>
-              )}
+              value={part?.value}
+              placeholder='파트'
+              onChange={handleSelectPart}
             />
-            <StyledMobileFilter
+            <BottomSheetSelect
               options={TEAM_OPTIONS}
+              defaultOption={FILTER_DEFAULT_OPTION}
               value={team?.value}
-              onChange={handleSelectTeam}
-              defaultOption={FILTER_DEFAULT_OPTION}
               placeholder='활동'
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(team)}>
-                  {placeholder}
-                  <StyledChevronDown />
-                </MobileFilterTrigger>
-              )}
+              onChange={handleSelectTeam}
             />
-            <StyledMobileFilter
-              placeholder='MBTI'
-              defaultOption={FILTER_DEFAULT_OPTION}
+            <BottomSheetSelect
               options={MBTI_OPTIONS}
-              value={mbti?.value}
-              onChange={handleSelectMbti}
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(mbti)}>
-                  {placeholder}
-                  <StyledChevronDown />
-                </MobileFilterTrigger>
-              )}
-            />
-            <StyledMobileFilter
-              placeholder='재직 상태'
               defaultOption={FILTER_DEFAULT_OPTION}
+              value={mbti?.value}
+              placeholder='MBTI'
+              onChange={handleSelectMbti}
+            />
+            <BottomSheetSelect
               options={EMPLOYED_OPTIONS}
+              defaultOption={FILTER_DEFAULT_OPTION}
               value={employed?.value}
+              placeholder='재직 상태'
               onChange={handleSelectEmployed}
-              trigger={(placeholder) => (
-                <MobileFilterTrigger selected={Boolean(employed)}>
-                  {placeholder}
-                  <StyledChevronDown />
-                </MobileFilterTrigger>
-              )}
             />
           </StyledMobileFilterWrapper>
           {memberProfileData && (
