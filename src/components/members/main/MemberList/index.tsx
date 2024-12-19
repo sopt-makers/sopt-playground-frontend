@@ -260,19 +260,12 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               `}
             >
               <Text typography='SUIT_14_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-              <StyledMobileFilter
-                placeholder=''
+              <StyledBottomSheetSelect
                 options={ORDER_OPTIONS}
                 value={orderBy.value}
+                placeholder=''
                 onChange={handleSelectOrderBy}
-                trigger={(placeholder) => (
-                  <OrderFilter>
-                    <Text typography='SUIT_16_M' color={colors.gray300}>
-                      {placeholder}
-                    </Text>
-                    <StyledSwitchVertical />
-                  </OrderFilter>
-                )}
+                icon={<StyledSwitchVertical />}
               />
             </div>
           )}
@@ -613,35 +606,6 @@ const StyledMobileFilterWrapper = styled.div`
     display: none; /* Chrome, Safari, Opera */
   }
 `;
-const StyledMobileFilter = styled(MemberListFilterSheet)`
-  flex: none;
-`;
-
-const MobileFilterTrigger = styled.button<{ selected?: boolean }>`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background: ${colors.gray800};
-  padding: 11px 16px;
-  width: max-content;
-  min-width: fit-content;
-  height: 48px;
-  color: ${colors.gray300};
-  ${({ selected }) =>
-    selected &&
-    css`
-      color: ${colors.white};
-    `}
-`;
-
-const StyledChevronDown = styled(IconChevronDown)`
-  width: 20px;
-  height: 20px;
-  color: ${colors.white};
-`;
 
 const StyledSwitchVertical = styled(IconSwitchVertical)`
   width: 20px;
@@ -649,8 +613,7 @@ const StyledSwitchVertical = styled(IconSwitchVertical)`
   color: ${colors.gray300};
 `;
 
-const OrderFilter = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
+const StyledBottomSheetSelect = styled(BottomSheetSelect)`
+  background-color: transparent;
+  color: ${colors.gray300};
 `;
