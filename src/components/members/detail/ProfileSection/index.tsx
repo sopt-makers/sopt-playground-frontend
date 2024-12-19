@@ -33,7 +33,7 @@ const convertBirthdayFormat = (birthday?: string) => {
   // 생년월일을 보내지 않았을 경우에 DEFAULT_DATE를 전송하도록 임시처리 해 두었습니다. 이를 클라에서 보여주기 위해 대응합니다.
   if (birthday) {
     const isDefaultDay = dayjs(birthday).isSame(dayjs(DEFAULT_DATE));
-    return isDefaultDay ? '' : dayjs(birthday).format('YYYY-MM-DD');
+    return isDefaultDay ? '' : dayjs(birthday).format('YYYY.MM.DD');
   }
   return '';
 };
@@ -57,14 +57,16 @@ const ContactSection = ({ profile }: { profile: ProfileDetail }) => {
           </Link>
         )}
       </ContactTopWrapper>
-      {profile.email && (
-        <Link passHref href={`mailto:${profile.email}`} legacyBehavior>
-          <ContactItem style={{ cursor: 'pointer' }}>
-            <StyledIconMail />
-            <div className='email'>{profile.email}</div>
-          </ContactItem>
-        </Link>
-      )}
+      <div>
+        {profile.email && (
+          <Link passHref href={`mailto:${profile.email}`} legacyBehavior>
+            <ContactItem style={{ cursor: 'pointer' }}>
+              <StyledIconMail />
+              <div className='email'>{profile.email}</div>
+            </ContactItem>
+          </Link>
+        )}
+      </div>
     </ContactWrapper>
   );
 };
@@ -294,7 +296,7 @@ const ContactWrapper = styled.div`
 
   & > div {
     display: flex;
-    gap: 4px;
+    gap: 12px;
     align-items: center;
 
     @media ${MOBILE_MEDIA_QUERY} {
