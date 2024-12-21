@@ -38,11 +38,6 @@ const CoffeechatEdit = () => {
       {
         memberInfo: {
           ...memberInfo,
-          career: memberInfo.career
-            ? Array.isArray(memberInfo.career)
-              ? memberInfo.career[0]
-              : memberInfo.career
-            : null,
         },
         coffeeChatInfo: { ...coffeeChatInfo },
       },
