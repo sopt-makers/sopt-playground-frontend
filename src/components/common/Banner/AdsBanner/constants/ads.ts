@@ -1,12 +1,12 @@
 export const ADS = [
   {
-    // 이현진 님
+    // 송승훈 님
     id: 1,
     moImage:
-      'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/20241124-20241207/%E1%84%8F%E1%85%A5%E1%84%86%E1%85%B2%E1%84%82%E1%85%B5%E1%84%90%E1%85%B5+(%E1%84%86%E1%85%A9%E1%84%87%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF+%E1%84%87%E1%85%A5%E1%84%8C%E1%85%A5%E1%86%AB).png',
+      'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/20241222-/%E1%84%8F%E1%85%A5%E1%84%86%E1%85%B2%E1%84%82%E1%85%B5%E1%84%90%E1%85%B5+%E1%84%89%E1%85%A1%E1%86%BC%E1%84%83%E1%85%A1%E1%86%AB%E1%84%87%E1%85%A2%E1%84%82%E1%85%A5+(MO)_%E1%84%8E%E1%85%AC%E1%84%8E%E1%85%AC%E1%84%8C%E1%85%A9%E1%86%BC.png',
     pcImage:
-      'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/20241124-20241207/%E1%84%8F%E1%85%A5%E1%84%86%E1%85%B2%E1%84%82%E1%85%B5%E1%84%90%E1%85%B5+(PC+%E1%84%87%E1%85%A5%E1%84%8C%E1%85%A5%E1%86%AB).png',
-    url: 'https://playground.sopt.org/group/detail?id=394&fbclid=PAZXh0bgNhZW0CMTEAAabm-2g8SKZjOhiJs17TJxwrBRLjAek6f3rxg89MpBrhCFR_KHvZ8DMZu3M_aem_H1uBBjFciE9mA3RMayJTfA',
+      'https://sopt-makers-internal.s3.ap-northeast-2.amazonaws.com/prod/image/advertisements/20241222-/%E1%84%8F%E1%85%A5%E1%84%86%E1%85%B2%E1%84%82%E1%85%B5%E1%84%90%E1%85%B5+%E1%84%89%E1%85%A1%E1%86%BC%E1%84%83%E1%85%A1%E1%86%AB%E1%84%87%E1%85%A2%E1%84%82%E1%85%A5+(PC)_%E1%84%8E%E1%85%AC%E1%84%8C%E1%85%A9%E1%86%BC.png',
+    url: 'https://www.miricanvas.com/campaign/end_of_year_2024?from=event_sopt',
   },
   {
     // 메이커스 마케팅 오거나이저

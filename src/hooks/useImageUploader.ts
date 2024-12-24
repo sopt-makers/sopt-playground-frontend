@@ -1,4 +1,3 @@
-import debounce from 'lodash-es/debounce';
 import { useRef } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
@@ -26,33 +25,33 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
       //     : await Promise.all(Array.from(inputEl.files).map((file) => tryResizeFile(file, resizeHeight)));
       const files = inputEl.files;
 
-      const uploadFiles = debounce(async () => {
-        const urls: string[] = [];
+      // const uploadFiles = debounce(async () => {
+      const urls: string[] = [];
 
-        await Promise.all(
-          Array.from(files).map(async (file) => {
-            try {
-              const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
-              if (!signedUrl) {
-                throw new Error('presigned-url을 받아오는데 실패하였습니다.');
-              }
-
-              await putPresignedUrl({
-                signedUrl: decodeURIComponent(signedUrl),
-                file,
-              });
-
-              const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
-              urls.push(s3Url);
-            } catch (error) {
-              console.error(error);
+      await Promise.all(
+        Array.from(files).map(async (file) => {
+          try {
+            const { filename, signedUrl } = await getPresignedUrl.request({ filename: file.name });
+            if (!signedUrl) {
+              throw new Error('presigned-url을 받아오는데 실패하였습니다.');
             }
-          }),
-        );
-        onSuccess?.(urls);
-      }, 500);
 
-      uploadFiles();
+            await putPresignedUrl({
+              signedUrl: decodeURIComponent(signedUrl),
+              file,
+            });
+
+            const s3Url = `https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal/${filename}`;
+            urls.push(s3Url);
+          } catch (error) {
+            console.error(error);
+          }
+        }),
+      );
+      onSuccess?.(urls);
+      // }, 500);
+
+      // uploadFiles();
     };
 
     inputEl.click();
