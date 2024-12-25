@@ -10,15 +10,13 @@ import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatD
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContents';
-import CoffeeChatActivitySection from '@/components/coffeechat/detail/CoffeeChatSection/CoffeechatActivitySection';
-import CoffeeChatProjectSection from '@/components/coffeechat/detail/CoffeeChatSection/CoffeechatProjectSection';
+import CoffeeChatActivitySection from '@/components/coffeechat/detail/CoffeeChatSection/CoffeeChatActivitySection';
+import CoffeeChatProjectSection from '@/components/coffeechat/detail/CoffeeChatSection/CoffeeChatProjectSection';
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
 import SeemoreSelect from '@/components/coffeechat/detail/SeemoreSelect';
 import CoffeechatLoading from '@/components/coffeechat/Loading';
 import CareerSection from '@/components/members/detail/CareerSection';
 import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
-import ProjectSection from '@/components/members/detail/ProjectSection';
-import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { safeParseInt } from '@/utils';
 
