@@ -10,6 +10,8 @@ import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatD
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import CoffeechatContents from '@/components/coffeechat/detail/CoffeechatContents';
+import CoffeeChatActivitySection from '@/components/coffeechat/detail/CoffeeChatSection/CoffeechatActivitySection';
+import CoffeeChatProjectSection from '@/components/coffeechat/detail/CoffeeChatSection/CoffeechatProjectSection';
 import OpenerProfile from '@/components/coffeechat/detail/OpenerProfile';
 import SeemoreSelect from '@/components/coffeechat/detail/SeemoreSelect';
 import CoffeechatLoading from '@/components/coffeechat/Loading';
@@ -81,10 +83,9 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
               />
               <DetailInfoSection profile={profile} isCoffeechat />
             </ProfileContents>
-            <SoptActivityTitle>SOPT 활동 정보</SoptActivityTitle>
-            <SoptActivitySection soptActivities={sortedSoptActivities} />
+            <CoffeeChatActivitySection soptActivities={sortedSoptActivities} />
             <ProfilPojectSection>
-              <ProjectSection profile={profile} memberId={memberId} meId={me?.id} />
+              <CoffeeChatProjectSection profile={profile} memberId={memberId} meId={me?.id} />
             </ProfilPojectSection>
           </>
         ) : (
@@ -110,18 +111,6 @@ const ProfilPojectSection = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 40px 0 20px;
-  }
-`;
-
-const SoptActivityTitle = styled.h2`
-  margin: 60px 0 32px;
-  color: ${colors.white};
-  ${fonts.HEADING_28_B};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin: 40px 0 20px;
-
-    ${fonts.HEADING_20_B};
   }
 `;
 
@@ -156,7 +145,9 @@ const CoffeechatTitle = styled.h1`
   @media ${MOBILE_MEDIA_QUERY} {
     ${fonts.HEADING_28_B};
 
-    height: 84px;
+    -webkit-line-clamp: 10;
+    height: auto;
+    min-height: 84px;
   }
 `;
 
