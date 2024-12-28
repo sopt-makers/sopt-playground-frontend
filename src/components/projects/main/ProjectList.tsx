@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconPlus } from '@sopt-makers/icons';
-import { Button } from '@sopt-makers/ui';
+import { Button, SearchField } from '@sopt-makers/ui';
 import { Flex, width100 } from '@toss/emotion-utils';
 import { ImpressionArea } from '@toss/impression-area';
 import { useDebounce } from '@toss/react';
@@ -18,7 +18,6 @@ import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard
 import ProjectCard from '@/components/projects/main/card/ProjectCard';
 import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
 import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
-import ProjectSearch from '@/components/projects/main/ProjectSearch';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -55,13 +54,21 @@ const ProjectList = () => {
   return (
     <StyledContainer>
       <StyledContent>
-        <ProjectSearch
+        <SearchField
           value={value ?? ''}
-          onValueChange={(value) => {
+          onChange={(e) => {
+            const value = e.target.value;
             setValue(value);
             debouncedChangeName(value === '' ? null : value);
           }}
-          placeholder='프로젝트 검색'
+          onSubmit={() => {
+            //
+          }}
+          onReset={() => {
+            setValue('');
+            debouncedChangeName(null);
+          }}
+          placeholder='서비스 이름을 검색해보세요!'
         />
         {isLoading ? (
           <LoadingContainer>
@@ -246,15 +253,6 @@ const ProjectUploadButton = styled(Link)`
     bottom: 42px;
   }
 `;
-
-const PlusIcon = () => (
-  <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <path
-      d='M10.9208 2.58751C10.9208 2.07966 10.5091 1.66797 10.0013 1.66797C9.49345 1.66797 9.08176 2.07966 9.08176 2.58751V9.08176H2.58751C2.07966 9.08176 1.66797 9.49345 1.66797 10.0013C1.66797 10.5091 2.07966 10.9208 2.58751 10.9208H9.08176V17.4151C9.08176 17.9229 9.49345 18.3346 10.0013 18.3346C10.5091 18.3346 10.9208 17.9229 10.9208 17.4151V10.9208H17.4151C17.9229 10.9208 18.3346 10.5091 18.3346 10.0013C18.3346 9.49345 17.9229 9.08176 17.4151 9.08176H10.9208V2.58751Z'
-      fill='#0F0F12'
-    />
-  </svg>
-);
 
 const LengthWrapper = styled.div`
   display: flex;
