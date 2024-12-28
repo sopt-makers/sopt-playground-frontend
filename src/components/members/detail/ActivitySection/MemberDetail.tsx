@@ -119,7 +119,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 120px 0;
+  padding: 120px 0 200px;
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 16px 20px;
     padding-bottom: 100px;
