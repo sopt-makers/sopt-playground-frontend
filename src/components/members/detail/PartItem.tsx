@@ -25,8 +25,9 @@ const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities, isMi
   const partLabel = `${part} ${NORMAL_PARTS.includes(part) ? '파트' : ''}`;
   const soptLogoSrc = Number(generation) < 12 ? '/icons/logo/time=1-11.svg' : `/icons/logo/time=${generation}.svg`;
 
+  const hasActivities = !(activities.length === 0 && !isMine);
   return (
-    <Container>
+    <Container hasActivities={hasActivities}>
       <Thumbnail>
         <img alt={`${generation}기 SOPT`} src={soptLogoSrc} />
       </Thumbnail>
@@ -58,12 +59,13 @@ const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities, isMi
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ hasActivities: boolean }>`
   display: grid;
-  grid:
-    [row1-start] 'thumbnail generation belongs' 1fr [row1-end]
-    [row2-start] 'thumbnail activities activities' 1fr [row2-end]
-    / auto auto 1fr;
+  grid-template: ${({ hasActivities }) =>
+    hasActivities
+      ? `[row1-start] 'thumbnail generation belongs' 1fr [row1-end]
+         [row2-start] 'thumbnail activities activities' 1fr [row2-end] / auto auto 1fr`
+      : `[row1-start] 'thumbnail generation belongs' 1fr [row1-end] / auto auto 1fr`};
   align-items: center;
 
   @media ${MOBILE_MEDIA_QUERY} {
