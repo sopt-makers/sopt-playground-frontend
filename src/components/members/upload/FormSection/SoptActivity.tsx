@@ -148,6 +148,7 @@ const FILTERED_GENERATIONS = GENERATIONS.filter((generation) => parseInt(generat
 );
 
 const StyledFormSection = styled(FormSection)`
+  background-color: ${colors.gray900};
   @media ${MOBILE_MEDIA_QUERY} {
     padding-bottom: 17px;
   }

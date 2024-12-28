@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { MouseEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import ImageUploader from '@/components/common/ImageUploader';
 import Input from '@/components/common/Input';
+import useConfirm from '@/components/common/Modal/useConfirm';
 import Responsive from '@/components/common/Responsive';
+import Switch from '@/components/common/Switch';
+import Text from '@/components/common/Text';
 import MemberCountableInput from '@/components/members/upload/forms/CountableInput';
 import MemberCountableTextArea from '@/components/members/upload/forms/CountableTextArea';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
@@ -13,11 +18,6 @@ import { MemberFormSection as FormSection } from '@/components/members/upload/fo
 import { MemberUploadForm } from '@/components/members/upload/types';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import Switch from '@/components/common/Switch';
-import Text from '@/components/common/Text';
-import { fonts } from '@sopt-makers/fonts';
-import useConfirm from '@/components/common/Modal/useConfirm';
-import { ReactNode, MouseEvent } from 'react';
 
 export default function MemberBasicFormSection() {
   const {
@@ -164,7 +164,7 @@ const StyledFormItems = styled.div`
   display: flex;
   flex-direction: column;
   gap: 46px;
-  margin-top: 46px;
+  margin-top: 24px;
 
   .maskable {
     position: relative;
