@@ -13,7 +13,7 @@ export const MemberDetailSection = styled.section`
   width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    gap: 20px;
+    gap: 25px;
     border-radius: 18px;
     padding: 30px 20px;
   }

@@ -40,39 +40,40 @@ const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities, isMi
           </Tag>
         ))}
       </BelongArea>
-      <Badges>
-        {activities.map((activity, idx) => (
-          <Link key={idx} href={activity.href}>
-            <ActivityBadge category={activity.type} name={activity.name} />
-          </Link>
-        ))}
-        {isMine && activities.length === 0 && (
-          <Link href={playgroundLink.projectUpload()}>
-            <AddProject typography='SUIT_13_M'>
-              <StyledIconPlus />
-              프로젝트 추가하기
-            </AddProject>
-          </Link>
-        )}
-      </Badges>
+      {hasActivities && (
+        <Badges>
+          {activities.map((activity, idx) => (
+            <Link key={idx} href={activity.href}>
+              <ActivityBadge category={activity.type} name={activity.name} />
+            </Link>
+          ))}
+          {isMine && activities.length === 0 && (
+            <Link href={playgroundLink.projectUpload()}>
+              <AddProject typography='SUIT_13_M'>
+                <StyledIconPlus />
+                프로젝트 추가하기
+              </AddProject>
+            </Link>
+          )}
+        </Badges>
+      )}
     </Container>
   );
 };
 
 const Container = styled.div<{ hasActivities: boolean }>`
   display: grid;
-  grid-template: ${({ hasActivities }) =>
-    hasActivities
-      ? `[row1-start] 'thumbnail generation belongs' 1fr [row1-end]
-         [row2-start] 'thumbnail activities activities' 1fr [row2-end] / auto auto 1fr`
-      : `[row1-start] 'thumbnail generation belongs' 1fr [row1-end] / auto auto 1fr`};
+  grid-template-areas:
+    'thumbnail generation belongs'
+    ${({ hasActivities }) => hasActivities && "'thumbnail activities activities'"};
+  grid-template-columns: auto auto 1fr;
   align-items: center;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    grid:
-      [row1-start] 'thumbnail generation belongs' 1fr [row1-end]
-      [row2-start] 'activities activities activities' 1fr [row2-end]
-      / auto auto 1fr;
+    grid-template-areas:
+      'thumbnail generation belongs'
+      ${({ hasActivities }) => hasActivities && "'activities activities activities'"};
+    grid-template-columns: auto auto 1fr;
   }
 `;
 
@@ -130,10 +131,10 @@ const Badges = styled.div`
   grid-area: activities;
   gap: 8px;
   align-self: start;
-  margin-top: 12px;
+  margin-top: 16px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 12px;
+    margin-top: 10px;
   }
 `;
 
