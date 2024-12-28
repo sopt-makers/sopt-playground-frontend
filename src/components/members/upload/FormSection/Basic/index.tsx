@@ -65,7 +65,7 @@ export default function MemberBasicFormSection() {
     <FormSection>
       <FormHeader title='기본정보' />
       <StyledFormItems>
-        <FormItem title='프로필 사진' description={`가로 300px 세로 300px 권장합니다.\n예외 규격은 잘릴 수 있습니다.`}>
+        <FormItem title='프로필 사진' description={`예외 규격은 잘릴 수 있기 때문에, 가로 300px 세로 300px 권장해요.`}>
           <Controller
             name='profileImage'
             control={control}
@@ -183,13 +183,13 @@ const StyledFormItems = styled.div`
 const StyledImageUploader = styled(ImageUploader)`
   margin-top: 18px;
   border-radius: 26px;
+  background-color: ${colors.gray800};
   width: 138px;
   height: 138px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 16px;
     border-radius: 21.4783px;
-    background-color: ${colors.gray800};
     width: 114px;
     height: 114px;
   }
