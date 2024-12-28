@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconPlus } from '@sopt-makers/icons';
-import { Button, SearchField } from '@sopt-makers/ui';
+import { Button, Chip, SearchField } from '@sopt-makers/ui';
 import { Flex, width100 } from '@toss/emotion-utils';
 import { ImpressionArea } from '@toss/impression-area';
 import { useDebounce } from '@toss/react';
@@ -48,7 +48,7 @@ const ProjectList = () => {
     isFounding: queryParams.isFounding,
     category: queryParams.category,
   });
-
+  console.log(queryParams);
   const totalCount = data?.pages && data.pages[0].totalCount;
 
   return (
@@ -79,18 +79,30 @@ const ProjectList = () => {
             <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
             <Responsive only='desktop'>
               <Flex css={{ gap: 6 }} align='center'>
-                <ProjectFilterChip
-                  checked={queryParams.isAvailable ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isAvailable: checked || null })}
-                >
-                  이용 가능한 서비스
-                </ProjectFilterChip>
-                <ProjectFilterChip
-                  checked={queryParams.isFounding ?? false}
-                  onCheckedChange={(checked) => setQueryParams({ isFounding: checked || null })}
-                >
-                  창업 중
-                </ProjectFilterChip>
+                <div onClick={() => setQueryParams({ isAvailable: !queryParams.isAvailable || null })}>
+                  <Responsive only='desktop'>
+                    <Chip size='md' active={queryParams.isAvailable ?? false}>
+                      이용 가능한 서비스
+                    </Chip>
+                  </Responsive>
+                  <Responsive only='mobile'>
+                    <Chip size='sm' active={queryParams.isAvailable ?? false}>
+                      이용 가능한 서비스
+                    </Chip>
+                  </Responsive>
+                </div>
+                <div onClick={() => setQueryParams({ isFounding: !queryParams.isFounding || null })}>
+                  <Responsive only='desktop'>
+                    <Chip size='md' active={queryParams.isFounding ?? false}>
+                      창업 중
+                    </Chip>
+                  </Responsive>
+                  <Responsive only='mobile'>
+                    <Chip size='sm' active={queryParams.isFounding ?? false}>
+                      창업 중
+                    </Chip>
+                  </Responsive>
+                </div>
                 <ProjectCategorySelect
                   css={{ marginLeft: 10 }}
                   placeholder='프로젝트 전체'
