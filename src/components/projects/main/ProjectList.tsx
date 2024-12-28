@@ -218,18 +218,19 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
-const CONTAINER_MAX_WIDTH = 1480;
+const CONTAINER_MAX_WIDTH = 1551;
 
 const StyledContent = styled.div`
   justify-self: flex-start;
   margin: 64px 0;
+  padding: 0 24px;
   min-width: ${CONTAINER_MAX_WIDTH}px;
 
   @media screen and (max-width: ${CONTAINER_MAX_WIDTH}px) {
     min-width: calc(352px * 3 + 15px * 2);
   }
 
-  @media screen and (max-width: 1120px) {
+  @media screen and (max-width: 1147px) {
     min-width: calc(352px * 2 + 15px * 1);
   }
 
