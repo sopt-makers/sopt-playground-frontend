@@ -41,22 +41,24 @@ const convertBirthdayFormat = (birthday?: string) => {
 const ContactSection = ({ profile }: { profile: ProfileDetail }) => {
   return (
     <ContactWrapper>
-      <ContactTopWrapper>
-        {profile.birthday && (
-          <ContactItem>
-            <StyledIconBirth />
-            <div>{convertBirthdayFormat(profile.birthday)}</div>
-          </ContactItem>
-        )}
-        {profile.phone && (
-          <Link passHref href={`tel:${profile.phone}`} legacyBehavior>
-            <ContactItem style={{ cursor: 'pointer' }}>
-              <StyledIconPhone />
-              <div className='phone'>{profile.phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}</div>
+      {(profile.birthday || profile.phone) && (
+        <ContactTopWrapper>
+          {profile.birthday && (
+            <ContactItem>
+              <StyledIconBirth />
+              <div>{convertBirthdayFormat(profile.birthday)}</div>
             </ContactItem>
-          </Link>
-        )}
-      </ContactTopWrapper>
+          )}
+          {profile.phone && (
+            <Link passHref href={`tel:${profile.phone}`} legacyBehavior>
+              <ContactItem style={{ cursor: 'pointer' }}>
+                <StyledIconPhone />
+                <div className='phone'>{profile.phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}</div>
+              </ContactItem>
+            </Link>
+          )}
+        </ContactTopWrapper>
+      )}
       <div>
         {profile.email && (
           <Link passHref href={`mailto:${profile.email}`} legacyBehavior>
