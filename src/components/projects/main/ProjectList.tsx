@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconPlus } from '@sopt-makers/icons';
-import { Button, Chip, SearchField } from '@sopt-makers/ui';
+import { Button, Chip, SearchField, SelectV2 } from '@sopt-makers/ui';
 import { Flex, width100 } from '@toss/emotion-utils';
 import { ImpressionArea } from '@toss/impression-area';
 import { useDebounce } from '@toss/react';
@@ -78,7 +78,7 @@ const ProjectList = () => {
           <LengthWrapper>
             <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
             <Responsive only='desktop'>
-              <Flex css={{ gap: 6 }} align='center'>
+              <Flex css={{ gap: 8 }} align='center'>
                 <div onClick={() => setQueryParams({ isAvailable: !queryParams.isAvailable || null })}>
                   <Responsive only='desktop'>
                     <Chip size='md' active={queryParams.isAvailable ?? false}>
@@ -103,9 +103,26 @@ const ProjectList = () => {
                     </Chip>
                   </Responsive>
                 </div>
-                <ProjectCategorySelect
+                <Responsive only='desktop'>
+                  <CategorySelect
+                    type='text'
+                    visibleOptions={5}
+                    defaultValue={PROJECT_CATEGORY_LIST.find((option) => option.value === queryParams.category)}
+                    onChange={(value) => setQueryParams({ category: value as ProjectCategory })}
+                  >
+                    <SelectV2.Trigger>
+                      <SelectV2.TriggerContent placeholder={'프로젝트 종류'} />
+                    </SelectV2.Trigger>
+                    <SelectV2.Menu>
+                      {PROJECT_CATEGORY_LIST.map((option) => (
+                        <SelectV2.MenuItem key={option.value} option={option} className='menu' />
+                      ))}
+                    </SelectV2.Menu>
+                  </CategorySelect>
+                </Responsive>
+                {/* <ProjectCategorySelect
                   css={{ marginLeft: 10 }}
-                  placeholder='프로젝트 전체'
+                  placeholder='프로젝트 종류'
                   allowClear
                   onClear={() => setQueryParams({ category: null })}
                   value={queryParams.category ?? undefined}
@@ -116,7 +133,7 @@ const ProjectList = () => {
                       {label}
                     </ProjectCategorySelect.Item>
                   ))}
-                </ProjectCategorySelect>
+                </ProjectCategorySelect> */}
               </Flex>
             </Responsive>
             <Responsive only='mobile' css={width100}>
@@ -223,6 +240,14 @@ const ProjectList = () => {
 
 export default ProjectList;
 
+const CategorySelect = styled(SelectV2.Root)`
+  margin-left: 8px;
+
+  > button > div > p {
+    min-width: max-content;
+  }
+`;
+
 const StyledContainer = styled.div`
   display: flex;
   align-items: center;
@@ -230,7 +255,7 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
-const CONTAINER_MAX_WIDTH = 1551;
+const CONTAINER_MAX_WIDTH = 1480;
 
 const StyledContent = styled.div`
   justify-self: flex-start;
@@ -242,7 +267,7 @@ const StyledContent = styled.div`
     min-width: calc(352px * 3 + 15px * 2);
   }
 
-  @media screen and (max-width: 1147px) {
+  @media screen and (max-width: 1120px) {
     min-width: calc(352px * 2 + 15px * 1);
   }
 
