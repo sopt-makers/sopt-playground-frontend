@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { IconPlus } from '@sopt-makers/icons';
+import { Button } from '@sopt-makers/ui';
 import { Flex, width100 } from '@toss/emotion-utils';
 import { ImpressionArea } from '@toss/impression-area';
 import { useDebounce } from '@toss/react';
-import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
 import EmptyView from '@/components/common/EmptyView';
@@ -186,8 +187,16 @@ const ProjectList = () => {
         )}
       </StyledContent>
       <ProjectUploadButton href={playgroundLink.projectUpload()}>
-        <PlusIcon />
-        프로젝트 올리기
+        <Responsive only='desktop'>
+          <Button size='lg' LeftIcon={IconPlus}>
+            프로젝트 올리기
+          </Button>
+        </Responsive>
+        <Responsive only='mobile'>
+          <Button size='md' LeftIcon={IconPlus}>
+            프로젝트 올리기
+          </Button>
+        </Responsive>
       </ProjectUploadButton>
     </StyledContainer>
   );
@@ -229,25 +238,12 @@ const StyledContent = styled.div`
 const ProjectUploadButton = styled(Link)`
   display: flex;
   position: fixed;
-  right: 60px;
+  right: 100px;
   bottom: 80px;
-  gap: 8px;
-  align-items: center;
-  border-radius: 18px;
-  background-color: ${colors.gray10};
-  padding: 14px 30px 14px 27px;
-  color: ${colors.gray950};
-  ${fonts.TITLE_20_SB};
-
-  &:hover {
-    background-color: ${colors.gray50};
-  }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    right: 16px;
-    bottom: 16px;
-    padding: 12px;
-    ${fonts.LABEL_16_SB}
+    right: 20px;
+    bottom: 42px;
   }
 `;
 
