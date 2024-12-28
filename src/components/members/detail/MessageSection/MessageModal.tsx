@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import { IconUser } from '@sopt-makers/icons';
+import { Button } from '@sopt-makers/ui';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -17,9 +18,9 @@ import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
-import { Button } from '@sopt-makers/ui';
 
 export enum MessageCategory {
+  COFFEE_CHAT = '커피챗',
   NETWORK = '친목',
   APPJAM_TEAM_BUILDING = '앱잼 팀 빌딩',
   PROJECT_SUGGESTION = '프로젝트 제안',
@@ -30,6 +31,10 @@ interface Category {
   value: MessageCategory;
 }
 const CATEGORY: Category[] = [
+  {
+    icon: '/icons/icon-coffeechat.svg',
+    value: MessageCategory.COFFEE_CHAT,
+  },
   {
     icon: '/icons/icon-network.svg',
     value: MessageCategory.NETWORK,
@@ -247,7 +252,6 @@ const StyledCategory = styled.section`
   align-items: center;
   justify-content: center;
   margin-top: 40px;
-  max-width: 224px;
 `;
 
 const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
