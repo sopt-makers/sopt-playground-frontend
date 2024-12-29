@@ -61,9 +61,9 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileSection profile={profile} memberId={memberId} />
-        {!profile.isMine && <MessageSection profile={profile} memberId={memberId} />}
+        <MessageSection profile={profile} memberId={memberId} />
         <DetailInfoSection profile={profile} />
-        <SoptActivitySection soptActivities={sortedSoptActivities} />
+        <SoptActivitySection soptActivities={sortedSoptActivities} isMine={profile.isMine} />
         <CareerSection
           careers={profile.careers}
           links={profile.links}
@@ -119,7 +119,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 123px 0;
+  padding: 120px 0 200px;
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 16px 20px;
     padding-bottom: 100px;
