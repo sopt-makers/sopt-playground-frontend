@@ -50,9 +50,11 @@ export default function MbtiSelector({ mbti, onSelect }: MbtiSelectorProps) {
 const Container = styled.div`
   display: flex;
   row-gap: 14px;
+  column-gap: 8px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-wrap: wrap;
+    column-gap: 0;
     justify-content: space-between;
     width: 100%;
   }

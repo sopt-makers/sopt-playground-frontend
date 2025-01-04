@@ -199,6 +199,11 @@ const StyledMemberFormItem = styled(MemberFormItem)`
 
 const StyledTextArea = styled(TextArea)`
   margin-top: 14px;
+  width: 632px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const FavorWrapper = styled.div`
@@ -210,21 +215,14 @@ const FavorWrapper = styled.div`
   width: 593px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    row-gap: 11px;
     width: 100%;
-  }
-`;
-
-const StyledSelect = styled(Select)`
-  margin-top: 14px;
-  width: 130px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    background-color: ${colors.gray800};
   }
 `;
 
 const StyledTextField = styled(TextField)`
   margin-top: 14px;
+  width: 632px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
