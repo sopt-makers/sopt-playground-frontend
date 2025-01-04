@@ -60,7 +60,6 @@ const StyledHeader = styled.header`
     font-weight: 700;
 
     @media ${MOBILE_MEDIA_QUERY} {
-      margin-top: 36px;
       margin-left: 24px;
       font-size: 24px;
     }
@@ -92,7 +91,7 @@ const StyledForm = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 70px;
-    margin-top: 52px;
+    margin-top: 36px;
     padding: 0 20px 48px;
   }
 `;

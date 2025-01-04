@@ -64,7 +64,7 @@ const StyledDescription = styled(Text)`
   color: ${colors.gray400};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 8px;
+    margin-top: 10px;
     line-height: 150%;
     white-space: pre-line;
 
