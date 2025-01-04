@@ -127,11 +127,11 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
   ${textStyles.SUIT_14_M}
 
   @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 0;
     border-radius: 12px;
     width: 100%;
     height: 52px;
     line-height: 100%;
-    margin-top: 0;
 
     ${textStyles.SUIT_16_SB}
   }
