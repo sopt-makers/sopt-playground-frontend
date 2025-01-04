@@ -90,7 +90,7 @@ const StyledForm = styled.div`
   margin-top: 50px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    gap: 70px;
+    gap: 64px;
     margin-top: 36px;
     padding: 0 20px 48px;
   }

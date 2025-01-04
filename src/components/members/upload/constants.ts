@@ -112,7 +112,7 @@ export const PARTS = [
 export const TEAMS = [
   {
     value: '',
-    label: '선택 안 함',
+    label: '해당없음',
   },
   {
     value: '운영팀',

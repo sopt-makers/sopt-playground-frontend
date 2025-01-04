@@ -25,7 +25,6 @@ export default function MemberSoptActivityFormSection({
 }: MemberSoptActivityFormSectionProps) {
   const {
     control,
-    register,
     formState: { errors },
     getValues,
   } = useFormContext<MemberUploadForm>();
@@ -129,7 +128,7 @@ export default function MemberSoptActivityFormSection({
               </StyledSelectWrapper>
             </AddableItem>
           ) : (
-            <FixedActivity key={field.id}>
+            <StyledSelectWrapper key={field.id}>
               <Controller
                 name={`activities.${index}.generation`}
                 control={control}
@@ -139,6 +138,7 @@ export default function MemberSoptActivityFormSection({
                     defaultValue={field.value}
                     placeholder='활동기수'
                     options={FILTERED_GENERATIONS}
+                    className='generation'
                   />
                 )}
               />
@@ -146,7 +146,13 @@ export default function MemberSoptActivityFormSection({
                 name={`activities.${index}.part`}
                 control={control}
                 render={({ field }) => (
-                  <StyledSelect disabled defaultValue={field.value} placeholder='파트' options={PARTS} />
+                  <StyledSelect
+                    disabled
+                    defaultValue={field.value}
+                    placeholder='파트'
+                    options={PARTS}
+                    className='part'
+                  />
                 )}
               />
               <Controller
@@ -162,7 +168,7 @@ export default function MemberSoptActivityFormSection({
                   />
                 )}
               />
-            </FixedActivity>
+            </StyledSelectWrapper>
           ),
         )}
       </StyledAddableWrapper>
@@ -188,38 +194,29 @@ const StyledAddableWrapper = styled(AddableWrapper)<{ isCheckPage: boolean }>`
   margin-top: ${({ isCheckPage }) => !isCheckPage && '32px'};
   width: 683px;
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: ${({ isCheckPage }) => !isCheckPage && '30px'};
+    margin-top: ${({ isCheckPage }) => !isCheckPage && '32px'};
     width: 100%;
   }
 `;
 
 const StyledSelectWrapper = styled.div`
-  display: grid;
-  position: relative;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
   gap: 12px;
-  align-items: center;
-  width: 100%;
+
   @media ${MOBILE_MEDIA_QUERY} {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      'generation part'
+      'team team';
     grid-template-columns: 1fr 1fr;
-    row-gap: 11px;
-    column-gap: 9px;
-    height: 107px;
 
-    .team {
-      grid-column: span 2;
+    & > div {
+      width: 100%;
     }
-  }
-`;
 
-const FixedActivity = styled(StyledSelectWrapper)`
-  width: 632px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
+    & > div:last-child {
+      grid-area: team;
+    }
   }
 `;
 
