@@ -63,7 +63,12 @@ const BottomSheetSelect = ({
     };
   }, [open]);
 
-  const getSelectedLabel = (value: string | number) => {
+  useEffect(() => {
+    setSelectedValue(value);
+    setTemporaryValue(value);
+  }, [value]);
+
+  const getSelectedLabel = (value: string) => {
     return options.find((option) => option.value === value)?.label || value;
   };
 

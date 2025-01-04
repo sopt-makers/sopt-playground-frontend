@@ -83,10 +83,10 @@ export default function TmiFormSection() {
                 </Responsive>
                 <Responsive only='mobile'>
                   <BottomSheetSelect
+                    value={field.value}
                     placeholder='주량 선택'
                     options={SOJU_CAPACITY_RANGE}
                     onChange={field.onChange}
-                    value={field.value}
                   />
                 </Responsive>
               </>
