@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { TextArea, TextField } from '@sopt-makers/ui';
 import { MouseEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import ImageUploader from '@/components/common/ImageUploader';
-import Input from '@/components/common/Input';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import Responsive from '@/components/common/Responsive';
 import Switch from '@/components/common/Switch';
@@ -75,28 +75,34 @@ export default function MemberBasicFormSection() {
           />
         </FormItem>
         <FormItem title='이름' required errorMessage={errors.name?.message}>
-          <StyledInput disabled {...register('name')} error={errors.hasOwnProperty('name')} placeholder='이름 입력' />
+          <StyledTextField
+            disabled
+            {...register('name')}
+            isError={errors.hasOwnProperty('name')}
+            errorMessage={errors.name?.message}
+            placeholder='이름 입력'
+          />
         </FormItem>
         <FormItem title='생년월일' errorMessage={getBirthdayErrorMessage()}>
           <StyledBirthdayInputWrapper>
-            <Input
+            <StyledTextField
               {...register('birthday.year')}
               placeholder='년도'
-              error={errors.birthday?.hasOwnProperty('year')}
+              isError={errors.birthday?.hasOwnProperty('year')}
               type='number'
               pattern='\d*'
             />
-            <Input
+            <StyledTextField
               {...register('birthday.month')}
               placeholder='월'
-              error={errors.birthday?.hasOwnProperty('month')}
+              isError={errors.birthday?.hasOwnProperty('month')}
               type='number'
               pattern='\d*'
             />
-            <Input
+            <StyledTextField
               {...register('birthday.day')}
               placeholder='일'
-              error={errors.birthday?.hasOwnProperty('day')}
+              isError={errors.birthday?.hasOwnProperty('day')}
               type='number'
               pattern='\d*'
             />
@@ -110,16 +116,16 @@ export default function MemberBasicFormSection() {
               onClick={(e) => handleBlind(e, 'isPhoneBlind', openMaskingPhoneModal)}
             />
           </StyledBlindSwitch>
-          <StyledInput {...register('phone')} placeholder='010XXXXXXXX' />
+          <StyledTextField {...register('phone')} placeholder='010XXXXXXXX' />
         </FormItem>
         <FormItem title='이메일' required errorMessage={errors.email?.message} className='maskable'>
-          <StyledInput {...register('email')} type='email' placeholder='이메일 입력' />
+          <StyledTextField {...register('email')} type='email' placeholder='이메일 입력' />
         </FormItem>
         <FormItem
           title='활동 지역'
           description={`가까운 지하철역을 작성해주세요. \n활동 지역이 여러개일 경우 쉼표(,)로 구분해서 적어주세요.`}
         >
-          <StyledInput {...register('address')} placeholder='ex) 광나루역, 서울역, 홍대입구역' />
+          <StyledTextField {...register('address')} placeholder='ex) 광나루역, 서울역, 홍대입구역' />
         </FormItem>
         <FormItem title='학교'>
           <StyledEducationInput {...register('university')} placeholder='학교 입력' />
@@ -132,11 +138,7 @@ export default function MemberBasicFormSection() {
             <Controller
               name='introduction'
               render={({ field }) => (
-                <StyledCountableInput
-                  {...field}
-                  placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 '
-                  maxCount={15}
-                />
+                <StyledTextarea {...field} placeholder='ex) 프로 밤샘러, 데드리프트 잘하고 싶어요 등 ' maxLength={15} />
               )}
               control={control}
             />
@@ -163,7 +165,7 @@ export default function MemberBasicFormSection() {
 const StyledFormItems = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 46px;
+  gap: 32px;
   margin-top: 24px;
 
   .maskable {
@@ -195,8 +197,8 @@ const StyledImageUploader = styled(ImageUploader)`
   }
 `;
 
-const StyledInput = styled(Input)`
-  margin-top: 20px;
+const StyledTextField = styled(TextField)`
+  margin-top: 12px;
   width: 441px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -205,14 +207,13 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const StyledEducationInput = styled(StyledInput)`
+const StyledEducationInput = styled(StyledTextField)`
   width: 260px;
 `;
 
 const StyledBirthdayInputWrapper = styled.div`
   display: flex;
   gap: 12px;
-  margin-top: 18px;
   width: 441px;
 
   input {
@@ -226,7 +227,7 @@ const StyledBirthdayInputWrapper = styled.div`
   }
 `;
 
-const StyledCountableInput = styled(MemberCountableInput)`
+const StyledTextarea = styled(TextArea)`
   margin-top: 16px;
   width: 444px;
 `;
