@@ -125,7 +125,7 @@ const InputField = styled.div`
   padding: 11px 16px;
   ${fonts.BODY_16_M};
 
-  width: max-content;
+  width: 100%;
 `;
 
 const Overlay = styled.div`

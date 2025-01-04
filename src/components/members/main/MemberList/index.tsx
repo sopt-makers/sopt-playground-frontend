@@ -604,6 +604,10 @@ const StyledMobileFilterWrapper = styled.div`
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+
+  & > div {
+    flex-shrink: 0;
+  }
 `;
 
 const StyledSwitchVertical = styled(IconSwitchVertical)`
