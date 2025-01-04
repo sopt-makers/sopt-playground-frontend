@@ -195,7 +195,7 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
                             options={LINK_TITLES}
                             value={LINK_TITLES.find((option) => option.value === field.value)}
                             onChange={(value) => {
-                              setValue(`links.${index}.title`, value as string);
+                              setValue(`links.${index}.title`, value as string, { shouldDirty: true });
                               trigger(`links.${index}.title`);
                             }}
                             className='category'
