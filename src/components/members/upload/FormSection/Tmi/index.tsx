@@ -164,12 +164,12 @@ export default function TmiFormSection() {
           name='longIntroduction'
           control={control}
           render={({ field }) => (
-            <StyledIntroductionTextarea
-              value={field.value}
+            <StyledTextArea
+              value={field.value || ''}
               onChange={field.onChange}
-              maxCount={300}
-              placeholder={`• 나는 이런 사람이에요.\n• SOPT에 들어온 계기\n• SOPT에 들어오기 전에 무엇을 해왔는지\n• 프로젝트할 때의 나의 성향\n• SOPT에서 하고 싶은 것 등등`}
-              containerStyle={introductionTextareaContainerStyle}
+              maxLength={300}
+              fixedHeight={172}
+              placeholder={`- 나는 이런 사람이에요.\n- SOPT에 들어온 계기\n- SOPT에 들어오기 전에 무엇을 해왔는지\n- 프로젝트할 때의 나의 성향\n- SOPT에서 하고 싶은 것 등등`}
             />
           )}
         />

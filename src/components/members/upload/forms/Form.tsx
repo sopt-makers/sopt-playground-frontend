@@ -102,7 +102,7 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
   align-self: flex-end;
   justify-content: center;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  margin-top: 30px;
+  margin-top: 26px;
   border-radius: 31px;
   background-color: ${colors.white};
   width: 163px;
@@ -131,6 +131,7 @@ const SubmitButton = styled.button<{ isDisabled: boolean }>`
     width: 100%;
     height: 52px;
     line-height: 100%;
+    margin-top: 0;
 
     ${textStyles.SUIT_16_SB}
   }
