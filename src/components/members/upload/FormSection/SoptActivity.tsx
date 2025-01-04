@@ -1,19 +1,16 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { FieldError, useFieldArray, useFormContext } from 'react-hook-form';
+import { Controller, FieldError, useFieldArray, useFormContext } from 'react-hook-form';
 
-import Input from '@/components/common/Input';
-import Select from '@/components/common/Select';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
 import { DEFAULT_ACTIVITY, PARTS, TEAMS } from '@/components/members/upload/constants';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
-import SelectOptions from '@/components/members/upload/forms/SelectOptions';
+import Select from '@/components/members/upload/forms/Select';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import { GENERATIONS, LAST_EDITABLE_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 interface MemberSoptActivityFormSectionProps {
   isEditable?: boolean;
@@ -84,57 +81,87 @@ export default function MemberSoptActivityFormSection({
               errorMessage={getActivityErrorMessage(errors.activities?.[index])}
             >
               <StyledSelectWrapper>
-                <StyledSelect
-                  {...register(`activities.${index}.generation`, {
-                    onChange: handleClickDisabled,
+                <Controller
+                  name={`activities.${index}.generation`}
+                  control={control}
+                  rules={{
                     validate: (value) => checkDuplicateGeneration(value, index),
-                  })}
-                  error={errors?.activities?.[index]?.hasOwnProperty('generation')}
-                  placeholder='활동기수'
-                >
-                  <SelectOptions options={FILTERED_GENERATIONS} />
-                </StyledSelect>
-                <StyledSelect
-                  {...register(`activities.${index}.part`, { onChange: handleClickDisabled })}
-                  error={errors?.activities?.[index]?.hasOwnProperty('part')}
-                  placeholder='파트'
-                >
-                  <SelectOptions options={PARTS} />
-                </StyledSelect>
-                <StyledSelect
-                  {...register(`activities.${index}.team`)}
-                  error={errors?.activities?.[index]?.hasOwnProperty('team')}
-                  placeholder='운팀/미팀 여부'
-                  className='team'
-                >
-                  <SelectOptions options={TEAMS} />
-                </StyledSelect>
+                  }}
+                  render={({ field }) => (
+                    <StyledSelect
+                      placeholder='활동기수'
+                      options={FILTERED_GENERATIONS}
+                      onChange={(value) => {
+                        field.onChange(value);
+                        handleClickDisabled?.();
+                      }}
+                    />
+                  )}
+                />
+                <Controller
+                  name={`activities.${index}.part`}
+                  control={control}
+                  render={({ field }) => (
+                    <StyledSelect
+                      placeholder='파트'
+                      options={PARTS}
+                      onChange={(value) => {
+                        field.onChange(value);
+                        handleClickDisabled?.();
+                      }}
+                    />
+                  )}
+                />
+                <Controller
+                  name={`activities.${index}.team`}
+                  control={control}
+                  render={({ field }) => (
+                    <StyledSelect
+                      placeholder='운팀/미팀 여부'
+                      options={TEAMS}
+                      onChange={(value) => {
+                        field.onChange(value);
+                        handleClickDisabled?.();
+                      }}
+                    />
+                  )}
+                />
               </StyledSelectWrapper>
             </AddableItem>
           ) : (
             <FixedActivity key={field.id}>
-              <StyledInput
-                disabled
-                {...register(`activities.${index}.generation`)}
-                error={errors?.activities?.[index]?.hasOwnProperty('generation')}
-                placeholder='활동기수'
-                width='202.66px'
+              <Controller
+                name={`activities.${index}.generation`}
+                control={control}
+                render={({ field }) => (
+                  <StyledSelect
+                    disabled
+                    defaultValue={field.value}
+                    placeholder='활동기수'
+                    options={FILTERED_GENERATIONS}
+                  />
+                )}
               />
-              <StyledInput
-                disabled
-                {...register(`activities.${index}.part`)}
-                error={errors?.activities?.[index]?.hasOwnProperty('part')}
-                placeholder='파트'
-                width='202.66px'
+              <Controller
+                name={`activities.${index}.part`}
+                control={control}
+                render={({ field }) => (
+                  <StyledSelect disabled defaultValue={field.value} placeholder='파트' options={PARTS} />
+                )}
               />
-              <StyledSelect
-                {...register(`activities.${index}.team`)}
-                error={errors?.activities?.[index]?.hasOwnProperty('team')}
-                placeholder='운팀/미팀 여부'
-                className='team'
-              >
-                <SelectOptions options={TEAMS} />
-              </StyledSelect>
+              <Controller
+                name={`activities.${index}.team`}
+                control={control}
+                render={({ field }) => (
+                  <StyledSelect
+                    defaultValue={field.value || undefined}
+                    placeholder='운팀/미팀 여부'
+                    className='team'
+                    options={TEAMS}
+                    onChange={(value) => field.onChange(value)}
+                  />
+                )}
+              />
             </FixedActivity>
           ),
         )}
@@ -144,7 +171,10 @@ export default function MemberSoptActivityFormSection({
 }
 
 const FILTERED_GENERATIONS = GENERATIONS.filter((generation) => parseInt(generation) <= LAST_EDITABLE_GENERATION).map(
-  (generation) => generation + '기',
+  (generation) => ({
+    value: generation + '기',
+    label: generation + '기',
+  }),
 );
 
 const StyledFormSection = styled(FormSection)`
@@ -185,21 +215,6 @@ const StyledSelectWrapper = styled.div`
   }
 `;
 
-const StyledSelect = styled(Select)`
-  border-radius: 14px;
-  padding: 16px 34px 16px 20px;
-  width: 100%;
-  color: ${colors.gray10};
-
-  ${textStyles.SUIT_16_M};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 12px;
-    background-color: ${colors.gray800};
-    width: 100%;
-  }
-`;
-
 const FixedActivity = styled(StyledSelectWrapper)`
   width: 632px;
 
@@ -208,8 +223,11 @@ const FixedActivity = styled(StyledSelectWrapper)`
   }
 `;
 
-const StyledInput = styled(Input)`
-  & > input {
+const StyledSelect = styled(Select)`
+  width: 203px;
+
+  & button,
+  & div {
     width: 100%;
   }
 `;
