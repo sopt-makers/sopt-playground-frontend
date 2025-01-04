@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { TextField } from '@sopt-makers/ui';
+import { TextArea } from '@sopt-makers/ui';
 import dayjs from 'dayjs';
 import { FormEvent, ReactNode } from 'react';
 import { Controller, FieldError, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
@@ -12,7 +13,6 @@ import MonthPicker from '@/components/common/MonthPicker';
 import Responsive from '@/components/common/Responsive';
 import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
-import TextArea from '@/components/common/TextArea';
 import AddableItem from '@/components/members/upload/AddableItem';
 import AddableWrapper from '@/components/members/upload/AddableWrapper';
 import { DEFAULT_CAREER, DEFAULT_LINK, LINK_TITLES } from '@/components/members/upload/constants';
@@ -116,106 +116,115 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
                 onRemove={() => handleRemoveCareer(index)}
                 key={field.id}
               >
-                <CareerItem>
-                  <TextField
-                    {...register(`careers.${index}.companyName`)}
-                    placeholder='회사 입력 ex. 토스, 네이버, 당근, 쿠팡'
-                  />
-                  <TextField {...register(`careers.${index}.title`)} placeholder='직무 입력 ex. 프로덕트 디자이너' />
-                  <IsCurrent>
-                    현재 재직 중
-                    <Switch
-                      {...register(`careers.${index}.isCurrent`)}
-                      onChange={(e) => handleChangeIsCurrent(e, index)}
+                <CareerItemWrapper>
+                  <CareerInputWrapper>
+                    <TextField
+                      {...register(`careers.${index}.companyName`)}
+                      placeholder='회사 입력 ex. 토스, 네이버, 당근, 쿠팡'
                     />
-                  </IsCurrent>
-                  {careers.length && (
-                    <>
-                      <MonthPicker
-                        value={careers[index]?.startDate ? new Date(careers[index]?.startDate) : null}
-                        onChange={(date: Date) => handleChangeStartDate(date, index)}
-                        placeholder='근무 시작일'
+                    <TextField {...register(`careers.${index}.title`)} placeholder='직무 입력 ex. 프로덕트 디자이너' />
+                  </CareerInputWrapper>
+                  <CareerDetail>
+                    <IsCurrent>
+                      현재 재직 중
+                      <Switch
+                        {...register(`careers.${index}.isCurrent`)}
+                        onChange={(e) => handleChangeIsCurrent(e, index)}
                       />
-                      <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
+                    </IsCurrent>
+                    {careers.length && (
+                      <>
                         <MonthPicker
-                          value={careers[index]?.endDate ? new Date(careers[index]?.endDate ?? '') : null}
-                          onChange={(date: Date) => handleChangeEndDate(date, index)}
-                          placeholder='근무 종료일'
+                          value={careers[index]?.startDate ? new Date(careers[index]?.startDate) : null}
+                          onChange={(date: Date) => handleChangeStartDate(date, index)}
+                          placeholder='근무 시작일'
                         />
-                      </EndDateWrapper>
-                    </>
-                  )}
-                </CareerItem>
+                        <EndDateWrapper isShow={watch(`careers.${index}.isCurrent`)}>
+                          <MonthPicker
+                            value={careers[index]?.endDate ? new Date(careers[index]?.endDate ?? '') : null}
+                            onChange={(date: Date) => handleChangeEndDate(date, index)}
+                            placeholder='근무 종료일'
+                          />
+                        </EndDateWrapper>
+                      </>
+                    )}
+                  </CareerDetail>
+                </CareerItemWrapper>
               </AddableItem>
             ))}
           </StyledCareerAddableWrapper>
         </div>
 
-        <Responsive only='desktop' asChild>
-          <>
-            <div className='skill'>
-              <MemberFormItem title='스킬'>
-                <SkillDescription>{`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요.
-              \n쉼표(,)로 구분해서 적어주세요.`}</SkillDescription>
-                <StyledInput
-                  {...register('skill')}
-                  onChange={(e) => setValue('skill', e.target.value, { shouldDirty: true })}
-                  placeholder='ex) Node, Product Managing, Branding, UI'
-                />
-              </MemberFormItem>
-            </div>
-            <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
-              <StyledAddableWrapper onAppend={handleAppendLink}>
-                {linkFields.map((field, index) => (
-                  <AddableItem
-                    onRemove={() => handleRemoveLink(index)}
-                    key={field.id}
-                    errorMessage={getLinksErrorMessage(errors.links?.[index])}
-                  >
-                    <StyledSelectWrapper>
-                      <Controller
-                        name={`links.${index}.title`}
-                        control={control}
-                        render={({ field }) => (
-                          <>
-                            <Responsive only='desktop' asChild>
-                              <StyledSelect
-                                placeholder='링크를 입력해주세요'
-                                options={LINK_TITLES}
-                                onChange={(value) => {
-                                  setValue(`links.${index}.title`, value as string);
-                                  trigger(`links.${index}.title`);
-                                }}
-                                className='category'
-                              />
-                            </Responsive>
-                            <Responsive only='mobile'>
-                              <BottomSheetSelect
-                                options={LINK_TITLES}
-                                value={field.value}
-                                placeholder='링크를 입력해주세요'
-                                onChange={(value) => {
-                                  setValue(`links.${index}.title`, value);
-                                  trigger(`links.${index}.title`);
-                                }}
-                              />
-                            </Responsive>
-                          </>
-                        )}
-                      />
-                      <TextField
-                        {...register(`links.${index}.url`)}
-                        isError={errors?.links?.[index]?.hasOwnProperty('url')}
-                        placeholder='https://'
-                        className='link'
-                      />
-                    </StyledSelectWrapper>
-                  </AddableItem>
-                ))}
-              </StyledAddableWrapper>
-            </MemberFormItem>
-          </>
-        </Responsive>
+        <div className='skill'>
+          <MemberFormItem title='스킬'>
+            <SkillDescription>{`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요.\n쉼표(,)로 구분해서 적어주세요.`}</SkillDescription>
+            <Responsive only='desktop' asChild>
+              <StyledTextField
+                {...register('skill')}
+                onChange={(e) => setValue('skill', e.target.value, { shouldDirty: true })}
+                placeholder='ex) Node, Product Managing, Branding, UI'
+              />
+            </Responsive>
+            <Responsive only='mobile'>
+              <StyledTextarea
+                {...register('skill')}
+                onChange={(e) => setValue('skill', e.target.value, { shouldDirty: true })}
+                placeholder='ex) Node, Product Managing, BI/BX'
+                fixedHeight={128}
+              />
+            </Responsive>
+          </MemberFormItem>
+        </div>
+        <MemberFormItem title='링크' description={'Github, Instagram, 개인 웹사이트 등을 \n자유롭게 업로드해주세요. '}>
+          <StyledAddableWrapper onAppend={handleAppendLink}>
+            {linkFields.map((field, index) => (
+              <AddableItem
+                onRemove={() => handleRemoveLink(index)}
+                key={field.id}
+                errorMessage={getLinksErrorMessage(errors.links?.[index])}
+              >
+                <StyledSelectWrapper>
+                  <Controller
+                    name={`links.${index}.title`}
+                    control={control}
+                    render={({ field }) => (
+                      <>
+                        <Responsive only='desktop' asChild>
+                          <StyledSelect
+                            placeholder='링크를 입력해주세요'
+                            options={LINK_TITLES}
+                            onChange={(value) => {
+                              setValue(`links.${index}.title`, value as string);
+                              trigger(`links.${index}.title`);
+                            }}
+                            className='category'
+                          />
+                        </Responsive>
+                        <Responsive only='mobile'>
+                          <BottomSheetSelect
+                            options={LINK_TITLES}
+                            value={field.value}
+                            placeholder='링크를 입력해주세요'
+                            onChange={(value) => {
+                              setValue(`links.${index}.title`, value);
+                              trigger(`links.${index}.title`);
+                            }}
+                          />
+                        </Responsive>
+                      </>
+                    )}
+                  />
+                  <TextField
+                    {...register(`links.${index}.url`)}
+                    isError={errors?.links?.[index]?.hasOwnProperty('url')}
+                    placeholder='https://'
+                    className='link'
+                  />
+                </StyledSelectWrapper>
+              </AddableItem>
+            ))}
+          </StyledAddableWrapper>
+        </MemberFormItem>
       </FormItems>
     </FormSection>
   );
@@ -231,7 +240,13 @@ const IsCurrent = styled.div`
   ${textStyles.SUIT_16_M}
 `;
 
-const CareerItem = styled.div`
+const CareerItemWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const CareerDetail = styled.div`
   display: grid;
   position: relative;
   grid-template-columns: 1fr 1fr;
@@ -275,7 +290,7 @@ const CareerTitle = styled.div`
 const CareerDescription = styled(Text)`
   display: block;
   margin-top: 10px;
-  color: ${colors.gray400};
+  color: ${colors.gray300};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
@@ -289,9 +304,12 @@ const CareerDescription = styled(Text)`
 const SkillDescription = styled(Text)`
   display: block;
   margin-top: 10px;
-  line-height: 11px;
   white-space: pre-line;
-  color: ${colors.gray400};
+  color: ${colors.gray300};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    white-space: normal;
+  }
 `;
 
 const EndDateWrapper = styled.div`
@@ -312,14 +330,18 @@ const EndDateWrapper = styled.div`
   }
 `;
 
-const StyledInput = styled(TextField)`
+const StyledTextField = styled(TextField)`
   margin-top: 12px;
   width: 632px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 0;
+    margin-top: 10px;
     width: 100%;
   }
+`;
+
+const StyledTextarea = styled(TextArea)`
+  margin-top: 10px;
 `;
 
 const StyledSelectWrapper = styled.div`
@@ -335,6 +357,10 @@ const StyledSelectWrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     gap: 11px;
+
+    & > div {
+      width: 100%;
+    }
   }
 `;
 
@@ -364,6 +390,7 @@ const StyledCareerAddableWrapper = styled(AddableWrapper)`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 20px;
+    margin-top: 10px;
   }
 `;
 
@@ -372,4 +399,19 @@ const FormItems = styled.div`
   flex-direction: column;
   gap: 36px;
   margin-top: 32px;
+`;
+
+const CareerInputWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+  width: 100%;
+
+  & > div {
+    flex-grow: 1;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    gap: 8px;
+  }
 `;
