@@ -53,7 +53,7 @@ const StyledTitle = styled(Text)`
 `;
 
 const StyledRequired = styled(Text)`
-  margin: 0 0 0 4px;
+  margin: -6px 0 0 1px;
   color: ${colors.secondary};
   ${textStyles.SUIT_16_M};
 `;
@@ -61,7 +61,7 @@ const StyledRequired = styled(Text)`
 const StyledDescription = styled(Text)`
   display: block;
   margin-top: 8px;
-  color: ${colors.gray400};
+  color: ${colors.gray300};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 10px;
