@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { TextField } from '@sopt-makers/ui';
 import dayjs from 'dayjs';
 import { FormEvent, ReactNode } from 'react';
-import { FieldError, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { Controller, FieldError, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
+import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import EditableSelect from '@/components/common/EditableSelect';
 import Input from '@/components/common/Input';
 import MonthPicker from '@/components/common/MonthPicker';
@@ -16,6 +18,7 @@ import AddableWrapper from '@/components/members/upload/AddableWrapper';
 import { DEFAULT_CAREER, DEFAULT_LINK, LINK_TITLES } from '@/components/members/upload/constants';
 import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
+import Select from '@/components/members/upload/forms/Select';
 import MemberSelectOptions from '@/components/members/upload/forms/SelectOptions';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -114,11 +117,11 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
                 key={field.id}
               >
                 <CareerItem>
-                  <Input
+                  <TextField
                     {...register(`careers.${index}.companyName`)}
                     placeholder='회사 입력 ex. 토스, 네이버, 당근, 쿠팡'
                   />
-                  <Input {...register(`careers.${index}.title`)} placeholder='직무 입력 ex. 프로덕트 디자이너' />
+                  <TextField {...register(`careers.${index}.title`)} placeholder='직무 입력 ex. 프로덕트 디자이너' />
                   <IsCurrent>
                     현재 재직 중
                     <Switch
@@ -170,75 +173,41 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
                     errorMessage={getLinksErrorMessage(errors.links?.[index])}
                   >
                     <StyledSelectWrapper>
-                      <StyledEditableSelect
-                        placeholder='링크를 입력해주세요'
-                        {...register(`links.${index}.title`)}
-                        error={errors?.links?.[index]?.hasOwnProperty('title')}
-                        className='category'
-                        onSelect={(value: string) => {
-                          setValue(`links.${index}.title`, value);
-                          trigger(`links.${index}.title`);
-                        }}
-                        value={linkCategories[index]?.title ?? ''}
-                      >
-                        <MemberSelectOptions options={LINK_TITLES} />
-                      </StyledEditableSelect>
-                      <Input
-                        {...register(`links.${index}.url`)}
-                        error={errors?.links?.[index]?.hasOwnProperty('url')}
-                        placeholder='https://'
-                        className='link'
+                      <Controller
+                        name={`links.${index}.title`}
+                        control={control}
+                        render={({ field }) => (
+                          <>
+                            <Responsive only='desktop' asChild>
+                              <StyledSelect
+                                placeholder='링크를 입력해주세요'
+                                options={LINK_TITLES}
+                                onChange={(value) => {
+                                  setValue(`links.${index}.title`, value as string);
+                                  trigger(`links.${index}.title`);
+                                }}
+                                className='category'
+                              />
+                            </Responsive>
+                            <Responsive only='mobile'>
+                              <BottomSheetSelect
+                                options={LINK_TITLES}
+                                value={field.value}
+                                placeholder='링크를 입력해주세요'
+                                onChange={(value) => {
+                                  setValue(`links.${index}.title`, value);
+                                  trigger(`links.${index}.title`);
+                                }}
+                              />
+                            </Responsive>
+                          </>
+                        )}
                       />
-                    </StyledSelectWrapper>
-                  </AddableItem>
-                ))}
-              </StyledAddableWrapper>
-            </MemberFormItem>
-          </>
-        </Responsive>
-
-        <Responsive only='mobile' asChild>
-          <>
-            <div className='skill'>
-              <MemberFormItem
-                title='스킬'
-                description={`자신있는 스킬에 대해 꼼꼼하게 작성해두면 다양한 회원들과 커피챗을 진행할 수 있어요. 쉼표(,)로 구분해서 적어주세요.`}
-              >
-                <StyledTextArea
-                  {...register('skill')}
-                  onChange={(e) => setValue('skill', e.target.value, { shouldDirty: true })}
-                  placeholder='ex) Node, Product Managing, Branding, UI'
-                />
-              </MemberFormItem>
-            </div>
-            <MemberFormItem title='링크' description='Github, instagram, 개인 웹사이트 등을 자유롭게 업로드해주세요'>
-              <StyledAddableWrapper onAppend={handleAppendLink}>
-                {linkFields.map((field, index) => (
-                  <AddableItem
-                    onRemove={() => handleRemoveLink(index)}
-                    key={field.id}
-                    errorMessage={getLinksErrorMessage(errors.links?.[index])}
-                  >
-                    <StyledSelectWrapper>
-                      <StyledEditableSelect
-                        placeholder='ex) Instagram'
-                        {...register(`links.${index}.title`)}
-                        onSelect={(value: string) => {
-                          setValue(`links.${index}.title`, value);
-                          trigger(`links.${index}.title`);
-                        }}
-                        value={linkCategories[index]?.title ?? ''}
-                        error={errors?.links?.[index]?.hasOwnProperty('title')}
-                        className='category'
-                      >
-                        <MemberSelectOptions options={LINK_TITLES} />
-                      </StyledEditableSelect>
-                      <StyledInput
+                      <TextField
                         {...register(`links.${index}.url`)}
-                        error={errors?.links?.[index]?.hasOwnProperty('url')}
+                        isError={errors?.links?.[index]?.hasOwnProperty('url')}
                         placeholder='https://'
                         className='link'
-                        type='url'
                       />
                     </StyledSelectWrapper>
                   </AddableItem>
@@ -266,7 +235,7 @@ const CareerItem = styled.div`
   display: grid;
   position: relative;
   grid-template-columns: 1fr 1fr;
-  column-gap: 18px;
+  column-gap: 16px;
   width: 630px;
 
   /* stylelint-disable-next-line selector-class-pattern */
@@ -333,14 +302,18 @@ const EndDateWrapper = styled.div`
   &::before {
     position: absolute;
     bottom: 16px;
-    left: -14px;
+    left: -11px;
     content: '-';
     ${textStyles.SUIT_16_M}
   }
+
+  & > div {
+    width: 100%;
+  }
 `;
 
-const StyledInput = styled(Input)`
-  margin-top: 18px;
+const StyledInput = styled(TextField)`
+  margin-top: 12px;
   width: 632px;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -355,10 +328,6 @@ const StyledSelectWrapper = styled.div`
   align-items: center;
   width: 100%;
 
-  .category {
-    flex: 1;
-  }
-
   .link {
     flex: 2;
   }
@@ -369,38 +338,13 @@ const StyledSelectWrapper = styled.div`
   }
 `;
 
-const StyledEditableSelect = styled(EditableSelect)`
-  border-width: 1.5px;
-  border-radius: 14px;
-  padding: 16px 34px 16px 20px;
+const StyledSelect = styled(Select)`
+  width: 203px;
 
-  ${textStyles.SUIT_16_M};
-
-  option {
-    color: ${colors.white};
+  & button,
+  & div {
+    width: 100%;
   }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    position: relative;
-    border-radius: 12px;
-    background-color: ${colors.gray800};
-    padding: 0;
-
-    select {
-      padding: 16px 34px 16px 20px;
-    }
-
-    input {
-      top: 50%;
-      transform: translateY(-50%);
-      height: calc(100% - 4px);
-    }
-  }
-`;
-
-const StyledTextArea = styled(TextArea)`
-  margin-top: 14px;
-  height: 128px;
 `;
 
 const StyledAddableWrapper = styled(AddableWrapper)`

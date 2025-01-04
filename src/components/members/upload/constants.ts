@@ -124,8 +124,28 @@ export const TEAMS = [
   },
 ];
 
-export const LINK_TITLES = ['Facebook', 'Instagram', 'LinkedIn', 'GitHub', 'Behance'];
-
+export const LINK_TITLES = [
+  {
+    value: 'Facebook',
+    label: 'Facebook',
+  },
+  {
+    value: 'Instagram',
+    label: 'Instagram',
+  },
+  {
+    value: 'LinkedIn',
+    label: 'LinkedIn',
+  },
+  {
+    value: 'GitHub',
+    label: 'GitHub',
+  },
+  {
+    value: 'Behance',
+    label: 'Behance',
+  },
+];
 export const DEFAULT_DATE = '1970-01-01';
 
 export const SOJU_CAPACITY_RANGE = ['못마셔요', '0.5병', '1병', '1.5병', '2병', '2.5병', '3병 이상'] as const;
