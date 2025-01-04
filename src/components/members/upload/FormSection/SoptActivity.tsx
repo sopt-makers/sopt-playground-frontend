@@ -94,12 +94,6 @@ export default function MemberSoptActivityFormSection({
                         <StyledSelect
                           placeholder='활동기수'
                           options={FILTERED_GENERATIONS}
-                          value={
-                            FILTERED_GENERATIONS.find((option) => option.value === field.value) || {
-                              label: field.value,
-                              value: field.value,
-                            }
-                          }
                           onChange={(value) => {
                             field.onChange(value);
                             handleClickDisabled?.();
@@ -159,7 +153,6 @@ export default function MemberSoptActivityFormSection({
                         <StyledSelect
                           placeholder='운팀/미팀 여부'
                           options={TEAMS}
-                          value={TEAMS.find((option) => option.value === field.value)}
                           onChange={(value) => {
                             field.onChange(value);
                             handleClickDisabled?.();
