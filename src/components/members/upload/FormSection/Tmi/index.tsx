@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { TextArea } from '@sopt-makers/ui';
+import { TextArea, TextField } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
@@ -91,7 +91,16 @@ export default function TmiFormSection() {
       </StyledMemberFormItem>
 
       <StyledMemberFormItem title='저는 요새 이런 걸 좋아해요!'>
-        <StyledInput {...register('interest')} placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.' />
+        <Responsive only='desktop' asChild>
+          <StyledTextField {...register('interest')} placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.' />
+        </Responsive>
+        <Responsive only='mobile'>
+          <StyledTextArea
+            {...register('interest')}
+            placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.'
+            fixedHeight={100}
+          />
+        </Responsive>
       </StyledMemberFormItem>
       <StyledMemberFormItem title='나는 어느 쪽?'>
         <FavorWrapper>
@@ -214,9 +223,8 @@ const StyledSelect = styled(Select)`
   }
 `;
 
-const StyledInput = styled(Input)`
+const StyledTextField = styled(TextField)`
   margin-top: 14px;
-  width: 632px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
