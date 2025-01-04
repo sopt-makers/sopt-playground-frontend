@@ -3,7 +3,7 @@ import { SelectV2 } from '@sopt-makers/ui';
 import { PropsWithChildren } from 'react';
 
 export type Option<T = string> = {
-  value: T | number;
+  value: T;
   label: string;
 };
 
@@ -14,7 +14,6 @@ interface SelectProps<T> {
   options: Option<T>[];
   onChange?: (value: string | number | boolean) => void;
   disabled?: boolean;
-  defaultValue?: string;
 }
 export function Select<T extends string>({
   className,
@@ -24,21 +23,14 @@ export function Select<T extends string>({
   onChange,
   children,
   disabled = false,
-  defaultValue,
 }: PropsWithChildren<SelectProps<T>>) {
-  const defaultValueOption = defaultValue
-    ? {
-        label: defaultValue,
-        value: defaultValue,
-      }
-    : undefined;
   return (
     <StyledSelectRoot
       key={value?.value}
       className={className}
       type='text'
       onChange={disabled ? undefined : onChange}
-      defaultValue={defaultValueOption}
+      defaultValue={value}
       disabled={disabled}
     >
       <SelectV2.Trigger>

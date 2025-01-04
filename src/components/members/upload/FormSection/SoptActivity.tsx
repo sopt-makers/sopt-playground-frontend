@@ -94,6 +94,12 @@ export default function MemberSoptActivityFormSection({
                         <StyledSelect
                           placeholder='활동기수'
                           options={FILTERED_GENERATIONS}
+                          value={
+                            FILTERED_GENERATIONS.find((option) => option.value === field.value) || {
+                              label: field.value,
+                              value: field.value,
+                            }
+                          }
                           onChange={(value) => {
                             field.onChange(value);
                             handleClickDisabled?.();
@@ -123,6 +129,7 @@ export default function MemberSoptActivityFormSection({
                         <StyledSelect
                           placeholder='파트'
                           options={PARTS}
+                          value={PARTS.find((option) => option.value === field.value)}
                           onChange={(value) => {
                             field.onChange(value);
                             handleClickDisabled?.();
@@ -152,6 +159,7 @@ export default function MemberSoptActivityFormSection({
                         <StyledSelect
                           placeholder='운팀/미팀 여부'
                           options={TEAMS}
+                          value={TEAMS.find((option) => option.value === field.value)}
                           onChange={(value) => {
                             field.onChange(value);
                             handleClickDisabled?.();
@@ -184,7 +192,12 @@ export default function MemberSoptActivityFormSection({
                     <Responsive only='desktop'>
                       <StyledSelect
                         disabled
-                        defaultValue={field.value}
+                        value={
+                          FILTERED_GENERATIONS.find((option) => option.value === field.value) || {
+                            label: field.value,
+                            value: field.value,
+                          }
+                        }
                         placeholder='활동기수'
                         options={FILTERED_GENERATIONS}
                         className='generation'
@@ -213,7 +226,7 @@ export default function MemberSoptActivityFormSection({
                     <Responsive only='desktop'>
                       <StyledSelect
                         disabled
-                        defaultValue={field.value}
+                        value={PARTS.find((option) => option.value === field.value)}
                         placeholder='파트'
                         options={PARTS}
                         className='part'
@@ -241,7 +254,7 @@ export default function MemberSoptActivityFormSection({
                   <>
                     <Responsive only='desktop'>
                       <StyledSelect
-                        defaultValue={field.value || undefined}
+                        value={TEAMS.find((option) => option.value === field.value)}
                         placeholder='운팀/미팀 여부'
                         className='team'
                         options={TEAMS}

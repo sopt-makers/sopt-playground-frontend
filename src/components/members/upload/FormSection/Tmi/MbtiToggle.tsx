@@ -22,7 +22,7 @@ export default function MbtiToggle<T extends string | null>({ left, right, selec
       <LeftButton onClick={() => handleClick(left)} isSelected={left === selected}>
         {left}
       </LeftButton>
-      <Bar />
+      {!selected && <Bar />}
       <RightButton onClick={() => handleClick(right)} isSelected={right === selected}>
         {right}
       </RightButton>

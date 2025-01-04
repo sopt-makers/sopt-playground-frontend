@@ -2,6 +2,8 @@ import { DefaultValues } from 'react-hook-form';
 
 import { MemberUploadForm } from '@/components/members/upload/types';
 
+export const UNSELECTED = '선택 안 함';
+
 export const DEFAULT_CAREER = { title: '', companyName: '', isCurrent: false, startDate: '', endDate: '' } as const;
 export const DEFAULT_ACTIVITY = { generation: '', part: '', team: '' };
 export const DEFAULT_LINK = { title: '', url: '' };
@@ -145,41 +147,41 @@ export const LINK_TITLES = [
     value: 'Behance',
     label: 'Behance',
   },
-] as const;
+];
 
 export const DEFAULT_DATE = '1970-01-01';
 
 export const SOJU_CAPACITY_RANGE = [
   {
-    value: '',
+    value: '선택 안 함',
     label: '선택 안 함',
   },
   {
-    value: 0,
+    value: '못마셔요',
     label: '못마셔요',
   },
   {
-    value: 1,
+    value: '0.5병',
     label: '0.5병',
   },
   {
-    value: 2,
+    value: '1병',
     label: '1병',
   },
   {
-    value: 3,
+    value: '1.5병',
     label: '1.5병',
   },
   {
-    value: 4,
+    value: '2병',
     label: '2병',
   },
   {
-    value: 5,
+    value: '2.5병',
     label: '2.5병',
   },
   {
-    value: 6,
+    value: '3병 이상',
     label: '3병 이상',
   },
 ];

@@ -74,14 +74,19 @@ export default function TmiFormSection() {
             render={({ field }) => (
               <>
                 <Responsive only='desktop'>
-                  <Select placeholder='주량 선택' options={SOJU_CAPACITY_RANGE} onChange={field.onChange} />
+                  <Select
+                    placeholder='주량 선택'
+                    options={SOJU_CAPACITY_RANGE}
+                    onChange={field.onChange}
+                    value={SOJU_CAPACITY_RANGE.find((option) => option.value === field.value)}
+                  />
                 </Responsive>
                 <Responsive only='mobile'>
                   <BottomSheetSelect
                     placeholder='주량 선택'
                     options={SOJU_CAPACITY_RANGE}
                     onChange={field.onChange}
-                    value={field.value?.value}
+                    value={field.value}
                   />
                 </Responsive>
               </>

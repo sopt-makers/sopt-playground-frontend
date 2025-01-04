@@ -193,6 +193,7 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
                           <StyledSelect
                             placeholder='링크를 입력해주세요'
                             options={LINK_TITLES}
+                            value={LINK_TITLES.find((option) => option.value === field.value)}
                             onChange={(value) => {
                               setValue(`links.${index}.title`, value as string);
                               trigger(`links.${index}.title`);
