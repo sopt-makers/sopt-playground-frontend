@@ -49,7 +49,7 @@ export default function MbtiSelector({ mbti, onSelect }: MbtiSelectorProps) {
 
 const Container = styled.div`
   display: flex;
-  gap: 8px;
+  row-gap: 14px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-wrap: wrap;

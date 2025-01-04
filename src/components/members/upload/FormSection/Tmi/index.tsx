@@ -1,11 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { TextArea } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import Input from '@/components/common/Input';
-import Responsive from '@/components/common/Responsive';
-import TextArea from '@/components/common/TextArea';
 import Select from '@/components/members/common/select/Select';
 import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
 import MemberCountableTextArea from '@/components/members/upload/forms/CountableTextArea';
@@ -61,7 +60,7 @@ export default function TmiFormSection() {
               />
             )}
           />
-          <StyledTextArea {...register('mbtiDescription')} placeholder='ex) 저는 극강의 EEE에요.' />
+          <StyledTextArea {...register('mbtiDescription')} placeholder='ex) 저는 극강의 EEE에요.' fixedHeight={100} />
         </MbtiWrapper>
       </StyledMemberFormItem>
 
@@ -164,8 +163,11 @@ export default function TmiFormSection() {
 const MbtiWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-top: 20px;
+  margin-top: 12px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 14px;
+  }
 `;
 
 const StyledMemberFormItem = styled(MemberFormItem)`
@@ -174,16 +176,6 @@ const StyledMemberFormItem = styled(MemberFormItem)`
 
 const StyledTextArea = styled(TextArea)`
   margin-top: 14px;
-  border-radius: 13px;
-  padding: 14px 20px;
-  width: 632px;
-  height: 76px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
-    height: 80px;
-    line-height: 150%;
-  }
 `;
 
 const FavorWrapper = styled.div`
