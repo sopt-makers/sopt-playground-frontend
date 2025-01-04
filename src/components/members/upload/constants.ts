@@ -145,9 +145,43 @@ export const LINK_TITLES = [
     value: 'Behance',
     label: 'Behance',
   },
-];
+] as const;
+
 export const DEFAULT_DATE = '1970-01-01';
 
-export const SOJU_CAPACITY_RANGE = ['못마셔요', '0.5병', '1병', '1.5병', '2병', '2.5병', '3병 이상'] as const;
+export const SOJU_CAPACITY_RANGE = [
+  {
+    value: '',
+    label: '선택 안 함',
+  },
+  {
+    value: 0,
+    label: '못마셔요',
+  },
+  {
+    value: 1,
+    label: '0.5병',
+  },
+  {
+    value: 2,
+    label: '1병',
+  },
+  {
+    value: 3,
+    label: '1.5병',
+  },
+  {
+    value: 4,
+    label: '2병',
+  },
+  {
+    value: 5,
+    label: '2.5병',
+  },
+  {
+    value: 6,
+    label: '3병 이상',
+  },
+];
 
 export const MBTI_INDICATORS = ['E', 'I', 'N', 'S', 'F', 'T', 'P', 'J'] as const;

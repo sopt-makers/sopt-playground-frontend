@@ -3,7 +3,7 @@ import { SelectV2 } from '@sopt-makers/ui';
 import { PropsWithChildren } from 'react';
 
 export type Option<T = string> = {
-  value: T;
+  value: T | number;
   label: string;
 };
 

@@ -9,13 +9,13 @@ import { zIndex } from '@/styles/zIndex';
 
 interface Option {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 interface BottomSheetSelectProps {
   options: Option[];
   defaultOption?: Option;
-  value: string | null | undefined;
+  value: string | number | null | undefined;
   placeholder: string;
   onChange: (value: string) => void;
   icon?: ReactNode;

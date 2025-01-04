@@ -4,13 +4,15 @@ import { colors } from '@sopt-makers/colors';
 import { TextArea } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import Input from '@/components/common/Input';
-import Select from '@/components/members/common/select/Select';
+import Responsive from '@/components/common/Responsive';
 import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
 import MemberCountableTextArea from '@/components/members/upload/forms/CountableTextArea';
 import MemberFormHeader from '@/components/members/upload/forms/FormHeader';
 import MemberFormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection } from '@/components/members/upload/forms/FormSection';
+import Select from '@/components/members/upload/forms/Select';
 import FavorToggle from '@/components/members/upload/FormSection/Tmi/FavorToggle';
 import MbtiSelector from '@/components/members/upload/FormSection/Tmi/MbtiSelector';
 import {
@@ -65,20 +67,27 @@ export default function TmiFormSection() {
       </StyledMemberFormItem>
 
       <StyledMemberFormItem title='소주, 어디까지 마셔봤니?'>
-        <Controller
-          control={control}
-          name='sojuCapacity'
-          render={({ field }) => (
-            <StyledSelect placeholder='주량 선택' value={field.value} onChange={field.onChange}>
-              <Select.Item value=''>선택 안 함</Select.Item>
-              {SOJU_CAPACITY_RANGE.map((capacity) => (
-                <Select.Item key={capacity} value={capacity}>
-                  {capacity}
-                </Select.Item>
-              ))}
-            </StyledSelect>
-          )}
-        />
+        <SojuCapacityWrapper>
+          <Controller
+            control={control}
+            name='sojuCapacity'
+            render={({ field }) => (
+              <>
+                <Responsive only='desktop'>
+                  <Select placeholder='주량 선택' options={SOJU_CAPACITY_RANGE} onChange={field.onChange} />
+                </Responsive>
+                <Responsive only='mobile'>
+                  <BottomSheetSelect
+                    placeholder='주량 선택'
+                    options={SOJU_CAPACITY_RANGE}
+                    onChange={field.onChange}
+                    value={field.value?.value}
+                  />
+                </Responsive>
+              </>
+            )}
+          />
+        </SojuCapacityWrapper>
       </StyledMemberFormItem>
 
       <StyledMemberFormItem title='저는 요새 이런 걸 좋아해요!'>
@@ -168,6 +177,11 @@ const MbtiWrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 14px;
   }
+`;
+
+const SojuCapacityWrapper = styled.div`
+  margin-top: 12px;
+  width: max-content;
 `;
 
 const StyledMemberFormItem = styled(MemberFormItem)`
