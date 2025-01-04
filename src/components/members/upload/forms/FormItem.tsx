@@ -45,10 +45,12 @@ export default function MemberFormItem({
 const StyledTitle = styled(Text)`
   display: flex;
 
-  ${textStyles.SUIT_18_SB}
+  ${textStyles.SUIT_16_SB}
+
+  color: ${colors.gray10};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_15_SB}
+    color: ${colors.white};
   }
 `;
 
