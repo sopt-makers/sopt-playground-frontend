@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconMail } from '@sopt-makers/icons';
-import { useDialog } from '@sopt-makers/ui';
+import { IconMail, IconUser, IconUserX } from '@sopt-makers/icons';
+import { useDialog, UserMention } from '@sopt-makers/ui';
 import Link from 'next/link';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 
@@ -12,6 +12,7 @@ import MessageModal from '@/components/coffeechat/CoffeeChatModal/CoffeeChatModa
 import RegisterCoffeechatButton from '@/components/coffeechat/detail/RegisterCoffeechatButton';
 import ShowCoffeechatToggle from '@/components/coffeechat/detail/ShowCoffeechatToggle';
 import useModalState from '@/components/common/Modal/useModalState';
+import Responsive from '@/components/common/Responsive';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface OpenerProfileProps {
@@ -41,12 +42,14 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
     <>
       {openerProfile && (
         <OpenerProfileSection isMine={!!openerProfile.isMine}>
-          <Link href={"/members/"+memberId}>
+          <Link href={'/members/' + memberId}>
             <ProfileImageBox>
-             {openerProfile.profileImage ? (
+              {openerProfile.profileImage ? (
                 <ProfileImage src={openerProfile.profileImage} alt='프로필 이미지' />
               ) : (
-                <ProfileIcon />
+                <StIconBox>
+                  <StIconUser style={{}} />
+                </StIconBox>
               )}
             </ProfileImageBox>
           </Link>
@@ -181,7 +184,23 @@ const MailIcon = styled(IconMail)`
   width: 20px;
   height: 20px;
 `;
-
+const StIconBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.gray900};
+  width: 100%;
+  height: 100%;
+`;
+const StIconUser = styled(IconUser)`
+  margin-top: 5px;
+  width: 60px;
+  color: ${colors.gray400};
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 3.5px;
+    width: 46px;
+  }
+`;
 // TODO: 폰 아이콘 mds에 반영되면 반영 필요
 const PhoneIcon = styled(IconPhone)`
   width: 20px;
