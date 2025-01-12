@@ -2,17 +2,15 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconMail, IconUser, IconUserX } from '@sopt-makers/icons';
-import { useDialog, UserMention } from '@sopt-makers/ui';
+import { IconMail, IconUser } from '@sopt-makers/icons';
+import { useDialog } from '@sopt-makers/ui';
 import Link from 'next/link';
-import ProfileIcon from 'public/icons/icon-profile.svg';
 
 import { useGetCoffeechatDetail } from '@/api/endpoint/coffeechat/getCoffeechatDetail';
 import MessageModal from '@/components/coffeechat/CoffeeChatModal/CoffeeChatModal';
 import RegisterCoffeechatButton from '@/components/coffeechat/detail/RegisterCoffeechatButton';
 import ShowCoffeechatToggle from '@/components/coffeechat/detail/ShowCoffeechatToggle';
 import useModalState from '@/components/common/Modal/useModalState';
-import Responsive from '@/components/common/Responsive';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface OpenerProfileProps {
