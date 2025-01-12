@@ -48,7 +48,7 @@ export default function OpenerProfile({ memberId }: OpenerProfileProps) {
                 <ProfileImage src={openerProfile.profileImage} alt='프로필 이미지' />
               ) : (
                 <StIconBox>
-                  <StIconUser style={{}} />
+                  <StIconUser />
                 </StIconBox>
               )}
             </ProfileImageBox>
