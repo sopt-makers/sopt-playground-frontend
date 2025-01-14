@@ -10,14 +10,13 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
+import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import EmptyView from '@/components/common/EmptyView';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 import ProjectCard from '@/components/projects/main/card/ProjectCard';
-import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
-import ProjectFilterChip from '@/components/projects/main/ProjectFilterChip';
 import useGetProjectListQuery from '@/components/projects/upload/hooks/useGetProjectListQuery';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -30,6 +29,15 @@ const PROJECT_CATEGORY_LIST: Array<{ value: ProjectCategory; label: string }> = 
   { value: 'SOPTERM', label: '솝텀 프로젝트' },
   { value: 'STUDY', label: '스터디' },
   { value: 'ETC', label: '사이드 프로젝트' },
+];
+
+const PROJECT_CATEGORY_LIST_MOBILE: Array<{ value: string; queryValue: ProjectCategory | null; label: string }> = [
+  { queryValue: null, value: '', label: '전체' },
+  { queryValue: 'APPJAM', value: '앱잼', label: '앱잼' },
+  { queryValue: 'SOPKATHON', value: '솝커톤', label: '솝커톤' },
+  { queryValue: 'SOPTERM', value: '솝텀 프로젝트', label: '솝텀 프로젝트' },
+  { queryValue: 'STUDY', value: '스터디', label: '스터디' },
+  { queryValue: 'ETC', value: '사이드 프로젝트', label: '사이드 프로젝트' },
 ];
 
 const ProjectList = () => {
@@ -48,7 +56,6 @@ const ProjectList = () => {
     isFounding: queryParams.isFounding,
     category: queryParams.category,
   });
-  console.log(queryParams);
   const totalCount = data?.pages && data.pages[0].totalCount;
 
   return (
@@ -75,35 +82,21 @@ const ProjectList = () => {
             <Loading />
           </LoadingContainer>
         ) : (
-          <LengthWrapper>
-            <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
+          <>
             <Responsive only='desktop'>
-              <Flex css={{ gap: 8 }} align='center'>
-                <div onClick={() => setQueryParams({ isAvailable: !queryParams.isAvailable || null })}>
-                  <Responsive only='desktop'>
+              <LengthWrapper>
+                <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
+                <Flex css={{ gap: 8 }} align='center'>
+                  <div onClick={() => setQueryParams({ isAvailable: !queryParams.isAvailable || null })}>
                     <Chip size='md' active={queryParams.isAvailable ?? false}>
                       이용 가능한 서비스
                     </Chip>
-                  </Responsive>
-                  <Responsive only='mobile'>
-                    <Chip size='sm' active={queryParams.isAvailable ?? false}>
-                      이용 가능한 서비스
-                    </Chip>
-                  </Responsive>
-                </div>
-                <div onClick={() => setQueryParams({ isFounding: !queryParams.isFounding || null })}>
-                  <Responsive only='desktop'>
+                  </div>
+                  <div onClick={() => setQueryParams({ isFounding: !queryParams.isFounding || null })}>
                     <Chip size='md' active={queryParams.isFounding ?? false}>
                       창업 중
                     </Chip>
-                  </Responsive>
-                  <Responsive only='mobile'>
-                    <Chip size='sm' active={queryParams.isFounding ?? false}>
-                      창업 중
-                    </Chip>
-                  </Responsive>
-                </div>
-                <Responsive only='desktop'>
+                  </div>
                   <CategorySelect
                     type='text'
                     visibleOptions={5}
@@ -119,58 +112,56 @@ const ProjectList = () => {
                       ))}
                     </SelectV2.Menu>
                   </CategorySelect>
-                </Responsive>
-                {/* <ProjectCategorySelect
-                  css={{ marginLeft: 10 }}
-                  placeholder='프로젝트 종류'
-                  allowClear
-                  onClear={() => setQueryParams({ category: null })}
-                  value={queryParams.category ?? undefined}
-                  onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
-                >
-                  {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
-                    <ProjectCategorySelect.Item key={value} value={value}>
-                      {label}
-                    </ProjectCategorySelect.Item>
-                  ))}
-                </ProjectCategorySelect> */}
-              </Flex>
+                </Flex>
+              </LengthWrapper>
             </Responsive>
             <Responsive only='mobile' css={width100}>
-              <Flex css={{ marginTop: 4.5, padding: '8px 0' }} justify='space-between' align='center'>
-                <Flex css={{ gap: 6 }}>
-                  <ProjectFilterChip
-                    size='small'
-                    checked={queryParams.isAvailable ?? false}
-                    onCheckedChange={(checked) => setQueryParams({ isAvailable: checked })}
-                  >
-                    이용 가능한 서비스
-                  </ProjectFilterChip>
-                  <ProjectFilterChip
-                    size='small'
-                    checked={queryParams.isFounding ?? false}
-                    onCheckedChange={(checked) => setQueryParams({ isFounding: checked })}
-                  >
-                    창업 중
-                  </ProjectFilterChip>
+              <LengthWrapper>
+                <Flex css={{ marginBottom: '14px', width: '100%' }} justify='space-between' align='center'>
+                  <Flex css={{ gap: 8 }}>
+                    <div onClick={() => setQueryParams({ isAvailable: !queryParams.isAvailable || null })}>
+                      <Chip size='sm' active={queryParams.isAvailable ?? false} style={{ minWidth: 'max-content' }}>
+                        이용 가능한 서비스
+                      </Chip>
+                    </div>
+                    <div
+                      onClick={() => setQueryParams({ isFounding: !queryParams.isFounding || null })}
+                      style={{ minWidth: 'max-content' }}
+                    >
+                      <Chip size='sm' active={queryParams.isFounding ?? false}>
+                        창업 중
+                      </Chip>
+                    </div>
+                  </Flex>
+                  <CategorySelectBottomSheet>
+                    <BottomSheetSelect
+                      options={[
+                        ...PROJECT_CATEGORY_LIST_MOBILE.map(({ value, label }) => ({
+                          value,
+                          label,
+                        })),
+                      ]}
+                      value={
+                        (queryParams.category &&
+                          PROJECT_CATEGORY_LIST_MOBILE.find((option) => option.queryValue === queryParams.category) &&
+                          PROJECT_CATEGORY_LIST_MOBILE.find((option) => option.queryValue === queryParams.category)
+                            ?.label) ??
+                        ''
+                      }
+                      placeholder='프로젝트 종류'
+                      onChange={(value) =>
+                        setQueryParams({
+                          category: PROJECT_CATEGORY_LIST_MOBILE.find((option) => option.value === value)
+                            ?.queryValue as ProjectCategory,
+                        })
+                      }
+                    />
+                  </CategorySelectBottomSheet>
                 </Flex>
-                <ProjectCategorySelect
-                  placeholder='프로젝트 전체'
-                  size='small'
-                  allowClear
-                  onClear={() => setQueryParams({ category: null })}
-                  value={queryParams.category ?? undefined}
-                  onValueChange={(value) => setQueryParams({ category: value as ProjectCategory })}
-                >
-                  {PROJECT_CATEGORY_LIST.map(({ label, value }) => (
-                    <ProjectCategorySelect.Item key={value} value={value}>
-                      {label}
-                    </ProjectCategorySelect.Item>
-                  ))}
-                </ProjectCategorySelect>
-              </Flex>
+                <StyledLength typography='SUIT_18_M'>전체 {totalCount}개</StyledLength>
+              </LengthWrapper>
             </Responsive>
-          </LengthWrapper>
+          </>
         )}
 
         {totalCount === 0 ? (
@@ -240,6 +231,19 @@ const ProjectList = () => {
 
 export default ProjectList;
 
+const CategorySelectBottomSheet = styled.div`
+  position: fixed;
+  left: 20px;
+  z-index: 110;
+  width: 150px;
+
+  > div > div {
+    position: fixed;
+    top: 133px;
+    right: 20px;
+  }
+`;
+
 const CategorySelect = styled(SelectV2.Root)`
   margin-left: 8px;
 
@@ -274,7 +278,7 @@ const StyledContent = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 12px;
     margin: 0;
-    padding: 12px 10px;
+    padding: 12px 20px;
     width: 100%;
     min-width: 352px;
   }
@@ -302,7 +306,7 @@ const LengthWrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 18.5px;
+    margin: 22px 0;
   }
 `;
 
