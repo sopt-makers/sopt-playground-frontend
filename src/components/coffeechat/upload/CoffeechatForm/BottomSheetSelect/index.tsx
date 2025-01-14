@@ -5,6 +5,7 @@ import { IconCheck, IconChevronDown } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { ReactNode, useEffect, useState } from 'react';
 
+import Portal from '@/components/common/Portal';
 import { zIndex } from '@/styles/zIndex';
 
 interface Option {
@@ -82,7 +83,7 @@ const BottomSheetSelect = ({
       </InputField>
 
       {open && (
-        <>
+        <Portal portalId='bottomsheet'>
           <Overlay onClick={handleClose} />
           <BottomSheet>
             <OptionList>
@@ -103,7 +104,7 @@ const BottomSheetSelect = ({
               확인
             </Button>
           </BottomSheet>
-        </>
+        </Portal>
       )}
     </Container>
   );
