@@ -3,7 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconCheck, IconChevronDown } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { zIndex } from '@/styles/zIndex';
 
@@ -14,11 +14,23 @@ interface Option {
 
 interface BottomSheetSelectProps {
   options: Option[];
-  value: string | string[] | null | undefined;
+  defaultOption?: Option;
+  value: string | null | undefined;
   placeholder: string;
   onChange: (value: string) => void;
+  icon?: ReactNode;
+  className?: string;
 }
-const BottomSheetSelect = ({ options, value, placeholder, onChange }: BottomSheetSelectProps) => {
+
+const BottomSheetSelect = ({
+  options,
+  defaultOption,
+  value,
+  placeholder,
+  onChange,
+  icon,
+  className,
+}: BottomSheetSelectProps) => {
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value);
   const [temporaryValue, setTemporaryValue] = useState(value);
@@ -32,7 +44,7 @@ const BottomSheetSelect = ({ options, value, placeholder, onChange }: BottomShee
 
   const handleConfirm = () => {
     setSelectedValue(temporaryValue);
-    if (temporaryValue !== '') onChange(temporaryValue as string);
+    onChange(temporaryValue as string);
 
     handleClose();
   };
@@ -49,18 +61,24 @@ const BottomSheetSelect = ({ options, value, placeholder, onChange }: BottomShee
     };
   }, [open]);
 
+  const getSelectedLabel = (value: string) => {
+    return options.find((option) => option.value === value)?.label;
+  };
+
   return (
     <Container>
-      <InputField onClick={handleOpen}>
-        {selectedValue !== null ? <p>{selectedValue}</p> : <p style={{ color: '#808087' }}>{placeholder}</p>}
-        <IconChevronDown
-          style={{
-            width: 20,
-            height: 20,
-            transform: open ? 'rotate(-180deg)' : '',
-            transition: 'all 0.5s',
-          }}
-        />
+      <InputField onClick={handleOpen} className={className}>
+        {selectedValue ? <p>{getSelectedLabel(selectedValue)}</p> : <p style={{ color: '#808087' }}>{placeholder}</p>}
+        {icon || (
+          <IconChevronDown
+            style={{
+              width: 20,
+              height: 20,
+              transform: open ? 'rotate(-180deg)' : '',
+              transition: 'all 0.5s',
+            }}
+          />
+        )}
       </InputField>
 
       {open && (
@@ -68,6 +86,12 @@ const BottomSheetSelect = ({ options, value, placeholder, onChange }: BottomShee
           <Overlay onClick={handleClose} />
           <BottomSheet>
             <OptionList>
+              {defaultOption && (
+                <OptionItem onClick={() => handleOptionSelect(defaultOption.value)}>
+                  {defaultOption.label}
+                  {temporaryValue === defaultOption.value && <CheckedIcon />}
+                </OptionItem>
+              )}
               {options.map((option) => (
                 <OptionItem key={option.value} onClick={() => handleOptionSelect(option.value)}>
                   {option.label}
@@ -88,11 +112,11 @@ export default BottomSheetSelect;
 
 const Container = styled.div`
   position: relative;
-  width: 100%;
 `;
 
 const InputField = styled.div`
   display: flex;
+  gap: 12px;
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
@@ -100,6 +124,8 @@ const InputField = styled.div`
   cursor: pointer;
   padding: 11px 16px;
   ${fonts.BODY_16_M};
+
+  width: 100%;
 `;
 
 const Overlay = styled.div`
@@ -115,6 +141,7 @@ const Overlay = styled.div`
 const BottomSheet = styled.section`
   position: fixed;
   bottom: 0;
+  left: 20px;
   z-index: ${zIndex.헤더};
   margin-bottom: 12px;
   border-radius: 16px;

@@ -79,7 +79,7 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
                 isMine={profile.isMine}
                 isCoffeechatTap
               />
-              <DetailInfoSection profile={profile} isCoffeechat />
+              <DetailInfoSection profile={profile} />
             </ProfileContents>
             <SoptActivityTitle>SOPT 활동 정보</SoptActivityTitle>
             <SoptActivitySection soptActivities={sortedSoptActivities} />
