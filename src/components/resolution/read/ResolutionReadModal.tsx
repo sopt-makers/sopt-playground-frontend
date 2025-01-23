@@ -1,24 +1,24 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { FC } from 'react';
 
-import Modal from '@/components/common/Modal';
-import { ModalButton, ModalContent, ModalFooter } from '@/components/common/Modal/parts';
-import Responsive from '@/components/common/Responsive';
+import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
+import Modal, { ModalProps } from '@/components/common/Modal';
+import { ModalContent, ModalFooter } from '@/components/common/Modal/parts';
 import useSlideUp from '@/components/common/SlideUp/useToast';
-import Text from '@/components/common/Text';
-import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
-const ResolutionReadModal: FC<ModalProps> = ({ ...props }) => {
-  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('now-sopt');
+const ResolutionReadModal = ({ ...props }: ModalProps) => {
+  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('and-sopt');
   const slideUp = useSlideUp();
   const router = useRouter();
+
+  const { data } = useGetResolutionValidation();
 
   const handleClickDownloadButton = () => {
     onDownloadButtonClick();
@@ -36,20 +36,12 @@ const ResolutionReadModal: FC<ModalProps> = ({ ...props }) => {
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
       <StyledModalContent ref={imageRef}>
-        <ResolutionMessage />
+        <ResolutionMessage isMessageExist={data?.isRegistration ?? false} />
       </StyledModalContent>
-      <Responsive only='mobile'>
-        <SubTextWrapper>
-          <Text typography='SUIT_12_M' color={colors.gray200}>
-            *이미지 저장은 모바일 웹에서 가능해요
-          </Text>
-        </SubTextWrapper>
-      </Responsive>
       <StyledModalFooter align='stretch'>
-        <ModalButton onClick={handleClickDownloadButton}>이미지로 저장하기</ModalButton>
-        <ModalButton background='light' onClick={() => router.push(playgroundLink.remember())}>
-          활동 후기 작성하기
-        </ModalButton>
+        <StyledButton size='md' onClick={handleClickDownloadButton}>
+          이미지로 저장하기
+        </StyledButton>
       </StyledModalFooter>
     </StyledModal>
   );
@@ -81,8 +73,7 @@ const StyledModalFooter = styled(ModalFooter)`
   padding: 0 24px;
 `;
 
-const SubTextWrapper = styled.div`
-  margin-top: -12px;
-  width: 100%;
-  text-align: center;
+const StyledButton = styled(Button)`
+  justify-self: center;
+  width: fit-content;
 `;
