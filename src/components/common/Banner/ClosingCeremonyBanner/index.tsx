@@ -3,11 +3,12 @@ import { colors } from '@sopt-makers/colors';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
-import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import ResolutionReadModal from '@/components/resolution/read/ResolutionReadModal';
+import { LATEST_GENERATION } from '@/constants/generation';
 import desktopBanner from '@/public/icons/img/banner_closing-ceremony_desktop.png';
 import mobileBanner from '@/public/icons/img/banner_closing-ceremony_mobile.png';
 import mobileResolutionBanner from '@/public/icons/img/banner_closing-ceremony_mobile_resolution.png';
@@ -43,8 +44,8 @@ export const ClosingCeremonyBanner = () => {
     onOpen: onOpenResolutionModal,
   } = useModalState();
 
-  const { data, isLoading } = useGetResolutionValidation();
-  const isRegistration = data?.isRegistration;
+  const { data: myData, isLoading } = useGetMemberOfMe();
+  const is35 = myData?.generation === LATEST_GENERATION;
 
   const Banner: BannerType = {
     desktop: desktopBanner.src,
@@ -75,7 +76,7 @@ export const ClosingCeremonyBanner = () => {
           <Contents>
             <TextWrapper>
               <Text typography='SUIT_18_B' color={colors.white}>
-                {isRegistration ? (
+                {is35 ? (
                   <>
                     <Responsive only='desktop'>{text.resolution.title.desktop}</Responsive>
                     <Responsive only='mobile'>{text.resolution.title.mobile}</Responsive>
@@ -85,11 +86,11 @@ export const ClosingCeremonyBanner = () => {
                 )}
               </Text>
               <Text typography='SUIT_12_M' color={colors.gray300}>
-                {isRegistration ? text.resolution.subtitle : text.default.subtitle}
+                {is35 ? text.resolution.subtitle : text.default.subtitle}
               </Text>
             </TextWrapper>
             <ButtonWrapper>
-              {isRegistration ? (
+              {is35 ? (
                 // TODO: 마이 솝트 리포트 라우터로 수정
                 <>
                   <Button color='secondary' onClick={() => router.push('')}>
@@ -117,7 +118,7 @@ export const ClosingCeremonyBanner = () => {
             <StyledBanner src={Banner.desktop} />
           </Responsive>
           <Responsive only='mobile'>
-            <StyledBanner src={isRegistration ? Banner.mobile.resolution : Banner.mobile.default} />
+            <StyledBanner src={is35 ? Banner.mobile.resolution : Banner.mobile.default} />
           </Responsive>
         </ClosingCeremonyBannerWrapper>
       )}
