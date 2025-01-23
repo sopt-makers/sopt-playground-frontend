@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { isResSent } from 'next/dist/shared/lib/utils';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
@@ -54,18 +53,18 @@ export const ClosingCeremonyBanner = () => {
 
   const text: textType = {
     default: {
-      title: 'NOW SOPT 종무식을 축하합니다!',
-      subtitle: 'NOW SOPT 활동 후기가 궁금하다면?',
-      buttonContent: '34기 활동 후기 보러가기',
+      title: '2024년, SOPT와 플그 속 나는?',
+      subtitle: '작년을 담은 회원님만의 리포트를 준비했어요',
+      buttonContent: '마이 솝트 리포트 보기',
     },
     resolution: {
       title: {
         desktop: 'SOPT에서 외쳤던 다짐, 모두 이루셨나요?',
         mobile: `SOPT에서 외쳤던 다짐,\n모두 이루셨나요?`,
       },
-      subtitle: 'NOW SOPT를 처음 만났던 순간으로 돌아가보기',
-      buttonContentPrimary: '내 다짐 보러가기',
-      buttonContentSecondary: '활동 후기 작성하기',
+      subtitle: 'AND SOPT를 처음 만났던 순간으로 돌아가봐요',
+      buttonContentPrimary: '나의 다짐 보기',
+      buttonContentSecondary: '마이 솝트 리포트 보기',
     },
   };
 
@@ -91,8 +90,9 @@ export const ClosingCeremonyBanner = () => {
             </TextWrapper>
             <ButtonWrapper>
               {isRegistration ? (
+                // TODO: 마이 솝트 리포트 라우터로 수정
                 <>
-                  <Button color='secondary' onClick={() => router.push(playgroundLink.remember())}>
+                  <Button color='secondary' onClick={() => router.push('')}>
                     <Text typography='SUIT_12_EB' color={colors.gray700}>
                       {text.resolution.buttonContentSecondary}
                     </Text>
@@ -104,7 +104,8 @@ export const ClosingCeremonyBanner = () => {
                   </Button>
                 </>
               ) : (
-                <Button color='primary' onClick={() => router.push(playgroundLink.remember())}>
+                // TODO: 마이 솝트 리포트 라우터로 수정
+                <Button color='primary' onClick={() => router.push('')}>
                   <Text typography='SUIT_12_EB' color={colors.gray700}>
                     {text.default.buttonContent}
                   </Text>
