@@ -1,33 +1,24 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { FC, useEffect, useState } from 'react';
 
 import { ModalButton } from '@/components/common/Modal/parts';
 import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 
-const Image: FC<{}> = () => {
-  const [isDocumentLoadded, setIsDocumentLoadded] = useState(false);
-
-  useEffect(() => {
-    window.onload = () => {
-      setIsDocumentLoadded(true);
-    };
-  }, []);
-
-  return isDocumentLoadded ? <ImageContent /> : null;
-};
-
 function ImageContent() {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('now-sopt');
 
   return (
-    <Content ref={imageRef}>
-      <ResolutionMessage />
+    <>
+      <Content ref={imageRef}>
+        <ResolutionWrapper>
+          <ResolutionMessage />
+        </ResolutionWrapper>
+      </Content>
       <Footer align='stretch'>
         <ModalButton onClick={onDownloadButtonClick}>이미지로 저장하기</ModalButton>
       </Footer>
-    </Content>
+    </>
   );
 }
 
@@ -36,6 +27,10 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
+`;
+
+const ResolutionWrapper = styled.div`
+  width: fit-content;
 `;
 
 const Footer = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizontal' | 'vertical' }>`
@@ -54,4 +49,4 @@ const Footer = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizo
   }
 `;
 
-export default Image;
+export default ImageContent;
