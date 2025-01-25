@@ -1,9 +1,17 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+const getKoreanDate = (): string => {
+  const now = new Date();
+  const offset = 9 * 60;
+  const koreanTime = new Date(now.getTime() + offset * 60 * 1000);
+  return `${koreanTime.getFullYear()}-${String(koreanTime.getMonth() + 1).padStart(2, '0')}-${String(
+    koreanTime.getDate(),
+  ).padStart(2, '0')}`;
+};
 
 export const HomePopup = () => {
   useEffect(() => {
