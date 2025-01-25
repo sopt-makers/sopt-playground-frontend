@@ -14,20 +14,49 @@ const getKoreanDate = (): string => {
 };
 
 export const HomePopup = () => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const today = getKoreanDate();
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    const storedDate = localStorage.getItem('popupClosedDate');
+
+    if (storedDate !== today) {
+      setPopupVisible(true);
+    }
+  }, [today]);
+
+  useEffect(() => {
+    if (isPopupVisible) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, []);
+  }, [isPopupVisible]);
+
+  const handleCloseForToday = () => {
+    const today = getKoreanDate();
+    localStorage.setItem('popupClosedDate', today);
+    setPopupVisible(false);
+  };
+
+  const handleClosePopup = () => {
+    setPopupVisible(false);
+  };
+
+  if (!isPopupVisible) {
+    return null;
+  }
 
   return (
     <StBackground>
       <StPopupModal>
         <StImage src='/icons/img/home-popup-sample.png' />
         <StModalFooter>
-          <StFooterLeftButton>오늘 하루 그만보기</StFooterLeftButton>
-          <StFooterRightButton>닫기</StFooterRightButton>
+          <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
+          <StFooterRightButton onClick={handleClosePopup}>닫기</StFooterRightButton>
         </StModalFooter>
       </StPopupModal>
     </StBackground>
