@@ -3,6 +3,8 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useEffect, useState } from 'react';
 
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const getKoreanDate = (): string => {
   const now = new Date();
@@ -52,13 +54,21 @@ export const HomePopup = () => {
 
   return (
     <StBackground>
-      <StPopupModal>
-        <StImage src='/icons/img/home-popup-sample.png' />
-        <StModalFooter>
-          <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
-          <StFooterRightButton onClick={handleClosePopup}>닫기</StFooterRightButton>
-        </StModalFooter>
-      </StPopupModal>
+      <LoggingImpression eventKey='adPopup'>
+        <StPopupModal>
+          <LoggingClick eventKey='adPopupBody'>
+            <StImage src='/icons/img/home-popup-sample.png' />
+          </LoggingClick>
+          <StModalFooter>
+            <LoggingClick eventKey='hideAdPopupToday'>
+              <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
+            </LoggingClick>
+            <LoggingClick eventKey='adPopupClose'>
+              <StFooterRightButton onClick={handleClosePopup}>닫기</StFooterRightButton>
+            </LoggingClick>
+          </StModalFooter>
+        </StPopupModal>
+      </LoggingImpression>
     </StBackground>
   );
 };
