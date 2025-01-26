@@ -181,6 +181,9 @@ export interface ClickEvents {
   senderPhone: undefined;
   coffeechatBanner: undefined;
   sendCoffeechat: undefined;
+  hideAdPopupToday: undefined;
+  adPopupBody: undefined;
+  adPopupClose: undefined;
 }
 
 export interface SubmitEvents {
@@ -248,4 +251,5 @@ export interface ImpressionEvents {
     feedId: string;
   };
   ads: { bannerId: number; pageUrl: string; timeStamp: string };
+  adPopup: undefined;
 }
