@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { useState } from 'react';
 
+import { CoffeeChatReviewModal } from '@/components/coffeechat/CoffeeChatReview/CoffeeChatReviewModal';
 import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -95,12 +96,6 @@ export default function CoffeeChatReviewCard({
         whileHover={{
           y: -4,
         }}
-        onClick={() => {
-          router.push(playgroundLink.coffeechatDetail(id));
-        }}
-        isEmptyData={isEmptyData}
-        isBlurred={isBlurred}
-        isMine={isMine}
       >
         <HeaderSection>
           <TitleSection>
