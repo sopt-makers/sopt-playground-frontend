@@ -9,6 +9,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetRecentCoffeeChat } from '@/api/endpoint/members/getRecentCoffeeChats';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
 import CoffeeChatReviewCard from '@/components/coffeechat/CoffeeChatReview/CoffeeChatReviewCard';
+import { CoffeeChatReviewModal } from '@/components/coffeechat/CoffeeChatReview/CoffeeChatReviewModal';
 import ScrollCarousel from '@/components/coffeechat/CoffeeRecentChatList/scrollCarousel';
 import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 import Carousel from '@/components/common/Carousel';
@@ -35,7 +36,7 @@ export default function CoffeeChatReviewList() {
   const [listType, setListType] = useState<ListType>();
 
   const { data, isLoading } = useGetRecentCoffeeChat();
-
+  const [isPopupVisible, setPopupVisible] = useState(false);
   const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
   const formatSoptActivities = (soptActivities: string[]) => {
@@ -73,7 +74,7 @@ export default function CoffeeChatReviewList() {
             ...formatSoptActivities(item?.soptActivities || []),
           }}
         >
-          <div>
+          <div onClick={() => setPopupVisible(true)}>
             <CoffeeChatReviewCard
               key={String(item.memberId)}
               id={String(item.memberId)}
@@ -132,6 +133,8 @@ export default function CoffeeChatReviewList() {
 
   return (
     <Container>
+      {isPopupVisible && <CoffeeChatReviewModal isPopupVisible={isPopupVisible} setPopupVisible={setPopupVisible} />}
+
       <Header>
         <Title>{isLoading ? '' : isEmptyData ? '따끈한 후기가 도착했어요💌' : '따끈한 후기가 도착했어요💌'}</Title>
       </Header>
