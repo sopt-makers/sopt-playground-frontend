@@ -28,7 +28,7 @@ export default function MySoptReport() {
     PopularMeetingSpotRankTable: [
       { spot: '건대입구', count: 16, ratio: 76 },
       { spot: '공덕', count: 7, ratio: 24 },
-      { spot: '역삼', count: 3, ratio: 20 },
+      { spot: '역삼', count: 3, ratio: 24 },
     ],
     NewSignUpUserCount: 123,
     NewSignUpPartUserCountTable: [
