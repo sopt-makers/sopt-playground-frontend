@@ -1,6 +1,8 @@
 import Playground from '@/components/mySoptReport/Playground';
 import Sopt from '@/components/mySoptReport/Sopt';
 import { ReportDataType } from '@/components/mySoptReport/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import styled from '@emotion/styled';
 
 export default function MySoptReport() {
   // TODO: 데이터패칭
@@ -27,8 +29,8 @@ export default function MySoptReport() {
     ],
     PopularMeetingSpotRankTable: [
       { spot: '건대입구', count: 16, ratio: 76 },
-      { spot: '공덕', count: 7, ratio: 24 },
-      { spot: '역삼', count: 3, ratio: 24 },
+      { spot: '공덕', count: 7, ratio: 40 },
+      { spot: '역삼', count: 3, ratio: 40 },
     ],
     NewSignUpUserCount: 123,
     NewSignUpPartUserCountTable: [
@@ -89,9 +91,26 @@ export default function MySoptReport() {
   };
 
   return (
-    <>
-      <Sopt reportData={reportData} />
-      <Playground reportData={reportData} />
-    </>
+    <ReportContainer>
+      <ReportWrapper>
+        <Sopt reportData={reportData} />
+        <Playground reportData={reportData} />
+      </ReportWrapper>
+    </ReportContainer>
   );
 }
+
+const ReportWrapper = styled.div`
+  margin: 0 20px;
+  max-width: 400px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 100%;
+  }
+`;
+
+const ReportContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
