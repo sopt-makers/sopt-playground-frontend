@@ -4,7 +4,7 @@ import { fonts } from '@sopt-makers/fonts';
 import { ReactNode } from 'react';
 
 interface ReportTitleProps {
-  color: keyof typeof colors;
+  color: string;
   subTitle: ReactNode;
   title: ReactNode;
 }
@@ -23,10 +23,12 @@ const ReportTitleWrapper = styled.header`
   flex-direction: column;
   gap: 8px;
   align-items: center;
+  margin-top: 52px;
+  margin-bottom: 40px;
 `;
 
-const SubTitle = styled.p<{ color: keyof typeof colors }>`
-  color: ${(props) => colors[props.color]};
+const SubTitle = styled.p<{ color: string }>`
+  color: ${(props) => props.color};
   ${fonts.TITLE_18_SB};
 `;
 
