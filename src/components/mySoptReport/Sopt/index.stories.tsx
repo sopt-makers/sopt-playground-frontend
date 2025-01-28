@@ -32,9 +32,9 @@ export const Default = {
         },
       ],
       PopularMeetingSpotRankTable: [
-        { spot: '건대입구', ratio: 76 },
-        { spot: '공덕', count: 24 },
-        { spot: '홍대입구', count: 76 },
+        { spot: '건대입구', ratio: 76, count: 24 },
+        { spot: '공덕', ratio: 76, count: 24 },
+        { spot: '홍대입구', ratio: 76, count: 76 },
       ],
       NewSignUpUserCount: 123,
       NewSignUpPartUserCountTable: [

@@ -16,9 +16,9 @@ import { ReportDataType } from '@/components/mySoptReport/types';
 
 export default function Sopt({ reportData }: { reportData: ReportDataType }) {
   return (
-    <>
+    <div id='sopt'>
       <ReportTitle color={'#FF6E1D'} subTitle='차곡차곡 쌓인 솝트의 기록들' title='2024년 SOPT는' />
-      <SoptSection id='sopt'>
+      <SoptSection>
         {/* 새롭게 탄생한 서비스 */}
         <ReportCard>
           <>
@@ -110,7 +110,7 @@ export default function Sopt({ reportData }: { reportData: ReportDataType }) {
           </>
         </ReportCard>
       </SoptSection>
-    </>
+    </div>
   );
 }
 

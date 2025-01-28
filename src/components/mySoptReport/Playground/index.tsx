@@ -11,9 +11,9 @@ import { ReportDataType } from '@/components/mySoptReport/types';
 
 export default function Playground({ reportData }: { reportData: ReportDataType }) {
   return (
-    <>
+    <div id='playground'>
       <ReportTitle color={'#FDBBF9'} subTitle='SOPT만의 놀이터' title='2024년 플그에서는' />
-      <PlaygroundSection id='playground'>
+      <PlaygroundSection>
         {/* 방문자 */}
         <ReportCard>
           <CardWrapper>
@@ -59,7 +59,7 @@ export default function Playground({ reportData }: { reportData: ReportDataType 
         <MeetingStudy reportData={reportData} />
         <CoffeeSopt reportData={reportData} />
       </PlaygroundSection>
-    </>
+    </div>
   );
 }
 
