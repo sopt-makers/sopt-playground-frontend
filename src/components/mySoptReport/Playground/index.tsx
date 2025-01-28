@@ -3,6 +3,10 @@ import styled from '@emotion/styled';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
+import CoffeeSopt from '@/components/mySoptReport/Playground/CoffeeSopt';
+import Community from '@/components/mySoptReport/Playground/Community';
+import MBTI from '@/components/mySoptReport/Playground/MBTI';
+import MeetingStudy from '@/components/mySoptReport/Playground/MeetingStudy';
 import { ReportDataType } from '@/components/mySoptReport/types';
 
 export default function Playground({ reportData }: { reportData: ReportDataType }) {
@@ -18,7 +22,7 @@ export default function Playground({ reportData }: { reportData: ReportDataType 
               <ReportText color='#FDBBF9' type='big'>
                 {reportData.TotalVisitCount.toLocaleString()}번
               </ReportText>
-              <ReportText>모였어요!</ReportText>
+              <ReportText>&nbsp; 모였어요!</ReportText>
             </TextWrapper>
           </CardWrapper>
         </ReportCard>
@@ -36,6 +40,24 @@ export default function Playground({ reportData }: { reportData: ReportDataType 
             </TextWrapper>
           </CardWrapper>
         </ReportCard>
+        {/* mbti */}
+        <ReportCard>
+          <CardWrapper>
+            <div>
+              <ReportText>플레이그라운드 회원 중</ReportText>
+              <TextWrapper>
+                <ReportText color='#FDBBF9'>{reportData.UserMbtiRankTable[0].type}</ReportText>
+                <ReportText>가 &nbsp;</ReportText>
+                <ReportText color='#FDBBF9'>{reportData.UserMbtiRankTable[0].count}명</ReportText>
+                <ReportText>으로 가장 많아요</ReportText>
+              </TextWrapper>
+            </div>
+            <MBTI UserMbtiRankTable={reportData.UserMbtiRankTable} />
+          </CardWrapper>
+        </ReportCard>
+        <Community reportData={reportData} />
+        <MeetingStudy reportData={reportData} />
+        <CoffeeSopt reportData={reportData} />
       </PlaygroundSection>
     </>
   );
@@ -50,7 +72,6 @@ const PlaygroundSection = styled.section`
 
 const TextWrapper = styled.div`
   display: flex;
-  gap: 12px;
   align-items: flex-end;
 `;
 

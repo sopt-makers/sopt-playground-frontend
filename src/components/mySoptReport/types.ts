@@ -37,6 +37,11 @@ interface CoffeeChatHistoryInfoType {
   openCount: number;
 }
 
+export interface UserMbtiRankType {
+  type: string;
+  count: number;
+}
+
 export interface ReportDataType {
   // 솝트
   TotalServiceCount: number;
@@ -47,7 +52,7 @@ export interface ReportDataType {
   // 플그
   TotalVisitCount: number;
   PopularVisitDays: string;
-  UserMbtiRankTable: { type: string; count: number }[];
+  UserMbtiRankTable: UserMbtiRankType[];
   WordChainGameInfoTable: WordChainGameInfoType;
   ComminityReactionInfoTable: ComminityReactionInfoType;
   CrewPopularGroupInfoTable: CrewPopularGroupInfoType;
