@@ -70,12 +70,19 @@ const BottomSheetMDS = ({
   return (
     <Container>
       <InputField onClick={handleOpen} className={className}>
-        {selectedValue ? <p>{getSelectedLabel(selectedValue)}</p> : <p style={{ color: '#808087' }}>{placeholder}</p>}
+        {selectedValue ? (
+          <p>{getSelectedLabel(selectedValue)}</p>
+        ) : (
+          <p style={{ color: '#808087', whiteSpace: 'pre-wrap' }}>{placeholder}</p>
+        )}
+
         {icon || (
           <IconChevronDown
             style={{
               width: 20,
+              minWidth: 20,
               height: 20,
+              minHeight: 20,
               transform: open ? 'rotate(-180deg)' : '',
               transition: 'all 0.5s',
             }}
@@ -85,7 +92,7 @@ const BottomSheetMDS = ({
 
       {open && (
         <Portal portalId='bottomsheet'>
-          <Overlay onClick={handleClose} />
+          <Overlay />
           <BottomSheet>
             <OptionList>
               {defaultOption && (
@@ -117,6 +124,7 @@ export default BottomSheetMDS;
 
 const Container = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 const InputField = styled.div`
@@ -130,7 +138,14 @@ const InputField = styled.div`
   padding: 11px 16px;
   ${fonts.BODY_16_M};
 
-  width: 100%;
+  max-width: calc(100vw - 40px);
+
+  p {
+    width: 100%;
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+  }
 `;
 
 const Overlay = styled.div`
