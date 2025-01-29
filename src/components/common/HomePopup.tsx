@@ -92,14 +92,12 @@ const StBackground = styled.div`
   justify-content: center;
   z-index: 201;
   background-color: rgb(23 24 28 / 80%);
-  padding-bottom: 40px;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 80px;
+  width: 100%;
+  height: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
-    align-items: center;
-    padding-top: 0;
-    padding-bottom: 32px;
+    padding-bottom: 80px;
   }
 `;
 const StPopupModal = styled.div`
