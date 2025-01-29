@@ -1,13 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { Button } from '@sopt-makers/ui';
-import { useRouter } from 'next/router';
-import { playgroundLink } from 'playground-common/export';
+import { Button, useToast } from '@sopt-makers/ui';
 
 import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import Modal, { ModalProps } from '@/components/common/Modal';
 import { ModalContent, ModalFooter } from '@/components/common/Modal/parts';
-import useSlideUp from '@/components/common/SlideUp/useToast';
 import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -15,21 +12,21 @@ import { zIndex } from '@/styles/zIndex';
 
 const ResolutionReadModal = ({ ...props }: ModalProps) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('and-sopt');
-  const slideUp = useSlideUp();
-  const router = useRouter();
+  const { open } = useToast();
 
   const { data } = useGetResolutionValidation();
 
   const handleClickDownloadButton = () => {
     onDownloadButtonClick();
     props.onClose();
-    slideUp.show({
-      message: '이미지가 저장되었어요.',
-      buttonText: '활동 후기 작성하기',
-      action: () => {
-        router.push(playgroundLink.remember());
+    open({
+      icon: 'success',
+      content: '이미지가 저장되었어요. 친구와 공유해보세요!',
+      style: {
+        content: {
+          whiteSpace: 'pre-wrap',
+        },
       },
-      status: 'success',
     });
   };
 
