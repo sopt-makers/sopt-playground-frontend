@@ -97,7 +97,7 @@ const StBackground = styled.div`
   width: 100%;
   height: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
-    padding-bottom: 80px;
+    padding-bottom: 100px;
   }
 `;
 const StPopupModal = styled.div`
