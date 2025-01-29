@@ -71,7 +71,6 @@ export const HomePopup = () => {
               </LoggingClick>
             </a>
           </Responsive>
-
           <StModalFooter>
             <LoggingClick eventKey='hideAdPopupToday'>
               <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
@@ -93,7 +92,7 @@ const StBackground = styled.div`
   justify-content: center;
   z-index: 201;
   background-color: rgb(23 24 28 / 80%);
-  padding-bottom: 32px;
+  padding-bottom: 40px;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
