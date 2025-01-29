@@ -14,7 +14,7 @@ interface ResolutionMessageProps {
 
 const ResolutionMessage = ({ isMessageExist }: ResolutionMessageProps) => {
   const { data: resolutionData } = useGetResolution(isMessageExist);
-  const { data: myData } = useGetMemberOfMe();
+  const { data: { name } = {} } = useGetMemberOfMe();
 
   return (
     <ResolutionMessageWrapper>
@@ -24,7 +24,7 @@ const ResolutionMessage = ({ isMessageExist }: ResolutionMessageProps) => {
       <Contents>
         <TitleWrapper>
           <TitleText color={colors.white} typography='SUIT_18_B'>
-            {`AND SOPT를\n마친 ${myData?.name.slice(1)}에게`}
+            {`AND SOPT를\n마친 ${name?.slice(1)}에게`}
           </TitleText>
           <StyledTitleDecoration />
         </TitleWrapper>
@@ -107,7 +107,7 @@ const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  justify-content: center;
+  padding: 0 14px;
 `;
 
 const Tag = styled(Text)`
@@ -124,6 +124,7 @@ const Message = styled(Text)`
   margin: 20px 0;
   padding: 0 16px;
   text-align: center;
+  line-height: 22px;
   white-space: pre-line;
   word-break: keep-all;
 `;

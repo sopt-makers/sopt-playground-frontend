@@ -14,7 +14,7 @@ const ResolutionReadModal = ({ ...props }: ModalProps) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('and-sopt');
   const { open } = useToast();
 
-  const { data } = useGetResolutionValidation();
+  const { data: { isRegistration } = {} } = useGetResolutionValidation();
 
   const handleClickDownloadButton = () => {
     onDownloadButtonClick();
@@ -33,7 +33,7 @@ const ResolutionReadModal = ({ ...props }: ModalProps) => {
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
       <StyledModalContent ref={imageRef}>
-        <ResolutionMessage isMessageExist={data?.isRegistration ?? false} />
+        <ResolutionMessage isMessageExist={isRegistration ?? false} />
       </StyledModalContent>
       <StyledModalFooter align='stretch'>
         <StyledButton size='md' onClick={handleClickDownloadButton}>
