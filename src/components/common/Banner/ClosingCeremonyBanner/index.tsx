@@ -91,9 +91,8 @@ export const ClosingCeremonyBanner = () => {
             </TextWrapper>
             <ButtonWrapper>
               {is35 ? (
-                // TODO: 마이 솝트 리포트 라우터로 수정
                 <>
-                  <Button color='secondary' onClick={() => router.push('')}>
+                  <Button color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}>
                     <Text typography='SUIT_12_EB' color={colors.gray700}>
                       {text.resolution.buttonContentSecondary}
                     </Text>
@@ -105,8 +104,7 @@ export const ClosingCeremonyBanner = () => {
                   </Button>
                 </>
               ) : (
-                // TODO: 마이 솝트 리포트 라우터로 수정
-                <Button color='primary' onClick={() => router.push('')}>
+                <Button color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}>
                   <Text typography='SUIT_12_EB' color={colors.gray700}>
                     {text.default.buttonContent}
                   </Text>
