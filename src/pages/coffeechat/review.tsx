@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { Button, Callout, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
+import { BottomAddon, Button, Callout, SelectV2, TextArea, TextField } from '@sopt-makers/ui';
+import { number } from 'yup';
 
 import AuthRequired from '@/components/auth/AuthRequired';
+import BottomSheetMDS from '@/components/coffeechat/CoffeeChatReveiw/BottomSheetMDS';
+import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import TextFieldLineBreak from '@/components/common/form/TextFieldLineBreak';
 import Responsive from '@/components/common/Responsive';
@@ -36,22 +39,52 @@ const CoffeeChatReviewUpload = () => {
               </SelectV2.Menu>
             </SelectV2.Root>
           </Responsive>
+          <Responsive only='mobile'>
+            <div style={{ marginTop: '8px' }}>
+              <BottomSheetMDS
+                placeholder='진행한 커피챗의 제목은 무엇인가요?'
+                options={[
+                  {
+                    label: '💬 CRM 도구와 친해져보아요, Braze 잘 쓰는 PM 되기',
+                    value: 's',
+                    subLabel: '차은우ㅣ주니어(0-3년차)',
+                  },
+                  { label: 's', value: 'ss', subLabel: 's' },
+                ]}
+                value={undefined}
+                onChange={() => {}}
+              />
+            </div>
+          </Responsive>
           <StInfo>
             나의 닉네임 <span style={{ color: 'rgb(247 114 52 / 100%)' }}>*</span>
           </StInfo>
           <StSubInfo>후기는 커피솝 홈에 익명으로 등록돼요! 원하는 닉네임을 입력해주세요</StSubInfo>
-          <StTextField errorMessage='닉네임을 입력해주세요' isError={true} maxLength={10} placeholder='안녕하세요' />
-          <StInfo>
-            상세 후기 <span style={{ color: 'rgb(247 114 52 / 100%)' }}>*</span>
-          </StInfo>
-          <StTextArea
-            placeholder='ex) 
-            궁금했던 내용을 A-Z까지 친절하게 알려주셔서 유익했어요.
-            이런 내용을 나눌 수 있어서 뜻 깊었어요.'
-            fixedHeight={142}
-          ></StTextArea>
+          <div style={{ position: 'relative' }}>
+            <StTextField
+              errorMessage='닉네임을 입력해주세요'
+              isError={false}
+              maxLength={10}
+              placeholder='ex. 카페인 중독자'
+            />
+            <TextCountWrapper>0/500</TextCountWrapper>
+            <StInfo>
+              상세 후기 <span style={{ color: 'rgb(247 114 52 / 100%)' }}>*</span>
+            </StInfo>
+          </div>
+          <div style={{ position: 'relative', height: 'auto' }}>
+            <StTextArea
+              isError={true}
+              errorMessage='상세 후기를 입력해주세요'
+              placeholder={`ex) 
+          궁금했던 내용을 A-Z까지 친절하게 알려주셔서 유익했어요.
+          이런 내용을 나눌 수 있어서 뜻 깊었어요.`}
+              fixedHeight={130}
+            ></StTextArea>
+            <TextCountWrapper style={{ top: '160px' }}>0/500</TextCountWrapper>
+          </div>
           <StButtonWrapper>
-            <Button>후기 등록하기</Button>
+            <StButton>후기 등록하기</StButton>
           </StButtonWrapper>
         </StReviewSection>
       </StMainSection>
@@ -133,6 +166,21 @@ const StTextArea = styled(TextArea)`
 const StButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 40px;
+  margin-top: 70px;
   width: 100%;
+`;
+const TextCountWrapper = styled.div`
+  position: absolute;
+  top: 56px;
+  width: 100%;
+  text-align: right;
+  color: ${colors.gray300};
+  ${fonts.LABEL_12_SB};
+`;
+const StButton = styled(Button)`
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width: 100%;
+    height: 42px;
+    ${fonts.LABEL_16_SB}
+  }
 `;
