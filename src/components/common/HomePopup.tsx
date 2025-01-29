@@ -3,6 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useEffect, useState } from 'react';
 
+import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -56,9 +57,21 @@ export const HomePopup = () => {
     <StBackground>
       <LoggingImpression eventKey='adPopup'>
         <StPopupModal>
-          <LoggingClick eventKey='adPopupBody'>
-            <StImage src='/icons/img/home-popup-sample.png' />
-          </LoggingClick>
+          <Responsive only='desktop'>
+            <a href='https://playground.sopt.org/group/list?category=번쩍'>
+              <LoggingClick eventKey='adPopupBody'>
+                <StImage src='/icons/img/crew_home_popup_mo.png' />
+              </LoggingClick>
+            </a>
+          </Responsive>
+          <Responsive only='mobile'>
+            <a href='https://playground.sopt.org/group/list?category=번쩍'>
+              <LoggingClick eventKey='adPopupBody'>
+                <StImage src='/icons/img/crew_home_popup_mo.png' />
+              </LoggingClick>
+            </a>
+          </Responsive>
+
           <StModalFooter>
             <LoggingClick eventKey='hideAdPopupToday'>
               <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
@@ -76,11 +89,11 @@ export const HomePopup = () => {
 const StBackground = styled.div`
   display: flex;
   position: fixed;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   z-index: 201;
   background-color: rgb(23 24 28 / 80%);
-  padding-top: 100px;
+  padding-bottom: 32px;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -109,6 +122,7 @@ const StPopupModal = styled.div`
 const StImage = styled.img`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  cursor: pointer;
   width: 100%;
   height: 500px;
   @media ${MOBILE_MEDIA_QUERY} {
