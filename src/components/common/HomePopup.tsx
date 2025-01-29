@@ -58,18 +58,18 @@ export const HomePopup = () => {
       <LoggingImpression eventKey='adPopup'>
         <StPopupModal>
           <Responsive only='desktop'>
-            <a href='https://playground.sopt.org/group/list?category=번쩍'>
-              <LoggingClick eventKey='adPopupBody'>
+            <LoggingClick eventKey='adPopupBody'>
+              <a href='https://playground.sopt.org/group/list?category=번쩍'>
                 <StImage src='/icons/img/crew_home_popup_mo.png' />
-              </LoggingClick>
-            </a>
+              </a>
+            </LoggingClick>
           </Responsive>
           <Responsive only='mobile'>
-            <a href='https://playground.sopt.org/group/list?category=번쩍'>
-              <LoggingClick eventKey='adPopupBody'>
+            <LoggingClick eventKey='adPopupBody'>
+              <a href='https://playground.sopt.org/group/list?category=번쩍'>
                 <StImage src='/icons/img/crew_home_popup_mo.png' />
-              </LoggingClick>
-            </a>
+              </a>
+            </LoggingClick>
           </Responsive>
           <StModalFooter>
             <LoggingClick eventKey='hideAdPopupToday'>
