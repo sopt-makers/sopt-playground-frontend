@@ -8,9 +8,10 @@ import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const getKoreanDate = (): string => {
-  const now = new Date();
-  const offset = 9 * 60;
-  const koreanTime = new Date(now.getTime() + offset * 60 * 1000);
+  const koreanTime = new Date();
+
+  // const offset = 9 * 60;
+  // const koreanTime = new Date(now.getTime() + offset * 60 * 1000);
   return `${koreanTime.getFullYear()}-${String(koreanTime.getMonth() + 1).padStart(2, '0')}-${String(
     koreanTime.getDate(),
   ).padStart(2, '0')}`;
