@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 export default function MyPG() {
   return (
-    <MyPGContainer id='sopt'>
+    <MyPGContainer id='my-pg'>
       <ReportTitle
         color={'#FFCA00'}
         subTitle='마이 플그 데이터'
