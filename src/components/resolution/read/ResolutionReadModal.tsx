@@ -5,6 +5,7 @@ import { Button, useToast } from '@sopt-makers/ui';
 import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
 import Modal, { ModalProps } from '@/components/common/Modal';
 import { ModalContent, ModalFooter } from '@/components/common/Modal/parts';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -36,9 +37,11 @@ const ResolutionReadModal = ({ ...props }: ModalProps) => {
         <ResolutionMessage isMessageExist={isRegistration ?? false} />
       </StyledModalContent>
       <StyledModalFooter align='stretch'>
-        <StyledButton size='md' onClick={handleClickDownloadButton}>
-          이미지로 저장하기
-        </StyledButton>
+        <LoggingClick eventKey='saveResolutionImage'>
+          <StyledButton size='md' onClick={handleClickDownloadButton}>
+            이미지로 저장하기
+          </StyledButton>
+        </LoggingClick>
       </StyledModalFooter>
     </StyledModal>
   );

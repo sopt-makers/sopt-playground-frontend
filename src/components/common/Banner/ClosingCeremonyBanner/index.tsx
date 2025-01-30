@@ -7,6 +7,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ResolutionReadModal from '@/components/resolution/read/ResolutionReadModal';
 import { LATEST_GENERATION } from '@/constants/generation';
 import desktopBanner from '@/public/icons/img/banner_closing-ceremony_desktop.png';
@@ -92,23 +93,29 @@ export const ClosingCeremonyBanner = () => {
             <ButtonWrapper>
               {is35 ? (
                 <>
-                  <Button color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}>
-                    <Text typography='SUIT_12_EB' color={colors.gray700}>
-                      {text.resolution.buttonContentSecondary}
-                    </Text>
-                  </Button>
-                  <Button color='primary' onClick={onOpenResolutionModal}>
-                    <Text typography='SUIT_12_EB' color={colors.gray700}>
-                      {text.resolution.buttonContentPrimary}
-                    </Text>
-                  </Button>
+                  <LoggingClick eventKey='bannerOpenMyReport'>
+                    <Button color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}>
+                      <Text typography='SUIT_12_EB' color={colors.gray700}>
+                        {text.resolution.buttonContentSecondary}
+                      </Text>
+                    </Button>
+                  </LoggingClick>
+                  <LoggingClick eventKey='bannerOpenResolution'>
+                    <Button color='primary' onClick={onOpenResolutionModal}>
+                      <Text typography='SUIT_12_EB' color={colors.gray700}>
+                        {text.resolution.buttonContentPrimary}
+                      </Text>
+                    </Button>
+                  </LoggingClick>
                 </>
               ) : (
-                <Button color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}>
-                  <Text typography='SUIT_12_EB' color={colors.gray700}>
-                    {text.default.buttonContent}
-                  </Text>
-                </Button>
+                <LoggingClick eventKey='bannerOpenMyReport'>
+                  <Button color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}>
+                    <Text typography='SUIT_12_EB' color={colors.gray700}>
+                      {text.default.buttonContent}
+                    </Text>
+                  </Button>
+                </LoggingClick>
               )}
             </ButtonWrapper>
           </Contents>

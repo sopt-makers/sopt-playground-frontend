@@ -129,11 +129,16 @@ export interface ClickEvents {
     feedId: string;
   };
 
-  //다짐메시지
+  //다짐메시지 제출
   welcomeBannerResolution: {
     isAlreadySubmitted: boolean;
   };
   profileUploadResolution: undefined;
+
+  // 다짐메시지 노출
+  saveResolutionImage: undefined;
+  bannerOpenResolution: undefined;
+  bannerOpenMyReport: undefined;
 
   // 프로젝트 등록 후 공유하러 가기
   clickProjectShare: undefined;
