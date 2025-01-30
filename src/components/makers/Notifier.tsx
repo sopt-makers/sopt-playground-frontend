@@ -10,8 +10,8 @@ interface NotifierProps {
   className?: string;
 }
 
-const RECRUITING_URL =
-  'https://makers.sopt.org/recruit?utm_source=playground&utm_medium=depth2_button&utm_campaign=recruiting&utm_id=3rd_makers';
+const RECRUITING_URL = 'https://bit.ly/36thmakers';
+// 'https://makers.sopt.org/recruit?utm_source=playground&utm_medium=depth2_button&utm_campaign=recruiting&utm_id=3rd_makers';
 
 const Notifier: FC<NotifierProps> = ({ className }) => {
   return (
@@ -20,8 +20,10 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
       {/* <Title>36기 makers 지원이 곧 시작될 예정이에요.</Title> */}
       {/* <Title>36기 makers 지원이 시작되었어요.</Title> */}
       {/* <Title>현재 36기 SOPT makers 팀 모집이 진행 중이에요!</Title> */}
-      <Title>현재 35기 makers 진행 중이에요. 36기에서 만나요!</Title>
-      <SubTitle>36기 모집은 2025년 1-2월 중에 진행될 예정이에요.</SubTitle>
+      {/* <Title>현재 35기 makers 진행 중이에요. 36기에서 만나요!</Title> */}
+      <Title>현재 36기 makers 모집 중이에요. 곧 만나요!</Title>
+      <SubTitle>1월 29일부터 2월 5일 23:59까지 서류 모집 중</SubTitle>
+      {/* <SubTitle>36기 모집은 2025년 1-2월 중에 진행될 예정이에요.</SubTitle> */}
       {/* <SubTitle>35기 모집은 2024년 7월 31일 수요일부터 8월 7일 수요일 23:59까지 진행될 예정이에요.</SubTitle> */}
       <ButtonGroup>
         {/* MEMO: 36기 모집 알림 신청시에 다시 주석 해제 */}
@@ -36,7 +38,7 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
         </ExpiredButton> */}
         <ExpiredButton href={RECRUITING_URL} target='_blank'>
           <StyledOutgoingIcon />
-          35기 모집글 보기
+          36기 모집글 보기
         </ExpiredButton>
       </ButtonGroup>
     </StyledJoinNotifier>
