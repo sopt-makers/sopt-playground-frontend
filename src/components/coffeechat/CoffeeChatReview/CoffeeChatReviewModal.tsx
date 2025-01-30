@@ -4,12 +4,10 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconXClose } from '@sopt-makers/icons';
 import { Tag } from '@sopt-makers/ui';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Divider from '@/components/common/Divider/Divider';
 import Text from '@/components/common/Text';
-import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
-import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';

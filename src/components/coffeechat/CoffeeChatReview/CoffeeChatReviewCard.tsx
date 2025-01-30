@@ -9,7 +9,6 @@ import { useState } from 'react';
 import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -29,7 +28,6 @@ export default function CoffeeChatReviewCard({
   content,
 }: ReviewCardProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const { logClickEvent } = useEventLogger();
 
   const sortSoptActivities = (soptActivities: string[]) => {
     const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
@@ -288,13 +286,6 @@ const TagSection = styled.div`
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
-
-  /* @media ${MB_MID_MEDIA_QUERY} {
-    width: 256px;
-  }
-  @media ${MB_SM_MEDIA_QUERY} {
-    width: 216px;
-  } */
 `;
 
 const InfoSection = styled.div`
@@ -330,8 +321,6 @@ const Badge = styled.div<{ isActive: boolean }>`
   border-radius: 6px;
   ${fonts.LABEL_11_SB}
 
-  /* background-color: ${({ isActive }) => (isActive ? 'rgb(247 114 52 / 20%)' : colors.gray700)}; */
-  padding: 6px;
   height: 22px;
   line-height: 0;
 
