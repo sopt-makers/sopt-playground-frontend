@@ -8,7 +8,7 @@ import { playgroundLink } from 'playground-common/export';
 import { useState } from 'react';
 
 import { useGetCoffeechatHistory } from '@/api/endpoint/coffeechat/getCoffeechatHistory';
-import { postCoffeechatReview } from '@/api/endpoint/coffeechat/postCoffeeChatReview';
+import { postCoffeechatReview } from '@/api/endpoint/coffeechat/postCoffeechatReview';
 import AuthRequired from '@/components/auth/AuthRequired';
 import BottomSheetMDS from '@/components/coffeechat/CoffeeChatReveiw/BottomSheetMDS';
 import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
