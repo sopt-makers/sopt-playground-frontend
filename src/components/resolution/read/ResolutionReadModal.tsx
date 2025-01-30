@@ -48,7 +48,7 @@ export default ResolutionReadModal;
 
 const StyledModal = styled(Modal)`
   background-color: ${colors.gray900};
-  padding: 64px 0 40px;
+  padding: 48px 0 40px;
   max-height: 100vh;
   overflow-y: auto;
 
@@ -66,7 +66,7 @@ const StyledModalContent = styled(ModalContent)`
 `;
 
 const StyledModalFooter = styled(ModalFooter)`
-  margin-top: 11px;
+  margin-top: 12px;
   padding: 0 24px;
 `;
 
