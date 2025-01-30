@@ -296,17 +296,15 @@ const InfoSection = styled.div`
   ${fonts.BODY_16_M};
 
   max-height: 79.6px;
-  overflow-y: scroll;
+  overflow-y: auto;
   text-overflow: ellipsis;
 
   &::-webkit-scrollbar {
     display: none;
-    width: 2px;
   }
 
   ::-webkit-scrollbar {
     display: none;
-    width: 2px; /* Chrome, Safari, Opera */
   }
 `;
 

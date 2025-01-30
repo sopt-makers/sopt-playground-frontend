@@ -362,16 +362,14 @@ const StReviewTextField = styled.div`
   max-height: 312px;
   ${fonts.BODY_16_M}
 
-  overflow-y:scroll;
+  overflow-y:auto;
 
   &::-webkit-scrollbar {
     display: none;
-    width: 2px;
   }
 
   ::-webkit-scrollbar {
     display: none;
-    width: 2px; /* Chrome, Safari, Opera */
   }
   @media ${MB_BIG_MEDIA_QUERY} {
     max-height: 338px;
