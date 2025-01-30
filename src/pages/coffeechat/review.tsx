@@ -1,27 +1,48 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { Button, Callout, SelectV2, Tag, TextArea, TextField, useDialog } from '@sopt-makers/ui';
+import { Button, Callout, SelectV2, Tag, TextArea, useDialog, useToast } from '@sopt-makers/ui';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 import { useState } from 'react';
 
 import { useGetCoffeechatHistory } from '@/api/endpoint/coffeechat/getCoffeechatHistory';
+import { postCoffeechatReview } from '@/api/endpoint/coffeechat/postCoffeeChatReview';
 import AuthRequired from '@/components/auth/AuthRequired';
 import BottomSheetMDS from '@/components/coffeechat/CoffeeChatReveiw/BottomSheetMDS';
 import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Responsive from '@/components/common/Responsive';
-import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
 const CoffeeChatReviewUpload = () => {
   const [nickname, setNickname] = useState('');
   const [content, setContent] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+
   const { open } = useDialog();
   const { confirm } = useCustomConfirm();
   const [coffeechat, setCoffeechat] = useState<number>(0);
 
+  const { open: toastOpen } = useToast();
   const { data, isLoading } = useGetCoffeechatHistory();
-
+  const router = useRouter();
+  const { mutate } = useMutation({
+    mutationFn: () => postCoffeechatReview.request(coffeechat, nickname, content),
+    onSuccess: () => {
+      toastOpen({
+        icon: 'success',
+        content: '후기가 등록됐어요! 경험을 나눠주셔서 감사해요.',
+        style: {
+          content: {
+            whiteSpace: 'pre-wrap',
+          },
+        },
+      });
+      router.push(playgroundLink.coffeechat());
+    },
+  });
   const selectOptions = data?.coffeeChatHistories.map((item) => ({
     label: item.coffeeChatBio || '',
     value: item.id ?? undefined,
@@ -53,7 +74,7 @@ const CoffeeChatReviewUpload = () => {
           cancelButtonText: '닫기',
           approveButtonText: '등록하기',
           buttonFunction: async () => {
-            await alert('ss');
+            await mutate();
           },
         },
       });

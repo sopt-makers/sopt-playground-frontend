@@ -11,7 +11,7 @@ import { zIndex } from '@/styles/zIndex';
 interface Option {
   label: string;
   value: number | undefined;
-  desciption?: string;
+  description?: string;
 }
 
 interface BottomSheetSelectProps {
@@ -64,7 +64,7 @@ const BottomSheetMDS = ({
   }, [open]);
 
   const getSelectedLabel = (value: string) => {
-    return options.find((option) => option.value === value)?.label;
+    return options.find((option) => Number(option.value) === Number(value))?.label;
   };
 
   return (
@@ -96,13 +96,13 @@ const BottomSheetMDS = ({
           <BottomSheet>
             <OptionList>
               {defaultOption && (
-                <OptionItem onClick={() => handleOptionSelect(defaultOption.value)}>
+                <OptionItem onClick={() => handleOptionSelect(String(defaultOption.value))}>
                   {defaultOption.label}
                   {temporaryValue === defaultOption.value && <CheckedIcon />}
                 </OptionItem>
               )}
               {options.map((option) => (
-                <OptionItem key={option.value} onClick={() => handleOptionSelect(option.value)}>
+                <OptionItem key={option.value} onClick={() => handleOptionSelect(String(option.value))}>
                   <StItemDiv>
                     {option.label}
                     <OptionSubItem>{option.description}</OptionSubItem>
