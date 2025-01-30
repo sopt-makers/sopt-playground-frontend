@@ -31,9 +31,9 @@ export default function CoffeeChatReviewCard({
 
   const sortSoptActivities = (soptActivities: string[]) => {
     const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
-      const numA = parseInt(a.match(/\d+/)![0]); // 문자열에서 숫자 추출
+      const numA = parseInt(a.match(/\d+/)![0]);
       const numB = parseInt(b.match(/\d+/)![0]);
-      return numB - numA; // 내림차순 정렬
+      return numB - numA;
     });
     return uniqueSortedActivities;
   };
