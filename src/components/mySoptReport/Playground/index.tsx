@@ -9,9 +9,13 @@ import MBTI from '@/components/mySoptReport/Playground/MBTI';
 import MeetingStudy from '@/components/mySoptReport/Playground/MeetingStudy';
 import { ReportDataType } from '@/components/mySoptReport/types';
 
-export default function Playground({ reportData }: { reportData: ReportDataType }) {
+interface PlaygroundProps {
+  reportData: ReportDataType;
+}
+
+export default function Playground({ reportData }: PlaygroundProps) {
   return (
-    <div id='playground'>
+    <PlaygroundContainer id='playground'>
       <ReportTitle color={'#FDBBF9'} subTitle='SOPT만의 놀이터' title='2024년 플그에서는' />
       <PlaygroundSection>
         {/* 방문자 */}
@@ -59,9 +63,15 @@ export default function Playground({ reportData }: { reportData: ReportDataType 
         <MeetingStudy reportData={reportData} />
         <CoffeeSopt reportData={reportData} />
       </PlaygroundSection>
-    </div>
+    </PlaygroundContainer>
   );
 }
+
+const PlaygroundContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: 48px;
+`;
 
 const PlaygroundSection = styled.section`
   display: flex;

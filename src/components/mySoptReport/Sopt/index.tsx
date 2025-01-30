@@ -14,9 +14,13 @@ import PopularMeetingSpotRank from '@/components/mySoptReport/Sopt/PopularMeetin
 import ServiceCategoryRankBox from '@/components/mySoptReport/Sopt/ServiceCategoryRankBox';
 import { ReportDataType } from '@/components/mySoptReport/types';
 
-export default function Sopt({ reportData }: { reportData: ReportDataType }) {
+interface SoptProps {
+  reportData: ReportDataType;
+}
+
+export default function Sopt({ reportData }: SoptProps) {
   return (
-    <div id='sopt'>
+    <SoptContainer id='sopt'>
       <ReportTitle color={'#FF6E1D'} subTitle='차곡차곡 쌓인 솝트의 기록들' title='2024년 SOPT는' />
       <SoptSection>
         {/* 새롭게 탄생한 서비스 */}
@@ -110,9 +114,13 @@ export default function Sopt({ reportData }: { reportData: ReportDataType }) {
           </>
         </ReportCard>
       </SoptSection>
-    </div>
+    </SoptContainer>
   );
 }
+
+const SoptContainer = styled.div`
+  padding-top: 20px;
+`;
 
 const TagWrapper = styled.div`
   display: flex;

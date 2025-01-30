@@ -1,6 +1,6 @@
 import { menuList } from '@/components/mySoptReport/constants';
-import useMediaQuery from '@/hooks/useMediaQuery';
-import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { ActiveTabType } from '@/components/mySoptReport/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -10,50 +10,55 @@ import { Link } from 'react-scroll';
 const ScrollLink = Link as React.ElementType;
 
 interface ReportNavProps {
-  activeTab: 'sopt' | 'playground' | 'my-pg';
-  handleSetActive: (tab: 'sopt' | 'playground' | 'my-pg') => void;
+  activeTab: ActiveTabType;
+  handleSetActive: (tab: ActiveTabType) => void;
 }
 
 export default function ReportNav({ activeTab, handleSetActive }: ReportNavProps) {
   const tabRef = useRef<HTMLDivElement>(null);
   const [isFixed, setIsFixed] = useState(false);
-  const [tabTop, setTabTop] = useState(0);
-  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
-  const HEADER_HEIGHT = isMobile ? 64 : 80;
 
   useEffect(() => {
-    if (tabRef.current) {
-      setTabTop(tabRef.current.offsetTop); // 초기 위치 저장
-    }
-
     const handleScroll = () => {
-      if (window.scrollY >= tabTop - HEADER_HEIGHT) {
+      const scrollY = window.scrollY;
+      if (scrollY >= 600) {
         setIsFixed(true);
       } else {
         setIsFixed(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [tabTop]);
+    // MEMO: Throttle: 100ms마다 실행되도록 설정, 거꾸로 스크롤했을 때의 스크롤값이 잘 동작하도록.
+    const throttleScroll = () => {
+      let timeout: NodeJS.Timeout | null;
+      return () => {
+        if (!timeout) {
+          timeout = setTimeout(() => {
+            handleScroll();
+            timeout = null;
+          }, 100);
+        }
+      };
+    };
+
+    const throttledHandleScroll = throttleScroll();
+    window.addEventListener('scroll', throttledHandleScroll);
+
+    return () => window.removeEventListener('scroll', throttledHandleScroll);
+  }, []);
 
   return (
-    <Menus isFixed={isFixed} ref={tabRef}>
+    <Menus isFixed={isFixed} ref={tabRef} id='nav'>
       {menuList.map(({ title, mainColor, textColor, id }) => {
         return (
-          <ScrollLink
-            key={id}
-            to={id}
-            smooth={true}
-            duration={500}
+          <MenuTab
+            isActive={activeTab === id}
+            mainColor={mainColor}
+            textColor={textColor}
             onClick={() => handleSetActive(id)}
-            style={{ width: '100%' }}
           >
-            <MenuTab isActive={activeTab === id} mainColor={mainColor} textColor={textColor}>
-              {title}
-            </MenuTab>
-          </ScrollLink>
+            {title}
+          </MenuTab>
         );
       })}
     </Menus>
@@ -68,14 +73,15 @@ const Menus = styled.nav<{ isFixed: boolean }>`
   justify-content: space-between;
   background-color: ${colors.gray800};
   padding: 8px 20px;
+  width: 100%;
   height: 54px;
 
   ${({ isFixed }) =>
     isFixed &&
     css`
-      position: 'fixed';
+      position: fixed;
       top: 80px;
-      transition: 'top 0.3s ease-in-out';
+      transition: top 0.3s ease-in-out;
       z-index: 100;
 
       @media ${MOBILE_MEDIA_QUERY} {
@@ -88,7 +94,7 @@ const MenuTab = styled.div<{ isActive: boolean; mainColor: keyof typeof colors; 
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   border-radius: 100px;
   cursor: pointer;
   padding: 9px 0;

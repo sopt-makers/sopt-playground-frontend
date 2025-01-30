@@ -23,8 +23,8 @@ const ReportTitleWrapper = styled.header`
   flex-direction: column;
   gap: 8px;
   align-items: center;
-  margin-top: 52px;
   margin-bottom: 40px;
+  padding-top: 52px;
 `;
 
 const SubTitle = styled.p<{ color: string }>`

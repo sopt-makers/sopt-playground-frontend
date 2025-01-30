@@ -60,3 +60,5 @@ export interface ReportDataType {
   CoffeeChatHistoryInfoTable: CoffeeChatHistoryInfoType;
   CoffeeChatTotalVisitCount: number;
 }
+
+export type ActiveTabType = 'sopt' | 'playground' | 'my-pg' | null;
