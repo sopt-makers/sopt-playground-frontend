@@ -152,6 +152,7 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
   min-height: 227.6px;
   max-height: 227.6px;
   overflow: hidden;
+
   ${({ isEmptyData }) =>
     isEmptyData &&
     css`
@@ -297,6 +298,16 @@ const InfoSection = styled.div`
   max-height: 79.6px;
   overflow-y: scroll;
   text-overflow: ellipsis;
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+    width: 2px; /* Chrome, Safari, Opera */
+  }
 `;
 
 const SoptTagSection = styled.div`
