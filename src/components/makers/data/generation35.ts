@@ -55,9 +55,9 @@ export const generation35: MakersGeneration = {
       title: 'Product Crew 팀',
       description: 'SOPT 회원들이 다양한 번개, 스터디, 행사를 만들고 참여할 수 있는 모임 서비스를 만들어요.',
       people: [
+        { type: 'member', id: 390, name: '백송현', position: 'PM' },
         { type: 'member', id: 15, name: '구경민', position: 'PM' },
         { type: 'member', id: 760, name: '김가온', position: '프로덕트 디자이너' },
-        { type: 'member', id: 390, name: '백송현', position: '프로덕트 디자이너' },
         { type: 'member', id: 857, name: '공준혁', position: '프론트엔드 개발자' },
         { type: 'member', id: 143, name: '김현수', position: '프론트엔드 개발자' },
         { type: 'member', id: 858, name: '이진', position: '프론트엔드 개발자' },
