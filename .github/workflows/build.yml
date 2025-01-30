@@ -41,7 +41,7 @@ jobs:
       - name: Build
         run: yarn build && yarn next export
 
-      - uses: actions/upload-artifact
+      - uses: actions/upload-artifact@v3
         with:
           name: built-app
           path: out
