@@ -34,58 +34,23 @@ export default function CoffeeChatReviewList() {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const isEmptyData = data?.coffeeChatReviewList == null;
   const dataList = data?.coffeeChatReviewList || [];
-  const formatSoptActivities = (soptActivities: string[]) => {
-    const generations = soptActivities
-      .map((item) => parseInt(item.match(/^\d+/)?.[0] || '', 10)) // 숫자 문자열을 숫자로 변환
-      .filter((num) => !isNaN(num)); // NaN 값 제거
-    const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
-    return { generation: generations, part: parts };
-  };
 
   const coffeeChatRecentCardList = dataList?.map((item, index) => (
-    <LoggingClick
-      key={String(item?.name)}
-      eventKey='coffeechatCard'
-      param={{
-        career: item.career === '아직 없음' ? '없음' : item.career?.split(' ')[0],
-        organization: item?.organization,
-        job: item.companyJob || undefined,
-        section: undefined,
-        title: item.bio || undefined,
-        topic_tag: undefined,
-        ...formatSoptActivities(item?.soptActivities || []),
-      }}
-    >
-      <div>
-        <LoggingClick
-          key={String(item?.name)}
-          eventKey='recentCoffeechatCard'
-          param={{
-            career: item.career === '아직 없음' ? '없음' : item.career?.split(' ')[0],
-            organization: item?.organization,
-            job: item.companyJob || undefined,
-            section: undefined,
-            title: item.bio || undefined,
-            topic_tag: undefined,
-            ...formatSoptActivities(item?.soptActivities || []),
-          }}
-        >
-          <div
-            onClick={() => {
-              setPopupVisible(true);
-              setIndex(index);
-            }}
-          >
-            <CoffeeChatReviewCard
-              key={item.nickname}
-              profileImage={item.profileImage || ''}
-              nickname={'nickname' in item ? item.nickname : ''}
-              soptActivities={item.soptActivities || []}
-              coffeeChatTopicType={'coffeeChatTopicType' in item ? item.coffeeChatTopicType : []}
-              content={'content' in item ? item.content : ''}
-            />
-          </div>
-        </LoggingClick>
+    <LoggingClick key={String(item?.nickname)} eventKey='coffeechatReviewCard'>
+      <div
+        onClick={() => {
+          setPopupVisible(true);
+          setIndex(index);
+        }}
+      >
+        <CoffeeChatReviewCard
+          key={item.nickname}
+          profileImage={item.profileImage || ''}
+          nickname={'nickname' in item ? item.nickname : ''}
+          soptActivities={item.soptActivities || []}
+          coffeeChatTopicType={'coffeeChatTopicType' in item ? item.coffeeChatTopicType : []}
+          content={'content' in item ? item.content : ''}
+        />
       </div>
     </LoggingClick>
   ));

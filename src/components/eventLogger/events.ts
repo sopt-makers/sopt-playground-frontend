@@ -181,6 +181,7 @@ export interface ClickEvents {
   senderPhone: undefined;
   coffeechatBanner: undefined;
   sendCoffeechat: undefined;
+  coffeechatReviewCard: undefined;
 }
 
 export interface SubmitEvents {
