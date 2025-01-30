@@ -3,6 +3,8 @@ import Sopt from '@/components/mySoptReport/Sopt';
 import { ReportDataType } from '@/components/mySoptReport/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
+import ReportNav from '@/components/mySoptReport/ReportNav';
+import { useState } from 'react'; 
 
 export default function MySoptReport() {
   // TODO: 데이터패칭
@@ -89,9 +91,20 @@ export default function MySoptReport() {
     },
     CoffeeChatTotalVisitCount: 139,
   };
+    
+    
+  const [activeTab, setActiveTab] = useState<'sopt' | 'playground' | 'my-pg'>('sopt');
+
+  const handleSetActive = (tab: 'sopt' | 'playground' | 'my-pg') => {
+    setActiveTab(tab);
+  };
+
+  // TODO: 각 컴포넌트 안에서 선언
+  // const ref = useIntersectionObserver(id, handleSetActive);
 
   return (
     <ReportContainer>
+      <ReportNav activeTab={activeTab} handleSetActive={handleSetActive} />
       <ReportWrapper>
         <Sopt reportData={reportData} />
         <Playground reportData={reportData} />
