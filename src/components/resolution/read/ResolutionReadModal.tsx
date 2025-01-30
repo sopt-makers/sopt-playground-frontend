@@ -11,7 +11,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 const ResolutionReadModal = ({ ...props }: ModalProps) => {
-  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('and-sopt');
+  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('and-sopt-다짐메시지');
   const { open } = useToast();
 
   const { data: { isRegistration } = {} } = useGetResolutionValidation();
