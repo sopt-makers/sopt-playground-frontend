@@ -45,5 +45,5 @@ const Text = styled.div`
 `;
 
 const Num = styled.div`
-  color: '#FDBBF9';
+  color: #fdbbf9;
 `;

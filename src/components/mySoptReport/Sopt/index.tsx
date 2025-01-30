@@ -1,11 +1,3 @@
-import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
-import { IconChevronRight } from '@sopt-makers/icons';
-import { Button, Tag } from '@sopt-makers/ui';
-import router from 'next/router';
-import { playgroundLink } from 'playground-common/export';
-
 import Responsive from '@/components/common/Responsive';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
@@ -13,6 +5,15 @@ import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText'
 import PopularMeetingSpotRank from '@/components/mySoptReport/Sopt/PopularMeetingSpotRank';
 import ServiceCategoryRankBox from '@/components/mySoptReport/Sopt/ServiceCategoryRankBox';
 import { ReportDataType } from '@/components/mySoptReport/types';
+import NewMemberIcon from '@/public/logos/img_member.svg';
+import ServiceIcon from '@/public/logos/img_service.svg';
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { IconChevronRight } from '@sopt-makers/icons';
+import { Button, Tag } from '@sopt-makers/ui';
+import router from 'next/router';
+import { playgroundLink } from 'playground-common/export';
 
 interface SoptProps {
   reportData: ReportDataType;
@@ -28,10 +29,15 @@ export default function Sopt({ reportData }: SoptProps) {
           <>
             <Head>
               <ReportText>새롭게 탄생한 서비스는</ReportText>
-              <ReportText color='#5CDBFE' type='big'>
-                {reportData.TotalServiceCount}개
-              </ReportText>
-              <ReportText type='label'>*솝커톤, 앱잼 포함</ReportText>
+              <IconContentWrapper>
+                <ServiceIcon />
+                <div>
+                  <ReportText color='#5CDBFE' type='big'>
+                    {reportData.TotalServiceCount}개
+                  </ReportText>
+                  <ReportText type='label'>*솝커톤, 앱잼 포함</ReportText>
+                </div>
+              </IconContentWrapper>
             </Head>
             <Bottom>
               <ReportText>가장 많은 서비스가 속한</ReportText>
@@ -81,13 +87,16 @@ export default function Sopt({ reportData }: SoptProps) {
                 <ReportText>Playground에</ReportText>
                 <ReportText> 새롭게 합류한 회원은</ReportText>
               </div>
-              <ReportText color='#5CDBFE' type='big'>
-                {reportData.NewSignUpUserCount}개
-              </ReportText>
+              <IconContentWrapper>
+                <NewMemberIcon />
+                <ReportText color='#5CDBFE' type='big'>
+                  {reportData.NewSignUpUserCount}명
+                </ReportText>
+              </IconContentWrapper>
             </Head>
             <Bottom>
               <TextWrapper>
-                <ReportText>내가 최근 활동한 </ReportText>
+                <ReportText>내가 최근 활동한 &nbsp;</ReportText>
                 <ReportText color='#5CDBFE'>파트</ReportText>
                 <ReportText>에는</ReportText>
               </TextWrapper>
@@ -117,6 +126,19 @@ export default function Sopt({ reportData }: SoptProps) {
     </SoptContainer>
   );
 }
+
+const IconContentWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+`;
 
 const SoptContainer = styled.div`
   padding-top: 20px;

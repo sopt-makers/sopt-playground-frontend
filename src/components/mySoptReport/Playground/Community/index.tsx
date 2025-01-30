@@ -3,6 +3,7 @@ import LabelButton from '@/components/mySoptReport/common/LabelButton';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
 import { ReportDataType } from '@/components/mySoptReport/types';
+import CommunityIcon from '@/public/logos/img_community.svg';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -29,24 +30,26 @@ export default function Community({ reportData }: { reportData: ReportDataType }
               return <Chip key={i}>{word}</Chip>;
             })}
           </ChipWrapper>
-          <Responsive only='desktop'>
-            <LabelWrapper
-              onClick={() => {
-                window.open(playgroundLink.wordchain(), '_blank');
-              }}
-            >
-              ➡️ 지금 진행 중인 끝말잇기, 참여하러 가기
-            </LabelWrapper>
-          </Responsive>
-          <Responsive only='mobile'>
-            <LabelWrapper
-              onClick={() => {
-                router.push(playgroundLink.wordchain());
-              }}
-            >
-              ➡️ 지금 진행 중인 끝말잇기, 참여하러 가기
-            </LabelWrapper>
-          </Responsive>
+          <IconWrapper>
+            <Responsive only='desktop'>
+              <LabelWrapper
+                onClick={() => {
+                  window.open(playgroundLink.wordchain(), '_blank');
+                }}
+              >
+                ➡️ 지금 진행 중인 끝말잇기, 참여하러 가기
+              </LabelWrapper>
+            </Responsive>
+            <Responsive only='mobile'>
+              <LabelWrapper
+                onClick={() => {
+                  router.push(playgroundLink.wordchain());
+                }}
+              >
+                ➡️ 지금 진행 중인 끝말잇기, 참여하러 가기
+              </LabelWrapper>
+            </Responsive>
+          </IconWrapper>
         </CardWrapper>
       </ReportCard>
       {/* 좋아요, 댓글 */}
@@ -62,11 +65,19 @@ export default function Community({ reportData }: { reportData: ReportDataType }
               <ReportText>의 댓글로 연결되었어요</ReportText>
             </TextWrapper>
           </div>
+          <IconWrapper>
+            <CommunityIcon />
+          </IconWrapper>
         </CardWrapper>
       </ReportCard>
     </>
   );
 }
+
+const IconWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 
 const LabelWrapper = styled.div`
   margin-top: 12px;

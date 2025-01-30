@@ -24,9 +24,11 @@ export default function MeetingStudy({ reportData }: { reportData: ReportDataTyp
               <ReportText color='#FDBBF9'>모임</ReportText>
               <ReportText>을 통해 연결된 회원은</ReportText>
             </TextWrapper>
-            <ReportText color='#FDBBF9' type='big'>
-              {reportData.CrewTotalGroupUserCount.toLocaleString()}명
-            </ReportText>
+            <BigTextWrapper>
+              <ReportText color='#FDBBF9' type='big'>
+                {reportData.CrewTotalGroupUserCount.toLocaleString()}명
+              </ReportText>
+            </BigTextWrapper>
           </Head>
           <Bottom>
             <ReportText>모임 피드를</ReportText>
@@ -34,7 +36,7 @@ export default function MeetingStudy({ reportData }: { reportData: ReportDataTyp
             <Tooltip>
               <TextWrapper>{reportData.CrewPopularGroupInfoTable.feedCount}개</TextWrapper>
             </Tooltip>
-            <ReportBigText color='#FDBBF9'>{reportData.CrewPopularGroupInfoTable.groupName}</ReportBigText>
+            <ReportBigText>{reportData.CrewPopularGroupInfoTable.groupName}</ReportBigText>
             <ImgWrapper src={reportData.CrewPopularGroupInfoTable.imageUrl} alt='모임 이미지' />
             <Responsive only='desktop'>
               <ButtonWrapper
@@ -73,7 +75,7 @@ const ImgWrapper = styled.img`
 `;
 
 const ReportBigText = styled.h1`
-  color: '#FDBBF9';
+  color: #fdbbf9;
   ${fonts.HEADING_28_B};
 `;
 
@@ -98,4 +100,9 @@ const Bottom = styled.div`
 const TextWrapper = styled.div`
   display: flex;
   align-items: flex-end;
+`;
+
+const BigTextWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;

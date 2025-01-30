@@ -3,6 +3,7 @@ import LabelButton from '@/components/mySoptReport/common/LabelButton';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
 import { ReportDataType } from '@/components/mySoptReport/types';
+import CoffeSoptIcon from '@/public/logos/img_coffeechat.svg';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -24,13 +25,15 @@ export default function CoffeeSopt({ reportData }: { reportData: ReportDataType 
               <ReportText>회원들이 커피솝에</ReportText>
               <ReportText>방문한 횟수는</ReportText>
             </TextWrapper>
-            <ReportText color='#FDBBF9' type='big'>
-              {reportData.CoffeeChatTotalVisitCount.toLocaleString()}번
-            </ReportText>
+            <IconWrapper>
+              <ReportText color='#FDBBF9' type='big'>
+                {reportData.CoffeeChatTotalVisitCount.toLocaleString()}번
+              </ReportText>
+            </IconWrapper>
           </Head>
           <Bottom>
             <TextWrapper>
-              <ReportText>{reportData.CoffeeChatHistoryInfoTable.openCount}분</ReportText>
+              <ReportText color='#FDBBF9'>{reportData.CoffeeChatHistoryInfoTable.openCount}분</ReportText>
               <ReportText>이 열어주신 커피챗을 통해</ReportText>
             </TextWrapper>
             <div>
@@ -40,6 +43,9 @@ export default function CoffeeSopt({ reportData }: { reportData: ReportDataType 
               </TextWrapper>
               <ReportBigText color='#F0F0F0'>성사되었어요!</ReportBigText>
             </div>
+            <IconWrapper>
+              <CoffeSoptIcon />
+            </IconWrapper>
             <CoffechatList>
               {reportData.CoffeeChatHistoryInfoTable.titleList.map((title, i) => {
                 return (
@@ -77,6 +83,11 @@ export default function CoffeeSopt({ reportData }: { reportData: ReportDataType 
     </>
   );
 }
+
+const IconWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;

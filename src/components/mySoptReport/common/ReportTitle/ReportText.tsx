@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 interface ReportTextProps {
   color?: keyof typeof colors | string;
   children: ReactNode;
-  type?: 'normal' | 'big' | 'label';
+  type?: 'normal' | 'big' | 'label' | 'description';
 }
 
 export default function ReportText({ color = 'white', children, type = 'normal' }: ReportTextProps) {
@@ -14,6 +14,8 @@ export default function ReportText({ color = 'white', children, type = 'normal' 
     <>
       {type === 'big' ? (
         <BigText color={color}>{children}</BigText>
+      ) : type === 'description' ? (
+        <DescriptionText color={color}>{children}</DescriptionText>
       ) : type === 'normal' ? (
         <Title color={color}>{children}</Title>
       ) : (
@@ -33,6 +35,12 @@ const Title = styled.h2<{ color: keyof typeof colors | string }>`
   display: flex;
   color: ${(props) => (props.color in colors ? colors[props.color as keyof typeof colors] : props.color)};
   ${fonts.TITLE_20_SB};
+`;
+
+const DescriptionText = styled.h2<{ color: keyof typeof colors | string }>`
+  display: flex;
+  color: ${(props) => (props.color in colors ? colors[props.color as keyof typeof colors] : props.color)};
+  ${fonts.BODY_16_M};
 `;
 
 const BigText = styled.h2<{ color: keyof typeof colors | string }>`
