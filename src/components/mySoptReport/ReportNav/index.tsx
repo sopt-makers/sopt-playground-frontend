@@ -6,8 +6,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-scroll';
-const ScrollLink = Link as React.ElementType;
 
 interface ReportNavProps {
   activeTab: ActiveTabType;

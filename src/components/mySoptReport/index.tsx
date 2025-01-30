@@ -1,4 +1,5 @@
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
+import MyPG from '@/components/mySoptReport/MyPG';
 import Playground from '@/components/mySoptReport/Playground';
 import ReportNav from '@/components/mySoptReport/ReportNav';
 import Sopt from '@/components/mySoptReport/Sopt';
@@ -8,8 +9,6 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { Button } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-scroll';
-const ScrollLink = Link as React.ElementType;
 
 export default function MySoptReport() {
   // TODO: 데이터패칭
@@ -116,7 +115,7 @@ export default function MySoptReport() {
       });
     } else if (tab === 'my-pg') {
       window.scrollTo({
-        top: 4600,
+        top: 6000,
         behavior: 'smooth',
       });
     }
@@ -137,9 +136,9 @@ export default function MySoptReport() {
 
     if (scrollY >= 600 && scrollY < 2100) {
       setActiveTab('sopt');
-    } else if (scrollY >= 2100 && scrollY < 4600) {
+    } else if (scrollY >= 2100 && scrollY < 6000) {
       setActiveTab('playground');
-    } else if (scrollY >= 4600) {
+    } else if (scrollY >= 6000) {
       setActiveTab('my-pg');
     }
   }, [scrollY]);
@@ -164,6 +163,7 @@ export default function MySoptReport() {
       <ReportWrapper>
         <Sopt reportData={reportData} />
         <Playground reportData={reportData} />
+        <MyPG />
       </ReportWrapper>
     </ReportContainer>
   );
