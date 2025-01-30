@@ -157,12 +157,12 @@ const StBackground = styled.div`
   display: flex;
   position: fixed;
   top: 79px;
-  justify-content: center;
   align-items: center;
-  padding-bottom: 100px;
+  justify-content: center;
   z-index: 202;
   background-color: rgb(15 15 18 / 80%);
   padding-top: 5px;
+  padding-bottom: 100px;
   width: 100vw;
   height: 100%;
   overflow: hidden;
