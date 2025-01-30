@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconChevronRight } from '@sopt-makers/icons';
+import { IconChevronRight, IconSend } from '@sopt-makers/icons';
 import { Button, Callout, SelectV2, Tag, TextArea, TextField } from '@sopt-makers/ui';
 import { useState } from 'react';
 
@@ -17,6 +17,46 @@ const CoffeeChatReviewUpload = () => {
   const [content, setContent] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [coffeechat, setCoffeechat] = useState('');
+
+  const selectOptions = [
+    {
+      label: '💬 CRM 도구와 친해져보아요, Braze 잘 쓰는 PM 되기',
+      value: '',
+      description: 'select all',
+      icon: <IconSend />,
+    },
+    {
+      label: 'Option 1',
+      value: 'option1',
+      description: 'Description 1',
+      icon: <IconSend />,
+    },
+    {
+      label: 'Option 2',
+      value: 'option2',
+      description: 'Description 2',
+      icon: <IconSend />,
+    },
+    {
+      label: 'Option 3',
+      value: 'option3',
+      description: 'Description 3',
+      icon: <IconSend />,
+    },
+    {
+      label: 'Option 4',
+      value: 'option4',
+      description: 'Description 4',
+      icon: <IconSend />,
+    },
+    {
+      label: 'Option 5',
+      value: 'option5',
+      description: 'Description 5',
+      icon: <IconSend />,
+    },
+  ];
+
   const handleEnroll = () => {
     if (nickname.length <= 0 || content.length <= 0) {
       setIsChecked(true);
@@ -37,7 +77,16 @@ const CoffeeChatReviewUpload = () => {
           </StInfo>
           <StSubInfo>커피챗을 진행한 회원인지 확인이 필요해요. 어떤 커피챗을 진행했는지는 공개되지 않아요</StSubInfo>
           <Responsive only='desktop'>
-            <Select></Select>
+            <SelectV2.Root type='textDesc' className='coffechat-select' visibleOptions={3}>
+              <SelectV2.Trigger>
+                <SelectV2.TriggerContent placeholder={'진행한 커피챗의 제목이 무엇인가요?'} />
+              </SelectV2.Trigger>
+              <StSelectV2Menu className='coffeechat-ul'>
+                {selectOptions.map((option) => (
+                  <StSelectV2MenuItem key={option.value} option={option} />
+                ))}
+              </StSelectV2Menu>
+            </SelectV2.Root>
           </Responsive>
           <Responsive only='mobile'>
             <div style={{ marginTop: '8px' }}>
@@ -132,9 +181,6 @@ const StMainSection = styled.div`
     }
   }
 
-  .coffeechat-ul {
-    width: 100%;
-  }
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 0;
   }
@@ -209,18 +255,7 @@ const StButton = styled(Button)`
     ${fonts.LABEL_16_SB}
   }
 `;
-const StSelect = styled.select`
-  display: flex;
-  position: relative;
-  align-items: center;
-  margin-top: 8px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background-color: ${colors.gray800};
-  padding: 10px 0;
-  width: 100%;
-  height: 48px;
-`;
+
 const StLabelWrapper = styled.div`
   display: flex;
   gap: 8px;
@@ -229,5 +264,25 @@ const StLabelWrapper = styled.div`
   div {
     border-radius: 100px;
     padding: 3px 9px;
+  }
+`;
+const StSelectV2Menu = styled(SelectV2.Menu)`
+  width: calc(100vw - 60px);
+  max-width: 1200px;
+  white-space: nowrap;
+
+  li {
+    width: calc(100vw - 60px);
+    max-width: 1200px;
+
+    button {
+      width: calc(100vw - 60px);
+      max-width: 1200px;
+    }
+  }
+`;
+const StSelectV2MenuItem = styled(SelectV2.MenuItem)`
+  li {
+    width: calc(100% - 60px);
   }
 `;
