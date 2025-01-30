@@ -229,6 +229,7 @@ export interface SubmitEvents {
   openCoffeechat: Coffeechat;
   coffeechatDelete: undefined;
   editCoffeechat: undefined;
+  coffeechatReview: undefined;
 }
 
 export interface PageViewEvents {

@@ -13,6 +13,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import BottomSheetMDS from '@/components/coffeechat/CoffeeChatReveiw/BottomSheetMDS';
 import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Responsive from '@/components/common/Responsive';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -28,6 +29,7 @@ const CoffeeChatReviewUpload = () => {
   const { open: toastOpen } = useToast();
   const { data, isLoading } = useGetCoffeechatHistory();
   const router = useRouter();
+  const { logSubmitEvent } = useEventLogger();
   const { mutate } = useMutation({
     mutationFn: () => postCoffeechatReview.request(coffeechat, nickname, content),
     onSuccess: () => {
@@ -40,6 +42,7 @@ const CoffeeChatReviewUpload = () => {
           },
         },
       });
+      logSubmitEvent('coffeechatReview');
       router.push(playgroundLink.coffeechat());
     },
   });
