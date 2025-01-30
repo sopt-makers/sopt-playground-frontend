@@ -10,8 +10,8 @@ import { zIndex } from '@/styles/zIndex';
 
 interface Option {
   label: string;
-  value: string;
-  subLabel?: string;
+  value: number | undefined;
+  desciption?: string;
 }
 
 interface BottomSheetSelectProps {
@@ -105,7 +105,7 @@ const BottomSheetMDS = ({
                 <OptionItem key={option.value} onClick={() => handleOptionSelect(option.value)}>
                   <StItemDiv>
                     {option.label}
-                    <OptionSubItem>{option.subLabel}</OptionSubItem>
+                    <OptionSubItem>{option.description}</OptionSubItem>
                   </StItemDiv>
                   {temporaryValue === option.value && <CheckedIcon />}
                 </OptionItem>

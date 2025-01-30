@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconChevronRight, IconSend } from '@sopt-makers/icons';
-import { Button, Callout, SelectV2, Tag, TextArea, TextField } from '@sopt-makers/ui';
+import { Button, Callout, SelectV2, Tag, TextArea, TextField, useDialog } from '@sopt-makers/ui';
 import { useState } from 'react';
 
+import { useGetCoffeechatHistory } from '@/api/endpoint/coffeechat/getCoffeechatHistory';
 import AuthRequired from '@/components/auth/AuthRequired';
 import BottomSheetMDS from '@/components/coffeechat/CoffeeChatReveiw/BottomSheetMDS';
+import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Responsive from '@/components/common/Responsive';
-import Select from '@/components/common/Select';
 import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
@@ -16,52 +16,47 @@ const CoffeeChatReviewUpload = () => {
   const [nickname, setNickname] = useState('');
   const [content, setContent] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [coffeechat, setCoffeechat] = useState('');
+  const { open } = useDialog();
+  const { confirm } = useCustomConfirm();
+  const [coffeechat, setCoffeechat] = useState<number>(0);
 
-  const selectOptions = [
-    {
-      label: '💬 CRM 도구와 친해져보아요, Braze 잘 쓰는 PM 되기',
-      value: '',
-      description: 'select all',
-      icon: <IconSend />,
-    },
-    {
-      label: 'Option 1',
-      value: 'option1',
-      description: 'Description 1',
-      icon: <IconSend />,
-    },
-    {
-      label: 'Option 2',
-      value: 'option2',
-      description: 'Description 2',
-      icon: <IconSend />,
-    },
-    {
-      label: 'Option 3',
-      value: 'option3',
-      description: 'Description 3',
-      icon: <IconSend />,
-    },
-    {
-      label: 'Option 4',
-      value: 'option4',
-      description: 'Description 4',
-      icon: <IconSend />,
-    },
-    {
-      label: 'Option 5',
-      value: 'option5',
-      description: 'Description 5',
-      icon: <IconSend />,
-    },
-  ];
+  const { data, isLoading } = useGetCoffeechatHistory();
 
-  const handleEnroll = () => {
+  const selectOptions = data?.coffeeChatHistories.map((item) => ({
+    label: item.coffeeChatBio || '',
+    value: item.id ?? undefined,
+    description: item.name + ' | ' + item.career || '',
+  }));
+
+  const handleEnroll = async () => {
     if (nickname.length <= 0 || content.length <= 0) {
       setIsChecked(true);
+    } else if (coffeechat === 0) {
+      open({
+        title: `커피챗을 선택해주세요.`,
+        description: <StDescription>커피챗 리뷰는 커피챗 작성 후에만 작성 가능합니다.</StDescription>,
+        type: 'single',
+        typeOptions: {
+          approveButtonText: '확인',
+        },
+      });
     } else {
-      //여기 로직
+      open({
+        title: '후기를 등록하기 전, 확인해주세요!',
+        description: (
+          <StDescription>
+            한 번 등록한 후기는 수정할 수 없어요. 수정 및 삭제를 원하신다면 메이커스 카카오 채널로 문의해 주세요.
+          </StDescription>
+        ),
+        type: 'default',
+        typeOptions: {
+          cancelButtonText: '닫기',
+          approveButtonText: '등록하기',
+          buttonFunction: async () => {
+            await alert('ss');
+          },
+        },
+      });
     }
   };
   return (
@@ -77,12 +72,17 @@ const CoffeeChatReviewUpload = () => {
           </StInfo>
           <StSubInfo>커피챗을 진행한 회원인지 확인이 필요해요. 어떤 커피챗을 진행했는지는 공개되지 않아요</StSubInfo>
           <Responsive only='desktop'>
-            <SelectV2.Root type='textDesc' className='coffechat-select' visibleOptions={3}>
+            <SelectV2.Root
+              type='textDesc'
+              className='coffechat-select'
+              visibleOptions={3}
+              onChange={(e) => setCoffeechat(Number(e))}
+            >
               <SelectV2.Trigger>
                 <SelectV2.TriggerContent placeholder={'진행한 커피챗의 제목이 무엇인가요?'} />
               </SelectV2.Trigger>
               <StSelectV2Menu className='coffeechat-ul'>
-                {selectOptions.map((option) => (
+                {selectOptions?.map((option) => (
                   <StSelectV2MenuItem key={option.value} option={option} />
                 ))}
               </StSelectV2Menu>
@@ -92,31 +92,30 @@ const CoffeeChatReviewUpload = () => {
             <div style={{ marginTop: '8px' }}>
               <BottomSheetMDS
                 placeholder='진행한 커피챗의 제목은 무엇인가요?'
-                options={[
-                  {
-                    label: '💬 CRM 도구와 친해져보아요, Braze 잘 쓰는 PM 되기',
-                    value: 's',
-                    subLabel: '차은우ㅣ주니어(0-3년차)',
-                  },
-                  { label: 's', value: 'ss', subLabel: 's' },
-                ]}
+                options={selectOptions || []}
                 value={undefined}
-                onChange={() => {}}
+                onChange={(value) => {
+                  setCoffeechat(Number(value));
+                }}
               />
             </div>
           </Responsive>
-          <StInfo>선택한 커피챗의 주제</StInfo>
-          <StLabelWrapper>
-            <Tag type='solid' size='md' variant='default'>
-              창업
-            </Tag>
-            <Tag type='solid' size='md' variant='default'>
-              자기개발
-            </Tag>
-            <Tag type='solid' size='md' variant='default'>
-              포트폴리오
-            </Tag>
-          </StLabelWrapper>
+          {coffeechat > 0 && (
+            <>
+              {' '}
+              <StInfo>선택한 커피챗의 주제</StInfo>
+              <StLabelWrapper>
+                {data?.coffeeChatHistories
+                  .find((item) => item.id === coffeechat) // id가 coffeechat인 객체 찾기
+                  ?.coffeeChatTopicType?.map((tag, index) => (
+                    <Tag key={index} type='solid' size='md' variant='default'>
+                      {tag}
+                    </Tag>
+                  ))}
+              </StLabelWrapper>
+            </>
+          )}
+
           <StInfo>
             나의 닉네임 <span style={{ color: 'rgb(247 114 52 / 100%)' }}>*</span>
           </StInfo>
@@ -284,5 +283,11 @@ const StSelectV2Menu = styled(SelectV2.Menu)`
 const StSelectV2MenuItem = styled(SelectV2.MenuItem)`
   li {
     width: calc(100% - 60px);
+  }
+`;
+const StDescription = styled.div`
+  margin-top: 12px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
   }
 `;
