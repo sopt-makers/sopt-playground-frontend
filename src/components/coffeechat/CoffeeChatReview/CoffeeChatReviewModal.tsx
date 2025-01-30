@@ -7,29 +7,51 @@ import { Tag } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 
 import Divider from '@/components/common/Divider/Divider';
-import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
-import IconModalClose from '@/public/icons/icon-modal-close.svg';
+import { LATEST_GENERATION } from '@/constants/generation';
 import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface CoffeeChatReviewModalProps {
   isPopupVisible: boolean;
-
   setPopupVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  content: string | undefined;
+  nickname: string | undefined;
+  soptActivities: string[] | undefined;
+  profileImage: string | undefined;
+  coffeeChatTopicType: string[] | undefined;
 }
-export const CoffeeChatReviewModal: React.FC<CoffeeChatReviewModalProps> = ({ isPopupVisible, setPopupVisible }) => {
-  const soptActivityBadges = [
-    { content: '35기 웹', isActive: true },
-    { content: '35기 웹', isActive: true },
-    { content: '35기 웹', isActive: true },
-    { content: '35기 웹', isActive: true },
-    { content: '35기 웹', isActive: true },
-    { content: '35기 웹', isActive: true },
-  ];
-  const topicTypeList = ['커리어', '포트폴리오', '직무 전문성', '솝트 활동', '취업'];
+export const CoffeeChatReviewModal: React.FC<CoffeeChatReviewModalProps> = ({
+  isPopupVisible,
+  setPopupVisible,
+  content,
+  nickname,
+  soptActivities,
+  profileImage,
+  coffeeChatTopicType,
+}) => {
+  const sortSoptActivities = (soptActivities: string[]) => {
+    const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
+      const numA = parseInt(a.match(/\d+/)![0]); // 문자열에서 숫자 추출
+      const numB = parseInt(b.match(/\d+/)![0]);
+      return numB - numA; // 내림차순 정렬
+    });
+    return uniqueSortedActivities;
+  };
+  const soptActivityBadges = sortSoptActivities(soptActivities || []).map((activity) =>
+    activity.includes(LATEST_GENERATION.toString())
+      ? {
+          content: activity,
+          isActive: true,
+        }
+      : {
+          content: activity,
+          isActive: false,
+        },
+  );
+
   const ELLIPSIS_WIDTH = 36;
   const BADGE_GAP = 4;
   const {
@@ -43,7 +65,7 @@ export const CoffeeChatReviewModal: React.FC<CoffeeChatReviewModalProps> = ({ is
     isBadgeOverflow: isTopicsOverflow,
     badgeRefs: topicsRef,
     badgeWrapperRef: topicsWrapperRef,
-  } = useVisibleBadges(topicTypeList, ELLIPSIS_WIDTH, BADGE_GAP);
+  } = useVisibleBadges(coffeeChatTopicType || [], ELLIPSIS_WIDTH, BADGE_GAP);
 
   useEffect(() => {
     if (isPopupVisible) {
@@ -69,12 +91,18 @@ export const CoffeeChatReviewModal: React.FC<CoffeeChatReviewModalProps> = ({ is
         </StCloseButton>
         <ProfileSection>
           <ImageBox>
-            <EmptyProfileImage>
-              <DefaultImage src='/icons/icon-profile.svg' loading='lazy' decoding='async' />
-            </EmptyProfileImage>
+            {profileImage ? (
+              <ProfileImageWrapper>
+                <ProfileImage src={profileImage} />
+              </ProfileImageWrapper>
+            ) : (
+              <EmptyProfileImage>
+                <DefaultImage src='/icons/icon-profile.svg' loading='lazy' decoding='async' />
+              </EmptyProfileImage>
+            )}
           </ImageBox>
           <InfoSection>
-            <StUserName>귀여운 플둥이</StUserName>
+            <StUserName>{nickname}</StUserName>
             <SoptTagSection ref={soptActivitiesWrapperRef}>
               {visibleSoptActivities.map((badge, idx) => (
                 <Badge
@@ -120,23 +148,7 @@ export const CoffeeChatReviewModal: React.FC<CoffeeChatReviewModalProps> = ({ is
         </SubjectSection>
         <StReviewSection>
           <StSubtitle>커피챗 후기</StSubtitle>
-          <StReviewTextField>
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요..
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요..커피챗 너무 좋아요.. 커피챗 너무 좋아요..
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요..
-            커피챗 너무 좋아요..커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요..
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요..커피챗 너무 좋아요..
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요..
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요..커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요..
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요커피챗 너무 좋아요.. 커피챗
-            너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무
-            좋아요.. 커피챗 너무 좋아요커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무
-            좋아요커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요커피챗 너무 좋아요..
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗
-            너무 좋아요.. 커피챗 너무 좋아요커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무
-            좋아요커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요커피챗 너무 좋아요..
-            커피챗 너무 좋아요.. 커피챗 너무 좋아요.. 커피챗 너무 좋아요
-          </StReviewTextField>
+          <StReviewTextField>{content}</StReviewTextField>
         </StReviewSection>
       </StPopupModal>
     </StBackground>
@@ -194,30 +206,6 @@ const StCloseButton = styled.button`
 const StyledIconClose = styled(IconXClose)`
   width: 24px;
 `;
-const StProfileLayer = styled.div``;
-
-const Title = styled.div`
-  display: ${'-webkit-box'};
-  height: 56px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  ${fonts.HEADING_18_B}
-
-  white-space: pre-line;
-  word-break: break-word;
-  color: ${colors.white};
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
-  @media ${MB_BIG_MEDIA_QUERY} {
-    /* width: 342px;
-    max-width: 342px; */
-    height: 48px;
-    max-height: 48px;
-    ${fonts.HEADING_16_B};
-  }
-`;
 
 const ProfileSection = styled.div`
   display: flex;
@@ -252,10 +240,28 @@ const EmptyProfileImage = styled.div<{ hide?: boolean }>`
       visibility: hidden;
     `};
 `;
+const ProfileImageWrapper = styled.div<{ hide?: boolean }>`
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 56px;
+  height: 56px;
 
+  ${(props) =>
+    props.hide &&
+    css`
+      visibility: hidden;
+    `};
+`;
 const DefaultImage = styled.img`
   width: 36px;
   height: 36px;
+`;
+const ProfileImage = styled.img`
+  width: 54px;
+  height: 54px;
 `;
 
 const InfoSection = styled.div`

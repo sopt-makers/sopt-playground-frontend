@@ -4,11 +4,8 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Tag } from '@sopt-makers/ui';
 import { m } from 'framer-motion';
-import { useRouter } from 'next/router';
-import { playgroundLink } from 'playground-common/export';
 import { useState } from 'react';
 
-import { CoffeeChatReviewModal } from '@/components/coffeechat/CoffeeChatReview/CoffeeChatReviewModal';
 import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -16,36 +13,21 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-interface MentoringCardProps {
-  id: string;
-  title: string;
-  isEmptyData?: boolean;
-  topicTypeList: Array<string>;
+interface ReviewCardProps {
   profileImage: string;
-  name: string;
-  career?: string;
-  organization: string;
-  companyJob?: string;
+  nickname: string;
   soptActivities: Array<string>;
-  isBlurred?: boolean;
-  isMine?: boolean;
+  coffeeChatTopicType: Array<string>;
+  content: string;
 }
 
 export default function CoffeeChatReviewCard({
-  id,
-  title,
-  isEmptyData,
-  topicTypeList,
   profileImage,
-  name,
-  career,
-  organization,
-  companyJob,
+  nickname,
   soptActivities,
-  isBlurred,
-  isMine,
-}: MentoringCardProps) {
-  const router = useRouter();
+  coffeeChatTopicType,
+  content,
+}: ReviewCardProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const { logClickEvent } = useEventLogger();
 
@@ -84,11 +66,7 @@ export default function CoffeeChatReviewCard({
     isBadgeOverflow: isTopicsOverflow,
     badgeRefs: topicsRef,
     badgeWrapperRef: topicsWrapperRef,
-  } = useVisibleBadges(topicTypeList, ELLIPSIS_WIDTH, BADGE_GAP);
-
-  if (career == '아직 없어요') {
-    career = undefined;
-  }
+  } = useVisibleBadges(coffeeChatTopicType, ELLIPSIS_WIDTH, BADGE_GAP);
 
   return (
     <>
@@ -113,7 +91,7 @@ export default function CoffeeChatReviewCard({
                 />
               )}
             </ImageBox>{' '}
-            <Title>{title}</Title>
+            <Title>{nickname}</Title>
           </TitleSection>
           <SoptTagSection ref={soptActivitiesWrapperRef}>
             {visibleSoptActivities.map((badge, idx) => (
@@ -157,7 +135,7 @@ export default function CoffeeChatReviewCard({
             )}
           </TagSection>
         </BodySection>
-        <InfoSection>커피챗 너무 좋아요..아요..커피챗 너무 좋아요..커피챗 너무 좋아요..ㅇㅇㅇㅇㅇㅇㅇ</InfoSection>
+        <InfoSection>{content}</InfoSection>
       </Container>
     </>
   );

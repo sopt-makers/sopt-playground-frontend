@@ -1,21 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { useDialog } from '@sopt-makers/ui';
-import { useRouter } from 'next/router';
 import { ReactNode, startTransition, useEffect, useState } from 'react';
 
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
-import { useGetRecentCoffeeChat } from '@/api/endpoint/members/getRecentCoffeeChats';
-import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
+import { useGetRecentCoffeeChatReview } from '@/api/endpoint/coffeechat/getRecentCoffeechatReview';
 import CoffeeChatReviewCard from '@/components/coffeechat/CoffeeChatReview/CoffeeChatReviewCard';
 import { CoffeeChatReviewModal } from '@/components/coffeechat/CoffeeChatReview/CoffeeChatReviewModal';
 import ScrollCarousel from '@/components/coffeechat/CoffeeRecentChatList/scrollCarousel';
-import { COFFECHAT_SAMPLE_DATA } from '@/components/coffeechat/constants';
 import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY, PCTA_S_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
@@ -35,10 +29,11 @@ const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.siz
 export default function CoffeeChatReviewList() {
   const [listType, setListType] = useState<ListType>();
 
-  const { data, isLoading } = useGetRecentCoffeeChat();
+  const { data, isLoading } = useGetRecentCoffeeChatReview();
+  const [index, setIndex] = useState(0);
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const isEmptyData = data?.coffeeChatList == null;
-  const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
+  const isEmptyData = data?.coffeeChatReviewList == null;
+  const dataList = data?.coffeeChatReviewList || [];
   const formatSoptActivities = (soptActivities: string[]) => {
     const generations = soptActivities
       .map((item) => parseInt(item.match(/^\d+/)?.[0] || '', 10)) // 숫자 문자열을 숫자로 변환
@@ -46,7 +41,8 @@ export default function CoffeeChatReviewList() {
     const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
     return { generation: generations, part: parts };
   };
-  const coffeeChatRecentCardList = dataList.map((item) => (
+
+  const coffeeChatRecentCardList = dataList?.map((item, index) => (
     <LoggingClick
       key={String(item?.name)}
       eventKey='coffeechatCard'
@@ -74,20 +70,19 @@ export default function CoffeeChatReviewList() {
             ...formatSoptActivities(item?.soptActivities || []),
           }}
         >
-          <div onClick={() => setPopupVisible(true)}>
+          <div
+            onClick={() => {
+              setPopupVisible(true);
+              setIndex(index);
+            }}
+          >
             <CoffeeChatReviewCard
-              key={String(item.memberId)}
-              id={String(item.memberId)}
-              name={item.name ?? ''}
-              topicTypeList={item.topicTypeList ?? ['']}
-              career={item.career ?? ''}
-              profileImage={item.profileImage ?? ''}
-              organization={item.organization ?? ''}
-              companyJob={item.companyJob ?? ''}
-              soptActivities={item.soptActivities ?? ['']}
-              title={item.bio ?? ''}
-              isEmptyData={isEmptyData}
-              isBlurred={false}
+              key={item.nickname}
+              profileImage={item.profileImage || ''}
+              nickname={'nickname' in item ? item.nickname : ''}
+              soptActivities={item.soptActivities || []}
+              coffeeChatTopicType={'coffeeChatTopicType' in item ? item.coffeeChatTopicType : []}
+              content={'content' in item ? item.content : ''}
             />
           </div>
         </LoggingClick>
@@ -133,7 +128,17 @@ export default function CoffeeChatReviewList() {
 
   return (
     <Container>
-      {isPopupVisible && <CoffeeChatReviewModal isPopupVisible={isPopupVisible} setPopupVisible={setPopupVisible} />}
+      {isPopupVisible && (
+        <CoffeeChatReviewModal
+          isPopupVisible={isPopupVisible}
+          setPopupVisible={setPopupVisible}
+          content={dataList[index].content}
+          nickname={dataList[index].nickname}
+          soptActivities={dataList[index].soptActivities}
+          profileImage={dataList[index].profileImage}
+          coffeeChatTopicType={dataList[index].coffeeChatTopicType}
+        />
+      )}
 
       <Header>
         <Title>{isLoading ? '' : isEmptyData ? '따끈한 후기가 도착했어요💌' : '따끈한 후기가 도착했어요💌'}</Title>
