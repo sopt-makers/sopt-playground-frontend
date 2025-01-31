@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Button, Dialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
@@ -45,11 +46,17 @@ type textType = {
 };
 
 export const ClosingCeremonyBanner = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const {
     isOpen: isOpenResolutionModal,
     onClose: onCloseResolutionModal,
     onOpen: onOpenResolutionModal,
+  } = useModalState();
+
+  const {
+    isOpen: isOpenMySoptReportComingSoonModal,
+    onClose: onCloseMySoptReportComingSoonModal,
+    onOpen: onOpenMySoptReportComingSoonModal,
   } = useModalState();
 
   const { data: myData, isLoading } = useGetMemberOfMe();
@@ -107,7 +114,9 @@ export const ClosingCeremonyBanner = () => {
               {is35 ? (
                 <>
                   <LoggingClick eventKey='bannerOpenMyReport'>
-                    <StyledButton color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}>
+                    {/* TODO: 마이솝트리포트 배포 이후 onClick 변경*/}
+                    {/* <StyledButton color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}> */}
+                    <StyledButton color='secondary' onClick={onOpenMySoptReportComingSoonModal}>
                       <Text typography='SUIT_12_EB' color={colors.gray700}>
                         {text.resolution.buttonContentSecondary}
                       </Text>
@@ -123,7 +132,9 @@ export const ClosingCeremonyBanner = () => {
                 </>
               ) : (
                 <LoggingClick eventKey='bannerOpenMyReport'>
-                  <MySoptReportButton color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}>
+                  {/* TODO: 마이솝트리포트 배포 이후 onClick 변경*/}
+                  {/* <MySoptReportButton color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}> */}
+                  <MySoptReportButton color='primary' onClick={onOpenMySoptReportComingSoonModal}>
                     <Text typography='SUIT_12_EB' color={colors.gray700}>
                       {text.default.buttonContent}
                     </Text>
@@ -141,7 +152,38 @@ export const ClosingCeremonyBanner = () => {
         </ClosingCeremonyBannerWrapper>
       )}
 
-      {isOpenResolutionModal && <ResolutionReadModal onClose={onCloseResolutionModal} />}
+      <ResolutionReadModal isOpen={isOpenResolutionModal} onClose={onCloseResolutionModal} />
+      <MySoptReportComingSoonModal
+        isOpen={isOpenMySoptReportComingSoonModal}
+        onClose={onCloseMySoptReportComingSoonModal}
+      />
+    </>
+  );
+};
+
+const MySoptReportComingSoonModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  return (
+    <>
+      <Dialog isOpen={isOpen} onClose={onClose}>
+        <Dialog.Title>아직 리포트를 발행하고 있어요!</Dialog.Title>
+        <DescriptionWrapper>
+          <Dialog.Description>2월 2일에 다시 찾아와주시면, 회원님만의 리포트를 전달해 드릴게요.</Dialog.Description>
+        </DescriptionWrapper>
+        <Responsive only='desktop'>
+          <Dialog.Footer align={'right'}>
+            <Button type='button' onClick={onClose}>
+              확인했어요
+            </Button>
+          </Dialog.Footer>
+        </Responsive>
+        <Responsive only='mobile'>
+          <Dialog.Footer align={'center'}>
+            <Button type='button' onClick={onClose} style={{ width: '100%' }}>
+              확인했어요
+            </Button>
+          </Dialog.Footer>
+        </Responsive>
+      </Dialog>
     </>
   );
 };
@@ -213,5 +255,15 @@ const MySoptReportButton = styled.button`
 
   &:hover {
     background: linear-gradient(94deg, #e6ff80 0%, #a8cfff 91.32%);
+  }
+`;
+
+const DescriptionWrapper = styled.div`
+  margin-top: 12px;
+  margin-bottom: 36px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    margin-bottom: 24px;
   }
 `;

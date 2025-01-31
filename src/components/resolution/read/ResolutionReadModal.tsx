@@ -11,7 +11,7 @@ import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
-const ResolutionReadModal = ({ ...props }: ModalProps) => {
+const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('and-sopt-다짐메시지');
   const { open } = useToast();
 
@@ -19,7 +19,7 @@ const ResolutionReadModal = ({ ...props }: ModalProps) => {
 
   const handleClickDownloadButton = () => {
     onDownloadButtonClick();
-    props.onClose();
+    onClose();
     open({
       icon: 'success',
       content: '이미지가 저장되었어요. 친구와 공유해보세요!',
@@ -32,7 +32,7 @@ const ResolutionReadModal = ({ ...props }: ModalProps) => {
   };
 
   return (
-    <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100}>
+    <StyledModal isOpen={isOpen} onClose={onClose} zIndex={zIndex.헤더 + 100}>
       <StyledModalContent ref={imageRef}>
         <ResolutionMessage isMessageExist={isRegistration ?? false} />
       </StyledModalContent>
