@@ -172,8 +172,8 @@ const TitleSection = styled.div`
   color: ${colors.white};
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    width: 163px;
-    min-width: 163px;
+    width: fit-content;
+    min-width: fit-content;
     max-width: 163px;
     height: 48px;
     max-height: 48px;
@@ -181,13 +181,8 @@ const TitleSection = styled.div`
   }
 
   @media ${MB_MID_MEDIA_QUERY} {
-    width: 128px;
-    min-width: 128px;
-    max-width: 128px;
-  }
-  @media ${MB_SM_MEDIA_QUERY} {
-    width: 128px;
-    min-width: 128px;
+    width: fit-content;
+    min-width: fit-content;
     max-width: 128px;
   }
 `;
@@ -256,7 +251,9 @@ const ResizedProfileImage = styled(ResizedImage)<{ hide?: boolean }>`
 
 const HeaderSection = styled.div`
   display: flex;
+  gap: 9px;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 8px;
   width: 100%;
   height: 24px;
@@ -272,14 +269,17 @@ const TagSection = styled.div`
 `;
 
 const InfoSection = styled.div`
+  display: ${'-webkit-box'};
   margin-top: 11px;
   width: 100%;
 
   ${fonts.BODY_16_M};
 
   max-height: 79.6px;
-  overflow-y: auto;
+  overflow: hidden;
   text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 
   &::-webkit-scrollbar {
     display: none;
