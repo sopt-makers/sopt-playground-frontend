@@ -237,12 +237,12 @@ const ButtonWrapper = styled.section`
 const StyledButton = styled.button<{ color: 'primary' | 'secondary' }>`
   display: flex;
   border-radius: 100px;
-  background-color: ${({ color }) => (color === 'primary' ? '#BDEC00' : '#FAFFE3')};
+  background-color: ${({ color }) => (color === 'primary' ? '#5BA3FF' : '#C4DEFF')};
   padding: 10px 16px;
   width: fit-content;
 
   &:hover {
-    background-color: ${({ color }) => (color === 'primary' ? '#DDFF52' : '#F3FFC2')};
+    background-color: ${({ color }) => (color === 'primary' ? '#84BAFF' : '#B3D4FF')};
   }
 `;
 
