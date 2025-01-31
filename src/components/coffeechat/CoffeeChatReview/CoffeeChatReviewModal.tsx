@@ -168,8 +168,8 @@ const StBackground = styled.div`
   overflow: hidden;
   @media ${MOBILE_MEDIA_QUERY} {
     top: 0;
-    align-items: center;
-    padding-top: 0;
+    align-items: flex-start;
+    padding-top: 50px;
     padding-bottom: 32px;
     height: 100lvh;
   }

@@ -269,14 +269,17 @@ const TagSection = styled.div`
 `;
 
 const InfoSection = styled.div`
+  display: ${'-webkit-box'};
   margin-top: 11px;
   width: 100%;
 
   ${fonts.BODY_16_M};
 
   max-height: 79.6px;
-  overflow-y: auto;
+  overflow: hidden;
   text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 
   &::-webkit-scrollbar {
     display: none;
