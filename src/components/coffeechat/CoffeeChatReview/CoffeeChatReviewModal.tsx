@@ -66,14 +66,21 @@ export const CoffeeChatReviewModal: React.FC<CoffeeChatReviewModalProps> = ({
   } = useVisibleBadges(coffeeChatTopicType || [], ELLIPSIS_WIDTH, BADGE_GAP);
 
   useEffect(() => {
+    const preventScroll = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+
     if (isPopupVisible) {
       document.body.style.overflow = 'hidden';
+      document.addEventListener('touchmove', preventScroll, { passive: false });
     } else {
       document.body.style.overflow = 'auto';
+      document.removeEventListener('touchmove', preventScroll);
     }
 
     return () => {
       document.body.style.overflow = 'auto';
+      document.removeEventListener('touchmove', preventScroll);
     };
   }, [isPopupVisible]);
 
@@ -166,10 +173,11 @@ const StBackground = styled.div`
   width: 100vw;
   height: 100dvh;
   overflow: hidden;
+  overscroll-behavior: contain; /* iOS 스크롤 튕김 방지 */
   @media ${MOBILE_MEDIA_QUERY} {
     top: 0;
-    align-items: flex-start;
-    padding-top: 40px;
+    align-items: center;
+    padding-top: 0;
     padding-bottom: 32px;
     height: 100dvh;
   }
