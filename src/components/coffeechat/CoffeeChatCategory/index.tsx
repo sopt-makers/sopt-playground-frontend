@@ -58,15 +58,15 @@ export default function CoffeeChatCategory() {
       ...(search && { search }), // search는 빈 문자열이 아닌 경우만 추가}
     });
   }, [section, topicType, career, part, search]);
-  const formatSoptActivities = (soptActivities: string[])=> {
+  const formatSoptActivities = (soptActivities: string[]) => {
     const generations = soptActivities
-      .map((item) => parseInt(item.match(/^\d+/)?.[0] || "", 10)) // 숫자 문자열을 숫자로 변환
+      .map((item) => parseInt(item.match(/^\d+/)?.[0] || '', 10)) // 숫자 문자열을 숫자로 변환
       .filter((num) => !isNaN(num)); // NaN 값 제거
     const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
     return { generation: generations, part: parts };
   };
   const { data, isLoading } = useGetMembersCoffeeChat(queryParams);
-  
+
   const { logSubmitEvent } = useEventLogger();
   const SelectionArea = (): JSX.Element => {
     return (
@@ -83,15 +83,17 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {TOPIC_FILTER_OPTIONS.map((option) => (
-              <LoggingClick eventKey='coffeechatFilter'
-              param={{
-                topic_tag:topicType,
-                career:career,
-                part:part
-              }}
-            key={option.label}>
-              <SelectV2.MenuItem key={option.value} option={option} />
-           </LoggingClick>
+              <LoggingClick
+                eventKey='coffeechatFilter'
+                param={{
+                  topic_tag: topicType,
+                  career: career,
+                  part: part,
+                }}
+                key={option.label}
+              >
+                <SelectV2.MenuItem key={option.value} option={option} />
+              </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -108,15 +110,17 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {CAREER_FILTER_OPTIONS.map((option) => (
-             <LoggingClick eventKey='coffeechatFilter'
-               param={{
-               topic_tag:topicType,
-                career:career,
-                 part:part
-                 }}
-                key={option.label}>
-              <SelectV2.MenuItem key={option.value} option={option} />
-            </LoggingClick>
+              <LoggingClick
+                eventKey='coffeechatFilter'
+                param={{
+                  topic_tag: topicType,
+                  career: career,
+                  part: part,
+                }}
+                key={option.label}
+              >
+                <SelectV2.MenuItem key={option.value} option={option} />
+              </LoggingClick>
             ))}
           </SelectV2.Menu>
         </SelectV2.Root>
@@ -133,14 +137,16 @@ export default function CoffeeChatCategory() {
           </SelectV2.Trigger>
           <SelectV2.Menu>
             {PART_FILTER_OPTIONS.map((option) => (
-              <LoggingClick eventKey='coffeechatFilter'
-               param={{
-               topic_tag:topicType,
-               career:career,
-               part:part
+              <LoggingClick
+                eventKey='coffeechatFilter'
+                param={{
+                  topic_tag: topicType,
+                  career: career,
+                  part: part,
                 }}
-                key={option.label}>
-              <SelectV2.MenuItem key={option.value} option={option} />
+                key={option.label}
+              >
+                <SelectV2.MenuItem key={option.value} option={option} />
               </LoggingClick>
             ))}
           </SelectV2.Menu>
@@ -156,15 +162,15 @@ export default function CoffeeChatCategory() {
       </Header>
       <CategoryList>
         {categoryList.categoryList.map((option) => (
-          <LoggingClick eventKey='coffeechatSection' key={option.categoryName} param={{section:option.categoryName}} >
-          <CategoryCard
-            isActive={section === option.categoryName}
-            onClick={() => setSection(option.categoryName)}
-            key={option.categoryName}
-          >
-            <CardIcon src={option.icon}></CardIcon>
-            <CardName>{option.categoryName}</CardName>
-          </CategoryCard>
+          <LoggingClick eventKey='coffeechatSection' key={option.categoryName} param={{ section: option.categoryName }}>
+            <CategoryCard
+              isActive={section === option.categoryName}
+              onClick={() => setSection(option.categoryName)}
+              key={option.categoryName}
+            >
+              <CardIcon src={option.icon}></CardIcon>
+              <CardName>{option.categoryName}</CardName>
+            </CategoryCard>
           </LoggingClick>
         ))}
       </CategoryList>
@@ -178,9 +184,9 @@ export default function CoffeeChatCategory() {
             value={clientSearch}
             onChange={(e) => setClientSearch(e.target.value)}
             onSubmit={() => {
-              logSubmitEvent('searchCoffeeChat',{
-               search_content:clientSearch
-              })
+              logSubmitEvent('searchCoffeeChat', {
+                search_content: clientSearch,
+              });
               setSearch(clientSearch);
             }}
             onReset={() => setClientSearch('')}
@@ -193,9 +199,9 @@ export default function CoffeeChatCategory() {
           value={clientSearch}
           onChange={(e) => setClientSearch(e.target.value)}
           onSubmit={() => {
-            logSubmitEvent('searchCoffeeChat',{
-             search_content:clientSearch
-            })
+            logSubmitEvent('searchCoffeeChat', {
+              search_content: clientSearch,
+            });
             setSearch(clientSearch);
           }}
           onReset={() => setClientSearch('')}
@@ -218,71 +224,78 @@ export default function CoffeeChatCategory() {
               </MobileFilterTrigger>
             )}
           />
-        <LoggingClick eventKey='coffeechatFilter'
+          <LoggingClick
+            eventKey='coffeechatFilter'
             param={{
-           topic_tag:topicType,
-           career:career,
-           part:part
-          }}>
-          <StyledMobileFilter
-            value={topicType}
-            onChange={(e: string) => setTopicType(TOPIC_FILTER_OPTIONS[parseInt(e) - 1].label)}
-            options={TOPIC_FILTER_OPTIONS.map((option) => ({
-              value: option.value.toString(),
-              label: option.label,
-            }))}
-            placeholder='주제'
-            trigger={(placeholder) => (
-              <MobileFilterTrigger selected={topicType.length > 0}>
-                {topicType ? topicType : placeholder}
-                <StyledChevronDown />
-              </MobileFilterTrigger>
-            )}
-          />
+              topic_tag: topicType,
+              career: career,
+              part: part,
+            }}
+          >
+            <StyledMobileFilter
+              value={topicType}
+              onChange={(e: string) => setTopicType(TOPIC_FILTER_OPTIONS[parseInt(e) - 1].label)}
+              options={TOPIC_FILTER_OPTIONS.map((option) => ({
+                value: option.value.toString(),
+                label: option.label,
+              }))}
+              placeholder='주제'
+              trigger={(placeholder) => (
+                <MobileFilterTrigger selected={topicType.length > 0}>
+                  {topicType ? topicType : placeholder}
+                  <StyledChevronDown />
+                </MobileFilterTrigger>
+              )}
+            />
           </LoggingClick>
-         <LoggingClick eventKey='coffeechatFilter'
+          <LoggingClick
+            eventKey='coffeechatFilter'
             param={{
-           topic_tag:topicType,
-           career:career,
-           part:part
-          }}>
-          <StyledMobileFilter
-            value={career}
-            onChange={(e: string) => setCareer(CAREER_FILTER_OPTIONS[parseInt(e) - 1].label)}
-            options={CAREER_FILTER_OPTIONS.map((option) => ({
-              value: option.value.toString(),
-              label: option.label,
-            }))}
-            placeholder='경력'
-            trigger={(placeholder) => (
-              <MobileFilterTrigger selected={career.length > 0}>
-                {career ? career : placeholder}
-                <StyledChevronDown />
-              </MobileFilterTrigger>
-            )}
-          />
+              topic_tag: topicType,
+              career: career,
+              part: part,
+            }}
+          >
+            <StyledMobileFilter
+              value={career}
+              onChange={(e: string) => setCareer(CAREER_FILTER_OPTIONS[parseInt(e) - 1].label)}
+              options={CAREER_FILTER_OPTIONS.map((option) => ({
+                value: option.value.toString(),
+                label: option.label,
+              }))}
+              placeholder='경력'
+              trigger={(placeholder) => (
+                <MobileFilterTrigger selected={career.length > 0}>
+                  {career ? career : placeholder}
+                  <StyledChevronDown />
+                </MobileFilterTrigger>
+              )}
+            />
           </LoggingClick>
-         <LoggingClick eventKey='coffeechatFilter'
+          <LoggingClick
+            eventKey='coffeechatFilter'
             param={{
-           topic_tag:topicType,
-           career:career,
-           part:part
-          }}>
-          <StyledMobileFilter
-            value={part}
-            onChange={(e: string) => setPart(PART_FILTER_OPTIONS[parseInt(e) - 1].label)}
-            options={PART_FILTER_OPTIONS.map((option) => ({
-              value: option.value.toString(),
-              label: option.label,
-            }))}
-            placeholder='파트'
-            trigger={(placeholder) => (
-              <MobileFilterTrigger selected={part.length > 0}>
-                {part ? part : placeholder}
-                <StyledChevronDown />
-              </MobileFilterTrigger>
-            )}
-          /></LoggingClick>
+              topic_tag: topicType,
+              career: career,
+              part: part,
+            }}
+          >
+            <StyledMobileFilter
+              value={part}
+              onChange={(e: string) => setPart(PART_FILTER_OPTIONS[parseInt(e) - 1].label)}
+              options={PART_FILTER_OPTIONS.map((option) => ({
+                value: option.value.toString(),
+                label: option.label,
+              }))}
+              placeholder='파트'
+              trigger={(placeholder) => (
+                <MobileFilterTrigger selected={part.length > 0}>
+                  {part ? part : placeholder}
+                  <StyledChevronDown />
+                </MobileFilterTrigger>
+              )}
+            />
+          </LoggingClick>
         </StyledMobileFilterWrapper>
       </Responsive>
       {isLoading ? (
@@ -291,47 +304,47 @@ export default function CoffeeChatCategory() {
         </LoadingContainer>
       ) : (
         <>
-          {(data?.coffeeChatList&&data?.coffeeChatList?.length<=0) && (
+          {data?.coffeeChatList && data?.coffeeChatList?.length <= 0 && (
             <StyledEmpty>
               <EmptyTitle>OMG... 검색 결과가 없어요.</EmptyTitle>
               <EmptyDescription>검색어를 바르게 입력했는지 확인하거나, 필터를 변경해보세요.</EmptyDescription>
             </StyledEmpty>
           )}
           <StyledCardList>
-          {data?.coffeeChatList
-          ?.sort((a, b) => (b.isMine === true ? 1 : -1) - (a.isMine === true ? 1 : -1)) // isMine이 true인 항목을 앞으로 정렬
-          .map((item) => (
-                  <LoggingClick 
-                  key={String(item?.name)} 
-                    eventKey='coffeechatCard' 
-                    param={{
-                    career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
-                    organization:item?.organization,  
-                    job:item.companyJob||undefined,
-                    section:section,
-                    title:item.bio||undefined,
-                    topic_tag: topicType && topicType !== "" && topicType !== "전체" ? topicType : undefined,
-                    ...formatSoptActivities(item?.soptActivities||[]),
-                  }
-                  }>
-                    <div>
-              <CoffeeChatCard
-                key={String(item.memberId)}
-                id={String(item.memberId)}
-                name={item.name ?? ''}
-                topicTypeList={item.topicTypeList ?? ['']}
-                career={item.career ?? ''}
-                profileImage={item.profileImage ?? ''}
-                organization={item.organization ?? ''}
-                companyJob={item.companyJob ?? ''}
-                soptActivities={item.soptActivities ?? ['']}
-                title={item.bio ?? ''}
-                isBlurred={item.isBlind ?? false}
-                isMine={item.isMine ?? false}
-              />
-              </div>
-              </LoggingClick>
-            ))}
+            {data?.coffeeChatList
+              ?.sort((a, b) => (b.isMine === true ? 1 : -1) - (a.isMine === true ? 1 : -1)) // isMine이 true인 항목을 앞으로 정렬
+              .map((item) => (
+                <LoggingClick
+                  key={String(item?.name)}
+                  eventKey='coffeechatCard'
+                  param={{
+                    career: item.career === '아직 없음' ? '없음' : item.career?.split(' ')[0],
+                    organization: item?.organization,
+                    job: item.companyJob || undefined,
+                    section: section,
+                    title: item.bio || undefined,
+                    topic_tag: topicType && topicType !== '' && topicType !== '전체' ? topicType : undefined,
+                    ...formatSoptActivities(item?.soptActivities || []),
+                  }}
+                >
+                  <div>
+                    <CoffeeChatCard
+                      key={String(item.memberId)}
+                      id={String(item.memberId)}
+                      name={item.name ?? ''}
+                      topicTypeList={item.topicTypeList ?? ['']}
+                      career={item.career ?? ''}
+                      profileImage={item.profileImage ?? ''}
+                      organization={item.organization ?? ''}
+                      companyJob={item.companyJob ?? ''}
+                      soptActivities={item.soptActivities ?? ['']}
+                      title={item.bio ?? ''}
+                      isBlurred={item.isBlind ?? false}
+                      isMine={item.isMine ?? false}
+                    />
+                  </div>
+                </LoggingClick>
+              ))}
           </StyledCardList>
         </>
       )}
@@ -359,7 +372,6 @@ const Container = styled.div`
   @media ${PCTA_S_MEDIA_QUERY} {
     margin-top: 28px;
   }
-
 `;
 
 const Header = styled.div`
