@@ -142,6 +142,7 @@ const SoptContainer = styled.div`
 
 const TagWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 `;
 

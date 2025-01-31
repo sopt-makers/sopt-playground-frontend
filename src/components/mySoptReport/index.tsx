@@ -28,7 +28,7 @@ export default function MySoptReport() {
       });
     } else if (tab === 'playground') {
       window.scrollTo({
-        top: 2100,
+        top: 2250,
         behavior: 'smooth',
       });
     } else if (tab === 'my-pg') {
@@ -52,9 +52,9 @@ export default function MySoptReport() {
     // MEMO: 버튼 클릭으로 인한 스크롤 변경일 경우, tab 변경을 막기 위함
     if (flag) return;
 
-    if (scrollY >= 600 && scrollY < 2100) {
+    if (scrollY >= 600 && scrollY < 2250) {
       setActiveTab('sopt');
-    } else if (scrollY >= 2100 && scrollY < 6000) {
+    } else if (scrollY >= 2250 && scrollY < 6000) {
       setActiveTab('playground');
     } else if (scrollY >= 6000) {
       setActiveTab('my-pg');

@@ -21,7 +21,7 @@ export default function PopularMeetingSpotRank({
         const { line, color } = stationLineMapping[spot] || {};
 
         return (
-          <Station key={spot} color={color} ratio={ratio}>
+          <Station key={spot} color={color} ratio={ratio * 2}>
             <StationText>
               <Circle color={color}>{line}</Circle>
               <>{spot}</>
@@ -68,7 +68,7 @@ const Station = styled.div<{ color: string; ratio: number }>`
   border-radius: 100px;
   background-color: ${colors.white};
   padding: 8px 14px;
-  width: ${({ ratio }) => ratio}%;
+  width: ${({ ratio }) => (ratio > 100 ? 100 : 35 > ratio ? 35 : ratio)}%;
   color: ${colors.black};
 
   ${fonts.BODY_16_M};

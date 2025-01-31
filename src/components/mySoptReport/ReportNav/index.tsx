@@ -79,7 +79,7 @@ const Menus = styled.nav<{ isFixed: boolean }>`
     css`
       position: fixed;
       top: 80px;
-      transition: top 0.3s ease-in-out;
+      transition: top 0.1s ease-in-out;
       z-index: 100;
 
       @media ${MOBILE_MEDIA_QUERY} {

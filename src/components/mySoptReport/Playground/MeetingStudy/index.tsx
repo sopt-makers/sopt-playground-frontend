@@ -36,7 +36,7 @@ export default function MeetingStudy({ reportData }: { reportData: PlaygroundRep
             <Tooltip>
               <TextWrapper>{reportData.CrewPopularGroupInfoTable.feedCount}개</TextWrapper>
             </Tooltip>
-            <ReportBigText>{reportData.CrewPopularGroupInfoTable.groupName}</ReportBigText>
+            <ReportBigText>💻 {reportData.CrewPopularGroupInfoTable.groupName}</ReportBigText>
             <ImgWrapper src={reportData.CrewPopularGroupInfoTable.imageUrl} alt='모임 이미지' />
             <Responsive only='desktop'>
               <ButtonWrapper
