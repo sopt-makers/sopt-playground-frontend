@@ -153,24 +153,6 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
   max-height: 227.6px;
   overflow: hidden;
 
-  ${({ isEmptyData }) =>
-    isEmptyData &&
-    css`
-      pointer-events: none;
-    `};
-  ${({ isBlurred }) =>
-    isBlurred &&
-    css`
-      position: relative;
-
-      /* filter: blur(5px); */
-    `};
-  ${({ isMine }) =>
-    isMine &&
-    css`
-      border: 1px solid ${colors.gray200};
-    `};
-
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 32px;
   }

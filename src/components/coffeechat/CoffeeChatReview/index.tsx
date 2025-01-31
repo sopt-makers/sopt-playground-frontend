@@ -106,7 +106,9 @@ export default function CoffeeChatReviewList() {
       )}
 
       <Header>
-        <Title>{isLoading ? '' : isEmptyData ? '따끈한 후기가 도착했어요💌' : '따끈한 후기가 도착했어요💌'}</Title>
+        <Title>
+          <>따끈한 후기가 도착했어요💌</>
+        </Title>
       </Header>
       {isLoading ? (
         <LoadingContainer>
