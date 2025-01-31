@@ -10,7 +10,7 @@ const CoffeeChatMainPage = () => {
     <AuthRequired>
       <CoffeeChatLottie />
       <CoffeeChatRecentList />
-      {/* <CoffeeChatReviewList /> */}
+      <CoffeeChatReviewList />
       <CoffeeChatCategory />
     </AuthRequired>
   );
