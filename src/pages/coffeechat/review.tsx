@@ -45,6 +45,17 @@ const CoffeeChatReviewUpload = () => {
       logSubmitEvent('coffeechatReview');
       router.push(playgroundLink.coffeechat());
     },
+    onError: () => {
+      toastOpen({
+        icon: 'error',
+        content: '문제가 발생했어요.',
+        style: {
+          content: {
+            whiteSpace: 'pre-wrap',
+          },
+        },
+      });
+    },
   });
   const selectOptions = data?.coffeeChatHistories.map((item) => ({
     label: item.coffeeChatBio || '',
