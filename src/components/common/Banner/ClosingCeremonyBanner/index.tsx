@@ -10,14 +10,21 @@ import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ResolutionReadModal from '@/components/resolution/read/ResolutionReadModal';
 import { LATEST_GENERATION } from '@/constants/generation';
-import desktopBanner from '@/public/icons/img/banner_closing-ceremony_desktop.png';
-import mobileBanner from '@/public/icons/img/banner_closing-ceremony_mobile.png';
-import mobileResolutionBanner from '@/public/icons/img/banner_closing-ceremony_mobile_resolution.png';
+import closingCeremonyBannerDesktop from '@/public/icons/img/banner_closing-ceremony_desktop.png';
+import closingCeremonyBannerMobile from '@/public/icons/img/banner_closing-ceremony_mobile.png';
+import mySoptReportBannerDesktop from '@/public/icons/img/banner_my-sopt-report_desktop.png';
+import mySoptReportBannerMobile from '@/public/icons/img/banner_my-sopt-report_mobile.png';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type BannerType = {
-  desktop: string;
-  mobile: { [key: string]: string };
+  default: {
+    desktop: string;
+    mobile: string;
+  };
+  resolution: {
+    desktop: string;
+    mobile: string;
+  };
 };
 
 type textType = {
@@ -49,8 +56,14 @@ export const ClosingCeremonyBanner = () => {
   const is35 = myData?.generation === LATEST_GENERATION;
 
   const Banner: BannerType = {
-    desktop: desktopBanner.src,
-    mobile: { default: mobileBanner.src, resolution: mobileResolutionBanner.src },
+    default: {
+      desktop: mySoptReportBannerDesktop.src,
+      mobile: mySoptReportBannerMobile.src,
+    },
+    resolution: {
+      desktop: closingCeremonyBannerDesktop.src,
+      mobile: closingCeremonyBannerMobile.src,
+    },
   };
 
   const text: textType = {
@@ -120,10 +133,10 @@ export const ClosingCeremonyBanner = () => {
             </ButtonWrapper>
           </Contents>
           <Responsive only='desktop'>
-            <StyledBanner src={Banner.desktop} />
+            <StyledBanner src={is35 ? Banner.resolution.desktop : Banner.default.desktop} />
           </Responsive>
           <Responsive only='mobile'>
-            <StyledBanner src={is35 ? Banner.mobile.resolution : Banner.mobile.default} />
+            <StyledBanner src={is35 ? Banner.resolution.mobile : Banner.default.mobile} />
           </Responsive>
         </ClosingCeremonyBannerWrapper>
       )}
