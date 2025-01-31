@@ -172,8 +172,8 @@ const TitleSection = styled.div`
   color: ${colors.white};
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    width: 163px;
-    min-width: 163px;
+    width: fit-content;
+    min-width: fit-content;
     max-width: 163px;
     height: 48px;
     max-height: 48px;
@@ -181,13 +181,8 @@ const TitleSection = styled.div`
   }
 
   @media ${MB_MID_MEDIA_QUERY} {
-    width: 128px;
-    min-width: 128px;
-    max-width: 128px;
-  }
-  @media ${MB_SM_MEDIA_QUERY} {
-    width: 128px;
-    min-width: 128px;
+    width: fit-content;
+    min-width: fit-content;
     max-width: 128px;
   }
 `;

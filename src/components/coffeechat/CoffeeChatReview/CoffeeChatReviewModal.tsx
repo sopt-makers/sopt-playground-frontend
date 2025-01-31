@@ -164,13 +164,14 @@ const StBackground = styled.div`
   padding-top: 5px;
   padding-bottom: 100px;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
   @media ${MOBILE_MEDIA_QUERY} {
     top: 0;
     align-items: center;
     padding-top: 0;
     padding-bottom: 32px;
+    height: 100lvh;
   }
 `;
 const StPopupModal = styled.div`
