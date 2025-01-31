@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
 import { ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
-import Text from '@/components/common/Text';
 import MemberDetailSection from '@/components/members/detail/ActivitySection/MemberDetailSection';
 import InfoItem from '@/components/members/detail/InfoItem';
 
@@ -11,9 +10,11 @@ interface DetailInfoSectionProps {
 }
 
 const DetailInfoSection = ({ profile }: DetailInfoSectionProps) => {
-  const hasProfileInfo = profile.birthday || profile.university || profile.major || profile.address;
+  const hasProfileInfo = profile.university || profile.major || profile.address;
 
-  return hasProfileInfo ? (
+  if (!hasProfileInfo) return null;
+
+  return (
     <MemberDetailSection style={{ gap: '30px' }}>
       {profile.university && <InfoItem label='학교'>{profile.university}</InfoItem>}
       {profile.major && <InfoItem label='전공'>{profile.major}</InfoItem>}
@@ -21,15 +22,13 @@ const DetailInfoSection = ({ profile }: DetailInfoSectionProps) => {
         <InfoItem label='활동 지역'>
           <StyledAddressBadgeWrapper>
             {profile.address.split(',').map((address) => (
-              <AddressItem key={address}>
-                <Text typography='SUIT_18_M'>{address}</Text>
-              </AddressItem>
+              <AddressItem key={address}>{address}</AddressItem>
             ))}
           </StyledAddressBadgeWrapper>
         </InfoItem>
       )}
     </MemberDetailSection>
-  ) : null;
+  );
 };
 
 export default DetailInfoSection;
