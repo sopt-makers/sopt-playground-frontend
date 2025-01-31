@@ -49,44 +49,74 @@ export default function MessageSection({ memberId, profile }: MessageSectionProp
     router.push(playgroundLink.coffeechatDetail(memberId));
   };
 
-  return (
-    <>
-      <StyledMemberDetailSection>
-        <TitleWrapper>
-          <Title typography='SUIT_18_SB'>{name}님과 나누고 싶은 이야기가 있나요?</Title>
-          <Subtitle typography='SUIT_16_M' color={colors.gray300}>
-            궁금한 점에 대해 편하게 소통해보세요!
-          </Subtitle>
-        </TitleWrapper>
-        <ButtonWrapper>
-          {isCoffeeChatActivate && (
-            <CoffeeChatButton size='sm' theme='black' onClick={handleClickCoffeeChatButton}>
-              커피챗 보러가기
-            </CoffeeChatButton>
-          )}
-          <MessageButton size='sm' onClick={handleClickMessageButton} disabled={isEmptyEmail}>
-            쪽지 보내기
-          </MessageButton>
-        </ButtonWrapper>
-      </StyledMemberDetailSection>
-      {isOpenMessageModal && (
-        <MessageModal
-          receiverId={memberId}
-          name={name}
-          profileImageUrl={profileImage}
-          onClose={onCloseMessageModal}
-          defaultCategory={MessageCategory.NETWORK}
-          onLog={(options) =>
-            logSubmitEvent('sendMessage', {
-              category: options?.category?.toString() ?? '',
-              receiverId: +memberId,
-              referral: 'memberDetail',
-            })
-          }
-        />
-      )}
-    </>
-  );
+  const handleClickCoffeeChatOpenButton = () => {
+    router.push(playgroundLink.coffeechatUpload());
+  };
+
+  const Mine = () => {
+    return (
+      <>
+        {!profile.isCoffeeChatActivate && (
+          <StyledMemberDetailSection>
+            <TitleWrapper>
+              <Title typography='SUIT_18_SB'>SOPT 회원들과 나누고 싶은 이야기가 있나요?</Title>
+              <Subtitle typography='SUIT_16_M' color={colors.gray300}>
+                어떤 내용이라도 좋아요. 편하게 오픈해 보세요!
+              </Subtitle>
+            </TitleWrapper>
+            <ButtonWrapper>
+              <CoffeeChatButton size='sm' theme='black' onClick={handleClickCoffeeChatOpenButton}>
+                커피챗 오픈하러 가기
+              </CoffeeChatButton>
+            </ButtonWrapper>
+          </StyledMemberDetailSection>
+        )}
+      </>
+    );
+  };
+
+  const Others = () => {
+    return (
+      <>
+        <StyledMemberDetailSection>
+          <TitleWrapper>
+            <Title typography='SUIT_18_SB'>{name}님과 나누고 싶은 이야기가 있나요?</Title>
+            <Subtitle typography='SUIT_16_M' color={colors.gray300}>
+              궁금한 점에 대해 편하게 소통해보세요!
+            </Subtitle>
+          </TitleWrapper>
+          <ButtonWrapper>
+            {isCoffeeChatActivate && (
+              <CoffeeChatButton size='sm' theme='black' onClick={handleClickCoffeeChatButton}>
+                커피챗 보러가기
+              </CoffeeChatButton>
+            )}
+            <MessageButton size='sm' onClick={handleClickMessageButton} disabled={isEmptyEmail}>
+              쪽지 보내기
+            </MessageButton>
+          </ButtonWrapper>
+        </StyledMemberDetailSection>
+        {isOpenMessageModal && (
+          <MessageModal
+            receiverId={memberId}
+            name={name}
+            profileImageUrl={profileImage}
+            onClose={onCloseMessageModal}
+            defaultCategory={MessageCategory.NETWORK}
+            onLog={(options) =>
+              logSubmitEvent('sendMessage', {
+                category: options?.category?.toString() ?? '',
+                receiverId: +memberId,
+                referral: 'memberDetail',
+              })
+            }
+          />
+        )}
+      </>
+    );
+  };
+
+  return profile.isMine ? <Mine /> : <Others />;
 }
 
 const StyledMemberDetailSection = styled(MemberDetailSection)`

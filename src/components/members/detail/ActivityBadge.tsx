@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { FC } from 'react';
 
+import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
 
 interface ActivityBadgeProps {
   category?: string;
@@ -11,21 +11,20 @@ interface ActivityBadgeProps {
 }
 
 const ActivityBadge: FC<ActivityBadgeProps> = ({ category, name }) => {
-  return <Container>{`${category} ${name}`}</Container>;
+  return (
+    <Container>
+      <Category typography='SUIT_13_M'>{category}</Category>
+      <Text typography='SUIT_13_M'>{name}</Text>
+    </Container>
+  );
 };
 
 const Container = styled.div`
   display: flex;
   align-items: center;
-  transition: background-color 0.2s;
-  border-radius: 13px;
+  border-radius: 28px;
   background-color: ${colors.gray700};
   padding: 6px 14px;
-  line-height: 100%;
-  letter-spacing: -0.01em;
-  color: ${colors.gray10};
-
-  ${textStyles.SUIT_14_M}
 
   &:hover {
     background-color: ${colors.gray600};
@@ -35,6 +34,20 @@ const Container = styled.div`
     margin: 0;
     width: fit-content;
     white-space: nowrap;
+  }
+`;
+
+const Category = styled(Text)`
+  display: flex;
+  align-items: center;
+
+  ::after {
+    display: inline-block;
+    margin: 0 10px;
+    background-color: ${colors.gray400};
+    width: 1px;
+    height: 14px;
+    content: '';
   }
 `;
 

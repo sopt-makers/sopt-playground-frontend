@@ -8,11 +8,12 @@ import { Category } from '@/components/projects/types';
 
 interface SoptActivitySectionProps {
   soptActivities: SoptActivity[];
+  isMine?: boolean;
 }
 
-export default function SoptActivitySection({ soptActivities }: SoptActivitySectionProps) {
+export default function SoptActivitySection({ soptActivities, isMine }: SoptActivitySectionProps) {
   return (
-    <MemberDetailSection style={{ gap: '34px' }}>
+    <MemberDetailSection>
       {soptActivities.map(({ generation, part, projects, team }, idx) => (
         <PartItem
           key={idx}
@@ -24,6 +25,7 @@ export default function SoptActivitySection({ soptActivities }: SoptActivitySect
             href: playgroundLink.projectDetail(project.id),
           }))}
           teams={team !== null ? [team] : []}
+          isMine={isMine}
         />
       ))}
     </MemberDetailSection>

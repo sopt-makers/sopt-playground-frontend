@@ -21,9 +21,9 @@ const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps
   const { logClickEvent } = useEventLogger();
 
   return (
-    <Container>
+    <>
       {profile.projects.length > 0 ? (
-        <>
+        <Container>
           <ActivityTitle>
             {profile.name}님이 참여한 {profile.projects.length}개의 프로젝트예요!
           </ActivityTitle>
@@ -32,11 +32,11 @@ const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps
               <MemberProjectCard key={project.id} {...project} />
             ))}
           </ActivityDisplay>
-        </>
+        </Container>
       ) : (
         <>
-          {String(meId) === memberId ? (
-            <>
+          {String(meId) === memberId && (
+            <Container>
               <ActivityTitle>아직 등록한 프로젝트가 없어요</ActivityTitle>
               <ActivityUploadNudge>
                 <NudgeSubText typography='SUIT_16_M' style={{ textAlign: 'center', lineHeight: '24px' }}>
@@ -51,13 +51,11 @@ const ProjectSection = ({ profile, memberId, meId }: ProjectActivitySectionProps
                 </ActivityUploadButton>
                 <ActivityUploadMaskImg src='/icons/img/project-mask.png' alt='project-mask-image' height={317} />
               </ActivityUploadNudge>
-            </>
-          ) : (
-            <ActivityTitle>아직 {profile.name}님이 참여한 프로젝트가 없어요</ActivityTitle>
+            </Container>
           )}
         </>
       )}
-    </Container>
+    </>
   );
 };
 

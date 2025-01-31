@@ -79,7 +79,7 @@ export default function CoffeechatDetail({ memberId }: CoffeechatDetailProp) {
                 isMine={profile.isMine}
                 isCoffeechatTap
               />
-              <DetailInfoSection profile={profile} isCoffeechat />
+              <DetailInfoSection profile={profile} />
             </ProfileContents>
             <SoptActivityTitle>SOPT 활동 정보</SoptActivityTitle>
             <SoptActivitySection soptActivities={sortedSoptActivities} />
@@ -110,18 +110,6 @@ const ProfilPojectSection = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 40px 0 20px;
-  }
-`;
-
-const SoptActivityTitle = styled.h2`
-  margin: 60px 0 32px;
-  color: ${colors.white};
-  ${fonts.HEADING_28_B};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin: 40px 0 20px;
-
-    ${fonts.HEADING_20_B};
   }
 `;
 
@@ -156,7 +144,9 @@ const CoffeechatTitle = styled.h1`
   @media ${MOBILE_MEDIA_QUERY} {
     ${fonts.HEADING_28_B};
 
-    height: 84px;
+    -webkit-line-clamp: 10;
+    height: auto;
+    min-height: 84px;
   }
 `;
 
@@ -166,4 +156,16 @@ const CoffeechatHeader = styled.header`
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 24px;
+`;
+
+const SoptActivityTitle = styled.h2`
+  margin: 60px 0 32px;
+  color: ${colors.white};
+  ${fonts.HEADING_28_B};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin: 40px 0 20px;
+
+    ${fonts.HEADING_20_B};
+  }
 `;
