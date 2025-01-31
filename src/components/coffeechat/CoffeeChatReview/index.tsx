@@ -91,6 +91,9 @@ export default function CoffeeChatReviewList() {
     };
   }, []);
 
+  if (dataList.length <= 0) {
+    return <></>;
+  }
   return (
     <Container>
       {isPopupVisible && (
