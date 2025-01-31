@@ -10,9 +10,11 @@ interface DetailInfoSectionProps {
 }
 
 const DetailInfoSection = ({ profile }: DetailInfoSectionProps) => {
-  const hasProfileInfo = profile.birthday || profile.university || profile.major || profile.address;
+  const hasProfileInfo = profile.university || profile.major || profile.address;
 
-  return hasProfileInfo ? (
+  if (!hasProfileInfo) return;
+
+  return (
     <MemberDetailSection style={{ gap: '30px' }}>
       {profile.university && <InfoItem label='학교'>{profile.university}</InfoItem>}
       {profile.major && <InfoItem label='전공'>{profile.major}</InfoItem>}
@@ -26,7 +28,7 @@ const DetailInfoSection = ({ profile }: DetailInfoSectionProps) => {
         </InfoItem>
       )}
     </MemberDetailSection>
-  ) : null;
+  );
 };
 
 export default DetailInfoSection;
