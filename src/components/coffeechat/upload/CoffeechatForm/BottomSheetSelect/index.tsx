@@ -134,7 +134,6 @@ const InputField = styled.div<{ disabled: boolean }>`
   ${fonts.BODY_16_M};
 
   width: 100%;
-
   pointer-events: ${({ disabled }) => disabled && 'none'};
 `;
 
