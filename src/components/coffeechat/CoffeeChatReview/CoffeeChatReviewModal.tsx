@@ -169,7 +169,7 @@ const StBackground = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     top: 0;
     align-items: flex-start;
-    padding-top: 50px;
+    padding-top: 40px;
     padding-bottom: 32px;
     height: 100lvh;
   }
