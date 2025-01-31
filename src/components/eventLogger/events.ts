@@ -181,9 +181,13 @@ export interface ClickEvents {
   senderPhone: undefined;
   coffeechatBanner: undefined;
   sendCoffeechat: undefined;
+
+  coffeechatReviewCard: undefined;
+
   hideAdPopupToday: undefined;
   adPopupBody: undefined;
   adPopupClose: undefined;
+
 }
 
 export interface SubmitEvents {
@@ -229,6 +233,7 @@ export interface SubmitEvents {
   openCoffeechat: Coffeechat;
   coffeechatDelete: undefined;
   editCoffeechat: undefined;
+  coffeechatReview: undefined;
 }
 
 export interface PageViewEvents {
