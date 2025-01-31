@@ -12,7 +12,7 @@ function ImageContent() {
     <>
       <Content ref={imageRef}>
         <ResolutionWrapper>
-          <ResolutionMessage />
+          <ResolutionMessage isMessageExist={false} />
         </ResolutionWrapper>
       </Content>
       <Footer align='stretch'>
