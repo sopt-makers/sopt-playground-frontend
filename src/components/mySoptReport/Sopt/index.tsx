@@ -4,7 +4,7 @@ import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
 import PopularMeetingSpotRank from '@/components/mySoptReport/Sopt/PopularMeetingSpotRank';
 import ServiceCategoryRankBox from '@/components/mySoptReport/Sopt/ServiceCategoryRankBox';
-import { ReportDataType } from '@/components/mySoptReport/types';
+import { SoptReportDataType } from '@/components/mySoptReport/types';
 import NewMemberIcon from '@/public/logos/img_member.svg';
 import ServiceIcon from '@/public/logos/img_service.svg';
 import styled from '@emotion/styled';
@@ -15,11 +15,7 @@ import { Button, Tag } from '@sopt-makers/ui';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
-interface SoptProps {
-  reportData: ReportDataType;
-}
-
-export default function Sopt({ reportData }: SoptProps) {
+export default function Sopt({ reportData }: { reportData: SoptReportDataType }) {
   return (
     <SoptContainer id='sopt'>
       <ReportTitle color={'#FF6E1D'} subTitle='차곡차곡 쌓인 솝트의 기록들' title='2024년 SOPT는' />

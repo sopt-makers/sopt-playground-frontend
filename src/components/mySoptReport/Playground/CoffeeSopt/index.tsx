@@ -2,7 +2,7 @@ import Responsive from '@/components/common/Responsive';
 import LabelButton from '@/components/mySoptReport/common/LabelButton';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
-import { ReportDataType } from '@/components/mySoptReport/types';
+import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 import CoffeSoptIcon from '@/public/logos/img_coffeechat.svg';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -13,7 +13,7 @@ import { Button } from '@sopt-makers/ui';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
-export default function CoffeeSopt({ reportData }: { reportData: ReportDataType }) {
+export default function CoffeeSopt({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
     <>
       <LabelButton>CoffeeSOPT</LabelButton>

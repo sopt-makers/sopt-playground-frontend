@@ -7,15 +7,11 @@ import CoffeeSopt from '@/components/mySoptReport/Playground/CoffeeSopt';
 import Community from '@/components/mySoptReport/Playground/Community';
 import MBTI from '@/components/mySoptReport/Playground/MBTI';
 import MeetingStudy from '@/components/mySoptReport/Playground/MeetingStudy';
-import { ReportDataType } from '@/components/mySoptReport/types';
+import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 import CalendarIcon from '@/public/logos/img_calendar.svg';
 import ConfettiIcon from '@/public/logos/img_confetti.svg';
 
-interface PlaygroundProps {
-  reportData: ReportDataType;
-}
-
-export default function Playground({ reportData }: PlaygroundProps) {
+export default function Playground({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
     <PlaygroundContainer id='playground'>
       <ReportTitle color={'#FDBBF9'} subTitle='SOPT만의 놀이터' title='2024년 플그에서는' />

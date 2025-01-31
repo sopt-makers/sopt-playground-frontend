@@ -2,7 +2,7 @@ import Responsive from '@/components/common/Responsive';
 import LabelButton from '@/components/mySoptReport/common/LabelButton';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
-import { ReportDataType } from '@/components/mySoptReport/types';
+import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 import CommunityIcon from '@/public/logos/img_community.svg';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -10,7 +10,7 @@ import { fonts } from '@sopt-makers/fonts';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
-export default function Community({ reportData }: { reportData: ReportDataType }) {
+export default function Community({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
     <>
       <LabelButton>Community</LabelButton>

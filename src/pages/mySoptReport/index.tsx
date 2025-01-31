@@ -5,7 +5,7 @@ import { setLayout } from '@/utils/layout';
 const MySoptReportPage = () => {
   return (
     <AuthRequired>
-      <MySoptReport />;
+      <MySoptReport />
     </AuthRequired>
   );
 };

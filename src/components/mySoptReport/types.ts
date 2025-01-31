@@ -42,13 +42,16 @@ export interface UserMbtiRankType {
   count: number;
 }
 
-export interface ReportDataType {
+export interface SoptReportDataType {
   // 솝트
   TotalServiceCount: number;
   ServiceCategoryRankTable: ServiceCategoryRankType[];
   PopularMeetingSpotRankTable: PopularMeetingSpotRankType[];
   NewSignUpUserCount: number;
   NewSignUpPartUserCountTable: NewSignUpPartUserCountType[];
+}
+
+export interface PlaygroundReportDataType {
   // 플그
   TotalVisitCount: number;
   PopularVisitDays: string;

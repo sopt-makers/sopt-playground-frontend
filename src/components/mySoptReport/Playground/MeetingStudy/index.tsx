@@ -3,7 +3,7 @@ import LabelButton from '@/components/mySoptReport/common/LabelButton';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
 import Tooltip from '@/components/mySoptReport/common/Tooltip';
-import { ReportDataType } from '@/components/mySoptReport/types';
+import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -12,7 +12,7 @@ import { Button } from '@sopt-makers/ui';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
-export default function MeetingStudy({ reportData }: { reportData: ReportDataType }) {
+export default function MeetingStudy({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
     <>
       <LabelButton>Meeting/Study</LabelButton>
