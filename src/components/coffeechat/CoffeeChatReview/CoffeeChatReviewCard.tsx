@@ -256,7 +256,9 @@ const ResizedProfileImage = styled(ResizedImage)<{ hide?: boolean }>`
 
 const HeaderSection = styled.div`
   display: flex;
+  gap: 9px;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 8px;
   width: 100%;
   height: 24px;
