@@ -12,7 +12,7 @@ interface DetailInfoSectionProps {
 const DetailInfoSection = ({ profile }: DetailInfoSectionProps) => {
   const hasProfileInfo = profile.university || profile.major || profile.address;
 
-  if (!hasProfileInfo) return;
+  if (!hasProfileInfo) return null;
 
   return (
     <MemberDetailSection style={{ gap: '30px' }}>
