@@ -107,27 +107,27 @@ export const ClosingCeremonyBanner = () => {
               {is35 ? (
                 <>
                   <LoggingClick eventKey='bannerOpenMyReport'>
-                    <Button color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}>
+                    <StyledButton color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}>
                       <Text typography='SUIT_12_EB' color={colors.gray700}>
                         {text.resolution.buttonContentSecondary}
                       </Text>
-                    </Button>
+                    </StyledButton>
                   </LoggingClick>
                   <LoggingClick eventKey='bannerOpenResolution'>
-                    <Button color='primary' onClick={onOpenResolutionModal}>
+                    <StyledButton color='primary' onClick={onOpenResolutionModal}>
                       <Text typography='SUIT_12_EB' color={colors.gray700}>
                         {text.resolution.buttonContentPrimary}
                       </Text>
-                    </Button>
+                    </StyledButton>
                   </LoggingClick>
                 </>
               ) : (
                 <LoggingClick eventKey='bannerOpenMyReport'>
-                  <Button color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}>
+                  <MySoptReportButton color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}>
                     <Text typography='SUIT_12_EB' color={colors.gray700}>
                       {text.default.buttonContent}
                     </Text>
-                  </Button>
+                  </MySoptReportButton>
                 </LoggingClick>
               )}
             </ButtonWrapper>
@@ -192,10 +192,26 @@ const ButtonWrapper = styled.section`
   gap: 8px;
 `;
 
-const Button = styled.button<{ color: 'primary' | 'secondary' }>`
+const StyledButton = styled.button<{ color: 'primary' | 'secondary' }>`
   display: flex;
   border-radius: 100px;
-  background-color: ${({ color }) => (color === 'primary' ? '#BDEC00' : colors.white)};
+  background-color: ${({ color }) => (color === 'primary' ? '#BDEC00' : '#FAFFE3')};
   padding: 10px 16px;
   width: fit-content;
+
+  &:hover {
+    background-color: ${({ color }) => (color === 'primary' ? '#DDFF52' : '#F3FFC2')};
+  }
+`;
+
+const MySoptReportButton = styled.button`
+  display: flex;
+  border-radius: 100px;
+  background: linear-gradient(94deg, #d1ff19 0%, #6fb0ff 91.32%);
+  padding: 10px 16px;
+  width: fit-content;
+
+  &:hover {
+    background: linear-gradient(94deg, #e6ff80 0%, #a8cfff 91.32%);
+  }
 `;
