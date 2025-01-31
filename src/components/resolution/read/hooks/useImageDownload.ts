@@ -30,15 +30,13 @@ const useImageDownload = (fileName: string) => {
     html2canvas(ref.current as HTMLDivElement, {
       backgroundColor: null,
       scale: 4,
-    })
-      .then((canvas) => {
-        removeStyle();
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = `${fileName}.png`;
-        link.click();
-      })
-      .catch(console.error);
+    }).then((canvas) => {
+      removeStyle();
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = `${fileName}.png`;
+      link.click();
+    });
   };
 
   return { ref, onClick };
