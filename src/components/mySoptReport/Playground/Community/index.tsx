@@ -11,6 +11,7 @@ import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
 import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 import CommunityIcon from '@/public/logos/img_community.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function Community({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
@@ -93,7 +94,11 @@ const LabelWrapper = styled.div`
   margin-top: 12px;
   text-decoration: underline;
   color: ${colors.gray100};
-  ${fonts.BODY_13_R};
+  ${fonts.BODY_16_R};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_13_R};
+  }
 `;
 
 const ChipWrapper = styled.div`
