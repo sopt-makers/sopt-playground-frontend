@@ -76,7 +76,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
                   </CrewItem>
                 ))
               ) : (
-                <CrewItem $index={0}>이번에 모임을 신청하지 않았어요!</CrewItem>
+                <CrewItem $index={0}>작년에 신청한 모임이 없어요</CrewItem>
               )}
               {}
             </CrewContainer>
@@ -89,7 +89,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
                   .wordList!.slice(0, 5)
                   .map((word: string, idx: number) => <WordChainChip key={idx}>{word}</WordChainChip>)
               ) : (
-                <CrewItem $index={0}>이번에 끝말잇기를 하지 않았어요!</CrewItem>
+                <CrewItem $index={0}>작년에 참여한 끝말잇기가 없어요</CrewItem>
               )}
               {}
             </WordChainContainer>
