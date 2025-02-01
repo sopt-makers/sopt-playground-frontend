@@ -34,7 +34,11 @@ export default function MyPG({ myPgData }: MyPGProps) {
   );
 }
 
-const MyPGContainer = styled.div``;
+const MyPGContainer = styled.div`
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
