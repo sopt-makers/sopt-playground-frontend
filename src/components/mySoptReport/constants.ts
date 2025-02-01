@@ -16,21 +16,21 @@ export const menuList: {
   { title: '마이 플그', mainColor: 'yellow400', textColor: 'black', id: 'my-pg' },
 ];
 
-interface CommunityStats {
+export interface CommunityStats {
   likeCount: number;
 }
 
-interface ProfileStats {
+export interface ProfileStats {
   viewCount: number;
 }
 
-interface WordChainGameStats {
+export interface WordChainGameStats {
   playCount: number;
   winCount: number;
   wordList: string[];
 }
 
-interface CardConfig {
+export interface CardConfig {
   title: string;
   miniTitle: string;
   description?: string;
@@ -43,7 +43,7 @@ interface CardConfig {
   wordList?: string[];
 }
 
-interface CrewStats {
+export interface CrewStats {
   topFastestJoinedGroupList: string[];
 }
 
@@ -51,7 +51,7 @@ interface WordLists {
   wordList: string[];
 }
 
-export type Value = CommunityStats | ProfileStats | WordChainGameStats | { [key: string]: any };
+export type Value = string | CommunityStats | ProfileStats | CrewStats | WordChainGameStats | { [key: string]: any };
 
 export const getCardConfig = (type: string, value: Value): CardConfig => {
   const cardConfigs: { [key: string]: CardConfig } = {
