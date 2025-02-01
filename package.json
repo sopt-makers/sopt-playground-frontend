@@ -58,6 +58,7 @@
     "dayjs": "^1.11.3",
     "focus-trap-react": "^10.0.2",
     "framer-motion": "^8.1.3",
+    "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
     "immer": "^10.0.4",
     "lodash-es": "^4.17.21",
