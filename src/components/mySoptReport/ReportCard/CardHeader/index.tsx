@@ -3,6 +3,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { useToast } from '@sopt-makers/ui';
 import { toPng } from 'html-to-image';
 import { StaticImageData } from 'next/image';
 
@@ -15,6 +16,7 @@ interface CardHeaderProps {
 
 const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeaderProps) => {
   const cardConfig = type && value && getCardConfig(type, value);
+  const { open } = useToast();
 
   const handleDownload = async () => {
     if (image) {
@@ -33,6 +35,16 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
         link.click();
       }
     }
+
+    open({
+      icon: 'success',
+      content: '이미지가 저장되었어요!',
+      style: {
+        content: {
+          whiteSpace: 'pre-wrap',
+        },
+      },
+    });
   };
 
   return (
