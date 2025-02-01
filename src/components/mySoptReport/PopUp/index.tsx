@@ -1,3 +1,5 @@
+import Responsive from '@/components/common/Responsive';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { Button } from '@sopt-makers/ui';
 import React from 'react';
@@ -15,13 +17,29 @@ const Popup = ({ isOpen, onClose, onDownload, children }: PopupProps) => {
   return (
     <Backdrop onClick={onClose}>
       <PopupContainer onClick={(e) => e.stopPropagation()}>{children}</PopupContainer>
+
       <Buttons>
-        <Button size='lg' theme='black' onClick={onClose}>
-          {' '.repeat(12)}닫기{' '.repeat(12)}
-        </Button>
-        <Button size='lg' onClick={onDownload}>
-          {' '.repeat(1)} 이미지 저장하기{' '.repeat(1)}
-        </Button>
+        <Responsive only='desktop'>
+          <Button size='lg' theme='black' onClick={onClose}>
+            {' '.repeat(12)}닫기{' '.repeat(12)}
+          </Button>
+        </Responsive>
+        <Responsive only='desktop'>
+          <Button size='lg' onClick={onDownload}>
+            이미지 저장하기
+          </Button>
+        </Responsive>
+
+        <Responsive only='mobile'>
+          <Button size='md' theme='black' onClick={onClose}>
+            {' '.repeat(10)}닫기{' '.repeat(10)}
+          </Button>
+        </Responsive>
+        <Responsive only='mobile'>
+          <Button size='md' onClick={onDownload}>
+            이미지 저장하기
+          </Button>
+        </Responsive>
       </Buttons>
     </Backdrop>
   );
@@ -49,6 +67,10 @@ const PopupContainer = styled.div`
   box-shadow: 0 4px 10px rgb(0 0 0 / 25%);
   background-color: #1a1a1a;
   padding: 40px 30px 160px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    transform: scale(0.6);
+  }
 `;
 
 const Buttons = styled.div`
@@ -58,4 +80,16 @@ const Buttons = styled.div`
   justify-content: space-between;
   margin-top: 680px;
   width: 375px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 600px;
+    width: 315px;
+  }
+`;
+
+const MoButtonWrapper = styled.div`
+  display: flex;
+  gap: 7px;
+  justify-content: space-between;
+  width: 315px;
 `;
