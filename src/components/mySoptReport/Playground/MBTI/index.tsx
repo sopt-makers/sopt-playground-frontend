@@ -1,16 +1,17 @@
-import styled from '@emotion/styled';
-
-import { UserMbtiRankType } from '@/components/mySoptReport/types';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+
+import { UserMbtiRankType } from '@/components/mySoptReport/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MBTI({ UserMbtiRankTable }: { UserMbtiRankTable: UserMbtiRankType[] }) {
   return (
     <MBTIRank>
       {UserMbtiRankTable.map(({ type, count }, i) => {
         return (
-          <MbtiRank rank={i + 1}>
+          <MbtiRank key={type} rank={i + 1}>
             <p>{type}</p>
             <p>{count}명</p>
           </MbtiRank>
@@ -36,7 +37,7 @@ const MbtiRank = styled.div<{ rank: number }>`
   background-color: ${colors.gray700};
   padding: 8px 20px;
 
-  ${fonts.TITLE_18_SB};
+  ${fonts.TITLE_20_SB};
 
   ${(props) =>
     props.rank === 1
@@ -50,4 +51,8 @@ const MbtiRank = styled.div<{ rank: number }>`
       : css`
           color: ${colors.gray200};
         `}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.TITLE_18_SB};
+  }
 `;

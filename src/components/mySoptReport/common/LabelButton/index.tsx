@@ -3,6 +3,8 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { ReactNode } from 'react';
 
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+
 interface LabelButtonProp {
   children: ReactNode;
 }
@@ -22,5 +24,9 @@ const Label = styled.div`
   background-color: ${colors.blue400};
   padding: 3px 12px;
 
-  ${fonts.TITLE_18_SB};
+  ${fonts.TITLE_20_SB};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.TITLE_18_SB};
+  }
 `;

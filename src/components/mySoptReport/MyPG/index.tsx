@@ -34,9 +34,7 @@ export default function MyPG({ myPgData }: MyPGProps) {
   );
 }
 
-const MyPGContainer = styled.div`
-  padding-top: 48px;
-`;
+const MyPGContainer = styled.div``;
 
 const TitleWrapper = styled.div`
   display: flex;

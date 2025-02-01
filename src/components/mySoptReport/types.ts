@@ -9,7 +9,7 @@ export interface PopularMeetingSpotRankType {
   count: number;
 }
 
-interface NewSignUpPartUserCountType {
+export interface NewSignUpPartUserCountType {
   part: string;
   count: number;
 }
@@ -62,6 +62,8 @@ export interface PlaygroundReportDataType {
   CrewTotalGroupUserCount: number;
   CoffeeChatHistoryInfoTable: CoffeeChatHistoryInfoType;
   CoffeeChatTotalVisitCount: number;
+  PeakVisitDate: string;
+  PeakVisitCount: number;
 }
 
 export type ActiveTabType = 'sopt' | 'playground' | 'my-pg' | null;
