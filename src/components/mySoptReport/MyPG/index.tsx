@@ -16,7 +16,6 @@ export default function MyPG() {
         }
       />
       {/* TODO: 마이 플그 카드 */}
-      <Div />
     </MyPGContainer>
   );
 }
@@ -27,8 +26,4 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Div = styled.div`
-  height: 1000px;
 `;
