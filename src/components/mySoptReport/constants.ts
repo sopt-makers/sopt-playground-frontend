@@ -45,6 +45,7 @@ export interface WordChainGameStats {
 }
 
 export interface CardConfig {
+  index?: number;
   title: string;
   miniTitle: string;
   description?: string;
@@ -70,6 +71,7 @@ export type Value = string | CommunityStats | ProfileStats | CrewStats | WordCha
 export const getCardConfig = (type: string, value: Value): CardConfig => {
   const cardConfigs: { [key: string]: CardConfig } = {
     totalVisitCount: {
+      index: 1,
       title: `작년 한 해 동안\n<span class=highlight>${value}회</span> 방문했어요`,
       miniTitle: '플그에\n방문했던 횟수는',
       description: '앞으로도 플그에\n자주 놀러와주세요!',
@@ -79,6 +81,7 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
       strongColor: '#6F5508',
     },
     myCommunityStats: {
+      index: 2,
       title: `<span class=highlight>${(value as CommunityStats).likeCount}개</span>의 게시글에\n마음을 표현했어요`,
       miniTitle: '마음을 표한\n게시글은',
       description: '어떤 글이 제일\n인상 깊으셨나요?',
@@ -88,6 +91,7 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
       strongColor: '#521F01',
     },
     myProfileStats: {
+      index: 3,
       title: `멤버들의 프로필 카드를\n<span class=highlight>${(value as ProfileStats).viewCount}번</span> 클릭했어요`,
       miniTitle: '멤버들의 프로필을\n조회한 횟수는',
       description: '어떤 멤버가\n가장 기억에 남으시나요?',
@@ -97,6 +101,7 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
       strongColor: '#0E5A6F',
     },
     myCrewStats: {
+      index: 4,
       title: '가장 간절하게\n신청했던 모임은',
       miniTitle: '',
       titleColor: '#E4E4E5',
@@ -104,6 +109,7 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
       crewList: (value as CrewStats).topFastestJoinedGroupList,
     },
     myWordChainGameStats: {
+      index: 5,
       title: `끝말잇기 게임에서\n<span class=highlight>${
         (value as WordChainGameStats).playCount
       }개</span>의 단어를 이었고,\n<span class=highlight>${

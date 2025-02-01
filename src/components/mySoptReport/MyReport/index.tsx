@@ -60,7 +60,7 @@ const index = ({ myPgData }: MyReportProps) => {
       const dataUrl = await toPng(element);
       const link = document.createElement('a');
       link.href = dataUrl;
-      link.download = 'collect_image.png';
+      link.download = '2024년 마이 솝트 리포트';
       link.click();
     }
 

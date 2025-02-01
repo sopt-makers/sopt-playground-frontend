@@ -22,7 +22,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
     if (image) {
       const link = document.createElement('a');
       link.href = image.src;
-      link.download = 'card_image.png';
+      link.download = '마이 플그 활동 유형';
       link.click();
     } else {
       // 이미지가 없는 경우 HTML -> PNG 변환 후 다운로드
@@ -31,7 +31,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
         const dataUrl = await toPng(element);
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = 'dynamic_card_image.png';
+        link.download = `마이 플그 데이터 ${cardConfig.index}`;
         link.click();
       }
     }
