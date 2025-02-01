@@ -1,7 +1,22 @@
 import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
+import { CommunityStats, CrewStats, ProfileStats, WordChainGameStats } from '@/components/mySoptReport/constants';
+import MyReport from '@/components/mySoptReport/MyReport';
 import styled from '@emotion/styled';
 
-export default function MyPG() {
+export interface MyPgData {
+  myType: string;
+  totalVisitCount: number;
+  myCommunityStats: CommunityStats;
+  myProfileStats: ProfileStats;
+  myCrewStats: CrewStats;
+  myWordChainGameStats: WordChainGameStats;
+}
+
+export interface MyPGProps {
+  myPgData: MyPgData;
+}
+
+export default function MyPG({ myPgData }: MyPGProps) {
   return (
     <MyPGContainer id='my-pg'>
       <ReportTitle
@@ -14,7 +29,7 @@ export default function MyPG() {
           </TitleWrapper>
         }
       />
-      {/* TODO: 마이 플그 카드 */}
+      <MyReport myPgData={myPgData} />
     </MyPGContainer>
   );
 }
