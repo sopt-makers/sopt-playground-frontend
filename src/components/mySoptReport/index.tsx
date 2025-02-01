@@ -55,7 +55,7 @@ export default function MySoptReport() {
         });
       } else if (tab === 'my-pg') {
         window.scrollTo({
-          top: isMobile ? 5500 : 5840,
+          top: isMobile ? 5450 : 5800,
           behavior: 'smooth',
         });
       }
@@ -72,17 +72,17 @@ export default function MySoptReport() {
     if (isMobile) {
       if (scrollY >= 600 && scrollY < 2190) {
         setActiveTab('sopt');
-      } else if (scrollY >= 2190 && scrollY < 5500) {
+      } else if (scrollY >= 2190 && scrollY < 5450) {
         setActiveTab('playground');
-      } else if (scrollY >= 5500) {
+      } else if (scrollY >= 5450) {
         setActiveTab('my-pg');
       }
     } else {
       if (scrollY >= 500 && scrollY < 2220) {
         setActiveTab('sopt');
-      } else if (scrollY >= 2220 && scrollY < 5840) {
+      } else if (scrollY >= 2220 && scrollY < 5800) {
         setActiveTab('playground');
-      } else if (scrollY >= 5840) {
+      } else if (scrollY >= 5800) {
         setActiveTab('my-pg');
       }
     }
