@@ -271,7 +271,7 @@ const HiddenContent = styled.div<{ $isSmall?: boolean }>`
 
   z-index: -1;
   border-radius: 20px;
-  background-image: url(${collect_bg.src});
+  background-image: url('/icons/img/mySoptReport/collect_bg.png');
   background-size: cover;
   padding: 193px 26px 0;
   width: 560px;

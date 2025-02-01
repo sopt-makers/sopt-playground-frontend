@@ -1,8 +1,5 @@
 import { colors } from '@sopt-makers/colors';
 
-import SubClick from '@/public/icons/img/mySoptReport/card_sub_click.png';
-import SubLike from '@/public/icons/img/mySoptReport/card_sub_like.png';
-import SubVisit from '@/public/icons/img/mySoptReport/card_sub_visit.png';
 import { StaticImageData } from 'next/image';
 
 import personOff from '@/public/icons/img/mySoptReport/person_off.png';
@@ -51,7 +48,7 @@ export interface CardConfig {
   description?: string;
   miniValue?: string | string[];
   bgColor: string;
-  subImage?: StaticImageData;
+  subImage?: StaticImageData | string;
   strongColor?: string;
   titleColor?: string;
   crewList?: string[];
@@ -77,7 +74,7 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
       description: '앞으로도 플그에\n자주 놀러와주세요!',
       miniValue: `${value}번`,
       bgColor: colors.yellow400,
-      subImage: SubVisit,
+      subImage: '/icons/img/mySoptReport/card_sub_visit.png',
       strongColor: '#6F5508',
     },
     myCommunityStats: {
@@ -87,7 +84,7 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
       description: '어떤 글이 제일\n인상 깊으셨나요?',
       miniValue: `${(value as CommunityStats).likeCount}개`,
       bgColor: colors.orange400,
-      subImage: SubLike,
+      subImage: '/icons/img/mySoptReport/card_sub_like.png',
       strongColor: '#521F01',
     },
     myProfileStats: {
@@ -97,7 +94,7 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
       description: '어떤 멤버가\n가장 기억에 남으시나요?',
       miniValue: `${(value as ProfileStats).viewCount}번`,
       bgColor: '#5CDBFE',
-      subImage: SubClick,
+      subImage: '/icons/img/mySoptReport/card_sub_click.png',
       strongColor: '#0E5A6F',
     },
     myCrewStats: {

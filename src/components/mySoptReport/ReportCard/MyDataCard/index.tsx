@@ -53,7 +53,7 @@ const index = ({ type, value }: MyTypeCardProps) => {
           {}
         </WordChainContainer>
       )}
-      {cardConfig.subImage && <TypeImg src={cardConfig.subImage.src} />}
+      {cardConfig?.subImage && <TypeImg src={cardConfig?.subImage as string} />}
     </Wrapper>
   );
 };
