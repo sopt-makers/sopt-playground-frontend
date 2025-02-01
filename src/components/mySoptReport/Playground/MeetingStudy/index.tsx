@@ -46,7 +46,7 @@ export default function MeetingStudy({ reportData }: { reportData: PlaygroundRep
                 <Responsive only='desktop'>
                   <ButtonWrapper
                     onClick={() => {
-                      window.open(playgroundLink.groupList(183), '_blank');
+                      window.open(playgroundLink.groupDetail(183), '_blank');
                     }}
                   >
                     <Button rounded='lg' size='lg' RightIcon={IconChevronRight}>
@@ -57,7 +57,7 @@ export default function MeetingStudy({ reportData }: { reportData: PlaygroundRep
                 <Responsive only='mobile'>
                   <ButtonWrapper
                     onClick={() => {
-                      router.push(playgroundLink.groupList(183));
+                      router.push(playgroundLink.groupDetail(183));
                     }}
                   >
                     <Button rounded='lg' RightIcon={IconChevronRight}>

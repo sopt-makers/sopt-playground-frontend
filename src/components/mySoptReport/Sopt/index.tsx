@@ -6,6 +6,9 @@ import { Button, Tag } from '@sopt-makers/ui';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import { useGetMemberProperty } from '@/api/endpoint/members/getMemberProperty';
+import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
@@ -19,7 +22,16 @@ import ServiceIcon from '@/public/logos/img_service.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function Sopt({ reportData }: { reportData: SoptReportDataType }) {
-  const totalCount = reportData.NewSignUpPartUserCountTable.reduce((acc, { count }) => acc + count, 0);
+  const { data: me } = useGetMemberOfMe();
+  const { data: myData } = useGetMemberProfileById(me?.id);
+  const partData = myData && myData.soptActivities.map(({ part }) => part);
+  const myPartData =
+    partData &&
+    reportData.NewSignUpPartUserCountTable.filter(({ part }) => partData.includes(part)).map(({ part, count }) => ({
+      part,
+      count,
+    }));
+  const totalCount = myPartData && myPartData.reduce((acc, { count }) => acc + count, 0);
 
   return (
     <SoptContainer id='sopt'>
@@ -108,19 +120,20 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
               <ContentWrapper>
                 <div>
                   <TextWrapper>
-                    <ReportBigText color='#5CDBFE'>{totalCount}명</ReportBigText>
+                    <ReportBigText color='#5CDBFE'>{totalCount && totalCount}명</ReportBigText>
                     <ReportBigText>이</ReportBigText>
                   </TextWrapper>
                   <ReportBigText>새로 가입했어요!</ReportBigText>
                 </div>
                 <TagWrapper>
-                  {reportData.NewSignUpPartUserCountTable.map(({ part, count }) => {
-                    return (
-                      <Tag key={part} size='md'>
-                        {part}({count})명
-                      </Tag>
-                    );
-                  })}
+                  {myPartData &&
+                    myPartData.map(({ part, count }) => {
+                      return (
+                        <Tag key={part} size='md'>
+                          {part}({count})명
+                        </Tag>
+                      );
+                    })}
                 </TagWrapper>
               </ContentWrapper>
             </Bottom>

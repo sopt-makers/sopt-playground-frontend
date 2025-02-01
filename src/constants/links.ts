@@ -8,7 +8,7 @@ export const MAKERS_TEAM_URL =
 export const PLAYGROUND_ORIGIN =
   process.env.NODE_ENV === 'development' ? `https://sopt-internal-dev.pages.dev` : `https://playground.sopt.org`;
 
-export const tplaygroundLink = {
+export const playgroundLink = {
   memberList: () => `/members`,
   memberDetail: (id: string | number) => `/members/${id}`,
   memberUpload: () => `/members/upload`,

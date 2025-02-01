@@ -9,7 +9,7 @@ export interface PopularMeetingSpotRankType {
   count: number;
 }
 
-interface NewSignUpPartUserCountType {
+export interface NewSignUpPartUserCountType {
   part: string;
   count: number;
 }
