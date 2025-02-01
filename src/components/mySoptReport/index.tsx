@@ -169,6 +169,10 @@ const PCButton = styled.button`
   color: black;
 
   ${fonts.LABEL_18_SB};
+
+  &:hover {
+    background-color: #e4e4e5;
+  }
 `;
 
 const ReportWrapper = styled.div`
