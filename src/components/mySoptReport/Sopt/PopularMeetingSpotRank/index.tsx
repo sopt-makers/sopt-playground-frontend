@@ -22,7 +22,7 @@ export default function PopularMeetingSpotRank({
         const { line, color } = stationLineMapping[spot] || {};
 
         return (
-          <Station key={spot} color={color} ratio={ratio * 4}>
+          <Station key={spot} color={color} ratio={ratio}>
             <StationText>
               <Circle color={color}>{line}</Circle>
               <>{spot}</>
@@ -56,9 +56,19 @@ const Circle = styled.div<{ color: string }>`
   background-color: ${({ color }) => color};
   width: 20px;
   height: 20px;
+  text-align: center;
+  line-height: 24px; /* 153.846% */
+  letter-spacing: -0.234px;
   color: ${colors.white};
+  color: #fff;
+  font-family: SUIT, sans-serif;
+  font-size: 15.6px;
+  font-weight: 500;
+  font-style: normal;
 
-  ${fonts.BODY_13_M};
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_13_M};
+  }
 `;
 
 const Station = styled.div<{ color: string; ratio: number }>`
@@ -69,13 +79,14 @@ const Station = styled.div<{ color: string; ratio: number }>`
   border-radius: 100px;
   background-color: ${colors.white};
   padding: 8px 14px;
-  width: ${({ ratio }) => (ratio > 100 ? 100 : ratio)}%;
+  width: ${({ ratio }) => (ratio * 2.2 > 100 ? 100 : ratio * 2.2)}%;
   color: ${colors.black};
 
-  ${fonts.BODY_16_M};
+  ${fonts.BODY_18_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: ${({ ratio }) => (ratio > 100 ? 100 : 40 > ratio ? 40 : ratio)}%;
+    width: ${({ ratio }) => (ratio * 4 > 100 ? 100 : 40 > ratio * 4 ? 40 : ratio * 4)}%;
+    ${fonts.BODY_16_M};
   }
 `;
 

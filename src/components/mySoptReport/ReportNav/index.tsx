@@ -7,7 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { menuList } from '@/components/mySoptReport/constants';
 import { ActiveTabType } from '@/components/mySoptReport/types';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import useMediaQuery from '@/hooks/useMediaQuery';
+import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ReportNavProps {
   activeTab: ActiveTabType;
@@ -17,11 +18,15 @@ interface ReportNavProps {
 export default function ReportNav({ activeTab, handleSetActive }: ReportNavProps) {
   const tabRef = useRef<HTMLDivElement>(null);
   const [isFixed, setIsFixed] = useState(false);
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      if (scrollY >= 600) {
+
+      const y = isMobile ? 0 : 100;
+
+      if (scrollY >= 595 - y) {
         setIsFixed(true);
       } else {
         setIsFixed(false);
@@ -83,7 +88,7 @@ const Menus = styled.nav<{ isFixed: boolean }>`
     css`
       position: fixed;
       top: 80px;
-      transition: top 0.1s ease-in-out;
+      transition: top 0.2s ease-in-out;
       z-index: 100;
 
       @media ${MOBILE_MEDIA_QUERY} {
@@ -114,8 +119,10 @@ const MenuTab = styled.div<{ isActive: boolean; mainColor: keyof typeof colors; 
           background-color: transparent;
           color: ${colors.gray100};
 
-          &:hover {
-            color: ${colors[mainColor]};
+          @media screen and (min-width: 769px) {
+            &:hover {
+              color: ${colors[mainColor]};
+            }
           }
         `};
 `;

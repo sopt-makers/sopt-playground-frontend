@@ -1,5 +1,6 @@
-import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
 import styled from '@emotion/styled';
+
+import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
 
 export default function MyPG() {
   return (
@@ -15,16 +16,19 @@ export default function MyPG() {
         }
       />
       {/* TODO: 마이 플그 카드 */}
+      <Div />
     </MyPGContainer>
   );
 }
 
-const MyPGContainer = styled.div`
-  padding-top: 48px;
-`;
+const MyPGContainer = styled.div``;
 
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Div = styled.div`
+  height: 1000px;
 `;

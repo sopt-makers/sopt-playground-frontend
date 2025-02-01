@@ -13,6 +13,7 @@ import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
 import Tooltip from '@/components/mySoptReport/common/Tooltip';
 import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MeetingStudy({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
@@ -48,7 +49,7 @@ export default function MeetingStudy({ reportData }: { reportData: PlaygroundRep
                       window.open(playgroundLink.groupList(), '_blank');
                     }}
                   >
-                    <Button rounded='lg' RightIcon={IconChevronRight}>
+                    <Button rounded='lg' size='lg' RightIcon={IconChevronRight}>
                       모임 피드 보러가기
                     </Button>
                   </ButtonWrapper>
@@ -77,7 +78,6 @@ const ImgWrapper = styled.img`
   align-self: stretch;
   margin: 12px 0 32px;
   border-radius: 14px;
-  height: 176px;
 `;
 
 const ReportBigText = styled.h1`
@@ -88,7 +88,11 @@ const ReportBigText = styled.h1`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 12px;
+  }
 `;
 
 const Head = styled.div`

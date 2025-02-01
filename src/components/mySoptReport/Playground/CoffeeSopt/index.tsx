@@ -14,6 +14,7 @@ import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
 import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 import CoffeSoptIcon from '@/public/logos/img_coffeechat.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function CoffeeSopt({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
@@ -23,10 +24,10 @@ export default function CoffeeSopt({ reportData }: { reportData: PlaygroundRepor
       <ReportCard>
         <>
           <Head>
-            <TextWrapper>
+            <div>
               <ReportText>회원들이 커피솝에</ReportText>
               <ReportText>방문한 횟수는</ReportText>
-            </TextWrapper>
+            </div>
             <IconWrapper>
               <ReportText color='#FDBBF9' type='big'>
                 {reportData.CoffeeChatTotalVisitCount.toLocaleString()}번
@@ -65,7 +66,7 @@ export default function CoffeeSopt({ reportData }: { reportData: PlaygroundRepor
                       window.open(playgroundLink.coffeechat(), '_blank');
                     }}
                   >
-                    <Button rounded='lg' RightIcon={IconChevronRight}>
+                    <Button rounded='lg' size='lg' RightIcon={IconChevronRight}>
                       커피솝 방문하기
                     </Button>
                   </ButtonWrapper>
@@ -99,7 +100,11 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 32px;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 12px;
+  }
 `;
 
 const Head = styled.div`
@@ -143,7 +148,7 @@ const CoffechatBox = styled.div<{ rank: number }>`
   background-color: ${colors.gray700};
   padding: 8px 20px;
 
-  ${fonts.TITLE_18_SB};
+  ${fonts.LABEL_18_SB};
 
   ${(props) =>
     props.rank === 1
@@ -161,4 +166,8 @@ const CoffechatBox = styled.div<{ rank: number }>`
       : css`
           color: ${colors.gray300};
         `}
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.LABEL_14_SB};
+  }
 `;

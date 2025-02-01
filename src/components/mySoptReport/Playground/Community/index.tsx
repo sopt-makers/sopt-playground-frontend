@@ -63,11 +63,15 @@ export default function Community({ reportData }: { reportData: PlaygroundReport
         <CardWrapper>
           <div>
             <TextWrapper>
-              <ReportText color='#FDBBF9'>{reportData.ComminityReactionInfoTable.likeCount}개</ReportText>
+              <ReportText color='#FDBBF9'>
+                {reportData.ComminityReactionInfoTable.likeCount.toLocaleString()}개
+              </ReportText>
               <ReportText>의 좋아요,</ReportText>
             </TextWrapper>
             <TextWrapper>
-              <ReportText color='#FDBBF9'>{reportData.ComminityReactionInfoTable.commentCount}개</ReportText>
+              <ReportText color='#FDBBF9'>
+                {reportData.ComminityReactionInfoTable.commentCount.toLocaleString()}개
+              </ReportText>
               <ReportText>의 댓글로 연결되었어요</ReportText>
             </TextWrapper>
           </div>

@@ -16,8 +16,11 @@ import ServiceCategoryRankBox from '@/components/mySoptReport/Sopt/ServiceCatego
 import { SoptReportDataType } from '@/components/mySoptReport/types';
 import NewMemberIcon from '@/public/logos/img_member.svg';
 import ServiceIcon from '@/public/logos/img_service.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function Sopt({ reportData }: { reportData: SoptReportDataType }) {
+  const totalCount = reportData.NewSignUpPartUserCountTable.reduce((acc, { count }) => acc + count, 0);
+
   return (
     <SoptContainer id='sopt'>
       <ReportTitle color={'#FF6E1D'} subTitle='차곡차곡 쌓인 솝트의 기록들' title='2024년 SOPT는' />
@@ -33,7 +36,7 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
                   <ReportText color='#5CDBFE' type='big'>
                     {reportData.TotalServiceCount}개
                   </ReportText>
-                  <ReportText type='label'>*솝커톤, 앱잼 포함</ReportText>
+                  <ReportText type='label'>*솝커톤, 앱잼 합산</ReportText>
                 </div>
               </IconContentWrapper>
             </Head>
@@ -49,7 +52,7 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
                         window.open(playgroundLink.projectList(), '_blank');
                       }}
                     >
-                      <Button rounded='lg' RightIcon={IconChevronRight}>
+                      <Button rounded='lg' size='lg' RightIcon={IconChevronRight}>
                         전체 서비스 보러가기
                       </Button>
                     </ButtonWrapper>
@@ -105,7 +108,7 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
               <ContentWrapper>
                 <div>
                   <TextWrapper>
-                    <ReportBigText color='#5CDBFE'>40명</ReportBigText>
+                    <ReportBigText color='#5CDBFE'>{totalCount}명</ReportBigText>
                     <ReportBigText>이</ReportBigText>
                   </TextWrapper>
                   <ReportBigText>새로 가입했어요!</ReportBigText>
@@ -120,7 +123,6 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
                   })}
                 </TagWrapper>
               </ContentWrapper>
-              <ReportText type='label'>*최근 활동 파트 2개 합산</ReportText>
             </Bottom>
           </>
         </ReportCard>
@@ -179,6 +181,11 @@ const TextWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 12px;
+  }
 `;
 
 const Head = styled.div`

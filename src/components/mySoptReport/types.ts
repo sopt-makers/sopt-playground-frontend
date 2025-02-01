@@ -62,6 +62,8 @@ export interface PlaygroundReportDataType {
   CrewTotalGroupUserCount: number;
   CoffeeChatHistoryInfoTable: CoffeeChatHistoryInfoType;
   CoffeeChatTotalVisitCount: number;
+  PeakVisitDate: string;
+  PeakVisitCount: number;
 }
 
 export type ActiveTabType = 'sopt' | 'playground' | 'my-pg' | null;

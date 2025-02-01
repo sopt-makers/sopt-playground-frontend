@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
 
@@ -11,40 +12,52 @@ import Playground from '@/components/mySoptReport/Playground';
 import ReportNav from '@/components/mySoptReport/ReportNav';
 import Sopt from '@/components/mySoptReport/Sopt';
 import { ActiveTabType } from '@/components/mySoptReport/types';
-import MySoptReportImgPC from '@/public/logos/img-mysoptreport-pc.svg';
+import useMediaQuery from '@/hooks/useMediaQuery';
 import MySoptReportImg from '@/public/logos/my-sopt-report.svg';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import MySoptReportImgPC from '@/public/logos/mysoptreport-pc.svg';
+import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY, TABLET_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MySoptReport() {
   const { soptReportData, playgroundReportData, isPending } = useGetReportData();
   const [activeTab, setActiveTab] = useState<ActiveTabType>('sopt');
   const [scrollY, setScrollY] = useState(0);
   const [flag, setFlag] = useState(false);
+  const isMobile = useMediaQuery(MOBILE_MAX_WIDTH);
 
   const handleSetActive = (tab: ActiveTabType) => {
     setActiveTab(tab);
     setFlag(true);
-    if (tab === 'sopt') {
-      window.scrollTo({
-        top: 600,
-        behavior: 'smooth',
-      });
-    } else if (tab === 'playground') {
-      window.scrollTo({
-        top: 2250,
-        behavior: 'smooth',
-      });
-    } else if (tab === 'my-pg') {
-      window.scrollTo({
-        top: 6000,
-        behavior: 'smooth',
-      });
-    }
+    scrollToElement(tab);
 
     // MEMO: scrollTo 실행 후 바로 setFlag가 실행되지 않고, 스크롤이 내려간 다음 실행될 수 있도록
     setTimeout(() => {
       setFlag(false);
     }, 1000); // 1000ms (1초) 후에 setFlag(false)
+  };
+
+  const scrollToElement = (tab: ActiveTabType) => {
+    if (!tab) return;
+
+    const targetElement = document.getElementById(tab);
+
+    if (targetElement) {
+      if (tab === 'sopt') {
+        window.scrollTo({
+          top: isMobile ? 592 : 495,
+          behavior: 'smooth',
+        });
+      } else if (tab === 'playground') {
+        window.scrollTo({
+          top: isMobile ? 2190 : 2220,
+          behavior: 'smooth',
+        });
+      } else if (tab === 'my-pg') {
+        window.scrollTo({
+          top: isMobile ? 5500 : 5840,
+          behavior: 'smooth',
+        });
+      }
+    }
   };
 
   const handleScroll = () => {
@@ -54,15 +67,24 @@ export default function MySoptReport() {
   useEffect(() => {
     // MEMO: 버튼 클릭으로 인한 스크롤 변경일 경우, tab 변경을 막기 위함
     if (flag) return;
-
-    if (scrollY >= 600 && scrollY < 2250) {
-      setActiveTab('sopt');
-    } else if (scrollY >= 2250 && scrollY < 6000) {
-      setActiveTab('playground');
-    } else if (scrollY >= 6000) {
-      setActiveTab('my-pg');
+    if (isMobile) {
+      if (scrollY >= 600 && scrollY < 2190) {
+        setActiveTab('sopt');
+      } else if (scrollY >= 2190 && scrollY < 5500) {
+        setActiveTab('playground');
+      } else if (scrollY >= 5500) {
+        setActiveTab('my-pg');
+      }
+    } else {
+      if (scrollY >= 500 && scrollY < 2220) {
+        setActiveTab('sopt');
+      } else if (scrollY >= 2220 && scrollY < 5840) {
+        setActiveTab('playground');
+      } else if (scrollY >= 5840) {
+        setActiveTab('my-pg');
+      }
     }
-  }, [scrollY]);
+  }, [scrollY, flag, isMobile]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -74,25 +96,28 @@ export default function MySoptReport() {
   return (
     <ReportContainer>
       <>
-        <Responsive only='desktop'>
-          <MySoptReportBanner>
-            <MySoptReportImgPC />
-            <Button rounded='lg' onClick={() => handleSetActive('sopt')}>
-              마이 솝트 리포트 보러가기
-            </Button>
-            <ReportText type='label'>*데이터 집계 기준 : 2024.01.01 ~ 2024.12.31</ReportText>
-          </MySoptReportBanner>
-        </Responsive>
-        <Responsive only='mobile'>
-          <MySoptReportBanner>
-            <MySoptReportImg />
-            <Button rounded='lg' onClick={() => handleSetActive('sopt')}>
-              마이 솝트 리포트 보러가기
-            </Button>
-            <ReportText type='label'>*데이터 집계 기준 : 2024.01.01 ~ 2024.12.31</ReportText>
-          </MySoptReportBanner>
-        </Responsive>
+        <Banner>
+          <Responsive only='desktop'>
+            <MySoptReportImgDesktop />
+            <TextWrapper>
+              <PCButton type='button' onClick={() => handleSetActive('sopt')}>
+                마이 솝트 리포트 보러가기
+              </PCButton>
+              <ReportText type='small'>*데이터 집계 기준 : 2024.01.01 ~ 2024.12.31</ReportText>
+            </TextWrapper>
+          </Responsive>
+          <Responsive only='mobile'>
+            <MySoptReportBanner>
+              <MySoptReportImg />
+              <Button rounded='lg' onClick={() => handleSetActive('sopt')}>
+                마이 솝트 리포트 보러가기
+              </Button>
+              <ReportText type='small'>*데이터 집계 기준 : 2024.01.01 ~ 2024.12.31</ReportText>
+            </MySoptReportBanner>
+          </Responsive>
+        </Banner>
         <ReportNav activeTab={activeTab} handleSetActive={handleSetActive} />
+
         {isPending && <Loading />}
 
         <ReportWrapper>
@@ -105,12 +130,54 @@ export default function MySoptReport() {
   );
 }
 
+const MySoptReportImgDesktop = styled(MySoptReportImgPC)`
+  margin-top: 70px;
+  width: 100%;
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  top: 460px;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 31%;
+
+  @media screen and (max-width: 1300px) {
+    width: 35%;
+  }
+
+  @media screen and (max-width: 1200px) {
+    width: 37%;
+  }
+
+  @media ${TABLET_MEDIA_QUERY} {
+    width: 40%;
+  }
+`;
+
+const PCButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -40px;
+  border-radius: 9999px;
+  background: white;
+  padding: 16px 26px;
+  height: 56px;
+  color: black;
+
+  ${fonts.LABEL_18_SB};
+`;
+
 const ReportWrapper = styled.div`
   margin: 0 20px;
-  max-width: 400px;
+  max-width: 590px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 100%;
+    width: 100%;
+    max-width: 335px;
   }
 `;
 
@@ -120,13 +187,25 @@ const ReportContainer = styled.div`
   align-items: center;
 `;
 
+const Banner = styled.div`
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(135deg, #121a2b, #302631);
+  padding: 0 50px;
+  width: 100%;
+  height: 500px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 0;
+    height: 600px;
+  }
+`;
+
 const MySoptReportBanner = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
   align-items: center;
-  background: linear-gradient(135deg, #111622, #1d2032, #322834);
   padding-top: 16px;
-  width: 100%;
-  height: 600px;
+  max-width: 600px;
 `;
