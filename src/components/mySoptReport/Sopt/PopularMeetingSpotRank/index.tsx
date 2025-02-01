@@ -10,19 +10,19 @@ export default function PopularMeetingSpotRank({
 }: {
   PopularMeetingSpotRankTable: PopularMeetingSpotRankType[];
 }) {
-  const stationLineMapping: Record<string, { line: number; color: string }> = {
-    건대입구: { line: 7, color: '#647200' },
-    공덕: { line: 5, color: '#A123F2' },
-    역삼: { line: 2, color: '#00BA0F' },
+  const stationLineMapping: Record<string, { line: number; color: string; moratio: number; pcratio: number }> = {
+    건대입구: { line: 7, color: '#647200', moratio: 100, pcratio: 100 },
+    공덕: { line: 5, color: '#A123F2', moratio: 60, pcratio: 50 },
+    역삼: { line: 2, color: '#00BA0F', moratio: 40, pcratio: 25 },
   };
 
   return (
     <StationWrapper>
-      {PopularMeetingSpotRankTable.map(({ spot, count, ratio }) => {
-        const { line, color } = stationLineMapping[spot] || {};
+      {PopularMeetingSpotRankTable.map(({ spot, count }) => {
+        const { line, color, moratio, pcratio } = stationLineMapping[spot] || {};
 
         return (
-          <Station key={spot} color={color} ratio={ratio}>
+          <Station key={spot} color={color} moratio={moratio} pcratio={pcratio}>
             <StationText>
               <Circle color={color}>{line}</Circle>
               <>{spot}</>
@@ -71,7 +71,7 @@ const Circle = styled.div<{ color: string }>`
   }
 `;
 
-const Station = styled.div<{ color: string; ratio: number }>`
+const Station = styled.div<{ color: string; moratio: number; pcratio: number }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -79,13 +79,13 @@ const Station = styled.div<{ color: string; ratio: number }>`
   border-radius: 100px;
   background-color: ${colors.white};
   padding: 8px 14px;
-  width: ${({ ratio }) => (ratio * 2.2 > 100 ? 100 : ratio * 2.2)}%;
+  width: ${({ pcratio }) => pcratio}%;
   color: ${colors.black};
 
   ${fonts.BODY_18_M};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: ${({ ratio }) => (ratio * 4 > 100 ? 100 : 40 > ratio * 4 ? 40 : ratio * 4)}%;
+    width: ${({ moratio }) => moratio}%;
     ${fonts.BODY_16_M};
   }
 `;

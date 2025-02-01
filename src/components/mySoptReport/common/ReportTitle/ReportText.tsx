@@ -38,10 +38,10 @@ const LabelSmallText = styled.p`
 const LabelText = styled.p`
   float: right;
   color: ${colors.gray300};
-  ${fonts.LABEL_12_SB};
+  ${fonts.LABEL_16_SB};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${fonts.LABEL_16_SB};
+    ${fonts.LABEL_12_SB};
   }
 `;
 
