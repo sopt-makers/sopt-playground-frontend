@@ -232,6 +232,7 @@ const CrewContainer = styled.ul`
 const CrewItem = styled.li<{ $index: number }>`
   ${fonts.BODY_13_M};
 
+  border-radius: 4px;
   background-color: ${({ $index }) =>
     $index === 0 ? 'rgba(15, 15, 18, 0.60)' : $index === 1 ? 'rgba(15, 15, 18, 0.40)' : 'rgba(15, 15, 18, 0.20)'};
   padding: 9.6px 12px;
