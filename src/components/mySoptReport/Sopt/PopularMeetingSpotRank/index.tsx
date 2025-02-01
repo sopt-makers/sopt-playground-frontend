@@ -3,6 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 
 import { PopularMeetingSpotRankType } from '@/components/mySoptReport/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function PopularMeetingSpotRank({
   PopularMeetingSpotRankTable,
@@ -21,7 +22,7 @@ export default function PopularMeetingSpotRank({
         const { line, color } = stationLineMapping[spot] || {};
 
         return (
-          <Station key={spot} color={color} ratio={ratio * 2}>
+          <Station key={spot} color={color} ratio={ratio * 4}>
             <StationText>
               <Circle color={color}>{line}</Circle>
               <>{spot}</>
@@ -68,10 +69,14 @@ const Station = styled.div<{ color: string; ratio: number }>`
   border-radius: 100px;
   background-color: ${colors.white};
   padding: 8px 14px;
-  width: ${({ ratio }) => (ratio > 100 ? 100 : 35 > ratio ? 35 : ratio)}%;
+  width: ${({ ratio }) => (ratio > 100 ? 100 : ratio)}%;
   color: ${colors.black};
 
   ${fonts.BODY_16_M};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: ${({ ratio }) => (ratio > 100 ? 100 : 40 > ratio ? 40 : ratio)}%;
+  }
 `;
 
 const Color = styled.div<{ color: string }>`

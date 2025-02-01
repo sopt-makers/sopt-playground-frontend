@@ -1,9 +1,3 @@
-import Responsive from '@/components/common/Responsive';
-import LabelButton from '@/components/mySoptReport/common/LabelButton';
-import ReportCard from '@/components/mySoptReport/common/ReportCard';
-import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
-import Tooltip from '@/components/mySoptReport/common/Tooltip';
-import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -11,6 +5,14 @@ import { IconChevronRight } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
+
+import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import LabelButton from '@/components/mySoptReport/common/LabelButton';
+import ReportCard from '@/components/mySoptReport/common/ReportCard';
+import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
+import Tooltip from '@/components/mySoptReport/common/Tooltip';
+import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 
 export default function MeetingStudy({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
@@ -38,28 +40,32 @@ export default function MeetingStudy({ reportData }: { reportData: PlaygroundRep
             </Tooltip>
             <ReportBigText>💻 {reportData.CrewPopularGroupInfoTable.groupName}</ReportBigText>
             <ImgWrapper src={reportData.CrewPopularGroupInfoTable.imageUrl} alt='모임 이미지' />
-            <Responsive only='desktop'>
-              <ButtonWrapper
-                onClick={() => {
-                  window.open(playgroundLink.groupList(), '_blank');
-                }}
-              >
-                <Button rounded='lg' RightIcon={IconChevronRight}>
-                  모임 피드 보러가기
-                </Button>
-              </ButtonWrapper>
-            </Responsive>
-            <Responsive only='mobile'>
-              <ButtonWrapper
-                onClick={() => {
-                  router.push(playgroundLink.groupList());
-                }}
-              >
-                <Button rounded='lg' RightIcon={IconChevronRight}>
-                  모임 피드 보러가기
-                </Button>
-              </ButtonWrapper>
-            </Responsive>
+            <LoggingClick eventKey='clickMyReportGotoMoimFeed'>
+              <>
+                <Responsive only='desktop'>
+                  <ButtonWrapper
+                    onClick={() => {
+                      window.open(playgroundLink.groupList(), '_blank');
+                    }}
+                  >
+                    <Button rounded='lg' RightIcon={IconChevronRight}>
+                      모임 피드 보러가기
+                    </Button>
+                  </ButtonWrapper>
+                </Responsive>
+                <Responsive only='mobile'>
+                  <ButtonWrapper
+                    onClick={() => {
+                      router.push(playgroundLink.groupList());
+                    }}
+                  >
+                    <Button rounded='lg' RightIcon={IconChevronRight}>
+                      모임 피드 보러가기
+                    </Button>
+                  </ButtonWrapper>
+                </Responsive>
+              </>
+            </LoggingClick>
           </Bottom>
         </>
       </ReportCard>

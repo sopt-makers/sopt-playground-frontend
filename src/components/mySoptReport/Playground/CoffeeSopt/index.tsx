@@ -1,9 +1,3 @@
-import Responsive from '@/components/common/Responsive';
-import LabelButton from '@/components/mySoptReport/common/LabelButton';
-import ReportCard from '@/components/mySoptReport/common/ReportCard';
-import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
-import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
-import CoffeSoptIcon from '@/public/logos/img_coffeechat.svg';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
@@ -12,6 +6,14 @@ import { IconChevronRight } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
+
+import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import LabelButton from '@/components/mySoptReport/common/LabelButton';
+import ReportCard from '@/components/mySoptReport/common/ReportCard';
+import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
+import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
+import CoffeSoptIcon from '@/public/logos/img_coffeechat.svg';
 
 export default function CoffeeSopt({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
@@ -55,28 +57,32 @@ export default function CoffeeSopt({ reportData }: { reportData: PlaygroundRepor
                 );
               })}
             </CoffechatList>
-            <Responsive only='desktop'>
-              <ButtonWrapper
-                onClick={() => {
-                  window.open(playgroundLink.coffeechat(), '_blank');
-                }}
-              >
-                <Button rounded='lg' RightIcon={IconChevronRight}>
-                  커피솝 방문하기
-                </Button>
-              </ButtonWrapper>
-            </Responsive>
-            <Responsive only='mobile'>
-              <ButtonWrapper
-                onClick={() => {
-                  router.push(playgroundLink.coffeechat());
-                }}
-              >
-                <Button rounded='lg' RightIcon={IconChevronRight}>
-                  커피솝 방문하기
-                </Button>
-              </ButtonWrapper>
-            </Responsive>
+            <LoggingClick eventKey='clickMyReportGotoCoffeesopt'>
+              <>
+                <Responsive only='desktop'>
+                  <ButtonWrapper
+                    onClick={() => {
+                      window.open(playgroundLink.coffeechat(), '_blank');
+                    }}
+                  >
+                    <Button rounded='lg' RightIcon={IconChevronRight}>
+                      커피솝 방문하기
+                    </Button>
+                  </ButtonWrapper>
+                </Responsive>
+                <Responsive only='mobile'>
+                  <ButtonWrapper
+                    onClick={() => {
+                      router.push(playgroundLink.coffeechat());
+                    }}
+                  >
+                    <Button rounded='lg' RightIcon={IconChevronRight}>
+                      커피솝 방문하기
+                    </Button>
+                  </ButtonWrapper>
+                </Responsive>
+              </>
+            </LoggingClick>
           </Bottom>
         </>
       </ReportCard>

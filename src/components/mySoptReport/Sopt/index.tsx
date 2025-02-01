@@ -1,4 +1,13 @@
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { IconChevronRight } from '@sopt-makers/icons';
+import { Button, Tag } from '@sopt-makers/ui';
+import router from 'next/router';
+import { playgroundLink } from 'playground-common/export';
+
 import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ReportCard from '@/components/mySoptReport/common/ReportCard';
 import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
@@ -7,13 +16,6 @@ import ServiceCategoryRankBox from '@/components/mySoptReport/Sopt/ServiceCatego
 import { SoptReportDataType } from '@/components/mySoptReport/types';
 import NewMemberIcon from '@/public/logos/img_member.svg';
 import ServiceIcon from '@/public/logos/img_service.svg';
-import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
-import { IconChevronRight } from '@sopt-makers/icons';
-import { Button, Tag } from '@sopt-makers/ui';
-import router from 'next/router';
-import { playgroundLink } from 'playground-common/export';
 
 export default function Sopt({ reportData }: { reportData: SoptReportDataType }) {
   return (
@@ -39,28 +41,32 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
               <ReportText>가장 많은 서비스가 속한</ReportText>
               <ReportText color='#5CDBFE'>인기 카테고리 TOP 5</ReportText>
               <ServiceCategoryRankBox ServiceCategoryRankTable={reportData.ServiceCategoryRankTable} />
-              <Responsive only='desktop'>
-                <ButtonWrapper
-                  onClick={() => {
-                    window.open(playgroundLink.projectList(), '_blank');
-                  }}
-                >
-                  <Button rounded='lg' RightIcon={IconChevronRight}>
-                    전체 서비스 보러가기
-                  </Button>
-                </ButtonWrapper>
-              </Responsive>
-              <Responsive only='mobile'>
-                <ButtonWrapper
-                  onClick={() => {
-                    router.push(playgroundLink.projectList());
-                  }}
-                >
-                  <Button rounded='lg' RightIcon={IconChevronRight}>
-                    전체 서비스 보러가기
-                  </Button>
-                </ButtonWrapper>
-              </Responsive>
+              <LoggingClick eventKey='clickMyReportGotoProject'>
+                <>
+                  <Responsive only='desktop'>
+                    <ButtonWrapper
+                      onClick={() => {
+                        window.open(playgroundLink.projectList(), '_blank');
+                      }}
+                    >
+                      <Button rounded='lg' RightIcon={IconChevronRight}>
+                        전체 서비스 보러가기
+                      </Button>
+                    </ButtonWrapper>
+                  </Responsive>
+                  <Responsive only='mobile'>
+                    <ButtonWrapper
+                      onClick={() => {
+                        router.push(playgroundLink.projectList());
+                      }}
+                    >
+                      <Button rounded='lg' RightIcon={IconChevronRight}>
+                        전체 서비스 보러가기
+                      </Button>
+                    </ButtonWrapper>
+                  </Responsive>
+                </>
+              </LoggingClick>
             </Bottom>
           </>
         </ReportCard>

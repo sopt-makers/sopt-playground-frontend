@@ -1,11 +1,13 @@
-import { menuList } from '@/components/mySoptReport/constants';
-import { ActiveTabType } from '@/components/mySoptReport/types';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useEffect, useRef, useState } from 'react';
+
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { menuList } from '@/components/mySoptReport/constants';
+import { ActiveTabType } from '@/components/mySoptReport/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface ReportNavProps {
   activeTab: ActiveTabType;
@@ -49,14 +51,16 @@ export default function ReportNav({ activeTab, handleSetActive }: ReportNavProps
     <Menus isFixed={isFixed} ref={tabRef} id='nav'>
       {menuList.map(({ title, mainColor, textColor, id }) => {
         return (
-          <MenuTab
-            isActive={activeTab === id}
-            mainColor={mainColor}
-            textColor={textColor}
-            onClick={() => handleSetActive(id)}
-          >
-            {title}
-          </MenuTab>
+          <LoggingClick eventKey='clickMyReportNavbar' param={{ myReportSection: title }} key={id}>
+            <MenuTab
+              isActive={activeTab === id}
+              mainColor={mainColor}
+              textColor={textColor}
+              onClick={() => handleSetActive(id)}
+            >
+              {title}
+            </MenuTab>
+          </LoggingClick>
         );
       })}
     </Menus>

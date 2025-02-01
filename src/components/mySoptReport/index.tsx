@@ -1,16 +1,19 @@
+import styled from '@emotion/styled';
+import { Button } from '@sopt-makers/ui';
+import { useEffect, useState } from 'react';
+
 import { useGetReportData } from '@/api/endpoint/mySoptReport/getReportData';
 import Loading from '@/components/common/Loading';
+import Responsive from '@/components/common/Responsive';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
 import MyPG from '@/components/mySoptReport/MyPG';
 import Playground from '@/components/mySoptReport/Playground';
 import ReportNav from '@/components/mySoptReport/ReportNav';
 import Sopt from '@/components/mySoptReport/Sopt';
 import { ActiveTabType } from '@/components/mySoptReport/types';
+import MySoptReportImgPC from '@/public/logos/img-mysoptreport-pc.svg';
 import MySoptReportImg from '@/public/logos/my-sopt-report.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import styled from '@emotion/styled';
-import { Button } from '@sopt-makers/ui';
-import { useEffect, useState } from 'react';
 
 export default function MySoptReport() {
   const { soptReportData, playgroundReportData, isPending } = useGetReportData();
@@ -71,13 +74,24 @@ export default function MySoptReport() {
   return (
     <ReportContainer>
       <>
-        <MySoptReportBanner>
-          <MySoptReportImg />
-          <Button rounded='lg' onClick={() => handleSetActive('sopt')}>
-            마이 솝트 리포트 보러가기
-          </Button>
-          <ReportText type='label'>*데이터 집계 기준 : 2024.01.01 ~ 2024.12.31</ReportText>
-        </MySoptReportBanner>
+        <Responsive only='desktop'>
+          <MySoptReportBanner>
+            <MySoptReportImgPC />
+            <Button rounded='lg' onClick={() => handleSetActive('sopt')}>
+              마이 솝트 리포트 보러가기
+            </Button>
+            <ReportText type='label'>*데이터 집계 기준 : 2024.01.01 ~ 2024.12.31</ReportText>
+          </MySoptReportBanner>
+        </Responsive>
+        <Responsive only='mobile'>
+          <MySoptReportBanner>
+            <MySoptReportImg />
+            <Button rounded='lg' onClick={() => handleSetActive('sopt')}>
+              마이 솝트 리포트 보러가기
+            </Button>
+            <ReportText type='label'>*데이터 집계 기준 : 2024.01.01 ~ 2024.12.31</ReportText>
+          </MySoptReportBanner>
+        </Responsive>
         <ReportNav activeTab={activeTab} handleSetActive={handleSetActive} />
         {isPending && <Loading />}
 

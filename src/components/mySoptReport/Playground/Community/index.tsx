@@ -1,14 +1,16 @@
-import Responsive from '@/components/common/Responsive';
-import LabelButton from '@/components/mySoptReport/common/LabelButton';
-import ReportCard from '@/components/mySoptReport/common/ReportCard';
-import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
-import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
-import CommunityIcon from '@/public/logos/img_community.svg';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
+
+import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import LabelButton from '@/components/mySoptReport/common/LabelButton';
+import ReportCard from '@/components/mySoptReport/common/ReportCard';
+import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
+import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
+import CommunityIcon from '@/public/logos/img_community.svg';
 
 export default function Community({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
@@ -30,26 +32,30 @@ export default function Community({ reportData }: { reportData: PlaygroundReport
               return <Chip key={i}>{word}</Chip>;
             })}
           </ChipWrapper>
-          <IconWrapper>
-            <Responsive only='desktop'>
-              <LabelWrapper
-                onClick={() => {
-                  window.open(playgroundLink.wordchain(), '_blank');
-                }}
-              >
-                ➡️ 지금 진행 중인 끝말잇기, 참여하러 가기
-              </LabelWrapper>
-            </Responsive>
-            <Responsive only='mobile'>
-              <LabelWrapper
-                onClick={() => {
-                  router.push(playgroundLink.wordchain());
-                }}
-              >
-                ➡️ 지금 진행 중인 끝말잇기, 참여하러 가기
-              </LabelWrapper>
-            </Responsive>
-          </IconWrapper>
+          <LoggingClick eventKey='clickMyReportGotoWordchain'>
+            <>
+              <IconWrapper>
+                <Responsive only='desktop'>
+                  <LabelWrapper
+                    onClick={() => {
+                      window.open(playgroundLink.wordchain(), '_blank');
+                    }}
+                  >
+                    ➡️ 지금 진행 중인 끝말잇기, 참여하러 가기
+                  </LabelWrapper>
+                </Responsive>
+                <Responsive only='mobile'>
+                  <LabelWrapper
+                    onClick={() => {
+                      router.push(playgroundLink.wordchain());
+                    }}
+                  >
+                    ➡️ 지금 진행 중인 끝말잇기, 참여하러 가기
+                  </LabelWrapper>
+                </Responsive>
+              </IconWrapper>
+            </>
+          </LoggingClick>
         </CardWrapper>
       </ReportCard>
       {/* 좋아요, 댓글 */}
