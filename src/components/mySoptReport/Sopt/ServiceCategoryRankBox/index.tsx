@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 
 import { ServiceCategoryRankType } from '@/components/mySoptReport/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function ServiceCategoryRankBox({
   ServiceCategoryRankTable,
@@ -66,18 +67,39 @@ const ServiceCategoryRank = styled.div<{ rank: number }>`
   ${(props) =>
     props.rank === 1
       ? css`
+          line-height: 46px; /* 209.091% */
+          letter-spacing: -0.33px;
+          font-family: SUIT, sans-serif;
+          font-size: 22px;
+          font-weight: 500;
+          font-style: normal;
+
+          @media ${MOBILE_MEDIA_QUERY} {
+            line-height: 38px; /* 190% */
+            letter-spacing: -0.3px;
+            font-family: SUIT, sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            font-style: normal;
+          }
+        `
+      : props.rank === 2
+      ? css`
           line-height: 38px; /* 190% */
           letter-spacing: -0.3px;
           font-family: SUIT, sans-serif;
           font-size: 20px;
           font-weight: 500;
           font-style: normal;
-        `
-      : props.rank === 2
-      ? css`
-          ${fonts.BODY_18_M};
+
+          @media ${MOBILE_MEDIA_QUERY} {
+            ${fonts.BODY_18_M};
+          }
         `
       : css`
-          ${fonts.BODY_16_M};
+          ${fonts.BODY_18_M};
+          @media ${MOBILE_MEDIA_QUERY} {
+            ${fonts.BODY_16_M};
+          }
         `}
 `;

@@ -1,5 +1,6 @@
-import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
 import styled from '@emotion/styled';
+
+import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
 
 export default function MyPG() {
   return (
@@ -19,9 +20,7 @@ export default function MyPG() {
   );
 }
 
-const MyPGContainer = styled.div`
-  padding-top: 48px;
-`;
+const MyPGContainer = styled.div``;
 
 const TitleWrapper = styled.div`
   display: flex;

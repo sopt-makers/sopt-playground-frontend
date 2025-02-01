@@ -1,9 +1,3 @@
-import Responsive from '@/components/common/Responsive';
-import LabelButton from '@/components/mySoptReport/common/LabelButton';
-import ReportCard from '@/components/mySoptReport/common/ReportCard';
-import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
-import Tooltip from '@/components/mySoptReport/common/Tooltip';
-import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -11,6 +5,15 @@ import { IconChevronRight } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
+
+import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import LabelButton from '@/components/mySoptReport/common/LabelButton';
+import ReportCard from '@/components/mySoptReport/common/ReportCard';
+import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
+import Tooltip from '@/components/mySoptReport/common/Tooltip';
+import { PlaygroundReportDataType } from '@/components/mySoptReport/types';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 export default function MeetingStudy({ reportData }: { reportData: PlaygroundReportDataType }) {
   return (
@@ -38,28 +41,32 @@ export default function MeetingStudy({ reportData }: { reportData: PlaygroundRep
             </Tooltip>
             <ReportBigText>💻 {reportData.CrewPopularGroupInfoTable.groupName}</ReportBigText>
             <ImgWrapper src={reportData.CrewPopularGroupInfoTable.imageUrl} alt='모임 이미지' />
-            <Responsive only='desktop'>
-              <ButtonWrapper
-                onClick={() => {
-                  window.open(playgroundLink.groupList(), '_blank');
-                }}
-              >
-                <Button rounded='lg' RightIcon={IconChevronRight}>
-                  모임 피드 보러가기
-                </Button>
-              </ButtonWrapper>
-            </Responsive>
-            <Responsive only='mobile'>
-              <ButtonWrapper
-                onClick={() => {
-                  router.push(playgroundLink.groupList());
-                }}
-              >
-                <Button rounded='lg' RightIcon={IconChevronRight}>
-                  모임 피드 보러가기
-                </Button>
-              </ButtonWrapper>
-            </Responsive>
+            <LoggingClick eventKey='clickMyReportGotoMoimFeed'>
+              <>
+                <Responsive only='desktop'>
+                  <ButtonWrapper
+                    onClick={() => {
+                      window.open(playgroundLink.groupDetail(183), '_blank');
+                    }}
+                  >
+                    <Button rounded='lg' size='lg' RightIcon={IconChevronRight}>
+                      모임 피드 보러가기
+                    </Button>
+                  </ButtonWrapper>
+                </Responsive>
+                <Responsive only='mobile'>
+                  <ButtonWrapper
+                    onClick={() => {
+                      router.push(playgroundLink.groupDetail(183));
+                    }}
+                  >
+                    <Button rounded='lg' RightIcon={IconChevronRight}>
+                      모임 피드 보러가기
+                    </Button>
+                  </ButtonWrapper>
+                </Responsive>
+              </>
+            </LoggingClick>
           </Bottom>
         </>
       </ReportCard>
@@ -71,7 +78,6 @@ const ImgWrapper = styled.img`
   align-self: stretch;
   margin: 12px 0 32px;
   border-radius: 14px;
-  height: 176px;
 `;
 
 const ReportBigText = styled.h1`
@@ -82,7 +88,11 @@ const ReportBigText = styled.h1`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 12px;
+  }
 `;
 
 const Head = styled.div`

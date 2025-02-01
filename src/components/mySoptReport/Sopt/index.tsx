@@ -1,12 +1,3 @@
-import Responsive from '@/components/common/Responsive';
-import ReportCard from '@/components/mySoptReport/common/ReportCard';
-import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
-import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
-import PopularMeetingSpotRank from '@/components/mySoptReport/Sopt/PopularMeetingSpotRank';
-import ServiceCategoryRankBox from '@/components/mySoptReport/Sopt/ServiceCategoryRankBox';
-import { SoptReportDataType } from '@/components/mySoptReport/types';
-import NewMemberIcon from '@/public/logos/img_member.svg';
-import ServiceIcon from '@/public/logos/img_service.svg';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -15,7 +6,33 @@ import { Button, Tag } from '@sopt-makers/ui';
 import router from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import { useGetMemberProperty } from '@/api/endpoint/members/getMemberProperty';
+import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
+import Responsive from '@/components/common/Responsive';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import ReportCard from '@/components/mySoptReport/common/ReportCard';
+import ReportTitle from '@/components/mySoptReport/common/ReportTitle';
+import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
+import PopularMeetingSpotRank from '@/components/mySoptReport/Sopt/PopularMeetingSpotRank';
+import ServiceCategoryRankBox from '@/components/mySoptReport/Sopt/ServiceCategoryRankBox';
+import { SoptReportDataType } from '@/components/mySoptReport/types';
+import NewMemberIcon from '@/public/logos/img_member.svg';
+import ServiceIcon from '@/public/logos/img_service.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+
 export default function Sopt({ reportData }: { reportData: SoptReportDataType }) {
+  const { data: me } = useGetMemberOfMe();
+  const { data: myData } = useGetMemberProfileById(me?.id);
+  const partData = myData && myData.soptActivities.map(({ part }) => part);
+  const myPartData =
+    partData &&
+    reportData.NewSignUpPartUserCountTable.filter(({ part }) => partData.includes(part)).map(({ part, count }) => ({
+      part,
+      count,
+    }));
+  const totalCount = myPartData && myPartData.reduce((acc, { count }) => acc + count, 0);
+
   return (
     <SoptContainer id='sopt'>
       <ReportTitle color={'#FF6E1D'} subTitle='차곡차곡 쌓인 솝트의 기록들' title='2024년 SOPT는' />
@@ -31,7 +48,7 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
                   <ReportText color='#5CDBFE' type='big'>
                     {reportData.TotalServiceCount}개
                   </ReportText>
-                  <ReportText type='label'>*솝커톤, 앱잼 포함</ReportText>
+                  <ReportText type='label'>*솝커톤, 앱잼 합산</ReportText>
                 </div>
               </IconContentWrapper>
             </Head>
@@ -39,28 +56,32 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
               <ReportText>가장 많은 서비스가 속한</ReportText>
               <ReportText color='#5CDBFE'>인기 카테고리 TOP 5</ReportText>
               <ServiceCategoryRankBox ServiceCategoryRankTable={reportData.ServiceCategoryRankTable} />
-              <Responsive only='desktop'>
-                <ButtonWrapper
-                  onClick={() => {
-                    window.open(playgroundLink.projectList(), '_blank');
-                  }}
-                >
-                  <Button rounded='lg' RightIcon={IconChevronRight}>
-                    전체 서비스 보러가기
-                  </Button>
-                </ButtonWrapper>
-              </Responsive>
-              <Responsive only='mobile'>
-                <ButtonWrapper
-                  onClick={() => {
-                    router.push(playgroundLink.projectList());
-                  }}
-                >
-                  <Button rounded='lg' RightIcon={IconChevronRight}>
-                    전체 서비스 보러가기
-                  </Button>
-                </ButtonWrapper>
-              </Responsive>
+              <LoggingClick eventKey='clickMyReportGotoProject'>
+                <>
+                  <Responsive only='desktop'>
+                    <ButtonWrapper
+                      onClick={() => {
+                        window.open(playgroundLink.projectList(), '_blank');
+                      }}
+                    >
+                      <Button rounded='lg' size='lg' RightIcon={IconChevronRight}>
+                        전체 서비스 보러가기
+                      </Button>
+                    </ButtonWrapper>
+                  </Responsive>
+                  <Responsive only='mobile'>
+                    <ButtonWrapper
+                      onClick={() => {
+                        router.push(playgroundLink.projectList());
+                      }}
+                    >
+                      <Button rounded='lg' RightIcon={IconChevronRight}>
+                        전체 서비스 보러가기
+                      </Button>
+                    </ButtonWrapper>
+                  </Responsive>
+                </>
+              </LoggingClick>
             </Bottom>
           </>
         </ReportCard>
@@ -99,22 +120,22 @@ export default function Sopt({ reportData }: { reportData: SoptReportDataType })
               <ContentWrapper>
                 <div>
                   <TextWrapper>
-                    <ReportBigText color='#5CDBFE'>40명</ReportBigText>
+                    <ReportBigText color='#5CDBFE'>{totalCount && totalCount}명</ReportBigText>
                     <ReportBigText>이</ReportBigText>
                   </TextWrapper>
                   <ReportBigText>새로 가입했어요!</ReportBigText>
                 </div>
                 <TagWrapper>
-                  {reportData.NewSignUpPartUserCountTable.map(({ part, count }) => {
-                    return (
-                      <Tag key={part} size='md'>
-                        {part}({count})명
-                      </Tag>
-                    );
-                  })}
+                  {myPartData &&
+                    myPartData.map(({ part, count }) => {
+                      return (
+                        <Tag key={part} size='md'>
+                          {part}({count})명
+                        </Tag>
+                      );
+                    })}
                 </TagWrapper>
               </ContentWrapper>
-              <ReportText type='label'>*최근 활동 파트 2개 합산</ReportText>
             </Bottom>
           </>
         </ReportCard>
@@ -173,6 +194,11 @@ const TextWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 12px;
+  }
 `;
 
 const Head = styled.div`

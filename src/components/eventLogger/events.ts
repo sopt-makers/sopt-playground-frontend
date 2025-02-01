@@ -193,6 +193,13 @@ export interface ClickEvents {
   adPopupBody: undefined;
   adPopupClose: undefined;
 
+  clickMyReportNavbar: {
+    myReportSection: string;
+  };
+  clickMyReportGotoProject: undefined;
+  clickMyReportGotoWordchain: undefined;
+  clickMyReportGotoMoimFeed: undefined;
+  clickMyReportGotoCoffeesopt: undefined;
 }
 
 export interface SubmitEvents {

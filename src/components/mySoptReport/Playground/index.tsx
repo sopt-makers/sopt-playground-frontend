@@ -33,10 +33,10 @@ export default function Playground({ reportData }: { reportData: PlaygroundRepor
               <ReportText type='description'>가장 북적였던 날은</ReportText>
               <TextWrapper>
                 <ReportText color='#FDBBF9' type='description'>
-                  3월 31일 일요일
+                  {reportData.PeakVisitDate}
                 </ReportText>
                 <ReportText color='#9D9DA4' type='description'>
-                  (2,053명)
+                  ({reportData.PeakVisitCount.toLocaleString()}명)
                 </ReportText>
               </TextWrapper>
             </div>
@@ -104,7 +104,6 @@ const IconContentWrapper = styled.div`
 const PlaygroundContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 48px;
 `;
 
 const PlaygroundSection = styled.section`

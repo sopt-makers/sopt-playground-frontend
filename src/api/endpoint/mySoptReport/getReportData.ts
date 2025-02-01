@@ -1,6 +1,7 @@
-import { createEndpoint } from '@/api/typedAxios';
 import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
+
+import { createEndpoint } from '@/api/typedAxios';
 
 const ServiceCategorySchema = z.object({
   category: z.string(),
@@ -64,6 +65,8 @@ const MyPlaygroundReportDataSchema = z.object({
   CrewTotalGroupUserCount: z.number(),
   CoffeeChatHistoryInfoTable: CoffeeChatHistorySchema,
   CoffeeChatTotalVisitCount: z.number(),
+  PeakVisitDate: z.string(),
+  PeakVisitCount: z.number(),
 });
 
 const getSoptReportData = createEndpoint({
