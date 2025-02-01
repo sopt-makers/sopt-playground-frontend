@@ -1,3 +1,4 @@
+import { useGetPGData } from '@/api/endpoint/mySoptReport/getMyPGData';
 import { useGetReportData } from '@/api/endpoint/mySoptReport/getReportData';
 import Loading from '@/components/common/Loading';
 import ReportText from '@/components/mySoptReport/common/ReportTitle/ReportText';
@@ -14,6 +15,7 @@ import { useEffect, useState } from 'react';
 
 export default function MySoptReport() {
   const { soptReportData, playgroundReportData, isPending } = useGetReportData();
+  const { myPgData, isMyPGDataPending } = useGetPGData();
   const [activeTab, setActiveTab] = useState<ActiveTabType>('sopt');
   const [scrollY, setScrollY] = useState(0);
   const [flag, setFlag] = useState(false);
@@ -33,7 +35,7 @@ export default function MySoptReport() {
       });
     } else if (tab === 'my-pg') {
       window.scrollTo({
-        top: 6000,
+        top: 5600,
         behavior: 'smooth',
       });
     }
@@ -54,9 +56,9 @@ export default function MySoptReport() {
 
     if (scrollY >= 600 && scrollY < 2250) {
       setActiveTab('sopt');
-    } else if (scrollY >= 2250 && scrollY < 6000) {
+    } else if (scrollY >= 2250 && scrollY < 5600) {
       setActiveTab('playground');
-    } else if (scrollY >= 6000) {
+    } else if (scrollY >= 5600) {
       setActiveTab('my-pg');
     }
   }, [scrollY]);
@@ -79,13 +81,13 @@ export default function MySoptReport() {
           <ReportText type='label'>*데이터 집계 기준 : 2024.01.01 ~ 2024.12.31</ReportText>
         </MySoptReportBanner>
         <ReportNav activeTab={activeTab} handleSetActive={handleSetActive} />
-        {isPending && <Loading />}
+        {isPending && isMyPGDataPending && <Loading />}
 
         <ReportWrapper>
           {soptReportData && <Sopt reportData={soptReportData} />}
           {playgroundReportData && <Playground reportData={playgroundReportData} />}
-          <MyPG />
         </ReportWrapper>
+        {myPgData && <MyPG myPgData={myPgData} />}
       </>
     </ReportContainer>
   );
