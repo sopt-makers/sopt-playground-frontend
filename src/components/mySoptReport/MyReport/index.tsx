@@ -23,6 +23,7 @@ import personOff from '@/public/icons/img/mySoptReport/person_off.png';
 import personOn from '@/public/icons/img/mySoptReport/person_on.png';
 
 import { indicatorIcons, Value } from '@/components/mySoptReport/constants';
+import Popup from '@/components/mySoptReport/PopUp';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
 import { fonts } from '@sopt-makers/fonts';
 import { toPng } from 'html-to-image';
@@ -41,6 +42,7 @@ const index = ({ myPgData }: MyReportProps) => {
   const { open } = useToast();
   const [activeIndex, setActiveIndex] = useState(0);
   const [cardsArray, setCardsArray] = useState<Card[]>([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     if (myPgData) {
@@ -61,6 +63,16 @@ const index = ({ myPgData }: MyReportProps) => {
       link.download = 'collect_image.png';
       link.click();
     }
+
+    open({
+      icon: 'success',
+      content: '이미지가 저장되었어요!',
+      style: {
+        content: {
+          whiteSpace: 'pre-wrap',
+        },
+      },
+    });
   };
 
   const copyLinkToClipboard = async () => {
@@ -133,7 +145,18 @@ const index = ({ myPgData }: MyReportProps) => {
         })}
       </Indicators>
 
-      <CollectButton onClick={handleDownLoad}>한 장으로 모아보기</CollectButton>
+      <CollectButton onClick={() => setIsPopupOpen(true)}>한 장으로 모아보기</CollectButton>
+
+      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} onDownload={handleDownLoad}>
+        <HiddenContent $isSmall={true}>
+          {cardsArray
+            ?.filter((card) => card.id !== 'myCrewStats')
+            .map((card) => (
+              <MiniReportCard key={card.id} type={card.id} value={card.value} />
+            ))}
+          <MentionMakers>@sopt_makers</MentionMakers>
+        </HiddenContent>
+      </Popup>
 
       <HiddenContent id='downloadableContent'>
         {cardsArray
@@ -222,6 +245,7 @@ const IconWrapper = styled.div<{ isActive: boolean }>`
 `;
 
 const CollectButton = styled(Button)`
+  z-index: 1;
   margin-top: 40px;
   ${fonts.LABEL_18_SB};
 
@@ -236,19 +260,21 @@ const CollectButton = styled(Button)`
   }
 `;
 
-const HiddenContent = styled.div`
+const HiddenContent = styled.div<{ $isSmall?: boolean }>`
   display: flex;
-  position: absolute;
   top: 0;
   left: 0;
   flex-wrap: wrap;
   gap: 12px;
+  justify-content: center;
+  ${({ $isSmall }) => ($isSmall ? 'transform: scale(1.0);' : ' position: absolute;')};
+
   z-index: -1;
   border-radius: 20px;
   background-image: url(${collect_bg.src});
   background-size: cover;
   padding: 193px 26px 0;
-  width: 540px;
+  width: 560px;
   height: 960px;
 `;
 
@@ -273,7 +299,7 @@ const ShareSection = styled.section`
   margin-top: -200px;
   background-image: url(${particle_pc.src});
   background-size: cover;
-  width: 1920px;
+  width: 100vw;
   height: 1000px;
 
   p {
