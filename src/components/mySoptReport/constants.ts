@@ -5,6 +5,20 @@ import SubLike from '@/public/icons/img/mySoptReport/card_sub_like.png';
 import SubVisit from '@/public/icons/img/mySoptReport/card_sub_visit.png';
 import { StaticImageData } from 'next/image';
 
+import personOff from '@/public/icons/img/mySoptReport/person_off.png';
+import personOn from '@/public/icons/img/mySoptReport/person_on.png';
+import searchOff from '@/public/icons/img/mySoptReport/search_off.png';
+import searchOn from '@/public/icons/img/mySoptReport/search_on.png';
+import studyOff from '@/public/icons/img/mySoptReport/study_off.png';
+import studyOn from '@/public/icons/img/mySoptReport/study_on.png';
+import timeOff from '@/public/icons/img/mySoptReport/time_off.png';
+import timeOn from '@/public/icons/img/mySoptReport/time_on.png';
+
+import gameOff from '@/public/icons/img/mySoptReport/game_off.png';
+import gameOn from '@/public/icons/img/mySoptReport/game_on.png';
+import heartOff from '@/public/icons/img/mySoptReport/heart_off.png';
+import heartOn from '@/public/icons/img/mySoptReport/heart_on.png';
+
 export const menuList: {
   title: string;
   mainColor: keyof typeof colors;
@@ -104,4 +118,13 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
   };
 
   return cardConfigs[type];
+};
+
+export const indicatorIcons = {
+  myType: { off: personOff, on: personOn },
+  totalVisitCount: { off: timeOff, on: timeOn },
+  myCommunityStats: { off: heartOff, on: heartOn },
+  myProfileStats: { off: searchOff, on: searchOn },
+  myCrewStats: { off: studyOff, on: studyOn },
+  myWordChainGameStats: { off: gameOff, on: gameOn },
 };
