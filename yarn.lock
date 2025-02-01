@@ -5990,7 +5990,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sopt-makers/ui@npm:^2.8.6":
+"@sopt-makers/ui@npm:2.8.6":
   version: 2.8.6
   resolution: "@sopt-makers/ui@npm:2.8.6"
   dependencies:
@@ -8062,6 +8062,15 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: 83eb419d636a7a7f61af58bfdad9cbe6a4beda4bf4e608a5c489eb77b6c2d99ac29efbd99c73d080c73ffcba3de65e0f33835a5b8bf984217e1f66bb687fccdb
+  languageName: node
+  linkType: hard
+
+"@types/react-scroll@npm:^1":
+  version: 1.8.10
+  resolution: "@types/react-scroll@npm:1.8.10"
+  dependencies:
+    "@types/react": "*"
+  checksum: 056625e1a4b0572bf0570bf82fc0bf2db756370e8711167ff41e144c684c177673007a1ae7ba56d202f695489e8f5f5212df38a54e73a8d626adf82699cd436d
   languageName: node
   linkType: hard
 
@@ -18122,6 +18131,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-scroll@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "react-scroll@npm:1.9.0"
+  dependencies:
+    lodash.throttle: ^4.1.1
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: b84427d090600d9107adb57b93c8c059f9e36dcb4919660cd7d0547a6ce816b179bc54bc2941ff7d2497b2295f1a3e92dd0974c0dcedfde2fa5c93966441271e
+  languageName: node
+  linkType: hard
+
 "react-slick@npm:^0.30.2":
   version: 0.30.2
   resolution: "react-slick@npm:0.30.2"
@@ -19228,7 +19250,7 @@ __metadata:
     "@sopt-makers/colors": ^3.0.2
     "@sopt-makers/fonts": ^1.0.0
     "@sopt-makers/icons": ^1.1.0
-    "@sopt-makers/ui": ^2.8.6
+    "@sopt-makers/ui": 2.8.6
     "@storybook/addon-actions": ^7.0.23
     "@storybook/addon-docs": ^7.0.23
     "@storybook/addon-essentials": ^7.0.23
@@ -19255,6 +19277,7 @@ __metadata:
     "@types/react-datepicker": ^4.8.0
     "@types/react-dom": 18.0.1
     "@types/react-lottie": ^1
+    "@types/react-scroll": ^1
     "@types/react-slick": ^0.23.13
     "@types/slick-carousel": ^1
     "@types/testing-library__jest-dom": ^6.0.0
@@ -19302,6 +19325,7 @@ __metadata:
     react-markdown: ^8.0.4
     react-modal-sheet: ^1.10.2
     react-remove-scroll: ^2.5.6
+    react-scroll: ^1.9.0
     react-slick: ^0.30.2
     react-textarea-autosize: ^8.5.3
     react-virtuoso: ^4.6.2

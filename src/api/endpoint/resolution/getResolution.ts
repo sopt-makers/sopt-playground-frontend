@@ -15,12 +15,13 @@ const getResolution = createEndpoint({
   }),
 });
 
-export const useGetResolution = () => {
+export const useGetResolution = (isMessageExist: boolean) => {
   return useQuery({
     queryKey: ['getResolution'],
     queryFn: async () => {
       const data = await getResolution.request();
       return data;
     },
+    enabled: isMessageExist,
   });
 };

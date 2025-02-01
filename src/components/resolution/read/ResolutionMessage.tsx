@@ -1,14 +1,20 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
 import Text from '@/components/common/Text';
 import { SoptLogo } from '@/components/resolution/read/images';
 import { TitleDecoration } from '@/components/resolution/read/images';
 import ResolutionBackground from '@/components/resolution/read/ResolutionBackground';
 
-const ResolutionMessage = () => {
-  const { data: resolutionData } = useGetResolution();
+interface ResolutionMessageProps {
+  isMessageExist: boolean;
+}
+
+const ResolutionMessage = ({ isMessageExist }: ResolutionMessageProps) => {
+  const { data: resolutionData } = useGetResolution(isMessageExist);
+  const { data: { name } = {} } = useGetMemberOfMe();
 
   return (
     <ResolutionMessageWrapper>
@@ -18,20 +24,29 @@ const ResolutionMessage = () => {
       <Contents>
         <TitleWrapper>
           <TitleText color={colors.white} typography='SUIT_18_B'>
-            {`NOW SOPT를\n마친 ${resolutionData?.memberName.slice(1)}에게`}
+            {`AND SOPT를\n마친 ${name?.slice(1)}에게`}
           </TitleText>
           <StyledTitleDecoration />
         </TitleWrapper>
         <TagWrapper>
-          {resolutionData?.tags.map((tag) => (
-            <Tag key={tag} color={colors.gray200} typography='SUIT_14_SB'>
-              {tag}
-            </Tag>
-          ))}
+          {isMessageExist &&
+            resolutionData?.tags.map((tag) => (
+              <Tag key={tag} color={colors.gray200} typography='SUIT_14_SB'>
+                {tag}
+              </Tag>
+            ))}
         </TagWrapper>
-        <Message color={colors.gray10} typography='SUIT_14_M'>
-          {resolutionData?.content}
-        </Message>
+        {isMessageExist ? (
+          <Message color={colors.gray10} typography='SUIT_14_M'>
+            {resolutionData?.content}
+          </Message>
+        ) : (
+          <EmptyMessageWrapper>
+            <Message color={colors.gray10} typography='SUIT_14_M'>
+              {`35기 솝트 활동은 어떠셨나요?\n\n이번 기수에 작성하신 다짐 메시지는 없지만,\n만족스러운 AND SOPT로 기억되길 바라요!`}
+            </Message>
+          </EmptyMessageWrapper>
+        )}
       </Contents>
       <SoptLogoWrapper>
         <SoptLogo />
@@ -92,7 +107,7 @@ const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  justify-content: center;
+  padding: 0 14px;
 `;
 
 const Tag = styled(Text)`
@@ -109,7 +124,15 @@ const Message = styled(Text)`
   margin: 20px 0;
   padding: 0 16px;
   text-align: center;
+  line-height: 22px;
+  white-space: pre-line;
   word-break: keep-all;
+`;
+
+const EmptyMessageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 320px;
 `;
 
 const SoptLogoWrapper = styled.div`

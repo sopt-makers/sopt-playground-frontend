@@ -40,4 +40,5 @@ export const playgroundLink = {
   coffeechatEdit: (id: string | number) => `/coffeechat/edit/${id}`,
   coffeechat: () => `/coffeechat`,
   coffeechatDetail: (id: string | number) => `/coffeechat/${id}`,
+  mySoptReport: () => `/mySoptReport`,
 };

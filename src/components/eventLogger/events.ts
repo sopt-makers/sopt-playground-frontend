@@ -129,11 +129,16 @@ export interface ClickEvents {
     feedId: string;
   };
 
-  //다짐메시지
+  //다짐메시지 제출
   welcomeBannerResolution: {
     isAlreadySubmitted: boolean;
   };
   profileUploadResolution: undefined;
+
+  // 다짐메시지 노출
+  saveResolutionImage: undefined;
+  bannerOpenResolution: undefined;
+  bannerOpenMyReport: undefined;
 
   // 프로젝트 등록 후 공유하러 가기
   clickProjectShare: undefined;
@@ -181,6 +186,13 @@ export interface ClickEvents {
   senderPhone: undefined;
   coffeechatBanner: undefined;
   sendCoffeechat: undefined;
+
+  coffeechatReviewCard: undefined;
+
+  hideAdPopupToday: undefined;
+  adPopupBody: undefined;
+  adPopupClose: undefined;
+
 }
 
 export interface SubmitEvents {
@@ -226,6 +238,7 @@ export interface SubmitEvents {
   openCoffeechat: Coffeechat;
   coffeechatDelete: undefined;
   editCoffeechat: undefined;
+  coffeechatReview: undefined;
 }
 
 export interface PageViewEvents {
@@ -248,4 +261,5 @@ export interface ImpressionEvents {
     feedId: string;
   };
   ads: { bannerId: number; pageUrl: string; timeStamp: string };
+  adPopup: undefined;
 }
