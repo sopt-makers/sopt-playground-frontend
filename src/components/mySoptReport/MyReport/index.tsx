@@ -57,8 +57,11 @@ const index = ({ myPgData }: MyReportProps) => {
 
   const handleDownLoad = async () => {
     const element = document.getElementById('downloadableContent');
+
     if (element) {
+      element.style.opacity = '1';
       onDownloadButtonClick();
+      element.style.opacity = '0';
     }
 
     open({
@@ -264,7 +267,7 @@ const HiddenContent = styled.div<{ $isSmall?: boolean }>`
   flex-wrap: wrap;
   column-gap: 12px;
   justify-content: center;
-  ${({ $isSmall }) => ($isSmall ? 'transform: scale(1.0);' : ' position: absolute;')};
+  ${({ $isSmall }) => ($isSmall ? 'transform: scale(1.0);' : ' position: absolute; opacity:0;')};
 
   z-index: -1;
   border-radius: 20px;
@@ -293,7 +296,6 @@ const ShareSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  opacity: 0;
   margin-top: -200px;
   background-image: url(${particle_pc.src});
   background-size: cover;
