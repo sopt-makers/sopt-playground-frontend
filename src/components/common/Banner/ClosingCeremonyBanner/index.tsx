@@ -46,7 +46,8 @@ type textType = {
 };
 
 export const ClosingCeremonyBanner = () => {
-  // const router = useRouter();
+  const router = useRouter();
+
   const {
     isOpen: isOpenResolutionModal,
     onClose: onCloseResolutionModal,
@@ -114,9 +115,7 @@ export const ClosingCeremonyBanner = () => {
               {is35 ? (
                 <>
                   <LoggingClick eventKey='bannerOpenMyReport'>
-                    {/* TODO: 마이솝트리포트 배포 이후 onClick 변경*/}
-                    {/* <StyledButton color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}> */}
-                    <StyledButton color='secondary' onClick={onOpenMySoptReportComingSoonModal}>
+                    <StyledButton color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}>
                       <Text typography='SUIT_12_EB' color={colors.gray700}>
                         {text.resolution.buttonContentSecondary}
                       </Text>
@@ -132,9 +131,7 @@ export const ClosingCeremonyBanner = () => {
                 </>
               ) : (
                 <LoggingClick eventKey='bannerOpenMyReport'>
-                  {/* TODO: 마이솝트리포트 배포 이후 onClick 변경*/}
-                  {/* <MySoptReportButton color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}> */}
-                  <MySoptReportButton color='primary' onClick={onOpenMySoptReportComingSoonModal}>
+                  <MySoptReportButton color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}>
                     <Text typography='SUIT_12_EB' color={colors.gray700}>
                       {text.default.buttonContent}
                     </Text>
