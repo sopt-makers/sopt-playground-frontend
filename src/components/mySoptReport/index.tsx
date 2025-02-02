@@ -1,3 +1,4 @@
+import { useGetPGData } from '@/api/endpoint/mySoptReport/getMyPGData';
 import styled from '@emotion/styled';
 import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
@@ -19,6 +20,7 @@ import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY, TABLET_MEDIA_QUERY } from '@/styl
 
 export default function MySoptReport() {
   const { soptReportData, playgroundReportData, isPending } = useGetReportData();
+  const { myPgData, isMyPGDataPending } = useGetPGData();
   const [activeTab, setActiveTab] = useState<ActiveTabType>('sopt');
   const [scrollY, setScrollY] = useState(0);
   const [flag, setFlag] = useState(false);
@@ -53,7 +55,7 @@ export default function MySoptReport() {
         });
       } else if (tab === 'my-pg') {
         window.scrollTo({
-          top: isMobile ? 5500 : 5840,
+          top: isMobile ? 5450 : 5800,
           behavior: 'smooth',
         });
       }
@@ -70,17 +72,17 @@ export default function MySoptReport() {
     if (isMobile) {
       if (scrollY >= 600 && scrollY < 2190) {
         setActiveTab('sopt');
-      } else if (scrollY >= 2190 && scrollY < 5500) {
+      } else if (scrollY >= 2190 && scrollY < 5450) {
         setActiveTab('playground');
-      } else if (scrollY >= 5500) {
+      } else if (scrollY >= 5450) {
         setActiveTab('my-pg');
       }
     } else {
       if (scrollY >= 500 && scrollY < 2220) {
         setActiveTab('sopt');
-      } else if (scrollY >= 2220 && scrollY < 5840) {
+      } else if (scrollY >= 2220 && scrollY < 5800) {
         setActiveTab('playground');
-      } else if (scrollY >= 5840) {
+      } else if (scrollY >= 5800) {
         setActiveTab('my-pg');
       }
     }
@@ -117,14 +119,15 @@ export default function MySoptReport() {
           </Responsive>
         </Banner>
         <ReportNav activeTab={activeTab} handleSetActive={handleSetActive} />
+        {isPending && isMyPGDataPending && <Loading />}
 
         {isPending && <Loading />}
 
         <ReportWrapper>
           {soptReportData && <Sopt reportData={soptReportData} />}
           {playgroundReportData && <Playground reportData={playgroundReportData} />}
-          <MyPG />
         </ReportWrapper>
+        {myPgData && <MyPG myPgData={myPgData} />}
       </>
     </ReportContainer>
   );

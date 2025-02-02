@@ -13459,6 +13459,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"html-to-image@npm:^1.11.11":
+  version: 1.11.11
+  resolution: "html-to-image@npm:1.11.11"
+  checksum: b453beca72a697bf06fae4945e5460d1d9b1751e8569a0d721dda9485df1dde093938cc9bd9172b8df5fc23133a53a4d619777b3d22f7211cd8a67e3197ab4e8
+  languageName: node
+  linkType: hard
+
 "html-webpack-plugin@npm:^5.5.0":
   version: 5.5.3
   resolution: "html-webpack-plugin@npm:5.5.3"
@@ -19291,6 +19298,7 @@ __metadata:
     eslint-plugin-storybook: ^0.6.12
     focus-trap-react: ^10.0.2
     framer-motion: ^8.1.3
+    html-to-image: ^1.11.11
     html2canvas: ^1.4.1
     husky: ^7.0.0
     immer: ^10.0.4
