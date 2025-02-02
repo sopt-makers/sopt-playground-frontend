@@ -275,6 +275,12 @@ const HiddenContent = styled.div<{ $isSmall?: boolean }>`
   padding: 193px 26px 0;
   width: 560px;
   height: 960px;
+
+  @supports (-webkit-touch-callout: none) {
+    background-image: url('/icons/img/mySoptReport/collect_bg.png') !important;
+    /* stylelint-disable */
+    -webkit-background-size: cover !important;
+  }
 `;
 
 const MentionMakers = styled.p`

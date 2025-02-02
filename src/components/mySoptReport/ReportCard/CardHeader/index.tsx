@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useToast } from '@sopt-makers/ui';
-import { toPng } from 'html-to-image';
+import html2canvas from 'html2canvas';
 import { StaticImageData } from 'next/image';
 
 interface CardHeaderProps {
@@ -28,11 +28,21 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
       // 이미지가 없는 경우 HTML -> PNG 변환 후 다운로드
       const element = document.getElementById(`downloadableContent-${cardConfig.strongColor}`);
       if (element) {
-        const dataUrl = await toPng(element);
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = `마이 플그 데이터 ${cardConfig.index}`;
-        link.click();
+        try {
+          const canvas = await html2canvas(element, {
+            useCORS: true, // 외부 이미지 사용 가능
+            backgroundColor: null, // 배경색을 투명하게 설정
+            scale: 2, // 고해상도 이미지 저장
+          });
+
+          const dataUrl = canvas.toDataURL('image/png');
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          link.download = `마이 플그 데이터 ${cardConfig.index}.png`;
+          link.click();
+        } catch (error) {
+          console.error('이미지 변환 오류:', error);
+        }
       }
     }
 
