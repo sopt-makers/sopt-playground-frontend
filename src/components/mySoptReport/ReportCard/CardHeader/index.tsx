@@ -15,7 +15,7 @@ interface CardHeaderProps {
 }
 
 const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeaderProps) => {
-  const cardConfig = type && value && getCardConfig(type, value);
+  const cardConfig = (type && getCardConfig(type, value)) || null;
   const { open } = useToast();
 
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload(`마이 플그 데이터 ${cardConfig?.index}`);
@@ -28,7 +28,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
       link.click();
     } else {
       // 이미지가 없는 경우 HTML -> PNG 변환 후 다운로드
-      const element = document.getElementById(`downloadableContent-${cardConfig.strongColor}`);
+      const element = document.getElementById(`downloadableContent-${cardConfig?.strongColor}`);
       if (element) {
         onDownloadButtonClick();
       }
@@ -55,22 +55,22 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
       {/* 다운로드를 위한 숨겨진 HTML 콘텐츠 */}
       {!image && (
         <HiddenContent
-          id={`downloadableContent-${cardConfig.strongColor}`}
-          $bgColor={cardConfig.bgColor}
+          id={`downloadableContent-${cardConfig?.strongColor}`}
+          $bgColor={cardConfig?.bgColor}
           ref={imageRef}
         >
           <Title>SOPT Playground</Title>
           <MainText
-            $titleColor={cardConfig.titleColor}
-            $strongColor={cardConfig.strongColor}
-            dangerouslySetInnerHTML={{ __html: cardConfig.title }}
+            $titleColor={cardConfig?.titleColor}
+            $strongColor={cardConfig?.strongColor}
+            dangerouslySetInnerHTML={{ __html: cardConfig?.title || '' }}
           />
-          {cardConfig.description && (
+          {cardConfig?.description && (
             <Description $strongColor={cardConfig.strongColor}>{cardConfig.description}</Description>
           )}
           {type === 'myCrewStats' && (
             <CrewContainer>
-              {cardConfig.crewList!.length > 0 ? (
+              {cardConfig?.crewList && cardConfig.crewList.length > 0 ? (
                 cardConfig.crewList!.slice(0, 3).map((crew: string, idx: number) => (
                   <CrewItem key={idx} $index={idx}>
                     <CrewText>{crew}</CrewText>
@@ -84,7 +84,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
           )}
           {type === 'myWordChainGameStats' && (
             <WordChainContainer>
-              {cardConfig.wordList!.length > 0 ? (
+              {cardConfig?.wordList && cardConfig.wordList.length > 0 ? (
                 cardConfig
                   .wordList!.slice(0, 5)
                   .map((word: string, idx: number) => <WordChainChip key={idx}>{word}</WordChainChip>)
@@ -94,7 +94,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
               {}
             </WordChainContainer>
           )}
-          {cardConfig?.subImage && <TypeImg src={cardConfig.subImage} />}
+          {cardConfig?.subImage && <TypeImg src={cardConfig.subImage as string} />}
         </HiddenContent>
       )}
     </Wrapper>
