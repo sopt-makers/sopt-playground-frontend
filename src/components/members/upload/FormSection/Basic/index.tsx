@@ -36,7 +36,14 @@ export default function MemberBasicFormSection() {
   const { confirm } = useConfirm();
 
   const openMaskingModal = (title: ReactNode, description: ReactNode) => {
-    return confirm({ title, description, okButtonText: '확인', cancelButtonText: '취소', maxWidth: 400 });
+    return confirm({
+      title,
+      description,
+      okButtonText: '확인',
+      cancelButtonText: '취소',
+      maxWidth: 400,
+      hideCloseButton: true,
+    });
   };
 
   const openMaskingPhoneModal = () => {
