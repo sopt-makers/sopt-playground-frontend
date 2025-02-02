@@ -21,7 +21,7 @@ const Popup = ({ isOpen, onClose, onDownload, children }: PopupProps) => {
       <Buttons>
         <Responsive only='desktop'>
           <Button size='lg' theme='black' onClick={onClose}>
-            {' '.repeat(12)}닫기{' '.repeat(12)}
+            {' '.repeat(10)}닫기{' '.repeat(10)}
           </Button>
         </Responsive>
         <Responsive only='desktop'>
@@ -62,11 +62,11 @@ const Backdrop = styled.div`
 
 const PopupContainer = styled.div`
   position: relative;
-  transform: scale(0.7);
+  transform: scale(0.6);
   border-radius: 16px;
   box-shadow: 0 4px 10px rgb(0 0 0 / 25%);
   background-color: #1a1a1a;
-  padding: 40px 30px 160px;
+  padding: 40px 30px 140px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     transform: scale(0.6);
@@ -78,11 +78,10 @@ const Buttons = styled.div`
   position: absolute;
   gap: 7px;
   justify-content: space-between;
-  margin-top: 680px;
-  width: 375px;
+  margin-top: 600px;
+  width: 336px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 600px;
     width: 315px;
   }
 `;
