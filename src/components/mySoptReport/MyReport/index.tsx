@@ -262,7 +262,7 @@ const HiddenContent = styled.div<{ $isSmall?: boolean }>`
   top: 0;
   left: 0;
   flex-wrap: wrap;
-  gap: 12px;
+  column-gap: 12px;
   justify-content: center;
   ${({ $isSmall }) => ($isSmall ? 'transform: scale(1.0);' : ' position: absolute;')};
 
@@ -270,7 +270,7 @@ const HiddenContent = styled.div<{ $isSmall?: boolean }>`
   border-radius: 20px;
   background-image: url('/icons/img/mySoptReport/collect_bg.png') !important;
   background-size: cover;
-  padding: 193px 26px 0;
+  padding: 193px 26px 20px;
   width: 560px;
   height: 960px;
 `;
