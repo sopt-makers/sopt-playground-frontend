@@ -76,7 +76,11 @@ const BottomSheetSelect = ({
   return (
     <Container>
       <InputField onClick={handleOpen} className={className} disabled={disabled}>
-        {selectedValue ? <p>{getSelectedLabel(selectedValue)}</p> : <p style={{ color: '#808087' }}>{placeholder}</p>}
+        {selectedValue !== null && selectedValue !== undefined ? (
+          <p>{getSelectedLabel(selectedValue)}</p>
+        ) : (
+          <p style={{ color: '#808087' }}>{placeholder}</p>
+        )}
         {!icon && !disabled && (
           <IconChevronDown
             style={{
