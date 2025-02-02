@@ -68,9 +68,9 @@ const index = ({ type, value }: MiniReportCardProps) => {
                 <ReportValue
                   $marginTop={16}
                   $color={cardConfig.strongColor!}
-                  $fontSize={(value as WordChainGameStats).playCount >= 10 ? '44px' : '56px'}
+                  $fontSize={(value as WordChainGameStats).winCount >= 10 ? '40px' : '56px'}
                 >
-                  {(value as WordChainGameStats).playCount}번
+                  {(value as WordChainGameStats).winCount}번
                 </ReportValue>
               </div>
             </>
