@@ -92,7 +92,6 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
               {}
             </WordChainContainer>
           )}
-          {cardConfig?.subImage}
           {cardConfig?.subImage && <TypeImg src={cardConfig.subImage} />}
         </HiddenContent>
       )}
