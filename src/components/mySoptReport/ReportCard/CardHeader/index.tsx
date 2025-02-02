@@ -58,7 +58,6 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
       {!image && (
         <HiddenContent id={`downloadableContent-${cardConfig.strongColor}`} $bgColor={cardConfig.bgColor}>
           <Title>SOPT Playground</Title>
-
           <MainText
             $titleColor={cardConfig.titleColor}
             $strongColor={cardConfig.strongColor}
@@ -81,7 +80,6 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
               {}
             </CrewContainer>
           )}
-
           {type === 'myWordChainGameStats' && (
             <WordChainContainer>
               {cardConfig.wordList!.length > 0 ? (
@@ -94,6 +92,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
               {}
             </WordChainContainer>
           )}
+          {cardConfig?.subImage}
           {cardConfig?.subImage && <TypeImg src={cardConfig.subImage} />}
         </HiddenContent>
       )}
