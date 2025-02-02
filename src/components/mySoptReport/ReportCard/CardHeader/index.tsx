@@ -30,15 +30,15 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
       if (element) {
         try {
           const canvas = await html2canvas(element, {
-            useCORS: true, // 외부 이미지 사용 가능
-            backgroundColor: null, // 배경색을 투명하게 설정
-            scale: 2, // 고해상도 이미지 저장
+            useCORS: true,
+            backgroundColor: null,
+            scale: 2,
           });
 
           const dataUrl = canvas.toDataURL('image/png');
           const link = document.createElement('a');
           link.href = dataUrl;
-          link.download = `마이 플그 데이터 ${cardConfig.index}.png`;
+          link.download = `마이 플그 데이터 ${cardConfig.index}`;
           link.click();
         } catch (error) {
           console.error('이미지 변환 오류:', error);

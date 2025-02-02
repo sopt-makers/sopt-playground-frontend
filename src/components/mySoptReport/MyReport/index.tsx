@@ -25,7 +25,7 @@ import { indicatorIcons, Value } from '@/components/mySoptReport/constants';
 import Popup from '@/components/mySoptReport/PopUp';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
 import { fonts } from '@sopt-makers/fonts';
-import { toPng } from 'html-to-image';
+import html2canvas from 'html2canvas';
 import { playgroundLink } from 'playground-common/export';
 
 interface MyReportProps {
@@ -56,10 +56,16 @@ const index = ({ myPgData }: MyReportProps) => {
   const handleDownLoad = async () => {
     const element = document.getElementById('downloadableContent');
     if (element) {
-      const dataUrl = await toPng(element);
+      const canvas = await html2canvas(element, {
+        useCORS: true,
+        backgroundColor: null,
+        scale: 2,
+      });
+
+      const dataUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.href = dataUrl;
-      link.download = '2024년 마이 솝트 리포트';
+      link.download = `2024년 마이 솝트 리포트`;
       link.click();
     }
 
@@ -275,12 +281,6 @@ const HiddenContent = styled.div<{ $isSmall?: boolean }>`
   padding: 193px 26px 0;
   width: 560px;
   height: 960px;
-
-  @supports (-webkit-touch-callout: none) {
-    background-image: url('/icons/img/mySoptReport/collect_bg.png') !important;
-    /* stylelint-disable */
-    -webkit-background-size: cover !important;
-  }
 `;
 
 const MentionMakers = styled.p`
