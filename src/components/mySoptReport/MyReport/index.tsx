@@ -296,7 +296,7 @@ const ShareSection = styled.section`
   margin-top: -200px;
   background-image: url(${particle_pc.src});
   background-size: cover;
-  width: 100vw;
+  width: 1920px;
   height: 1000px;
 
   p {
