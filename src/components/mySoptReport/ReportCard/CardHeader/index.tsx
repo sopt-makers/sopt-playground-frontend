@@ -1,10 +1,10 @@
 import { getCardConfig } from '@/components/mySoptReport/constants';
+import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useToast } from '@sopt-makers/ui';
-import html2canvas from 'html2canvas';
 import { StaticImageData } from 'next/image';
 
 interface CardHeaderProps {
@@ -18,6 +18,8 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
   const cardConfig = type && value && getCardConfig(type, value);
   const { open } = useToast();
 
+  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload(`마이 플그 데이터 ${cardConfig?.index}`);
+
   const handleDownload = async () => {
     if (image) {
       const link = document.createElement('a');
@@ -28,24 +30,7 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
       // 이미지가 없는 경우 HTML -> PNG 변환 후 다운로드
       const element = document.getElementById(`downloadableContent-${cardConfig.strongColor}`);
       if (element) {
-        try {
-          await document.fonts.ready;
-
-          const canvas = await html2canvas(element, {
-            useCORS: true,
-            backgroundColor: null,
-            scale: 2,
-            foreignObjectRendering: true,
-          });
-
-          const dataUrl = canvas.toDataURL('image/png');
-          const link = document.createElement('a');
-          link.href = dataUrl;
-          link.download = `마이 플그 데이터 ${cardConfig.index}`;
-          link.click();
-        } catch (error) {
-          console.error('이미지 변환 오류:', error);
-        }
+        onDownloadButtonClick();
       }
     }
 
@@ -69,7 +54,11 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
 
       {/* 다운로드를 위한 숨겨진 HTML 콘텐츠 */}
       {!image && (
-        <HiddenContent id={`downloadableContent-${cardConfig.strongColor}`} $bgColor={cardConfig.bgColor}>
+        <HiddenContent
+          id={`downloadableContent-${cardConfig.strongColor}`}
+          $bgColor={cardConfig.bgColor}
+          ref={imageRef}
+        >
           <Title>SOPT Playground</Title>
           <MainText
             $titleColor={cardConfig.titleColor}
