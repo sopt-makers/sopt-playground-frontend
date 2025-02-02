@@ -29,10 +29,13 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
       const element = document.getElementById(`downloadableContent-${cardConfig.strongColor}`);
       if (element) {
         try {
+          await document.fonts.ready;
+
           const canvas = await html2canvas(element, {
             useCORS: true,
             backgroundColor: null,
             scale: 2,
+            foreignObjectRendering: true,
           });
 
           const dataUrl = canvas.toDataURL('image/png');
