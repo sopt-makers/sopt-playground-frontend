@@ -23,9 +23,9 @@ import personOn from '@/public/icons/img/mySoptReport/person_on.png';
 
 import { indicatorIcons, Value } from '@/components/mySoptReport/constants';
 import Popup from '@/components/mySoptReport/PopUp';
+import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
 import { fonts } from '@sopt-makers/fonts';
-import html2canvas from 'html2canvas';
 import { playgroundLink } from 'playground-common/export';
 
 interface MyReportProps {
@@ -43,6 +43,8 @@ const index = ({ myPgData }: MyReportProps) => {
   const [cardsArray, setCardsArray] = useState<Card[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('2024년 마이 솝트 리포트');
+
   useEffect(() => {
     if (myPgData) {
       const cards = Object.entries(myPgData).map(([key, value]) => ({
@@ -56,19 +58,7 @@ const index = ({ myPgData }: MyReportProps) => {
   const handleDownLoad = async () => {
     const element = document.getElementById('downloadableContent');
     if (element) {
-      await document.fonts.ready;
-
-      const canvas = await html2canvas(element, {
-        useCORS: true,
-        backgroundColor: null,
-        scale: 2,
-      });
-
-      const dataUrl = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = dataUrl;
-      link.download = `2024년 마이 솝트 리포트`;
-      link.click();
+      onDownloadButtonClick();
     }
 
     open({
@@ -165,7 +155,7 @@ const index = ({ myPgData }: MyReportProps) => {
         </HiddenContent>
       </Popup>
 
-      <HiddenContent id='downloadableContent'>
+      <HiddenContent id='downloadableContent' ref={imageRef}>
         {cardsArray
           ?.filter((card) => card.id !== 'myCrewStats')
           .map((card) => (
