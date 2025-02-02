@@ -293,6 +293,7 @@ const ShareSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  opacity: 0;
   margin-top: -200px;
   background-image: url(${particle_pc.src});
   background-size: cover;
