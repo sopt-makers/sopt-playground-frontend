@@ -50,12 +50,12 @@ export default function MySoptReport() {
         });
       } else if (tab === 'playground') {
         window.scrollTo({
-          top: isMobile ? 2190 : 2220,
+          top: isMobile ? 2150 : 2220,
           behavior: 'smooth',
         });
       } else if (tab === 'my-pg') {
         window.scrollTo({
-          top: isMobile ? 5450 : 5800,
+          top: isMobile ? 5450 : 5840,
           behavior: 'smooth',
         });
       }
@@ -70,9 +70,9 @@ export default function MySoptReport() {
     // MEMO: 버튼 클릭으로 인한 스크롤 변경일 경우, tab 변경을 막기 위함
     if (flag) return;
     if (isMobile) {
-      if (scrollY >= 600 && scrollY < 2190) {
+      if (scrollY >= 600 && scrollY < 2150) {
         setActiveTab('sopt');
-      } else if (scrollY >= 2190 && scrollY < 5450) {
+      } else if (scrollY >= 2150 && scrollY < 5450) {
         setActiveTab('playground');
       } else if (scrollY >= 5450) {
         setActiveTab('my-pg');
@@ -80,9 +80,9 @@ export default function MySoptReport() {
     } else {
       if (scrollY >= 500 && scrollY < 2220) {
         setActiveTab('sopt');
-      } else if (scrollY >= 2220 && scrollY < 5800) {
+      } else if (scrollY >= 2220 && scrollY < 5840) {
         setActiveTab('playground');
-      } else if (scrollY >= 5800) {
+      } else if (scrollY >= 5840) {
         setActiveTab('my-pg');
       }
     }

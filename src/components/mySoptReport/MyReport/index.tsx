@@ -23,9 +23,9 @@ import personOn from '@/public/icons/img/mySoptReport/person_on.png';
 
 import { indicatorIcons, Value } from '@/components/mySoptReport/constants';
 import Popup from '@/components/mySoptReport/PopUp';
+import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
 import { fonts } from '@sopt-makers/fonts';
-import { toPng } from 'html-to-image';
 import { playgroundLink } from 'playground-common/export';
 
 interface MyReportProps {
@@ -43,6 +43,8 @@ const index = ({ myPgData }: MyReportProps) => {
   const [cardsArray, setCardsArray] = useState<Card[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('2024년 마이 솝트 리포트');
+
   useEffect(() => {
     if (myPgData) {
       const cards = Object.entries(myPgData).map(([key, value]) => ({
@@ -56,11 +58,7 @@ const index = ({ myPgData }: MyReportProps) => {
   const handleDownLoad = async () => {
     const element = document.getElementById('downloadableContent');
     if (element) {
-      const dataUrl = await toPng(element);
-      const link = document.createElement('a');
-      link.href = dataUrl;
-      link.download = '2024년 마이 솝트 리포트';
-      link.click();
+      onDownloadButtonClick();
     }
 
     open({
@@ -157,7 +155,7 @@ const index = ({ myPgData }: MyReportProps) => {
         </HiddenContent>
       </Popup>
 
-      <HiddenContent id='downloadableContent'>
+      <HiddenContent id='downloadableContent' ref={imageRef}>
         {cardsArray
           ?.filter((card) => card.id !== 'myCrewStats')
           .map((card) => (
@@ -264,15 +262,15 @@ const HiddenContent = styled.div<{ $isSmall?: boolean }>`
   top: 0;
   left: 0;
   flex-wrap: wrap;
-  gap: 12px;
+  column-gap: 12px;
   justify-content: center;
   ${({ $isSmall }) => ($isSmall ? 'transform: scale(1.0);' : ' position: absolute;')};
 
   z-index: -1;
   border-radius: 20px;
-  background-image: url(${`${PLAYGROUND_ORIGIN}/icons/img/mySoptReport/collect_bg.png`});
+  background-image: url('/icons/img/mySoptReport/collect_bg.png') !important;
   background-size: cover;
-  padding: 193px 26px 0;
+  padding: 193px 26px 20px;
   width: 560px;
   height: 960px;
 `;
@@ -298,7 +296,7 @@ const ShareSection = styled.section`
   margin-top: -200px;
   background-image: url(${particle_pc.src});
   background-size: cover;
-  width: 100vw;
+  width: 1920px;
   height: 1000px;
 
   p {
