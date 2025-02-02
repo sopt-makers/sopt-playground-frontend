@@ -56,13 +56,12 @@ const index = ({ myPgData }: MyReportProps) => {
   const handleDownLoad = async () => {
     const element = document.getElementById('downloadableContent');
     if (element) {
-      // await document.fonts.ready;
+      await document.fonts.ready;
 
       const canvas = await html2canvas(element, {
         useCORS: true,
         backgroundColor: null,
         scale: 2,
-        foreignObjectRendering: true,
       });
 
       const dataUrl = canvas.toDataURL('image/png');
