@@ -121,10 +121,15 @@ export default function MemberBasicFormSection() {
               onClick={(e) => handleBlind(e, 'isPhoneBlind', openMaskingPhoneModal)}
             />
           </StyledBlindSwitch>
-          <StyledTextField {...register('phone')} placeholder='010XXXXXXXX' />
+          <StyledTextField {...register('phone')} placeholder='010XXXXXXXX' isError={errors.hasOwnProperty('phone')} />
         </FormItem>
         <FormItem title='이메일' required errorMessage={errors.email?.message} className='maskable'>
-          <StyledTextField {...register('email')} type='email' placeholder='이메일 입력' />
+          <StyledTextField
+            {...register('email')}
+            type='email'
+            placeholder='이메일 입력'
+            isError={errors.hasOwnProperty('email')}
+          />
         </FormItem>
         <FormItem
           title='활동 지역'
