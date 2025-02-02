@@ -29,6 +29,7 @@ export const useGetMemberProperty = () => {
     queryKey: ['getMemberProperty'],
     queryFn: async () => {
       const data = await getMemberproperty.request();
+      console.log(data);
       return data;
     },
   });

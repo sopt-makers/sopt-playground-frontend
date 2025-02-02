@@ -1,22 +1,31 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { isResSent } from 'next/dist/shared/lib/utils';
+import { Button, Dialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
-import { useGetResolutionValidation } from '@/api/endpoint/resolution/getResolutionValidation';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ResolutionReadModal from '@/components/resolution/read/ResolutionReadModal';
-import desktopBanner from '@/public/icons/img/banner_closing-ceremony_desktop.png';
-import mobileBanner from '@/public/icons/img/banner_closing-ceremony_mobile.png';
-import mobileResolutionBanner from '@/public/icons/img/banner_closing-ceremony_mobile_resolution.png';
+import { LATEST_GENERATION } from '@/constants/generation';
+import closingCeremonyBannerDesktop from '@/public/icons/img/banner_closing-ceremony_desktop.png';
+import closingCeremonyBannerMobile from '@/public/icons/img/banner_closing-ceremony_mobile.png';
+import mySoptReportBannerDesktop from '@/public/icons/img/banner_my-sopt-report_desktop.png';
+import mySoptReportBannerMobile from '@/public/icons/img/banner_my-sopt-report_mobile.png';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type BannerType = {
-  desktop: string;
-  mobile: { [key: string]: string };
+  default: {
+    desktop: string;
+    mobile: string;
+  };
+  resolution: {
+    desktop: string;
+    mobile: string;
+  };
 };
 
 type textType = {
@@ -38,34 +47,47 @@ type textType = {
 
 export const ClosingCeremonyBanner = () => {
   const router = useRouter();
+
   const {
     isOpen: isOpenResolutionModal,
     onClose: onCloseResolutionModal,
     onOpen: onOpenResolutionModal,
   } = useModalState();
 
-  const { data, isLoading } = useGetResolutionValidation();
-  const isRegistration = data?.isRegistration;
+  const {
+    isOpen: isOpenMySoptReportComingSoonModal,
+    onClose: onCloseMySoptReportComingSoonModal,
+    onOpen: onOpenMySoptReportComingSoonModal,
+  } = useModalState();
+
+  const { data: myData, isLoading } = useGetMemberOfMe();
+  const is35 = myData?.generation === LATEST_GENERATION;
 
   const Banner: BannerType = {
-    desktop: desktopBanner.src,
-    mobile: { default: mobileBanner.src, resolution: mobileResolutionBanner.src },
+    default: {
+      desktop: mySoptReportBannerDesktop.src,
+      mobile: mySoptReportBannerMobile.src,
+    },
+    resolution: {
+      desktop: closingCeremonyBannerDesktop.src,
+      mobile: closingCeremonyBannerMobile.src,
+    },
   };
 
   const text: textType = {
     default: {
-      title: 'NOW SOPT 종무식을 축하합니다!',
-      subtitle: 'NOW SOPT 활동 후기가 궁금하다면?',
-      buttonContent: '34기 활동 후기 보러가기',
+      title: '2024년, SOPT와 플그 속 나는?',
+      subtitle: '작년을 담은 회원님만의 리포트를 준비했어요',
+      buttonContent: '마이 솝트 리포트 보기',
     },
     resolution: {
       title: {
         desktop: 'SOPT에서 외쳤던 다짐, 모두 이루셨나요?',
         mobile: `SOPT에서 외쳤던 다짐,\n모두 이루셨나요?`,
       },
-      subtitle: 'NOW SOPT를 처음 만났던 순간으로 돌아가보기',
-      buttonContentPrimary: '내 다짐 보러가기',
-      buttonContentSecondary: '활동 후기 작성하기',
+      subtitle: 'AND SOPT를 처음 만났던 순간으로 돌아가봐요',
+      buttonContentPrimary: '나의 다짐 보기',
+      buttonContentSecondary: '마이 솝트 리포트 보기',
     },
   };
 
@@ -76,7 +98,7 @@ export const ClosingCeremonyBanner = () => {
           <Contents>
             <TextWrapper>
               <Text typography='SUIT_18_B' color={colors.white}>
-                {isRegistration ? (
+                {is35 ? (
                   <>
                     <Responsive only='desktop'>{text.resolution.title.desktop}</Responsive>
                     <Responsive only='mobile'>{text.resolution.title.mobile}</Responsive>
@@ -86,42 +108,79 @@ export const ClosingCeremonyBanner = () => {
                 )}
               </Text>
               <Text typography='SUIT_12_M' color={colors.gray300}>
-                {isRegistration ? text.resolution.subtitle : text.default.subtitle}
+                {is35 ? text.resolution.subtitle : text.default.subtitle}
               </Text>
             </TextWrapper>
             <ButtonWrapper>
-              {isRegistration ? (
+              {is35 ? (
                 <>
-                  <Button color='secondary' onClick={() => router.push(playgroundLink.remember())}>
-                    <Text typography='SUIT_12_EB' color={colors.gray700}>
-                      {text.resolution.buttonContentSecondary}
-                    </Text>
-                  </Button>
-                  <Button color='primary' onClick={onOpenResolutionModal}>
-                    <Text typography='SUIT_12_EB' color={colors.gray700}>
-                      {text.resolution.buttonContentPrimary}
-                    </Text>
-                  </Button>
+                  <LoggingClick eventKey='bannerOpenMyReport'>
+                    <StyledButton color='secondary' onClick={() => router.push(playgroundLink.mySoptReport())}>
+                      <Text typography='SUIT_12_EB' color={colors.gray700}>
+                        {text.resolution.buttonContentSecondary}
+                      </Text>
+                    </StyledButton>
+                  </LoggingClick>
+                  <LoggingClick eventKey='bannerOpenResolution'>
+                    <StyledButton color='primary' onClick={onOpenResolutionModal}>
+                      <Text typography='SUIT_12_EB' color={colors.gray700}>
+                        {text.resolution.buttonContentPrimary}
+                      </Text>
+                    </StyledButton>
+                  </LoggingClick>
                 </>
               ) : (
-                <Button color='primary' onClick={() => router.push(playgroundLink.remember())}>
-                  <Text typography='SUIT_12_EB' color={colors.gray700}>
-                    {text.default.buttonContent}
-                  </Text>
-                </Button>
+                <LoggingClick eventKey='bannerOpenMyReport'>
+                  <MySoptReportButton color='primary' onClick={() => router.push(playgroundLink.mySoptReport())}>
+                    <Text typography='SUIT_12_EB' color={colors.gray700}>
+                      {text.default.buttonContent}
+                    </Text>
+                  </MySoptReportButton>
+                </LoggingClick>
               )}
             </ButtonWrapper>
           </Contents>
           <Responsive only='desktop'>
-            <StyledBanner src={Banner.desktop} />
+            <StyledBanner src={is35 ? Banner.resolution.desktop : Banner.default.desktop} />
           </Responsive>
           <Responsive only='mobile'>
-            <StyledBanner src={isRegistration ? Banner.mobile.resolution : Banner.mobile.default} />
+            <StyledBanner src={is35 ? Banner.resolution.mobile : Banner.default.mobile} />
           </Responsive>
         </ClosingCeremonyBannerWrapper>
       )}
 
-      {isOpenResolutionModal && <ResolutionReadModal onClose={onCloseResolutionModal} />}
+      <ResolutionReadModal isOpen={isOpenResolutionModal} onClose={onCloseResolutionModal} />
+      <MySoptReportComingSoonModal
+        isOpen={isOpenMySoptReportComingSoonModal}
+        onClose={onCloseMySoptReportComingSoonModal}
+      />
+    </>
+  );
+};
+
+const MySoptReportComingSoonModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  return (
+    <>
+      <Dialog isOpen={isOpen} onClose={onClose}>
+        <Dialog.Title>아직 리포트를 발행하고 있어요!</Dialog.Title>
+        <DescriptionWrapper>
+          <Dialog.Description>2월 2일에 다시 찾아와주시면, 회원님만의 리포트를 전달해 드릴게요.</Dialog.Description>
+        </DescriptionWrapper>
+        <Responsive only='desktop'>
+          <Dialog.Footer align={'right'}>
+            <Button type='button' onClick={onClose}>
+              확인했어요
+            </Button>
+          </Dialog.Footer>
+        </Responsive>
+        <Responsive only='mobile'>
+          <Dialog.Footer align={'center'}>
+            <Button type='button' onClick={onClose} style={{ width: '100%' }}>
+              확인했어요
+            </Button>
+          </Dialog.Footer>
+        </Responsive>
+      </Dialog>
     </>
   );
 };
@@ -172,10 +231,36 @@ const ButtonWrapper = styled.section`
   gap: 8px;
 `;
 
-const Button = styled.button<{ color: 'primary' | 'secondary' }>`
+const StyledButton = styled.button<{ color: 'primary' | 'secondary' }>`
   display: flex;
   border-radius: 100px;
-  background-color: ${({ color }) => (color === 'primary' ? '#BDEC00' : colors.white)};
+  background-color: ${({ color }) => (color === 'primary' ? '#5BA3FF' : '#C4DEFF')};
   padding: 10px 16px;
   width: fit-content;
+
+  &:hover {
+    background-color: ${({ color }) => (color === 'primary' ? '#84BAFF' : '#B3D4FF')};
+  }
+`;
+
+const MySoptReportButton = styled.button`
+  display: flex;
+  border-radius: 100px;
+  background: linear-gradient(94deg, #d1ff19 0%, #6fb0ff 91.32%);
+  padding: 10px 16px;
+  width: fit-content;
+
+  &:hover {
+    background: linear-gradient(94deg, #e6ff80 0%, #a8cfff 91.32%);
+  }
+`;
+
+const DescriptionWrapper = styled.div`
+  margin-top: 12px;
+  margin-bottom: 36px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 8px;
+    margin-bottom: 24px;
+  }
 `;
