@@ -14,7 +14,6 @@ import { Button, useToast } from '@sopt-makers/ui';
 
 import MiniReportCard from '@/components/mySoptReport/MiniReportCard';
 import { MyPgData } from '@/components/mySoptReport/MyPG';
-import collect_bg from '@/public/icons/img/mySoptReport/collect_bg.png';
 
 import particle_mo from '@/public/icons/img/mySoptReport/particle_mo.png';
 import particle_pc from '@/public/icons/img/mySoptReport/particle_pc.png';
@@ -271,7 +270,7 @@ const HiddenContent = styled.div<{ $isSmall?: boolean }>`
 
   z-index: -1;
   border-radius: 20px;
-  background-image: url('/icons/img/mySoptReport/collect_bg.png');
+  background-image: url(${`${PLAYGROUND_ORIGIN}/icons/img/mySoptReport/collect_bg.png`});
   background-size: cover;
   padding: 193px 26px 0;
   width: 560px;
