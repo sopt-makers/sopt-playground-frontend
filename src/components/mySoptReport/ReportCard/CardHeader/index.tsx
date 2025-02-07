@@ -22,10 +22,25 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
 
   const handleDownload = async () => {
     if (image) {
-      const link = document.createElement('a');
-      link.href = image.src;
-      link.download = '마이 플그 활동 유형';
-      link.click();
+      try {
+        const response = await fetch(image.src);
+        const blob = await response.blob();
+
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          const base64data = reader.result as string;
+
+          const link = document.createElement('a');
+          link.href = base64data;
+          link.download = '마이 플그 활동 유형.png';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+      } catch (error) {
+        console.error('이미지 다운로드 오류:', error);
+      }
     } else {
       // 이미지가 없는 경우 HTML -> PNG 변환 후 다운로드
       const element = document.getElementById(`downloadableContent-${cardConfig?.strongColor}`);
