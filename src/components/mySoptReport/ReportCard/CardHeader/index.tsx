@@ -1,11 +1,12 @@
-import { getCardConfig } from '@/components/mySoptReport/constants';
-import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useToast } from '@sopt-makers/ui';
 import { StaticImageData } from 'next/image';
+
+import { getCardConfig } from '@/components/mySoptReport/constants';
+import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface CardHeaderProps {
   title?: string;
@@ -31,12 +32,35 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
         reader.onloadend = () => {
           const base64data = reader.result as string;
 
-          const link = document.createElement('a');
-          link.href = base64data;
-          link.download = '마이 플그 활동 유형.png';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+          const img = new Image();
+          img.src = base64data;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            if (!ctx) return;
+
+            // 캔버스 크기 설정 (원본 이미지 크기와 동일)
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            // 흰색 배경을 먼저 그림
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 원본 이미지를 캔버스에 그림
+            ctx.drawImage(img, 0, 0);
+
+            // 캔버스를 Base64로 변환
+            const whiteBgBase64 = canvas.toDataURL('image/png');
+
+            const link = document.createElement('a');
+            link.href = whiteBgBase64;
+            link.download = '마이 플그 활동 유형.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          };
         };
       } catch (error) {
         console.error('이미지 다운로드 오류:', error);
@@ -45,7 +69,9 @@ const CardHeader = ({ title = 'SOPT Playground', image, type, value }: CardHeade
       // 이미지가 없는 경우 HTML -> PNG 변환 후 다운로드
       const element = document.getElementById(`downloadableContent-${cardConfig?.strongColor}`);
       if (element) {
+        element.style.borderRadius = '0';
         onDownloadButtonClick();
+        element.style.borderRadius = '12px';
       }
     }
 
@@ -178,7 +204,7 @@ const HiddenContent = styled.div<{ $bgColor?: string }>`
   background-color: ${({ $bgColor }) => $bgColor || colors.gray100};
   padding: 28.8px;
   width: 294px;
-  height: 403.2px;
+  height: 404px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-radius: 10px;

@@ -1,7 +1,10 @@
 import { colors } from '@sopt-makers/colors';
-
 import { StaticImageData } from 'next/image';
 
+import gameOff from '@/public/icons/img/mySoptReport/game_off.png';
+import gameOn from '@/public/icons/img/mySoptReport/game_on.png';
+import heartOff from '@/public/icons/img/mySoptReport/heart_off.png';
+import heartOn from '@/public/icons/img/mySoptReport/heart_on.png';
 import personOff from '@/public/icons/img/mySoptReport/person_off.png';
 import personOn from '@/public/icons/img/mySoptReport/person_on.png';
 import searchOff from '@/public/icons/img/mySoptReport/search_off.png';
@@ -10,11 +13,6 @@ import studyOff from '@/public/icons/img/mySoptReport/study_off.png';
 import studyOn from '@/public/icons/img/mySoptReport/study_on.png';
 import timeOff from '@/public/icons/img/mySoptReport/time_off.png';
 import timeOn from '@/public/icons/img/mySoptReport/time_on.png';
-
-import gameOff from '@/public/icons/img/mySoptReport/game_off.png';
-import gameOn from '@/public/icons/img/mySoptReport/game_on.png';
-import heartOff from '@/public/icons/img/mySoptReport/heart_off.png';
-import heartOn from '@/public/icons/img/mySoptReport/heart_on.png';
 
 export const menuList: {
   title: string;
@@ -69,10 +67,10 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
   const cardConfigs: { [key: string]: CardConfig } = {
     totalVisitCount: {
       index: 1,
-      title: `작년 한 해 동안\n<span class=highlight>${value}회</span> 방문했어요`,
+      title: `작년 한 해 동안\n<span class=highlight>${value.toLocaleString()}회</span> 방문했어요`,
       miniTitle: '플그에\n방문했던 횟수는',
       description: '앞으로도 플그에\n자주 놀러와주세요!',
-      miniValue: `${value}번`,
+      miniValue: `${value.toLocaleString()}번`,
       bgColor: colors.yellow400,
       subImage: '/icons/img/mySoptReport/card_sub_visit.png',
       strongColor: '#6F5508',
@@ -89,10 +87,12 @@ export const getCardConfig = (type: string, value: Value): CardConfig => {
     },
     myProfileStats: {
       index: 3,
-      title: `멤버들의 프로필 카드를\n<span class=highlight>${(value as ProfileStats).viewCount}번</span> 클릭했어요`,
+      title: `멤버들의 프로필 카드를\n<span class=highlight>${
+        (value as ProfileStats).viewCount?.toLocaleString() ?? '0'
+      }번</span> 클릭했어요`,
       miniTitle: '멤버들의 프로필을\n조회한 횟수는',
       description: '어떤 멤버가\n가장 기억에 남으시나요?',
-      miniValue: `${(value as ProfileStats).viewCount}번`,
+      miniValue: `${(value as ProfileStats).viewCount?.toLocaleString() ?? '0'}번`,
       bgColor: '#5CDBFE',
       subImage: '/icons/img/mySoptReport/card_sub_click.png',
       strongColor: '#0E5A6F',

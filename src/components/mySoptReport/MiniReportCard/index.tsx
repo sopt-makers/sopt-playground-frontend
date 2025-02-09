@@ -75,7 +75,11 @@ const index = ({ type, value }: MiniReportCardProps) => {
               </div>
             </>
           ) : (
-            <ReportValue $marginTop={60} $color={cardConfig.strongColor!}>
+            <ReportValue
+              $marginTop={60}
+              $color={cardConfig.strongColor!}
+              $fontSize={cardConfig?.miniValue && cardConfig?.miniValue?.length >= 6 ? '50px' : '60px'}
+            >
               {cardConfig.miniValue}
             </ReportValue>
           )}
