@@ -19,6 +19,7 @@ const useConfirm = () => {
       okButtonTextColor?: string;
       zIndex?: number;
       maxWidth?: number;
+      hideCloseButton?: boolean;
     }) =>
       new Promise<boolean>((resolve) => {
         open(({ isOpen, close }) => (
@@ -29,6 +30,7 @@ const useConfirm = () => {
               close();
             }}
             zIndex={options.zIndex}
+            hideCloseButton={true}
           >
             <StyledModalContent maxWidth={options.maxWidth}>
               <Modal.Title>{options.title}</Modal.Title>

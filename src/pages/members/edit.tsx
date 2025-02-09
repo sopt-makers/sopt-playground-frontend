@@ -162,7 +162,7 @@ export default function MemberEditPage() {
           .map(({ generation, team, part }) => ({
             generation: `${generation}기`,
             part,
-            team: team ?? UNSELECTED,
+            team: team ?? '',
           })),
         allowOfficial: myProfile.allowOfficial,
         isPhoneBlind: myProfile.isPhoneBlind,
