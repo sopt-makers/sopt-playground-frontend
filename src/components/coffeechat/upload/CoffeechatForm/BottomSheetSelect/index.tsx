@@ -21,6 +21,7 @@ interface BottomSheetSelectProps {
   onChange: (value: string) => void;
   icon?: ReactNode;
   className?: string;
+  disabled?: boolean;
 }
 
 const BottomSheetSelect = ({
@@ -31,6 +32,7 @@ const BottomSheetSelect = ({
   onChange,
   icon,
   className,
+  disabled = false,
 }: BottomSheetSelectProps) => {
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value);
@@ -62,15 +64,24 @@ const BottomSheetSelect = ({
     };
   }, [open]);
 
+  useEffect(() => {
+    setSelectedValue(value);
+    setTemporaryValue(value);
+  }, [value]);
+
   const getSelectedLabel = (value: string) => {
-    return options.find((option) => option.value === value)?.label;
+    return options.find((option) => option.value === value)?.label || value;
   };
 
   return (
     <Container>
-      <InputField onClick={handleOpen} className={className}>
-        {selectedValue ? <p>{getSelectedLabel(selectedValue)}</p> : <p style={{ color: '#808087' }}>{placeholder}</p>}
-        {icon || (
+      <InputField onClick={handleOpen} className={className} disabled={disabled}>
+        {selectedValue !== null && selectedValue !== undefined ? (
+          <p>{getSelectedLabel(selectedValue)}</p>
+        ) : (
+          <p style={{ color: '#808087' }}>{placeholder}</p>
+        )}
+        {!icon && !disabled && (
           <IconChevronDown
             style={{
               width: 20,
@@ -115,7 +126,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const InputField = styled.div`
+const InputField = styled.div<{ disabled: boolean }>`
   display: flex;
   gap: 12px;
   align-items: center;
@@ -127,6 +138,7 @@ const InputField = styled.div`
   ${fonts.BODY_16_M};
 
   width: 100%;
+  pointer-events: ${({ disabled }) => disabled && 'none'};
 `;
 
 const Overlay = styled.div`

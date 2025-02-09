@@ -97,7 +97,22 @@ export const memberFormSchema = yup.object().shape({
         startDate: yup.lazy(() =>
           yup.string().when(['title', 'companyName', 'endDate'], {
             is: (title: string, companyName: string, endDate: string) => title || companyName || endDate,
-            then: (schema) => schema.required('근무 시작일을 입력해주세요.'),
+            then: (schema) =>
+              schema
+                .required('근무 시작일을 입력해주세요.')
+                .test('startDate-future', '시작일은 현재 날짜보다 미래일 수 없어요.', function (value) {
+                  if (!value) return true;
+                  return new Date(value) <= new Date();
+                })
+                .when('endDate', {
+                  is: (endDate: string) => endDate && endDate.length > 0,
+                  then: (schema) =>
+                    schema.test('startDate-test', '시작일이 종료일보다 늦을 수 없습니다.', function (value) {
+                      const { endDate } = this.parent;
+                      if (!value || !endDate) return true;
+                      return new Date(value) <= new Date(endDate);
+                    }),
+                }),
           }),
         ),
         endDate: yup.lazy(() =>
@@ -106,7 +121,22 @@ export const memberFormSchema = yup.object().shape({
             then: (schema) =>
               schema.when(['title', 'startDate', 'companyName'], {
                 is: (title: string, startDate: string, companyName: string) => title || startDate || companyName,
-                then: (schema) => schema.required('근무 종료일을 입력해주세요.'),
+                then: (schema) =>
+                  schema
+                    .required('근무 종료일을 입력해주세요.')
+                    .test('endDate-future', '종료일은 현재 날짜보다 미래일 수 없습니다.', function (value) {
+                      if (!value) return true;
+                      return new Date(value) <= new Date();
+                    })
+                    .when('startDate', {
+                      is: (startDate: string) => startDate && startDate.length > 0,
+                      then: (schema) =>
+                        schema.test('endDate-test', '종료일이 시작일보다 빠를 수 없습니다.', function (value) {
+                          const { startDate } = this.parent;
+                          if (!value || !startDate) return true;
+                          return new Date(value) >= new Date(startDate);
+                        }),
+                    }),
               }),
             otherwise: (schema) => schema.nullable(),
           }),

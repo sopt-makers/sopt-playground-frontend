@@ -133,7 +133,7 @@ export default function MemberUploadPage() {
           .map(({ generation, team, part }) => ({
             generation: `${generation}기`,
             part,
-            team: team ?? UNSELECTED,
+            team: team ?? '',
           })),
       });
     }

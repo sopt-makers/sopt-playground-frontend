@@ -60,15 +60,15 @@ export const HomePopup = () => {
         <StPopupModal>
           <Responsive only='desktop'>
             <LoggingClick eventKey='adPopupBody'>
-              <a href='https://playground.sopt.org/group/list?category=번쩍'>
-                <StImage src='/icons/img/crew_home_popup_mo.png' />
+              <a href='https://playground.sopt.org/mySoptReport'>
+                <StImage src='/icons/img/SoptReport/popup/PC.png' />
               </a>
             </LoggingClick>
           </Responsive>
           <Responsive only='mobile'>
             <LoggingClick eventKey='adPopupBody'>
-              <a href='https://playground.sopt.org/group/list?category=번쩍'>
-                <StImage src='/icons/img/crew_home_popup_mo.png' />
+              <a href='https://playground.sopt.org/mySoptReport'>
+                <StImage src='/icons/img/SoptReport/popup/MO.png' />
               </a>
             </LoggingClick>
           </Responsive>

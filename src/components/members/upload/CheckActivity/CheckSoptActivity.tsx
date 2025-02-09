@@ -49,7 +49,7 @@ export default function CheckSoptActivity() {
           .map(({ generation, team, part }) => ({
             generation: `${generation}기`,
             part,
-            team: team ?? UNSELECTED,
+            team: team ?? '',
           })),
       });
     }
