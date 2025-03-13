@@ -5,7 +5,7 @@ import { IconChevronDown } from '@sopt-makers/icons';
 import { SearchField, SelectV2 } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGetMembersCoffeeChat } from '@/api/endpoint/members/getMembersCoffeeChat';
 import CoffeeChatCard from '@/components/coffeechat/CoffeeChatCard';
@@ -41,28 +41,42 @@ export default function CoffeeChatCategory() {
     return param ?? ''; // `undefined`이면 빈 문자열 반환
   };
 
-  const section = getQueryParamAsString(router.query.section);
-  const topicType = getQueryParamAsString(router.query.topicType);
-  const career = getQueryParamAsString(router.query.career);
-  const part = getQueryParamAsString(router.query.part);
-  
+  useEffect(() => {
+    if (router.isReady) {
+      setSelectedSection(getQueryParamAsString(router.query.section));
+      setSelectedTopicType(getQueryParamAsString(router.query.topicType));
+      setSelectedCareer(getQueryParamAsString(router.query.career));
+      setSelectedPart(getQueryParamAsString(router.query.part));
+      setClientSearch(getQueryParamAsString(router.query.search));
+    }
+  }, [router.isReady, router.query]);
 
-  const [clientSearch, setClientSearch] = useState('');
+  const search = getQueryParamAsString(router.query.search);
+
+  const [selectedSection, setSelectedSection] = useState('');
+  const [selectedTopicType, setSelectedTopicType] = useState('');
+  const [selectedCareer, setSelectedCareer] = useState('');
+  const [selectedPart, setSelectedPart] = useState('');
+  const [clientSearch, setClientSearch] = useState(search);
 
   const handleSelectSection = (selected: string) => {
-    addQueryParamsToUrl({ section: selected !== '전체' ? selected : undefined });
+    addQueryParamsToUrl({ section: selected });
   };
 
   const handleSelectTopic = (selected: string) => {
-    addQueryParamsToUrl({ topicType: selected !== '전체' ? selected : undefined });
+    addQueryParamsToUrl({ topicType: selected });
   };
 
   const handleSelectCareer = (selected: string) => {
-    addQueryParamsToUrl({ career: selected !== '전체' ? selected : undefined });
+    addQueryParamsToUrl({ career: selected });
   };
 
   const handleSelectPart = (selected: string) => {
-    addQueryParamsToUrl({ part: selected !== '전체' ? selected : undefined });
+    addQueryParamsToUrl({ part: selected });
+  };
+
+  const handleSelectSearch = (selected: string) => {
+    addQueryParamsToUrl({ search: selected });
   };
 
   const formatSoptActivities = (soptActivities: string[]) => {
@@ -74,14 +88,41 @@ export default function CoffeeChatCategory() {
   };
 
   const formatQueryParams = (query: ParsedUrlQuery): { [key: string]: string } => {
-    // string만 취급하도록 변환
+    const normalizeCareer = (career: string | undefined): string | undefined => {
+      if (!career || career === '전체') return undefined;
+      return career === '인턴' ? '인턴 경험만 있어요' : career === '아직 없음' ? '아직 없어요' : career;
+    };
+
+    const normalizeSection = (section: string | undefined): string | undefined => {
+      if (!section || section === '전체') return undefined;
+      return section === '프론트엔드' ? '프론트' : section;
+    };
+
     return Object.fromEntries(
       Object.entries(query)
-        .map(([key, value]) => [key, Array.isArray(value) ? value[0] : value])
-        .filter(([_, value]) => typeof value === 'string')
+        .map(([key, value]) => {
+          const strValue = Array.isArray(value) ? value[0] : value;
+
+          if (typeof strValue !== 'string') return [key, undefined];
+
+          switch (key) {
+            case 'career':
+              return [key, normalizeCareer(strValue)];
+            case 'section':
+              return [key, normalizeSection(strValue)];
+            case 'topicType':
+            case 'part':
+              return [key, strValue !== '전체' ? strValue : undefined];
+            case 'search':
+              return [key, strValue || undefined];
+            default:
+              return [key, strValue];
+          }
+        })
+        .filter(([_, value]) => value !== undefined), // undefined 값 제거
     );
   };
-  
+
   const { data, isLoading } = useGetMembersCoffeeChat(formatQueryParams(router.query));
 
   const { logSubmitEvent } = useEventLogger();
@@ -92,7 +133,7 @@ export default function CoffeeChatCategory() {
           className='topic-select'
           onChange={(e: number) => handleSelectTopic(TOPIC_FILTER_OPTIONS[e - 1].label)}
           type='text'
-          defaultValue={TOPIC_FILTER_OPTIONS.find((option) => option.label === topicType)}
+          defaultValue={TOPIC_FILTER_OPTIONS.find((option) => option.label === selectedTopicType)}
           visibleOptions={4}
         >
           <SelectV2.Trigger>
@@ -103,9 +144,9 @@ export default function CoffeeChatCategory() {
               <LoggingClick
                 eventKey='coffeechatFilter'
                 param={{
-                  topic_tag: topicType,
-                  career: career,
-                  part: part,
+                  topic_tag: selectedTopicType,
+                  career: selectedCareer,
+                  part: selectedPart,
                 }}
                 key={option.label}
               >
@@ -118,7 +159,7 @@ export default function CoffeeChatCategory() {
         <SelectV2.Root
           className='career-select'
           onChange={(e: number) => handleSelectCareer(CAREER_FILTER_OPTIONS[e - 1].label)}
-          defaultValue={CAREER_FILTER_OPTIONS.find((option) => option.label === career)}
+          defaultValue={CAREER_FILTER_OPTIONS.find((option) => option.label === selectedCareer)}
           type='text'
           visibleOptions={4}
         >
@@ -130,9 +171,9 @@ export default function CoffeeChatCategory() {
               <LoggingClick
                 eventKey='coffeechatFilter'
                 param={{
-                  topic_tag: topicType,
-                  career: career,
-                  part: part,
+                  topic_tag: selectedTopicType,
+                  career: selectedCareer,
+                  part: selectedPart,
                 }}
                 key={option.label}
               >
@@ -145,7 +186,7 @@ export default function CoffeeChatCategory() {
         <SelectV2.Root
           className='part-select'
           onChange={(e: number) => handleSelectPart(PART_FILTER_OPTIONS[e - 1].label)}
-          defaultValue={PART_FILTER_OPTIONS.find((option) => option.label === part)}
+          defaultValue={PART_FILTER_OPTIONS.find((option) => option.label === selectedPart)}
           type='text'
           visibleOptions={4}
         >
@@ -157,9 +198,9 @@ export default function CoffeeChatCategory() {
               <LoggingClick
                 eventKey='coffeechatFilter'
                 param={{
-                  topic_tag: topicType,
-                  career: career,
-                  part: part,
+                  topic_tag: selectedTopicType,
+                  career: selectedCareer,
+                  part: selectedPart,
                 }}
                 key={option.label}
               >
@@ -181,7 +222,7 @@ export default function CoffeeChatCategory() {
         {categoryList.categoryList.map((option) => (
           <LoggingClick eventKey='coffeechatSection' key={option.categoryName} param={{ section: option.categoryName }}>
             <CategoryCard
-              isActive={section === option.categoryName}
+              isActive={selectedSection === option.categoryName}
               onClick={() => handleSelectSection(option.categoryName)}
               key={option.categoryName}
             >
@@ -202,11 +243,11 @@ export default function CoffeeChatCategory() {
             onChange={(e) => setClientSearch(e.target.value)}
             onSubmit={() => {
               logSubmitEvent('searchCoffeeChat', {
-                search_content: clientSearch,
+                search_content: search,
               });
               addQueryParamsToUrl({ search: clientSearch || undefined });
             }}
-            onReset={() => setClientSearch('')}
+            onReset={() => handleSelectSearch('')}
           />
         </FilterArea>
       </Responsive>
@@ -217,15 +258,15 @@ export default function CoffeeChatCategory() {
           onChange={(e) => setClientSearch(e.target.value)}
           onSubmit={() => {
             logSubmitEvent('searchCoffeeChat', {
-              search_content: clientSearch,
+              search_content: search,
             });
             addQueryParamsToUrl({ search: clientSearch || undefined });
           }}
-          onReset={() => setClientSearch('')}
+          onReset={() => handleSelectSearch('')}
         />
         <StyledMobileFilterWrapper>
           <StyledMobileFilter
-            value={section}
+            value={selectedSection}
             onChange={(e: string) => {
               handleSelectSection(SECTION_FILTER_OPTIONS[parseInt(e) - 1].label);
             }}
@@ -235,8 +276,8 @@ export default function CoffeeChatCategory() {
             }))}
             placeholder='분야'
             trigger={(placeholder) => (
-              <MobileFilterTrigger selected={section.length > 0} value={section}>
-                {section ? section : placeholder}
+              <MobileFilterTrigger selected={selectedSection.length > 0} value={selectedSection}>
+                {selectedSection ? selectedSection : placeholder}
                 <StyledChevronDown />
               </MobileFilterTrigger>
             )}
@@ -244,13 +285,13 @@ export default function CoffeeChatCategory() {
           <LoggingClick
             eventKey='coffeechatFilter'
             param={{
-              topic_tag: topicType,
-              career: career,
-              part: part,
+              topic_tag: selectedTopicType,
+              career: selectedCareer,
+              part: selectedPart,
             }}
           >
             <StyledMobileFilter
-              value={topicType}
+              value={selectedTopicType}
               onChange={(e: string) => handleSelectTopic(TOPIC_FILTER_OPTIONS[parseInt(e) - 1].label)}
               options={TOPIC_FILTER_OPTIONS.map((option) => ({
                 value: option.value.toString(),
@@ -258,8 +299,8 @@ export default function CoffeeChatCategory() {
               }))}
               placeholder='주제'
               trigger={(placeholder) => (
-                <MobileFilterTrigger selected={topicType.length > 0}>
-                  {topicType ? topicType : placeholder}
+                <MobileFilterTrigger selected={selectedTopicType.length > 0}>
+                  {selectedTopicType ? selectedTopicType : placeholder}
                   <StyledChevronDown />
                 </MobileFilterTrigger>
               )}
@@ -268,13 +309,13 @@ export default function CoffeeChatCategory() {
           <LoggingClick
             eventKey='coffeechatFilter'
             param={{
-              topic_tag: topicType,
-              career: career,
-              part: part,
+              topic_tag: selectedTopicType,
+              career: selectedCareer,
+              part: selectedPart,
             }}
           >
             <StyledMobileFilter
-              value={career}
+              value={selectedCareer}
               onChange={(e: string) => handleSelectCareer(CAREER_FILTER_OPTIONS[parseInt(e) - 1].label)}
               options={CAREER_FILTER_OPTIONS.map((option) => ({
                 value: option.value.toString(),
@@ -282,8 +323,8 @@ export default function CoffeeChatCategory() {
               }))}
               placeholder='경력'
               trigger={(placeholder) => (
-                <MobileFilterTrigger selected={career.length > 0}>
-                  {career ? career : placeholder}
+                <MobileFilterTrigger selected={selectedCareer.length > 0}>
+                  {selectedCareer ? selectedCareer : placeholder}
                   <StyledChevronDown />
                 </MobileFilterTrigger>
               )}
@@ -292,13 +333,13 @@ export default function CoffeeChatCategory() {
           <LoggingClick
             eventKey='coffeechatFilter'
             param={{
-              topic_tag: topicType,
-              career: career,
-              part: part,
+              topic_tag: selectedTopicType,
+              career: selectedCareer,
+              part: selectedPart,
             }}
           >
             <StyledMobileFilter
-              value={part}
+              value={selectedPart}
               onChange={(e: string) => handleSelectPart(PART_FILTER_OPTIONS[parseInt(e) - 1].label)}
               options={PART_FILTER_OPTIONS.map((option) => ({
                 value: option.value.toString(),
@@ -306,8 +347,8 @@ export default function CoffeeChatCategory() {
               }))}
               placeholder='파트'
               trigger={(placeholder) => (
-                <MobileFilterTrigger selected={part.length > 0}>
-                  {part ? part : placeholder}
+                <MobileFilterTrigger selected={selectedPart.length > 0}>
+                  {selectedPart ? selectedPart : placeholder}
                   <StyledChevronDown />
                 </MobileFilterTrigger>
               )}
@@ -338,9 +379,12 @@ export default function CoffeeChatCategory() {
                     career: item.career === '아직 없음' ? '없음' : item.career?.split(' ')[0],
                     organization: item?.organization,
                     job: item.companyJob || undefined,
-                    section: section,
+                    section: selectedSection,
                     title: item.bio || undefined,
-                    topic_tag: topicType && topicType !== '' && topicType !== '전체' ? topicType : undefined,
+                    topic_tag:
+                      selectedTopicType && selectedTopicType !== '' && selectedTopicType !== '전체'
+                        ? selectedTopicType
+                        : undefined,
                     ...formatSoptActivities(item?.soptActivities || []),
                   }}
                 >
