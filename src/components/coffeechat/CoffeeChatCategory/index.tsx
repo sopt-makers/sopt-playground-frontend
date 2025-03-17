@@ -59,26 +59,9 @@ export default function CoffeeChatCategory() {
   const [selectedPart, setSelectedPart] = useState('');
   const [clientSearch, setClientSearch] = useState(search);
 
-  const handleSelectSection = (selected: string) => {
-    addQueryParamsToUrl({ section: selected });
+  const handleFilterChange = (filterType: string, value: string) => {
+    addQueryParamsToUrl({ [filterType]: value });
   };
-
-  const handleSelectTopic = (selected: string) => {
-    addQueryParamsToUrl({ topicType: selected });
-  };
-
-  const handleSelectCareer = (selected: string) => {
-    addQueryParamsToUrl({ career: selected });
-  };
-
-  const handleSelectPart = (selected: string) => {
-    addQueryParamsToUrl({ part: selected });
-  };
-
-  const handleSelectSearch = (selected: string) => {
-    addQueryParamsToUrl({ search: selected });
-  };
-
   const formatSoptActivities = (soptActivities: string[]) => {
     const generations = soptActivities
       .map((item) => parseInt(item.match(/^\d+/)?.[0] || '', 10)) // 숫자 문자열을 숫자로 변환
@@ -131,7 +114,7 @@ export default function CoffeeChatCategory() {
       <>
         <SelectV2.Root
           className='topic-select'
-          onChange={(e: number) => handleSelectTopic(TOPIC_FILTER_OPTIONS[e - 1].label)}
+          onChange={(e: number) => handleFilterChange('topicType', TOPIC_FILTER_OPTIONS[e - 1].label)}
           type='text'
           defaultValue={TOPIC_FILTER_OPTIONS.find((option) => option.label === selectedTopicType)}
           visibleOptions={4}
@@ -158,7 +141,7 @@ export default function CoffeeChatCategory() {
 
         <SelectV2.Root
           className='career-select'
-          onChange={(e: number) => handleSelectCareer(CAREER_FILTER_OPTIONS[e - 1].label)}
+          onChange={(e: number) => handleFilterChange('career', CAREER_FILTER_OPTIONS[e - 1].label)}
           defaultValue={CAREER_FILTER_OPTIONS.find((option) => option.label === selectedCareer)}
           type='text'
           visibleOptions={4}
@@ -185,7 +168,7 @@ export default function CoffeeChatCategory() {
 
         <SelectV2.Root
           className='part-select'
-          onChange={(e: number) => handleSelectPart(PART_FILTER_OPTIONS[e - 1].label)}
+          onChange={(e: number) => handleFilterChange('part', PART_FILTER_OPTIONS[e - 1].label)}
           defaultValue={PART_FILTER_OPTIONS.find((option) => option.label === selectedPart)}
           type='text'
           visibleOptions={4}
@@ -223,7 +206,7 @@ export default function CoffeeChatCategory() {
           <LoggingClick eventKey='coffeechatSection' key={option.categoryName} param={{ section: option.categoryName }}>
             <CategoryCard
               isActive={selectedSection === option.categoryName}
-              onClick={() => handleSelectSection(option.categoryName)}
+              onClick={() => handleFilterChange('section', option.categoryName)}
               key={option.categoryName}
             >
               <CardIcon src={option.icon}></CardIcon>
@@ -247,7 +230,7 @@ export default function CoffeeChatCategory() {
               });
               addQueryParamsToUrl({ search: clientSearch || undefined });
             }}
-            onReset={() => handleSelectSearch('')}
+            onReset={() => handleFilterChange('search', '')}
           />
         </FilterArea>
       </Responsive>
@@ -262,13 +245,13 @@ export default function CoffeeChatCategory() {
             });
             addQueryParamsToUrl({ search: clientSearch || undefined });
           }}
-          onReset={() => handleSelectSearch('')}
+          onReset={() => handleFilterChange('seasrch', '')}
         />
         <StyledMobileFilterWrapper>
           <StyledMobileFilter
             value={selectedSection}
             onChange={(e: string) => {
-              handleSelectSection(SECTION_FILTER_OPTIONS[parseInt(e) - 1].label);
+              handleFilterChange('section', SECTION_FILTER_OPTIONS[parseInt(e) - 1].label);
             }}
             options={SECTION_FILTER_OPTIONS.map((option) => ({
               value: option.value.toString(),
@@ -292,7 +275,7 @@ export default function CoffeeChatCategory() {
           >
             <StyledMobileFilter
               value={selectedTopicType}
-              onChange={(e: string) => handleSelectTopic(TOPIC_FILTER_OPTIONS[parseInt(e) - 1].label)}
+              onChange={(e: string) => handleFilterChange('topicType', TOPIC_FILTER_OPTIONS[parseInt(e) - 1].label)}
               options={TOPIC_FILTER_OPTIONS.map((option) => ({
                 value: option.value.toString(),
                 label: option.label,
@@ -316,7 +299,7 @@ export default function CoffeeChatCategory() {
           >
             <StyledMobileFilter
               value={selectedCareer}
-              onChange={(e: string) => handleSelectCareer(CAREER_FILTER_OPTIONS[parseInt(e) - 1].label)}
+              onChange={(e: string) => handleFilterChange('career', CAREER_FILTER_OPTIONS[parseInt(e) - 1].label)}
               options={CAREER_FILTER_OPTIONS.map((option) => ({
                 value: option.value.toString(),
                 label: option.label,
@@ -340,7 +323,7 @@ export default function CoffeeChatCategory() {
           >
             <StyledMobileFilter
               value={selectedPart}
-              onChange={(e: string) => handleSelectPart(PART_FILTER_OPTIONS[parseInt(e) - 1].label)}
+              onChange={(e: string) => handleFilterChange('part', PART_FILTER_OPTIONS[parseInt(e) - 1].label)}
               options={PART_FILTER_OPTIONS.map((option) => ({
                 value: option.value.toString(),
                 label: option.label,
