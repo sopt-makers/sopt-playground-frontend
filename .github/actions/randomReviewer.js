@@ -2,7 +2,7 @@ const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 const prNumber = process.env.PR_NUMBER;
 const token = process.env.GITHUB_TOKEN;
 
-const reviewers = ['simeunseo', 'hayounSong', 'seojisoosoo', 'pepperdad'];
+const reviewers = ['seong-hui', 'imddoy'];
 
 const headers = {
   'Authorization': `Bearer ${token}`,
