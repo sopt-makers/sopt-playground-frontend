@@ -3,7 +3,7 @@ import WelcomeBanner from '@/components/common/Banner/WelcomeBanner';
 import Skeleton from '@/components/common/Skeleton';
 import { LATEST_GENERATION } from '@/constants/generation';
 
-const Welcome35 = () => {
+const WelcomeBannerContainer = () => {
   const { data: myData, isPending } = useGetMemberOfMe();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
 
@@ -12,4 +12,4 @@ const Welcome35 = () => {
   return <WelcomeBanner isLastGeneration={isLastGeneration} />;
 };
 
-export default Welcome35;
+export default WelcomeBannerContainer;
