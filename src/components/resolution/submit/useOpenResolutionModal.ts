@@ -16,7 +16,7 @@ export const useOpenResolutionModal = () => {
   const { alert } = useAlert();
   const { data: { isRegistration } = {} } = useGetResolutionValidation();
 
-  const { data: { profileImage } = {} } = useGetMemberProfileOfMe();
+  const { data: { name } = {} } = useGetMemberProfileOfMe();
 
   const handleResolutionModalOpen = () => {
     if (isRegistration) {
@@ -38,7 +38,7 @@ export const useOpenResolutionModal = () => {
     isOpenResolutionModal,
     onCloseResolutionModal,
     handleResolutionModalOpen,
-    profileImage,
+    name,
     isRegistration,
   };
 };

@@ -32,10 +32,10 @@ interface TimecapsopForm {
 }
 
 interface TimecapsopSubmitModalProps extends ModalProps {
-  profileImageUrl: string;
+  userName: string;
 }
 
-const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ profileImageUrl, ...props }) => {
+const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...props }) => {
   const { handleConfirmResolution, isPending } = useConfirmResolution();
   const [selectedTag, setSelectedTag] = useState<TimecapsopTag[]>([]);
   const { handleSubmit, control, formState } = useForm<TimecapsopForm>({
@@ -67,8 +67,6 @@ const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ profileImageUrl
       throw error;
     }
   };
-
-  const userName = '문성희';
 
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100} onOpenAutoFocus={(e) => e.preventDefault()}>
