@@ -12,7 +12,7 @@ import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { ResolutionTag, TAG } from '@/components/resolution/constants';
+import { TAG, TimecapsopTag } from '@/components/resolution/constants';
 import { useConfirmResolution } from '@/components/resolution/submit/useConfirmResolution';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -23,29 +23,29 @@ const schema = yup.object().shape({
     .array()
     .of(yup.boolean())
     .test('tags', '목표를 선택해 주세요', (value) => value?.some((v) => v === true) ?? false),
-  content: yup.string().required('내용을 입력해주세요').max(300, '300자 이내로 입력해주세요.'),
+  content: yup.string().required('내용을 입력해 주세요').max(300, '300자 이내로 입력해 주세요.'),
 });
 
-interface ResolutionForm {
-  tags: ResolutionTag[];
+interface TimecapsopForm {
+  tags: TimecapsopTag[];
   content: string;
 }
 
-interface ResolutionSubmitModalProps extends ModalProps {
+interface TimecapsopSubmitModalProps extends ModalProps {
   profileImageUrl: string;
 }
 
-const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl, ...props }) => {
+const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ profileImageUrl, ...props }) => {
   const { handleConfirmResolution, isPending } = useConfirmResolution();
-  const [selectedTag, setSelectedTag] = useState<ResolutionTag[]>([]);
-  const { handleSubmit, control, formState } = useForm<ResolutionForm>({
+  const [selectedTag, setSelectedTag] = useState<TimecapsopTag[]>([]);
+  const { handleSubmit, control, formState } = useForm<TimecapsopForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
   const isValid = formState.isValid;
 
-  const onClickTag = (tag: ResolutionTag) => {
+  const onClickTag = (tag: TimecapsopTag) => {
     if (selectedTag.includes(tag)) {
       setSelectedTag(selectedTag.filter((t) => t !== tag));
     } else {
@@ -53,7 +53,7 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
     }
   };
 
-  const submit = async ({ content }: ResolutionForm) => {
+  const submit = async ({ content }: TimecapsopForm) => {
     try {
       if (!isValid) return;
       handleConfirmResolution({
@@ -107,12 +107,13 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
                     htmlFor={`tags.${index}`}
                     onClick={() => onClickTag(tag.value)}
                     isSelected={selectedTag.includes(tag.value)}
+                    backgroundImage={tag.image}
                   >
                     <StyledTagText
-                      typography='SUIT_16_SB'
-                      color={selectedTag.includes(tag.value) ? colors.white : colors.gray200}
+                      typography='SUIT_14_SB'
+                      color={selectedTag.includes(tag.value) ? colors.white : colors.gray300}
                     >
-                      {tag.icon + tag.value}
+                      {tag.value}
                     </StyledTagText>
                   </StyledTagItem>
                 </div>
@@ -143,6 +144,7 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
                   }
                   errorMessage={fieldState.error?.message}
                   isError={!!fieldState.error}
+                  value={field.value ?? ''}
                 />
               )}
             />
@@ -165,7 +167,7 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
   );
 };
 
-export default ResolutionSubmitModal;
+export default TimecapsopSubmitModal;
 
 const StyledModal = styled(Modal)`
   background-color: ${colors.gray900};
@@ -218,22 +220,27 @@ const StyledTags = styled.section`
 `;
 
 const StyledTagText = styled(Text)`
-  @media ${MOBILE_MEDIA_QUERY} {
-    font-size: 14px;
-  }
+  position: absolute;
+  top: 58px;
 `;
 
-const StyledTagItem = styled.label<{ isSelected: boolean }>`
+const StyledTagItem = styled.label<{ isSelected: boolean; backgroundImage: string }>`
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
-  transition: border all 0.2s;
-  border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.gray900)};
+  transition: all 0.2s;
   border-radius: 50%;
-  background-color: ${colors.gray800};
+  background-image: ${({ isSelected, backgroundImage }) =>
+    `url(${isSelected ? backgroundImage.replace('default', 'select') : backgroundImage}) `};
   cursor: pointer;
   width: 90px;
   height: 90px;
+
+  &:hover {
+    ${({ isSelected, backgroundImage }) =>
+      !isSelected && `background-image: url(${backgroundImage.replace('default', 'hover')});`}
+  }
 `;
 
 const StyledTextArea = styled(TextArea)`
