@@ -14,8 +14,7 @@ import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { TAG, TimecapsopTag } from '@/components/resolution/constants';
 import { useConfirmResolution } from '@/components/resolution/submit/useConfirmResolution';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
+import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 const schema = yup.object().shape({
@@ -23,7 +22,7 @@ const schema = yup.object().shape({
     .array()
     .of(yup.boolean())
     .test('tags', '목표를 선택해 주세요', (value) => value?.some((v) => v === true) ?? false),
-  content: yup.string().required('내용을 입력해 주세요').max(300, '300자 이내로 입력해 주세요.'),
+  content: yup.string().required('내용을 입력해 주세요').max(300, '300자 이내로 입력해 주세요'),
 });
 
 interface TimecapsopForm {
@@ -122,7 +121,7 @@ const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...pr
           {formState.errors?.tags && (
             <TagErrorWrapper>
               <StyledIconAlertCircle color={colors.error} />
-              <TagErrorMessage>{formState.errors?.tags.message}</TagErrorMessage>
+              <TagErrorMessage typography='SUIT_12_SB'>{formState.errors?.tags.message}</TagErrorMessage>
             </TagErrorWrapper>
           )}
           <TextAreaWrapper>
@@ -155,7 +154,10 @@ const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...pr
           {isPending ? (
             <Loading color='white' />
           ) : (
-            <Text typography='SUIT_18_SB' color={isValid ? colors.black : colors.gray500}>
+            <Text
+              typography={window.innerWidth <= MOBILE_MAX_WIDTH ? 'SUIT_16_SB' : 'SUIT_18_SB'}
+              color={isValid ? colors.black : colors.gray500}
+            >
               타임캡솝 보관하기
             </Text>
           )}
@@ -198,6 +200,7 @@ const StyledForm = styled.form`
   align-items: center;
   padding: 18px;
   width: 430px;
+  min-width: 320px;
   overflow-y: scroll;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -205,7 +208,7 @@ const StyledForm = styled.form`
       max-width: 100dvw;
     }
 
-    padding: 18px;
+    gap: 24px;
   }
 `;
 
@@ -263,6 +266,16 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   cursor: pointer;
   padding: 12px 20px;
   width: 100%;
+  height: 56px;
+
+  &:hover {
+    background-color: ${colors.gray50};
+    color: ${colors.black};
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    height: 44px;
+  }
 `;
 
 const TagTextWrapper = styled.div`
@@ -286,7 +299,6 @@ const TagErrorWrapper = styled.div`
 
 const TagErrorMessage = styled(Text)`
   color: ${colors.error};
-  ${textStyles.SUIT_12_M}
 `;
 
 const StyledIconAlertCircle = styled(IconAlertCircle)`
@@ -309,6 +321,11 @@ const ModalBody = styled.div`
   align-items: center;
   margin-top: 56px;
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 20px;
+    margin-top: 52px;
+  }
 `;
 
 const TagsWrapper = styled.div`
