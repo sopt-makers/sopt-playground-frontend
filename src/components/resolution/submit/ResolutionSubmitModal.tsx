@@ -2,16 +2,15 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import { IconAlertCircle } from '@sopt-makers/icons';
-import ProfileIcon from 'public/icons/icon-profile.svg';
+import { TextArea } from '@sopt-makers/ui';
 import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Loading from '@/components/common/Loading';
 import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
-import TextArea from '@/components/common/TextArea';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { ResolutionTag, TAG } from '@/components/resolution/constants';
 import { useConfirmResolution } from '@/components/resolution/submit/useConfirmResolution';
@@ -69,82 +68,95 @@ const ResolutionSubmitModal: FC<ResolutionSubmitModalProps> = ({ profileImageUrl
     }
   };
 
+  const userName = '문성희';
+
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100} onOpenAutoFocus={(e) => e.preventDefault()}>
       <StyledForm onSubmit={handleSubmit(submit)}>
-        {profileImageUrl ? (
-          <ProfileImage src={profileImageUrl} />
-        ) : (
-          <EmptyProfileImage>
-            <ProfileIcon />
-          </EmptyProfileImage>
-        )}
-        <Text mt={30} typography='SUIT_24_B'>
-          SOPT 35기를 시작하며
-        </Text>
-        <Description mt={10} typography='SUIT_14_M' color={colors.gray200}>
-          {`솝트에 임하는 마음가짐을 적어주세요!\n보내주신 다짐은 종무식 때 다시 볼 수 있어요.`}
-        </Description>
-        <TagTextWrapper>
-          <Text typography='SUIT_14_M' color={colors.gray30}>
-            어떤 목표를 이루고 싶나요?
-          </Text>
-          <Text typography='SUIT_14_M' color={colors.gray400}>
-            (다중 선택 가능)
-          </Text>
-        </TagTextWrapper>
-        <StyledTags>
-          {TAG.map((tag, index) => (
-            <div key={'wrapper' + index}>
-              <RHFControllerFormItem
-                key={'controller' + index}
-                name={`tags.${index}`}
-                id={`tags.${index}`}
-                component={StyledInput}
-                control={control}
-                type='checkbox'
-                style={{ display: 'none' }}
-              />
-              <StyledTagItem
-                key={'tagItem' + index}
-                htmlFor={`tags.${index}`}
-                onClick={() => onClickTag(tag.value)}
-                isSelected={selectedTag.includes(tag.value)}
-              >
-                <StyledTagText
-                  typography='SUIT_16_SB'
-                  color={selectedTag.includes(tag.value) ? colors.white : colors.gray200}
-                >
-                  {tag.icon + tag.value}
-                </StyledTagText>
-              </StyledTagItem>
-            </div>
-          ))}
-        </StyledTags>
-        <TagErrorWrapper>
+        <ModalBody>
+          <TitleTextWrapper>
+            <Description typography='SUIT_14_M' color={colors.gray200}>
+              SOPT 36기를 시작하는 나를 응원하며
+            </Description>
+            <Text typography='SUIT_20_SB'>타임캡솝을 만들어볼까요?</Text>
+          </TitleTextWrapper>
+
+          <TagsWrapper>
+            <TagTextWrapper>
+              <Text typography='SUIT_14_M' color={colors.gray30}>
+                나만의 목표를 담아보세요
+              </Text>
+              <Text typography='SUIT_14_M' color={colors.gray400}>
+                (다중 선택 가능)
+              </Text>
+            </TagTextWrapper>
+            <StyledTags>
+              {TAG.map((tag, index) => (
+                <div key={'wrapper' + index}>
+                  <RHFControllerFormItem
+                    key={'controller' + index}
+                    name={`tags.${index}`}
+                    id={`tags.${index}`}
+                    component={StyledInput}
+                    control={control}
+                    type='checkbox'
+                    style={{ display: 'none' }}
+                  />
+                  <StyledTagItem
+                    key={'tagItem' + index}
+                    htmlFor={`tags.${index}`}
+                    onClick={() => onClickTag(tag.value)}
+                    isSelected={selectedTag.includes(tag.value)}
+                  >
+                    <StyledTagText
+                      typography='SUIT_16_SB'
+                      color={selectedTag.includes(tag.value) ? colors.white : colors.gray200}
+                    >
+                      {tag.icon + tag.value}
+                    </StyledTagText>
+                  </StyledTagItem>
+                </div>
+              ))}
+            </StyledTags>
+          </TagsWrapper>
+
           {formState.errors?.tags && (
-            <>
+            <TagErrorWrapper>
               <StyledIconAlertCircle color={colors.error} />
               <TagErrorMessage>{formState.errors?.tags.message}</TagErrorMessage>
-            </>
+            </TagErrorWrapper>
           )}
-        </TagErrorWrapper>
-        <RHFControllerFormItem
-          maxCount={300}
-          control={control}
-          name='content'
-          component={StyledTextArea}
-          count={true}
-          placeholder={
-            '(예시) 드디어 솝트 35기 시작! 이걸 보고 있다면 35기 종무식을 하고 있겠지?\n세미나 과제랑 스터디 진짜진짜 열심히 해서 많이 배우고, 앱잼 팀원과 좋은 프로덕트 꼭 만들어보자. 팟팅!'
-          }
-        />
+          <TextAreaWrapper>
+            <ReceiverText typography='SUIT_16_SB' color={colors.gray50}>
+              {`To. 7월의 ${userName}`}
+            </ReceiverText>
+            <Controller
+              name='content'
+              control={control}
+              render={({ field, fieldState }) => (
+                <StyledTextArea
+                  {...field}
+                  fixedHeight={156}
+                  maxLength={300}
+                  placeholder={
+                    '(예시) 드디어 솝트 36기 시작! 이걸 보고 있다면 36기 종무식을 하고 있겠지?\n세미나 과제랑 스터디 진짜진짜 열심히 해서 많이 배우고, 앱잼 팀원과 좋은 프로덕트 꼭 만들어보자. 팟팅!'
+                  }
+                  errorMessage={fieldState.error?.message}
+                  isError={!!fieldState.error}
+                />
+              )}
+            />
+            <SenderText typography='SUIT_16_SB' color={colors.gray50}>
+              {`From. 3월의 ${userName}`}
+            </SenderText>
+          </TextAreaWrapper>
+        </ModalBody>
         <StyledButton isDisabled={!isValid} isError={!formState.errors.content}>
           {isPending ? (
             <Loading color='white' />
           ) : (
-            <Text typography='SUIT_14_SB' color={isValid ? colors.black : colors.gray500}>
-              나의 다짐 보내기
+            <Text typography='SUIT_18_SB' color={isValid ? colors.black : colors.gray500}>
+              타임캡솝 보관하기
             </Text>
           )}
         </StyledButton>
@@ -157,7 +169,6 @@ export default ResolutionSubmitModal;
 
 const StyledModal = styled(Modal)`
   background-color: ${colors.gray900};
-  padding-top: 20px;
   max-height: 100vh;
   overflow-y: auto;
 
@@ -183,9 +194,10 @@ const Description = styled(Text)`
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 28px;
   align-items: center;
-  padding: 0;
-  width: 426px;
+  padding: 18px;
+  width: 430px;
   overflow-y: scroll;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -193,52 +205,16 @@ const StyledForm = styled.form`
       max-width: 100dvw;
     }
 
-    padding: 0;
-  }
-`;
-
-const ProfileImage = styled.img`
-  margin-top: 56px;
-  border-radius: 20px;
-  width: 84px;
-  height: 84px;
-  object-fit: cover;
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 88px;
-    height: 88px;
-  }
-`;
-
-const EmptyProfileImage = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 56px;
-  border-radius: 20px;
-  background: ${colors.gray700};
-  width: 84px;
-  height: 84px;
-
-  & > svg {
-    width: 32px;
+    padding: 18px;
   }
 `;
 
 const StyledTags = styled.section`
   display: flex;
   flex-wrap: wrap;
-  row-gap: 12px;
-  column-gap: 10px;
-  justify-content: space-between;
-  justify-items: center;
-  margin-top: 12px;
-  padding: 0 20px;
-  line-height: 22px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    column-gap: 0;
-    padding: 0 18.5px;
-  }
+  gap: 12px;
+  justify-content: center;
+  width: 294px;
 `;
 
 const StyledTagText = styled(Text)`
@@ -249,25 +225,19 @@ const StyledTagText = styled(Text)`
 
 const StyledTagItem = styled.label<{ isSelected: boolean }>`
   display: flex;
-  gap: 4px;
   align-items: center;
   justify-content: center;
   transition: border all 0.2s;
   border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.gray900)};
-  border-radius: 20px;
+  border-radius: 50%;
   background-color: ${colors.gray800};
   cursor: pointer;
-  padding: 6px 14px;
-  width: max-content;
+  width: 90px;
+  height: 90px;
 `;
 
 const StyledTextArea = styled(TextArea)`
-  border: 1px solid ${colors.gray800};
-  background-color: ${colors.gray800};
-  padding: 11px 16px;
-  width: 386px;
-  height: 176px;
-  line-height: 26px;
+  width: 100%;
 
   @media ${MOBILE_MEDIA_QUERY} {
     @supports (height: 100dvw) {
@@ -283,27 +253,26 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
-  margin-top: ${({ isError }) => (isError ? '40px' : '14px')};
-  margin-bottom: 44px;
   border-radius: 12px;
-  background: ${({ isDisabled }) =>
-    isDisabled ? colors.gray800 : ' linear-gradient(90deg, #8FC0FF 0%, #5BA3FF 100%)'};
+  background: ${({ isDisabled }) => (isDisabled ? colors.gray800 : 'linear-gradient(90deg, #d5d6e3 0%, #939aab 100%)')};
   cursor: pointer;
   padding: 12px 20px;
+  width: 100%;
 `;
 
 const TagTextWrapper = styled.div`
   display: flex;
   gap: 3px;
-  margin-top: 36px;
+  align-items: center;
+  height: 22px;
 `;
 
 const TagErrorWrapper = styled.div`
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  margin-top: -24px;
   width: 100%;
-  height: 32px;
+  height: 16px;
 
   & > svg {
     margin-right: 6px;
@@ -318,4 +287,47 @@ const TagErrorMessage = styled(Text)`
 const StyledIconAlertCircle = styled(IconAlertCircle)`
   width: 14px;
   height: 14px;
+`;
+
+const TitleTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  width: 100%;
+`;
+
+const ModalBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  margin-top: 56px;
+  width: 100%;
+`;
+
+const TagsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+`;
+
+const TextAreaWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+`;
+
+const SenderText = styled(Text)`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  line-height: 24px;
+`;
+
+const ReceiverText = styled(Text)`
+  line-height: 24px;
 `;
