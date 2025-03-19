@@ -104,7 +104,9 @@ const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...pr
                     htmlFor={`tags.${index}`}
                     onClick={() => onClickTag(tag.value)}
                     isSelected={selectedTag.includes(tag.value)}
-                    backgroundImage={tag.image}
+                    defaultImg={tag.image.default}
+                    selectedImg={tag.image.select}
+                    hoverImg={tag.image.hover}
                   >
                     <StyledTagText
                       typography='SUIT_14_SB'
@@ -225,22 +227,20 @@ const StyledTagText = styled(Text)`
   top: 58px;
 `;
 
-const StyledTagItem = styled.label<{ isSelected: boolean; backgroundImage: string }>`
+const StyledTagItem = styled.label<{ isSelected: boolean; defaultImg: string; selectedImg: string; hoverImg: string }>`
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
   border-radius: 50%;
-  background-image: ${({ isSelected, backgroundImage }) =>
-    `url(${isSelected ? backgroundImage.replace('default', 'select') : backgroundImage}) `};
+  background-image: ${({ isSelected, defaultImg, selectedImg }) => `url(${isSelected ? selectedImg : defaultImg}) `};
   cursor: pointer;
   width: 90px;
   height: 90px;
 
   &:hover {
-    ${({ isSelected, backgroundImage }) =>
-      !isSelected && `background-image: url(${backgroundImage.replace('default', 'hover')});`}
+    ${({ isSelected, hoverImg }) => !isSelected && `background-image: url(${hoverImg});`}
   }
 `;
 

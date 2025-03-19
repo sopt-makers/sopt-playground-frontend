@@ -8,28 +8,52 @@ export enum TimecapsopTag {
 
 export interface Tag {
   value: TimecapsopTag;
-  image: string;
+  image: {
+    default: string;
+    hover: string;
+    select: string;
+  };
 }
 
 export const TAG: Tag[] = [
   {
     value: TimecapsopTag.PRODUCT_RELEASE,
-    image: '/icons/icon-release-default.svg',
+    image: {
+      default: '/icons/icon-release-default.svg',
+      hover: '/icons/icon-release-hover.svg',
+      select: '/icons/icon-release-select.svg',
+    },
   },
   {
     value: TimecapsopTag.NETWORKING,
-    image: '/icons/icon-networking-default.svg',
+    image: {
+      default: '/icons/icon-networking-default.svg',
+      hover: '/icons/icon-networking-hover.svg',
+      select: '/icons/icon-networking-select.svg',
+    },
   },
   {
     value: TimecapsopTag.COLLABORATION_EXPERIENCE,
-    image: '/icons/icon-cooperation-default.svg',
+    image: {
+      default: '/icons/icon-cooperation-default.svg',
+      hover: '/icons/icon-cooperation-hover.svg',
+      select: '/icons/icon-cooperation-select.svg',
+    },
   },
   {
     value: TimecapsopTag.STARTUP,
-    image: '/icons/icon-startup-default.svg',
+    image: {
+      default: '/icons/icon-startup-default.svg',
+      hover: '/icons/icon-startup-hover.svg',
+      select: '/icons/icon-startup-select.svg',
+    },
   },
   {
     value: TimecapsopTag.SKILL_UP,
-    image: '/icons/icon-skill-default.svg',
+    image: {
+      default: '/icons/icon-skill-default.svg',
+      hover: '/icons/icon-skill-hover.svg',
+      select: '/icons/icon-skill-select.svg',
+    },
   },
 ];
