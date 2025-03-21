@@ -63,20 +63,9 @@ const CompletePage: FC = () => {
           </CardsWrapper>
           {isLastGeneration && isResolutionOpen ? (
             <BottomSection>
-              <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
-                AT SOPT만을 위한 타임캡솝을 준비했어요
-              </Text>
+              <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
               <LoggingClick eventKey='profileUploadResolution'>
-                <Button
-                  onClick={handleResolutionModalOpen}
-                  size='lg'
-                  style={{
-                    background: '#D5D6E3',
-                    color: `${colors.black}`,
-                  }}
-                >
-                  타임캡솝 만들기
-                </Button>
+                <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
               </LoggingClick>
               {isOpenResolutionModal && (
                 <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
@@ -155,33 +144,21 @@ const CardsWrapper = styled.div`
   }
 `;
 
-const DefaultButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background-color: ${colors.gray700};
-  padding: 12px 20px;
-  width: fit-content;
-  height: 48px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
-  }
-`;
-
 const ResolutionButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
-  padding: 12px 20px;
-  width: fit-content;
+  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  padding: 16px 26px;
+  width: 100%;
+  max-width: 320px;
   height: 48px;
+  color: ${colors.black};
+  ${fontsObject.LABEL_1_18_SB}
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
+  &:hover {
+    background: ${colors.gray50};
   }
 `;
 
@@ -190,12 +167,16 @@ const BottomSection = styled.div`
   flex-direction: column;
   gap: 12px;
   align-items: center;
-  margin-top: 44px;
+  margin-top: 18px;
   width: 100%;
-`;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 56px;
+  p {
+    color: ${colors.white};
+    ${fontsObject.BODY_2_16_M}
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    position: absolute;
+    bottom: 21px;
+  }
 `;
