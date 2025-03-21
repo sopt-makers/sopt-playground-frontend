@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 import { useOverlay } from '@toss/use-overlay';
 import { ReactNode, useCallback } from 'react';
 
@@ -79,6 +79,6 @@ const StyleModalDescription = styled.div`
   color: ${colors.gray100};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${fonts.BODY_14_R}
+    ${fontsObject.BODY_3_14_R}
   }
 `;

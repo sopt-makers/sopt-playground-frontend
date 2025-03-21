@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -17,10 +17,10 @@ export const ModalTitle = styled.h1`
   margin-bottom: 12px;
   line-height: 24px;
 
-  ${fonts.TITLE_20_SB}
+  ${fontsObject.TITLE_4_20_SB}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${fonts.TITLE_18_SB}
+    ${fontsObject.TITLE_4_20_SB}
   }
 `;
 

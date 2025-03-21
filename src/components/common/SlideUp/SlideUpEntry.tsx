@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
+import { fontsObject } from '@sopt-makers/fonts';
 import { FC } from 'react';
 
 import { SlideUpOption } from '@/components/common/SlideUp/types';
@@ -45,7 +45,7 @@ const SlideUpIconSuccess = () => {
 const ActionButton = styled.button`
   min-width: max-content;
   color: ${colors.blue400};
-  ${fonts.LABEL_14_SB};
+  ${fontsObject.LABEL_3_14_SB};
 `;
 
 const StyledToastWrapper = styled.div`
