@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fontsObject } from '@sopt-makers/fonts';
+import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
@@ -105,10 +105,14 @@ const StyledCompletePage = styled.div`
   margin: 50px 0;
   padding: 16px;
   width: 100%;
+  color: white;
 
   .desktop-title {
-    color: white;
-    ${fontsObject.HEADING_2_32_B}
+    ${fonts.HEADING_32_B}
+  }
+
+  .mobile-title {
+    ${fonts.HEADING_24_B}
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -155,7 +159,7 @@ const ResolutionButton = styled.button`
   max-width: 320px;
   height: 48px;
   color: ${colors.black};
-  ${fontsObject.LABEL_1_18_SB}
+  ${fonts.LABEL_18_SB}
 
   &:hover {
     background: ${colors.gray50};
@@ -172,7 +176,7 @@ const BottomSection = styled.div`
 
   p {
     color: ${colors.white};
-    ${fontsObject.BODY_2_16_M}
+    ${fonts.BODY_16_M}
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
