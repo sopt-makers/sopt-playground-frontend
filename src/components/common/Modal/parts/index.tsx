@@ -20,7 +20,7 @@ export const ModalTitle = styled.h1`
   ${fontsObject.TITLE_4_20_SB}
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${fontsObject.TITLE_4_20_SB}
+    ${fontsObject.TITLE_5_18_SB}
   }
 `;
 
