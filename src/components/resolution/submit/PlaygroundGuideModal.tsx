@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
-import router from 'next/router';
 import { ReactNode } from 'react';
 
 import Modal from '@/components/common/Modal';

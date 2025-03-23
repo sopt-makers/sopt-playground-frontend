@@ -45,6 +45,7 @@ const CompletePage: FC = () => {
     name,
     isOpenPlaygroundGuideModal,
     onClosePlaygroundGuideModal,
+    onOpenPlaygroundGuideModal,
   } = useOpenResolutionModal();
 
   return (
@@ -91,7 +92,11 @@ const CompletePage: FC = () => {
                 </Button>
               </LoggingClick>
               {isOpenResolutionModal && (
-                <TimecapsopSubmitModal userName={name ?? '나'} onClose={onCloseResolutionModal} />
+                <TimecapsopSubmitModal
+                  userName={name ?? '나'}
+                  onClose={onCloseResolutionModal}
+                  onSuccess={onOpenPlaygroundGuideModal}
+                />
               )}
               {isOpenPlaygroundGuideModal && (
                 <PlaygroundGuideModal isJustTimecapsopt onClose={onClosePlaygroundGuideModal} />

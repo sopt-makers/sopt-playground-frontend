@@ -33,5 +33,6 @@ export const useOpenResolutionModal = () => {
     isRegistration,
     isOpenPlaygroundGuideModal,
     onClosePlaygroundGuideModal,
+    onOpenPlaygroundGuideModal,
   };
 };

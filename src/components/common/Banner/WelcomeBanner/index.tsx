@@ -64,6 +64,7 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
     isRegistration,
     isOpenPlaygroundGuideModal,
     onClosePlaygroundGuideModal,
+    onOpenPlaygroundGuideModal,
   } = useOpenResolutionModal();
 
   return (
@@ -85,7 +86,11 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                     </ResolutionButton>
                   </LoggingClick>
                   {isOpenResolutionModal && (
-                    <TimecapsopSubmitModal onClose={onCloseResolutionModal} userName={name ?? '나'} />
+                    <TimecapsopSubmitModal
+                      onClose={onCloseResolutionModal}
+                      userName={name ?? '나'}
+                      onSuccess={onOpenPlaygroundGuideModal}
+                    />
                   )}
                   {isOpenPlaygroundGuideModal && <PlaygroundGuideModal onClose={onClosePlaygroundGuideModal} />}
                 </ButtonWrapper>

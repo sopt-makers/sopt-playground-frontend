@@ -14,6 +14,7 @@ import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { TAG, TimecapsopTag } from '@/components/resolution/constants';
 import { useConfirmResolution } from '@/components/resolution/submit/useConfirmResolution';
+import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
@@ -32,6 +33,7 @@ interface TimecapsopForm {
 
 interface TimecapsopSubmitModalProps extends ModalProps {
   userName: string;
+  onSuccess: () => void;
 }
 
 const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...props }) => {
@@ -60,6 +62,7 @@ const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...pr
         tags: selectedTag,
         onSuccess: () => {
           props.onClose();
+          props.onSuccess();
         },
       });
     } catch (error) {
