@@ -23,20 +23,10 @@ interface WelcomeBannerProp {
 }
 
 const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
-  // 이미지 랜덤 생성을 위한 코드
-  const [bannerVersion, setBannerVersion] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
-
-  const getRandomArbitrary = () => {
-    setBannerVersion(Math.floor(Math.random() * 2 + 1));
-  };
-
-  useLayoutEffect(() => {
-    getRandomArbitrary();
   }, []);
 
   const Welcome36Banner: BannerType = {
@@ -79,20 +69,20 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                 </ButtonWrapper>
                 <BannerWrapper>
                   <Responsive only='desktop'>
-                    <Banner src={Welcome36Banner.desktop} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                    <Banner src={Welcome36Banner.desktop} alt={`데스크탑 환영 배너`} />
                   </Responsive>
                   <Responsive only='mobile'>
-                    <Banner src={Welcome36Banner.mobile} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                    <Banner src={Welcome36Banner.mobile} alt={`모바일 환영 배너`} />
                   </Responsive>
                 </BannerWrapper>
               </>
             ) : (
               <BannerWrapper>
                 <Responsive only='desktop'>
-                  <Banner src={WelcomeOthersBanner.desktop} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                  <Banner src={WelcomeOthersBanner.desktop} alt={`데스크탑 환영 배너`} />
                 </Responsive>
                 <Responsive only='mobile'>
-                  <Banner src={WelcomeOthersBanner.mobile} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                  <Banner src={WelcomeOthersBanner.mobile} alt={`모바일 환영 배너`} />
                 </Responsive>
               </BannerWrapper>
             )}
