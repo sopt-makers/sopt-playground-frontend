@@ -5,6 +5,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuideModal';
 import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import banner35Desktop1 from '@/public/icons/img/welcome-banner_35_desktop_ver1.gif';
@@ -55,8 +56,15 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
     mobile: bannerOthersMobile.src,
   };
 
-  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, name, isRegistration } =
-    useOpenResolutionModal();
+  const {
+    isOpenResolutionModal,
+    onCloseResolutionModal,
+    handleResolutionModalOpen,
+    name,
+    isRegistration,
+    isOpenPlaygroundGuideModal,
+    onClosePlaygroundGuideModal,
+  } = useOpenResolutionModal();
 
   return (
     <WelcomeBannerContainer>
@@ -79,6 +87,7 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                   {isOpenResolutionModal && (
                     <TimecapsopSubmitModal onClose={onCloseResolutionModal} userName={name ?? '나'} />
                   )}
+                  {isOpenPlaygroundGuideModal && <PlaygroundGuideModal onClose={onClosePlaygroundGuideModal} />}
                 </ButtonWrapper>
                 <BannerWrapper>
                   <Responsive only='desktop'>

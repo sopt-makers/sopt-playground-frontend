@@ -13,6 +13,7 @@ import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import CardBack from '@/components/members/upload/complete/CardBack';
 import MemberCardOfMe from '@/components/members/upload/complete/MemberCardOfMe';
+import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuideModal';
 import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { LATEST_GENERATION } from '@/constants/generation';
@@ -35,9 +36,16 @@ const CompletePage: FC = () => {
     }));
   const { data: myData } = useGetMemberOfMe();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
-  const isResolutionOpen = false; // 다짐메시지 오픈 기간에만 이 값을 true로 변경합니다.
+  const isResolutionOpen = true; // 다짐메시지 오픈 기간에만 이 값을 true로 변경합니다.
 
-  const { handleResolutionModalOpen, isOpenResolutionModal, onCloseResolutionModal, name } = useOpenResolutionModal();
+  const {
+    handleResolutionModalOpen,
+    isOpenResolutionModal,
+    onCloseResolutionModal,
+    name,
+    isOpenPlaygroundGuideModal,
+    onClosePlaygroundGuideModal,
+  } = useOpenResolutionModal();
 
   return (
     <AuthRequired>
@@ -85,6 +93,7 @@ const CompletePage: FC = () => {
               {isOpenResolutionModal && (
                 <TimecapsopSubmitModal userName={name ?? '나'} onClose={onCloseResolutionModal} />
               )}
+              {isOpenPlaygroundGuideModal && <PlaygroundGuideModal onClose={onClosePlaygroundGuideModal} />}
             </ButtonWrapper>
           ) : (
             <BottomSection>
