@@ -45,48 +45,80 @@ const CompletePage: FC = () => {
     <AuthRequired>
       {profile && (
         <StyledCompletePage>
-          <Responsive only='desktop'>
-            <h1 className='desktop-title'>프로필 등록 완료!</h1>
-          </Responsive>
-          <Responsive only='mobile'>
-            <h1 className='mobile-title'>프로필 등록 완료!</h1>
-          </Responsive>
-          <CardsWrapper>
-            <CardBack isLastGeneration={isLastGeneration && isResolutionOpen} />
-            <MemberCardOfMe
-              name={profile.name}
-              belongs={belongs || ''}
-              badges={badges || []}
-              intro={profile.introduction}
-              imageUrl={profile.profileImage}
-            />
-          </CardsWrapper>
-          {isLastGeneration && isResolutionOpen ? (
-            <BottomSection>
-              <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
-              <LoggingClick eventKey='profileUploadResolution'>
-                <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
-              </LoggingClick>
-              {isOpenResolutionModal && (
-                <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
+          <StyledCompletedLayout>
+            <Responsive only='desktop'>
+              <h1 className='desktop-title'>프로필 등록 완료!</h1>
+            </Responsive>
+            <Responsive only='mobile'>
+              <h1 className='mobile-title'>프로필 등록 완료!</h1>
+            </Responsive>
+            <CardsWrapper>
+              <CardBack isLastGeneration={isLastGeneration && isResolutionOpen} />
+              <MemberCardOfMe
+                name={profile.name}
+                belongs={belongs || ''}
+                badges={badges || []}
+                intro={profile.introduction}
+                imageUrl={profile.profileImage}
+              />
+            </CardsWrapper>
+            <Responsive only='desktop'>
+              {isLastGeneration && isResolutionOpen ? (
+                <BottomSection>
+                  <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
+                  <LoggingClick eventKey='profileUploadResolution'>
+                    <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
+                  </LoggingClick>
+                  {isOpenResolutionModal && (
+                    <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
+                  )}
+                </BottomSection>
+              ) : (
+                <BottomSection>
+                  <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
+                    솝트 구성원들의 이야기가 궁금하다면?
+                  </Text>
+                  <Button
+                    onClick={() => {
+                      router.push(playgroundLink.feedList());
+                    }}
+                    size='lg'
+                    theme='black'
+                  >
+                    플레이그라운드 시작하기
+                  </Button>
+                </BottomSection>
               )}
-            </BottomSection>
-          ) : (
-            <BottomSection>
-              <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
-                솝트 구성원들의 이야기가 궁금하다면?
-              </Text>
-              <Button
-                onClick={() => {
-                  router.push(playgroundLink.feedList());
-                }}
-                size='lg'
-                theme='black'
-              >
-                플레이그라운드 시작하기
-              </Button>
-            </BottomSection>
-          )}
+            </Responsive>
+          </StyledCompletedLayout>
+          <Responsive only='mobile'>
+            {isLastGeneration && isResolutionOpen ? (
+              <BottomSection>
+                <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
+                <LoggingClick eventKey='profileUploadResolution'>
+                  <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
+                </LoggingClick>
+                {isOpenResolutionModal && (
+                  <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
+                )}
+              </BottomSection>
+            ) : (
+              <BottomSection>
+                <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
+                  솝트 구성원들의 이야기가 궁금하다면?
+                </Text>
+                <Button
+                  onClick={() => {
+                    router.push(playgroundLink.feedList());
+                  }}
+                  size='lg'
+                  theme='black'
+                >
+                  플레이그라운드 시작하기
+                </Button>
+              </BottomSection>
+            )}
+          </Responsive>
         </StyledCompletePage>
       )}
     </AuthRequired>
@@ -102,10 +134,7 @@ const StyledCompletePage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 50px 0;
-  padding: 16px;
   width: 100%;
-  color: white;
 
   .desktop-title {
     ${fonts.HEADING_32_B}
@@ -118,6 +147,17 @@ const StyledCompletePage = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 30px 0;
   }
+`;
+
+export const StyledCompletedLayout = styled.div`
+  display: flex;
+  position: absolute;
+  top: 50%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  width: 100%;
 `;
 
 const CardsWrapper = styled.div`
@@ -180,7 +220,9 @@ const BottomSection = styled.div`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    position: absolute;
+    position: fixed;
     bottom: 21px;
+    left: 0;
+    margin-top: 0;
   }
 `;
