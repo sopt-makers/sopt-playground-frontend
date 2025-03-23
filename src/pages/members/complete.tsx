@@ -93,7 +93,9 @@ const CompletePage: FC = () => {
               {isOpenResolutionModal && (
                 <TimecapsopSubmitModal userName={name ?? '나'} onClose={onCloseResolutionModal} />
               )}
-              {isOpenPlaygroundGuideModal && <PlaygroundGuideModal onClose={onClosePlaygroundGuideModal} />}
+              {isOpenPlaygroundGuideModal && (
+                <PlaygroundGuideModal isJustTimecapsopt onClose={onClosePlaygroundGuideModal} />
+              )}
             </ButtonWrapper>
           ) : (
             <BottomSection>
