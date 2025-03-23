@@ -7,19 +7,13 @@ import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
-import banner35Desktop1 from '@/public/icons/img/welcome-banner_35_desktop_ver1.gif';
-import banner35Desktop2 from '@/public/icons/img/welcome-banner_35_desktop_ver2.gif';
-import banner35Mobile1 from '@/public/icons/img/welcome-banner_35_mobile_ver1.gif';
-import banner35Mobile2 from '@/public/icons/img/welcome-banner_35_mobile_ver2.gif';
+import banner36Desktop from '@/public/icons/img/welcome-banner_36_desktop.png';
+import banner36Mobile from '@/public/icons/img/welcome-banner_36_mobile.png';
 import bannerOthersDesktop from '@/public/icons/img/welcome-banner_other_desktop.gif';
 import bannerOthersMobile from '@/public/icons/img/welcome-banner_other_mobile.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-type Banner35Type = {
-  desktop: { [ver: number]: string };
-  mobile: { [ver: number]: string };
-};
-type BannerOthersType = {
+type BannerType = {
   desktop: string;
   mobile: string;
 };
@@ -45,12 +39,12 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
     getRandomArbitrary();
   }, []);
 
-  const Welcome35Banner: Banner35Type = {
-    desktop: { 1: banner35Desktop1.src, 2: banner35Desktop2.src },
-    mobile: { 1: banner35Mobile1.src, 2: banner35Mobile2.src },
+  const Welcome36Banner: BannerType = {
+    desktop: banner36Desktop.src,
+    mobile: banner36Mobile.src,
   };
 
-  const WelcomeOthersBanner: BannerOthersType = {
+  const WelcomeOthersBanner: BannerType = {
     desktop: bannerOthersDesktop.src,
     mobile: bannerOthersMobile.src,
   };
@@ -66,13 +60,16 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
             {isLastGeneration ? (
               <>
                 <ButtonWrapper>
+                  <WelcomText color={colors.white} typography='SUIT_18_B'>
+                    {'SOPT가 연결되는 곳,\n Playground에 오신 걸 환영해요!'}
+                  </WelcomText>
                   <LoggingClick
                     eventKey='welcomeBannerResolution'
                     param={{ isAlreadySubmitted: isRegistration ?? false }}
                   >
                     <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
-                      <Text color={colors.gray800} typography='SUIT_12_SB'>
-                        {'여러분의 다짐을 들려주세요 >'}
+                      <Text color={colors.black} typography='SUIT_14_SB'>
+                        {'타임캡솝을 만들어보세요 >'}
                       </Text>
                     </ResolutionButton>
                   </LoggingClick>
@@ -82,10 +79,10 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                 </ButtonWrapper>
                 <BannerWrapper>
                   <Responsive only='desktop'>
-                    <Banner src={Welcome35Banner.desktop[bannerVersion]} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
+                    <Banner src={Welcome36Banner.desktop} alt={`데스크탑 환영 배너 v${bannerVersion}`} />
                   </Responsive>
                   <Responsive only='mobile'>
-                    <Banner src={Welcome35Banner.mobile[bannerVersion]} alt={`모바일 환영 배너 v${bannerVersion}`} />
+                    <Banner src={Welcome36Banner.mobile} alt={`모바일 환영 배너 v${bannerVersion}`} />
                   </Responsive>
                 </BannerWrapper>
               </>
@@ -108,21 +105,30 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
 
 export default WelcomeBanner;
 
-const BannerWrapper = styled.div``;
+const BannerWrapper = styled.div`
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+    max-width: 768px;
+  }
+`;
 
 const Banner = styled.img`
-  width: 1440px;
+  width: 100%;
+  height: 168px;
+  object-fit: cover;
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
-    max-width: 375px;
+    max-width: 768px;
   }
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   position: absolute;
-  align-items: flex-end;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
   justify-content: center;
   width: 100%;
   height: 168px;
@@ -132,17 +138,12 @@ const ResolutionButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 32px;
   border-radius: 100px;
-  background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
-  padding: 10px 16px;
+  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  padding: 9px 14px;
 
   &:hover {
-    background: linear-gradient(0deg, rgb(255 255 255 / 40%) 0%, rgb(255 255 255 / 40%) 100%),
-      linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
-  }
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-bottom: 28px;
+    background: ${colors.gray50};
   }
 `;
 
@@ -169,5 +170,16 @@ const WelcomeBannerWrapper = styled.div<{ isLastGeneration: boolean }>`
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
     border-bottom: 0;
+  }
+`;
+
+const WelcomText = styled(Text)`
+  text-align: center;
+  line-height: 28px;
+  white-space: pre-wrap;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    line-height: 24px;
+    font-size: 16px;
   }
 `;
