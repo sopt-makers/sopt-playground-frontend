@@ -9,7 +9,7 @@ import { setLayout } from '@/utils/layout';
 const Home: NextPage = () => {
   return (
     <AuthRequired>
-      {/* <HomePopup /> */}
+      <HomePopup />
       {/* 홈팝업 사용시에 주석제거 */}
       <ActiveBannerSlot />
       <FeedHomePage />

@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
+import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
+import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const getKoreanDate = (): string => {
   const koreanTime = new Date();
@@ -20,6 +22,9 @@ const getKoreanDate = (): string => {
 export const HomePopup = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const today = getKoreanDate();
+
+  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, name } = useOpenResolutionModal();
+
   useEffect(() => {
     const storedDate = localStorage.getItem('popupClosedDate');
 
@@ -46,43 +51,51 @@ export const HomePopup = () => {
     setPopupVisible(false);
   };
 
-  const handleClosePopup = () => {
+  const handleClosePopup = async () => {
     setPopupVisible(false);
+    await Promise.resolve();
   };
 
-  if (!isPopupVisible) {
-    return null;
-  }
+  const handleOpenModal = async () => {
+    await handleClosePopup();
+    handleResolutionModalOpen();
+  };
 
   return (
-    <StBackground>
-      <LoggingImpression eventKey='adPopup'>
-        <StPopupModal>
-          <Responsive only='desktop'>
-            <LoggingClick eventKey='adPopupBody'>
-              <a href='https://playground.sopt.org/mySoptReport'>
-                <StImage src='/icons/img/SoptReport/popup/PC.png' />
-              </a>
-            </LoggingClick>
-          </Responsive>
-          <Responsive only='mobile'>
-            <LoggingClick eventKey='adPopupBody'>
-              <a href='https://playground.sopt.org/mySoptReport'>
-                <StImage src='/icons/img/SoptReport/popup/MO.png' />
-              </a>
-            </LoggingClick>
-          </Responsive>
-          <StModalFooter>
-            <LoggingClick eventKey='hideAdPopupToday'>
-              <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
-            </LoggingClick>
-            <LoggingClick eventKey='adPopupClose'>
-              <StFooterRightButton onClick={handleClosePopup}>닫기</StFooterRightButton>
-            </LoggingClick>
-          </StModalFooter>
-        </StPopupModal>
-      </LoggingImpression>
-    </StBackground>
+    <>
+      {isPopupVisible && (
+        <StBackground>
+          <LoggingImpression eventKey='adPopup'>
+            <StPopupModal>
+              <Responsive only='desktop'>
+                <LoggingClick eventKey='adPopupBody'>
+                  <button onClick={handleOpenModal}>
+                    <StImage src='/icons/img/timecapsop_popup_desktop.png' />
+                  </button>
+                </LoggingClick>
+              </Responsive>
+              <Responsive only='mobile'>
+                <LoggingClick eventKey='adPopupBody'>
+                  <button onClick={handleOpenModal}>
+                    <StImage src='/icons/img/timecapsop_popup_mobile.png' />
+                  </button>
+                </LoggingClick>
+              </Responsive>
+              <StModalFooter>
+                <LoggingClick eventKey='hideAdPopupToday'>
+                  <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
+                </LoggingClick>
+                <LoggingClick eventKey='adPopupClose'>
+                  <StFooterRightButton onClick={handleClosePopup}>닫기</StFooterRightButton>
+                </LoggingClick>
+              </StModalFooter>
+            </StPopupModal>
+          </LoggingImpression>
+        </StBackground>
+      )}
+
+      {isOpenResolutionModal && <TimecapsopSubmitModal onClose={onCloseResolutionModal} userName={name ?? '나'} />}
+    </>
   );
 };
 
