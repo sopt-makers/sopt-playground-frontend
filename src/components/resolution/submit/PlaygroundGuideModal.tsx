@@ -13,7 +13,7 @@ import CoffeeIcon from '@/public/logos/playgroundGuide/img_coffee.svg';
 import GroupIcon from '@/public/logos/playgroundGuide/img_group.svg';
 import MemberIcon from '@/public/logos/playgroundGuide/img_member.svg';
 import ProjectIcon from '@/public/logos/playgroundGuide/img_project.svg';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 interface PlaygroundGuideModalProps extends ModalProps {
@@ -144,12 +144,18 @@ const StyledModal = styled(Modal)`
     display: none;
   }
 
+  @supports (height: 100dvh) {
+    max-height: 100dvh;
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 100%;
   }
 
-  @supports (height: 100dvh) {
-    max-height: 100dvh;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
   }
 `;
 
@@ -191,7 +197,7 @@ const StyledCard = styled(Link)<{ color: string; hover: string }>`
   padding: 16px;
   width: 100%;
   min-width: 136px;
-  height: 190px;
+  max-height: 190px;
 
   &:hover {
     background: ${({ hover }) => hover};
@@ -199,6 +205,7 @@ const StyledCard = styled(Link)<{ color: string; hover: string }>`
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 12px;
+    max-height: 202px;
   }
 `;
 
