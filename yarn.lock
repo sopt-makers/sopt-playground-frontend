@@ -5990,9 +5990,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sopt-makers/ui@npm:2.8.6":
-  version: 2.8.6
-  resolution: "@sopt-makers/ui@npm:2.8.6"
+"@sopt-makers/ui@npm:2.8.9":
+  version: 2.8.9
+  resolution: "@sopt-makers/ui@npm:2.8.9"
   dependencies:
     "@radix-ui/react-dialog": ^1.0.5
     "@radix-ui/react-switch": ^1.0.3
@@ -6004,7 +6004,7 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 75056490244a9ccb9d872a58a1e454ca8cffef046176254a4d1ec5e3b92b3bedd7f266a8fb2b42cf7435e1e26c26d96dbecb5039dbe5cb2e49d98e723fa92665
+  checksum: 26806f0d9c049dafb21b3d5d928bfd0a300d48fa207f6ad6dd5315a566e9e7b954f956d94272f8c6e5a2a58cb6c95f0857639ca3d57030eed8ac70ffa4cb5fdc
   languageName: node
   linkType: hard
 
@@ -19250,7 +19250,7 @@ __metadata:
     "@sopt-makers/colors": ^3.0.2
     "@sopt-makers/fonts": ^1.0.0
     "@sopt-makers/icons": ^1.1.0
-    "@sopt-makers/ui": 2.8.6
+    "@sopt-makers/ui": 2.8.9
     "@storybook/addon-actions": ^7.0.23
     "@storybook/addon-docs": ^7.0.23
     "@storybook/addon-essentials": ^7.0.23
