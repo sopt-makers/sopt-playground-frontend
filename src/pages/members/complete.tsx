@@ -14,7 +14,7 @@ import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import CardBack from '@/components/members/upload/complete/CardBack';
 import MemberCardOfMe from '@/components/members/upload/complete/MemberCardOfMe';
-import ResolutionSubmitModal from '@/components/resolution/submit/ResolutionSubmitModal';
+import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -38,8 +38,7 @@ const CompletePage: FC = () => {
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
   const isResolutionOpen = true; // 다짐메시지 오픈 기간에만 이 값을 true로 변경합니다.
 
-  const { handleResolutionModalOpen, isOpenResolutionModal, onCloseResolutionModal, profileImage } =
-    useOpenResolutionModal();
+  const { handleResolutionModalOpen, isOpenResolutionModal, onCloseResolutionModal, name } = useOpenResolutionModal();
 
   return (
     <AuthRequired>
@@ -69,9 +68,6 @@ const CompletePage: FC = () => {
                   <LoggingClick eventKey='profileUploadResolution'>
                     <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
                   </LoggingClick>
-                  {isOpenResolutionModal && (
-                    <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
-                  )}
                 </BottomSection>
               ) : (
                 <BottomSection>
@@ -98,9 +94,6 @@ const CompletePage: FC = () => {
                 <LoggingClick eventKey='profileUploadResolution'>
                   <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
                 </LoggingClick>
-                {isOpenResolutionModal && (
-                  <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
-                )}
               </BottomSection>
             ) : (
               <BottomSection>
@@ -121,6 +114,7 @@ const CompletePage: FC = () => {
           </Responsive>
         </StyledCompletePage>
       )}
+      {isOpenResolutionModal && <TimecapsopSubmitModal userName={name ?? '나'} onClose={onCloseResolutionModal} />}
     </AuthRequired>
   );
 };
@@ -151,7 +145,7 @@ const StyledCompletePage = styled.div`
 
 export const StyledCompletedLayout = styled.div`
   display: flex;
-  position: absolute;
+  position: fixed;
   top: 50%;
   flex-direction: column;
   align-items: center;

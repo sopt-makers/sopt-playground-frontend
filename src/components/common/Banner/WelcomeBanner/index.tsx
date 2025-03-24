@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
-import ResolutionSubmitModal from '@/components/resolution/submit/ResolutionSubmitModal';
+import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import banner35Desktop1 from '@/public/icons/img/welcome-banner_35_desktop_ver1.gif';
 import banner35Desktop2 from '@/public/icons/img/welcome-banner_35_desktop_ver2.gif';
@@ -55,7 +55,7 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
     mobile: bannerOthersMobile.src,
   };
 
-  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, profileImage, isRegistration } =
+  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, name, isRegistration } =
     useOpenResolutionModal();
 
   return (
@@ -77,7 +77,7 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                     </ResolutionButton>
                   </LoggingClick>
                   {isOpenResolutionModal && (
-                    <ResolutionSubmitModal profileImageUrl={profileImage ?? ''} onClose={onCloseResolutionModal} />
+                    <TimecapsopSubmitModal onClose={onCloseResolutionModal} userName={name ?? '나'} />
                   )}
                 </ButtonWrapper>
                 <BannerWrapper>

@@ -3,11 +3,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import z from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
-import { ResolutionTag } from '@/components/resolution/constants';
+import { TimecapsopTag } from '@/components/resolution/constants';
 
 export interface ResolutionRequestBody {
   content: string;
-  tags: ResolutionTag[];
+  tags: TimecapsopTag[];
 }
 
 export const postResolution = createEndpoint({
