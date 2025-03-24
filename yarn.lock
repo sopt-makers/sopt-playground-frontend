@@ -5951,7 +5951,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sopt-makers/fonts@npm:^1.0.0":
+"@sopt-makers/fonts@npm:1.0.0":
   version: 1.0.0
   resolution: "@sopt-makers/fonts@npm:1.0.0"
   checksum: 576e3689dfa95ef8b6bbebab646141286cbe93208236e83d61170351ccdd64dd327ef951685248e77a4a201b0971893a3cfd2eabcf426c39f0d8845df9077025
@@ -19248,7 +19248,7 @@ __metadata:
     "@radix-ui/react-tabs": ^1.0.2
     "@radix-ui/react-tooltip": ^1.0.5
     "@sopt-makers/colors": ^3.0.2
-    "@sopt-makers/fonts": ^1.0.0
+    "@sopt-makers/fonts": 1.0.0
     "@sopt-makers/icons": ^1.1.0
     "@sopt-makers/ui": 2.8.6
     "@storybook/addon-actions": ^7.0.23

@@ -5,6 +5,7 @@ import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -140,7 +141,7 @@ const Intro = styled.p`
   margin-top: 16px;
   width: 100%;
   overflow: hidden;
-  color: ${colors.gray300};
+  color: ${legacyColors.gray60};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
@@ -148,7 +149,6 @@ const Intro = styled.p`
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 8px;
-    color: ${colors.gray600};
     -webkit-line-clamp: 1;
   }
 `;
