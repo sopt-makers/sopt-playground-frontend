@@ -16,7 +16,7 @@ import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 interface PlaygroundGuideModalProps extends ModalProps {
-  isJustTimecapsopt?: boolean;
+  isAlreadyRegistration?: boolean;
 }
 
 interface CardProps {
@@ -70,12 +70,12 @@ const cards = [
     href: playgroundLink.coffeechat(),
   },
 ];
-const PlaygroundGuideModal = ({ isJustTimecapsopt, ...props }: PlaygroundGuideModalProps) => {
+const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGuideModalProps) => {
   return (
     <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100} onOpenAutoFocus={(e) => e.preventDefault()}>
       <TitleTextWrapper>
         <Text typography='SUIT_20_SB'>
-          {isJustTimecapsopt ? '타임캡솝을 보관했어요 💌' : '타임캡솝이 이미 보관되었어요 💌'}
+          {isAlreadyRegistration ? '타임캡솝이 이미 보관되었어요 💌' : '타임캡솝을 보관했어요 💌'}
         </Text>
         <Description typography='SUIT_14_M' color={colors.gray200} lineHeight={22}>
           보관된 타임캡솝은 종무식 때 열어볼 수 있어요

@@ -98,9 +98,7 @@ const CompletePage: FC = () => {
                   onSuccess={onOpenPlaygroundGuideModal}
                 />
               )}
-              {isOpenPlaygroundGuideModal && (
-                <PlaygroundGuideModal isJustTimecapsopt onClose={onClosePlaygroundGuideModal} />
-              )}
+              {isOpenPlaygroundGuideModal && <PlaygroundGuideModal onClose={onClosePlaygroundGuideModal} />}
             </ButtonWrapper>
           ) : (
             <BottomSection>

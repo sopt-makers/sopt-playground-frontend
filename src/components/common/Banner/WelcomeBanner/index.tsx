@@ -65,8 +65,8 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
     isOpenPlaygroundGuideModal,
     onClosePlaygroundGuideModal,
     onOpenPlaygroundGuideModal,
+    isAlreadyRegistration,
   } = useOpenResolutionModal();
-
   return (
     <WelcomeBannerContainer>
       <WelcomeBannerWrapper isLastGeneration={isLastGeneration}>
@@ -92,7 +92,12 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                       onSuccess={onOpenPlaygroundGuideModal}
                     />
                   )}
-                  {isOpenPlaygroundGuideModal && <PlaygroundGuideModal onClose={onClosePlaygroundGuideModal} />}
+                  {isOpenPlaygroundGuideModal && (
+                    <PlaygroundGuideModal
+                      isAlreadyRegistration={isAlreadyRegistration}
+                      onClose={onClosePlaygroundGuideModal}
+                    />
+                  )}
                 </ButtonWrapper>
                 <BannerWrapper>
                   <Responsive only='desktop'>
