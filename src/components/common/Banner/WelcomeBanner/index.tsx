@@ -5,6 +5,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuideModal';
 import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import banner36Desktop from '@/public/icons/img/welcome-banner_36_desktop.png';
@@ -25,6 +26,12 @@ interface WelcomeBannerProp {
 const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
   const [isMounted, setIsMounted] = useState(false);
 
+  // 타임캡솝 저장 여부 기록을 위한 코드
+  const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
+  const onNewRegistration = () => {
+    setIsAlreadyRegistration(false);
+  };
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -39,9 +46,16 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
     mobile: bannerOthersMobile.src,
   };
 
-  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, name, isRegistration } =
-    useOpenResolutionModal();
-
+  const {
+    isOpenResolutionModal,
+    onCloseResolutionModal,
+    handleResolutionModalOpen,
+    name,
+    isRegistration,
+    isOpenPlaygroundGuideModal,
+    onClosePlaygroundGuideModal,
+    onOpenPlaygroundGuideModal,
+  } = useOpenResolutionModal();
   return (
     <WelcomeBannerContainer>
       <WelcomeBannerWrapper isLastGeneration={isLastGeneration}>
@@ -64,7 +78,20 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                     </ResolutionButton>
                   </LoggingClick>
                   {isOpenResolutionModal && (
-                    <TimecapsopSubmitModal onClose={onCloseResolutionModal} userName={name ?? '나'} />
+                    <TimecapsopSubmitModal
+                      onClose={onCloseResolutionModal}
+                      userName={name ?? '나'}
+                      onSuccess={() => {
+                        onNewRegistration();
+                        onOpenPlaygroundGuideModal();
+                      }}
+                    />
+                  )}
+                  {isOpenPlaygroundGuideModal && (
+                    <PlaygroundGuideModal
+                      isAlreadyRegistration={isAlreadyRegistration}
+                      onClose={onClosePlaygroundGuideModal}
+                    />
                   )}
                 </ButtonWrapper>
                 <BannerWrapper>

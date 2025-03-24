@@ -32,6 +32,7 @@ interface TimecapsopForm {
 
 interface TimecapsopSubmitModalProps extends ModalProps {
   userName: string;
+  onSuccess: () => void;
 }
 
 const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...props }) => {
@@ -60,6 +61,7 @@ const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...pr
         tags: selectedTag,
         onSuccess: () => {
           props.onClose();
+          props.onSuccess();
         },
       });
     } catch (error) {
