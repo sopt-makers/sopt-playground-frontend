@@ -134,7 +134,7 @@ const CompletePage: FC = () => {
         <PlaygroundGuideModal
           onClose={() => {
             onClosePlaygroundGuideModal();
-            router.push(playgroundLink.intro());
+            router.push(playgroundLink.feedList());
           }}
         />
       )}
