@@ -7,7 +7,7 @@ import { TimecapsopTag } from '@/components/resolution/constants';
 
 export interface ResolutionRequestBody {
   content: string;
-  tags: TimecapsopTag[];
+  tags: (keyof typeof TimecapsopTag)[];
 }
 
 export const postResolution = createEndpoint({

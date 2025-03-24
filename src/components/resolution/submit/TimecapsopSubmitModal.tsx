@@ -26,7 +26,7 @@ const schema = yup.object().shape({
 });
 
 interface TimecapsopForm {
-  tags: TimecapsopTag[];
+  tags: (keyof typeof TimecapsopTag)[];
   content: string;
 }
 
@@ -37,7 +37,7 @@ interface TimecapsopSubmitModalProps extends ModalProps {
 
 const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...props }) => {
   const { handleConfirmResolution, isPending } = useConfirmResolution();
-  const [selectedTag, setSelectedTag] = useState<TimecapsopTag[]>([]);
+  const [selectedTag, setSelectedTag] = useState<(keyof typeof TimecapsopTag)[]>([]);
   const { handleSubmit, control, formState } = useForm<TimecapsopForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
@@ -45,7 +45,7 @@ const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...pr
 
   const isValid = formState.isValid;
 
-  const onClickTag = (tag: TimecapsopTag) => {
+  const onClickTag = (tag: keyof typeof TimecapsopTag) => {
     if (selectedTag.includes(tag)) {
       setSelectedTag(selectedTag.filter((t) => t !== tag));
     } else {
@@ -104,15 +104,15 @@ const TimecapsopSubmitModal: FC<TimecapsopSubmitModalProps> = ({ userName, ...pr
                   <StyledTagItem
                     key={'tagItem' + index}
                     htmlFor={`tags.${index}`}
-                    onClick={() => onClickTag(tag.value)}
-                    isSelected={selectedTag.includes(tag.value)}
+                    onClick={() => onClickTag(tag.key)}
+                    isSelected={selectedTag.includes(tag.key)}
                     defaultImg={tag.image.default}
                     selectedImg={tag.image.select}
                     hoverImg={tag.image.hover}
                   >
                     <StyledTagText
                       typography='SUIT_14_SB'
-                      color={selectedTag.includes(tag.value) ? colors.white : colors.gray300}
+                      color={selectedTag.includes(tag.key) ? colors.white : colors.gray300}
                     >
                       {tag.value}
                     </StyledTagText>
