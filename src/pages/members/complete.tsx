@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
@@ -35,7 +36,7 @@ const CompletePage: FC = () => {
     }));
   const { data: myData } = useGetMemberOfMe();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
-  const isResolutionOpen = false; // 다짐메시지 오픈 기간에만 이 값을 true로 변경합니다.
+  const isResolutionOpen = true; // 다짐메시지 오픈 기간에만 이 값을 true로 변경합니다.
 
   const { handleResolutionModalOpen, isOpenResolutionModal, onCloseResolutionModal, name } = useOpenResolutionModal();
 
@@ -43,67 +44,77 @@ const CompletePage: FC = () => {
     <AuthRequired>
       {profile && (
         <StyledCompletePage>
-          <Responsive only='desktop'>
-            <Text typography='SUIT_32_B'>프로필 등록 완료!</Text>
-          </Responsive>
-          <Responsive only='mobile'>
-            <Text typography='SUIT_24_B'>프로필 등록 완료!</Text>
-          </Responsive>
-          <CardsWrapper>
-            <CardBack isLastGeneration={isLastGeneration && isResolutionOpen} />
-            <MemberCardOfMe
-              name={profile.name}
-              belongs={belongs || ''}
-              badges={badges || []}
-              intro={profile.introduction}
-              imageUrl={profile.profileImage}
-            />
-          </CardsWrapper>
-          {isLastGeneration && isResolutionOpen ? (
-            <ButtonWrapper>
-              <Button
-                onClick={() => {
-                  router.push(playgroundLink.feedList());
-                }}
-                size='lg'
-                theme='black'
-              >
-                홈으로 가기
-              </Button>
-              <LoggingClick eventKey='profileUploadResolution'>
-                <Button
-                  onClick={handleResolutionModalOpen}
-                  size='lg'
-                  style={{
-                    background: 'linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%)',
-                    color: `${colors.black}`,
-                  }}
-                >
-                  35기 다짐하러 가기
-                </Button>
-              </LoggingClick>
-              {isOpenResolutionModal && (
-                <TimecapsopSubmitModal userName={name ?? '나'} onClose={onCloseResolutionModal} />
+          <StyledCompletedLayout>
+            <Responsive only='desktop'>
+              <h1 className='desktop-title'>프로필 등록 완료!</h1>
+            </Responsive>
+            <Responsive only='mobile'>
+              <h1 className='mobile-title'>프로필 등록 완료!</h1>
+            </Responsive>
+            <CardsWrapper>
+              <CardBack isLastGeneration={isLastGeneration && isResolutionOpen} />
+              <MemberCardOfMe
+                name={profile.name}
+                belongs={belongs || ''}
+                badges={badges || []}
+                intro={profile.introduction}
+                imageUrl={profile.profileImage}
+              />
+            </CardsWrapper>
+            <Responsive only='desktop'>
+              {isLastGeneration && isResolutionOpen ? (
+                <BottomSection>
+                  <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
+                  <LoggingClick eventKey='profileUploadResolution'>
+                    <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
+                  </LoggingClick>
+                </BottomSection>
+              ) : (
+                <BottomSection>
+                  <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
+                    솝트 구성원들의 이야기가 궁금하다면?
+                  </Text>
+                  <Button
+                    onClick={() => {
+                      router.push(playgroundLink.feedList());
+                    }}
+                    size='lg'
+                    theme='black'
+                  >
+                    플레이그라운드 시작하기
+                  </Button>
+                </BottomSection>
               )}
-            </ButtonWrapper>
-          ) : (
-            <BottomSection>
-              <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
-                솝트 구성원들의 이야기가 궁금하다면?
-              </Text>
-              <Button
-                onClick={() => {
-                  router.push(playgroundLink.feedList());
-                }}
-                size='lg'
-                theme='black'
-              >
-                플레이그라운드 시작하기
-              </Button>
-            </BottomSection>
-          )}
+            </Responsive>
+          </StyledCompletedLayout>
+          <Responsive only='mobile'>
+            {isLastGeneration && isResolutionOpen ? (
+              <BottomSection>
+                <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
+                <LoggingClick eventKey='profileUploadResolution'>
+                  <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
+                </LoggingClick>
+              </BottomSection>
+            ) : (
+              <BottomSection>
+                <Text typography='SUIT_16_SB' color={colors.gray300} mb='12'>
+                  솝트 구성원들의 이야기가 궁금하다면?
+                </Text>
+                <Button
+                  onClick={() => {
+                    router.push(playgroundLink.feedList());
+                  }}
+                  size='lg'
+                  theme='black'
+                >
+                  플레이그라운드 시작하기
+                </Button>
+              </BottomSection>
+            )}
+          </Responsive>
         </StyledCompletePage>
       )}
+      {isOpenResolutionModal && <TimecapsopSubmitModal userName={name ?? '나'} onClose={onCloseResolutionModal} />}
     </AuthRequired>
   );
 };
@@ -117,12 +128,30 @@ const StyledCompletePage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 50px 0;
-  padding: 16px;
   width: 100%;
+
+  .desktop-title {
+    ${fonts.HEADING_32_B}
+  }
+
+  .mobile-title {
+    ${fonts.HEADING_24_B}
+  }
+
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 30px 0;
   }
+`;
+
+export const StyledCompletedLayout = styled.div`
+  display: flex;
+  position: fixed;
+  top: 50%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  width: 100%;
 `;
 
 const CardsWrapper = styled.div`
@@ -153,33 +182,21 @@ const CardsWrapper = styled.div`
   }
 `;
 
-const DefaultButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background-color: ${colors.gray700};
-  padding: 12px 20px;
-  width: fit-content;
-  height: 48px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
-  }
-`;
-
 const ResolutionButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: linear-gradient(90deg, #8fc0ff 0%, #5ba3ff 100%);
-  padding: 12px 20px;
-  width: fit-content;
+  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  padding: 16px 26px;
+  width: 100%;
+  max-width: 320px;
   height: 48px;
+  color: ${colors.black};
+  ${fonts.LABEL_18_SB}
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
+  &:hover {
+    background: ${colors.gray50};
   }
 `;
 
@@ -188,12 +205,18 @@ const BottomSection = styled.div`
   flex-direction: column;
   gap: 12px;
   align-items: center;
-  margin-top: 44px;
+  margin-top: 18px;
   width: 100%;
-`;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 56px;
+  p {
+    color: ${colors.white};
+    ${fonts.BODY_16_M}
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    position: fixed;
+    bottom: 21px;
+    left: 0;
+    margin-top: 0;
+  }
 `;
