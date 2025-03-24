@@ -34,6 +34,12 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
   const [bannerVersion, setBannerVersion] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
 
+  // 타임캡솝 저장 여부 기록을 위한 코드
+  const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
+  const onNewRegistration = () => {
+    setIsAlreadyRegistration(false);
+  };
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -65,7 +71,6 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
     isOpenPlaygroundGuideModal,
     onClosePlaygroundGuideModal,
     onOpenPlaygroundGuideModal,
-    isAlreadyRegistration,
   } = useOpenResolutionModal();
   return (
     <WelcomeBannerContainer>
@@ -89,7 +94,10 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                     <TimecapsopSubmitModal
                       onClose={onCloseResolutionModal}
                       userName={name ?? '나'}
-                      onSuccess={onOpenPlaygroundGuideModal}
+                      onSuccess={() => {
+                        onNewRegistration();
+                        onOpenPlaygroundGuideModal();
+                      }}
                     />
                   )}
                   {isOpenPlaygroundGuideModal && (
