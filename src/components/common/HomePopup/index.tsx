@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
+import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuideModal';
 import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -23,7 +24,21 @@ export const HomePopup = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const today = getKoreanDate();
 
-  const { isOpenResolutionModal, onCloseResolutionModal, handleResolutionModalOpen, name } = useOpenResolutionModal();
+  // 타임캡솝 저장 여부 기록을 위한 코드
+  const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
+  const onNewRegistration = () => {
+    setIsAlreadyRegistration(false);
+  };
+
+  const {
+    isOpenResolutionModal,
+    onCloseResolutionModal,
+    handleResolutionModalOpen,
+    name,
+    isOpenPlaygroundGuideModal,
+    onOpenPlaygroundGuideModal,
+    onClosePlaygroundGuideModal,
+  } = useOpenResolutionModal();
 
   useEffect(() => {
     const storedDate = localStorage.getItem('popupClosedDate');
@@ -94,7 +109,19 @@ export const HomePopup = () => {
         </StBackground>
       )}
 
-      {isOpenResolutionModal && <TimecapsopSubmitModal onClose={onCloseResolutionModal} userName={name ?? '나'} />}
+      {isOpenResolutionModal && (
+        <TimecapsopSubmitModal
+          onClose={onCloseResolutionModal}
+          userName={name ?? '나'}
+          onSuccess={() => {
+            onNewRegistration();
+            onOpenPlaygroundGuideModal();
+          }}
+        />
+      )}
+      {isOpenPlaygroundGuideModal && (
+        <PlaygroundGuideModal isAlreadyRegistration={isAlreadyRegistration} onClose={onClosePlaygroundGuideModal} />
+      )}
     </>
   );
 };
