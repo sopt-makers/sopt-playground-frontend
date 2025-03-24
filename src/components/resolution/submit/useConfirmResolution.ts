@@ -4,7 +4,7 @@ import { ResolutionRequestBody, usePostResolutionMutation } from '@/api/endpoint
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 
 interface Options extends ResolutionRequestBody {
-  onSuccess?: (isAlreadyRegistration: boolean) => void;
+  onSuccess?: () => void;
 }
 
 export const useConfirmResolution = () => {
@@ -16,7 +16,7 @@ export const useConfirmResolution = () => {
       mutateAsync(options, {
         onSuccess: async () => {
           logSubmitEvent('postResolution');
-          options.onSuccess?.(false);
+          options.onSuccess?.();
         },
       });
     },
