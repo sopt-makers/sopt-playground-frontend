@@ -7,7 +7,9 @@ import { ReactNode } from 'react';
 import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
+import TimecapsopDelteButton from '@/components/resolution/delete';
 import { cards } from '@/components/resolution/submit/constants/cards';
+import { DEBUG } from '@/constants/env';
 import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
@@ -54,6 +56,7 @@ const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGui
           />
         ))}
       </CardWrapper>
+      {DEBUG && <TimecapsopDelteButton />}
     </StyledModal>
   );
 };
