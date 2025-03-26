@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
+import { Slot } from '@radix-ui/react-slot';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 
+import { ModalBottomSheet } from '@/components/common/BottomSheet/ModalBottomSheet';
 import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
@@ -30,7 +32,30 @@ interface CardProps {
 
 const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGuideModalProps) => {
   return (
-    <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100} onOpenAutoFocus={(e) => e.preventDefault()}>
+    <>
+      <StyledModal
+        className='desktop'
+        isOpen
+        {...props}
+        zIndex={zIndex.헤더 + 100}
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
+        <PlaygroundGuide {...props} />
+      </StyledModal>
+      <ModalBottomSheetWrapper className='mobile'>
+        <ModalBottomSheet isOpen onClose={props.onClose}>
+          <PlaygroundGuide {...props} />
+        </ModalBottomSheet>
+      </ModalBottomSheetWrapper>
+    </>
+  );
+};
+
+export default PlaygroundGuideModal;
+
+const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: PlaygroundGuideModalProps) => {
+  return (
+    <>
       <TitleTextWrapper>
         <Text typography='SUIT_20_SB'>
           {isAlreadyRegistration ? '타임캡솝이 이미 보관되었어요 💌' : '타임캡솝을 보관했어요 💌'}
@@ -59,11 +84,9 @@ const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGui
         ))}
       </CardWrapper>
       {DEBUG && <TimecapsopDelteButton />}
-    </StyledModal>
+    </>
   );
 };
-
-export default PlaygroundGuideModal;
 
 const Card = ({ name, description, color, hover, icon, button, href, onClose }: CardProps) => {
   const router = useRouter();
@@ -116,14 +139,22 @@ const StyledModal = styled(Modal)`
     max-height: 100dvh;
   }
 
-  @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 100%;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    &.desktop {
+      display: none;
+    }
+  }
+`;
+
+const ModalBottomSheetWrapper = styled(Slot)`
+  &.mobile {
+    display: none;
   }
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    position: fixed;
-    bottom: 0;
-    width: 100vw;
+    &.mobile {
+      display: block;
+    }
   }
 `;
 
@@ -154,6 +185,10 @@ const CardWrapper = styled.section`
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-top: 20px;
+
+  @media ${MB_BIG_MEDIA_QUERY} {
+    padding: 18px;
+  }
 `;
 
 const StyledCard = styled.a<{ color: string; hover: string }>`
