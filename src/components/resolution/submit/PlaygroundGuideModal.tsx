@@ -25,6 +25,7 @@ interface CardProps {
   icon: ReactNode;
   button: string;
   href: string;
+  onClose: () => void;
 }
 
 const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGuideModalProps) => {
@@ -53,6 +54,7 @@ const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGui
             icon={card.icon}
             button={card.button}
             href={card.href}
+            onClose={props.onClose}
           />
         ))}
       </CardWrapper>
@@ -63,9 +65,10 @@ const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGui
 
 export default PlaygroundGuideModal;
 
-const Card = ({ name, description, color, hover, icon, button, href }: CardProps) => {
+const Card = ({ name, description, color, hover, icon, button, href, onClose }: CardProps) => {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    onClose();
     window.history.replaceState(null, '', playgroundLink.feedList());
     window.location.href = href;
   };
