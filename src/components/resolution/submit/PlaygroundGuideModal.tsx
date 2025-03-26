@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useRouter } from 'next/router';
-import { playgroundLink } from 'playground-common/export';
 import { ReactNode } from 'react';
 
 import Modal from '@/components/common/Modal';
@@ -71,9 +70,9 @@ const Card = ({ name, description, color, hover, icon, button, href, onClose }: 
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
-    onClose();
-    await router.replace('/');
+    await router.replace('/', undefined, { shallow: true });
     router.push(href);
+    onClose();
   };
 
   return (
