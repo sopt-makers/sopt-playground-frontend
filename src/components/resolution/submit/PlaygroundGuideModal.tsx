@@ -139,6 +139,7 @@ const TitleTextWrapper = styled.div`
 const Description = styled(Text)`
   text-align: center;
   white-space: pre-wrap;
+  word-break: keep-all;
 `;
 
 const StyledDivider = styled.div`
