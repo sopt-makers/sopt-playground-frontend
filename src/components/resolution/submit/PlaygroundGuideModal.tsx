@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { ReactNode } from 'react';
 
@@ -66,11 +67,13 @@ const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGui
 export default PlaygroundGuideModal;
 
 const Card = ({ name, description, color, hover, icon, button, href, onClose }: CardProps) => {
-  const handleClick = (e: React.MouseEvent) => {
+  const router = useRouter();
+
+  const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     onClose();
-    window.history.replaceState(null, '', playgroundLink.feedList());
-    window.location.href = href;
+    await router.replace('/');
+    router.push(href);
   };
 
   return (
