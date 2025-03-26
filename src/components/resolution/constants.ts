@@ -7,6 +7,7 @@ export enum TimecapsopTag {
 }
 
 export interface Tag {
+  key: keyof typeof TimecapsopTag;
   value: TimecapsopTag;
   image: {
     default: string;
@@ -17,6 +18,7 @@ export interface Tag {
 
 export const TAG: Tag[] = [
   {
+    key: 'PRODUCT_RELEASE',
     value: TimecapsopTag.PRODUCT_RELEASE,
     image: {
       default: '/icons/icon-release-default.svg',
@@ -25,6 +27,7 @@ export const TAG: Tag[] = [
     },
   },
   {
+    key: 'NETWORKING',
     value: TimecapsopTag.NETWORKING,
     image: {
       default: '/icons/icon-networking-default.svg',
@@ -33,6 +36,7 @@ export const TAG: Tag[] = [
     },
   },
   {
+    key: 'COLLABORATION_EXPERIENCE',
     value: TimecapsopTag.COLLABORATION_EXPERIENCE,
     image: {
       default: '/icons/icon-cooperation-default.svg',
@@ -41,6 +45,7 @@ export const TAG: Tag[] = [
     },
   },
   {
+    key: 'STARTUP',
     value: TimecapsopTag.STARTUP,
     image: {
       default: '/icons/icon-startup-default.svg',
@@ -49,6 +54,7 @@ export const TAG: Tag[] = [
     },
   },
   {
+    key: 'SKILL_UP',
     value: TimecapsopTag.SKILL_UP,
     image: {
       default: '/icons/icon-skill-default.svg',

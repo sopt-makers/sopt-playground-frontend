@@ -123,18 +123,17 @@ const CompletePage: FC = () => {
           </Responsive>
         </StyledCompletePage>
       )}
-      {isOpenResolutionModal && (
-        <TimecapsopSubmitModal
-          userName={name ?? '나'}
-          onClose={onCloseResolutionModal}
-          onSuccess={onOpenPlaygroundGuideModal}
-        />
-      )}
+      <TimecapsopSubmitModal
+        userName={name ?? '나'}
+        onClose={onCloseResolutionModal}
+        onSuccess={onOpenPlaygroundGuideModal}
+        isOpen={isOpenResolutionModal}
+      />
       {isOpenPlaygroundGuideModal && (
         <PlaygroundGuideModal
           onClose={() => {
             onClosePlaygroundGuideModal();
-            router.push(playgroundLink.intro());
+            router.push(playgroundLink.feedList());
           }}
         />
       )}

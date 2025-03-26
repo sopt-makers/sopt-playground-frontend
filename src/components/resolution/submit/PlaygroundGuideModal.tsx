@@ -1,13 +1,15 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 
 import Modal from '@/components/common/Modal';
 import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
+import TimecapsopDelteButton from '@/components/resolution/delete';
 import { cards } from '@/components/resolution/submit/constants/cards';
+import { DEBUG } from '@/constants/env';
 import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
@@ -23,6 +25,7 @@ interface CardProps {
   icon: ReactNode;
   button: string;
   href: string;
+  onClose: () => void;
 }
 
 const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGuideModalProps) => {
@@ -51,18 +54,29 @@ const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGui
             icon={card.icon}
             button={card.button}
             href={card.href}
+            onClose={props.onClose}
           />
         ))}
       </CardWrapper>
+      {DEBUG && <TimecapsopDelteButton />}
     </StyledModal>
   );
 };
 
 export default PlaygroundGuideModal;
 
-const Card = ({ name, description, color, hover, icon, button, href }: CardProps) => {
+const Card = ({ name, description, color, hover, icon, button, href, onClose }: CardProps) => {
+  const router = useRouter();
+
+  const handleClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    await router.replace('/', undefined, { shallow: true });
+    router.push(href);
+    onClose();
+  };
+
   return (
-    <StyledCard color={color} hover={hover} href={href}>
+    <StyledCard color={color} hover={hover} href={href} onClick={handleClick}>
       <Description typography='SUIT_14_SB' color={colors.black} lineHeight={20}>
         {description}
       </Description>
@@ -141,7 +155,7 @@ const CardWrapper = styled.section`
   margin-top: 20px;
 `;
 
-const StyledCard = styled(Link)<{ color: string; hover: string }>`
+const StyledCard = styled.a<{ color: string; hover: string }>`
   display: flex;
   flex-direction: column;
   gap: 16px;
