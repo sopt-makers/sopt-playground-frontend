@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import Link from 'next/link';
+import { playgroundLink } from 'playground-common/export';
 import { ReactNode } from 'react';
 
 import Modal from '@/components/common/Modal';
@@ -64,8 +64,14 @@ const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGui
 export default PlaygroundGuideModal;
 
 const Card = ({ name, description, color, hover, icon, button, href }: CardProps) => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.history.replaceState(null, '', playgroundLink.feedList());
+    window.location.href = href;
+  };
+
   return (
-    <StyledCard color={color} hover={hover} href={href}>
+    <StyledCard color={color} hover={hover} href={href} onClick={handleClick}>
       <Description typography='SUIT_14_SB' color={colors.black} lineHeight={20}>
         {description}
       </Description>
@@ -144,7 +150,7 @@ const CardWrapper = styled.section`
   margin-top: 20px;
 `;
 
-const StyledCard = styled(Link)<{ color: string; hover: string }>`
+const StyledCard = styled.a<{ color: string; hover: string }>`
   display: flex;
   flex-direction: column;
   gap: 16px;
