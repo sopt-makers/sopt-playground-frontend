@@ -239,7 +239,6 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
   border-radius: 12px;
   background: ${({ isDisabled }) => (isDisabled ? colors.gray800 : 'linear-gradient(90deg, #d5d6e3 0%, #939aab 100%)')};
   cursor: pointer;
@@ -248,7 +247,7 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   height: 56px;
 
   &:hover {
-    background-color: ${colors.gray50};
+    background: ${colors.gray50};
     color: ${colors.black};
   }
 
