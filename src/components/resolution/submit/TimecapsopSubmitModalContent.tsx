@@ -218,7 +218,7 @@ const StyledTagItem = styled.label<{ isSelected: boolean; defaultImg: string; se
   width: 90px;
   height: 90px;
 
-  &:hover {
+  @media (hover: hover) and (pointer: fine) {
     ${({ isSelected, hoverImg }) => !isSelected && `background-image: url(${hoverImg});`}
   }
 `;
