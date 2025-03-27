@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Slot } from '@radix-ui/react-slot';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useRouter } from 'next/router';
@@ -7,16 +6,18 @@ import { ReactNode } from 'react';
 
 import { ModalBottomSheet } from '@/components/common/BottomSheet/ModalBottomSheet';
 import Modal from '@/components/common/Modal';
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import TimecapsopDelteButton from '@/components/resolution/delete';
 import { cards } from '@/components/resolution/submit/constants/cards';
 import { DEBUG } from '@/constants/env';
-import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 interface PlaygroundGuideModalProps extends ModalProps {
   isAlreadyRegistration?: boolean;
+  isOpen: boolean;
 }
 
 interface CardProps {
@@ -30,30 +31,26 @@ interface CardProps {
   onClose: () => void;
 }
 
-const PlaygroundGuideModal = ({ ...props }: PlaygroundGuideModalProps) => {
+const PlaygroundGuideModal = ({ isOpen, ...props }: PlaygroundGuideModalProps) => {
   return (
     <>
-      <StyledModal
-        className='desktop'
-        isOpen
-        {...props}
-        zIndex={zIndex.헤더 + 100}
-        onOpenAutoFocus={(e) => e.preventDefault()}
-      >
-        <PlaygroundGuide {...props} />
-      </StyledModal>
-      <ModalBottomSheetWrapper className='mobile'>
-        <ModalBottomSheet isOpen onClose={props.onClose}>
+      <Responsive only='desktop'>
+        <StyledModal isOpen={isOpen} {...props} zIndex={zIndex.헤더 + 100} onOpenAutoFocus={(e) => e.preventDefault()}>
+          <PlaygroundGuide {...props} />
+        </StyledModal>
+      </Responsive>
+      <Responsive only='mobile'>
+        <ModalBottomSheet isOpen={isOpen} onClose={props.onClose}>
           <PlaygroundGuide {...props} />
         </ModalBottomSheet>
-      </ModalBottomSheetWrapper>
+      </Responsive>
     </>
   );
 };
 
 export default PlaygroundGuideModal;
 
-const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: PlaygroundGuideModalProps) => {
+const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: Omit<PlaygroundGuideModalProps, 'isOpen'>) => {
   return (
     <>
       <TitleTextWrapper>
@@ -138,24 +135,6 @@ const StyledModal = styled(Modal)`
   @supports (height: 100dvh) {
     max-height: 100dvh;
   }
-
-  @media ${MB_BIG_MEDIA_QUERY} {
-    &.desktop {
-      display: none;
-    }
-  }
-`;
-
-const ModalBottomSheetWrapper = styled(Slot)`
-  &.mobile {
-    display: none;
-  }
-
-  @media ${MB_BIG_MEDIA_QUERY} {
-    &.mobile {
-      display: block;
-    }
-  }
 `;
 
 const TitleTextWrapper = styled.div`
@@ -186,7 +165,7 @@ const CardWrapper = styled.section`
   gap: 16px;
   margin-top: 20px;
 
-  @media ${MB_BIG_MEDIA_QUERY} {
+  @media ${MOBILE_MEDIA_QUERY} {
     padding: 18px;
   }
 `;
