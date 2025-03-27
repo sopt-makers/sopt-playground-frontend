@@ -30,7 +30,7 @@ interface CardProps {
   onClose: () => void;
 }
 
-const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGuideModalProps) => {
+const PlaygroundGuideModal = ({ ...props }: PlaygroundGuideModalProps) => {
   return (
     <>
       <StyledModal
