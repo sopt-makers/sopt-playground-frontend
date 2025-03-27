@@ -203,8 +203,10 @@ const StyledCard = styled.a<{ color: string; hover: string }>`
   min-width: 136px;
   max-height: 190px;
 
-  &:hover {
-    background: ${({ hover }) => hover};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: ${({ hover }) => hover};
+    }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
