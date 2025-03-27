@@ -267,12 +267,12 @@ const TagTextWrapper = styled.div`
 const TagErrorWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-top: -24px;
+  margin-top: -12px;
   width: 100%;
   height: 16px;
 
   & > svg {
-    margin-right: 6px;
+    margin-right: 4px;
   }
 `;
 
