@@ -118,9 +118,11 @@ export const HomePopup = () => {
         }}
         isOpen={isOpenResolutionModal}
       />
-      {isOpenPlaygroundGuideModal && (
-        <PlaygroundGuideModal isAlreadyRegistration={isAlreadyRegistration} onClose={onClosePlaygroundGuideModal} />
-      )}
+      <PlaygroundGuideModal
+        isAlreadyRegistration={isAlreadyRegistration}
+        onClose={onClosePlaygroundGuideModal}
+        isOpen={isOpenPlaygroundGuideModal}
+      />
     </>
   );
 };

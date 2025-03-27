@@ -129,14 +129,13 @@ const CompletePage: FC = () => {
         onSuccess={onOpenPlaygroundGuideModal}
         isOpen={isOpenResolutionModal}
       />
-      {isOpenPlaygroundGuideModal && (
-        <PlaygroundGuideModal
-          onClose={() => {
-            onClosePlaygroundGuideModal();
-            router.push(playgroundLink.feedList());
-          }}
-        />
-      )}
+      <PlaygroundGuideModal
+        onClose={() => {
+          onClosePlaygroundGuideModal();
+          router.push(playgroundLink.feedList());
+        }}
+        isOpen={isOpenPlaygroundGuideModal}
+      />
     </AuthRequired>
   );
 };

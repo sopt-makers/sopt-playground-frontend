@@ -4,17 +4,20 @@ import { fonts } from '@sopt-makers/fonts';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 
+import { ModalBottomSheet } from '@/components/common/BottomSheet/ModalBottomSheet';
 import Modal from '@/components/common/Modal';
+import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import TimecapsopDelteButton from '@/components/resolution/delete';
 import { cards } from '@/components/resolution/submit/constants/cards';
 import { DEBUG } from '@/constants/env';
-import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 interface PlaygroundGuideModalProps extends ModalProps {
   isAlreadyRegistration?: boolean;
+  isOpen: boolean;
 }
 
 interface CardProps {
@@ -28,9 +31,28 @@ interface CardProps {
   onClose: () => void;
 }
 
-const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGuideModalProps) => {
+const PlaygroundGuideModal = ({ isOpen, ...props }: PlaygroundGuideModalProps) => {
   return (
-    <StyledModal isOpen {...props} zIndex={zIndex.헤더 + 100} onOpenAutoFocus={(e) => e.preventDefault()}>
+    <>
+      <Responsive only='desktop'>
+        <StyledModal isOpen={isOpen} {...props} zIndex={zIndex.헤더 + 100} onOpenAutoFocus={(e) => e.preventDefault()}>
+          <PlaygroundGuide {...props} />
+        </StyledModal>
+      </Responsive>
+      <Responsive only='mobile'>
+        <ModalBottomSheet isOpen={isOpen} onClose={props.onClose}>
+          <PlaygroundGuide {...props} />
+        </ModalBottomSheet>
+      </Responsive>
+    </>
+  );
+};
+
+export default PlaygroundGuideModal;
+
+const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: Omit<PlaygroundGuideModalProps, 'isOpen'>) => {
+  return (
+    <>
       <TitleTextWrapper>
         <Text typography='SUIT_20_SB'>
           {isAlreadyRegistration ? '타임캡솝이 이미 보관되었어요 💌' : '타임캡솝을 보관했어요 💌'}
@@ -59,11 +81,9 @@ const PlaygroundGuideModal = ({ isAlreadyRegistration, ...props }: PlaygroundGui
         ))}
       </CardWrapper>
       {DEBUG && <TimecapsopDelteButton />}
-    </StyledModal>
+    </>
   );
 };
-
-export default PlaygroundGuideModal;
 
 const Card = ({ name, description, color, hover, icon, button, href, onClose }: CardProps) => {
   const router = useRouter();
@@ -115,16 +135,6 @@ const StyledModal = styled(Modal)`
   @supports (height: 100dvh) {
     max-height: 100dvh;
   }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 100%;
-  }
-
-  @media ${MB_BIG_MEDIA_QUERY} {
-    position: fixed;
-    bottom: 0;
-    width: 100vw;
-  }
 `;
 
 const TitleTextWrapper = styled.div`
@@ -139,6 +149,7 @@ const TitleTextWrapper = styled.div`
 const Description = styled(Text)`
   text-align: center;
   white-space: pre-wrap;
+  word-break: keep-all;
 `;
 
 const StyledDivider = styled.div`
@@ -153,6 +164,10 @@ const CardWrapper = styled.section`
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-top: 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 18px;
+  }
 `;
 
 const StyledCard = styled.a<{ color: string; hover: string }>`
@@ -167,8 +182,10 @@ const StyledCard = styled.a<{ color: string; hover: string }>`
   min-width: 136px;
   max-height: 190px;
 
-  &:hover {
-    background: ${({ hover }) => hover};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: ${({ hover }) => hover};
+    }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {

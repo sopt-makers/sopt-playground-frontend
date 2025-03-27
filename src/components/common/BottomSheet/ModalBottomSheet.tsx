@@ -28,6 +28,9 @@ export const ModalBottomSheet: FC<BottomSheetProps> = (props) => {
 };
 
 const CustomSheet = styled(Sheet)`
+  margin: 0 auto;
+  max-width: 430px;
+
   .react-modal-sheet-backdrop {
     display: flex;
     position: fixed;
@@ -42,7 +45,6 @@ const CustomSheet = styled(Sheet)`
   .react-modal-sheet-container {
     border-radius: 14px !important;
     background-color: ${colors.gray900}!important;
-    width: 100%;
     overflow-x: hidden !important;
     overflow-y: scroll !important;
   }
