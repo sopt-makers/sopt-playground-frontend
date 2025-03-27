@@ -103,10 +103,13 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
                   htmlFor={`tags.${index}`}
                   onClick={() => onClickTag(tag.key)}
                   isSelected={selectedTag.includes(tag.key)}
-                  defaultImg={tag.image.default}
-                  selectedImg={tag.image.select}
                   hoverImg={tag.image.hover}
                 >
+                  <StyledImage
+                    src={selectedTag.includes(tag.key) ? tag.image.select : tag.image.default}
+                    alt={tag.value}
+                    data-hover={tag.image.hover}
+                  />
                   <StyledTagText
                     typography='SUIT_14_SB'
                     color={selectedTag.includes(tag.key) ? colors.white : colors.gray300}
@@ -206,21 +209,37 @@ const StyledTagText = styled(Text)`
   top: 58px;
 `;
 
-const StyledTagItem = styled.label<{ isSelected: boolean; defaultImg: string; selectedImg: string; hoverImg: string }>`
+const StyledTagItem = styled.label<{ isSelected: boolean; hoverImg: string }>`
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
   border-radius: 50%;
-  background-image: ${({ isSelected, defaultImg, selectedImg }) => `url(${isSelected ? selectedImg : defaultImg}) `};
   cursor: pointer;
   width: 90px;
   height: 90px;
 
-  &:hover {
-    ${({ isSelected, hoverImg }) => !isSelected && `background-image: url(${hoverImg});`}
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      ${({ isSelected, hoverImg }) =>
+        !isSelected &&
+        `
+        background-image: url(${hoverImg});
+
+        & > img {
+          opacity: 0;
+        }
+      `}
+    }
   }
+`;
+
+const StyledImage = styled.img`
+  display: block;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
 `;
 
 const StyledTextArea = styled(TextArea)`
@@ -239,7 +258,6 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
   border-radius: 12px;
   background: ${({ isDisabled }) => (isDisabled ? colors.gray800 : 'linear-gradient(90deg, #d5d6e3 0%, #939aab 100%)')};
   cursor: pointer;
@@ -248,7 +266,7 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   height: 56px;
 
   &:hover {
-    background-color: ${colors.gray50};
+    background: ${colors.gray50};
     color: ${colors.black};
   }
 
@@ -267,12 +285,12 @@ const TagTextWrapper = styled.div`
 const TagErrorWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-top: -24px;
+  margin-top: -12px;
   width: 100%;
   height: 16px;
 
   & > svg {
-    margin-right: 6px;
+    margin-right: 4px;
   }
 `;
 
