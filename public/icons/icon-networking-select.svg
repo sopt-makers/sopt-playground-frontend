@@ -11,7 +11,7 @@
 <circle cx="1.57288" cy="1.57288" r="1.57288" transform="matrix(-0.999383 -0.0351182 -0.0351182 0.999383 37.5566 29.208)" fill="#27282E"/>
 <circle cx="1.57288" cy="1.57288" r="1.57288" transform="matrix(-0.999383 -0.0351182 -0.0351182 0.999383 31.2695 28.9863)" fill="#27282E"/>
 <defs>
-<filter id="filter0_i_284_39300" x="0" y="0"  width="94" height="94" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_i_284_39300" x="-5" y="-5" width="100" height="100" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>

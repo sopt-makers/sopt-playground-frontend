@@ -6,7 +6,7 @@
 <path fill-rule="evenodd" clip-rule="evenodd" d="M67.0198 41.2222C68.1617 40.1384 68.8742 38.6034 68.8742 36.9015C68.8742 33.6179 66.2222 30.9561 62.9508 30.9561C59.6794 30.9561 57.0273 33.6179 57.0273 36.9015C57.0273 38.6139 57.7487 40.1573 58.903 41.2422C55.3759 42.8071 52.9023 46.3307 52.9023 50.4268V53.0006H70.3423C71.8099 53.0006 72.9996 51.8109 72.9996 50.3432C72.9996 46.27 70.533 42.7676 67.0198 41.2222Z" fill="url(#paint1_radial_284_39302)"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M49.348 37.3376C51.5153 35.9608 52.9543 33.5334 52.9543 30.7685C52.9543 26.4781 49.489 23 45.2144 23C40.9399 23 37.4746 26.4781 37.4746 30.7685C37.4746 33.5336 38.9139 35.9613 41.0815 37.338C35.9281 39.0651 32.2148 43.9327 32.2148 49.6675V52.9974H58.2159V49.6675C58.2159 43.9322 54.502 39.0643 49.348 37.3376Z" fill="url(#paint2_radial_284_39302)"/>
 <defs>
-<filter id="filter0_i_284_39302" x="0" y="0" width="94" height="94" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_i_284_39302" x="-5" y="-5" width="100" height="100" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
