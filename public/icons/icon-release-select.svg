@@ -10,7 +10,7 @@
 <path d="M46.8813 25.3054C48.4226 23.6467 51.0275 19.064 49.1177 14.0028" stroke="url(#paint3_linear_284_39298)" stroke-width="3" stroke-linecap="round"/>
 <circle cx="39.4199" cy="20.3584" r="1.81836" fill="url(#paint4_linear_284_39298)"/>
 <defs>
-<filter id="filter0_i_284_39298" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_i_284_39298" x="0" y="0"  width="94" height="94" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
