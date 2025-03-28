@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { IconAlertCircle } from '@sopt-makers/icons';
 import { TextArea } from '@sopt-makers/ui';
 import { FC, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -67,8 +68,47 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
     }
   };
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const isMobileIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (!isMobileIOS) return;
+
+    const textarea = textareaRef.current;
+    const form = formRef.current;
+
+    const handleFocus = () => {
+      form?.style.setProperty('padding-bottom', '280px');
+
+      setTimeout(() => {
+        textarea?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 300);
+    };
+
+    const handleBlur = () => {
+      form?.style.setProperty('padding-bottom', '18px');
+
+      form?.scrollTo({
+        top: form.scrollHeight,
+      });
+    };
+
+    textarea?.addEventListener('focus', handleFocus);
+    textarea?.addEventListener('blur', handleBlur);
+
+    return () => {
+      textarea?.removeEventListener('focus', handleFocus);
+      textarea?.removeEventListener('blur', handleBlur);
+    };
+  }, []);
+
   return (
-    <StyledForm onSubmit={handleSubmit(submit)}>
+    <StyledForm onSubmit={handleSubmit(submit)} ref={formRef}>
       <ModalBody>
         <TitleTextWrapper>
           <Description typography='SUIT_14_M' color={colors.gray200}>
@@ -138,6 +178,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
             render={({ field, fieldState }) => (
               <StyledTextArea
                 {...field}
+                ref={textareaRef}
                 fixedHeight={156}
                 maxLength={300}
                 placeholder={
