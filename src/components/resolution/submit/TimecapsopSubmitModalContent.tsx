@@ -90,7 +90,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
     };
 
     const handleBlur = () => {
-      form?.style.setProperty('padding-bottom', '0px');
+      form?.style.setProperty('padding-bottom', '18px');
 
       form?.scrollTo({
         top: 0,
