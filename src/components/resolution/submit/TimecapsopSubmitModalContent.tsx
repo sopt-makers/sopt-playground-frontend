@@ -91,6 +91,11 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
 
     const handleBlur = () => {
       form?.style.setProperty('padding-bottom', '0px');
+
+      form?.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     };
 
     textarea?.addEventListener('focus', handleFocus);
