@@ -10,10 +10,7 @@ export interface TimecapsuleCard {
   name: string;
   eventKey: keyof Pick<
     ClickEvents,
-    | 'clickTimeCapsuleGotoCrew'
-    | 'clickTimeCapsuleGotoProject'
-    | 'clickTimeCapsuleGotoMember'
-    | 'clickTimeCapsuleGotoCoffeechat'
+    'timeCapsuleGotoCrew' | 'timeCapsuleGotoProject' | 'timeCapsuleGotoMember' | 'timeCapsuleGotoCoffeechat'
   >;
   description: string;
   color: string;
@@ -33,7 +30,7 @@ export const cards: TimecapsuleCard[] = [
     icon: <GroupIcon />,
     button: '#521F01',
     href: playgroundLink.groupList(),
-    eventKey: 'clickTimeCapsuleGotoCrew',
+    eventKey: 'timeCapsuleGotoCrew',
   },
   {
     id: 2,
@@ -44,7 +41,7 @@ export const cards: TimecapsuleCard[] = [
     icon: <MemberIcon />,
     button: '#0E5A6F',
     href: playgroundLink.memberList(),
-    eventKey: 'clickTimeCapsuleGotoMember',
+    eventKey: 'timeCapsuleGotoMember',
   },
   {
     id: 3,
@@ -55,7 +52,7 @@ export const cards: TimecapsuleCard[] = [
     icon: <ProjectIcon />,
     button: '#8C3D87',
     href: playgroundLink.projectList(),
-    eventKey: 'clickTimeCapsuleGotoProject',
+    eventKey: 'timeCapsuleGotoProject',
   },
   {
     id: 4,
@@ -66,6 +63,6 @@ export const cards: TimecapsuleCard[] = [
     icon: <CoffeeIcon />,
     button: '#1C2584',
     href: playgroundLink.coffeechat(),
-    eventKey: 'clickTimeCapsuleGotoCoffeechat',
+    eventKey: 'timeCapsuleGotoCoffeechat',
   },
 ];

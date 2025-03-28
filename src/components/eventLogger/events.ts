@@ -202,10 +202,10 @@ export interface ClickEvents {
   clickMyReportGotoCoffeesopt: undefined;
 
   // 다른 기능 이동 모달
-  clickTimeCapsuleGotoCrew: undefined;
-  clickTimeCapsuleGotoProject: undefined;
-  clickTimeCapsuleGotoMember: undefined;
-  clickTimeCapsuleGotoCoffeechat: undefined;
+  timeCapsuleGotoCrew: undefined;
+  timeCapsuleGotoProject: undefined;
+  timeCapsuleGotoMember: undefined;
+  timeCapsuleGotoCoffeechat: undefined;
 }
 
 export interface SubmitEvents {
