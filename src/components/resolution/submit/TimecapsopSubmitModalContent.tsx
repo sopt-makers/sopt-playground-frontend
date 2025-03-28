@@ -73,14 +73,17 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
 
   useEffect(() => {
     const isMobileIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const viewport = window.visualViewport;
 
-    if (!isMobileIOS) return;
+    if (!isMobileIOS || !viewport) return;
 
     const textarea = textareaRef.current;
     const form = formRef.current;
 
     const handleFocus = () => {
-      form?.style.setProperty('padding-bottom', '280px');
+      const keyboardHeight = window.innerHeight - viewport.height;
+      form?.style.setProperty('padding-bottom', `${keyboardHeight}px`);
+
       setTimeout(() => {
         textarea?.scrollIntoView({
           behavior: 'smooth',
