@@ -74,6 +74,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
     const textarea = textareaRef.current;
 
     const handleFocus = () => {
+      document.body.style.paddingBottom = '300px';
       setTimeout(() => {
         textarea?.scrollIntoView({
           behavior: 'smooth',
@@ -82,10 +83,16 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
       }, 300);
     };
 
+    const handleBlur = () => {
+      document.body.style.paddingBottom = '0px';
+    };
+
     textarea?.addEventListener('focus', handleFocus);
+    textarea?.addEventListener('blur', handleBlur);
 
     return () => {
       textarea?.removeEventListener('focus', handleFocus);
+      textarea?.removeEventListener('blur', handleBlur);
     };
   }, []);
 
