@@ -80,7 +80,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
     const form = formRef.current;
 
     const handleFocus = () => {
-      form?.style.setProperty('padding-bottom', '290px');
+      form?.style.setProperty('padding-bottom', '280px');
       setTimeout(() => {
         textarea?.scrollIntoView({
           behavior: 'smooth',
