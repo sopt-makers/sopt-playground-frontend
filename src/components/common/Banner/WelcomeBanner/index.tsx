@@ -67,10 +67,7 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                   <WelcomText color={colors.white} typography='SUIT_18_B'>
                     {'SOPT가 연결되는 곳,\n Playground에 오신 걸 환영해요!'}
                   </WelcomText>
-                  <LoggingClick
-                    eventKey='welcomeBannerResolution'
-                    param={{ isAlreadySubmitted: isRegistration ?? false }}
-                  >
+                  <LoggingClick eventKey='bannerTimeCapsule' param={{ isAlreadySubmitted: isRegistration ?? false }}>
                     <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
                       <Text color={colors.black} typography='SUIT_14_SB'>
                         {'타임캡솝을 만들어보세요 >'}

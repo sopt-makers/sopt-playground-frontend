@@ -15,7 +15,7 @@ export const useConfirmResolution = () => {
     async (options: Options) => {
       mutateAsync(options, {
         onSuccess: async () => {
-          logSubmitEvent('postResolution');
+          logSubmitEvent('makeTimeCapsule');
           options.onSuccess?.();
         },
       });
