@@ -200,6 +200,12 @@ export interface ClickEvents {
   clickMyReportGotoWordchain: undefined;
   clickMyReportGotoMoimFeed: undefined;
   clickMyReportGotoCoffeesopt: undefined;
+
+  // 다른 기능 이동 모달
+  clickTimeCapsuleGotoCrew: undefined;
+  clickTimeCapsuleGotoProject: undefined;
+  clickTimeCapsuleGotoMember: undefined;
+  clickTimeCapsuleGotoCoffeechat: undefined;
 }
 
 export interface SubmitEvents {
