@@ -74,7 +74,7 @@ const CompletePage: FC = () => {
               {isLastGeneration && isResolutionOpen ? (
                 <BottomSection>
                   <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
-                  <LoggingClick eventKey='profileUploadResolution'>
+                  <LoggingClick eventKey='profileUploadTimeCapsule'>
                     <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
                   </LoggingClick>
                 </BottomSection>
@@ -100,7 +100,7 @@ const CompletePage: FC = () => {
             {isLastGeneration && isResolutionOpen ? (
               <BottomSection>
                 <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
-                <LoggingClick eventKey='profileUploadResolution'>
+                <LoggingClick eventKey='profileUploadTimeCapsule'>
                   <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
                 </LoggingClick>
               </BottomSection>

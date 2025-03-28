@@ -129,11 +129,11 @@ export interface ClickEvents {
     feedId: string;
   };
 
-  //다짐메시지 제출
-  welcomeBannerResolution: {
+  //환영배너 타임캡솝 cta 버튼 클릭
+  bannerTimeCapsule: {
     isAlreadySubmitted: boolean;
   };
-  profileUploadResolution: undefined;
+  profileUploadTimeCapsule: undefined;
 
   // 다짐메시지 노출
   saveResolutionImage: undefined;
@@ -240,8 +240,8 @@ export interface SubmitEvents {
     referral: 'more' | 'detail';
     isBlindWriter: boolean;
   };
-  //다짐메시지
-  postResolution: undefined;
+  //타임캡솝 보관하기
+  makeTimeCapsule: undefined;
   searchCoffeeChat: {
     search_content: string;
   };
