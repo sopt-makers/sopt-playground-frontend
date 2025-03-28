@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { IconAlertCircle } from '@sopt-makers/icons';
 import { TextArea } from '@sopt-makers/ui';
 import { FC, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -66,6 +67,27 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
       throw error;
     }
   };
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+
+    const handleFocus = () => {
+      setTimeout(() => {
+        textarea?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }, 300);
+    };
+
+    textarea?.addEventListener('focus', handleFocus);
+
+    return () => {
+      textarea?.removeEventListener('focus', handleFocus);
+    };
+  }, []);
 
   return (
     <StyledForm onSubmit={handleSubmit(submit)}>
@@ -138,6 +160,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
             render={({ field, fieldState }) => (
               <StyledTextArea
                 {...field}
+                ref={textareaRef}
                 fixedHeight={156}
                 maxLength={300}
                 placeholder={
