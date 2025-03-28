@@ -315,17 +315,11 @@ const TitleTextWrapper = styled.div`
 
 const ModalBody = styled.div`
   display: flex;
-
-  /* flex: 1; */
   flex-direction: column;
   gap: 24px;
   align-items: center;
   margin-top: 56px;
   width: 100%;
-
-  /* overflow-y: auto; */
-
-  /* -webkit-overflow-scrolling: touch; */
 
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 20px;
