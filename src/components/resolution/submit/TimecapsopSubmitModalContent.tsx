@@ -94,7 +94,6 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
 
       form?.scrollTo({
         top: 0,
-        behavior: 'smooth',
       });
     };
 
