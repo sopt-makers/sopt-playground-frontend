@@ -69,12 +69,14 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
   };
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     const textarea = textareaRef.current;
+    const form = formRef.current;
 
     const handleFocus = () => {
-      document.body.style.paddingBottom = '300px';
+      form?.style.setProperty('padding-bottom', '300px');
       setTimeout(() => {
         textarea?.scrollIntoView({
           behavior: 'smooth',
@@ -84,7 +86,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
     };
 
     const handleBlur = () => {
-      document.body.style.paddingBottom = '0px';
+      form?.style.setProperty('padding-bottom', '0px');
     };
 
     textarea?.addEventListener('focus', handleFocus);
@@ -97,7 +99,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
   }, []);
 
   return (
-    <StyledForm onSubmit={handleSubmit(submit)}>
+    <StyledForm onSubmit={handleSubmit(submit)} ref={formRef}>
       <ModalBody>
         <TitleTextWrapper>
           <Description typography='SUIT_14_M' color={colors.gray200}>
