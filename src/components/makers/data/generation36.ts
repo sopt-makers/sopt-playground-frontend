@@ -1,6 +1,6 @@
 import { MakersGeneration } from '@/components/makers/data/types';
 
-export const generation35: MakersGeneration = {
+export const generation36: MakersGeneration = {
   title: '36기',
   teams: [
     {
