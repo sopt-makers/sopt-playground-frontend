@@ -94,7 +94,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
       form?.style.setProperty('padding-bottom', '18px');
 
       form?.scrollTo({
-        top: 0,
+        top: form.scrollHeight,
       });
     };
 
