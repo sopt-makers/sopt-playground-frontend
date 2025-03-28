@@ -80,7 +80,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
       setTimeout(() => {
         textarea?.scrollIntoView({
           behavior: 'smooth',
-          block: 'center',
+          block: 'start',
         });
       }, 300);
     };
