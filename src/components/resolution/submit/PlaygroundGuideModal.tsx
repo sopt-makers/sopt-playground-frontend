@@ -8,6 +8,8 @@ import { ModalBottomSheet } from '@/components/common/BottomSheet/ModalBottomShe
 import Modal from '@/components/common/Modal';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { ClickEvents } from '@/components/eventLogger/events';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import TimecapsopDelteButton from '@/components/resolution/delete';
 import { cards } from '@/components/resolution/submit/constants/cards';
@@ -29,6 +31,7 @@ interface CardProps {
   button: string;
   href: string;
   onClose: () => void;
+  eventKey: keyof ClickEvents;
 }
 
 const PlaygroundGuideModal = ({ isOpen, ...props }: PlaygroundGuideModalProps) => {
@@ -60,8 +63,8 @@ const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: Omit<PlaygroundGui
         <Description typography='SUIT_14_M' color={colors.gray200} lineHeight={22}>
           보관된 타임캡솝은 종무식 때 열어볼 수 있어요
         </Description>
+        <StyledDivider />
       </TitleTextWrapper>
-      <StyledDivider />
       <Description typography='SUIT_18_SB' lineHeight={28}>
         오직 SOPT에서만 이용할 수 있는{'\n'} 기능도 만나보세요!
       </Description>
@@ -77,6 +80,7 @@ const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: Omit<PlaygroundGui
             button={card.button}
             href={card.href}
             onClose={props.onClose}
+            eventKey={card.eventKey}
           />
         ))}
       </CardWrapper>
@@ -85,10 +89,13 @@ const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: Omit<PlaygroundGui
   );
 };
 
-const Card = ({ name, description, color, hover, icon, button, href, onClose }: CardProps) => {
+const Card = ({ name, description, color, hover, icon, button, href, onClose, eventKey }: CardProps) => {
   const router = useRouter();
 
+  const { logClickEvent } = useEventLogger();
+
   const handleClick = async (e: React.MouseEvent) => {
+    logClickEvent(eventKey);
     e.preventDefault();
     await router.replace('/', undefined, { shallow: true });
     router.push(href);
@@ -140,13 +147,13 @@ const StyledModal = styled(Modal)`
 const TitleTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
   align-items: center;
   margin-top: 56px;
   width: 100%;
 `;
 
 const Description = styled(Text)`
+  margin-top: 4px;
   text-align: center;
   white-space: pre-wrap;
   word-break: keep-all;

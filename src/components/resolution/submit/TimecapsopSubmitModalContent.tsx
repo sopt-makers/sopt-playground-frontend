@@ -265,10 +265,14 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   width: 100%;
   height: 56px;
 
+  ${({ isDisabled }) =>
+    !isDisabled &&
+    `
   &:hover {
     background: ${colors.gray50};
     color: ${colors.black};
   }
+    `}
 
   @media ${MOBILE_MEDIA_QUERY} {
     height: 44px;

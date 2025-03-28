@@ -1,10 +1,26 @@
+import { ClickEvents } from '@/components/eventLogger/events';
 import { playgroundLink } from '@/constants/links';
 import CoffeeIcon from '@/public/logos/playgroundGuide/img_coffee.svg';
 import GroupIcon from '@/public/logos/playgroundGuide/img_group.svg';
 import MemberIcon from '@/public/logos/playgroundGuide/img_member.svg';
 import ProjectIcon from '@/public/logos/playgroundGuide/img_project.svg';
 
-export const cards = [
+export interface TimecapsuleCard {
+  id: number;
+  name: string;
+  eventKey: keyof Pick<
+    ClickEvents,
+    'timeCapsuleGotoCrew' | 'timeCapsuleGotoProject' | 'timeCapsuleGotoMember' | 'timeCapsuleGotoCoffeechat'
+  >;
+  description: string;
+  color: string;
+  hover: string;
+  icon: React.ReactNode;
+  button: string;
+  href: string;
+}
+
+export const cards: TimecapsuleCard[] = [
   {
     id: 1,
     name: '모임',
@@ -14,6 +30,7 @@ export const cards = [
     icon: <GroupIcon />,
     button: '#521F01',
     href: playgroundLink.groupList(),
+    eventKey: 'timeCapsuleGotoCrew',
   },
   {
     id: 2,
@@ -24,6 +41,7 @@ export const cards = [
     icon: <MemberIcon />,
     button: '#0E5A6F',
     href: playgroundLink.memberList(),
+    eventKey: 'timeCapsuleGotoMember',
   },
   {
     id: 3,
@@ -34,6 +52,7 @@ export const cards = [
     icon: <ProjectIcon />,
     button: '#8C3D87',
     href: playgroundLink.projectList(),
+    eventKey: 'timeCapsuleGotoProject',
   },
   {
     id: 4,
@@ -44,5 +63,6 @@ export const cards = [
     icon: <CoffeeIcon />,
     button: '#1C2584',
     href: playgroundLink.coffeechat(),
+    eventKey: 'timeCapsuleGotoCoffeechat',
   },
 ];
