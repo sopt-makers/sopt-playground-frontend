@@ -15,15 +15,7 @@ import Carousel from '@/components/common/Carousel';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import {
-  MB_BIG_MEDIA_QUERY,
-  MB_MID_MEDIA_QUERY,
-  MB_SM_MEDIA_QUERY,
-  MOBILE_MEDIA_QUERY,
-  PCTA_S_MEDIA_QUERY,
-  PCTA_SM_MEDIA_QUERY,
-} from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY, PCTA_S_MEDIA_QUERY, PCTA_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | undefined;
@@ -42,65 +34,64 @@ const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.siz
 export default function CoffeeChatList() {
   const [listType, setListType] = useState<ListType>();
   const router = useRouter();
-  const { logClickEvent } = useEventLogger();
   const { open } = useDialog();
   const { data, isLoading } = useGetRecentCoffeeChat();
   const { data: me } = useGetMemberOfMe();
   const isEmptyData = data?.coffeeChatList == null;
   const dataList = !isEmptyData ? data.coffeeChatList : COFFECHAT_SAMPLE_DATA.coffeeChatList;
-  const formatSoptActivities = (soptActivities: string[])=> {
+  const formatSoptActivities = (soptActivities: string[]) => {
     const generations = soptActivities
-      .map((item) => parseInt(item.match(/^\d+/)?.[0] || "", 10)) // 숫자 문자열을 숫자로 변환
+      .map((item) => parseInt(item.match(/^\d+/)?.[0] || '', 10)) // 숫자 문자열을 숫자로 변환
       .filter((num) => !isNaN(num)); // NaN 값 제거
     const parts = [...new Set(soptActivities.map((item) => item.replace(/^\d+기 /, '')))];
     return { generation: generations, part: parts };
   };
   const coffeeChatRecentCardList = dataList.map((item) => (
-    <LoggingClick 
-     key={String(item?.name)} 
-    eventKey='coffeechatCard' 
-     param={{
-     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
-     organization:item?.organization,  
-      job:item.companyJob||undefined,
-      section:undefined,
-       title:item.bio||undefined,
-      topic_tag:undefined,
-      ...formatSoptActivities(item?.soptActivities||[]),
-      }
-      }>
-        <div>
-        <LoggingClick 
-     key={String(item?.name)} 
-    eventKey='recentCoffeechatCard' 
-     param={{
-     career: item.career === "아직 없음" ? "없음" : item.career?.split(" ")[0],
-     organization:item?.organization,  
-      job:item.companyJob||undefined,
-      section:undefined,
-       title:item.bio||undefined,
-      topic_tag:undefined,
-      ...formatSoptActivities(item?.soptActivities||[]),
-      }
-      }>
+    <LoggingClick
+      key={String(item?.name)}
+      eventKey='coffeechatCard'
+      param={{
+        career: item.career === '아직 없음' ? '없음' : item.career?.split(' ')[0],
+        organization: item?.organization,
+        job: item.companyJob || undefined,
+        section: undefined,
+        title: item.bio || undefined,
+        topic_tag: undefined,
+        ...formatSoptActivities(item?.soptActivities || []),
+      }}
+    >
       <div>
-    <CoffeeChatCard
-      key={String(item.memberId)}
-      id={String(item.memberId)}
-      name={item.name ?? ''}
-      topicTypeList={item.topicTypeList ?? ['']}
-      career={item.career ?? ''}
-      profileImage={item.profileImage ?? ''}
-      organization={item.organization ?? ''}
-      companyJob={item.companyJob ?? ''}
-      soptActivities={item.soptActivities ?? ['']}
-      title={item.bio ?? ''}
-      isEmptyData={isEmptyData}
-      isBlurred={false}
-    />
-    </div>
-    </LoggingClick>
-    </div>
+        <LoggingClick
+          key={String(item?.name)}
+          eventKey='recentCoffeechatCard'
+          param={{
+            career: item.career === '아직 없음' ? '없음' : item.career?.split(' ')[0],
+            organization: item?.organization,
+            job: item.companyJob || undefined,
+            section: undefined,
+            title: item.bio || undefined,
+            topic_tag: undefined,
+            ...formatSoptActivities(item?.soptActivities || []),
+          }}
+        >
+          <div>
+            <CoffeeChatCard
+              key={String(item.memberId)}
+              id={String(item.memberId)}
+              name={item.name ?? ''}
+              topicTypeList={item.topicTypeList ?? ['']}
+              career={item.career ?? ''}
+              profileImage={item.profileImage ?? ''}
+              organization={item.organization ?? ''}
+              companyJob={item.companyJob ?? ''}
+              soptActivities={item.soptActivities ?? ['']}
+              title={item.bio ?? ''}
+              isEmptyData={isEmptyData}
+              isBlurred={false}
+            />
+          </div>
+        </LoggingClick>
+      </div>
     </LoggingClick>
   ));
 
@@ -141,7 +132,6 @@ export default function CoffeeChatList() {
   }, []);
 
   const startOpenOption = () => {
-    logClickEvent('openToCoffeechat');
     open({
       title: `커피챗 오픈 전, 확인해주세요!`,
       description: `커피챗을 열면 내 프로필 정보도 함께 공유돼요. 프로필을 최신 상태로 업데이트하고 오픈하는 것을 권장드려요.`,
@@ -171,32 +161,34 @@ export default function CoffeeChatList() {
   return (
     <Container>
       <Header>
-        <Title>{isLoading ? '' : isEmptyData ? '최근 커피챗 제안을 받은 멤버예요✨' : '최근 커피챗 제안을 받은 멤버예요✨'}</Title>
+        <Title>
+          {isLoading ? '' : isEmptyData ? '최근 커피챗 제안을 받은 멤버예요✨' : '최근 커피챗 제안을 받은 멤버예요✨'}
+        </Title>
         <FixedButtonArea>
           <Responsive only='desktop'>
-            <LoggingClick eventKey='openCoffeechat'> 
-            <Button
-              size='lg'
-              theme='white'
-              onClick={() => {
-                me?.hasCoffeeChat ? alreadyOpenedOption() : startOpenOption();
-              }}
-            >
-              커피챗 오픈하기
-            </Button>
+            <LoggingClick eventKey='openCoffeechat'>
+              <Button
+                size='lg'
+                theme='white'
+                onClick={() => {
+                  me?.hasCoffeeChat ? alreadyOpenedOption() : startOpenOption();
+                }}
+              >
+                커피챗 오픈하기
+              </Button>
             </LoggingClick>
           </Responsive>
           <Responsive only='mobile'>
-          <LoggingClick eventKey='openCoffeechat'>
-            <Button
-              size='md'
-              theme='white'
-              onClick={() => {
-                me?.hasCoffeeChat ? alreadyOpenedOption() : startOpenOption();
-              }}
-            >
-              커피챗 오픈하기
-            </Button>
+            <LoggingClick eventKey='openCoffeechat'>
+              <Button
+                size='md'
+                theme='white'
+                onClick={() => {
+                  me?.hasCoffeeChat ? alreadyOpenedOption() : startOpenOption();
+                }}
+              >
+                커피챗 오픈하기
+              </Button>
             </LoggingClick>
           </Responsive>
         </FixedButtonArea>
@@ -369,12 +361,11 @@ const StyledScrollCarousel = styled(ScrollCarousel)`
   }
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    padding-right:20px;
-    padding-left:20px;
+    padding-right: 20px;
+    padding-left: 20px;
     width: 100%;
     height: 100%;
   }
-
 `;
 
 export const CardContainer = styled.div`

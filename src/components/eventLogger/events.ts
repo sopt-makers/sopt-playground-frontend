@@ -168,7 +168,6 @@ export interface ClickEvents {
     part: string[] | undefined;
   };
   coffeechatGuide: undefined;
-  openToCoffeechat: undefined;
   coffeechatBadge: undefined;
   memberBadge: undefined;
   coffeechatToggleOff: undefined;
