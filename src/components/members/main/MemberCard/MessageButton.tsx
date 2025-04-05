@@ -5,8 +5,6 @@ import { fonts } from '@sopt-makers/fonts';
 import { IconSend } from '@sopt-makers/icons';
 import { FC, MouseEvent } from 'react';
 
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-
 interface MessageButtonProps {
   className?: string;
   name: string;
@@ -14,8 +12,6 @@ interface MessageButtonProps {
 }
 
 const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => {
-  const { logClickEvent } = useEventLogger();
-
   return (
     <Tooltip.Provider>
       <Tooltip.Root delayDuration={300}>
@@ -24,7 +20,6 @@ const MessageButton: FC<MessageButtonProps> = ({ className, name, onClick }) => 
             className={className}
             onClick={(e) => {
               onClick && onClick(e);
-              logClickEvent('memberBadge');
             }}
           >
             <StyledIconSend />

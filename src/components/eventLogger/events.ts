@@ -167,7 +167,6 @@ export interface ClickEvents {
   coffeechatGuide: undefined;
   openToCoffeechat: undefined;
   coffeechatBadge: undefined;
-  memberBadge: undefined;
   coffeechatToggleOff: undefined;
   coffeechatToggleOn: undefined;
   skillAdd: undefined;
