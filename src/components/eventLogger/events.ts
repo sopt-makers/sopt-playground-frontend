@@ -2,10 +2,7 @@ type MemberCard = {
   id: number;
   name: string;
 };
-type ProjectCard = {
-  id: number;
-  name: string;
-};
+
 type CommunityFeedData = {
   categoryId: number;
   title: string | null;
@@ -51,7 +48,7 @@ type Coffeechat = {
 
 export interface ClickEvents {
   memberCard: MemberCard;
-  projectCard: ProjectCard;
+  projectCard: { id: number };
   registerLink: undefined;
   registerWith: {
     method: 'facebook' | 'google' | 'apple';
@@ -257,7 +254,6 @@ export interface SubmitEvents {
 export interface PageViewEvents {
   mamberPageList: undefined;
   memberCard: MemberCard;
-  projectCard: ProjectCard;
   mentoringDetail: {
     mentorId: number;
   };
