@@ -191,7 +191,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
             )}
           />
           <SenderText typography='SUIT_16_SB' color={colors.gray50}>
-            {`From. 3월의 ${userName}`}
+            {`From. 4월의 ${userName}`}
           </SenderText>
         </TextAreaWrapper>
       </ModalBody>

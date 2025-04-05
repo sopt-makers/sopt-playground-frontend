@@ -60,6 +60,8 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
   const { data: me } = useGetMemberOfMe();
   const { data: profile } = useGetMemberProfileById(me?.id ?? undefined);
   const { logSubmitEvent } = useEventLogger();
+  const senderId = me?.id.toString();
+
   const submit = async ({ content, phone }: MessageForm) => {
     if (isPending) {
       return;
@@ -82,7 +84,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
           receiverId,
           category: '커피챗',
         });
-        logSubmitEvent('sendCoffeechat', { content: content });
+        logSubmitEvent('sendCoffeechat', { content: content, receiverId, senderId });
         open({
           icon: 'success',
           content: '커피챗 제안이 잘 전달되었어요!',
