@@ -156,17 +156,9 @@ export interface ClickEvents {
     topic_tag: string | undefined;
     generation: number[] | undefined;
     part: string[] | undefined;
+    channel: string;
   };
-  recentCoffeechatCard: {
-    career: string | undefined;
-    organization: string | undefined | null;
-    job: string | undefined;
-    section: string | undefined;
-    title: string | undefined;
-    topic_tag: string | undefined;
-    generation: number[] | undefined;
-    part: string[] | undefined;
-  };
+
   coffeechatGuide: undefined;
   coffeechatBadge: undefined;
   memberBadge: undefined;

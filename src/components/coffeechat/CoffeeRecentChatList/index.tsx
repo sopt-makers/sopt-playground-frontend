@@ -58,39 +58,26 @@ export default function CoffeeChatList() {
         title: item.bio || undefined,
         topic_tag: undefined,
         ...formatSoptActivities(item?.soptActivities || []),
+        channel: 'recent',
       }}
     >
       <div>
-        <LoggingClick
-          key={String(item?.name)}
-          eventKey='recentCoffeechatCard'
-          param={{
-            career: item.career === '아직 없음' ? '없음' : item.career?.split(' ')[0],
-            organization: item?.organization,
-            job: item.companyJob || undefined,
-            section: undefined,
-            title: item.bio || undefined,
-            topic_tag: undefined,
-            ...formatSoptActivities(item?.soptActivities || []),
-          }}
-        >
-          <div>
-            <CoffeeChatCard
-              key={String(item.memberId)}
-              id={String(item.memberId)}
-              name={item.name ?? ''}
-              topicTypeList={item.topicTypeList ?? ['']}
-              career={item.career ?? ''}
-              profileImage={item.profileImage ?? ''}
-              organization={item.organization ?? ''}
-              companyJob={item.companyJob ?? ''}
-              soptActivities={item.soptActivities ?? ['']}
-              title={item.bio ?? ''}
-              isEmptyData={isEmptyData}
-              isBlurred={false}
-            />
-          </div>
-        </LoggingClick>
+        <div>
+          <CoffeeChatCard
+            key={String(item.memberId)}
+            id={String(item.memberId)}
+            name={item.name ?? ''}
+            topicTypeList={item.topicTypeList ?? ['']}
+            career={item.career ?? ''}
+            profileImage={item.profileImage ?? ''}
+            organization={item.organization ?? ''}
+            companyJob={item.companyJob ?? ''}
+            soptActivities={item.soptActivities ?? ['']}
+            title={item.bio ?? ''}
+            isEmptyData={isEmptyData}
+            isBlurred={false}
+          />
+        </div>
       </div>
     </LoggingClick>
   ));

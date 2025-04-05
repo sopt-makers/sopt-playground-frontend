@@ -325,6 +325,7 @@ export default function CoffeeChatCategory() {
                     title: item.bio || undefined,
                     topic_tag: topicType && topicType !== '' && topicType !== '전체' ? topicType : undefined,
                     ...formatSoptActivities(item?.soptActivities || []),
+                    channel: 'basic',
                   }}
                 >
                   <div>
