@@ -238,6 +238,8 @@ export interface SubmitEvents {
   };
   sendCoffeechat: {
     content: string | undefined;
+    receiverId: string;
+    senderId: string | undefined;
   };
   openCoffeechat: Coffeechat;
   coffeechatDelete: undefined;
