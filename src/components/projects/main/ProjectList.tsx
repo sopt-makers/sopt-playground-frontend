@@ -14,6 +14,7 @@ import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 import ProjectCard from '@/components/projects/main/card/ProjectCard';
 import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
@@ -51,6 +52,8 @@ const ProjectList = () => {
   });
 
   const totalCount = data?.pages && data.pages[0].totalCount;
+
+  const { logClickEvent } = useEventLogger();
 
   return (
     <StyledContainer>
@@ -190,7 +193,10 @@ const ProjectList = () => {
           </StyledGridContainer>
         )}
       </StyledContent>
-      <ProjectUploadButton href={playgroundLink.projectUpload()}>
+      <ProjectUploadButton
+        onClick={() => logClickEvent('projectUpload', { referral: 'project' })}
+        href={playgroundLink.projectUpload()}
+      >
         <PlusIcon />
         프로젝트 올리기
       </ProjectUploadButton>
