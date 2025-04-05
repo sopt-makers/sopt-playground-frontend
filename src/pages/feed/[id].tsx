@@ -20,30 +20,28 @@ const FeedDetailPage = () => {
       {status === 'success' ? (
         <Container>
           <DetailSlot>
-            <LoggingPageView eventKey='feedDetail' param={{ feedId: query.id }}>
-              <FeedDetail
-                postId={query.id}
-                renderBackLink={({ children }) => (
-                  <LoggingClick eventKey='feedBackButton' param={{ feedId: query.id, referral: 'detail' }}>
-                    <Link href={playgroundLink.feedList()}>{children}</Link>
-                  </LoggingClick>
-                )}
-                renderCategoryLink={({ children, categoryId }) => (
-                  <LoggingClick eventKey='feedCategoryChipLink' param={{ feedId: query.id }}>
-                    <Link
-                      href={{
-                        pathname: playgroundLink.feedList(),
-                        query: {
-                          category: categoryId,
-                        },
-                      }}
-                    >
-                      {children}
-                    </Link>
-                  </LoggingClick>
-                )}
-              />
-            </LoggingPageView>
+            <FeedDetail
+              postId={query.id}
+              renderBackLink={({ children }) => (
+                <LoggingClick eventKey='feedBackButton' param={{ feedId: query.id, referral: 'detail' }}>
+                  <Link href={playgroundLink.feedList()}>{children}</Link>
+                </LoggingClick>
+              )}
+              renderCategoryLink={({ children, categoryId }) => (
+                <LoggingClick eventKey='feedCategoryChipLink' param={{ feedId: query.id }}>
+                  <Link
+                    href={{
+                      pathname: playgroundLink.feedList(),
+                      query: {
+                        category: categoryId,
+                      },
+                    }}
+                  >
+                    {children}
+                  </Link>
+                </LoggingClick>
+              )}
+            />
           </DetailSlot>
         </Container>
       ) : null}
