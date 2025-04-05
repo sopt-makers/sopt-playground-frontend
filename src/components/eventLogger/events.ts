@@ -252,7 +252,7 @@ export interface SubmitEvents {
 }
 
 export interface PageViewEvents {
-  mamberPageList: undefined;
+  memberPageList: undefined;
   memberCard: MemberCard;
   mentoringDetail: {
     mentorId: number;
