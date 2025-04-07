@@ -3,6 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 
 import Text from '@/components/common/Text';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const defalutThumbnailImgUrl = '/icons/img/og_playground.jpeg';
 
 interface FeedUrlCardProps {
@@ -46,10 +47,18 @@ const FeedUrlCardBox = styled.div`
   background-color: ${colors.gray800};
   padding: 8px;
   width: calc(100% - 20px);
+  min-width: 264px;
   height: 136px;
 
-  &:hover {
-    background-color: ${colors.gray700};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${colors.gray700};
+    }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    height: auto;
   }
 `;
 
@@ -58,6 +67,10 @@ const ThumbnailImg = styled.img`
   width: 192px;
   height: 120px;
   object-fit: cover;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const PreviewTextBox = styled.div`
@@ -66,6 +79,10 @@ const PreviewTextBox = styled.div`
   flex-direction: column;
   gap: 4px;
   overflow: hidden;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 8px;
+  }
 `;
 
 const EllipsisText = styled(Text)`
