@@ -11,7 +11,6 @@ import { useState } from 'react';
 import Divider from '@/components/common/Divider/Divider';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -46,7 +45,6 @@ export default function CoffeeChatCard({
 }: MentoringCardProps) {
   const router = useRouter();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const { logClickEvent } = useEventLogger();
 
   const sortSoptActivities = (soptActivities: string[]) => {
     const uniqueSortedActivities = Array.from(new Set(soptActivities)).sort((a, b) => {
@@ -216,10 +214,8 @@ const Container = styled(m.div)<{ isEmptyData?: boolean; isBlurred?: boolean; is
     border-radius: 20px;
     width: calc(100vw - 40px);
     min-width: calc(100vw - 40px);
-    height:234px;
+    height: 234px;
   }
-  
-
 `;
 
 const Title = styled.div`
@@ -284,7 +280,7 @@ const ProfileSection = styled.div`
 const ImageBox = styled.div`
   position: relative;
   width: 70px;
-  min-width:70px;
+  min-width: 70px;
   height: 70px;
   clip-path: circle(50%);
 `;
@@ -350,8 +346,8 @@ const TagSection = styled.div`
       font-size: 11px !important;
     }
   }
-  @media ${MB_BIG_MEDIA_QUERY}{
-    width:100%;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width: 100%;
   }
 `;
 
@@ -407,8 +403,8 @@ const SoptTagSection = styled.div`
   div {
     white-space: nowrap;
   }
-  @media ${MB_BIG_MEDIA_QUERY}{
-    width:206px;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    width: 206px;
   }
 `;
 
