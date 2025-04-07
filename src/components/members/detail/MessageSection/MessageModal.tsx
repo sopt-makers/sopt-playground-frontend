@@ -121,13 +121,14 @@ const MessageModal: FC<MessageModalProps> = ({
           category: selectedCategory,
           receiverId,
         });
+
+        onLog?.({ category: selectedCategory });
+
         await alert({
           title: '쪽지 보내기',
           description: '성공적으로 전송되었어요!',
           zIndex: zIndex.헤더 + 103,
         });
-        onLog?.({ category: selectedCategory });
-        props.onClose();
       }
     } catch (error) {
       throw error;

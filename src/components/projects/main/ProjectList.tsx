@@ -6,13 +6,15 @@ import { ImpressionArea } from '@toss/impression-area';
 import { useDebounce } from '@toss/react';
 import { uniqBy as _uniqBy } from 'lodash-es';
 import Link from 'next/link';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { BooleanParam, createEnumParam, StringParam, useQueryParams, withDefault } from 'use-query-params';
 
 import EmptyView from '@/components/common/EmptyView';
 import Loading from '@/components/common/Loading';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MobileProjectCard from '@/components/projects/main/card/MobileProjectCard';
 import ProjectCard from '@/components/projects/main/card/ProjectCard';
 import ProjectCategorySelect from '@/components/projects/main/ProjectCategorySelect';
@@ -50,6 +52,8 @@ const ProjectList = () => {
   });
 
   const totalCount = data?.pages && data.pages[0].totalCount;
+
+  const { logClickEvent } = useEventLogger();
 
   return (
     <StyledContainer>
@@ -141,7 +145,7 @@ const ProjectList = () => {
         ) : (
           <StyledGridContainer>
             {data?.pages.map((page) =>
-              page.projectList.map((project, index) => {
+              page.projectList.map((project) => {
                 const memberList = project.members.map((member) => ({
                   id: member.memberId,
                   profileImage: member.memberProfileImage,
@@ -149,33 +153,37 @@ const ProjectList = () => {
                 return (
                   <React.Fragment key={project.id}>
                     <Responsive only='desktop' asChild>
-                      <Link href={playgroundLink.projectDetail(project.id)}>
-                        <ProjectCard
-                          key={project.id}
-                          image={project.thumbnailImage}
-                          title={project.name}
-                          serviceType={project.serviceType}
-                          summary={project.summary}
-                          memberList={memberList}
-                          isAvailable={project.isAvailable}
-                          isFounding={project.isFounding}
-                        />
-                      </Link>
+                      <LoggingClick eventKey='projectCard' param={{ id: project.id }}>
+                        <Link href={playgroundLink.projectDetail(project.id)}>
+                          <ProjectCard
+                            key={project.id}
+                            image={project.thumbnailImage}
+                            title={project.name}
+                            serviceType={project.serviceType}
+                            summary={project.summary}
+                            memberList={memberList}
+                            isAvailable={project.isAvailable}
+                            isFounding={project.isFounding}
+                          />
+                        </Link>
+                      </LoggingClick>
                     </Responsive>
                     <Responsive only='mobile' asChild>
-                      <Link href={playgroundLink.projectDetail(project.id)}>
-                        <MobileProjectCard
-                          key={project.id}
-                          logoImage={project.logoImage}
-                          title={project.name}
-                          serviceType={project.serviceType}
-                          summary={project.summary}
-                          memberList={memberList}
-                          isAvailable={project.isAvailable}
-                          isFounding={project.isFounding}
-                        />
-                        <div css={{ width: '100%', height: '1px', background: colors.gray700 }} />
-                      </Link>
+                      <LoggingClick eventKey='projectCard' param={{ id: project.id }}>
+                        <Link href={playgroundLink.projectDetail(project.id)}>
+                          <MobileProjectCard
+                            key={project.id}
+                            logoImage={project.logoImage}
+                            title={project.name}
+                            serviceType={project.serviceType}
+                            summary={project.summary}
+                            memberList={memberList}
+                            isAvailable={project.isAvailable}
+                            isFounding={project.isFounding}
+                          />
+                          <div css={{ width: '100%', height: '1px', background: colors.gray700 }} />
+                        </Link>
+                      </LoggingClick>
                     </Responsive>
                   </React.Fragment>
                 );
@@ -185,7 +193,10 @@ const ProjectList = () => {
           </StyledGridContainer>
         )}
       </StyledContent>
-      <ProjectUploadButton href={playgroundLink.projectUpload()}>
+      <ProjectUploadButton
+        onClick={() => logClickEvent('projectUpload', { referral: 'project' })}
+        href={playgroundLink.projectUpload()}
+      >
         <PlusIcon />
         프로젝트 올리기
       </ProjectUploadButton>
