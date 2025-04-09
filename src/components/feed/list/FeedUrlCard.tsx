@@ -11,6 +11,7 @@ interface FeedUrlCardProps {
   description?: string;
   thumbnailUrl?: string;
   url?: string;
+  isDetailFeedCard?: boolean;
 }
 
 const FeedUrlCard = ({
@@ -18,11 +19,12 @@ const FeedUrlCard = ({
   description = '초기에 고도화된 두 디자인 시스템을 겪으며 느낀점초기에 고도화된 두 디자인 시스템을 겪으며 느낀점초기에 고도화된 두 디자인 시스템을 겪으며 느낀점',
   thumbnailUrl = '/icons/img/og_playground.jpeg',
   url = 'https://www.naver.com/asdfasfasfhasjfhakjshdkf',
+  isDetailFeedCard = false,
 }: FeedUrlCardProps) => {
   return (
-    <FeedUrlCardBox>
-      <ThumbnailImg src={thumbnailUrl} loading='lazy' decoding='async' alt='' />
-      <PreviewTextBox>
+    <FeedUrlCardBox isDetailFeedCard={isDetailFeedCard}>
+      <ThumbnailImg src={thumbnailUrl} loading='lazy' decoding='async' alt='' isDetailFeedCard={isDetailFeedCard} />
+      <PreviewTextBox isDetailFeedCard={isDetailFeedCard}>
         <EllipsisText typography='SUIT_16_SB' lineHeight={24}>
           {title}
         </EllipsisText>
@@ -39,7 +41,7 @@ const FeedUrlCard = ({
 
 export default FeedUrlCard;
 
-const FeedUrlCardBox = styled.div`
+const FeedUrlCardBox = styled.div<{ isDetailFeedCard?: boolean }>`
   display: flex;
   gap: 12px;
   transition: background-color 0.2s ease;
@@ -47,7 +49,6 @@ const FeedUrlCardBox = styled.div`
   background-color: ${colors.gray800};
   padding: 8px;
   width: calc(100% - 20px);
-  min-width: 264px;
   height: 136px;
 
   @media (hover: hover) and (pointer: fine) {
@@ -60,20 +61,39 @@ const FeedUrlCardBox = styled.div`
     flex-direction: column;
     height: auto;
   }
+
+  ${({ isDetailFeedCard }) =>
+    isDetailFeedCard &&
+    `
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+  `}
 `;
 
-const ThumbnailImg = styled.img`
+const ThumbnailImg = styled.img<{ isDetailFeedCard?: boolean }>`
   border-radius: 8px;
-  width: 192px;
+  max-width: 192px;
   height: 120px;
   object-fit: cover;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 100%;
+    max-width: 100%;
   }
+
+  ${({ isDetailFeedCard }) =>
+    isDetailFeedCard &&
+    `
+    max-width: 100%;
+    height: 240px;
+    
+    @media ${MOBILE_MEDIA_QUERY} {
+      height: 172px;
+    }
+  `}
 `;
 
-const PreviewTextBox = styled.div`
+const PreviewTextBox = styled.div<{ isDetailFeedCard?: boolean }>`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -83,6 +103,8 @@ const PreviewTextBox = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 8px;
   }
+
+  ${({ isDetailFeedCard }) => isDetailFeedCard && `width: 100%;`}
 `;
 
 const EllipsisText = styled(Text)`
@@ -92,8 +114,7 @@ const EllipsisText = styled(Text)`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  /* word-break: break-word; */
+  word-break: break-word;
 `;
 
 const LinkStyle = styled.a`
