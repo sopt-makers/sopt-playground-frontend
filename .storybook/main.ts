@@ -45,10 +45,10 @@ const config: StorybookConfig = {
   }),
   staticDirs: ['../public'],
   docs: {
-    autodocs: false,
+    autodocs: true,
   },
   typescript: {
-    reactDocgen: false,
+    reactDocgen: 'react-docgen',
   },
 };
 
