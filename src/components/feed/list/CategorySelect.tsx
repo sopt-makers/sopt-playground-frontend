@@ -71,69 +71,67 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
   }, []);
 
   return (
-    <>
-      <Container>
-        <HorizontalScroller>
-          <CategoryBox>
-            <LoggingClick
-              eventKey='feedListCategoryFilter'
-              param={{
-                category: '전체',
-              }}
-            >
-              <Category categoryId={undefined} active={currentCategoryId === ''} onClick={() => onCategoryChange('')}>
-                전체
+    <Container>
+      <HorizontalScroller>
+        <CategoryBox>
+          <LoggingClick
+            eventKey='feedListCategoryFilter'
+            param={{
+              category: '전체',
+            }}
+          >
+            <Category categoryId={undefined} active={currentCategoryId === ''} onClick={() => onCategoryChange('')}>
+              전체
+            </Category>
+          </LoggingClick>
+          {categories.map((category) => (
+            <LoggingClick key={category.id} eventKey='feedListCategoryFilter' param={{ category: category.name }}>
+              <Category
+                onClick={() => onCategoryChange(category.id)}
+                categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
+                active={parentCategory?.id === category.id}
+                ref={category.name === '솝티클' ? sopticleCategoryRef : null} // "솝티클" 카테고리에만 Ref 설정
+              >
+                {category.name}
               </Category>
             </LoggingClick>
-            {categories.map((category) => (
-              <LoggingClick key={category.id} eventKey='feedListCategoryFilter' param={{ category: category.name }}>
-                <Category
-                  onClick={() => onCategoryChange(category.id)}
-                  categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
-                  active={parentCategory?.id === category.id}
-                  ref={category.name === '솝티클' ? sopticleCategoryRef : null} // "솝티클" 카테고리에만 Ref 설정
+          ))}
+        </CategoryBox>
+      </HorizontalScroller>
+      {isOpen && (
+        <Tooltip top={tooltipPosition.top} left={tooltipPosition.left}>
+          <TooltipArrow />
+          <TooltipContent>
+            SOPT 회원들이 직접 작성한 아티클,{`\n`}이제 플레이그라운드에서도 볼 수 있어요!
+          </TooltipContent>
+        </Tooltip>
+      )}
+      {parentCategory && parentCategory.tags.length > 0 && (
+        <HorizontalScroller css={{ marginBottom: '12px' }}>
+          <TagBox>
+            {parentCategory.hasAllCategory && (
+              <LoggingClick eventKey='feedListCategoryFilter' param={{ category: '전체' }}>
+                <Chip categoryId={parentCategory.id} active={parentCategory.id === currentCategoryId}>
+                  전체
+                </Chip>
+              </LoggingClick>
+            )}
+            {parentCategory.tags.map((tag) => (
+              <LoggingClick key={tag.id} eventKey='feedListCategoryFilter' param={{ category: tag.name }}>
+                <Chip
+                  key={tag.id}
+                  categoryId={tag.id}
+                  active={tag.id === currentCategoryId}
+                  onClick={() => onCategoryChange(tag.id)}
                 >
-                  {category.name}
-                </Category>
+                  {tag.name}
+                </Chip>
               </LoggingClick>
             ))}
-          </CategoryBox>
+          </TagBox>
         </HorizontalScroller>
-        {isOpen && (
-          <Tooltip top={tooltipPosition.top} left={tooltipPosition.left}>
-            <TooltipArrow />
-            <TooltipContent>
-              SOPT 회원들이 직접 작성한 아티클,{`\n`}이제 플레이그라운드에서도 볼 수 있어요!
-            </TooltipContent>
-          </Tooltip>
-        )}
-        {parentCategory && parentCategory.tags.length > 0 && (
-          <HorizontalScroller css={{ marginBottom: '12px' }}>
-            <TagBox>
-              {parentCategory.hasAllCategory && (
-                <LoggingClick eventKey='feedListCategoryFilter' param={{ category: '전체' }}>
-                  <Chip categoryId={parentCategory.id} active={parentCategory.id === currentCategoryId}>
-                    전체
-                  </Chip>
-                </LoggingClick>
-              )}
-              {parentCategory.tags.map((tag) => (
-                <LoggingClick key={tag.id} eventKey='feedListCategoryFilter' param={{ category: tag.name }}>
-                  <Chip
-                    key={tag.id}
-                    categoryId={tag.id}
-                    active={tag.id === currentCategoryId}
-                    onClick={() => onCategoryChange(tag.id)}
-                  >
-                    {tag.name}
-                  </Chip>
-                </LoggingClick>
-              ))}
-            </TagBox>
-          </HorizontalScroller>
-        )}
-      </Container>
-    </>
+      )}
+    </Container>
   );
 };
 
