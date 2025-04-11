@@ -130,9 +130,3 @@ const UploadIcon = styled.img`
   width: 24px;
   height: 24px;
 `;
-
-const Test = styled.div`
-  background-color: white;
-  width: 100px;
-  height: 100px;
-`;

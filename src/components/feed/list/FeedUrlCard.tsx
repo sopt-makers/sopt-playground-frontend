@@ -7,23 +7,18 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const defalutThumbnailImgUrl = '/icons/img/og_playground.jpeg';
 
 interface FeedUrlCardProps {
-  title?: string;
-  description?: string;
-  thumbnailUrl?: string;
-  url?: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  sopticleUrl: string;
   isDetailFeedCard?: boolean;
 }
 
-const FeedUrlCard = ({
-  title = '초기의, 고도화된 두 디자인 시스템을 겪으며 느낀점초기에 고도화된 두 디자인 시스템을 겪으며 느낀점초기에 고도화된 두 디자인 시스템을 겪으며 느낀점',
-  description = '초기에 고도화된 두 디자인 시스템을 겪으며 느낀점초기에 고도화된 두 디자인 시스템을 겪으며 느낀점초기에 고도화된 두 디자인 시스템을 겪으며 느낀점',
-  thumbnailUrl = '/icons/img/og_playground.jpeg',
-  url = 'https://www.naver.com/asdfasfasfhasjfhakjshdkf',
-  isDetailFeedCard = false,
-}: FeedUrlCardProps) => {
+const FeedUrlCard = ({ title, description, thumbnailUrl, sopticleUrl, isDetailFeedCard = false }: FeedUrlCardProps) => {
+  const thumbnail = thumbnailUrl || defalutThumbnailImgUrl;
   return (
     <FeedUrlCardBox isDetailFeedCard={isDetailFeedCard}>
-      <ThumbnailImg src={thumbnailUrl} loading='lazy' decoding='async' alt='' isDetailFeedCard={isDetailFeedCard} />
+      <ThumbnailImg src={thumbnail} loading='lazy' decoding='async' alt='' isDetailFeedCard={isDetailFeedCard} />
       <PreviewTextBox isDetailFeedCard={isDetailFeedCard}>
         <EllipsisText typography='SUIT_16_SB' lineHeight={24}>
           {title}
@@ -31,8 +26,8 @@ const FeedUrlCard = ({
         <EllipsisText typography='SUIT_14_L' lineHeight={22}>
           {description}
         </EllipsisText>
-        <LinkStyle href={url} target='_blank'>
-          {url}
+        <LinkStyle href={sopticleUrl} target='_blank'>
+          {sopticleUrl}
         </LinkStyle>
       </PreviewTextBox>
     </FeedUrlCardBox>
@@ -98,6 +93,7 @@ const PreviewTextBox = styled.div<{ isDetailFeedCard?: boolean }>`
   flex: 1;
   flex-direction: column;
   gap: 4px;
+  justify-content: space-between;
   overflow: hidden;
 
   @media ${MOBILE_MEDIA_QUERY} {

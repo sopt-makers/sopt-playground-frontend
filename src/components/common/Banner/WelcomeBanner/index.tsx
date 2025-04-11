@@ -172,7 +172,6 @@ const WelcomeBannerContainer = styled.header`
 
 const WelcomeBannerWrapper = styled.div<{ isLastGeneration: boolean }>`
   display: flex;
-  position: ${({ isLastGeneration }) => (isLastGeneration ? 'fixed' : 'relative')};
   justify-content: center;
   z-index: 2;
   border-bottom: 1px solid ${colors.gray800};

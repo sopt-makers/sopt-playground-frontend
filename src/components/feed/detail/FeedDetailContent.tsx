@@ -6,6 +6,7 @@ import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
 import { getMemberInfo } from '@/components/feed/common/utils';
+import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 
 interface FeedDetailContentProps {
@@ -20,6 +21,8 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
   if (postData == null) {
     return null;
   }
+
+  const isSopticle = postData.posts.categoryId === SOPTICLE_CATEGORY_ID;
 
   return (
     <DetailFeedCard.Main>
@@ -51,6 +54,9 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         commentLength={commentData?.length ?? 0}
         content={postData.posts.content}
         images={postData.posts.images}
+        isSopticle={isSopticle}
+        sopticleUrl={postData.posts.sopticleUrl ?? ''}
+        thumbnailUrl={postData.posts.images[0]}
         like={
           <FeedLike
             isLiked={postData.isLiked}
