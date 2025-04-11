@@ -50,6 +50,8 @@ const defaultProps: ComponentProps<typeof FeedCard> = {
   commentLength: COMMENTS.length,
   isShowInfo: true,
   memberId: 0,
+  sopticleUrl: '',
+  thumbnailUrl: '',
   like: (
     <FeedLike
       isLiked={true}

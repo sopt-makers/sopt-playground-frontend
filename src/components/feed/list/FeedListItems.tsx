@@ -12,7 +12,6 @@ import { atom, useRecoilState } from 'recoil';
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { getPost } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import Loading from '@/components/common/Loading';
 import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
@@ -23,11 +22,11 @@ import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
 import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
+import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import FeedCard from '@/components/feed/list/FeedCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
 import { textStyles } from '@/styles/typography';
-
 interface FeedListItemsProps {
   categoryId: string | undefined;
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
@@ -113,6 +112,8 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
         }}
         isScrolling={onScrollChange}
         itemContent={(idx, post) => {
+          const isSopticle = post.categoryId === SOPTICLE_CATEGORY_ID;
+
           return renderFeedDetailLink({
             feedId: `${post.id}`,
             children: (
@@ -130,6 +131,9 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 isQuestion={post.isQuestion}
                 isShowInfo={categoryId === ''}
                 memberId={post.member?.id ?? 0}
+                isSopticle={isSopticle}
+                sopticleUrl={post.sopticleUrl ?? ''}
+                thumbnailUrl={post.images[0]}
                 info={
                   categoryId ? (
                     <>
@@ -243,7 +247,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                   </LoggingClick>
                 }
               >
-                {post.images.length !== 0 && (
+                {!isSopticle && post.images.length !== 0 && (
                   <FeedCard.Image>
                     {post.images.map((image, index) => (
                       <FeedCard.ImageItem key={`${image}-${index}`} src={image} height={240} />

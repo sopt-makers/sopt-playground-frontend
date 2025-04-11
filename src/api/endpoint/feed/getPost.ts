@@ -47,6 +47,7 @@ const PostSchema = z.object({
     isReported: z.boolean(),
     createdAt: z.string(),
     updatedAt: z.string().nullable(),
+    sopticleUrl: z.string().nullable(),
   }),
   category: z.object({
     id: z.number(),

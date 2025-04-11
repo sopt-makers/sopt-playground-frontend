@@ -22,7 +22,7 @@ const baseArgs: FeedUrlCardProps = {
   title: '내가 26살에 메이커스 플레이그라운드 프론트엔드 개발자가 될 수 있었던 이유',
   description: '지우, 현정, 서영, 정교, 주민, 채현, 성희 화이팅 ~~!!',
   thumbnailUrl: '/icons/img/og_playground.jpeg',
-  url: 'https://playground.sopt.org/',
+  sopticleUrl: 'https://playground.sopt.org/',
 };
 
 export const 기본 = {

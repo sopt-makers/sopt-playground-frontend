@@ -9,6 +9,7 @@ import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
+import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -35,6 +36,9 @@ interface BaseProps {
   isShowInfo: boolean;
   onClick?: () => void;
   like: ReactNode;
+  isSopticle?: boolean;
+  sopticleUrl: string;
+  thumbnailUrl: string;
 }
 
 const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
@@ -57,6 +61,9 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       anonymousProfile,
       onClick,
       like,
+      isSopticle = false,
+      sopticleUrl,
+      thumbnailUrl,
     },
     ref,
   ) => {
@@ -119,24 +126,36 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
               </Stack.Horizontal>
             </Flex>
             <Stack gutter={8}>
-              {title && (
-                <Title typography='SUIT_17_SB' mr='28px'>
-                  {isQuestion && <QuestionBadge>질문</QuestionBadge>}
-                  {title}
-                </Title>
+              {isSopticle ? (
+                <FeedUrlCard
+                  title={title}
+                  description={content}
+                  sopticleUrl={sopticleUrl}
+                  thumbnailUrl={thumbnailUrl}
+                />
+              ) : (
+                <>
+                  {title && (
+                    <Title typography='SUIT_17_SB' mr='28px'>
+                      {isQuestion && <QuestionBadge>질문</QuestionBadge>}
+                      {title}
+                    </Title>
+                  )}
+
+                  <Text
+                    mr='28px'
+                    typography='SUIT_15_L'
+                    color={colors.gray10}
+                    lineHeight={22}
+                    css={{
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-all',
+                    }}
+                  >
+                    {renderContent(content)}
+                  </Text>
+                </>
               )}
-              <Text
-                mr='28px'
-                typography='SUIT_15_L'
-                color={colors.gray10}
-                lineHeight={22}
-                css={{
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-all',
-                }}
-              >
-                {renderContent(content)}
-              </Text>
             </Stack>
           </Stack>
           {children}
