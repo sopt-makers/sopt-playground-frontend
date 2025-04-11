@@ -60,13 +60,15 @@ export const HomePopup = () => {
     };
   }, [isPopupVisible]);
 
-  const handleCloseForToday = () => {
+  const handleCloseForToday = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     const today = getKoreanDate();
     localStorage.setItem('popupClosedDate', today);
     setPopupVisible(false);
   };
 
-  const handleClosePopup = async () => {
+  const handleClosePopup = async (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.stopPropagation();
     setPopupVisible(false);
     await Promise.resolve();
   };
