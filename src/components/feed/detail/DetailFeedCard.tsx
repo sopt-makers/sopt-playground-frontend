@@ -243,7 +243,7 @@ interface ContentProps {
   commentLength: number;
   images: string[];
   like: ReactNode;
-  isSopticle: boolean;
+  isSopticle?: boolean;
   sopticleUrl: string;
   thumbnailUrl: string;
 }
@@ -256,7 +256,7 @@ const Content = ({
   commentLength,
   images,
   like,
-  isSopticle,
+  isSopticle = false,
   sopticleUrl,
   thumbnailUrl,
 }: ContentProps) => {

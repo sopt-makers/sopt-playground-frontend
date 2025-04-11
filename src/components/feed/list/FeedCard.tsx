@@ -36,7 +36,7 @@ interface BaseProps {
   isShowInfo: boolean;
   onClick?: () => void;
   like: ReactNode;
-  isSopticle: boolean;
+  isSopticle?: boolean;
   sopticleUrl: string;
   thumbnailUrl: string;
 }
@@ -61,7 +61,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       anonymousProfile,
       onClick,
       like,
-      isSopticle,
+      isSopticle = false,
       sopticleUrl,
       thumbnailUrl,
     },
