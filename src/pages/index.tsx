@@ -9,8 +9,9 @@ import { setLayout } from '@/utils/layout';
 const Home: NextPage = () => {
   return (
     <AuthRequired>
-      <HomePopupContainer />
       {/* 홈팝업 사용시에 주석제거 */}
+      {/* <HomePopupContainer /> */}
+
       <ActiveBannerSlot />
       <FeedHomePage />
     </AuthRequired>
