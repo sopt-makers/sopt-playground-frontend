@@ -82,49 +82,27 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
 <table align="center">
     <tr align="center">
         <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/seojisoosoo">
+            <a href="https://github.com/imddoy">
               <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/586e267e-5d8c-4ace-abe8-6fed7c2e09c2" width="200" height="200" style="object-fit :contain">
               <br />
-              <b>Seojisoosoo</b>
+              <b>imddoy</b>
             </a> 
         </td>
         <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/simeunseo">
+            <a href="https://github.com/seong-hui">
               <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/51331279-c053-4f3f-a120-90b2926ad9f1" width="200" height="200" style="object-fit :contain">
               <br />
-              <b>simeunseo</b>
-            </a> 
-        </td>
-        <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/hayounSong">
-              <img src="https://github.com/user-attachments/assets/7eccf646-1764-4ff7-8ea7-059281e1dc9b" width="200" height="200" style="object-fit :contain">
-              <br />
-              <b>hayounSong</b>
-            </a> 
-        </td>
-        <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/pepperdad">
-              <img src="https://github.com/user-attachments/assets/97bc9cb2-f6d8-4159-9ffe-f7f3aa625753" width="200" height="200" style="object-fit :contain">
-              <br />
-              <b>pepperdad</b>
+              <b>seong-hui</b>
             </a> 
         </td>
     </tr>
     <tr align="center">
         <td>
-            🩵 지수 🩵<br />
+            🩷 채현 🩷<br />
             FE Developer
         </td>
         <td>
-            💚 은서 💚<br />
-            FE Developer
-        </td>
-        <td>
-            💜 하윤 💜<br />
-            FE Developer
-        </td>
-        <td>
-            🧡 도영 🧡<br />
+            🩵 성희 🩵<br />
             FE Developer
         </td>
     </tr>
