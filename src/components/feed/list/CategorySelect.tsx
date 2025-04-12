@@ -32,6 +32,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
 
   const sopticleCategoryRef = useRef<HTMLAnchorElement>(null);
 
+  const TOOLTIP_NAME = '솝티클';
   const { tooltipPosition, isOpen } = useTooltip(sopticleCategoryRef);
 
   return (
@@ -54,7 +55,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
                 onClick={() => onCategoryChange(category.id)}
                 categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
                 active={parentCategory?.id === category.id}
-                ref={category.name === '솝티클' ? sopticleCategoryRef : null} // "솝티클" 카테고리에만 Ref 설정
+                ref={category.name === TOOLTIP_NAME ? sopticleCategoryRef : null} // 툴팁이 필요한 카테고리에만 Ref 설정
               >
                 {category.name}
               </Category>
