@@ -37,7 +37,7 @@ const CompletePage: FC = () => {
     }));
   const { data: myData } = useGetMemberOfMe();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
-  const isResolutionOpen = true; // 다짐메시지 오픈 기간에만 이 값을 true로 변경합니다.
+  const isResolutionOpen = false; // 타임캡솝 오픈 기간에만 이 값을 true로 변경합니다.
 
   const {
     handleResolutionModalOpen,
