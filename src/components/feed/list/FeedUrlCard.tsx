@@ -4,7 +4,7 @@ import { fonts } from '@sopt-makers/fonts';
 
 import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-const defalutThumbnailImgUrl = '/icons/img/og_playground.jpeg';
+const defalutThumbnailImgUrl = '/icons/img/defalut_sopticle_thumbnail.png';
 
 interface FeedUrlCardProps {
   title: string;
