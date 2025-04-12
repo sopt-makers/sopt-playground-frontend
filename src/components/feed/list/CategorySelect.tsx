@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef } from 'react';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { CategoryLink, useCategoryParam } from '@/components/feed/common/queryParam';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import Tooltip from '@/components/feed/list/FeedCategoryTooltip/index';
+import { useTooltip } from '@/components/feed/list/FeedCategoryTooltip/useTooltip';
 import { textStyles } from '@/styles/typography';
-import { zIndex } from '@/styles/zIndex';
 
 interface CategorySelectProps {
   categories: {
@@ -31,44 +31,8 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
     ) ?? null;
 
   const sopticleCategoryRef = useRef<HTMLAnchorElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-
-  const updateTooltipPosition = () => {
-    if (sopticleCategoryRef.current) {
-      const rect = sopticleCategoryRef.current.getBoundingClientRect();
-      const parentRect = sopticleCategoryRef.current.offsetParent?.getBoundingClientRect() || { top: 0, left: 0 };
-
-      setTooltipPosition({
-        top: rect.bottom - parentRect.top,
-        left: rect.left - parentRect.left + 8,
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (sopticleCategoryRef.current === null) return;
-    setIsOpen(true);
-    updateTooltipPosition();
-
-    window.addEventListener('resize', updateTooltipPosition);
-
-    const handleUserInteraction = () => {
-      setIsOpen(false);
-    };
-
-    window.addEventListener('scroll', handleUserInteraction, { once: true });
-    window.addEventListener('click', handleUserInteraction, { once: true });
-    window.addEventListener('keydown', handleUserInteraction, { once: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleUserInteraction);
-      window.removeEventListener('click', handleUserInteraction);
-      window.removeEventListener('keydown', handleUserInteraction);
-      window.removeEventListener('resize', updateTooltipPosition);
-    };
-  }, []);
+  const { tooltipPosition, isOpen } = useTooltip(sopticleCategoryRef);
 
   return (
     <Container>
@@ -98,14 +62,7 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
           ))}
         </CategoryBox>
       </HorizontalScroller>
-      {isOpen && (
-        <Tooltip top={tooltipPosition.top} left={tooltipPosition.left}>
-          <TooltipArrow />
-          <TooltipContent>
-            SOPT 회원들이 직접 작성한 아티클,{`\n`}이제 플레이그라운드에서도 볼 수 있어요!
-          </TooltipContent>
-        </Tooltip>
-      )}
+      {isOpen && <Tooltip tooltipPosition={tooltipPosition} />}
       {parentCategory && parentCategory.tags.length > 0 && (
         <HorizontalScroller css={{ marginBottom: '12px' }}>
           <TagBox>
@@ -182,48 +139,5 @@ const Chip = styled(CategoryLink)<{ active: boolean }>`
   &:hover {
     transition: 0.2s;
     background-color: ${(props) => !props.active && colors.gray700};
-  }
-`;
-
-const Tooltip = styled.div<{ top: number; left: number }>`
-  position: absolute;
-  top: ${({ top }) => `${top}px`};
-  left: ${({ left }) => `${left}px`};
-  z-index: ${zIndex.헤더};
-`;
-
-const TooltipArrow = styled.div`
-  position: absolute;
-  left: 16px;
-  border-right: 5px solid transparent;
-  border-bottom: 9px solid ${colors.gray600};
-  border-left: 5px solid transparent;
-  width: 0;
-  height: 0;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    left: 20px;
-  }
-`;
-
-const TooltipContent = styled.div`
-  display: inline-flex;
-  position: absolute;
-  top: 9px;
-  flex-direction: column;
-  gap: 24px;
-  align-items: flex-start;
-  margin: 0;
-  border-radius: 12px;
-  background: ${colors.gray600};
-  padding: 12px 14px;
-  min-width: 160px;
-  ${textStyles.SUIT_13_M}
-
-  line-height: 20px;
-  white-space: pre;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 16px 18px;
   }
 `;
