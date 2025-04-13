@@ -84,7 +84,7 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
 
 ## 👨‍👩‍👧‍👦 Authors
 
-현재 Playground를 만들고 있는 makers에요.
+현재 Playground를 만들고 있는  36기 makers에요.
 
 <table align="center">
     <tr align="center">
