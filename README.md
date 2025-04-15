@@ -20,17 +20,24 @@
 
 > SOPT 구성원들을 연결하는 Playground를 만드는 팀이에요.
 > Playground에서는 커뮤니티 게시판에 글을 업로드하며, SOPT 모든 기수의 구성원들과 함께 이야기하고 소통할 수 있어요.
-> 또한, 전체 회원들의 소개를 볼 수 있는 **‘멤버프로필’**, 프로젝트를 등록할 수 있는 **‘프로젝트’**, 가볍게 소통할 수 있는 **‘끝말잇기’** 기능이 있어요. 더불어 3000여명의 SOPT 구성원이 더욱 연결될 수 있도록 **'커뮤니티'** 기능을 확장하고 있어요.
+> 또한, 전체 회원들의 소개를 볼 수 있는 **‘멤버프로필’**, 프로젝트를 등록할 수 있는 **‘프로젝트’**, 가볍게 소통할 수 있는 **‘끝말잇기’** 기능이 있어요. 더불어 3000여명의 SOPT 구성원이 더욱 연결될 수 있도록 **'커뮤니티'** 기능을 확장하고 있어요. 그리고 SOPT만의 커피챗이 이루어지는 공간, **‘커피솝’** 도 함께 운영하고 있어요.
 
 - Playground 팀은 100마디 말보다 한번의 빠른 실행이 더 많은 인사이트를 가져다 줄 수 있다고 믿고 작고 빠르게 실행하는걸 중요하게 생각해요.
 - 엠플리튜드로 정량적인 데이터를 확인하고, 설문조사를 통해 정성적인 피드백을 수집해요.
 - 플레이그라운드 팀은 앞으로도 여러 가치 있는 연결을 만들어가고자 해요.
 
-|                                                                  **커뮤니티**                                                                   |                                                                 **멤버 프로필**                                                                 |
-| :---------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img width="1429" alt="스크린샷 2024-09-08 오후 2 41 54" src="https://github.com/user-attachments/assets/2247cb3a-c7b4-4b67-a603-7f936d8b1fb1"> | <img width="1430" alt="스크린샷 2024-09-08 오후 2 44 05" src="https://github.com/user-attachments/assets/a039e7ab-2708-4bc1-96d0-9fa870906c47"> |
-|                                                                  **프로젝트**                                                                   |                                                                  **끝말잇기**                                                                   |
-| <img width="1428" alt="스크린샷 2024-09-08 오후 2 44 22" src="https://github.com/user-attachments/assets/073e8b15-cac6-438e-acf6-55fc58d6e985"> | <img width="1427" alt="스크린샷 2024-09-08 오후 2 44 38" src="https://github.com/user-attachments/assets/f23a0fc3-9586-48e6-a62c-7763390d376a"> |
+| **커뮤니티** | **멤버 프로필** |
+| :----------: | :----------: |
+| <img width="100%" alt="커뮤니티 스크린샷" src="https://github.com/user-attachments/assets/2247cb3a-c7b4-4b67-a603-7f936d8b1fb1"> | <img width="100%" alt="멤버프로필 스크린샷" src="https://github.com/user-attachments/assets/a039e7ab-2708-4bc1-96d0-9fa870906c47"> |
+
+| **프로젝트** | **커피솝** |
+| :----------: | :----------: |
+| <img width="100%" alt="프로젝트 스크린샷" src="https://github.com/user-attachments/assets/073e8b15-cac6-438e-acf6-55fc58d6e985"> | <img width="100%" alt="커피솝 스크린샷" src="https://github.com/user-attachments/assets/478823c7-e58f-4ce6-ad7c-82b7890f8fe2"> |
+
+| **끝말잇기** |
+| :----------: | 
+| <img width="50%" width="700" alt="끝말잇기 스크린샷" src="https://github.com/user-attachments/assets/f23a0fc3-9586-48e6-a62c-7763390d376a"> |
+
 
 ## 🤓 시작하기
 
@@ -77,54 +84,32 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
 
 ## 👨‍👩‍👧‍👦 Authors
 
-현재 Playground를 만들고 있는 makers에요.
+현재 Playground를 만들고 있는  36기 makers에요.
 
 <table align="center">
     <tr align="center">
         <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/seojisoosoo">
-              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/586e267e-5d8c-4ace-abe8-6fed7c2e09c2" width="200" height="200" style="object-fit :contain">
+            <a href="https://github.com/imddoy">
+              <img src="https://github.com/user-attachments/assets/9dcbd682-4332-4e90-a592-7d9918bd3b70" width="200" height="200" style="object-fit :contain">
               <br />
-              <b>Seojisoosoo</b>
+              <b>imddoy</b>
             </a> 
         </td>
         <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/simeunseo">
-              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/51331279-c053-4f3f-a120-90b2926ad9f1" width="200" height="200" style="object-fit :contain">
+            <a href="https://github.com/seong-hui">
+              <img src="https://github.com/user-attachments/assets/18d8cc97-5c12-45dc-8350-7acb1971ab50" width="200" height="200" style="object-fit :contain">
               <br />
-              <b>simeunseo</b>
-            </a> 
-        </td>
-        <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/hayounSong">
-              <img src="https://github.com/user-attachments/assets/7eccf646-1764-4ff7-8ea7-059281e1dc9b" width="200" height="200" style="object-fit :contain">
-              <br />
-              <b>hayounSong</b>
-            </a> 
-        </td>
-        <td style="min-width: 150px;" background-color="white">
-            <a href="https://github.com/pepperdad">
-              <img src="https://github.com/user-attachments/assets/97bc9cb2-f6d8-4159-9ffe-f7f3aa625753" width="200" height="200" style="object-fit :contain">
-              <br />
-              <b>pepperdad</b>
+              <b>seong-hui</b>
             </a> 
         </td>
     </tr>
     <tr align="center">
         <td>
-            🩵 지수 🩵<br />
+            🩷 채현 🩷<br />
             FE Developer
         </td>
         <td>
-            💚 은서 💚<br />
-            FE Developer
-        </td>
-        <td>
-            💜 하윤 💜<br />
-            FE Developer
-        </td>
-        <td>
-            🧡 도영 🧡<br />
+            🩵 성희 🩵<br />
             FE Developer
         </td>
     </tr>
@@ -193,6 +178,57 @@ Playground는 Next.js 기반으로 만들어진 프로젝트에요.
         </td>
     </tr>
 
+</table>
+
+<table align="center">
+    <tr align="center">
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/seojisoosoo">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/586e267e-5d8c-4ace-abe8-6fed7c2e09c2" width="200" height="200" style="object-fit :contain">
+              <br />
+              <b>Seojisoosoo</b>
+            </a> 
+        </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/simeunseo">
+              <img src="https://github.com/sopt-makers/sopt-playground-frontend/assets/76681519/51331279-c053-4f3f-a120-90b2926ad9f1" width="200" height="200" style="object-fit :contain">
+              <br />
+              <b>simeunseo</b>
+            </a> 
+        </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/hayounSong">
+              <img src="https://github.com/user-attachments/assets/7eccf646-1764-4ff7-8ea7-059281e1dc9b" width="200" height="200" style="object-fit :contain">
+              <br />
+              <b>hayounSong</b>
+            </a> 
+        </td>
+        <td style="min-width: 150px;" background-color="white">
+            <a href="https://github.com/pepperdad">
+              <img src="https://github.com/user-attachments/assets/97bc9cb2-f6d8-4159-9ffe-f7f3aa625753" width="200" height="200" style="object-fit :contain">
+              <br />
+              <b>pepperdad</b>
+            </a> 
+        </td>
+    </tr>
+    <tr align="center">
+        <td>
+            🩵 지수 🩵<br />
+            3, 4, 35기 <br />FE Developer
+        </td>
+        <td>
+            💚 은서 💚<br />
+            4, 35기  <br />FE Developer
+        </td>
+        <td>
+            💜 하윤 💜<br />
+            35기 <br />FE Developer
+        </td>
+        <td>
+            🧡 도영 🧡<br />
+            35기 <br />FE Developer
+        </td>
+    </tr>
 </table>
 
 ## License
