@@ -26,7 +26,7 @@ const FeedUrlCard = ({ title, description, thumbnailUrl, sopticleUrl, isDetailFe
         <EllipsisText typography='SUIT_14_L' lineHeight={22}>
           {description}
         </EllipsisText>
-        <LinkStyle href={sopticleUrl} target='_blank'>
+        <LinkStyle href={sopticleUrl} target='_blank' isDetailFeedCard={isDetailFeedCard}>
           {sopticleUrl}
         </LinkStyle>
       </PreviewTextBox>
@@ -113,15 +113,21 @@ const EllipsisText = styled(Text)`
   word-break: break-word;
 `;
 
-const LinkStyle = styled.a`
+const LinkStyle = styled.a<{ isDetailFeedCard?: boolean }>`
   overflow: hidden;
-  text-decoration: underline;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${colors.success};
+  color: ${colors.gray300};
   ${fonts.BODY_14_L};
 
-  &:hover {
+  ${({ isDetailFeedCard }) =>
+    isDetailFeedCard &&
+    `
+    color: ${colors.success};
+    text-decoration: underline;
+
+     &:hover {
     text-decoration: underline;
   }
+  `}
 `;
