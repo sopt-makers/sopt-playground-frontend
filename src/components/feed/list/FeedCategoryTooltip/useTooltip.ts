@@ -1,6 +1,15 @@
 import { RefObject, useCallback, useEffect, useState } from 'react';
 
-export const useTooltip = (positionRef: RefObject<HTMLAnchorElement>) => {
+const getTodayDate = () => {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(
+    2,
+    '0',
+  )}`;
+};
+
+export const useTooltip = (positionRef: RefObject<HTMLAnchorElement>, storageKey: string) => {
+  const today = getTodayDate();
   const [isOpen, setIsOpen] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
 
@@ -17,27 +26,24 @@ export const useTooltip = (positionRef: RefObject<HTMLAnchorElement>) => {
   }, [positionRef]);
 
   useEffect(() => {
-    if (positionRef.current === null) return;
-    setIsOpen(true);
+    const lastClosedDate = localStorage.getItem(storageKey);
+
+    if (lastClosedDate === today || positionRef.current === null) return;
+
     updateTooltipPosition();
+    setIsOpen(true);
 
     window.addEventListener('resize', updateTooltipPosition);
 
-    const handleUserInteraction = () => {
-      setIsOpen(false);
-    };
-
-    window.addEventListener('scroll', handleUserInteraction, { once: true });
-    window.addEventListener('click', handleUserInteraction, { once: true });
-    window.addEventListener('keydown', handleUserInteraction, { once: true });
-
     return () => {
-      window.removeEventListener('scroll', handleUserInteraction);
-      window.removeEventListener('click', handleUserInteraction);
-      window.removeEventListener('keydown', handleUserInteraction);
       window.removeEventListener('resize', updateTooltipPosition);
     };
-  }, [positionRef, updateTooltipPosition]);
+  }, [positionRef, updateTooltipPosition, storageKey, today]);
 
-  return { tooltipPosition, isOpen };
+  const closeTooltipForToday = () => {
+    localStorage.setItem(storageKey, today);
+    setIsOpen(false);
+  };
+
+  return { tooltipPosition, isOpen, closeTooltipForToday };
 };

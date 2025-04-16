@@ -36,14 +36,16 @@ const Content = ({ children }: { children: ReactNode }) => {
   return <TooltipContent>{children}</TooltipContent>;
 };
 
-const Close = () => {
+const Close = ({ onClick }: { onClick: () => void }) => {
   return (
-    <IconXClose
-      style={{
-        width: 18,
-        height: 18,
-      }}
-    />
+    <button onClick={onClick} aria-label='툴팁 오늘 하루동안 보지 않기'>
+      <IconXClose
+        style={{
+          width: 18,
+          height: 18,
+        }}
+      />
+    </button>
   );
 };
 
