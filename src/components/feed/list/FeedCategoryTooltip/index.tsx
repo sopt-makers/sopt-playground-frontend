@@ -1,19 +1,56 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import React from 'react';
+import { IconXClose } from '@sopt-makers/icons';
+import React, { createContext, ReactNode, useContext } from 'react';
 
+import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { zIndex } from '@/styles/zIndex';
 
-const Tooltip = ({ tooltipPosition }: { tooltipPosition: { top: number; left: number } }) => {
+const TooltipContext = createContext<{ top: number; left: number } | null>(null);
+interface TooltipProps {
+  tooltipPosition: { top: number; left: number };
+  children: ReactNode;
+}
+
+const Tooltip = ({ tooltipPosition, children }: TooltipProps) => {
   return (
-    <TooltipWrapper top={tooltipPosition.top} left={tooltipPosition.left}>
-      <TooltipArrow />
-      <TooltipContent>SOPT 회원들이 직접 작성한 아티클,{`\n`}이제 플레이그라운드에서도 볼 수 있어요!</TooltipContent>
-    </TooltipWrapper>
+    <TooltipContext.Provider value={tooltipPosition}>
+      <TooltipWrapper top={tooltipPosition.top} left={tooltipPosition.left}>
+        <TooltipArrow />
+        {children}
+      </TooltipWrapper>
+    </TooltipContext.Provider>
   );
 };
+
+const Header = ({ children }: { children: React.ReactNode }) => {
+  return <TooltipHeader>{children}</TooltipHeader>;
+};
+const Title = ({ children }: { children: ReactNode }) => {
+  return <Text typography='SUIT_14_SB'>{children}</Text>;
+};
+
+const Content = ({ children }: { children: ReactNode }) => {
+  return <TooltipContent>{children}</TooltipContent>;
+};
+
+const Close = () => {
+  return (
+    <IconXClose
+      style={{
+        width: 18,
+        height: 18,
+      }}
+    />
+  );
+};
+
+Tooltip.Header = Header;
+Tooltip.Title = Title;
+Tooltip.Content = Content;
+Tooltip.Close = Close;
 
 export default Tooltip;
 
@@ -38,18 +75,25 @@ const TooltipArrow = styled.div`
   }
 `;
 
+const TooltipHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 const TooltipContent = styled.div`
   display: inline-flex;
   position: absolute;
   top: 9px;
   flex-direction: column;
-  gap: 24px;
+  gap: 8px;
   align-items: flex-start;
   margin: 0;
   border-radius: 12px;
   background: ${colors.gray600};
   padding: 12px 14px;
-  min-width: 160px;
+  width: 272px;
   ${textStyles.SUIT_13_M}
 
   line-height: 20px;

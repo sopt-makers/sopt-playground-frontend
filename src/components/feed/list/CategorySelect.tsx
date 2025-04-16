@@ -63,7 +63,17 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
           ))}
         </CategoryBox>
       </HorizontalScroller>
-      {isOpen && <Tooltip tooltipPosition={tooltipPosition} />}
+      {isOpen && (
+        <Tooltip tooltipPosition={tooltipPosition}>
+          <Tooltip.Content>
+            <Tooltip.Header>
+              <Tooltip.Title>NEW!</Tooltip.Title>
+              <Tooltip.Close />
+            </Tooltip.Header>
+            SOPT 회원들이 직접 작성한 아티클,{`\n`}이제 플레이그라운드에서도 볼 수 있어요!
+          </Tooltip.Content>
+        </Tooltip>
+      )}
       {parentCategory && parentCategory.tags.length > 0 && (
         <HorizontalScroller css={{ marginBottom: '12px' }}>
           <TagBox>
