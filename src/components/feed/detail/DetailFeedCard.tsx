@@ -25,6 +25,7 @@ import {
 } from '@/components/feed/common/Icon';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
+import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -242,23 +243,52 @@ interface ContentProps {
   commentLength: number;
   images: string[];
   like: ReactNode;
+  isSopticle?: boolean;
+  sopticleUrl: string;
+  thumbnailUrl: string;
 }
 
-const Content = ({ isQuestion = false, title, content, hits, commentLength, images, like }: ContentProps) => {
+const Content = ({
+  isQuestion = false,
+  title,
+  content,
+  hits,
+  commentLength,
+  images,
+  like,
+  isSopticle = false,
+  sopticleUrl,
+  thumbnailUrl,
+}: ContentProps) => {
   const [openSlider, setOpenSlider] = useState(false);
 
   return (
     <>
       <Stack gutter={12}>
-        {title && (
-          <Text typography='SUIT_20_SB' lineHeight={26}>
-            {isQuestion && <QuestionBadge>질문</QuestionBadge>}
-            {title}
-          </Text>
+        {isSopticle ? (
+          <a href={sopticleUrl} target='_blank'>
+            <FeedUrlCard
+              title={title}
+              description={content}
+              sopticleUrl={sopticleUrl}
+              thumbnailUrl={thumbnailUrl}
+              isDetailFeedCard
+            />
+          </a>
+        ) : (
+          <>
+            {title && (
+              <Text typography='SUIT_20_SB' lineHeight={26}>
+                {isQuestion && <QuestionBadge>질문</QuestionBadge>}
+                {title}
+              </Text>
+            )}
+
+            <StyledContent>{parseTextToLink(content)}</StyledContent>
+          </>
         )}
-        <StyledContent>{parseTextToLink(content)}</StyledContent>
       </Stack>
-      {images.length !== 0 ? (
+      {!isSopticle && images.length !== 0 ? (
         <HorizontalScroller
           css={css`
             margin-right: -24px;
