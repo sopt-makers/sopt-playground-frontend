@@ -22,13 +22,11 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
     queryFn: getCategory.request,
   });
 
-  const filteredCategories = categories?.filter((category) => category.id !== SOPTICLE_CATEGORY_ID);
-
   return (
     <Select>
-      {filteredCategories &&
-        filteredCategories.length > 0 &&
-        filteredCategories.map((category: BasicCategory) => {
+      {categories &&
+        categories.length > 0 &&
+        categories.map((category: BasicCategory) => {
           return (
             <Option
               key={category.id}
@@ -47,6 +45,7 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
 const OptionTitle = styled.h2`
   ${textStyles.SUIT_16_M};
 
+  line-height: 22px;
   color: ${colors.white};
 `;
 
@@ -54,6 +53,7 @@ const OptionContents = styled.p`
   text-align: left;
   ${textStyles.SUIT_12_R};
 
+  line-height: 20px;
   color: ${colors.gray300};
 `;
 
@@ -61,6 +61,7 @@ const Option = styled.button<{ isSelected: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 2px;
+  align-items: flex-start;
   border-radius: 6px;
   background-color: ${({ isSelected }) => isSelected && colors.gray700};
   cursor: pointer;
