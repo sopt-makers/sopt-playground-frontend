@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Callout } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Responsive from '@/components/common/Responsive';
@@ -16,6 +16,7 @@ import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
 import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
 import { useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
+import useLinkValidator from '@/components/feed/upload/hooks/useLinkValidator';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 import ImagePreview from '@/components/feed/upload/ImagePreview';
 import ImageUploadButton from '@/components/feed/upload/ImageUploadButton';
@@ -82,14 +83,12 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
   const { logClickEvent } = useEventLogger();
 
-  const [urlError, setUrlError] = useState(false);
+  const { islinkError, validateLink, resetLinkError } = useLinkValidator();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // isSopticle일 때만 링크 유효성 검사
-    if (isSopticle && !/^https?:\/\//.test(feedData.content)) {
-      setUrlError(true);
+    if (isSopticle && !validateLink(feedData.content)) {
       return;
     }
 
@@ -188,10 +187,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   <LinkInput
                     onChange={(e) => {
                       handleSaveContent(e);
-                      setUrlError(false);
+                      resetLinkError();
                     }}
                     value={feedData.content}
-                    isError={urlError}
+                    isError={islinkError}
                   />
                   <Callout type='information' hasIcon>
                     내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
@@ -314,10 +313,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     <LinkInput
                       onChange={(e) => {
                         handleSaveContent(e);
-                        setUrlError(false);
+                        resetLinkError();
                       }}
                       value={feedData.content}
-                      isError={urlError}
+                      isError={islinkError}
                     />
                     <Callout type='information' hasIcon>
                       내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
