@@ -1,14 +1,16 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Callout } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useRef } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import useCategory from '@/components/feed/common/hooks/useCategory';
+import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
@@ -18,6 +20,7 @@ import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData'
 import ImagePreview from '@/components/feed/upload/ImagePreview';
 import ImageUploadButton from '@/components/feed/upload/ImageUploadButton';
 import ContentsInput from '@/components/feed/upload/Input/ContentsInput';
+import LinkInput from '@/components/feed/upload/Input/LinkInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
@@ -79,8 +82,16 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
   const { logClickEvent } = useEventLogger();
 
+  const [urlError, setUrlError] = useState(false);
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // isSopticle일 때만 링크 유효성 검사
+    if (isSopticle && !/^https?:\/\//.test(feedData.content)) {
+      setUrlError(true);
+      return;
+    }
 
     onSubmit({
       data: {
@@ -102,6 +113,8 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { findParentCategory } = useCategory();
 
   const parentCategory = findParentCategory(feedData.categoryId);
+
+  const isSopticle = parentCategory?.id === SOPTICLE_CATEGORY_ID;
 
   const quitUploading = () => {
     logClickEvent('quitUploadCommunity', {
@@ -170,14 +183,31 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           body={
             <Body>
               <Aside />
-              <InputWrapper>
-                <TitleInput
-                  onChange={handleSaveTitle}
-                  onKeyDown={handleDesktopKeyPressToContents}
-                  value={feedData.title}
-                />
-                <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
-              </InputWrapper>
+              {isSopticle ? (
+                <InputWrapper>
+                  <LinkInput
+                    onChange={(e) => {
+                      handleSaveContent(e);
+                      setUrlError(false);
+                    }}
+                    value={feedData.content}
+                    isError={urlError}
+                  />
+                  <Callout type='information' hasIcon>
+                    내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
+                  </Callout>
+                </InputWrapper>
+              ) : (
+                <InputWrapper>
+                  <TitleInput
+                    onChange={handleSaveTitle}
+                    onKeyDown={handleDesktopKeyPressToContents}
+                    value={feedData.title}
+                  />
+                  <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
+                </InputWrapper>
+              )}
+
               <BlindWriterWarningWrapper>{feedData.isBlindWriter && <BlindWriterWarning />}</BlindWriterWarningWrapper>
             </Body>
           }
@@ -185,14 +215,16 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
             <Footer>
               <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagAndCheckboxWrapper>
-                <TagsWrapper>
-                  <ImageUploadButton
-                    imageLength={feedData.images.length}
-                    onClick={handleDesktopClickImageInput}
-                    imageInputRef={desktopRef}
-                  />
-                  <CodeUploadButton />
-                </TagsWrapper>
+                {!isSopticle && (
+                  <TagsWrapper>
+                    <ImageUploadButton
+                      imageLength={feedData.images.length}
+                      onClick={handleDesktopClickImageInput}
+                      imageInputRef={desktopRef}
+                    />
+                    <CodeUploadButton />
+                  </TagsWrapper>
+                )}
                 <CheckBoxesWrapper>
                   {parentCategory?.hasQuestion && (
                     <CheckboxFormItem label='질문글'>
@@ -277,23 +309,42 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </CheckboxFormItem>
                   )}
                 </CheckBoxesWrapper>
-                <InputWrapper>
-                  <TitleInput
-                    onChange={handleSaveTitle}
-                    onKeyDown={handleMobileKeyPressToContents}
-                    value={feedData.title}
-                  />
-                  <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
-                </InputWrapper>
-                <ImagePreview images={feedData.images} onRemove={removeImage} />
-                <TagsWrapper>
-                  <ImageUploadButton
-                    imageLength={feedData.images.length}
-                    onClick={handleMobileClickImageInput}
-                    imageInputRef={mobileRef}
-                  />
-                  <CodeUploadButton />
-                </TagsWrapper>
+                {isSopticle ? (
+                  <InputWrapper>
+                    <LinkInput
+                      onChange={(e) => {
+                        handleSaveContent(e);
+                        setUrlError(false);
+                      }}
+                      value={feedData.content}
+                      isError={urlError}
+                    />
+                    <Callout type='information' hasIcon>
+                      내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
+                    </Callout>
+                  </InputWrapper>
+                ) : (
+                  <>
+                    <InputWrapper>
+                      <TitleInput
+                        onChange={handleSaveTitle}
+                        onKeyDown={handleMobileKeyPressToContents}
+                        value={feedData.title}
+                      />
+                      <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
+                    </InputWrapper>
+
+                    <ImagePreview images={feedData.images} onRemove={removeImage} />
+                    <TagsWrapper>
+                      <ImageUploadButton
+                        imageLength={feedData.images.length}
+                        onClick={handleMobileClickImageInput}
+                        imageInputRef={mobileRef}
+                      />
+                      <CodeUploadButton />
+                    </TagsWrapper>
+                  </>
+                )}
               </Body>
             </BodyWrapper>
           }
@@ -397,7 +448,7 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
           ${colors.gray700}
         `
       : css`
-          ${colors.blue400}
+          ${colors.white}
         `};
   padding: 8px 12px;
   color: ${({ disabled }) =>
@@ -406,7 +457,7 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
           ${colors.gray300}
         `
       : css`
-          ${colors.gray50}
+          ${colors.gray800}
         `};
 
   ${textStyles.SUIT_16_M};
