@@ -1,15 +1,20 @@
 import styled from '@emotion/styled';
 import { TextField } from '@sopt-makers/ui';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 
 interface UrlInputProps {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   value: string | null;
   isError: boolean;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const UrlInput = ({ onChange, value, isError, onKeyDown }: UrlInputProps) => {
+const LinkInput = ({ onChange, value, isError }: UrlInputProps) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
+
   return (
     <StyledTextField
       errorMessage='올바른 링크를 입력해 주세요'
@@ -19,7 +24,7 @@ const UrlInput = ({ onChange, value, isError, onKeyDown }: UrlInputProps) => {
       onChange={onChange}
       value={value ?? ''}
       isError={isError}
-      onKeyDown={onKeyDown}
+      onKeyDown={handleKeyDown}
     />
   );
 };
@@ -29,4 +34,4 @@ const StyledTextField = styled(TextField)<{ isError: boolean }>`
   width: 100%;
 `;
 
-export default UrlInput;
+export default LinkInput;
