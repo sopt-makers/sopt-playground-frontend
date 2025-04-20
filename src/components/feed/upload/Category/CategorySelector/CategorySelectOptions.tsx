@@ -3,7 +3,6 @@ import { colors } from '@sopt-makers/colors';
 import { useQuery } from '@tanstack/react-query';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
-import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { FeedDataType } from '@/components/feed/upload/types';
 import { textStyles } from '@/styles/typography';
@@ -22,11 +21,13 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
     queryFn: getCategory.request,
   });
 
+  const sortedCategories = categories ? [...categories.slice(1), categories[0]] : [];
+
   return (
     <Select>
-      {categories &&
-        categories.length > 0 &&
-        categories.map((category: BasicCategory) => {
+      {sortedCategories &&
+        sortedCategories.length > 0 &&
+        sortedCategories.map((category: BasicCategory) => {
           return (
             <Option
               key={category.id}
