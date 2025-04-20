@@ -29,6 +29,8 @@ const BodyWrapper = styled.section`
 
 const FooterWrapper = styled.footer`
   display: flex;
+  position: fixed;
+  bottom: 0;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 10px;
