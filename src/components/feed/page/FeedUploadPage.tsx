@@ -83,7 +83,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
   const { logClickEvent } = useEventLogger();
 
-  const { islinkError, validateLink, resetLinkError } = useLinkValidator();
+  const { isLinkError, validateLink, resetLinkError } = useLinkValidator();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -190,7 +190,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       resetLinkError();
                     }}
                     value={feedData.content}
-                    isError={islinkError}
+                    isError={isLinkError}
                   />
                   <Callout type='information' hasIcon>
                     내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
@@ -316,7 +316,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                         resetLinkError();
                       }}
                       value={feedData.content}
-                      isError={islinkError}
+                      isError={isLinkError}
                     />
                     <Callout type='information' hasIcon>
                       내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!

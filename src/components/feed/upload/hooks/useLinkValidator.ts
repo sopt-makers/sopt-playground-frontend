@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function useLinkValidator() {
-  const [islinkError, setIsLinkError] = useState(false);
+  const [isLinkError, setIsLinkError] = useState(false);
 
   const isValidLink = (link: string | null) => {
     return /^https?:\/\//.test(link ?? '');
@@ -19,7 +19,7 @@ export default function useLinkValidator() {
   };
 
   return {
-    islinkError,
+    isLinkError,
     validateLink,
     resetLinkError,
   };
