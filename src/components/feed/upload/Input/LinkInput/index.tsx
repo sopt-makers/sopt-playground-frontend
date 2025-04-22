@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import { TextField } from '@sopt-makers/ui';
 import { ChangeEvent, KeyboardEvent } from 'react';
 
-interface UrlInputProps {
+interface LinkInputProps {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
-  value: string | null;
+  value: string;
   isError: boolean;
 }
 
-const LinkInput = ({ onChange, value, isError }: UrlInputProps) => {
+const LinkInput = ({ onChange, value, isError }: LinkInputProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
