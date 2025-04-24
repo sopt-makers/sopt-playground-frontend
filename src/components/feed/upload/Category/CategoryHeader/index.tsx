@@ -55,7 +55,7 @@ const CategoryContainer = styled.div`
   align-items: center;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 12px 16px;
+    padding: 19px 16px;
   }
 `;
 
@@ -118,7 +118,7 @@ const CategorySelectorStarter = styled.header`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 14px 16px;
+    padding: 19px 16px;
     width: 100%;
 
     &:hover {

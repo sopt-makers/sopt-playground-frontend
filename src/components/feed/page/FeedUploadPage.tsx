@@ -275,10 +275,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   올리기
                 </Button>
               </TopHeader>
-            </>
-          }
-          body={
-            <BodyWrapper>
               <Category
                 feedData={feedData}
                 onSaveCategory={handleSaveCategory}
@@ -286,28 +282,36 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                 closeUsingRules={closeUsingRules}
                 isEdit={isEdit}
               />
+            </>
+          }
+          body={
+            <>
               <Body>
                 {feedData.isBlindWriter && <BlindWriterWarning />}
-                <CheckBoxesWrapper>
-                  {parentCategory?.hasQuestion && (
-                    <CheckboxFormItem label='질문글'>
-                      <Checkbox
-                        checked={feedData.isQuestion}
-                        onChange={(e) => handleSaveIsQuestion(e.target.checked)}
-                        size='medium'
-                      />
-                    </CheckboxFormItem>
-                  )}
-                  {parentCategory?.hasBlind && (
-                    <CheckboxFormItem label='익명'>
-                      <Checkbox
-                        checked={feedData.isBlindWriter}
-                        onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
-                        size='medium'
-                      />
-                    </CheckboxFormItem>
-                  )}
-                </CheckBoxesWrapper>
+
+                {(parentCategory?.hasQuestion || parentCategory?.hasBlind) && (
+                  <CheckBoxesWrapper>
+                    {parentCategory?.hasQuestion && (
+                      <CheckboxFormItem label='질문글'>
+                        <Checkbox
+                          checked={feedData.isQuestion}
+                          onChange={(e) => handleSaveIsQuestion(e.target.checked)}
+                          size='medium'
+                        />
+                      </CheckboxFormItem>
+                    )}
+                    {parentCategory?.hasBlind && (
+                      <CheckboxFormItem label='익명'>
+                        <Checkbox
+                          checked={feedData.isBlindWriter}
+                          onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                          size='medium'
+                        />
+                      </CheckboxFormItem>
+                    )}
+                  </CheckBoxesWrapper>
+                )}
+
                 {isSopticle ? (
                   <InputWrapper>
                     <LinkInput
@@ -318,9 +322,11 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       value={feedData.content}
                       isError={isLinkError}
                     />
-                    <Callout type='information' hasIcon>
-                      내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
-                    </Callout>
+                    <CalloutWrapper>
+                      <Callout type='information' hasIcon>
+                        내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
+                      </Callout>
+                    </CalloutWrapper>
                   </InputWrapper>
                 ) : (
                   <>
@@ -345,7 +351,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   </>
                 )}
               </Body>
-            </BodyWrapper>
+            </>
           }
           footer={
             <Footer>
@@ -357,12 +363,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     </form>
   );
 }
-
-const BodyWrapper = styled.section`
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 44px;
-  }
-`;
 
 const Body = styled.div`
   display: flex;
@@ -413,7 +413,6 @@ const ButtonContainer = styled.div`
 
 const TopHeader = styled.header`
   display: flex;
-  position: fixed;
   justify-content: space-between;
   z-index: 2;
   background-color: ${colors.gray950};
@@ -476,7 +475,7 @@ const CheckBoxesWrapper = styled.div`
   gap: 16px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 24px 0;
+    margin-bottom: 24px;
   }
 `;
 
@@ -497,4 +496,8 @@ export const LoadingWrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100vh;
+`;
+
+const CalloutWrapper = styled.div`
+  margin-bottom: 12px;
 `;

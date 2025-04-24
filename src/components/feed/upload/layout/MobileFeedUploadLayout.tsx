@@ -23,14 +23,12 @@ const HeaderWrapper = styled.header`
 `;
 
 const BodyWrapper = styled.section`
-  margin-top: 10px;
+  padding-top: 24px;
   width: 100%;
 `;
 
 const FooterWrapper = styled.footer`
   display: flex;
-  position: fixed;
-  bottom: 0;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 10px;

@@ -30,7 +30,7 @@ const WarningBox = styled.article`
   color: ${colors.gray30};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 16px;
+    margin-bottom: 24px;
   }
 `;
 
