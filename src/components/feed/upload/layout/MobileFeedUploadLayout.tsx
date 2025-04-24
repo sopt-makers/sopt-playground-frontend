@@ -23,7 +23,7 @@ const HeaderWrapper = styled.header`
 `;
 
 const BodyWrapper = styled.section`
-  margin-top: 10px;
+  padding-top: 24px;
   width: 100%;
 `;
 
