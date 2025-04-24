@@ -71,6 +71,7 @@ const CategoryTitle = styled.button`
   border-radius: 8px;
   cursor: pointer;
   padding: 6px;
+  color: ${colors.gray10};
 
   &:hover {
     background-color: ${colors.gray800};
