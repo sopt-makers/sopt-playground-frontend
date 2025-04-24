@@ -34,8 +34,8 @@ const Button = styled.button`
   border-radius: 21px;
   background-color: ${colors.gray800};
   padding: 6px 12px;
-
-  ${textStyles.SUIT_13_M}
+  color: ${colors.gray10};
+  ${textStyles.SUIT_13_M};
 `;
 
 const imageSvg = (

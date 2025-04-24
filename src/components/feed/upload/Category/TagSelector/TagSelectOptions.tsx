@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 
 import Responsive from '@/components/common/Responsive';
 import SquareLink from '@/components/common/SquareLink';
@@ -98,6 +99,7 @@ const Option = styled.button`
   cursor: pointer;
   padding: 12px;
   width: 100%;
+  color: ${colors.gray10};
 `;
 
 const SubmitButton = styled.button`
