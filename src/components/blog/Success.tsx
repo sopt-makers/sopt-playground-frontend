@@ -26,7 +26,7 @@ const UploadSuccess: FC<UploadSuccessProps> = ({}) => {
           업로드한 활동후기 보러가기
         </Button>
         {/* TODO: 헤더 바꿀때 url이랑 함께 바꾸기 */}
-        <Button size='lg' theme='black' onClick={() => router.push(playgroundLink.sopticle())}>
+        <Button size='lg' theme='black' onClick={() => router.push(playgroundLink.blog())}>
           활동후기 더 올리기
         </Button>
       </ButtonGroup>

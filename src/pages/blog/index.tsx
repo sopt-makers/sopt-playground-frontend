@@ -62,7 +62,7 @@ const StyledBlogPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 20px 0;
+  padding: 60px 20px 40px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding-top: 36px;

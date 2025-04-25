@@ -82,7 +82,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
         </Callout>
         <Form onSubmit={handleSubmit}>
           <section>
-            <StyledInput
+            <TextField
               labelText='후기글 링크'
               descriptionText='한번 업로드한 링크는 삭제하기 어려워요. 신중하게 업로드해주세요.'
               required
@@ -297,7 +297,7 @@ const TitleBox = styled.div`
   margin-bottom: 40px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
 `;
 
@@ -333,14 +333,6 @@ const Label = styled.label`
   color: ${colors.white};
 
   ${textStyles.SUIT_14_SB};
-`;
-
-const StyledInput = styled(TextField)`
-  margin: 8px 0;
-
-  & input {
-    border-radius: 10px;
-  }
 `;
 
 const SelectWrapper = styled.div`
