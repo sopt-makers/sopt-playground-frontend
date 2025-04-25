@@ -2,13 +2,11 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Button, Callout, Chip, SelectV2, TextField } from '@sopt-makers/ui';
 import { Spacing } from '@toss/emotion-utils';
-import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
 
+import { useGetMemberProperty } from '@/api/endpoint/members/getMemberProperty';
 import BottomSheetSelect from '@/components/blog/BottomSheetSelect';
 import { ACTIVITY_OPTIONS, BLOG_OPTIONS, RECRUIT_OPTIONS } from '@/components/blog/constants';
-import Input from '@/components/common/Input';
-import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -23,8 +21,12 @@ interface UploadBlogProps {
 const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
   const [url, setUrl] = useState('');
   const [selectedBlogOption, setSelectedBlogOption] = useState<'activity' | 'recruit' | ''>('');
-  const [selectedRecruitOption, setSelectedRecruitOption] = useState<string>('');
+  const [selectedRecruitOption, setSelectedRecruitOption] = useState('');
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
+  const [selectedGeneration, setSelectedGeneration] = useState<number>();
+  const [selectedPart, setSelectedPart] = useState('');
+
+  const { data: property } = useGetMemberProperty();
 
   const toggleActivity = (value: string) => {
     setSelectedActivities((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
@@ -63,6 +65,78 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
               isError={state === 'error'}
               errorMessage={errorMessage}
             />
+          </section>
+          <section>
+            <Label>
+              활동 기수 및 파트 선택
+              <Text typography='SUIT_14_SB' color={colors.secondary}>
+                *
+              </Text>
+            </Label>
+            <Text typography='SUIT_12_SB' color={colors.gray300}>
+              어떤 활동에 대한 후기인지 모두 선택해주세요.
+            </Text>
+            <SelectWrapper>
+              <Responsive only='desktop'>
+                <SelectV2.Root
+                  type='text'
+                  onChange={(value) => {
+                    setSelectedGeneration(Number(value));
+                  }}
+                >
+                  <SelectV2.Trigger>
+                    <StyledSelectTrigger placeholder='기수' />
+                  </SelectV2.Trigger>
+                  <SelectV2.Menu>
+                    {property?.generation.map((option) => (
+                      <SelectV2.MenuItem key={option} option={{ value: option, label: `${option}기` }} />
+                    ))}
+                  </SelectV2.Menu>
+                </SelectV2.Root>
+              </Responsive>
+              <Responsive only='mobile'>
+                <BottomSheetSelect
+                  placeholder='기수'
+                  options={
+                    property?.generation.map((option) => ({
+                      value: `${option}`,
+                      label: `${option}기`,
+                    })) as { value: string; label: string }[]
+                  }
+                  value={selectedGeneration?.toString() || ''}
+                  onSelect={(option) => {
+                    setSelectedGeneration(Number(option.value));
+                  }}
+                />
+              </Responsive>
+              <Responsive only='desktop'>
+                <SelectV2.Root<string> type='text' onChange={(value) => setSelectedPart(value)}>
+                  <SelectV2.Trigger>
+                    <StyledSelectTrigger placeholder='파트' />
+                  </SelectV2.Trigger>
+                  <SelectV2.Menu>
+                    {property?.part.map((option) => (
+                      <SelectV2.MenuItem key={option} option={{ value: option, label: option }} />
+                    ))}
+                  </SelectV2.Menu>
+                </SelectV2.Root>
+              </Responsive>
+              <Responsive only='mobile'>
+                <BottomSheetSelect
+                  placeholder='파트'
+                  value={selectedPart}
+                  options={
+                    property?.part.map((option) => ({
+                      value: option,
+                      label: option,
+                    })) as { value: string; label: string }[]
+                  }
+                  onSelect={(option) => {
+                    setSelectedPart(option.value);
+                  }}
+                />
+              </Responsive>
+            </SelectWrapper>
           </section>
           <section>
             <Label>
@@ -219,6 +293,10 @@ const Form = styled.form`
   gap: 36px;
   align-self: stretch;
   margin-top: 32px;
+
+  & > button:last-child {
+    margin-top: 4px;
+  }
 `;
 
 const Label = styled.label`

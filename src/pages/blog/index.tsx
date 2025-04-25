@@ -10,9 +10,10 @@ import { uploadSopticle } from '@/api/endpoint/sopticles/uploadSopticle';
 import AuthRequired from '@/components/auth/AuthRequired';
 import UploadBlog from '@/components/blog/UploadBlog';
 import { playgroundLink } from '@/constants/links';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 
-const SopticlePage: FC = () => {
+const BlogPage: FC = () => {
   const router = useRouter();
   const { data } = useGetMemberOfMe();
   const { mutate, status, error } = useMutation({
@@ -43,20 +44,24 @@ const SopticlePage: FC = () => {
 
   return (
     <AuthRequired>
-      <StyledSopticlePage>
+      <StyledBlogPage>
         <UploadBlog state={status} errorMessage={errorMessage} onSubmit={(url) => mutate(url)} />
-      </StyledSopticlePage>
+      </StyledBlogPage>
     </AuthRequired>
   );
 };
 
-export default SopticlePage;
+export default BlogPage;
 
-setLayout(SopticlePage, 'header');
+setLayout(BlogPage, 'header');
 
-const StyledSopticlePage = styled.div`
+const StyledBlogPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 36px 20px 0;
+  padding: 60px 20px 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-top: 36px;
+  }
 `;

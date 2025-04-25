@@ -11,7 +11,7 @@ export const getMemberproperty = createEndpoint({
   serverResponseScheme: z.object({
     id: z.number(),
     major: z.string(),
-    job: z.string(),
+    job: z.string().nullable(),
     organization: z.string(),
     part: z.array(z.string()),
     generation: z.array(z.number()),
