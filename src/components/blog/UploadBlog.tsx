@@ -94,6 +94,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   onChange={(value) => {
                     setSelectedBlogOption(value);
                     if (value === 'recruit' && selectedActivities !== null) setSelectedActivities([]);
+                    if (value === 'activity' && selectedRecruitOption !== '') setSelectedRecruitOption('');
                   }}
                 >
                   <SelectV2.Trigger>
