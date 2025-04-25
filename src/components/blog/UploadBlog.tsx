@@ -121,22 +121,22 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   }}
                 >
                   <SelectV2.Trigger>
-                    <StyledSelectTrigger placeholder='기수' />
+                    <StyledSelectTrigger placeholder='기수 및 파트' />
                   </SelectV2.Trigger>
                   <SelectV2.Menu>
-                    {property?.generation.map((option) => (
-                      <SelectV2.MenuItem key={option} option={{ value: option, label: `${option}기` }} />
+                    {property?.generation.map((gen, index) => (
+                      <SelectV2.MenuItem key={gen} option={{ value: gen, label: `${gen}기 ${property.part[index]}` }} />
                     ))}
                   </SelectV2.Menu>
                 </SelectV2.Root>
               </Responsive>
               <Responsive only='mobile'>
                 <BottomSheetSelect
-                  placeholder='기수'
+                  placeholder='기수 및 파트'
                   options={
-                    property?.generation.map((option) => ({
-                      value: `${option}`,
-                      label: `${option}기`,
+                    property?.generation.map((gen, index) => ({
+                      value: `${gen}`,
+                      label: `${gen}기 ${property.part[index]}`,
                     })) as { value: string; label: string }[]
                   }
                   value={selectedGeneration?.toString() || ''}
@@ -149,45 +149,6 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                         setSelectedPart(part);
                       }
                     }
-                  }}
-                />
-              </Responsive>
-              <Responsive only='desktop'>
-                <SelectV2.Root<string>
-                  key={selectedPart} // defaultValue의 반영을 위해 트리거
-                  type='text'
-                  defaultValue={
-                    selectedPart
-                      ? {
-                          label: selectedPart,
-                          value: selectedPart,
-                        }
-                      : undefined
-                  }
-                  onChange={(value) => setSelectedPart(value)}
-                >
-                  <SelectV2.Trigger>
-                    <StyledSelectTrigger placeholder='파트' />
-                  </SelectV2.Trigger>
-                  <SelectV2.Menu>
-                    {[...new Set(property?.part)].map((option) => (
-                      <SelectV2.MenuItem key={option} option={{ value: option, label: option }} />
-                    ))}
-                  </SelectV2.Menu>
-                </SelectV2.Root>
-              </Responsive>
-              <Responsive only='mobile'>
-                <BottomSheetSelect
-                  placeholder='파트'
-                  value={selectedPart}
-                  options={
-                    [...new Set(property?.part)].map((option) => ({
-                      value: option,
-                      label: option,
-                    })) as { value: string; label: string }[]
-                  }
-                  onSelect={(option) => {
-                    setSelectedPart(option.value);
                   }}
                 />
               </Responsive>
