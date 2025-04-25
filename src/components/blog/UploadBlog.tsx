@@ -4,7 +4,9 @@ import { Button, Callout, Chip, SelectV2, TextField } from '@sopt-makers/ui';
 import { Spacing } from '@toss/emotion-utils';
 import { FC, FormEvent, useState } from 'react';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProperty } from '@/api/endpoint/members/getMemberProperty';
+import { RequestBody } from '@/api/endpoint/review/postReview';
 import BottomSheetSelect from '@/components/blog/BottomSheetSelect';
 import { ACTIVITY_OPTIONS, BLOG_OPTIONS, RECRUIT_OPTIONS } from '@/components/blog/constants';
 import Responsive from '@/components/common/Responsive';
@@ -15,18 +17,19 @@ import { textStyles } from '@/styles/typography';
 interface UploadBlogProps {
   state: 'idle' | 'pending' | 'error' | 'success';
   errorMessage?: string;
-  onSubmit: (url: string) => void;
+  onSubmit: (requestBody: RequestBody) => void;
 }
 
 const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
   const [url, setUrl] = useState('');
-  const [selectedBlogOption, setSelectedBlogOption] = useState<'activity' | 'recruit' | ''>('');
+  const [selectedBlogOption, setSelectedBlogOption] = useState<'전체 활동' | '서류/면접' | ''>('');
   const [selectedRecruitOption, setSelectedRecruitOption] = useState('');
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [selectedGeneration, setSelectedGeneration] = useState<number>();
   const [selectedPart, setSelectedPart] = useState('');
 
   const { data: property } = useGetMemberProperty();
+  const { data: profile } = useGetMemberOfMe();
 
   const toggleActivity = (value: string) => {
     setSelectedActivities((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
@@ -35,7 +38,32 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    onSubmit(url);
+    const PART_KR_TO_ENUM = {
+      기획: 'PLAN',
+      웹: 'WEB',
+      서버: 'SERVER',
+      안드로이드: 'ANDROID',
+      디자인: 'DESIGN',
+      iOS: 'iOS',
+    } as const;
+
+    if (!selectedGeneration || !selectedPart || !profile?.name || selectedBlogOption === '') {
+      throw new Error('필수 입력값이 누락되었습니다.');
+    }
+
+    const requestBody = {
+      generation: selectedGeneration,
+      part: PART_KR_TO_ENUM[selectedPart as keyof typeof PART_KR_TO_ENUM],
+      mainCategory: selectedBlogOption,
+      link: url,
+      author: profile.name,
+      ...(selectedBlogOption === '전체 활동' && selectedActivities.length > 0 && { subActivities: selectedActivities }),
+      ...(selectedBlogOption === '서류/면접' &&
+        selectedRecruitOption && { subRecruiting: selectedRecruitOption as RequestBody['subRecruiting'] }),
+      ...(profile?.profileImage && { authorProfileImageUrl: profile.profileImage }),
+    };
+
+    onSubmit(requestBody);
   }
 
   return (
@@ -174,12 +202,12 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
             </Label>
             <SelectWrapper>
               <Responsive only='desktop'>
-                <SelectV2.Root<'activity' | 'recruit' | ''>
+                <SelectV2.Root<'전체 활동' | '서류/면접' | ''>
                   type='text'
                   onChange={(value) => {
                     setSelectedBlogOption(value);
-                    if (value === 'recruit' && selectedActivities !== null) setSelectedActivities([]);
-                    if (value === 'activity' && selectedRecruitOption !== '') setSelectedRecruitOption('');
+                    if (value === '서류/면접' && selectedActivities !== null) setSelectedActivities([]);
+                    if (value === '전체 활동' && selectedRecruitOption !== '') setSelectedRecruitOption('');
                   }}
                 >
                   <SelectV2.Trigger>
@@ -198,14 +226,15 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   options={BLOG_OPTIONS}
                   value={selectedBlogOption}
                   onSelect={(option) => {
-                    setSelectedBlogOption(option.value as 'activity' | 'recruit');
-                    if (option.value === 'recruit') {
+                    setSelectedBlogOption(option.value as '전체 활동' | '서류/면접');
+                    if (option.value === '서류/면접' && selectedActivities !== null) {
                       setSelectedActivities([]);
                     }
+                    if (option.value === '전체 활동' && selectedRecruitOption !== '') setSelectedRecruitOption('');
                   }}
                 />
               </Responsive>
-              {selectedBlogOption === 'recruit' && (
+              {selectedBlogOption === '서류/면접' && (
                 <>
                   <Responsive only='desktop'>
                     <SelectV2.Root<string> type='text' onChange={(value) => setSelectedRecruitOption(value)}>
@@ -233,7 +262,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
               )}
             </SelectWrapper>
           </section>
-          {selectedBlogOption === 'activity' && (
+          {selectedBlogOption === '전체 활동' && (
             <section>
               <Label>
                 세부 활동 선택
@@ -263,8 +292,10 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
             size='lg'
             disabled={
               !url ||
-              (selectedBlogOption === 'activity' && selectedActivities.length === 0) ||
-              (selectedBlogOption === 'recruit' && selectedRecruitOption === '')
+              (selectedBlogOption === '전체 활동' && selectedActivities.length === 0) ||
+              (selectedBlogOption === '서류/면접' && selectedRecruitOption === '') ||
+              !selectedGeneration ||
+              !selectedPart
             }
           >
             활동후기 업로드하기

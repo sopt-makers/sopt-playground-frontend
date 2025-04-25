@@ -1,12 +1,12 @@
 export const BLOG_OPTIONS = [
-  { value: 'activity', label: '전체 활동 후기' },
-  { value: 'recruit', label: '서류/면접 후기' },
+  { value: '전체 활동', label: '전체 활동 후기' },
+  { value: '서류/면접', label: '서류/면접 후기' },
 ];
 
 export const RECRUIT_OPTIONS = [
-  { value: 'document', label: '서류' },
-  { value: 'interview', label: '면접' },
-  { value: 'both', label: '서류/면접' },
+  { value: '서류', label: '서류' },
+  { value: '면접', label: '면접' },
+  { value: '서류/면접', label: '서류/면접' },
 ];
 
 export const ACTIVITY_OPTIONS = [
