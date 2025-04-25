@@ -119,6 +119,9 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                       }
                     }
                   }}
+                  visibleOptions={
+                    property?.generation.length && property.generation.length < 3 ? property.generation.length : 3
+                  }
                 >
                   <SelectV2.Trigger>
                     <StyledSelectTrigger placeholder='기수 및 파트' />
@@ -170,6 +173,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                     if (value === '서류/면접' && selectedActivities !== null) setSelectedActivities([]);
                     if (value === '전체 활동' && selectedRecruitOption !== '') setSelectedRecruitOption('');
                   }}
+                  visibleOptions={2}
                 >
                   <SelectV2.Trigger>
                     <StyledSelectTrigger placeholder='후기 유형 선택' />
@@ -198,7 +202,11 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
               {selectedBlogOption === '서류/면접' && (
                 <>
                   <Responsive only='desktop'>
-                    <SelectV2.Root<string> type='text' onChange={(value) => setSelectedRecruitOption(value)}>
+                    <SelectV2.Root<string>
+                      type='text'
+                      onChange={(value) => setSelectedRecruitOption(value)}
+                      visibleOptions={3}
+                    >
                       <SelectV2.Trigger>
                         <StyledSelectTrigger placeholder='전형 선택' />
                       </SelectV2.Trigger>
