@@ -21,7 +21,7 @@ interface UploadBlogProps {
 const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
   const [url, setUrl] = useState('');
   const [selectedBlogOption, setSelectedBlogOption] = useState<'activity' | 'recruit' | ''>('');
-  const [selectedRecruitOption, setSelectedRecruitOption] = useState<string>('');
+  const [_selectedRecruitOption, setSelectedRecruitOption] = useState<string>('');
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
 
   const toggleActivity = (value: string) => {
@@ -85,7 +85,13 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
             </Text>
           </Label>
           <SelectWrapper>
-            <SelectV2.Root<'activity' | 'recruit' | ''> type='text' onChange={(value) => setSelectedBlogOption(value)}>
+            <SelectV2.Root<'activity' | 'recruit' | ''>
+              type='text'
+              onChange={(value) => {
+                setSelectedBlogOption(value);
+                if (value === 'recruit' && selectedActivities !== null) setSelectedActivities([]);
+              }}
+            >
               <SelectV2.Trigger>
                 <StyledSelectTrigger placeholder='후기 유형 선택' />
               </SelectV2.Trigger>

@@ -26,7 +26,7 @@ const SopticlePage: FC = () => {
       return uploadSopticle.request(url, [data.id]);
     },
     onSuccess() {
-      router.push(playgroundLink.sopticleSuccess());
+      router.push(playgroundLink.blogSuccess());
     },
   });
 
