@@ -82,6 +82,14 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   type='text'
                   onChange={(value) => {
                     setSelectedGeneration(Number(value));
+                    const index = property?.generation.findIndex((g) => g === Number(value));
+                    if (index !== undefined && index !== -1) {
+                      const part = property?.part[index];
+                      if (part !== undefined) {
+                        setSelectedPart(part);
+                        console.log(part);
+                      }
+                    }
                   }}
                 >
                   <SelectV2.Trigger>
@@ -106,11 +114,30 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   value={selectedGeneration?.toString() || ''}
                   onSelect={(option) => {
                     setSelectedGeneration(Number(option.value));
+                    const index = property?.generation.findIndex((p) => p === Number(option.value));
+                    if (index !== undefined && index !== -1) {
+                      const part = property?.part[index];
+                      if (part !== undefined) {
+                        setSelectedPart(part);
+                      }
+                    }
                   }}
                 />
               </Responsive>
               <Responsive only='desktop'>
-                <SelectV2.Root<string> type='text' onChange={(value) => setSelectedPart(value)}>
+                <SelectV2.Root<string>
+                  key={selectedPart} // defaultValue의 반영을 위해 트리거
+                  type='text'
+                  defaultValue={
+                    selectedPart
+                      ? {
+                          label: selectedPart,
+                          value: selectedPart,
+                        }
+                      : undefined
+                  }
+                  onChange={(value) => setSelectedPart(value)}
+                >
                   <SelectV2.Trigger>
                     <StyledSelectTrigger placeholder='파트' />
                   </SelectV2.Trigger>
@@ -256,7 +283,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 420px;
 
-  & > :first-child {
+  & > div:first-of-type {
     margin-left: calc(-50vw + 50%);
     width: 100vw;
     max-width: none;
