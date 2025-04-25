@@ -5,6 +5,7 @@ import { Spacing } from '@toss/emotion-utils';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
 
+import { activityOptions, blogOptions, recruitOptions } from '@/components/blog/constants';
 import Input from '@/components/common/Input';
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
 import Text from '@/components/common/Text';
@@ -19,18 +20,19 @@ interface UploadBlogProps {
 
 const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
   const [url, setUrl] = useState('');
+  const [selectedBlogOption, setSelectedBlogOption] = useState<'activity' | 'recruit' | ''>('');
+  const [selectedRecruitOption, setSelectedRecruitOption] = useState<string>('');
+  const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
+
+  const toggleActivity = (value: string) => {
+    setSelectedActivities((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+  };
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     onSubmit(url);
   }
-
-  const sampleOptions = [
-    { value: '1', label: '111' },
-    { value: '2', label: '222' },
-    { value: '3', label: '333' },
-  ];
 
   return (
     <Container>
@@ -83,53 +85,55 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
             </Text>
           </Label>
           <SelectWrapper>
-            <SelectV2.Root
-              type='text'
-              // onChange={onChange}
-              // defaultValue={value}
-            >
+            <SelectV2.Root<'activity' | 'recruit' | ''> type='text' onChange={(value) => setSelectedBlogOption(value)}>
               <SelectV2.Trigger>
                 <StyledSelectTrigger placeholder='후기 유형 선택' />
               </SelectV2.Trigger>
               <SelectV2.Menu>
-                {sampleOptions.map((option) => (
+                {blogOptions.map((option) => (
                   <SelectV2.MenuItem key={option.value} option={option} />
                 ))}
               </SelectV2.Menu>
             </SelectV2.Root>
-            <SelectV2.Root
-              type='text'
-              // onChange={onChange}
-              // defaultValue={value}
-            >
-              <SelectV2.Trigger>
-                <StyledSelectTrigger placeholder='전형 선택' />
-              </SelectV2.Trigger>
-              <SelectV2.Menu>
-                {sampleOptions.map((option) => (
-                  <SelectV2.MenuItem key={option.value} option={option} />
-                ))}
-              </SelectV2.Menu>
-            </SelectV2.Root>
+            {selectedBlogOption === 'recruit' && (
+              <SelectV2.Root<string> type='text' onChange={(value) => setSelectedRecruitOption(value)}>
+                <SelectV2.Trigger>
+                  <StyledSelectTrigger placeholder='전형 선택' />
+                </SelectV2.Trigger>
+                <SelectV2.Menu>
+                  {recruitOptions.map((option) => (
+                    <SelectV2.MenuItem key={option.value} option={option} />
+                  ))}
+                </SelectV2.Menu>
+              </SelectV2.Root>
+            )}
           </SelectWrapper>
         </section>
-        <section>
-          <Label>
-            세부 활동 선택
-            <Text typography='SUIT_14_SB' color={colors.secondary}>
-              *
+        {selectedBlogOption === 'activity' && (
+          <section>
+            <Label>
+              세부 활동 선택
+              <Text typography='SUIT_14_SB' color={colors.secondary}>
+                *
+              </Text>
+            </Label>
+            <Text typography='SUIT_12_SB' color={colors.gray300}>
+              어떤 활동에 대한 후기인지 모두 선택해주세요.
             </Text>
-          </Label>
-          <Text typography='SUIT_12_SB' color={colors.gray300}>
-            어떤 활동에 대한 후기인지 모두 선택해주세요.
-          </Text>
-          <ChipWrapper>
-            {sampleOptions.map((option) => (
-              <Chip key={option.value}>{option.label}</Chip>
-            ))}
-          </ChipWrapper>
-          <Spacing size={40} />
-        </section>
+            <ChipWrapper>
+              {activityOptions.map((option) => (
+                <Chip
+                  key={option.value}
+                  active={selectedActivities.includes(option.value)}
+                  onClick={() => toggleActivity(option.value)}
+                >
+                  {option.label}
+                </Chip>
+              ))}
+            </ChipWrapper>
+            <Spacing size={40} />
+          </section>
+        )}
         <Button disabled={!url}>활동후기 업로드하기</Button>
       </Form>
     </Container>
@@ -153,7 +157,7 @@ const TitleBox = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     align-items: flex-start;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
 `;
 
@@ -172,11 +176,7 @@ const Form = styled.form`
   flex-direction: column;
   gap: 36px;
   align-self: stretch;
-  margin-top: 80px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 32px;
-  }
+  margin-top: 32px;
 `;
 
 const Label = styled.label`
@@ -215,6 +215,7 @@ const StyledSelectTrigger = styled(SelectV2.TriggerContent)`
 
 const ChipWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 12px;
 `;
