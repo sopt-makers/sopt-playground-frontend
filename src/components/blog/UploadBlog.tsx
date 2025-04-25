@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { Button, Callout, Chip, SelectV2 } from '@sopt-makers/ui';
+import { Button, Callout, Chip, SelectV2, TextField } from '@sopt-makers/ui';
 import { Spacing } from '@toss/emotion-utils';
 import { AnimatePresence, m } from 'framer-motion';
 import { FC, FormEvent, useState } from 'react';
@@ -52,33 +52,17 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
         </Callout>
         <Form onSubmit={handleSubmit}>
           <section>
-            <Label>
-              후기글 링크
-              <Text typography='SUIT_14_SB' color={colors.secondary}>
-                *
-              </Text>
-            </Label>
-            <Text typography='SUIT_12_SB' color={colors.gray300}>
-              한번 업로드한 링크는 삭제하기 어려워요. 신중하게 업로드해주세요.
-            </Text>
             <StyledInput
+              labelText='후기글 링크'
+              descriptionText='한번 업로드한 링크는 삭제하기 어려워요. 신중하게 업로드해주세요.'
+              required
               placeholder='ex. http://soptmakers.com'
               disabled={state === 'pending'}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              isError={state === 'error'}
+              errorMessage={errorMessage}
             />
-            <AnimatePresence initial={false}>
-              {state === 'error' && (
-                <MotionErrorMessageHolder
-                  initial='hide'
-                  animate='show'
-                  exit='hide'
-                  variants={{ hide: { height: 0, opacity: 0 }, show: { height: 'auto', opacity: 1 } }}
-                >
-                  <ErrorMessage message={errorMessage} />
-                </MotionErrorMessageHolder>
-              )}
-            </AnimatePresence>
           </section>
           <section>
             <Label>
@@ -246,18 +230,11 @@ const Label = styled.label`
   ${textStyles.SUIT_14_SB};
 `;
 
-const StyledInput = styled(Input)`
+const StyledInput = styled(TextField)`
   margin: 8px 0;
 
   & input {
     border-radius: 10px;
-  }
-`;
-
-const MotionErrorMessageHolder = styled(m.div)`
-  & > * {
-    padding-top: 10px;
-    padding-left: 2px;
   }
 `;
 

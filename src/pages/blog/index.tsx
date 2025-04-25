@@ -38,7 +38,7 @@ const SopticlePage: FC = () => {
         return parsed.data.code;
       }
     }
-    return `${error}`;
+    return `${error}`.replace(/^Error:\s*/, '');
   })();
 
   return (
