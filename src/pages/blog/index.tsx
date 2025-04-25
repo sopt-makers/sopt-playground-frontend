@@ -8,9 +8,9 @@ import { z } from 'zod';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { uploadSopticle } from '@/api/endpoint/sopticles/uploadSopticle';
 import AuthRequired from '@/components/auth/AuthRequired';
-import UploadSopticle from '@/components/sopticle/UploadSopticle';
 import { playgroundLink } from '@/constants/links';
 import { setLayout } from '@/utils/layout';
+import UploadSopticle from "@/components/blog/UploadSopticle";
 
 const SopticlePage: FC = () => {
   const router = useRouter();
