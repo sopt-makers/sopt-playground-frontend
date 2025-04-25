@@ -1,15 +1,15 @@
-export const blogOptions = [
+export const BLOG_OPTIONS = [
   { value: 'activity', label: '전체 활동 후기' },
   { value: 'recruit', label: '서류/면접 후기' },
 ];
 
-export const recruitOptions = [
+export const RECRUIT_OPTIONS = [
   { value: 'document', label: '서류' },
   { value: 'interview', label: '면접' },
   { value: 'both', label: '서류/면접' },
 ];
 
-export const activityOptions = [
+export const ACTIVITY_OPTIONS = [
   { value: '전체', label: '전체' },
   { value: '앱잼', label: '앱잼' },
   { value: '솝커톤', label: '솝커톤' },
