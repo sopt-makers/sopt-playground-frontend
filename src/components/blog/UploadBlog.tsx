@@ -261,6 +261,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
             size='lg'
             disabled={
               !url ||
+              selectedBlogOption === '' ||
               (selectedBlogOption === '전체 활동' && selectedActivities.length === 0) ||
               (selectedBlogOption === '서류/면접' && selectedRecruitOption === '') ||
               !selectedGeneration ||
