@@ -170,7 +170,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                     <StyledSelectTrigger placeholder='파트' />
                   </SelectV2.Trigger>
                   <SelectV2.Menu>
-                    {property?.part.map((option) => (
+                    {[...new Set(property?.part)].map((option) => (
                       <SelectV2.MenuItem key={option} option={{ value: option, label: option }} />
                     ))}
                   </SelectV2.Menu>
@@ -181,7 +181,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   placeholder='파트'
                   value={selectedPart}
                   options={
-                    property?.part.map((option) => ({
+                    [...new Set(property?.part)].map((option) => ({
                       value: option,
                       label: option,
                     })) as { value: string; label: string }[]
