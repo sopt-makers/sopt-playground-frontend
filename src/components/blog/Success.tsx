@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Button } from '@sopt-makers/ui';
 import { m } from 'framer-motion';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
@@ -20,7 +19,7 @@ const UploadSuccess: FC<UploadSuccessProps> = ({}) => {
       <CheckCircle>{checkSvg}</CheckCircle>
 
       <Title>활동후기가 업로드 되었어요.</Title>
-      <SubTitle>등록한 활동후기는 SOPT 공식 홈페이지에서 확인할 수 있어요.</SubTitle>
+      <SubTitle>등록한 활동후기는 SOPT 공식{'\n'}홈페이지에서 확인할 수 있어요.</SubTitle>
 
       <ButtonGroup>
         <Button size='lg' onClick={() => window.open('https://www.sopt.org/blog', '_blank')}>
@@ -84,10 +83,10 @@ const Title = styled.h1`
   margin-top: 24px;
   color: ${colors.gray10};
 
-  ${textStyles.SUIT_32_SB};
+  ${textStyles.SUIT_32_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_20_B};
+    ${textStyles.SUIT_24_SB};
   }
 `;
 
@@ -96,10 +95,12 @@ const SubTitle = styled.h2`
   text-align: center;
   color: ${colors.gray300};
 
-  ${textStyles.SUIT_16_M};
+  ${textStyles.SUIT_16_SB};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_12_M};
+    ${textStyles.SUIT_14_M};
+
+    white-space: pre;
   }
 `;
 
@@ -113,7 +114,7 @@ const ButtonGroup = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     row-gap: 12px;
     align-self: center;
+    padding: 0 12px;
     width: 100%;
-    max-width: 187px;
   }
 `;

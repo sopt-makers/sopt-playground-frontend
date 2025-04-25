@@ -37,7 +37,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
   return (
     <Container>
       <TitleBox>
-        <Title>SOPT 공식 홈페이지에 활동후기 올리기</Title>
+        <Title>SOPT 공식 홈페이지에{'\n'} 활동후기 올리기</Title>
       </TitleBox>
       <Callout
         buttonLabel='공식 홈페이지 바로가기'
@@ -140,7 +140,9 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
             <Spacing size={40} />
           </section>
         )}
-        <Button disabled={!url}>활동후기 업로드하기</Button>
+        <Button size='lg' disabled={!url}>
+          활동후기 업로드하기
+        </Button>
       </Form>
     </Container>
   );
@@ -153,6 +155,12 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: 420px;
+
+  & > :first-child {
+    margin-left: calc(-50vw + 50%);
+    width: 100vw;
+    max-width: none;
+  }
 `;
 
 const TitleBox = styled.div`
@@ -162,18 +170,20 @@ const TitleBox = styled.div`
   margin-bottom: 40px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    align-items: flex-start;
     margin-bottom: 32px;
   }
 `;
 
 const Title = styled.h1`
+  text-align: center;
   color: ${colors.gray10};
 
-  ${textStyles.SUIT_32_SB};
+  ${textStyles.SUIT_32_B};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_24_B};
+    ${textStyles.SUIT_24_SB};
+
+    white-space: pre;
   }
 `;
 
@@ -212,6 +222,7 @@ const MotionErrorMessageHolder = styled(m.div)`
 const SelectWrapper = styled.div`
   display: flex;
   gap: 16px;
+  margin-top: 16px;
 `;
 
 const StyledSelectTrigger = styled(SelectV2.TriggerContent)`

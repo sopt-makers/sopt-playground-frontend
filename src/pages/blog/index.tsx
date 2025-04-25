@@ -58,5 +58,5 @@ const StyledSopticlePage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 36px 24px 0;
+  padding: 36px 20px 0;
 `;
