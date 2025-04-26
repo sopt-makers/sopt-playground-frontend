@@ -10,9 +10,9 @@ export const getMemberproperty = createEndpoint({
   },
   serverResponseScheme: z.object({
     id: z.number(),
-    major: z.string(),
+    major: z.string().nullable(),
     job: z.string().nullable(),
-    organization: z.string(),
+    organization: z.string().nullable(),
     part: z.array(z.string()),
     generation: z.array(z.number()),
     coffeeChatStatus: z.string(),

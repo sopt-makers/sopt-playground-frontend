@@ -46,7 +46,7 @@ const BottomSheetSelect = ({ placeholder, options, value, onSelect }: BottomShee
           <Overlay onClick={handleClose} />
           <BottomSheet>
             <OptionList>
-              {options.map((option) => (
+              {options?.map((option) => (
                 <OptionItem key={option.value} onClick={() => setTemporaryValue(option)}>
                   {option.label}
                   {temporaryValue === option && <CheckedIcon />}
