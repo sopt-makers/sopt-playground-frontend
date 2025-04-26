@@ -102,7 +102,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
               </Text>
             </Label>
             <Text typography='SUIT_12_SB' color={colors.gray300}>
-              어떤 활동에 대한 후기인지 모두 선택해주세요.
+              어떤 활동에 대한 후기인지 선택해주세요.
             </Text>
             <SelectWrapper>
               <Responsive only='desktop'>
@@ -240,7 +240,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                 </Text>
               </Label>
               <Text typography='SUIT_12_SB' color={colors.gray300}>
-                어떤 활동에 대한 후기인지 모두 선택해주세요.
+                후기와 관련된 활동을 모두 선택해주세요.
               </Text>
               <ChipWrapper>
                 {ACTIVITY_OPTIONS.map((option) => (
