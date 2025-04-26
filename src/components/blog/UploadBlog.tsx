@@ -253,7 +253,6 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   </Chip>
                 ))}
               </ChipWrapper>
-              <Spacing size={40} />
             </section>
           )}
           <Button
