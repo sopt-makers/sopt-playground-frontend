@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Button, Callout, Chip, SelectV2, TextField } from '@sopt-makers/ui';
-import { Spacing } from '@toss/emotion-utils';
 import { FC, FormEvent, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';

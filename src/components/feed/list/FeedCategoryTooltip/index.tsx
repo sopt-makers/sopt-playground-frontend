@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconXClose } from '@sopt-makers/icons';
-import React, { createContext, ReactNode, useContext } from 'react';
+import React, { createContext, ReactNode } from 'react';
 
 import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -38,7 +38,7 @@ const Content = ({ children }: { children: ReactNode }) => {
 
 const Close = ({ onClick }: { onClick: () => void }) => {
   return (
-    <button onClick={onClick} aria-label='툴팁 오늘 하루동안 보지 않기'>
+    <button onClick={onClick} aria-label='툴팁 오늘 하루동안 보지 않기' style={{ color: 'inherit' }}>
       <IconXClose
         style={{
           width: 18,
