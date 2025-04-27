@@ -34,7 +34,7 @@ const BlogPage: FC = () => {
   const errorMessage = (() => {
     if (axios.isAxiosError(error)) {
       if (typeof error.response?.data === 'string') {
-        return error.response?.data;
+        return error.response?.data.replace('스크래핑에 실패했습니다', '확인할 수 없는 링크입니다');
       }
 
       const parsed = z.object({ code: z.string() }).safeParse(error.response?.data);
@@ -42,6 +42,7 @@ const BlogPage: FC = () => {
         return parsed.data.code;
       }
     }
+
     return `${error}`.replace(/^Error:\s*/, '');
   })();
 
