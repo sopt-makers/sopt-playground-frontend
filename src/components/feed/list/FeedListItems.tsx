@@ -228,7 +228,10 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                   </FeedDropdown>
                 }
                 like={
-                  <LoggingClick eventKey={post.isLiked ? 'feedUnlike' : 'feedLike'} param={{ feedId: String(post.id) }}>
+                  <LoggingClick
+                    eventKey={post.isLiked ? 'feedUnlike' : 'feedLike'}
+                    param={{ feedId: String(post.id), category: post.categoryName }}
+                  >
                     <FeedLike
                       isLiked={post.isLiked}
                       likes={post.likes}

@@ -122,6 +122,7 @@ export interface ClickEvents {
   feedUploadButton: undefined;
   feedLike: {
     feedId: string;
+    category: string;
   };
   feedUnlike: {
     feedId: string;
