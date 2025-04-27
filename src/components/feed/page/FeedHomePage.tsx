@@ -31,7 +31,7 @@ const CommunityPage: FC = () => {
             <FeedList
               renderFeedDetailLink={({ children, feedId, category }) => (
                 <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
-                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
+                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId, category }}>
                     <LoggingClick eventKey='feedCard' param={{ feedId, category }}>
                       <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
                     </LoggingClick>
@@ -72,7 +72,7 @@ const CommunityPage: FC = () => {
             <FeedList
               renderFeedDetailLink={({ children, feedId, category }) => (
                 <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
-                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
+                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId, category }}>
                     <LoggingClick eventKey='feedCard' param={{ feedId, category }}>
                       <Link
                         href={{

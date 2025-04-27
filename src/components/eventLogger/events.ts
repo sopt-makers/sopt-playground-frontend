@@ -261,6 +261,7 @@ export interface PageViewEvents {
 export interface ImpressionEvents {
   feedCard: {
     feedId: string;
+    category: string;
   };
   ads: { bannerId: number; pageUrl: string; timeStamp: string };
   adPopup: undefined;
