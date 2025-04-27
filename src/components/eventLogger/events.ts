@@ -222,7 +222,9 @@ export interface SubmitEvents {
     word: string;
   };
   wordchainNewGame: undefined;
-  submitCommunity: undefined;
+  submitCommunity: {
+    category: string | undefined;
+  };
   editCommunity: undefined;
   // 커뮤니티(피드)
   postComment: {

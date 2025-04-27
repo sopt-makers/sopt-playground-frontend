@@ -8,6 +8,7 @@ import { uploadFeed } from '@/api/endpoint/feed/uploadFeed';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { categoryIdNameMap } from '@/components/feed/common/utils';
 import FeedUploadPage, { LoadingWrapper } from '@/components/feed/page/FeedUploadPage';
 import { FeedDataType } from '@/components/feed/upload/types';
 import { setLayout } from '@/utils/layout';
@@ -26,7 +27,8 @@ const FeedUpload: FC = () => {
       { data: data, id: id },
       {
         onSuccess: async () => {
-          logSubmitEvent('submitCommunity');
+          const categoryName = data.categoryId !== null ? categoryIdNameMap[data.categoryId] : undefined;
+          logSubmitEvent('submitCommunity', { category: categoryName });
           queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
           await router.push(playgroundLink.feedList());
         },

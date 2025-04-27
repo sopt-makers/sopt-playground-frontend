@@ -41,6 +41,7 @@ export const CategoryList = {
   SOPT활동: 'SOPT활동',
   홍보: '홍보',
   취업_진로: '취업/진로',
+  솝티클: '솝티클',
 };
 
 const 특수임원List = [
@@ -80,3 +81,12 @@ export function getMemberInfo(post: Post) {
 
   return defaultInfo;
 }
+
+export const categoryIdNameMap: Record<number, string> = {
+  1: '자유',
+  2: '파트',
+  3: 'SOPT 활동',
+  4: '홍보',
+  5: '취업/진로',
+  21: '솝티클',
+};
