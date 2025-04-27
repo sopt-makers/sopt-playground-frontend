@@ -126,6 +126,7 @@ export interface ClickEvents {
   };
   feedUnlike: {
     feedId: string;
+    category: string;
   };
 
   //환영배너 타임캡솝 cta 버튼 클릭
