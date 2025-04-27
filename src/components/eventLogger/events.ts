@@ -106,6 +106,7 @@ export interface ClickEvents {
   };
   feedCard: {
     feedId: string;
+    category: string;
   };
   feedShareButton: {
     feedId: string;
