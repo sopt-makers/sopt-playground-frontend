@@ -21,5 +21,5 @@ export const postReview = createEndpoint({
     data: requestBody,
   }),
   serverResponseScheme: z.unknown(),
-  axiosInstance: axiosAdminInstance,
+  externalInstance: axiosAdminInstance,
 });

@@ -17,7 +17,7 @@ export function createEndpoint<
   request: AxiosRequestConfig | ((...params: Param) => AxiosRequestConfig);
   serverResponseScheme: Validator;
   transformer?: (original: z.infer<Validator>) => Transformed;
-  axiosInstance?: typeof axiosInstance;
+  externalInstance?: typeof axiosInstance;
 }): Endpoint<Transformed, Param> {
   const getConfig = (params: Param) => {
     if (typeof config.request === 'function') {
@@ -29,7 +29,7 @@ export function createEndpoint<
   return {
     async request(...params) {
       const axiosConfig = getConfig(params);
-      const instance = config.axiosInstance ?? axiosInstance; // 외부 api 사용할 때는 외부 instance 사용
+      const instance = config.externalInstance ?? axiosInstance; // 외부 api 사용할 때는 외부 instance 사용
 
       const { data } = await instance.request<unknown>(axiosConfig);
 

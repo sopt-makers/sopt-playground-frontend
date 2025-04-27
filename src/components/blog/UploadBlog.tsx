@@ -7,7 +7,13 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProperty } from '@/api/endpoint/members/getMemberProperty';
 import { RequestBody } from '@/api/endpoint/review/postReview';
 import BottomSheetSelect from '@/components/blog/BottomSheetSelect';
-import { ACTIVITY_OPTIONS, BLOG_OPTIONS, RECRUIT_OPTIONS } from '@/components/blog/constants';
+import {
+  ACTIVITY_OPTIONS,
+  BLOG_OPTIONS,
+  BlogOptionValue,
+  PART_KR_TO_ENUM,
+  RECRUIT_OPTIONS,
+} from '@/components/blog/constants';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -21,7 +27,7 @@ interface UploadBlogProps {
 
 const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
   const [url, setUrl] = useState('');
-  const [selectedBlogOption, setSelectedBlogOption] = useState<'전체 활동' | '서류/면접' | ''>('');
+  const [selectedBlogOption, setSelectedBlogOption] = useState<BlogOptionValue | ''>('');
   const [selectedRecruitOption, setSelectedRecruitOption] = useState('');
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [selectedGeneration, setSelectedGeneration] = useState<number>();
@@ -37,15 +43,6 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    const PART_KR_TO_ENUM = {
-      기획: 'PLAN',
-      웹: 'WEB',
-      서버: 'SERVER',
-      안드로이드: 'ANDROID',
-      디자인: 'DESIGN',
-      iOS: 'iOS',
-    } as const;
-
     if (!selectedGeneration || !selectedPart || !profile?.name || selectedBlogOption === '') {
       throw new Error('필수 입력값이 누락되었습니다.');
     }
@@ -56,14 +53,28 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
       mainCategory: selectedBlogOption,
       link: url,
       author: profile.name,
-      ...(selectedBlogOption === '전체 활동' && selectedActivities.length > 0 && { subActivities: selectedActivities }),
-      ...(selectedBlogOption === '서류/면접' &&
+      ...(selectedBlogOption === BLOG_OPTIONS[0].value &&
+        selectedActivities.length > 0 && { subActivities: selectedActivities }),
+      ...(selectedBlogOption === BLOG_OPTIONS[1].value &&
         selectedRecruitOption && { subRecruiting: selectedRecruitOption as RequestBody['subRecruiting'] }),
       ...(profile?.profileImage && { authorProfileImageUrl: profile.profileImage }),
     };
 
     onSubmit(requestBody);
   }
+
+  const handleGenerationSelect = (value: string) => {
+    const numericValue = Number(value);
+    setSelectedGeneration(numericValue);
+
+    const index = property?.generation.findIndex((g) => g === numericValue);
+    if (index !== undefined && index !== -1) {
+      const part = property?.part[index];
+      if (part !== undefined) {
+        setSelectedPart(part);
+      }
+    }
+  };
 
   return (
     <>
@@ -107,17 +118,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
               <Responsive only='desktop'>
                 <SelectV2.Root
                   type='text'
-                  onChange={(value) => {
-                    setSelectedGeneration(Number(value));
-                    const index = property?.generation.findIndex((g) => g === Number(value));
-                    if (index !== undefined && index !== -1) {
-                      const part = property?.part[index];
-                      if (part !== undefined) {
-                        setSelectedPart(part);
-                        console.log(part);
-                      }
-                    }
-                  }}
+                  onChange={handleGenerationSelect}
                   visibleOptions={
                     property?.generation.length && property.generation.length < 3 ? property.generation.length : 3
                   }
@@ -143,14 +144,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   }
                   value={selectedGeneration?.toString() || ''}
                   onSelect={(option) => {
-                    setSelectedGeneration(Number(option.value));
-                    const index = property?.generation.findIndex((p) => p === Number(option.value));
-                    if (index !== undefined && index !== -1) {
-                      const part = property?.part[index];
-                      if (part !== undefined) {
-                        setSelectedPart(part);
-                      }
-                    }
+                    handleGenerationSelect(option.value);
                   }}
                 />
               </Responsive>
@@ -165,12 +159,12 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
             </Label>
             <SelectWrapper>
               <Responsive only='desktop'>
-                <SelectV2.Root<'전체 활동' | '서류/면접' | ''>
+                <SelectV2.Root<BlogOptionValue | ''>
                   type='text'
                   onChange={(value) => {
                     setSelectedBlogOption(value);
-                    if (value === '서류/면접' && selectedActivities !== null) setSelectedActivities([]);
-                    if (value === '전체 활동' && selectedRecruitOption !== '') setSelectedRecruitOption('');
+                    if (value === BLOG_OPTIONS[0].value && selectedRecruitOption !== '') setSelectedRecruitOption('');
+                    if (value === BLOG_OPTIONS[1].value && selectedActivities !== null) setSelectedActivities([]);
                   }}
                   visibleOptions={2}
                 >
@@ -190,15 +184,15 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
                   options={BLOG_OPTIONS}
                   value={selectedBlogOption}
                   onSelect={(option) => {
-                    setSelectedBlogOption(option.value as '전체 활동' | '서류/면접');
-                    if (option.value === '서류/면접' && selectedActivities !== null) {
+                    setSelectedBlogOption(option.value as BlogOptionValue);
+                    if (option.value === BLOG_OPTIONS[0].value && selectedRecruitOption !== '')
+                      setSelectedRecruitOption('');
+                    if (option.value === BLOG_OPTIONS[1].value && selectedActivities !== null)
                       setSelectedActivities([]);
-                    }
-                    if (option.value === '전체 활동' && selectedRecruitOption !== '') setSelectedRecruitOption('');
                   }}
                 />
               </Responsive>
-              {selectedBlogOption === '서류/면접' && (
+              {selectedBlogOption === BLOG_OPTIONS[1].value && (
                 <>
                   <Responsive only='desktop'>
                     <SelectV2.Root<string>
@@ -230,7 +224,7 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
               )}
             </SelectWrapper>
           </section>
-          {selectedBlogOption === '전체 활동' && (
+          {selectedBlogOption === BLOG_OPTIONS[0].value && (
             <section>
               <Label>
                 세부 활동 선택
@@ -260,8 +254,8 @@ const UploadBlog: FC<UploadBlogProps> = ({ state, errorMessage, onSubmit }) => {
             disabled={
               !url ||
               selectedBlogOption === '' ||
-              (selectedBlogOption === '전체 활동' && selectedActivities.length === 0) ||
-              (selectedBlogOption === '서류/면접' && selectedRecruitOption === '') ||
+              (selectedBlogOption === BLOG_OPTIONS[0].value && selectedActivities.length === 0) ||
+              (selectedBlogOption === BLOG_OPTIONS[1].value && selectedRecruitOption === '') ||
               !selectedGeneration ||
               !selectedPart
             }
