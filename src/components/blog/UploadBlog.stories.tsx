@@ -1,14 +1,14 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import UploadSopticle from './UploadSopticle';
+import UploadBlog from './UploadBlog';
 
 export default {
-  component: UploadSopticle,
+  component: UploadBlog,
   parameters: {},
   decorators: [],
-} as ComponentMeta<typeof UploadSopticle>;
+} as ComponentMeta<typeof UploadBlog>;
 
-const Template: ComponentStory<typeof UploadSopticle> = (args) => <UploadSopticle {...args} />;
+const Template: ComponentStory<typeof UploadBlog> = (args) => <UploadBlog {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

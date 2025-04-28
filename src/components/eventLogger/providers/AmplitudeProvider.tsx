@@ -29,9 +29,9 @@ const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) =
         if (data && property) {
           amplitudeController.setUserProperties({
             id: property.id,
-            job: property.job,
-            major: property.major,
-            organization: property.organization,
+            job: property.job || '',
+            major: property.major || '',
+            organization: property.organization || '',
             generation: property.generation,
             part: property.part,
             coffeeChatStatus: property.coffeeChatStatus,

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import AuthRequired from '@/components/auth/AuthRequired';
-import UploadSuccess from '@/components/sopticle/Success';
+import UploadSuccess from '@/components/blog/Success';
 import { setLayout } from '@/utils/layout';
 
 const SuccessPage: FC = () => {
