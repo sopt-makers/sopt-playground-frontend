@@ -241,6 +241,8 @@ export interface SubmitEvents {
   coffeechatDelete: undefined;
   editCoffeechat: undefined;
   coffeechatReview: undefined;
+  // 활동후기 업로드하기
+  reviewUpload: undefined;
 }
 
 export interface PageViewEvents {

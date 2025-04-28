@@ -9,6 +9,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { postReview, RequestBody } from '@/api/endpoint/review/postReview';
 import AuthRequired from '@/components/auth/AuthRequired';
 import UploadBlog from '@/components/blog/UploadBlog';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
@@ -16,6 +17,7 @@ import { setLayout } from '@/utils/layout';
 const BlogPage: FC = () => {
   const router = useRouter();
   const { data } = useGetMemberOfMe();
+  const { logSubmitEvent } = useEventLogger();
   const { mutate, status, error } = useMutation({
     mutationFn: async (requestBody: RequestBody) => {
       if (!data) {
@@ -27,6 +29,7 @@ const BlogPage: FC = () => {
       return postReview.request(requestBody);
     },
     onSuccess() {
+      logSubmitEvent('reviewUpload');
       router.push(playgroundLink.blogSuccess());
     },
   });
