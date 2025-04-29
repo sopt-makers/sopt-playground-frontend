@@ -31,6 +31,13 @@ const Header: FC = () => {
         </Link>
       );
     }
+    if (href === playgroundLink.blog()) {
+      return (
+        <Link href={href} onClick={() => logClickEvent('reviewUpload')}>
+          {children}
+        </Link>
+      );
+    }
     return <Link href={href}>{children}</Link>;
   };
   const activePathMatcher = (path: string) => router.pathname?.startsWith(path);

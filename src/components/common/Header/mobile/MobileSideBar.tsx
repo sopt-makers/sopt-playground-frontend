@@ -105,10 +105,10 @@ const MobileSideBar: FC<MobileSideBarProps> = ({
               ),
             })}
             {renderLink({
-              href: playgroundLink.sopticle(),
+              href: playgroundLink.blog(),
               children: (
-                <NavItem isActive={activePathMatcher(playgroundLink.sopticle())} onClick={close}>
-                  솝티클
+                <NavItem isActive={activePathMatcher(playgroundLink.blog())} onClick={close}>
+                  활동후기 업로드
                 </NavItem>
               ),
             })}

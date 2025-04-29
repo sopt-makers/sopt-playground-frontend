@@ -27,7 +27,6 @@ export const playgroundLink = {
   reconnectSocialAuth: () => `/auth/reconnect`,
   connectSocialAuth: () => `/auth/register`,
   makers: () => `/makers`,
-  sopticle: () => `/sopticle`,
   blog: () => `/blog`,
   blogSuccess: () => `/blog/success`,
   mentoringDetail: (id: number) => `/mentoring/${id}`,
