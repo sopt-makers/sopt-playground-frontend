@@ -1,6 +1,6 @@
 {
   "name": "@sopt-makers/playground-common",
-  "version": "1.6.2",
+  "version": "1.7.2",
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",
