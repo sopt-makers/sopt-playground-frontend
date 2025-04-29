@@ -59,6 +59,7 @@ export interface ClickEvents {
     referral: string;
   };
   myProfile: undefined;
+  reviewUpload: undefined;
   editProfile: undefined;
   submitProfile: undefined;
   aboutMakers: undefined;
