@@ -50,8 +50,8 @@ const DesktopHeader: FC<DesktopHeaderProps> = ({ user, onLogout, renderLink, act
         })}
         <NavItem isActive={false}>|</NavItem>
         {renderLink({
-          href: playgroundLink.sopticle(),
-          children: <NavItem isActive={activePathMatcher(playgroundLink.sopticle())}>솝티클 업로드</NavItem>,
+          href: playgroundLink.blog(),
+          children: <NavItem isActive={activePathMatcher(playgroundLink.blog())}>활동후기 업로드</NavItem>,
         })}
       </NavArea>
       <ActionArea>
