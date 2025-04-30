@@ -18,6 +18,8 @@ export const getMemberproperty = createEndpoint({
     coffeeChatStatus: z.string(),
     receivedCoffeeChatCount: z.number(),
     sentCoffeeChatCount: z.number(),
+    uploadSopticleCount: z.number(),
+    uploadReviewCount: z.number(),
   }),
 });
 
@@ -29,7 +31,6 @@ export const useGetMemberProperty = () => {
     queryKey: ['getMemberProperty'],
     queryFn: async () => {
       const data = await getMemberproperty.request();
-      console.log(data);
       return data;
     },
   });

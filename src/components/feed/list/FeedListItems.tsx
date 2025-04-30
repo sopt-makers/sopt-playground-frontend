@@ -29,7 +29,7 @@ import { useNavigateBack } from '@/components/navigation/useNavigateBack';
 import { textStyles } from '@/styles/typography';
 interface FeedListItemsProps {
   categoryId: string | undefined;
-  renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
+  renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
   onScrollChange?: (scrolling: boolean) => void;
 }
 
@@ -116,6 +116,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
 
           return renderFeedDetailLink({
             feedId: `${post.id}`,
+            category: `${post.categoryName}`,
             children: (
               <FeedCard
                 onClick={() => setMap((map) => ({ ...map, [categoryId ?? '']: idx }))}
@@ -227,7 +228,10 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                   </FeedDropdown>
                 }
                 like={
-                  <LoggingClick eventKey={post.isLiked ? 'feedUnlike' : 'feedLike'} param={{ feedId: String(post.id) }}>
+                  <LoggingClick
+                    eventKey={post.isLiked ? 'feedUnlike' : 'feedLike'}
+                    param={{ feedId: String(post.id), category: post.categoryName }}
+                  >
                     <FeedLike
                       isLiked={post.isLiked}
                       likes={post.likes}

@@ -18,7 +18,7 @@ import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface FeedListProps {
-  renderFeedDetailLink: (props: { children: ReactNode; feedId: string }) => ReactNode;
+  renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
   onScrollChange?: (scrolling: boolean) => void;
 }
 

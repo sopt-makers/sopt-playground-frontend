@@ -29,10 +29,10 @@ const CommunityPage: FC = () => {
           isDetailOpen={isDetailOpen}
           listSlot={
             <FeedList
-              renderFeedDetailLink={({ children, feedId }) => (
+              renderFeedDetailLink={({ children, feedId, category }) => (
                 <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
-                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
-                    <LoggingClick eventKey='feedCard' param={{ feedId }}>
+                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId, category }}>
+                    <LoggingClick eventKey='feedCard' param={{ feedId, category }}>
                       <FeedDetailLink feedId={feedId}>{children}</FeedDetailLink>
                     </LoggingClick>
                   </LoggingImpression>
@@ -70,10 +70,10 @@ const CommunityPage: FC = () => {
           isDetailOpen={isDetailOpen}
           listSlot={
             <FeedList
-              renderFeedDetailLink={({ children, feedId }) => (
+              renderFeedDetailLink={({ children, feedId, category }) => (
                 <ImpressionArea onImpressionStart={() => queueHit(feedId)}>
-                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId }}>
-                    <LoggingClick eventKey='feedCard' param={{ feedId }}>
+                  <LoggingImpression areaThreshold={0.5} eventKey='feedCard' param={{ feedId, category }}>
+                    <LoggingClick eventKey='feedCard' param={{ feedId, category }}>
                       <Link
                         href={{
                           pathname: playgroundLink.feedDetail(feedId),

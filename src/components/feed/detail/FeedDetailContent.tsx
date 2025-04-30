@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
 import { getMemberInfo } from '@/components/feed/common/utils';
@@ -58,22 +59,27 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         sopticleUrl={postData.posts.sopticleUrl ?? ''}
         thumbnailUrl={postData.posts.images[0]}
         like={
-          <FeedLike
-            isLiked={postData.isLiked}
-            likes={postData.likes}
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              handleToggleLike({
-                postId: Number(postId),
-                isLiked: postData.isLiked,
-                likes: postData.likes,
-                allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
-                postsQueryKey: useGetPostsInfiniteQuery.getKey(postData.posts.categoryId.toString()),
-                postQueryKey: getPost.cacheKey(postId),
-              });
-            }}
-          />
+          <LoggingClick
+            eventKey={postData.isLiked ? 'feedUnlike' : 'feedLike'}
+            param={{ feedId: postId, category: postData.category.name }}
+          >
+            <FeedLike
+              isLiked={postData.isLiked}
+              likes={postData.likes}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                handleToggleLike({
+                  postId: Number(postId),
+                  isLiked: postData.isLiked,
+                  likes: postData.likes,
+                  allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                  postsQueryKey: useGetPostsInfiniteQuery.getKey(postData.posts.categoryId.toString()),
+                  postQueryKey: getPost.cacheKey(postId),
+                });
+              }}
+            />
+          </LoggingClick>
         }
       />
     </DetailFeedCard.Main>

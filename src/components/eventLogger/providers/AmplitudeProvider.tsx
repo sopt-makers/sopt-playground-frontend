@@ -37,6 +37,8 @@ const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) =
             coffeeChatStatus: property.coffeeChatStatus,
             receivedCoffeeChatCount: property.receivedCoffeeChatCount,
             sentCoffeeChatCount: property.sentCoffeeChatCount,
+            uploadSopticleCount: property.uploadSopticleCount,
+            uploadReviewCount: property.uploadReviewCount,
           });
         }
 

@@ -14,14 +14,16 @@ type CommunityFeedData = {
 
 export type UserProperties = {
   id: number;
-  major: string;
-  organization: string;
-  job: string;
+  major: string | null;
+  organization: string | null;
+  job: string | null;
   part: string[];
   generation: number[];
   coffeeChatStatus: string;
   receivedCoffeeChatCount: number;
   sentCoffeeChatCount: number;
+  uploadSopticleCount: number;
+  uploadReviewCount: number;
 };
 
 type GotoCoffeechat = {
@@ -107,6 +109,7 @@ export interface ClickEvents {
   };
   feedCard: {
     feedId: string;
+    category: string;
   };
   feedShareButton: {
     feedId: string;
@@ -122,9 +125,11 @@ export interface ClickEvents {
   feedUploadButton: undefined;
   feedLike: {
     feedId: string;
+    category: string;
   };
   feedUnlike: {
     feedId: string;
+    category: string;
   };
 
   //환영배너 타임캡솝 cta 버튼 클릭
@@ -222,7 +227,9 @@ export interface SubmitEvents {
     word: string;
   };
   wordchainNewGame: undefined;
-  submitCommunity: undefined;
+  submitCommunity: {
+    category: string | undefined;
+  };
   editCommunity: undefined;
   // 커뮤니티(피드)
   postComment: {
@@ -265,6 +272,7 @@ export interface PageViewEvents {
 export interface ImpressionEvents {
   feedCard: {
     feedId: string;
+    category: string;
   };
   ads: { bannerId: number; pageUrl: string; timeStamp: string };
   adPopup: undefined;
