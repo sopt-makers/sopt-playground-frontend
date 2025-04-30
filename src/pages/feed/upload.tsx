@@ -53,7 +53,7 @@ const FeedUpload: FC = () => {
           isQuestion: false,
           isBlindWriter: false,
           images: [],
-          sopticleUrl: null,
+          link: null,
         }}
         onSubmit={handlUploadSubmit}
       />

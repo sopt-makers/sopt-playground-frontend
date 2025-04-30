@@ -88,7 +88,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (isSopticle && !validateLink(feedData.sopticleUrl)) {
+    if (isSopticle && !validateLink(feedData.link)) {
       return;
     }
 
@@ -100,7 +100,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         isQuestion: feedData.isQuestion,
         isBlindWriter: feedData.isBlindWriter,
         images: feedData.images,
-        sopticleUrl: feedData.sopticleUrl,
+        link: feedData.link,
       },
       id: editingId ?? null,
     });
@@ -190,7 +190,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       handleSaveSopticleUrl(e);
                       resetLinkError();
                     }}
-                    value={feedData.sopticleUrl}
+                    value={feedData.link}
                     isError={isLinkError}
                   />
                   <Callout type='information' hasIcon>
@@ -320,7 +320,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                         handleSaveSopticleUrl(e);
                         resetLinkError();
                       }}
-                      value={feedData.sopticleUrl}
+                      value={feedData.link}
                       isError={isLinkError}
                     />
                     <CalloutWrapper>

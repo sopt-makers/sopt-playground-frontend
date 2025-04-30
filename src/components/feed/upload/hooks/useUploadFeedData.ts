@@ -53,7 +53,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   };
 
   const handleSaveSopticleUrl = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFeedData((feedData) => ({ ...feedData, sopticleUrl: e.target.value }));
+    setFeedData((feedData) => ({ ...feedData, link: e.target.value }));
   };
 
   const saveImageUrls = (urls: string[]) => {
@@ -68,7 +68,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   const checkReadyToUpload = () => {
     return (
       (feedData.categoryId !== null && feedData.content.trim()) ||
-      (feedData.categoryId === SOPTICLE_CATEGORY_ID && feedData.sopticleUrl?.trim())
+      (feedData.categoryId === SOPTICLE_CATEGORY_ID && feedData.link?.trim())
     );
   };
 
