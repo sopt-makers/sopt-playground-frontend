@@ -27,7 +27,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
       ...feedData,
       categoryId,
       ...(isSopticle // / 솝티클이면 content와 title 초기화
-        ? { content: '', title: '' }
+        ? { content: 'content', title: '' }
         : {}),
     }));
   };
