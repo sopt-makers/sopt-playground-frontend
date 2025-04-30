@@ -4,7 +4,7 @@ import { ChangeEvent, KeyboardEvent } from 'react';
 
 interface LinkInputProps {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
-  value: string;
+  value: string | null;
   isError: boolean;
 }
 

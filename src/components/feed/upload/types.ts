@@ -8,7 +8,7 @@ export interface FeedDataType {
 }
 
 export interface PostedFeedDataType extends FeedDataType {
-  id: number;
+  link: string | null;
 }
 
 export interface EditFeedDataType extends FeedDataType {

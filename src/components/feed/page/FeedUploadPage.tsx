@@ -25,7 +25,7 @@ import LinkInput from '@/components/feed/upload/Input/LinkInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import { FeedDataType } from '@/components/feed/upload/types';
+import { PostedFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
@@ -34,8 +34,8 @@ import { textStyles } from '@/styles/typography';
 
 interface FeedUploadPageProp {
   editingId?: number;
-  defaultValue: FeedDataType;
-  onSubmit: ({ data, id }: { data: FeedDataType; id: number | null }) => void;
+  defaultValue: PostedFeedDataType;
+  onSubmit: ({ data, id }: { data: PostedFeedDataType; id: number | null }) => void;
 }
 
 export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: FeedUploadPageProp) {
@@ -51,8 +51,8 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     removeImage,
     handleSaveTitle,
     handleSaveContent,
-    resetFeedData,
     checkReadyToUpload,
+    handleSaveSopticleUrl,
   } = useUploadFeedData(defaultValue);
 
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
@@ -88,7 +88,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (isSopticle && !validateLink(feedData.content)) {
+    if (isSopticle && !validateLink(feedData.link)) {
       return;
     }
 
@@ -100,6 +100,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         isQuestion: feedData.isQuestion,
         isBlindWriter: feedData.isBlindWriter,
         images: feedData.images,
+        link: feedData.link,
       },
       id: editingId ?? null,
     });
@@ -186,10 +187,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                 <InputWrapper>
                   <LinkInput
                     onChange={(e) => {
-                      handleSaveContent(e);
+                      handleSaveSopticleUrl(e);
                       resetLinkError();
                     }}
-                    value={feedData.content}
+                    value={feedData.link}
                     isError={isLinkError}
                   />
                   <Callout type='information' hasIcon>
@@ -316,10 +317,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   <InputWrapper>
                     <LinkInput
                       onChange={(e) => {
-                        handleSaveContent(e);
+                        handleSaveSopticleUrl(e);
                         resetLinkError();
                       }}
-                      value={feedData.content}
+                      value={feedData.link}
                       isError={isLinkError}
                     />
                     <CalloutWrapper>
