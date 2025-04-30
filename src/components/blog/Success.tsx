@@ -5,6 +5,7 @@ import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
@@ -22,9 +23,11 @@ const UploadSuccess: FC<UploadSuccessProps> = ({}) => {
       <SubTitle>등록한 활동후기는 SOPT 공식{'\n'}홈페이지에서 확인할 수 있어요.</SubTitle>
 
       <ButtonGroup>
-        <Button size='lg' onClick={() => window.open('https://www.sopt.org/blog', '_blank')}>
-          업로드한 활동후기 보러가기
-        </Button>
+        <LoggingClick eventKey='reviewGoToHomepage'>
+          <Button size='lg' onClick={() => window.open('https://www.sopt.org/blog', '_blank')}>
+            업로드한 활동후기 보러가기
+          </Button>
+        </LoggingClick>
         {/* TODO: 헤더 바꿀때 url이랑 함께 바꾸기 */}
         <Button size='lg' theme='black' onClick={() => router.push(playgroundLink.blog())}>
           활동후기 더 올리기

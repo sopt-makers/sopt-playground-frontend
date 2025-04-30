@@ -194,6 +194,8 @@ export interface ClickEvents {
   timeCapsuleGotoProject: undefined;
   timeCapsuleGotoMember: undefined;
   timeCapsuleGotoCoffeechat: undefined;
+
+  reviewGoToHomepage: undefined; // 업로드한 활동후기 보러가기
 }
 
 export interface SubmitEvents {
@@ -242,6 +244,8 @@ export interface SubmitEvents {
   coffeechatDelete: undefined;
   editCoffeechat: undefined;
   coffeechatReview: undefined;
+
+  reviewUpload: undefined; // 활동후기 업로드하기
 }
 
 export interface PageViewEvents {
