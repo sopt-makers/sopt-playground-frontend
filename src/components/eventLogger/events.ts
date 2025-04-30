@@ -14,14 +14,16 @@ type CommunityFeedData = {
 
 export type UserProperties = {
   id: number;
-  major: string;
-  organization: string;
-  job: string;
+  major: string | null;
+  organization: string | null;
+  job: string | null;
   part: string[];
   generation: number[];
   coffeeChatStatus: string;
   receivedCoffeeChatCount: number;
   sentCoffeeChatCount: number;
+  uploadSopticleCount: number;
+  uploadReviewCount: number;
 };
 
 type GotoCoffeechat = {

@@ -16,7 +16,9 @@ export function createAmplitudeController(apiKey: string, userId: string | undef
   const setUserProperties = (properties: UserProperties) => {
     const identify = new Identify();
     for (const [key, value] of Object.entries(properties)) {
-      identify.set(key, value);
+      if (value !== null) {
+        identify.set(key, value);
+      }
     }
     instance.identify(identify);
   };

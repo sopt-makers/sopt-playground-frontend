@@ -10,14 +10,16 @@ export const getMemberproperty = createEndpoint({
   },
   serverResponseScheme: z.object({
     id: z.number(),
-    major: z.string(),
-    job: z.string(),
-    organization: z.string(),
+    major: z.string().nullable(),
+    job: z.string().nullable(),
+    organization: z.string().nullable(),
     part: z.array(z.string()),
     generation: z.array(z.number()),
     coffeeChatStatus: z.string(),
     receivedCoffeeChatCount: z.number(),
     sentCoffeeChatCount: z.number(),
+    uploadSopticleCount: z.number(),
+    uploadReviewCount: z.number(),
   }),
 });
 
@@ -29,7 +31,6 @@ export const useGetMemberProperty = () => {
     queryKey: ['getMemberProperty'],
     queryFn: async () => {
       const data = await getMemberproperty.request();
-      console.log(data);
       return data;
     },
   });
