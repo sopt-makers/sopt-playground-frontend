@@ -9,7 +9,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import FeedUploadPage, { LoadingWrapper } from '@/components/feed/page/FeedUploadPage';
-import { FeedDataType } from '@/components/feed/upload/types';
+import { PostedFeedDataType } from '@/components/feed/upload/types';
 import { setLayout } from '@/utils/layout';
 
 const FeedUpload: FC = () => {
@@ -18,10 +18,11 @@ const FeedUpload: FC = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (reqeustBody: { data: FeedDataType; id: number | null }) => uploadFeed.request({ ...reqeustBody.data }),
+    mutationFn: (reqeustBody: { data: PostedFeedDataType; id: number | null }) =>
+      uploadFeed.request({ ...reqeustBody.data }),
   });
 
-  const handlUploadSubmit = ({ data, id }: { data: FeedDataType; id: number | null }) => {
+  const handlUploadSubmit = ({ data, id }: { data: PostedFeedDataType; id: number | null }) => {
     mutate(
       { data: data, id: id },
       {
@@ -52,6 +53,7 @@ const FeedUpload: FC = () => {
           isQuestion: false,
           isBlindWriter: false,
           images: [],
+          sopticleUrl: null,
         }}
         onSubmit={handlUploadSubmit}
       />

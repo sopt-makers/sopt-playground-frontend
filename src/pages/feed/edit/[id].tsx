@@ -74,6 +74,7 @@ const FeedEdit: FC = () => {
                   isQuestion: data.posts.isQuestion,
                   isBlindWriter: data.posts.isBlindWriter,
                   images: data.posts.images,
+                  sopticleUrl: data.posts.sopticleUrl,
                 }}
                 onSubmit={handleEditSubmit}
                 editingId={data.posts.id}
