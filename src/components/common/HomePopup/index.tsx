@@ -88,7 +88,7 @@ export const HomePopup = () => {
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
                   {/* <button onClick={handleOpenModal}> */}
-                  <a href='https://forms.gle/7YoMoyNtzt1QZfCWA'>
+                  <a href='https://forms.gle/7YoMoyNtzt1QZfCWA' target='blank'>
                     <StImage src='/icons/img/community_research_desktop.png' />
                   </a>
                   {/* </button> */}
@@ -97,7 +97,7 @@ export const HomePopup = () => {
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
                   {/* <button onClick={handleOpenModal}> */}
-                  <a href='https://forms.gle/7YoMoyNtzt1QZfCWA'>
+                  <a href='https://forms.gle/7YoMoyNtzt1QZfCWA' target='blank'>
                     <StImage src='/icons/img/community_research_mobile.png' />
                   </a>
                   {/* </button> */}
