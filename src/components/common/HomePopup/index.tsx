@@ -25,20 +25,20 @@ export const HomePopup = () => {
   const today = getKoreanDate();
 
   // 타임캡솝 저장 여부 기록을 위한 코드
-  const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
-  const onNewRegistration = () => {
-    setIsAlreadyRegistration(false);
-  };
+  // const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
+  // const onNewRegistration = () => {
+  //   setIsAlreadyRegistration(false);
+  // };
 
-  const {
-    isOpenResolutionModal,
-    onCloseResolutionModal,
-    handleResolutionModalOpen,
-    name,
-    isOpenPlaygroundGuideModal,
-    onOpenPlaygroundGuideModal,
-    onClosePlaygroundGuideModal,
-  } = useOpenResolutionModal();
+  // const {
+  //   isOpenResolutionModal,
+  //   onCloseResolutionModal,
+  //   handleResolutionModalOpen,
+  //   name,
+  //   isOpenPlaygroundGuideModal,
+  //   onOpenPlaygroundGuideModal,
+  //   onClosePlaygroundGuideModal,
+  // } = useOpenResolutionModal();
 
   useEffect(() => {
     const storedDate = localStorage.getItem('popupClosedDate');
@@ -73,10 +73,11 @@ export const HomePopup = () => {
     await Promise.resolve();
   };
 
-  const handleOpenModal = async () => {
-    await handleClosePopup();
-    handleResolutionModalOpen();
-  };
+  // 타입캡솝 모달 띄우기
+  // const handleOpenModal = async () => {
+  //   await handleClosePopup();
+  //   handleResolutionModalOpen();
+  // };
 
   return (
     <>
@@ -86,16 +87,20 @@ export const HomePopup = () => {
             <StPopupModal>
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <button onClick={handleOpenModal}>
-                    <StImage src='/icons/img/timecapsop_popup_desktop.png' />
-                  </button>
+                  {/* <button onClick={handleOpenModal}> */}
+                  <a href='https://forms.gle/7YoMoyNtzt1QZfCWA' target='blank'>
+                    <StImage src='/icons/img/community_research_desktop.png' />
+                  </a>
+                  {/* </button> */}
                 </LoggingClick>
               </Responsive>
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <button onClick={handleOpenModal}>
-                    <StImage src='/icons/img/timecapsop_popup_mobile.png' />
-                  </button>
+                  {/* <button onClick={handleOpenModal}> */}
+                  <a href='https://forms.gle/7YoMoyNtzt1QZfCWA' target='blank'>
+                    <StImage src='/icons/img/community_research_mobile.png' />
+                  </a>
+                  {/* </button> */}
                 </LoggingClick>
               </Responsive>
               <StModalFooter>
@@ -111,7 +116,8 @@ export const HomePopup = () => {
         </StBackground>
       )}
 
-      <TimecapsopSubmitModal
+      {/* 신입 기수 들어올 때 타임캡솝 이동 및 플그 가이드 모달 띄우기 */}
+      {/* <TimecapsopSubmitModal
         onClose={onCloseResolutionModal}
         userName={name ?? '나'}
         onSuccess={() => {
@@ -124,7 +130,7 @@ export const HomePopup = () => {
         isAlreadyRegistration={isAlreadyRegistration}
         onClose={onClosePlaygroundGuideModal}
         isOpen={isOpenPlaygroundGuideModal}
-      />
+      /> */}
     </>
   );
 };
