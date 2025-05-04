@@ -9,9 +9,9 @@ const HomePopupContainer = () => {
 
   if (isPending) return <Skeleton height={168} margin='0 0 16px 0' />;
 
-  // if (!isLastGeneration) {
-  //   return null;
-  // }
+  if (!isLastGeneration) {
+    return null;
+  }
 
   return <HomePopup />;
 };
