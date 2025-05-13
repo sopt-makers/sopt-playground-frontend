@@ -135,11 +135,7 @@ export default function MemberBasicFormSection() {
           title='활동 지역'
           description={`가까운 지하철역을 작성해주세요. \n활동 지역이 여러개일 경우 쉼표(,)로 구분해서 적어주세요.`}
         >
-          <StyledTextField
-            {...register('address')}
-            placeholder='ex) 광나루역, 서울역, 홍대입구역'
-            style={{ marginTop: '4px' }}
-          />
+          <StyledTextField {...register('address')} placeholder='ex) 광나루역, 서울역, 홍대입구역' />
         </FormItem>
         <Responsive only='desktop'>
           <EducationInputWrapper>
@@ -227,6 +223,11 @@ const StyledImageUploader = styled(ImageUploader)`
 const StyledTextField = styled(TextField)`
   margin-top: 12px;
   width: 441px;
+  height: 48px;
+
+  & input {
+    height: 100%;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 10px;

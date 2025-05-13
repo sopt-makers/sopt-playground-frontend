@@ -118,11 +118,14 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
               >
                 <CareerItemWrapper>
                   <CareerInputWrapper>
-                    <TextField
+                    <StyledTextField
                       {...register(`careers.${index}.companyName`)}
                       placeholder='회사 입력 ex. 토스, 네이버, 당근, 쿠팡'
                     />
-                    <TextField {...register(`careers.${index}.title`)} placeholder='직무 입력 ex. 프로덕트 디자이너' />
+                    <StyledTextField
+                      {...register(`careers.${index}.title`)}
+                      placeholder='직무 입력 ex. 프로덕트 디자이너'
+                    />
                   </CareerInputWrapper>
                   <CareerDetail>
                     <IsCurrent>
@@ -215,7 +218,7 @@ export default function CareerFormSection({ header }: CareerFormSectionProps) {
                       </>
                     )}
                   />
-                  <TextField
+                  <StyledTextField
                     {...register(`links.${index}.url`)}
                     isError={errors?.links?.[index]?.hasOwnProperty('url')}
                     placeholder='https://'
@@ -304,7 +307,7 @@ const CareerDescription = styled(Text)`
 
 const SkillDescription = styled(Text)`
   display: block;
-  margin-top: 10px;
+  margin: 10px 0 12px;
   white-space: pre-line;
   color: ${colors.gray300};
 
@@ -332,8 +335,13 @@ const EndDateWrapper = styled.div`
 `;
 
 const StyledTextField = styled(TextField)`
-  margin-top: 12px;
-  width: 632px;
+  width: 100%;
+  max-width: 632px;
+  height: 48px;
+
+  & input {
+    height: 100%;
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 10px;
