@@ -1,25 +1,31 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { useRouter } from 'next/router';
 
 import { useWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
+import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import QuestionCard from '@/components/feed/home/QuestionArea/QuestionCard';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const QuestionArea = () => {
   const userName = '문성희';
   const { data: questions, isLoading } = useWaitingQuestions();
+  const router = useRouter();
+
+  const navigateToQuestion = () => {
+    router.push(`/?category=${QUESTION_CATEGORY_ID}`);
+  };
 
   return (
     <Container>
       <TitleBox>
         <Title>
           <UserNameStyle>{userName}</UserNameStyle>님의
-          <MobileLineBreak />
-          답변을 기다리고 있는 질문이에요
+          <MobileLineBreak /> 답변을 기다리고 있는 질문이에요
         </Title>
-        <AllBtn>전체보기</AllBtn>
+        <AllBtn onClick={navigateToQuestion}>전체보기</AllBtn>
       </TitleBox>
 
       <QuestionFeedList>
