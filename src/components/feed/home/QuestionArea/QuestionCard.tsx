@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { useRouter } from 'next/router';
 
 import { WaitingQuestion } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
+import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import FeedIcon from '@/components/feed/home/QuestionArea/FeedIcon';
 
 interface QuestionCardProps {
@@ -12,9 +14,14 @@ interface QuestionCardProps {
 
 const QuestionCard = ({ question }: QuestionCardProps) => {
   const { id, title, content, createdAt, likeCount, commentCount } = question;
+  const router = useRouter();
+
+  const handleClickCard = () => {
+    router.push(`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`);
+  };
 
   return (
-    <CardContainer>
+    <CardContainer onClick={handleClickCard}>
       <CardContent>
         <TitleStyle>{title}</TitleStyle>
         <ContentStyle>{content}</ContentStyle>
