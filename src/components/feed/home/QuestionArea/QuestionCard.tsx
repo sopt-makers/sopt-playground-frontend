@@ -2,26 +2,29 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 
+import { WaitingQuestion } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
 import FeedIcon from '@/components/feed/home/QuestionArea/FeedIcon';
 
-const QuestionCard = () => {
-  const createdDate = '1일전';
+interface QuestionCardProps {
+  question: WaitingQuestion;
+}
+
+const QuestionCard = ({ question }: QuestionCardProps) => {
+  const { id, title, content, createdAt, likeCount, commentCount } = question;
+
   return (
     <CardContainer>
       <CardContent>
-        <TitleStyle>커피솝으로 커피챗 진행해보신 분 계신가요..?커피솝으로 커피챗 진행해보신 분 계신가요..?</TitleStyle>
-        <ContentStyle>
-          후기 어땠는지 궁금합니당!! 개발을 시작한지 얼마 안 돼서 깊은 질문은 못 드릴 거 같은커피솝으로 커피챗
-          진행해보신 분 계신가요..?
-        </ContentStyle>
+        <TitleStyle>{title}</TitleStyle>
+        <ContentStyle>{content}</ContentStyle>
       </CardContent>
 
       <CardFooter>
-        <CreatedDate>{createdDate}</CreatedDate>
+        <CreatedDate>{createdAt}</CreatedDate>
         <FeedIconBox>
-          <FeedIcon type='thumbsUp' count={0} />
-          <FeedIcon type='message' count={0} />
+          <FeedIcon type='thumbsUp' count={likeCount} />
+          <FeedIcon type='message' count={commentCount} />
         </FeedIconBox>
       </CardFooter>
     </CardContainer>

@@ -2,12 +2,15 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 
+import { useWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
 import QuestionCard from '@/components/feed/home/QuestionArea/QuestionCard';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const QuestionArea = () => {
   const userName = '문성희';
+  const { data: questions, isLoading } = useWaitingQuestions();
+
   return (
     <Container>
       <TitleBox>
@@ -20,11 +23,7 @@ const QuestionArea = () => {
       </TitleBox>
 
       <QuestionFeedList>
-        <QuestionCard />
-        <QuestionCard />
-        <QuestionCard />
-        <QuestionCard />
-        <QuestionCard />
+        {!isLoading && questions?.map((question) => <QuestionCard key={question.id} question={question} />)}
       </QuestionFeedList>
     </Container>
   );
