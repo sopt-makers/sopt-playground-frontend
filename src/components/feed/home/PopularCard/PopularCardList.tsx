@@ -54,6 +54,7 @@ const TitleWrapper = styled.h1`
   gap: 8px;
   align-items: center;
   margin-bottom: 16px;
+  text-align: left;
 
   @media ${MB_SM_MEDIA_QUERY} {
     flex-direction: column;
