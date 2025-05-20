@@ -4,12 +4,14 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconEye } from '@sopt-makers/icons';
 import { Tag } from '@sopt-makers/ui';
+import ResizedImage from '@/components/common/ResizedImage';
+import { IconMember } from '@/components/feed/common/Icon';
 
 interface PopularCardProps {
   rank: number;
   category: string;
   title: string;
-  profileImage: string;
+  profileImage: string | null;
   name: string;
   hits: number;
 }
@@ -32,7 +34,11 @@ const PopularCard = ({ rank, category, title, profileImage, name, hits }: Popula
         </TitleText>
       </FeedInfo>
       <FeedInfo authorBox>
-        <img src={profileImage} alt={name} />
+        {profileImage ? (
+          <ProfileImage width={20} height={20} src={profileImage} alt={name} />
+        ) : (
+          <IconMember size={20} />
+        )}
         <Text typography='SUIT_14_SB' color={colors.gray50} lineHeight={18}>
           {name}
         </Text>
@@ -49,7 +55,7 @@ const PopularCard = ({ rank, category, title, profileImage, name, hits }: Popula
 
 export default PopularCard;
 
-const PopularCardWrapper = styled.div`
+const PopularCardWrapper = styled.li`
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -83,12 +89,12 @@ const FeedInfo = styled.div<FeedInfoProps>`
     width: 128px;
     flex-shrink: 0;
   `}
+`;
 
-  img {
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-  }
+const ProfileImage = styled(ResizedImage)`
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
 `;
 
 const Category = styled(Tag)`
