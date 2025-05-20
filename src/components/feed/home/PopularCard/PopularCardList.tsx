@@ -19,16 +19,22 @@ const PopularCardList = () => {
         </Text>
       </TitleWrapper>
       <ContentWrapper>
+        {isError && (
+          <Text
+            typography='SUIT_14_M'
+            color={colors.gray300}
+            lineHeight={16}
+            style={{ textAlign: 'center', padding: '80px' }}
+          >
+            인기글을 보여주는데 문제가 발생했어요.
+          </Text>
+        )}
+        {isLoading &&
+          Array.from({ length: 3 }).map((_, index) => (
+            <PopularCard key={`skeleton-${index}`} rank={index + 1} isLoading />
+          ))}
         {data?.map((card, index) => (
-          <PopularCard
-            key={card.id}
-            rank={index + 1}
-            category={card.category}
-            title={card.title}
-            profileImage={card.member.profileImage}
-            name={card.member.name}
-            hits={card.hits}
-          />
+          <PopularCard key={card.id} rank={index + 1} card={card} />
         ))}
       </ContentWrapper>
     </>

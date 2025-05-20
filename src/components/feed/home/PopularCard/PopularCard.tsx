@@ -3,17 +3,23 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconEye } from '@sopt-makers/icons';
-import { Tag } from '@sopt-makers/ui';
+import { Skeleton, Tag } from '@sopt-makers/ui';
 import ResizedImage from '@/components/common/ResizedImage';
 import { IconMember } from '@/components/feed/common/Icon';
 
 interface PopularCardProps {
   rank: number;
-  category: string;
-  title: string;
-  profileImage: string | null;
-  name: string;
-  hits: number;
+  card?: {
+    id: number;
+    category: string;
+    title: string;
+    hits: number;
+    member: {
+      name: string;
+      profileImage: string | null;
+    };
+  };
+  isLoading?: boolean;
 }
 
 interface FeedInfoProps {
@@ -21,7 +27,42 @@ interface FeedInfoProps {
   authorBox?: boolean;
 }
 
-const PopularCard = ({ rank, category, title, profileImage, name, hits }: PopularCardProps) => {
+const PopularSkeleton = ({ rank }: { rank: number }) => {
+  return (
+    <PopularCardWrapper>
+      <Text typography='SUIT_18_SB' color={colors.white} lineHeight={24} style={{ width: '16px' }}>
+        {rank}
+      </Text>
+      <FeedInfo titleBox>
+        <Category>
+          <Skeleton width={20} height={14} color={colors.gray700} />
+        </Category>
+        <TitleText typography='SUIT_14_SB' color={colors.white} lineHeight={18}>
+          <Skeleton width={300} height={18} color={colors.gray700} />
+        </TitleText>
+      </FeedInfo>
+      <FeedInfo authorBox>
+        <IconMember size={20} />
+        <Text typography='SUIT_14_SB' color={colors.gray50} lineHeight={18}>
+          <Skeleton width={40} height={18} color={colors.gray700} />
+        </Text>
+      </FeedInfo>
+      <HitsInfo>
+        <HitsIcon />
+        <Text typography='SUIT_14_SB' color={colors.gray400} lineHeight={18}>
+          <Skeleton width={25} height={18} color={colors.gray700} />
+        </Text>
+      </HitsInfo>
+    </PopularCardWrapper>
+  );
+};
+
+const PopularCard = ({ rank, card, isLoading }: PopularCardProps) => {
+  if (isLoading || !card) return <PopularSkeleton rank={rank} />;
+
+  const { category, title, hits, member } = card;
+  const { name, profileImage } = member;
+
   return (
     <PopularCardWrapper>
       <Text typography='SUIT_18_SB' color={colors.white} lineHeight={24} style={{ width: '16px' }}>
