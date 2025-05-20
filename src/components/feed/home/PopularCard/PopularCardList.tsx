@@ -4,9 +4,15 @@ import PopularCard from '@/components/feed/home/PopularCard/PopularCard';
 import { MB_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useRouter } from 'next/router';
 
 const PopularCardList = () => {
   const { data, isLoading, isError } = useGetPopularPost();
+  const router = useRouter();
+
+  const handleClickPopular = (id: number) => {
+    router.push(`/?feed=${id}`);
+  };
 
   return (
     <>
@@ -34,7 +40,7 @@ const PopularCardList = () => {
             <PopularCard key={`skeleton-${index}`} rank={index + 1} isLoading />
           ))}
         {data?.map((card, index) => (
-          <PopularCard key={card.id} rank={index + 1} card={card} />
+          <PopularCard key={card.id} rank={index + 1} card={card} onClick={() => handleClickPopular(card.id)} />
         ))}
       </ContentWrapper>
     </>

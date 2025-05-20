@@ -20,6 +20,7 @@ interface PopularCardProps {
     };
   };
   isLoading?: boolean;
+  onClick?: () => void;
 }
 
 interface FeedInfoProps {
@@ -57,14 +58,14 @@ const PopularSkeleton = ({ rank }: { rank: number }) => {
   );
 };
 
-const PopularCard = ({ rank, card, isLoading }: PopularCardProps) => {
+const PopularCard = ({ rank, card, isLoading, onClick }: PopularCardProps) => {
   if (isLoading || !card) return <PopularSkeleton rank={rank} />;
 
   const { category, title, hits, member } = card;
   const { name, profileImage } = member;
 
   return (
-    <PopularCardWrapper>
+    <PopularCardWrapper onClick={onClick} role='button'>
       <Text typography='SUIT_18_SB' color={colors.white} lineHeight={24} style={{ width: '16px' }}>
         {rank}
       </Text>
@@ -102,10 +103,16 @@ const PopularCardWrapper = styled.li`
   gap: 12px;
   align-items: center;
   justify-content: space-between;
+  transition: background 0.2s ease;
   border-radius: 12px;
   background: ${colors.gray900};
+  cursor: pointer;
   padding: 16px;
   width: 100%;
+
+  &:hover {
+    background: ${colors.gray800};
+  }
 `;
 
 const FeedInfo = styled.div<FeedInfoProps>`
