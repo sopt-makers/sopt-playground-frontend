@@ -10,6 +10,7 @@ import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
+import QuestionArea from '@/components/feed/home/QuestionArea';
 import CategorySelect from '@/components/feed/list/CategorySelect';
 import CategorySkeleton from '@/components/feed/list/CategorySkeleton';
 import FeedListItems from '@/components/feed/list/FeedListItems';
@@ -58,20 +59,26 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
       )}
 
       <HeightSpacer>
-        <ErrorBoundary
-          renderFallback={(error) => (
-            <div css={{ textAlign: 'center' }}>
-              게시글을 보여주는데 문제가 발생했어요.
-              <br />({error.error.message})
-            </div>
-          )}
-        >
-          <FeedListItems
-            categoryId={categoryId}
-            renderFeedDetailLink={renderFeedDetailLink}
-            onScrollChange={onScrollChange}
-          />
-        </ErrorBoundary>
+        {!categoryId ? ( // HOT 카테고리
+          <>
+            <QuestionArea />
+          </>
+        ) : (
+          <ErrorBoundary
+            renderFallback={(error) => (
+              <div css={{ textAlign: 'center' }}>
+                게시글을 보여주는데 문제가 발생했어요.
+                <br />({error.error.message})
+              </div>
+            )}
+          >
+            <FeedListItems
+              categoryId={categoryId}
+              renderFeedDetailLink={renderFeedDetailLink}
+              onScrollChange={onScrollChange}
+            />
+          </ErrorBoundary>
+        )}
       </HeightSpacer>
       <LoggingClick eventKey='feedUploadButton'>
         <UploadLink href={playgroundLink.feedUpload()}>
