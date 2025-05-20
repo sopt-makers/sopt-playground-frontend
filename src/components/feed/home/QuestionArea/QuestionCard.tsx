@@ -51,6 +51,14 @@ const CardContainer = styled.div`
   width: 272px;
   height: 158px;
 
+  &:first-of-type {
+    margin-left: 16px;
+  }
+
+  &:last-of-type {
+    margin-right: 16px;
+  }
+
   &:hover {
     background-color: ${colors.gray800};
   }

@@ -40,6 +40,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 16px;
   width: 100%;
 `;
 
@@ -75,7 +76,7 @@ const AllBtn = styled.button`
 const QuestionFeedList = styled.div`
   display: flex;
   gap: 12px;
-  padding-bottom: 4px;
+  margin: 0 -16px;
   overflow-x: auto;
 `;
 
