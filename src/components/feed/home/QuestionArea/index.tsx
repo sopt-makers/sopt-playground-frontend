@@ -78,6 +78,10 @@ const QuestionFeedList = styled.div`
   gap: 12px;
   margin: 0 -16px;
   overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default QuestionArea;
