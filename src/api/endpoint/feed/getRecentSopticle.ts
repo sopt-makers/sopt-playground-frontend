@@ -36,6 +36,7 @@ const recentSopticleSchema = z.object({
   title: z.string(),
   content: z.string(),
   sopticleUrl: z.string(),
+  images: z.array(z.string()),
 });
 
 export type RecentSopticleType = z.infer<typeof recentSopticleSchema>;

@@ -31,7 +31,7 @@ const SopticleCard = ({ sopticle }: SopticleCardProps) => {
       <FeedUrlCard
         title={sopticle.title}
         description={sopticle.content}
-        thumbnailUrl=''
+        thumbnailUrl={sopticle.images[0]}
         sopticleUrl={sopticle.sopticleUrl}
         isFull
       />
