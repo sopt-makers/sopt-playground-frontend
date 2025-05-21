@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
+import { useRouter } from 'next/router';
 
 import { RecentSopticleType } from '@/api/endpoint/feed/getRecentSopticle';
 import Text from '@/components/common/Text';
+import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 
 interface SopticleCardProps {
@@ -11,30 +13,29 @@ interface SopticleCardProps {
 }
 
 const SopticleCard = ({ sopticle }: SopticleCardProps) => {
-  const profileImgSrc = sopticle.member.profileImage
-    ? sopticle.member.profileImage
-    : '/icons/icon-profile-fallback.svg';
+  const router = useRouter();
+  const { id, sopticleUrl, member, createdAt, title, content, images } = sopticle;
+
+  const handleClickCard = () => {
+    router.push(`/?category=${SOPTICLE_CATEGORY_ID}&feed=${id}`);
+  };
+
+  const profileImgSrc = member.profileImage ? member.profileImage : '/icons/icon-profile-fallback.svg';
 
   return (
-    <CardContainer href={sopticle.sopticleUrl} target='_blank'>
+    <CardContainer onClick={handleClickCard} target='_blank'>
       <CardHeader>
         <ProfileImage src={profileImgSrc} />
-        <UserNameStyle>{sopticle.member.name}</UserNameStyle>
+        <UserNameStyle>{member.name}</UserNameStyle>
         <DotStyle>•</DotStyle>
         <SubTextStyle>
-          {sopticle.member.activity.generation}기 {sopticle.member.activity.part}파트
+          {member.activity.generation}기 {member.activity.part}파트
         </SubTextStyle>
         <DotStyle>•</DotStyle>
-        <SubTextStyle>{sopticle.createdAt}</SubTextStyle>
+        <SubTextStyle>{createdAt}</SubTextStyle>
       </CardHeader>
 
-      <FeedUrlCard
-        title={sopticle.title}
-        description={sopticle.content}
-        thumbnailUrl={sopticle.images[0]}
-        sopticleUrl={sopticle.sopticleUrl}
-        isFull
-      />
+      <FeedUrlCard title={title} description={content} thumbnailUrl={images[0]} sopticleUrl={sopticleUrl} isFull />
     </CardContainer>
   );
 };
