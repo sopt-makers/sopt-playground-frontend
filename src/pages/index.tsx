@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   return (
     <AuthRequired>
       {/* 홈팝업 사용시에 주석제거 */}
-      <HomePopupContainer isOnlyLastGeneration={false} />
+      {/* <HomePopupContainer isOnlyLastGeneration={false} /> */}
 
       <ActiveBannerSlot />
       <FeedHomePage />
