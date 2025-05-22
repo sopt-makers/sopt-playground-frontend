@@ -15,7 +15,7 @@ const waitingQuestionSchema = z.object({
 
 export type WaitingQuestion = z.infer<typeof waitingQuestionSchema>;
 
-const getWaitingQuestions = createEndpoint({
+export const getWaitingQuestions = createEndpoint({
   request: {
     method: 'GET',
     url: '/api/v1/community/posts/question',
@@ -25,6 +25,6 @@ const getWaitingQuestions = createEndpoint({
 
 export const useWaitingQuestions = () =>
   useQuery({
-    queryKey: ['waitingQuestions'],
+    queryKey: getWaitingQuestions.cacheKey(),
     queryFn: () => getWaitingQuestions.request(),
   });
