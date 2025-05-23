@@ -72,7 +72,7 @@ const PopularCard = ({ rank, card, isLoading, onClick }: PopularCardProps) => {
       <FeedInfo titleBox>
         <Category>{category}</Category>
         <TitleText typography='SUIT_14_SB' color={colors.white} lineHeight={18}>
-          {title}
+          {title || '제목 없는 게시글'}
         </TitleText>
       </FeedInfo>
       <FeedInfo authorBox>
