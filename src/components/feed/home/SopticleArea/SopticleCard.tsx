@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import { RecentSopticleType } from '@/api/endpoint/feed/getRecentSopticle';
 import Text from '@/components/common/Text';
@@ -13,17 +13,11 @@ interface SopticleCardProps {
 }
 
 const SopticleCard = ({ sopticle }: SopticleCardProps) => {
-  const router = useRouter();
   const { id, sopticleUrl, member, createdAt, title, content, images } = sopticle;
-
-  const handleClickCard = () => {
-    router.push(`/?category=${SOPTICLE_CATEGORY_ID}&feed=${id}`);
-  };
-
   const profileImgSrc = member.profileImage ? member.profileImage : '/icons/icon-profile-fallback.svg';
 
   return (
-    <CardContainer onClick={handleClickCard} target='_blank'>
+    <CardContainer href={`/?category=${SOPTICLE_CATEGORY_ID}&feed=${id}`}>
       <CardHeader>
         <ProfileImage src={profileImgSrc} />
         <UserNameStyle>{member.name}</UserNameStyle>
@@ -40,7 +34,7 @@ const SopticleCard = ({ sopticle }: SopticleCardProps) => {
   );
 };
 
-const CardContainer = styled.a`
+const CardContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
