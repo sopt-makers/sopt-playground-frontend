@@ -63,7 +63,6 @@ export default PopularArea;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
   padding: 16px;
   width: 100%;
 `;
@@ -73,10 +72,11 @@ const TitleWrapper = styled.h1`
   gap: 8px;
   align-items: center;
   margin-bottom: 16px;
-  text-align: left;
+  width: 100%;
 
   @media ${MB_SM_MEDIA_QUERY} {
     flex-direction: column;
+    align-items: start;
   }
 `;
 
