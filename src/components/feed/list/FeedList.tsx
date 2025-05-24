@@ -19,6 +19,7 @@ import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import PopularArea from '@/components/feed/home/PopularArea';
+import Hot from '@/components/feed/home';
 
 interface FeedListProps {
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
@@ -62,11 +63,7 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
 
       <HeightSpacer>
         {!categoryId ? (
-          <>
-            <QuestionArea />
-            <PopularArea />
-            <SopticleArea />
-          </>
+          <Hot />
         ) : (
           <ErrorBoundary
             renderFallback={(error) => (
