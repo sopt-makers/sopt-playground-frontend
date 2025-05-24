@@ -15,7 +15,7 @@ const PopularCardList = () => {
     const categoryId = Object.entries(categoryIdNameMap).find(([_, name]) => name === category)?.[0];
 
     if (!categoryId) return;
-    router.push(`/?category${categoryId}&feed=${feedId}`);
+    router.push(`/?category=${categoryId}&feed=${feedId}`);
   };
 
   return (
