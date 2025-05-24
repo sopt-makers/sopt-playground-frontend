@@ -89,4 +89,5 @@ export const categoryIdNameMap: Record<number, string> = {
   4: '홍보',
   5: '취업/진로',
   21: '솝티클',
+  22: '질문',
 };

@@ -1,5 +1,6 @@
 import { useGetPopularPost } from '@/api/endpoint/feed/getPopularPost';
 import Text from '@/components/common/Text';
+import { categoryIdNameMap } from '@/components/feed/common/utils';
 import PopularCard from '@/components/feed/home/PopularCard/PopularCard';
 import { MB_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
@@ -10,8 +11,11 @@ const PopularCardList = () => {
   const { data, isLoading, isError } = useGetPopularPost();
   const router = useRouter();
 
-  const handleClickPopular = (id: number) => {
-    router.push(`/?feed=${id}`);
+  const handleClickPopular = (category: string, feedId: number) => {
+    const categoryId = Object.entries(categoryIdNameMap).find(([_, name]) => name === category)?.[0];
+
+    if (!categoryId) return;
+    router.push(`/?category${categoryId}&feed=${feedId}`);
   };
 
   return (
@@ -40,7 +44,12 @@ const PopularCardList = () => {
             <PopularCard key={`skeleton-${index}`} rank={index + 1} isLoading />
           ))}
         {data?.map((card, index) => (
-          <PopularCard key={card.id} rank={index + 1} card={card} onClick={() => handleClickPopular(card.id)} />
+          <PopularCard
+            key={card.id}
+            rank={index + 1}
+            card={card}
+            onClick={() => handleClickPopular(card.category, card.id)}
+          />
         ))}
       </ContentWrapper>
     </>

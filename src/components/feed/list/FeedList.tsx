@@ -16,7 +16,6 @@ import FeedListItems from '@/components/feed/list/FeedListItems';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import PopularCardList from '@/components/feed/home/PopularCard/PopularCardList';
 
 interface FeedListProps {
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
@@ -67,9 +66,6 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
             </div>
           )}
         >
-          <PopularBox>
-            <PopularCardList />
-          </PopularBox>
           <FeedListItems
             categoryId={categoryId}
             renderFeedDetailLink={renderFeedDetailLink}
@@ -133,9 +129,4 @@ const UploadLink = styled(Link)`
 const UploadIcon = styled.img`
   width: 24px;
   height: 24px;
-`;
-
-const PopularBox = styled.section`
-  padding: 32px 16px;
-  width: 100%;
 `;
