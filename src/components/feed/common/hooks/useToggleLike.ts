@@ -9,6 +9,7 @@ interface HandleToggleLikeParams {
   allPostsQueryKey: (string | Params | undefined)[];
   postsQueryKey: (string | Params | undefined)[];
   postQueryKey: string[];
+  waitingQuestionQuerykey: string[];
 }
 
 export const useToggleLike = () => {
@@ -21,9 +22,18 @@ export const useToggleLike = () => {
     allPostsQueryKey,
     postsQueryKey,
     postQueryKey,
+    waitingQuestionQuerykey,
   }: HandleToggleLikeParams) => {
     const action: 'unlike' | 'like' = isLiked ? 'unlike' : 'like';
-    const mutationParams = { postId, action, likes, allPostsQueryKey, postsQueryKey, postQueryKey };
+    const mutationParams = {
+      postId,
+      action,
+      likes,
+      allPostsQueryKey,
+      postsQueryKey,
+      postQueryKey,
+      waitingQuestionQuerykey,
+    };
     mutate(mutationParams);
   };
   return { handleToggleLike };

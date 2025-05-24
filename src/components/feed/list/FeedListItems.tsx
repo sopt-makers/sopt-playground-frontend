@@ -12,6 +12,7 @@ import { atom, useRecoilState } from 'recoil';
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { getPost } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
@@ -245,6 +246,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                           allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
                           postsQueryKey: useGetPostsInfiniteQuery.getKey(post.categoryId.toString()),
                           postQueryKey: getPost.cacheKey(post.id.toString()),
+                          waitingQuestionQuerykey: getWaitingQuestions.cacheKey(),
                         });
                       }}
                     />
