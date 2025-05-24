@@ -12,12 +12,20 @@ interface FeedUrlCardProps {
   thumbnailUrl: string;
   sopticleUrl: string;
   isDetailFeedCard?: boolean;
+  isFull?: boolean;
 }
 
-const FeedUrlCard = ({ title, description, thumbnailUrl, sopticleUrl, isDetailFeedCard = false }: FeedUrlCardProps) => {
+const FeedUrlCard = ({
+  title,
+  description,
+  thumbnailUrl,
+  sopticleUrl,
+  isDetailFeedCard = false,
+  isFull = false,
+}: FeedUrlCardProps) => {
   const thumbnail = thumbnailUrl || defalutThumbnailImgUrl;
   return (
-    <FeedUrlCardBox isDetailFeedCard={isDetailFeedCard}>
+    <FeedUrlCardBox isDetailFeedCard={isDetailFeedCard} isFull={isFull}>
       <ThumbnailImg src={thumbnail} loading='lazy' decoding='async' alt='' isDetailFeedCard={isDetailFeedCard} />
       <PreviewTextBox isDetailFeedCard={isDetailFeedCard}>
         <EllipsisText typography='SUIT_16_SB' lineHeight={24}>
@@ -36,14 +44,14 @@ const FeedUrlCard = ({ title, description, thumbnailUrl, sopticleUrl, isDetailFe
 
 export default FeedUrlCard;
 
-const FeedUrlCardBox = styled.div<{ isDetailFeedCard?: boolean }>`
+const FeedUrlCardBox = styled.div<{ isDetailFeedCard?: boolean; isFull?: boolean }>`
   display: flex;
   gap: 12px;
   transition: background-color 0.2s ease;
   border-radius: 12px;
   background-color: ${colors.gray800};
   padding: 8px;
-  width: calc(100% - 20px);
+  width: ${({ isFull }) => (isFull ? '100%' : 'calc(100% - 20px)')};
   height: 136px;
 
   @media (hover: hover) and (pointer: fine) {
