@@ -14,7 +14,6 @@ import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
-import CodeUploadButton from '@/components/feed/upload/CodeUploadButton';
 import { useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
 import useLinkValidator from '@/components/feed/upload/hooks/useLinkValidator';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
@@ -175,7 +174,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                 isEdit={isEdit}
               />
               <ButtonContainer>
-                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                 <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
             </>
@@ -213,6 +211,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           }
           footer={
             <Footer>
+              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
               <ImagePreview images={feedData.images} onRemove={removeImage} />
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
@@ -222,7 +221,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
                     />
-                    <CodeUploadButton />
                   </TagsWrapper>
                 )}
                 <CheckBoxesWrapper>
@@ -339,7 +337,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       />
                       <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
                     </InputWrapper>
-
+                    <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                     <ImagePreview images={feedData.images} onRemove={removeImage} />
                     <TagsWrapper>
                       <ImageUploadButton
@@ -347,18 +345,13 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                         onClick={handleMobileClickImageInput}
                         imageInputRef={mobileRef}
                       />
-                      <CodeUploadButton />
                     </TagsWrapper>
                   </>
                 )}
               </Body>
             </>
           }
-          footer={
-            <Footer>
-              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-            </Footer>
-          }
+          footer={<Footer></Footer>}
         />
       </Responsive>
     </form>
@@ -461,6 +454,8 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
 
   ${textStyles.SUIT_16_M};
 `;
+
+const CommunityRules = styled.div``;
 
 const TagsWrapper = styled.div`
   display: flex;

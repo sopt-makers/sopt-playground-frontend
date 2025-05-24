@@ -16,18 +16,10 @@ export default function UsingRulesButton({ onClick }: UsingRulesButtonProp) {
   return (
     <LoggingClick eventKey='communityRulesClick'>
       <ShowMoreButton type='button' onClick={onClick}>
-        <Responsive only='desktop'>
-          <ButtonWrapper>
-            <HelpIc />
-            <p>커뮤니티 이용규칙</p>
-          </ButtonWrapper>
-        </Responsive>
-        <Responsive only='mobile'>
-          <ButtonWrapper>
-            <p>커뮤니티 이용규칙</p>
-            <ArrowIc />
-          </ButtonWrapper>
-        </Responsive>
+        <ButtonWrapper>
+          <p>커뮤니티 이용규칙</p>
+          <ArrowIc />
+        </ButtonWrapper>
       </ShowMoreButton>
     </LoggingClick>
   );
@@ -36,6 +28,7 @@ export default function UsingRulesButton({ onClick }: UsingRulesButtonProp) {
 const ShowMoreButton = styled.button`
   display: flex;
   align-items: center;
+  margin-bottom: 16px;
 
   ${textStyles.SUIT_13_R};
 
