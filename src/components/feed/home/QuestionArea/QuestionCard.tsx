@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import { WaitingQuestion } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
@@ -14,14 +14,9 @@ interface QuestionCardProps {
 
 const QuestionCard = ({ question }: QuestionCardProps) => {
   const { id, title, content, createdAt, likeCount, commentCount } = question;
-  const router = useRouter();
-
-  const handleClickCard = () => {
-    router.push(`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`);
-  };
 
   return (
-    <CardContainer onClick={handleClickCard}>
+    <CardContainer href={`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`}>
       <CardContent>
         <TitleStyle>{title}</TitleStyle>
         <ContentStyle>{content}</ContentStyle>
@@ -40,13 +35,14 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
 
 export default QuestionCard;
 
-const CardContainer = styled.div`
+const CardContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   gap: 12px;
   border-radius: 12px;
   background-color: ${colors.gray900};
+  cursor: pointer;
   padding: 16px;
   width: 272px;
   height: 158px;
@@ -76,6 +72,7 @@ const TitleStyle = styled(Text)`
   ${fonts.TITLE_16_SB}
 
   height: 48px;
+
   /* stylelint-disable */
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -86,9 +83,9 @@ const TitleStyle = styled(Text)`
 
 const ContentStyle = styled(Text)`
   ${fonts.BODY_14_L}
+  height: 48px;
 
   display: -webkit-box;
-  height: 48px;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
