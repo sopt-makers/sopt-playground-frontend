@@ -3,7 +3,6 @@ import { colors } from '@sopt-makers/colors';
 
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import { FeedDataType } from '@/components/feed/upload/types';
-import DetailArrow from '@/public/icons/icon-chevron-right.svg';
 import ExpandMoreArrow from '@/public/icons/icon-expand-more.svg';
 import Arrow from '@/public/icons/icon-select-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -25,7 +24,7 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
     <>
       {!feedData.categoryId ? (
         <CategorySelectorStarter onClick={openCategory}>
-          <UploadTitle>어디에 올릴까요?</UploadTitle>
+          <UploadTitle>어떤 게시판에 올릴까요?</UploadTitle>
           <OpenArrow fill='white' />
         </CategorySelectorStarter>
       ) : (
@@ -34,15 +33,10 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
             {parentCategory?.name} <ExpandMoreArrowIcon className='icon-expand-more' />
           </CategoryTitle>
           {parentCategory?.children.length !== 0 && (
-            <>
-              <DetailArrow />
-              <CategoryTitle type='button' onClick={openTag}>
-                {childrenCategory
-                  ? childrenCategory.name
-                  : parentCategory && parentCategory.hasAll && '주제 선택 안 함'}
-                <ExpandMoreArrowIcon className='icon-expand-more' />
-              </CategoryTitle>
-            </>
+            <CategoryTitle type='button' onClick={openTag}>
+              {childrenCategory ? childrenCategory.name : parentCategory && parentCategory.hasAll && '주제 선택 안 함'}
+              <ExpandMoreArrowIcon className='icon-expand-more' />
+            </CategoryTitle>
           )}
         </CategoryContainer>
       )}
@@ -52,6 +46,7 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
 
 const CategoryContainer = styled.div`
   display: flex;
+  gap: 8px;
   align-items: center;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -68,36 +63,36 @@ const CategoryTitle = styled.button`
   gap: 4px;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border: 1px solid ${colors.gray700};
+  border-radius: 9999px;
+  background-color: ${colors.gray800};
   cursor: pointer;
-  padding: 6px;
+  padding: 10px 20px;
+  height: 42px;
   color: ${colors.gray10};
 
-  &:hover {
-    background-color: ${colors.gray800};
-
-    .icon-expand-more {
-      display: flex;
-    }
+  .icon-expand-more {
+    width: 14px;
+    height: 14px;
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 0;
+    padding: 9px 14px;
 
     &:hover {
       background-color: transparent;
-
-      .icon-expand-more {
-        display: none;
-      }
     }
   }
 `;
 
 const UploadTitle = styled.h1`
-  ${textStyles.SUIT_16_M}
+  ${textStyles.SUIT_16_SB}
 
-  color: ${colors.white};
+  color: ${colors.gray300};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${textStyles.SUIT_14_SB}
+  }
 `;
 
 const OpenArrow = styled(Arrow)`
@@ -107,20 +102,22 @@ const OpenArrow = styled(Arrow)`
 
 const CategorySelectorStarter = styled.header`
   display: flex;
+  gap: 4px;
   align-items: center;
   justify-content: space-between;
+  border: 1px solid ${colors.gray700};
+  border-radius: 9999px;
+  background-color: ${colors.gray800};
   cursor: pointer;
-  padding: 10px 12px;
-  width: 154px;
-
-  &:hover {
-    border-radius: 8px;
-    background-color: ${colors.gray800};
-  }
+  padding: 10px 20px;
+  width: fit-content;
+  height: 42px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 19px 16px;
-    width: 100%;
+    margin: 16px;
+    padding: 9px 14px;
+    width: fit-content;
+    height: 36px;
 
     &:hover {
       background-color: transparent;

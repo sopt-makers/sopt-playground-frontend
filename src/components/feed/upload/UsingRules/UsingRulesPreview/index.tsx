@@ -4,7 +4,6 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import dynamic from 'next/dynamic';
 
-import Responsive from '@/components/common/Responsive';
 import { COMMUNITY_RULES_PREVIEW } from '@/components/feed/upload/UsingRules/constants';
 import BubbleTip from '@/public/icons/polygon.svg';
 import { textStyles } from '@/styles/typography';
