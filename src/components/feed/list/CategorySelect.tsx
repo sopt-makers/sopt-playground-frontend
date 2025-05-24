@@ -6,9 +6,9 @@ import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { CategoryLink, useCategoryParam } from '@/components/feed/common/queryParam';
-import Tooltip from '@/components/feed/list/FeedCategoryTooltip/index';
-import { useTooltip } from '@/components/feed/list/FeedCategoryTooltip/useTooltip';
 import { textStyles } from '@/styles/typography';
+import IconHot from '@/public/icons/icon_fire.svg';
+import { fonts } from '@sopt-makers/fonts';
 
 interface CategorySelectProps {
   categories: {
@@ -30,14 +30,6 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
       (category) => category.id === currentCategoryId || category.tags.some((tag) => tag.id === currentCategoryId),
     ) ?? null;
 
-  const sopticleCategoryRef = useRef<HTMLAnchorElement>(null);
-
-  const TOOLTIP_NAME = '솝티클';
-  const { tooltipPosition, isOpen, closeTooltipForToday } = useTooltip(
-    sopticleCategoryRef,
-    'categoryTooltipClosedDate',
-  );
-
   return (
     <Container>
       <HorizontalScroller>
@@ -45,25 +37,22 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
           <LoggingClick
             eventKey='feedListCategoryFilter'
             param={{
-              category: '전체',
+              category: '전체', // TODO: 알맞은 이벤트 로깅으로 수정하기
             }}
           >
             <Category categoryId={undefined} active={currentCategoryId === ''} onClick={() => onCategoryChange('')}>
-              전체
+              {currentCategoryId === '' && <IconHot />}
+              HOT
             </Category>
           </LoggingClick>
           {categories.map((category) => (
             <LoggingClick key={category.id} eventKey='feedListCategoryFilter' param={{ category: category.name }}>
               <Category
                 onClick={() => {
-                  if (category.name === TOOLTIP_NAME) {
-                    closeTooltipForToday();
-                  }
                   onCategoryChange(category.id);
                 }}
                 categoryId={category.hasAllCategory ? category.id : category.tags.at(0)?.id ?? category.id} // 하위에 "전체" 카테고리가 없으면 태그의 첫 카테고리로 보내기
                 active={parentCategory?.id === category.id}
-                ref={category.name === TOOLTIP_NAME ? sopticleCategoryRef : null} // 툴팁이 필요한 카테고리에만 Ref 설정
               >
                 {category.name}
               </Category>
@@ -71,17 +60,6 @@ const CategorySelect: FC<CategorySelectProps> = ({ categories, onCategoryChange 
           ))}
         </CategoryBox>
       </HorizontalScroller>
-      {isOpen && (
-        <Tooltip tooltipPosition={tooltipPosition}>
-          <Tooltip.Content>
-            <Tooltip.Header>
-              <Tooltip.Title>NEW!</Tooltip.Title>
-              <Tooltip.Close onClick={closeTooltipForToday} />
-            </Tooltip.Header>
-            SOPT 회원들이 직접 작성한 아티클,{`\n`}이제 플레이그라운드에서도 볼 수 있어요!
-          </Tooltip.Content>
-        </Tooltip>
-      )}
       {parentCategory && parentCategory.tags.length > 0 && (
         <HorizontalScroller css={{ marginBottom: '12px' }}>
           <TagBox>
@@ -119,17 +97,23 @@ export const Container = styled.div`
 
 export const CategoryBox = styled.div`
   display: flex;
-  padding: 4px 8px;
+  gap: 16px;
+  padding: 8px 16px;
 `;
 
 export const Category = styled(CategoryLink)<{ active: boolean }>`
+  box-sizing: border-box;
+  display: flex;
   flex-shrink: 0;
-  padding: 8px;
+  gap: 2px;
+  align-items: center;
+  border-bottom: ${(props) => (props.active ? `2px solid ${colors.gray30}` : '2px solid transparent')};
+  padding-bottom: 6px;
+  ${fonts.HEADING_16_B};
+
   line-height: 24px;
   letter-spacing: -0.16px;
   color: ${(props) => (props.active ? colors.gray10 : colors.gray500)};
-
-  ${textStyles.SUIT_16_B};
 
   &:hover {
     transition: 0.2s;
@@ -140,7 +124,7 @@ export const Category = styled(CategoryLink)<{ active: boolean }>`
 const TagBox = styled.div`
   display: flex;
   gap: 6px;
-  padding: 0 16px;
+  padding: 8px 16px 0;
 `;
 
 const Chip = styled(CategoryLink)<{ active: boolean }>`

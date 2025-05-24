@@ -123,6 +123,7 @@ export const useGetPostsInfiniteQuery = ({ categoryId }: { categoryId?: string }
     getNextPageParam: (lastPage) => {
       return lastPage.hasNext ? lastPage.posts[lastPage.posts.length - 1].id : null;
     },
+    enabled: !!categoryId,
   });
 };
 

@@ -18,6 +18,8 @@ import FeedListItems from '@/components/feed/list/FeedListItems';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import PopularArea from '@/components/feed/home/PopularArea';
+import Hot from '@/components/feed/home';
 
 interface FeedListProps {
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
@@ -60,11 +62,8 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
       )}
 
       <HeightSpacer>
-        {!categoryId ? ( // HOT 카테고리
-          <>
-            <QuestionArea />
-            <SopticleArea />
-          </>
+        {!categoryId ? (
+          <Hot />
         ) : (
           <ErrorBoundary
             renderFallback={(error) => (
