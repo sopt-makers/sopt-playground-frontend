@@ -28,6 +28,7 @@ import FeedCard from '@/components/feed/list/FeedCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
 import { textStyles } from '@/styles/typography';
+import Hot from '@/components/feed/home';
 interface FeedListItemsProps {
   categoryId: string | undefined;
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
@@ -114,7 +115,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
         isScrolling={onScrollChange}
         itemContent={(idx, post) => {
           const isSopticle = post.categoryId === SOPTICLE_CATEGORY_ID;
-
           return renderFeedDetailLink({
             feedId: `${post.id}`,
             category: `${post.categoryName}`,
