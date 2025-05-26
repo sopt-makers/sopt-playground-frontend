@@ -425,8 +425,6 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
   ${textStyles.SUIT_16_M};
 `;
 
-const CommunityRules = styled.div``;
-
 const TagsWrapper = styled.div`
   display: flex;
   gap: 8px;

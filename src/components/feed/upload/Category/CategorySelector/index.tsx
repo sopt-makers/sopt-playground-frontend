@@ -19,7 +19,7 @@ export default function CategorySelector({ isOpen = false, onClose, onSelect, fe
   return (
     <>
       <Responsive only='desktop'>
-        <DropDown isOpen={isOpen} onClose={onClose} className='category-drop' header={<Title>어디에 올릴까요?</Title>}>
+        <DropDown isOpen={isOpen} onClose={onClose} className='category-drop'>
           <CategorySelectOptions onSave={onSelect} feedData={feedData} />
         </DropDown>
       </Responsive>
