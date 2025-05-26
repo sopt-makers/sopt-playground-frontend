@@ -20,6 +20,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
 
   const handleSaveCategory = (categoryId: number) => {
     const isSopticle = findParentCategory(categoryId)?.id === SOPTICLE_CATEGORY_ID;
+    const isPrevSopticle = !isSopticle && feedData.content === 'content' && feedData.title === '';
 
     resetIsBlindWriter(categoryId);
     resetIsQuestion(categoryId);
@@ -28,7 +29,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
       categoryId,
       ...(isSopticle // / 솝티클이면 content와 title 초기화
         ? { content: 'content', title: '' }
-        : {}),
+        : isPrevSopticle && { content: '' }), // 이전 카테고리가 솝티클이었으면 content 다시 초기화
     }));
   };
 
