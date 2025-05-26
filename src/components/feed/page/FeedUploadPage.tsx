@@ -223,17 +223,15 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     />
                   </TagsWrapper>
                 )}
-                <CheckBoxesWrapper>
-                  {parentCategory?.hasBlind && (
-                    <CheckboxFormItem label='익명'>
-                      <Checkbox
-                        checked={feedData.isBlindWriter}
-                        onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
-                        size='medium'
-                      />
-                    </CheckboxFormItem>
-                  )}
-                </CheckBoxesWrapper>
+                {parentCategory?.hasBlind && (
+                  <CheckboxFormItem label='익명'>
+                    <Checkbox
+                      checked={feedData.isBlindWriter}
+                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                      size='medium'
+                    />
+                  </CheckboxFormItem>
+                )}
               </TagAndCheckboxWrapper>
             </Footer>
           }
@@ -272,21 +270,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
             <>
               <Body>
                 {feedData.isBlindWriter && <BlindWriterWarning />}
-
-                {(parentCategory?.hasQuestion || parentCategory?.hasBlind) && (
-                  <CheckBoxesWrapper>
-                    {parentCategory?.hasBlind && (
-                      <CheckboxFormItem label='익명'>
-                        <Checkbox
-                          checked={feedData.isBlindWriter}
-                          onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
-                          size='medium'
-                        />
-                      </CheckboxFormItem>
-                    )}
-                  </CheckBoxesWrapper>
-                )}
-
                 {isSopticle ? (
                   <InputWrapper>
                     <LinkInput
@@ -304,35 +287,49 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </CalloutWrapper>
                   </InputWrapper>
                 ) : (
-                  <>
-                    <InputWrapper>
-                      {isQuestion && (
-                        <Callout type='information' hasIcon>
-                          SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
-                        </Callout>
-                      )}
-                      <TitleInput
-                        onChange={handleSaveTitle}
-                        onKeyDown={handleMobileKeyPressToContents}
-                        value={feedData.title}
-                      />
-                      <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
-                    </InputWrapper>
-                    <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-                    <ImagePreview images={feedData.images} onRemove={removeImage} />
-                    <TagsWrapper>
-                      <ImageUploadButton
-                        imageLength={feedData.images.length}
-                        onClick={handleMobileClickImageInput}
-                        imageInputRef={mobileRef}
-                      />
-                    </TagsWrapper>
-                  </>
+                  <InputWrapper>
+                    {isQuestion && (
+                      <Callout type='information' hasIcon>
+                        SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
+                      </Callout>
+                    )}
+                    <TitleInput
+                      onChange={handleSaveTitle}
+                      onKeyDown={handleMobileKeyPressToContents}
+                      value={feedData.title}
+                    />
+                    <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
+                  </InputWrapper>
                 )}
               </Body>
             </>
           }
-          footer={<Footer></Footer>}
+          footer={
+            <Footer>
+              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
+              <ImagePreview images={feedData.images} onRemove={removeImage} />
+              <TagAndCheckboxWrapper>
+                {!isSopticle && (
+                  <TagsWrapper>
+                    <ImageUploadButton
+                      imageLength={feedData.images.length}
+                      onClick={handleDesktopClickImageInput}
+                      imageInputRef={desktopRef}
+                    />
+                  </TagsWrapper>
+                )}
+                {parentCategory?.hasBlind && (
+                  <CheckboxFormItem label='익명'>
+                    <Checkbox
+                      checked={feedData.isBlindWriter}
+                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                      size='medium'
+                    />
+                  </CheckboxFormItem>
+                )}
+              </TagAndCheckboxWrapper>
+            </Footer>
+          }
         />
       </Responsive>
     </form>
