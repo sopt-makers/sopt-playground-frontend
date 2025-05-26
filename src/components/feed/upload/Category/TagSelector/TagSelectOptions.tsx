@@ -8,6 +8,7 @@ import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { FeedDataType } from '@/components/feed/upload/types';
 import CheckIcon from '@/public/icons/icon_check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { Fragment } from 'react';
 
 interface TagSelectOptionsProp {
   onClose: () => void;
@@ -34,9 +35,9 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
           <>
             {parentCategory.children.map((tag: BasicCategory) => {
               return (
-                <>
+                <Fragment key={tag.id}>
                   <Responsive only='desktop'>
-                    <Option key={tag.id} onClick={() => handleSelectTagDesktop(tag.id)}>
+                    <Option onClick={() => handleSelectTagDesktop(tag.id)}>
                       {tag.name}
                       {tag.id === feedData.categoryId && <CheckIcon />}
                     </Option>
@@ -47,7 +48,7 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
                       {tag.id === feedData.categoryId && <CheckIcon />}
                     </Option>
                   </Responsive>
-                </>
+                </Fragment>
               );
             })}
             {parentCategory.hasAll && (
