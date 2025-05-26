@@ -1,13 +1,13 @@
 import { useGetPopularPost } from '@/api/endpoint/feed/getPopularPost';
 import Text from '@/components/common/Text';
 import { categoryIdNameMap } from '@/components/feed/common/utils';
-import PopularCard from '@/components/feed/home/PopularCard/PopularCard';
+import PopularCard from '@/components/feed/home/PopularArea/PopularCard';
 import { MB_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { useRouter } from 'next/router';
 
-const PopularCardList = () => {
+const PopularArea = () => {
   const { data, isLoading, isError } = useGetPopularPost();
   const router = useRouter();
 
@@ -21,7 +21,7 @@ const PopularCardList = () => {
   };
 
   return (
-    <>
+    <Container>
       <TitleWrapper>
         <Text typography='SUIT_18_B' color={colors.white} lineHeight={28}>
           실시간 인기글 🚀
@@ -54,21 +54,29 @@ const PopularCardList = () => {
           />
         ))}
       </ContentWrapper>
-    </>
+    </Container>
   );
 };
 
-export default PopularCardList;
+export default PopularArea;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  width: 100%;
+`;
 
 const TitleWrapper = styled.h1`
   display: flex;
   gap: 8px;
   align-items: center;
   margin-bottom: 16px;
-  text-align: left;
+  width: 100%;
 
   @media ${MB_SM_MEDIA_QUERY} {
     flex-direction: column;
+    align-items: start;
   }
 `;
 
