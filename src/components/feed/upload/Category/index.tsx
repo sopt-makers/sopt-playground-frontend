@@ -12,12 +12,10 @@ import { FeedDataType } from '@/components/feed/upload/types';
 interface CateogryProps {
   feedData: FeedDataType;
   onSaveCategory: (categoryId: number) => void;
-  openUsingRules: () => void;
-  closeUsingRules: () => void;
   isEdit?: boolean;
 }
 
-export default function Category({ feedData, onSaveCategory, openUsingRules, closeUsingRules, isEdit }: CateogryProps) {
+export default function Category({ feedData, onSaveCategory, isEdit }: CateogryProps) {
   const { isSelectorOpen, closeAll, openCategory, openTag } = useCategorySelect(isEdit ? 'closeAll' : 'openCategory');
 
   const { data: categories } = useQuery({
@@ -52,7 +50,6 @@ export default function Category({ feedData, onSaveCategory, openUsingRules, clo
     if (selectedMainCategory.children.length === 0) {
       onSaveCategory(categoryId);
       closeAll();
-      openUsingRules();
     }
 
     openTag();
@@ -80,7 +77,6 @@ export default function Category({ feedData, onSaveCategory, openUsingRules, clo
   };
 
   const handleCloseTag = () => {
-    openUsingRules();
     closeAll();
   };
 

@@ -27,7 +27,7 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
   const { findParentCategory, findChildrenCategory } = useCategory();
   const parentCategory = findParentCategory(feedData.categoryId);
   const isInitial = findChildrenCategory(feedData.categoryId);
-
+  console.log(feedData);
   return (
     <>
       <Select>

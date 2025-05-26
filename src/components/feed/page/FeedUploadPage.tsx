@@ -166,13 +166,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   <BackArrow />
                 </BackArrowWrapper>
               </LoggingClick>
-              <Category
-                feedData={feedData}
-                onSaveCategory={handleSaveCategory}
-                openUsingRules={openUsingRules}
-                closeUsingRules={closeUsingRules}
-                isEdit={isEdit}
-              />
+              <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
               <ButtonContainer>
                 <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
               </ButtonContainer>
@@ -224,15 +218,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   </TagsWrapper>
                 )}
                 <CheckBoxesWrapper>
-                  {parentCategory?.hasQuestion && (
-                    <CheckboxFormItem label='질문글'>
-                      <Checkbox
-                        checked={feedData.isQuestion}
-                        onChange={(e) => handleSaveIsQuestion(e.target.checked)}
-                        size='medium'
-                      />
-                    </CheckboxFormItem>
-                  )}
                   {parentCategory?.hasBlind && (
                     <CheckboxFormItem label='익명'>
                       <Checkbox
@@ -274,13 +259,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   올리기
                 </Button>
               </TopHeader>
-              <Category
-                feedData={feedData}
-                onSaveCategory={handleSaveCategory}
-                openUsingRules={openUsingRules}
-                closeUsingRules={closeUsingRules}
-                isEdit={isEdit}
-              />
+              <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
             </>
           }
           body={
@@ -290,15 +269,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
                 {(parentCategory?.hasQuestion || parentCategory?.hasBlind) && (
                   <CheckBoxesWrapper>
-                    {parentCategory?.hasQuestion && (
-                      <CheckboxFormItem label='질문글'>
-                        <Checkbox
-                          checked={feedData.isQuestion}
-                          onChange={(e) => handleSaveIsQuestion(e.target.checked)}
-                          size='medium'
-                        />
-                      </CheckboxFormItem>
-                    )}
                     {parentCategory?.hasBlind && (
                       <CheckboxFormItem label='익명'>
                         <Checkbox
