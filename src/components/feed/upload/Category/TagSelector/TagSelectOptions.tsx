@@ -26,8 +26,7 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
   };
   const { findParentCategory, findChildrenCategory } = useCategory();
   const parentCategory = findParentCategory(feedData.categoryId);
-  const isInitial = findChildrenCategory(feedData.categoryId);
-  console.log(feedData);
+
   return (
     <>
       <Select>
@@ -54,10 +53,10 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
             {parentCategory.hasAll && (
               <>
                 <Responsive only='desktop'>
-                  <Option onClick={() => handleSelectTagDesktop(feedData.categoryId ?? 0)}>기타</Option>
+                  <Option onClick={() => handleSelectTagDesktop(parentCategory.id ?? 0)}>기타</Option>
                 </Responsive>
                 <Responsive only='mobile'>
-                  <Option onClick={() => handleSelectTagMobile(feedData.categoryId ?? 0)}>기타</Option>
+                  <Option onClick={() => handleSelectTagMobile(parentCategory.id ?? 0)}>기타</Option>
                 </Responsive>
               </>
             )}

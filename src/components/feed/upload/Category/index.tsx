@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
@@ -8,6 +8,7 @@ import CategorySelector from '@/components/feed/upload/Category/CategorySelector
 import TagSelector from '@/components/feed/upload/Category/TagSelector';
 import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
 import { FeedDataType } from '@/components/feed/upload/types';
+import useCategory from '@/components/feed/common/hooks/useCategory';
 
 interface CateogryProps {
   feedData: FeedDataType;
@@ -25,6 +26,8 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
 
   const { data: myProfile } = useGetMemberProfileOfMe();
 
+  const [isOptionEtc, setIsOptionEtc] = useState(false);
+
   const latestSoptPart = useMemo(() => {
     if (!myProfile?.soptActivities || myProfile.soptActivities.length === 0) {
       return null;
@@ -39,6 +42,8 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
   }, [myProfile?.soptActivities]);
 
   const handleSaveParentCategory = (categoryId: number) => {
+    handleIsOptionEtc(categoryId, true);
+
     const selectedMainCategory = categories?.find((category) => category.id === categoryId);
 
     if (selectedMainCategory == null) {
@@ -80,6 +85,17 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
     closeAll();
   };
 
+  const { findParentCategory } = useCategory();
+  const parentCategory = findParentCategory(feedData.categoryId);
+
+  const handleIsOptionEtc = (categoryId: number, clickParentCategory = false) => {
+    if (categoryId === parentCategory?.id && !clickParentCategory) {
+      setIsOptionEtc(true);
+    } else {
+      setIsOptionEtc(false);
+    }
+  };
+
   return (
     <>
       <CategorySelector
@@ -92,10 +108,13 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
         isOpen={isSelectorOpen === 'openTag'}
         onBack={openCategory}
         onClose={handleCloseTag}
-        onSave={onSaveCategory}
+        onSave={(id) => {
+          onSaveCategory(id);
+          handleIsOptionEtc(id);
+        }}
         feedData={feedData}
       />
-      <CategoryHeader feedData={feedData} openCategory={openCategory} openTag={openTag} />
+      <CategoryHeader feedData={feedData} openCategory={openCategory} openTag={openTag} isOptionEtc={isOptionEtc} />
     </>
   );
 }

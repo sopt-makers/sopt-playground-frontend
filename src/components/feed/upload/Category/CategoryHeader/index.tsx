@@ -11,9 +11,10 @@ interface CategoryHeaderProp {
   feedData: FeedDataType;
   openCategory: () => void;
   openTag: () => void;
+  isOptionEtc: boolean;
 }
 
-export default function CategoryHeader({ feedData, openCategory, openTag }: CategoryHeaderProp) {
+export default function CategoryHeader({ feedData, openCategory, openTag, isOptionEtc }: CategoryHeaderProp) {
   const { findParentCategory, findChildrenCategory } = useCategory();
 
   const parentCategory = findParentCategory(feedData.categoryId);
@@ -38,9 +39,9 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
             </CategoryTitle>
           ) : (
             <>
-              {parentCategory?.children.length !== 0 && parentCategory && parentCategory.hasAll && (
-                <CategorySelectorStarter onClick={openTag}>
-                  <UploadTitle>어떤 주제인가요?</UploadTitle>
+              {parentCategory?.children.length !== 0 && parentCategory && (
+                <CategorySelectorStarter onClick={openTag} isOptionEtc={isOptionEtc}>
+                  <UploadTitle>{isOptionEtc ? '기타' : '어떤 주제인가요?'}</UploadTitle>
                   <OpenArrow fill='white' />
                 </CategorySelectorStarter>
               )}
@@ -89,8 +90,6 @@ const CategoryTitle = styled.button`
 const UploadTitle = styled.h1`
   ${textStyles.SUIT_16_SB}
 
-  color: ${colors.gray300};
-
   @media ${MOBILE_MEDIA_QUERY} {
     ${textStyles.SUIT_14_SB}
   }
@@ -101,19 +100,20 @@ const OpenArrow = styled(Arrow)`
   height: 14px;
 `;
 
-const CategorySelectorStarter = styled.header`
+const CategorySelectorStarter = styled.header<{ isOptionEtc?: boolean }>`
   box-sizing: border-box;
   display: flex;
   gap: 4px;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid ${colors.gray700};
+  border: ${({ isOptionEtc }) => (isOptionEtc ? `1px solid ${colors.gray100}` : `1px solid ${colors.gray700}`)};
   border-radius: 9999px;
   background-color: ${colors.gray800};
   cursor: pointer;
   padding: 10px 20px;
   width: fit-content;
   height: 42px;
+  color: ${({ isOptionEtc }) => (isOptionEtc ? `${colors.gray10}` : `${colors.gray300}`)};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 16px;
