@@ -10,7 +10,7 @@ import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import useCategory from '@/components/feed/common/hooks/useCategory';
-import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
+import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
@@ -114,6 +114,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const parentCategory = findParentCategory(feedData.categoryId);
 
   const isSopticle = parentCategory?.id === SOPTICLE_CATEGORY_ID;
+  const isQuestion = parentCategory?.id === QUESTION_CATEGORY_ID;
 
   const quitUploading = () => {
     logClickEvent('quitUploadCommunity', {
@@ -191,6 +192,11 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                 </InputWrapper>
               ) : (
                 <InputWrapper>
+                  {isQuestion && (
+                    <Callout type='information' hasIcon>
+                      SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
+                    </Callout>
+                  )}
                   <TitleInput
                     onChange={handleSaveTitle}
                     onKeyDown={handleDesktopKeyPressToContents}
@@ -300,6 +306,11 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                 ) : (
                   <>
                     <InputWrapper>
+                      {isQuestion && (
+                        <Callout type='information' hasIcon>
+                          SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
+                        </Callout>
+                      )}
                       <TitleInput
                         onChange={handleSaveTitle}
                         onKeyDown={handleMobileKeyPressToContents}
