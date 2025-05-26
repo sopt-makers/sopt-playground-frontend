@@ -15,12 +15,12 @@ interface TitleInputProp {
 export default function TitleInput({ onChange, onKeyDown, value }: TitleInputProp) {
   return (
     <Title
-      placeholder='(선택) 제목을 입력해주세요'
+      placeholder='제목을 입력해주세요'
       maxLength={255}
       spellCheck='false'
       onChange={onChange}
       onKeyDown={onKeyDown}
-      value={value??""}
+      value={value ?? ''}
     />
   );
 }

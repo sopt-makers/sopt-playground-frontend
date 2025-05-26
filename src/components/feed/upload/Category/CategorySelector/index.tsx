@@ -28,7 +28,7 @@ export default function CategorySelector({ isOpen = false, onClose, onSelect, fe
           isOpen={isOpen}
           onClose={onClose}
           className='category-drop'
-          header={<Title>어디에 올릴까요?</Title>}
+          header={<Title>어떤 게시판에 올릴까요?</Title>}
         >
           <CategorySelectOptions onSave={onSelect} feedData={feedData} />
         </BottomSheet>

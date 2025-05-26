@@ -33,40 +33,34 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
       <Select>
         {parentCategory && parentCategory.children.length > 0 && (
           <>
+            {parentCategory.children.map((tag: BasicCategory) => {
+              return (
+                <>
+                  <Responsive only='desktop'>
+                    <Option key={tag.id} onClick={() => handleSelectTagDesktop(tag.id)}>
+                      {tag.name}
+                      {tag.id === feedData.categoryId && <CheckIcon />}
+                    </Option>
+                  </Responsive>
+                  <Responsive only='mobile'>
+                    <Option key={tag.id} onClick={() => handleSelectTagMobile(tag.id)}>
+                      {tag.name}
+                      {tag.id === feedData.categoryId && <CheckIcon />}
+                    </Option>
+                  </Responsive>
+                </>
+              );
+            })}
             {parentCategory.hasAll && (
               <>
                 <Responsive only='desktop'>
-                  <Option onClick={() => handleSelectTagDesktop(feedData.categoryId ?? 0)}>
-                    주제 선택 안 함{!isInitial && <CheckIcon />}
-                  </Option>
+                  <Option onClick={() => handleSelectTagDesktop(feedData.categoryId ?? 0)}>기타</Option>
                 </Responsive>
                 <Responsive only='mobile'>
-                  <Option onClick={() => handleSelectTagMobile(feedData.categoryId ?? 0)}>
-                    주제 선택 안 함{!isInitial && <CheckIcon />}
-                  </Option>
+                  <Option onClick={() => handleSelectTagMobile(feedData.categoryId ?? 0)}>기타</Option>
                 </Responsive>
               </>
             )}
-            <>
-              {parentCategory.children.map((tag: BasicCategory) => {
-                return (
-                  <>
-                    <Responsive only='desktop'>
-                      <Option key={tag.id} onClick={() => handleSelectTagDesktop(tag.id)}>
-                        {tag.name}
-                        {tag.id === feedData.categoryId && <CheckIcon />}
-                      </Option>
-                    </Responsive>
-                    <Responsive only='mobile'>
-                      <Option key={tag.id} onClick={() => handleSelectTagMobile(tag.id)}>
-                        {tag.name}
-                        {tag.id === feedData.categoryId && <CheckIcon />}
-                      </Option>
-                    </Responsive>
-                  </>
-                );
-              })}
-            </>
           </>
         )}
       </Select>
