@@ -76,11 +76,21 @@ const AllBtn = styled.button`
 const QuestionFeedList = styled.div`
   display: flex;
   gap: 12px;
-  margin: 0 -16px;
+  margin-bottom: -18px;
   overflow-x: auto;
 
-  &::-webkit-scrollbar {
-    display: none;
+  /* 스크롤바 전체 */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 18px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 6px solid transparent;
+    border-radius: 10px;
+    background-clip: padding-box;
+    background-color: ${colors.gray400};
+    cursor: pointer;
   }
 `;
 
