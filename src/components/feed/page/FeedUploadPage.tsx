@@ -201,17 +201,14 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
+                  {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
                 </InputWrapper>
               )}
             </Body>
           }
           footer={
             <Footer>
-              {feedData.images.length === 0 ? (
-                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-              ) : (
-                <ImagePreview images={feedData.images} onRemove={removeImage} />
-              )}
+              {feedData.images.length === 0 && <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -296,17 +293,14 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
+                  {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
                 </InputWrapper>
               )}
             </Body>
           }
           footer={
             <Footer>
-              {feedData.images.length === 0 ? (
-                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-              ) : (
-                <ImagePreview images={feedData.images} onRemove={removeImage} />
-              )}
+              {feedData.images.length === 0 && <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>

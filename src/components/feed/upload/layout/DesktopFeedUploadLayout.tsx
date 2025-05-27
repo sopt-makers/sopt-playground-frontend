@@ -1,6 +1,7 @@
+import FooterHeightProvider from '@/components/feed/upload/layout/provider/FooterHeightProvider';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { ReactNode } from 'react';
+import { ReactNode, useLayoutEffect, useRef, useState } from 'react';
 
 interface DesktopFeedUploadLayoutProps {
   header: ReactNode;
@@ -10,17 +11,19 @@ interface DesktopFeedUploadLayoutProps {
 
 export default function DesktopFeedUploadLayout({ header, body, footer }: DesktopFeedUploadLayoutProps) {
   return (
-    <Layout>
-      <TopLayout>
-        <HeaderWrapper>{header}</HeaderWrapper>
-        <BodyContainer>
-          <BodyWrapper>{body}</BodyWrapper>
-        </BodyContainer>
-      </TopLayout>
-      <FooterContainer>
-        <FooterWrapper>{footer}</FooterWrapper>
-      </FooterContainer>
-    </Layout>
+    <FooterHeightProvider>
+      {(footerRef) => (
+        <Layout>
+          <TopLayout>
+            <HeaderWrapper>{header}</HeaderWrapper>
+            <BodyContainer>
+              <BodyWrapper>{body}</BodyWrapper>
+            </BodyContainer>
+          </TopLayout>
+          <FooterContainer ref={footerRef}>{footer}</FooterContainer>
+        </Layout>
+      )}
+    </FooterHeightProvider>
   );
 }
 
@@ -38,7 +41,7 @@ const Layout = styled.div`
 
 const TopLayout = styled.div`
   padding-top: 72px;
-  padding-bottom: 192px;
+  padding-bottom: var(--footer-height, 151px);
   width: 100%;
 `;
 
@@ -66,21 +69,15 @@ const BodyContainer = styled.section`
   width: 100%;
 `;
 
-const FooterWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  width: 100%;
-  max-width: 780px;
-`;
-
 const FooterContainer = styled.footer`
   display: flex;
   position: fixed;
   bottom: 0;
   align-items: flex-end;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   background: ${colors.background};
+  padding: 16px;
   width: 100%;
+  max-width: 780px;
 `;

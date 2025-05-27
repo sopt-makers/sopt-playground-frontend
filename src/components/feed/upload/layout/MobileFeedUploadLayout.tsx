@@ -1,6 +1,7 @@
+import FooterHeightProvider from '@/components/feed/upload/layout/provider/FooterHeightProvider';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { ReactNode } from 'react';
+import { ReactNode, useLayoutEffect, useRef, useState } from 'react';
 
 interface MobileFeedUploadLayoutProps {
   header: ReactNode;
@@ -10,11 +11,15 @@ interface MobileFeedUploadLayoutProps {
 
 export default function MobileFeedUploadLayout({ header, body, footer }: MobileFeedUploadLayoutProps) {
   return (
-    <>
-      <HeaderWrapper>{header}</HeaderWrapper>
-      <BodyWrapper>{body}</BodyWrapper>
-      <FooterWrapper>{footer}</FooterWrapper>
-    </>
+    <FooterHeightProvider>
+      {(footerRef) => (
+        <>
+          <HeaderWrapper>{header}</HeaderWrapper>
+          <BodyWrapper>{body}</BodyWrapper>
+          <FooterWrapper ref={footerRef}>{footer}</FooterWrapper>
+        </>
+      )}
+    </FooterHeightProvider>
   );
 }
 
@@ -24,7 +29,7 @@ const HeaderWrapper = styled.header`
 `;
 
 const BodyWrapper = styled.section`
-  margin-bottom: 248px;
+  margin-bottom: var(--footer-height, 50px);
   padding-top: 16px;
   width: 100%;
 `;

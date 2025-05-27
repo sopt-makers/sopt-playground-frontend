@@ -56,7 +56,7 @@ const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: 56px;
+  padding-top: 69px;
   height: 100vh;
 
   @supports (height: 100dvh) {
