@@ -4,7 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useId, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import Checkbox from '@/components/common/Checkbox';
@@ -532,38 +532,19 @@ interface InputProps {
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
   const id = useId();
-  const [isFocus, setIsFocus] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
-  const is버튼액티브 = (isFocus || value.length > 0) && !isPending;
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsFocus(false);
-      }
-    };
-    document.addEventListener('click', handleOutsideClick);
-    return () => {
-      document.removeEventListener('click', handleOutsideClick);
-    };
-  }, []);
+  const is버튼액티브 = value.length > 0 && !isPending;
 
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
     onChangeIsBlindChecked(isBlindWriter);
   };
 
-  const showInputAnimateArea = useMemo(() => isFocus || isBlindChecked, [isFocus, isBlindChecked]);
-
   return (
-    <Container ref={containerRef} showInputAnimateArea={showInputAnimateArea}>
-      <InputAnimateArea
-        initial={{ height: 0 }}
-        animate={{ height: isFocus || isBlindChecked || value.length > 0 ? '28px' : 0 }}
-        transition={{ bounce: 0, stiffness: 1000, duration: 0.2 }}
-      >
+    <Container ref={containerRef}>
+      <InputAnimateArea initial={{ height: '28px' }}>
         <InputContent>
           <Checkbox
             size='small'
@@ -577,12 +558,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
         </InputContent>
       </InputAnimateArea>
       <Flex align='flex-end' css={{ gap: '4px' }}>
-        <StyledTextArea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={() => setIsFocus(true)}
-          placeholder='댓글을 남겨주세요.'
-        />
+        <StyledTextArea value={value} onChange={(e) => onChange(e.target.value)} placeholder='댓글을 남겨주세요.' />
         <SendButton
           type='submit'
           initial={{
@@ -600,7 +576,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   );
 };
 
-const Container = styled.div<{ showInputAnimateArea: boolean }>`
+const Container = styled.div`
   --card-max-width: 560px;
 
   border-top: 1px solid ${colors.gray800};
@@ -609,13 +585,11 @@ const Container = styled.div<{ showInputAnimateArea: boolean }>`
   padding: 12px 16px;
   width: 100%;
   max-width: var(--card-max-width);
-  ${({ showInputAnimateArea }) => showInputAnimateArea && `border-radius: 10px;`};
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-right: none;
     padding: 10px 16px;
     max-width: 100%;
-    ${({ showInputAnimateArea }) => showInputAnimateArea && `padding-top: 12px;`};
   }
 `;
 
