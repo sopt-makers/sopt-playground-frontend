@@ -342,9 +342,11 @@ const InputWrapper = styled.section`
   width: 100%;
   min-width: 608px;
   max-width: 780px;
+  min-height: calc(100vh - 72px - 24px - var(--footer-height, 50px));
 
   @media ${MOBILE_MEDIA_QUERY} {
     min-width: 100%;
+    min-height: calc(100vh - 136px - var(--footer-height, 50px));
   }
 `;
 

@@ -22,6 +22,7 @@ export default function ImagePreview({ images, onRemove }: ImagePreviewProps) {
 const Container = styled.div`
   display: flex;
   gap: 12px;
+  margin-top: auto;
   margin-bottom: 16px;
   overflow-x: auto;
 
