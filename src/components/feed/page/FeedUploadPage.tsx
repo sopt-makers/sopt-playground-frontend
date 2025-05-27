@@ -350,7 +350,6 @@ const InputWrapper = styled.section`
   max-width: 780px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 8px 0;
     min-width: 100%;
   }
 `;
