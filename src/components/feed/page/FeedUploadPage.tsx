@@ -44,7 +44,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const {
     feedData,
     handleSaveCategory,
-    handleSaveIsQuestion,
     handleSaveIsBlindWriter,
     saveImageUrls,
     removeImage,
@@ -53,6 +52,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     checkReadyToUpload,
     handleSaveSopticleUrl,
   } = useUploadFeedData(defaultValue);
+  console.log('체크박스 상태: ', feedData.isBlindWriter);
 
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -227,7 +227,9 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   <CheckboxFormItem label='익명'>
                     <Checkbox
                       checked={feedData.isBlindWriter}
-                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                      onChange={(e) => {
+                        handleSaveIsBlindWriter(!feedData.isBlindWriter);
+                      }}
                       size='medium'
                     />
                   </CheckboxFormItem>
@@ -269,7 +271,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           body={
             <>
               <Body>
-                {feedData.isBlindWriter && <BlindWriterWarning />}
                 {isSopticle ? (
                   <InputWrapper>
                     <LinkInput
@@ -288,6 +289,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   </InputWrapper>
                 ) : (
                   <InputWrapper>
+                    {feedData.isBlindWriter && <BlindWriterWarning />}
                     {isQuestion && (
                       <Callout type='information' hasIcon>
                         SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
@@ -313,8 +315,8 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   <TagsWrapper>
                     <ImageUploadButton
                       imageLength={feedData.images.length}
-                      onClick={handleDesktopClickImageInput}
-                      imageInputRef={desktopRef}
+                      onClick={handleMobileClickImageInput}
+                      imageInputRef={mobileRef}
                     />
                   </TagsWrapper>
                 )}
@@ -322,7 +324,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   <CheckboxFormItem label='익명'>
                     <Checkbox
                       checked={feedData.isBlindWriter}
-                      onChange={(e) => handleSaveIsBlindWriter(e.target.checked)}
+                      onChange={(e) => handleSaveIsBlindWriter(!feedData.isBlindWriter)}
                       size='medium'
                     />
                   </CheckboxFormItem>

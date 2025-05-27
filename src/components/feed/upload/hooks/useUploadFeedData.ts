@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import useCategory from '@/components/feed/common/hooks/useCategory';
-import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
+import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 
 export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
@@ -11,30 +11,27 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   const { findParentCategory } = useCategory();
 
   const resetIsBlindWriter = (categoryId: number) => {
-    !findParentCategory(categoryId)?.hasBlind && setFeedData((feedData) => ({ ...feedData, isBlindWriter: false }));
-  };
+    const isQuestion = findParentCategory(categoryId)?.id === QUESTION_CATEGORY_ID;
+    isQuestion && setFeedData((feedData) => ({ ...feedData, isBlindWriter: true }));
 
-  const resetIsQuestion = (categoryId: number) => {
-    !findParentCategory(categoryId)?.hasQuestion && setFeedData((feedData) => ({ ...feedData, isQuestion: false }));
+    !findParentCategory(categoryId)?.hasBlind && setFeedData((feedData) => ({ ...feedData, isBlindWriter: false }));
   };
 
   const handleSaveCategory = (categoryId: number) => {
     const isSopticle = findParentCategory(categoryId)?.id === SOPTICLE_CATEGORY_ID;
     const isPrevSopticle = !isSopticle && feedData.content === 'content' && feedData.title === '';
+    const isQuestion = findParentCategory(categoryId)?.id === QUESTION_CATEGORY_ID;
+    !feedData.isBlindWriter && isQuestion && handleShowBlindWriterPromise();
 
-    resetIsBlindWriter(categoryId);
-    resetIsQuestion(categoryId);
     setFeedData((feedData) => ({
       ...feedData,
       categoryId,
       ...(isSopticle // / 솝티클이면 content와 title 초기화
         ? { content: 'content', title: '' }
         : isPrevSopticle && { content: '' }), // 이전 카테고리가 솝티클이었으면 content 다시 초기화
+      isQuestion, // 질문 카테고리 여부에 따라 isQuestion 초기화
+      isBlindWriter: isQuestion ? true : feedData.isBlindWriter, // 질문 카테고리이면 익명으로 초기화
     }));
-  };
-
-  const handleSaveIsQuestion = (isQuestion: boolean) => {
-    setFeedData((feedData) => ({ ...feedData, isQuestion: isQuestion }));
   };
 
   const handleSaveIsBlindWriter = (isBlindWriter: boolean) => {
@@ -80,7 +77,6 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   return {
     feedData,
     handleSaveCategory,
-    handleSaveIsQuestion,
     handleSaveIsBlindWriter,
     saveImageUrls,
     removeImage,

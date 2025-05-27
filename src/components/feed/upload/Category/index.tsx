@@ -9,6 +9,8 @@ import TagSelector from '@/components/feed/upload/Category/TagSelector';
 import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
 import { FeedDataType } from '@/components/feed/upload/types';
 import useCategory from '@/components/feed/common/hooks/useCategory';
+import { PART_CATEGORY_ID, QUESTION_CATEGORY_ID } from '@/components/feed/constants';
+import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 
 interface CateogryProps {
   feedData: FeedDataType;
@@ -64,7 +66,7 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
       return;
     }
 
-    if (selectedMainCategory.name === '파트') {
+    if (selectedMainCategory.id === PART_CATEGORY_ID) {
       onSaveCategory(
         selectedMainCategory.children.find((category) => category.name === latestSoptPart)?.id ??
           selectedMainCategory.children[0].id,
