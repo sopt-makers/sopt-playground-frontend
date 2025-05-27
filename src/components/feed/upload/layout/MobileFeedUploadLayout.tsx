@@ -20,18 +20,22 @@ export default function MobileFeedUploadLayout({ header, body, footer }: MobileF
 
 const HeaderWrapper = styled.header`
   border-bottom: 1px solid ${colors.gray800};
+  padding-top: 44px;
 `;
 
 const BodyWrapper = styled.section`
-  padding-top: 24px;
+  margin-top: 24px;
+  margin-bottom: 248px;
   width: 100%;
 `;
 
 const FooterWrapper = styled.footer`
   display: flex;
+  position: fixed;
+  bottom: 0;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 10px;
-  padding: 0 16px;
+  background: ${colors.background};
+  padding: 16px;
   width: 100%;
 `;

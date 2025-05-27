@@ -37,17 +37,22 @@ const Layout = styled.div`
 `;
 
 const TopLayout = styled.div`
+  padding-top: 72px;
+  padding-bottom: 192px;
   width: 100%;
 `;
 
 const HeaderWrapper = styled.header`
   display: flex;
+  position: fixed;
+  top: 0;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid ${colors.gray800};
+  background: ${colors.background};
   padding: 15px 32px;
   width: 100%;
-  height: 64px;
+  height: 72px;
 `;
 
 const BodyWrapper = styled.div`
@@ -72,7 +77,10 @@ const FooterWrapper = styled.div`
 
 const FooterContainer = styled.footer`
   display: flex;
+  position: fixed;
+  bottom: 0;
   align-items: flex-end;
   justify-content: center;
+  background: ${colors.background};
   width: 100%;
 `;

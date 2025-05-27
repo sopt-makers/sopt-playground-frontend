@@ -1,3 +1,4 @@
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 
 interface ImagePreviewProps {
@@ -21,10 +22,15 @@ export default function ImagePreview({ images, onRemove }: ImagePreviewProps) {
 const Container = styled.div`
   display: flex;
   gap: 12px;
+  margin-bottom: 34px;
   overflow-x: auto;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-bottom: 32px;
   }
 `;
 

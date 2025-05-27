@@ -206,8 +206,11 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           }
           footer={
             <Footer>
-              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-              <ImagePreview images={feedData.images} onRemove={removeImage} />
+              {feedData.images.length === 0 ? (
+                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
+              ) : (
+                <ImagePreview images={feedData.images} onRemove={removeImage} />
+              )}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -264,46 +267,47 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
             </>
           }
           body={
-            <>
-              <Body>
-                {isSopticle ? (
-                  <InputWrapper>
-                    <LinkInput
-                      onChange={(e) => {
-                        handleSaveSopticleUrl(e);
-                        resetLinkError();
-                      }}
-                      value={feedData.link}
-                      isError={isLinkError}
-                    />
-                    <CalloutWrapper>
-                      <Callout type='information' hasIcon>
-                        내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
-                      </Callout>
-                    </CalloutWrapper>
-                  </InputWrapper>
-                ) : (
-                  <InputWrapper>
-                    {isQuestion && (
-                      <Callout type='information' hasIcon>
-                        SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
-                      </Callout>
-                    )}
-                    <TitleInput
-                      onChange={handleSaveTitle}
-                      onKeyDown={handleMobileKeyPressToContents}
-                      value={feedData.title}
-                    />
-                    <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
-                  </InputWrapper>
-                )}
-              </Body>
-            </>
+            <Body>
+              {isSopticle ? (
+                <InputWrapper>
+                  <LinkInput
+                    onChange={(e) => {
+                      handleSaveSopticleUrl(e);
+                      resetLinkError();
+                    }}
+                    value={feedData.link}
+                    isError={isLinkError}
+                  />
+                  <CalloutWrapper>
+                    <Callout type='information' hasIcon>
+                      내가 직접 작성한 아티클을 SOPT회원들에게 공유해 보세요!
+                    </Callout>
+                  </CalloutWrapper>
+                </InputWrapper>
+              ) : (
+                <InputWrapper>
+                  {isQuestion && (
+                    <Callout type='information' hasIcon>
+                      SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
+                    </Callout>
+                  )}
+                  <TitleInput
+                    onChange={handleSaveTitle}
+                    onKeyDown={handleMobileKeyPressToContents}
+                    value={feedData.title}
+                  />
+                  <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
+                </InputWrapper>
+              )}
+            </Body>
           }
           footer={
             <Footer>
-              <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
-              <ImagePreview images={feedData.images} onRemove={removeImage} />
+              {feedData.images.length === 0 ? (
+                <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
+              ) : (
+                feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />
+              )}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -369,6 +373,8 @@ const ButtonContainer = styled.div`
 
 const TopHeader = styled.header`
   display: flex;
+  position: fixed;
+  top: 0;
   justify-content: space-between;
   z-index: 2;
   background-color: ${colors.gray950};
@@ -420,10 +426,6 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
 const TagsWrapper = styled.div`
   display: flex;
   gap: 8px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin: 16px 0;
-  }
 `;
 
 const CheckBoxesWrapper = styled.div`
@@ -443,7 +445,6 @@ const TagAndCheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
 `;
 
 export const LoadingWrapper = styled.div`
