@@ -28,8 +28,6 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
 
   const { data: myProfile } = useGetMemberProfileOfMe();
 
-  const [isOptionEtc, setIsOptionEtc] = useState(false);
-
   const latestSoptPart = useMemo(() => {
     if (!myProfile?.soptActivities || myProfile.soptActivities.length === 0) {
       return null;

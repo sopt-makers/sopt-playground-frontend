@@ -20,14 +20,14 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
   const childrenCategory = findChildrenCategory(feedData.categoryId);
 
   return (
-    <>
+    <CategoryContainer>
       {!feedData.categoryId ? (
         <CategorySelectorStarter onClick={openCategory}>
           <UploadTitle>어떤 게시판에 올릴까요?</UploadTitle>
           <OpenArrow fill='white' />
         </CategorySelectorStarter>
       ) : (
-        <CategoryContainer>
+        <CategoryWrapper>
           <CategoryTitle type='button' onClick={openCategory}>
             {parentCategory?.name} <OpenArrow fill='white' />
           </CategoryTitle>
@@ -46,20 +46,22 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
               )}
             </>
           )}
-        </CategoryContainer>
+        </CategoryWrapper>
       )}
-    </>
+    </CategoryContainer>
   );
 }
 
 const CategoryContainer = styled.div`
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 16px;
+  }
+`;
+
+const CategoryWrapper = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 19px 16px;
-  }
 `;
 
 const CategoryTitle = styled.button`
@@ -79,6 +81,7 @@ const CategoryTitle = styled.button`
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 9px 14px;
+    height: 36px;
 
     &:hover {
       background-color: transparent;
@@ -115,7 +118,6 @@ const CategorySelectorStarter = styled.header`
   color: ${colors.gray300};
 
   @media ${MOBILE_MEDIA_QUERY} {
-    margin: 16px;
     padding: 9px 14px;
     width: fit-content;
     height: 36px;
