@@ -72,7 +72,7 @@ const FooterWrapper = styled.div`
   justify-content: space-between;
   padding: 16px;
   width: 100%;
-  max-width: 640px;
+  max-width: 780px;
 `;
 
 const FooterContainer = styled.footer`

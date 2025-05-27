@@ -78,7 +78,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     resizeHeight: 240,
   });
 
-  const { isPreviewOpen, openUsingRules, closeUsingRules } = useCategoryUsingRulesPreview(false);
+  const { isPreviewOpen, closeUsingRules } = useCategoryUsingRulesPreview(false);
   const { logClickEvent } = useEventLogger();
 
   const { isLinkError, validateLink, resetLinkError } = useLinkValidator();
