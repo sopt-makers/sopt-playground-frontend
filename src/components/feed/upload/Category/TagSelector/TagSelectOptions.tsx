@@ -51,7 +51,7 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
                 </Fragment>
               );
             })}
-            {parentCategory.hasAll && (
+            {/* {parentCategory.hasAll && (
               <>
                 <Responsive only='desktop'>
                   <Option onClick={() => handleSelectTagDesktop(parentCategory.id ?? 0)}>기타</Option>
@@ -60,7 +60,7 @@ export default function TagSelectOptions({ onClose, onSave, feedData }: TagSelec
                   <Option onClick={() => handleSelectTagMobile(parentCategory.id ?? 0)}>기타</Option>
                 </Responsive>
               </>
-            )}
+            )} */}
           </>
         )}
       </Select>

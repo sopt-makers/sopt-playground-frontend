@@ -44,8 +44,6 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
   }, [myProfile?.soptActivities]);
 
   const handleSaveParentCategory = (categoryId: number) => {
-    handleIsOptionEtc(categoryId, true);
-
     const selectedMainCategory = categories?.find((category) => category.id === categoryId);
 
     if (selectedMainCategory == null) {
@@ -90,14 +88,6 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
   const { findParentCategory } = useCategory();
   const parentCategory = findParentCategory(feedData.categoryId);
 
-  const handleIsOptionEtc = (categoryId: number, clickParentCategory = false) => {
-    if (categoryId === parentCategory?.id && !clickParentCategory) {
-      setIsOptionEtc(true);
-    } else {
-      setIsOptionEtc(false);
-    }
-  };
-
   return (
     <>
       <CategorySelector
@@ -110,13 +100,10 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
         isOpen={isSelectorOpen === 'openTag'}
         onBack={openCategory}
         onClose={handleCloseTag}
-        onSave={(id) => {
-          onSaveCategory(id);
-          handleIsOptionEtc(id);
-        }}
+        onSave={onSaveCategory}
         feedData={feedData}
       />
-      <CategoryHeader feedData={feedData} openCategory={openCategory} openTag={openTag} isOptionEtc={isOptionEtc} />
+      <CategoryHeader feedData={feedData} openCategory={openCategory} openTag={openTag} />
     </>
   );
 }

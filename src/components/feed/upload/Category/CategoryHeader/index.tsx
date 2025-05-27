@@ -11,10 +11,9 @@ interface CategoryHeaderProp {
   feedData: FeedDataType;
   openCategory: () => void;
   openTag: () => void;
-  isOptionEtc: boolean;
 }
 
-export default function CategoryHeader({ feedData, openCategory, openTag, isOptionEtc }: CategoryHeaderProp) {
+export default function CategoryHeader({ feedData, openCategory, openTag }: CategoryHeaderProp) {
   const { findParentCategory, findChildrenCategory } = useCategory();
 
   const parentCategory = findParentCategory(feedData.categoryId);
@@ -40,8 +39,8 @@ export default function CategoryHeader({ feedData, openCategory, openTag, isOpti
           ) : (
             <>
               {parentCategory?.children.length !== 0 && parentCategory && (
-                <CategorySelectorStarter onClick={openTag} isOptionEtc={isOptionEtc}>
-                  <UploadTitle>{isOptionEtc ? '기타' : '어떤 주제인가요?'}</UploadTitle>
+                <CategorySelectorStarter onClick={openTag}>
+                  <UploadTitle>어떤 주제인가요?</UploadTitle>
                   <OpenArrow fill='white' />
                 </CategorySelectorStarter>
               )}
@@ -100,20 +99,20 @@ const OpenArrow = styled(Arrow)`
   height: 14px;
 `;
 
-const CategorySelectorStarter = styled.header<{ isOptionEtc?: boolean }>`
+const CategorySelectorStarter = styled.header`
   box-sizing: border-box;
   display: flex;
   gap: 4px;
   align-items: center;
   justify-content: space-between;
-  border: ${({ isOptionEtc }) => (isOptionEtc ? `1px solid ${colors.gray100}` : `1px solid ${colors.gray700}`)};
+  border: 1px solid ${colors.gray700};
   border-radius: 9999px;
   background-color: ${colors.gray800};
   cursor: pointer;
   padding: 10px 20px;
   width: fit-content;
   height: 42px;
-  color: ${({ isOptionEtc }) => (isOptionEtc ? `${colors.gray10}` : `${colors.gray300}`)};
+  color: ${colors.gray300};
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 16px;

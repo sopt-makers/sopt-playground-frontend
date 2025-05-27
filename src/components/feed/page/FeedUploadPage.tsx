@@ -52,7 +52,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     checkReadyToUpload,
     handleSaveSopticleUrl,
   } = useUploadFeedData(defaultValue);
-  console.log('체크박스 상태: ', feedData.isBlindWriter);
 
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
