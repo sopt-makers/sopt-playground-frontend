@@ -14,7 +14,6 @@ import { getPost } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
-import useToast from '@/components/common/Toast/useToast';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
@@ -22,8 +21,8 @@ import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
-import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
-import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
+import { CategoryList, getMemberInfo, getRelativeTime } from '@/components/feed/common/utils';
+import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import FeedCard from '@/components/feed/list/FeedCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
@@ -50,7 +49,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
   const { handleToggleLike } = useToggleLike();
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
-  const toast = useToast();
+
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
@@ -114,6 +113,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
         isScrolling={onScrollChange}
         itemContent={(idx, post) => {
           const isSopticle = post.categoryId === SOPTICLE_CATEGORY_ID;
+          const isQuestion = post.categoryId === QUESTION_CATEGORY_ID;
 
           return renderFeedDetailLink({
             feedId: `${post.id}`,
@@ -131,7 +131,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 isBlindWriter={post.isBlindWriter}
                 anonymousProfile={post.anonymousProfile}
                 isQuestion={post.isQuestion}
-                isShowInfo={categoryId === ''}
+                isShowInfo={categoryId === ''} // 전체 카테고리일 때
                 memberId={post.member?.id ?? 0}
                 isSopticle={isSopticle}
                 sopticleUrl={post.sopticleUrl ?? ''}
@@ -139,19 +139,32 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 info={
                   categoryId ? (
                     <>
-                      <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400}>
+                      {!post.isBlindWriter && (
+                        <>
+                          <Text
+                            typography='SUIT_14_R'
+                            lineHeight={20}
+                            color={colors.gray400}
+                            style={{ margin: '0 2px' }}
+                          >
+                            ∙
+                          </Text>
+                          <>
+                            {getMemberInfo({
+                              categoryId: post.categoryId,
+                              categoryName: post.categoryName,
+                              member: {
+                                activity: post.member?.activity ?? { generation: 0, part: '' },
+                                careers: post.member?.careers ?? null,
+                              },
+                            })}
+                          </>
+                        </>
+                      )}
+                      <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400} style={{ margin: '0 2px' }}>
                         ∙
                       </Text>
-                      <>
-                        {getMemberInfo({
-                          categoryId: post.categoryId,
-                          categoryName: post.categoryName,
-                          member: {
-                            activity: post.member?.activity ?? { generation: 0, part: '' },
-                            careers: post.member?.careers ?? null,
-                          },
-                        })}
-                      </>
+                      {post.createdAt && getRelativeTime(post.createdAt)}
                     </>
                   ) : (
                     <>
@@ -167,7 +180,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                   <FeedDropdown
                     trigger={
                       <Flex as='button'>
-                        <FeedCard.Icon name='moreHorizon' />
+                        <FeedCard.Icon />
                       </Flex>
                     }
                   >
@@ -249,6 +262,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                           waitingQuestionQuerykey: getWaitingQuestions.cacheKey(),
                         });
                       }}
+                      type={isQuestion ? 'thumb' : 'heart'}
                     />
                   </LoggingClick>
                 }
@@ -282,24 +296,4 @@ const AlertText = styled.div`
   width: 100%;
   color: ${colors.gray300};
   ${textStyles.SUIT_14_M};
-`;
-
-const MoreCommentItem = styled.div`
-  display: flex;
-  flex-grow: 1;
-  border-radius: 10px;
-  background-color: ${colors.gray900};
-  padding: 10px 12px;
-
-  ${textStyles.SUIT_13_R};
-
-  &:hover {
-    transition: 0.2s;
-    background-color: ${colors.gray800};
-  }
-
-  & > p {
-    margin-left: 4px;
-    color: ${colors.gray400};
-  }
 `;
