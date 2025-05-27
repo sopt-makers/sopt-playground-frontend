@@ -305,7 +305,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
               {feedData.images.length === 0 ? (
                 <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
               ) : (
-                feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />
+                <ImagePreview images={feedData.images} onRemove={removeImage} />
               )}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
