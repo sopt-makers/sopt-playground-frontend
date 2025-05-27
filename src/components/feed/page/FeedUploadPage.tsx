@@ -29,6 +29,7 @@ import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { IconChevronLeft } from '@sopt-makers/icons';
 
 interface FeedUploadPageProp {
   editingId?: number;
@@ -255,13 +256,11 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     },
                   }}
                 >
-                  <Button type='button' disabled={false} onClick={handleQuitUpload}>
-                    취소
-                  </Button>
+                  <IconLeft color={colors.white} onClick={handleQuitUpload} />
                 </LoggingClick>
-                <Button type='submit' disabled={!checkReadyToUpload()}>
+                <SubmitButton type='submit' disabled={!checkReadyToUpload()}>
                   올리기
-                </Button>
+                </SubmitButton>
               </TopHeader>
               <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
             </>
@@ -363,6 +362,11 @@ const BackArrowWrapper = styled.div`
   padding-left: 32px;
 `;
 
+const IconLeft = styled(IconChevronLeft)`
+  width: 28px;
+  height: 28px;
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   position: absolute;
@@ -375,12 +379,13 @@ const TopHeader = styled.header`
   display: flex;
   position: fixed;
   top: 0;
+  align-items: center;
   justify-content: space-between;
   z-index: 2;
   background-color: ${colors.gray950};
-  padding: 0 16px;
+  padding: 8px 16px;
   width: 100%;
-  height: 44px;
+  height: 52px;
 `;
 
 const Button = styled.button<{ disabled: boolean }>`
@@ -401,40 +406,31 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 8px;
   background-color: ${({ disabled }) =>
     disabled
       ? css`
-          ${colors.gray700}
+          ${colors.gray800}
+        `
+      : css`
+          ${colors.success}
+        `};
+  padding: 9px 14px;
+  color: ${({ disabled }) =>
+    disabled
+      ? css`
+          ${colors.gray500}
         `
       : css`
           ${colors.white}
         `};
-  padding: 8px 12px;
-  color: ${({ disabled }) =>
-    disabled
-      ? css`
-          ${colors.gray300}
-        `
-      : css`
-          ${colors.gray800}
-        `};
 
-  ${textStyles.SUIT_16_M};
+  ${textStyles.SUIT_14_SB};
 `;
 
 const TagsWrapper = styled.div`
   display: flex;
   gap: 8px;
-`;
-
-const CheckBoxesWrapper = styled.div`
-  display: flex;
-  gap: 16px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-bottom: 24px;
-  }
 `;
 
 const Footer = styled.div`

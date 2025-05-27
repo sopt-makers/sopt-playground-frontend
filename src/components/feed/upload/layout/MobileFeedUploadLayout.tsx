@@ -24,7 +24,6 @@ const HeaderWrapper = styled.header`
 `;
 
 const BodyWrapper = styled.section`
-  margin-top: 24px;
   margin-bottom: 248px;
   width: 100%;
 `;
