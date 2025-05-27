@@ -20,7 +20,7 @@ export default function CheckboxFormItem({ children, label }: CheckboxFormItemPr
 
 const CheckboxWrapper = styled.div`
   display: flex;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
 `;
 
