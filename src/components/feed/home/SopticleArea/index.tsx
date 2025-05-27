@@ -17,7 +17,7 @@ const SopticleArea = () => {
 
   const { containerRef, activeIndex, getActualIndex, scrollToIndex } = useScrollCarousel({
     itemCount: sopticles.length,
-    autoSlideInterval: 4000,
+    autoSlideInterval: 3000,
   });
 
   const navigateToSopticle = () => {
