@@ -27,6 +27,7 @@ import FeedCard from '@/components/feed/list/FeedCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
 import { textStyles } from '@/styles/typography';
+
 interface FeedListItemsProps {
   categoryId: string | undefined;
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
