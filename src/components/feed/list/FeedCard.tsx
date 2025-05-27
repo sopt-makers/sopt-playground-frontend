@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconDotsVertical } from '@sopt-makers/icons';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
@@ -8,12 +8,12 @@ import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
-import { IconMember, IconMoreHoriz } from '@/components/feed/common/Icon';
+import FeedLike from '@/components/feed/common/FeedLike';
+import { IconMember } from '@/components/feed/common/Icon';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import IconEye from '@/public/icons/icon-eye.svg';
 import { textStyles } from '@/styles/typography';
-
 interface RandomProfile {
   nickname: string;
   profileImgUrl: string;
@@ -101,16 +101,16 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           <Stack gutter={title ? 12 : 4}>
             <Flex justify='space-between' css={{ height: '32px' }}>
               {isBlindWriter ? (
-                <Top align='center'>
+                <Flex align='center'>
                   <Text typography='SUIT_14_SB' lineHeight={20}>
                     {anonymousProfile?.nickname ?? '익명'}
                   </Text>
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray300}>
-                    {isShowInfo && info}
+                    {info}
                   </InfoText>
-                </Top>
+                </Flex>
               ) : (
-                <Top align='center'>
+                <Flex align='center'>
                   <Link href={playgroundLink.memberDetail(memberId)}>
                     <Text typography='SUIT_14_SB' lineHeight={20}>
                       {name}
@@ -119,7 +119,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
                     {info}
                   </InfoText>
-                </Top>
+                </Flex>
               )}
               <Stack.Horizontal gutter={4} align='center'>
                 {rightIcon}
@@ -159,9 +159,18 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
             </Stack>
           </Stack>
           {children}
+
           <Bottom gutter={2}>
-            {like}
-            <Text typography='SUIT_14_SB' mr='28px'>{`댓글 ${commentLength}개`}</Text>
+            <Flex css={{ gap: 2 }}>
+              <IconEye />
+              <Text typography='SUIT_14_SB' lineHeight={18} color={colors.gray600}>
+                {hits}
+              </Text>
+            </Flex>
+            <Flex css={{ gap: 8 }}>
+              <FeedLike likes={commentLength} type='message' />
+              {like}
+            </Flex>
           </Bottom>
         </Flex>
       </Flex>
@@ -183,14 +192,6 @@ const ProfileImage = styled(ResizedImage)`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`;
-
-const Top = styled(Flex)`
-  gap: 4px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    gap: 2px;
-  }
 `;
 
 const InfoText = styled(Text)`
@@ -233,6 +234,9 @@ const Bottom = styled(Stack.Horizontal)`
   ${textStyles.SUIT_13_R}
   display:flex;
   justify-content: space-between;
+  align-items: center;
+  margin-right: 20px;
+  gap: 8px;
 `;
 
 const renderContent = (content: string) => {
@@ -328,24 +332,8 @@ const StyledCommentItem = styled.div`
   ${textStyles.SUIT_13_R};
 `;
 
-interface IconProps {
-  name: 'moreHorizon';
-}
-
-const Icon = ({ name }: IconProps) => {
-  if (name === 'moreHorizon') {
-    return (
-      <IconMoreHoriz
-        color={colors.gray400}
-        css={css`
-          &:hover {
-            color: ${colors.gray30};
-            transition: 0.2s;
-          }
-        `}
-      />
-    );
-  } else return null;
+const Icon = () => {
+  return <IconDotsVertical style={{ width: 20, height: 20, color: colors.gray600 }} />;
 };
 
 export default Object.assign(Base, {
