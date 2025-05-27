@@ -29,6 +29,7 @@ interface usePostMutationParams {
   allPostsQueryKey: (string | Params | undefined)[];
   postsQueryKey: (string | Params | undefined)[];
   postQueryKey: string[];
+  waitingQuestionQuerykey: string[];
 }
 
 export const useToggleLikeMutation = () => {
@@ -39,10 +40,11 @@ export const useToggleLikeMutation = () => {
       const endpoint = action === 'like' ? postLike : postUnlike;
       return endpoint.request(postId);
     },
-    onMutate: async ({ postId, allPostsQueryKey, postsQueryKey, postQueryKey }) => {
+    onMutate: async ({ postId, allPostsQueryKey, postsQueryKey, postQueryKey, waitingQuestionQuerykey }) => {
       await queryClient.cancelQueries({ queryKey: allPostsQueryKey });
       await queryClient.cancelQueries({ queryKey: postsQueryKey });
       await queryClient.cancelQueries({ queryKey: postQueryKey });
+      await queryClient.cancelQueries({ queryKey: waitingQuestionQuerykey });
 
       const previousAllPostsData = queryClient.getQueryData<{ pages: PostsType[] }>(allPostsQueryKey);
       const previousPostsData = queryClient.getQueryData<{ pages: PostsType[] }>(postsQueryKey);
@@ -89,10 +91,11 @@ export const useToggleLikeMutation = () => {
 
       return { previousAllPostsData, previousPostsData, previousPostData };
     },
-    onSuccess: (_, { allPostsQueryKey, postsQueryKey, postQueryKey }) => {
+    onSuccess: (_, { allPostsQueryKey, postsQueryKey, postQueryKey, waitingQuestionQuerykey }) => {
       queryClient.invalidateQueries({ queryKey: allPostsQueryKey });
       queryClient.invalidateQueries({ queryKey: postQueryKey });
       queryClient.invalidateQueries({ queryKey: postsQueryKey });
+      queryClient.invalidateQueries({ queryKey: waitingQuestionQuerykey });
     },
   });
 };

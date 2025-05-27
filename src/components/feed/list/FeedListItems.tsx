@@ -12,6 +12,7 @@ import { atom, useRecoilState } from 'recoil';
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { getPost } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
 import useToast from '@/components/common/Toast/useToast';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
@@ -27,6 +28,7 @@ import FeedCard from '@/components/feed/list/FeedCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
 import { textStyles } from '@/styles/typography';
+
 interface FeedListItemsProps {
   categoryId: string | undefined;
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
@@ -113,7 +115,6 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
         isScrolling={onScrollChange}
         itemContent={(idx, post) => {
           const isSopticle = post.categoryId === SOPTICLE_CATEGORY_ID;
-
           return renderFeedDetailLink({
             feedId: `${post.id}`,
             category: `${post.categoryName}`,
@@ -245,6 +246,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                           allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
                           postsQueryKey: useGetPostsInfiniteQuery.getKey(post.categoryId.toString()),
                           postQueryKey: getPost.cacheKey(post.id.toString()),
+                          waitingQuestionQuerykey: getWaitingQuestions.cacheKey(),
                         });
                       }}
                     />

@@ -5,7 +5,9 @@ import { useCallback } from 'react';
 
 import { useDeleteCommentMutation } from '@/api/endpoint/feed/deleteComment';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
 import useConfirm from '@/components/common/Modal/useConfirm';
+import { useCategoryParam } from '@/components/feed/common/queryParam';
 import { zIndex } from '@/styles/zIndex';
 
 interface Options {
@@ -18,6 +20,7 @@ export const useDeleteComment = () => {
   const { confirm } = useConfirm();
   const { open } = useToast();
   const queryClient = useQueryClient();
+  const [categoryId] = useCategoryParam({ defaultValue: '' });
 
   const handleDeleteComment = useCallback(
     async (options: Options) => {
@@ -35,7 +38,8 @@ export const useDeleteComment = () => {
       if (result) {
         mutate(options.commentId, {
           onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
+            await queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
+            await queryClient.invalidateQueries({ queryKey: getWaitingQuestions.cacheKey() });
 
             open({
               icon: 'success',
