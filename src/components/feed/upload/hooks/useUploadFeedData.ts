@@ -65,7 +65,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
 
   const checkReadyToUpload = () => {
     return (
-      (feedData.categoryId !== null && feedData.content.trim()) ||
+      (feedData.categoryId !== null && feedData.title.trim() && feedData.content.trim()) ||
       (feedData.categoryId === SOPTICLE_CATEGORY_ID && feedData.link?.trim())
     );
   };
