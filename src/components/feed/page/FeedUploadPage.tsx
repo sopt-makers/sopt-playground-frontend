@@ -13,7 +13,6 @@ import useCategory from '@/components/feed/common/hooks/useCategory';
 import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
-import BlindWriterWarning from '@/components/feed/upload/CheckboxFormItem/BlindWriterWarning';
 import { useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
 import useLinkValidator from '@/components/feed/upload/hooks/useLinkValidator';
 import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
@@ -174,7 +173,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           }
           body={
             <Body>
-              <Aside />
               {isSopticle ? (
                 <InputWrapper>
                   <LinkInput
@@ -204,8 +202,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
                 </InputWrapper>
               )}
-
-              <BlindWriterWarningWrapper>{feedData.isBlindWriter && <BlindWriterWarning />}</BlindWriterWarningWrapper>
             </Body>
           }
           footer={
@@ -288,7 +284,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   </InputWrapper>
                 ) : (
                   <InputWrapper>
-                    {feedData.isBlindWriter && <BlindWriterWarning />}
                     {isQuestion && (
                       <Callout type='information' hasIcon>
                         SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
@@ -339,29 +334,17 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
 const Body = styled.div`
   display: flex;
-  justify-content: space-between;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    flex-direction: column;
-    padding: 0 16px;
-  }
-`;
-
-const Aside = styled.section`
+  justify-content: center;
   padding: 0 16px;
-  width: 100%;
-`;
-
-const BlindWriterWarningWrapper = styled.section`
-  padding: 0 16px;
-  width: 100%;
 `;
 
 const InputWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
   min-width: 608px;
+  max-width: 780px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     margin: 8px 0;

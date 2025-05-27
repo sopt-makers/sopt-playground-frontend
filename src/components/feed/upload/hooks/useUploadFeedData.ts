@@ -1,13 +1,11 @@
 import { useState } from 'react';
 
-import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 
 export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   const [feedData, setFeedData] = useState(defaultValue);
-  const { handleShowBlindWriterPromise } = useBlindWriterPromise();
   const { findParentCategory } = useCategory();
 
   const resetIsBlindWriter = (categoryId: number) => {
@@ -21,7 +19,6 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     const isSopticle = findParentCategory(categoryId)?.id === SOPTICLE_CATEGORY_ID;
     const isPrevSopticle = !isSopticle && feedData.content === 'content' && feedData.title === '';
     const isQuestion = findParentCategory(categoryId)?.id === QUESTION_CATEGORY_ID;
-    !feedData.isBlindWriter && isQuestion && handleShowBlindWriterPromise();
 
     setFeedData((feedData) => ({
       ...feedData,
@@ -35,8 +32,6 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   };
 
   const handleSaveIsBlindWriter = (isBlindWriter: boolean) => {
-    isBlindWriter && handleShowBlindWriterPromise();
-
     setFeedData((feedData) => ({ ...feedData, isBlindWriter: isBlindWriter }));
   };
 
