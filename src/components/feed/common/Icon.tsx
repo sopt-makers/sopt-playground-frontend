@@ -124,7 +124,7 @@ export const IconSendFill = () => (
 );
 
 export const IconHeart = ({ fill = colors.error, className }: { fill: string | undefined; className: string }) => (
-  <svg width='22' height='22' viewBox='0 0 22 22' fill={fill} xmlns='http://www.w3.org/2000/svg'>
+  <svg width='16' height='16' viewBox='0 0 22 22' fill={fill} xmlns='http://www.w3.org/2000/svg'>
     <g id='Icon / Interaction / heart'>
       <path
         className={fill === 'none' ? className : ''}
@@ -140,3 +140,31 @@ export const IconHeart = ({ fill = colors.error, className }: { fill: string | u
     </g>
   </svg>
 );
+
+interface IconThumbProps {
+  fill?: boolean;
+  className?: string;
+}
+
+export const IconThumbsUp = ({ fill = false, className }: IconThumbProps) => {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'>
+      {fill ? (
+        <path
+          fillRule='evenodd'
+          clipRule='evenodd'
+          d='M6.73147 1.45584C6.89967 1.07739 7.27497 0.833496 7.68912 0.833496C8.87315 0.833496 9.83301 1.79335 9.83301 2.97739V5.3335C9.83301 5.42554 9.90763 5.50016 9.99967 5.50016H12.3351C13.8673 5.50016 15.039 6.86591 14.806 8.38031L14.0881 13.047C13.9005 14.2666 12.8511 15.1668 11.6172 15.1668H4.39494L4.39494 6.71305L6.73147 1.45584ZM3.39494 6.8335H2.66634C1.65382 6.8335 0.833008 7.65431 0.833008 8.66683V13.3335C0.833008 14.346 1.65382 15.1668 2.66634 15.1668H3.39494L3.39494 6.8335Z'
+          fill={colors.white}
+        />
+      ) : (
+        <path
+          d='M4.66634 14.6668V7.3335M1.33301 8.66683V13.3335C1.33301 14.0699 1.92996 14.6668 2.66634 14.6668H11.6172C12.6043 14.6668 13.4438 13.9466 13.5939 12.9709L14.3119 8.30428C14.4982 7.09276 13.5609 6.00016 12.3351 6.00016H9.99967C9.63148 6.00016 9.33301 5.70169 9.33301 5.3335V2.97739C9.33301 2.06949 8.59701 1.3335 7.68912 1.3335C7.47257 1.3335 7.27633 1.46103 7.18838 1.65891L4.8423 6.93759C4.7353 7.17834 4.49655 7.3335 4.23309 7.3335H2.66634C1.92996 7.3335 1.33301 7.93045 1.33301 8.66683Z'
+          stroke={colors.gray400}
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          className={className}
+        />
+      )}
+    </svg>
+  );
+};

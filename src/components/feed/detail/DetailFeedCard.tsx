@@ -13,6 +13,7 @@ import Loading from '@/components/common/Loading';
 import ResizedImage from '@/components/common/ResizedImage';
 import VerticalScroller from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
+import FeedLike from '@/components/feed/common/FeedLike';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import {
   IconChevronLeft,
@@ -27,6 +28,7 @@ import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
+import IconEye from '@/public/icons/icon-eye.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
@@ -198,7 +200,7 @@ const Top = ({ isBlindWriter, anonymousProfile, profileImage, name, info, member
           )}
           {!isBlindWriter && memberId !== null && (
             <Link href={playgroundLink.memberDetail(memberId)}>
-              <Text typography='SUIT_13_M' color={colors.gray400}>
+              <Text typography='SUIT_13_M' color={colors.gray100}>
                 {info}
               </Text>
             </Link>
@@ -309,13 +311,17 @@ const Content = ({
           </ImageScrollContainer>
         </HorizontalScroller>
       ) : null}
-      <Flex justify='space-between'>
-        {like}
-        <Text
-          typography='SUIT_14_R'
-          lineHeight={20}
-          color={colors.gray300}
-        >{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+      <Flex justify='space-between' align='center'>
+        <Flex css={{ gap: 2 }}>
+          <IconEye />
+          <Text typography='SUIT_14_SB' lineHeight={18} color={colors.gray600}>
+            {hits}
+          </Text>
+        </Flex>
+        <Flex css={{ gap: 8 }}>
+          <FeedLike likes={commentLength} type='message' />
+          {like}
+        </Flex>
       </Flex>
       <FeedImageSlider opened={openSlider} images={images} onClose={() => setOpenSlider(false)} />
     </>
@@ -442,7 +448,7 @@ const Comment = ({
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
-            <Stack.Horizontal gutter={2}>
+            <Stack.Horizontal gutter={2} align='center'>
               {isBlindWriter ? (
                 <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                   {anonymousProfile?.nickname ?? '익명'}
@@ -455,7 +461,7 @@ const Comment = ({
                 </Link>
               )}
               {!isBlindWriter && (
-                <InfoText typography='SUIT_14_M' color={colors.gray400}>
+                <InfoText typography='SUIT_14_M' color={colors.gray100}>
                   {`∙ ${info}`}
                 </InfoText>
               )}
