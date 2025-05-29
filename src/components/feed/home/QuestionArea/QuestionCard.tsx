@@ -18,7 +18,10 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
   return (
     <CardContainer href={`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`}>
       <CardContent>
-        <TitleStyle>{title}</TitleStyle>
+        <TitleStyle>
+          <QuestionTag>질문</QuestionTag>
+          {title}
+        </TitleStyle>
         <ContentStyle>{content}</ContentStyle>
       </CardContent>
 
@@ -98,4 +101,17 @@ const FeedIconBox = styled.div`
 const CreatedDate = styled(Text)`
   color: ${colors.gray400};
   ${fonts.LABEL_14_SB}
+`;
+
+const QuestionTag = styled.span`
+  display: inline-flex;
+  width: 32px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: ${colors.orangeAlpha200};
+  color: ${colors.secondary};
+  ${fonts.LABEL_11_SB}
+  padding: 3px 6px;
+  margin-right: 6px;
+  transform: translateY(-1.5px);
 `;
