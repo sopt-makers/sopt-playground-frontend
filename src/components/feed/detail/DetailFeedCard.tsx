@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconEye } from '@sopt-makers/icons';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
@@ -28,7 +29,6 @@ import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
-import IconEye from '@/public/icons/icon-eye.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
@@ -313,7 +313,7 @@ const Content = ({
       ) : null}
       <Flex justify='space-between' align='center'>
         <Flex css={{ gap: 2 }}>
-          <IconEye />
+          <IconEye style={{ width: 16, height: 16, color: colors.gray600 }} />
           <Text typography='SUIT_14_SB' lineHeight={18} color={colors.gray600}>
             {hits}
           </Text>
