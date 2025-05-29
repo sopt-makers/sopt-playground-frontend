@@ -76,8 +76,13 @@ const AllBtn = styled.button`
 const QuestionFeedList = styled.div`
   display: flex;
   gap: 12px;
-  margin-bottom: -18px;
+  margin: 0 -16px -18px;
+  padding: 0 16px;
   overflow-x: auto;
+
+  ::-webkit-scrollbar-track {
+    margin: 0 16px;
+  }
 
   /* 스크롤바 전체 */
   ::-webkit-scrollbar {

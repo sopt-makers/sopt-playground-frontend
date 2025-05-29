@@ -535,7 +535,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
-  const is버튼액티브 = value.length > 0 && !isPending;
+  const isButtonActive = value.length > 0 && !isPending;
 
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
@@ -565,9 +565,9 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             backgroundColor: colors.gray800,
           }}
           animate={{
-            backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
+            backgroundColor: isButtonActive ? colors.success : colors.gray800,
           }}
-          disabled={!is버튼액티브 || isPending}
+          disabled={!isButtonActive || isPending}
         >
           {isPending ? <Loading size={4} /> : <IconSendFill />}
         </SendButton>
