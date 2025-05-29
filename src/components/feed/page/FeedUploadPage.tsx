@@ -169,7 +169,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
               </LoggingClick>
               <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
               <ButtonContainer>
-                <Button theme='blue' size='sm' disabled={!checkReadyToUpload()}>
+                <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload()}>
                   올리기
                 </Button>
               </ButtonContainer>

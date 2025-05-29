@@ -1,7 +1,12 @@
 import { useState } from 'react';
 
 import useCategory from '@/components/feed/common/hooks/useCategory';
-import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
+import {
+  PART_CATEGORY_ID,
+  PROMOTION_CATEGORY_ID,
+  QUESTION_CATEGORY_ID,
+  SOPTICLE_CATEGORY_ID,
+} from '@/components/feed/constants';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 
 export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
@@ -59,6 +64,9 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   };
 
   const checkReadyToUpload = () => {
+    if (feedData.categoryId === PROMOTION_CATEGORY_ID || feedData.categoryId === PART_CATEGORY_ID) {
+      return false;
+    }
     return (
       (feedData.categoryId !== null && feedData.title.trim() && feedData.content.trim()) ||
       (feedData.categoryId === SOPTICLE_CATEGORY_ID && feedData.link?.trim())

@@ -12,7 +12,7 @@ interface MobileFeedUploadLayoutProps {
 export default function MobileFeedUploadLayout({ header, body, footer }: MobileFeedUploadLayoutProps) {
   return (
     <FooterHeightProvider>
-      {(footerRef, ready) => (
+      {(footerRef) => (
         <>
           <HeaderWrapper>{header}</HeaderWrapper>
           <BodyWrapper>{body}</BodyWrapper>
