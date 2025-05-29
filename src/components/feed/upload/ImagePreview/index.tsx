@@ -22,7 +22,6 @@ export default function ImagePreview({ images, onRemove }: ImagePreviewProps) {
 const Container = styled.div`
   display: flex;
   gap: 12px;
-  margin-top: auto;
   margin-bottom: 16px;
   overflow-x: auto;
 
@@ -36,9 +35,12 @@ const ImageWrapper = styled.div`
 `;
 
 const RemoveButton = styled.button`
+  display: flex;
   position: absolute;
   top: 4px;
   right: 4px;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
   background-color: #ffffffe5;
   width: 20px;

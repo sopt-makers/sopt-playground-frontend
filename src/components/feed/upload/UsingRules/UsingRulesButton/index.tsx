@@ -28,7 +28,6 @@ export default function UsingRulesButton({ onClick }: UsingRulesButtonProp) {
 const ShowMoreButton = styled.button`
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
 
   ${textStyles.SUIT_13_R};
 

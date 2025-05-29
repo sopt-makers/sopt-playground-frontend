@@ -101,7 +101,12 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
         onSave={onSaveCategory}
         feedData={feedData}
       />
-      <CategoryHeader feedData={feedData} openCategory={openCategory} openTag={openTag} />
+      <CategoryHeader
+        feedData={feedData}
+        openCategory={openCategory}
+        openTag={openTag}
+        isSelectorOpen={isSelectorOpen}
+      />
     </>
   );
 }

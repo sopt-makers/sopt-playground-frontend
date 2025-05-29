@@ -78,7 +78,7 @@ const StyledModal = styled.div`
   position: relative;
   border-radius: 14px;
   background: ${colors.gray800};
-  padding: 8px 0;
+  padding: 12px 0;
   color: ${colors.gray10};
 
   &.category-drop {

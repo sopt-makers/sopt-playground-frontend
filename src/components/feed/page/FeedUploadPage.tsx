@@ -30,6 +30,7 @@ import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { IconChevronLeft } from '@sopt-makers/icons';
+import { Button } from '@sopt-makers/ui';
 
 interface FeedUploadPageProp {
   editingId?: number;
@@ -168,7 +169,9 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
               </LoggingClick>
               <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
               <ButtonContainer>
-                <SubmitButton disabled={!checkReadyToUpload()}>올리기</SubmitButton>
+                <Button theme='blue' size='sm' disabled={!checkReadyToUpload()}>
+                  올리기
+                </Button>
               </ButtonContainer>
             </>
           }
@@ -201,14 +204,16 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
-                  {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
+                  {feedData.images.length === 0 && (
+                    <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
+                  )}
                 </InputWrapper>
               )}
             </Body>
           }
           footer={
             <Footer>
-              {feedData.images.length === 0 && <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />}
+              {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -255,9 +260,9 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                 >
                   <IconLeft color={colors.white} onClick={handleQuitUpload} />
                 </LoggingClick>
-                <SubmitButton type='submit' disabled={!checkReadyToUpload()}>
+                <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload()}>
                   올리기
-                </SubmitButton>
+                </Button>
               </TopHeader>
               <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
             </>
@@ -293,14 +298,16 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
-                  {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
+                  {feedData.images.length === 0 && (
+                    <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
+                  )}
                 </InputWrapper>
               )}
             </Body>
           }
           footer={
             <Footer>
-              {feedData.images.length === 0 && <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />}
+              {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -381,46 +388,6 @@ const TopHeader = styled.header`
   padding: 8px 16px;
   width: 100%;
   height: 52px;
-`;
-
-const Button = styled.button<{ disabled: boolean }>`
-  ${textStyles.SUIT_16_M};
-
-  color: ${({ disabled }) =>
-    disabled
-      ? css`
-          ${colors.gray600}
-        `
-      : css`
-          ${colors.gray50}
-        `};
-`;
-
-const SubmitButton = styled.button<{ disabled: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background-color: ${({ disabled }) =>
-    disabled
-      ? css`
-          ${colors.gray800}
-        `
-      : css`
-          ${colors.success}
-        `};
-  padding: 9px 14px;
-  color: ${({ disabled }) =>
-    disabled
-      ? css`
-          ${colors.gray500}
-        `
-      : css`
-          ${colors.white}
-        `};
-
-  ${textStyles.SUIT_14_SB};
 `;
 
 const TagsWrapper = styled.div`

@@ -9,6 +9,7 @@ import { FeedDataType } from '@/components/feed/upload/types';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { PART_CATEGORY_ID } from '@/components/feed/constants';
 
 interface TagSelectorProps {
   isOpen?: boolean;
@@ -34,10 +35,7 @@ export default function TagSelector({ isOpen = false, onBack, onClose, onSave, f
           isOpen={isOpen}
           onClose={onClose}
           header={
-            <Title>
-              <BackArrowIc onClick={onBack} />
-              {parentCategory && parentCategory.name}
-            </Title>
+            <Title>{parentCategory?.id === PART_CATEGORY_ID ? '어떤 파트에 올릴까요?' : '어떤 주제인가요?'}</Title>
           }
         >
           <TagSelectOptions feedData={feedData} onClose={onClose} onSave={onSave} />

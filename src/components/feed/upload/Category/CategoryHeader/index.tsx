@@ -6,14 +6,17 @@ import { FeedDataType } from '@/components/feed/upload/types';
 import Arrow from '@/public/icons/icon-select-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { PART_CATEGORY_ID } from '@/components/feed/constants';
+import { Chip } from '@sopt-makers/ui';
 
 interface CategoryHeaderProp {
   feedData: FeedDataType;
   openCategory: () => void;
   openTag: () => void;
+  isSelectorOpen: 'openCategory' | 'openTag' | 'closeAll';
 }
 
-export default function CategoryHeader({ feedData, openCategory, openTag }: CategoryHeaderProp) {
+export default function CategoryHeader({ feedData, openCategory, openTag, isSelectorOpen }: CategoryHeaderProp) {
   const { findParentCategory, findChildrenCategory } = useCategory();
 
   const parentCategory = findParentCategory(feedData.categoryId);
@@ -22,27 +25,42 @@ export default function CategoryHeader({ feedData, openCategory, openTag }: Cate
   return (
     <CategoryContainer>
       {!feedData.categoryId ? (
-        <CategorySelectorStarter onClick={openCategory}>
-          <UploadTitle>어떤 게시판에 올릴까요?</UploadTitle>
-          <OpenArrow fill='white' />
-        </CategorySelectorStarter>
+        <StyledChip
+          onClick={openCategory}
+          RightIcon={() => <OpenArrow active={isSelectorOpen === 'openCategory'} />}
+          active={isSelectorOpen === 'openCategory'}
+        >
+          어떤 게시판에 올릴까요?
+        </StyledChip>
       ) : (
         <CategoryWrapper>
-          <CategoryTitle type='button' onClick={openCategory}>
-            {parentCategory?.name} <OpenArrow fill='white' />
-          </CategoryTitle>
+          <StyledChip
+            type='button'
+            onClick={openCategory}
+            RightIcon={() => <OpenArrow active={isSelectorOpen === 'openCategory'} />}
+            active
+          >
+            {parentCategory?.name}
+          </StyledChip>
           {parentCategory?.children.length !== 0 && childrenCategory ? (
-            <CategoryTitle type='button' onClick={openTag}>
+            <StyledChip
+              type='button'
+              onClick={openTag}
+              RightIcon={() => <OpenArrow active={isSelectorOpen === 'openTag'} />}
+              active
+            >
               {childrenCategory.name}
-              <OpenArrow fill='white' />
-            </CategoryTitle>
+            </StyledChip>
           ) : (
             <>
               {parentCategory?.children.length !== 0 && parentCategory && (
-                <CategorySelectorStarter onClick={openTag}>
-                  <UploadTitle>어떤 주제인가요?</UploadTitle>
-                  <OpenArrow fill='white' />
-                </CategorySelectorStarter>
+                <StyledChip
+                  onClick={openTag}
+                  RightIcon={() => <OpenArrow active={isSelectorOpen === 'openTag'} />}
+                  active={isSelectorOpen === 'openTag'}
+                >
+                  {parentCategory.id === PART_CATEGORY_ID ? '어떤 파트에 올릴까요?' : '어떤 주제인가요?'}
+                </StyledChip>
               )}
             </>
           )}
@@ -64,66 +82,20 @@ const CategoryWrapper = styled.div`
   align-items: center;
 `;
 
-const CategoryTitle = styled.button`
-  box-sizing: border-box;
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid ${colors.gray100};
-  border-radius: 9999px;
-  background-color: ${colors.gray800};
-  cursor: pointer;
+const StyledChip = styled(Chip)`
   padding: 10px 20px;
-  width: fit-content;
   height: 42px;
-  color: ${colors.gray10};
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 9px 14px;
     height: 36px;
-
-    &:hover {
-      background-color: transparent;
-    }
   }
 `;
 
-const UploadTitle = styled.h1`
-  ${textStyles.SUIT_16_SB}
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    ${textStyles.SUIT_14_SB}
-  }
-`;
-
-const OpenArrow = styled(Arrow)`
+const OpenArrow = styled(Arrow)<{ active?: boolean }>`
+  transform: ${({ active }) => (active ? 'rotate(180deg)' : 'none')};
+  transition: transform 0.2s;
   width: 14px;
   height: 14px;
-`;
-
-const CategorySelectorStarter = styled.header`
-  box-sizing: border-box;
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid ${colors.gray700};
-  border-radius: 9999px;
-  background-color: ${colors.gray800};
-  cursor: pointer;
-  padding: 10px 20px;
-  width: fit-content;
-  height: 42px;
-  color: ${colors.gray300};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 9px 14px;
-    width: fit-content;
-    height: 36px;
-
-    &:hover {
-      background-color: transparent;
-    }
-  }
+  will-change: transform;
 `;

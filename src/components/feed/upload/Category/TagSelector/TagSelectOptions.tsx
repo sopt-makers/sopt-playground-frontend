@@ -90,10 +90,25 @@ const Option = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 6px;
   cursor: pointer;
   padding: 12px;
   width: 100%;
   color: ${colors.gray10};
+
+  &:active {
+    background-color: ${colors.gray700};
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${colors.gray700};
+    }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 8px;
+  }
 `;
 
 const SubmitButton = styled.button`

@@ -6,6 +6,7 @@ import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { FeedDataType } from '@/components/feed/upload/types';
 import { textStyles } from '@/styles/typography';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface CategorySelectOptionsProp {
   onSave: (categoryId: number) => void;
   feedData: FeedDataType;
@@ -73,8 +74,14 @@ const Option = styled.button<{ isSelected: boolean }>`
     background-color: ${colors.gray700};
   }
 
-  &:hover {
-    background-color: ${colors.gray700};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${colors.gray700};
+    }
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 8px;
   }
 `;
 

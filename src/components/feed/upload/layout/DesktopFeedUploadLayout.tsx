@@ -12,8 +12,8 @@ interface DesktopFeedUploadLayoutProps {
 export default function DesktopFeedUploadLayout({ header, body, footer }: DesktopFeedUploadLayoutProps) {
   return (
     <FooterHeightProvider>
-      {(footerRef) => (
-        <Layout>
+      {(footerRef, ready) => (
+        <Layout style={{ visibility: ready ? 'visible' : 'hidden' }}>
           <TopLayout>
             <HeaderWrapper>{header}</HeaderWrapper>
             <BodyContainer>
@@ -34,8 +34,8 @@ const Layout = styled.div`
   justify-content: space-around;
   height: 100vh;
 
-  @supports (height: 100dvh) {
-    max-height: 100dvh;
+  @supports (height: 100vh) {
+    max-height: 100vh;
   }
 `;
 
@@ -70,6 +70,7 @@ const BodyContainer = styled.section`
 `;
 
 const FooterContainer = styled.footer`
+  box-sizing: content-box;
   display: flex;
   position: fixed;
   bottom: 0;
