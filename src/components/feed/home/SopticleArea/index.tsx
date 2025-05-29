@@ -8,10 +8,11 @@ import Text from '@/components/common/Text';
 import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import SopticleCard from '@/components/feed/home/SopticleArea/SopticleCard';
 import { useScrollCarousel } from '@/components/feed/home/SopticleArea/useScrollCarousel';
+import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 
 const SopticleArea = () => {
   const router = useRouter();
-  const { data: sopticles = [], isLoading } = useRecentSopticles();
+  const { data: sopticles = [], isLoading, isError } = useRecentSopticles();
 
   const extendedCards = [sopticles[sopticles.length - 1], ...sopticles, sopticles[0]]; // 0 = 마지막 복제, 1~N = 실제 데이터, N+1 = 첫번째 복제
 
@@ -32,14 +33,27 @@ const SopticleArea = () => {
       </TitleBox>
 
       <SopticleViewport ref={containerRef}>
-        <SopticleTrack>
-          {!isLoading &&
-            extendedCards.map((sopticle, index) => (
+        {isError && (
+          <Text
+            typography='SUIT_14_M'
+            color={colors.gray300}
+            lineHeight={16}
+            style={{ textAlign: 'center', padding: '80px' }}
+          >
+            솝티클을 보여주는데 문제가 발생했어요.
+          </Text>
+        )}
+        {isLoading ? (
+          <FeedSkeleton count={1} />
+        ) : (
+          <SopticleTrack>
+            {extendedCards?.map((sopticle, index) => (
               <CardWrapper key={`${sopticle.id}+${index}`}>
                 <SopticleCard sopticle={sopticle} />
               </CardWrapper>
             ))}
-        </SopticleTrack>
+          </SopticleTrack>
+        )}
       </SopticleViewport>
 
       <Indicators>

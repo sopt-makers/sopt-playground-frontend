@@ -4,11 +4,15 @@ import { colors } from '@sopt-makers/colors';
 import Skeleton from '@/components/common/Skeleton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-const FeedSkeleton = () => {
+interface FeedSkeletonProps {
+  count?: number;
+}
+
+const FeedSkeleton = ({ count = 4 }: FeedSkeletonProps) => {
   return (
     <>
-      {[1, 2, 3, 4].map((key) => (
-        <FeedSkeletonWrapper key={key}>
+      {Array.from({ length: count }, (_, index) => (
+        <FeedSkeletonWrapper key={index}>
           <SkeletonResponsive1 width={32} height={32} borderRadius={16} color={colors.gray700} />
           <RightWrapper>
             <Skeleton width={184} height={16} borderRadius={8} color={colors.gray700} margin='0 0 24px 0' />
