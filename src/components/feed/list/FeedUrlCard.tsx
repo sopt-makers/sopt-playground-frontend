@@ -46,23 +46,23 @@ export default FeedUrlCard;
 
 const FeedUrlCardBox = styled.div<{ isDetailFeedCard?: boolean; isFull?: boolean }>`
   display: flex;
-  gap: 12px;
+  gap: 16px;
   transition: background-color 0.2s ease;
   border-radius: 12px;
-  background-color: ${colors.gray800};
-  padding: 8px;
+  background-color: ${colors.gray900};
+  padding: 12px;
   width: ${({ isFull }) => (isFull ? '100%' : 'calc(100% - 20px)')};
   height: 136px;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: ${colors.gray700};
+      background-color: ${colors.gray800};
     }
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
-    height: auto;
+    height: 278px;
   }
 
   ${({ isDetailFeedCard }) =>
