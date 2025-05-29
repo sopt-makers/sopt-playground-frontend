@@ -131,7 +131,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 hits={post.hits}
                 isBlindWriter={post.isBlindWriter}
                 anonymousProfile={post.anonymousProfile}
-                isQuestion={post.isQuestion}
+                isQuestion={isQuestion}
                 isShowInfo={categoryId === ''} // 전체 카테고리일 때
                 memberId={post.member?.id ?? 0}
                 isSopticle={isSopticle}
