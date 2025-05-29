@@ -94,6 +94,10 @@ const AllBtn = styled.button`
   ${fonts.LABEL_12_SB};
 
   color: ${colors.gray400};
+
+  &:hover {
+    box-shadow: inset 0 -1px 0 0 ${colors.gray400};
+  }
 `;
 
 const SopticleViewport = styled.div`
