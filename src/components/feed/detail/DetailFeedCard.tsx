@@ -1,10 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconEye } from '@sopt-makers/icons';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useId, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import Checkbox from '@/components/common/Checkbox';
@@ -13,6 +14,7 @@ import Loading from '@/components/common/Loading';
 import ResizedImage from '@/components/common/ResizedImage';
 import VerticalScroller from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
+import FeedLike from '@/components/feed/common/FeedLike';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
 import {
   IconChevronLeft,
@@ -198,7 +200,7 @@ const Top = ({ isBlindWriter, anonymousProfile, profileImage, name, info, member
           )}
           {!isBlindWriter && memberId !== null && (
             <Link href={playgroundLink.memberDetail(memberId)}>
-              <Text typography='SUIT_13_M' color={colors.gray400}>
+              <Text typography='SUIT_13_M' color={colors.gray100}>
                 {info}
               </Text>
             </Link>
@@ -309,13 +311,17 @@ const Content = ({
           </ImageScrollContainer>
         </HorizontalScroller>
       ) : null}
-      <Flex justify='space-between'>
-        {like}
-        <Text
-          typography='SUIT_14_R'
-          lineHeight={20}
-          color={colors.gray300}
-        >{`댓글 ${commentLength}개 ∙ 조회수 ${hits}회`}</Text>
+      <Flex justify='space-between' align='center'>
+        <Flex css={{ gap: 2 }}>
+          <IconEye style={{ width: 16, height: 16, color: colors.gray600 }} />
+          <Text typography='SUIT_14_SB' lineHeight={18} color={colors.gray600}>
+            {hits}
+          </Text>
+        </Flex>
+        <Flex css={{ gap: 8 }}>
+          <FeedLike likes={commentLength} type='message' />
+          {like}
+        </Flex>
       </Flex>
       <FeedImageSlider opened={openSlider} images={images} onClose={() => setOpenSlider(false)} />
     </>
@@ -442,7 +448,7 @@ const Comment = ({
         )}
         <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
           <Flex justify='space-between'>
-            <Stack.Horizontal gutter={2}>
+            <Stack.Horizontal gutter={2} align='center'>
               {isBlindWriter ? (
                 <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
                   {anonymousProfile?.nickname ?? '익명'}
@@ -455,7 +461,7 @@ const Comment = ({
                 </Link>
               )}
               {!isBlindWriter && (
-                <InfoText typography='SUIT_14_M' color={colors.gray400}>
+                <InfoText typography='SUIT_14_M' color={colors.gray100}>
                   {`∙ ${info}`}
                 </InfoText>
               )}
@@ -526,38 +532,19 @@ interface InputProps {
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
   const id = useId();
-  const [isFocus, setIsFocus] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
-  const is버튼액티브 = (isFocus || value.length > 0) && !isPending;
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsFocus(false);
-      }
-    };
-    document.addEventListener('click', handleOutsideClick);
-    return () => {
-      document.removeEventListener('click', handleOutsideClick);
-    };
-  }, []);
+  const isButtonActive = value.length > 0 && !isPending;
 
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
     onChangeIsBlindChecked(isBlindWriter);
   };
 
-  const showInputAnimateArea = useMemo(() => isFocus || isBlindChecked, [isFocus, isBlindChecked]);
-
   return (
-    <Container ref={containerRef} showInputAnimateArea={showInputAnimateArea}>
-      <InputAnimateArea
-        initial={{ height: 0 }}
-        animate={{ height: isFocus || isBlindChecked || value.length > 0 ? '28px' : 0 }}
-        transition={{ bounce: 0, stiffness: 1000, duration: 0.2 }}
-      >
+    <Container ref={containerRef}>
+      <InputAnimateArea initial={{ height: '28px' }}>
         <InputContent>
           <Checkbox
             size='small'
@@ -571,21 +558,16 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
         </InputContent>
       </InputAnimateArea>
       <Flex align='flex-end' css={{ gap: '4px' }}>
-        <StyledTextArea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={() => setIsFocus(true)}
-          placeholder='댓글을 남겨주세요.'
-        />
+        <StyledTextArea value={value} onChange={(e) => onChange(e.target.value)} placeholder='댓글을 남겨주세요.' />
         <SendButton
           type='submit'
           initial={{
             backgroundColor: colors.gray800,
           }}
           animate={{
-            backgroundColor: is버튼액티브 ? colors.success : colors.gray800,
+            backgroundColor: isButtonActive ? colors.success : colors.gray800,
           }}
-          disabled={!is버튼액티브 || isPending}
+          disabled={!isButtonActive || isPending}
         >
           {isPending ? <Loading size={4} /> : <IconSendFill />}
         </SendButton>
@@ -594,7 +576,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   );
 };
 
-const Container = styled.div<{ showInputAnimateArea: boolean }>`
+const Container = styled.div`
   --card-max-width: 560px;
 
   border-top: 1px solid ${colors.gray800};
@@ -603,13 +585,11 @@ const Container = styled.div<{ showInputAnimateArea: boolean }>`
   padding: 12px 16px;
   width: 100%;
   max-width: var(--card-max-width);
-  ${({ showInputAnimateArea }) => showInputAnimateArea && `border-radius: 10px;`};
 
   @media ${MOBILE_MEDIA_QUERY} {
     border-right: none;
     padding: 10px 16px;
     max-width: 100%;
-    ${({ showInputAnimateArea }) => showInputAnimateArea && `padding-top: 12px;`};
   }
 `;
 
