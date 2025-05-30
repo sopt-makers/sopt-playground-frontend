@@ -16,18 +16,10 @@ export default function UsingRulesButton({ onClick }: UsingRulesButtonProp) {
   return (
     <LoggingClick eventKey='communityRulesClick'>
       <ShowMoreButton type='button' onClick={onClick}>
-        <Responsive only='desktop'>
-          <ButtonWrapper>
-            <HelpIc />
-            <p>커뮤니티 이용규칙</p>
-          </ButtonWrapper>
-        </Responsive>
-        <Responsive only='mobile'>
-          <ButtonWrapper>
-            <p>커뮤니티 이용규칙</p>
-            <ArrowIc />
-          </ButtonWrapper>
-        </Responsive>
+        <ButtonWrapper>
+          <p>커뮤니티 이용규칙</p>
+          <ArrowIc />
+        </ButtonWrapper>
       </ShowMoreButton>
     </LoggingClick>
   );

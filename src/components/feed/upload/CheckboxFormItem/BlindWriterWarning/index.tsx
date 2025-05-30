@@ -26,12 +26,7 @@ const WarningBox = styled.article`
   ${textStyles.SUIT_13_M};
 
   width: 100%;
-  max-width: 358px;
   color: ${colors.gray30};
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    margin-bottom: 24px;
-  }
 `;
 
 const WarningBoxWrapper = styled.section`

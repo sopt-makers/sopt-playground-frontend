@@ -1,6 +1,6 @@
 export interface FeedDataType {
   categoryId: number | null;
-  title: string | null;
+  title: string;
   content: string;
   isQuestion: boolean;
   isBlindWriter: boolean;

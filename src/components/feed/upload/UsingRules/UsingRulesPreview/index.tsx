@@ -4,7 +4,6 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import dynamic from 'next/dynamic';
 
-import Responsive from '@/components/common/Responsive';
 import { COMMUNITY_RULES_PREVIEW } from '@/components/feed/upload/UsingRules/constants';
 import BubbleTip from '@/public/icons/polygon.svg';
 import { textStyles } from '@/styles/typography';
@@ -17,24 +16,7 @@ interface UsingRulesPreviewProp {
 }
 
 export default function UsingRulesPreview({ isOpen, onClose }: UsingRulesPreviewProp) {
-  return (
-    <>
-      <Responsive only='desktop'>
-        <Root open={isOpen} onOpenChange={() => onClose()}>
-          <Portal>
-            <Overlay />
-            <PreviewBox>
-              <BubbleTipIcon />
-              <RulesDescription>{COMMUNITY_RULES_PREVIEW}</RulesDescription>
-            </PreviewBox>
-          </Portal>
-        </Root>
-      </Responsive>
-      <Responsive only='mobile'>
-        <RulesWrapper>{COMMUNITY_RULES_PREVIEW}</RulesWrapper>
-      </Responsive>
-    </>
-  );
+  return <RulesWrapper>{COMMUNITY_RULES_PREVIEW}</RulesWrapper>;
 }
 
 const PreviewBox = styled(Content)`

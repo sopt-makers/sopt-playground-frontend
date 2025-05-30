@@ -56,7 +56,7 @@ const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: 56px;
+  padding-top: 69px;
   height: 100vh;
 
   @supports (height: 100dvh) {
@@ -78,7 +78,7 @@ const StyledModal = styled.div`
   position: relative;
   border-radius: 14px;
   background: ${colors.gray800};
-  padding: 8px 0;
+  padding: 12px 0;
   color: ${colors.gray10};
 
   &.category-drop {

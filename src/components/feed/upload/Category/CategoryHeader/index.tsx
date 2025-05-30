@@ -3,127 +3,99 @@ import { colors } from '@sopt-makers/colors';
 
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import { FeedDataType } from '@/components/feed/upload/types';
-import DetailArrow from '@/public/icons/icon-chevron-right.svg';
-import ExpandMoreArrow from '@/public/icons/icon-expand-more.svg';
 import Arrow from '@/public/icons/icon-select-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import { PART_CATEGORY_ID } from '@/components/feed/constants';
+import { Chip } from '@sopt-makers/ui';
 
 interface CategoryHeaderProp {
   feedData: FeedDataType;
   openCategory: () => void;
   openTag: () => void;
+  isSelectorOpen: 'openCategory' | 'openTag' | 'closeAll';
 }
 
-export default function CategoryHeader({ feedData, openCategory, openTag }: CategoryHeaderProp) {
+export default function CategoryHeader({ feedData, openCategory, openTag, isSelectorOpen }: CategoryHeaderProp) {
   const { findParentCategory, findChildrenCategory } = useCategory();
 
   const parentCategory = findParentCategory(feedData.categoryId);
   const childrenCategory = findChildrenCategory(feedData.categoryId);
 
   return (
-    <>
+    <CategoryContainer>
       {!feedData.categoryId ? (
-        <CategorySelectorStarter onClick={openCategory}>
-          <UploadTitle>어디에 올릴까요?</UploadTitle>
-          <OpenArrow fill='white' />
-        </CategorySelectorStarter>
+        <StyledChip
+          onClick={openCategory}
+          RightIcon={() => <OpenArrow active={isSelectorOpen === 'openCategory'} />}
+          active={isSelectorOpen === 'openCategory'}
+        >
+          어떤 게시판에 올릴까요?
+        </StyledChip>
       ) : (
-        <CategoryContainer>
-          <CategoryTitle type='button' onClick={openCategory}>
-            {parentCategory?.name} <ExpandMoreArrowIcon className='icon-expand-more' />
-          </CategoryTitle>
-          {parentCategory?.children.length !== 0 && (
+        <CategoryWrapper>
+          <StyledChip
+            type='button'
+            onClick={openCategory}
+            RightIcon={() => <OpenArrow active={isSelectorOpen === 'openCategory'} />}
+            active
+          >
+            {parentCategory?.name}
+          </StyledChip>
+          {parentCategory?.children.length !== 0 && childrenCategory ? (
+            <StyledChip
+              type='button'
+              onClick={openTag}
+              RightIcon={() => <OpenArrow active={isSelectorOpen === 'openTag'} />}
+              active
+            >
+              {childrenCategory.name}
+            </StyledChip>
+          ) : (
             <>
-              <DetailArrow />
-              <CategoryTitle type='button' onClick={openTag}>
-                {childrenCategory
-                  ? childrenCategory.name
-                  : parentCategory && parentCategory.hasAll && '주제 선택 안 함'}
-                <ExpandMoreArrowIcon className='icon-expand-more' />
-              </CategoryTitle>
+              {parentCategory?.children.length !== 0 && parentCategory && (
+                <StyledChip
+                  onClick={openTag}
+                  RightIcon={() => <OpenArrow active={isSelectorOpen === 'openTag'} />}
+                  active={isSelectorOpen === 'openTag'}
+                >
+                  {parentCategory.id === PART_CATEGORY_ID ? '어떤 파트에 올릴까요?' : '어떤 주제인가요?'}
+                </StyledChip>
+              )}
             </>
           )}
-        </CategoryContainer>
+        </CategoryWrapper>
       )}
-    </>
+    </CategoryContainer>
   );
 }
 
 const CategoryContainer = styled.div`
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 16px;
+  }
+`;
+
+const CategoryWrapper = styled.div`
   display: flex;
+  gap: 8px;
   align-items: center;
+`;
+
+const StyledChip = styled(Chip)`
+  padding: 10px 20px;
+  height: 42px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 19px 16px;
+    padding: 9px 14px;
+    height: 36px;
   }
 `;
 
-const ExpandMoreArrowIcon = styled(ExpandMoreArrow)`
-  display: none;
-`;
-
-const CategoryTitle = styled.button`
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 6px;
-  color: ${colors.gray10};
-
-  &:hover {
-    background-color: ${colors.gray800};
-
-    .icon-expand-more {
-      display: flex;
-    }
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 0;
-
-    &:hover {
-      background-color: transparent;
-
-      .icon-expand-more {
-        display: none;
-      }
-    }
-  }
-`;
-
-const UploadTitle = styled.h1`
-  ${textStyles.SUIT_16_M}
-
-  color: ${colors.white};
-`;
-
-const OpenArrow = styled(Arrow)`
+const OpenArrow = styled(Arrow)<{ active?: boolean }>`
+  transform: ${({ active }) => (active ? 'rotate(180deg)' : 'none')};
+  transition: transform 0.2s;
   width: 14px;
   height: 14px;
-`;
-
-const CategorySelectorStarter = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  padding: 10px 12px;
-  width: 154px;
-
-  &:hover {
-    border-radius: 8px;
-    background-color: ${colors.gray800};
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 19px 16px;
-    width: 100%;
-
-    &:hover {
-      background-color: transparent;
-    }
-  }
+  will-change: transform;
 `;

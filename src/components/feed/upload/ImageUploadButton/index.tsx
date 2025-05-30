@@ -32,10 +32,18 @@ const Button = styled.button`
   gap: 5px;
   align-items: center;
   border-radius: 21px;
-  background-color: ${colors.gray800};
+  background-color: ${colors.gray700};
   padding: 6px 12px;
   color: ${colors.gray10};
   ${textStyles.SUIT_13_M};
+
+  &:hover {
+    background-color: ${colors.gray600};
+  }
+
+  &:active {
+    background-color: ${colors.gray500};
+  }
 `;
 
 const imageSvg = (

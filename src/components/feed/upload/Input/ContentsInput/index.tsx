@@ -32,6 +32,7 @@ const Contents = styled(TextareaAutosize)`
   outline: none;
   background-color: transparent;
   width: 100%;
+  overflow: hidden;
   resize: none;
   line-height: 26px;
   white-space: pre-wrap;
@@ -47,8 +48,5 @@ const Contents = styled(TextareaAutosize)`
 
   ::placeholder {
     color: ${colors.gray600};
-  }
-  @media ${MOBILE_MEDIA_QUERY} {
-    min-height: 80px;
   }
 `;
