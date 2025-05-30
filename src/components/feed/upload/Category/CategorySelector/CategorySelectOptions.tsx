@@ -22,13 +22,11 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
     queryFn: getCategory.request,
   });
 
-  const sortedCategories = categories ? [...categories.slice(1), categories[0]] : [];
-
   return (
     <Select>
-      {sortedCategories &&
-        sortedCategories.length > 0 &&
-        sortedCategories.map((category: BasicCategory) => {
+      {categories &&
+        categories.length > 0 &&
+        categories.map((category: BasicCategory) => {
           return (
             <Option
               key={category.id}
