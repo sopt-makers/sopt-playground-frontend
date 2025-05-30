@@ -136,6 +136,10 @@ const FeedInfo = styled.div<FeedInfoProps>`
     `
     width: 128px;
     flex-shrink: 0;
+
+    @media ${MOBILE_MEDIA_QUERY} {
+        width: calc(100% - 62px);
+    }
   `}
 `;
 
