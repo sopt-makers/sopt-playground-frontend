@@ -63,7 +63,7 @@ export default PopularArea;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 20px;
   width: 100%;
 `;
 
