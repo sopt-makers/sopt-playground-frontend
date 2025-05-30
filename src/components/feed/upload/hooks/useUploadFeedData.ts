@@ -24,6 +24,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     const isSopticle = findParentCategory(categoryId)?.id === SOPTICLE_CATEGORY_ID;
     const isPrevSopticle = !isSopticle && feedData.content === 'content' && feedData.title === '';
     const isQuestion = findParentCategory(categoryId)?.id === QUESTION_CATEGORY_ID;
+    const parentCategory = findParentCategory(categoryId);
 
     setFeedData((feedData) => ({
       ...feedData,
@@ -32,7 +33,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
         ? { content: 'content', title: '' }
         : isPrevSopticle && { content: '' }), // 이전 카테고리가 솝티클이었으면 content 다시 초기화
       isQuestion, // 질문 카테고리 여부에 따라 isQuestion 초기화
-      isBlindWriter: isQuestion ? true : feedData.isBlindWriter, // 질문 카테고리이면 익명으로 초기화
+      isBlindWriter: parentCategory?.hasBlind ? isQuestion : false, // hasBlind가 있는 카테고리 중 질문 카테고리이면 true
     }));
   };
 
