@@ -5,7 +5,7 @@ import { IconEye } from '@sopt-makers/icons';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
-import { forwardRef, PropsWithChildren, ReactNode, useId, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import Checkbox from '@/components/common/Checkbox';
@@ -532,10 +532,14 @@ interface InputProps {
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
   const id = useId();
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
 
   const isButtonActive = value.length > 0 && !isPending;
+
+  useEffect(() => {
+    textareaRef.current?.focus();
+  }, []);
 
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
@@ -543,7 +547,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   };
 
   return (
-    <Container ref={containerRef}>
+    <Container>
       <InputAnimateArea initial={{ height: '28px' }}>
         <InputContent>
           <Checkbox
@@ -558,7 +562,12 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
         </InputContent>
       </InputAnimateArea>
       <Flex align='flex-end' css={{ gap: '4px' }}>
-        <StyledTextArea value={value} onChange={(e) => onChange(e.target.value)} placeholder='댓글을 남겨주세요.' />
+        <StyledTextArea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder='댓글을 남겨주세요.'
+          ref={textareaRef}
+        />
         <SendButton
           type='submit'
           initial={{

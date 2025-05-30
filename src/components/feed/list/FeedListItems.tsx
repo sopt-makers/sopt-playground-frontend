@@ -21,7 +21,7 @@ import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
-import { CategoryList, getMemberInfo, getRelativeTime } from '@/components/feed/common/utils';
+import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
 import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import FeedCard from '@/components/feed/list/FeedCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
@@ -131,7 +131,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 hits={post.hits}
                 isBlindWriter={post.isBlindWriter}
                 anonymousProfile={post.anonymousProfile}
-                isQuestion={post.isQuestion}
+                isQuestion={isQuestion}
                 isShowInfo={categoryId === ''} // 전체 카테고리일 때
                 memberId={post.member?.id ?? 0}
                 isSopticle={isSopticle}
@@ -165,7 +165,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                       <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400} style={{ margin: '0 2px' }}>
                         ∙
                       </Text>
-                      {post.createdAt && getRelativeTime(post.createdAt)}
+                      {post.createdAt}
                     </>
                   ) : (
                     <>

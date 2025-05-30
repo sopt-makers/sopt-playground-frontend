@@ -66,6 +66,10 @@ const Container = styled.div`
 const TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    align-items: flex-end;
+  }
 `;
 
 const Title = styled(Text)`
@@ -87,9 +91,17 @@ const UserNameStyle = styled.span`
 `;
 
 const AllBtn = styled.button`
+  line-height: 20px;
+  color: ${colors.gray400};
   ${fonts.LABEL_12_SB};
 
-  color: ${colors.gray400};
+  &:hover {
+    box-shadow: inset 0 -1px 0 0 ${colors.gray400};
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding-bottom: 4px;
+  }
 `;
 
 const QuestionFeedList = styled.div`
