@@ -81,9 +81,9 @@ const PopularCard = ({ rank, card, isLoading, onClick }: PopularCardProps) => {
         ) : (
           <IconMember size={20} />
         )}
-        <Text typography='SUIT_14_SB' color={colors.gray50} lineHeight={18}>
+        <NameText typography='SUIT_14_SB' color={colors.gray50} lineHeight={18}>
           {name}
-        </Text>
+        </NameText>
       </FeedInfo>
       <HitsInfo>
         <HitsIcon />
@@ -151,6 +151,12 @@ const Category = styled(Tag)`
 `;
 
 const TitleText = styled(Text)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const NameText = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
