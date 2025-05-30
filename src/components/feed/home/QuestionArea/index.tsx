@@ -59,7 +59,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 16px;
+  padding: 20px 16px;
   width: 100%;
 `;
 
@@ -127,6 +127,10 @@ const QuestionFeedList = styled.div`
     background-clip: padding-box;
     background-color: ${colors.gray400};
     cursor: pointer;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    margin-bottom: 0;
   }
 `;
 

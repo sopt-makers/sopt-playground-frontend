@@ -27,7 +27,7 @@ const PopularArea = () => {
           실시간 인기글 🚀
         </Text>
         <Text typography='SUIT_12_SB' color={colors.gray400} lineHeight={16}>
-          이번 주 동안 가장 많은 솝트인이 봤어요!
+          이번 달에 가장 많은 솝트인이 봤어요!
         </Text>
       </TitleWrapper>
       <ContentWrapper>
@@ -63,7 +63,7 @@ export default PopularArea;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 20px 16px;
   width: 100%;
 `;
 
