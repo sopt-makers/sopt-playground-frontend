@@ -134,11 +134,11 @@ const FeedInfo = styled.div<FeedInfoProps>`
   ${({ authorBox }) =>
     authorBox &&
     `
-    width: 128px;
+    width: 124px;
     flex-shrink: 0;
 
     @media ${MOBILE_MEDIA_QUERY} {
-        width: calc(100% - 62px);
+        width: calc(100% - 54px - 12px);
     }
   `}
 `;
@@ -170,8 +170,7 @@ const HitsInfo = styled.div`
   display: flex;
   gap: 4px;
   align-items: center;
-  width: fit-content;
-  min-width: 42px;
+  width: 54px;
   color: ${colors.gray400};
 `;
 
