@@ -100,9 +100,7 @@ export interface ClickEvents {
   wordchainEntry: undefined;
   communityRulesClick: undefined;
   communityUploadCodeButton: undefined;
-  quitUploadCommunity: {
-    feedData: CommunityFeedData;
-  };
+  quitUploadCommunity: undefined;
   // 커뮤니티(피드)
   feedListCategoryFilter: {
     category: string;

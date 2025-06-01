@@ -117,16 +117,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const isQuestion = parentCategory?.id === QUESTION_CATEGORY_ID;
 
   const quitUploading = () => {
-    logClickEvent('quitUploadCommunity', {
-      feedData: {
-        categoryId: feedData.categoryId ?? 0,
-        title: feedData.title,
-        content: feedData.content,
-        isQuestion: feedData.isQuestion,
-        isBlindWriter: feedData.isBlindWriter,
-        images: feedData.images,
-      },
-    });
+    logClickEvent('quitUploadCommunity');
   };
 
   useEffect(() => {
@@ -150,23 +141,9 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         <DesktopFeedUploadLayout
           header={
             <>
-              <LoggingClick
-                eventKey='quitUploadCommunity'
-                param={{
-                  feedData: {
-                    categoryId: feedData.categoryId ?? 0,
-                    title: feedData.title,
-                    content: feedData.content,
-                    isQuestion: feedData.isQuestion,
-                    isBlindWriter: feedData.isBlindWriter,
-                    images: feedData.images,
-                  },
-                }}
-              >
-                <BackArrowWrapper onClick={handleQuitUpload}>
-                  <BackArrow />
-                </BackArrowWrapper>
-              </LoggingClick>
+              <BackArrowWrapper onClick={handleQuitUpload}>
+                <BackArrow />
+              </BackArrowWrapper>
               <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
               <ButtonContainer>
                 <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload()}>
@@ -245,21 +222,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           header={
             <>
               <TopHeader>
-                <LoggingClick
-                  eventKey='quitUploadCommunity'
-                  param={{
-                    feedData: {
-                      categoryId: feedData.categoryId ?? 0,
-                      title: feedData.title,
-                      content: feedData.content,
-                      isQuestion: feedData.isQuestion,
-                      isBlindWriter: feedData.isBlindWriter,
-                      images: feedData.images,
-                    },
-                  }}
-                >
-                  <IconLeft color={colors.white} onClick={handleQuitUpload} />
-                </LoggingClick>
+                <IconLeft color={colors.white} onClick={handleQuitUpload} />
                 <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload()}>
                   올리기
                 </Button>
