@@ -10,6 +10,8 @@ import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import { useQuery } from '@tanstack/react-query';
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 
 interface FeedDetailContentProps {
   postId: string;
@@ -26,6 +28,24 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
 
   const isSopticle = postData.posts.categoryId === SOPTICLE_CATEGORY_ID;
   const isQuestion = postData.posts.categoryId === QUESTION_CATEGORY_ID;
+
+  const { data: categoryData } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+  const parentCategory = (categoryId: number, tag: string) => {
+    const category =
+      categoryData &&
+      categoryData.find((category) =>
+        category.children.length > 0
+          ? category.children.some((tag) => tag.id === categoryId) || category.id === categoryId
+          : category.id === categoryId,
+      )?.name;
+
+    return category;
+  };
+  const parent = parentCategory(postData.category.id, postData.category.name);
+  const category = parent === postData.category.name ? postData.category.name : `${parent}_${postData.category.name}`;
 
   return (
     <DetailFeedCard.Main>
@@ -61,10 +81,7 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         sopticleUrl={postData.posts.sopticleUrl ?? ''}
         thumbnailUrl={postData.posts.images[0]}
         like={
-          <LoggingClick
-            eventKey={postData.isLiked ? 'feedUnlike' : 'feedLike'}
-            param={{ feedId: postId, category: postData.category.name }}
-          >
+          <LoggingClick eventKey={postData.isLiked ? 'feedUnlike' : 'feedLike'} param={{ feedId: postId, category }}>
             <FeedLike
               isLiked={postData.isLiked}
               likes={postData.likes}
