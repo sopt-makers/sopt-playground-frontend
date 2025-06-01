@@ -9,6 +9,7 @@ import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import SopticleCard from '@/components/feed/home/SopticleArea/SopticleCard';
 import { useScrollCarousel } from '@/components/feed/home/SopticleArea/useScrollCarousel';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 
 const SopticleArea = () => {
   const router = useRouter();
@@ -48,9 +49,14 @@ const SopticleArea = () => {
         ) : (
           <SopticleTrack>
             {extendedCards?.map((sopticle, index) => (
-              <CardWrapper key={`${sopticle.id}+${index}`}>
-                <SopticleCard sopticle={sopticle} />
-              </CardWrapper>
+              <LoggingClick
+                eventKey='feedCard'
+                param={{ feedId: String(sopticle.id), category: '솝티클', referral: 'category_HOT' }}
+              >
+                <CardWrapper key={`${sopticle.id}+${index}`}>
+                  <SopticleCard sopticle={sopticle} />
+                </CardWrapper>
+              </LoggingClick>
             ))}
           </SopticleTrack>
         )}

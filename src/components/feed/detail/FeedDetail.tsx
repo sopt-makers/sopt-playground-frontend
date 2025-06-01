@@ -144,6 +144,9 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
       </DetailFeedCard.Body>
       <FeedDetailInput
         postId={postId}
+        category={currentCategory?.category?.name ?? ''}
+        tag={currentCategory?.tag?.name ?? '전체'}
+        hasChildren={children.length > 0}
         onSubmitted={() => {
           queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId) });
           requestAnimationFrame(() => {

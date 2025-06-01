@@ -12,6 +12,9 @@ import { PLAYGROUND_ORIGIN } from '@/constants/links';
 interface FeedDetailInputProps {
   postId: string;
   onSubmitted: () => void;
+  category: string;
+  tag: string;
+  hasChildren: boolean;
 }
 
 const commentAtomFamily = atomFamily({
@@ -19,7 +22,7 @@ const commentAtomFamily = atomFamily({
   default: () => ({ text: '', isBlindWriter: false }),
 });
 
-const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
+const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, category, tag, hasChildren }) => {
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment, isPending } = usePostCommentMutation(postId);
@@ -45,7 +48,13 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted }) => {
 
           const { isSuccess } = await refetchCommentQuery();
           if (isSuccess) {
-            logSubmitEvent('postComment', { feedId: postId, referral, isBlindWriter: commentData.isBlindWriter });
+            const loggingCategory = hasChildren ? `${category}_${tag}` : `${category}`;
+            logSubmitEvent('postComment', {
+              feedId: postId,
+              referral,
+              isBlindWriter: commentData.isBlindWriter,
+              category: loggingCategory,
+            });
             onSubmitted();
           }
         },

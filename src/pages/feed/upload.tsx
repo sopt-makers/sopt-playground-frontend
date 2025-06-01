@@ -56,7 +56,7 @@ const FeedUpload: FC = () => {
       {
         onSuccess: async () => {
           const category = data.categoryId !== null ? getFullCategoryNameFromId(data.categoryId) : undefined;
-          logSubmitEvent('submitCommunity', { category });
+          logSubmitEvent('submitCommunity', { category, isBlindWriter: data.isBlindWriter });
           queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
           await router.push(playgroundLink.feedList());
         },
