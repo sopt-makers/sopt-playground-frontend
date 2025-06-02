@@ -10,6 +10,7 @@ import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import QuestionCard from '@/components/feed/home/QuestionArea/QuestionCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 
 const QuestionArea = () => {
   const { data: me } = useGetMemberOfMe();

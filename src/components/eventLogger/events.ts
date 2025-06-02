@@ -100,9 +100,7 @@ export interface ClickEvents {
   wordchainEntry: undefined;
   communityRulesClick: undefined;
   communityUploadCodeButton: undefined;
-  quitUploadCommunity: {
-    feedData: CommunityFeedData;
-  };
+  quitUploadCommunity: undefined;
   // 커뮤니티(피드)
   feedListCategoryFilter: {
     category: string;
@@ -110,6 +108,7 @@ export interface ClickEvents {
   feedCard: {
     feedId: string;
     category: string;
+    referral?: 'category_HOT';
   };
   feedShareButton: {
     feedId: string;
@@ -229,6 +228,7 @@ export interface SubmitEvents {
   wordchainNewGame: undefined;
   submitCommunity: {
     category: string | undefined;
+    isBlindWriter: boolean;
   };
   editCommunity: undefined;
   // 커뮤니티(피드)
@@ -236,6 +236,7 @@ export interface SubmitEvents {
     feedId: string;
     referral: 'more' | 'detail';
     isBlindWriter: boolean;
+    category: string;
   };
   //타임캡솝 보관하기
   makeTimeCapsule: undefined;

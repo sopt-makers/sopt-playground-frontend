@@ -64,24 +64,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
           : category.id === categoryId,
       )?.name;
 
-    return uploadedCategory(category, tag);
-  };
-
-  const uploadedCategory = (category: string | undefined, tag: string) => {
-    switch (category) {
-      case tag:
-        return category;
-      case CategoryList.파트:
-        return tag + category;
-      case CategoryList.SOPT활동:
-        return tag;
-      case CategoryList.취업_진로:
-        return '취업 ' + tag;
-      case CategoryList.홍보:
-        return tag === '채용' ? tag : tag + ' ' + category;
-      default:
-        return category;
-    }
+    return category;
   };
 
   const [map, setMap] = useRecoilState(scrollIndexAtom);
@@ -115,10 +98,12 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
         itemContent={(idx, post) => {
           const isSopticle = post.categoryId === SOPTICLE_CATEGORY_ID;
           const isQuestion = post.categoryId === QUESTION_CATEGORY_ID;
+          const parent = parentCategory(post.categoryId, post.categoryName);
+          const category = parent === post.categoryName ? post.categoryName : `${parent}_${post.categoryName}`;
 
           return renderFeedDetailLink({
             feedId: `${post.id}`,
-            category: `${post.categoryName}`,
+            category,
             children: (
               <FeedCard
                 onClick={() => setMap((map) => ({ ...map, [categoryId ?? '']: idx }))}
@@ -245,7 +230,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 like={
                   <LoggingClick
                     eventKey={post.isLiked ? 'feedUnlike' : 'feedLike'}
-                    param={{ feedId: String(post.id), category: post.categoryName }}
+                    param={{ feedId: String(post.id), category }}
                   >
                     <FeedLike
                       isLiked={post.isLiked}

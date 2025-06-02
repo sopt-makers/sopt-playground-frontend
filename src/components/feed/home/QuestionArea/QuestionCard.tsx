@@ -7,6 +7,7 @@ import { WaitingQuestion } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
 import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import FeedIcon from '@/components/feed/home/QuestionArea/FeedIcon';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 
 interface QuestionCardProps {
   question: WaitingQuestion;
@@ -16,23 +17,28 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
   const { id, title, content, createdAt, likeCount, commentCount } = question;
 
   return (
-    <CardContainer href={`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`}>
-      <CardContent>
-        <TitleStyle>
-          <QuestionTag>질문</QuestionTag>
-          {title}
-        </TitleStyle>
-        <ContentStyle>{content}</ContentStyle>
-      </CardContent>
+    <LoggingClick
+      eventKey='feedCard'
+      param={{ feedId: String(question.id), category: '질문', referral: 'category_HOT' }}
+    >
+      <CardContainer href={`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`}>
+        <CardContent>
+          <TitleStyle>
+            <QuestionTag>질문</QuestionTag>
+            {title}
+          </TitleStyle>
+          <ContentStyle>{content}</ContentStyle>
+        </CardContent>
 
-      <CardFooter>
-        <CreatedDate>{createdAt}</CreatedDate>
-        <FeedIconBox>
-          <FeedIcon type='thumbsUp' count={likeCount} />
-          <FeedIcon type='message' count={commentCount} />
-        </FeedIconBox>
-      </CardFooter>
-    </CardContainer>
+        <CardFooter>
+          <CreatedDate>{createdAt}</CreatedDate>
+          <FeedIconBox>
+            <FeedIcon type='thumbsUp' count={likeCount} />
+            <FeedIcon type='message' count={commentCount} />
+          </FeedIconBox>
+        </CardFooter>
+      </CardContainer>
+    </LoggingClick>
   );
 };
 
