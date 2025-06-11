@@ -18,7 +18,7 @@ export const CHANNEL_TALK_PLUGIN_KEY = required(
 );
 export const ADMIN_API_URL = required('NEXT_PUBLIC_ADMIN_API_URL', process.env.NEXT_PUBLIC_ADMIN_API_URL);
 export const ADMIN_API_KEY = required('NEXT_PUBLIC_ADMIN_API_KEY', process.env.NEXT_PUBLIC_ADMIN_API_KEY);
-export const OPERATION_API_URL = required('NEXT_PUBLIC_ADMIN_API_URL', process.env.NEXT_PUBLIC_OPERATION_API_URL);
+export const OPERATION_API_URL = required('NEXT_PUBLIC_OPERATION_API_URL', process.env.NEXT_PUBLIC_OPERATION_API_URL);
 
 function required(key: string, value: string | undefined): string {
   if (value === undefined) {
