@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { FC } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
@@ -7,11 +9,9 @@ import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
-import { getMemberInfo } from '@/components/feed/common/utils';
+import { getMemberInfo, getParentCategoryId } from '@/components/feed/common/utils';
 import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
-import { useQuery } from '@tanstack/react-query';
-import { getCategory } from '@/api/endpoint/feed/getCategory';
 
 interface FeedDetailContentProps {
   postId: string;
@@ -22,6 +22,11 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
   const { data: postData } = useGetPostQuery(postId);
   const { handleToggleLike } = useToggleLike();
 
+  const { data: categoryData } = useQuery({
+    queryKey: getCategory.cacheKey(),
+    queryFn: getCategory.request,
+  });
+
   if (postData == null) {
     return null;
   }
@@ -29,10 +34,6 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
   const isSopticle = postData.posts.categoryId === SOPTICLE_CATEGORY_ID;
   const isQuestion = postData.posts.categoryId === QUESTION_CATEGORY_ID;
 
-  const { data: categoryData } = useQuery({
-    queryKey: getCategory.cacheKey(),
-    queryFn: getCategory.request,
-  });
   const parentCategory = (categoryId: number, tag: string) => {
     const category =
       categoryData &&
@@ -88,11 +89,13 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
+                const parentId = getParentCategoryId(categoryData, postData.posts.categoryId);
+
                 handleToggleLike({
                   postId: Number(postId),
                   isLiked: postData.isLiked,
                   likes: postData.likes,
-                  allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                  allPostsQueryKey: useGetPostsInfiniteQuery.getKey(parentId.toString()),
                   postsQueryKey: useGetPostsInfiniteQuery.getKey(postData.posts.categoryId.toString()),
                   postQueryKey: getPost.cacheKey(postId),
                   waitingQuestionQuerykey: getWaitingQuestions.cacheKey(),

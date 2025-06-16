@@ -91,3 +91,11 @@ export const categoryIdNameMap: Record<number, string> = {
   21: '솝티클',
   22: '질문',
 };
+
+export const getParentCategoryId = (
+  categoryData: { id: number; children: { id: number }[] }[] | undefined,
+  categoryId: number,
+): number | '' => {
+  // 자식이 없으면 ''을 부모로
+  return categoryData?.find((cat) => cat.children.some((child) => child.id === categoryId))?.id ?? '';
+};

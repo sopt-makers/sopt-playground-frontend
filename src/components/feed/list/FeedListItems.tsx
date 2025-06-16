@@ -21,7 +21,7 @@ import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
-import { CategoryList, getMemberInfo } from '@/components/feed/common/utils';
+import { getMemberInfo, getParentCategoryId } from '@/components/feed/common/utils';
 import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import FeedCard from '@/components/feed/list/FeedCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
@@ -238,11 +238,13 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                       onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
+                        const parentId = getParentCategoryId(categoryData, post.categoryId);
+
                         handleToggleLike({
                           postId: post.id,
                           isLiked: post.isLiked,
                           likes: post.likes,
-                          allPostsQueryKey: useGetPostsInfiniteQuery.getKey(''),
+                          allPostsQueryKey: useGetPostsInfiniteQuery.getKey(parentId.toString()),
                           postsQueryKey: useGetPostsInfiniteQuery.getKey(post.categoryId.toString()),
                           postQueryKey: getPost.cacheKey(post.id.toString()),
                           waitingQuestionQuerykey: getWaitingQuestions.cacheKey(),
