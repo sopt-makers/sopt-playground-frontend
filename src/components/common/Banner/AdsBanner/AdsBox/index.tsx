@@ -3,29 +3,29 @@ import styled from '@emotion/styled';
 import Responsive from '@/components/common/Responsive';
 
 interface AdsProps {
-  moImage: string;
-  pcImage: string;
+  pc_url: string;
+  mobile_url: string;
 }
 
 interface AdsBoxProps extends AdsProps {
-  url: string;
+  link: string;
 }
 
-export default function AdsBox({ moImage, pcImage, url }: AdsBoxProps) {
+export default function AdsBox({ mobile_url, pc_url, link }: AdsBoxProps) {
   return (
     <div>
-      {url ? (
-        <a href={url} target='_blank' rel='noopener noreferrer'>
-          <Ads moImage={moImage} pcImage={pcImage} />
+      {link ? (
+        <a href={link} target='_blank' rel='noopener noreferrer'>
+          <Ads mobile_url={mobile_url} pc_url={pc_url} />
         </a>
       ) : (
-        <Ads moImage={moImage} pcImage={pcImage} />
+        <Ads mobile_url={mobile_url} pc_url={pc_url} />
       )}
     </div>
   );
 }
 
-const Ads = ({ moImage, pcImage }: AdsProps) => {
+const Ads = ({ mobile_url: moImage, pc_url: pcImage }: AdsProps) => {
   return (
     <article>
       <Responsive only='desktop'>
