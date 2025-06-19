@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconAlertCircle, IconCheckSquare, IconDotsVertical, IconTrash, IconWrite } from '@sopt-makers/icons';
+import { DialogContext, DialogOptionType } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
+import { useContext } from 'react';
 
 import Text from '@/components/common/Text';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
@@ -15,6 +17,25 @@ interface VotePreviewProps {
 
 const VotePreview = ({ onOpenVoteModal, resetVote, optionsLength, isMultiple }: VotePreviewProps) => {
   const selectionGuideText = isMultiple ? '복수 선택 가능' : '1개 선택 가능';
+
+  const { openDialog, closeDialog } = useContext(DialogContext);
+
+  const handleDeleteClick = () => {
+    const option: DialogOptionType = {
+      title: '투표를 삭제하시겠어요?',
+      description: '',
+      type: 'danger',
+      typeOptions: {
+        cancelButtonText: '취소',
+        approveButtonText: '삭제',
+        buttonFunction: () => {
+          resetVote();
+          closeDialog();
+        },
+      },
+    };
+    openDialog(option);
+  };
 
   return (
     <StyledVotePreview>
@@ -49,7 +70,7 @@ const VotePreview = ({ onOpenVoteModal, resetVote, optionsLength, isMultiple }: 
               수정
             </Flex>
           </FeedDropdown.Item>
-          <FeedDropdown.Item type='danger' onClick={resetVote}>
+          <FeedDropdown.Item type='danger' onClick={() => setTimeout(() => handleDeleteClick(), 0)}>
             <Flex align='center' css={{ gap: '10px' }}>
               <IconTrash css={{ width: '16px', height: '16px' }} />
               삭제
