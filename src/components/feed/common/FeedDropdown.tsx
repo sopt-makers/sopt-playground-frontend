@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import React, { PropsWithChildren, ReactNode } from 'react';
@@ -36,11 +37,11 @@ const Base = ({ trigger, style, children }: PropsWithChildren<FeedDropdownProps>
 const StyledContent = styled(m(DropdownMenu.Content))`
   position: relative;
   top: 10px;
-  right: 52px;
+  right: 36px;
   z-index: 100;
   border-radius: 12px;
-  background-color: #252525;
-  min-width: 133px;
+  background-color: ${colors.gray700};
+  min-width: 96px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     right: 12px;

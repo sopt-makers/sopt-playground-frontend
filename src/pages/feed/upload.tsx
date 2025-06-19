@@ -3,16 +3,15 @@ import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { FC } from 'react';
 
+import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { uploadFeed } from '@/api/endpoint/feed/uploadFeed';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { categoryIdNameMap } from '@/components/feed/common/utils';
 import FeedUploadPage, { LoadingWrapper } from '@/components/feed/page/FeedUploadPage';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 import { setLayout } from '@/utils/layout';
-import { getCategory } from '@/api/endpoint/feed/getCategory';
 
 const FeedUpload: FC = () => {
   const router = useRouter();
@@ -23,12 +22,6 @@ const FeedUpload: FC = () => {
     mutationFn: (reqeustBody: { data: PostedFeedDataType; id: number | null }) =>
       uploadFeed.request({ ...reqeustBody.data }),
   });
-
-  type Category = {
-    id: number;
-    name: string;
-    children: Category[];
-  };
 
   const { data: categoryData } = useQuery({
     queryKey: getCategory.cacheKey(),
@@ -83,6 +76,7 @@ const FeedUpload: FC = () => {
           isBlindWriter: false,
           images: [],
           link: null,
+          vote: [],
         }}
         onSubmit={handlUploadSubmit}
       />
