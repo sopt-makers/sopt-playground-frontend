@@ -78,6 +78,26 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     setFeedData(defaultValue);
   };
 
+  const handleSaveVote = (options: string[], isMultiple: boolean) => {
+    const filtered = options.map((o) => o.trim()).filter(Boolean);
+    if (filtered.length < 2) return;
+
+    setFeedData((prev) => ({
+      ...prev,
+      vote: {
+        isMultiple,
+        voteOptions: filtered,
+      },
+    }));
+  };
+
+  const resetVote = () => {
+    setFeedData((prev) => ({
+      ...prev,
+      vote: [],
+    }));
+  };
+
   return {
     feedData,
     handleSaveCategory,
@@ -90,5 +110,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     checkReadyToUpload,
     findParentCategory,
     handleSaveSopticleUrl,
+    handleSaveVote,
+    resetVote,
   };
 }
