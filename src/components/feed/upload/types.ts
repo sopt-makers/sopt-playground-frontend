@@ -16,9 +16,7 @@ export interface EditFeedDataType extends FeedDataType {
   postId: number | null;
 }
 
-type VoteData =
-  | {
-      isMultiple: boolean;
-      voteOptions: string[];
-    }
-  | [];
+type VoteData = {
+  isMultiple: boolean;
+  voteOptions: string[];
+} | null;

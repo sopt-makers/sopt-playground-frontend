@@ -76,7 +76,7 @@ const FeedUpload: FC = () => {
           isBlindWriter: false,
           images: [],
           link: null,
-          vote: [],
+          vote: null,
         }}
         onSubmit={handlUploadSubmit}
       />

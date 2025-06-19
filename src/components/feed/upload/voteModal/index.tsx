@@ -32,9 +32,11 @@ const VoteModal = ({
   const [isMultiple, setIsMultiple] = useState(false);
 
   useEffect(() => {
-    setOptions(initialOptions.length > 0 ? initialOptions : ['', '']);
-    setIsMultiple(initialIsMultiple);
-  }, []);
+    if (isOpen) {
+      setOptions(initialOptions.length > 0 ? initialOptions : ['', '']);
+      setIsMultiple(initialIsMultiple);
+    }
+  }, [isOpen, initialOptions, initialIsMultiple]);
 
   const handleAddField = () => {
     if (options.length < MAX_FIELDS) {

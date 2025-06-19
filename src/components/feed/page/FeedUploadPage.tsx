@@ -187,7 +187,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
-                  {feedData.images.length === 0 && (
+                  {!(feedData.images.length !== 0 || (feedData.vote && feedData.vote.voteOptions?.length > 0)) && (
                     <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                   )}
                 </InputWrapper>
@@ -197,8 +197,13 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           footer={
             <Footer>
               {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
-              {!Array.isArray(feedData.vote) && feedData.vote.voteOptions.length > 0 && (
-                <VotePreview onOpenVoteModal={onOpenVoteModal} resetVote={resetVote} />
+              {feedData.vote && feedData.vote.voteOptions?.length > 0 && (
+                <VotePreview
+                  onOpenVoteModal={onOpenVoteModal}
+                  resetVote={resetVote}
+                  optionsLength={feedData.vote.voteOptions.length}
+                  isMultiple={feedData.vote.isMultiple}
+                />
               )}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
@@ -208,13 +213,16 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} />
+                    <VoteUploadButton
+                      onClick={onOpenVoteModal}
+                      isDisabled={!!(feedData.vote && feedData.vote.voteOptions?.length > 0)}
+                    />
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}
                       onSave={handleSaveVote}
-                      options={!Array.isArray(feedData.vote) ? feedData.vote.voteOptions : ['', '']}
-                      isMultiple={!Array.isArray(feedData.vote) ? feedData.vote.isMultiple : false}
+                      options={feedData.vote?.voteOptions ?? ['', '']}
+                      isMultiple={feedData.vote?.isMultiple ?? false}
                     />
                   </TagsWrapper>
                 )}
@@ -278,7 +286,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
-                  {feedData.images.length === 0 && (
+                  {!(feedData.images.length !== 0 || (feedData.vote && feedData.vote.voteOptions?.length > 0)) && (
                     <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                   )}
                 </InputWrapper>
@@ -288,6 +296,14 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           footer={
             <Footer>
               {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
+              {feedData.vote && feedData.vote.voteOptions?.length > 0 && (
+                <VotePreview
+                  onOpenVoteModal={onOpenVoteModal}
+                  resetVote={resetVote}
+                  optionsLength={feedData.vote.voteOptions.length}
+                  isMultiple={feedData.vote.isMultiple}
+                />
+              )}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -295,6 +311,17 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       imageLength={feedData.images.length}
                       onClick={handleMobileClickImageInput}
                       imageInputRef={mobileRef}
+                    />
+                    <VoteUploadButton
+                      onClick={onOpenVoteModal}
+                      isDisabled={!!(feedData.vote && feedData.vote.voteOptions?.length > 0)}
+                    />
+                    <VoteModal
+                      isOpen={isOpenVoteModal}
+                      onClose={onCloseVoteModal}
+                      onSave={handleSaveVote}
+                      options={feedData.vote?.voteOptions ?? ['', '']}
+                      isMultiple={feedData.vote?.isMultiple ?? false}
                     />
                   </TagsWrapper>
                 )}
