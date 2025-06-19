@@ -33,7 +33,13 @@ const VotePreview = ({ onOpenVoteModal, resetVote }: VotePreviewProps) => {
             </button>
           }
         >
-          <FeedDropdown.Item onClick={onOpenVoteModal}>
+          <FeedDropdown.Item
+            onClick={() => {
+              setTimeout(() => {
+                onOpenVoteModal();
+              }, 0);
+            }}
+          >
             <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
               <IconWrite css={{ width: '16px', height: '16px' }} />
               수정
