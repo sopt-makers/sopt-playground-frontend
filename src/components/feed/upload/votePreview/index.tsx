@@ -9,9 +9,13 @@ import FeedDropdown from '@/components/feed/common/FeedDropdown';
 interface VotePreviewProps {
   onOpenVoteModal: () => void;
   resetVote: () => void;
+  optionsLength: number;
+  isMultiple: boolean;
 }
 
-const VotePreview = ({ onOpenVoteModal, resetVote }: VotePreviewProps) => {
+const VotePreview = ({ onOpenVoteModal, resetVote, optionsLength, isMultiple }: VotePreviewProps) => {
+  const selectionGuideText = isMultiple ? '복수 선택 가능' : '1개 선택 가능';
+
   return (
     <StyledVotePreview>
       <PreviewBox>
@@ -22,7 +26,7 @@ const VotePreview = ({ onOpenVoteModal, resetVote }: VotePreviewProps) => {
               투표
             </Text>
             <Text typography='SUIT_13_M' color={colors.gray100}>
-              응답 n개, 복수 선택 가능
+              응답 {optionsLength}개, {selectionGuideText}
             </Text>
           </StyledContent>
         </Flex>
