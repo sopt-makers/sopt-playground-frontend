@@ -1,42 +1,35 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { IconCheckSquare } from '@sopt-makers/icons';
-
-import { textStyles } from '@/styles/typography';
+import { Button } from '@sopt-makers/ui';
 
 interface VoteUploadButtonProps {
   onClick: () => void;
+  isDisabled: boolean;
 }
 
-export default function VoteUploadButton({ onClick }: VoteUploadButtonProps) {
+export default function VoteUploadButton({ onClick, isDisabled }: VoteUploadButtonProps) {
   return (
-    <Button type='button' onClick={onClick}>
-      <StyledIconCheckSquare />
+    <StyledButton type='button' onClick={onClick} LeftIcon={IconCheckSquare} size='sm' disabled={isDisabled}>
       투표
-    </Button>
+    </StyledButton>
   );
 }
 
-const Button = styled.button`
-  display: flex;
-  gap: 5px;
-  align-items: center;
+const StyledButton = styled(Button)`
   border-radius: 21px;
   background-color: ${colors.gray700};
   padding: 6px 12px;
   color: ${colors.gray10};
-  ${textStyles.SUIT_13_M};
+  ${fonts.BODY_13_M};
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: ${colors.gray600};
+    color: ${colors.white};
   }
 
-  &:active {
+  &:not(:disabled):active {
     background-color: ${colors.gray500};
   }
-`;
-
-const StyledIconCheckSquare = styled(IconCheckSquare)`
-  width: 16px;
-  height: 16px;
 `;
