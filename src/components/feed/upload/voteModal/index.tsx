@@ -9,7 +9,7 @@ import Checkbox from '@/components/common/Checkbox';
 import Modal, { ModalProps } from '@/components/common/Modal';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import { MAX_FIELDS, MAX_LENGTH, MIN_FIELDS } from '@/components/feed/upload/voteModal/constants';
-import VoteTextField from '@/components/feed/upload/voteModal/VoteTextField';
+import VoteTextArea from '@/components/feed/upload/voteModal/VoteTextArea';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
@@ -66,7 +66,7 @@ const VoteModal = ({
       <StyledModalHeader> 투표 만들기</StyledModalHeader>
       <StyledModalContent>
         {options.map((value, index) => (
-          <VoteTextField
+          <VoteTextArea
             key={index}
             isRemovable={options.length > MIN_FIELDS}
             value={value}

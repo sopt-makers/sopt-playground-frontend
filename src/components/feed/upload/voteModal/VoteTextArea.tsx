@@ -1,46 +1,47 @@
 import styled from '@emotion/styled';
-import { TextField } from '@sopt-makers/ui';
+import { TextArea } from '@sopt-makers/ui';
 
 import { MAX_LENGTH } from '@/components/feed/upload/voteModal/constants';
 import IconTrash from '@/public/icons/icon-trash-filled.svg';
 
-interface VoteTextFieldProps {
+interface VoteTextAreaProps {
   value: string;
   onChange: (value: string) => void;
   isRemovable: boolean;
   onRemove: () => void;
 }
 
-const VoteTextField = ({ value, onChange, isRemovable, onRemove }: VoteTextFieldProps) => {
+const VoteTextArea = ({ value, onChange, isRemovable, onRemove }: VoteTextAreaProps) => {
   const isOverMaxLength = value.length > MAX_LENGTH;
   return (
-    <StyledVoteTextField>
-      <StyledTextField
+    <StyledVoteTextArea>
+      <StyledTextArea
         placeholder='응답을 입력해 주세요'
         value={value}
         onChange={(e) => onChange(e.target.value)}
         isError={isOverMaxLength}
         errorMessage='최대 40자까지만 입력할 수 있어요'
+        maxHeight={52}
       />
       {isRemovable && (
         <TrashButton type='button' onClick={onRemove}>
           <StyledIconTrash />
         </TrashButton>
       )}
-    </StyledVoteTextField>
+    </StyledVoteTextArea>
   );
 };
 
-export default VoteTextField;
+export default VoteTextArea;
 
-const StyledVoteTextField = styled.div`
+const StyledVoteTextArea = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
   width: 100%;
 `;
 
-const StyledTextField = styled(TextField)`
+const StyledTextArea = styled(TextArea)`
   width: 100%;
 `;
 
