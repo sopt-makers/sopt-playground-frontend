@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { IconTrash } from '@sopt-makers/icons';
 import { TextField } from '@sopt-makers/ui';
 
+import { MAX_LENGTH } from '@/components/feed/upload/voteModal/constants';
+
 interface VoteTextFieldProps {
   value: string;
   onChange: (value: string) => void;
@@ -10,9 +12,16 @@ interface VoteTextFieldProps {
 }
 
 const VoteTextField = ({ value, onChange, isRemovable, onRemove }: VoteTextFieldProps) => {
+  const isOverMaxLength = value.length > MAX_LENGTH;
   return (
     <StyledVoteTextField>
-      <StyledTextField placeholder='응답을 입력해 주세요' value={value} onChange={(e) => onChange(e.target.value)} />
+      <StyledTextField
+        placeholder='응답을 입력해 주세요'
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        isError={isOverMaxLength}
+        errorMessage='최대 40자까지만 입력할 수 있어요'
+      />
       {isRemovable && (
         <TrashButton type='button' onClick={onRemove}>
           <StyledIconTrash />

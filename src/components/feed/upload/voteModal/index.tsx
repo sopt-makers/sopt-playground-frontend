@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Checkbox from '@/components/common/Checkbox';
 import Modal, { ModalProps } from '@/components/common/Modal';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
+import { MAX_FIELDS, MAX_LENGTH, MIN_FIELDS } from '@/components/feed/upload/voteModal/constants';
 import VoteTextField from '@/components/feed/upload/voteModal/VoteTextField';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
@@ -17,9 +18,6 @@ interface VoteModalProps extends ModalProps {
   options: string[];
   isMultiple: boolean;
 }
-
-const MAX_FIELDS = 5;
-const MIN_FIELDS = 2;
 
 const VoteModal = ({
   isOpen,
@@ -54,12 +52,13 @@ const VoteModal = ({
     setOptions((prev) => prev.map((opt, i) => (i === index ? value : opt)));
   };
 
+  const getValidOptions = () => options.map((o) => o.trim()).filter((o) => o !== '' && o.length <= MAX_LENGTH);
+  const isAllOptionsValid = getValidOptions().length === options.length;
+
   const handleSave = () => {
-    const filtered = options.map((o) => o.trim()).filter(Boolean);
-    if (filtered.length >= 2) {
-      onSave(filtered, isMultiple);
-      onClose();
-    }
+    const validOptions = getValidOptions();
+    onSave(validOptions, isMultiple);
+    onClose();
   };
 
   return (
@@ -90,7 +89,7 @@ const VoteModal = ({
         <CheckboxFormItem label='복수 선택 허용'>
           <Checkbox checked={isMultiple} onChange={() => setIsMultiple((prev) => !prev)} size='medium' />
         </CheckboxFormItem>
-        <Button type='submit' theme='blue' size='sm' onClick={handleSave}>
+        <Button type='submit' theme='blue' size='sm' onClick={handleSave} disabled={!isAllOptionsValid}>
           완료
         </Button>
       </StyledModalFooter>
