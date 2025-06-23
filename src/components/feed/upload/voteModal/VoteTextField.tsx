@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import { IconTrash } from '@sopt-makers/icons';
 import { TextField } from '@sopt-makers/ui';
 
 import { MAX_LENGTH } from '@/components/feed/upload/voteModal/constants';
+import IconTrash from '@/public/icons/icon-trash-filled.svg';
 
 interface VoteTextFieldProps {
   value: string;
