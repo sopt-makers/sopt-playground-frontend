@@ -75,6 +75,8 @@ const FeedEdit: FC = () => {
                   isBlindWriter: data.posts.isBlindWriter,
                   images: data.posts.images,
                   link: data.posts.sopticleUrl,
+                  // TODO get으로 vote정보 받아오면 그걸로 수정하기
+                  vote: null,
                 }}
                 onSubmit={handleEditSubmit}
                 editingId={data.posts.id}

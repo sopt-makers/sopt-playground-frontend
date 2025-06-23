@@ -94,7 +94,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   const resetVote = () => {
     setFeedData((prev) => ({
       ...prev,
-      vote: [],
+      vote: null,
     }));
   };
 
