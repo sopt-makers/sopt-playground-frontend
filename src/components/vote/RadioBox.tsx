@@ -54,7 +54,10 @@ const Container = styled.div<{ mode: 'select' | 'view'; isSelected: boolean }>`
   border-radius: 8px;
   background: ${colors.gray800};
   padding: 8px 12px;
+  width: 100%;
+  height: 38px;
   overflow: hidden;
+
   ${(props) =>
     props.mode === 'select' &&
     `

@@ -61,17 +61,20 @@ const Vote = ({ isMine, hasVoted, options, isMultiple, totalParticipants }: Vote
       <ButtonContainer>
         <ButtonWrapper>
           {mode === 'select' && (
-            <Button size='lg' disabled={selectedIds.length === 0}>
+            <Button size='sm' disabled={selectedIds.length === 0}>
               투표하기
             </Button>
           )}
           {isMine && !hasVoted && (
             <Button
-              size='lg'
+              size='sm'
               theme='black'
               onClick={() => {
                 setIsResult((prev) => !prev);
                 setMode(mode === 'view' ? 'select' : 'view');
+                if (mode === 'select') {
+                  setSelectedIds([]);
+                }
               }}
             >
               {mode === 'view' ? '돌아가기' : '결과보기'}
@@ -131,4 +134,8 @@ const ButtonWrapper = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+
+  button {
+    width: 100%;
+  }
 `;
