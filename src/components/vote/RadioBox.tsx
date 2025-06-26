@@ -12,7 +12,7 @@ interface RadioBoxProps {
   isSelected: boolean;
   isWinner: boolean;
   isResult: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   mode: 'select' | 'view';
 }
 

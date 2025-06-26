@@ -54,7 +54,10 @@ const Vote = ({ isMine, hasVoted, options, isMultiple, totalParticipants }: Vote
             isWinner={mode === 'view' && option.voteCount === maxVoteCount}
             mode={mode}
             isSelected={option.isSelected || selectedIds.includes(option.id)}
-            onClick={() => mode === 'select' && toggleOption(option.id)}
+            onClick={(e) => {
+              e.preventDefault();
+              if (mode === 'select') toggleOption(option.id);
+            }}
           />
         ))}
       </RadioWrapper>
@@ -69,7 +72,8 @@ const Vote = ({ isMine, hasVoted, options, isMultiple, totalParticipants }: Vote
             <Button
               size='sm'
               theme='black'
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 setIsResult((prev) => !prev);
                 setMode(mode === 'view' ? 'select' : 'view');
                 if (mode === 'select') {
