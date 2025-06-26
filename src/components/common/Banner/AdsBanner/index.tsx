@@ -7,9 +7,11 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import Slider, { CustomArrowProps, Settings } from 'react-slick';
 
+import { useBannersImages } from '@/api/endpoint/homeBanner/getBannersImages';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import AdsBox from '@/components/common/Banner/AdsBanner/AdsBox';
 import { ADS } from '@/components/common/Banner/AdsBanner/constants/ads';
+import Skeleton from '@/components/common/Skeleton';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -43,30 +45,32 @@ const AdsBanner: React.FC = () => {
 
   const time = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
+  const { data: bannersData, isLoading } = useBannersImages();
+  const banners = bannersData?.data && bannersData.data.length > 0 ? bannersData.data : ADS;
+
   return (
     <SliderWrapper>
-      {ADS && ADS.length > 0 && (
+      {isLoading ? (
+        <Skeleton width={912} height={164} borderRadius={12} margin='0 30px' color={colors.gray800} />
+      ) : (
         <AdsSlider {...settings}>
-          {ADS.map((ad, idx) => {
-            return (
-              <LoggingClick
-                key={ad.id}
+          {banners.map((ad, idx) => (
+            <LoggingClick
+              key={idx}
+              eventKey='ads'
+              param={{ id: myId, bannerId: idx, pageUrl: ad.link, timeStamp: time }}
+            >
+              <LoggingImpression
+                areaThreshold={1}
                 eventKey='ads'
-                param={{ id: myId, bannerId: ad.id, pageUrl: ad.url, timeStamp: time }}
+                param={{ bannerId: idx, pageUrl: ad.link, timeStamp: time }}
               >
-                <LoggingImpression
-                  key={ad.id}
-                  areaThreshold={1}
-                  eventKey='ads'
-                  param={{ bannerId: ad.id, pageUrl: ad.url, timeStamp: time }}
-                >
-                  <div onClick={handleTimeFlag}>
-                    <AdsBox {...ad} />
-                  </div>
-                </LoggingImpression>
-              </LoggingClick>
-            );
-          })}
+                <div onClick={handleTimeFlag}>
+                  <AdsBox {...ad} />
+                </div>
+              </LoggingImpression>
+            </LoggingClick>
+          ))}
         </AdsSlider>
       )}
     </SliderWrapper>
