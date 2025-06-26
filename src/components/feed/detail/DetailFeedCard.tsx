@@ -33,6 +33,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { parseTextToLink } from '@/utils/parseTextToLink';
+import Vote from '@/components/vote';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -237,6 +238,20 @@ const Name = styled(Text)`
   }
 `;
 
+interface Vote {
+  id: number;
+  isMultiple: boolean;
+  hasVoted: boolean;
+  totalParticipants: number;
+  options: {
+    id: number;
+    content: string;
+    voteCount: number;
+    votePercent: number;
+    isSelected: boolean;
+  }[];
+}
+
 interface ContentProps {
   isQuestion?: boolean;
   title: string;
@@ -248,6 +263,8 @@ interface ContentProps {
   isSopticle?: boolean;
   sopticleUrl: string;
   thumbnailUrl: string;
+  isMine: boolean;
+  vote: Vote | null;
 }
 
 const Content = ({
@@ -261,6 +278,8 @@ const Content = ({
   isSopticle = false,
   sopticleUrl,
   thumbnailUrl,
+  isMine,
+  vote,
 }: ContentProps) => {
   const [openSlider, setOpenSlider] = useState(false);
 
@@ -311,6 +330,15 @@ const Content = ({
           </ImageScrollContainer>
         </HorizontalScroller>
       ) : null}
+      {vote && (
+        <Vote
+          isMine={isMine}
+          isMultiple={vote.isMultiple}
+          hasVoted={vote.hasVoted}
+          options={vote.options}
+          totalParticipants={vote.totalParticipants}
+        />
+      )}
       <Flex justify='space-between' align='center'>
         <Flex css={{ gap: 2 }}>
           <IconEye style={{ width: 16, height: 16, color: colors.gray600 }} />

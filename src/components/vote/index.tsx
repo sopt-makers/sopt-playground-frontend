@@ -100,7 +100,6 @@ const Container = styled.article`
   background: ${colors.gray900};
   padding: 16px;
   width: 100%;
-  max-width: 452px;
 `;
 
 const Title = styled.label`

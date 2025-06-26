@@ -99,6 +99,23 @@ const PostsSchema = z.object({
           createdAt: z.string(),
         }),
       ),
+      vote: z
+        .object({
+          id: z.number(),
+          isMultiple: z.boolean(),
+          hasVoted: z.boolean(),
+          totalParticipants: z.number(),
+          options: z.array(
+            z.object({
+              id: z.number(),
+              content: z.string(),
+              voteCount: z.number(),
+              votePercent: z.number(),
+              isSelected: z.boolean(),
+            }),
+          ),
+        })
+        .nullable(),
     }),
   ),
 });
