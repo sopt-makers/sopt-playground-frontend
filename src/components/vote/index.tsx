@@ -1,3 +1,4 @@
+import { usePostVoteMutation } from '@/api/endpoint/feed/postVote';
 import Text from '@/components/common/Text';
 import RadioBox from '@/components/vote/RadioBox';
 import styled from '@emotion/styled';
@@ -16,6 +17,8 @@ type VoteOption = {
 };
 
 interface VoteProps {
+  postId: number;
+  categoryId: number;
   isMultiple: boolean;
   isMine: boolean;
   hasVoted: boolean;
@@ -23,12 +26,19 @@ interface VoteProps {
   totalParticipants: number;
 }
 
-const Vote = ({ isMine, hasVoted, options, isMultiple, totalParticipants }: VoteProps) => {
+const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, totalParticipants }: VoteProps) => {
   const [isResult, setIsResult] = useState(hasVoted);
   const [mode, setMode] = useState<'view' | 'select'>(hasVoted ? 'view' : 'select');
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const maxVoteCount = Math.max(...options.map((o) => o.voteCount));
+  const { mutate: vote } = usePostVoteMutation(postId, categoryId, {
+    onSuccess: () => {
+      setIsResult(true);
+      setMode('view');
+      setSelectedIds([]);
+    },
+  });
 
   const toggleOption = (id: number) => {
     if (mode !== 'select') return;
@@ -64,7 +74,14 @@ const Vote = ({ isMine, hasVoted, options, isMultiple, totalParticipants }: Vote
       <ButtonContainer>
         <ButtonWrapper>
           {mode === 'select' && (
-            <Button size='sm' disabled={selectedIds.length === 0}>
+            <Button
+              size='sm'
+              disabled={selectedIds.length === 0}
+              onClick={(e) => {
+                e.preventDefault();
+                vote({ selectedOptions: [...selectedIds] });
+              }}
+            >
               투표하기
             </Button>
           )}

@@ -265,6 +265,8 @@ interface ContentProps {
   thumbnailUrl: string;
   isMine: boolean;
   vote: Vote | null;
+  postId: number;
+  categoryId: number;
 }
 
 const Content = ({
@@ -280,6 +282,8 @@ const Content = ({
   thumbnailUrl,
   isMine,
   vote,
+  postId,
+  categoryId,
 }: ContentProps) => {
   const [openSlider, setOpenSlider] = useState(false);
 
@@ -332,6 +336,8 @@ const Content = ({
       ) : null}
       {vote && (
         <Vote
+          postId={postId}
+          categoryId={categoryId}
           isMine={isMine}
           isMultiple={vote.isMultiple}
           hasVoted={vote.hasVoted}

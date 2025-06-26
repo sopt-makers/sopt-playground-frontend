@@ -265,6 +265,8 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                 )}
                 {post.vote && (
                   <Vote
+                    postId={post.id}
+                    categoryId={post.categoryId}
                     isMine={post.isMine}
                     isMultiple={post.vote.isMultiple}
                     hasVoted={post.vote.hasVoted}

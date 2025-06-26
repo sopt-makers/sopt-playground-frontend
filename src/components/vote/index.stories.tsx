@@ -11,6 +11,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Voted_MyPost_Multipe = {
   args: {
+    postId: 1,
+    categoryId: 1,
     isMultiple: true,
     isMine: true,
     hasVoted: true,
@@ -36,6 +38,8 @@ export const Voted_MyPost_Multipe = {
 
 export const Voted_MyPost_Single = {
   args: {
+    postId: 1,
+    categoryId: 1,
     isMultiple: false,
     isMine: true,
     hasVoted: true,
@@ -61,6 +65,8 @@ export const Voted_MyPost_Single = {
 
 export const Voted_OthersPost = {
   args: {
+    postId: 1,
+    categoryId: 1,
     isMultiple: true,
     isMine: false,
     hasVoted: true,
@@ -86,6 +92,8 @@ export const Voted_OthersPost = {
 
 export const NotVoted_MyPost = {
   args: {
+    postId: 1,
+    categoryId: 1,
     isMultiple: true,
     isMine: true,
     hasVoted: false,
@@ -111,6 +119,8 @@ export const NotVoted_MyPost = {
 
 export const NotVoted_OtherPost = {
   args: {
+    postId: 1,
+    categoryId: 1,
     isMultiple: true,
     isMine: false,
     hasVoted: false,
