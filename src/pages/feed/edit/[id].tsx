@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { editFeed } from '@/api/endpoint/feed/editFeed';
 import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
@@ -44,6 +44,13 @@ const FeedEdit: FC = () => {
     );
   };
 
+  const voteForForm = useMemo(() => {
+    if (!data) return null;
+
+    const vpteData = data.posts.vote;
+    return vpteData ? { isMultiple: vpteData.isMultiple, voteOptions: vpteData.options.map((o) => o.content) } : null;
+  }, [data]);
+
   if (isPending) {
     return (
       <LoadingWrapper>
@@ -75,8 +82,7 @@ const FeedEdit: FC = () => {
                   isBlindWriter: data.posts.isBlindWriter,
                   images: data.posts.images,
                   link: data.posts.sopticleUrl,
-                  // TODO get으로 vote정보 받아오면 그걸로 수정하기
-                  vote: null,
+                  vote: voteForForm,
                 }}
                 onSubmit={handleEditSubmit}
                 editingId={data.posts.id}
