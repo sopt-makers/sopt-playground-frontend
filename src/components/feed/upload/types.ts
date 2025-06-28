@@ -5,6 +5,7 @@ export interface FeedDataType {
   isQuestion: boolean;
   isBlindWriter: boolean;
   images: string[];
+  vote: VoteData;
 }
 
 export interface PostedFeedDataType extends FeedDataType {
@@ -14,3 +15,8 @@ export interface PostedFeedDataType extends FeedDataType {
 export interface EditFeedDataType extends FeedDataType {
   postId: number | null;
 }
+
+type VoteData = {
+  isMultiple: boolean;
+  voteOptions: string[];
+} | null;

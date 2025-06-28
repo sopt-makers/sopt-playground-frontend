@@ -1,13 +1,14 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconChevronLeft } from '@sopt-makers/icons';
 import { Callout } from '@sopt-makers/ui';
+import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
+import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
-import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
@@ -25,12 +26,12 @@ import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeed
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
+import VoteModal from '@/components/feed/upload/voteModal';
+import VotePreview from '@/components/feed/upload/votePreview';
+import VoteUploadButton from '@/components/feed/upload/voteUploadButton';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
-import { IconChevronLeft } from '@sopt-makers/icons';
-import { Button } from '@sopt-makers/ui';
 
 interface FeedUploadPageProp {
   editingId?: number;
@@ -52,6 +53,8 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     handleSaveContent,
     checkReadyToUpload,
     handleSaveSopticleUrl,
+    handleSaveVote,
+    resetVote,
   } = useUploadFeedData(defaultValue);
 
   const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
@@ -100,6 +103,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         isBlindWriter: feedData.isBlindWriter,
         images: feedData.images,
         link: feedData.link,
+        vote: feedData.vote,
       },
       id: editingId ?? null,
     });
@@ -134,6 +138,9 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
     return () => window.removeEventListener('popstate', handleBack);
   }, [feedData]);
+
+  const { isOpen: isOpenVoteModal, onOpen: onOpenVoteModal, onClose: onCloseVoteModal } = useModalState();
+  const hasVoteOptions = feedData.vote && feedData.vote.voteOptions?.length > 0;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -181,7 +188,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
-                  {feedData.images.length === 0 && (
+                  {!(feedData.images.length !== 0 || hasVoteOptions) && (
                     <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                   )}
                 </InputWrapper>
@@ -191,6 +198,14 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           footer={
             <Footer>
               {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
+              {feedData.vote && hasVoteOptions && (
+                <VotePreview
+                  onOpenVoteModal={onOpenVoteModal}
+                  resetVote={resetVote}
+                  optionsLength={feedData.vote.voteOptions.length}
+                  isMultiple={feedData.vote.isMultiple}
+                />
+              )}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -198,6 +213,14 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       imageLength={feedData.images.length}
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
+                    />
+                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!hasVoteOptions} />
+                    <VoteModal
+                      isOpen={isOpenVoteModal}
+                      onClose={onCloseVoteModal}
+                      onSave={handleSaveVote}
+                      options={feedData.vote?.voteOptions ?? ['', '']}
+                      isMultiple={feedData.vote?.isMultiple ?? false}
                     />
                   </TagsWrapper>
                 )}
@@ -261,7 +284,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
-                  {feedData.images.length === 0 && (
+                  {!(feedData.images.length !== 0 || hasVoteOptions) && (
                     <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                   )}
                 </InputWrapper>
@@ -271,6 +294,14 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           footer={
             <Footer>
               {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
+              {feedData.vote && hasVoteOptions && (
+                <VotePreview
+                  onOpenVoteModal={onOpenVoteModal}
+                  resetVote={resetVote}
+                  optionsLength={feedData.vote.voteOptions.length}
+                  isMultiple={feedData.vote.isMultiple}
+                />
+              )}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -278,6 +309,14 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       imageLength={feedData.images.length}
                       onClick={handleMobileClickImageInput}
                       imageInputRef={mobileRef}
+                    />
+                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
+                    <VoteModal
+                      isOpen={isOpenVoteModal}
+                      onClose={onCloseVoteModal}
+                      onSave={handleSaveVote}
+                      options={feedData.vote?.voteOptions ?? ['', '']}
+                      isMultiple={feedData.vote?.isMultiple ?? false}
                     />
                   </TagsWrapper>
                 )}
