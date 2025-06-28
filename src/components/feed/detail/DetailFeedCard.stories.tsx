@@ -96,6 +96,10 @@ export const Default = () => {
             memberId={0}
           />
           <DetailFeedCard.Content
+            postId={1}
+            categoryId={1}
+            isMine={false}
+            vote={null}
             title='YC의 스타트업을 위한 필수 조언'
             hits={23}
             commentLength={COMMENTS.length}

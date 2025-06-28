@@ -81,6 +81,10 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         isSopticle={isSopticle}
         sopticleUrl={postData.posts.sopticleUrl ?? ''}
         thumbnailUrl={postData.posts.images[0]}
+        isMine={postData.isMine}
+        vote={postData.posts.vote}
+        postId={postData.posts.id}
+        categoryId={postData.posts.categoryId}
         like={
           <LoggingClick eventKey={postData.isLiked ? 'feedUnlike' : 'feedLike'} param={{ feedId: postId, category }}>
             <FeedLike

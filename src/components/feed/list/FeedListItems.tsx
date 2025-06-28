@@ -27,6 +27,7 @@ import FeedCard from '@/components/feed/list/FeedCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
 import { textStyles } from '@/styles/typography';
+import Vote from '@/components/vote';
 
 interface FeedListItemsProps {
   categoryId: string | undefined;
@@ -261,6 +262,17 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                       <FeedCard.ImageItem key={`${image}-${index}`} src={image} height={240} />
                     ))}
                   </FeedCard.Image>
+                )}
+                {post.vote && (
+                  <Vote
+                    postId={post.id}
+                    categoryId={post.categoryId}
+                    isMine={post.isMine}
+                    isMultiple={post.vote.isMultiple}
+                    hasVoted={post.vote.hasVoted}
+                    options={post.vote.options}
+                    totalParticipants={post.vote.totalParticipants}
+                  />
                 )}
               </FeedCard>
             ),
