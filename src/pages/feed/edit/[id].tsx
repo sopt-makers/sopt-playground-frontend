@@ -47,8 +47,8 @@ const FeedEdit: FC = () => {
   const voteForForm = useMemo(() => {
     if (!data) return null;
 
-    const vpteData = data.posts.vote;
-    return vpteData ? { isMultiple: vpteData.isMultiple, voteOptions: vpteData.options.map((o) => o.content) } : null;
+    const voteData = data.posts.vote;
+    return voteData ? { isMultiple: voteData.isMultiple, voteOptions: voteData.options.map((o) => o.content) } : null;
   }, [data]);
 
   if (isPending) {
