@@ -140,6 +140,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   }, [feedData]);
 
   const { isOpen: isOpenVoteModal, onOpen: onOpenVoteModal, onClose: onCloseVoteModal } = useModalState();
+  const hasVoteOptions = feedData.vote && feedData.vote.voteOptions?.length > 0;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -187,7 +188,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={desktopContentsRef} value={feedData.content} />
-                  {!(feedData.images.length !== 0 || (feedData.vote && feedData.vote.voteOptions?.length > 0)) && (
+                  {!(feedData.images.length !== 0 || hasVoteOptions) && (
                     <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                   )}
                 </InputWrapper>
@@ -197,7 +198,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           footer={
             <Footer>
               {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
-              {feedData.vote && feedData.vote.voteOptions?.length > 0 && (
+              {feedData.vote && hasVoteOptions && (
                 <VotePreview
                   onOpenVoteModal={onOpenVoteModal}
                   resetVote={resetVote}
@@ -213,10 +214,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
                     />
-                    <VoteUploadButton
-                      onClick={onOpenVoteModal}
-                      isDisabled={!!(feedData.vote && feedData.vote.voteOptions?.length > 0)}
-                    />
+                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!hasVoteOptions} />
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}
@@ -286,7 +284,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     value={feedData.title}
                   />
                   <ContentsInput onChange={handleSaveContent} ref={mobileContentsRef} value={feedData.content} />
-                  {!(feedData.images.length !== 0 || (feedData.vote && feedData.vote.voteOptions?.length > 0)) && (
+                  {!(feedData.images.length !== 0 || hasVoteOptions) && (
                     <UsingRules isPreviewOpen={isPreviewOpen} onClose={closeUsingRules} />
                   )}
                 </InputWrapper>
@@ -296,7 +294,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           footer={
             <Footer>
               {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
-              {feedData.vote && feedData.vote.voteOptions?.length > 0 && (
+              {feedData.vote && hasVoteOptions && (
                 <VotePreview
                   onOpenVoteModal={onOpenVoteModal}
                   resetVote={resetVote}
@@ -312,10 +310,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleMobileClickImageInput}
                       imageInputRef={mobileRef}
                     />
-                    <VoteUploadButton
-                      onClick={onOpenVoteModal}
-                      isDisabled={!!(feedData.vote && feedData.vote.voteOptions?.length > 0)}
-                    />
+                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}
