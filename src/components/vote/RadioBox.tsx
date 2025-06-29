@@ -72,7 +72,6 @@ const Container = styled.div<{ mode: 'select' | 'view'; isSelected: boolean }>`
 `;
 
 const CheckedIcon = styled(IconCheck)`
-  z-index: 1;
   width: 16px;
   height: 16px;
   color: ${colors.secondary};
@@ -81,7 +80,6 @@ const CheckedIcon = styled(IconCheck)`
 const VoteResult = styled.span<{ isWinner: boolean }>`
   position: absolute;
   right: 12px;
-  z-index: 1;
   color: ${({ isWinner }) => (isWinner ? colors.secondary : colors.gray100)};
   font: ${fonts.BODY_13_M};
 `;
