@@ -34,13 +34,12 @@ export const usePostVoteMutation = (
     queryKey: getCategory.cacheKey(),
     queryFn: getCategory.request,
   });
-  const parentCategoryId = getParentCategoryId(categoryData, categoryId);
+  const parentCategoryId = getParentCategoryId(categoryData, categoryId) || categoryId;
 
   return useMutation({
     mutationFn: (requestBody: z.infer<typeof OptionSchema>) => postVote.request(postId, requestBody),
     onSuccess: () => {
       options?.onSuccess?.();
-      console.log(useGetPostsInfiniteQuery.getKey(parentCategoryId?.toString()));
       queryClient.refetchQueries({ queryKey: getPost.cacheKey(String(postId)) });
       queryClient.refetchQueries({ queryKey: useGetPostsInfiniteQuery.getKey(parentCategoryId?.toString()) });
       queryClient.refetchQueries({ queryKey: getWaitingQuestions.cacheKey() });
