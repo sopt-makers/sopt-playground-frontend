@@ -204,6 +204,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   resetVote={resetVote}
                   optionsLength={feedData.vote.voteOptions.length}
                   isMultiple={feedData.vote.isMultiple}
+                  isDisable={isEdit}
                 />
               )}
               <TagAndCheckboxWrapper>
@@ -214,7 +215,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!hasVoteOptions} />
+                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}
@@ -300,6 +301,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   resetVote={resetVote}
                   optionsLength={feedData.vote.voteOptions.length}
                   isMultiple={feedData.vote.isMultiple}
+                  isDisable={isEdit}
                 />
               )}
               <TagAndCheckboxWrapper>

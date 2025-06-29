@@ -8,6 +8,7 @@ import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
+import { zIndex } from '@/styles/zIndex';
 
 interface Options {
   postId: string;
@@ -31,6 +32,7 @@ export const useDeleteFeed = () => {
       okButtonText: '삭제하기',
       cancelButtonText: '취소',
       maxWidth: 324,
+      zIndex: zIndex.헤더,
     });
 
     if (result) {

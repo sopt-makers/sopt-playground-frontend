@@ -29,6 +29,7 @@ export const Default: Story = {
         }}
         optionsLength={3}
         isMultiple={true}
+        isDisable={false}
       />
     );
   },
