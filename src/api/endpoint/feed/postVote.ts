@@ -13,10 +13,10 @@ const OptionSchema = z.object({
 });
 
 export const postVote = createEndpoint({
-  request: (postId: number, reqeustBody: z.infer<typeof OptionSchema>) => ({
+  request: (postId: number, requestBody: z.infer<typeof OptionSchema>) => ({
     method: 'POST',
     url: `api/v1/community/posts/${postId}/vote`,
-    data: reqeustBody,
+    data: requestBody,
   }),
   serverResponseScheme: z.record(z.boolean()),
 });
