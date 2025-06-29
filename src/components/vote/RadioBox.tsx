@@ -34,10 +34,10 @@ const RadioBox = ({
       </Text>
       {isResult && (
         <>
+          <Bar votePercent={votePercent} isWinner={isWinner} />
           <VoteResult isWinner={isWinner}>
             {votePercent}% ({voteCount}표)
           </VoteResult>
-          <Bar votePercent={votePercent} isWinner={isWinner} />
         </>
       )}
     </Container>
@@ -72,6 +72,7 @@ const Container = styled.div<{ mode: 'select' | 'view'; isSelected: boolean }>`
 `;
 
 const CheckedIcon = styled(IconCheck)`
+  z-index: 1;
   width: 16px;
   height: 16px;
   color: ${colors.secondary};
@@ -80,6 +81,7 @@ const CheckedIcon = styled(IconCheck)`
 const VoteResult = styled.span<{ isWinner: boolean }>`
   position: absolute;
   right: 12px;
+  z-index: 1;
   color: ${({ isWinner }) => (isWinner ? colors.secondary : colors.gray100)};
   font: ${fonts.BODY_13_M};
 `;
@@ -97,7 +99,6 @@ const Bar = styled.div<{ votePercent: number; isWinner: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
   background-color: ${({ isWinner }) => (isWinner ? colors.orangeAlpha300 : colors.gray700)};
   height: 100%;
   animation: ${({ votePercent }) => createWidthAnimation(votePercent)} 0.8s ease-out forwards;
