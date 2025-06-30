@@ -48,7 +48,7 @@ const VotePreview = ({ onOpenVoteModal, resetVote, optionsLength, isMultiple, is
               투표
             </Text>
             <Text typography='SUIT_13_M' color={isDisable ? colors.gray400 : colors.gray100}>
-              응답 {optionsLength}개, {selectionGuideText}
+              {optionsLength}개 항목, {selectionGuideText}
             </Text>
           </StyledContent>
         </Flex>
