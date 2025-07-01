@@ -94,7 +94,7 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
               투표하기
             </Button>
           )}
-          {isMine && !isResult && (
+          {isMine && !hasVoted && (
             <Button
               size='sm'
               theme='black'
