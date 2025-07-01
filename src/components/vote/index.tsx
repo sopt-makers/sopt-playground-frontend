@@ -37,12 +37,7 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
 
   const maxVoteCount = Math.max(...options.map((o) => o.voteCount));
 
-  const { mutate: vote } = usePostVoteMutation(postId, categoryId, {
-    onSuccess: () => {
-      setIsResult(true);
-      setMode('view');
-    },
-  });
+  const { mutate: vote } = usePostVoteMutation(postId, categoryId);
 
   const toggleOption = (id: number) => {
     if (mode !== 'select') return;
@@ -56,6 +51,7 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
   useEffect(() => {
     setIsResult(hasVoted);
     setMode(hasVoted ? 'view' : 'select');
+    setSelectedIds([]);
   }, [hasVoted]);
 
   return (

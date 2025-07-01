@@ -38,13 +38,7 @@ export const postVote = createEndpoint({
   serverResponseScheme: VoteResponseSchema,
 });
 
-export const usePostVoteMutation = (
-  postId: number,
-  categoryId: number,
-  options?: {
-    onSuccess?: () => void;
-  },
-) => {
+export const usePostVoteMutation = (postId: number, categoryId: number) => {
   const queryClient = useQueryClient();
 
   const { data: categoryData } = useQuery({
@@ -56,7 +50,6 @@ export const usePostVoteMutation = (
   return useMutation({
     mutationFn: (requestBody: z.infer<typeof OptionSchema>) => postVote.request(postId, requestBody),
     onSuccess: (data: z.infer<typeof VoteResponseSchema>) => {
-      options?.onSuccess?.();
       queryClient.setQueryData(getPost.cacheKey(String(postId)), (oldData: PostType) => {
         return produce(oldData, (draft) => {
           if (draft && draft.posts) {
