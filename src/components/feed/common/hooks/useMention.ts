@@ -72,11 +72,19 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
     return currentContent;
   };
 
+  const handleMentionEsc = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Escape') {
+      setIsMentionOpen(false);
+      setMentionQuery('');
+    }
+  };
+
   return {
     isMentionOpen,
     searchedMemberList: isMentionOpen ? searchedMemberList : [],
     handleMention,
     selectMention,
+    handleMentionEsc,
     contentToUpdate: currentContent,
   };
 };

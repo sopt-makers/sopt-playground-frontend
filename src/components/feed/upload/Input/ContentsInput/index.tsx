@@ -16,9 +16,8 @@ interface ContentsInputProp {
 
 const ContentsInput = forwardRef(
   ({ onChange, value }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
-    const { isMentionOpen, searchedMemberList, handleMention, selectMention, contentToUpdate } = useMention(
-      ref as RefObject<HTMLTextAreaElement>,
-    );
+    const { isMentionOpen, searchedMemberList, handleMention, selectMention, handleMentionEsc, contentToUpdate } =
+      useMention(ref as RefObject<HTMLTextAreaElement>);
 
     const handleContentsInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
       handleMention(e);
@@ -32,6 +31,7 @@ const ContentsInput = forwardRef(
           maxLength={20000}
           spellCheck='false'
           onChange={handleContentsInput}
+          onKeyDown={handleMentionEsc}
           ref={ref}
           value={contentToUpdate ?? ''}
         />
