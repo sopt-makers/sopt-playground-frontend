@@ -32,6 +32,7 @@ import VoteUploadButton from '@/components/feed/upload/voteUploadButton';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import useMention from '@/components/feed/common/hooks/useMention';
 
 interface FeedUploadPageProp {
   editingId?: number;

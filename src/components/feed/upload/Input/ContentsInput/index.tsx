@@ -5,6 +5,9 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+import MentionDropdown from '@/components/feed/common/MentionDropdown';
+import useMention from '@/components/feed/common/hooks/useMention';
+import { Member } from '@/components/projects/upload/form/fields/member/MemberSearchContext';
 
 interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
@@ -13,15 +16,26 @@ interface ContentsInputProp {
 
 const ContentsInput = forwardRef(
   ({ onChange, value }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
+    const { isMentionOpen, searchedMemberList, handleMention, selectMention, contentToUpdate } = useMention();
+
+    const handleContentsInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+      const inputValue = e.target.value;
+      handleMention(inputValue);
+      onChange;
+    };
+
     return (
-      <Contents
-        placeholder='내용을 입력해주세요'
-        maxLength={20000}
-        spellCheck='false'
-        onChange={onChange}
-        ref={ref}
-        value={value ?? ''}
-      />
+      <>
+        <Contents
+          placeholder='내용을 입력해주세요'
+          maxLength={20000}
+          spellCheck='false'
+          onChange={handleContentsInput}
+          ref={ref}
+          value={contentToUpdate ?? ''}
+        />
+        {isMentionOpen && <MentionDropdown searchedMemberList={searchedMemberList} onSelect={selectMention} />}
+      </>
     );
   },
 );
