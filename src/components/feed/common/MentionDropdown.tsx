@@ -2,6 +2,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import Text from '@/components/common/Text';
+import { fonts } from '@sopt-makers/fonts';
 
 type Member = {
   generation: number;
@@ -26,71 +27,77 @@ const MentionDropdown = ({ searchedMemberList, onSelect }: MentionDropdownProps)
   };
 
   return (
-    <StyledList>
+    <Container>
       {searchedMemberList.map((member) => (
-        <StyledItem
+        <Wrapper
           key={member.id}
           onClick={() => {
             onSelect(member);
           }}
         >
+          <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
           <MemberInfo>
-            <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
-            <Text color={colors.gray400}>{member.name}</Text>
+            <MemberName typography='SUIT_16_M' color={colors.gray10}>
+              {member.name}
+            </MemberName>
+            <MemberDetail>{`${member.generation}기`}</MemberDetail>
           </MemberInfo>
-          <Text>{`${member.generation}기`}</Text>
-        </StyledItem>
+        </Wrapper>
       ))}
-    </StyledList>
+    </Container>
   );
 };
 
 export default MentionDropdown;
 
-const StyledList = styled.div`
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  gap: 8px;
-  border-radius: 6px;
-  background: ${colors.gray700};
-  padding: 8px 0;
+const Container = styled.div`
+  border: 1px solid ${colors.gray700};
+  border-radius: 13px;
+  background: ${colors.gray900};
+  padding: 8px;
   width: 170px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    position: absolute;
-    top: 49px;
-    border: 1px solid ${colors.gray600};
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 358px;
   }
 `;
 
-const StyledItem = styled.div`
+const Wrapper = styled.div`
   display: flex;
+  gap: 12px;
   align-items: center;
-  justify-content: space-between;
-  background-color: ${colors.gray700};
+  border-radius: 8px;
   cursor: pointer;
-  padding: 10px 16px;
-  color: ${colors.gray600};
+  padding: 8px 12px;
+  width: 100%;
 
   &:hover {
-    background-color: ${colors.gray600};
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 135px;
+    background-color: ${colors.gray700};
   }
 `;
 
 const ProfileImage = styled.img`
   border-radius: 100%;
-  width: 20px;
-  height: 20px;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
 `;
 
 const MemberInfo = styled.div`
   display: flex;
-  gap: 4px;
-  align-items: center;
+  flex-direction: column;
+`;
+
+const MemberName = styled(Text)``;
+
+const MemberDetail = styled(Text)`
+  color: ${colors.gray100};
+  font: ${fonts.BODY_13_R};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    color: ${colors.gray200};
+  }
 `;
