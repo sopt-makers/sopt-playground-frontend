@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { ChangeEvent, forwardRef, Ref } from 'react';
+import { ChangeEvent, forwardRef, Ref, RefObject } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -16,11 +16,12 @@ interface ContentsInputProp {
 
 const ContentsInput = forwardRef(
   ({ onChange, value }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
-    const { isMentionOpen, searchedMemberList, handleMention, selectMention, contentToUpdate } = useMention();
+    const { isMentionOpen, searchedMemberList, handleMention, selectMention, contentToUpdate } = useMention(
+      ref as RefObject<HTMLTextAreaElement>,
+    );
 
     const handleContentsInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-      const inputValue = e.target.value;
-      handleMention(inputValue);
+      handleMention(e);
       onChange;
     };
 
