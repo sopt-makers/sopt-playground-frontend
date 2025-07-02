@@ -34,7 +34,7 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
 
     if (lastAtIndex !== -1) {
       setIsMentionOpen(true);
-      setMentionQuery(afterAtText);
+      debouncedMentionQuery(afterAtText);
     } else {
       setIsMentionOpen(false);
       setMentionQuery('');

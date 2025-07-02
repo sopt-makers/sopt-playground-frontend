@@ -3,11 +3,9 @@ import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, forwardRef, Ref, RefObject } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import MentionDropdown from '@/components/feed/common/MentionDropdown';
 import useMention from '@/components/feed/common/hooks/useMention';
-import { Member } from '@/components/projects/upload/form/fields/member/MemberSearchContext';
 
 interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
