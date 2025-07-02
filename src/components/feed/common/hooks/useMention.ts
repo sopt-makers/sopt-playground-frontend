@@ -2,7 +2,7 @@ import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetM
 import { useState, useEffect, RefObject } from 'react';
 import { useDebounce } from '@toss/react';
 
-type Member = {
+export type Member = {
   generation: number;
   id: string | number;
   name: string;
@@ -85,7 +85,6 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
     handleMention,
     selectMention,
     handleMentionEsc,
-    contentToUpdate: currentContent,
   };
 };
 

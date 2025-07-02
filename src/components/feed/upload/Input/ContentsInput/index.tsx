@@ -5,7 +5,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { textStyles } from '@/styles/typography';
 import MentionDropdown from '@/components/feed/common/MentionDropdown';
-import useMention from '@/components/feed/common/hooks/useMention';
+import useMention, { Member } from '@/components/feed/common/hooks/useMention';
 
 interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
@@ -14,12 +14,24 @@ interface ContentsInputProp {
 
 const ContentsInput = forwardRef(
   ({ onChange, value }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
-    const { isMentionOpen, searchedMemberList, handleMention, selectMention, handleMentionEsc, contentToUpdate } =
-      useMention(ref as RefObject<HTMLTextAreaElement>);
+    const { isMentionOpen, searchedMemberList, handleMention, selectMention, handleMentionEsc } = useMention(
+      ref as RefObject<HTMLTextAreaElement>,
+    );
 
     const handleContentsInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
       handleMention(e);
-      onChange;
+      onChange(e);
+    };
+
+    const handleSelectMention = (member: Member) => {
+      const updatedContent = selectMention(member);
+      if (updatedContent !== undefined) {
+        onChange({
+          target: {
+            value: updatedContent,
+          },
+        } as ChangeEvent<HTMLTextAreaElement>);
+      }
     };
 
     return (
@@ -31,9 +43,9 @@ const ContentsInput = forwardRef(
           onChange={handleContentsInput}
           onKeyDown={handleMentionEsc}
           ref={ref}
-          value={contentToUpdate ?? ''}
+          value={value ?? ''}
         />
-        {isMentionOpen && <MentionDropdown searchedMemberList={searchedMemberList} onSelect={selectMention} />}
+        {isMentionOpen && <MentionDropdown searchedMemberList={searchedMemberList} onSelect={handleSelectMention} />}
       </>
     );
   },
