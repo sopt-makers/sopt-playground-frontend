@@ -1,7 +1,6 @@
 import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
 import { useState, RefObject } from 'react';
 import { useDebounce } from '@toss/react';
-import getCaretCoordinates from 'textarea-caret';
 import { colors } from '@sopt-makers/colors';
 
 export type Member = {
