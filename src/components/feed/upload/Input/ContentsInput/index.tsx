@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { ChangeEvent, forwardRef, Ref, RefObject, useEffect, useRef } from 'react';
+import { ChangeEvent, forwardRef, Ref, useEffect, useRef } from 'react';
 
 import { textStyles } from '@/styles/typography';
 import MentionDropdown from '@/components/feed/common/MentionDropdown';
@@ -12,7 +12,7 @@ interface ContentsInputProp {
   value: string | null;
 }
 
-const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: Ref<HTMLDivElement> | undefined) => {
+const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: Ref<HTMLDivElement>) => {
   const editableRef = useRef<HTMLDivElement>(null);
   const { isMentionOpen, searchedMemberList, handleMention, selectMention, mentionPosition } = useMention(editableRef);
 
@@ -68,6 +68,7 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
       />
       {isMentionOpen && (
         <MentionDropdown
+          parentRef={editableRef}
           searchedMemberList={searchedMemberList}
           onSelect={handleSelectMention}
           mentionPosition={mentionPosition}

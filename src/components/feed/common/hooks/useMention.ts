@@ -49,10 +49,14 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
 
       // @ 위치 계산
       if (inputRef.current) {
-        const inputRect = inputRef.current.getBoundingClientRect();
+        const mentionRange = document.createRange();
+        mentionRange.setStart(container, lastAtIndex);
+        mentionRange.setEnd(container, offset);
+
+        const rect = mentionRange.getBoundingClientRect();
         setMentionPosition({
-          x: inputRect.left,
-          y: inputRect.top + inputRect.height,
+          x: rect.left,
+          y: rect.top + rect.height,
         });
       }
     } else {

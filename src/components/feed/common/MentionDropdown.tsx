@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import Text from '@/components/common/Text';
 import { fonts } from '@sopt-makers/fonts';
+import { Ref, RefObject, useEffect, useRef, useState } from 'react';
 
 type Member = {
   generation: number;
@@ -12,12 +13,33 @@ type Member = {
 };
 
 interface MentionDropdownProps {
+  parentRef: RefObject<HTMLDivElement>;
   searchedMemberList: Member[];
   onSelect: (selected: Member) => void;
   mentionPosition: { x: number; y: number };
 }
 
-const MentionDropdown = ({ searchedMemberList, onSelect, mentionPosition }: MentionDropdownProps) => {
+const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosition }: MentionDropdownProps) => {
+  const [adjustedPosition, setAdjustedPosition] = useState({
+    x: mentionPosition.x,
+    y: mentionPosition.y,
+  });
+
+  useEffect(() => {
+    if (!parentRef.current) return;
+
+    const parentRect = parentRef.current.getBoundingClientRect();
+    const dropdownRect = { width: 170, height: 210 };
+    const viewportHeight = window.innerHeight;
+
+    let { x, y } = mentionPosition;
+
+    if (x + dropdownRect.width > parentRect.right) x = parentRect.right - dropdownRect.width;
+    if (y + dropdownRect.height > viewportHeight) y = parentRect.bottom - dropdownRect.height;
+
+    setAdjustedPosition({ x, y });
+  }, [mentionPosition, parentRef]);
+
   if (searchedMemberList.length === 0) return null;
 
   const getProfileImage = (profileImage: Member['profileImage']) => {
@@ -28,7 +50,7 @@ const MentionDropdown = ({ searchedMemberList, onSelect, mentionPosition }: Ment
   };
 
   return (
-    <Container x={mentionPosition.x} y={mentionPosition.y}>
+    <Container x={adjustedPosition.x} y={adjustedPosition.y}>
       <Wrapper>
         {searchedMemberList.map((member) => (
           <Box
