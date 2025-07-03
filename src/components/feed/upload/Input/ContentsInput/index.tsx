@@ -62,7 +62,9 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
           handleMention();
           handleContentsInput();
         }}
+        aria-label='내용을 입력해주세요'
         ref={editableRef}
+        data-placeholder={editableRef.current?.innerText === '' ? '내용을 입력해주세요' : ''}
       />
       {isMentionOpen && (
         <MentionDropdown
@@ -95,7 +97,8 @@ const Contents = styled.div`
 
   ${textStyles.SUIT_16_R};
 
-  ::placeholder {
+  ::before {
     color: ${colors.gray600};
+    content: attr(data-placeholder);
   }
 `;
