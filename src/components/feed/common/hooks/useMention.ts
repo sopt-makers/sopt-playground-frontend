@@ -1,6 +1,7 @@
 import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
-import { useState, useEffect, RefObject } from 'react';
+import { useState, RefObject } from 'react';
 import { useDebounce } from '@toss/react';
+import getCaretCoordinates from 'textarea-caret';
 
 export type Member = {
   generation: number;
@@ -13,6 +14,7 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [mentionQuery, setMentionQuery] = useState(''); // '@' 뒤에 오는 검색어
   const [currentContent, setCurrentContent] = useState(''); // 현재 입력창의 전체 내용
+  const [mentionPosition, setMentionPosition] = useState({ x: 0, y: 0 }); // '@' 위치
 
   const debouncedMentionQuery = useDebounce((value) => {
     setMentionQuery(value);
@@ -35,6 +37,16 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
     if (lastAtIndex !== -1) {
       setIsMentionOpen(true);
       debouncedMentionQuery(afterAtText);
+
+      // @ 위치 계산
+      if (inputRef.current) {
+        const coordinates = getCaretCoordinates(inputRef.current, lastAtIndex);
+        const inputRect = inputRef.current.getBoundingClientRect();
+        setMentionPosition({
+          x: inputRect.left + coordinates.left,
+          y: inputRect.top + coordinates.top + coordinates.height,
+        });
+      }
     } else {
       setIsMentionOpen(false);
       setMentionQuery('');
@@ -85,6 +97,7 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
     handleMention,
     selectMention,
     handleMentionEsc,
+    mentionPosition,
   };
 };
 

@@ -14,9 +14,10 @@ type Member = {
 interface MentionDropdownProps {
   searchedMemberList: Member[];
   onSelect: (selected: Member) => void;
+  mentionPosition: { x: number; y: number };
 }
 
-const MentionDropdown = ({ searchedMemberList, onSelect }: MentionDropdownProps) => {
+const MentionDropdown = ({ searchedMemberList, onSelect, mentionPosition }: MentionDropdownProps) => {
   if (searchedMemberList.length === 0) return null;
 
   const getProfileImage = (profileImage: Member['profileImage']) => {
@@ -27,7 +28,7 @@ const MentionDropdown = ({ searchedMemberList, onSelect }: MentionDropdownProps)
   };
 
   return (
-    <Container>
+    <Container x={mentionPosition.x} y={mentionPosition.y}>
       {searchedMemberList.map((member) => (
         <Wrapper
           key={member.id}
@@ -50,7 +51,10 @@ const MentionDropdown = ({ searchedMemberList, onSelect }: MentionDropdownProps)
 
 export default MentionDropdown;
 
-const Container = styled.div`
+const Container = styled.div<{ x: number; y: number }>`
+  position: absolute;
+  top: ${(props) => props.y}px;
+  left: ${(props) => props.x}px;
   border: 1px solid ${colors.gray700};
   border-radius: 13px;
   background: ${colors.gray900};

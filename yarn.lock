@@ -8190,6 +8190,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/textarea-caret@npm:^3":
+  version: 3.0.4
+  resolution: "@types/textarea-caret@npm:3.0.4"
+  checksum: 22375866f415430bc25688569a8f1468d2cc1981f1cbfcad0b09e25073be70e40c02b4d17ff041d76d2fa7fc98ac88ad4416b3ef3c763a1afd6ed58ed5feab98
+  languageName: node
+  linkType: hard
+
 "@types/tough-cookie@npm:*":
   version: 4.0.2
   resolution: "@types/tough-cookie@npm:4.0.2"
@@ -19281,6 +19288,7 @@ __metadata:
     "@types/react-slick": ^0.23.13
     "@types/slick-carousel": ^1
     "@types/testing-library__jest-dom": ^6.0.0
+    "@types/textarea-caret": ^3
     "@typescript-eslint/eslint-plugin": ^5.38.1
     await-to-js: ^3.0.0
     axios: ^0.27.2
@@ -19340,6 +19348,7 @@ __metadata:
     stylelint-config-standard: ^25.0.0
     stylelint-config-styled-components: ^0.1.1
     swiper: ^9.4.1
+    textarea-caret: ^3.1.0
     ts-node: ^10.9.1
     tsconfig-paths-webpack-plugin: ^3.5.2
     tsup: ^7.1.0
@@ -20242,6 +20251,13 @@ __metadata:
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
   checksum: b6937a38c80c7f84d9c11dd75e49d5c44f71d95e810a3250bd1f1797fc7117c57698204adf676b71497acc205d769d65c16ae8fa10afad832ae1322630aef10a
+  languageName: node
+  linkType: hard
+
+"textarea-caret@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "textarea-caret@npm:3.1.0"
+  checksum: ddefbd3078f7181d0433e69c9595ed16f64cef01c110856b4c24fe03bc2560f373a39db1c85bd3a0e65017e27b7f4034864cd6a355b8e5057c5f1a2100c0f583
   languageName: node
   linkType: hard
 

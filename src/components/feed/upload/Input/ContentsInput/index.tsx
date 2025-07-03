@@ -14,9 +14,8 @@ interface ContentsInputProp {
 
 const ContentsInput = forwardRef(
   ({ onChange, value }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
-    const { isMentionOpen, searchedMemberList, handleMention, selectMention, handleMentionEsc } = useMention(
-      ref as RefObject<HTMLTextAreaElement>,
-    );
+    const { isMentionOpen, searchedMemberList, handleMention, selectMention, handleMentionEsc, mentionPosition } =
+      useMention(ref as RefObject<HTMLTextAreaElement>);
 
     const handleContentsInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
       handleMention(e);
@@ -45,7 +44,13 @@ const ContentsInput = forwardRef(
           ref={ref}
           value={value ?? ''}
         />
-        {isMentionOpen && <MentionDropdown searchedMemberList={searchedMemberList} onSelect={handleSelectMention} />}
+        {isMentionOpen && (
+          <MentionDropdown
+            searchedMemberList={searchedMemberList}
+            onSelect={handleSelectMention}
+            mentionPosition={mentionPosition}
+          />
+        )}
       </>
     );
   },
