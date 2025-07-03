@@ -29,22 +29,24 @@ const MentionDropdown = ({ searchedMemberList, onSelect, mentionPosition }: Ment
 
   return (
     <Container x={mentionPosition.x} y={mentionPosition.y}>
-      {searchedMemberList.map((member) => (
-        <Wrapper
-          key={member.id}
-          onClick={() => {
-            onSelect(member);
-          }}
-        >
-          <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
-          <MemberInfo>
-            <MemberName typography='SUIT_16_M' color={colors.gray10}>
-              {member.name}
-            </MemberName>
-            <MemberDetail>{`${member.generation}기`}</MemberDetail>
-          </MemberInfo>
-        </Wrapper>
-      ))}
+      <Wrapper>
+        {searchedMemberList.map((member) => (
+          <Box
+            key={member.id}
+            onClick={() => {
+              onSelect(member);
+            }}
+          >
+            <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
+            <MemberInfo>
+              <MemberName typography='SUIT_16_M' color={colors.gray10}>
+                {member.name}
+              </MemberName>
+              <MemberDetail>{`${member.generation}기`}</MemberDetail>
+            </MemberInfo>
+          </Box>
+        ))}
+      </Wrapper>
     </Container>
   );
 };
@@ -62,14 +64,26 @@ const Container = styled.div<{ x: number; y: number }>`
   width: 170px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    position: relative;
+    top: 0;
+    left: 0;
     border: none;
     border-radius: 20px;
+    padding: 12px 8px;
     width: 100%;
-    max-width: 358px;
   }
 `;
 
 const Wrapper = styled.div`
+  max-height: calc(388px - 16px);
+  overflow-y: scroll;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-height: calc(210px - 24px);
+  }
+`;
+
+const Box = styled.button`
   display: flex;
   gap: 12px;
   align-items: center;
@@ -77,6 +91,7 @@ const Wrapper = styled.div`
   cursor: pointer;
   padding: 8px 12px;
   width: 100%;
+  height: 62px;
 
   &:hover {
     background-color: ${colors.gray700};
