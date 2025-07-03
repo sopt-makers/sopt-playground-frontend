@@ -5,9 +5,10 @@ import Link from 'next/link';
 
 import { WaitingQuestion } from '@/api/endpoint/feed/getWaitingQuestions';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import FeedIcon from '@/components/feed/home/QuestionArea/FeedIcon';
-import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import VoteIcon from '@/public/icons/icon-vote.svg';
 
 interface QuestionCardProps {
   question: WaitingQuestion;
@@ -15,6 +16,9 @@ interface QuestionCardProps {
 
 const QuestionCard = ({ question }: QuestionCardProps) => {
   const { id, title, content, createdAt, likeCount, commentCount } = question;
+  const category = '질문';
+  const isQuestion = category === '질문';
+  const totalVoteCount = 10;
 
   return (
     <LoggingClick
@@ -24,16 +28,28 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
       <CardContainer href={`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`}>
         <CardContent>
           <TitleStyle>
-            <QuestionTag>질문</QuestionTag>
+            <QuestionTag>{category}</QuestionTag>
             {title}
           </TitleStyle>
           <ContentStyle>{content}</ContentStyle>
         </CardContent>
 
         <CardFooter>
-          <CreatedDate>{createdAt}</CreatedDate>
+          <FlexBox>
+            <CreatedDate>{createdAt}</CreatedDate>
+            {isQuestion && (
+              <>
+                <LineStyle />
+                <FlexStyle>
+                  <VoteIcon />
+                  <CreatedDate>{totalVoteCount}</CreatedDate>
+                </FlexStyle>
+              </>
+            )}
+          </FlexBox>
+
           <FeedIconBox>
-            <FeedIcon type='thumbsUp' count={likeCount} />
+            <FeedIcon type={isQuestion ? 'thumbsUp' : 'heart'} count={likeCount} />
             <FeedIcon type='message' count={commentCount} />
           </FeedIconBox>
         </CardFooter>
@@ -111,7 +127,7 @@ const CreatedDate = styled(Text)`
 
 const QuestionTag = styled.span`
   display: inline-flex;
-  width: 32px;
+  width: fit-content;
   height: 20px;
   border-radius: 4px;
   background-color: ${colors.orangeAlpha200};
@@ -120,4 +136,21 @@ const QuestionTag = styled.span`
   padding: 3px 6px;
   margin-right: 6px;
   transform: translateY(-1.5px);
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const LineStyle = styled.div`
+  width: 1px;
+  height: 12px;
+  background-color: ${colors.gray600};
+`;
+
+const FlexStyle = styled.div`
+  display: flex;
+  gap: 4px;
 `;

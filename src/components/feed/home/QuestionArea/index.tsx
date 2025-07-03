@@ -10,7 +10,6 @@ import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import QuestionCard from '@/components/feed/home/QuestionArea/QuestionCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 
 const QuestionArea = () => {
   const { data: me } = useGetMemberOfMe();
@@ -39,8 +38,8 @@ const QuestionArea = () => {
         <Container>
           <TitleBox>
             <Title>
-              <UserNameStyle>{me?.name}</UserNameStyle>님의
-              <MobileLineBreak /> 답변을 기다리고 있는 질문이에요
+              <UserNameStyle>{me?.name}</UserNameStyle>님,
+              <MobileLineBreak /> 새로 올라온 글을 확인해 보세요
             </Title>
             <AllBtn onClick={navigateToQuestion}>전체보기</AllBtn>
           </TitleBox>
