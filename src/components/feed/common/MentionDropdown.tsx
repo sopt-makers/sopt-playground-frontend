@@ -26,6 +26,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     x: mentionPosition.x,
     y: mentionPosition.y,
   });
+  const [mobilePosition, setMobilePosition] = useState(0);
 
   useEffect(() => {
     if (!parentRef.current) return;
@@ -42,9 +43,26 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     if (x + dropdownRect.width > parentRect.right) x = parentRect.right - dropdownRect.width;
     if (y + dropdownRect.height > viewportHeight) y = y - dropdownRect.height - 22;
     setAdjustedPosition({ x, y });
-    console.log(parentRect, dropdownRect, mentionPosition);
   }, [mentionPosition, parentRef, searchedMemberList]);
-  console.log(adjustedPosition);
+
+  useEffect(() => {
+    if (!parentRef.current) return;
+    const parentRect = parentRef.current.getBoundingClientRect();
+    const dropdownRect = {
+      width: 170,
+      height: 16 + 62 * Math.min(searchedMemberList.length, 3),
+    };
+    const viewportHeight = window.innerHeight;
+
+    let { y } = mentionPosition;
+
+    if (y + dropdownRect.height > viewportHeight) y = parentRect.top - dropdownRect.height - 6;
+    else {
+      y + 16;
+    }
+    setMobilePosition(y);
+  }, [mentionPosition, parentRef, searchedMemberList]);
+
   if (searchedMemberList.length === 0) return null;
 
   const getProfileImage = (profileImage: Member['profileImage']) => {
@@ -55,7 +73,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
   };
 
   return ReactDOM.createPortal(
-    <Container x={adjustedPosition.x} y={adjustedPosition.y}>
+    <Container x={adjustedPosition.x} y={adjustedPosition.y} my={mobilePosition}>
       <Wrapper>
         {searchedMemberList.map((member) => (
           <Box
@@ -81,7 +99,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
 
 export default MentionDropdown;
 
-const Container = styled.div<{ x: number; y: number }>`
+const Container = styled.div<{ x: number; y: number; my: number }>`
   position: absolute;
   top: ${(props) => props.y}px;
   left: ${(props) => props.x}px;
@@ -93,13 +111,14 @@ const Container = styled.div<{ x: number; y: number }>`
   width: 170px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    position: relative;
-    top: 0;
-    left: 0;
+    position: absolute;
+    top: ${(props) => props.my}px;
+    left: 50%;
+    transform: translateX(-50%);
     border: none;
     border-radius: 20px;
     padding: 12px 8px;
-    width: 100%;
+    width: calc(100% - 16px);
   }
 `;
 
