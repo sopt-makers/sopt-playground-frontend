@@ -14,6 +14,7 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [mentionQuery, setMentionQuery] = useState(''); // '@' 뒤에 오는 검색어
   const [mentionPosition, setMentionPosition] = useState({ x: 0, y: 0 }); // '@' 위치
+  const [isComposing, setIsComposing] = useState(false); // IME 입력 대기
 
   const debouncedMentionQuery = useDebounce((value) => {
     setMentionQuery(value);
@@ -37,7 +38,7 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
   const handleMention = () => {
     const selectionInfo = getSelectionInfo();
     if (!selectionInfo) return;
-    const { container, offset } = selectionInfo;
+    const { container, range, offset } = selectionInfo;
 
     const textBeforeCursor = container.textContent?.slice(0, offset) ?? '';
     const lastAtIndex = textBeforeCursor.lastIndexOf('@');
@@ -49,14 +50,14 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
 
       // @ 위치 계산
       if (inputRef.current) {
-        const mentionRange = document.createRange();
+        const mentionRange = range.cloneRange();
         mentionRange.setStart(container, lastAtIndex);
         mentionRange.setEnd(container, offset);
 
         const rect = mentionRange.getBoundingClientRect();
         setMentionPosition({
-          x: rect.left,
-          y: rect.top + rect.height,
+          x: rect.left + window.scrollX,
+          y: rect.top + rect.height + window.scrollY,
         });
       }
     } else {
@@ -70,12 +71,12 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     if (!selectionInfo) return;
     const { range, container, offset } = selectionInfo;
 
-    const textBeforeCursor = container.textContent ?? '';
+    const textBeforeCursor = container.textContent?.slice(0, offset) ?? '';
     const lastAtIndex = textBeforeCursor.lastIndexOf('@');
 
     if (lastAtIndex !== -1) {
       // '@' 부터 커서까지의 기존 검색어 삭제
-      const mentionRange = document.createRange();
+      const mentionRange = range.cloneRange();
       mentionRange.setStart(container, lastAtIndex);
       mentionRange.setEnd(container, offset);
       mentionRange.deleteContents();
@@ -92,10 +93,18 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     setMentionQuery('');
   };
 
-  const handleMentionEsc = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape') {
+      // 취소
       setIsMentionOpen(false);
       setMentionQuery('');
+    } else if (e.key === 'Enter') {
+      // 자동 선택
+      // 멘션 목록이 오픈되어 있고 사용자가 입력을 마친 경우에만 실행
+      if (!isComposing && isMentionOpen && searchedMemberList.length > 0) {
+        selectMention(searchedMemberList[0]);
+        e.preventDefault();
+      }
     }
   };
 
@@ -104,8 +113,9 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     searchedMemberList: isMentionOpen ? searchedMemberList : [],
     handleMention,
     selectMention,
-    handleMentionEsc,
+    handleKeyDown,
     mentionPosition,
+    setIsComposing,
   };
 };
 

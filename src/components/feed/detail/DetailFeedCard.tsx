@@ -579,7 +579,15 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   const textareaRef = useRef<HTMLDivElement | null>(null);
   const parentRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
-  const { isMentionOpen, searchedMemberList, handleMention, selectMention, mentionPosition } = useMention(textareaRef);
+  const {
+    isMentionOpen,
+    searchedMemberList,
+    handleMention,
+    selectMention,
+    mentionPosition,
+    handleKeyDown,
+    setIsComposing,
+  } = useMention(textareaRef);
 
   const isButtonActive = value.length > 0 && !isPending;
 
@@ -646,6 +654,12 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             handleMention();
             handleContentsInput();
           }}
+          onKeyDown={(e) => {
+            handleKeyDown(e);
+            handleContentsInput();
+          }}
+          onCompositionStart={() => setIsComposing(true)}
+          onCompositionEnd={() => setIsComposing(false)}
           data-placeholder={textareaRef.current?.innerText === '' ? '댓글을 남겨주세요.' : ''}
           ref={textareaRef}
         />

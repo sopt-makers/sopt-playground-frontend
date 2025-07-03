@@ -4,6 +4,8 @@ import { colors } from '@sopt-makers/colors';
 import Text from '@/components/common/Text';
 import { fonts } from '@sopt-makers/fonts';
 import { Ref, RefObject, useEffect, useRef, useState } from 'react';
+import { zIndex } from '@/styles/zIndex';
+import ReactDOM from 'react-dom';
 
 type Member = {
   generation: number;
@@ -33,15 +35,16 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
       width: 170,
       height: 16 + 62 * Math.min(searchedMemberList.length, 6),
     };
+    const viewportHeight = window.innerHeight;
 
     let { x, y } = mentionPosition;
 
     if (x + dropdownRect.width > parentRect.right) x = parentRect.right - dropdownRect.width;
-    if (y + dropdownRect.height > parentRect.bottom) y = parentRect.top - dropdownRect.height;
-
+    if (y + dropdownRect.height > viewportHeight) y = y - dropdownRect.height - 22;
     setAdjustedPosition({ x, y });
+    console.log(parentRect, dropdownRect, mentionPosition);
   }, [mentionPosition, parentRef, searchedMemberList]);
-
+  console.log(adjustedPosition);
   if (searchedMemberList.length === 0) return null;
 
   const getProfileImage = (profileImage: Member['profileImage']) => {
@@ -51,7 +54,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     return profileImage;
   };
 
-  return (
+  return ReactDOM.createPortal(
     <Container x={adjustedPosition.x} y={adjustedPosition.y}>
       <Wrapper>
         {searchedMemberList.map((member) => (
@@ -71,7 +74,8 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
           </Box>
         ))}
       </Wrapper>
-    </Container>
+    </Container>,
+    document.body,
   );
 };
 
@@ -81,6 +85,7 @@ const Container = styled.div<{ x: number; y: number }>`
   position: absolute;
   top: ${(props) => props.y}px;
   left: ${(props) => props.x}px;
+  z-index: ${zIndex.헤더};
   border: 1px solid ${colors.gray700};
   border-radius: 13px;
   background: ${colors.gray900};

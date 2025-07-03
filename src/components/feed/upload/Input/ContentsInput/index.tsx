@@ -14,7 +14,15 @@ interface ContentsInputProp {
 
 const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: Ref<HTMLDivElement>) => {
   const editableRef = useRef<HTMLDivElement>(null);
-  const { isMentionOpen, searchedMemberList, handleMention, selectMention, mentionPosition } = useMention(editableRef);
+  const {
+    isMentionOpen,
+    searchedMemberList,
+    handleMention,
+    selectMention,
+    mentionPosition,
+    handleKeyDown,
+    setIsComposing,
+  } = useMention(editableRef);
 
   const handleContentsInput = () => {
     if (!editableRef.current) return;
@@ -62,6 +70,12 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
           handleMention();
           handleContentsInput();
         }}
+        onKeyDown={(e) => {
+          handleKeyDown(e);
+          handleContentsInput();
+        }}
+        onCompositionStart={() => setIsComposing(true)}
+        onCompositionEnd={() => setIsComposing(false)}
         aria-label='내용을 입력해주세요'
         ref={editableRef}
         data-placeholder={editableRef.current?.innerText === '' ? '내용을 입력해주세요' : ''}
