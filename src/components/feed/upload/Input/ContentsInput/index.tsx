@@ -1,64 +1,83 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { ChangeEvent, forwardRef, Ref, RefObject } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
+import { ChangeEvent, forwardRef, Ref, RefObject, useEffect, useRef } from 'react';
 
 import { textStyles } from '@/styles/typography';
 import MentionDropdown from '@/components/feed/common/MentionDropdown';
 import useMention, { Member } from '@/components/feed/common/hooks/useMention';
+import { parseHTMLToMentions, parseMentionsToHTML } from '@/components/feed/common/utils/parseMention';
 
 interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   value: string | null;
 }
 
-const ContentsInput = forwardRef(
-  ({ onChange, value }: ContentsInputProp, ref: Ref<HTMLTextAreaElement> | undefined) => {
-    const { isMentionOpen, searchedMemberList, handleMention, selectMention, handleMentionEsc, mentionPosition } =
-      useMention(ref as RefObject<HTMLTextAreaElement>);
+const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: Ref<HTMLDivElement> | undefined) => {
+  const editableRef = useRef<HTMLDivElement>(null);
+  const { isMentionOpen, searchedMemberList, handleMention, selectMention, mentionPosition } = useMention(editableRef);
 
-    const handleContentsInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-      handleMention(e);
-      onChange(e);
-    };
+  const handleContentsInput = () => {
+    if (!editableRef.current) return;
+    const html = editableRef.current.innerHTML;
+    const parsed = parseHTMLToMentions(html);
+    onChange({
+      target: {
+        value: parsed,
+      },
+    } as ChangeEvent<HTMLTextAreaElement>);
+  };
 
-    const handleSelectMention = (member: Member) => {
-      const updatedContent = selectMention(member);
-      if (updatedContent !== undefined) {
-        onChange({
-          target: {
-            value: updatedContent,
-          },
-        } as ChangeEvent<HTMLTextAreaElement>);
+  const handleSelectMention = (member: Member) => {
+    selectMention(member);
+    handleContentsInput();
+  };
+
+  useEffect(() => {
+    if (!editableRef.current || value === null) return;
+
+    const currentHTML = editableRef.current.innerHTML;
+    const parsed = parseMentionsToHTML(value);
+
+    if (currentHTML !== parsed) {
+      editableRef.current.innerHTML = parsed;
+
+      // 커서를 맨 뒤로 이동
+      const selection = window.getSelection();
+      if (selection) {
+        selection.removeAllRanges();
+        const range = document.createRange();
+        range.selectNodeContents(editableRef.current);
+        range.collapse(false);
+        selection.addRange(range);
       }
-    };
+    }
+  }, [value]);
 
-    return (
-      <>
-        <Contents
-          placeholder='내용을 입력해주세요'
-          maxLength={20000}
-          spellCheck='false'
-          onChange={handleContentsInput}
-          onKeyDown={handleMentionEsc}
-          ref={ref}
-          value={value ?? ''}
+  return (
+    <>
+      <Contents
+        contentEditable
+        spellCheck='false'
+        onInput={(e) => {
+          handleMention();
+          handleContentsInput();
+        }}
+        ref={editableRef}
+      />
+      {isMentionOpen && (
+        <MentionDropdown
+          searchedMemberList={searchedMemberList}
+          onSelect={handleSelectMention}
+          mentionPosition={mentionPosition}
         />
-        {isMentionOpen && (
-          <MentionDropdown
-            searchedMemberList={searchedMemberList}
-            onSelect={handleSelectMention}
-            mentionPosition={mentionPosition}
-          />
-        )}
-      </>
-    );
-  },
-);
+      )}
+    </>
+  );
+});
 
 export default ContentsInput;
 
-const Contents = styled(TextareaAutosize)`
+const Contents = styled.div`
   outline: none;
   background-color: transparent;
   width: 100%;

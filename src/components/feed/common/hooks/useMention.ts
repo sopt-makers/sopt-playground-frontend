@@ -2,6 +2,7 @@ import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetM
 import { useState, RefObject } from 'react';
 import { useDebounce } from '@toss/react';
 import getCaretCoordinates from 'textarea-caret';
+import { colors } from '@sopt-makers/colors';
 
 export type Member = {
   generation: number;
@@ -10,10 +11,9 @@ export type Member = {
   profileImage: string | null;
 };
 
-const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
+const useMention = (inputRef: RefObject<HTMLDivElement>) => {
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [mentionQuery, setMentionQuery] = useState(''); // '@' 뒤에 오는 검색어
-  const [currentContent, setCurrentContent] = useState(''); // 현재 입력창의 전체 내용
   const [mentionPosition, setMentionPosition] = useState({ x: 0, y: 0 }); // '@' 위치
 
   const debouncedMentionQuery = useDebounce((value) => {
@@ -24,13 +24,23 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
     name: isMentionOpen ? mentionQuery : '',
   });
 
-  const handleMention = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    setCurrentContent(value);
-    const cursorPos = e.target.selectionStart; // 커서 위치
-    if (cursorPos === null) return;
+  const getSelectionInfo = () => {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return null;
 
-    const textBeforeCursor = value.slice(0, cursorPos); // 커서 앞쪽 문자열만 slice
+    const range = selection.getRangeAt(0);
+    const container = range.startContainer;
+    const offset = range.startOffset;
+
+    return { selection, range, container, offset };
+  };
+
+  const handleMention = () => {
+    const selectionInfo = getSelectionInfo();
+    if (!selectionInfo) return;
+    const { container, offset } = selectionInfo;
+
+    const textBeforeCursor = container.textContent?.slice(0, offset) ?? '';
     const lastAtIndex = textBeforeCursor.lastIndexOf('@');
     const afterAtText = textBeforeCursor.substring(lastAtIndex + 1);
 
@@ -40,11 +50,10 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
 
       // @ 위치 계산
       if (inputRef.current) {
-        const coordinates = getCaretCoordinates(inputRef.current, lastAtIndex);
         const inputRect = inputRef.current.getBoundingClientRect();
         setMentionPosition({
-          x: inputRect.left + coordinates.left,
-          y: inputRect.top + coordinates.top + coordinates.height,
+          x: inputRect.left,
+          y: inputRect.top + inputRect.height,
         });
       }
     } else {
@@ -54,34 +63,30 @@ const useMention = (inputRef: RefObject<HTMLTextAreaElement>) => {
   };
 
   const selectMention = (selectedMember: Member) => {
-    if (currentContent === null || !inputRef.current) return;
+    const selectionInfo = getSelectionInfo();
+    if (!selectionInfo) return;
+    const { range, container, offset } = selectionInfo;
 
-    const textarea = inputRef.current;
-    const cursorPos = textarea.selectionStart;
-    if (cursorPos == null) return;
-
-    const textBeforeCursor = currentContent.slice(0, cursorPos);
-    const textAfterCursor = currentContent.slice(cursorPos);
+    const textBeforeCursor = container.textContent ?? '';
     const lastAtIndex = textBeforeCursor.lastIndexOf('@');
 
     if (lastAtIndex !== -1) {
-      const textBeforeAt = textBeforeCursor.substring(0, lastAtIndex);
-      const newMention = `@${selectedMember.name}`;
-      const newContent = textBeforeAt + newMention + textAfterCursor;
-      setCurrentContent(newContent);
-      setIsMentionOpen(false);
-      setMentionQuery('');
+      // '@' 부터 커서까지의 기존 검색어 삭제
+      const mentionRange = document.createRange();
+      mentionRange.setStart(container, lastAtIndex);
+      mentionRange.setEnd(container, offset);
+      mentionRange.deleteContents();
 
-      // 커서를 멘션 뒤로 이동
-      const newCursorPos = textBeforeAt.length + newMention.length;
-      requestAnimationFrame(() => {
-        textarea.setSelectionRange(newCursorPos, newCursorPos);
-        textarea.focus();
-      });
-
-      return newContent;
+      // 선택한 사용자 추가
+      const mentionSpan = document.createElement('span');
+      mentionSpan.textContent = `@${selectedMember.name}`;
+      mentionSpan.setAttribute('data-id', String(selectedMember.id));
+      mentionSpan.contentEditable = 'false';
+      mentionSpan.style.color = `${colors.success}`;
+      range.insertNode(mentionSpan);
     }
-    return currentContent;
+    setIsMentionOpen(false);
+    setMentionQuery('');
   };
 
   const handleMentionEsc = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
