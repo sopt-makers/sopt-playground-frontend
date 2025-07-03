@@ -29,16 +29,18 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     if (!parentRef.current) return;
 
     const parentRect = parentRef.current.getBoundingClientRect();
-    const dropdownRect = { width: 170, height: 210 };
-    const viewportHeight = window.innerHeight;
+    const dropdownRect = {
+      width: 170,
+      height: 16 + 62 * Math.min(searchedMemberList.length, 6),
+    };
 
     let { x, y } = mentionPosition;
 
     if (x + dropdownRect.width > parentRect.right) x = parentRect.right - dropdownRect.width;
-    if (y + dropdownRect.height > viewportHeight) y = parentRect.bottom - dropdownRect.height;
+    if (y + dropdownRect.height > parentRect.bottom) y = parentRect.top - dropdownRect.height;
 
     setAdjustedPosition({ x, y });
-  }, [mentionPosition, parentRef]);
+  }, [mentionPosition, parentRef, searchedMemberList]);
 
   if (searchedMemberList.length === 0) return null;
 

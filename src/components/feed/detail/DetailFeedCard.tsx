@@ -6,8 +6,6 @@ import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
-
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Loading from '@/components/common/Loading';
@@ -34,7 +32,13 @@ import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { parseTextToLink } from '@/utils/parseTextToLink';
 import Vote from '@/components/vote';
-import { parseMentionsToHTML, parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
+import {
+  parseHTMLToMentions,
+  parseMentionsToHTML,
+  parseMentionsToJSX,
+} from '@/components/feed/common/utils/parseMention';
+import useMention, { Member } from '@/components/feed/common/hooks/useMention';
+import MentionDropdown from '@/components/feed/common/MentionDropdown';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -459,6 +463,9 @@ const Comment = ({
   moreIcon,
   memberId = 0,
 }: CommentProps) => {
+  const parsedMentions = parseMentionsToJSX(comment);
+  const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
+
   return (
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
@@ -511,7 +518,7 @@ const Comment = ({
             </Flex>
           </Flex>
           <StyledText typography='SUIT_15_R' lineHeight={22} color={colors.gray50}>
-            {parseTextToLink(comment)}
+            {parsedMentionsAndLinks.flat()}
           </StyledText>
         </Stack>
       </Flex>
@@ -569,8 +576,10 @@ interface InputProps {
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
   const id = useId();
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const textareaRef = useRef<HTMLDivElement | null>(null);
+  const parentRef = useRef<HTMLDivElement | null>(null);
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
+  const { isMentionOpen, searchedMemberList, handleMention, selectMention, mentionPosition } = useMention(textareaRef);
 
   const isButtonActive = value.length > 0 && !isPending;
 
@@ -582,6 +591,38 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     isBlindWriter && handleShowBlindWriterPromise();
     onChangeIsBlindChecked(isBlindWriter);
   };
+
+  const handleContentsInput = () => {
+    if (!textareaRef.current) return;
+    const html = textareaRef.current.innerHTML;
+    onChange(parseHTMLToMentions(html));
+  };
+
+  const handleSelectMention = (member: Member) => {
+    selectMention(member);
+    handleContentsInput();
+  };
+
+  useEffect(() => {
+    if (!textareaRef.current || value === null) return;
+
+    const currentHTML = textareaRef.current.innerHTML;
+    const parsed = parseMentionsToHTML(value);
+
+    if (currentHTML !== parsed) {
+      textareaRef.current.innerHTML = parsed;
+
+      // 커서를 맨 뒤로 이동
+      const selection = window.getSelection();
+      if (selection) {
+        selection.removeAllRanges();
+        const range = document.createRange();
+        range.selectNodeContents(textareaRef.current);
+        range.collapse(false);
+        selection.addRange(range);
+      }
+    }
+  }, [value]);
 
   return (
     <Container>
@@ -598,13 +639,24 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           </label>
         </InputContent>
       </InputAnimateArea>
-      <Flex align='flex-end' css={{ gap: '4px' }}>
+      <Flex align='flex-end' css={{ gap: '4px' }} ref={parentRef}>
         <StyledTextArea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder='댓글을 남겨주세요.'
+          contentEditable
+          onInput={(e) => {
+            handleMention();
+            handleContentsInput();
+          }}
+          data-placeholder={textareaRef.current?.innerText === '' ? '댓글을 남겨주세요.' : ''}
           ref={textareaRef}
         />
+        {isMentionOpen && (
+          <MentionDropdown
+            parentRef={parentRef}
+            searchedMemberList={searchedMemberList}
+            onSelect={handleSelectMention}
+            mentionPosition={mentionPosition}
+          />
+        )}
         <SendButton
           type='submit'
           initial={{
@@ -654,7 +706,7 @@ const InputContent = styled.div`
   align-items: center;
 `;
 
-const StyledTextArea = styled(TextareaAutosize)`
+const StyledTextArea = styled.div`
   flex: 1;
   border: none;
   border-width: 0;
@@ -674,8 +726,9 @@ const StyledTextArea = styled(TextareaAutosize)`
     outline: none;
   }
 
-  ::placeholder {
+  ::before {
     color: ${colors.gray500};
+    content: attr(data-placeholder);
   }
 `;
 
