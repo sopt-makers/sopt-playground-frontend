@@ -8,6 +8,7 @@ import Text from '@/components/common/Text';
 import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import FeedIcon from '@/components/feed/home/QuestionArea/FeedIcon';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
 
 interface QuestionCardProps {
   question: WaitingQuestion;
@@ -27,7 +28,7 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
             <QuestionTag>질문</QuestionTag>
             {title}
           </TitleStyle>
-          <ContentStyle>{content}</ContentStyle>
+          <ContentStyle>{parseMentionsToJSX(content)}</ContentStyle>
         </CardContent>
 
         <CardFooter>

@@ -34,6 +34,7 @@ import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { parseTextToLink } from '@/utils/parseTextToLink';
 import Vote from '@/components/vote';
+import { parseMentionsToHTML, parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -287,6 +288,9 @@ const Content = ({
 }: ContentProps) => {
   const [openSlider, setOpenSlider] = useState(false);
 
+  const parsedMentions = parseMentionsToJSX(content);
+  const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
+
   return (
     <>
       <Stack gutter={12}>
@@ -308,8 +312,7 @@ const Content = ({
                 {title}
               </Text>
             )}
-
-            <StyledContent>{parseTextToLink(content)}</StyledContent>
+            <StyledContent>{parsedMentionsAndLinks.flat()}</StyledContent>
           </>
         )}
       </Stack>
@@ -373,7 +376,7 @@ const ImageScrollContainer = styled(Flex)`
   }
 `;
 
-const StyledContent = styled(Text)`
+const StyledContent = styled.div`
   line-height: 26px;
   white-space: pre-wrap;
   word-break: break-all;
