@@ -229,6 +229,7 @@ export interface SubmitEvents {
   submitCommunity: {
     category: string | undefined;
     isBlindWriter: boolean;
+    vote: boolean;
   };
   editCommunity: undefined;
   // 커뮤니티(피드)
