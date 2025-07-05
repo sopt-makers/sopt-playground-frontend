@@ -14,6 +14,7 @@ import { IconMember } from '@/components/feed/common/Icon';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
 import { textStyles } from '@/styles/typography';
+import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
 interface RandomProfile {
   nickname: string;
   profileImgUrl: string;
@@ -240,18 +241,25 @@ const Bottom = styled(Stack.Horizontal)`
 `;
 
 const renderContent = (content: string) => {
+  let displayText = content;
+  let isLong = false;
+
   if (content.length > 140) {
-    return (
-      <>
-        {content.slice(0, 140) + '... '}
-        {/* TODO: 연결 */}
-        <Text css={{ cursor: 'pointer' }} typography='SUIT_14_R' color={colors.blue400}>
-          더보기
-        </Text>
-      </>
+    displayText = content.slice(0, 140) + '...';
+    isLong = true;
+  }
+
+  const parsed = parseMentionsToJSX(displayText);
+
+  if (isLong) {
+    parsed.push(
+      <Text css={{ cursor: 'pointer' }} typography='SUIT_14_R' color={colors.blue400}>
+        더보기
+      </Text>,
     );
   }
-  return content;
+
+  return parsed;
 };
 
 const FEED_CARD_LEFT_SPACE = 58;

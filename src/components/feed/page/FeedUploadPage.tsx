@@ -32,6 +32,7 @@ import VoteUploadButton from '@/components/feed/upload/voteUploadButton';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import useMention from '@/components/feed/common/hooks/useMention';
 
 interface FeedUploadPageProp {
   editingId?: number;
@@ -57,7 +58,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     resetVote,
   } = useUploadFeedData(defaultValue);
 
-  const mobileContentsRef = useRef<HTMLTextAreaElement>(null);
+  const mobileContentsRef = useRef<HTMLDivElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
@@ -65,7 +66,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     }
   };
 
-  const desktopContentsRef = useRef<HTMLTextAreaElement>(null);
+  const desktopContentsRef = useRef<HTMLDivElement>(null);
   const handleDesktopKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
