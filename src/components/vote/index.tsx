@@ -1,11 +1,15 @@
+import { getCategory } from '@/api/endpoint/feed/getCategory';
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import { usePostVoteMutation } from '@/api/endpoint/feed/postVote';
 import Text from '@/components/common/Text';
+import { getParentCategoryId } from '@/components/feed/common/utils';
 import RadioBox from '@/components/vote/RadioBox';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconCheckSquare } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 type VoteOption = {
@@ -32,13 +36,8 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const maxVoteCount = Math.max(...options.map((o) => o.voteCount));
-  const { mutate: vote } = usePostVoteMutation(postId, categoryId, {
-    onSuccess: () => {
-      setIsResult(true);
-      setMode('view');
-      setSelectedIds([]);
-    },
-  });
+
+  const { mutate: vote } = usePostVoteMutation(postId, categoryId);
 
   const toggleOption = (id: number) => {
     if (mode !== 'select') return;
@@ -48,6 +47,12 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
       setSelectedIds([id]);
     }
   };
+
+  useEffect(() => {
+    setIsResult(hasVoted);
+    setMode(hasVoted ? 'view' : 'select');
+    setSelectedIds([]);
+  }, [hasVoted]);
 
   return (
     <Container>
