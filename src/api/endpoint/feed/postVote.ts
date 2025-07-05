@@ -1,13 +1,13 @@
 import { InfiniteData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { produce } from 'immer';
 import { z } from 'zod';
 
-import { PostsType, useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
-import { createEndpoint } from '@/api/typedAxios';
-import { getPost, PostType } from '@/api/endpoint/feed/getPost';
-import { getParentCategoryId } from '@/components/feed/common/utils';
 import { getCategory } from '@/api/endpoint/feed/getCategory';
-import { produce } from 'immer';
+import { getPost, PostType } from '@/api/endpoint/feed/getPost';
+import { PostsType, useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { getRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
+import { createEndpoint } from '@/api/typedAxios';
+import { getParentCategoryId } from '@/components/feed/common/utils';
 
 const OptionSchema = z.object({
   selectedOptions: z.array(z.number().int()).min(1).max(5),
@@ -72,7 +72,7 @@ export const usePostVoteMutation = (postId: number, categoryId: number) => {
           });
         },
       );
-      queryClient.invalidateQueries({ queryKey: getWaitingQuestions.cacheKey() });
+      queryClient.invalidateQueries({ queryKey: getRecentPosts.cacheKey() });
     },
   });
 };

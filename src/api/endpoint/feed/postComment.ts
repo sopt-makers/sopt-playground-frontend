@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
+import { getRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import { createEndpoint } from '@/api/typedAxios';
 
 interface RequestBody {
@@ -30,7 +30,7 @@ export const usePostCommentMutation = (postId: string) => {
     mutationFn: (reqeustBody: RequestBody) => postComment.request(postId, reqeustBody),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
-      queryClient.invalidateQueries({ queryKey: getWaitingQuestions.cacheKey() });
+      queryClient.invalidateQueries({ queryKey: getRecentPosts.cacheKey() });
     },
   });
 };
