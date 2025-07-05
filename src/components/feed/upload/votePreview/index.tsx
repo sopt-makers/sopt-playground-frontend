@@ -13,9 +13,10 @@ interface VotePreviewProps {
   resetVote: () => void;
   optionsLength: number;
   isMultiple: boolean;
+  isDisable: boolean;
 }
 
-const VotePreview = ({ onOpenVoteModal, resetVote, optionsLength, isMultiple }: VotePreviewProps) => {
+const VotePreview = ({ onOpenVoteModal, resetVote, optionsLength, isMultiple, isDisable }: VotePreviewProps) => {
   const selectionGuideText = isMultiple ? '복수 선택 가능' : '1개 선택 가능';
 
   const { openDialog, closeDialog } = useContext(DialogContext);
@@ -41,42 +42,44 @@ const VotePreview = ({ onOpenVoteModal, resetVote, optionsLength, isMultiple }: 
     <StyledVotePreview>
       <PreviewBox>
         <Flex>
-          <StyledIconCheckSquare />
+          <StyledIconCheckSquare color={isDisable ? colors.gray300 : colors.gray10} />
           <StyledContent>
-            <Text typography='SUIT_14_SB' color={colors.gray10}>
+            <Text typography='SUIT_14_SB' color={isDisable ? colors.gray300 : colors.gray10}>
               투표
             </Text>
-            <Text typography='SUIT_13_M' color={colors.gray100}>
-              응답 {optionsLength}개, {selectionGuideText}
+            <Text typography='SUIT_13_M' color={isDisable ? colors.gray400 : colors.gray100}>
+              {optionsLength}개 항목, {selectionGuideText}
             </Text>
           </StyledContent>
         </Flex>
-        <FeedDropdown
-          trigger={
-            <button css={{ height: '20px' }}>
-              <StyledIconDotsVertical />
-            </button>
-          }
-        >
-          <FeedDropdown.Item
-            onClick={() => {
-              setTimeout(() => {
-                onOpenVoteModal();
-              }, 0);
-            }}
+        {!isDisable && (
+          <FeedDropdown
+            trigger={
+              <button css={{ height: '20px' }}>
+                <StyledIconDotsVertical />
+              </button>
+            }
           >
-            <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-              <IconWrite css={{ width: '16px', height: '16px' }} />
-              수정
-            </Flex>
-          </FeedDropdown.Item>
-          <FeedDropdown.Item type='danger' onClick={() => setTimeout(() => handleDeleteClick(), 0)}>
-            <Flex align='center' css={{ gap: '10px' }}>
-              <IconTrash css={{ width: '16px', height: '16px' }} />
-              삭제
-            </Flex>
-          </FeedDropdown.Item>
-        </FeedDropdown>
+            <FeedDropdown.Item
+              onClick={() => {
+                setTimeout(() => {
+                  onOpenVoteModal();
+                }, 0);
+              }}
+            >
+              <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                <IconWrite css={{ width: '16px', height: '16px' }} />
+                수정
+              </Flex>
+            </FeedDropdown.Item>
+            <FeedDropdown.Item type='danger' onClick={() => setTimeout(() => handleDeleteClick(), 0)}>
+              <Flex align='center' css={{ gap: '10px' }}>
+                <IconTrash css={{ width: '16px', height: '16px' }} />
+                삭제
+              </Flex>
+            </FeedDropdown.Item>
+          </FeedDropdown>
+        )}
       </PreviewBox>
 
       <AlertBox>
