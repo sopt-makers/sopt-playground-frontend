@@ -99,3 +99,42 @@ export const getParentCategoryId = (
   // 자식이 없으면 ''을 부모로
   return categoryData?.find((cat) => cat.children.some((child) => child.id === categoryId))?.id ?? '';
 };
+
+export const CATEGORY_TREE = [
+  { id: 22, name: '질문', children: [] },
+  {
+    id: 2,
+    name: '파트Talk',
+    children: [
+      { id: 6, name: '기획' },
+      { id: 7, name: '디자인' },
+      { id: 8, name: '서버' },
+      { id: 9, name: '웹' },
+      { id: 10, name: 'iOS' },
+      { id: 11, name: 'Android' },
+      { id: 23, name: '기타' },
+    ],
+  },
+  { id: 21, name: '솝티클', children: [] },
+  { id: 1, name: '자유', children: [] },
+  {
+    id: 4,
+    name: '홍보',
+    children: [
+      { id: 18, name: '행사' },
+      { id: 17, name: '프로젝트' },
+      { id: 16, name: '채용' },
+      { id: 15, name: '기타' },
+    ],
+  },
+];
+
+export function getCategoryNameById(id: number): string | undefined {
+  for (const parent of CATEGORY_TREE) {
+    if (parent.id === id) return parent.name;
+
+    const child = parent.children.find((c) => c.id === id);
+    if (child) return `${parent.name}_${child.name}`;
+  }
+  return undefined;
+}
