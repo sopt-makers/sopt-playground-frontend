@@ -3,32 +3,28 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
 
-import { WaitingQuestion } from '@/api/endpoint/feed/getWaitingQuestions';
+import { RecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
-import FeedIcon from '@/components/feed/home/QuestionArea/FeedIcon';
+import FeedIcon from '@/components/feed/home/RecentArea/FeedIcon';
 import VoteIcon from '@/public/icons/icon-vote.svg';
 
-interface QuestionCardProps {
-  question: WaitingQuestion;
+interface RecentCardProps {
+  recentPosts: RecentPosts;
 }
 
-const QuestionCard = ({ question }: QuestionCardProps) => {
-  const { id, title, content, createdAt, likeCount, commentCount } = question;
-  const category = '질문';
-  const isQuestion = category === '질문';
-  const totalVoteCount = 10;
+const RecentCard = ({ recentPosts }: RecentCardProps) => {
+  const { id, title, content, createdAt, likeCount, commentCount, categoryName, categoryId, totalVoteCount } =
+    recentPosts;
+  const isQuestion = QUESTION_CATEGORY_ID === categoryId;
 
   return (
-    <LoggingClick
-      eventKey='feedCard'
-      param={{ feedId: String(question.id), category: '질문', referral: 'category_HOT' }}
-    >
-      <CardContainer href={`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`}>
+    <LoggingClick eventKey='feedCard' param={{ feedId: String(id), category: categoryName, referral: 'category_HOT' }}>
+      <CardContainer href={`/?category=${categoryId}&feed=${id}`}>
         <CardContent>
           <TitleStyle>
-            <QuestionTag>{category}</QuestionTag>
+            <QuestionTag>{categoryName}</QuestionTag>
             {title}
           </TitleStyle>
           <ContentStyle>{content}</ContentStyle>
@@ -42,7 +38,7 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
                 <LineStyle />
                 <FlexStyle>
                   <VoteIcon />
-                  <CreatedDate>{totalVoteCount}</CreatedDate>
+                  <CreatedDate>{totalVoteCount ?? 0}</CreatedDate>
                 </FlexStyle>
               </>
             )}
@@ -58,7 +54,7 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
   );
 };
 
-export default QuestionCard;
+export default RecentCard;
 
 const CardContainer = styled(Link)`
   display: flex;

@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
-import { createEndpoint } from '@/api/typedAxios';
 import { getPost } from '@/api/endpoint/feed/getPost';
+import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { getRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
+import { createEndpoint } from '@/api/typedAxios';
 
 const OptionSchema = z.object({
   selectedOptions: z.array(z.number().int()).min(1).max(5),
@@ -33,7 +33,7 @@ export const usePostVoteMutation = (
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: getPost.cacheKey(String(postId)) });
       queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(categoryId?.toString()) });
-      queryClient.invalidateQueries({ queryKey: getWaitingQuestions.cacheKey() });
+      queryClient.invalidateQueries({ queryKey: getRecentPosts.cacheKey() });
       options?.onSuccess?.();
     },
   });

@@ -1,24 +1,17 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { useRouter } from 'next/router';
 
-import { useWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
+import { useRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Text from '@/components/common/Text';
-import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
-import QuestionCard from '@/components/feed/home/QuestionArea/QuestionCard';
+import QuestionCard from '@/components/feed/home/RecentArea/RecentCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
-const QuestionArea = () => {
+const RecentArea = () => {
   const { data: me } = useGetMemberOfMe();
-  const { data: questions, isLoading, isError } = useWaitingQuestions();
-  const router = useRouter();
-
-  const navigateToQuestion = () => {
-    router.push(`/?category=${QUESTION_CATEGORY_ID}`);
-  };
+  const { data: recentPosts, isLoading, isError } = useRecentPosts();
 
   return (
     <>
@@ -41,12 +34,11 @@ const QuestionArea = () => {
               <UserNameStyle>{me?.name}</UserNameStyle>님,
               <MobileLineBreak /> 새로 올라온 글을 확인해 보세요
             </Title>
-            <AllBtn onClick={navigateToQuestion}>전체보기</AllBtn>
           </TitleBox>
 
           <QuestionFeedList>
-            {questions?.map((question) => (
-              <QuestionCard key={question.id} question={question} />
+            {recentPosts?.map((recentPosts) => (
+              <QuestionCard key={recentPosts.id} recentPosts={recentPosts} />
             ))}
           </QuestionFeedList>
         </Container>
@@ -90,20 +82,6 @@ const UserNameStyle = styled.span`
   color: ${colors.secondary};
 `;
 
-const AllBtn = styled.button`
-  line-height: 20px;
-  color: ${colors.gray400};
-  ${fonts.LABEL_12_SB};
-
-  &:hover {
-    box-shadow: inset 0 -1px 0 0 ${colors.gray400};
-  }
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding-bottom: 4px;
-  }
-`;
-
 const QuestionFeedList = styled.div`
   display: flex;
   gap: 12px;
@@ -134,4 +112,4 @@ const QuestionFeedList = styled.div`
   }
 `;
 
-export default QuestionArea;
+export default RecentArea;
