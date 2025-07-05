@@ -18,6 +18,7 @@ const RecentCard = ({ recentPosts }: RecentCardProps) => {
   const { id, title, content, createdAt, likeCount, commentCount, categoryName, categoryId, totalVoteCount } =
     recentPosts;
   const isQuestion = QUESTION_CATEGORY_ID === categoryId;
+  const isVotePost = totalVoteCount !== null;
 
   return (
     <LoggingClick eventKey='feedCard' param={{ feedId: String(id), category: categoryName, referral: 'category_HOT' }}>
@@ -33,7 +34,7 @@ const RecentCard = ({ recentPosts }: RecentCardProps) => {
         <CardFooter>
           <FlexBox>
             <CreatedDate>{createdAt}</CreatedDate>
-            {isQuestion && (
+            {isVotePost && (
               <>
                 <LineStyle />
                 <FlexStyle>
