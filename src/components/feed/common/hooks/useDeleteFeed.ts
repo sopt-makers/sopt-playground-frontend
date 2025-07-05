@@ -5,6 +5,7 @@ import { playgroundLink } from 'playground-common/export';
 
 import { useDeletePostMutation } from '@/api/endpoint/feed/deletePost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { getRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
@@ -44,6 +45,7 @@ export const useDeleteFeed = () => {
           queryClient.invalidateQueries({
             queryKey: useGetPostsInfiniteQuery.getKey(categoryId),
           });
+          queryClient.invalidateQueries({ queryKey: getRecentPosts.cacheKey() });
         },
       });
     }
