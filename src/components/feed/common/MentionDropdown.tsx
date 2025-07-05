@@ -6,6 +6,7 @@ import { fonts } from '@sopt-makers/fonts';
 import { Ref, RefObject, useEffect, useRef, useState } from 'react';
 import { zIndex } from '@/styles/zIndex';
 import ReactDOM from 'react-dom';
+import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 
 type Member = {
   generation: number;
@@ -27,6 +28,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     y: mentionPosition.y,
   });
   const [mobilePosition, setMobilePosition] = useState(0);
+  const [memberParts, setMemberParts] = useState<Record<number, string>>({}); // 검색된 유저들의 파트 정보 관리
 
   useEffect(() => {
     if (!parentRef.current) return;
@@ -58,10 +60,27 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
 
     if (y + dropdownRect.height > viewportHeight) y = parentRect.top - dropdownRect.height - 6;
     else {
-      y + 16;
+      y = y + 16;
     }
     setMobilePosition(y);
   }, [mentionPosition, parentRef, searchedMemberList]);
+
+  useEffect(() => {
+    const fetchParts = async () => {
+      const parts: Record<number, string> = {};
+      await Promise.all(
+        searchedMemberList.map(async (member) => {
+          const profile = await getMemberProfileById(Number(member.id));
+          parts[Number(member.id)] = profile.soptActivities[0]?.part || ''; // 각 유저별로 파트 관리
+        }),
+      );
+      setMemberParts(parts);
+    };
+
+    if (searchedMemberList.length > 0) {
+      fetchParts();
+    }
+  }, [searchedMemberList]);
 
   if (searchedMemberList.length === 0) return null;
 
@@ -82,13 +101,17 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
               onSelect(member);
             }}
           >
-            <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
-            <MemberInfo>
-              <MemberName typography='SUIT_16_M' color={colors.gray10}>
-                {member.name}
-              </MemberName>
-              <MemberDetail>{`${member.generation}기`}</MemberDetail>
-            </MemberInfo>
+            {memberParts[Number(member.id)] && (
+              <>
+                <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
+                <MemberInfo>
+                  <MemberName typography='SUIT_16_M' color={colors.gray10}>
+                    {member.name}
+                  </MemberName>
+                  <MemberDetail>{`${member.generation}기 ${memberParts[Number(member.id)] || ''}`}</MemberDetail>
+                </MemberInfo>
+              </>
+            )}
           </Box>
         ))}
       </Wrapper>
@@ -124,7 +147,7 @@ const Container = styled.div<{ x: number; y: number; my: number }>`
 
 const Wrapper = styled.div`
   max-height: calc(388px - 16px);
-  overflow-y: scroll;
+  overflow-y: auto;
 
   @media ${MOBILE_MEDIA_QUERY} {
     max-height: calc(210px - 24px);
@@ -158,9 +181,12 @@ const MemberInfo = styled.div`
   flex-direction: column;
 `;
 
-const MemberName = styled(Text)``;
+const MemberName = styled(Text)`
+  text-align: left;
+`;
 
 const MemberDetail = styled(Text)`
+  text-align: left;
   color: ${colors.gray100};
   font: ${fonts.BODY_13_R};
 
