@@ -25,7 +25,7 @@ const RecentCard = ({ recentPosts }: RecentCardProps) => {
       <CardContainer href={`/?category=${categoryId}&feed=${id}`}>
         <CardContent>
           <TitleStyle>
-            <QuestionTag>{categoryName}</QuestionTag>
+            <Tag>{categoryName}</Tag>
             {title}
           </TitleStyle>
           <ContentStyle>{content}</ContentStyle>
@@ -122,7 +122,7 @@ const CreatedDate = styled(Text)`
   ${fonts.LABEL_14_SB}
 `;
 
-const QuestionTag = styled.span`
+const Tag = styled.span`
   display: inline-flex;
   width: fit-content;
   height: 20px;

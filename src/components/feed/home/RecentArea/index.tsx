@@ -5,7 +5,7 @@ import { fonts } from '@sopt-makers/fonts';
 import { useRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Text from '@/components/common/Text';
-import QuestionCard from '@/components/feed/home/RecentArea/RecentCard';
+import RecentCard from '@/components/feed/home/RecentArea/RecentCard';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -36,11 +36,11 @@ const RecentArea = () => {
             </Title>
           </TitleBox>
 
-          <QuestionFeedList>
+          <RecentFeedList>
             {recentPosts?.map((recentPosts) => (
-              <QuestionCard key={recentPosts.id} recentPosts={recentPosts} />
+              <RecentCard key={recentPosts.id} recentPosts={recentPosts} />
             ))}
-          </QuestionFeedList>
+          </RecentFeedList>
         </Container>
       )}
     </>
@@ -82,7 +82,7 @@ const UserNameStyle = styled.span`
   color: ${colors.secondary};
 `;
 
-const QuestionFeedList = styled.div`
+const RecentFeedList = styled.div`
   display: flex;
   gap: 12px;
   margin: 0 -16px -18px;

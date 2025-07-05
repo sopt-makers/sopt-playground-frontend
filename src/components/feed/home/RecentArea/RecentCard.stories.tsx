@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { RecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 
-import QuestionCard from './RecentCard';
+import RecentCard from './RecentCard';
 
-const meta: Meta<typeof QuestionCard> = {
-  component: QuestionCard,
+const meta: Meta<typeof RecentCard> = {
+  component: RecentCard,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -14,7 +14,7 @@ const meta: Meta<typeof QuestionCard> = {
 
 export default meta;
 
-type Story = StoryObj<typeof QuestionCard>;
+type Story = StoryObj<typeof RecentCard>;
 
 const basicMock: RecentPosts = {
   id: 1,
