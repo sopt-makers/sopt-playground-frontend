@@ -63,7 +63,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
       y = y + 16;
     }
     setMobilePosition(y);
-  }, [mentionPosition, parentRef, searchedMemberList]);
+  }, [mentionPosition, parentRef, searchedMemberList, window.innerHeight]);
 
   useEffect(() => {
     const fetchParts = async () => {
