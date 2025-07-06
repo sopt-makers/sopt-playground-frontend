@@ -29,6 +29,21 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
   });
   const [mobilePosition, setMobilePosition] = useState(0);
   const [memberParts, setMemberParts] = useState<Record<number, string>>({}); // 검색된 유저들의 파트 정보 관리
+  const [viewportHeight, setViewportHeight] = useState(window.visualViewport?.height || window.innerHeight);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.visualViewport?.height || window.innerHeight);
+    };
+
+    window.visualViewport?.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (!parentRef.current) return;
@@ -54,20 +69,23 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
       width: 170,
       height: 16 + 62 * Math.min(searchedMemberList.length, 3),
     };
-    const viewportHeight = window.innerHeight;
 
     let { y } = mentionPosition;
 
     if (y + dropdownRect.height > viewportHeight) y = y - dropdownRect.height - 22 - 16;
     else {
       y = y + 16;
+    }
+    setMobilePosition(y);
+
+    if (y + dropdownRect.height > viewportHeight) {
+      const scrollAmount = y + dropdownRect.height - viewportHeight;
       window.scrollBy({
-        top: dropdownRect.height,
+        top: scrollAmount,
         behavior: 'smooth',
       });
     }
-    setMobilePosition(y);
-  }, [mentionPosition, parentRef, searchedMemberList, window.innerHeight]);
+  }, [mentionPosition, parentRef, searchedMemberList]);
 
   useEffect(() => {
     const fetchParts = async () => {
