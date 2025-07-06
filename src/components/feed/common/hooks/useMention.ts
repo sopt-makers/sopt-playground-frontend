@@ -57,7 +57,8 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
       if (inputRef.current) {
         requestAnimationFrame(() => {
           const mentionRange = range.cloneRange();
-          const maxOffset = container.textContent?.length ?? 0;
+          // offset 제한
+          const maxOffset = container.textContent?.length ?? 0; // textContent보다 클 수 없도록
           const safeStart = Math.min(lastAtIndex, maxOffset);
           const safeEnd = Math.min(offset, maxOffset);
 
