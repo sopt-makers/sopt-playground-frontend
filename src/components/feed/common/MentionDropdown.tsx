@@ -101,7 +101,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
         behavior: 'smooth',
       });
     }
-  }, [mentionPosition, parentRef, searchedMemberList]);
+  }, [mentionPosition, parentRef, searchedMemberList, viewportHeight]);
 
   // 유저의 파트 정보를 가져오는 함수
   const fetchMemberPart = useCallback(async (id: number) => {
