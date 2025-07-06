@@ -207,7 +207,9 @@ const Container = styled.div<{ x: number; y: number; my: number }>`
   border-radius: 13px;
   background: ${colors.gray900};
   padding: 8px;
-  width: 170px;
+  width: auto;
+  min-width: 170px;
+  white-space: nowrap;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: absolute;
@@ -223,6 +225,7 @@ const Container = styled.div<{ x: number; y: number; my: number }>`
 
 const Wrapper = styled.div`
   max-height: calc(388px - 16px);
+  overflow-x: auto;
   overflow-y: auto;
 
   @media ${MOBILE_MEDIA_QUERY} {
@@ -241,7 +244,6 @@ const Box = styled.button<{ translateY: number }>`
   border-radius: 8px;
   cursor: pointer;
   padding: 8px 12px;
-  width: 100%;
   height: 62px;
 
   &:hover {
@@ -268,7 +270,7 @@ const MemberName = styled(Text)`
 const MemberDetail = styled(Text)`
   text-align: left;
   color: ${colors.gray100};
-  font: ${fonts.BODY_13_R};
+  ${fonts.BODY_13_R};
 
   @media ${MOBILE_MEDIA_QUERY} {
     color: ${colors.gray200};
