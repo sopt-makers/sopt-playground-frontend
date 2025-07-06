@@ -88,8 +88,8 @@ export const HomePopup = () => {
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
                   {/* <button onClick={handleOpenModal}> */}
-                  <a href='https://playground.sopt.org/group/list' target='blank'>
-                    <StImage src='/icons/img/popup/crew-homepopup-desktop.png' />
+                  <a href='https://playground.sopt.org/feed/upload' target='blank'>
+                    <StImage src='/icons/img/popup/cook-desktop.png' />
                   </a>
                   {/* </button> */}
                 </LoggingClick>
@@ -97,8 +97,8 @@ export const HomePopup = () => {
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
                   {/* <button onClick={handleOpenModal}> */}
-                  <a href='https://playground.sopt.org/group/list' target='blank'>
-                    <StImage src='/icons/img/popup/crew-homepopup-mobile.png' />
+                  <a href='https://playground.sopt.org/feed/upload' target='blank'>
+                    <StImage src='/icons/img/popup/cook-mobile.png' />
                   </a>
                   {/* </button> */}
                 </LoggingClick>
