@@ -95,10 +95,9 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
       y = y + 16;
     } else {
       const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
       const neededScrollSpace = y + 16 + dropdownHeight - viewportHeight;
 
-      if (currentScrollTop + neededScrollSpace <= maxScrollTop) {
+      if (currentScrollTop + neededScrollSpace <= 50) {
         // 스크롤 가능하면 아래로 표시
         y = y + 16;
         window.scrollBy({
@@ -111,7 +110,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
       }
     }
     setMobilePosition(y);
-  }, [mentionPosition, parentRef, searchedMemberList]);
+  }, [mentionPosition, parentRef, searchedMemberList, viewportHeight]);
 
   // 유저의 파트 정보를 가져오는 함수
   const fetchMemberPart = useCallback(async (id: number) => {
