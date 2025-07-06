@@ -57,8 +57,12 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
       if (inputRef.current) {
         requestAnimationFrame(() => {
           const mentionRange = range.cloneRange();
-          mentionRange.setStart(container, lastAtIndex);
-          mentionRange.setEnd(container, offset);
+          const maxOffset = container.textContent?.length ?? 0;
+          const safeStart = Math.min(lastAtIndex, maxOffset);
+          const safeEnd = Math.min(offset, maxOffset);
+
+          mentionRange.setStart(container, safeStart);
+          mentionRange.setEnd(container, safeEnd);
 
           const rect = mentionRange.getBoundingClientRect();
           setMentionPosition({
