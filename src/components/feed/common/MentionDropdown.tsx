@@ -86,23 +86,29 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
   // 모바일 드롭다운 위치 선정
   useEffect(() => {
     if (!parentRef.current) return;
-    const parentRect = parentRef.current.getBoundingClientRect();
     const dropdownHeight = 16 + 62 * Math.min(searchedMemberList.length, 3);
 
     let { y } = mentionPosition;
 
     if (viewportHeight - y >= dropdownHeight) {
+      // 커서 아래에 남은 공간이 드롭다운보다 크면
       y = y + 16;
-    } else if (viewportHeight - y >= window.innerHeight) {
-      y = y + 16;
-      setTimeout(() => {
+    } else {
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
+      const neededScrollSpace = y + 16 + dropdownHeight - viewportHeight;
+
+      if (currentScrollTop + neededScrollSpace <= maxScrollTop) {
+        // 스크롤 가능하면 아래로 표시
+        y = y + 16;
         window.scrollBy({
-          top: y + 16 + dropdownHeight - viewportHeight,
+          top: neededScrollSpace,
           behavior: 'smooth',
         });
-      }, 100);
-    } else {
-      y = y - dropdownHeight - 22 - 16;
+      } else {
+        // 스크롤 불가능하면 위로 표시
+        y = y - dropdownHeight - 22 - 16;
+      }
     }
     setMobilePosition(y);
   }, [mentionPosition, parentRef, searchedMemberList, viewportHeight]);
