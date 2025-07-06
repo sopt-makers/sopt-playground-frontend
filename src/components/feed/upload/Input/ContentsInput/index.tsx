@@ -80,7 +80,7 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
         ref={editableRef}
         data-placeholder={editableRef.current?.innerText === '' ? '내용을 입력해주세요' : ''}
       />
-      {isMentionOpen && (
+      {isMentionOpen && mentionPosition && (
         <MentionDropdown
           parentRef={editableRef}
           searchedMemberList={searchedMemberList}

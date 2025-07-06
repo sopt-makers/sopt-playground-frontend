@@ -20,10 +20,14 @@ interface MentionDropdownProps {
   parentRef: RefObject<HTMLDivElement>;
   searchedMemberList: Member[];
   onSelect: (selected: Member) => void;
-  mentionPosition: { x: number; y: number };
+  mentionPosition: { x: number; y: number } | null;
 }
 
 const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosition }: MentionDropdownProps) => {
+  if (!mentionPosition || searchedMemberList.length === 0) {
+    return null;
+  }
+
   const [adjustedPosition, setAdjustedPosition] = useState({
     x: mentionPosition.x,
     y: mentionPosition.y,
@@ -61,20 +65,22 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
 
   // 데스크탑 드롭다운 위치 선정
   useEffect(() => {
-    if (!parentRef.current) return;
+    requestAnimationFrame(() => {
+      if (!parentRef.current) return;
 
-    const parentRect = parentRef.current.getBoundingClientRect();
-    const dropdownRect = {
-      width: 170,
-      height: 16 + 62 * Math.min(searchedMemberList.length, 6),
-    };
-    const viewportHeight = window.innerHeight;
+      const parentRect = parentRef.current.getBoundingClientRect();
+      const dropdownRect = {
+        width: 170,
+        height: 16 + 62 * Math.min(searchedMemberList.length, 6),
+      };
+      const viewportHeight = window.innerHeight;
 
-    let { x, y } = mentionPosition;
+      let { x, y } = mentionPosition;
 
-    if (x + dropdownRect.width > parentRect.right) x = parentRect.right - dropdownRect.width;
-    if (y + dropdownRect.height > viewportHeight) y = y - dropdownRect.height - 22;
-    setAdjustedPosition({ x, y });
+      if (x + dropdownRect.width > parentRect.right) x = parentRect.right - dropdownRect.width;
+      if (y + dropdownRect.height > viewportHeight) y = y - dropdownRect.height - 22;
+      setAdjustedPosition({ x, y });
+    });
   }, [mentionPosition, parentRef, searchedMemberList]);
 
   // 모바일 드롭다운 위치 선정
@@ -88,19 +94,18 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
 
     let { y } = mentionPosition;
 
-    if (y + dropdownRect.height > viewportHeight) y = y - dropdownRect.height - 22 - 16;
+    if (y + dropdownRect.height > window.innerHeight) y = y - dropdownRect.height - 22 - 16;
     else {
       y = y + 16;
+      if (y + dropdownRect.height > viewportHeight) {
+        const scrollAmount = y + dropdownRect.height - viewportHeight;
+        window.scrollBy({
+          top: scrollAmount,
+          behavior: 'smooth',
+        });
+      }
     }
     setMobilePosition(y);
-
-    if (y + dropdownRect.height > viewportHeight) {
-      const scrollAmount = y + dropdownRect.height - viewportHeight;
-      window.scrollBy({
-        top: scrollAmount,
-        behavior: 'smooth',
-      });
-    }
   }, [mentionPosition, parentRef, searchedMemberList, viewportHeight]);
 
   // 유저의 파트 정보를 가져오는 함수
@@ -153,8 +158,6 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     rowVirtualizer.scrollToIndex(0, { align: 'start' });
   }, [searchedMemberList]);
 
-  if (searchedMemberList.length === 0) return null;
-
   const getProfileImage = (profileImage: Member['profileImage']) => {
     if (profileImage === null || profileImage === '') {
       return '/icons/icon-member-search-default.svg';
@@ -177,15 +180,13 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
                 }}
                 translateY={virtualRow.start}
               >
-                <>
-                  <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
-                  <MemberInfo>
-                    <MemberName typography='SUIT_16_M' color={colors.gray10}>
-                      {member.name}
-                    </MemberName>
-                    <MemberDetail>{`${member.generation}기 ${memberParts[Number(member.id)] || ''}`}</MemberDetail>
-                  </MemberInfo>
-                </>
+                <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
+                <MemberInfo>
+                  <MemberName typography='SUIT_16_M' color={colors.gray10}>
+                    {member.name}
+                  </MemberName>
+                  <MemberDetail>{`${member.generation}기 ${memberParts[Number(member.id)] || ''}`}</MemberDetail>
+                </MemberInfo>
               </Box>
             );
           })}
@@ -207,8 +208,7 @@ const Container = styled.div<{ x: number; y: number; my: number }>`
   border-radius: 13px;
   background: ${colors.gray900};
   padding: 8px;
-  width: auto;
-  min-width: 170px;
+  width: 170px;
   white-space: nowrap;
 
   @media ${MOBILE_MEDIA_QUERY} {

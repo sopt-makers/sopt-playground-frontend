@@ -13,7 +13,7 @@ export type Member = {
 const useMention = (inputRef: RefObject<HTMLDivElement>) => {
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [mentionQuery, setMentionQuery] = useState(''); // '@' 뒤에 오는 검색어
-  const [mentionPosition, setMentionPosition] = useState({ x: 0, y: 0 }); // '@' 위치
+  const [mentionPosition, setMentionPosition] = useState<{ x: number; y: number } | null>(null); // '@' 위치
   const [isComposing, setIsComposing] = useState(false); // IME 입력 대기
 
   const debouncedMentionQuery = useDebounce((value) => {
@@ -50,14 +50,16 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
 
       // @ 위치 계산
       if (inputRef.current) {
-        const mentionRange = range.cloneRange();
-        mentionRange.setStart(container, lastAtIndex);
-        mentionRange.setEnd(container, offset);
+        requestAnimationFrame(() => {
+          const mentionRange = range.cloneRange();
+          mentionRange.setStart(container, lastAtIndex);
+          mentionRange.setEnd(container, offset);
 
-        const rect = mentionRange.getBoundingClientRect();
-        setMentionPosition({
-          x: rect.left + window.scrollX,
-          y: rect.top + rect.height + window.scrollY,
+          const rect = mentionRange.getBoundingClientRect();
+          setMentionPosition({
+            x: rect.left + window.scrollX,
+            y: rect.top + rect.height + window.scrollY,
+          });
         });
       }
     } else {
