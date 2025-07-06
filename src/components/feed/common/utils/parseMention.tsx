@@ -17,7 +17,7 @@ export const parseHTMLToMentions = (html: string) => {
   tempDiv.innerHTML = html;
   return tempDiv.innerHTML
     .replace(mentionSpanRegex, (_, id, name) => `@${name}[${id}]`)
-    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<br\s*\/?>/g, '\n')
     .replace(/<[^>]+>/g, '');
 };
 

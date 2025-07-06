@@ -39,6 +39,7 @@ import {
 } from '@/components/feed/common/utils/parseMention';
 import useMention, { Member } from '@/components/feed/common/hooks/useMention';
 import MentionDropdown from '@/components/feed/common/MentionDropdown';
+import { useCursorPosition } from '@/components/feed/common/hooks/useCursorPosition';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -588,6 +589,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     handleKeyDown,
     setIsComposing,
   } = useMention(textareaRef);
+  const { saveCursor, restoreCursor } = useCursorPosition(textareaRef);
 
   const isButtonActive = value.length > 0 && !isPending;
 
@@ -601,6 +603,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   };
 
   const handleContentsInput = () => {
+    saveCursor();
     if (!textareaRef.current) return;
     const html = textareaRef.current.innerHTML;
     onChange(parseHTMLToMentions(html));
@@ -620,15 +623,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     if (currentHTML !== parsed) {
       textareaRef.current.innerHTML = parsed;
 
-      // 커서를 맨 뒤로 이동
-      const selection = window.getSelection();
-      if (selection) {
-        selection.removeAllRanges();
-        const range = document.createRange();
-        range.selectNodeContents(textareaRef.current);
-        range.collapse(false);
-        selection.addRange(range);
-      }
+      restoreCursor();
     }
   }, [value]);
 

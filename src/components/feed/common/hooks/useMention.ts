@@ -96,7 +96,18 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
       mentionSpan.setAttribute('data-id', String(selectedMember.id));
       mentionSpan.contentEditable = 'false';
       mentionSpan.style.color = `${colors.success}`;
+      const spaceTextNode = document.createTextNode(' ');
+      range.insertNode(spaceTextNode);
       range.insertNode(mentionSpan);
+
+      // 커서를 span 바로 다음으로 이동
+      const selection = window.getSelection();
+      if (selection) {
+        range.setStartAfter(mentionSpan);
+        range.setEndAfter(mentionSpan);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
     }
     setIsMentionOpen(false);
     setMentionQuery('');

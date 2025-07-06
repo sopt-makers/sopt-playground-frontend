@@ -6,6 +6,7 @@ import { textStyles } from '@/styles/typography';
 import MentionDropdown from '@/components/feed/common/MentionDropdown';
 import useMention, { Member } from '@/components/feed/common/hooks/useMention';
 import { parseHTMLToMentions, parseMentionsToHTML } from '@/components/feed/common/utils/parseMention';
+import { useCursorPosition } from '@/components/feed/common/hooks/useCursorPosition';
 
 interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
@@ -23,8 +24,10 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
     handleKeyDown,
     setIsComposing,
   } = useMention(editableRef);
+  const { saveCursor, restoreCursor } = useCursorPosition(editableRef);
 
   const handleContentsInput = () => {
+    saveCursor();
     if (!editableRef.current) return;
     const html = editableRef.current.innerHTML;
     console.log(html);
@@ -50,15 +53,7 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
     if (currentHTML !== parsed) {
       editableRef.current.innerHTML = parsed;
 
-      // 커서를 맨 뒤로 이동
-      const selection = window.getSelection();
-      if (selection) {
-        selection.removeAllRanges();
-        const range = document.createRange();
-        range.selectNodeContents(editableRef.current);
-        range.collapse(false);
-        selection.addRange(range);
-      }
+      restoreCursor();
     }
   }, [value]);
 
