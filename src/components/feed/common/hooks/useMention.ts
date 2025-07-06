@@ -69,6 +69,7 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
   };
 
   const selectMention = (selectedMember: Member) => {
+    if (!searchedMemberList) return;
     const selectionInfo = getSelectionInfo();
     if (!selectionInfo) return;
     const { range, container, offset } = selectionInfo;

@@ -241,6 +241,7 @@ export interface SubmitEvents {
     category: string | undefined;
     isBlindWriter: boolean;
     vote: boolean;
+    mention: boolean;
   };
   editCommunity: undefined;
   // 커뮤니티(피드)
@@ -249,6 +250,7 @@ export interface SubmitEvents {
     referral: 'more' | 'detail';
     isBlindWriter: boolean;
     category: string;
+    mention: boolean;
   };
   //타임캡솝 보관하기
   makeTimeCapsule: undefined;
