@@ -61,6 +61,10 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     if (y + dropdownRect.height > viewportHeight) y = y - dropdownRect.height - 22 - 16;
     else {
       y = y + 16;
+      window.scrollBy({
+        top: dropdownRect.height,
+        behavior: 'smooth',
+      });
     }
     setMobilePosition(y);
   }, [mentionPosition, parentRef, searchedMemberList, window.innerHeight]);
