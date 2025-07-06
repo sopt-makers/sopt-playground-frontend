@@ -209,7 +209,6 @@ const Container = styled.div<{ x: number; y: number; my: number }>`
   background: ${colors.gray900};
   padding: 8px;
   width: 170px;
-  white-space: nowrap;
 
   @media ${MOBILE_MEDIA_QUERY} {
     position: absolute;
@@ -244,6 +243,7 @@ const Box = styled.button<{ translateY: number }>`
   border-radius: 8px;
   cursor: pointer;
   padding: 8px 12px;
+  width: 100%;
   height: 62px;
 
   &:hover {
