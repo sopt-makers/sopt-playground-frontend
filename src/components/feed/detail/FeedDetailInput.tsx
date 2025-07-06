@@ -54,6 +54,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
               referral,
               isBlindWriter: commentData.isBlindWriter,
               category: loggingCategory,
+              mention: /@([^\[\]\s@]+)\[(\d+)\]/.test(commentData.text),
             });
             onSubmitted();
           }

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { RecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
 import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import FeedIcon from '@/components/feed/home/RecentArea/FeedIcon';
 import VoteIcon from '@/public/icons/icon-vote.svg';
@@ -28,7 +29,7 @@ const RecentCard = ({ recentPosts }: RecentCardProps) => {
             <Tag>{categoryName}</Tag>
             {title}
           </TitleStyle>
-          <ContentStyle>{content}</ContentStyle>
+          <ContentStyle>{parseMentionsToJSX(content)}</ContentStyle>
         </CardContent>
 
         <CardFooter>

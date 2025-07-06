@@ -10,9 +10,6 @@ const useGetMembersByNameQuery = (variables: GetMembersByNameQueryVariables) => 
   return useQuery({
     queryKey: ['useGetMembersSearchByName', variables],
     queryFn: async () => {
-      if (!name) {
-        return;
-      }
       const data = await getMembersSearchByName.request(name);
       return data;
     },
