@@ -148,6 +148,11 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     });
   }, [visibleItems, searchedMemberList, fetchMemberPart]);
 
+  useEffect(() => {
+    // 검색어 바뀌면 스크롤 맨 위로
+    rowVirtualizer.scrollToIndex(0, { align: 'start' });
+  }, [searchedMemberList]);
+
   if (searchedMemberList.length === 0) return null;
 
   const getProfileImage = (profileImage: Member['profileImage']) => {
