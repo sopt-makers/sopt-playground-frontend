@@ -138,3 +138,15 @@ export function getCategoryNameById(id: number): string | undefined {
   }
   return undefined;
 }
+
+export function getParentCategoryIdById(id: number | null): number | undefined {
+  if (id == null) return undefined;
+
+  for (const parent of CATEGORY_TREE) {
+    if (parent.id === id) return parent.id;
+    if (parent.children?.some((child) => child.id === id)) {
+      return parent.id;
+    }
+  }
+  return undefined;
+}
