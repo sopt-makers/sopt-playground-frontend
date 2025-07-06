@@ -58,7 +58,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
 
     let { y } = mentionPosition;
 
-    if (y + dropdownRect.height > viewportHeight) y = parentRect.top - dropdownRect.height - 6;
+    if (y + dropdownRect.height > viewportHeight) y = y - dropdownRect.height - 22 - 16;
     else {
       y = y + 16;
     }
