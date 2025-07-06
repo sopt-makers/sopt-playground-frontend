@@ -90,25 +90,18 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
 
     let { y } = mentionPosition;
 
-    if (viewportHeight - y >= dropdownHeight) {
-      // 커서 아래에 남은 공간이 드롭다운보다 크면
+    if (y + dropdownHeight > viewportHeight) y = y - dropdownHeight - 22 - 16;
+    else {
       y = y + 16;
-    } else {
-      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
-      const neededScrollSpace = y + 16 + dropdownHeight - viewportHeight;
+    }
+    setMobilePosition(y);
 
-      if (currentScrollTop + neededScrollSpace <= maxScrollTop) {
-        // 스크롤 가능하면 아래로 표시
-        y = y + 16;
-        window.scrollBy({
-          top: neededScrollSpace,
-          behavior: 'smooth',
-        });
-      } else {
-        // 스크롤 불가능하면 위로 표시
-        y = y - dropdownHeight - 22 - 16;
-      }
+    if (y + dropdownHeight > viewportHeight) {
+      const scrollAmount = y + dropdownHeight - viewportHeight;
+      window.scrollBy({
+        top: scrollAmount,
+        behavior: 'smooth',
+      });
     }
     setMobilePosition(y);
   }, [mentionPosition, parentRef, searchedMemberList, viewportHeight]);
