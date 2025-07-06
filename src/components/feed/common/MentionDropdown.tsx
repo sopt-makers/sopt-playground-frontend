@@ -90,21 +90,28 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
 
     let { y } = mentionPosition;
 
-    if (y + dropdownHeight > viewportHeight) y = y - dropdownHeight - 22 - 16;
-    else {
+    if (viewportHeight - y >= dropdownHeight) {
+      // 커서 아래에 남은 공간이 드롭다운보다 크면
       y = y + 16;
-    }
-    setMobilePosition(y);
+    } else {
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
+      const neededScrollSpace = y + 16 + dropdownHeight - viewportHeight;
 
-    if (y + dropdownHeight > viewportHeight) {
-      const scrollAmount = y + dropdownHeight - viewportHeight;
-      window.scrollBy({
-        top: scrollAmount,
-        behavior: 'smooth',
-      });
+      if (currentScrollTop + neededScrollSpace <= maxScrollTop) {
+        // 스크롤 가능하면 아래로 표시
+        y = y + 16;
+        window.scrollBy({
+          top: neededScrollSpace,
+          behavior: 'smooth',
+        });
+      } else {
+        // 스크롤 불가능하면 위로 표시
+        y = y - dropdownHeight - 22 - 16;
+      }
     }
     setMobilePosition(y);
-  }, [mentionPosition, parentRef, searchedMemberList, viewportHeight]);
+  }, [mentionPosition, parentRef, searchedMemberList]);
 
   // 유저의 파트 정보를 가져오는 함수
   const fetchMemberPart = useCallback(async (id: number) => {
