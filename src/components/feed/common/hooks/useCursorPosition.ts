@@ -2,7 +2,8 @@ import { useRef } from 'react';
 
 const getNodePath = (root: Node, target: Node): number[] => {
   const path: number[] = [];
-  for (let node = target; node && node !== root; node = node.parentNode!) {
+  let node: Node | null = target;
+  while (node && node !== root) {
     // 부모를 통해 루트까지 접근
     const parent = node.parentNode;
     if (!parent) break;

@@ -87,23 +87,22 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
   useEffect(() => {
     if (!parentRef.current) return;
     const parentRect = parentRef.current.getBoundingClientRect();
-    const dropdownRect = {
-      width: 170,
-      height: 16 + 62 * Math.min(searchedMemberList.length, 3),
-    };
+    const dropdownHeight = 16 + 62 * Math.min(searchedMemberList.length, 3);
 
     let { y } = mentionPosition;
 
-    if (y + dropdownRect.height > window.innerHeight) y = y - dropdownRect.height - 22 - 16;
-    else {
+    if (viewportHeight - y >= dropdownHeight) {
       y = y + 16;
-      if (y + dropdownRect.height > viewportHeight) {
-        const scrollAmount = y + dropdownRect.height - viewportHeight;
+    } else if (viewportHeight - y >= window.innerHeight) {
+      y = y + 16;
+      setTimeout(() => {
         window.scrollBy({
-          top: scrollAmount,
+          top: y + 16 + dropdownHeight - viewportHeight,
           behavior: 'smooth',
         });
-      }
+      }, 100);
+    } else {
+      y = y - dropdownHeight - 22 - 16;
     }
     setMobilePosition(y);
   }, [mentionPosition, parentRef, searchedMemberList, viewportHeight]);
