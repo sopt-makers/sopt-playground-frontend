@@ -1,11 +1,11 @@
 import PopularArea from '@/components/feed/home/PopularArea';
-import QuestionArea from '@/components/feed/home/QuestionArea';
+import RecentArea from '@/components/feed/home/RecentArea';
 import SopticleArea from '@/components/feed/home/SopticleArea';
 
 const Hot = () => {
   return (
     <>
-      <QuestionArea />
+      <RecentArea />
       <PopularArea />
       <SopticleArea />
     </>

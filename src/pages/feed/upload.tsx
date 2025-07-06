@@ -5,6 +5,7 @@ import { FC } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { getRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import { uploadFeed } from '@/api/endpoint/feed/uploadFeed';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
@@ -49,8 +50,9 @@ const FeedUpload: FC = () => {
       {
         onSuccess: async () => {
           const category = data.categoryId !== null ? getFullCategoryNameFromId(data.categoryId) : undefined;
-          logSubmitEvent('submitCommunity', { category, isBlindWriter: data.isBlindWriter });
+          logSubmitEvent('submitCommunity', { category, isBlindWriter: data.isBlindWriter, vote: !!data.vote });
           queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
+          queryClient.invalidateQueries({ queryKey: getRecentPosts.cacheKey() });
           await router.push(playgroundLink.feedList());
         },
       },

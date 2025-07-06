@@ -3,37 +3,50 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import Link from 'next/link';
 
-import { WaitingQuestion } from '@/api/endpoint/feed/getWaitingQuestions';
+import { RecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import Text from '@/components/common/Text';
-import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
-import FeedIcon from '@/components/feed/home/QuestionArea/FeedIcon';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
+import FeedIcon from '@/components/feed/home/RecentArea/FeedIcon';
+import VoteIcon from '@/public/icons/icon-vote.svg';
 
-interface QuestionCardProps {
-  question: WaitingQuestion;
+interface RecentCardProps {
+  recentPosts: RecentPosts;
 }
 
-const QuestionCard = ({ question }: QuestionCardProps) => {
-  const { id, title, content, createdAt, likeCount, commentCount } = question;
+const RecentCard = ({ recentPosts }: RecentCardProps) => {
+  const { id, title, content, createdAt, likeCount, commentCount, categoryName, categoryId, totalVoteCount } =
+    recentPosts;
+  const isQuestion = QUESTION_CATEGORY_ID === categoryId;
+  const isVotePost = totalVoteCount !== null;
 
   return (
-    <LoggingClick
-      eventKey='feedCard'
-      param={{ feedId: String(question.id), category: '질문', referral: 'category_HOT' }}
-    >
-      <CardContainer href={`/?category=${QUESTION_CATEGORY_ID}&feed=${id}`}>
+    <LoggingClick eventKey='feedCard' param={{ feedId: String(id), category: categoryName, referral: 'category_HOT' }}>
+      <CardContainer href={`/?category=${categoryId}&feed=${id}`}>
         <CardContent>
           <TitleStyle>
-            <QuestionTag>질문</QuestionTag>
+            <Tag>{categoryName}</Tag>
             {title}
           </TitleStyle>
           <ContentStyle>{content}</ContentStyle>
         </CardContent>
 
         <CardFooter>
-          <CreatedDate>{createdAt}</CreatedDate>
+          <FlexBox>
+            <CreatedDate>{createdAt}</CreatedDate>
+            {isVotePost && (
+              <>
+                <LineStyle />
+                <FlexStyle>
+                  <VoteIcon />
+                  <CreatedDate>{totalVoteCount ?? 0}</CreatedDate>
+                </FlexStyle>
+              </>
+            )}
+          </FlexBox>
+
           <FeedIconBox>
-            <FeedIcon type='thumbsUp' count={likeCount} />
+            <FeedIcon type={isQuestion ? 'thumbsUp' : 'heart'} count={likeCount} />
             <FeedIcon type='message' count={commentCount} />
           </FeedIconBox>
         </CardFooter>
@@ -42,7 +55,7 @@ const QuestionCard = ({ question }: QuestionCardProps) => {
   );
 };
 
-export default QuestionCard;
+export default RecentCard;
 
 const CardContainer = styled(Link)`
   display: flex;
@@ -109,9 +122,9 @@ const CreatedDate = styled(Text)`
   ${fonts.LABEL_14_SB}
 `;
 
-const QuestionTag = styled.span`
+const Tag = styled.span`
   display: inline-flex;
-  width: 32px;
+  width: fit-content;
   height: 20px;
   border-radius: 4px;
   background-color: ${colors.orangeAlpha200};
@@ -120,4 +133,21 @@ const QuestionTag = styled.span`
   padding: 3px 6px;
   margin-right: 6px;
   transform: translateY(-1.5px);
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const LineStyle = styled.div`
+  width: 1px;
+  height: 12px;
+  background-color: ${colors.gray600};
+`;
+
+const FlexStyle = styled.div`
+  display: flex;
+  gap: 4px;
 `;

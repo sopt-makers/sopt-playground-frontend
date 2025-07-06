@@ -1,3 +1,8 @@
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPopularPost } from '@/api/endpoint/feed/getPopularPost';
 import Text from '@/components/common/Text';
@@ -5,10 +10,6 @@ import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { categoryIdNameMap } from '@/components/feed/common/utils';
 import PopularCard from '@/components/feed/home/PopularArea/PopularCard';
 import { MB_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
-import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 
 const PopularArea = () => {
   const { data, isLoading, isError } = useGetPopularPost();
@@ -69,7 +70,11 @@ const PopularArea = () => {
         {data?.map((card, index) => {
           const category = card.id !== null ? getFullCategoryNameFromId(card.id) ?? card.category : card.category;
           return (
-            <LoggingClick eventKey='feedCard' param={{ feedId: String(card.id), category, referral: 'category_HOT' }}>
+            <LoggingClick
+              eventKey='feedCard'
+              param={{ feedId: String(card.id), category, referral: 'category_HOT' }}
+              key={card.id ?? index}
+            >
               <PopularCard
                 key={card.id}
                 rank={index + 1}

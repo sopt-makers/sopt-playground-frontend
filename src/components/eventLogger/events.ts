@@ -1,3 +1,5 @@
+import { string } from 'zod';
+
 type MemberCard = {
   id: number;
   name: string;
@@ -46,6 +48,11 @@ type Coffeechat = {
   guideline: string;
   generation: number[];
   part: string[];
+};
+
+type Vote = {
+  category: string | undefined;
+  feedId: string;
 };
 
 export interface ClickEvents {
@@ -200,6 +207,10 @@ export interface ClickEvents {
   timeCapsuleGotoCoffeechat: undefined;
 
   reviewGoToHomepage: undefined; // 업로드한 활동후기 보러가기
+
+  // 투표
+  vote: Vote;
+  voteResult: Vote;
 }
 
 export interface SubmitEvents {
@@ -229,6 +240,7 @@ export interface SubmitEvents {
   submitCommunity: {
     category: string | undefined;
     isBlindWriter: boolean;
+    vote: boolean;
   };
   editCommunity: undefined;
   // 커뮤니티(피드)
