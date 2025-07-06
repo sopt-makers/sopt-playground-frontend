@@ -243,7 +243,7 @@ const Name = styled(Text)`
   }
 `;
 
-interface Vote {
+interface VoteData {
   id: number;
   isMultiple: boolean;
   hasVoted: boolean;
@@ -269,7 +269,7 @@ interface ContentProps {
   sopticleUrl: string;
   thumbnailUrl: string;
   isMine: boolean;
-  vote: Vote | null;
+  vote: VoteData | null;
   postId: number;
   categoryId: number;
 }

@@ -1,15 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 
 import { editFeed } from '@/api/endpoint/feed/editFeed';
 import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
+import { getRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import AuthRequired from '@/components/auth/AuthRequired';
 import Loading from '@/components/common/Loading';
 import useModalState from '@/components/common/Modal/useModalState';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { getParentCategoryIdById } from '@/components/feed/common/utils';
 import EditImpossibleModal from '@/components/feed/edit/EditImpossibleModal';
 import FeedUploadPage, { LoadingWrapper } from '@/components/feed/page/FeedUploadPage';
 import { FeedDataType } from '@/components/feed/upload/types';
@@ -36,13 +38,30 @@ const FeedEdit: FC = () => {
       {
         onSuccess: async () => {
           logSubmitEvent('editCommunity');
-          queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') });
-          editingId && queryClient.invalidateQueries({ queryKey: getPost.cacheKey(`${editingId}`) });
+          const parentId = getParentCategoryIdById(data.categoryId);
+
+          const promises = [
+            queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey(parentId?.toString()) }),
+            queryClient.invalidateQueries({ queryKey: useGetPostsInfiniteQuery.getKey('') }),
+            queryClient.invalidateQueries({ queryKey: getRecentPosts.cacheKey() }),
+            editingId
+              ? queryClient.invalidateQueries({ queryKey: getPost.cacheKey(`${editingId}`) })
+              : Promise.resolve(),
+          ];
+
+          await Promise.all(promises);
           await router.push(playgroundLink.feedList());
         },
       },
     );
   };
+
+  const voteForForm = useMemo(() => {
+    if (!data) return null;
+
+    const voteData = data.posts.vote;
+    return voteData ? { isMultiple: voteData.isMultiple, voteOptions: voteData.options.map((o) => o.content) } : null;
+  }, [data]);
 
   if (isPending) {
     return (
@@ -75,8 +94,7 @@ const FeedEdit: FC = () => {
                   isBlindWriter: data.posts.isBlindWriter,
                   images: data.posts.images,
                   link: data.posts.sopticleUrl,
-                  // TODO get으로 vote정보 받아오면 그걸로 수정하기
-                  vote: null,
+                  vote: voteForForm,
                 }}
                 onSubmit={handleEditSubmit}
                 editingId={data.posts.id}

@@ -101,7 +101,7 @@ const Container = styled.div`
 const CategoryArea = styled.div`
   position: sticky;
   top: ${layoutCSSVariable.globalHeaderHeight};
-  z-index: 1; /* Virtuoso가 sticky 위에 와버리는 문제때문에 z-index로 제어 */
+  z-index: 2; /* Virtuoso가 sticky 위에 와버리는 문제때문에 z-index로 제어 */
   border-radius: 14px 14px 0 0;
   background-color: ${colors.background};
 `;

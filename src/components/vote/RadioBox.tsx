@@ -29,15 +29,15 @@ const RadioBox = ({
   return (
     <Container onClick={onClick} role='button' mode={mode} isSelected={isSelected}>
       {isSelected && <CheckedIcon />}
-      <Text typography='SUIT_14_R' color={colors.gray10} style={{ zIndex: 1 }}>
+      <Text typography='SUIT_14_R' color={colors.gray10} style={{ zIndex: 1, flex: 1, lineHeight: '22px' }}>
         {content}
       </Text>
       {isResult && (
         <>
+          <Bar votePercent={votePercent} isWinner={isWinner} />
           <VoteResult isWinner={isWinner}>
             {votePercent}% ({voteCount}표)
           </VoteResult>
-          <Bar votePercent={votePercent} isWinner={isWinner} />
         </>
       )}
     </Container>
@@ -55,7 +55,6 @@ const Container = styled.div<{ mode: 'select' | 'view'; isSelected: boolean }>`
   background: ${colors.gray800};
   padding: 8px 12px;
   width: 100%;
-  height: 38px;
   overflow: hidden;
 
   ${(props) =>
@@ -79,8 +78,6 @@ const CheckedIcon = styled(IconCheck)`
 `;
 
 const VoteResult = styled.span<{ isWinner: boolean }>`
-  position: absolute;
-  right: 12px;
   z-index: 1;
   color: ${({ isWinner }) => (isWinner ? colors.secondary : colors.gray100)};
   font: ${fonts.BODY_13_M};
@@ -99,7 +96,6 @@ const Bar = styled.div<{ votePercent: number; isWinner: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
   background-color: ${({ isWinner }) => (isWinner ? colors.orangeAlpha300 : colors.gray700)};
   height: 100%;
   animation: ${({ votePercent }) => createWidthAnimation(votePercent)} 0.8s ease-out forwards;

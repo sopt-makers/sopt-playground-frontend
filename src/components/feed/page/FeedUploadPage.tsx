@@ -198,15 +198,21 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           }
           footer={
             <Footer>
-              {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
-              {feedData.vote && hasVoteOptions && (
-                <VotePreview
-                  onOpenVoteModal={onOpenVoteModal}
-                  resetVote={resetVote}
-                  optionsLength={feedData.vote.voteOptions.length}
-                  isMultiple={feedData.vote.isMultiple}
-                />
+              {!isSopticle && (
+                <>
+                  {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
+                  {feedData.vote && hasVoteOptions && (
+                    <VotePreview
+                      onOpenVoteModal={onOpenVoteModal}
+                      resetVote={resetVote}
+                      optionsLength={feedData.vote.voteOptions.length}
+                      isMultiple={feedData.vote.isMultiple}
+                      isDisable={isEdit}
+                    />
+                  )}
+                </>
               )}
+
               <TagAndCheckboxWrapper>
                 {!isSopticle && (
                   <TagsWrapper>
@@ -215,7 +221,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!hasVoteOptions} />
+                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}
@@ -294,14 +300,19 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           }
           footer={
             <Footer>
-              {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
-              {feedData.vote && hasVoteOptions && (
-                <VotePreview
-                  onOpenVoteModal={onOpenVoteModal}
-                  resetVote={resetVote}
-                  optionsLength={feedData.vote.voteOptions.length}
-                  isMultiple={feedData.vote.isMultiple}
-                />
+              {!isSopticle && (
+                <>
+                  {feedData.images.length !== 0 && <ImagePreview images={feedData.images} onRemove={removeImage} />}
+                  {feedData.vote && hasVoteOptions && (
+                    <VotePreview
+                      onOpenVoteModal={onOpenVoteModal}
+                      resetVote={resetVote}
+                      optionsLength={feedData.vote.voteOptions.length}
+                      isMultiple={feedData.vote.isMultiple}
+                      isDisable={isEdit}
+                    />
+                  )}
+                </>
               )}
               <TagAndCheckboxWrapper>
                 {!isSopticle && (

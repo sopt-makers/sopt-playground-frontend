@@ -1,11 +1,13 @@
-import Text from '@/components/common/Text';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { IconEye } from '@sopt-makers/icons';
-import { Skeleton, Tag } from '@sopt-makers/ui';
+import { Skeleton } from '@sopt-makers/ui';
+
 import ResizedImage from '@/components/common/ResizedImage';
+import Text from '@/components/common/Text';
 import { IconMember } from '@/components/feed/common/Icon';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface PopularCardProps {
   rank: number;
@@ -35,9 +37,9 @@ const PopularSkeleton = ({ rank }: { rank: number }) => {
         {rank}
       </Text>
       <FeedInfo titleBox>
-        <Category>
+        <Tag>
           <Skeleton width={20} height={14} color={colors.gray700} />
-        </Category>
+        </Tag>
         <TitleText typography='SUIT_14_SB' color={colors.white} lineHeight={18}>
           <Skeleton width={300} height={18} color={colors.gray700} />
         </TitleText>
@@ -70,7 +72,7 @@ const PopularCard = ({ rank, card, isLoading, onClick }: PopularCardProps) => {
         {rank}
       </Text>
       <FeedInfo titleBox>
-        <Category>{category}</Category>
+        <Tag>{category}</Tag>
         <TitleText typography='SUIT_14_SB' color={colors.white} lineHeight={18}>
           {title || '제목 없는 게시글'}
         </TitleText>
@@ -149,11 +151,6 @@ const ProfileImage = styled(ResizedImage)`
   height: 20px;
 `;
 
-const Category = styled(Tag)`
-  flex-shrink: 0;
-  width: fit-content;
-`;
-
 const TitleText = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
@@ -178,4 +175,17 @@ const HitsIcon = styled(IconEye)`
   flex-shrink: 0;
   width: 16px;
   height: 16px;
+`;
+
+const Tag = styled.span`
+  display: inline-flex;
+  transform: translateY(-1.5px);
+  margin-right: 6px;
+  border-radius: 4px;
+  background-color: ${colors.orangeAlpha200};
+  padding: 3px 6px;
+  width: fit-content;
+  height: 20px;
+  color: ${colors.secondary};
+  ${fonts.LABEL_11_SB}
 `;

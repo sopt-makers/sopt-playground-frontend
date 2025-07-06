@@ -5,7 +5,7 @@ import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { getPost, useGetPostQuery } from '@/api/endpoint/feed/getPost';
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { getWaitingQuestions } from '@/api/endpoint/feed/getWaitingQuestions';
+import { getRecentPosts } from '@/api/endpoint/feed/getRecentPosts';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useToggleLike } from '@/components/feed/common/hooks/useToggleLike';
@@ -102,7 +102,7 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
                   allPostsQueryKey: useGetPostsInfiniteQuery.getKey(parentId.toString()),
                   postsQueryKey: useGetPostsInfiniteQuery.getKey(postData.posts.categoryId.toString()),
                   postQueryKey: getPost.cacheKey(postId),
-                  waitingQuestionQuerykey: getWaitingQuestions.cacheKey(),
+                  recentPostsQuerykey: getRecentPosts.cacheKey(),
                 });
               }}
               type={isQuestion ? 'thumb' : 'heart'}

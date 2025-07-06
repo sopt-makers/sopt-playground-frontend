@@ -1,12 +1,15 @@
-import { usePostVoteMutation } from '@/api/endpoint/feed/postVote';
-import Text from '@/components/common/Text';
-import RadioBox from '@/components/vote/RadioBox';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconCheckSquare } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { useEffect, useState } from 'react';
+
+import { usePostVoteMutation } from '@/api/endpoint/feed/postVote';
+import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { getCategoryNameById } from '@/components/feed/common/utils';
+import RadioBox from '@/components/vote/RadioBox';
 
 type VoteOption = {
   id: number;
@@ -32,13 +35,8 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const maxVoteCount = Math.max(...options.map((o) => o.voteCount));
-  const { mutate: vote } = usePostVoteMutation(postId, categoryId, {
-    onSuccess: () => {
-      setIsResult(true);
-      setMode('view');
-      setSelectedIds([]);
-    },
-  });
+
+  const { mutate: vote } = usePostVoteMutation(postId, categoryId);
 
   const toggleOption = (id: number) => {
     if (mode !== 'select') return;
@@ -48,6 +46,15 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
       setSelectedIds([id]);
     }
   };
+
+  useEffect(() => {
+    setIsResult(hasVoted);
+    setMode(hasVoted ? 'view' : 'select');
+    setSelectedIds([]);
+  }, [hasVoted]);
+
+  const { logClickEvent } = useEventLogger();
+  const category = getCategoryNameById(categoryId);
 
   return (
     <Container>
@@ -80,6 +87,7 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
               onClick={(e) => {
                 e.preventDefault();
                 vote({ selectedOptions: [...selectedIds] });
+                logClickEvent('vote', { category: category, feedId: postId.toString() });
               }}
             >
               투표하기
@@ -96,6 +104,7 @@ const Vote = ({ postId, categoryId, isMine, hasVoted, options, isMultiple, total
                 if (mode === 'select') {
                   setSelectedIds([]);
                 }
+                logClickEvent('voteResult', { category: category, feedId: postId.toString() });
               }}
             >
               {mode === 'view' ? '돌아가기' : '결과보기'}
