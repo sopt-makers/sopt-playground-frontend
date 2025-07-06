@@ -27,6 +27,7 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
   const handleContentsInput = () => {
     if (!editableRef.current) return;
     const html = editableRef.current.innerHTML;
+    console.log(html);
     const parsed = parseHTMLToMentions(html);
     onChange({
       target: {

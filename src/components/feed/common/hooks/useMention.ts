@@ -40,6 +40,11 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     if (!selectionInfo) return;
     const { container, range, offset } = selectionInfo;
 
+    if (container.nodeType !== Node.TEXT_NODE) {
+      setIsMentionOpen(false);
+      setMentionQuery('');
+      return;
+    }
     const textBeforeCursor = container.textContent?.slice(0, offset) ?? '';
     const lastAtIndex = textBeforeCursor.lastIndexOf('@');
     const afterAtText = textBeforeCursor.substring(lastAtIndex + 1);
@@ -65,6 +70,7 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     } else {
       setIsMentionOpen(false);
       setMentionQuery('');
+      setMentionPosition(null);
     }
   };
 
@@ -94,6 +100,7 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     }
     setIsMentionOpen(false);
     setMentionQuery('');
+    setMentionPosition(null);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
