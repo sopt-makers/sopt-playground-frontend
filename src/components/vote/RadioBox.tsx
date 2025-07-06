@@ -29,7 +29,7 @@ const RadioBox = ({
   return (
     <Container onClick={onClick} role='button' mode={mode} isSelected={isSelected}>
       {isSelected && <CheckedIcon />}
-      <Text typography='SUIT_14_R' color={colors.gray10} style={{ zIndex: 1 }}>
+      <Text typography='SUIT_14_R' color={colors.gray10} style={{ zIndex: 1, flex: 1 }}>
         {content}
       </Text>
       {isResult && (
@@ -79,8 +79,6 @@ const CheckedIcon = styled(IconCheck)`
 `;
 
 const VoteResult = styled.span<{ isWinner: boolean }>`
-  position: absolute;
-  right: 12px;
   z-index: 1;
   color: ${({ isWinner }) => (isWinner ? colors.secondary : colors.gray100)};
   font: ${fonts.BODY_13_M};
