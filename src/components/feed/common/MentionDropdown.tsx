@@ -29,8 +29,8 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
   }
 
   const [adjustedPosition, setAdjustedPosition] = useState({
-    x: mentionPosition?.x,
-    y: mentionPosition?.y,
+    x: mentionPosition.x,
+    y: mentionPosition.y,
   });
   const [mobilePosition, setMobilePosition] = useState(0);
   const [memberParts, setMemberParts] = useState<Record<number, string>>({}); // 검색된 유저들의 파트 정보 관리

@@ -663,7 +663,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           data-placeholder={textareaRef.current?.innerText === '' ? '댓글을 남겨주세요.' : ''}
           ref={textareaRef}
         />
-        {isMentionOpen && (
+        {isMentionOpen && mentionPosition && (
           <MentionDropdown
             parentRef={parentRef}
             searchedMemberList={searchedMemberList}
