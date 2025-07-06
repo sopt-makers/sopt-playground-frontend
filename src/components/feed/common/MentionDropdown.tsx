@@ -3,10 +3,11 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import Text from '@/components/common/Text';
 import { fonts } from '@sopt-makers/fonts';
-import { Ref, RefObject, useEffect, useRef, useState } from 'react';
+import { Ref, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { zIndex } from '@/styles/zIndex';
 import ReactDOM from 'react-dom';
 import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 type Member = {
   generation: number;
@@ -31,6 +32,19 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
   const [memberParts, setMemberParts] = useState<Record<number, string>>({}); // 검색된 유저들의 파트 정보 관리
   const [viewportHeight, setViewportHeight] = useState(window.visualViewport?.height || window.innerHeight);
 
+  // 가상화 세팅
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const rowVirtualizer = useVirtualizer({
+    count: searchedMemberList.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => 62,
+    overscan: 3,
+  });
+
+  // 요청 중인 ID들과 캐시를 관리하는 ref
+  const pendingIds = useRef<Set<number>>(new Set());
+  const memberPartsCache = useRef<Record<number, string>>({});
+
   useEffect(() => {
     const handleResize = () => {
       setViewportHeight(window.visualViewport?.height || window.innerHeight);
@@ -45,6 +59,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     };
   }, []);
 
+  // 데스크탑 드롭다운 위치 선정
   useEffect(() => {
     if (!parentRef.current) return;
 
@@ -62,6 +77,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     setAdjustedPosition({ x, y });
   }, [mentionPosition, parentRef, searchedMemberList]);
 
+  // 모바일 드롭다운 위치 선정
   useEffect(() => {
     if (!parentRef.current) return;
     const parentRect = parentRef.current.getBoundingClientRect();
@@ -87,22 +103,50 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     }
   }, [mentionPosition, parentRef, searchedMemberList]);
 
-  useEffect(() => {
-    const fetchParts = async () => {
-      const parts: Record<number, string> = {};
-      await Promise.all(
-        searchedMemberList.map(async (member) => {
-          const profile = await getMemberProfileById(Number(member.id));
-          parts[Number(member.id)] = profile.soptActivities[0]?.part || ''; // 각 유저별로 파트 관리
-        }),
-      );
-      setMemberParts(parts);
-    };
-
-    if (searchedMemberList.length > 0) {
-      fetchParts();
+  // 유저의 파트 정보를 가져오는 함수
+  const fetchMemberPart = useCallback(async (id: number) => {
+    if (memberPartsCache.current[id] !== undefined || pendingIds.current.has(id)) {
+      return;
     }
-  }, [searchedMemberList]);
+
+    pendingIds.current.add(id);
+    try {
+      const profile = await getMemberProfileById(id);
+      const part = profile?.soptActivities[0]?.part || ''; // 각 유저별로 파트 관리
+      memberPartsCache.current[id] = part;
+
+      // 배치 업데이트를 위해 requestAnimationFrame 사용
+      requestAnimationFrame(() => {
+        setMemberParts((prev) => ({
+          ...prev,
+          [id]: part,
+        }));
+      });
+    } catch (e) {
+      // 에러 발생하면 ''로 저장
+      memberPartsCache.current[id] = '';
+      requestAnimationFrame(() => {
+        setMemberParts((prev) => ({
+          ...prev,
+          [id]: '',
+        }));
+      });
+    } finally {
+      pendingIds.current.delete(id);
+    }
+  }, []);
+
+  const visibleItems = rowVirtualizer.getVirtualItems();
+
+  useEffect(() => {
+    visibleItems.forEach((virtualItem) => {
+      const member = searchedMemberList[virtualItem.index];
+      const id = Number(member?.id);
+      if (!member || !id) return;
+
+      fetchMemberPart(id);
+    });
+  }, [visibleItems, searchedMemberList, fetchMemberPart]);
 
   if (searchedMemberList.length === 0) return null;
 
@@ -115,27 +159,32 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
 
   return ReactDOM.createPortal(
     <Container x={adjustedPosition.x} y={adjustedPosition.y} my={mobilePosition}>
-      <Wrapper>
-        {searchedMemberList.map((member) => (
-          <Box
-            key={member.id}
-            onClick={() => {
-              onSelect(member);
-            }}
-          >
-            {memberParts[Number(member.id)] && (
-              <>
-                <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
-                <MemberInfo>
-                  <MemberName typography='SUIT_16_M' color={colors.gray10}>
-                    {member.name}
-                  </MemberName>
-                  <MemberDetail>{`${member.generation}기 ${memberParts[Number(member.id)] || ''}`}</MemberDetail>
-                </MemberInfo>
-              </>
-            )}
-          </Box>
-        ))}
+      <Wrapper ref={scrollRef}>
+        <div style={{ height: rowVirtualizer.getTotalSize(), position: 'relative' }}>
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            const member = searchedMemberList[virtualRow.index];
+            if (!member) return null;
+            return (
+              <Box
+                key={member.id}
+                onClick={() => {
+                  onSelect(member);
+                }}
+                translateY={virtualRow.start}
+              >
+                <>
+                  <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
+                  <MemberInfo>
+                    <MemberName typography='SUIT_16_M' color={colors.gray10}>
+                      {member.name}
+                    </MemberName>
+                    <MemberDetail>{`${member.generation}기 ${memberParts[Number(member.id)] || ''}`}</MemberDetail>
+                  </MemberInfo>
+                </>
+              </Box>
+            );
+          })}
+        </div>
       </Wrapper>
     </Container>,
     document.body,
@@ -176,10 +225,14 @@ const Wrapper = styled.div`
   }
 `;
 
-const Box = styled.button`
+const Box = styled.button<{ translateY: number }>`
   display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
   gap: 12px;
   align-items: center;
+  transform: ${({ translateY }) => `translateY(${translateY}px) `};
   border-radius: 8px;
   cursor: pointer;
   padding: 8px 12px;

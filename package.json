@@ -47,6 +47,7 @@
     "@sopt-makers/icons": "^1.1.0",
     "@sopt-makers/ui": "2.8.9",
     "@tanstack/react-query": "^5.4.3",
+    "@tanstack/react-virtual": "^3.13.12",
     "@toss/emotion-utils": "^1.1.10",
     "@toss/error-boundary": "^1.4.6",
     "@toss/impression-area": "^1.3.1",
