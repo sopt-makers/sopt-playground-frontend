@@ -62,7 +62,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
-      mobileContentsRef.current && mobileContentsRef?.current.focus();
+      mobileContentsRef.current && mobileContentsRef.current.focus();
     }
   };
 
@@ -70,7 +70,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const handleDesktopKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
-      desktopContentsRef.current && desktopContentsRef?.current.focus();
+      desktopContentsRef.current && desktopContentsRef.current.focus();
     }
   };
 

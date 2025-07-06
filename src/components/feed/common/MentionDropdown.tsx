@@ -29,8 +29,8 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
   }
 
   const [adjustedPosition, setAdjustedPosition] = useState({
-    x: mentionPosition.x,
-    y: mentionPosition.y,
+    x: mentionPosition?.x,
+    y: mentionPosition?.y,
   });
   const [mobilePosition, setMobilePosition] = useState(0);
   const [memberParts, setMemberParts] = useState<Record<number, string>>({}); // 검색된 유저들의 파트 정보 관리
@@ -166,7 +166,13 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
   };
 
   return ReactDOM.createPortal(
-    <Container x={adjustedPosition.x} y={adjustedPosition.y} my={mobilePosition}>
+    <Container
+      x={adjustedPosition.x}
+      y={adjustedPosition.y}
+      my={mobilePosition}
+      role='listbox'
+      aria-label='멘션할 멤버 선택'
+    >
       <Wrapper ref={scrollRef}>
         <div style={{ height: rowVirtualizer.getTotalSize(), position: 'relative' }}>
           {rowVirtualizer.getVirtualItems().map((virtualRow) => {
@@ -179,6 +185,9 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
                   onSelect(member);
                 }}
                 translateY={virtualRow.start}
+                role='option'
+                aria-label={`${member.name} 멘션하기`}
+                tabIndex={0}
               >
                 <ProfileImage src={getProfileImage(member.profileImage)} alt={`${member.name}-profileImage`} />
                 <MemberInfo>
