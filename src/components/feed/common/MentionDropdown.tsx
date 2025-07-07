@@ -121,7 +121,8 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
     pendingIds.current.add(id);
     try {
       const profile = await getMemberProfileById(id);
-      const part = profile?.soptActivities[0]?.part || ''; // 각 유저별로 파트 관리
+      const soptActivities = profile?.soptActivities ?? [];
+      const part = soptActivities.length > 0 ? soptActivities[soptActivities.length - 1].part : ''; // 각 유저별로 파트 관리
       memberPartsCache.current[id] = part;
 
       // 배치 업데이트를 위해 requestAnimationFrame 사용
