@@ -33,6 +33,7 @@ import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { mentionRegex } from '@/components/feed/common/utils/parseMention';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 
 interface FeedUploadPageProp {
   editingId?: number;
@@ -87,6 +88,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { logClickEvent } = useEventLogger();
 
   const { isLinkError, validateLink, resetLinkError } = useLinkValidator();
+  const { data: me } = useGetMemberOfMe();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -119,6 +121,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           mentionIds.length > 0
             ? {
                 userIds: mentionIds,
+                writerName: me?.name,
               }
             : null,
       },

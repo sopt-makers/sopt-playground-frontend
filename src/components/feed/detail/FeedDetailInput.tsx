@@ -9,6 +9,7 @@ import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral'
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
 import { mentionRegex } from '@/components/feed/common/utils/parseMention';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 
 interface FeedDetailInputProps {
   postId: string;
@@ -29,7 +30,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
   const { mutate: postComment, isPending } = usePostCommentMutation(postId);
   const { logSubmitEvent } = useEventLogger();
   const { referral } = useFeedReferral();
-
+  const { data: me } = useGetMemberOfMe();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isEmptyText = commentData.text.trim() === '';
@@ -58,6 +59,8 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
           mentionIds.length > 0
             ? {
                 userIds: mentionIds,
+                writerName: me?.name,
+                webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
               }
             : null,
       },
