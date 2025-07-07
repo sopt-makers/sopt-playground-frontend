@@ -21,10 +21,11 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
   };
 
   const handleSaveCategory = (categoryId: number) => {
-    const isSopticle = findParentCategory(categoryId)?.id === SOPTICLE_CATEGORY_ID;
-    const isPrevSopticle = !isSopticle && feedData.content === 'content' && feedData.title === '';
-    const isQuestion = findParentCategory(categoryId)?.id === QUESTION_CATEGORY_ID;
     const parentCategory = findParentCategory(categoryId);
+    const isSopticle = parentCategory?.id === SOPTICLE_CATEGORY_ID;
+    const isQuestion = parentCategory?.id === QUESTION_CATEGORY_ID;
+    const hasBlind = parentCategory?.hasBlind ?? false;
+    const isPrevSopticle = !isSopticle && feedData.content === 'content' && feedData.title === '';
 
     setFeedData((feedData) => ({
       ...feedData,
@@ -33,7 +34,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
         ? { content: 'content', title: '' }
         : isPrevSopticle && { content: '' }), // 이전 카테고리가 솝티클이었으면 content 다시 초기화
       isQuestion, // 질문 카테고리 여부에 따라 isQuestion 초기화
-      isBlindWriter: parentCategory?.hasBlind ? isQuestion : false, // hasBlind가 있는 카테고리 중 질문 카테고리이면 true
+      isBlindWriter: isSopticle ? false : hasBlind && isQuestion ? true : feedData.isBlindWriter,
     }));
   };
 
