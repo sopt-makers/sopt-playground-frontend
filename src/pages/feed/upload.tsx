@@ -84,6 +84,7 @@ const FeedUpload: FC = () => {
           images: [],
           link: null,
           vote: null,
+          mention: null,
         }}
         onSubmit={handlUploadSubmit}
       />

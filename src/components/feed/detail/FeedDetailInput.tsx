@@ -8,6 +8,7 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
+import { mentionRegex } from '@/components/feed/common/utils/parseMention';
 
 interface FeedDetailInputProps {
   postId: string;
@@ -35,12 +36,30 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
     if (isEmptyText) {
       return;
     }
+
+    // mention id 저장
+    const mentionIds: number[] = [];
+    let match: RegExpExecArray | null;
+
+    while ((match = mentionRegex.exec(commentData.text)) !== null) {
+      const idNum = parseInt(match[2], 10);
+      if (!isNaN(idNum)) {
+        mentionIds.push(idNum);
+      }
+    }
+
     postComment(
       {
         content: commentData.text,
         isBlindWriter: commentData.isBlindWriter,
         isChildComment: false,
         webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
+        mention:
+          mentionIds.length > 0
+            ? {
+                userIds: mentionIds,
+              }
+            : null,
       },
       {
         onSuccess: async () => {

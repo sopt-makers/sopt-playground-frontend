@@ -95,6 +95,7 @@ const FeedEdit: FC = () => {
                   images: data.posts.images,
                   link: data.posts.sopticleUrl,
                   vote: voteForForm,
+                  mention: null,
                 }}
                 onSubmit={handleEditSubmit}
                 editingId={data.posts.id}
