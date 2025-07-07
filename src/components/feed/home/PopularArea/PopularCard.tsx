@@ -186,6 +186,7 @@ const Tag = styled.span`
   padding: 3px 6px;
   width: fit-content;
   height: 20px;
+  white-space: nowrap;
   color: ${colors.secondary};
   ${fonts.LABEL_11_SB}
 `;
