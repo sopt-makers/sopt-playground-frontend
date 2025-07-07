@@ -1,6 +1,6 @@
 import { colors } from '@sopt-makers/colors';
 
-const mentionRegex = /@([^\[\]\s@]+)\[(\d+)\]/g;
+export const mentionRegex = /@([^\[\]\s@]+)\[(\d+)\]/g;
 const mentionSpanRegex = /<span[^>]*data-id="(\d+)"[^>]*>@([^<]+)<\/span>/g;
 
 export const parseMentionsToHTML = (text: string) => {
