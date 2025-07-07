@@ -12,6 +12,11 @@ interface RequestBody {
   parentCommentId?: number;
   // webLink를 넣어서 보낼 경우만 푸시 알림
   webLink?: string;
+  mention: {
+    userIds: number[];
+    writerName?: string;
+    webLink?: string;
+  } | null;
 }
 
 export const postComment = createEndpoint({

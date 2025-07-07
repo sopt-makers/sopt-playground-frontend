@@ -32,7 +32,7 @@ import VoteUploadButton from '@/components/feed/upload/voteUploadButton';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import useMention from '@/components/feed/common/hooks/useMention';
+import { mentionRegex } from '@/components/feed/common/utils/parseMention';
 
 interface FeedUploadPageProp {
   editingId?: number;
@@ -94,6 +94,16 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     if (isSopticle && !validateLink(feedData.link)) {
       return;
     }
+    // mention id 저장
+    const mentionIds: number[] = [];
+    let match: RegExpExecArray | null;
+
+    while ((match = mentionRegex.exec(feedData.content)) !== null) {
+      const idNum = parseInt(match[2], 10);
+      if (!isNaN(idNum)) {
+        mentionIds.push(idNum);
+      }
+    }
 
     onSubmit({
       data: {
@@ -105,6 +115,12 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         images: feedData.images,
         link: feedData.link,
         vote: feedData.vote,
+        mention:
+          mentionIds.length > 0
+            ? {
+                userIds: mentionIds,
+              }
+            : null,
       },
       id: editingId ?? null,
     });

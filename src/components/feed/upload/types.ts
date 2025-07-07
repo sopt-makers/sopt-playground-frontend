@@ -6,6 +6,11 @@ export interface FeedDataType {
   isBlindWriter: boolean;
   images: string[];
   vote: VoteData;
+  mention: {
+    userIds: number[];
+    writerName?: string;
+    webLink?: string;
+  } | null;
 }
 
 export interface PostedFeedDataType extends FeedDataType {
