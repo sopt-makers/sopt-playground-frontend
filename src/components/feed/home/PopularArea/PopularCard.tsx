@@ -180,7 +180,6 @@ const HitsIcon = styled(IconEye)`
 const Tag = styled.span`
   display: inline-flex;
   transform: translateY(-1.5px);
-  margin-right: 6px;
   border-radius: 4px;
   background-color: ${colors.orangeAlpha200};
   padding: 3px 6px;
