@@ -1,4 +1,6 @@
+import { playgroundLink } from '@/constants/links';
 import { colors } from '@sopt-makers/colors';
+import { useRouter } from 'next/router';
 
 export const mentionRegex = /@([^\[\]\s@]+)\[(\d+)\]/g;
 const mentionSpanRegex = /<span[^>]*data-id="(\d+)"[^>]*>@([^<]+)<\/span>/g;
@@ -22,6 +24,7 @@ export const parseHTMLToMentions = (html: string) => {
 };
 
 export const parseMentionsToJSX = (text: string) => {
+  const router = useRouter();
   const result: React.ReactNode[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -35,9 +38,15 @@ export const parseMentionsToJSX = (text: string) => {
 
     // span 태그로 변경
     result.push(
-      <span key={`${name}-${id}-${match.index}`} data-id={id} contentEditable={false} style={{ color: colors.success }}>
+      <button
+        key={`${name}-${id}-${match.index}`}
+        data-id={id}
+        contentEditable={false}
+        style={{ color: colors.success }}
+        onClick={() => router.push(playgroundLink.memberDetail(id))}
+      >
         @{name}
-      </span>,
+      </button>,
     );
 
     lastIndex = match.index + full.length;
