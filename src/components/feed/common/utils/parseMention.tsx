@@ -33,10 +33,9 @@ export const parseMentionsToJSX = (text: string) => {
     const [full, name, id] = match;
 
     if (match.index > lastIndex) {
-      result.push(text.slice(lastIndex, match.index));
+      result.push(text.slice(lastIndex, match.index).replace(/&nbsp;/g, ' '));
     }
 
-    // span 태그로 변경
     result.push(
       <button
         key={`${name}-${id}-${match.index}`}
@@ -53,7 +52,7 @@ export const parseMentionsToJSX = (text: string) => {
   }
 
   if (lastIndex < text.length) {
-    result.push(text.slice(lastIndex));
+    result.push(text.slice(lastIndex).replace(/&nbsp;/g, ' '));
   }
 
   return result;
