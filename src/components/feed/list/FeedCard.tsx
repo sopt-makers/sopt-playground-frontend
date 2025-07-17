@@ -15,6 +15,7 @@ import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
 import { textStyles } from '@/styles/typography';
 import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
+import { useRouter } from 'next/router';
 interface RandomProfile {
   nickname: string;
   profileImgUrl: string;
@@ -248,8 +249,8 @@ const renderContent = (content: string) => {
     displayText = content.slice(0, 140) + '...';
     isLong = true;
   }
-
-  const parsed = parseMentionsToJSX(displayText);
+  const router = useRouter();
+  const parsed = parseMentionsToJSX(displayText, router);
 
   if (isLong) {
     parsed.push(

@@ -40,6 +40,7 @@ import {
 import useMention, { Member } from '@/components/feed/common/hooks/useMention';
 import MentionDropdown from '@/components/feed/common/MentionDropdown';
 import { useCursorPosition } from '@/components/feed/common/hooks/useCursorPosition';
+import { useRouter } from 'next/router';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -292,8 +293,9 @@ const Content = ({
   categoryId,
 }: ContentProps) => {
   const [openSlider, setOpenSlider] = useState(false);
+  const router = useRouter();
 
-  const parsedMentions = parseMentionsToJSX(content);
+  const parsedMentions = parseMentionsToJSX(content, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
 
   return (
@@ -464,7 +466,8 @@ const Comment = ({
   moreIcon,
   memberId = 0,
 }: CommentProps) => {
-  const parsedMentions = parseMentionsToJSX(comment);
+  const router = useRouter();
+  const parsedMentions = parseMentionsToJSX(comment, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
 
   return (

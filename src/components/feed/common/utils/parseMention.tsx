@@ -23,8 +23,7 @@ export const parseHTMLToMentions = (html: string) => {
     .replace(/<[^>]+>/g, '');
 };
 
-export const parseMentionsToJSX = (text: string) => {
-  const router = useRouter();
+export const parseMentionsToJSX = (text: string, router: ReturnType<typeof useRouter>) => {
   const result: React.ReactNode[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
