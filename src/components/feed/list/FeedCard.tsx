@@ -69,6 +69,8 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
     },
     ref,
   ) => {
+    const router = useRouter();
+
     return (
       <Flex
         ref={ref}
@@ -154,7 +156,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                       wordBreak: 'break-all',
                     }}
                   >
-                    {renderContent(content)}
+                    {renderContent(content, router)}
                   </Text>
                 </>
               )}
@@ -241,7 +243,7 @@ const Bottom = styled(Stack.Horizontal)`
   gap: 8px;
 `;
 
-const renderContent = (content: string) => {
+const renderContent = (content: string, router: ReturnType<typeof useRouter>) => {
   let displayText = content;
   let isLong = false;
 
@@ -249,7 +251,6 @@ const renderContent = (content: string) => {
     displayText = content.slice(0, 140) + '...';
     isLong = true;
   }
-  const router = useRouter();
   const parsed = parseMentionsToJSX(displayText, router);
 
   if (isLong) {
