@@ -10,8 +10,8 @@ import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import ResolutionReadModal from '@/components/resolution/read/ResolutionReadModal';
 import { LATEST_GENERATION } from '@/constants/generation';
-import closingCeremonyBannerDesktop from '@/public/icons/img/banner_closing-ceremony_desktop.png';
-import closingCeremonyBannerMobile from '@/public/icons/img/banner_closing-ceremony_mobile.png';
+import closingBannerDesktop from '@/public/icons/img/banner_closing_desktop.jpg';
+import closingBannerMobile from '@/public/icons/img/banner_closing_mobile.jpg';
 import bannerOthersDesktop from '@/public/icons/img/welcome-banner_other_desktop.gif';
 import bannerOthersMobile from '@/public/icons/img/welcome-banner_other_mobile.gif';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -52,8 +52,8 @@ export const ClosingBanner = () => {
       mobile: bannerOthersMobile.src,
     },
     resolution: {
-      desktop: closingCeremonyBannerDesktop.src,
-      mobile: closingCeremonyBannerMobile.src,
+      desktop: closingBannerDesktop.src,
+      mobile: closingBannerMobile.src,
     },
   };
 
@@ -114,9 +114,10 @@ const ClosingCeremonyBannerWrapper = styled.header`
 `;
 
 const StyledBanner = styled.img`
-  width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%; /* 부모의 가로 길이를 모두 차지합니다. */
+  height: 100%; /* 부모의 세로 길이를 모두 차지합니다. */
+  object-fit: cover; /* 이미지의 가로세로 비율을 유지하며 컨테이너를 꽉 채우고, 넘치는 부분은 잘라냅니다. */
+  object-position: center;
   @media ${MOBILE_MEDIA_QUERY} {
     width: 100%;
     max-width: 375px;
