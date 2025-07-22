@@ -12,7 +12,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
-  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('and-sopt-다짐메시지');
+  const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('at-sopt-다짐메시지');
   const { open } = useToast();
 
   const { data: { isRegistration } = {} } = useGetResolutionValidation();
@@ -38,9 +38,14 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
       </StyledModalContent>
       <StyledModalFooter align='stretch'>
         <LoggingClick eventKey='saveResolutionImage'>
-          <StyledButton size='md' onClick={handleClickDownloadButton}>
+          <Button size='md' theme='black' onClick={handleClickDownloadButton}>
             이미지로 저장하기
-          </StyledButton>
+          </Button>
+        </LoggingClick>
+        <LoggingClick eventKey='saveResolutionImage'>
+          <Button size='md' onClick={handleClickDownloadButton}>
+            행운의 타임캡솝 뽑기
+          </Button>
         </LoggingClick>
       </StyledModalFooter>
     </StyledModal>
@@ -51,7 +56,8 @@ export default ResolutionReadModal;
 
 const StyledModal = styled(Modal)`
   background-color: ${colors.gray900};
-  padding: 48px 0 40px;
+  padding: 48px 0 20px;
+  width: 375px;
   max-height: 100vh;
   overflow-y: auto;
 
@@ -66,14 +72,21 @@ const StyledModal = styled(Modal)`
 
 const StyledModalContent = styled(ModalContent)`
   align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 0 20px;
 `;
 
 const StyledModalFooter = styled(ModalFooter)`
-  margin-top: 12px;
+  display: flex;
+  gap: 7px;
+  margin-top: 20px;
   padding: 0 24px;
-`;
+  width: 100%;
 
-const StyledButton = styled(Button)`
-  justify-self: center;
-  width: fit-content;
+  button {
+    flex: 1 1 0;
+    height: 44px;
+    font-size: 14px;
+  }
 `;
