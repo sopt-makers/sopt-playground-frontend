@@ -13,7 +13,7 @@ interface ResolutionMessageProps {
 }
 
 const Tag = ({ selectedTagValues }: { selectedTagValues: string[] }) => {
-  const filteredTags = TAG.filter((tagItem) => selectedTagValues.includes(tagItem.value));
+  const filteredTags = TAG.filter((tagItem) => selectedTagValues.includes(tagItem.key));
   const itemCount = filteredTags.length;
 
   console.log(itemCount);
@@ -61,12 +61,12 @@ const Tag = ({ selectedTagValues }: { selectedTagValues: string[] }) => {
 };
 
 const ResolutionMessage = ({ isMessageExist }: ResolutionMessageProps) => {
-  // const { data: resolutionData } = useGetResolution(isMessageExist);
-  const resolutionData = {
-    tags: ['제품 출시', '스킬업', '창업', '협업 경험', '네트워킹'],
-    content:
-      '300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까어',
-  };
+  const { data: resolutionData } = useGetResolution(isMessageExist);
+  // const resolutionData = {
+  //   tags: ['제품 출시', '스킬업', '창업', '협업 경험', '네트워킹'],
+  //   content:
+  //     '300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까어',
+  // };
   const { data: { name } = {} } = useGetMemberOfMe();
 
   return (

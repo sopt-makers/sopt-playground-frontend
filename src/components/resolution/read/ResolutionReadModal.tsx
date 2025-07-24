@@ -10,12 +10,14 @@ import useImageDownload from '@/components/resolution/read/hooks/useImageDownloa
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
+import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
 
 const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('at-sopt-다짐메시지');
   const { open } = useToast();
 
   const { data: { isRegistration } = {} } = useGetResolutionValidation();
+  const { data: resolutionData } = useGetResolution(isRegistration ?? false);
 
   const handleClickDownloadButton = () => {
     onDownloadButtonClick();
@@ -43,7 +45,7 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
           </Button>
         </LoggingClick>
         <LoggingClick eventKey='saveResolutionImage'>
-          <Button size='md' onClick={handleClickDownloadButton}>
+          <Button size='md' onClick={handleClickDownloadButton} disabled={resolutionData?.hasDrawnLuckyPick}>
             행운의 타임캡솝 뽑기
           </Button>
         </LoggingClick>

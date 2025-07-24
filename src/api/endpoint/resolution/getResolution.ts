@@ -9,9 +9,10 @@ const getResolution = createEndpoint({
     url: 'api/v1/resolution',
   },
   serverResponseScheme: z.object({
-    memberName: z.string(),
+    hasWrittenTimeCapsule: z.boolean(),
     tags: z.array(z.string()),
     content: z.string(),
+    hasDrawnLuckyPick: z.boolean(),
   }),
 });
 
