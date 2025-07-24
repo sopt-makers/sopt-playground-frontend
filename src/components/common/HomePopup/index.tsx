@@ -27,20 +27,20 @@ export const HomePopup = () => {
   const today = getKoreanDate();
 
   // 타임캡솝 저장 여부 기록을 위한 코드
-  // const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
-  // const onNewRegistration = () => {
-  //   setIsAlreadyRegistration(false);
-  // };
+  const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
+  const onNewRegistration = () => {
+    setIsAlreadyRegistration(false);
+  };
 
-  // const {
-  //   isOpenResolutionModal,
-  //   onCloseResolutionModal,
-  //   handleResolutionModalOpen,
-  //   name,
-  //   isOpenPlaygroundGuideModal,
-  //   onOpenPlaygroundGuideModal,
-  //   onClosePlaygroundGuideModal,
-  // } = useOpenResolutionModal();
+  const {
+    isOpenResolutionModal,
+    onCloseResolutionModal,
+    handleResolutionModalOpen,
+    name,
+    isOpenPlaygroundGuideModal,
+    onOpenPlaygroundGuideModal,
+    onClosePlaygroundGuideModal,
+  } = useOpenResolutionModal();
 
   useEffect(() => {
     const storedDate = localStorage.getItem('popupClosedDate');
@@ -80,9 +80,13 @@ export const HomePopup = () => {
     await handleClosePopup();
     onOpenResolutionModal();
   };
+  const handleSubmitOpenModal = async () => {
+    await handleClosePopup();
+    handleResolutionModalOpen();
+  };
   const {
-    isOpen: isOpenResolutionModal,
-    onClose: onCloseResolutionModal,
+    isOpen: isOpenReadResolutionModal,
+    onClose: onCloseReadResolutionModal,
     onOpen: onOpenResolutionModal,
   } = useModalState();
 
@@ -112,7 +116,7 @@ export const HomePopup = () => {
               </Responsive>
               <StModalFooter>
                 <LoggingClick eventKey='hideAdPopupToday'>
-                  <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
+                  <StFooterLeftButton onClick={handleSubmitOpenModal}>오늘 하루 그만보기</StFooterLeftButton>
                 </LoggingClick>
                 <LoggingClick eventKey='adPopupClose'>
                   <StFooterRightButton onClick={handleClosePopup}>닫기</StFooterRightButton>
@@ -123,10 +127,10 @@ export const HomePopup = () => {
         </StBackground>
       )}
 
-      <ResolutionReadModal isOpen={isOpenResolutionModal} onClose={onCloseResolutionModal} />
+      <ResolutionReadModal isOpen={isOpenReadResolutionModal} onClose={onCloseReadResolutionModal} />
 
       {/* 신입 기수 들어올 때 타임캡솝 이동 및 플그 가이드 모달 띄우기 */}
-      {/* <TimecapsopSubmitModal
+      <TimecapsopSubmitModal
         onClose={onCloseResolutionModal}
         userName={name ?? '나'}
         onSuccess={() => {
@@ -135,7 +139,7 @@ export const HomePopup = () => {
         }}
         isOpen={isOpenResolutionModal}
       />
-      <PlaygroundGuideModal
+      {/* <PlaygroundGuideModal
         isAlreadyRegistration={isAlreadyRegistration}
         onClose={onClosePlaygroundGuideModal}
         isOpen={isOpenPlaygroundGuideModal}
