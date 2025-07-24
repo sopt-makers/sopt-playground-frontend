@@ -5,17 +5,18 @@ import { useRouter } from 'next/router';
 
 import { useRecentSopticles } from '@/api/endpoint/feed/getRecentSopticle';
 import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import SopticleCard from '@/components/feed/home/SopticleArea/SopticleCard';
 import { useScrollCarousel } from '@/components/feed/home/SopticleArea/useScrollCarousel';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
-import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 
 const SopticleArea = () => {
   const router = useRouter();
   const { data: sopticles = [], isLoading, isError } = useRecentSopticles();
 
-  const extendedCards = [sopticles[sopticles.length - 1], ...sopticles, sopticles[0]]; // 0 = 마지막 복제, 1~N = 실제 데이터, N+1 = 첫번째 복제
+  const extendedCards = sopticles.length > 0 ? [sopticles[sopticles.length - 1], ...sopticles, sopticles[0]] : [];
+  // 0 = 마지막 복제, 1~N = 실제 데이터, N+1 = 첫번째 복제
 
   const { containerRef, activeIndex, getActualIndex, scrollToIndex } = useScrollCarousel({
     itemCount: sopticles.length,
@@ -48,16 +49,23 @@ const SopticleArea = () => {
           <FeedSkeleton count={1} />
         ) : (
           <SopticleTrack>
-            {extendedCards?.map((sopticle, index) => (
-              <LoggingClick
-                eventKey='feedCard'
-                param={{ feedId: String(sopticle.id), category: '솝티클', referral: 'category_HOT' }}
-              >
-                <CardWrapper key={`${sopticle.id}+${index}`}>
-                  <SopticleCard sopticle={sopticle} />
-                </CardWrapper>
-              </LoggingClick>
-            ))}
+            {extendedCards.map((sopticle, index) =>
+              sopticle ? (
+                <LoggingClick
+                  key={`log-${sopticle.id}-${index}`}
+                  eventKey='feedCard'
+                  param={{
+                    feedId: String(sopticle.id),
+                    category: '솝티클',
+                    referral: 'category_HOT',
+                  }}
+                >
+                  <CardWrapper>
+                    <SopticleCard sopticle={sopticle} />
+                  </CardWrapper>
+                </LoggingClick>
+              ) : null,
+            )}
           </SopticleTrack>
         )}
       </SopticleViewport>
