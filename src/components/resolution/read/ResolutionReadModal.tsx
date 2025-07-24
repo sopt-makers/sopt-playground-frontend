@@ -8,17 +8,12 @@ import { ModalContent, ModalFooter } from '@/components/common/Modal/parts';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
-import {
-  MB_BIG_WIDTH,
-  MB_MID_MEDIA_QUERY,
-  MB_SM_MEDIA_QUERY,
-  MB_SM_WIDTH,
-  MOBILE_MEDIA_QUERY,
-} from '@/styles/mediaQuery';
+import { MB_MID_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
 import Responsive from '@/components/common/Responsive';
 import { ModalBottomSheet } from '@/components/common/BottomSheet/ModalBottomSheet';
+import { useRouter } from 'next/router';
 
 const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('at-sopt-다짐메시지');
@@ -26,6 +21,7 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
 
   const { data: { isRegistration } = {} } = useGetResolutionValidation();
   const { data: resolutionData } = useGetResolution(isRegistration ?? false);
+  const router = useRouter();
 
   const handleClickDownloadButton = () => {
     onDownloadButtonClick();
@@ -39,6 +35,10 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
         },
       },
     });
+  };
+
+  const handleClickLucky = () => {
+    router.push('/lucky');
   };
 
   return (
@@ -55,7 +55,7 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
               </Button>
             </LoggingClick>
             <LoggingClick eventKey='saveResolutionImage'>
-              <Button size='md' onClick={handleClickDownloadButton} disabled={resolutionData?.hasDrawnLuckyPick}>
+              <Button size='md' onClick={handleClickLucky} disabled={resolutionData?.hasDrawnLuckyPick}>
                 행운의 타임캡솝 뽑기
               </Button>
             </LoggingClick>
@@ -78,7 +78,7 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
                 <Button
                   style={{ width: 140 }}
                   size='md'
-                  onClick={handleClickDownloadButton}
+                  onClick={handleClickLucky}
                   disabled={resolutionData?.hasDrawnLuckyPick}
                 >
                   행운의 타임캡솝 뽑기

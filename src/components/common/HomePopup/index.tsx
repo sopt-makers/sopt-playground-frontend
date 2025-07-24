@@ -10,6 +10,8 @@ import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuide
 import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import ResolutionReadModal from '@/components/resolution/read/ResolutionReadModal';
+import useModalState from '@/components/common/Modal/useModalState';
 const getKoreanDate = (): string => {
   const koreanTime = new Date();
 
@@ -74,10 +76,15 @@ export const HomePopup = () => {
   };
 
   // 타입캡솝 모달 띄우기
-  // const handleOpenModal = async () => {
-  //   await handleClosePopup();
-  //   handleResolutionModalOpen();
-  // };
+  const handleOpenModal = async () => {
+    await handleClosePopup();
+    onOpenResolutionModal();
+  };
+  const {
+    isOpen: isOpenResolutionModal,
+    onClose: onCloseResolutionModal,
+    onOpen: onOpenResolutionModal,
+  } = useModalState();
 
   return (
     <>
@@ -87,20 +94,20 @@ export const HomePopup = () => {
             <StPopupModal>
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
-                  {/* <button onClick={handleOpenModal}> */}
-                  <a href='https://playground.sopt.org/feed/547' target='blank'>
+                  <button onClick={handleOpenModal}>
+                    {/* <a href='https://playground.sopt.org/feed/547' target='blank'> */}
                     <StImage src='/icons/img/popup/PC.png' />
-                  </a>
-                  {/* </button> */}
+                    {/* </a> */}
+                  </button>
                 </LoggingClick>
               </Responsive>
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
-                  {/* <button onClick={handleOpenModal}> */}
-                  <a href='https://playground.sopt.org/feed/547' target='blank'>
+                  <button onClick={handleOpenModal}>
+                    {/* <a href='https://playground.sopt.org/feed/547' target='blank'> */}
                     <StImage src='/icons/img/popup/MO.png' />
-                  </a>
-                  {/* </button> */}
+                    {/* </a> */}
+                  </button>
                 </LoggingClick>
               </Responsive>
               <StModalFooter>
@@ -115,6 +122,8 @@ export const HomePopup = () => {
           </LoggingImpression>
         </StBackground>
       )}
+
+      <ResolutionReadModal isOpen={isOpenResolutionModal} onClose={onCloseResolutionModal} />
 
       {/* 신입 기수 들어올 때 타임캡솝 이동 및 플그 가이드 모달 띄우기 */}
       {/* <TimecapsopSubmitModal
