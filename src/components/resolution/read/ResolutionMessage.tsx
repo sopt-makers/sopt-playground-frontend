@@ -4,9 +4,9 @@ import { colors } from '@sopt-makers/colors';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
 import Text from '@/components/common/Text';
-import ResolutionBackground from '@/public/icons/img/resolution/resolutionBG.svg';
 import { fonts } from '@sopt-makers/fonts';
 import { TAG } from '@/components/resolution/constants';
+import resolutionBG from '@/public/icons/img/resolution/resolutionBG.png';
 
 interface ResolutionMessageProps {
   isMessageExist: boolean;
@@ -71,7 +71,7 @@ const ResolutionMessage = ({ isMessageExist }: ResolutionMessageProps) => {
 
   return (
     <ResolutionMessageWrapper>
-      <ResolutionBackground />
+      <ResolutionBackground src={resolutionBG.src} />
       <Contents>
         <TitleText color={colors.white}>
           {`AT SOPT를 마친\n`}
@@ -106,8 +106,17 @@ export default ResolutionMessage;
 const ResolutionMessageWrapper = styled.main`
   position: relative;
   width: 100%;
-  min-width: 335px;
   height: 604px;
+`;
+
+const ResolutionBackground = styled.img`
+  border-radius: 20px;
+  background: linear-gradient(to bottom right, #191919, #777);
+  padding: 1px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 `;
 
 const Contents = styled.div`

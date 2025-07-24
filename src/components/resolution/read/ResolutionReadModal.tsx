@@ -8,9 +8,17 @@ import { ModalContent, ModalFooter } from '@/components/common/Modal/parts';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useImageDownload from '@/components/resolution/read/hooks/useImageDownload';
 import ResolutionMessage from '@/components/resolution/read/ResolutionMessage';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import {
+  MB_BIG_WIDTH,
+  MB_MID_MEDIA_QUERY,
+  MB_SM_MEDIA_QUERY,
+  MB_SM_WIDTH,
+  MOBILE_MEDIA_QUERY,
+} from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
+import Responsive from '@/components/common/Responsive';
+import { ModalBottomSheet } from '@/components/common/BottomSheet/ModalBottomSheet';
 
 const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('at-sopt-다짐메시지');
@@ -34,23 +42,53 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   };
 
   return (
-    <StyledModal isOpen={isOpen} onClose={onClose} zIndex={zIndex.헤더 + 100}>
-      <StyledModalContent ref={imageRef}>
-        <ResolutionMessage isMessageExist={isRegistration ?? false} />
-      </StyledModalContent>
-      <StyledModalFooter align='stretch'>
-        <LoggingClick eventKey='saveResolutionImage'>
-          <Button size='md' theme='black' onClick={handleClickDownloadButton}>
-            이미지로 저장하기
-          </Button>
-        </LoggingClick>
-        <LoggingClick eventKey='saveResolutionImage'>
-          <Button size='md' onClick={handleClickDownloadButton} disabled={resolutionData?.hasDrawnLuckyPick}>
-            행운의 타임캡솝 뽑기
-          </Button>
-        </LoggingClick>
-      </StyledModalFooter>
-    </StyledModal>
+    <>
+      <Responsive only='desktop'>
+        <StyledModal isOpen={isOpen} onClose={onClose} zIndex={zIndex.헤더 + 100}>
+          <StyledModalContent ref={imageRef}>
+            <ResolutionMessage isMessageExist={isRegistration ?? false} />
+          </StyledModalContent>
+          <StyledModalFooter align='stretch'>
+            <LoggingClick eventKey='saveResolutionImage'>
+              <Button size='md' theme='black' onClick={handleClickDownloadButton}>
+                이미지로 저장하기
+              </Button>
+            </LoggingClick>
+            <LoggingClick eventKey='saveResolutionImage'>
+              <Button size='md' onClick={handleClickDownloadButton} disabled={resolutionData?.hasDrawnLuckyPick}>
+                행운의 타임캡솝 뽑기
+              </Button>
+            </LoggingClick>
+          </StyledModalFooter>
+        </StyledModal>
+      </Responsive>
+      <Responsive only='mobile'>
+        <ModalBottomSheet isOpen={isOpen ?? false} onClose={onClose}>
+          <BottomSheetContent>
+            <StyledModalContent ref={imageRef}>
+              <ResolutionMessage isMessageExist={isRegistration ?? false} />
+            </StyledModalContent>
+            <StyledModalFooter align='stretch'>
+              <LoggingClick eventKey='saveResolutionImage'>
+                <Button size='md' theme='black' onClick={handleClickDownloadButton}>
+                  이미지로 저장하기
+                </Button>
+              </LoggingClick>
+              <LoggingClick eventKey='saveResolutionImage'>
+                <Button
+                  style={{ width: 140 }}
+                  size='md'
+                  onClick={handleClickDownloadButton}
+                  disabled={resolutionData?.hasDrawnLuckyPick}
+                >
+                  행운의 타임캡솝 뽑기
+                </Button>
+              </LoggingClick>
+            </StyledModalFooter>
+          </BottomSheetContent>
+        </ModalBottomSheet>
+      </Responsive>
+    </>
   );
 };
 
@@ -72,16 +110,28 @@ const StyledModal = styled(Modal)`
   }
 `;
 
+const BottomSheetContent = styled.div`
+  padding: 42px 16px 20px;
+  width: 100%;
+`;
+
 const StyledModalContent = styled(ModalContent)`
   align-items: center;
   justify-content: center;
   margin-top: 20px;
   padding: 0 20px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 0;
+    width: 100%;
+  }
 `;
 
 const StyledModalFooter = styled(ModalFooter)`
   display: flex;
   gap: 7px;
+  align-items: center;
+  justify-content: center;
   margin-top: 20px;
   padding: 0 24px;
   width: 100%;
@@ -90,5 +140,13 @@ const StyledModalFooter = styled(ModalFooter)`
     flex: 1 1 0;
     height: 44px;
     font-size: 14px;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 0;
+  }
+
+  @media ${MB_MID_MEDIA_QUERY} {
+    margin-left: 0;
   }
 `;
