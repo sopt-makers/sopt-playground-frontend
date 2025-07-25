@@ -10,7 +10,6 @@ import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySel
 import { FeedDataType } from '@/components/feed/upload/types';
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import { PART_CATEGORY_ID, QUESTION_CATEGORY_ID } from '@/components/feed/constants';
-import useUploadFeedData from '@/components/feed/upload/hooks/useUploadFeedData';
 
 interface CateogryProps {
   feedData: FeedDataType;

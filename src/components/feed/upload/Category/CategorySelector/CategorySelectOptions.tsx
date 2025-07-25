@@ -7,6 +7,8 @@ import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { FeedDataType } from '@/components/feed/upload/types';
 import { textStyles } from '@/styles/typography';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { Tag } from '@sopt-makers/ui';
+import { GROUP_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 interface CategorySelectOptionsProp {
   onSave: (categoryId: number) => void;
   feedData: FeedDataType;
@@ -27,13 +29,18 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
       {categories &&
         categories.length > 0 &&
         categories.map((category: BasicCategory) => {
+          const isGROUP = category?.id === GROUP_CATEGORY_ID;
+
           return (
             <Option
               key={category.id}
               onClick={() => handleSelectCategory(category.id)}
               isSelected={category.id === feedData.categoryId}
             >
-              <OptionTitle>{category.name}</OptionTitle>
+              <OptionTitle>
+                {isGROUP && <Tag variant={'primary'}>New</Tag>}
+                {category.name}
+              </OptionTitle>
               <OptionContents>{category.content}</OptionContents>
             </Option>
           );
@@ -44,6 +51,10 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
 
 const OptionTitle = styled.h2`
   ${textStyles.SUIT_16_M};
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
 
   line-height: 22px;
   color: ${colors.white};
