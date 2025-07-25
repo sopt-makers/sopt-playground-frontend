@@ -25,7 +25,13 @@ const LuckyResult = ({ isWinner, username, onClickButton }: LuckyResultProps) =>
             <MobileLineBreak /> 수료 선물을 받아보세요
           </>
         ) : (
-          '꽝! 아쉬워요.ㅠ.ㅠ\nAT SOPT과 함께한 추억 잊지 않을게요'
+          <>
+            꽝! 아쉬워요.ㅠ.ㅠ
+            <br />
+            AT SOPT과 함께한 추억
+            <MobileLineBreak />
+            잊지 않을게요
+          </>
         )}
       </StyledTitle>
       <StyledImg src={isWinner ? winnerImage.src : loserImage.src} />
