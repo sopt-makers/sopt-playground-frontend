@@ -4,11 +4,12 @@ import { Tag } from '@sopt-makers/ui';
 import { useQuery } from '@tanstack/react-query';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
-import { GROUP_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
+import { GROUP_CATEGORY_ID } from '@/components/feed/constants';
 import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { FeedDataType } from '@/components/feed/upload/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
+
 interface CategorySelectOptionsProp {
   onSave: (categoryId: number) => void;
   feedData: FeedDataType;
@@ -51,10 +52,10 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
 
 const OptionTitle = styled.h2`
   ${textStyles.SUIT_16_M};
+
   display: flex;
   gap: 6px;
   align-items: center;
-
   line-height: 22px;
   color: ${colors.white};
 `;
