@@ -7,6 +7,7 @@ import Text from '@/components/common/Text';
 import { fonts } from '@sopt-makers/fonts';
 import { TAG } from '@/components/resolution/constants';
 import resolutionBG from '@/public/icons/img/resolution/resolutionBG.png';
+import Image from 'next/image';
 
 interface ResolutionMessageProps {
   isMessageExist: boolean;
@@ -64,7 +65,7 @@ const ResolutionMessage = ({ isMessageExist }: ResolutionMessageProps) => {
 
   return (
     <ResolutionMessageWrapper>
-      <ResolutionBackground src={resolutionBG.src} />
+      <ResolutionBackground src={resolutionBG.src} alt='타임캡솝 배경 이미지' fill priority />
       <Contents>
         <TitleText color={colors.white}>
           {`AT SOPT를 마친\n`}
@@ -104,7 +105,7 @@ const ResolutionMessageWrapper = styled.main`
   height: 604px;
 `;
 
-const ResolutionBackground = styled.img`
+const ResolutionBackground = styled(Image)`
   border-radius: 20px;
   background: linear-gradient(to bottom right, #191919, #777);
   padding: 1px;
