@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { Tag } from '@sopt-makers/ui';
 import { useQuery } from '@tanstack/react-query';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
+import { GROUP_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import { BasicCategory } from '@/components/feed/upload/Category/types';
 import { FeedDataType } from '@/components/feed/upload/types';
-import { textStyles } from '@/styles/typography';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { Tag } from '@sopt-makers/ui';
-import { GROUP_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
+import { textStyles } from '@/styles/typography';
 interface CategorySelectOptionsProp {
   onSave: (categoryId: number) => void;
   feedData: FeedDataType;
@@ -53,8 +53,8 @@ const OptionTitle = styled.h2`
   ${textStyles.SUIT_16_M};
 
   display: flex;
-  align-items: center;
   gap: 6px;
+  align-items: center;
 
   line-height: 22px;
   color: ${colors.white};
