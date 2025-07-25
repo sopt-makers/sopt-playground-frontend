@@ -40,15 +40,23 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   };
 
   const handleClickLucky = () => {
-    router.push('/lucky');
-    sessionStorage.setItem('LUCKY_ENTRY', '1');
-    queryClient.setQueryData(['getResolution'], (oldData: typeof resolutionData) => {
-      if (!oldData) return oldData;
-      return {
-        ...oldData,
-        hasDrawnLuckyPick: true,
-      };
-    });
+    try {
+      queryClient.setQueryData(['getResolution'], (oldData: typeof resolutionData) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          hasDrawnLuckyPick: true,
+        };
+      });
+      sessionStorage.setItem('LUCKY_ENTRY', '1');
+      router.push('/lucky').catch(() => {
+        // 라우팅 실패 시 상태 롤백
+        queryClient.invalidateQueries({ queryKey: ['getResolution'] });
+        sessionStorage.removeItem('LUCKY_ENTRY');
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
