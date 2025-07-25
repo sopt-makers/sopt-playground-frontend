@@ -96,7 +96,7 @@ const StyledButton = styled(Button)`
 const BannerWrapper = styled.div``;
 
 const Banner = styled.img`
-  max-width: 560px;
+  max-width: 400px;
   object-fit: cover;
 
   @media ${MOBILE_MEDIA_QUERY} {

@@ -33,12 +33,14 @@ const Lucky = () => {
       goToWinnerGuide();
     } else {
       logSubmitEvent('luckyTimeCapsule');
+      sessionStorage.removeItem('LUCKY_ENTRY');
       router.push(playgroundLink.feedList());
     }
   };
 
   const handleClickFinalButton = () => {
     logSubmitEvent('luckyTimeCapsule');
+    sessionStorage.removeItem('LUCKY_ENTRY');
     window.open('http://pf.kakao.com/_sxaIWG', '_blank');
     router.push(playgroundLink.feedList());
   };
@@ -50,8 +52,6 @@ const Lucky = () => {
       router.replace('/');
       return;
     }
-
-    sessionStorage.removeItem('LUCKY_ENTRY');
   }, [router]);
 
   return (

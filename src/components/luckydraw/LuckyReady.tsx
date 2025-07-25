@@ -54,12 +54,12 @@ const StyledTitle = styled.h1`
 `;
 
 const StyledImg = styled.img`
-  width: 500px;
-  height: 560px;
+  width: 400px;
+  height: 448px;
 
   @media ${MOBILE_MEDIA_QUERY} {
-    width: 328px;
-    height: 372px;
+    width: 304px;
+    height: 344px;
   }
 `;
 
