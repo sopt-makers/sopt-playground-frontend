@@ -1,14 +1,15 @@
-import AuthRequired from '@/components/auth/AuthRequired';
-import { setLayout } from '@/utils/layout';
-import { useState } from 'react';
-import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
+import { useState } from 'react';
+
+import { useGetLuckyPick } from '@/api/endpoint/resolution/getLuckyPick';
+import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
+import AuthRequired from '@/components/auth/AuthRequired';
 import LuckyLoading from '@/components/luckydraw/LuckyLoading';
+import LuckyReady from '@/components/luckydraw/LuckyReady';
 import LuckyResult from '@/components/luckydraw/LuckyResult';
 import LuckyWinnerGuide from '@/components/luckydraw/LuckyWinnerGuide';
-import LuckyReady from '@/components/luckydraw/LuckyReady';
-import { useGetLuckyPick } from '@/api/endpoint/resolution/getLuckyPick';
+import { setLayout } from '@/utils/layout';
 
 type Step = 'ready' | 'loading' | 'result' | 'winnerGuide';
 
@@ -51,5 +52,7 @@ const Lucky = () => {
     </AuthRequired>
   );
 };
+
+setLayout(Lucky, 'header');
 
 export default Lucky;
