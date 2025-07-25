@@ -10,6 +10,7 @@ import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention'
 import { QUESTION_CATEGORY_ID } from '@/components/feed/constants';
 import FeedIcon from '@/components/feed/home/RecentArea/FeedIcon';
 import VoteIcon from '@/public/icons/icon-vote.svg';
+import { useRouter } from 'next/router';
 
 interface RecentCardProps {
   recentPosts: RecentPosts;
@@ -20,6 +21,7 @@ const RecentCard = ({ recentPosts }: RecentCardProps) => {
     recentPosts;
   const isQuestion = QUESTION_CATEGORY_ID === categoryId;
   const isVotePost = totalVoteCount !== null;
+  const router = useRouter();
 
   return (
     <LoggingClick eventKey='feedCard' param={{ feedId: String(id), category: categoryName, referral: 'category_HOT' }}>
@@ -29,7 +31,7 @@ const RecentCard = ({ recentPosts }: RecentCardProps) => {
             <Tag>{categoryName}</Tag>
             {title}
           </TitleStyle>
-          <ContentStyle>{parseMentionsToJSX(content)}</ContentStyle>
+          <ContentStyle>{parseMentionsToJSX(content, router)}</ContentStyle>
         </CardContent>
 
         <CardFooter>
