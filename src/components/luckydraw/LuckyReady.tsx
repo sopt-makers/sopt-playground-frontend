@@ -19,7 +19,7 @@ const LuckyReady = ({ onStart }: LuckyReadyProps) => {
           <br />
           타임캡솝 열고 수료 선물 받기
         </StyledTitle>
-        <StyledSubTitle>랜덤으로 n명에게 AT SOPT 수료 선물이 나와요</StyledSubTitle>
+        <StyledSubTitle>랜덤으로 소수의 인원에게 AT SOPT 수료 선물이 나와요</StyledSubTitle>
       </HeaderSection>
       <StyledImg src={luckyReadyImg.src} />
       <StyledButton onClick={onStart}>두근두근. 타임캡솝의 주인공은 바로 나!</StyledButton>
