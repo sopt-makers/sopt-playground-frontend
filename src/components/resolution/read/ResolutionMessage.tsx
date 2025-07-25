@@ -16,8 +16,6 @@ const Tag = ({ selectedTagValues }: { selectedTagValues: string[] }) => {
   const filteredTags = TAG.filter((tagItem) => selectedTagValues.includes(tagItem.key));
   const itemCount = filteredTags.length;
 
-  console.log(itemCount);
-
   if (itemCount === 5) {
     const firstRowTags = filteredTags.slice(0, 3);
     const secondRowTags = filteredTags.slice(3, 5);
