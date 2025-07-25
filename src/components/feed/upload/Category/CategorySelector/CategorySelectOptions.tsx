@@ -51,7 +51,6 @@ export default function CategorySelectOptions({ onSave, feedData }: CategorySele
 
 const OptionTitle = styled.h2`
   ${textStyles.SUIT_16_M};
-
   display: flex;
   gap: 6px;
   align-items: center;
