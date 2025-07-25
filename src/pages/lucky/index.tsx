@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGetLuckyPick } from '@/api/endpoint/resolution/getLuckyPick';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
@@ -42,6 +42,17 @@ const Lucky = () => {
     window.open('http://pf.kakao.com/_sxaIWG', '_blank');
     router.push(playgroundLink.feedList());
   };
+
+  useEffect(() => {
+    const canEnter = sessionStorage.getItem('LUCKY_ENTRY');
+
+    if (!canEnter) {
+      router.replace('/');
+      return;
+    }
+
+    sessionStorage.removeItem('LUCKY_ENTRY');
+  }, [router]);
 
   return (
     <AuthRequired>
