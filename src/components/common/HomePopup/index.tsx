@@ -80,10 +80,7 @@ export const HomePopup = () => {
     await handleClosePopup();
     onOpenResolutionModal();
   };
-  const handleSubmitOpenModal = async () => {
-    await handleClosePopup();
-    handleResolutionModalOpen();
-  };
+
   const {
     isOpen: isOpenReadResolutionModal,
     onClose: onCloseReadResolutionModal,
@@ -116,7 +113,7 @@ export const HomePopup = () => {
               </Responsive>
               <StModalFooter>
                 <LoggingClick eventKey='hideAdPopupToday'>
-                  <StFooterLeftButton onClick={handleSubmitOpenModal}>오늘 하루 그만보기</StFooterLeftButton>
+                  <StFooterLeftButton onClick={handleCloseForToday}>오늘 하루 그만보기</StFooterLeftButton>
                 </LoggingClick>
                 <LoggingClick eventKey='adPopupClose'>
                   <StFooterRightButton onClick={handleClosePopup}>닫기</StFooterRightButton>
