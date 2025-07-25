@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
@@ -8,8 +8,7 @@ import CategorySelector from '@/components/feed/upload/Category/CategorySelector
 import TagSelector from '@/components/feed/upload/Category/TagSelector';
 import { useCategorySelect } from '@/components/feed/upload/hooks/useCategorySelect';
 import { FeedDataType } from '@/components/feed/upload/types';
-import useCategory from '@/components/feed/common/hooks/useCategory';
-import { PART_CATEGORY_ID, QUESTION_CATEGORY_ID } from '@/components/feed/constants';
+import { PART_CATEGORY_ID } from '@/components/feed/constants';
 
 interface CateogryProps {
   feedData: FeedDataType;
@@ -81,9 +80,6 @@ export default function Category({ feedData, onSaveCategory, isEdit }: CateogryP
   const handleCloseTag = () => {
     closeAll();
   };
-
-  const { findParentCategory } = useCategory();
-  const parentCategory = findParentCategory(feedData.categoryId);
 
   return (
     <>
