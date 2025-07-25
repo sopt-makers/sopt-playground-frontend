@@ -14,6 +14,7 @@ import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
 import Responsive from '@/components/common/Responsive';
 import { ModalBottomSheet } from '@/components/common/BottomSheet/ModalBottomSheet';
 import { useRouter } from 'next/router';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('at-sopt-다짐메시지');
@@ -22,6 +23,7 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   const { data: { isRegistration } = {} } = useGetResolutionValidation();
   const { data: resolutionData } = useGetResolution(isRegistration ?? false);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleClickDownloadButton = () => {
     onDownloadButtonClick();
@@ -39,6 +41,14 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
 
   const handleClickLucky = () => {
     router.push('/lucky');
+    sessionStorage.setItem('LUCKY_ENTRY', '1');
+    queryClient.setQueryData(['getResolution'], (oldData: typeof resolutionData) => {
+      if (!oldData) return oldData;
+      return {
+        ...oldData,
+        hasDrawnLuckyPick: true,
+      };
+    });
   };
 
   return (
@@ -54,7 +64,7 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
                 이미지로 저장하기
               </Button>
             </LoggingClick>
-            <LoggingClick eventKey='saveResolutionImage'>
+            <LoggingClick eventKey='luckyTimeCapsule'>
               <Button size='md' onClick={handleClickLucky} disabled={resolutionData?.hasDrawnLuckyPick}>
                 행운의 타임캡솝 뽑기
               </Button>
@@ -74,7 +84,7 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
                   이미지로 저장하기
                 </Button>
               </LoggingClick>
-              <LoggingClick eventKey='saveResolutionImage'>
+              <LoggingClick eventKey='luckyTimeCapsule'>
                 <Button
                   style={{ width: 140 }}
                   size='md'

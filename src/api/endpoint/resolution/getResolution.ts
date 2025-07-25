@@ -10,8 +10,8 @@ const getResolution = createEndpoint({
   },
   serverResponseScheme: z.object({
     hasWrittenTimeCapsule: z.boolean(),
-    tags: z.array(z.string()),
-    content: z.string(),
+    tags: z.array(z.string()).nullable(),
+    content: z.string().nullable(),
     hasDrawnLuckyPick: z.boolean(),
   }),
 });
@@ -23,6 +23,5 @@ export const useGetResolution = (isMessageExist: boolean) => {
       const data = await getResolution.request();
       return data;
     },
-    enabled: isMessageExist,
   });
 };

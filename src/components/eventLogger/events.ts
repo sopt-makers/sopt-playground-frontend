@@ -148,6 +148,7 @@ export interface ClickEvents {
   saveResolutionImage: undefined;
   bannerOpenResolution: undefined;
   bannerOpenMyReport: undefined;
+  luckyTimeCapsule: undefined;
 
   // 프로젝트 등록 후 공유하러 가기
   clickProjectShare: undefined;
