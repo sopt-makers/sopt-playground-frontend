@@ -113,6 +113,8 @@ const StyledModal = styled(Modal)`
 const BottomSheetContent = styled.div`
   padding: 42px 16px 20px;
   width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 `;
 
 const StyledModalContent = styled(ModalContent)`
