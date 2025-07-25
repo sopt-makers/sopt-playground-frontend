@@ -99,6 +99,13 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     }));
   };
 
+  const handleGroupClick = (options: string) => {
+    setFeedData((prev) => ({
+      ...prev,
+      group: options,
+    }));
+  };
+
   return {
     feedData,
     handleSaveCategory,
@@ -112,6 +119,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     findParentCategory,
     handleSaveSopticleUrl,
     handleSaveVote,
+    handleGroupClick,
     resetVote,
   };
 }
