@@ -13,12 +13,13 @@ const getLuckyPick = createEndpoint({
   }),
 });
 
-export const useGetLuckyPick = () => {
+export const useGetLuckyPick = (enabled: boolean) => {
   return useQuery({
     queryKey: getLuckyPick.cacheKey(),
     queryFn: async () => {
       const data = await getLuckyPick.request();
       return data;
     },
+    enabled: enabled,
   });
 };
