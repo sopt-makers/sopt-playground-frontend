@@ -60,11 +60,6 @@ const Tag = ({ selectedTagValues }: { selectedTagValues: string[] }) => {
 
 const ResolutionMessage = ({ isMessageExist }: ResolutionMessageProps) => {
   const { data: resolutionData } = useGetResolution(isMessageExist);
-  // const resolutionData = {
-  //   tags: ['제품 출시', '스킬업', '창업', '협업 경험', '네트워킹'],
-  //   content:
-  //     '300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까300자의길이는어떻게될까어',
-  // };
   const { data: { name } = {} } = useGetMemberOfMe();
 
   return (
@@ -87,9 +82,11 @@ const ResolutionMessage = ({ isMessageExist }: ResolutionMessageProps) => {
         ) : (
           <MessageWrapper>
             <Message color={colors.gray10} typography='SUIT_14_M'>
-              {`(`}
-              <Text color={colors.secondary} typography='SUIT_14_M'>{`${name?.slice(1)}`}</Text>
-              {`님은 OT날 타임캡솝을 작성하지 않아,\n메이커스가 직접 편지를 준비했어요)\n\n안녕하세요, SOPT makers입니다.\n한 학기 동안 바쁘고 치열한 일정 속에서도\n끝까지 AT SOPT으로서 여정을 마쳐주셔서 감사합니다.\n\n여러분이 보여준 도전과 협업의 과정은,\n분명 어디서든 빛날 수 있는 힘이 되어줄 거라 믿습니다.\n수료를 진심으로 축하드리며, 앞으로의 여정에도\n늘 응원과 박수를 보냅니다.\n고생 많으셨습니다. 감사합니다!`}
+              <>
+                {`(`}
+                <Text color={colors.secondary} typography='SUIT_14_M'>{`${name?.slice(1)}`}</Text>
+                {`님은 OT날 타임캡솝을 작성하지 않아,\n메이커스가 직접 편지를 준비했어요)\n\n안녕하세요, SOPT makers입니다.\n한 학기 동안 바쁘고 치열한 일정 속에서도\n끝까지 AT SOPT으로서 여정을 마쳐주셔서 감사합니다.\n\n여러분이 보여준 도전과 협업의 과정은,\n분명 어디서든 빛날 수 있는 힘이 되어줄 거라 믿습니다.\n수료를 진심으로 축하드리며, 앞으로의 여정에도\n늘 응원과 박수를 보냅니다.\n고생 많으셨습니다. 감사합니다!`}
+              </>
             </Message>
             <MessageFrom>From. 메이커스🧡</MessageFrom>
           </MessageWrapper>
@@ -142,7 +139,8 @@ const TagWrapper = styled.div<{ itemCount: number; nonPadding?: string }>`
   grid-template-columns: repeat(${({ itemCount }) => (itemCount === 4 ? 2 : itemCount)}, 90px);
   gap: 8px;
   justify-content: center;
-  padding: 12px 14px;
+  margin-top: 12px;
+  padding: 0 14px;
   ${({ nonPadding }) => nonPadding && `${nonPadding}: 0;`}
 `;
 
@@ -171,7 +169,9 @@ const StyledTagText = styled(Text)`
 `;
 
 const Message = styled(Text)`
-  margin: 20px 0;
+  flex: 1 1 0;
+  align-content: center;
+  margin: 12px 0;
   padding: 0 16px;
   width: 100%;
   text-align: center;
@@ -184,14 +184,11 @@ const Message = styled(Text)`
 const MessageWrapper = styled.div`
   display: flex;
   position: relative;
+  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: inherit;
 `;
 
-const MessageFrom = styled.p`
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-`;
+const MessageFrom = styled.p``;
