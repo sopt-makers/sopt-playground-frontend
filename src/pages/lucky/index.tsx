@@ -32,14 +32,14 @@ const Lucky = () => {
     if (isWinner) {
       goToWinnerGuide();
     } else {
-      logSubmitEvent('luckyTimeCapsule');
+      logSubmitEvent('luckyTimeCapsule', { event_winner: false });
       sessionStorage.removeItem('LUCKY_ENTRY');
       router.push(playgroundLink.feedList());
     }
   };
 
   const handleClickFinalButton = () => {
-    logSubmitEvent('luckyTimeCapsule');
+    logSubmitEvent('luckyTimeCapsule', { event_winner: true });
     sessionStorage.removeItem('LUCKY_ENTRY');
     window.open('http://pf.kakao.com/_sxaIWG', '_blank');
     router.push(playgroundLink.feedList());
