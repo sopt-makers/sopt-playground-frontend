@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useGetLuckyPick } from '@/api/endpoint/resolution/getLuckyPick';
 import { useGetMemberProfileOfMe } from '@/api/endpoint_LEGACY/hooks';
 import AuthRequired from '@/components/auth/AuthRequired';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import LuckyLoading from '@/components/luckydraw/LuckyLoading';
 import LuckyReady from '@/components/luckydraw/LuckyReady';
 import LuckyResult from '@/components/luckydraw/LuckyResult';
@@ -25,15 +26,19 @@ const Lucky = () => {
   const goToResult = () => setStep('result');
   const goToWinnerGuide = () => setStep('winnerGuide');
 
+  const { logSubmitEvent } = useEventLogger();
+
   const handleClickButton = () => {
     if (isWinner) {
       goToWinnerGuide();
     } else {
+      logSubmitEvent('luckyTimeCapsule');
       router.push(playgroundLink.feedList());
     }
   };
 
   const handleClickFinalButton = () => {
+    logSubmitEvent('luckyTimeCapsule');
     window.open('http://pf.kakao.com/_sxaIWG', '_blank');
     router.push(playgroundLink.feedList());
   };

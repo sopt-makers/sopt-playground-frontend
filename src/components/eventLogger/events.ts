@@ -268,6 +268,9 @@ export interface SubmitEvents {
   coffeechatReview: undefined;
 
   reviewUpload: undefined; // 활동후기 업로드하기
+
+  // 행운 뽑기
+  luckyTimeCapsule: undefined;
 }
 
 export interface PageViewEvents {
