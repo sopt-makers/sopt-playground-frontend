@@ -14,7 +14,6 @@ import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
 import Responsive from '@/components/common/Responsive';
 import { ModalBottomSheet } from '@/components/common/BottomSheet/ModalBottomSheet';
 import { useRouter } from 'next/router';
-import { useQueryClient } from '@tanstack/react-query';
 
 const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   const { ref: imageRef, onClick: onDownloadButtonClick } = useImageDownload('at-sopt-다짐메시지');
@@ -23,7 +22,6 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   const { data: { isRegistration } = {} } = useGetResolutionValidation();
   const { data: resolutionData } = useGetResolution(isRegistration ?? false);
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const handleClickDownloadButton = () => {
     onDownloadButtonClick();
@@ -40,23 +38,8 @@ const ResolutionReadModal = ({ isOpen, onClose }: ModalProps) => {
   };
 
   const handleClickLucky = () => {
-    try {
-      queryClient.setQueryData(['getResolution'], (oldData: typeof resolutionData) => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-          hasDrawnLuckyPick: true,
-        };
-      });
-      sessionStorage.setItem('LUCKY_ENTRY', '1');
-      router.push('/lucky').catch(() => {
-        // 라우팅 실패 시 상태 롤백
-        queryClient.invalidateQueries({ queryKey: ['getResolution'] });
-        sessionStorage.removeItem('LUCKY_ENTRY');
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    sessionStorage.setItem('LUCKY_ENTRY', '1');
+    router.push('/lucky');
   };
 
   return (

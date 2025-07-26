@@ -16,7 +16,7 @@ const getResolution = createEndpoint({
   }),
 });
 
-export const useGetResolution = (isMessageExist: boolean) => {
+export const useGetResolution = (isMessageExist?: boolean) => {
   return useQuery({
     queryKey: ['getResolution'],
     queryFn: async () => {
