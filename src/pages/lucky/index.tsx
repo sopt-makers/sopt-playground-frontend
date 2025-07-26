@@ -11,6 +11,8 @@ import LuckyReady from '@/components/luckydraw/LuckyReady';
 import LuckyResult from '@/components/luckydraw/LuckyResult';
 import LuckyWinnerGuide from '@/components/luckydraw/LuckyWinnerGuide';
 import { setLayout } from '@/utils/layout';
+import { useQueryClient } from '@tanstack/react-query';
+import { useGetResolution } from '@/api/endpoint/resolution/getResolution';
 
 type Step = 'ready' | 'loading' | 'result' | 'winnerGuide';
 
@@ -21,10 +23,12 @@ const Lucky = () => {
   const { data: luckyPickResult, isLoading: isLuckyPickLoading } = useGetLuckyPick(step === 'loading');
 
   const isWinner = luckyPickResult?.isWinner ?? false;
+  const queryClient = useQueryClient();
 
   const goToLoading = () => setStep('loading');
   const goToResult = () => setStep('result');
   const goToWinnerGuide = () => setStep('winnerGuide');
+  const { data: resolutionData } = useGetResolution();
 
   const { logSubmitEvent } = useEventLogger();
 
@@ -36,6 +40,13 @@ const Lucky = () => {
       sessionStorage.removeItem('LUCKY_ENTRY');
       router.push(playgroundLink.feedList());
     }
+    queryClient.setQueryData(['getResolution'], (oldData: typeof resolutionData) => {
+      if (!oldData) return oldData;
+      return {
+        ...oldData,
+        hasDrawnLuckyPick: true,
+      };
+    });
   };
 
   const handleClickFinalButton = () => {
