@@ -1,22 +1,24 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconCheck } from '@sopt-makers/icons';
+import { fonts } from '@sopt-makers/fonts';
 
 import Text from '@/components/common/Text';
 
 import { SelectMeetingOptionItemProps } from './types';
 
-export default function SelectMeetingOptionItem({ meetingInfo, isSelected, onClick }: SelectMeetingOptionItemProps) {
+export default function SelectMeetingOptionItem({ meetingInfo, onClick }: SelectMeetingOptionItemProps) {
   return (
     <OptionItem onClick={() => onClick(meetingInfo)}>
-      <OptionContent>
+      <OptionContentSection>
         <OptionImage src={meetingInfo.imageUrl} alt={meetingInfo.title} />
-        <OptionText>
-          <OptionTitle>{meetingInfo.title}</OptionTitle>
-          <OptionCategory>{meetingInfo.category}</OptionCategory>
-        </OptionText>
-      </OptionContent>
-      {isSelected && <CheckIcon />}
+        <OptionInfo>
+          <OptionTitleSection>
+            <OptionCategory>{meetingInfo.category}</OptionCategory>
+            <OptionTitle>{meetingInfo.title}</OptionTitle>
+          </OptionTitleSection>
+          <OptionContent>{meetingInfo.contents}</OptionContent>
+        </OptionInfo>
+      </OptionContentSection>
     </OptionItem>
   );
 }
@@ -28,8 +30,8 @@ const OptionItem = styled.div`
   border-radius: 8px;
   background-color: ${colors.gray800};
   cursor: pointer;
-  padding: 12px;
-  margin-bottom: 8px;
+  padding: 8px 10px;
+  margin-bottom: 4px;
   transition: background-color 0.2s ease;
 
   &:hover {
@@ -41,7 +43,7 @@ const OptionItem = styled.div`
   }
 `;
 
-const OptionContent = styled.div`
+const OptionContentSection = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
@@ -55,34 +57,35 @@ const OptionImage = styled.img`
   object-fit: cover;
 `;
 
-const OptionText = styled.div`
+const OptionText = styled.p`
   display: flex;
   flex-direction: column;
   gap: 4px;
   flex: 1;
 `;
 
-const OptionTitle = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${colors.white};
-  line-height: 1.4;
+const OptionTitleSection = styled.div`
+  flex-type: 'verticalCenter';
+`;
+
+const OptionInfo = styled.div``;
+const OptionContent = styled.div`
+  ${fonts.BODY_13_R};
+  color: ${colors.gray300};
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 `;
 
-const OptionCategory = styled(Text)`
-  font-size: 12px;
-  color: ${colors.gray400};
-  line-height: 1.2;
+const OptionTitle = styled(Text)`
+  ${fonts.TITLE_14_SB};
+  color: ${colors.gray10};
 `;
 
-const CheckIcon = styled(IconCheck)`
-  width: 20px;
-  height: 20px;
-  color: ${colors.success};
-  flex-shrink: 0;
+const OptionCategory = styled(Text)`
+  ${fonts.LABEL_14_SB};
+  color: ${colors.secondary};
+  margin-right: 8px;
 `;

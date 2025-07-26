@@ -49,16 +49,9 @@ export function SelectDesktopContent({
 }: SelectDesktopContentProps) {
   return (
     <SelectDesktopDropdown isSelectOpen={isSelectOpen}>
-      <SelectDesktopDropdownContent>
-        {meetingList.map((meetingInfo) => (
-          <SelectMeetingOptionItem
-            key={meetingInfo.id}
-            meetingInfo={meetingInfo}
-            isSelected={selectedMeetingInfo?.id === meetingInfo.id}
-            onClick={onSelectItemClick}
-          />
-        ))}
-      </SelectDesktopDropdownContent>
+      {meetingList.map((meetingInfo) => (
+        <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={onSelectItemClick} />
+      ))}
     </SelectDesktopDropdown>
   );
 }
@@ -104,12 +97,11 @@ const SelectDesktopDropdown = styled.div<{ isSelectOpen: boolean }>`
   max-width: 500px;
   width: 100%;
   background-color: ${colors.gray800};
-  border-radius: 16px;
+  border-radius: 6px;
   z-index: 3;
   overflow-x: hidden;
   overflow-y: auto;
   transition: all 0.3s ease-in-out;
-  padding-right: 10px;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -138,8 +130,4 @@ const SelectDesktopDropdown = styled.div<{ isSelectOpen: boolean }>`
   @media (max-width: 768px) {
     display: none;
   }
-`;
-
-const SelectDesktopDropdownContent = styled.div`
-  padding: 8px;
 `;
