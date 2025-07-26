@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
+import Image from 'next/image';
 
 import loserImage from '@/public/icons/img/luckyDraw/LoserImage.png';
 import winnerImage from '@/public/icons/img/luckyDraw/WinnerImage.png';
@@ -34,7 +35,9 @@ const LuckyResult = ({ isWinner, username, onClickButton }: LuckyResultProps) =>
           </>
         )}
       </StyledTitle>
-      <StyledImg src={isWinner ? winnerImage.src : loserImage.src} />
+      <ImgWrapper>
+        <StyledImg src={isWinner ? winnerImage.src : loserImage.src} alt='행운뽑기 결과' priority fill />
+      </ImgWrapper>
       <StyledButton onClick={onClickButton}>{isWinner ? '화면 캡쳐하고 다음으로 >' : '홈으로 돌아가기 >'}</StyledButton>
     </Wrapper>
   );
@@ -67,16 +70,6 @@ const StyledTitle = styled.h1`
   }
 `;
 
-const StyledImg = styled.img`
-  width: 400px;
-  height: 448px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 304px;
-    height: 344px;
-  }
-`;
-
 const StyledButton = styled(Button)`
   border-radius: 12px;
   background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
@@ -99,4 +92,19 @@ const MobileLineBreak = styled.br`
   @media ${MOBILE_MEDIA_QUERY} {
     display: inline;
   }
+`;
+
+const ImgWrapper = styled.div`
+  position: relative;
+  width: 400px;
+  height: 448px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 304px;
+    height: 344px;
+  }
+`;
+
+const StyledImg = styled(Image)`
+  object-fit: contain;
 `;

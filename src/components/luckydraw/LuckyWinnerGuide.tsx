@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
+import Image from 'next/image';
 
 import Responsive from '@/components/common/Responsive';
 import luckyResultDesktop from '@/public/icons/img/luckyDraw/result_desktop.png';
@@ -36,10 +37,10 @@ const LuckyWinnerGuide = ({ onClickNext }: Props) => {
       </HeaderSection>
       <BannerWrapper>
         <Responsive only='desktop'>
-          <Banner src={lurckResultImg.desktop} alt={`데스크탑 환영 배너`} />
+          <StyledImg src={lurckResultImg.desktop} alt={`데스크탑 환영 배너`} width={400} height={364} priority />
         </Responsive>
         <Responsive only='mobile'>
-          <Banner src={lurckResultImg.mobile} alt={`모바일 환영 배너`} />
+          <StyledImg src={lurckResultImg.mobile} alt={`모바일 환영 배너`} width={320} height={397} priority />
         </Responsive>
       </BannerWrapper>
       <ButtonWrapper>
@@ -95,13 +96,8 @@ const StyledButton = styled(Button)`
 
 const BannerWrapper = styled.div``;
 
-const Banner = styled.img`
-  max-width: 400px;
-  object-fit: cover;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 320px;
-  }
+const StyledImg = styled(Image)`
+  object-fit: contain;
 `;
 
 const HeaderSection = styled.div`

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
+import Image from 'next/image';
 
 import luckyReadyImg from '@/public/icons/img/luckyDraw/ready.png';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -21,7 +22,9 @@ const LuckyReady = ({ onStart }: LuckyReadyProps) => {
         </StyledTitle>
         <StyledSubTitle>랜덤으로 소수의 인원에게 AT SOPT 수료 선물이 나와요</StyledSubTitle>
       </HeaderSection>
-      <StyledImg src={luckyReadyImg.src} />
+      <ImgWrapper>
+        <StyledImg src={luckyReadyImg.src} alt='행운뽑기' priority fill />
+      </ImgWrapper>
       <StyledButton onClick={onStart}>두근두근. 타임캡솝의 주인공은 바로 나!</StyledButton>
     </Wrapper>
   );
@@ -53,16 +56,6 @@ const StyledTitle = styled.h1`
   }
 `;
 
-const StyledImg = styled.img`
-  width: 400px;
-  height: 448px;
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    width: 304px;
-    height: 344px;
-  }
-`;
-
 const StyledButton = styled(Button)`
   border-radius: 12px;
   background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
@@ -89,4 +82,19 @@ const StyledSubTitle = styled.p`
   @media ${MOBILE_MEDIA_QUERY} {
     ${fonts.BODY_14_M}
   }
+`;
+
+const ImgWrapper = styled.div`
+  position: relative;
+  width: 400px;
+  height: 448px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 304px;
+    height: 344px;
+  }
+`;
+
+const StyledImg = styled(Image)`
+  object-fit: contain;
 `;
