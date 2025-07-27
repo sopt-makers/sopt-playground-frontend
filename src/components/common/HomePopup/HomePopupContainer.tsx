@@ -12,14 +12,14 @@ const HomePopupContainer = ({ isOnlyLastGeneration }: HomePopupContainerProps) =
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
 
   // 팝업 표시 기간 설정
-  // const now = new Date();
-  // const popupStart = new Date('2025-07-21T00:00:00+09:00');
-  // const popupEnd = new Date('2025-07-24T23:59:59+09:00');
-  // const isPopupPeriod = now >= popupStart && now <= popupEnd;
+  const now = new Date();
+  const popupStart = new Date('2025-07-21T00:00:00+09:00');
+  const popupEnd = new Date('2025-07-24T23:59:59+09:00');
+  const isPopupPeriod = now >= popupStart && now <= popupEnd;
 
   if (isPending) return <Skeleton height={168} margin='0 0 16px 0' />;
 
-  if (isOnlyLastGeneration && !isLastGeneration) {
+  if ((isOnlyLastGeneration && !isLastGeneration) || !isPopupPeriod) {
     return null;
   }
 
