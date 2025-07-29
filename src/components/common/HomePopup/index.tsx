@@ -6,12 +6,8 @@ import { useEffect, useState } from 'react';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
-import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuideModal';
-import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
-import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import ResolutionReadModal from '@/components/resolution/read/ResolutionReadModal';
-import useModalState from '@/components/common/Modal/useModalState';
+
 const getKoreanDate = (): string => {
   const koreanTime = new Date();
 
@@ -27,20 +23,20 @@ export const HomePopup = () => {
   const today = getKoreanDate();
 
   // 타임캡솝 저장 여부 기록을 위한 코드
-  const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
-  const onNewRegistration = () => {
-    setIsAlreadyRegistration(false);
-  };
+  // const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
+  // const onNewRegistration = () => {
+  //   setIsAlreadyRegistration(false);
+  // };
 
-  const {
-    isOpenResolutionModal,
-    onCloseResolutionModal,
-    handleResolutionModalOpen,
-    name,
-    isOpenPlaygroundGuideModal,
-    onOpenPlaygroundGuideModal,
-    onClosePlaygroundGuideModal,
-  } = useOpenResolutionModal();
+  // const {
+  //   isOpenResolutionModal,
+  //   onCloseResolutionModal,
+  //   handleResolutionModalOpen,
+  //   name,
+  //   isOpenPlaygroundGuideModal,
+  //   onOpenPlaygroundGuideModal,
+  //   onClosePlaygroundGuideModal,
+  // } = useOpenResolutionModal();
 
   useEffect(() => {
     const storedDate = localStorage.getItem('popupClosedDate');
@@ -76,16 +72,16 @@ export const HomePopup = () => {
   };
 
   // 타입캡솝 모달 띄우기
-  const handleOpenModal = async () => {
-    await handleClosePopup();
-    onOpenResolutionModal();
-  };
+  // const handleOpenModal = async () => {
+  //   await handleClosePopup();
+  //   onOpenResolutionModal();
+  // };
 
-  const {
-    isOpen: isOpenReadResolutionModal,
-    onClose: onCloseReadResolutionModal,
-    onOpen: onOpenResolutionModal,
-  } = useModalState();
+  // const {
+  //   isOpen: isOpenReadResolutionModal,
+  //   onClose: onCloseReadResolutionModal,
+  //   onOpen: onOpenResolutionModal,
+  // } = useModalState();
 
   return (
     <>
@@ -95,20 +91,20 @@ export const HomePopup = () => {
             <StPopupModal>
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <button onClick={handleOpenModal}>
-                    {/* <a href='https://playground.sopt.org/feed/547' target='blank'> */}
+                  {/* <button onClick={handleOpenModal}> */}
+                  <a href='https://playground.sopt.org/feed/547' target='blank'>
                     <StImage src='/icons/img/popup/PC.png' />
-                    {/* </a> */}
-                  </button>
+                  </a>
+                  {/* </button> */}
                 </LoggingClick>
               </Responsive>
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <button onClick={handleOpenModal}>
-                    {/* <a href='https://playground.sopt.org/feed/547' target='blank'> */}
+                  {/* <button onClick={handleOpenModal}> */}
+                  <a href='https://playground.sopt.org/feed/547' target='blank'>
                     <StImage src='/icons/img/popup/MO.png' />
-                    {/* </a> */}
-                  </button>
+                  </a>
+                  {/* </button> */}
                 </LoggingClick>
               </Responsive>
               <StModalFooter>
@@ -124,10 +120,10 @@ export const HomePopup = () => {
         </StBackground>
       )}
 
-      <ResolutionReadModal isOpen={isOpenReadResolutionModal} onClose={onCloseReadResolutionModal} />
+      {/* <ResolutionReadModal isOpen={isOpenReadResolutionModal} onClose={onCloseReadResolutionModal} /> */}
 
       {/* 신입 기수 들어올 때 타임캡솝 이동 및 플그 가이드 모달 띄우기 */}
-      <TimecapsopSubmitModal
+      {/* <TimecapsopSubmitModal
         onClose={onCloseResolutionModal}
         userName={name ?? '나'}
         onSuccess={() => {
@@ -135,7 +131,7 @@ export const HomePopup = () => {
           onOpenPlaygroundGuideModal();
         }}
         isOpen={isOpenResolutionModal}
-      />
+      /> */}
       {/* <PlaygroundGuideModal
         isAlreadyRegistration={isAlreadyRegistration}
         onClose={onClosePlaygroundGuideModal}
