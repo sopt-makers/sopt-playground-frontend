@@ -17,8 +17,6 @@ export const getComment = createEndpoint({
           name: z.string(),
           profileImage: z.string().nullable(),
           activity: z.object({
-            id: z.number(),
-            memberId: z.number(),
             part: z.string(),
             generation: z.number(),
             team: z.string().nullable(),
