@@ -9,19 +9,19 @@ const getResolution = createEndpoint({
     url: 'api/v1/resolution',
   },
   serverResponseScheme: z.object({
-    memberName: z.string(),
-    tags: z.array(z.string()),
-    content: z.string(),
+    hasWrittenTimeCapsule: z.boolean(),
+    tags: z.array(z.string()).nullable(),
+    content: z.string().nullable(),
+    hasDrawnLuckyPick: z.boolean(),
   }),
 });
 
-export const useGetResolution = (isMessageExist: boolean) => {
+export const useGetResolution = (isMessageExist?: boolean) => {
   return useQuery({
     queryKey: ['getResolution'],
     queryFn: async () => {
       const data = await getResolution.request();
       return data;
     },
-    enabled: isMessageExist,
   });
 };

@@ -15,6 +15,7 @@ import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
 import { textStyles } from '@/styles/typography';
 import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
+import { useRouter } from 'next/router';
 interface RandomProfile {
   nickname: string;
   profileImgUrl: string;
@@ -68,6 +69,8 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
     },
     ref,
   ) => {
+    const router = useRouter();
+
     return (
       <Flex
         ref={ref}
@@ -153,7 +156,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                       wordBreak: 'break-all',
                     }}
                   >
-                    {renderContent(content)}
+                    {renderContent(content, router)}
                   </Text>
                 </>
               )}
@@ -240,7 +243,7 @@ const Bottom = styled(Stack.Horizontal)`
   gap: 8px;
 `;
 
-const renderContent = (content: string) => {
+const renderContent = (content: string, router: ReturnType<typeof useRouter>) => {
   let displayText = content;
   let isLong = false;
 
@@ -248,8 +251,7 @@ const renderContent = (content: string) => {
     displayText = content.slice(0, 140) + '...';
     isLong = true;
   }
-
-  const parsed = parseMentionsToJSX(displayText);
+  const parsed = parseMentionsToJSX(displayText, router);
 
   if (isLong) {
     parsed.push(

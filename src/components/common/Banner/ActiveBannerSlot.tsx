@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import AdsBanner from '@/components/common/Banner/AdsBanner';
+import { ClosingBanner } from '@/components/common/Banner/ClosingBanner';
 
 interface ActiveBannerSlotProps {}
 

@@ -4,6 +4,7 @@ import AccessTokenPanel from '@/components/debug/panels/AccessTokenPanel';
 import NavigationPanel from '@/components/debug/panels/NavigationPanel';
 import SideBar from '@/components/debug/SideBar';
 import SideToggleButton from '@/components/debug/SideToggleButton';
+import TimecapsopDelteButton from '@/components/resolution/delete';
 
 const Debugger: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +37,7 @@ const Debugger: FC = () => {
       <SideBar ref={panelRef} title='디버그 패널' isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <AccessTokenPanel />
         <NavigationPanel />
+        <TimecapsopDelteButton />
       </SideBar>
     </>
   );
