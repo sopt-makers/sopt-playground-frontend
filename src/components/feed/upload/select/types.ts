@@ -8,6 +8,5 @@ export interface MeetingInfo {
 
 export interface SelectMeetingOptionItemProps {
   meetingInfo: MeetingInfo;
-  isSelected: boolean;
   onClick: (meetingInfo: MeetingInfo) => void;
 }

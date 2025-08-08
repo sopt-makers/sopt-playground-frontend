@@ -1,9 +1,7 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronLeft } from '@sopt-makers/icons';
-import { Callout } from '@sopt-makers/ui';
-import { Button } from '@sopt-makers/ui';
+import { Button, Callout } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
@@ -27,11 +25,13 @@ import LinkInput from '@/components/feed/upload/Input/LinkInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import SelectDesktop, {
+import {
   SelectDesktopContent,
   SelectDesktopRoot,
   SelectDesktopTrigger,
 } from '@/components/feed/upload/select/SelectDesktop';
+import { SelectDesktopProvider } from '@/components/feed/upload/select/SelectDesktopContext';
+import { SelectDesktopGroupHandler } from '@/components/feed/upload/select/SelectDesktopGroupHandler';
 import SelectMobile from '@/components/feed/upload/select/SelectMobile';
 import { MeetingInfo } from '@/components/feed/upload/select/types';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
@@ -173,23 +173,11 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { isOpen: isOpenVoteModal, onOpen: onOpenVoteModal, onClose: onCloseVoteModal } = useModalState();
   const hasVoteOptions = feedData.vote && feedData.vote.voteOptions?.length > 0;
 
-  // 그룹 선택 관련 상태
-  const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const [selectMeetingInfo, setSelectMeetingInfo] = useState<MeetingInfo | null>(null);
-
-  const handleSelectItemClick = (meetingInfo: MeetingInfo) => {
-    setSelectMeetingInfo(meetingInfo);
-    setIsSelectOpen(false);
-    handleGroupClick(meetingInfo.title);
-  };
-
   // 그룹 카테고리가 선택되었을 때 선택을 열기
   useEffect(() => {
     if (isGroup) {
-      setIsSelectOpen(true);
-    } else {
-      setIsSelectOpen(false);
-      setSelectMeetingInfo(null);
+      // Context API를 통해 그룹 선택이 열리도록 처리
+      // 이는 SelectDesktopProvider 내부에서 처리됨
     }
   }, [isGroup]);
 
@@ -316,19 +304,13 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <SelectDesktopRoot
-                      isSelectOpen={isSelectOpen}
-                      selectedMeetingInfo={selectMeetingInfo}
-                      onSelectItemClick={handleSelectItemClick}
-                    >
-                      <SelectDesktopTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
-                      <SelectDesktopContent
-                        isSelectOpen={isSelectOpen}
-                        meetingList={meetingList}
-                        selectedMeetingInfo={selectMeetingInfo}
-                        onSelectItemClick={handleSelectItemClick}
-                      />
-                    </SelectDesktopRoot>
+                    <SelectDesktopProvider>
+                      <SelectDesktopGroupHandler onGroupClick={handleGroupClick} />
+                      <SelectDesktopRoot>
+                        <SelectDesktopTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                        <SelectDesktopContent meetingList={meetingList} />
+                      </SelectDesktopRoot>
+                    </SelectDesktopProvider>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}
@@ -434,10 +416,12 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   )}
                   {isGroup && (
                     <SelectMobile
-                      isSelectOpen={isSelectOpen}
+                      isSelectOpen={false}
                       meetingList={meetingList}
-                      selectedMeetingInfo={selectMeetingInfo}
-                      onSelectItemClick={handleSelectItemClick}
+                      selectedMeetingInfo={null}
+                      onSelectItemClick={() => {
+                        // TODO: 모바일에서도 Context API 사용하도록 수정
+                      }}
                     />
                   )}
                   <TitleInput

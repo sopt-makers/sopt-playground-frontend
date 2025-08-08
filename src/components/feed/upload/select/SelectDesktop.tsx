@@ -4,13 +4,11 @@ import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
 import { ReactNode } from 'react';
 
+import { useSelectDesktop } from './SelectDesktopContext';
 import SelectMeetingOptionItem from './SelectMeetingOptionItem';
 import { MeetingInfo } from './types';
 
 interface SelectDesktopRootProps {
-  isSelectOpen: boolean;
-  selectedMeetingInfo: MeetingInfo | null;
-  onSelectItemClick: (meetingInfo: MeetingInfo) => void;
   children: ReactNode;
 }
 
@@ -19,46 +17,37 @@ interface SelectDesktopTriggerProps {
 }
 
 interface SelectDesktopContentProps {
-  isSelectOpen: boolean;
   meetingList: MeetingInfo[];
-  selectedMeetingInfo: MeetingInfo | null;
-  onSelectItemClick: (meetingInfo: MeetingInfo) => void;
 }
 
 // Root 컴포넌트
-export function SelectDesktopRoot({ isSelectOpen, children }: SelectDesktopRootProps) {
+export function SelectDesktopRoot({ children }: SelectDesktopRootProps) {
+  const { isSelectOpen } = useSelectDesktop();
   return <SelectDesktopContainer isSelectOpen={isSelectOpen}>{children}</SelectDesktopContainer>;
 }
 
 // Trigger 컴포넌트
 export function SelectDesktopTrigger({ placeholder = '모임을 선택해주세요' }: SelectDesktopTriggerProps) {
+  const { toggleSelect, selectedMeetingInfo } = useSelectDesktop();
+
   return (
-    <SelectDesktopTriggerButton>
-      <SelectDesktopTriggerText>{placeholder}</SelectDesktopTriggerText>
+    <SelectDesktopTriggerButton onClick={toggleSelect}>
+      <SelectDesktopTriggerText>
+        {selectedMeetingInfo ? selectedMeetingInfo.title : placeholder}
+      </SelectDesktopTriggerText>
       <SelectDesktopTriggerIcon />
     </SelectDesktopTriggerButton>
   );
 }
 
 // Content 컴포넌트
-export function SelectDesktopContent({
-  isSelectOpen,
-  meetingList,
-  selectedMeetingInfo,
-  onSelectItemClick,
-}: SelectDesktopContentProps) {
+export function SelectDesktopContent({ meetingList }: SelectDesktopContentProps) {
+  const { isSelectOpen, selectMeeting } = useSelectDesktop();
   return (
     <SelectDesktopDropdown isSelectOpen={isSelectOpen}>
-      <SelectDesktopDropdownContent>
-        {meetingList.map((meetingInfo) => (
-          <SelectMeetingOptionItem
-            key={meetingInfo.id}
-            meetingInfo={meetingInfo}
-            isSelected={selectedMeetingInfo?.id === meetingInfo.id}
-            onClick={onSelectItemClick}
-          />
-        ))}
-      </SelectDesktopDropdownContent>
+      {meetingList.map((meetingInfo) => (
+        <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={selectMeeting} />
+      ))}
     </SelectDesktopDropdown>
   );
 }
@@ -69,7 +58,7 @@ const SelectDesktopContainer = styled.div<{ isSelectOpen: boolean }>`
   width: 100%;
 `;
 
-const SelectDesktopTriggerButton = styled.button`
+const SelectDesktopTriggerButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -101,7 +90,7 @@ const SelectDesktopDropdown = styled.div<{ isSelectOpen: boolean }>`
   position: absolute;
   top: 120%;
   left: 0;
-  max-width: 500px;
+  max-width: 780px;
   width: 100%;
   background-color: ${colors.gray800};
   border-radius: 16px;
@@ -138,8 +127,4 @@ const SelectDesktopDropdown = styled.div<{ isSelectOpen: boolean }>`
   @media (max-width: 768px) {
     display: none;
   }
-`;
-
-const SelectDesktopDropdownContent = styled.div`
-  padding: 8px;
 `;

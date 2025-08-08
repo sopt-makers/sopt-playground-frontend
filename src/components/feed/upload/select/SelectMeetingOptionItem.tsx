@@ -1,22 +1,26 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { IconCheck } from '@sopt-makers/icons';
+import { Tag } from '@sopt-makers/ui';
 
 import Text from '@/components/common/Text';
 
 import { SelectMeetingOptionItemProps } from './types';
 
-export default function SelectMeetingOptionItem({ meetingInfo, isSelected, onClick }: SelectMeetingOptionItemProps) {
+export default function SelectMeetingOptionItem({ meetingInfo, onClick }: SelectMeetingOptionItemProps) {
   return (
     <OptionItem onClick={() => onClick(meetingInfo)}>
       <OptionContent>
         <OptionImage src={meetingInfo.imageUrl} alt={meetingInfo.title} />
         <OptionText>
-          <OptionTitle>{meetingInfo.title}</OptionTitle>
-          <OptionCategory>{meetingInfo.category}</OptionCategory>
+          <OptionHead>
+            <Tag variant={'primary'}>{meetingInfo.category}</Tag>
+            <OptionTitle>{meetingInfo.title}</OptionTitle>
+          </OptionHead>
+          <OptionCategory>{meetingInfo.contents}</OptionCategory>
         </OptionText>
       </OptionContent>
-      {isSelected && <CheckIcon />}
     </OptionItem>
   );
 }
@@ -28,7 +32,7 @@ const OptionItem = styled.div`
   border-radius: 8px;
   background-color: ${colors.gray800};
   cursor: pointer;
-  padding: 12px;
+  padding: 8px 12px;
   margin-bottom: 8px;
   transition: background-color 0.2s ease;
 
@@ -45,7 +49,12 @@ const OptionContent = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 1;
+`;
+
+const OptionHead = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
 `;
 
 const OptionImage = styled.img`
@@ -58,26 +67,22 @@ const OptionImage = styled.img`
 const OptionText = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  flex: 1;
 `;
 
 const OptionTitle = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
+  ${fonts.BODY_16_M}
   color: ${colors.white};
-  line-height: 1.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 `;
 
 const OptionCategory = styled(Text)`
-  font-size: 12px;
+  ${fonts.BODY_13_R}
+
   color: ${colors.gray400};
-  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 `;
 
 const CheckIcon = styled(IconCheck)`
