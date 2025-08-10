@@ -1,3 +1,5 @@
+export const IS_DEV = process.env.NODE_ENV === 'development';
+
 export const DEBUG = process.env.NEXT_PUBLIC_DEBUG?.toLowerCase() === 'true';
 export const API_URL = required('NEXT_PUBLIC_API_URL', process.env.NEXT_PUBLIC_API_URL);
 export const AUTH_API_URL = required('NEXT_PUBLIC_AUTH_API_URL', process.env.NEXT_PUBLIC_AUTH_API_URL);

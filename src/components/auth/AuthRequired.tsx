@@ -4,6 +4,7 @@ import {  useRecoilValue } from 'recoil';
 
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
+import { IS_DEV } from '@/constants/env';
 import { playgroundLink } from '@/constants/links';
 
 interface AuthRequiredProps {
@@ -33,7 +34,7 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
     if (router.isReady && accessToken === null) {
       runOnce(() => {
         lastUnauthorized.setPath(router.asPath);
-        router.replace(playgroundLink.intro());
+        router.replace(IS_DEV ? playgroundLink.intro() : playgroundLink.accounts());
       });
     }
   }, [router, router.isReady, accessToken, lastUnauthorized, runOnce]);
