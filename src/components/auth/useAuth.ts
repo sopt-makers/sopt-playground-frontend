@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { IS_DEV } from '@/constants/env';
 import { playgroundLink } from '@/constants/links';
 
 const useAuth = () => {
@@ -19,7 +20,7 @@ const useAuth = () => {
   return {
     logout() {
       resetAccessToken();
-      router.push(playgroundLink.intro());
+      router.push(IS_DEV ? playgroundLink.intro() : playgroundLink.accounts());
     },
     isLoggedIn,
   };
