@@ -13,7 +13,7 @@ export const accessTokenAtom = atom<string | null>({
         const token = tokenStorage.get();
         if (token !== null && safeDecodeAccessToken(token)) {
           setSelf(token);
-          axiosInstance.defaults.headers.common['Authorization'] = token;
+          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         }
       }
 
@@ -24,7 +24,7 @@ export const accessTokenAtom = atom<string | null>({
         }
         tokenStorage.set(token);
 
-        axiosInstance.defaults.headers.common['Authorization'] = token;
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       });
     },
   ],
