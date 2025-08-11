@@ -2,11 +2,10 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
-import { ReactNode } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
-import { useSelectDesktop } from './SelectDesktopContext';
 import SelectMeetingOptionItem from './SelectMeetingOptionItem';
-import { MeetingInfo } from './types';
+import { MeetingInfo, SelectDesktopContextType } from './types';
 
 interface SelectDesktopRootProps {
   children: ReactNode;
@@ -18,6 +17,44 @@ interface SelectDesktopTriggerProps {
 
 interface SelectDesktopContentProps {
   meetingList: MeetingInfo[];
+}
+
+interface SelectDesktopProviderProps {
+  children: ReactNode;
+  isDefaultOpen?: boolean;
+}
+
+const SelectDesktopContext = createContext<SelectDesktopContextType | undefined>(undefined);
+
+export function useSelectDesktop() {
+  const context = useContext(SelectDesktopContext);
+  if (context === undefined) {
+    throw new Error('useSelectDesktop must be used within a SelectDesktopProvider');
+  }
+  return context;
+}
+
+export function SelectDesktopProvider({ children, isDefaultOpen = true }: SelectDesktopProviderProps) {
+  const [isSelectOpen, setIsSelectOpen] = useState(isDefaultOpen);
+  const [selectedMeetingInfo, setSelectedMeetingInfo] = useState<MeetingInfo | null>(null);
+
+  const toggleSelect = () => {
+    setIsSelectOpen(!isSelectOpen);
+  };
+
+  const selectMeeting = (meetingInfo: MeetingInfo) => {
+    setSelectedMeetingInfo(meetingInfo);
+    setIsSelectOpen(false);
+  };
+
+  const value: SelectDesktopContextType = {
+    isSelectOpen,
+    selectedMeetingInfo,
+    toggleSelect,
+    selectMeeting,
+  };
+
+  return <SelectDesktopContext.Provider value={value}>{children}</SelectDesktopContext.Provider>;
 }
 
 // Root 컴포넌트

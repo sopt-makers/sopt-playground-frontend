@@ -3,7 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { IconChevronLeft } from '@sopt-makers/icons';
 import { Button, Callout } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Checkbox from '@/components/common/Checkbox';
@@ -27,13 +27,11 @@ import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeed
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
 import {
   SelectDesktopContent,
+  SelectDesktopProvider,
   SelectDesktopRoot,
   SelectDesktopTrigger,
 } from '@/components/feed/upload/select/SelectDesktop';
-import { SelectDesktopProvider } from '@/components/feed/upload/select/SelectDesktopContext';
-import { SelectDesktopGroupHandler } from '@/components/feed/upload/select/SelectDesktopGroupHandler';
 import SelectMobile from '@/components/feed/upload/select/SelectMobile';
-import { MeetingInfo } from '@/components/feed/upload/select/types';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import VoteModal from '@/components/feed/upload/voteModal';
@@ -305,7 +303,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                   )}
                   {isGroup && (
                     <SelectDesktopProvider>
-                      <SelectDesktopGroupHandler onGroupClick={handleGroupClick} />
                       <SelectDesktopRoot>
                         <SelectDesktopTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
                         <SelectDesktopContent meetingList={meetingList} />
