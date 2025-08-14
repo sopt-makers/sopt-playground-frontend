@@ -9,7 +9,6 @@ export const axiosInstance = axios.create({
     'Accept': '*/*',
     'Content-Type': 'application/json',
   },
-  // withCredentials: false,
 });
 
 export const axiosAuthInstance = axios.create({
