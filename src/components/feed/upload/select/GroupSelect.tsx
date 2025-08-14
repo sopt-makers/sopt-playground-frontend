@@ -152,12 +152,12 @@ const SelectTriggerButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 16px 20px;
-  background-color: ${colors.gray800};
-  border-radius: 10px;
-  cursor: pointer;
   transition: background-color 0.2s ease;
+  border-radius: 10px;
+  background-color: ${colors.gray800};
+  cursor: pointer;
+  padding: 16px 20px;
+  width: 100%;
 
   &:hover {
     background-color: ${colors.gray600};
@@ -166,6 +166,7 @@ const SelectTriggerButton = styled.div`
 
 const SelectTriggerText = styled(Text)`
   ${fonts.BODY_16_M}
+
   color: ${colors.white};
 `;
 
@@ -179,15 +180,15 @@ const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
   position: absolute;
   top: 120%;
   left: 0;
+  transition: all 0.3s ease-in-out;
+  border-radius: 16px;
+  background-color: ${colors.gray800};
+  padding-right: 10px;
+  width: 100%;
   max-width: 780px;
   max-height: 512px;
-  width: 100%;
-  background-color: ${colors.gray800};
-  border-radius: 16px;
   overflow-x: hidden;
   overflow-y: auto;
-  transition: all 0.3s ease-in-out;
-  padding-right: 10px;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -198,8 +199,8 @@ const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: ${colors.gray500};
     border-radius: 6px;
+    background-color: ${colors.gray500};
   }
 
   ${({ isSelectOpen }) =>
@@ -221,6 +222,7 @@ const SelectMobileTitle = styled.header`
   gap: 12px;
   align-items: center;
   ${fonts.TITLE_16_SB}
+
   color: ${colors.gray10};
   padding: 0 20px 12px;
 `;

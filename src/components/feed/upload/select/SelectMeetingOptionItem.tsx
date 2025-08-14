@@ -29,12 +29,12 @@ const OptionItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background-color 0.2s ease;
+  margin-bottom: 8px;
   border-radius: 8px;
   background-color: ${colors.gray800};
   cursor: pointer;
   padding: 8px 12px;
-  margin-bottom: 8px;
-  transition: background-color 0.2s ease;
 
   &:hover {
     background-color: ${colors.gray700};
@@ -47,14 +47,14 @@ const OptionItem = styled.div`
 
 const OptionContent = styled.div`
   display: flex;
-  align-items: center;
   gap: 12px;
+  align-items: center;
 `;
 
 const OptionHead = styled.div`
   display: flex;
-  align-items: center;
   gap: 6px;
+  align-items: center;
 `;
 
 const OptionTag = styled(Tag)`
@@ -62,9 +62,9 @@ const OptionTag = styled(Tag)`
 `;
 
 const OptionImage = styled.img`
+  border-radius: 6px;
   width: 48px;
   height: 48px;
-  border-radius: 6px;
   object-fit: cover;
 `;
 
@@ -75,10 +75,11 @@ const OptionText = styled.div`
 
 const OptionTitle = styled(Text)`
   ${fonts.BODY_16_M}
+
   color: ${colors.white};
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
+  display: box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 `;
@@ -89,14 +90,14 @@ const OptionCategory = styled(Text)`
   color: ${colors.gray400};
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
+  display: box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 `;
 
 const CheckIcon = styled(IconCheck)`
+  flex-shrink: 0;
   width: 20px;
   height: 20px;
   color: ${colors.success};
-  flex-shrink: 0;
 `;
