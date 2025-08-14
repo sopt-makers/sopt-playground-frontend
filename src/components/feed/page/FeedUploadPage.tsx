@@ -25,12 +25,7 @@ import LinkInput from '@/components/feed/upload/Input/LinkInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import {
-  SelectDesktop,
-  SelectDesktopContent,
-  SelectDesktopTrigger,
-} from '@/components/feed/upload/select/SelectDesktop';
-import SelectMobile from '@/components/feed/upload/select/SelectMobile';
+import { Select, SelectContent, SelectTrigger } from '@/components/feed/upload/select/Select';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import VoteModal from '@/components/feed/upload/voteModal';
@@ -117,7 +112,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     }
 
     if (feedData.categoryId === GROUP_CATEGORY_ID) {
-      /** crew api 요청 크루 형식에 맞게 커스텀 **/
+      /** crew api 요청 크루 형식에 맞게 커스텀 - 임시 작성 **/
       const params = {
         contents: feedData.content,
         images: feedData.images,
@@ -308,10 +303,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <SelectDesktop onOptionClick={handleGroupClick}>
-                      <SelectDesktopTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
-                      <SelectDesktopContent meetingList={meetingList} />
-                    </SelectDesktop>
+                    <Select onOptionClick={handleGroupClick}>
+                      <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                      <SelectContent meetingList={meetingList} />
+                    </Select>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}
@@ -416,14 +411,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <SelectMobile
-                      isSelectOpen={false}
-                      meetingList={meetingList}
-                      selectedMeetingInfo={null}
-                      onSelectItemClick={() => {
-                        // TODO: 모바일에서도 Context API 사용하도록 수정
-                      }}
-                    />
+                    <Select onOptionClick={handleGroupClick}>
+                      <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                      <SelectContent meetingList={meetingList} />
+                    </Select>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}
