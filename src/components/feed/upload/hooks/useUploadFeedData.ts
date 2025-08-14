@@ -7,6 +7,7 @@ import {
   QUESTION_CATEGORY_ID,
   SOPTICLE_CATEGORY_ID,
 } from '@/components/feed/constants';
+import { MeetingInfo } from '@/components/feed/upload/select/types';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 
 export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
@@ -99,6 +100,13 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     }));
   };
 
+  const handleGroupClick = (options: MeetingInfo) => {
+    setFeedData((prev) => ({
+      ...prev,
+      groupId: options.id,
+    }));
+  };
+
   return {
     feedData,
     handleSaveCategory,
@@ -112,6 +120,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     findParentCategory,
     handleSaveSopticleUrl,
     handleSaveVote,
+    handleGroupClick,
     resetVote,
   };
 }

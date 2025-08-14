@@ -11,6 +11,7 @@ export interface FeedDataType {
     writerName?: string;
     webLink?: string;
   } | null;
+  groupId?: number | null;
 }
 
 export interface PostedFeedDataType extends FeedDataType {
