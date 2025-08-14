@@ -6,12 +6,12 @@ export interface FeedDataType {
   isBlindWriter: boolean;
   images: string[];
   vote: VoteData;
-  group: string; // @todo 임시 모임 선택 값 추가
   mention: {
     userIds: number[];
     writerName?: string;
     webLink?: string;
   } | null;
+  groupId?: number | null;
 }
 
 export interface PostedFeedDataType extends FeedDataType {

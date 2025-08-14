@@ -122,7 +122,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         contents: feedData.content,
         images: feedData.images,
         title: feedData.title,
-        meetingId: 0,
+        meetingId: feedData.groupId,
       };
       /** api 요청 성공 시 피드 상세 페이지로 리다이렉트 **/
       // router.push(crewLink.peedDetail());
@@ -139,7 +139,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         images: feedData.images,
         link: feedData.link,
         vote: feedData.vote,
-        group: feedData.group,
         mention:
           mentionIds.length > 0
             ? {
@@ -309,7 +308,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <SelectDesktop>
+                    <SelectDesktop onOptionClick={handleGroupClick}>
                       <SelectDesktopTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
                       <SelectDesktopContent meetingList={meetingList} />
                     </SelectDesktop>

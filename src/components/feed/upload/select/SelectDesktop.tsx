@@ -10,6 +10,7 @@ import { MeetingInfo, SelectDesktopContextType } from './types';
 interface SelectDesktopProps {
   children: ReactNode;
   isDefaultOpen?: boolean;
+  onOptionClick: (meetingInfo: MeetingInfo) => void;
 }
 
 interface SelectDesktopTriggerProps {
@@ -31,7 +32,7 @@ export function useSelectDesktop() {
 }
 
 // SelectDesktopContext Provider
-export function SelectDesktop({ children, isDefaultOpen = true }: SelectDesktopProps) {
+export function SelectDesktop({ children, isDefaultOpen = true, onOptionClick }: SelectDesktopProps) {
   const [isSelectOpen, setIsSelectOpen] = useState(isDefaultOpen);
   const [selectedMeetingInfo, setSelectedMeetingInfo] = useState<MeetingInfo | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,6 +47,7 @@ export function SelectDesktop({ children, isDefaultOpen = true }: SelectDesktopP
 
   const selectMeeting = (meetingInfo: MeetingInfo) => {
     setSelectedMeetingInfo(meetingInfo);
+    onOptionClick(meetingInfo);
     closeSelect();
   };
 
