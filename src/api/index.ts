@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
     'Accept': '*/*',
     'Content-Type': 'application/json',
   },
-  withCredentials: true,
+  // withCredentials: false,
 });
 
 export const axiosAuthInstance = axios.create({
@@ -76,7 +76,7 @@ export const handleTokenError = async (error: AxiosError<unknown>) => {
         null,
         {
           headers: {
-            'Authorization': `Bearer ${tokenStorage.get()}`,
+            Authorization: `Bearer ${tokenStorage.get()}`,
           },
         },
       );
