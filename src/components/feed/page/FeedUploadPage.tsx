@@ -25,7 +25,7 @@ import LinkInput from '@/components/feed/upload/Input/LinkInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import { Select, SelectContent, SelectTrigger } from '@/components/feed/upload/select/Select';
+import { GroupSelect, SelectContent, SelectTrigger } from '@/components/feed/upload/select/GroupSelect';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import VoteModal from '@/components/feed/upload/voteModal';
@@ -303,10 +303,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <Select onOptionClick={handleGroupClick}>
+                    <GroupSelect onOptionClick={handleGroupClick}>
                       <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
                       <SelectContent meetingList={meetingList} />
-                    </Select>
+                    </GroupSelect>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}
@@ -411,10 +411,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <Select onOptionClick={handleGroupClick}>
+                    <GroupSelect onOptionClick={handleGroupClick}>
                       <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
                       <SelectContent meetingList={meetingList} />
-                    </Select>
+                    </GroupSelect>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}

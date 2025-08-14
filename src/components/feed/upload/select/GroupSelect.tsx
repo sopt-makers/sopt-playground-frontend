@@ -45,7 +45,7 @@ interface SelectContentProps {
   meetingList: MeetingInfo[];
 }
 
-export function Select({ children, isDefaultOpen = false, onOptionClick }: SelectProps) {
+export function GroupSelect({ children, isDefaultOpen = false, onOptionClick }: SelectProps) {
   const [isSelectOpen, setIsSelectOpen] = useState(isDefaultOpen);
   const [selectedMeetingInfo, setSelectedMeetingInfo] = useState<MeetingInfo | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -142,7 +142,7 @@ export function SelectContent({ meetingList }: SelectContentProps) {
   );
 }
 
-// Styled Components
+// Style
 const SelectContainer = styled.div`
   position: relative;
   width: 100%;
