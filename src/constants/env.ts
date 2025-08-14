@@ -1,5 +1,8 @@
+export const IS_DEV = process.env.NODE_ENV === 'development';
+
 export const DEBUG = process.env.NEXT_PUBLIC_DEBUG?.toLowerCase() === 'true';
 export const API_URL = required('NEXT_PUBLIC_API_URL', process.env.NEXT_PUBLIC_API_URL);
+export const AUTH_API_URL = required('NEXT_PUBLIC_AUTH_API_URL', process.env.NEXT_PUBLIC_AUTH_API_URL);
 export const ORIGIN = required('NEXT_PUBLIC_ORIGIN', process.env.NEXT_PUBLIC_ORIGIN);
 export const FACEBOOK_APP_ID = required('NEXT_PUBLIC_FACEBOOK_APP_ID', process.env.NEXT_PUBLIC_FACEBOOK_APP_ID);
 export const GOOGLE_OAUTH_CLIENT_ID = required(
