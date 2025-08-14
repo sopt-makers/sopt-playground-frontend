@@ -63,6 +63,22 @@ axiosInstance.interceptors.response.use(
   async (err) => handleTokenError(err),
 );
 
+axiosCrewInstance.interceptors.request.use(
+  (config) => {
+    const token = tokenStorage.get();
+    if (token && config.headers && config.headers.Authorization === undefined) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+axiosCrewInstance.interceptors.response.use(
+  (res) => res,
+  async (err) => handleTokenError(err),
+);
+
 export const handleTokenError = async (error: AxiosError<unknown>) => {
   const originRequest = error.config;
 
