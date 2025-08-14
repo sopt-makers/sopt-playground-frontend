@@ -2,11 +2,13 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronLeft } from '@sopt-makers/icons';
 import { Button, Callout } from '@sopt-makers/ui';
+import { Spacing } from '@toss/emotion-utils';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Checkbox from '@/components/common/Checkbox';
+import Divider from '@/components/common/Divider/Divider';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -300,10 +302,13 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <GroupSelect onOptionClick={handleGroupClick}>
-                      <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
-                      <SelectContent meetingList={meetingList} />
-                    </GroupSelect>
+                    <>
+                      <GroupSelect onOptionClick={handleGroupClick}>
+                        <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                        <SelectContent meetingList={meetingList} />
+                      </GroupSelect>
+                      <Spacing size={'8'} direction={'vertical'} />
+                    </>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}
