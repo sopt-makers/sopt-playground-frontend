@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
 /**
- * @description hacky한 방법으로 GroupSelect.Portal의 이벤트 전파를 막기위해 마운트하는 컴포넌트입니다.
+ * @description hacky한 방법으로 Select.Portal의 이벤트 전파를 막기위해 마운트하는 컴포넌트입니다.
  * 다른 대안을 찾게되면 이 컴포넌트는 삭제될 예정입니다.
  * issue: https://github.com/radix-ui/primitives/issues/1658
  */
