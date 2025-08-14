@@ -15,7 +15,7 @@ export default function SelectMeetingOptionItem({ meetingInfo, onClick }: Select
         <OptionImage src={meetingInfo.imageUrl} alt={meetingInfo.title} />
         <OptionText>
           <OptionHead>
-            <Tag variant={'primary'}>{meetingInfo.category}</Tag>
+            <OptionTag variant={'primary'}>{meetingInfo.category}</OptionTag>
             <OptionTitle>{meetingInfo.title}</OptionTitle>
           </OptionHead>
           <OptionCategory>{meetingInfo.contents}</OptionCategory>
@@ -57,6 +57,10 @@ const OptionHead = styled.div`
   gap: 6px;
 `;
 
+const OptionTag = styled(Tag)`
+  flex-shrink: 0;
+`;
+
 const OptionImage = styled.img`
   width: 48px;
   height: 48px;
@@ -72,6 +76,11 @@ const OptionText = styled.div`
 const OptionTitle = styled(Text)`
   ${fonts.BODY_16_M}
   color: ${colors.white};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 `;
 
 const OptionCategory = styled(Text)`

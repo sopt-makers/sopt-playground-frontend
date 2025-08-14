@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 
 import { BottomSheet } from '@/components/common/BottomSheet';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 import SelectMeetingOptionItem from './SelectMeetingOptionItem';
@@ -163,7 +165,7 @@ const SelectTriggerButton = styled.div`
 `;
 
 const SelectTriggerText = styled(Text)`
-  ${textStyles.SUIT_16_M}
+  ${fonts.BODY_16_M}
   color: ${colors.white};
 `;
 
@@ -209,7 +211,7 @@ const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
           height: 0px;
         `}
 
-  @media (max-width: 768px) {
+  @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
 `;
@@ -218,8 +220,8 @@ const SelectMobileTitle = styled.header`
   display: flex;
   gap: 12px;
   align-items: center;
-  ${textStyles.SUIT_20_B}
-  color: ${colors.white};
+  ${fonts.TITLE_16_SB}
+  color: ${colors.gray10};
   padding: 0 20px 12px;
 `;
 
@@ -229,5 +231,4 @@ const SelectMobileListWrapper = styled.div`
   gap: 8px;
   max-height: 400px;
   overflow-y: auto;
-  padding: 0 20px 20px;
 `;
