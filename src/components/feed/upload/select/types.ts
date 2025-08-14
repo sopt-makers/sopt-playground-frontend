@@ -16,4 +16,5 @@ export interface SelectDesktopContextType {
   selectedMeetingInfo: MeetingInfo | null;
   toggleSelect: () => void;
   selectMeeting: (meetingInfo: MeetingInfo) => void;
+  closeSelect?: () => void;
 }

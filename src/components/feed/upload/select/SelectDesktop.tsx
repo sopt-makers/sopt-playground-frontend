@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 
 import SelectMeetingOptionItem from './SelectMeetingOptionItem';
 import { MeetingInfo, SelectDesktopContextType } from './types';
@@ -34,15 +34,37 @@ export function useSelectDesktop() {
 export function SelectDesktop({ children, isDefaultOpen = true }: SelectDesktopProps) {
   const [isSelectOpen, setIsSelectOpen] = useState(isDefaultOpen);
   const [selectedMeetingInfo, setSelectedMeetingInfo] = useState<MeetingInfo | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const toggleSelect = () => {
     setIsSelectOpen(!isSelectOpen);
   };
 
-  const selectMeeting = (meetingInfo: MeetingInfo) => {
-    setSelectedMeetingInfo(meetingInfo);
+  const closeSelect = () => {
     setIsSelectOpen(false);
   };
+
+  const selectMeeting = (meetingInfo: MeetingInfo) => {
+    setSelectedMeetingInfo(meetingInfo);
+    closeSelect();
+  };
+
+  // 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        closeSelect();
+      }
+    };
+
+    if (isSelectOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSelectOpen]);
 
   const value: SelectDesktopContextType = {
     isSelectOpen,
@@ -52,7 +74,9 @@ export function SelectDesktop({ children, isDefaultOpen = true }: SelectDesktopP
   };
   return (
     <SelectDesktopContext.Provider value={value}>
-      <SelectDesktopContainer isSelectOpen={isSelectOpen}>{children}</SelectDesktopContainer>
+      <SelectDesktopContainer ref={containerRef} isSelectOpen={isSelectOpen}>
+        {children}
+      </SelectDesktopContainer>
     </SelectDesktopContext.Provider>
   );
 }
@@ -122,10 +146,10 @@ const SelectDesktopDropdown = styled.div<{ isSelectOpen: boolean }>`
   top: 120%;
   left: 0;
   max-width: 780px;
+  max-height: 512px;
   width: 100%;
   background-color: ${colors.gray800};
   border-radius: 16px;
-  z-index: 3;
   overflow-x: hidden;
   overflow-y: auto;
   transition: all 0.3s ease-in-out;
@@ -147,12 +171,10 @@ const SelectDesktopDropdown = styled.div<{ isSelectOpen: boolean }>`
   ${({ isSelectOpen }) =>
     isSelectOpen
       ? `
-          height: 344px;
-          padding: 8px;
+          height: 500px;
         `
       : `
           height: 0px;
-          padding: 0;
         `}
 
   @media (max-width: 768px) {
