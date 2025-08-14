@@ -26,9 +26,8 @@ import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
 import {
+  SelectDesktop,
   SelectDesktopContent,
-  SelectDesktopProvider,
-  SelectDesktopRoot,
   SelectDesktopTrigger,
 } from '@/components/feed/upload/select/SelectDesktop';
 import SelectMobile from '@/components/feed/upload/select/SelectMobile';
@@ -310,12 +309,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <SelectDesktopProvider>
-                      <SelectDesktopRoot>
-                        <SelectDesktopTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
-                        <SelectDesktopContent meetingList={meetingList} />
-                      </SelectDesktopRoot>
-                    </SelectDesktopProvider>
+                    <SelectDesktop>
+                      <SelectDesktopTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                      <SelectDesktopContent meetingList={meetingList} />
+                    </SelectDesktop>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}

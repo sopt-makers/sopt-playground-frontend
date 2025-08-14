@@ -7,8 +7,9 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 import SelectMeetingOptionItem from './SelectMeetingOptionItem';
 import { MeetingInfo, SelectDesktopContextType } from './types';
 
-interface SelectDesktopRootProps {
+interface SelectDesktopProps {
   children: ReactNode;
+  isDefaultOpen?: boolean;
 }
 
 interface SelectDesktopTriggerProps {
@@ -17,11 +18,6 @@ interface SelectDesktopTriggerProps {
 
 interface SelectDesktopContentProps {
   meetingList: MeetingInfo[];
-}
-
-interface SelectDesktopProviderProps {
-  children: ReactNode;
-  isDefaultOpen?: boolean;
 }
 
 const SelectDesktopContext = createContext<SelectDesktopContextType | undefined>(undefined);
@@ -34,7 +30,8 @@ export function useSelectDesktop() {
   return context;
 }
 
-export function SelectDesktopProvider({ children, isDefaultOpen = true }: SelectDesktopProviderProps) {
+// SelectDesktopContext Provider
+export function SelectDesktop({ children, isDefaultOpen = true }: SelectDesktopProps) {
   const [isSelectOpen, setIsSelectOpen] = useState(isDefaultOpen);
   const [selectedMeetingInfo, setSelectedMeetingInfo] = useState<MeetingInfo | null>(null);
 
@@ -53,17 +50,14 @@ export function SelectDesktopProvider({ children, isDefaultOpen = true }: Select
     toggleSelect,
     selectMeeting,
   };
-
-  return <SelectDesktopContext.Provider value={value}>{children}</SelectDesktopContext.Provider>;
+  return (
+    <SelectDesktopContext.Provider value={value}>
+      <SelectDesktopContainer isSelectOpen={isSelectOpen}>{children}</SelectDesktopContainer>
+    </SelectDesktopContext.Provider>
+  );
 }
 
-// Root 컴포넌트
-export function SelectDesktopRoot({ children }: SelectDesktopRootProps) {
-  const { isSelectOpen } = useSelectDesktop();
-  return <SelectDesktopContainer isSelectOpen={isSelectOpen}>{children}</SelectDesktopContainer>;
-}
-
-// Trigger 컴포넌트
+// Trigger
 export function SelectDesktopTrigger({ placeholder = '모임을 선택해주세요' }: SelectDesktopTriggerProps) {
   const { toggleSelect, selectedMeetingInfo } = useSelectDesktop();
 
@@ -77,7 +71,7 @@ export function SelectDesktopTrigger({ placeholder = '모임을 선택해주세�
   );
 }
 
-// Content 컴포넌트
+// Content
 export function SelectDesktopContent({ meetingList }: SelectDesktopContentProps) {
   const { isSelectOpen, selectMeeting } = useSelectDesktop();
   return (
@@ -89,7 +83,7 @@ export function SelectDesktopContent({ meetingList }: SelectDesktopContentProps)
   );
 }
 
-// Styled Components
+// Style
 const SelectDesktopContainer = styled.div<{ isSelectOpen: boolean }>`
   position: relative;
   width: 100%;
