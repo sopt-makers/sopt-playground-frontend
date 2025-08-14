@@ -59,9 +59,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     handleGroupClick,
     resetVote,
   } = useUploadFeedData(defaultValue);
-  useEffect(() => {
-    console.log(feedData);
-  }, [feedData]);
 
   const mobileContentsRef = useRef<HTMLDivElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
