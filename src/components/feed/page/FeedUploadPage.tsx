@@ -65,6 +65,9 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     handleGroupClick,
     resetVote,
   } = useUploadFeedData(defaultValue);
+  useEffect(() => {
+    console.log(feedData);
+  }, [feedData]);
 
   const mobileContentsRef = useRef<HTMLDivElement>(null);
   const handleMobileKeyPressToContents = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -112,6 +115,19 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
       if (!isNaN(idNum)) {
         mentionIds.push(idNum);
       }
+    }
+
+    if (feedData.categoryId === GROUP_CATEGORY_ID) {
+      /** crew api 요청 크루 형식에 맞게 커스텀 **/
+      const params = {
+        contents: feedData.content,
+        images: feedData.images,
+        title: feedData.title,
+        meetingId: 0,
+      };
+      /** api 요청 성공 시 피드 상세 페이지로 리다이렉트 **/
+      // router.push(crewLink.peedDetail());
+      return;
     }
 
     onSubmit({
@@ -170,14 +186,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
   const { isOpen: isOpenVoteModal, onOpen: onOpenVoteModal, onClose: onCloseVoteModal } = useModalState();
   const hasVoteOptions = feedData.vote && feedData.vote.voteOptions?.length > 0;
-
-  // 그룹 카테고리가 선택되었을 때 선택을 열기
-  useEffect(() => {
-    if (isGroup) {
-      // Context API를 통해 그룹 선택이 열리도록 처리
-      // 이는 SelectDesktopProvider 내부에서 처리됨
-    }
-  }, [isGroup]);
 
   const meetingList = [
     {
@@ -347,7 +355,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
+                    {!isGroup && <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />}
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}
@@ -458,7 +466,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleMobileClickImageInput}
                       imageInputRef={mobileRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
+                    {!isGroup && <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />}
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}

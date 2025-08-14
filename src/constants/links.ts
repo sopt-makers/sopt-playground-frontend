@@ -43,3 +43,7 @@ export const playgroundLink = {
   mySoptReport: () => `/mySoptReport`,
   accounts: () => `/accounts`,
 };
+
+export const crewLink = {
+  peedDetail: (id: string | number) => `/peed/detail?id=${id}`,
+};
