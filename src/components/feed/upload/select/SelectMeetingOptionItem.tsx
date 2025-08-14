@@ -76,10 +76,10 @@ const OptionText = styled.div`
 const OptionTitle = styled(Text)`
   ${fonts.BODY_16_M}
 
-  color: ${colors.white};
+  display: box;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: box;
+  color: ${colors.white};
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 `;
@@ -87,10 +87,10 @@ const OptionTitle = styled(Text)`
 const OptionCategory = styled(Text)`
   ${fonts.BODY_13_R}
 
-  color: ${colors.gray400};
+  display: box;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: box;
+  color: ${colors.gray400};
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 `;

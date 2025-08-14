@@ -223,8 +223,8 @@ const SelectMobileTitle = styled.header`
   align-items: center;
   ${fonts.TITLE_16_SB}
 
-  color: ${colors.gray10};
   padding: 0 20px 12px;
+  color: ${colors.gray10};
 `;
 
 const SelectMobileListWrapper = styled.div`
