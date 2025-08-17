@@ -41,4 +41,10 @@ export const playgroundLink = {
   coffeechat: () => `/coffeechat`,
   coffeechatDetail: (id: string | number) => `/coffeechat/${id}`,
   mySoptReport: () => `/mySoptReport`,
+  accounts: () => `/accounts`,
+};
+
+export const crewLink = {
+  crewHome: () => `/group`,
+  peedDetail: (id: string | number) => `/group/post?id=${id}`,
 };

@@ -1,14 +1,14 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronLeft } from '@sopt-makers/icons';
-import { Callout } from '@sopt-makers/ui';
-import { Button } from '@sopt-makers/ui';
+import { Button, Callout } from '@sopt-makers/ui';
+import { Spacing } from '@toss/emotion-utils';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Checkbox from '@/components/common/Checkbox';
+import Divider from '@/components/common/Divider/Divider';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -27,13 +27,7 @@ import LinkInput from '@/components/feed/upload/Input/LinkInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import SelectDesktop, {
-  SelectDesktopContent,
-  SelectDesktopRoot,
-  SelectDesktopTrigger,
-} from '@/components/feed/upload/select/SelectDesktop';
-import SelectMobile from '@/components/feed/upload/select/SelectMobile';
-import { MeetingInfo } from '@/components/feed/upload/select/types';
+import { GroupSelect, SelectContent, SelectTrigger } from '@/components/feed/upload/select/GroupSelect';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import VoteModal from '@/components/feed/upload/voteModal';
@@ -116,6 +110,19 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
       }
     }
 
+    if (feedData.categoryId === GROUP_CATEGORY_ID) {
+      /** crew api 요청 크루 형식에 맞게 커스텀 - 임시 작성 **/
+      const params = {
+        contents: feedData.content,
+        images: feedData.images,
+        title: feedData.title,
+        meetingId: feedData.groupId,
+      };
+      /** api 요청 성공 시 피드 상세 페이지로 리다이렉트 **/
+      // router.push(crewLink.peedDetail());
+      return;
+    }
+
     onSubmit({
       data: {
         categoryId: feedData.categoryId,
@@ -126,7 +133,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         images: feedData.images,
         link: feedData.link,
         vote: feedData.vote,
-        group: feedData.group,
         mention:
           mentionIds.length > 0
             ? {
@@ -172,26 +178,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
   const { isOpen: isOpenVoteModal, onOpen: onOpenVoteModal, onClose: onCloseVoteModal } = useModalState();
   const hasVoteOptions = feedData.vote && feedData.vote.voteOptions?.length > 0;
-
-  // 그룹 선택 관련 상태
-  const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const [selectMeetingInfo, setSelectMeetingInfo] = useState<MeetingInfo | null>(null);
-
-  const handleSelectItemClick = (meetingInfo: MeetingInfo) => {
-    setSelectMeetingInfo(meetingInfo);
-    setIsSelectOpen(false);
-    handleGroupClick(meetingInfo.title);
-  };
-
-  // 그룹 카테고리가 선택되었을 때 선택을 열기
-  useEffect(() => {
-    if (isGroup) {
-      setIsSelectOpen(true);
-    } else {
-      setIsSelectOpen(false);
-      setSelectMeetingInfo(null);
-    }
-  }, [isGroup]);
 
   const meetingList = [
     {
@@ -316,19 +302,13 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <SelectDesktopRoot
-                      isSelectOpen={isSelectOpen}
-                      selectedMeetingInfo={selectMeetingInfo}
-                      onSelectItemClick={handleSelectItemClick}
-                    >
-                      <SelectDesktopTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
-                      <SelectDesktopContent
-                        isSelectOpen={isSelectOpen}
-                        meetingList={meetingList}
-                        selectedMeetingInfo={selectMeetingInfo}
-                        onSelectItemClick={handleSelectItemClick}
-                      />
-                    </SelectDesktopRoot>
+                    <>
+                      <GroupSelect onOptionClick={handleGroupClick}>
+                        <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                        <SelectContent meetingList={meetingList} />
+                      </GroupSelect>
+                      <Spacing size={'8'} direction={'vertical'} />
+                    </>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}
@@ -368,7 +348,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
+                    {!isGroup && <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />}
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}
@@ -433,12 +413,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                     </Callout>
                   )}
                   {isGroup && (
-                    <SelectMobile
-                      isSelectOpen={isSelectOpen}
-                      meetingList={meetingList}
-                      selectedMeetingInfo={selectMeetingInfo}
-                      onSelectItemClick={handleSelectItemClick}
-                    />
+                    <GroupSelect onOptionClick={handleGroupClick}>
+                      <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                      <SelectContent meetingList={meetingList} />
+                    </GroupSelect>
                   )}
                   <TitleInput
                     onChange={handleSaveTitle}
@@ -477,7 +455,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleMobileClickImageInput}
                       imageInputRef={mobileRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
+                    {!isGroup && <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />}
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}

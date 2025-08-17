@@ -10,3 +10,11 @@ export interface SelectMeetingOptionItemProps {
   meetingInfo: MeetingInfo;
   onClick: (meetingInfo: MeetingInfo) => void;
 }
+
+export interface SelectDesktopContextType {
+  isSelectOpen: boolean;
+  selectedMeetingInfo: MeetingInfo | null;
+  toggleSelect: () => void;
+  selectMeeting: (meetingInfo: MeetingInfo) => void;
+  closeSelect?: () => void;
+}
