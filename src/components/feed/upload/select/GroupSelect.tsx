@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
-import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { BottomSheet } from '@/components/common/BottomSheet';
 import Responsive from '@/components/common/Responsive';
@@ -112,15 +112,19 @@ export function SelectTrigger({ placeholder = '모임을 선택해주세요' }: 
 export function SelectContent({ meetingList }: SelectContentProps) {
   const { isSelectOpen, selectMeeting, closeSelect } = useSelect();
 
+  const meetingItems = useMemo(
+    () =>
+      meetingList.map((meetingInfo) => (
+        <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={selectMeeting} />
+      )),
+    [meetingList, selectMeeting],
+  );
+
   return (
     <>
       {/* Desktop */}
       <Responsive only='desktop'>
-        <SelectDropdown isSelectOpen={isSelectOpen}>
-          {meetingList.map((meetingInfo) => (
-            <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={selectMeeting} />
-          ))}
-        </SelectDropdown>
+        <SelectDropdown isSelectOpen={isSelectOpen}>{meetingItems}</SelectDropdown>
       </Responsive>
 
       {/* Mobile */}
@@ -131,11 +135,7 @@ export function SelectContent({ meetingList }: SelectContentProps) {
           className='select-dropdown'
           header={<SelectMobileTitle>어떤 모임의 피드를 작성할까요?</SelectMobileTitle>}
         >
-          <SelectMobileListWrapper>
-            {meetingList.map((meetingInfo) => (
-              <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={selectMeeting} />
-            ))}
-          </SelectMobileListWrapper>
+          <SelectMobileListWrapper>{meetingItems}</SelectMobileListWrapper>
         </BottomSheet>
       </Responsive>
     </>
