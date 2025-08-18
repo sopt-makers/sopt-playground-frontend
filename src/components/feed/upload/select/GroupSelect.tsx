@@ -103,7 +103,7 @@ export function SelectTrigger({ placeholder = '모임을 선택해주세요' }: 
   return (
     <SelectTriggerWrap onClick={toggleSelect} aria-expanded={isSelectOpen}>
       <SelectTriggerText>{selectedMeetingInfo ? selectedMeetingInfo.title : placeholder}</SelectTriggerText>
-      <SelectTriggerIcon aria-hidden='true' />
+      <SelectTriggerIcon aria-hidden='true' $open={isSelectOpen} />
     </SelectTriggerWrap>
   );
 }
@@ -170,10 +170,12 @@ const SelectTriggerText = styled(Text)`
   color: ${colors.white};
 `;
 
-const SelectTriggerIcon = styled(IconChevronDown)`
+const SelectTriggerIcon = styled(IconChevronDown)<{ $open: boolean }>`
   width: 20px;
   height: 20px;
   color: ${colors.white};
+  transition: transform 0.2s ease;
+  transform: rotate(${({ $open }) => ($open ? '180deg' : '0deg')});
 `;
 
 const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
