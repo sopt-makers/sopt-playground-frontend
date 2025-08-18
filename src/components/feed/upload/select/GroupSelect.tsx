@@ -171,11 +171,11 @@ const SelectTriggerText = styled(Text)`
 `;
 
 const SelectTriggerIcon = styled(IconChevronDown)<{ $open: boolean }>`
+  transform: rotate(${({ $open }) => ($open ? '180deg' : '0deg')});
+  transition: transform 0.2s ease;
   width: 20px;
   height: 20px;
   color: ${colors.white};
-  transition: transform 0.2s ease;
-  transform: rotate(${({ $open }) => ($open ? '180deg' : '0deg')});
 `;
 
 const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
