@@ -98,13 +98,13 @@ export function GroupSelect({ children, isDefaultOpen = false, onOptionClick }: 
 
 // Trigger
 export function SelectTrigger({ placeholder = '모임을 선택해주세요' }: SelectTriggerProps) {
-  const { toggleSelect, selectedMeetingInfo } = useSelect();
+  const { toggleSelect, selectedMeetingInfo, isSelectOpen } = useSelect();
 
   return (
-    <SelectTriggerButton onClick={toggleSelect}>
+    <SelectTriggerWrap onClick={toggleSelect} aria-expanded={isSelectOpen}>
       <SelectTriggerText>{selectedMeetingInfo ? selectedMeetingInfo.title : placeholder}</SelectTriggerText>
-      <SelectTriggerIcon />
-    </SelectTriggerButton>
+      <SelectTriggerIcon aria-hidden='true' />
+    </SelectTriggerWrap>
   );
 }
 
@@ -148,7 +148,7 @@ const SelectContainer = styled.div`
   width: 100%;
 `;
 
-const SelectTriggerButton = styled.div`
+const SelectTriggerWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
