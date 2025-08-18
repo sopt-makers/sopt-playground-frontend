@@ -87,17 +87,10 @@ const OptionTitle = styled(Text)`
 const OptionCategory = styled(Text)`
   ${fonts.BODY_13_R}
 
-  display: box;
+  display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${colors.gray400};
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-`;
-
-const CheckIcon = styled(IconCheck)`
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  color: ${colors.success};
 `;
