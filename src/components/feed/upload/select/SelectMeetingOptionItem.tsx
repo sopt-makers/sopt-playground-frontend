@@ -87,10 +87,9 @@ const OptionTitle = styled(Text)`
 const OptionCategory = styled(Text)`
   ${fonts.BODY_13_R}
 
-  display: -webkit-box;
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   color: ${colors.gray400};
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
 `;
