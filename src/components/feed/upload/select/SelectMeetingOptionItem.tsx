@@ -25,7 +25,7 @@ export default function SelectMeetingOptionItem({ meetingInfo, onClick }: Select
   );
 }
 
-const OptionItem = styled.div`
+const OptionItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;

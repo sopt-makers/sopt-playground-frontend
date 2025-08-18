@@ -51,7 +51,7 @@ export function GroupSelect({ children, isDefaultOpen = false, onOptionClick }: 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const toggleSelect = () => {
-    setIsSelectOpen(!isSelectOpen);
+    setIsSelectOpen((prev) => !prev);
   };
 
   const closeSelect = () => {
@@ -227,7 +227,7 @@ const SelectMobileTitle = styled.header`
   color: ${colors.gray10};
 `;
 
-const SelectMobileListWrapper = styled.div`
+const SelectMobileListWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
