@@ -4,21 +4,14 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 
 const ActivitySchema = z.object({
-  id: z.number(),
-  memberId: z.number(),
   part: z.string(),
   generation: z.number(),
   team: z.string().nullable(),
 });
 
 const CareerSchema = z.object({
-  id: z.number(),
-  memberId: z.number(),
   companyName: z.string(),
   title: z.string(),
-  startDate: z.string(),
-  endDate: z.string(),
-  isCurrent: z.boolean(),
 });
 
 const MemberSchema = z.object({
