@@ -63,13 +63,11 @@ const PostsSchema = z.object({
               id: z.number(),
               name: z.string(),
               profileImage: z.string().nullable(),
-              activity: z
-                .object({
-                  part: z.string(),
-                  generation: z.number(),
-                  team: z.string().nullable(),
-                })
-                .nullable(),
+              activity: z.object({
+                part: z.string(),
+                generation: z.number(),
+                team: z.string().nullable(),
+              }),
               careers: z
                 .object({
                   companyName: z.string(),
