@@ -92,18 +92,14 @@ export const HomePopup = () => {
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
                   {/* <button onClick={handleOpenModal}> */}
-                  <a href='https://playground.sopt.org/feed/547' target='blank'>
-                    <StImage src='/icons/img/popup/PC.png' />
-                  </a>
+                  <StImage src='/icons/img/popup/PC.png' />
                   {/* </button> */}
                 </LoggingClick>
               </Responsive>
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
                   {/* <button onClick={handleOpenModal}> */}
-                  <a href='https://playground.sopt.org/feed/547' target='blank'>
-                    <StImage src='/icons/img/popup/MO.png' />
-                  </a>
+                  <StImage src='/icons/img/popup/MO.png' />
                   {/* </button> */}
                 </LoggingClick>
               </Responsive>
