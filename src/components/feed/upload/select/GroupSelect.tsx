@@ -67,20 +67,24 @@ export function GroupSelect({ children, isDefaultOpen = false, onOptionClick }: 
 
   // 외부 클릭 감지
   useEffect(() => {
+    if (!isSelectOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      const target = event.target as Element | null;
+
+      // BottomSheet 내부 클릭 무시
+      if (target && target.closest('.select-dropdown')) return;
+
+      if (containerRef.current && !containerRef.current.contains(target)) {
         closeSelect();
       }
     };
 
-    if (isSelectOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isSelectOpen]);
+  }, [isSelectOpen, closeSelect]);
 
   const value: SelectContextType = {
     isSelectOpen,
@@ -111,19 +115,15 @@ export function SelectTrigger({ placeholder = '모임을 선택해주세요' }: 
 
 // Content
 export function SelectContent({ meetingList }: SelectContentProps) {
-  const { isSelectOpen, selectMeeting, closeSelect } = useSelect();
+  const { toggleSelect, isSelectOpen, selectMeeting, closeSelect } = useSelect();
 
   if (!meetingList || meetingList.length === 0) {
     return <Skeleton />;
   }
 
-  const meetingItems = useMemo(
-    () =>
-      meetingList.map((meetingInfo) => (
-        <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={selectMeeting} />
-      )),
-    [meetingList, selectMeeting],
-  );
+  const meetingItems = meetingList.map((meetingInfo) => (
+    <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={selectMeeting} />
+  ));
 
   return (
     <>
@@ -193,7 +193,6 @@ const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
   padding: 8px;
   width: 100%;
   max-width: 780px;
-  height: 20vh;
   max-height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
