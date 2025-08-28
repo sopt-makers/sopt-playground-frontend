@@ -21,7 +21,7 @@ export const playgroundLink = {
   groupList: () => '/group',
   groupDetail: (id: string | number) => `/group/detail?id=${id}`,
   intro: () => `/intro`,
-  login: () => `/auth/login`,
+  login: () => `/accounts`,
   register: () => `/auth/verify`,
   resetLogin: () => `/auth/reset`,
   reconnectSocialAuth: () => `/auth/reconnect`,
