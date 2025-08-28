@@ -95,8 +95,6 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
   const { data: meetingList, isLoading, error } = useMeetingList();
 
-  console.log(meetingList);
-
   const { data: me } = useGetMemberOfMe();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
