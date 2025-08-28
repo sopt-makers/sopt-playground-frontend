@@ -193,7 +193,8 @@ const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
   padding: 8px;
   width: 100%;
   max-width: 780px;
-  max-height: 512px;
+  height: 20vh;
+  max-height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
 
