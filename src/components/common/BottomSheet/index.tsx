@@ -56,5 +56,10 @@ const CustomSheet = styled(Sheet)`
     flex-direction: column;
     align-items: flex-start;
     padding: 0 8px;
+    width: 100%;
+
+    ul {
+      width: 100%;
+    }
   }
 `;

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
+import { Skeleton } from '@sopt-makers/ui';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { BottomSheet } from '@/components/common/BottomSheet';
@@ -42,7 +43,7 @@ interface SelectTriggerProps {
 }
 
 interface SelectContentProps {
-  meetingList: MeetingInfo[];
+  meetingList?: MeetingInfo[];
 }
 
 export function GroupSelect({ children, isDefaultOpen = false, onOptionClick }: SelectProps) {
@@ -111,6 +112,10 @@ export function SelectTrigger({ placeholder = '모임을 선택해주세요' }: 
 // Content
 export function SelectContent({ meetingList }: SelectContentProps) {
   const { isSelectOpen, selectMeeting, closeSelect } = useSelect();
+
+  if (!meetingList || meetingList.length === 0) {
+    return <Skeleton />;
+  }
 
   const meetingItems = useMemo(
     () =>
@@ -185,7 +190,7 @@ const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
   transition: all 0.3s ease-in-out;
   border-radius: 16px;
   background-color: ${colors.gray800};
-  padding-right: 10px;
+  padding: 8px;
   width: 100%;
   max-width: 780px;
   max-height: 512px;
@@ -209,9 +214,11 @@ const SelectDropdown = styled.div<{ isSelectOpen: boolean }>`
     isSelectOpen
       ? `
           height: 500px;
+          padding: 8px;
         `
       : `
           height: 0px;
+          padding: 0px;
         `}
 
   @media ${MOBILE_MEDIA_QUERY} {
