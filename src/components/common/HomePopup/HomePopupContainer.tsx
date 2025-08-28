@@ -13,7 +13,7 @@ const HomePopupContainer = ({ isOnlyLastGeneration }: HomePopupContainerProps) =
 
   // 팝업 표시 기간 설정
   const now = new Date();
-  const popupStart = new Date('2025-08-30T00:00:00+09:00');
+  const popupStart = new Date('2025-08-28T00:00:00+09:00');
   const popupEnd = new Date('2025-08-31T23:59:59+09:00');
   const isPopupPeriod = now >= popupStart && now <= popupEnd;
 
