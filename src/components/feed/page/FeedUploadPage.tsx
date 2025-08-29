@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef } from 'react';
 
 import { useMeetingList } from '@/api/endpoint/feed/getMeetingList';
+import { GroupFeedParams, usePostGroupFeed } from '@/api/endpoint/feed/postGroupFeed';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Checkbox from '@/components/common/Checkbox';
 import Divider from '@/components/common/Divider/Divider';
@@ -34,6 +35,7 @@ import UsingRules from '@/components/feed/upload/UsingRules';
 import VoteModal from '@/components/feed/upload/voteModal';
 import VotePreview from '@/components/feed/upload/votePreview';
 import VoteUploadButton from '@/components/feed/upload/voteUploadButton';
+import { crewLink } from '@/constants/links';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -93,9 +95,9 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
   const { isLinkError, validateLink, resetLinkError } = useLinkValidator();
 
-  const { data: meetingList, isLoading, error } = useMeetingList();
-
+  const { data: meetingList } = useMeetingList();
   const { data: me } = useGetMemberOfMe();
+  const { mutate: postGroupFeed } = usePostGroupFeed(me?.id ?? 0);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -115,17 +117,19 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     }
 
     if (feedData.categoryId === GROUP_CATEGORY_ID) {
-      /** crew api 요청 크루 형식에 맞게 커스텀 - 임시 작성 **/
-      const params = {
+      const params: GroupFeedParams = {
         contents: feedData.content,
         images: feedData.images,
         title: feedData.title,
-        meetingId: feedData.groupId,
+        meetingId: Number(feedData.groupId),
       };
 
-      console.log(params);
-      /** api 요청 성공 시 피드 상세 페이지로 리다이렉트 **/
-      // router.push(crewLink.peedDetail());
+      postGroupFeed(params, {
+        onSuccess: () => {
+          router.push(crewLink.feedDetail(Number(feedData.groupId)));
+        },
+      });
+
       return;
     }
 
