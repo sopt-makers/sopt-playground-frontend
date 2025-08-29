@@ -10,14 +10,17 @@ export const FILTER_DEFAULT_OPTION: Option = {
   label: '전체',
 };
 
-const PART_VALUE = {
-  PM: '1',
+export const PART_VALUE = {
+  PLAN: '1',
   DESIGN: '2',
   WEB: '3',
   SERVER: '4',
   ANDROID: '5',
   iOS: '6',
 } as const;
+
+export type PartKey = keyof typeof PART_VALUE;
+export type PartValue = (typeof PART_VALUE)[PartKey];
 
 export const PART_DEFAULT_OPTION: Option = {
   label: '전체',
@@ -27,7 +30,7 @@ export const PART_DEFAULT_OPTION: Option = {
 export const PART_OPTIONS: Option[] = [
   {
     label: '기획',
-    value: PART_VALUE.PM,
+    value: PART_VALUE.PLAN,
   },
   {
     label: '디자인',
