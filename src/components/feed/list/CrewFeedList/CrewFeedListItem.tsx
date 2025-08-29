@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconAlertTriangle, IconShare } from '@sopt-makers/icons';
 import { Flex } from '@toss/emotion-utils';
@@ -10,16 +11,17 @@ import FeedLike from '@/components/feed/common/FeedLike';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { getRelativeTime } from '@/components/feed/common/utils';
+import CrewMeetingLinkRow from '@/components/feed/list/CrewFeedList/CrewMeetingLinkRow';
 import FeedCard from '@/components/feed/list/FeedCard';
 
 interface CrewFeedListItemProps {
-  meetingId: number;
   postId: number;
   onFeedCardClick: () => void;
+  onFeedContentClick: () => void;
   memberInfo: string;
 }
 
-const CrewFeedListItem = ({ meetingId, postId, onFeedCardClick, memberInfo }: CrewFeedListItemProps) => {
+const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberInfo }: CrewFeedListItemProps) => {
   const { data: post } = useGetCrewPostQuery(postId);
 
   const { handleShareFeed } = useShareFeed();
@@ -103,6 +105,7 @@ const CrewFeedListItem = ({ meetingId, postId, onFeedCardClick, memberInfo }: Cr
           <FeedLike isLiked={post.isLiked} likes={post.likes} onClick={handleFeedLike} type={'heart'} />
         </LoggingClick>
       }
+      onClickContent={onFeedContentClick}
     >
       {post.images.length !== 0 && (
         <FeedCard.Image>
@@ -111,8 +114,16 @@ const CrewFeedListItem = ({ meetingId, postId, onFeedCardClick, memberInfo }: Cr
           ))}
         </FeedCard.Image>
       )}
+      <MeetingLinkRowWrapper>
+        <CrewMeetingLinkRow category={post.meeting.category} title={post.meeting.title} meetingId={post.meeting.id} />
+      </MeetingLinkRowWrapper>
     </FeedCard>
   );
 };
 
 export default CrewFeedListItem;
+
+const MeetingLinkRowWrapper = styled.div`
+  padding-right: 20px;
+  width: 100%;
+`;

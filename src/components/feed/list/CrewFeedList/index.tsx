@@ -41,8 +41,11 @@ const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
     }
   });
 
-  const handleFeedCardClick = (idx: number, postId: number) => {
+  const handleFeedCardClick = (idx: number) => {
     setMap((map) => ({ ...map, [categoryId]: idx }));
+  };
+
+  const handleFeedContentClick = (postId: number) => {
     window.location.href = `/group/post?id=${postId}`;
   };
 
@@ -83,8 +86,8 @@ const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
           return (
             <CrewFeedListItem
               postId={post.id}
-              meetingId={post.meetingId}
-              onFeedCardClick={() => handleFeedCardClick(idx, post.id)}
+              onFeedCardClick={() => handleFeedCardClick(idx)}
+              onFeedContentClick={() => handleFeedContentClick(post.id)}
               memberInfo={getMemberInfo({
                 categoryId: post.categoryId,
                 categoryName: post.categoryName,
