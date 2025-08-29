@@ -19,8 +19,11 @@ export const PART_VALUE = {
   iOS: '6',
 } as const;
 
-export type PartKey = keyof typeof PART_VALUE;
-export type PartValue = (typeof PART_VALUE)[PartKey];
+export const TEAM_VALUE = {
+  임원진: 'MAKER',
+  운영팀: 'OPERATION',
+  미디어팀: 'MEDIA',
+} as const;
 
 export const PART_DEFAULT_OPTION: Option = {
   label: '전체',

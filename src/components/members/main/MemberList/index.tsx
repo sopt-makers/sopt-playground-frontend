@@ -29,9 +29,8 @@ import {
   PART_DEFAULT_OPTION,
   PART_OPTIONS,
   PART_VALUE,
-  PartKey,
-  PartValue,
   TEAM_OPTIONS,
+  TEAM_VALUE,
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import { MemberListOrder } from '@/components/members/main/MemberList/filters/MemberListOrder';
@@ -154,6 +153,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       }
     };
 
+  type PartKey = keyof typeof PART_VALUE;
+  type PartValue = (typeof PART_VALUE)[PartKey];
   const handleSelectPart = createTypeSafeHandler<PartValue>((_part: PartValue) => {
     const partKey = (Object.keys(PART_VALUE) as PartKey[]).find((key) => PART_VALUE[key] === _part);
     addQueryParamsToUrl({ part: partKey });
@@ -165,8 +166,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     logClickEvent('filterGeneration', { generation: generation || 'all' });
   });
 
-  const handleSelectTeam = createTypeSafeHandler<string>((team: string) => {
-    addQueryParamsToUrl({ team });
+  type TeamKey = keyof typeof TEAM_VALUE;
+  const handleSelectTeam = createTypeSafeHandler<TeamKey>((team: TeamKey) => {
+    const teamValue = TEAM_VALUE[team];
+    addQueryParamsToUrl({ team: teamValue });
     logClickEvent('filterTeam', { team: team || 'all' });
   });
 
