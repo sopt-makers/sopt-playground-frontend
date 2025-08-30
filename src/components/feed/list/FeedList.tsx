@@ -13,6 +13,7 @@ import { useCategoryParam } from '@/components/feed/common/queryParam';
 import Hot from '@/components/feed/home';
 import CategorySelect from '@/components/feed/list/CategorySelect';
 import CategorySkeleton from '@/components/feed/list/CategorySkeleton';
+import CrewFeedList from '@/components/feed/list/CrewFeedList';
 import FeedListItems from '@/components/feed/list/FeedListItems';
 import { layoutCSSVariable } from '@/components/layout/utils';
 import { playgroundLink } from '@/constants/links';
@@ -22,6 +23,8 @@ interface FeedListProps {
   renderFeedDetailLink: (props: { children: ReactNode; feedId: string; category: string }) => ReactNode;
   onScrollChange?: (scrolling: boolean) => void;
 }
+
+const CREW_CATEGORY_ID = '24';
 
 const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) => {
   const queryClient = useQueryClient();
@@ -70,11 +73,15 @@ const FeedList: FC<FeedListProps> = ({ renderFeedDetailLink, onScrollChange }) =
               </div>
             )}
           >
-            <FeedListItems
-              categoryId={categoryId}
-              renderFeedDetailLink={renderFeedDetailLink}
-              onScrollChange={onScrollChange}
-            />
+            {categoryId === CREW_CATEGORY_ID ? (
+              <CrewFeedList categoryId={categoryId} onScrollChange={onScrollChange} />
+            ) : (
+              <FeedListItems
+                categoryId={categoryId}
+                renderFeedDetailLink={renderFeedDetailLink}
+                onScrollChange={onScrollChange}
+              />
+            )}
           </ErrorBoundary>
         )}
       </HeightSpacer>

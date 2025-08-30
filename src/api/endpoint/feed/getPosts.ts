@@ -102,6 +102,7 @@ const PostsSchema = z.object({
           ),
         })
         .nullable(),
+      meetingId: z.number().nullable(),
     }),
   ),
 });
