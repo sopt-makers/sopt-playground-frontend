@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronRight } from '@sopt-makers/icons';
+import { useRouter } from 'next/router';
 
 import Text from '@/components/common/Text';
+import { crewLink } from '@/constants/links';
 
 interface CrewMeetingLinkRowProps {
   category: string;
@@ -11,9 +13,11 @@ interface CrewMeetingLinkRowProps {
 }
 
 const CrewMeetingLinkRow = ({ category, title, meetingId }: CrewMeetingLinkRowProps) => {
+  const router = useRouter();
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    window.location.href = `/group/detail?id=${meetingId}`;
+    router.push(crewLink.groupDetail(meetingId));
   };
 
   return (

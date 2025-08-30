@@ -47,4 +47,5 @@ export const playgroundLink = {
 export const crewLink = {
   crewHome: () => `/group`,
   feedDetail: (id: string | number) => `/group/post?id=${id}`,
+  groupDetail: (id: string | number) => `/group/detail?id=${id}`,
 };

@@ -37,6 +37,8 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
     return null;
   }
 
+  const createdAt = getRelativeTime(post.createdDate);
+
   return (
     <FeedCard
       onClick={onFeedCardClick}
@@ -44,7 +46,7 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
       title={post.title}
       content={post.contents}
       profileImage={post.user.profileImage}
-      createdAt={getRelativeTime(post.createdDate)}
+      createdAt={createdAt}
       commentLength={post.commentCount}
       hits={post.viewCount}
       isShowInfo={false}
@@ -60,7 +62,7 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
           <Text typography='SUIT_14_R' lineHeight={20} color={colors.gray400} style={{ margin: '0 2px' }}>
             ∙
           </Text>
-          {getRelativeTime(post.createdDate)}
+          {createdAt}
         </>
       }
       rightIcon={

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 import { atom, useRecoilState } from 'recoil';
@@ -9,6 +10,7 @@ import { getMemberInfo } from '@/components/feed/common/utils';
 import CrewFeedListItem from '@/components/feed/list/CrewFeedList/CrewFeedListItem';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
+import { crewLink } from '@/constants/links';
 import { textStyles } from '@/styles/typography';
 
 interface CrewFeedListProps {
@@ -22,6 +24,7 @@ const scrollIndexAtom = atom<Record<string, number>>({
 });
 
 const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
+  const router = useRouter();
   const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
     categoryId,
   });
@@ -46,24 +49,24 @@ const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
   };
 
   const handleFeedContentClick = (postId: number) => {
-    window.location.href = `/group/post?id=${postId}`;
+    router.push(crewLink.feedDetail(postId));
   };
 
   if (isLoading) return <FeedSkeleton />;
 
   if (isError) {
     return (
-      <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
+      <ExceptionWrapper>
         <AlertText>오류가 발생했어요.</AlertText>
-      </div>
+      </ExceptionWrapper>
     );
   }
 
   if (data != null && flattenData.length === 0) {
     return (
-      <div css={{ display: 'flex', justifyContent: 'center', padding: '30px 0' }}>
+      <ExceptionWrapper>
         <AlertText>아직 작성된 글이 없어요(ㅠ_ㅠ)</AlertText>
-      </div>
+      </ExceptionWrapper>
     );
   }
 
@@ -113,4 +116,10 @@ const AlertText = styled.div`
   width: 100%;
   color: ${colors.gray300};
   ${textStyles.SUIT_14_M};
+`;
+
+const ExceptionWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
 `;
