@@ -106,6 +106,7 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
         </LoggingClick>
       }
       onClickContent={onFeedContentClick}
+      onCommentClick={onFeedContentClick}
     >
       {post.images.length !== 0 && (
         <FeedCard.Image>

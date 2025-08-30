@@ -42,6 +42,7 @@ interface BaseProps {
   sopticleUrl: string;
   thumbnailUrl: string;
   onClickContent?: () => void;
+  onCommentClick?: () => void;
 }
 
 const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
@@ -68,6 +69,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       sopticleUrl,
       thumbnailUrl,
       onClickContent,
+      onCommentClick,
     },
     ref,
   ) => {
@@ -179,7 +181,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
               </Text>
             </Flex>
             <Flex css={{ gap: 8 }}>
-              <FeedLike likes={commentLength} type='message' />
+              <FeedLike likes={commentLength} type='message' onClick={onCommentClick} />
               {like}
             </Flex>
           </Bottom>
