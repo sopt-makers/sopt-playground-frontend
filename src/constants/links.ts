@@ -22,7 +22,7 @@ export const playgroundLink = {
   groupDetail: (id: string | number) => `/group/detail?id=${id}`,
   intro: () => `/intro`,
   login: () => `/accounts`,
-  register: () => `/auth/verify`,
+  register: () => `/accounts/sign-up/auth`,
   resetLogin: () => `/auth/reset`,
   reconnectSocialAuth: () => `/auth/reconnect`,
   connectSocialAuth: () => `/auth/register`,
