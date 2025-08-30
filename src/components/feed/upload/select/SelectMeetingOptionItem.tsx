@@ -9,8 +9,6 @@ import Text from '@/components/common/Text';
 import { SelectMeetingOptionItemProps } from './types';
 
 export default function SelectMeetingOptionItem({ meetingInfo, onClick }: SelectMeetingOptionItemProps) {
-  console.log('meetingInfo', meetingInfo);
-
   return (
     <OptionItem onClick={() => onClick(meetingInfo)}>
       <OptionContent>
