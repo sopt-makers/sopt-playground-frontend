@@ -89,8 +89,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       memberProfileData?.pages.map((page) =>
         page.members.map((member) => ({
           ...member,
-          isActive: member.activities.map(({ generation }) => generation).includes(LATEST_GENERATION),
-          part: uniq(member.activities.map(({ part }) => part)).join(' / '),
+          activities: member.activities || [],
+          isActive: (member.activities || []).map(({ generation }) => generation).includes(LATEST_GENERATION),
+          part: uniq((member.activities || []).map(({ part }) => part)).join(' / '),
         })),
       ),
     [memberProfileData],
