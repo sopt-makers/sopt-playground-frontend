@@ -8,10 +8,10 @@ import Footer from '@/components/common/Footer';
 import SwitchableHeader from '@/components/common/Header/SwitchableHeader';
 import AboutMakers from '@/components/makers/AboutMakers';
 import { makersGenerationsData } from '@/components/makers/data';
+import { makerInfo } from '@/components/makers/data/makerInfo';
 import MakersMembers from '@/components/makers/MakersMembers';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
-import { makerInfo } from '@/components/makers/data/makerInfo';
 
 interface MakersPageProps {
   memberMetadataList: { id: number; profileImage: string; currentCompany: string | null; generations: number[] }[];
