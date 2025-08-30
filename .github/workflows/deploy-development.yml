@@ -3,7 +3,7 @@ name: Development Deploy
 on:
   push:
     branches:
-      - main
+      - develop
   pull_request:
     paths-ignore:
       - '**.md'
