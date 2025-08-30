@@ -1,6 +1,5 @@
 import { atom } from 'recoil';
 
-import { axiosInstance } from '@/api';
 import { safeDecodeAccessToken, tokenStorage } from '@/components/auth/util/accessToken';
 import { isClientSide } from '@/utils';
 
@@ -13,7 +12,6 @@ export const accessTokenAtom = atom<string | null>({
         const token = tokenStorage.get();
         if (token !== null && safeDecodeAccessToken(token)) {
           setSelf(token);
-          axiosInstance.defaults.headers.common['Authorization'] = token;
         }
       }
 
@@ -23,8 +21,6 @@ export const accessTokenAtom = atom<string | null>({
           return;
         }
         tokenStorage.set(token);
-
-        axiosInstance.defaults.headers.common['Authorization'] = token;
       });
     },
   ],

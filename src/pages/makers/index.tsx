@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import { FC } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 
-import { getMakersProfile } from '@/api/endpoint/makers/getMakersProfile';
+// import { getMakersProfile } from '@/api/endpoint/makers/getMakersProfile';
 import Footer from '@/components/common/Footer';
 import SwitchableHeader from '@/components/common/Header/SwitchableHeader';
 import AboutMakers from '@/components/makers/AboutMakers';
@@ -12,6 +12,7 @@ import { makerInfo } from '@/components/makers/data/makerInfo';
 import MakersMembers from '@/components/makers/MakersMembers';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
+
 interface MakersPageProps {
   memberMetadataList: { id: number; profileImage: string; currentCompany: string | null; generations: number[] }[];
 }
