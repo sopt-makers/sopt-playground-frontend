@@ -6,8 +6,8 @@ import { Spacing } from '@toss/emotion-utils';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef } from 'react';
 
-import { useMeetingList } from '@/api/endpoint/feed/getMeetingList';
-import { GroupFeedParams, usePostGroupFeed } from '@/api/endpoint/feed/postGroupFeed';
+import { useMeetingList } from '@/api/crew/getMeetingList';
+import { GroupFeedParams, usePostGroupFeed } from '@/api/crew/postGroupFeed';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Checkbox from '@/components/common/Checkbox';
 import Divider from '@/components/common/Divider/Divider';
