@@ -115,15 +115,19 @@ export function SelectTrigger({ placeholder = '모임을 선택해주세요' }: 
 
 // Content
 export function SelectContent({ meetingList }: SelectContentProps) {
-  const { toggleSelect, isSelectOpen, selectMeeting, closeSelect } = useSelect();
+  const { isSelectOpen, selectMeeting, closeSelect } = useSelect();
 
   if (!meetingList || meetingList.length === 0) {
     return <Skeleton />;
   }
 
-  const meetingItems = meetingList.map((meetingInfo) => (
-    <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={selectMeeting} />
-  ));
+  const meetingItems = useMemo(
+    () =>
+      meetingList.map((meetingInfo) => (
+        <SelectMeetingOptionItem key={meetingInfo.id} meetingInfo={meetingInfo} onClick={selectMeeting} />
+      )),
+    [meetingList, selectMeeting],
+  );
 
   return (
     <>
