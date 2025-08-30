@@ -4,6 +4,7 @@ import { IconAlertTriangle, IconShare } from '@sopt-makers/icons';
 import { Flex } from '@toss/emotion-utils';
 
 import { useGetCrewPostQuery } from '@/api/crew/getCrewPost';
+import { useToggleCrewPostLikeMutation } from '@/api/crew/toggleCrewPostLike';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
@@ -23,15 +24,14 @@ interface CrewFeedListItemProps {
 
 const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberInfo }: CrewFeedListItemProps) => {
   const { data: post } = useGetCrewPostQuery(postId);
+  const { mutate: toggleCrewPostLike } = useToggleCrewPostLikeMutation(postId);
 
   const { handleShareFeed } = useShareFeed();
   const { handleReport } = useReportFeed();
 
   const handleFeedLike = () => {
-    console.log('handleFeedLike');
+    toggleCrewPostLike();
   };
-
-  console.info({ crewPost: post });
 
   if (!post) {
     return null;
@@ -102,7 +102,7 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
           eventKey={post.isLiked ? 'feedUnlike' : 'feedLike'}
           param={{ feedId: String(post.id), category: post.categoryName }}
         >
-          <FeedLike isLiked={post.isLiked} likes={post.likes} onClick={handleFeedLike} type={'heart'} />
+          <FeedLike isLiked={post.isLiked} likes={post.likeCount} onClick={handleFeedLike} type={'heart'} />
         </LoggingClick>
       }
       onClickContent={onFeedContentClick}
