@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import {
+  GROUP_CATEGORY_ID,
   PART_CATEGORY_ID,
   PROMOTION_CATEGORY_ID,
   QUESTION_CATEGORY_ID,
@@ -70,6 +71,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     if (feedData.categoryId === PROMOTION_CATEGORY_ID || feedData.categoryId === PART_CATEGORY_ID) {
       return false;
     }
+
     return (
       (feedData.categoryId !== null && feedData.title.trim() && feedData.content.trim()) ||
       (feedData.categoryId === SOPTICLE_CATEGORY_ID && feedData.link?.trim())
