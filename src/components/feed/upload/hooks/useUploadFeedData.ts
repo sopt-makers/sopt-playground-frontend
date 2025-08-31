@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import useCategory from '@/components/feed/common/hooks/useCategory';
 import {
-  GROUP_CATEGORY_ID,
   PART_CATEGORY_ID,
   PROMOTION_CATEGORY_ID,
   QUESTION_CATEGORY_ID,
