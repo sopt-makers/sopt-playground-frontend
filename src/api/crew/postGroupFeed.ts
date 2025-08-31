@@ -11,19 +11,29 @@ export interface GroupFeedParams {
   meetingId: number;
 }
 
+export interface PostGroupFeedResponse {
+  postId: number;
+}
+
+export const PostGroupFeedResponseSchema = z.object({
+  postId: z.number(),
+});
+
 export const postGroupFeed = createEndpoint({
-  request: (orgId: number, reqeustBody: GroupFeedParams) => ({
+  request: (orgId: number, requestBody: GroupFeedParams) => ({
     method: 'POST',
     url: `internal/post/${orgId}`,
-    data: reqeustBody,
+    data: requestBody,
   }),
-  serverResponseScheme: z.unknown(),
+  serverResponseScheme: PostGroupFeedResponseSchema,
   externalInstance: axiosCrewInstance,
 });
 
 export const usePostGroupFeed = (orgId: number) => {
-  return useMutation({
-    mutationFn: (reqeustBody: GroupFeedParams) => postGroupFeed.request(orgId, reqeustBody),
-    onSuccess: () => {},
+  return useMutation<PostGroupFeedResponse, Error, GroupFeedParams>({
+    mutationFn: (requestBody: GroupFeedParams) => postGroupFeed.request(orgId, requestBody),
+    onError: () => {
+      alert('피드 작성에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    },
   });
 };

@@ -70,6 +70,7 @@ export default function useUploadFeedData(defaultValue: PostedFeedDataType) {
     if (feedData.categoryId === PROMOTION_CATEGORY_ID || feedData.categoryId === PART_CATEGORY_ID) {
       return false;
     }
+
     return (
       (feedData.categoryId !== null && feedData.title.trim() && feedData.content.trim()) ||
       (feedData.categoryId === SOPTICLE_CATEGORY_ID && feedData.link?.trim())
