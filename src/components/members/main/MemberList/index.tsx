@@ -28,7 +28,6 @@ import {
   ORDER_OPTIONS,
   PART_DEFAULT_OPTION,
   PART_OPTIONS,
-  PART_VALUE,
   TEAM_OPTIONS,
   TEAM_VALUE,
 } from '@/components/members/main/MemberList/filters/constants';
@@ -109,13 +108,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { generation, part, search, employed, team, mbti, orderBy } = router.query;
+      const { generation, filter, search, employed, team, mbti, orderBy } = router.query;
       if (typeof generation === 'string' || generation === undefined || null) {
         const generationOption = GENERATION_OPTIONS.find((option) => option.value === generation);
         setGeneration(generationOption as Option);
       }
-      if (typeof part === 'string' || part === undefined || null) {
-        const filterOption = PART_OPTIONS.find((option) => option.value === part);
+      if (typeof filter === 'string' || filter === undefined || null) {
+        const filterOption = PART_OPTIONS.find((option) => option.value === filter);
         setPart(filterOption as Option);
       }
       if (typeof search === 'string') {
@@ -154,12 +153,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       }
     };
 
-  type PartKey = keyof typeof PART_VALUE;
-  type PartValue = (typeof PART_VALUE)[PartKey];
-  const handleSelectPart = createTypeSafeHandler<PartValue>((_part: PartValue) => {
-    const partKey = (Object.keys(PART_VALUE) as PartKey[]).find((key) => PART_VALUE[key] === _part);
-    addQueryParamsToUrl({ part: partKey });
-    logClickEvent('filterPart', { part: _part || 'all' });
+  const handleSelectPart = createTypeSafeHandler<string>((filter: string) => {
+    addQueryParamsToUrl({ filter });
+    logClickEvent('filterPart', { part: filter || 'all' });
   });
 
   const handleSelectGeneration = createTypeSafeHandler<string>((generation: string) => {
