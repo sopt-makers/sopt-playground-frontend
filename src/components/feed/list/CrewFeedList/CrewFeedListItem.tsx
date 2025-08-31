@@ -10,10 +10,10 @@ import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
-import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import CrewMeetingLinkRow from '@/components/feed/list/CrewFeedList/CrewMeetingLinkRow';
 import FeedCard from '@/components/feed/list/FeedCard';
+import { crewLink } from '@/constants/links';
 
 interface CrewFeedListItemProps {
   postId: number;
@@ -26,11 +26,16 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
   const { data: post } = useGetCrewPostQuery(postId);
   const { mutate: toggleCrewPostLike } = useToggleCrewPostLikeMutation(postId);
 
-  const { handleShareFeed } = useShareFeed();
   const { handleReport } = useReportFeed();
 
   const handleFeedLike = () => {
     toggleCrewPostLike();
+  };
+
+  const handleCopyLink = () => {
+    copy(`${window.location.origin}${crewLink.feedDetail(postId)}`, {
+      successMessage: '링크가 복사되었어요.',
+    });
   };
 
   if (!post) {
@@ -77,7 +82,7 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
             <FeedDropdown.Item
               onClick={(e) => {
                 e.stopPropagation();
-                handleShareFeed(`${post.id}`);
+                handleCopyLink();
               }}
             >
               <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
@@ -130,3 +135,6 @@ const MeetingLinkRowWrapper = styled.div`
   padding-right: 20px;
   width: 100%;
 `;
+function copy(arg0: string, arg1: { successMessage: string }) {
+  throw new Error('Function not implemented.');
+}
