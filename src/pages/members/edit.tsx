@@ -10,7 +10,6 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import useToast from '@/components/common/Toast/useToast';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import CheckActivity from '@/components/members/upload/CheckActivity/Modal/CheckActivityModal';
 import {
   DEFAULT_CAREER,
   DEFAULT_FAVOR,
@@ -224,7 +223,6 @@ export default function MemberEditPage() {
 
   return (
     <AuthRequired>
-      {me && me.editActivitiesAble && <CheckActivity />}
       <FormProvider {...formMethods}>
         <MemberForm type='edit' onSubmit={handleSubmit(onSubmit)} isValid={Object.keys(errors).length < 1}>
           <BasicFormSection />
