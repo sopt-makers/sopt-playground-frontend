@@ -20,7 +20,7 @@ export const PART_VALUE = {
 } as const;
 
 export const TEAM_VALUE = {
-  임원진: 'MAKER',
+  임원진: 'MAKERS',
   운영팀: 'OPERATION',
   미디어팀: 'MEDIA',
 } as const;
