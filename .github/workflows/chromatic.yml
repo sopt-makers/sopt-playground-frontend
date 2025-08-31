@@ -2,7 +2,7 @@ name: Storybook Deployment
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
   pull_request:
     paths-ignore:
       - '**.md'
