@@ -1,17 +1,22 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconChevronLeft } from '@sopt-makers/icons';
-import { Callout } from '@sopt-makers/ui';
-import { Button } from '@sopt-makers/ui';
+import { Button, Callout } from '@sopt-makers/ui';
+import { Spacing } from '@toss/emotion-utils';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useRef } from 'react';
 
+import { useMeetingList } from '@/api/crew/getMeetingList';
+import { GroupFeedParams, usePostGroupFeed } from '@/api/crew/postGroupFeed';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Checkbox from '@/components/common/Checkbox';
+import Divider from '@/components/common/Divider/Divider';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import useCategory from '@/components/feed/common/hooks/useCategory';
-import { QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
+import { mentionRegex } from '@/components/feed/common/utils/parseMention';
+import { GROUP_CATEGORY_ID, QUESTION_CATEGORY_ID, SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import Category from '@/components/feed/upload/Category';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import { useCategoryUsingRulesPreview } from '@/components/feed/upload/hooks/useCategorySelect';
@@ -24,16 +29,16 @@ import LinkInput from '@/components/feed/upload/Input/LinkInput';
 import TitleInput from '@/components/feed/upload/Input/TitleInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
+import { GroupSelect, SelectContent, SelectTrigger } from '@/components/feed/upload/select/GroupSelect';
 import { PostedFeedDataType } from '@/components/feed/upload/types';
 import UsingRules from '@/components/feed/upload/UsingRules';
 import VoteModal from '@/components/feed/upload/voteModal';
 import VotePreview from '@/components/feed/upload/votePreview';
 import VoteUploadButton from '@/components/feed/upload/voteUploadButton';
+import { crewLink } from '@/constants/links';
 import useImageUploader from '@/hooks/useImageUploader';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { mentionRegex } from '@/components/feed/common/utils/parseMention';
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 
 interface FeedUploadPageProp {
   editingId?: number;
@@ -56,6 +61,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
     checkReadyToUpload,
     handleSaveSopticleUrl,
     handleSaveVote,
+    handleGroupClick,
     resetVote,
   } = useUploadFeedData(defaultValue);
 
@@ -88,7 +94,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { logClickEvent } = useEventLogger();
 
   const { isLinkError, validateLink, resetLinkError } = useLinkValidator();
+
+  const { data: meetingList } = useMeetingList();
   const { data: me } = useGetMemberOfMe();
+  const { mutate: postGroupFeed } = usePostGroupFeed(me?.id ?? 0);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -105,6 +114,23 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
       if (!isNaN(idNum)) {
         mentionIds.push(idNum);
       }
+    }
+
+    if (feedData.categoryId === GROUP_CATEGORY_ID) {
+      const params: GroupFeedParams = {
+        contents: feedData.content,
+        images: feedData.images,
+        title: feedData.title,
+        meetingId: Number(feedData.groupId),
+      };
+
+      postGroupFeed(params, {
+        onSuccess: () => {
+          router.push(crewLink.feedDetail(Number(feedData.groupId)));
+        },
+      });
+
+      return;
     }
 
     onSubmit({
@@ -139,6 +165,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
   const isSopticle = parentCategory?.id === SOPTICLE_CATEGORY_ID;
   const isQuestion = parentCategory?.id === QUESTION_CATEGORY_ID;
+  const isGroup = parentCategory?.id === GROUP_CATEGORY_ID;
 
   const quitUploading = () => {
     logClickEvent('quitUploadCommunity');
@@ -202,6 +229,15 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
                     </Callout>
                   )}
+                  {isGroup && (
+                    <>
+                      <GroupSelect onOptionClick={handleGroupClick}>
+                        <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                        <SelectContent meetingList={meetingList} />
+                      </GroupSelect>
+                      <Spacing size={'8'} direction={'vertical'} />
+                    </>
+                  )}
                   <TitleInput
                     onChange={handleSaveTitle}
                     onKeyDown={handleDesktopKeyPressToContents}
@@ -240,7 +276,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleDesktopClickImageInput}
                       imageInputRef={desktopRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
+                    {!isGroup && <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />}
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}
@@ -304,6 +340,12 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       SOPT회원들에게 나의 고민이나 궁금증을 공유하고 답변을 받아보세요!
                     </Callout>
                   )}
+                  {isGroup && (
+                    <GroupSelect onOptionClick={handleGroupClick}>
+                      <SelectTrigger placeholder='어떤 모임의 피드를 작성할까요?' />
+                      <SelectContent meetingList={meetingList} />
+                    </GroupSelect>
+                  )}
                   <TitleInput
                     onChange={handleSaveTitle}
                     onKeyDown={handleMobileKeyPressToContents}
@@ -341,7 +383,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
                       onClick={handleMobileClickImageInput}
                       imageInputRef={mobileRef}
                     />
-                    <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />
+                    {!isGroup && <VoteUploadButton onClick={onOpenVoteModal} isDisabled={!!hasVoteOptions} />}
                     <VoteModal
                       isOpen={isOpenVoteModal}
                       onClose={onCloseVoteModal}

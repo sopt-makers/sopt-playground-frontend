@@ -43,3 +43,9 @@ export const playgroundLink = {
   mySoptReport: () => `/mySoptReport`,
   accounts: () => `/accounts`,
 };
+
+export const crewLink = {
+  crewHome: () => `/group`,
+  feedDetail: (id: string | number) => `/group/post?id=${id}`,
+  groupDetail: (id: string | number) => `/group/detail?id=${id}`,
+};

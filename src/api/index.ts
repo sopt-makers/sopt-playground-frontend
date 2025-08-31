@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 import { tokenStorage } from '@/components/auth/util/accessToken';
-import { ADMIN_API_KEY, ADMIN_API_URL, API_URL, AUTH_API_URL, OPERATION_API_URL } from '@/constants/env';
+import { ADMIN_API_KEY, ADMIN_API_URL, API_URL, AUTH_API_URL, CREW_API_URL, OPERATION_API_URL } from '@/constants/env';
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -26,6 +26,14 @@ export const axiosAdminInstance = axios.create({
     'Accept': '*/*',
     'Content-Type': 'application/json',
     'api-key': ADMIN_API_KEY,
+  },
+});
+
+export const axiosCrewInstance = axios.create({
+  baseURL: CREW_API_URL,
+  headers: {
+    'Accept': '*/*',
+    'Content-Type': 'application/json',
   },
 });
 
@@ -55,6 +63,22 @@ axiosInstance.interceptors.response.use(
   async (err) => handleTokenError(err),
 );
 
+axiosCrewInstance.interceptors.request.use(
+  (config) => {
+    const token = tokenStorage.get();
+    if (token && config.headers && config.headers.Authorization === undefined) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+axiosCrewInstance.interceptors.response.use(
+  (res) => res,
+  async (err) => handleTokenError(err),
+);
+
 export const handleTokenError = async (error: AxiosError<unknown>) => {
   const originRequest = error.config;
 
@@ -75,7 +99,7 @@ export const handleTokenError = async (error: AxiosError<unknown>) => {
         null,
         {
           headers: {
-            'Authorization': `Bearer ${tokenStorage.get()}`,
+            Authorization: `Bearer ${tokenStorage.get()}`,
           },
         },
       );

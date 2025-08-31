@@ -4,6 +4,7 @@ import { IconDotsVertical } from '@sopt-makers/icons';
 import { IconEye } from '@sopt-makers/icons';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -11,11 +12,10 @@ import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { IconMember } from '@/components/feed/common/Icon';
+import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import { playgroundLink } from '@/constants/links';
 import { textStyles } from '@/styles/typography';
-import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
-import { useRouter } from 'next/router';
 interface RandomProfile {
   nickname: string;
   profileImgUrl: string;
@@ -41,6 +41,8 @@ interface BaseProps {
   isSopticle?: boolean;
   sopticleUrl: string;
   thumbnailUrl: string;
+  onClickContent?: () => void;
+  onCommentClick?: () => void;
 }
 
 const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
@@ -66,10 +68,17 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       isSopticle = false,
       sopticleUrl,
       thumbnailUrl,
+      onClickContent,
+      onCommentClick,
     },
     ref,
   ) => {
     const router = useRouter();
+
+    const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      onClickContent?.();
+    };
 
     return (
       <Flex
@@ -138,7 +147,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   thumbnailUrl={thumbnailUrl}
                 />
               ) : (
-                <>
+                <div onClick={handleContentClick}>
                   {title && (
                     <Title typography='SUIT_17_SB' mr='28px'>
                       {isQuestion && <QuestionBadge>질문</QuestionBadge>}
@@ -158,7 +167,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   >
                     {renderContent(content, router)}
                   </Text>
-                </>
+                </div>
               )}
             </Stack>
           </Stack>
@@ -172,7 +181,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
               </Text>
             </Flex>
             <Flex css={{ gap: 8 }}>
-              <FeedLike likes={commentLength} type='message' />
+              <FeedLike likes={commentLength} type='message' onClick={onCommentClick} />
               {like}
             </Flex>
           </Bottom>
