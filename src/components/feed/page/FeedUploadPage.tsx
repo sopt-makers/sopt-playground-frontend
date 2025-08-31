@@ -124,9 +124,14 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         meetingId: Number(feedData.groupId),
       };
 
+      if (!params.meetingId) {
+        alert('모임을 선택해주세요.');
+        return;
+      }
+
       postGroupFeed(params, {
-        onSuccess: () => {
-          router.push(crewLink.feedDetail(Number(feedData.groupId)));
+        onSuccess: (data) => {
+          router.push(crewLink.feedDetail(Number(data?.postId)));
         },
       });
 
