@@ -7,7 +7,7 @@ import { getCategory } from '@/api/endpoint/feed/getCategory';
 import { useGetPopularPost } from '@/api/endpoint/feed/getPopularPost';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
-import { categoryIdNameMap } from '@/components/feed/common/utils';
+import { getParentCategoryIdByName } from '@/components/feed/common/utils';
 import PopularCard from '@/components/feed/home/PopularArea/PopularCard';
 import { MB_SM_MEDIA_QUERY } from '@/styles/mediaQuery';
 
@@ -16,7 +16,7 @@ const PopularArea = () => {
   const router = useRouter();
 
   const handleClickPopular = (category: string, feedId: number) => {
-    const categoryId = Object.entries(categoryIdNameMap).find(([_, name]) => name === category)?.[0];
+    const categoryId = getParentCategoryIdByName(category);
 
     if (!categoryId) {
       router.push(`/?feed=${feedId}`);

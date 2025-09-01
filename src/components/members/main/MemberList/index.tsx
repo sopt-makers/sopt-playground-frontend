@@ -209,7 +209,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
         <Responsive only='mobile'>{banner}</Responsive>
         <Responsive only='mobile' css={{ marginTop: '20px' }}>
           <StyledMemberSearch
-            placeholder='이름, 학교, 회사를 검색해보세요!'
+            placeholder='이름을 검색해보세요!'
             value={search || ''}
             onChange={handleSearchChange}
             onSubmit={() => handleSearchSubmit(search as string)}
@@ -353,7 +353,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   />
                 </StyledFilterWrapper>
                 <StyledMemberSearch
-                  placeholder='이름, 학교, 회사를 검색해보세요!'
+                  placeholder='이름을 검색해보세요!'
                   value={search || ''}
                   onChange={handleSearchChange}
                   onSubmit={() => handleSearchSubmit(search as string)}
