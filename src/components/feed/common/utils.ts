@@ -35,15 +35,6 @@ export enum Category {
   꿀팁,
 }
 
-export const CategoryList = {
-  자유: '자유',
-  파트: '파트',
-  SOPT활동: 'SOPT활동',
-  홍보: '홍보',
-  취업_진로: '취업/진로',
-  솝티클: '솝티클',
-};
-
 const 특수임원List = [
   '메이커스 리드',
   '메이커스 팀장',
@@ -81,16 +72,6 @@ export function getMemberInfo(post: Post) {
 
   return defaultInfo;
 }
-
-export const categoryIdNameMap: Record<number, string> = {
-  1: '자유',
-  2: '파트',
-  3: 'SOPT 활동',
-  4: '홍보',
-  5: '취업/진로',
-  21: '솝티클',
-  22: '질문',
-};
 
 export const getParentCategoryId = (
   categoryData: { id: number; children: { id: number }[] }[] | undefined,
@@ -145,6 +126,16 @@ export function getParentCategoryIdById(id: number | null): number | undefined {
   for (const parent of CATEGORY_TREE) {
     if (parent.id === id) return parent.id;
     if (parent.children?.some((child) => child.id === id)) {
+      return parent.id;
+    }
+  }
+  return undefined;
+}
+
+export function getParentCategoryIdByName(name: string): number | undefined {
+  for (const parent of CATEGORY_TREE) {
+    if (parent.name === name) return parent.id;
+    if (parent.children?.some((child) => child.name === name)) {
       return parent.id;
     }
   }
