@@ -18,9 +18,6 @@ export const useGetCrewPostInfiniteQuery = (orgId: number) => {
     queryKey: CrewQueryKey.post(orgId),
     queryFn: ({ pageParam }) => getCrewPost(orgId, pageParam, 30),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      return lastPage.hasNext ? lastPage.posts[lastPage.posts.length - 1].id : null;
-    },
-    enabled: !!orgId,
+    getNextPageParam: (lastPage) => (lastPage.pageMeta?.hasNextPage ? lastPage.pageMeta.page + 1 : undefined),
   });
 };

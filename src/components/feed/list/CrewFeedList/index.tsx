@@ -27,7 +27,7 @@ const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
   const router = useRouter();
 
   const orgId = useGetMemberOfMe().data?.id ?? 0;
-  const { data, refetch, fetchNextPage, isLoading, isError } = useGetCrewPostInfiniteQuery(orgId);
+  const { data, fetchNextPage, isLoading, isError } = useGetCrewPostInfiniteQuery(orgId);
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
 
@@ -79,21 +79,18 @@ const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
       }}
       useWindowScroll
       endReached={() => {
+        console.info('endReached');
         fetchNextPage();
       }}
       isScrolling={onScrollChange}
-      itemContent={(idx, post) => {
-        if (post.meetingId) {
-          return (
-            <CrewFeedListItem
-              post={post}
-              orgId={orgId}
-              onFeedCardClick={() => handleFeedCardClick(idx)}
-              onFeedContentClick={() => handleFeedContentClick(post.id)}
-            />
-          );
-        }
-      }}
+      itemContent={(idx, post) => (
+        <CrewFeedListItem
+          post={post}
+          orgId={orgId}
+          onFeedCardClick={() => handleFeedCardClick(idx)}
+          onFeedContentClick={() => handleFeedContentClick(post.id)}
+        />
+      )}
     />
   );
 };
