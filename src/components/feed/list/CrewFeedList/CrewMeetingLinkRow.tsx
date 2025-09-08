@@ -35,8 +35,8 @@ export default CrewMeetingLinkRow;
 
 const Container = styled.button`
   display: flex;
-  gap: 16px;
   align-items: center;
+  justify-content: space-between;
   border-radius: 12px;
   background-color: ${colors.gray800};
   padding: 14px 16px;
