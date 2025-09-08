@@ -3,18 +3,21 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosCrewInstance } from '@/api';
 import CrewQueryKey from '@/api/crew/CrewQueryKey';
 
-const postCrewPostLike = async (postId: number) => {
-  const response = await axiosCrewInstance.post(`/post/v2/${postId}/like`);
+const postCrewPostLike = async (orgId: number, postId: number) => {
+  const response = await axiosCrewInstance.post('/internal/meeting/stats/likes', {
+    orgId,
+    postId,
+  });
   return response.data;
 };
 
-export const useToggleCrewPostLikeMutation = (postId: number) => {
+export const useToggleCrewPostLikeMutation = (orgId: number, postId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => postCrewPostLike(postId),
+    mutationFn: () => postCrewPostLike(orgId, postId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: CrewQueryKey.post(postId) });
+      queryClient.invalidateQueries({ queryKey: CrewQueryKey.post(orgId) });
     },
   });
 };
