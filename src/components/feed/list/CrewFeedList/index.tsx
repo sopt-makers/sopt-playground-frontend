@@ -79,7 +79,6 @@ const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
       }}
       useWindowScroll
       endReached={() => {
-        console.info('endReached');
         fetchNextPage();
       }}
       isScrolling={onScrollChange}
