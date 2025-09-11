@@ -1,6 +1,6 @@
 const CrewQueryKey = {
   all: ['crew'] as const,
-  post: (postId: number) => [...CrewQueryKey.all, 'post', postId] as const,
+  post: (orgId: number) => [...CrewQueryKey.all, 'post', orgId] as const,
 };
 
 export default CrewQueryKey;

@@ -5,8 +5,8 @@ import { useRef } from 'react';
 import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
 import { atom, useRecoilState } from 'recoil';
 
-import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
-import { getMemberInfo } from '@/components/feed/common/utils';
+import { useGetCrewPostInfiniteQuery } from '@/api/crew/getCrewPost';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import CrewFeedListItem from '@/components/feed/list/CrewFeedList/CrewFeedListItem';
 import FeedSkeleton from '@/components/feed/list/FeedSkeleton';
 import { useNavigateBack } from '@/components/navigation/useNavigateBack';
@@ -25,9 +25,9 @@ const scrollIndexAtom = atom<Record<string, number>>({
 
 const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
   const router = useRouter();
-  const { data, refetch, fetchNextPage, isLoading, isError } = useGetPostsInfiniteQuery({
-    categoryId,
-  });
+
+  const orgId = useGetMemberOfMe().data?.id ?? 0;
+  const { data, fetchNextPage, isLoading, isError } = useGetCrewPostInfiniteQuery(orgId);
 
   const flattenData = data?.pages.flatMap((page) => page.posts) ?? [];
 
@@ -82,27 +82,14 @@ const CrewFeedList = ({ categoryId, onScrollChange }: CrewFeedListProps) => {
         fetchNextPage();
       }}
       isScrolling={onScrollChange}
-      itemContent={(idx, post) => {
-        console.info({ post });
-
-        if (post.meetingId) {
-          return (
-            <CrewFeedListItem
-              postId={post.id}
-              onFeedCardClick={() => handleFeedCardClick(idx)}
-              onFeedContentClick={() => handleFeedContentClick(post.id)}
-              memberInfo={getMemberInfo({
-                categoryId: post.categoryId,
-                categoryName: post.categoryName,
-                member: {
-                  activity: post.member?.activity ?? { generation: 0, part: '' },
-                  careers: post.member?.careers ?? null,
-                },
-              })}
-            />
-          );
-        }
-      }}
+      itemContent={(idx, post) => (
+        <CrewFeedListItem
+          post={post}
+          orgId={orgId}
+          onFeedCardClick={() => handleFeedCardClick(idx)}
+          onFeedContentClick={() => handleFeedContentClick(post.id)}
+        />
+      )}
     />
   );
 };

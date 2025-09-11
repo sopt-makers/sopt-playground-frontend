@@ -3,28 +3,28 @@ import { colors } from '@sopt-makers/colors';
 import { IconAlertTriangle, IconShare } from '@sopt-makers/icons';
 import { Flex } from '@toss/emotion-utils';
 
-import { useGetCrewPostQuery } from '@/api/crew/getCrewPost';
 import { useToggleCrewPostLikeMutation } from '@/api/crew/toggleCrewPostLike';
 import Text from '@/components/common/Text';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
-import { getRelativeTime } from '@/components/feed/common/utils';
+import { getMemberInfo, getRelativeTime } from '@/components/feed/common/utils';
 import CrewMeetingLinkRow from '@/components/feed/list/CrewFeedList/CrewMeetingLinkRow';
 import FeedCard from '@/components/feed/list/FeedCard';
 import { crewLink } from '@/constants/links';
 
 interface CrewFeedListItemProps {
-  postId: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  post: any;
+  orgId: number;
   onFeedCardClick: () => void;
   onFeedContentClick: () => void;
-  memberInfo: string;
 }
 
-const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberInfo }: CrewFeedListItemProps) => {
-  const { data: post } = useGetCrewPostQuery(postId);
-  const { mutate: toggleCrewPostLike } = useToggleCrewPostLikeMutation(postId);
+const CrewFeedListItem = ({ post, orgId, onFeedCardClick, onFeedContentClick }: CrewFeedListItemProps) => {
+  const postId = post.id;
+  const { mutate: toggleCrewPostLike } = useToggleCrewPostLikeMutation(orgId, postId);
 
   const { handleReport } = useReportFeed();
 
@@ -43,6 +43,15 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
   }
 
   const createdAt = getRelativeTime(post.createdDate);
+  const memberInfo = getMemberInfo({
+    categoryId: 24,
+    categoryName: '모임',
+    member: {
+      activity: post.user.partInfo,
+      // TODO(@j-nary): 플그 careers 데이터 연결
+      careers: null,
+    },
+  });
 
   return (
     <FeedCard
@@ -56,7 +65,7 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
       hits={post.viewCount}
       isShowInfo={false}
       memberId={post.user.id}
-      thumbnailUrl={post.meeting.imageURL[0].url}
+      thumbnailUrl={post?.images[0]}
       sopticleUrl={''}
       info={
         <>
@@ -123,7 +132,7 @@ const CrewFeedListItem = ({ postId, onFeedCardClick, onFeedContentClick, memberI
         </FeedCard.Image>
       )}
       <MeetingLinkRowWrapper>
-        <CrewMeetingLinkRow category={post.meeting.category} title={post.meeting.title} meetingId={post.meeting.id} />
+        <CrewMeetingLinkRow category={post.category} title={post.title} meetingId={post.id} />
       </MeetingLinkRowWrapper>
     </FeedCard>
   );
