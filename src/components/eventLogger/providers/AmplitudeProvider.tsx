@@ -2,6 +2,7 @@ import { FC, ReactNode, useEffect, useState } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProperty } from '@/api/endpoint/members/getMemberProperty';
+import AmplitudeLogViewer from '@/components/eventLogger/components/AmplitudeLogViewer';
 import { EventLoggerContext } from '@/components/eventLogger/context';
 import { createConsoleLogController } from '@/components/eventLogger/controllers/consoleLog';
 
@@ -51,7 +52,12 @@ const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) =
     initializeAmplitude();
   }, [apiKey, data, property]);
 
-  return <EventLoggerContext.Provider value={controller}>{children}</EventLoggerContext.Provider>;
+  return (
+    <EventLoggerContext.Provider value={controller}>
+      {children}
+      <AmplitudeLogViewer isDev={process.env.NODE_ENV === 'development'} />
+    </EventLoggerContext.Provider>
+  );
 };
 
 export default AmplitudeProvider;
