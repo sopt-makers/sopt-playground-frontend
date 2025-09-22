@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router';
 import { FC, ReactNode, useCallback, useEffect, useRef } from 'react';
-import {  useRecoilValue } from 'recoil';
 
-import { accessTokenAtom } from '@/components/auth/states/accessTokenAtom';
+import { tokenStorage } from '@/components/auth/util/accessToken';
 import useLastUnauthorized from '@/components/auth/util/useLastUnauthorized';
 import { IS_DEV } from '@/constants/env';
 import { playgroundLink } from '@/constants/links';
@@ -18,7 +17,7 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
   const router = useRouter();
 
   const lastUnauthorized = useLastUnauthorized();
-  const accessToken = useRecoilValue(accessTokenAtom);
+  const accessToken = tokenStorage.get();
 
   const isCalledRef = useRef(false);
 
@@ -26,9 +25,8 @@ const AuthRequired: FC<AuthRequiredProps> = ({ children }) => {
     if (!isCalledRef.current) {
       fn();
       isCalledRef.current = true;
-    } 
+    }
   }, []);
-
 
   useEffect(() => {
     if (router.isReady && accessToken === null) {
