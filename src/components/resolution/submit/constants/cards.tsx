@@ -35,7 +35,7 @@ export const cards: TimecapsuleCard[] = [
   {
     id: 2,
     name: '멤버',
-    description: '나와 함께 활동할 36기 사람들이 궁금해요',
+    description: '나와 함께 활동할 37기 사람들이 궁금해요',
     color: '#5CDBFE',
     hover: '#4194AB',
     icon: <MemberIcon />,
