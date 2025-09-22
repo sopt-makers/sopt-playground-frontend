@@ -12,6 +12,7 @@ import banner36Desktop from '@/public/icons/img/welcome-banner_36_desktop.png';
 import banner36Mobile from '@/public/icons/img/welcome-banner_36_mobile.png';
 import bannerOthersDesktop from '@/public/icons/img/welcome-banner_other_desktop.gif';
 import bannerOthersMobile from '@/public/icons/img/welcome-banner_other_mobile.gif';
+import { pgColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type BannerType = {
@@ -151,11 +152,11 @@ const ResolutionButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 100px;
-  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  background: ${pgColors.mainGradient};
   padding: 9px 14px;
 
   &:hover {
-    background: ${colors.gray50};
+    background: ${pgColors.mainHover};
   }
 `;
 
