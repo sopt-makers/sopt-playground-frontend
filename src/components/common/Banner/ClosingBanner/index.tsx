@@ -159,7 +159,7 @@ const StyledButton = styled.button<{ color: 'primary' | 'secondary' }>`
   width: fit-content;
 
   &:hover {
-    background-color: ${pgColors.mainHover};
+    background: ${pgColors.mainHover};
   }
 
   & svg {

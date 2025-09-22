@@ -12,7 +12,6 @@ const ActiveBannerSlot: FC<ActiveBannerSlotProps> = ({}) => {
     <StyledActiveBanner>
       {/* 이 밑에 노출할 배너를 넣으세요. */}
       {isTimecapsopOpen ? <WelcomeBannerContainer /> : <AdsBanner />}
-      <WelcomeBannerContainer />
     </StyledActiveBanner>
   );
 };
