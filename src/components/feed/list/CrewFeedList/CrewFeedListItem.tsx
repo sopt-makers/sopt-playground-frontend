@@ -132,7 +132,7 @@ const CrewFeedListItem = ({ post, orgId, onFeedCardClick, onFeedContentClick }: 
         </FeedCard.Image>
       )}
       <MeetingLinkRowWrapper>
-        <CrewMeetingLinkRow category={post.category} title={post.title} meetingId={post.id} />
+        <CrewMeetingLinkRow category={post.category} title={post.meetingTitle} meetingId={post.meetingId} />
       </MeetingLinkRowWrapper>
     </FeedCard>
   );
