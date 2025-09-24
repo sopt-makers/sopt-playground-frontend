@@ -181,7 +181,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   });
 
   const handleSelectOrderBy = createTypeSafeHandler<string>((orderBy: string) => {
-    addQueryParamsToUrl({ orderBy });
+    addQueryParamsToUrl({ orderBy: orderBy === '0' ? undefined : orderBy });
     logClickEvent('filterOrderBy', { orderBy });
   });
 
