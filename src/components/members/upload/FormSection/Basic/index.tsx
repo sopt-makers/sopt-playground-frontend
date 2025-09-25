@@ -59,7 +59,6 @@ export default function MemberBasicFormSection() {
             setIsAuthNumberCreated(true);
           },
           onError: (e) => {
-            console.log(e);
             toastOpen({ icon: 'error', content: '인증번호 발송에 실패했어요.' });
           },
         },
@@ -436,7 +435,6 @@ const FlexRow = styled.div`
   display: flex;
   gap: 14px;
   align-items: center;
-  justify-content: baseline;
   margin-top: 12px;
   width: 444px;
 
