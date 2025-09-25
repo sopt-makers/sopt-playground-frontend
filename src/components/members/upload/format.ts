@@ -57,3 +57,9 @@ export const getMbtiFromApiValue = (apiMbti: string | null) => {
   const mbti = apiMbti.split('');
   return isMbti(mbti) ? mbti : null;
 };
+
+export const formatTime = (time: number): string => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
