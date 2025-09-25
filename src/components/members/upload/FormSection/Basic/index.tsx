@@ -1,29 +1,106 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { TextArea, TextField } from '@sopt-makers/ui';
-import { MouseEvent, ReactNode } from 'react';
+import { Button, TextArea, TextField, useToast } from '@sopt-makers/ui';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { useCreatePhoneAuth } from '@/api/endpoint/auth/createPhoneAuth';
+import { useVerifyPhoneAuth } from '@/api/endpoint/auth/verifyPhoneAuth';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import ImageUploader from '@/components/common/ImageUploader';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import Responsive from '@/components/common/Responsive';
 import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
+import { useTimer } from '@/components/members/hooks/useTimer';
+import { formatTime } from '@/components/members/upload/format';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-
 export default function MemberBasicFormSection() {
+  const { mutate: createPhoneAuth } = useCreatePhoneAuth();
+  const { mutate: verifyPhoneAuth } = useVerifyPhoneAuth();
+
+  const { open: toastOpen } = useToast();
+
+  const [verificationError, setVerificationError] = useState(false);
+  const [isAuthNumberCreated, setIsAuthNumberCreated] = useState(false);
+  const [authNumber, setAuthNumber] = useState('');
+
+  const handleAuthNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '');
+    setAuthNumber(value);
+    setVerificationError(false);
+  };
+  const timerCallback = () => {
+    setAuthNumber('');
+    setVerificationError(true);
+  };
+
+  const { timeLeft, reset: resetTimer, start } = useTimer(timerCallback);
+
+  const handleCreatePhoneAuth = async () => {
+    if (me && me.id) {
+      createPhoneAuth(
+        {
+          userId: me.id,
+          phone: getValues('phone'),
+        },
+        {
+          onSuccess: () => {
+            toastOpen({ icon: 'success', content: '인증번호가 발송되었어요.' });
+            resetTimer();
+            start();
+            setIsAuthNumberCreated(true);
+          },
+          onError: (e) => {
+            toastOpen({ icon: 'error', content: '인증번호 발송에 실패했어요.' });
+          },
+        },
+      );
+    } else {
+      toastOpen({ icon: 'error', content: '로그인 후 수정해주세요.' });
+    }
+  };
+
+  const handleAuthNumberAuthentication = () => {
+    if (me && me.name) {
+      verifyPhoneAuth(
+        {
+          name: me?.name,
+          phone: getValues('phone'),
+          code: authNumber,
+        },
+        {
+          onSuccess: () => {
+            toastOpen({ icon: 'success', content: '인증번호 검증에 성공했어요.' });
+            setIsAuthNumberCreated(false);
+            setAuthNumber('');
+            reset({ ...getValues(), phone: getValues('phone') });
+          },
+          onError: () => {
+            toastOpen({ icon: 'error', content: '인증번호 검증에 실패했어요.' });
+            setVerificationError(true);
+          },
+        },
+      );
+    } else {
+      toastOpen({ icon: 'error', content: '로그인 후 수정해주세요.' });
+    }
+  };
+
   const {
     control,
     register,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     getValues,
     setValue,
+    reset,
   } = useFormContext<MemberUploadForm>();
 
   const getBirthdayErrorMessage = () => {
@@ -34,6 +111,8 @@ export default function MemberBasicFormSection() {
   };
 
   const { confirm } = useConfirm();
+
+  const { data: me } = useGetMemberOfMe();
 
   const openMaskingModal = (title: ReactNode, description: ReactNode) => {
     return confirm({
@@ -113,6 +192,7 @@ export default function MemberBasicFormSection() {
             />
           </BirthdayInputWrapper>
         </FormItem>
+
         <FormItem title='연락처' errorMessage={errors.phone?.message} required className='maskable'>
           <StyledBlindSwitch>
             <StyledBlindSwitchTitle>정보 숨기기</StyledBlindSwitchTitle>
@@ -121,8 +201,54 @@ export default function MemberBasicFormSection() {
               onClick={(e) => handleBlind(e, 'isPhoneBlind', openMaskingPhoneModal)}
             />
           </StyledBlindSwitch>
-          <StyledTextField {...register('phone')} placeholder='010XXXXXXXX' isError={errors.hasOwnProperty('phone')} />
+
+          <FlexRow>
+            <StyledTextField
+              {...register('phone')}
+              placeholder='010XXXXXXXX'
+              maxLength={11}
+              isError={errors.hasOwnProperty('phone')}
+              noMargin
+            />
+            <StyledButton
+              disabled={!dirtyFields.phone || errors.hasOwnProperty('phone')}
+              onClick={handleCreatePhoneAuth}
+            >
+              인증번호 받기
+            </StyledButton>
+          </FlexRow>
         </FormItem>
+
+        <AnimatePresence>
+          {isAuthNumberCreated && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <FlexRow>
+                <AuthNumberWrapper>
+                  <StyledTextField
+                    value={authNumber}
+                    type='text'
+                    onChange={handleAuthNumberChange}
+                    placeholder='인증번호 입력'
+                    maxLength={6}
+                    noMargin
+                    isError={verificationError}
+                  />
+                  <Timer isError={verificationError}>{formatTime(timeLeft)}</Timer>
+                </AuthNumberWrapper>
+
+                <StyledButton disabled={authNumber.length !== 6} onClick={handleAuthNumberAuthentication}>
+                  번호 인증 확인
+                </StyledButton>
+              </FlexRow>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <FormItem title='이메일' required errorMessage={errors.email?.message} className='maskable'>
           <StyledTextField
             {...register('email')}
@@ -220,8 +346,8 @@ const StyledImageUploader = styled(ImageUploader)`
   }
 `;
 
-const StyledTextField = styled(TextField)`
-  margin-top: 12px;
+const StyledTextField = styled(TextField)<{ noMargin?: boolean }>`
+  margin-top: ${({ noMargin }) => (noMargin ? '0' : '12px')};
   width: 441px;
   height: 48px;
 
@@ -303,4 +429,48 @@ const StyledMaskingModalDesc = styled.ul`
   margin-left: 24px;
   list-style-type: disc;
   color: ${colors.gray300};
+`;
+
+const FlexRow = styled.div`
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 12px;
+  width: 444px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
+const StyledButton = styled(Button)`
+  flex-shrink: 0;
+  width: 126px;
+  height: 48px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const AuthNumberWrapper = styled.span`
+  display: flex;
+  position: relative;
+  min-width: 0;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const Timer = styled.span<{ isError: boolean }>`
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  color: ${({ isError }) => (isError ? colors.error : colors.white)};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    top: 24px;
+  }
 `;
