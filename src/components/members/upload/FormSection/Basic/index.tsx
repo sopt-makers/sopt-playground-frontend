@@ -15,11 +15,11 @@ import Responsive from '@/components/common/Responsive';
 import Switch from '@/components/common/Switch';
 import Text from '@/components/common/Text';
 import { useTimer } from '@/components/members/hooks/useTimer';
+import { formatTime } from '@/components/members/upload/format';
 import FormHeader from '@/components/members/upload/forms/FormHeader';
 import FormItem from '@/components/members/upload/forms/FormItem';
 import { MemberFormSection as FormSection } from '@/components/members/upload/forms/FormSection';
 import { MemberUploadForm } from '@/components/members/upload/types';
-import { formatTime } from '@/components/members/utils/formatter';
 import IconCamera from '@/public/icons/icon-camera.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 export default function MemberBasicFormSection() {
@@ -98,7 +98,7 @@ export default function MemberBasicFormSection() {
   const {
     control,
     register,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     getValues,
     setValue,
     reset,
@@ -211,7 +211,12 @@ export default function MemberBasicFormSection() {
               isError={errors.hasOwnProperty('phone')}
               noMargin
             />
-            <StyledButton onClick={handleCreatePhoneAuth}>인증번호 받기</StyledButton>
+            <StyledButton
+              disabled={!dirtyFields.phone || errors.hasOwnProperty('phone')}
+              onClick={handleCreatePhoneAuth}
+            >
+              인증번호 받기
+            </StyledButton>
           </FlexRow>
         </FormItem>
 
