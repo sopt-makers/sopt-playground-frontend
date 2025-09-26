@@ -55,7 +55,7 @@ export default PlaygroundGuideModal;
 
 const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: Omit<PlaygroundGuideModalProps, 'isOpen'>) => {
   return (
-    <>
+    <MobileContentWrapper>
       <TitleTextWrapper>
         <Text typography='SUIT_20_SB'>
           {isAlreadyRegistration ? '타임캡솝이 이미 보관되었어요 💌' : '타임캡솝을 보관했어요 💌'}
@@ -85,7 +85,7 @@ const PlaygroundGuide = ({ isAlreadyRegistration, ...props }: Omit<PlaygroundGui
         ))}
       </CardWrapper>
       {DEBUG && <TimecapsopDelteButton />}
-    </>
+    </MobileContentWrapper>
   );
 };
 
@@ -148,7 +148,7 @@ const TitleTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 56px;
+  padding-top: 56px;
   width: 100%;
 `;
 
@@ -212,4 +212,9 @@ const StyledButton = styled.button<{ color: string }>`
   width: max-content;
   color: ${colors.gray10};
   ${fonts.LABEL_11_SB}
+`;
+
+const MobileContentWrapper = styled.div`
+  touch-action: pan-y;
+  text-align: center;
 `;

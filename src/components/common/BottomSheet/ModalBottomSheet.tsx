@@ -12,11 +12,16 @@ export interface BottomSheetProps extends PropsWithChildren<ComponentProps<typeo
 export const ModalBottomSheet: FC<BottomSheetProps> = (props) => {
   const { children, isOpen, onClose, ...restProps } = props;
 
+  const handleClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClose();
+  };
+
   return (
     <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height' {...restProps}>
       <Sheet.Container>
         <Sheet.Header>
-          <StyledCloseButton onClick={onClose}>
+          <StyledCloseButton onClick={handleClose}>
             <StyledIconClose />
           </StyledCloseButton>
         </Sheet.Header>

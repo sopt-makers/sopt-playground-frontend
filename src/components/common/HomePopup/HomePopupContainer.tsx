@@ -8,16 +8,14 @@ interface HomePopupContainerProps {
 }
 
 const HomePopupContainer = ({ isOnlyLastGeneration }: HomePopupContainerProps) => {
-  const { data: myData, isPending } = useGetMemberOfMe();
+  const { data: myData } = useGetMemberOfMe();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
 
   // 팝업 표시 기간 설정
   const now = new Date();
-  const popupStart = new Date('2025-08-28T00:00:00+09:00');
-  const popupEnd = new Date('2025-08-31T23:59:59+09:00');
+  const popupStart = new Date('2025-09-26T00:00:00+09:00');
+  const popupEnd = new Date('2025-10-11T23:59:59+09:00');
   const isPopupPeriod = now >= popupStart && now <= popupEnd;
-
-  if (isPending) return <Skeleton height={168} margin='0 0 16px 0' />;
 
   if ((isOnlyLastGeneration && !isLastGeneration) || !isPopupPeriod) {
     return null;

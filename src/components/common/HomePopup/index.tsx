@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
+import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuideModal';
+import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
+import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const getKoreanDate = (): string => {
@@ -23,20 +26,20 @@ export const HomePopup = () => {
   const today = getKoreanDate();
 
   // 타임캡솝 저장 여부 기록을 위한 코드
-  // const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
-  // const onNewRegistration = () => {
-  //   setIsAlreadyRegistration(false);
-  // };
+  const [isAlreadyRegistration, setIsAlreadyRegistration] = useState(true);
+  const onNewRegistration = () => {
+    setIsAlreadyRegistration(false);
+  };
 
-  // const {
-  //   isOpenResolutionModal,
-  //   onCloseResolutionModal,
-  //   handleResolutionModalOpen,
-  //   name,
-  //   isOpenPlaygroundGuideModal,
-  //   onOpenPlaygroundGuideModal,
-  //   onClosePlaygroundGuideModal,
-  // } = useOpenResolutionModal();
+  const {
+    isOpenResolutionModal,
+    onCloseResolutionModal,
+    handleResolutionModalOpen,
+    name,
+    isOpenPlaygroundGuideModal,
+    onOpenPlaygroundGuideModal,
+    onClosePlaygroundGuideModal,
+  } = useOpenResolutionModal();
 
   useEffect(() => {
     const storedDate = localStorage.getItem('popupClosedDate');
@@ -72,10 +75,10 @@ export const HomePopup = () => {
   };
 
   // 타입캡솝 모달 띄우기
-  // const handleOpenModal = async () => {
-  //   await handleClosePopup();
-  //   onOpenResolutionModal();
-  // };
+  const handleOpenModal = async () => {
+    await handleClosePopup();
+    handleResolutionModalOpen();
+  };
 
   // const {
   //   isOpen: isOpenReadResolutionModal,
@@ -91,16 +94,16 @@ export const HomePopup = () => {
             <StPopupModal>
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
-                  {/* <button onClick={handleOpenModal}> */}
-                  <StImage src='/icons/img/popup/PC.png' />
-                  {/* </button> */}
+                  <button onClick={handleOpenModal}>
+                    <StImage src='/icons/img/popup/PC.png' />
+                  </button>
                 </LoggingClick>
               </Responsive>
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
-                  {/* <button onClick={handleOpenModal}> */}
-                  <StImage src='/icons/img/popup/MO.png' />
-                  {/* </button> */}
+                  <button onClick={handleOpenModal}>
+                    <StImage src='/icons/img/popup/MO.png' />
+                  </button>
                 </LoggingClick>
               </Responsive>
               <StModalFooter>
@@ -116,10 +119,11 @@ export const HomePopup = () => {
         </StBackground>
       )}
 
+      {/* 타임캡솝 결과 모달 */}
       {/* <ResolutionReadModal isOpen={isOpenReadResolutionModal} onClose={onCloseReadResolutionModal} /> */}
 
       {/* 신입 기수 들어올 때 타임캡솝 이동 및 플그 가이드 모달 띄우기 */}
-      {/* <TimecapsopSubmitModal
+      <TimecapsopSubmitModal
         onClose={onCloseResolutionModal}
         userName={name ?? '나'}
         onSuccess={() => {
@@ -127,12 +131,12 @@ export const HomePopup = () => {
           onOpenPlaygroundGuideModal();
         }}
         isOpen={isOpenResolutionModal}
-      /> */}
-      {/* <PlaygroundGuideModal
+      />
+      <PlaygroundGuideModal
         isAlreadyRegistration={isAlreadyRegistration}
         onClose={onClosePlaygroundGuideModal}
         isOpen={isOpenPlaygroundGuideModal}
-      /> */}
+      />
     </>
   );
 };

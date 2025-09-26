@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import AtSoptLogo from '@/public/logos/at-sopt.svg';
+import AtSoptLogo from '@/public/logos/dive-sopt.svg';
 
 interface CardBackProps {
   isLastGeneration: boolean;

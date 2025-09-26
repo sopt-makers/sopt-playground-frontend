@@ -12,6 +12,7 @@ import banner36Desktop from '@/public/icons/img/welcome-banner_36_desktop.png';
 import banner36Mobile from '@/public/icons/img/welcome-banner_36_mobile.png';
 import bannerOthersDesktop from '@/public/icons/img/welcome-banner_other_desktop.gif';
 import bannerOthersMobile from '@/public/icons/img/welcome-banner_other_mobile.gif';
+import { pgColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type BannerType = {
@@ -62,13 +63,13 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
         {isMounted && (
           <>
             {isLastGeneration ? (
-              <>
+              <div onClick={handleResolutionModalOpen}>
                 <ButtonWrapper>
                   <WelcomText color={colors.white} typography='SUIT_18_B'>
                     {'SOPT가 연결되는 곳,\n Playground에 오신 걸 환영해요!'}
                   </WelcomText>
                   <LoggingClick eventKey='bannerTimeCapsule' param={{ isAlreadySubmitted: isRegistration ?? false }}>
-                    <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
+                    <ResolutionButton>
                       <Text color={colors.black} typography='SUIT_14_SB'>
                         {'타임캡솝을 만들어보세요 >'}
                       </Text>
@@ -83,11 +84,6 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                     }}
                     isOpen={isOpenResolutionModal}
                   />
-                  <PlaygroundGuideModal
-                    isAlreadyRegistration={isAlreadyRegistration}
-                    onClose={onClosePlaygroundGuideModal}
-                    isOpen={isOpenPlaygroundGuideModal}
-                  />
                 </ButtonWrapper>
                 <BannerWrapper>
                   <Responsive only='desktop'>
@@ -97,7 +93,13 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                     <Banner src={Welcome36Banner.mobile} alt={`모바일 환영 배너`} />
                   </Responsive>
                 </BannerWrapper>
-              </>
+
+                <PlaygroundGuideModal
+                  isAlreadyRegistration={isAlreadyRegistration}
+                  onClose={onClosePlaygroundGuideModal}
+                  isOpen={isOpenPlaygroundGuideModal}
+                />
+              </div>
             ) : (
               <BannerWrapper>
                 <Responsive only='desktop'>
@@ -151,11 +153,11 @@ const ResolutionButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 100px;
-  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  background: ${pgColors.mainGradient};
   padding: 9px 14px;
 
   &:hover {
-    background: ${colors.gray50};
+    background: ${pgColors.mainHover};
   }
 `;
 
