@@ -63,13 +63,13 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
         {isMounted && (
           <>
             {isLastGeneration ? (
-              <>
+              <div onClick={handleResolutionModalOpen}>
                 <ButtonWrapper>
                   <WelcomText color={colors.white} typography='SUIT_18_B'>
                     {'SOPT가 연결되는 곳,\n Playground에 오신 걸 환영해요!'}
                   </WelcomText>
                   <LoggingClick eventKey='bannerTimeCapsule' param={{ isAlreadySubmitted: isRegistration ?? false }}>
-                    <ResolutionButton type='button' onClick={handleResolutionModalOpen}>
+                    <ResolutionButton>
                       <Text color={colors.black} typography='SUIT_14_SB'>
                         {'타임캡솝을 만들어보세요 >'}
                       </Text>
@@ -99,7 +99,7 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                   onClose={onClosePlaygroundGuideModal}
                   isOpen={isOpenPlaygroundGuideModal}
                 />
-              </>
+              </div>
             ) : (
               <BannerWrapper>
                 <Responsive only='desktop'>
