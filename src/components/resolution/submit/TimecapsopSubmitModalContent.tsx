@@ -229,8 +229,7 @@ const StyledForm = styled.form`
   padding: 18px;
   width: 430px;
   min-width: 320px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 
   @media ${MOBILE_MEDIA_QUERY} {
     @supports (height: 100dvw) {

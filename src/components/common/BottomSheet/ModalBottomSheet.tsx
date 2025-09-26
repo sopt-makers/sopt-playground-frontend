@@ -13,7 +13,7 @@ export const ModalBottomSheet: FC<BottomSheetProps> = (props) => {
   const { children, isOpen, onClose, ...restProps } = props;
 
   return (
-    <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height' disableDrag={false} {...restProps}>
+    <CustomSheet isOpen={isOpen} onClose={onClose} detent='content-height' {...restProps}>
       <Sheet.Container>
         <Sheet.Header>
           <StyledCloseButton onClick={onClose}>
