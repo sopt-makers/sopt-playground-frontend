@@ -44,6 +44,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
   });
 
   const isValid = formState.isValid;
+  const substringName = userName.substring(1);
 
   const onClickTag = (tag: keyof typeof TimecapsopTag) => {
     if (selectedTag.includes(tag)) {
@@ -171,7 +172,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
         )}
         <TextAreaWrapper>
           <ReceiverText typography='SUIT_16_SB' color={colors.gray50}>
-            {`To. 6개월 후 ${userName}`}
+            {`To. 6개월 후 ${substringName}`}
           </ReceiverText>
           <Controller
             name='content'
@@ -192,7 +193,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
             )}
           />
           <SenderText typography='SUIT_16_SB' color={colors.gray50}>
-            {`From. 새로운 도전을 시작한 ${userName}`}
+            {`From. 새로운 도전을 시작한 ${substringName}`}
           </SenderText>
         </TextAreaWrapper>
       </ModalBody>

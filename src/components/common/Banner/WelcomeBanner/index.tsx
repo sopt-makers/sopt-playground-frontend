@@ -84,11 +84,6 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                     }}
                     isOpen={isOpenResolutionModal}
                   />
-                  <PlaygroundGuideModal
-                    isAlreadyRegistration={isAlreadyRegistration}
-                    onClose={onClosePlaygroundGuideModal}
-                    isOpen={isOpenPlaygroundGuideModal}
-                  />
                 </ButtonWrapper>
                 <BannerWrapper>
                   <Responsive only='desktop'>
@@ -98,6 +93,12 @@ const WelcomeBanner = ({ isLastGeneration }: WelcomeBannerProp) => {
                     <Banner src={Welcome36Banner.mobile} alt={`모바일 환영 배너`} />
                   </Responsive>
                 </BannerWrapper>
+
+                <PlaygroundGuideModal
+                  isAlreadyRegistration={isAlreadyRegistration}
+                  onClose={onClosePlaygroundGuideModal}
+                  isOpen={isOpenPlaygroundGuideModal}
+                />
               </>
             ) : (
               <BannerWrapper>
