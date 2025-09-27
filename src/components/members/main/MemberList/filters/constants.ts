@@ -116,6 +116,10 @@ export const EMPLOYED_OPTIONS: Option[] = [{ value: '1', label: '재직 중' }];
 
 export const ORDER_OPTIONS: Option[] = [
   {
+    value: '0',
+    label: '멤버 전체',
+  },
+  {
     value: '1',
     label: '최근등록순',
   },

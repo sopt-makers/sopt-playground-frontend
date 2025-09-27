@@ -139,7 +139,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     }
   }, [router.isReady, router.query, router]);
 
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setSearch(value);
+    if (value === '') {
+      addQueryParamsToUrl({ search: undefined });
+    }
+  };
+
   const handleSearchReset = () => {
     setSearch('');
     addQueryParamsToUrl({ search: '' });
@@ -181,7 +188,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   });
 
   const handleSelectOrderBy = createTypeSafeHandler<string>((orderBy: string) => {
-    addQueryParamsToUrl({ orderBy });
+    addQueryParamsToUrl({ orderBy: orderBy === '0' ? undefined : orderBy });
     logClickEvent('filterOrderBy', { orderBy });
   });
 
