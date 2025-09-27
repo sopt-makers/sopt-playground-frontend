@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { IconChevronRight } from '@sopt-makers/icons';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 
@@ -14,8 +15,8 @@ import closingBannerDesktop from '@/public/icons/img/banner_closing_desktop.jpg'
 import closingBannerMobile from '@/public/icons/img/banner_closing_mobile.jpg';
 import bannerOthersDesktop from '@/public/icons/img/welcome-banner_other_desktop.gif';
 import bannerOthersMobile from '@/public/icons/img/welcome-banner_other_mobile.gif';
+import { pgColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { IconChevronRight } from '@sopt-makers/icons';
 
 type BannerType = {
   default: {
@@ -153,12 +154,12 @@ const ButtonWrapper = styled.section`
 const StyledButton = styled.button<{ color: 'primary' | 'secondary' }>`
   display: flex;
   border-radius: 9999px;
-  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  background: ${pgColors.mainGradient};
   padding: 10px 16px;
   width: fit-content;
 
   &:hover {
-    background-color: ${({ color }) => (color === 'primary' ? '#84BAFF' : '#B3D4FF')};
+    background: ${pgColors.mainHover};
   }
 
   & svg {

@@ -5,9 +5,11 @@ import { generation3 } from '@/components/makers/data/generation3';
 import { generation4 } from '@/components/makers/data/generation4';
 import { generation35 } from '@/components/makers/data/generation35';
 import { generation36 } from '@/components/makers/data/generation36';
+import { generation37 } from '@/components/makers/data/generation37';
 import { MakersGeneration } from '@/components/makers/data/types';
 
 export const makersGenerationsData: MakersGeneration[] = [
+  generation37,
   generation36,
   generation35,
   generation4,

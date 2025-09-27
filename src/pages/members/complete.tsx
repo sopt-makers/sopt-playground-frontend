@@ -18,6 +18,7 @@ import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuide
 import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
 import { LATEST_GENERATION } from '@/constants/generation';
+import { pgColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 /**
  * @desc 신규 프로필 등록 후 다짐 메시지를 유도하는 페이지입니다. 다짐메시지 기간 이외에는 홈으로 가는 CTA만 존재합니다.
@@ -37,7 +38,7 @@ const CompletePage: FC = () => {
     }));
   const { data: myData } = useGetMemberOfMe();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
-  const isResolutionOpen = false; // 타임캡솝 오픈 기간에만 이 값을 true로 변경합니다.
+  const isResolutionOpen = true; // 타임캡솝 오픈 기간에만 이 값을 true로 변경합니다.
 
   const {
     handleResolutionModalOpen,
@@ -73,7 +74,7 @@ const CompletePage: FC = () => {
             <Responsive only='desktop'>
               {isLastGeneration && isResolutionOpen ? (
                 <BottomSection>
-                  <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
+                  <p>DIVE SOPT만을 위한 타임캡솝을 준비했어요</p>
                   <LoggingClick eventKey='profileUploadTimeCapsule'>
                     <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
                   </LoggingClick>
@@ -99,7 +100,7 @@ const CompletePage: FC = () => {
           <Responsive only='mobile'>
             {isLastGeneration && isResolutionOpen ? (
               <BottomSection>
-                <p>AT SOPT만을 위한 타임캡솝을 준비했어요</p>
+                <p>DIVE SOPT만을 위한 타임캡솝을 준비했어요</p>
                 <LoggingClick eventKey='profileUploadTimeCapsule'>
                   <ResolutionButton onClick={handleResolutionModalOpen}>타임캡솝 만들기</ResolutionButton>
                 </LoggingClick>
@@ -208,7 +209,7 @@ const ResolutionButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  background: ${pgColors.mainGradient};
   padding: 16px 26px;
   width: 100%;
   max-width: 320px;
@@ -217,7 +218,7 @@ const ResolutionButton = styled.button`
   ${fonts.LABEL_18_SB}
 
   &:hover {
-    background: ${colors.gray50};
+    background: ${pgColors.mainHover};
   }
 `;
 

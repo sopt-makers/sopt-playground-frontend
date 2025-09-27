@@ -6,6 +6,7 @@ import { Button } from '@sopt-makers/ui';
 import Responsive from '@/components/common/Responsive';
 import luckyResultDesktop from '@/public/icons/img/luckyDraw/result_desktop.png';
 import luckyResultMobile from '@/public/icons/img/luckyDraw/result_mobile.png';
+import { pgColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 type BannerType = {
@@ -83,10 +84,14 @@ const ButtonWrapper = styled.div`
 
 const StyledButton = styled(Button)`
   border-radius: 12px;
-  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  background: ${pgColors.mainGradient};
   width: 560px;
   height: 56px;
   ${fonts.LABEL_18_SB};
+
+  &:hover {
+    background: ${pgColors.mainHover};
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 320px;

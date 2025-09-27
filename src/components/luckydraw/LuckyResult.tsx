@@ -5,6 +5,7 @@ import { Button } from '@sopt-makers/ui';
 
 import loserImage from '@/public/icons/img/luckyDraw/LoserImage.png';
 import winnerImage from '@/public/icons/img/luckyDraw/WinnerImage.png';
+import { pgColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface LuckyResultProps {
@@ -79,10 +80,14 @@ const StyledImg = styled.img`
 
 const StyledButton = styled(Button)`
   border-radius: 12px;
-  background: linear-gradient(90deg, #d5d6e3 0%, #939aab 100%);
+  background: ${pgColors.mainGradient};
   width: 560px;
   height: 56px;
   ${fonts.LABEL_18_SB};
+
+  &:hover {
+    background: ${pgColors.mainHover};
+  }
 
   @media ${MOBILE_MEDIA_QUERY} {
     width: 320px;

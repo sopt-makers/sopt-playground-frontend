@@ -14,6 +14,7 @@ import Text from '@/components/common/Text';
 import { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { TAG, TimecapsopTag } from '@/components/resolution/constants';
 import { useConfirmResolution } from '@/components/resolution/submit/useConfirmResolution';
+import { pgColors } from '@/styles/colors';
 import { MOBILE_MAX_WIDTH, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const schema = yup.object().shape({
@@ -112,7 +113,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
       <ModalBody>
         <TitleTextWrapper>
           <Description typography='SUIT_14_M' color={colors.gray200}>
-            SOPT 36기를 시작하는 나를 응원하며
+            SOPT 37기를 시작하는 나를 응원하며
           </Description>
           <Text typography='SUIT_20_SB'>타임캡솝을 만들어볼까요?</Text>
         </TitleTextWrapper>
@@ -170,7 +171,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
         )}
         <TextAreaWrapper>
           <ReceiverText typography='SUIT_16_SB' color={colors.gray50}>
-            {`To. 7월의 ${userName}`}
+            {`To. 6개월 후 ${userName}`}
           </ReceiverText>
           <Controller
             name='content'
@@ -182,7 +183,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
                 fixedHeight={156}
                 maxLength={300}
                 placeholder={
-                  '(예시) 드디어 솝트 36기 시작! 이걸 보고 있다면 36기 종무식을 하고 있겠지?\n세미나 과제랑 스터디 진짜진짜 열심히 해서 많이 배우고, 앱잼 팀원과 좋은 프로덕트 꼭 만들어보자. 팟팅!'
+                  '(예시) 드디어 솝트 37기 시작! 이걸 보고 있다면 37기 종무식을 하고 있겠지?\n세미나 과제랑 스터디 진짜진짜 열심히 해서 많이 배우고, 앱잼 팀원과 좋은 프로덕트 꼭 만들어보자. 팟팅!'
                 }
                 errorMessage={fieldState.error?.message}
                 isError={!!fieldState.error}
@@ -191,7 +192,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
             )}
           />
           <SenderText typography='SUIT_16_SB' color={colors.gray50}>
-            {`From. 4월의 ${userName}`}
+            {`From. 새로운 도전을 시작한 ${userName}`}
           </SenderText>
         </TextAreaWrapper>
       </ModalBody>
@@ -227,8 +228,7 @@ const StyledForm = styled.form`
   padding: 18px;
   width: 430px;
   min-width: 320px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 
   @media ${MOBILE_MEDIA_QUERY} {
     @supports (height: 100dvw) {
@@ -302,7 +302,7 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: ${({ isDisabled }) => (isDisabled ? colors.gray800 : 'linear-gradient(90deg, #d5d6e3 0%, #939aab 100%)')};
+  background: ${({ isDisabled }) => (isDisabled ? colors.gray800 : pgColors.mainGradient)};
   cursor: pointer;
   padding: 12px 20px;
   width: 100%;
@@ -312,7 +312,7 @@ const StyledButton = styled.button<{ isDisabled: boolean; isError: boolean }>`
     !isDisabled &&
     `
   &:hover {
-    background: ${colors.gray50};
+    background: ${pgColors.mainHover};
     color: ${colors.black};
   }
     `}

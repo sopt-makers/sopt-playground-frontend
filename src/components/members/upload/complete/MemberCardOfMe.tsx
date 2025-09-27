@@ -5,7 +5,6 @@ import { FC } from 'react';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
-import { legacyColors } from '@/styles/colors';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -141,7 +140,7 @@ const Intro = styled.p`
   margin-top: 16px;
   width: 100%;
   overflow: hidden;
-  color: ${legacyColors.gray60};
+  color: ${colors.gray50};
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 

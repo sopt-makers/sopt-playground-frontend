@@ -16,8 +16,8 @@ export const useMemberProfileQuery = ({ limit, queryKey }: UseMemberProfileQuery
 
   return useInfiniteQuery({
     queryKey: ['getMemberProfile', limit, ..._queryKey],
-    queryFn: async ({ pageParam: cursor = 0 }) => {
-      const searchParams = { limit, cursor, ...query };
+    queryFn: async ({ pageParam: offset = 0 }) => {
+      const searchParams = { limit, offset, ...query };
       const data = await getMemberProfile(qs.stringify(searchParams, { addQueryPrefix: true }));
       return data;
     },
