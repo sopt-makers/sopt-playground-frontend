@@ -128,6 +128,11 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
         return;
       }
 
+      if (params.title.length > 100) {
+        alert('제목은 100자 이하로 작성해주세요.');
+        return;
+      }
+
       postGroupFeed(params, {
         onSuccess: (data) => {
           router.push(crewLink.feedDetail(Number(data?.postId)));
