@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
+import { MAX_FEED_IMAGE_LENGTH } from '@/components/feed/upload/ImageUploadButton';
 
 interface Options {
   onSuccess?: (urls: string[]) => void;
@@ -17,6 +18,11 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
 
     inputEl.onchange = async () => {
       if (inputEl.files == null || inputEl.files.length === 0) return;
+
+      if (inputEl.files.length > MAX_FEED_IMAGE_LENGTH) {
+        alert('최대 10장까지 업로드할 수 있습니다.');
+        return;
+      }
 
       // MEMO: 리사이징 로직 임시 주석 처리
       // const files =
