@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import Text from '@/components/common/Text';
 import { crewLink } from '@/constants/links';
+import { textStyles } from '@/styles/typography';
 
 interface CrewMeetingLinkRowProps {
   category: string;
@@ -23,8 +24,8 @@ const CrewMeetingLinkRow = ({ category, title, meetingId }: CrewMeetingLinkRowPr
   return (
     <Container onClick={handleClick}>
       <LabelContainer>
-        <Text color={colors.secondary}>{category}</Text>
-        <Text color={colors.gray30}>{title}</Text>
+        <CategoryText>{category}</CategoryText>
+        <TitleText>{title}</TitleText>
       </LabelContainer>
       <StyledChevronRight />
     </Container>
@@ -52,4 +53,21 @@ const StyledChevronRight = styled(IconChevronRight)`
   width: 20px;
   height: 20px;
   color: ${colors.gray200};
+`;
+
+const CategoryText = styled(Text)`
+  flex-shrink: 0;
+
+  ${textStyles.SUIT_14_M};
+
+  color: ${colors.secondary};
+`;
+
+const TitleText = styled(Text)`
+  ${textStyles.SUIT_14_M};
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: ${colors.gray30};
 `;
