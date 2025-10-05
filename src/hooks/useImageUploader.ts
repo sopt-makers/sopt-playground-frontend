@@ -6,9 +6,10 @@ import { MAX_FEED_IMAGE_LENGTH } from '@/components/feed/upload/ImageUploadButto
 interface Options {
   onSuccess?: (urls: string[]) => void;
   resizeHeight?: number;
+  currentLength?: number;
 }
 
-export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
+export default function useImageUploader({ onSuccess, resizeHeight, currentLength = 0 }: Options) {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleClickImageInput = () => {
@@ -19,8 +20,8 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
     inputEl.onchange = async () => {
       if (inputEl.files == null || inputEl.files.length === 0) return;
 
-      if (inputEl.files.length > MAX_FEED_IMAGE_LENGTH) {
-        alert('최대 10장까지 업로드할 수 있습니다.');
+      if (currentLength + inputEl.files.length > MAX_FEED_IMAGE_LENGTH) {
+        alert(`최대 ${MAX_FEED_IMAGE_LENGTH}장까지 업로드할 수 있습니다. (현재: ${currentLength}장)`);
         return;
       }
 
