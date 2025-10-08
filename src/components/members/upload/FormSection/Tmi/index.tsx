@@ -62,7 +62,13 @@ export default function TmiFormSection() {
               />
             )}
           />
-          <StyledTextArea {...register('mbtiDescription')} placeholder='ex) 저는 극강의 EEE에요.' fixedHeight={100} />
+          <Controller
+            name='mbtiDescription'
+            control={control}
+            render={({ field }) => (
+              <StyledTextArea {...field} placeholder='ex) 저는 극강의 EEE에요.' fixedHeight={100} />
+            )}
+          />
         </MbtiWrapper>
       </StyledMemberFormItem>
 
@@ -100,10 +106,12 @@ export default function TmiFormSection() {
           <StyledTextField {...register('interest')} placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.' />
         </Responsive>
         <Responsive only='mobile'>
-          <StyledTextArea
-            {...register('interest')}
-            placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.'
-            fixedHeight={100}
+          <Controller
+            name='interest'
+            control={control}
+            render={({ field }) => (
+              <StyledTextArea {...field} placeholder='ex) 요즘 넷플릭스 ‘더 글로리’에 빠졌어요.' fixedHeight={100} />
+            )}
           />
         </Responsive>
       </StyledMemberFormItem>
