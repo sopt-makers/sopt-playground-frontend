@@ -87,6 +87,10 @@ export const handleTokenError = async (error: AxiosError<unknown>) => {
   const { status } = error.response;
 
   if (status === 401) {
+    if (window.location.pathname === '/makers') {
+      // 메이커스 페이지는 로그인 필요 없음
+      return Promise.reject(error);
+    }
     /** 토큰이 없으면 refresh 시도하지 않고 바로 intro로 이동 */
     const currentToken = tokenStorage.get();
     if (currentToken === null && window.location.pathname !== '/intro') {
