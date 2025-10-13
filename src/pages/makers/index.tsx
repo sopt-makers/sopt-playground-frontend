@@ -32,26 +32,35 @@ const MakersPage: FC<MakersPageProps> = ({ memberMetadataList }) => {
 };
 
 export const getStaticProps: GetStaticProps<MakersPageProps> = async () => {
-  const memberList = await getMakersProfile.request();
+  try {
+    const memberList = await getMakersProfile.request();
 
-  const memberMetadataList = memberList.map((member) => {
-    const sortedCareers = member.careers.filter((career) => career.isCurrent);
-    const currentCompany = sortedCareers.length > 0 ? sortedCareers.at(-1)?.companyName ?? null : null;
-    const generations = member.activities.map((value) => value.generation).sort((a, b) => a - b);
+    const memberMetadataList = memberList.map((member) => {
+      const sortedCareers = member.careers.filter((career) => career.isCurrent);
+      const currentCompany = sortedCareers.length > 0 ? sortedCareers.at(-1)?.companyName ?? null : null;
+      const generations = member.activities.map((value) => value.generation).sort((a, b) => a - b);
+
+      return {
+        id: member.id,
+        profileImage: member.profileImage ?? '',
+        currentCompany,
+        generations,
+      };
+    });
 
     return {
-      id: member.id,
-      profileImage: member.profileImage ?? '',
-      currentCompany,
-      generations,
+      props: {
+        memberMetadataList,
+      },
     };
-  });
-
-  return {
-    props: {
-      memberMetadataList,
-    },
-  };
+  } catch (error) {
+    console.error('Failed to fetch makers profile:', error);
+    return {
+      props: {
+        memberMetadataList: [],
+      },
+    };
+  }
 };
 
 setLayout(MakersPage, 'empty');
