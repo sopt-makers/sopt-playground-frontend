@@ -1,15 +1,20 @@
 import { useRef } from 'react';
 
 import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
-import { MAX_FEED_IMAGE_LENGTH } from '@/components/feed/upload/ImageUploadButton';
 
 interface Options {
   onSuccess?: (urls: string[]) => void;
   resizeHeight?: number;
-  currentLength?: number;
+  uploadedImageLength?: number;
+  maxImageLength?: number;
 }
 
-export default function useImageUploader({ onSuccess, resizeHeight, currentLength = 0 }: Options) {
+export default function useImageUploader({
+  onSuccess,
+  resizeHeight,
+  uploadedImageLength = 0,
+  maxImageLength,
+}: Options) {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleClickImageInput = () => {
@@ -20,8 +25,8 @@ export default function useImageUploader({ onSuccess, resizeHeight, currentLengt
     inputEl.onchange = async () => {
       if (inputEl.files == null || inputEl.files.length === 0) return;
 
-      if (currentLength + inputEl.files.length > MAX_FEED_IMAGE_LENGTH) {
-        alert(`최대 ${MAX_FEED_IMAGE_LENGTH}장까지 업로드할 수 있습니다. (현재: ${currentLength}장)`);
+      if (maxImageLength && uploadedImageLength + inputEl.files.length > maxImageLength) {
+        alert(`최대 ${maxImageLength}장까지 업로드할 수 있습니다.`);
         return;
       }
 

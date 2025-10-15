@@ -83,12 +83,12 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } = useImageUploader({
     onSuccess: saveImageUrls,
     resizeHeight: 240,
-    currentLength: feedData.images.length,
+    uploadedImageLength: feedData.images.length,
   });
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } = useImageUploader({
     onSuccess: saveImageUrls,
     resizeHeight: 240,
-    currentLength: feedData.images.length,
+    uploadedImageLength: feedData.images.length,
   });
 
   const { isPreviewOpen, closeUsingRules } = useCategoryUsingRulesPreview(false);
