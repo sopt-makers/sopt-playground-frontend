@@ -10,7 +10,6 @@ import { useMeetingList } from '@/api/crew/getMeetingList';
 import { GroupFeedParams, usePostGroupFeed } from '@/api/crew/postGroupFeed';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import Checkbox from '@/components/common/Checkbox';
-import Divider from '@/components/common/Divider/Divider';
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -84,10 +83,12 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { imageInputRef: desktopRef, handleClickImageInput: handleDesktopClickImageInput } = useImageUploader({
     onSuccess: saveImageUrls,
     resizeHeight: 240,
+    uploadedImageLength: feedData.images.length,
   });
   const { imageInputRef: mobileRef, handleClickImageInput: handleMobileClickImageInput } = useImageUploader({
     onSuccess: saveImageUrls,
     resizeHeight: 240,
+    uploadedImageLength: feedData.images.length,
   });
 
   const { isPreviewOpen, closeUsingRules } = useCategoryUsingRulesPreview(false);
@@ -97,7 +98,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
   const { data: meetingList } = useMeetingList();
   const { data: me } = useGetMemberOfMe();
-  const { mutate: postGroupFeed } = usePostGroupFeed(me?.id ?? 0);
+  const { mutate: postGroupFeed, isPending: isGroupFeedPending } = usePostGroupFeed(me?.id ?? 0);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -126,6 +127,11 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
 
       if (!params.meetingId) {
         alert('모임을 선택해주세요.');
+        return;
+      }
+
+      if (params.title.length > 100) {
+        alert('제목은 100자 이하로 작성해주세요.');
         return;
       }
 
@@ -205,7 +211,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
               </BackArrowWrapper>
               <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
               <ButtonContainer>
-                <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload()}>
+                <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload() || isGroupFeedPending}>
                   올리기
                 </Button>
               </ButtonContainer>
@@ -313,7 +319,7 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
             <>
               <TopHeader>
                 <IconLeft color={colors.white} onClick={handleQuitUpload} />
-                <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload()}>
+                <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload() || isGroupFeedPending}>
                   올리기
                 </Button>
               </TopHeader>

@@ -5,9 +5,16 @@ import { getPresignedUrl, putPresignedUrl } from '@/api/endpoint/common/image';
 interface Options {
   onSuccess?: (urls: string[]) => void;
   resizeHeight?: number;
+  uploadedImageLength?: number;
+  maxImageLength?: number;
 }
 
-export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
+export default function useImageUploader({
+  onSuccess,
+  resizeHeight,
+  uploadedImageLength = 0,
+  maxImageLength,
+}: Options) {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleClickImageInput = () => {
@@ -17,6 +24,11 @@ export default function useImageUploader({ onSuccess, resizeHeight }: Options) {
 
     inputEl.onchange = async () => {
       if (inputEl.files == null || inputEl.files.length === 0) return;
+
+      if (maxImageLength && uploadedImageLength + inputEl.files.length > maxImageLength) {
+        alert(`최대 ${maxImageLength}장까지 업로드할 수 있습니다.`);
+        return;
+      }
 
       // MEMO: 리사이징 로직 임시 주석 처리
       // const files =

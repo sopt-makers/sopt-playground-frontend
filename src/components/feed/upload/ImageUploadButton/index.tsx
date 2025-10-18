@@ -10,7 +10,7 @@ interface ImageUploadButtonProps {
   imageInputRef: Ref<HTMLInputElement>;
 }
 
-const MAX_IMAGE_LENGTH = 10;
+export const MAX_FEED_IMAGE_LENGTH = 10;
 
 export default function ImageUploadButton({ imageLength, onClick, imageInputRef }: ImageUploadButtonProps) {
   return (
@@ -19,7 +19,7 @@ export default function ImageUploadButton({ imageLength, onClick, imageInputRef 
       사진
       {imageLength > 0 && (
         <Length>
-          {imageLength}/{MAX_IMAGE_LENGTH}
+          {imageLength}/{MAX_FEED_IMAGE_LENGTH}
         </Length>
       )}
       <StyledInput type='file' accept='image/*' ref={imageInputRef} multiple />
