@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import ErrorMessage from '@/components/common/Input/ErrorMessage';
+import { MAX_FEED_IMAGE_LENGTH } from '@/components/feed/upload/ImageUploadButton';
 import useImageUploader from '@/hooks/useImageUploader';
 import IconCancel from '@/public/icons/icon-cancel.svg';
 import IconImage from '@/public/icons/icon-image.svg';
@@ -41,7 +42,10 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     setPreviewImage(s3Url[0]);
     onChange?.(s3Url[0]);
   };
-  const { imageInputRef, handleClickImageInput } = useImageUploader({ onSuccess: handleChangeImageInput });
+  const { imageInputRef, handleClickImageInput } = useImageUploader({
+    onSuccess: handleChangeImageInput,
+    maxImageLength: MAX_FEED_IMAGE_LENGTH,
+  });
 
   const previewImageSrc = value || previewImage || src;
 
