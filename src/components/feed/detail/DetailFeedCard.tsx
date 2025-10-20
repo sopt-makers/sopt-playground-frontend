@@ -71,10 +71,12 @@ const Header = ({
   renderCategoryLink = (props) => props.children,
   hasChildren,
 }: HeaderProps) => {
+  const isIOSApp = /SOPT-iOS/.test(navigator.userAgent); // iOS 앱 내 웹뷰 여부
+
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
-        <div css={{ width: '24px', height: '24px' }}>{left}</div>
+        {isIOSApp || <div css={{ width: '24px', height: '24px' }}>{left}</div>}
 
         {renderCategoryLink({
           children: (
