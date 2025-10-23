@@ -73,7 +73,7 @@ const TimecapsopSubmitModalContent: FC<TimecapsopSubmitModalProps> = ({ userName
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    const isMobileIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobileIOS = /iPhone|iPad|iPod|SOPT-iOS/i.test(navigator.userAgent);
 
     if (!isMobileIOS) return;
 
