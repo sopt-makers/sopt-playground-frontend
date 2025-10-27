@@ -528,7 +528,17 @@ const StyledMakersLink = styled(Text)`
 `;
 
 const StyledMemberSearch = styled(SearchField)`
+  border-radius: 10px;
+  background-color: ${colors.gray800};
+  padding-left: 16px;
   min-width: 335px;
+  height: 48px;
+
+  & > input {
+    width: 100%;
+    height: 100%;
+  }
+
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
     grid-area: 'search';
     order: 1;
@@ -538,17 +548,6 @@ const StyledMemberSearch = styled(SearchField)`
   @media ${MOBILE_MEDIA_QUERY} {
     order: none;
     width: 100%;
-
-    & > input {
-      border-radius: 6px;
-      padding: 12px 36px 12px 18px;
-      ${textStyles.SUIT_15_M};
-    }
-
-    & > svg {
-      top: 12px;
-      right: 18px;
-    }
   }
 `;
 
@@ -604,7 +603,7 @@ const StyledMobileFilterWrapper = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-top: 17px;
+  margin-top: 16px;
   margin-right: -20px;
   padding-right: 20px;
   overflow-x: auto;
