@@ -9,7 +9,7 @@ import { setLayout } from '@/utils/layout';
 const Home: NextPage = () => {
   return (
     <AuthRequired>
-      <HomePopupContainer isOnlyLastGeneration={true} />
+      <HomePopupContainer />
       <ActiveBannerSlot />
       <FeedHomePage />
 
