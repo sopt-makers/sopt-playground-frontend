@@ -21,7 +21,14 @@ const getKoreanDate = (): string => {
   ).padStart(2, '0')}`;
 };
 
-export const HomePopup = () => {
+interface HomePopupProps {
+  pcImageUrl: string;
+  mobileImageUrl: string;
+  linkUrl?: string | null;
+  openInNewTab: boolean;
+}
+
+export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }: HomePopupProps) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const today = getKoreanDate();
 
@@ -80,6 +87,16 @@ export const HomePopup = () => {
     handleResolutionModalOpen();
   };
 
+  const handleClickPopup = () => {
+    if (!linkUrl) return;
+
+    if (openInNewTab) {
+      window.open(linkUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      window.location.href = linkUrl;
+    }
+  };
+
   // const {
   //   isOpen: isOpenReadResolutionModal,
   //   onClose: onCloseReadResolutionModal,
@@ -94,16 +111,16 @@ export const HomePopup = () => {
             <StPopupModal>
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <button onClick={handleOpenModal}>
-                    <StImage src='/icons/img/popup/PC.png' />
-                  </button>
+                  <StButton onClick={handleClickPopup}>
+                    <StImage src={pcImageUrl} />
+                  </StButton>
                 </LoggingClick>
               </Responsive>
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <button onClick={handleOpenModal}>
-                    <StImage src='/icons/img/popup/MO.png' />
-                  </button>
+                  <StButton onClick={handleClickPopup}>
+                    <StImage src={mobileImageUrl} />
+                  </StButton>
                 </LoggingClick>
               </Responsive>
               <StModalFooter>
@@ -176,6 +193,7 @@ const StImage = styled.img`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   cursor: pointer;
+  object-fit: cover;
   width: 100%;
   height: 500px;
   @media ${MOBILE_MEDIA_QUERY} {
@@ -226,4 +244,8 @@ const StFooterRightButton = styled.button`
     width: 125px;
     ${fonts.LABEL_14_SB};
   }
+`;
+
+const StButton = styled.button`
+  width: 100%;
 `;
