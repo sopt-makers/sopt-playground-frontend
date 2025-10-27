@@ -73,6 +73,19 @@ const BottomSheetSelect = ({
     return options.find((option) => option.value === value)?.label || value;
   };
 
+  const displayIcon = disabled
+    ? null
+    : icon ?? (
+        <IconChevronDown
+          style={{
+            width: 20,
+            height: 20,
+            transform: open ? 'rotate(-180deg)' : '',
+            transition: 'all 0.5s',
+          }}
+        />
+      );
+
   return (
     <Container>
       <InputField onClick={handleOpen} className={className} disabled={disabled}>
@@ -81,16 +94,7 @@ const BottomSheetSelect = ({
         ) : (
           <p style={{ color: '#808087' }}>{placeholder}</p>
         )}
-        {!icon && !disabled && (
-          <IconChevronDown
-            style={{
-              width: 20,
-              height: 20,
-              transform: open ? 'rotate(-180deg)' : '',
-              transition: 'all 0.5s',
-            }}
-          />
-        )}
+        {displayIcon}
       </InputField>
 
       {open && (
