@@ -28,6 +28,7 @@ interface MemberCardProps {
   email?: string;
   imageUrl?: string;
   isCoffeeChatActivate: boolean;
+  isLoading?: boolean;
 
   onMessage?: (e: SyntheticEvent) => void;
 }
@@ -50,6 +51,7 @@ const MemberCard: FC<MemberCardProps> = ({
   email,
   imageUrl,
   isCoffeeChatActivate,
+  isLoading,
   onMessage,
 }) => {
   const { visibleBadges, isBadgeOverflow, badgeRefs, badgeWrapperRef } = useVisibleBadges(
@@ -70,7 +72,9 @@ const MemberCard: FC<MemberCardProps> = ({
         <StyledImageArea>
           <StyledAspectRatio ratio={1 / 1}>
             <ImageHolder variants={imageVariants}>
-              {imageUrl ? (
+              {isLoading ? (
+                <></>
+              ) : imageUrl ? (
                 <Image className='image' src={imageUrl} width={196} alt='member_image' />
               ) : (
                 <>
@@ -95,8 +99,14 @@ const MemberCard: FC<MemberCardProps> = ({
       </MobileCoffeeChatBadge>
       <ContentArea>
         <TitleBox>
-          <Name typography='SUIT_18_SB'>{name}</Name>
-          <Belongs typography='SUIT_12_SB'>{belongs}</Belongs>
+          {isLoading ? (
+            <LoadingTitleBox />
+          ) : (
+            <>
+              <Name typography='SUIT_18_SB'>{name}</Name>
+              <Belongs typography='SUIT_12_SB'>{belongs}</Belongs>
+            </>
+          )}
         </TitleBox>
         <BadgesBox ref={badgeWrapperRef}>
           <Badges>
@@ -115,9 +125,13 @@ const MemberCard: FC<MemberCardProps> = ({
             )}
           </Badges>
         </BadgesBox>
-        <Intro typography='SUIT_13_M' color={colors.gray200}>
-          {intro}
-        </Intro>
+        {isLoading ? (
+          <LoadingIntroBox />
+        ) : (
+          <Intro typography='SUIT_13_M' color={colors.gray200}>
+            {intro}
+          </Intro>
+        )}
       </ContentArea>
       <SideButtons>
         {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} />}
@@ -203,10 +217,6 @@ const Image = styled(ResizedImage)`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`;
-
-const DefaultImage = styled.img`
-  width: 40%;
 `;
 
 const TitleBox = styled(m.div)`
@@ -321,4 +331,18 @@ const IconCoffeeWrapper = styled.div`
 const MobileCoffeeChatBadge = styled(Responsive)`
   position: absolute;
   top: 22px;
+`;
+
+const LoadingTitleBox = styled.div`
+  border-radius: 8px;
+  background-color: ${colors.gray800};
+  width: 54px;
+  height: 24px;
+`;
+
+const LoadingIntroBox = styled.div`
+  border-radius: 8px;
+  background-color: ${colors.gray800};
+  width: 100%;
+  height: 96px;
 `;
