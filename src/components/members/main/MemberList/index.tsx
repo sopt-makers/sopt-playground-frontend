@@ -79,6 +79,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     data: memberProfileData,
     fetchNextPage,
     isLoading,
+    isFetchingNextPage,
   } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
     queryKey: [router.query],
@@ -489,6 +490,22 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               }
             />
           )}
+          {isFetchingNextPage && (
+            <StyledCardWrapper>
+              {Array.from({ length: PAGE_LIMIT }).map((_, idx) => (
+                <MemberCard
+                  key={idx}
+                  memberId={0}
+                  name={''}
+                  belongs={''}
+                  intro={''}
+                  badges={[]}
+                  isCoffeeChatActivate={false}
+                  isLoading={isFetchingNextPage}
+                />
+              ))}
+            </StyledCardWrapper>
+          )}
         </StyledContainer>
       )}
     </>
@@ -629,7 +646,7 @@ const HLine = styled.hr`
 
 const Target = styled.div`
   width: 100%;
-  height: 40px;
+  height: 0;
 `;
 
 const StyledLink = styled(Link)`
