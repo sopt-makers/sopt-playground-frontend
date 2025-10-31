@@ -1,3 +1,4 @@
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { colors } from '@sopt-makers/colors';
@@ -42,6 +43,21 @@ const imageVariants = {
 const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
 
+const shimmerAnimation = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+const shimmerEffect = css`
+  background: linear-gradient(110deg, ${colors.gray800} 0%, ${colors.gray700} 50%, ${colors.gray800} 100%);
+  background-size: 200% 100%;
+  animation: ${shimmerAnimation} 2s ease-in-out infinite;
+`;
+
 const MemberCard: FC<MemberCardProps> = ({
   memberId,
   name,
@@ -73,7 +89,7 @@ const MemberCard: FC<MemberCardProps> = ({
           <StyledAspectRatio ratio={1 / 1}>
             <ImageHolder variants={imageVariants}>
               {isLoading ? (
-                <></>
+                <LoadingImage />
               ) : imageUrl ? (
                 <Image className='image' src={imageUrl} width={196} alt='member_image' />
               ) : (
@@ -199,6 +215,14 @@ const ImageHolder = styled(m.div)`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  width: 100%;
+  height: 100%;
+`;
+
+const LoadingImage = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 50%;
   width: 100%;
   height: 100%;
 `;
@@ -334,15 +358,17 @@ const MobileCoffeeChatBadge = styled(Responsive)`
 `;
 
 const LoadingTitleBox = styled.div`
+  ${shimmerEffect};
+
   border-radius: 8px;
-  background-color: ${colors.gray800};
   width: 54px;
   height: 24px;
 `;
 
 const LoadingIntroBox = styled.div`
+  ${shimmerEffect};
+
   border-radius: 8px;
-  background-color: ${colors.gray800};
   width: 100%;
   height: 96px;
 `;
