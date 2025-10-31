@@ -42,7 +42,7 @@ import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const PAGE_LIMIT = 30;
+const PAGE_LIMIT = 24;
 
 interface MemberListProps {
   banner: ReactNode;
