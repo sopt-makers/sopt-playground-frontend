@@ -104,7 +104,7 @@ const DefaultProfileImage = () => (
         filterUnits='userSpaceOnUse'
         color-interpolation-filters='sRGB'
       >
-        <feFlood flood-opacity='0' result='BackgroundImageFix' />
+        <feFlood floodOpacity='0' result='BackgroundImageFix' />
         <feGaussianBlur in='BackgroundImageFix' stdDeviation='3.12521' />
         <feComposite in2='SourceAlpha' operator='in' result='effect1_backgroundBlur_237_2250' />
         <feBlend mode='normal' in='SourceGraphic' in2='effect1_backgroundBlur_237_2250' result='shape' />
