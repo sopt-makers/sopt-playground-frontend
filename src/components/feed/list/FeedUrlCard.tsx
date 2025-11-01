@@ -62,7 +62,6 @@ const FeedUrlCardBox = styled.div<{ isDetailFeedCard?: boolean; isFull?: boolean
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
-    height: 278px;
   }
 
   ${({ isDetailFeedCard }) =>
