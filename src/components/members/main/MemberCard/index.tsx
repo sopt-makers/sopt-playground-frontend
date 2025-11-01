@@ -106,13 +106,17 @@ const MemberCard: FC<MemberCardProps> = ({
           </StyledAspectRatio>
         </StyledImageArea>
       </ProfileImage>
-      <MobileCoffeeChatBadge only='mobile'>
-        {isCoffeeChatActivate && (
-          <IconCoffeeWrapper>
-            <IconCoffee />
-          </IconCoffeeWrapper>
-        )}
-      </MobileCoffeeChatBadge>
+      {isLoading ? (
+        <></>
+      ) : (
+        <MobileCoffeeChatBadge only='mobile'>
+          {isCoffeeChatActivate && (
+            <IconCoffeeWrapper>
+              <IconCoffee />
+            </IconCoffeeWrapper>
+          )}
+        </MobileCoffeeChatBadge>
+      )}
       <ContentArea>
         <TitleBox>
           {isLoading ? (
@@ -124,23 +128,27 @@ const MemberCard: FC<MemberCardProps> = ({
             </>
           )}
         </TitleBox>
-        <BadgesBox ref={badgeWrapperRef}>
-          <Badges>
-            {visibleBadges.map((badge, idx) => (
-              <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
-                {badge.isActive && <BadgeActiveDot />}
-                <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
-                  {badge.content}
-                </Text>
-              </Badge>
-            ))}
-            {isBadgeOverflow && (
-              <Badge isActive={false}>
-                <Text typography='SUIT_11_SB'>...</Text>
-              </Badge>
-            )}
-          </Badges>
-        </BadgesBox>
+        {isLoading ? (
+          <></>
+        ) : (
+          <BadgesBox ref={badgeWrapperRef}>
+            <Badges>
+              {visibleBadges.map((badge, idx) => (
+                <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
+                  {badge.isActive && <BadgeActiveDot />}
+                  <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                    {badge.content}
+                  </Text>
+                </Badge>
+              ))}
+              {isBadgeOverflow && (
+                <Badge isActive={false}>
+                  <Text typography='SUIT_11_SB'>...</Text>
+                </Badge>
+              )}
+            </Badges>
+          </BadgesBox>
+        )}
         {isLoading ? (
           <LoadingIntroBox />
         ) : (
@@ -149,10 +157,16 @@ const MemberCard: FC<MemberCardProps> = ({
           </Intro>
         )}
       </ContentArea>
-      <SideButtons>
-        {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} />}
-        {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
-      </SideButtons>
+      {isLoading ? (
+        <LoadingSideWrapper only='desktop'>
+          <LoadingSideButton />
+        </LoadingSideWrapper>
+      ) : (
+        <SideButtons>
+          {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} />}
+          {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
+        </SideButtons>
+      )}
     </MotionMemberCard>
   );
 };
@@ -228,6 +242,8 @@ const LoadingImage = styled.div`
 `;
 
 const ContentArea = styled.div`
+  display: flex;
+  flex-direction: column;
   grid-area: content;
   width: 100%;
   overflow: hidden;
@@ -326,14 +342,28 @@ const Intro = styled(Text)`
 const SideButtons = styled.aside`
   display: flex;
   position: absolute;
-  top: 17px;
-  right: 19px;
+  top: 20px;
+  right: 20px;
   flex-direction: column;
   gap: 10px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
+`;
+
+const LoadingSideWrapper = styled(Responsive)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+`;
+
+const LoadingSideButton = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
 `;
 
 const IconCoffeeWrapper = styled.div`
@@ -371,4 +401,9 @@ const LoadingIntroBox = styled.div`
   border-radius: 8px;
   width: 100%;
   height: 96px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 335px;
+    height: 24px;
+  }
 `;

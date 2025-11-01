@@ -272,6 +272,14 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                   onChange={handleSelectEmployed}
                 />
               </StyledMobileFilterWrapper>
+              {isLoading && (
+                <div
+                  css={css`
+                    margin-top: 30px;
+                    height: 48px;
+                  `}
+                ></div>
+              )}
               {memberProfileData && (
                 <div
                   css={css`
@@ -491,20 +499,24 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             />
           )}
           {isFetchingNextPage && (
-            <StyledCardWrapper>
-              {Array.from({ length: PAGE_LIMIT }).map((_, idx) => (
-                <MemberCard
-                  key={idx}
-                  memberId={0}
-                  name={''}
-                  belongs={''}
-                  intro={''}
-                  badges={[]}
-                  isCoffeeChatActivate={false}
-                  isLoading={isFetchingNextPage}
-                />
-              ))}
-            </StyledCardWrapper>
+            <StyledMain>
+              <StyledRightWrapper>
+                <StyledCardWrapper>
+                  {Array.from({ length: PAGE_LIMIT }).map((_, idx) => (
+                    <MemberCard
+                      key={idx}
+                      memberId={0}
+                      name={''}
+                      belongs={''}
+                      intro={''}
+                      badges={[]}
+                      isCoffeeChatActivate={false}
+                      isLoading={isFetchingNextPage}
+                    />
+                  ))}
+                </StyledCardWrapper>
+              </StyledRightWrapper>
+            </StyledMain>
           )}
         </StyledContainer>
       )}
