@@ -32,10 +32,6 @@ interface Category {
 }
 const CATEGORY: Category[] = [
   {
-    icon: '/icons/icon-coffeechat.svg',
-    value: MessageCategory.COFFEE_CHAT,
-  },
-  {
     icon: '/icons/icon-network.svg',
     value: MessageCategory.NETWORK,
   },
@@ -145,7 +141,7 @@ const MessageModal: FC<MessageModalProps> = ({
           {name}님에게 쪽지 보내기
         </Text>
         <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
-          쪽지는 상대방의 이메일로 전달됩니다:)
+          작성하신 내용은 회원님의 프로필과 함께 문자로 전달돼요
         </Text>
         <StyledCategory>
           {CATEGORY.map((category, index) => (
@@ -155,9 +151,7 @@ const MessageModal: FC<MessageModalProps> = ({
               isSelected={category.value === (selectedCategory as MessageCategory | null)}
             >
               <StyledIcon src={category.icon} alt={category.value} />
-              <Text typography='SUIT_15_SB' color={colors.gray200}>
-                {category.value}
-              </Text>
+              <Text typography='SUIT_15_SB'>{category.value}</Text>
             </StyledCategoryItem>
           ))}
         </StyledCategory>
@@ -237,6 +231,7 @@ const StyledCategory = styled.section`
   align-items: center;
   justify-content: center;
   margin-top: 40px;
+  width: 225px;
 `;
 
 const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
@@ -245,12 +240,15 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   align-items: center;
   justify-content: center;
   transition: border all 0.2s;
-  opacity: ${({ isSelected }) => (isSelected ? 1 : 0.2)};
-  border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.gray700)};
+  border: 1px solid ${({ isSelected }) => (isSelected ? colors.gray10 : 'transparent')};
   border-radius: 20px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.gray800};
   cursor: pointer;
   padding: 6px 16px 6px 10px;
+
+  & span {
+    color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.gray400)};
+  }
 `;
 
 const StyledIcon = styled.img`
