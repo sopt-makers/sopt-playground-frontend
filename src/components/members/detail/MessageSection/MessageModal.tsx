@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
-import { IconUser } from '@sopt-makers/icons';
+import IconPlane from '@/public/icons/icon_plane.svg';
 import { Button } from '@sopt-makers/ui';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -138,13 +138,9 @@ const MessageModal: FC<MessageModalProps> = ({
   return (
     <StyledModal isOpen {...props}>
       <StyledForm onSubmit={handleSubmit(submit)}>
-        {profileImageUrl ? (
-          <ProfileImage src={profileImageUrl} style={{ width: '84px', height: '84px', borderRadius: '20px' }} />
-        ) : (
-          <EmptyProfileImage>
-            <IconUser style={{ width: '45px', height: '45px', color: `${colors.gray300}`, marginTop: '4px' }} />
-          </EmptyProfileImage>
-        )}
+        <StyledIconPlane>
+          <IconPlane />
+        </StyledIconPlane>
         <Text mt={24} typography='SUIT_24_B'>
           {name}님에게 쪽지 보내기
         </Text>
@@ -223,24 +219,12 @@ const StyledForm = styled.form`
   width: 100%;
 `;
 
-const ProfileImage = styled.img`
-  border-radius: 36px;
-  width: 171px;
-  height: 171px;
-  object-fit: cover;
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 20px;
-    width: 88px;
-    height: 88px;
-  }
-`;
-
-const EmptyProfileImage = styled.div`
+const StyledIconPlane = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 19px;
-  background: ${colors.gray700};
+  border-radius: 20px;
+  background: ${colors.blue50};
   width: 84px;
   height: 84px;
 `;
