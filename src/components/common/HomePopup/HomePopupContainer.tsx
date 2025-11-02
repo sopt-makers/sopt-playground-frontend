@@ -1,8 +1,6 @@
 import { useGetHomePopup } from '@/api/endpoint/homePopup/getHomePopup';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { HomePopup } from '@/components/common/HomePopup';
-import HomePopupUploader from '@/components/common/HomePopup/HomePopupUploader';
-import { IS_DEV } from '@/constants/env';
 import { LATEST_GENERATION } from '@/constants/generation';
 
 const HomePopupContainer = () => {
@@ -14,7 +12,7 @@ const HomePopupContainer = () => {
 
   // 팝업 데이터가 없는 경우
   if (!lastPopupData) {
-    return IS_DEV ? <HomePopupUploader /> : null;
+    return;
   }
 
   const { startDate, endDate, pcImageUrl, mobileImageUrl, linkUrl, openInNewTab, showOnlyToRecentGeneration } =
@@ -28,12 +26,12 @@ const HomePopupContainer = () => {
 
   // 팝업 표시 기간이 아닌 경우
   if (!isWithinPeriod) {
-    return IS_DEV ? <HomePopupUploader /> : null;
+    return;
   }
 
   // 최신 기수만 보기 옵션이 활성화인 경우
   if (showOnlyToRecentGeneration && !isLastGeneration) {
-    return IS_DEV ? <HomePopupUploader /> : null;
+    return;
   }
 
   return (
@@ -44,7 +42,6 @@ const HomePopupContainer = () => {
         linkUrl={linkUrl}
         openInNewTab={openInNewTab}
       />
-      {IS_DEV && <HomePopupUploader />}
     </>
   );
 };
