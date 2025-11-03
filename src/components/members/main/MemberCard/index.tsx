@@ -120,7 +120,7 @@ const MemberCard: FC<MemberCardProps> = ({
         </Intro>
       </ContentArea>
       <SideButtons>
-        {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} />}
+        {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
         {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
       </SideButtons>
     </MotionMemberCard>

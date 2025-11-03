@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import IconPlane from '@/public/icons/icon_plane.svg';
-import { Button } from '@sopt-makers/ui';
-import { FC, useState } from 'react';
+import { Button, DialogContext } from '@sopt-makers/ui';
+import { FC, useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -86,7 +86,7 @@ const MessageModal: FC<MessageModalProps> = ({
   });
   const isValid = _isValid && Boolean(selectedCategory);
   const { mutateAsync, isPending } = usePostMemberMessageMutation();
-  const { alert } = useAlert();
+  const { openDialog, closeDialog } = useContext(DialogContext);
   const { confirm, ConfirmComponent } = useCustomConfirm();
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
@@ -98,7 +98,7 @@ const MessageModal: FC<MessageModalProps> = ({
     }
     const result = await confirm({
       title: '쪽지를 보내시겠습니까?',
-      description: '쪽지는 상대방의 이메일로 전달됩니다.',
+      description: '작성하신 내용은 상대방에게 문자로 전달돼요.\n한번 보낸 쪽지는 취소할 수 없어요.',
       okButtonColor: colors.white,
       okButtonTextColor: colors.black,
       okButtonText: '전송하기',
@@ -120,10 +120,20 @@ const MessageModal: FC<MessageModalProps> = ({
 
         onLog?.({ category: selectedCategory });
 
-        await alert({
-          title: '쪽지 보내기',
-          description: '성공적으로 전송되었어요!',
-          zIndex: zIndex.헤더 + 103,
+        openDialog({
+          title: '쪽지 전송이 완료됐어요.',
+          description: (
+            <>
+              쪽지는 ${name}님의 문자로 안전히 전달되었어요.
+              <br />
+              좋은 대화로 이어지길 기대할게요.
+            </>
+          ),
+          type: 'single',
+          typeOptions: {
+            approveButtonText: '완료',
+            buttonFunction: closeDialog,
+          },
         });
       }
     } catch (error) {
@@ -132,7 +142,6 @@ const MessageModal: FC<MessageModalProps> = ({
   };
 
   const { data: me } = useGetMemberProfileOfMe();
-
   const content = watch('content');
 
   return (
