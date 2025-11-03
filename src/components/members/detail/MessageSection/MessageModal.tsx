@@ -7,7 +7,7 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
+import { useGetMemberProfileOfMe, usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
 import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
@@ -16,11 +16,10 @@ import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Text from '@/components/common/Text';
 import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 export enum MessageCategory {
-  COFFEE_CHAT = '커피챗',
   NETWORK = '친목',
   APPJAM_TEAM_BUILDING = '앱잼 팀 빌딩',
   PROJECT_SUGGESTION = '프로젝트 제안',
@@ -50,12 +49,12 @@ const CATEGORY: Category[] = [
 ];
 
 const schema = yup.object().shape({
-  email: yup.string().email('올바른 이메일 형태를 입력해주세요.').required('이메일을 입력해주세요.'),
+  phone: yup.string().required('전화번호를 입력해주세요.').matches(/^\d+$/, "'-' 없이 입력해주세요."),
   content: yup.string().required('내용을 입력해주세요.').max(500, '500자 이내로 입력해주세요.'),
 });
 
 interface MessageForm {
-  email: string;
+  phone: string;
   content: string;
 }
 
@@ -79,6 +78,7 @@ const MessageModal: FC<MessageModalProps> = ({
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isValid: _isValid },
   } = useForm<MessageForm>({
     resolver: yupResolver(schema),
@@ -92,7 +92,7 @@ const MessageModal: FC<MessageModalProps> = ({
     setSelectedCategory(category);
   };
 
-  const submit = async ({ content, email }: MessageForm) => {
+  const submit = async ({ content, phone }: MessageForm) => {
     if (isPending) {
       return;
     }
@@ -112,7 +112,7 @@ const MessageModal: FC<MessageModalProps> = ({
       }
       if (result) {
         await mutateAsync({
-          senderEmail: email,
+          senderPhone: phone,
           content,
           category: selectedCategory,
           receiverId,
@@ -130,6 +130,10 @@ const MessageModal: FC<MessageModalProps> = ({
       throw error;
     }
   };
+
+  const { data: me } = useGetMemberProfileOfMe();
+
+  const content = watch('content');
 
   return (
     <StyledModal isOpen {...props}>
@@ -156,24 +160,31 @@ const MessageModal: FC<MessageModalProps> = ({
           ))}
         </StyledCategory>
         <TextWrapper>
-          <Text typography='SUIT_14_SB'>회신 받을 본인 이메일</Text>
+          <Text typography='SUIT_14_SB'>
+            회신 받을 나의 연락처 <StyledRequired>*</StyledRequired>
+          </Text>
         </TextWrapper>
         <RHFControllerFormItem
           style={{ width: '100%' }}
           control={control}
-          name='email'
+          name='phone'
           component={StyledInput}
-          placeholder='이메일을 입력해주세요!'
+          defaultValue={me?.phone}
+          placeholder='전화번호를 입력해주세요!'
         />
+        <TextWrapper>
+          <Text typography='SUIT_14_SB'>
+            무엇이 궁금하신가요? <StyledRequired>*</StyledRequired>
+          </Text>
+        </TextWrapper>
         <RHFControllerFormItem
           style={{ width: '100%' }}
           control={control}
           name='content'
           component={StyledTextArea}
-          placeholder={
-            '멤버에게 궁금한 점을 자세하게 적어주세요. 이야기 나누고 싶은 주제를 쉽게 이해할 수 있도록, 회원님에 대해 간단하게 소개해 주시면 더 좋아요.'
-          }
+          placeholder={`쪽지에 ${name}님에게 어떤 점이 궁금한지 자세하게 적어주세요. ${name}님의 스킬과 소개와 관련된 내용으로 작성하면 회신 확률을 높일 수 있어요.`}
         />
+        <TextLength>{content ? content.length : 0}/500</TextLength>
         <StyledButton type='submit' disabled={!isValid || isPending}>
           {isPending ? (
             <Loading color='white' />
@@ -193,7 +204,6 @@ export default MessageModal;
 
 const StyledModal = styled(Modal)`
   background: ${colors.gray900};
-  padding-top: 40px;
   max-height: 792px;
   overflow-y: auto;
 
@@ -262,6 +272,10 @@ const TextWrapper = styled.div`
   width: 100%;
 `;
 
+const StyledRequired = styled.span`
+  color: ${colors.secondary};
+`;
+
 const StyledInput = styled(Input)`
   margin-top: 8px;
 
@@ -285,6 +299,13 @@ const StyledTextArea = styled(TextArea)`
   padding: 15px 16px;
   height: 172px;
   line-height: 26px;
+`;
+
+const TextLength = styled.span`
+  margin-top: 8px;
+  width: 100%;
+  text-align: right;
+  color: ${colors.gray200};
 `;
 
 const StyledButton = styled(Button)`
