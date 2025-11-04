@@ -41,11 +41,13 @@ const RHFControllerFormItem = <
   } = useController({ name, control, rules, shouldUnregister, defaultValue });
 
   return (
-    <FormItem style={style} errorMessage={(errors?.[name]?.message as React.ReactNode) || errorMessage}>
+    <FormItem style={style}>
       <Component
         {...({
           error: error || !!fieldState.error,
           maxLength: props.maxCount,
+          isError: !!errors?.[name],
+          errorMessage: errors?.[name]?.message,
           ...field,
           ...props,
         } as React.ComponentProps<T>)}
