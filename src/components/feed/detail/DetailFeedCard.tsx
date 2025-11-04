@@ -1,11 +1,15 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconEye } from '@sopt-makers/icons';
+import { IconEye, IconFlipForward, IconHeart, IconMessageDots } from '@sopt-makers/icons';
+import { TextArea } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { KeyboardEvent } from 'react';
+
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Loading from '@/components/common/Loading';
@@ -14,6 +18,8 @@ import VerticalScroller from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import FeedLike from '@/components/feed/common/FeedLike';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
+import { useCursorPosition } from '@/components/feed/common/hooks/useCursorPosition';
+import useMention, { Member } from '@/components/feed/common/hooks/useMention';
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -23,24 +29,22 @@ import {
   IconSendFill,
   IconShare,
 } from '@/components/feed/common/Icon';
+import MentionDropdown from '@/components/feed/common/MentionDropdown';
 import { getRelativeTime } from '@/components/feed/common/utils';
-import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
-import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
-import { playgroundLink } from '@/constants/links';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
-import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
-import { parseTextToLink } from '@/utils/parseTextToLink';
-import Vote from '@/components/vote';
 import {
   parseHTMLToMentions,
   parseMentionsToHTML,
   parseMentionsToJSX,
 } from '@/components/feed/common/utils/parseMention';
-import useMention, { Member } from '@/components/feed/common/hooks/useMention';
-import MentionDropdown from '@/components/feed/common/MentionDropdown';
-import { useCursorPosition } from '@/components/feed/common/hooks/useCursorPosition';
-import { useRouter } from 'next/router';
+import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
+import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
+import Vote from '@/components/vote';
+import { playgroundLink } from '@/constants/links';
+import IconMessageDotsAction from '@/public/icons/icon-message-dots-action.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
+import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
+import { parseTextToLink } from '@/utils/parseTextToLink';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -433,6 +437,9 @@ const Divider = styled.hr`
 `;
 
 type CommentProps = {
+  // TODO: 좋아요 backend data 추가 후 optional 제거
+  isLiked?: boolean;
+  commentLikeCount?: number;
   comment: string;
   createdAt: string;
   moreIcon?: ReactNode;
@@ -456,6 +463,7 @@ type CommentProps = {
 );
 
 const Comment = ({
+  // TODO: post 작성자 이름 데이터 필요
   profileImage,
   name,
   info,
@@ -464,8 +472,11 @@ const Comment = ({
   anonymousProfile,
   createdAt,
   moreIcon,
+  isLiked = false,
   memberId = 0,
+  commentLikeCount = 0,
 }: CommentProps) => {
+  const [isReplyClicked, setIsReplyClicked] = useState(false);
   const router = useRouter();
   const parsedMentions = parseMentionsToJSX(comment, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
@@ -524,11 +535,90 @@ const Comment = ({
           <StyledText typography='SUIT_15_R' lineHeight={22} color={colors.gray50}>
             {parsedMentionsAndLinks.flat()}
           </StyledText>
+          <StyledCommentActions>
+            <StyledCommentHeartAction isLiked={isLiked}>
+              <IconHeart
+                css={{
+                  width: 20,
+                  height: 20,
+                  fill: isLiked ? colors.red400 : 'none',
+                  stroke: isLiked ? 'none' : colors.gray300,
+                  color: isLiked ? colors.red400 : colors.gray300,
+                }}
+              />
+              <Text typography='SUIT_12_M' color={colors.gray300}>
+                {commentLikeCount}
+              </Text>
+            </StyledCommentHeartAction>
+            <StyledCommentReplyAction onClick={() => setIsReplyClicked((prev) => !prev)}>
+              {isReplyClicked ? (
+                <IconMessageDotsAction />
+              ) : (
+                <>
+                  <IconMessageDots
+                    css={css`
+                      width: 20px;
+                      height: 20px;
+                    `}
+                  />
+                  <IconMessageDotsAction
+                    css={css`
+                      display: none;
+                      width: 20px;
+                      height: 20px;
+
+                      path {
+                        fill: ${colors.gray300};
+                      }
+                    `}
+                  />
+                </>
+              )}
+
+              <Text typography='SUIT_12_M' color={isReplyClicked ? colors.gray600 : colors.gray300}>
+                답글 달기
+              </Text>
+            </StyledCommentReplyAction>
+          </StyledCommentActions>
         </Stack>
       </Flex>
     </StyledComment>
   );
 };
+
+const StyledCommentHeartAction = styled.div<{ isLiked: boolean }>`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  cursor: pointer;
+  color: ${colors.gray300};
+
+  &:hover > svg path {
+    fill: ${({ isLiked }) => (isLiked ? colors.red400 : colors.gray300)};
+  }
+`;
+
+const StyledCommentReplyAction = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  cursor: pointer;
+  color: ${colors.gray300};
+
+  &:hover > svg:first-of-type {
+    display: none;
+  }
+
+  &:hover > svg:last-of-type {
+    display: block;
+  }
+`;
+
+const StyledCommentActions = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+`;
 
 const StyledComment = styled.div`
   padding: 12px 24px;
@@ -645,7 +735,9 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           </label>
         </InputContent>
       </InputAnimateArea>
-      <Flex align='flex-end' css={{ gap: '4px' }} ref={parentRef}>
+      <Flex align='flex-center' css={{ gap: '16px' }} ref={parentRef}>
+        {/* TODO: 답글달기일때만 FlipForward */}
+        <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500 }} />
         <StyledTextArea
           contentEditable
           onInput={(e) => {
@@ -661,7 +753,29 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           data-placeholder={textareaRef.current?.innerText === '' ? '댓글을 남겨주세요.' : ''}
           ref={textareaRef}
         />
-        {isMentionOpen && mentionPosition && (
+        {/* <TextArea
+          value={textareaRef.current?.value}
+          ref={textareaRef}
+          rightAddon={
+            <SendButton type='submit' disabled={!isButtonActive || isPending}>
+              {isPending ? <Loading size={4} /> : <IconSendFill />}
+            </SendButton>
+          }
+          onInput={() => {
+            handleMention();
+            handleContentsInput();
+          }}
+          onKeyDown={(e) => {
+            handleKeyDown(e as KeyboardEvent<HTMLTextAreaElement>);
+            handleContentsInput();
+          }}
+          maxHeight={156}
+          onCompositionStart={() => setIsComposing(true)}
+          onCompositionEnd={() => setIsComposing(false)}
+          placeholder={'댓글을 남겨주세요.'}
+        /> */}
+
+        {isMentionOpen && mentionPosition !== null && (
           <MentionDropdown
             parentRef={parentRef}
             searchedMemberList={searchedMemberList}
