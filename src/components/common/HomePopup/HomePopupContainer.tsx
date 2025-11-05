@@ -12,7 +12,7 @@ const HomePopupContainer = () => {
 
   // 팝업 데이터가 없는 경우
   if (!lastPopupData) {
-    return;
+    return null;
   }
 
   const { startDate, endDate, pcImageUrl, mobileImageUrl, linkUrl, openInNewTab, showOnlyToRecentGeneration } =
@@ -26,12 +26,12 @@ const HomePopupContainer = () => {
 
   // 팝업 표시 기간이 아닌 경우
   if (!isWithinPeriod) {
-    return;
+    return null;
   }
 
   // 최신 기수만 보기 옵션이 활성화인 경우
   if (showOnlyToRecentGeneration && !isLastGeneration) {
-    return;
+    return null;
   }
 
   return (
