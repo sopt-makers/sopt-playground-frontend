@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
+import ImageWithSkeleton from '@/components/common/ImageWithSkeleton';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import FeedLike from '@/components/feed/common/FeedLike';
@@ -293,12 +294,7 @@ const Image = ({ children }: PropsWithChildren<unknown>) => {
   );
 };
 
-const ImageItem = styled(ResizedImage)`
-  border-radius: 12px;
-  height: 242px;
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-`;
+const ImageItem = styled(ImageWithSkeleton)``;
 
 const Comment = ({ children }: PropsWithChildren<unknown>) => {
   return (
