@@ -483,7 +483,7 @@ const Comment = ({
   const parsedMentions = parseMentionsToJSX(comment, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
 
-  const { mentionId, mentionName, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
+  const { member, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
 
   return (
     <StyledComment>
@@ -555,14 +555,21 @@ const Comment = ({
               </Text>
             </StyledCommentHeartAction>
             <StyledCommentReplyAction
-              onClick={() =>
+              onClick={() => {
                 setReplyState((prev) => ({
                   ...prev,
-                  memberId: memberId,
-                  mentionName: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
+                  member:
+                    replyTargetCommentId === commentId
+                      ? member
+                      : {
+                          id: memberId,
+                          name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
+                          generation: 0,
+                          profileImage: profileImage ?? null,
+                        },
                   replyTargetCommentId: replyTargetCommentId === commentId ? null : commentId,
-                }))
-              }
+                }));
+              }}
             >
               {replyTargetCommentId === commentId ? (
                 <IconMessageDotsAction />
@@ -682,7 +689,7 @@ interface InputProps {
 }
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
-  const { replyTargetCommentId, setReplyState } = useContext(ReplyContext);
+  const { member: replyTargetMember, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const id = useId();
   const textareaRef = useRef<HTMLDivElement | null>(null);
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -705,6 +712,13 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     textareaRef.current?.focus();
   }, []);
 
+  useEffect(() => {
+    if (replyTargetMember) {
+      console.log('check', replyTargetMember);
+      handleSelectMention({ member: replyTargetMember, isReply: !!replyTargetMember });
+    }
+  }, [replyTargetMember]);
+
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
     onChangeIsBlindChecked(isBlindWriter);
@@ -717,8 +731,8 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     onChange(parseHTMLToMentions(html));
   };
 
-  const handleSelectMention = (member: Member) => {
-    selectMention(member);
+  const handleSelectMention = ({ member, isReply = false }: { member: Member; isReply?: boolean }) => {
+    selectMention({ selectedMember: member, isReply });
     handleContentsInput();
   };
 
@@ -751,7 +765,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
         </InputContent>
       </InputAnimateArea>
       <Flex align='flex-center' css={{ gap: '16px', width: '100%' }} ref={parentRef}>
-        {/* TODO: 답글달기일때만 FlipForward */}
         {replyTargetCommentId !== null && <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500 }} />}
 
         <TextAreaWrapper>
@@ -779,7 +792,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           <MentionDropdown
             parentRef={parentRef}
             searchedMemberList={searchedMemberList}
-            onSelect={handleSelectMention}
+            onSelect={(selected) => handleSelectMention({ member: selected.selected, isReply: selected.isReply })}
             mentionPosition={mentionPosition}
           />
         )}

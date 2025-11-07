@@ -17,6 +17,7 @@ import useCategory from '@/components/feed/common/hooks/useCategory';
 import { useCategoryInfo } from '@/components/feed/common/hooks/useCurrentCategory';
 import { useDeleteFeed } from '@/components/feed/common/hooks/useDeleteFeed';
 import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral';
+import type { Member } from '@/components/feed/common/hooks/useMention';
 import { useReportFeed } from '@/components/feed/common/hooks/useReportFeed';
 import { useShareFeed } from '@/components/feed/common/hooks/useShareFeed';
 import { useCategoryParam } from '@/components/feed/common/queryParam';
@@ -30,19 +31,17 @@ interface FeedDetailProps {
   renderBackLink: (props: { children: ReactNode }) => ReactNode;
 }
 export const ReplyContext = createContext<{
-  mentionId: number | null;
-  mentionName: string;
+  member: Member | null;
   replyTargetCommentId: number | null;
+
   setReplyState: React.Dispatch<
     React.SetStateAction<{
-      mentionId: number | null;
-      mentionName: string;
+      member: Member | null;
       replyTargetCommentId: number | null;
     }>
   >;
 }>({
-  mentionId: null,
-  mentionName: '',
+  member: null,
   replyTargetCommentId: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setReplyState: () => {},
@@ -63,12 +62,10 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const { referral } = useFeedReferral();
 
   const [replyState, setReplyState] = useState<{
-    mentionId: number | null;
-    mentionName: string;
+    member: Member | null;
     replyTargetCommentId: number | null;
   }>({
-    mentionId: null,
-    mentionName: '',
+    member: null,
     replyTargetCommentId: null,
   });
   if (postData == null || commentData == null) {
