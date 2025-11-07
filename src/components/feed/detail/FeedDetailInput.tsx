@@ -8,6 +8,7 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral';
 import { mentionRegex } from '@/components/feed/common/utils/parseMention';
+import { extractAnonymousMentionNames } from '@/components/feed/common/utils/parseMention';
 import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 import { ReplyContext } from '@/components/feed/detail/FeedDetail';
@@ -24,6 +25,7 @@ export const commentAtomFamily = atomFamily({
   key: 'commentAtomFamily',
   default: () => ({ text: '', isBlindWriter: false }),
 });
+export const anonymouseMentionRegex = /@([^\[\]@]+?)\[((?:-1))\]/g;
 
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, category, tag, hasChildren }) => {
   const { member, parentCommentId, setReplyState } = useContext(ReplyContext);
@@ -50,7 +52,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
         mentionIds.push(idNum);
       }
     }
-
+    const anonymousNicknames = extractAnonymousMentionNames(commentData.text);
     postComment(
       {
         content: commentData.text,
@@ -66,8 +68,9 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
                 webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
               }
             : null,
+        // TODO: 댓글에서 @입력 시 게시글에 댓글을 단 익명 멤버 멘션할 수 있는 기능 구현 후 (현재는 답글 멘션만 가능)
         anonymousMention: {
-          anonymousNickname: [mentionIds.includes(ANONYMOUS_MEMBER_ID) ? member?.name ?? '' : ''],
+          anonymousNickname: anonymousNicknames,
         },
       },
       {

@@ -1,11 +1,29 @@
 import { colors } from '@sopt-makers/colors';
 import { useRouter } from 'next/router';
 
+import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
 import { playgroundLink } from '@/constants/links';
 
-// -1은 익명 멤버id를 의미
+// -1은 익명 멤버 id를 의미
 export const mentionRegex = /@([^\[\]@]+?)\[((?:-1|\d+))\]/g;
 const mentionSpanRegex = /<span[^>]*data-id="((?:-1|\d+))"[^>]*>@([^<]+)<\/span>/g;
+export const anonymouseMentionRegex = /@([^\[\]@]+?)\[((?:-1))\]/g;
+
+export const extractAnonymousMentionNames = (text: string) => {
+  const anonymousNicknameList: string[] = [];
+  let match: RegExpExecArray | null;
+
+  anonymouseMentionRegex.lastIndex = 0;
+
+  while ((match = anonymouseMentionRegex.exec(text)) !== null) {
+    const anonymousNickname = match[1]?.trim();
+    if (anonymousNickname) {
+      anonymousNicknameList.push(anonymousNickname);
+    }
+  }
+
+  return anonymousNicknameList;
+};
 
 export const parseMentionsToHTML = (text: string) => {
   return text
@@ -42,8 +60,8 @@ export const parseMentionsToJSX = (text: string, router: ReturnType<typeof useRo
         key={`${name}-${id}-${match.index}`}
         data-id={id}
         contentEditable={false}
-        style={{ color: colors.success }}
-        onClick={() => router.push(playgroundLink.memberDetail(id))}
+        style={{ color: colors.success, cursor: id !== String(ANONYMOUS_MEMBER_ID) ? 'pointer' : 'default' }}
+        onClick={() => (id !== String(ANONYMOUS_MEMBER_ID) ? router.push(playgroundLink.memberDetail(id)) : null)}
       >
         @{name}
       </button>,
