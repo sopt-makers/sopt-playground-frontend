@@ -34,9 +34,11 @@ export const baseCommentSchema = z.object({
       profileImgUrl: z.string(),
     })
     .nullable(),
-  isReported: z.boolean(),
+  isReported: z.boolean().nullable(),
   isMine: z.boolean(),
   createdAt: z.string(),
+  likeCount: z.number(),
+  isLiked: z.boolean(),
 });
 
 type commentSchema = z.infer<typeof baseCommentSchema> & {

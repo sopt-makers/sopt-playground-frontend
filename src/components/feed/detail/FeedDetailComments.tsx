@@ -41,6 +41,8 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
               anonymousProfile={comment.anonymousProfile}
               createdAt={comment.createdAt}
               postId={postId}
+              isLiked={comment.isLiked}
+              commentLikeCount={comment.likeCount}
               moreIcon={
                 <FeedDropdown
                   trigger={
@@ -79,7 +81,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
               }
             />
             {comment.replies.length > 0 &&
-              comment.replies.map((comment: any) =>
+              comment.replies.map((comment) =>
                 comment.isBlindWriter ? (
                   <DetailFeedCard.Comment
                     parentCommentId={comment.parentCommentId}
@@ -90,6 +92,8 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                     anonymousProfile={comment.anonymousProfile}
                     createdAt={comment.createdAt}
                     postId={postId}
+                    isLiked={comment.isLiked}
+                    commentLikeCount={comment.likeCount}
                     isReply={true}
                     moreIcon={
                       <FeedDropdown
@@ -145,6 +149,8 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                     comment={comment.content}
                     isBlindWriter={comment.isBlindWriter}
                     createdAt={comment.createdAt}
+                    isLiked={comment.isLiked}
+                    commentLikeCount={comment.likeCount}
                     isReply={true}
                     moreIcon={
                       <FeedDropdown
@@ -206,6 +212,8 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
               })}
               comment={comment.content}
               isBlindWriter={comment.isBlindWriter}
+              isLiked={comment.isLiked}
+              commentLikeCount={comment.likeCount}
               createdAt={comment.createdAt}
               moreIcon={
                 <FeedDropdown

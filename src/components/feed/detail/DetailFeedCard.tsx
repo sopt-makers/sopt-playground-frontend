@@ -11,6 +11,7 @@ import { KeyboardEvent } from 'react';
 import { useContext } from 'react';
 import { useResetRecoilState } from 'recoil';
 
+import { useCommentLikeMutation, useCommentUnLikeMutation } from '@/api/endpoint/feed/commentLike';
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import Loading from '@/components/common/Loading';
@@ -48,7 +49,6 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
 import { parseTextToLink } from '@/utils/parseTextToLink';
-
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
 };
@@ -442,8 +442,8 @@ type CommentProps = {
   // TODO: 좋아요 backend data 추가 후 optional 제거
   commentId: number;
   postId: string;
-  isLiked?: boolean;
-  commentLikeCount?: number;
+  isLiked: boolean;
+  commentLikeCount: number;
   comment: string;
   createdAt: string;
   moreIcon?: ReactNode;
@@ -480,9 +480,9 @@ const Comment = ({
   anonymousProfile,
   createdAt,
   moreIcon,
-  isLiked = false,
+  isLiked,
   memberId = 0,
-  commentLikeCount = 0,
+  commentLikeCount,
   isReply = false,
   parentCommentId = null,
 }: CommentProps) => {
@@ -492,6 +492,16 @@ const Comment = ({
 
   const { member, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const resetCommentData = useResetRecoilState(commentAtomFamily(postId));
+  const { mutate: commentLike } = useCommentLikeMutation();
+  const { mutate: commentUnLike } = useCommentUnLikeMutation();
+
+  const handleCommentToggleLike = (isLiked: boolean) => {
+    if (isLiked) {
+      commentUnLike({ postId: Number(postId), commentId: commentId });
+    } else {
+      commentLike({ postId: Number(postId), commentId: commentId });
+    }
+  };
   const handleReply = () => {
     if (replyTargetCommentId === commentId) {
       resetCommentData();
@@ -583,6 +593,7 @@ const Comment = ({
           <StyledCommentActions>
             <StyledCommentHeartAction isLiked={isLiked}>
               <IconHeart
+                onClick={() => handleCommentToggleLike(isLiked)}
                 css={{
                   width: 20,
                   height: 20,
@@ -728,7 +739,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     handleKeyDown,
     setIsComposing,
   } = useMention(textareaRef);
-  // console.log(isMentionOpen, mentionPosition);
+
   const { saveCursor, restoreCursor } = useCursorPosition(textareaRef);
 
   const isButtonActive = value.length > 0 && !isPending;
