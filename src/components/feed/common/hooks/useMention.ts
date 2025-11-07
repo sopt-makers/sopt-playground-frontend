@@ -1,7 +1,8 @@
-import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
-import { useState, RefObject } from 'react';
-import { useDebounce } from '@toss/react';
 import { colors } from '@sopt-makers/colors';
+import { useDebounce } from '@toss/react';
+import { RefObject, useState } from 'react';
+
+import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
 
 export type Member = {
   generation: number;

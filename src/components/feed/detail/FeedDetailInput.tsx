@@ -4,12 +4,12 @@ import { atomFamily, useRecoilState } from 'recoil';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { usePostCommentMutation } from '@/api/endpoint/feed/postComment';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral';
+import { mentionRegex } from '@/components/feed/common/utils/parseMention';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
-import { mentionRegex } from '@/components/feed/common/utils/parseMention';
-import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 
 interface FeedDetailInputProps {
   postId: string;

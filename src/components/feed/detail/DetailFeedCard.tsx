@@ -2,13 +2,13 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconEye, IconFlipForward, IconHeart, IconMessageDots } from '@sopt-makers/icons';
-import { TextArea } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { KeyboardEvent } from 'react';
+import { useContext } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -36,6 +36,7 @@ import {
   parseMentionsToHTML,
   parseMentionsToJSX,
 } from '@/components/feed/common/utils/parseMention';
+import { ReplyContext } from '@/components/feed/detail/FeedDetail';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import Vote from '@/components/vote';
@@ -438,6 +439,7 @@ const Divider = styled.hr`
 
 type CommentProps = {
   // TODO: 좋아요 backend data 추가 후 optional 제거
+  commentId: number;
   isLiked?: boolean;
   commentLikeCount?: number;
   comment: string;
@@ -464,6 +466,7 @@ type CommentProps = {
 
 const Comment = ({
   // TODO: post 작성자 이름 데이터 필요
+  commentId,
   profileImage,
   name,
   info,
@@ -476,10 +479,11 @@ const Comment = ({
   memberId = 0,
   commentLikeCount = 0,
 }: CommentProps) => {
-  const [isReplyClicked, setIsReplyClicked] = useState(false);
   const router = useRouter();
   const parsedMentions = parseMentionsToJSX(comment, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
+
+  const { mentionId, mentionName, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
 
   return (
     <StyledComment>
@@ -550,8 +554,17 @@ const Comment = ({
                 {commentLikeCount}
               </Text>
             </StyledCommentHeartAction>
-            <StyledCommentReplyAction onClick={() => setIsReplyClicked((prev) => !prev)}>
-              {isReplyClicked ? (
+            <StyledCommentReplyAction
+              onClick={() =>
+                setReplyState((prev) => ({
+                  ...prev,
+                  memberId: memberId,
+                  mentionName: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
+                  replyTargetCommentId: replyTargetCommentId === commentId ? null : commentId,
+                }))
+              }
+            >
+              {replyTargetCommentId === commentId ? (
                 <IconMessageDotsAction />
               ) : (
                 <>
@@ -575,7 +588,7 @@ const Comment = ({
                 </>
               )}
 
-              <Text typography='SUIT_12_M' color={isReplyClicked ? colors.gray600 : colors.gray300}>
+              <Text typography='SUIT_12_M' color={replyTargetCommentId === commentId ? colors.gray600 : colors.gray300}>
                 답글 달기
               </Text>
             </StyledCommentReplyAction>
@@ -669,6 +682,7 @@ interface InputProps {
 }
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
+  const { replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const id = useId();
   const textareaRef = useRef<HTMLDivElement | null>(null);
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -682,6 +696,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     handleKeyDown,
     setIsComposing,
   } = useMention(textareaRef);
+  // console.log(isMentionOpen, mentionPosition);
   const { saveCursor, restoreCursor } = useCursorPosition(textareaRef);
 
   const isButtonActive = value.length > 0 && !isPending;
@@ -735,45 +750,30 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           </label>
         </InputContent>
       </InputAnimateArea>
-      <Flex align='flex-center' css={{ gap: '16px' }} ref={parentRef}>
+      <Flex align='flex-center' css={{ gap: '16px', width: '100%' }} ref={parentRef}>
         {/* TODO: 답글달기일때만 FlipForward */}
-        <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500 }} />
-        <StyledTextArea
-          contentEditable
-          onInput={(e) => {
-            handleMention();
-            handleContentsInput();
-          }}
-          onKeyDown={(e) => {
-            handleKeyDown(e);
-            handleContentsInput();
-          }}
-          onCompositionStart={() => setIsComposing(true)}
-          onCompositionEnd={() => setIsComposing(false)}
-          data-placeholder={textareaRef.current?.innerText === '' ? '댓글을 남겨주세요.' : ''}
-          ref={textareaRef}
-        />
-        {/* <TextArea
-          value={textareaRef.current?.value}
-          ref={textareaRef}
-          rightAddon={
-            <SendButton type='submit' disabled={!isButtonActive || isPending}>
-              {isPending ? <Loading size={4} /> : <IconSendFill />}
-            </SendButton>
-          }
-          onInput={() => {
-            handleMention();
-            handleContentsInput();
-          }}
-          onKeyDown={(e) => {
-            handleKeyDown(e as KeyboardEvent<HTMLTextAreaElement>);
-            handleContentsInput();
-          }}
-          maxHeight={156}
-          onCompositionStart={() => setIsComposing(true)}
-          onCompositionEnd={() => setIsComposing(false)}
-          placeholder={'댓글을 남겨주세요.'}
-        /> */}
+        {replyTargetCommentId !== null && <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500 }} />}
+
+        <TextAreaWrapper>
+          <StyledTextArea
+            contentEditable
+            onInput={(e) => {
+              handleMention();
+              handleContentsInput();
+            }}
+            onKeyDown={(e) => {
+              handleKeyDown(e);
+              handleContentsInput();
+            }}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
+            data-placeholder={textareaRef.current?.innerText === '' ? '댓글을 남겨주세요.' : ''}
+            ref={textareaRef}
+          />
+          <SendButton type='submit' disabled={!isButtonActive || isPending}>
+            {isPending ? <Loading size={4} /> : <IconSendFill />}
+          </SendButton>
+        </TextAreaWrapper>
 
         {isMentionOpen && mentionPosition !== null && (
           <MentionDropdown
@@ -783,18 +783,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             mentionPosition={mentionPosition}
           />
         )}
-        <SendButton
-          type='submit'
-          initial={{
-            backgroundColor: colors.gray800,
-          }}
-          animate={{
-            backgroundColor: isButtonActive ? colors.success : colors.gray800,
-          }}
-          disabled={!isButtonActive || isPending}
-        >
-          {isPending ? <Loading size={4} /> : <IconSendFill />}
-        </SendButton>
       </Flex>
     </Container>
   );
@@ -832,20 +820,27 @@ const InputContent = styled.div`
   align-items: center;
 `;
 
+const TextAreaWrapper = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  border: 1px solid ${colors.gray200};
+  border-radius: 10px;
+  background-color: ${colors.gray800};
+  width: 100%;
+`;
+
 const StyledTextArea = styled.div`
   flex: 1;
-  border: none;
-  border-width: 0;
-  background-color: ${colors.background};
-  padding-bottom: 7px;
+  padding: 11px 48px 11px 16px;
   max-height: 180px;
+  overflow: auto;
   resize: none;
   line-height: 22px;
   line-height: 26px;
   white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: break-word;
-
   ${textStyles.SUIT_16_M};
 
   :focus {
@@ -858,13 +853,13 @@ const StyledTextArea = styled.div`
   }
 `;
 
-const SendButton = styled(m.button)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  width: 36px;
-  height: 36px;
+const SendButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 100%;
 `;
 
 const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizontal' }) => {

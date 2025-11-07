@@ -1,11 +1,13 @@
-import { playgroundLink } from '@/constants/links';
 import { colors } from '@sopt-makers/colors';
 import { useRouter } from 'next/router';
+
+import { playgroundLink } from '@/constants/links';
 
 export const mentionRegex = /@([^\[\]\s@]+)\[(\d+)\]/g;
 const mentionSpanRegex = /<span[^>]*data-id="(\d+)"[^>]*>@([^<]+)<\/span>/g;
 
 export const parseMentionsToHTML = (text: string) => {
+  console.log(text);
   return text
     .replace(
       mentionRegex,

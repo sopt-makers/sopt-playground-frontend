@@ -1,13 +1,14 @@
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import Text from '@/components/common/Text';
 import { fonts } from '@sopt-makers/fonts';
-import { Ref, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { zIndex } from '@/styles/zIndex';
-import ReactDOM from 'react-dom';
-import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
+
+import { getMemberProfileById } from '@/api/endpoint_LEGACY/members';
+import Text from '@/components/common/Text';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { zIndex } from '@/styles/zIndex';
 
 type Member = {
   generation: number;
@@ -20,14 +21,10 @@ interface MentionDropdownProps {
   parentRef: RefObject<HTMLDivElement>;
   searchedMemberList: Member[];
   onSelect: (selected: Member) => void;
-  mentionPosition: { x: number; y: number } | null;
+  mentionPosition: { x: number; y: number };
 }
 
 const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosition }: MentionDropdownProps) => {
-  if (!mentionPosition || searchedMemberList.length === 0) {
-    return null;
-  }
-
   const [adjustedPosition, setAdjustedPosition] = useState({
     x: mentionPosition.x,
     y: mentionPosition.y,

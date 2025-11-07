@@ -31,6 +31,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
       {commentData.map((comment) =>
         comment.isBlindWriter ? (
           <DetailFeedCard.Comment
+            commentId={comment.id}
             key={comment.id}
             comment={comment.content}
             isBlindWriter={comment.isBlindWriter}
@@ -76,6 +77,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
         ) : comment.member ? (
           <DetailFeedCard.Comment
             key={comment.id}
+            commentId={comment.id}
             name={comment.member.name}
             profileImage={comment.member.profileImage}
             memberId={comment.member.id}
