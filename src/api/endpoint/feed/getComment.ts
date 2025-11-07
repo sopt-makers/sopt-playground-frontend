@@ -43,7 +43,7 @@ type commentSchema = z.infer<typeof baseCommentSchema> & {
   replies: commentSchema[];
 };
 
-const recursiveCommentSchema: z.ZodType<commentSchema> = baseCommentSchema.extend({
+export const recursiveCommentSchema: z.ZodType<commentSchema> = baseCommentSchema.extend({
   replies: z.lazy(() => recursiveCommentSchema.array()),
 });
 

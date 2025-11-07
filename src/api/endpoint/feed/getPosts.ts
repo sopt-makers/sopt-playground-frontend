@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
 
+import { recursiveCommentSchema } from './getComment';
 interface Params {
   categoryId?: string;
   limit?: number;
@@ -55,36 +56,7 @@ const PostsSchema = z.object({
       createdAt: z.string().nullable(),
       isLiked: z.boolean(),
       likes: z.number(),
-      comments: z.array(
-        z.object({
-          id: z.number(),
-          member: z
-            .object({
-              id: z.number(),
-              name: z.string(),
-              profileImage: z.string().nullable(),
-              activity: z.object({
-                part: z.string(),
-                generation: z.number(),
-                team: z.string().nullable(),
-              }),
-              careers: z
-                .object({
-                  companyName: z.string(),
-                  title: z.string(),
-                })
-                .nullable(),
-            })
-            .nullable(),
-          isMine: z.boolean(),
-          postId: z.number(),
-          parentCommentId: z.number().nullable(),
-          content: z.string(),
-          isBlindWriter: z.boolean(),
-          isReported: z.boolean(),
-          createdAt: z.string(),
-        }),
-      ),
+      comments: z.array(recursiveCommentSchema),
       vote: z
         .object({
           id: z.number(),
