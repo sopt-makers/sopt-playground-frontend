@@ -34,16 +34,19 @@ interface FeedDetailProps {
 export const ReplyContext = createContext<{
   member: Member | null;
   replyTargetCommentId: number | null;
+  parentCommentId: number | null;
 
   setReplyState: React.Dispatch<
     React.SetStateAction<{
       member: Member | null;
       replyTargetCommentId: number | null;
+      parentCommentId: number | null;
     }>
   >;
 }>({
   member: null,
   replyTargetCommentId: null,
+  parentCommentId: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setReplyState: () => {},
 });
@@ -65,13 +68,15 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
   const [replyState, setReplyState] = useState<{
     member: Member | null;
     replyTargetCommentId: number | null;
+    parentCommentId: number | null;
   }>({
     member: null,
     replyTargetCommentId: null,
+    parentCommentId: null,
   });
 
   useEffect(() => {
-    setReplyState({ member: null, replyTargetCommentId: null });
+    setReplyState({ member: null, replyTargetCommentId: null, parentCommentId: null });
   }, [postId]);
   if (postData == null || commentData == null) {
     return null;

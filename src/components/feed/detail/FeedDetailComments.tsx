@@ -18,6 +18,7 @@ interface FeedDetailCommentsProps {
 
 const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
   const { data: commentData, refetch: refetchCommentQuery } = useGetCommentQuery(postId);
+
   const { handleDeleteComment } = useDeleteComment();
   const { handleReport: handleReportComment } = useReportComment();
   const { data: postData } = useGetPostQuery(postId);
@@ -32,6 +33,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
         comment.isBlindWriter ? (
           <>
             <DetailFeedCard.Comment
+              parentCommentId={comment.parentCommentId}
               commentId={comment.id}
               key={comment.id}
               comment={comment.content}
@@ -76,117 +78,121 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                 </FeedDropdown>
               }
             />
-            {comment.replies.map((comment) =>
-              comment.isBlindWriter ? (
-                <DetailFeedCard.Comment
-                  commentId={comment.id}
-                  key={comment.id}
-                  comment={comment.content}
-                  isBlindWriter={comment.isBlindWriter}
-                  anonymousProfile={comment.anonymousProfile}
-                  createdAt={comment.createdAt}
-                  postId={postId}
-                  isReply={true}
-                  moreIcon={
-                    <FeedDropdown
-                      trigger={
-                        <button>
-                          <DetailFeedCard.Icon name='moreHorizontal' />
-                        </button>
-                      }
-                    >
-                      {comment.isMine ? (
-                        <FeedDropdown.Item
-                          type='danger'
-                          onClick={() =>
-                            handleDeleteComment({
-                              commentId: `${comment.id}`,
-                              onSuccess: () => {
-                                refetchCommentQuery();
-                              },
-                            })
-                          }
-                        >
-                          <Flex align='center' css={{ gap: '10px' }}>
-                            <IconTrash css={{ width: '16px', height: '16px' }} />
-                            삭제
-                          </Flex>
-                        </FeedDropdown.Item>
-                      ) : null}
-                      {!comment.isMine ? (
-                        <FeedDropdown.Item onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
-                          <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-                            <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
-                            신고
-                          </Flex>
-                        </FeedDropdown.Item>
-                      ) : null}
-                    </FeedDropdown>
-                  }
-                />
-              ) : comment.member ? (
-                <DetailFeedCard.Comment
-                  key={comment.id}
-                  postId={postId}
-                  commentId={comment.id}
-                  name={comment.member.name}
-                  profileImage={comment.member.profileImage}
-                  memberId={comment.member.id}
-                  info={getMemberInfo({
-                    member: comment.member,
-                    categoryId: postData.category.id,
-                    categoryName: postData.category.name,
-                  })}
-                  comment={comment.content}
-                  isBlindWriter={comment.isBlindWriter}
-                  createdAt={comment.createdAt}
-                  isReply={true}
-                  moreIcon={
-                    <FeedDropdown
-                      trigger={
-                        <button>
-                          <DetailFeedCard.Icon name='moreHorizontal' />
-                        </button>
-                      }
-                    >
-                      {comment.isMine ? (
-                        <FeedDropdown.Item
-                          type='danger'
-                          onClick={() =>
-                            handleDeleteComment({
-                              commentId: `${comment.id}`,
-                              onSuccess: () => {
-                                refetchCommentQuery();
-                              },
-                            })
-                          }
-                        >
-                          <Flex align='center' css={{ gap: '10px' }}>
-                            <IconTrash css={{ width: '16px', height: '16px' }} />
-                            삭제
-                          </Flex>
-                        </FeedDropdown.Item>
-                      ) : null}
-                      {!comment.isMine ? (
-                        <FeedDropdown.Item
-                          type='danger'
-                          onClick={() => handleReportComment({ commentId: `${comment.id}` })}
-                        >
-                          <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-                            <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
-                            신고
-                          </Flex>
-                        </FeedDropdown.Item>
-                      ) : null}
-                    </FeedDropdown>
-                  }
-                />
-              ) : null,
-            )}
+            {comment.replies.length > 0 &&
+              comment.replies.map((comment: any) =>
+                comment.isBlindWriter ? (
+                  <DetailFeedCard.Comment
+                    parentCommentId={comment.parentCommentId}
+                    commentId={comment.id}
+                    key={comment.id}
+                    comment={comment.content}
+                    isBlindWriter={comment.isBlindWriter}
+                    anonymousProfile={comment.anonymousProfile}
+                    createdAt={comment.createdAt}
+                    postId={postId}
+                    isReply={true}
+                    moreIcon={
+                      <FeedDropdown
+                        trigger={
+                          <button>
+                            <DetailFeedCard.Icon name='moreHorizontal' />
+                          </button>
+                        }
+                      >
+                        {comment.isMine ? (
+                          <FeedDropdown.Item
+                            type='danger'
+                            onClick={() =>
+                              handleDeleteComment({
+                                commentId: `${comment.id}`,
+                                onSuccess: () => {
+                                  refetchCommentQuery();
+                                },
+                              })
+                            }
+                          >
+                            <Flex align='center' css={{ gap: '10px' }}>
+                              <IconTrash css={{ width: '16px', height: '16px' }} />
+                              삭제
+                            </Flex>
+                          </FeedDropdown.Item>
+                        ) : null}
+                        {!comment.isMine ? (
+                          <FeedDropdown.Item onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                            <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                              <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                              신고
+                            </Flex>
+                          </FeedDropdown.Item>
+                        ) : null}
+                      </FeedDropdown>
+                    }
+                  />
+                ) : comment.member ? (
+                  <DetailFeedCard.Comment
+                    parentCommentId={comment.parentCommentId}
+                    key={comment.id}
+                    postId={postId}
+                    commentId={comment.id}
+                    name={comment.member.name}
+                    profileImage={comment.member.profileImage}
+                    memberId={comment.member.id}
+                    info={getMemberInfo({
+                      member: comment.member,
+                      categoryId: postData.category.id,
+                      categoryName: postData.category.name,
+                    })}
+                    comment={comment.content}
+                    isBlindWriter={comment.isBlindWriter}
+                    createdAt={comment.createdAt}
+                    isReply={true}
+                    moreIcon={
+                      <FeedDropdown
+                        trigger={
+                          <button>
+                            <DetailFeedCard.Icon name='moreHorizontal' />
+                          </button>
+                        }
+                      >
+                        {comment.isMine ? (
+                          <FeedDropdown.Item
+                            type='danger'
+                            onClick={() =>
+                              handleDeleteComment({
+                                commentId: `${comment.id}`,
+                                onSuccess: () => {
+                                  refetchCommentQuery();
+                                },
+                              })
+                            }
+                          >
+                            <Flex align='center' css={{ gap: '10px' }}>
+                              <IconTrash css={{ width: '16px', height: '16px' }} />
+                              삭제
+                            </Flex>
+                          </FeedDropdown.Item>
+                        ) : null}
+                        {!comment.isMine ? (
+                          <FeedDropdown.Item
+                            type='danger'
+                            onClick={() => handleReportComment({ commentId: `${comment.id}` })}
+                          >
+                            <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                              <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                              신고
+                            </Flex>
+                          </FeedDropdown.Item>
+                        ) : null}
+                      </FeedDropdown>
+                    }
+                  />
+                ) : null,
+              )}
           </>
         ) : comment.member ? (
           <>
             <DetailFeedCard.Comment
+              parentCommentId={comment.parentCommentId}
               key={comment.id}
               postId={postId}
               commentId={comment.id}

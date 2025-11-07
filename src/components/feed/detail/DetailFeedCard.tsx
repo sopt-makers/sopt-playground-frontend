@@ -448,6 +448,7 @@ type CommentProps = {
   createdAt: string;
   moreIcon?: ReactNode;
   isReply?: boolean;
+  parentCommentId: number | null;
 } & (
   | {
       isBlindWriter: false;
@@ -483,6 +484,7 @@ const Comment = ({
   memberId = 0,
   commentLikeCount = 0,
   isReply = false,
+  parentCommentId = null,
 }: CommentProps) => {
   const router = useRouter();
   const parsedMentions = parseMentionsToJSX(comment, router);
@@ -496,6 +498,7 @@ const Comment = ({
       setReplyState({
         member: null,
         replyTargetCommentId: null,
+        parentCommentId: null,
       });
     } else {
       if (memberId === member?.id) {
@@ -503,6 +506,7 @@ const Comment = ({
           ...prev,
           //TODO: 부모댓글에 대한 commentId로 통일
           replyTargetCommentId: commentId,
+          parentCommentId: parentCommentId ?? commentId,
         }));
       } else {
         setReplyState({
@@ -513,6 +517,7 @@ const Comment = ({
             profileImage: profileImage ?? null,
           },
           replyTargetCommentId: commentId,
+          parentCommentId: parentCommentId ?? commentId,
         });
       }
     }

@@ -26,7 +26,7 @@ export const commentAtomFamily = atomFamily({
 });
 
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, category, tag, hasChildren }) => {
-  const { setReplyState } = useContext(ReplyContext);
+  const { parentCommentId, setReplyState } = useContext(ReplyContext);
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment, isPending } = usePostCommentMutation(postId);
@@ -56,6 +56,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
         content: commentData.text,
         isBlindWriter: commentData.isBlindWriter,
         isChildComment: false,
+        parentCommentId: parentCommentId ?? undefined,
         webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
         mention:
           mentionIds.length > 0
@@ -69,7 +70,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
       {
         onSuccess: async () => {
           setCommentData((prev) => ({ ...prev, text: '' }));
-          setReplyState({ member: null, replyTargetCommentId: null });
+          setReplyState({ member: null, replyTargetCommentId: null, parentCommentId: null });
           const { isSuccess } = await refetchCommentQuery();
           if (isSuccess) {
             const loggingCategory = hasChildren ? `${category}_${tag}` : `${category}`;
