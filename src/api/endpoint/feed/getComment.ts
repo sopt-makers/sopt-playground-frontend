@@ -36,6 +36,7 @@ export const baseCommentSchema = z.object({
     .nullable(),
   isReported: z.boolean().nullable(),
   isMine: z.boolean(),
+  isDeleted: z.boolean(),
   createdAt: z.string(),
   likeCount: z.number(),
   isLiked: z.boolean(),

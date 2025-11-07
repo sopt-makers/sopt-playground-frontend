@@ -449,6 +449,7 @@ type CommentProps = {
   moreIcon?: ReactNode;
   isReply?: boolean;
   parentCommentId: number | null;
+  isDeleted: boolean;
 } & (
   | {
       isBlindWriter: false;
@@ -485,6 +486,7 @@ const Comment = ({
   commentLikeCount,
   isReply = false,
   parentCommentId = null,
+  isDeleted,
 }: CommentProps) => {
   const router = useRouter();
   const parsedMentions = parseMentionsToJSX(comment, router);
@@ -539,7 +541,11 @@ const Comment = ({
         {isReply ? (
           <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500, transform: 'scale(1, -1)' }} />
         ) : null}
-        {isBlindWriter ? (
+        {isDeleted ? (
+          <Text typography='SUIT_14_M' color={colors.gray500} css={{ whiteSpace: 'nowrap' }}>
+            {isReply ? '삭제된 답글입니다.' : '삭제된 댓글입니다.'}
+          </Text>
+        ) : isBlindWriter ? (
           <CommentProfileImageBox>
             {anonymousProfile ? (
               <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />
@@ -560,83 +566,88 @@ const Comment = ({
             </CommentProfileImageBox>
           </Link>
         )}
-        <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
-          <Flex justify='space-between'>
-            <Stack.Horizontal gutter={2} align='center'>
-              {isBlindWriter ? (
-                <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                  {anonymousProfile?.nickname ?? '익명'}
-                </Text>
-              ) : (
-                <Link href={playgroundLink.memberDetail(memberId)}>
+        {isDeleted ? null : (
+          <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
+            <Flex justify='space-between'>
+              <Stack.Horizontal gutter={2} align='center'>
+                {isBlindWriter ? (
                   <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                    {name}
+                    {anonymousProfile?.nickname ?? '익명'}
                   </Text>
-                </Link>
-              )}
-              {!isBlindWriter && (
-                <InfoText typography='SUIT_14_M' color={colors.gray100}>
-                  {`∙ ${info}`}
-                </InfoText>
-              )}
-            </Stack.Horizontal>
-            <Flex>
-              <Text typography='SUIT_14_M' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
-                {createdAt && getRelativeTime(createdAt)}
-              </Text>
-              {moreIcon}
+                ) : (
+                  <Link href={playgroundLink.memberDetail(memberId)}>
+                    <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                      {name}
+                    </Text>
+                  </Link>
+                )}
+                {!isBlindWriter && (
+                  <InfoText typography='SUIT_14_M' color={colors.gray100}>
+                    {`∙ ${info}`}
+                  </InfoText>
+                )}
+              </Stack.Horizontal>
+              <Flex>
+                <Text typography='SUIT_14_M' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
+                  {createdAt && getRelativeTime(createdAt)}
+                </Text>
+                {moreIcon}
+              </Flex>
             </Flex>
-          </Flex>
-          <StyledText typography='SUIT_15_R' lineHeight={22} color={colors.gray50}>
-            {parsedMentionsAndLinks.flat()}
-          </StyledText>
-          <StyledCommentActions>
-            <StyledCommentHeartAction isLiked={isLiked}>
-              <IconHeart
-                onClick={() => handleCommentToggleLike(isLiked)}
-                css={{
-                  width: 20,
-                  height: 20,
-                  fill: isLiked ? colors.red400 : 'none',
-                  stroke: isLiked ? 'none' : colors.gray300,
-                  color: isLiked ? colors.red400 : colors.gray300,
-                }}
-              />
-              <Text typography='SUIT_12_M' color={colors.gray300}>
-                {commentLikeCount}
-              </Text>
-            </StyledCommentHeartAction>
-            <StyledCommentReplyAction onClick={handleReply}>
-              {replyTargetCommentId === commentId ? (
-                <IconMessageDotsAction />
-              ) : (
-                <>
-                  <IconMessageDots
-                    css={css`
-                      width: 20px;
-                      height: 20px;
-                    `}
-                  />
-                  <IconMessageDotsAction
-                    css={css`
-                      display: none;
-                      width: 20px;
-                      height: 20px;
+            <StyledText typography='SUIT_15_R' lineHeight={22} color={colors.gray50}>
+              {parsedMentionsAndLinks.flat()}
+            </StyledText>
+            <StyledCommentActions>
+              <StyledCommentHeartAction isLiked={isLiked}>
+                <IconHeart
+                  onClick={() => handleCommentToggleLike(isLiked)}
+                  css={{
+                    width: 20,
+                    height: 20,
+                    fill: isLiked ? colors.red400 : 'none',
+                    stroke: isLiked ? 'none' : colors.gray300,
+                    color: isLiked ? colors.red400 : colors.gray300,
+                  }}
+                />
+                <Text typography='SUIT_12_M' color={colors.gray300}>
+                  {commentLikeCount}
+                </Text>
+              </StyledCommentHeartAction>
+              <StyledCommentReplyAction onClick={handleReply}>
+                {replyTargetCommentId === commentId ? (
+                  <IconMessageDotsAction />
+                ) : (
+                  <>
+                    <IconMessageDots
+                      css={css`
+                        width: 20px;
+                        height: 20px;
+                      `}
+                    />
+                    <IconMessageDotsAction
+                      css={css`
+                        display: none;
+                        width: 20px;
+                        height: 20px;
 
-                      path {
-                        fill: ${colors.gray300};
-                      }
-                    `}
-                  />
-                </>
-              )}
+                        path {
+                          fill: ${colors.gray300};
+                        }
+                      `}
+                    />
+                  </>
+                )}
 
-              <Text typography='SUIT_12_M' color={replyTargetCommentId === commentId ? colors.gray600 : colors.gray300}>
-                답글 달기
-              </Text>
-            </StyledCommentReplyAction>
-          </StyledCommentActions>
-        </Stack>
+                <Text
+                  typography='SUIT_12_M'
+                  color={replyTargetCommentId === commentId ? colors.gray600 : colors.gray300}
+                >
+                  답글 달기
+                </Text>
+              </StyledCommentReplyAction>
+            </StyledCommentActions>
+          </Stack>
+        )}
       </Flex>
     </StyledComment>
   );

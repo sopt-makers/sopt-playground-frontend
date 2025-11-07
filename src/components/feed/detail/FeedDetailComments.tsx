@@ -11,7 +11,6 @@ import { useDeleteComment } from '@/components/feed/common/hooks/useDeleteCommen
 import { useReportComment } from '@/components/feed/common/hooks/useReportComment';
 import { getMemberInfo } from '@/components/feed/common/utils';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
-
 interface FeedDetailCommentsProps {
   postId: string;
 }
@@ -43,6 +42,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
               postId={postId}
               isLiked={comment.isLiked}
               commentLikeCount={comment.likeCount}
+              isDeleted={comment.isDeleted}
               moreIcon={
                 <FeedDropdown
                   trigger={
@@ -91,6 +91,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                     isBlindWriter={comment.isBlindWriter}
                     anonymousProfile={comment.anonymousProfile}
                     createdAt={comment.createdAt}
+                    isDeleted={comment.isDeleted}
                     postId={postId}
                     isLiked={comment.isLiked}
                     commentLikeCount={comment.likeCount}
@@ -141,6 +142,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                     name={comment.member.name}
                     profileImage={comment.member.profileImage}
                     memberId={comment.member.id}
+                    isDeleted={comment.isDeleted}
                     info={getMemberInfo({
                       member: comment.member,
                       categoryId: postData.category.id,
@@ -215,6 +217,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
               isLiked={comment.isLiked}
               commentLikeCount={comment.likeCount}
               createdAt={comment.createdAt}
+              isDeleted={comment.isDeleted}
               moreIcon={
                 <FeedDropdown
                   trigger={
