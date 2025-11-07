@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { playgroundLink } from 'playground-common/export';
 import { createContext, ReactNode, useRef } from 'react';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
 import { useGetPostQuery } from '@/api/endpoint/feed/getPost';
@@ -68,6 +69,10 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
     member: null,
     replyTargetCommentId: null,
   });
+
+  useEffect(() => {
+    setReplyState({ member: null, replyTargetCommentId: null });
+  }, [postId]);
   if (postData == null || commentData == null) {
     return null;
   }
