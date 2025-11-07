@@ -38,6 +38,7 @@ import {
   parseMentionsToHTML,
   parseMentionsToJSX,
 } from '@/components/feed/common/utils/parseMention';
+import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
 import { ReplyContext } from '@/components/feed/detail/FeedDetail';
 import { commentAtomFamily } from '@/components/feed/detail/FeedDetailInput';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
@@ -523,7 +524,7 @@ const Comment = ({
       } else {
         setReplyState({
           member: {
-            id: memberId,
+            id: memberId ? memberId : ANONYMOUS_MEMBER_ID,
             name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
             generation: 0, //TODO: generation 데이터 필요
             profileImage: profileImage ?? null,
@@ -777,6 +778,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     saveCursor();
     if (!textareaRef.current) return;
     const html = textareaRef.current.innerHTML;
+    console.log('html', html);
     onChange(parseHTMLToMentions(html));
   };
 

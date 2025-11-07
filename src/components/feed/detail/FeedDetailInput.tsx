@@ -8,10 +8,10 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral';
 import { mentionRegex } from '@/components/feed/common/utils/parseMention';
+import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
 import { ReplyContext } from '@/components/feed/detail/FeedDetail';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
-
 interface FeedDetailInputProps {
   postId: string;
   onSubmitted: () => void;
@@ -26,7 +26,7 @@ export const commentAtomFamily = atomFamily({
 });
 
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, category, tag, hasChildren }) => {
-  const { parentCommentId, setReplyState } = useContext(ReplyContext);
+  const { member, parentCommentId, setReplyState } = useContext(ReplyContext);
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment, isPending } = usePostCommentMutation(postId);
@@ -61,11 +61,14 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
         mention:
           mentionIds.length > 0
             ? {
-                userIds: mentionIds,
+                userIds: mentionIds.filter((id) => id !== ANONYMOUS_MEMBER_ID),
                 writerName: me?.name,
                 webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
               }
             : null,
+        anonymousMention: {
+          anonymousNickname: [mentionIds.includes(ANONYMOUS_MEMBER_ID) ? member?.name ?? '' : ''],
+        },
       },
       {
         onSuccess: async () => {

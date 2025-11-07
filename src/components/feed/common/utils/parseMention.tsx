@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 
 import { playgroundLink } from '@/constants/links';
 
-export const mentionRegex = /@([^\[\]\s@]+)\[(\d+)\]/g;
-const mentionSpanRegex = /<span[^>]*data-id="(\d+)"[^>]*>@([^<]+)<\/span>/g;
+// -1은 익명 멤버id를 의미
+export const mentionRegex = /@([^\[\]@]+?)\[((?:-1|\d+))\]/g;
+const mentionSpanRegex = /<span[^>]*data-id="((?:-1|\d+))"[^>]*>@([^<]+)<\/span>/g;
 
 export const parseMentionsToHTML = (text: string) => {
   return text
