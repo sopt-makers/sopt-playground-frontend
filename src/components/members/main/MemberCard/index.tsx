@@ -1,3 +1,4 @@
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { colors } from '@sopt-makers/colors';
@@ -28,6 +29,7 @@ interface MemberCardProps {
   email?: string;
   imageUrl?: string;
   isCoffeeChatActivate: boolean;
+  isLoading?: boolean;
 
   onMessage?: (e: SyntheticEvent) => void;
 }
@@ -41,6 +43,21 @@ const imageVariants = {
 const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
 
+const shimmerAnimation = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+const shimmerEffect = css`
+  background: linear-gradient(110deg, ${colors.gray800} 0%, ${colors.gray700} 50%, ${colors.gray800} 100%);
+  background-size: 200% 100%;
+  animation: ${shimmerAnimation} 2s ease-in-out infinite;
+`;
+
 const MemberCard: FC<MemberCardProps> = ({
   memberId,
   name,
@@ -50,6 +67,7 @@ const MemberCard: FC<MemberCardProps> = ({
   email,
   imageUrl,
   isCoffeeChatActivate,
+  isLoading,
   onMessage,
 }) => {
   const { visibleBadges, isBadgeOverflow, badgeRefs, badgeWrapperRef } = useVisibleBadges(
@@ -70,7 +88,9 @@ const MemberCard: FC<MemberCardProps> = ({
         <StyledImageArea>
           <StyledAspectRatio ratio={1 / 1}>
             <ImageHolder variants={imageVariants}>
-              {imageUrl ? (
+              {isLoading ? (
+                <LoadingImage />
+              ) : imageUrl ? (
                 <Image className='image' src={imageUrl} width={196} alt='member_image' />
               ) : (
                 <>
@@ -86,43 +106,68 @@ const MemberCard: FC<MemberCardProps> = ({
           </StyledAspectRatio>
         </StyledImageArea>
       </ProfileImage>
-      <MobileCoffeeChatBadge only='mobile'>
-        {isCoffeeChatActivate && (
-          <IconCoffeeWrapper>
-            <IconCoffee />
-          </IconCoffeeWrapper>
-        )}
-      </MobileCoffeeChatBadge>
+      {isLoading ? (
+        <></>
+      ) : (
+        <MobileCoffeeChatBadge only='mobile'>
+          {isCoffeeChatActivate && (
+            <IconCoffeeWrapper>
+              <IconCoffee />
+            </IconCoffeeWrapper>
+          )}
+        </MobileCoffeeChatBadge>
+      )}
       <ContentArea>
         <TitleBox>
-          <Name typography='SUIT_18_SB'>{name}</Name>
-          <Belongs typography='SUIT_12_SB'>{belongs}</Belongs>
+          {isLoading ? (
+            <LoadingTitleBox />
+          ) : (
+            <>
+              <Name typography='SUIT_18_SB'>{name}</Name>
+              <Belongs typography='SUIT_12_SB'>{belongs}</Belongs>
+            </>
+          )}
         </TitleBox>
-        <BadgesBox ref={badgeWrapperRef}>
-          <Badges>
-            {visibleBadges.map((badge, idx) => (
-              <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
-                {badge.isActive && <BadgeActiveDot />}
-                <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
-                  {badge.content}
-                </Text>
-              </Badge>
-            ))}
-            {isBadgeOverflow && (
-              <Badge isActive={false}>
-                <Text typography='SUIT_11_SB'>...</Text>
-              </Badge>
-            )}
-          </Badges>
-        </BadgesBox>
-        <Intro typography='SUIT_13_M' color={colors.gray200}>
-          {intro}
-        </Intro>
+        {isLoading ? (
+          <></>
+        ) : (
+          <BadgesBox ref={badgeWrapperRef}>
+            <Badges>
+              {visibleBadges.map((badge, idx) => (
+                <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
+                  {badge.isActive && <BadgeActiveDot />}
+                  <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                    {badge.content}
+                  </Text>
+                </Badge>
+              ))}
+              {isBadgeOverflow && (
+                <Badge isActive={false}>
+                  <Text typography='SUIT_11_SB'>...</Text>
+                </Badge>
+              )}
+            </Badges>
+          </BadgesBox>
+        )}
+        {isLoading ? (
+          <LoadingIntroBox />
+        ) : (
+          <Intro typography='SUIT_13_M' color={colors.gray200}>
+            {intro}
+          </Intro>
+        )}
       </ContentArea>
-      <SideButtons>
+
+      {isLoading ? (
+        <LoadingSideWrapper only='desktop'>
+          <LoadingSideButton />
+        </LoadingSideWrapper>
+      ) : (
+        <SideButtons>
         {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
         {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
       </SideButtons>
+      )}
     </MotionMemberCard>
   );
 };
@@ -189,7 +234,17 @@ const ImageHolder = styled(m.div)`
   height: 100%;
 `;
 
+const LoadingImage = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+`;
+
 const ContentArea = styled.div`
+  display: flex;
+  flex-direction: column;
   grid-area: content;
   width: 100%;
   overflow: hidden;
@@ -203,10 +258,6 @@ const Image = styled(ResizedImage)`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`;
-
-const DefaultImage = styled.img`
-  width: 40%;
 `;
 
 const TitleBox = styled(m.div)`
@@ -292,14 +343,28 @@ const Intro = styled(Text)`
 const SideButtons = styled.aside`
   display: flex;
   position: absolute;
-  top: 17px;
-  right: 19px;
+  top: 20px;
+  right: 20px;
   flex-direction: column;
   gap: 10px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     display: none;
   }
+`;
+
+const LoadingSideWrapper = styled(Responsive)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+`;
+
+const LoadingSideButton = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
 `;
 
 const IconCoffeeWrapper = styled.div`
@@ -321,4 +386,25 @@ const IconCoffeeWrapper = styled.div`
 const MobileCoffeeChatBadge = styled(Responsive)`
   position: absolute;
   top: 22px;
+`;
+
+const LoadingTitleBox = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 8px;
+  width: 54px;
+  height: 24px;
+`;
+
+const LoadingIntroBox = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 8px;
+  width: 100%;
+  height: 96px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    max-width: 335px;
+    height: 24px;
+  }
 `;
