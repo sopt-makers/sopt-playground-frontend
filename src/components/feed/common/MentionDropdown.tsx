@@ -20,7 +20,7 @@ type Member = {
 interface MentionDropdownProps {
   parentRef: RefObject<HTMLDivElement>;
   searchedMemberList: Member[];
-  onSelect: ({ selected, isReply }: { selected: Member; isReply?: boolean }) => void;
+  onSelect: ({ member, isReply }: { member: Member; isReply?: boolean }) => void;
   mentionPosition: { x: number; y: number };
 }
 
@@ -184,7 +184,7 @@ const MentionDropdown = ({ parentRef, searchedMemberList, onSelect, mentionPosit
               <Box
                 key={member.id}
                 onClick={() => {
-                  onSelect({ selected: member });
+                  onSelect({ member: member });
                 }}
                 translateY={virtualRow.start}
                 role='option'

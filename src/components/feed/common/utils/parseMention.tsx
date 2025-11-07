@@ -7,7 +7,6 @@ export const mentionRegex = /@([^\[\]\s@]+)\[(\d+)\]/g;
 const mentionSpanRegex = /<span[^>]*data-id="(\d+)"[^>]*>@([^<]+)<\/span>/g;
 
 export const parseMentionsToHTML = (text: string) => {
-  console.log(text);
   return text
     .replace(
       mentionRegex,

@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { KeyboardEvent } from 'react';
 import { useContext } from 'react';
+import { useResetRecoilState } from 'recoil';
 
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -37,6 +38,7 @@ import {
   parseMentionsToJSX,
 } from '@/components/feed/common/utils/parseMention';
 import { ReplyContext } from '@/components/feed/detail/FeedDetail';
+import { commentAtomFamily } from '@/components/feed/detail/FeedDetailInput';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import Vote from '@/components/vote';
@@ -302,7 +304,6 @@ const Content = ({
 
   const parsedMentions = parseMentionsToJSX(content, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
-
   return (
     <>
       <Stack gutter={12}>
@@ -440,6 +441,7 @@ const Divider = styled.hr`
 type CommentProps = {
   // TODO: 좋아요 backend data 추가 후 optional 제거
   commentId: number;
+  postId: string;
   isLiked?: boolean;
   commentLikeCount?: number;
   comment: string;
@@ -467,6 +469,7 @@ type CommentProps = {
 const Comment = ({
   // TODO: post 작성자 이름 데이터 필요
   commentId,
+  postId,
   profileImage,
   name,
   info,
@@ -484,6 +487,34 @@ const Comment = ({
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
 
   const { member, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
+  const resetCommentData = useResetRecoilState(commentAtomFamily(postId));
+  const handleReply = () => {
+    if (replyTargetCommentId === commentId) {
+      resetCommentData();
+      setReplyState({
+        member: null,
+        replyTargetCommentId: null,
+      });
+    } else {
+      if (memberId === member?.id) {
+        setReplyState((prev) => ({
+          ...prev,
+          //TODO: 부모댓글에 대한 commentId로 통일
+          replyTargetCommentId: commentId,
+        }));
+      } else {
+        setReplyState({
+          member: {
+            id: memberId,
+            name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
+            generation: 0, //TODO: generation 데이터 필요
+            profileImage: profileImage ?? null,
+          },
+          replyTargetCommentId: commentId,
+        });
+      }
+    }
+  };
 
   return (
     <StyledComment>
@@ -554,23 +585,7 @@ const Comment = ({
                 {commentLikeCount}
               </Text>
             </StyledCommentHeartAction>
-            <StyledCommentReplyAction
-              onClick={() => {
-                setReplyState((prev) => ({
-                  ...prev,
-                  member:
-                    replyTargetCommentId === commentId
-                      ? member
-                      : {
-                          id: memberId,
-                          name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
-                          generation: 0,
-                          profileImage: profileImage ?? null,
-                        },
-                  replyTargetCommentId: replyTargetCommentId === commentId ? null : commentId,
-                }));
-              }}
-            >
+            <StyledCommentReplyAction onClick={handleReply}>
               {replyTargetCommentId === commentId ? (
                 <IconMessageDotsAction />
               ) : (
@@ -714,7 +729,9 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
 
   useEffect(() => {
     if (replyTargetMember) {
-      console.log('check', replyTargetMember);
+      if (textareaRef.current) {
+        textareaRef.current.innerHTML = '';
+      }
       handleSelectMention({ member: replyTargetMember, isReply: !!replyTargetMember });
     }
   }, [replyTargetMember]);
@@ -780,7 +797,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             }}
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
-            data-placeholder={textareaRef.current?.innerText === '' ? '댓글을 남겨주세요.' : ''}
+            data-placeholder={textareaRef.current?.innerText === '' && !replyTargetMember ? '댓글을 남겨주세요.' : ''}
             ref={textareaRef}
           />
           <SendButton type='submit' disabled={!isButtonActive || isPending}>
@@ -792,7 +809,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           <MentionDropdown
             parentRef={parentRef}
             searchedMemberList={searchedMemberList}
-            onSelect={(selected) => handleSelectMention({ member: selected.selected, isReply: selected.isReply })}
+            onSelect={handleSelectMention}
             mentionPosition={mentionPosition}
           />
         )}

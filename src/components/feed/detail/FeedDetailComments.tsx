@@ -37,6 +37,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
             isBlindWriter={comment.isBlindWriter}
             anonymousProfile={comment.anonymousProfile}
             createdAt={comment.createdAt}
+            postId={postId}
             moreIcon={
               <FeedDropdown
                 trigger={
@@ -77,6 +78,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
         ) : comment.member ? (
           <DetailFeedCard.Comment
             key={comment.id}
+            postId={postId}
             commentId={comment.id}
             name={comment.member.name}
             profileImage={comment.member.profileImage}

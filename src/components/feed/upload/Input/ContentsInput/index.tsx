@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { ChangeEvent, forwardRef, Ref, useEffect, useRef } from 'react';
 
-import { textStyles } from '@/styles/typography';
-import MentionDropdown from '@/components/feed/common/MentionDropdown';
-import useMention, { Member } from '@/components/feed/common/hooks/useMention';
-import { parseHTMLToMentions, parseMentionsToHTML } from '@/components/feed/common/utils/parseMention';
 import { useCursorPosition } from '@/components/feed/common/hooks/useCursorPosition';
+import useMention, { Member } from '@/components/feed/common/hooks/useMention';
+import MentionDropdown from '@/components/feed/common/MentionDropdown';
+import { parseHTMLToMentions, parseMentionsToHTML } from '@/components/feed/common/utils/parseMention';
+import { textStyles } from '@/styles/typography';
 
 interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
@@ -38,8 +38,8 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
     } as ChangeEvent<HTMLTextAreaElement>);
   };
 
-  const handleSelectMention = (member: Member) => {
-    selectMention(member);
+  const handleSelectMention = ({ member, isReply = false }: { member: Member; isReply?: boolean }) => {
+    selectMention({ selectedMember: member, isReply });
     handleContentsInput();
   };
 

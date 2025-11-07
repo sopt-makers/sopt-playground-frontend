@@ -1,5 +1,5 @@
 import { playgroundLink } from 'playground-common/export';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { atomFamily, useRecoilState } from 'recoil';
 
 import { useGetCommentQuery } from '@/api/endpoint/feed/getComment';
@@ -9,6 +9,7 @@ import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useFeedReferral } from '@/components/feed/common/hooks/useFeedReferral';
 import { mentionRegex } from '@/components/feed/common/utils/parseMention';
 import DetailFeedCard from '@/components/feed/detail/DetailFeedCard';
+import { ReplyContext } from '@/components/feed/detail/FeedDetail';
 import { PLAYGROUND_ORIGIN } from '@/constants/links';
 
 interface FeedDetailInputProps {
@@ -19,12 +20,13 @@ interface FeedDetailInputProps {
   hasChildren: boolean;
 }
 
-const commentAtomFamily = atomFamily({
+export const commentAtomFamily = atomFamily({
   key: 'commentAtomFamily',
   default: () => ({ text: '', isBlindWriter: false }),
 });
 
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, category, tag, hasChildren }) => {
+  const { setReplyState } = useContext(ReplyContext);
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment, isPending } = usePostCommentMutation(postId);
@@ -67,7 +69,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
       {
         onSuccess: async () => {
           setCommentData((prev) => ({ ...prev, text: '' }));
-
+          setReplyState({ member: null, replyTargetCommentId: null });
           const { isSuccess } = await refetchCommentQuery();
           if (isSuccess) {
             const loggingCategory = hasChildren ? `${category}_${tag}` : `${category}`;
