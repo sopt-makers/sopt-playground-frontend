@@ -71,10 +71,12 @@ const Header = ({
   renderCategoryLink = (props) => props.children,
   hasChildren,
 }: HeaderProps) => {
+  const isIOSApp = typeof navigator !== 'undefined' && /SOPT-iOS/.test(navigator.userAgent);
+
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
-        <div css={{ width: '24px', height: '24px' }}>{left}</div>
+        {!isIOSApp && <div css={{ width: '24px', height: '24px' }}>{left}</div>}
 
         {renderCategoryLink({
           children: (
