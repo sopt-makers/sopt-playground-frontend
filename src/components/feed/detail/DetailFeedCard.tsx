@@ -447,6 +447,7 @@ type CommentProps = {
   comment: string;
   createdAt: string;
   moreIcon?: ReactNode;
+  isReply?: boolean;
 } & (
   | {
       isBlindWriter: false;
@@ -481,6 +482,7 @@ const Comment = ({
   isLiked = false,
   memberId = 0,
   commentLikeCount = 0,
+  isReply = false,
 }: CommentProps) => {
   const router = useRouter();
   const parsedMentions = parseMentionsToJSX(comment, router);
@@ -519,6 +521,9 @@ const Comment = ({
   return (
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
+        {isReply ? (
+          <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500, transform: 'scale(1, -1)' }} />
+        ) : null}
         {isBlindWriter ? (
           <CommentProfileImageBox>
             {anonymousProfile ? (
@@ -782,7 +787,9 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
         </InputContent>
       </InputAnimateArea>
       <Flex align='flex-center' css={{ gap: '16px', width: '100%' }} ref={parentRef}>
-        {replyTargetCommentId !== null && <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500 }} />}
+        {replyTargetCommentId !== null && (
+          <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500, transform: 'scale(1, -1)' }} />
+        )}
 
         <TextAreaWrapper>
           <StyledTextArea
