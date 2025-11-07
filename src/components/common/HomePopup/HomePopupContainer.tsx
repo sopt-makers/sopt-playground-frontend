@@ -8,15 +8,13 @@ const HomePopupContainer = () => {
   const { data: homePopupData } = useGetHomePopup();
 
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
-  const lastPopupData = homePopupData?.at(-1);
 
-  // 팝업 데이터가 없는 경우
-  if (!lastPopupData) {
+  if (!homePopupData) {
     return null;
   }
 
   const { startDate, endDate, pcImageUrl, mobileImageUrl, linkUrl, openInNewTab, showOnlyToRecentGeneration } =
-    lastPopupData;
+    homePopupData;
 
   // 팝업 표시 기간 설정
   const now = new Date();

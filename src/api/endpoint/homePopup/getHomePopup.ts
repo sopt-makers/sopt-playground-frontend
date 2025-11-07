@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
-import { ADMIN_KEY } from '@/constants/env';
 
 const HomePopupSchema = z.object({
   id: z.number(),
@@ -15,17 +14,12 @@ const HomePopupSchema = z.object({
   showOnlyToRecentGeneration: z.boolean(),
 });
 
-export const HomePopupResponseSchema = z.array(HomePopupSchema);
-
 export const getHomePopup = createEndpoint({
   request: () => ({
     method: 'GET',
-    url: 'api/v1/popups',
-    headers: {
-      'admin-key': ADMIN_KEY,
-    },
+    url: 'api/v1/popups/current',
   }),
-  serverResponseScheme: HomePopupResponseSchema,
+  serverResponseScheme: HomePopupSchema,
 });
 
 export const useGetHomePopup = () =>
