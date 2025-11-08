@@ -1,12 +1,17 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconEye } from '@sopt-makers/icons';
+import { IconEye, IconFlipForward, IconHeart, IconMessageDots } from '@sopt-makers/icons';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { KeyboardEvent } from 'react';
+import { useContext } from 'react';
+import { useResetRecoilState } from 'recoil';
+
+import { useCommentLikeMutation, useCommentUnLikeMutation } from '@/api/endpoint/feed/commentLike';
 
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
@@ -35,10 +40,14 @@ import {
   parseMentionsToHTML,
   parseMentionsToJSX,
 } from '@/components/feed/common/utils/parseMention';
+import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
+import { ReplyContext } from '@/components/feed/detail/FeedDetail';
+import { commentAtomFamily } from '@/components/feed/detail/FeedDetailInput';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import Vote from '@/components/vote';
 import { playgroundLink } from '@/constants/links';
+import IconMessageDotsAction from '@/public/icons/icon-message-dots-action.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
@@ -301,7 +310,6 @@ const Content = ({
 
   const parsedMentions = parseMentionsToJSX(content, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
-
   return (
     <>
       <Stack gutter={12}>
@@ -422,9 +430,17 @@ const Divider = styled.hr`
 `;
 
 type CommentProps = {
+  // TODO: 좋아요 backend data 추가 후 optional 제거
+  commentId: number;
+  postId: string;
+  isLiked: boolean;
+  commentLikeCount: number;
   comment: string;
   createdAt: string;
   moreIcon?: ReactNode;
+  isReply?: boolean;
+  parentCommentId: number | null;
+  isDeleted: boolean;
 } & (
   | {
       isBlindWriter: false;
@@ -445,6 +461,9 @@ type CommentProps = {
 );
 
 const Comment = ({
+  // TODO: post 작성자 이름 데이터 필요
+  commentId,
+  postId,
   profileImage,
   name,
   info,
@@ -453,16 +472,71 @@ const Comment = ({
   anonymousProfile,
   createdAt,
   moreIcon,
+  isLiked,
   memberId = 0,
+  commentLikeCount,
+  isReply = false,
+  parentCommentId = null,
+  isDeleted,
 }: CommentProps) => {
   const router = useRouter();
   const parsedMentions = parseMentionsToJSX(comment, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
 
+  const { member, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
+  const resetCommentData = useResetRecoilState(commentAtomFamily(postId));
+  const { mutate: commentLike } = useCommentLikeMutation();
+  const { mutate: commentUnLike } = useCommentUnLikeMutation();
+
+  const handleCommentToggleLike = (isLiked: boolean) => {
+    if (isLiked) {
+      commentUnLike({ postId: Number(postId), commentId: commentId });
+    } else {
+      commentLike({ postId: Number(postId), commentId: commentId });
+    }
+  };
+  const handleReply = () => {
+    if (replyTargetCommentId === commentId) {
+      resetCommentData();
+      setReplyState({
+        member: null,
+        replyTargetCommentId: null,
+        parentCommentId: null,
+      });
+    } else {
+      if (memberId === member?.id) {
+        setReplyState((prev) => ({
+          ...prev,
+          //TODO: 부모댓글에 대한 commentId로 통일
+          replyTargetCommentId: commentId,
+          parentCommentId: parentCommentId ?? commentId,
+        }));
+      } else {
+        setReplyState({
+          member: {
+            id: memberId ? memberId : ANONYMOUS_MEMBER_ID,
+            name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
+            generation: 0, //TODO: generation 데이터 필요
+            profileImage: profileImage ?? null,
+          },
+          replyTargetCommentId: commentId,
+          parentCommentId: parentCommentId ?? commentId,
+        });
+      }
+    }
+  };
+
   return (
     <StyledComment>
       <Flex css={{ gap: 8, minWidth: 0 }}>
-        {isBlindWriter ? (
+        {isReply ? (
+          <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500, transform: 'scale(1, -1)' }} />
+        ) : null}
+        {isDeleted ? (
+          <Text typography='SUIT_14_M' color={colors.gray500} css={{ whiteSpace: 'nowrap' }}>
+            {isReply ? '삭제된 답글입니다.' : '삭제된 댓글입니다.'}
+          </Text>
+        ) : isBlindWriter ? (
           <CommentProfileImageBox>
             {anonymousProfile ? (
               <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />
@@ -483,41 +557,126 @@ const Comment = ({
             </CommentProfileImageBox>
           </Link>
         )}
-        <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
-          <Flex justify='space-between'>
-            <Stack.Horizontal gutter={2} align='center'>
-              {isBlindWriter ? (
-                <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                  {anonymousProfile?.nickname ?? '익명'}
-                </Text>
-              ) : (
-                <Link href={playgroundLink.memberDetail(memberId)}>
+        {isDeleted ? null : (
+          <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
+            <Flex justify='space-between'>
+              <Stack.Horizontal gutter={2} align='center'>
+                {isBlindWriter ? (
                   <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
-                    {name}
+                    {anonymousProfile?.nickname ?? '익명'}
                   </Text>
-                </Link>
-              )}
-              {!isBlindWriter && (
-                <InfoText typography='SUIT_14_M' color={colors.gray100}>
-                  {`∙ ${info}`}
-                </InfoText>
-              )}
-            </Stack.Horizontal>
-            <Flex>
-              <Text typography='SUIT_14_M' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
-                {createdAt && getRelativeTime(createdAt)}
-              </Text>
-              {moreIcon}
+                ) : (
+                  <Link href={playgroundLink.memberDetail(memberId)}>
+                    <Text typography='SUIT_14_SB' color={colors.gray10} css={{ whiteSpace: 'nowrap' }}>
+                      {name}
+                    </Text>
+                  </Link>
+                )}
+                {!isBlindWriter && (
+                  <InfoText typography='SUIT_14_M' color={colors.gray100}>
+                    {`∙ ${info}`}
+                  </InfoText>
+                )}
+              </Stack.Horizontal>
+              <Flex>
+                <Text typography='SUIT_14_M' color={colors.gray400} css={{ whiteSpace: 'nowrap' }}>
+                  {createdAt && getRelativeTime(createdAt)}
+                </Text>
+                {moreIcon}
+              </Flex>
             </Flex>
-          </Flex>
-          <StyledText typography='SUIT_15_R' lineHeight={22} color={colors.gray50}>
-            {parsedMentionsAndLinks.flat()}
-          </StyledText>
-        </Stack>
+            <StyledText typography='SUIT_15_R' lineHeight={22} color={colors.gray50}>
+              {parsedMentionsAndLinks.flat()}
+            </StyledText>
+            <StyledCommentActions>
+              <StyledCommentHeartAction isLiked={isLiked}>
+                <IconHeart
+                  onClick={() => handleCommentToggleLike(isLiked)}
+                  css={{
+                    width: 20,
+                    height: 20,
+                    fill: isLiked ? colors.red400 : 'none',
+                    stroke: isLiked ? 'none' : colors.gray300,
+                    color: isLiked ? colors.red400 : colors.gray300,
+                  }}
+                />
+                <Text typography='SUIT_12_M' color={colors.gray300}>
+                  {commentLikeCount}
+                </Text>
+              </StyledCommentHeartAction>
+              <StyledCommentReplyAction onClick={handleReply}>
+                {replyTargetCommentId === commentId ? (
+                  <IconMessageDotsAction />
+                ) : (
+                  <>
+                    <IconMessageDots
+                      css={css`
+                        width: 20px;
+                        height: 20px;
+                      `}
+                    />
+                    <IconMessageDotsAction
+                      css={css`
+                        display: none;
+                        width: 20px;
+                        height: 20px;
+
+                        path {
+                          fill: ${colors.gray300};
+                        }
+                      `}
+                    />
+                  </>
+                )}
+
+                <Text
+                  typography='SUIT_12_M'
+                  color={replyTargetCommentId === commentId ? colors.gray600 : colors.gray300}
+                >
+                  답글 달기
+                </Text>
+              </StyledCommentReplyAction>
+            </StyledCommentActions>
+          </Stack>
+        )}
       </Flex>
     </StyledComment>
   );
 };
+
+const StyledCommentHeartAction = styled.div<{ isLiked: boolean }>`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  cursor: pointer;
+  color: ${colors.gray300};
+
+  &:hover > svg path {
+    fill: ${({ isLiked }) => (isLiked ? colors.red400 : colors.gray300)};
+  }
+`;
+
+const StyledCommentReplyAction = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  cursor: pointer;
+  color: ${colors.gray300};
+
+  &:hover > svg:first-of-type {
+    display: none;
+  }
+
+  &:hover > svg:last-of-type {
+    display: block;
+  }
+`;
+
+const StyledCommentActions = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+`;
 
 const StyledComment = styled.div`
   padding: 12px 24px;
@@ -568,6 +727,7 @@ interface InputProps {
 }
 
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
+  const { member: replyTargetMember, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const id = useId();
   const textareaRef = useRef<HTMLDivElement | null>(null);
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -581,6 +741,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     handleKeyDown,
     setIsComposing,
   } = useMention(textareaRef);
+
   const { saveCursor, restoreCursor } = useCursorPosition(textareaRef);
 
   const isButtonActive = value.length > 0 && !isPending;
@@ -588,6 +749,15 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   useEffect(() => {
     textareaRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (replyTargetMember) {
+      if (textareaRef.current) {
+        textareaRef.current.innerHTML = '';
+      }
+      handleSelectMention({ member: replyTargetMember, isReply: !!replyTargetMember });
+    }
+  }, [replyTargetMember]);
 
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
@@ -598,11 +768,12 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     saveCursor();
     if (!textareaRef.current) return;
     const html = textareaRef.current.innerHTML;
+    console.log('html', html);
     onChange(parseHTMLToMentions(html));
   };
 
-  const handleSelectMention = (member: Member) => {
-    selectMention(member);
+  const handleSelectMention = ({ member, isReply = false }: { member: Member; isReply?: boolean }) => {
+    selectMention({ selectedMember: member, isReply });
     handleContentsInput();
   };
 
@@ -634,23 +805,33 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
           </label>
         </InputContent>
       </InputAnimateArea>
-      <Flex align='flex-end' css={{ gap: '4px' }} ref={parentRef}>
-        <StyledTextArea
-          contentEditable
-          onInput={(e) => {
-            handleMention();
-            handleContentsInput();
-          }}
-          onKeyDown={(e) => {
-            handleKeyDown(e);
-            handleContentsInput();
-          }}
-          onCompositionStart={() => setIsComposing(true)}
-          onCompositionEnd={() => setIsComposing(false)}
-          data-placeholder={textareaRef.current?.innerText === '' ? '댓글을 남겨주세요.' : ''}
-          ref={textareaRef}
-        />
-        {isMentionOpen && mentionPosition && (
+      <Flex align='flex-center' css={{ gap: '16px', width: '100%' }} ref={parentRef}>
+        {replyTargetCommentId !== null && (
+          <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500, transform: 'scale(1, -1)' }} />
+        )}
+
+        <TextAreaWrapper>
+          <StyledTextArea
+            contentEditable
+            onInput={(e) => {
+              handleMention();
+              handleContentsInput();
+            }}
+            onKeyDown={(e) => {
+              handleKeyDown(e);
+              handleContentsInput();
+            }}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
+            data-placeholder={textareaRef.current?.innerText === '' && !replyTargetMember ? '댓글을 남겨주세요.' : ''}
+            ref={textareaRef}
+          />
+          <SendButton type='submit' disabled={!isButtonActive || isPending}>
+            {isPending ? <Loading size={4} /> : <IconSendFill />}
+          </SendButton>
+        </TextAreaWrapper>
+
+        {isMentionOpen && mentionPosition !== null && (
           <MentionDropdown
             parentRef={parentRef}
             searchedMemberList={searchedMemberList}
@@ -658,18 +839,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             mentionPosition={mentionPosition}
           />
         )}
-        <SendButton
-          type='submit'
-          initial={{
-            backgroundColor: colors.gray800,
-          }}
-          animate={{
-            backgroundColor: isButtonActive ? colors.success : colors.gray800,
-          }}
-          disabled={!isButtonActive || isPending}
-        >
-          {isPending ? <Loading size={4} /> : <IconSendFill />}
-        </SendButton>
       </Flex>
     </Container>
   );
@@ -707,20 +876,27 @@ const InputContent = styled.div`
   align-items: center;
 `;
 
+const TextAreaWrapper = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  border: 1px solid ${colors.gray200};
+  border-radius: 10px;
+  background-color: ${colors.gray800};
+  width: 100%;
+`;
+
 const StyledTextArea = styled.div`
   flex: 1;
-  border: none;
-  border-width: 0;
-  background-color: ${colors.background};
-  padding-bottom: 7px;
+  padding: 11px 48px 11px 16px;
   max-height: 180px;
+  overflow: auto;
   resize: none;
   line-height: 22px;
   line-height: 26px;
   white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: break-word;
-
   ${textStyles.SUIT_16_M};
 
   :focus {
@@ -733,13 +909,13 @@ const StyledTextArea = styled.div`
   }
 `;
 
-const SendButton = styled(m.button)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  width: 36px;
-  height: 36px;
+const SendButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 100%;
 `;
 
 const Icon = ({ name }: { name: 'share' | 'chevronLeft' | 'moreVertical' | 'moreHorizontal' }) => {

@@ -17,6 +17,9 @@ interface RequestBody {
     writerName?: string;
     webLink?: string;
   } | null;
+  anonymousMention: {
+    anonymousNickname: string[];
+  } | null;
 }
 
 export const postComment = createEndpoint({

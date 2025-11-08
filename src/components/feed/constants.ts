@@ -3,3 +3,4 @@ export const QUESTION_CATEGORY_ID = 22;
 export const PART_CATEGORY_ID = 2;
 export const PROMOTION_CATEGORY_ID = 4;
 export const GROUP_CATEGORY_ID = 24;
+export const ANONYMOUS_MEMBER_ID = -1;
