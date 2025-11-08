@@ -1,26 +1,22 @@
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
-import { IconUser } from '@sopt-makers/icons';
-import { Button } from '@sopt-makers/ui';
-import { FC, useState } from 'react';
+import IconPlane from '@/public/icons/icon_plane.svg';
+import { Button, DialogContext, TextArea, TextField } from '@sopt-makers/ui';
+import { FC, useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
+import { useGetMemberProfileOfMe, usePostMemberMessageMutation } from '@/api/endpoint_LEGACY/hooks';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
-import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
-import useAlert from '@/components/common/Modal/useAlert';
 import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Text from '@/components/common/Text';
-import TextArea from '@/components/common/TextArea';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { MB_BIG_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 export enum MessageCategory {
-  COFFEE_CHAT = '커피챗',
   NETWORK = '친목',
   APPJAM_TEAM_BUILDING = '앱잼 팀 빌딩',
   PROJECT_SUGGESTION = '프로젝트 제안',
@@ -31,10 +27,6 @@ interface Category {
   value: MessageCategory;
 }
 const CATEGORY: Category[] = [
-  {
-    icon: '/icons/icon-coffeechat.svg',
-    value: MessageCategory.COFFEE_CHAT,
-  },
   {
     icon: '/icons/icon-network.svg',
     value: MessageCategory.NETWORK,
@@ -54,12 +46,12 @@ const CATEGORY: Category[] = [
 ];
 
 const schema = yup.object().shape({
-  email: yup.string().email('올바른 이메일 형태를 입력해주세요.').required('이메일을 입력해주세요.'),
+  phone: yup.string().required('전화번호를 입력해주세요.').matches(/^\d+$/, "'-' 없이 입력해주세요."),
   content: yup.string().required('내용을 입력해주세요.').max(500, '500자 이내로 입력해주세요.'),
 });
 
 interface MessageForm {
-  email: string;
+  phone: string;
   content: string;
 }
 
@@ -90,19 +82,19 @@ const MessageModal: FC<MessageModalProps> = ({
   });
   const isValid = _isValid && Boolean(selectedCategory);
   const { mutateAsync, isPending } = usePostMemberMessageMutation();
-  const { alert } = useAlert();
+  const { openDialog, closeDialog } = useContext(DialogContext);
   const { confirm, ConfirmComponent } = useCustomConfirm();
   const onClickCategory = (category: MessageCategory) => {
     setSelectedCategory(category);
   };
 
-  const submit = async ({ content, email }: MessageForm) => {
+  const submit = async ({ content, phone }: MessageForm) => {
     if (isPending) {
       return;
     }
     const result = await confirm({
       title: '쪽지를 보내시겠습니까?',
-      description: '쪽지는 상대방의 이메일로 전달됩니다.',
+      description: '작성하신 내용은 상대방에게 문자로 전달돼요.\n한번 보낸 쪽지는 취소할 수 없어요.',
       okButtonColor: colors.white,
       okButtonTextColor: colors.black,
       okButtonText: '전송하기',
@@ -116,7 +108,7 @@ const MessageModal: FC<MessageModalProps> = ({
       }
       if (result) {
         await mutateAsync({
-          senderEmail: email,
+          senderPhone: phone,
           content,
           category: selectedCategory,
           receiverId,
@@ -124,10 +116,20 @@ const MessageModal: FC<MessageModalProps> = ({
 
         onLog?.({ category: selectedCategory });
 
-        await alert({
-          title: '쪽지 보내기',
-          description: '성공적으로 전송되었어요!',
-          zIndex: zIndex.헤더 + 103,
+        openDialog({
+          title: '쪽지 전송이 완료됐어요.',
+          description: (
+            <>
+              쪽지는 {name}님의 문자로 안전히 전달되었어요.
+              <br />
+              좋은 대화로 이어지길 기대할게요.
+            </>
+          ),
+          type: 'single',
+          typeOptions: {
+            approveButtonText: '완료',
+            buttonFunction: closeDialog,
+          },
         });
       }
     } catch (error) {
@@ -135,65 +137,71 @@ const MessageModal: FC<MessageModalProps> = ({
     }
   };
 
+  const { data: me } = useGetMemberProfileOfMe();
+
   return (
     <StyledModal isOpen {...props}>
-      <StyledForm onSubmit={handleSubmit(submit)}>
-        {profileImageUrl ? (
-          <ProfileImage src={profileImageUrl} style={{ width: '84px', height: '84px', borderRadius: '20px' }} />
-        ) : (
-          <EmptyProfileImage>
-            <IconUser style={{ width: '45px', height: '45px', color: `${colors.gray300}`, marginTop: '4px' }} />
-          </EmptyProfileImage>
-        )}
-        <Text mt={24} typography='SUIT_24_B'>
-          {name}님에게 쪽지 보내기
-        </Text>
-        <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
-          쪽지는 상대방의 이메일로 전달됩니다:)
-        </Text>
-        <StyledCategory>
-          {CATEGORY.map((category, index) => (
-            <StyledCategoryItem
-              key={index}
-              onClick={() => onClickCategory(category.value)}
-              isSelected={category.value === (selectedCategory as MessageCategory | null)}
-            >
-              <StyledIcon src={category.icon} alt={category.value} />
-              <Text typography='SUIT_15_SB' color={colors.gray200}>
-                {category.value}
-              </Text>
-            </StyledCategoryItem>
-          ))}
-        </StyledCategory>
-        <TextWrapper>
-          <Text typography='SUIT_14_SB'>회신 받을 본인 이메일</Text>
-        </TextWrapper>
-        <RHFControllerFormItem
-          style={{ width: '100%' }}
-          control={control}
-          name='email'
-          component={StyledInput}
-          placeholder='이메일을 입력해주세요!'
-        />
-        <RHFControllerFormItem
-          style={{ width: '100%' }}
-          control={control}
-          name='content'
-          component={StyledTextArea}
-          placeholder={
-            '멤버에게 궁금한 점을 자세하게 적어주세요. 이야기 나누고 싶은 주제를 쉽게 이해할 수 있도록, 회원님에 대해 간단하게 소개해 주시면 더 좋아요.'
-          }
-        />
-        <StyledButton type='submit' disabled={!isValid || isPending}>
-          {isPending ? (
-            <Loading color='white' />
-          ) : (
-            <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
-              쪽지 보내기
+      {me && (
+        <StyledForm onSubmit={handleSubmit(submit)}>
+          <StyledIconPlane>
+            <IconPlane />
+          </StyledIconPlane>
+          <Text mt={24} typography='SUIT_24_B'>
+            {name}님에게 쪽지 보내기
+          </Text>
+          <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
+            작성하신 내용은 회원님의 프로필과 함께 문자로 전달돼요
+          </Text>
+          <StyledCategory>
+            {CATEGORY.map((category, index) => (
+              <StyledCategoryItem
+                key={index}
+                onClick={() => onClickCategory(category.value)}
+                isSelected={category.value === (selectedCategory as MessageCategory | null)}
+              >
+                <StyledIcon src={category.icon} alt={category.value} />
+                <Text typography='SUIT_15_SB'>{category.value}</Text>
+              </StyledCategoryItem>
+            ))}
+          </StyledCategory>
+          <TextWrapper>
+            <Text typography='SUIT_14_SB'>
+              회신 받을 나의 연락처 <StyledRequired>*</StyledRequired>
             </Text>
-          )}
-        </StyledButton>
-      </StyledForm>
+          </TextWrapper>
+          <RHFControllerFormItem
+            style={{ width: '100%' }}
+            control={control}
+            name='phone'
+            component={StyledInput}
+            defaultValue={me?.phone}
+            placeholder='전화번호를 입력해주세요!'
+          />
+          <TextWrapper>
+            <Text typography='SUIT_14_SB'>
+              무엇이 궁금하신가요? <StyledRequired>*</StyledRequired>
+            </Text>
+          </TextWrapper>
+          <RHFControllerFormItem
+            style={{ width: '100%' }}
+            control={control}
+            name='content'
+            component={StyledTextArea}
+            placeholder={`쪽지에 ${name}님에게 어떤 점이 궁금한지 자세하게 적어주세요. ${name}님의 스킬과 소개와 관련된 내용으로 작성하면 회신 확률을 높일 수 있어요.`}
+            maxLength={500}
+            fixedHeight={184}
+          />
+          <StyledButton type='submit' disabled={!isValid || isPending}>
+            {isPending ? (
+              <Loading color='white' />
+            ) : (
+              <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
+                쪽지 보내기
+              </Text>
+            )}
+          </StyledButton>
+        </StyledForm>
+      )}
       {ConfirmComponent}
     </StyledModal>
   );
@@ -203,7 +211,6 @@ export default MessageModal;
 
 const StyledModal = styled(Modal)`
   background: ${colors.gray900};
-  padding-top: 40px;
   max-height: 792px;
   overflow-y: auto;
 
@@ -223,24 +230,12 @@ const StyledForm = styled.form`
   width: 100%;
 `;
 
-const ProfileImage = styled.img`
-  border-radius: 36px;
-  width: 171px;
-  height: 171px;
-  object-fit: cover;
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-radius: 20px;
-    width: 88px;
-    height: 88px;
-  }
-`;
-
-const EmptyProfileImage = styled.div`
+const StyledIconPlane = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 19px;
-  background: ${colors.gray700};
+  border-radius: 20px;
+  background: ${colors.blue50};
   width: 84px;
   height: 84px;
 `;
@@ -253,6 +248,7 @@ const StyledCategory = styled.section`
   align-items: center;
   justify-content: center;
   margin-top: 40px;
+  width: 225px;
 `;
 
 const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
@@ -261,12 +257,15 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   align-items: center;
   justify-content: center;
   transition: border all 0.2s;
-  opacity: ${({ isSelected }) => (isSelected ? 1 : 0.2)};
-  border: 1px solid ${({ isSelected }) => (isSelected ? colors.white : colors.gray700)};
+  border: 1px solid ${({ isSelected }) => (isSelected ? colors.gray10 : 'transparent')};
   border-radius: 20px;
-  background-color: ${colors.gray700};
+  background-color: ${colors.gray800};
   cursor: pointer;
   padding: 6px 16px 6px 10px;
+
+  & span {
+    color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.gray400)};
+  }
 `;
 
 const StyledIcon = styled.img`
@@ -280,29 +279,24 @@ const TextWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledInput = styled(Input)`
+const StyledRequired = styled.span`
+  color: ${colors.secondary};
+`;
+
+const StyledInput = styled(TextField)`
   margin-top: 8px;
-
-  & > input {
-    border: none;
-    border-radius: 10px;
-    background-color: ${colors.gray800};
-    padding: 15px 16px;
-
-    &::placeholder {
-      color: ${colors.gray400};
-    }
-  }
 `;
 
 const StyledTextArea = styled(TextArea)`
   margin-top: 14px;
   border: none;
-  border-radius: 10px;
-  background-color: ${colors.gray800};
-  padding: 15px 16px;
-  height: 172px;
-  line-height: 26px;
+`;
+
+const TextLength = styled.span`
+  margin-top: 8px;
+  width: 100%;
+  text-align: right;
+  color: ${colors.gray200};
 `;
 
 const StyledButton = styled(Button)`

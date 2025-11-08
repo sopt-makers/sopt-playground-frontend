@@ -42,7 +42,7 @@ import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
-const PAGE_LIMIT = 30;
+const PAGE_LIMIT = 24;
 
 interface MemberListProps {
   banner: ReactNode;
@@ -70,17 +70,24 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const [orderBy, setOrderBy] = useState<Option>(ORDER_OPTIONS[0]);
   const [search, setSearch] = useState<string | undefined>('');
   const [messageModalState, setMessageModalState] = useState<MessageModalState>({ show: false });
+  const [isHydrated, setIsHydrated] = useState(false);
 
   const router = useRouter();
   const { logClickEvent, logSubmitEvent, logPageViewEvent } = useEventLogger();
   const { ref, isVisible } = useIntersectionObserver();
-  const { data: memberProfileData, fetchNextPage } = useMemberProfileQuery({
+  const {
+    data: memberProfileData,
+    fetchNextPage,
+    isLoading,
+    isFetchingNextPage,
+  } = useMemberProfileQuery({
     limit: PAGE_LIMIT,
     queryKey: [router.query],
   });
   const { addQueryParamsToUrl } = usePageQueryParams({
     skipNull: true,
   });
+
   const isEmpty = memberProfileData?.pages[0].members.length === 0;
 
   const profiles = useMemo(
@@ -138,6 +145,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
       }
     }
   }, [router.isReady, router.query, router]);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -206,256 +217,310 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   };
 
   return (
-    <StyledContainer>
-      <div
-        css={css`
-          padding: 0 20px;
-          width: 100%;
-        `}
-      >
-        <Responsive only='mobile'>{banner}</Responsive>
-        <Responsive only='mobile' css={{ marginTop: '20px' }}>
-          <StyledMemberSearch
-            placeholder='이름, 학교, 회사를 검색해보세요!'
-            value={search || ''}
-            onChange={handleSearchChange}
-            onSubmit={() => handleSearchSubmit(search as string)}
-            onReset={handleSearchReset}
-          />
-          <StyledMobileFilterWrapper>
-            <BottomSheetSelect
-              options={GENERATION_OPTIONS}
-              defaultOption={GENERATION_DEFAULT_OPTION}
-              value={generation?.value}
-              placeholder='기수'
-              onChange={handleSelectGeneration}
-            />
-            <BottomSheetSelect
-              options={PART_OPTIONS}
-              defaultOption={PART_DEFAULT_OPTION}
-              value={part?.value}
-              placeholder='파트'
-              onChange={handleSelectPart}
-            />
-            <BottomSheetSelect
-              options={TEAM_OPTIONS}
-              defaultOption={FILTER_DEFAULT_OPTION}
-              value={team?.value}
-              placeholder='활동'
-              onChange={handleSelectTeam}
-            />
-            <BottomSheetSelect
-              options={MBTI_OPTIONS}
-              defaultOption={FILTER_DEFAULT_OPTION}
-              value={mbti?.value}
-              placeholder='MBTI'
-              onChange={handleSelectMbti}
-            />
-            <BottomSheetSelect
-              options={EMPLOYED_OPTIONS}
-              defaultOption={FILTER_DEFAULT_OPTION}
-              value={employed?.value}
-              placeholder='재직 상태'
-              onChange={handleSelectEmployed}
-            />
-          </StyledMobileFilterWrapper>
-          {memberProfileData && (
-            <div
-              css={css`
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-top: 20px;
-                height: 48px;
-              `}
-            >
-              <Text typography='SUIT_14_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-              <StyledBottomSheetSelect
-                options={ORDER_OPTIONS}
-                value={orderBy.value}
-                placeholder=''
-                onChange={handleSelectOrderBy}
-                icon={<StyledSwitchVertical />}
+    <>
+      {isHydrated && (
+        <StyledContainer>
+          <div
+            css={css`
+              padding: 0 20px;
+              width: 100%;
+            `}
+          >
+            <Responsive only='mobile'>{banner}</Responsive>
+            <Responsive only='mobile' css={{ marginTop: '20px' }}>
+              <StyledMemberSearch
+                placeholder='이름, 학교, 회사를 검색해보세요!'
+                value={search || ''}
+                onChange={handleSearchChange}
+                onSubmit={() => handleSearchSubmit(search as string)}
+                onReset={handleSearchReset}
               />
-            </div>
-          )}
-        </Responsive>
-      </div>
-      <StyledMain>
-        <Responsive
-          only='desktop'
-          css={css`
-            margin-top: 64px;
-            width: 100%;
-          `}
-        >
-          {banner}
-        </Responsive>
-        <StyledRightWrapper>
-          <Responsive only='desktop'>
-            <StyledTopWrapper>
-              <div
-                css={css`
-                  display: flex;
-                  justify-content: space-between;
-                  @media ${DESKTOP_TWO_MEDIA_QUERY} {
-                    display: grid;
-                    grid:
-                      [row1-start] 'search' [row1-end]
-                      [row2-start] 'filter' [row2-end]
-                      [row3-start] 'orderBy' [row3-end]
-                      / 1fr;
-                  }
-                `}
-              >
-                <StyledFilterWrapper>
-                  <MemberListFilter
-                    placeholder='기수'
-                    defaultOption={GENERATION_DEFAULT_OPTION}
-                    options={GENERATION_OPTIONS}
-                    onChange={handleSelectGeneration}
-                    value={generation ?? undefined}
-                    onDefaultClick={() => setGeneration(undefined)}
-                  />
-                  <MemberListFilter
-                    placeholder='파트'
-                    onChange={handleSelectPart}
-                    defaultOption={PART_DEFAULT_OPTION}
-                    options={PART_OPTIONS}
-                    value={part ?? undefined}
-                    onDefaultClick={() => setPart(undefined)}
-                  />
-                  <MemberListFilter
-                    placeholder='활동'
-                    options={TEAM_OPTIONS}
-                    onChange={handleSelectTeam}
-                    defaultOption={FILTER_DEFAULT_OPTION}
-                    value={team ?? undefined}
-                    onDefaultClick={() => setTeam(undefined)}
-                  >
-                    <Link href={playgroundLink.makers()}>
-                      <div>
-                        <StyledMakersLink typography='SUIT_16_M'>
-                          메이커스
-                          <IconDiagonalArrow />
-                        </StyledMakersLink>
-                      </div>
-                    </Link>
-                  </MemberListFilter>
-                  <MemberListFilter
-                    placeholder='MBTI'
-                    defaultOption={FILTER_DEFAULT_OPTION}
-                    options={MBTI_OPTIONS}
-                    onChange={handleSelectMbti}
-                    value={mbti ?? undefined}
-                    onDefaultClick={() => setMbti(undefined)}
-                  />
-                  <MemberListFilter
-                    placeholder='재직 상태'
-                    defaultOption={FILTER_DEFAULT_OPTION}
-                    options={EMPLOYED_OPTIONS}
-                    onChange={handleSelectEmployed}
-                    value={employed ?? undefined}
-                    onDefaultClick={() => setEmployed(undefined)}
-                  />
-                </StyledFilterWrapper>
-                <StyledMemberSearch
-                  placeholder='이름, 학교, 회사를 검색해보세요!'
-                  value={search || ''}
-                  onChange={handleSearchChange}
-                  onSubmit={() => handleSearchSubmit(search as string)}
-                  onReset={handleSearchReset}
+              <StyledMobileFilterWrapper>
+                <BottomSheetSelect
+                  options={GENERATION_OPTIONS}
+                  defaultOption={GENERATION_DEFAULT_OPTION}
+                  value={generation?.value}
+                  placeholder='기수'
+                  onChange={handleSelectGeneration}
                 />
-              </div>
+                <BottomSheetSelect
+                  options={PART_OPTIONS}
+                  defaultOption={PART_DEFAULT_OPTION}
+                  value={part?.value}
+                  placeholder='파트'
+                  onChange={handleSelectPart}
+                />
+                <BottomSheetSelect
+                  options={TEAM_OPTIONS}
+                  defaultOption={FILTER_DEFAULT_OPTION}
+                  value={team?.value}
+                  placeholder='활동'
+                  onChange={handleSelectTeam}
+                />
+                <BottomSheetSelect
+                  options={MBTI_OPTIONS}
+                  defaultOption={FILTER_DEFAULT_OPTION}
+                  value={mbti?.value}
+                  placeholder='MBTI'
+                  onChange={handleSelectMbti}
+                />
+                <BottomSheetSelect
+                  options={EMPLOYED_OPTIONS}
+                  defaultOption={FILTER_DEFAULT_OPTION}
+                  value={employed?.value}
+                  placeholder='재직 상태'
+                  onChange={handleSelectEmployed}
+                />
+              </StyledMobileFilterWrapper>
+              {isLoading && (
+                <div
+                  css={css`
+                    margin-top: 30px;
+                    height: 48px;
+                  `}
+                ></div>
+              )}
               {memberProfileData && (
                 <div
                   css={css`
                     display: flex;
-                    grid-area: 'orderBy';
                     align-items: center;
                     justify-content: space-between;
-                    order: 3;
-                    margin-top: 30px;
+                    margin-top: 20px;
+                    height: 48px;
                   `}
                 >
-                  <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
-                  <MemberListOrder value={orderBy} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />
+                  <Text typography='SUIT_14_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+                  <StyledBottomSheetSelect
+                    options={ORDER_OPTIONS}
+                    value={orderBy.value}
+                    placeholder=''
+                    onChange={handleSelectOrderBy}
+                    icon={<StyledSwitchVertical />}
+                  />
                 </div>
               )}
-            </StyledTopWrapper>
-          </Responsive>
-          {isEmpty && <EmptyView />}
-          <StyledCardWrapper>
-            {profiles?.map((profiles, index) => (
-              <React.Fragment key={index}>
-                {profiles.map((profile) => {
-                  const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
-                  const badges = sorted
-                    .filter((activity) => activity.generation && activity.part)
-                    .map((activity) => ({
-                      content: `${activity.generation}기 ${activity.part}`,
-                      isActive: activity.generation === LATEST_GENERATION,
-                    }));
-
-                  const belongs = profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
-
-                  return (
-                    <StyledLink
-                      key={profile.id}
-                      href={playgroundLink.memberDetail(profile.id)}
-                      onClick={() => handleClickCard(profile)}
-                    >
-                      <MemberCard
-                        memberId={profile.id}
-                        name={profile.name}
-                        belongs={belongs}
-                        badges={badges}
-                        intro={profile.introduction}
-                        imageUrl={profile.profileImage}
-                        isCoffeeChatActivate={profile.isCoffeeChatActivate}
-                        email={profile.email}
-                        onMessage={(e) => {
-                          e.preventDefault();
-                          logClickEvent('messageBadge');
-                          setMessageModalState({
-                            show: true,
-                            data: {
-                              targetId: `${profile.id}`,
-                              name: profile.name,
-                              profileUrl: profile.profileImage,
-                            },
-                          });
-                        }}
+            </Responsive>
+          </div>
+          <StyledMain>
+            <Responsive
+              only='desktop'
+              css={css`
+                margin-top: 64px;
+                width: 100%;
+              `}
+            >
+              {banner}
+            </Responsive>
+            <StyledRightWrapper>
+              <Responsive only='desktop'>
+                <StyledTopWrapper>
+                  <div
+                    css={css`
+                      display: flex;
+                      justify-content: space-between;
+                      @media ${DESKTOP_TWO_MEDIA_QUERY} {
+                        display: grid;
+                        grid:
+                          [row1-start] 'search' [row1-end]
+                          [row2-start] 'filter' [row2-end]
+                          [row3-start] 'orderBy' [row3-end]
+                          / 1fr;
+                      }
+                    `}
+                  >
+                    <StyledFilterWrapper>
+                      <MemberListFilter
+                        placeholder='기수'
+                        defaultOption={GENERATION_DEFAULT_OPTION}
+                        options={GENERATION_OPTIONS}
+                        onChange={handleSelectGeneration}
+                        value={generation ?? undefined}
+                        onDefaultClick={() => setGeneration(undefined)}
                       />
-                      <Responsive only='mobile'>
-                        <HLine />
-                      </Responsive>
-                    </StyledLink>
-                  );
-                })}
-              </React.Fragment>
-            ))}
-          </StyledCardWrapper>
-        </StyledRightWrapper>
-      </StyledMain>
-      <Target ref={ref} />
-      {messageModalState.show && (
-        <MessageModal
-          receiverId={messageModalState.data.targetId}
-          name={messageModalState.data.name}
-          profileImageUrl={messageModalState.data.profileUrl}
-          onClose={() => setMessageModalState({ show: false })}
-          defaultCategory={MessageCategory.NETWORK}
-          onLog={(options) =>
-            logSubmitEvent('sendMessage', {
-              category: options?.category?.toString() ?? '',
-              receiverId: +messageModalState.data.targetId,
-              referral: 'memberList',
-            })
-          }
-        />
+                      <MemberListFilter
+                        placeholder='파트'
+                        onChange={handleSelectPart}
+                        defaultOption={PART_DEFAULT_OPTION}
+                        options={PART_OPTIONS}
+                        value={part ?? undefined}
+                        onDefaultClick={() => setPart(undefined)}
+                      />
+                      <MemberListFilter
+                        placeholder='활동'
+                        options={TEAM_OPTIONS}
+                        onChange={handleSelectTeam}
+                        defaultOption={FILTER_DEFAULT_OPTION}
+                        value={team ?? undefined}
+                        onDefaultClick={() => setTeam(undefined)}
+                      >
+                        <Link href={playgroundLink.makers()}>
+                          <div>
+                            <StyledMakersLink typography='SUIT_16_M'>
+                              메이커스
+                              <IconDiagonalArrow />
+                            </StyledMakersLink>
+                          </div>
+                        </Link>
+                      </MemberListFilter>
+                      <MemberListFilter
+                        placeholder='MBTI'
+                        defaultOption={FILTER_DEFAULT_OPTION}
+                        options={MBTI_OPTIONS}
+                        onChange={handleSelectMbti}
+                        value={mbti ?? undefined}
+                        onDefaultClick={() => setMbti(undefined)}
+                      />
+                      <MemberListFilter
+                        placeholder='재직 상태'
+                        defaultOption={FILTER_DEFAULT_OPTION}
+                        options={EMPLOYED_OPTIONS}
+                        onChange={handleSelectEmployed}
+                        value={employed ?? undefined}
+                        onDefaultClick={() => setEmployed(undefined)}
+                      />
+                    </StyledFilterWrapper>
+                    <StyledMemberSearch
+                      placeholder='이름, 학교, 회사를 검색해보세요!'
+                      value={search || ''}
+                      onChange={handleSearchChange}
+                      onSubmit={() => handleSearchSubmit(search as string)}
+                      onReset={handleSearchReset}
+                    />
+                  </div>
+                  {isLoading && (
+                    <div
+                      css={css`
+                        margin-top: 30px;
+                        height: 48px;
+                      `}
+                    ></div>
+                  )}
+                  {memberProfileData && (
+                    <div
+                      css={css`
+                        display: flex;
+                        grid-area: 'orderBy';
+                        align-items: center;
+                        justify-content: space-between;
+                        order: 3;
+                        margin-top: 30px;
+                      `}
+                    >
+                      <Text typography='SUIT_18_M'>{`전체 ${memberProfileData.pages[0].totalMembersCount}명`}</Text>
+                      <MemberListOrder value={orderBy} options={ORDER_OPTIONS} onChange={handleSelectOrderBy} />
+                    </div>
+                  )}
+                </StyledTopWrapper>
+              </Responsive>
+              {isEmpty && <EmptyView />}
+              <StyledCardWrapper>
+                {isLoading
+                  ? Array.from({ length: PAGE_LIMIT }).map((_, idx) => (
+                      <MemberCard
+                        key={idx}
+                        memberId={0}
+                        name={''}
+                        belongs={''}
+                        intro={''}
+                        badges={[]}
+                        isCoffeeChatActivate={false}
+                        isLoading={isLoading}
+                      />
+                    ))
+                  : profiles?.map((profileList, index) => (
+                      <React.Fragment key={index}>
+                        {profileList.map((profile) => {
+                          const sorted = profile.activities.sort((a, b) => b.generation - a.generation);
+                          const badges = sorted
+                            .filter((activity) => activity.generation && activity.part)
+                            .map((activity) => ({
+                              content: `${activity.generation}기 ${activity.part}`,
+                              isActive: activity.generation === LATEST_GENERATION,
+                            }));
+
+                          const belongs =
+                            profile.careers.find((career) => career.isCurrent)?.companyName ?? profile.university;
+
+                          return (
+                            <StyledLink
+                              key={profile.id}
+                              href={playgroundLink.memberDetail(profile.id)}
+                              onClick={() => handleClickCard(profile)}
+                            >
+                              <MemberCard
+                                memberId={profile.id}
+                                name={profile.name}
+                                belongs={belongs}
+                                badges={badges}
+                                intro={profile.introduction}
+                                imageUrl={profile.profileImage}
+                                isCoffeeChatActivate={profile.isCoffeeChatActivate}
+                                email={profile.email}
+                                onMessage={(e) => {
+                                  e.preventDefault();
+                                  logClickEvent('messageBadge');
+                                  setMessageModalState({
+                                    show: true,
+                                    data: {
+                                      targetId: `${profile.id}`,
+                                      name: profile.name,
+                                      profileUrl: profile.profileImage,
+                                    },
+                                  });
+                                }}
+                              />
+                              <Responsive only='mobile'>
+                                <HLine />
+                              </Responsive>
+                            </StyledLink>
+                          );
+                        })}
+                      </React.Fragment>
+                    ))}
+              </StyledCardWrapper>
+            </StyledRightWrapper>
+          </StyledMain>
+          <Target ref={ref} />
+          {messageModalState.show && (
+            <MessageModal
+              receiverId={messageModalState.data.targetId}
+              name={messageModalState.data.name}
+              profileImageUrl={messageModalState.data.profileUrl}
+              onClose={() => setMessageModalState({ show: false })}
+              defaultCategory={MessageCategory.NETWORK}
+              onLog={(options) =>
+                logSubmitEvent('sendMessage', {
+                  category: options?.category?.toString() ?? '',
+                  receiverId: +messageModalState.data.targetId,
+                  referral: 'memberList',
+                })
+              }
+            />
+          )}
+          {isFetchingNextPage && (
+            <StyledMain>
+              <StyledRightWrapper>
+                <StyledCardWrapper>
+                  {Array.from({ length: PAGE_LIMIT }).map((_, idx) => (
+                    <MemberCard
+                      key={idx}
+                      memberId={0}
+                      name={''}
+                      belongs={''}
+                      intro={''}
+                      badges={[]}
+                      isCoffeeChatActivate={false}
+                      isLoading={isFetchingNextPage}
+                    />
+                  ))}
+                </StyledCardWrapper>
+              </StyledRightWrapper>
+            </StyledMain>
+          )}
+        </StyledContainer>
       )}
-    </StyledContainer>
+    </>
   );
 };
 
@@ -528,7 +593,17 @@ const StyledMakersLink = styled(Text)`
 `;
 
 const StyledMemberSearch = styled(SearchField)`
+  border-radius: 10px;
+  background-color: ${colors.gray800};
+  padding-left: 16px;
   min-width: 335px;
+  height: 48px;
+
+  & > input {
+    width: 100%;
+    height: 100%;
+  }
+
   @media ${DESKTOP_TWO_MEDIA_QUERY} {
     grid-area: 'search';
     order: 1;
@@ -538,17 +613,6 @@ const StyledMemberSearch = styled(SearchField)`
   @media ${MOBILE_MEDIA_QUERY} {
     order: none;
     width: 100%;
-
-    & > input {
-      border-radius: 6px;
-      padding: 12px 36px 12px 18px;
-      ${textStyles.SUIT_15_M};
-    }
-
-    & > svg {
-      top: 12px;
-      right: 18px;
-    }
   }
 `;
 
@@ -593,7 +657,7 @@ const HLine = styled.hr`
 
 const Target = styled.div`
   width: 100%;
-  height: 40px;
+  height: 0;
 `;
 
 const StyledLink = styled(Link)`
@@ -604,7 +668,7 @@ const StyledMobileFilterWrapper = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-top: 17px;
+  margin-top: 16px;
   margin-right: -20px;
   padding-right: 20px;
   overflow-x: auto;

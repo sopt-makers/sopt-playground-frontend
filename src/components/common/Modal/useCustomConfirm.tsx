@@ -1,8 +1,8 @@
-import { css } from '@emotion/react'; 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { m } from 'framer-motion';
-import React, { ReactNode,useCallback, useState } from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 
 // 기존 Modal 컴포넌트 가져오기
 import Modal from '@/components/common/Modal';
@@ -29,7 +29,9 @@ const useCustomConfirm = () => {
     okButtonText: 'Confirm',
   });
 
-  const [resolvePromise, setResolvePromise] = useState<(value: boolean) => void>(() => {undefined});
+  const [resolvePromise, setResolvePromise] = useState<(value: boolean) => void>(() => {
+    undefined;
+  });
 
   const confirm = useCallback((options: ConfirmOptions): Promise<boolean> => {
     setOptions(options);
@@ -58,19 +60,16 @@ const useCustomConfirm = () => {
             <StyledModalContent>
               <StyledModalTitle>{options.title}</StyledModalTitle>
               <StyledModalDescription>{options.description}</StyledModalDescription>
-              <StyledFooter align="right">
-                <StyledButton
-                  onClick={handleCancel}
-                  background="dark"
-                >
+              <StyledFooter align='right'>
+                <StyledButton onClick={handleCancel} background='dark'>
                   {options.cancelButtonText}
                 </StyledButton>
                 <StyledButton
                   onClick={handleConfirm}
-                  background="light"
+                  background='light'
                   style={{
-                    backgroundColor: options.okButtonColor || colors.white, 
-                    color: options.okButtonTextColor || colors.black 
+                    backgroundColor: options.okButtonColor || colors.white,
+                    color: options.okButtonTextColor || colors.black,
                   }}
                 >
                   {options.okButtonText}
@@ -97,10 +96,9 @@ const StyledBackground = styled.div<{ zIndex?: number }>`
   justify-content: center;
   z-index: ${({ zIndex }) => zIndex || 1000};
   background: rgb(0 0 0 / 50%);
-  padding-bottom:20px;
+  padding-bottom: 20px;
   width: 100%;
   height: 100%;
-
 `;
 
 const StyledModalContainer = styled.div<{ width?: number }>`
@@ -108,12 +106,12 @@ const StyledModalContainer = styled.div<{ width?: number }>`
   border-radius: 14px;
   box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
   background: ${colors.gray800};
-  width: ${({ width }) => width|| 400}px;
-  height:auto;
+  width: ${({ width }) => width || 400}px;
+  height: auto;
   overflow: hidden;
   @media ${MOBILE_MEDIA_QUERY} {
     max-width: 303px;
-    height:auto;
+    height: auto;
   }
 `;
 export const StyledModalTitle = styled.h1`
@@ -134,7 +132,7 @@ const StyledModalContent = styled.div`
   padding: 24px;
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 20px;
-  }  
+  }
 `;
 
 const StyledModalDescription = styled.div`
@@ -150,7 +148,7 @@ const StyledModalDescription = styled.div`
 const StyledFooter = styled.div<{ align: 'left' | 'right' | 'stretch'; stack?: 'horizontal' | 'vertical' }>`
   display: grid;
   margin-top: 36px;
-  
+
   ${(props) =>
     props.stack !== 'vertical' &&
     css`
