@@ -157,15 +157,16 @@ const MemberCard: FC<MemberCardProps> = ({
           </Intro>
         )}
       </ContentArea>
+
       {isLoading ? (
         <LoadingSideWrapper only='desktop'>
           <LoadingSideButton />
         </LoadingSideWrapper>
       ) : (
         <SideButtons>
-          {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} />}
-          {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
-        </SideButtons>
+        {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
+        {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
+      </SideButtons>
       )}
     </MotionMemberCard>
   );
