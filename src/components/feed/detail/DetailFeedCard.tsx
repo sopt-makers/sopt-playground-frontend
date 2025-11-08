@@ -5,15 +5,20 @@ import { IconEye } from '@sopt-makers/icons';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
+
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
+import ImageWithSkeleton from '@/components/common/ImageWithSkeleton';
 import Loading from '@/components/common/Loading';
 import ResizedImage from '@/components/common/ResizedImage';
 import VerticalScroller from '@/components/common/ScrollContainer';
 import Text from '@/components/common/Text';
 import FeedLike from '@/components/feed/common/FeedLike';
 import useBlindWriterPromise from '@/components/feed/common/hooks/useBlindWriterPromise';
+import { useCursorPosition } from '@/components/feed/common/hooks/useCursorPosition';
+import useMention, { Member } from '@/components/feed/common/hooks/useMention';
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -23,24 +28,21 @@ import {
   IconSendFill,
   IconShare,
 } from '@/components/feed/common/Icon';
+import MentionDropdown from '@/components/feed/common/MentionDropdown';
 import { getRelativeTime } from '@/components/feed/common/utils';
-import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
-import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
-import { playgroundLink } from '@/constants/links';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
-import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
-import { parseTextToLink } from '@/utils/parseTextToLink';
-import Vote from '@/components/vote';
 import {
   parseHTMLToMentions,
   parseMentionsToHTML,
   parseMentionsToJSX,
 } from '@/components/feed/common/utils/parseMention';
-import useMention, { Member } from '@/components/feed/common/hooks/useMention';
-import MentionDropdown from '@/components/feed/common/MentionDropdown';
-import { useCursorPosition } from '@/components/feed/common/hooks/useCursorPosition';
-import { useRouter } from 'next/router';
+import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
+import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
+import Vote from '@/components/vote';
+import { playgroundLink } from '@/constants/links';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { textStyles } from '@/styles/typography';
+import { SwitchCase } from '@/utils/components/switch-case/SwitchCase';
+import { parseTextToLink } from '@/utils/parseTextToLink';
 
 const Base = ({ children }: PropsWithChildren<unknown>) => {
   return <StyledBase direction='column'>{children}</StyledBase>;
@@ -339,9 +341,9 @@ const Content = ({
         >
           <ImageScrollContainer>
             {images.map((image, index) => (
-              <ImageBox key={index} onClick={() => setOpenSlider(true)}>
-                <ImageItem src={image} alt='image' height={320} />
-              </ImageBox>
+              <div key={index} onClick={() => setOpenSlider(true)}>
+                <ImageWithSkeleton src={image} alt='image' height={320} />
+              </div>
             ))}
           </ImageScrollContainer>
         </HorizontalScroller>
@@ -409,21 +411,6 @@ const QuestionBadge = styled.div`
   white-space: nowrap;
   color: ${colors.secondary};
   ${textStyles.SUIT_14_SB};
-`;
-
-const ImageBox = styled.div`
-  flex: 0;
-  border: 1px solid rgb(255 255 255 / 10%);
-  border-radius: 12px;
-  height: 322px;
-`;
-
-const ImageItem = styled(ResizedImage)`
-  border-radius: 12px;
-  cursor: pointer;
-  width: fit-content;
-  height: 100%;
-  object-fit: cover;
 `;
 
 const Divider = styled.hr`

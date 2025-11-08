@@ -30,12 +30,10 @@ export default function useImageUploader({
         return;
       }
 
-      // MEMO: 리사이징 로직 임시 주석 처리
-      // const files =
-      //   resizeHeight == null
-      //     ? inputEl.files
-      //     : await Promise.all(Array.from(inputEl.files).map((file) => tryResizeFile(file, resizeHeight)));
-      const files = inputEl.files;
+      const files =
+        resizeHeight == null
+          ? inputEl.files
+          : await Promise.all(Array.from(inputEl.files).map((file) => tryResizeFile(file, resizeHeight)));
 
       // const uploadFiles = debounce(async () => {
       const urls: string[] = [];
@@ -75,8 +73,14 @@ export default function useImageUploader({
 const tryResizeFile = async (file: File, targetHeight: number) => {
   try {
     const { readAndCompressImage } = await import('browser-image-resizer');
-    const blob = await readAndCompressImage(file, { maxHeight: targetHeight, mimeType: 'image/jpeg' });
-    const newFile = new File([blob], file.name, {
+    const blob = await readAndCompressImage(file, {
+      quality: 0.8,
+      maxHeight: targetHeight,
+      mimeType: 'image/jpeg',
+    });
+
+    const newFileName = file.name.replace(/\.[^/.]+$/, '.jpg');
+    const newFile = new File([blob], newFileName, {
       type: 'image/jpeg',
     });
     return newFile;
