@@ -28,7 +28,7 @@ export const commentAtomFamily = atomFamily({
 export const anonymouseMentionRegex = /@([^\[\]@]+?)\[((?:-1))\]/g;
 
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, category, tag, hasChildren }) => {
-  const { member, parentCommentId, setReplyState } = useContext(ReplyContext);
+  const { parentCommentId, setReplyState } = useContext(ReplyContext);
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment, isPending } = usePostCommentMutation(postId);

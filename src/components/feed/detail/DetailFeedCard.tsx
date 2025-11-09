@@ -6,7 +6,7 @@ import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
 import { KeyboardEvent } from 'react';
 import { useContext } from 'react';
 import { useResetRecoilState } from 'recoil';
@@ -43,6 +43,7 @@ import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
 import { ReplyContext } from '@/components/feed/detail/FeedDetail';
 import { commentAtomFamily } from '@/components/feed/detail/FeedDetailInput';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
+import { Container } from '@/components/feed/list/CategorySelect';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import Vote from '@/components/vote';
 import { playgroundLink } from '@/constants/links';
@@ -726,8 +727,11 @@ interface InputProps {
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
   const { member: replyTargetMember, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const id = useId();
+  const [textareaValue, setTextareaValue] = useState<string>(''); // textarea의 value 상태 기반 추적 변수
   const textareaRef = useRef<HTMLDivElement | null>(null);
   const parentRef = useRef<HTMLDivElement | null>(null);
+  const prevReplyTargetCommentIdRef = useRef<number | null>(null);
+
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
   const {
     isMentionOpen,
@@ -747,32 +751,54 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     textareaRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    if (replyTargetMember) {
-      if (textareaRef.current) {
-        textareaRef.current.innerHTML = '';
-      }
-      handleSelectMention({ member: replyTargetMember, isReply: !!replyTargetMember });
-    }
-  }, [replyTargetMember]);
-
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
     onChangeIsBlindChecked(isBlindWriter);
   };
 
-  const handleContentsInput = () => {
+  const handleContentsInput = useCallback(() => {
     saveCursor();
     if (!textareaRef.current) return;
     const html = textareaRef.current.innerHTML;
-    console.log('html', html);
     onChange(parseHTMLToMentions(html));
-  };
+    setTextareaValue(html);
+  }, [onChange, saveCursor]);
 
-  const handleSelectMention = ({ member, isReply = false }: { member: Member; isReply?: boolean }) => {
-    selectMention({ selectedMember: member, isReply });
-    handleContentsInput();
-  };
+  const handleSelectMention = useCallback(
+    ({ member, isReply = false }: { member: Member; isReply?: boolean }) => {
+      selectMention({ selectedMember: member, isReply });
+      handleContentsInput();
+    },
+    [handleContentsInput],
+  );
+
+  useEffect(() => {
+    console.log(textareaValue);
+    if (replyTargetCommentId && replyTargetMember && textareaRef.current) {
+      if (prevReplyTargetCommentIdRef.current !== replyTargetCommentId) {
+        if (textareaRef.current.innerHTML.length !== 0) {
+          textareaRef.current.innerHTML = '';
+          setTextareaValue('');
+        }
+        handleSelectMention({ member: replyTargetMember, isReply: !!replyTargetMember });
+        prevReplyTargetCommentIdRef.current = replyTargetCommentId;
+      }
+    }
+    if (replyTargetCommentId === null) {
+      prevReplyTargetCommentIdRef.current = null;
+      return;
+    }
+
+    if (textareaRef.current && textareaRef.current.innerHTML.length === 0) {
+      setReplyState({
+        member: null,
+        replyTargetCommentId: null,
+        parentCommentId: null,
+      });
+      setTextareaValue('');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [replyTargetMember, replyTargetCommentId, textareaValue]);
 
   useEffect(() => {
     if (!textareaRef.current || value === null) return;
@@ -813,6 +839,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             onInput={(e) => {
               handleMention();
               handleContentsInput();
+              setTextareaValue(e.currentTarget.innerHTML);
             }}
             onKeyDown={(e) => {
               handleKeyDown(e);
@@ -840,23 +867,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     </Container>
   );
 };
-
-const Container = styled.div`
-  --card-max-width: 560px;
-
-  border-top: 1px solid ${colors.gray800};
-  border-right: 1px solid ${colors.gray800};
-  background-color: ${colors.gray950};
-  padding: 12px 16px;
-  width: 100%;
-  max-width: var(--card-max-width);
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-right: none;
-    padding: 10px 16px;
-    max-width: 100%;
-  }
-`;
 
 const InputAnimateArea = styled(m.div)`
   position: relative;
