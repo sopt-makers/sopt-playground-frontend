@@ -50,7 +50,11 @@ const CATEGORY: Category[] = [
 ];
 
 const schema = yup.object().shape({
-  phone: yup.string().required('전화번호를 입력해주세요.').matches(/^\d+$/, "'-' 없이 입력해주세요."),
+  phone: yup
+    .string()
+    .required('전화번호를 입력해주세요.')
+    .matches(/^\d+$/, "'-' 없이 입력해주세요.")
+    .matches(/^010\d{8}$/, '전화번호를 입력해주세요.'),
   content: yup.string().required('내용을 입력해주세요.').max(500, '500자 이내로 입력해주세요.'),
 });
 
