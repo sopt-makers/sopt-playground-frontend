@@ -57,7 +57,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
       {
         content: commentData.text,
         isBlindWriter: commentData.isBlindWriter,
-        isChildComment: false,
+        isChildComment: parentCommentId !== null,
         parentCommentId: parentCommentId ?? undefined,
         webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
         mention:

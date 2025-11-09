@@ -30,7 +30,7 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
     <Container>
       {commentData.map((comment) =>
         comment.isBlindWriter ? (
-          <>
+          <div key={comment.id}>
             <DetailFeedCard.Comment
               parentCommentId={comment.parentCommentId}
               commentId={comment.id}
@@ -80,21 +80,22 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                 </FeedDropdown>
               }
             />
+
             {comment.replies.length > 0 &&
-              comment.replies.map((comment) =>
-                comment.isBlindWriter ? (
+              comment.replies.map((replyComment) =>
+                replyComment.isBlindWriter ? (
                   <DetailFeedCard.Comment
-                    parentCommentId={comment.parentCommentId}
-                    commentId={comment.id}
-                    key={comment.id}
-                    comment={comment.content}
-                    isBlindWriter={comment.isBlindWriter}
-                    anonymousProfile={comment.anonymousProfile}
-                    createdAt={comment.createdAt}
-                    isDeleted={comment.isDeleted}
+                    parentCommentId={replyComment.parentCommentId}
+                    commentId={replyComment.id}
+                    key={replyComment.id}
+                    comment={replyComment.content}
+                    isBlindWriter={replyComment.isBlindWriter}
+                    anonymousProfile={replyComment.anonymousProfile}
+                    createdAt={replyComment.createdAt}
+                    isDeleted={replyComment.isDeleted}
                     postId={postId}
-                    isLiked={comment.isLiked}
-                    commentLikeCount={comment.likeCount}
+                    isLiked={replyComment.isLiked}
+                    commentLikeCount={replyComment.likeCount}
                     isReply={true}
                     moreIcon={
                       <FeedDropdown
@@ -104,12 +105,12 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                           </button>
                         }
                       >
-                        {comment.isMine ? (
+                        {replyComment.isMine ? (
                           <FeedDropdown.Item
                             type='danger'
                             onClick={() =>
                               handleDeleteComment({
-                                commentId: `${comment.id}`,
+                                commentId: `${replyComment.id}`,
                                 onSuccess: () => {
                                   refetchCommentQuery();
                                 },
@@ -133,26 +134,26 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                       </FeedDropdown>
                     }
                   />
-                ) : comment.member ? (
+                ) : replyComment.member ? (
                   <DetailFeedCard.Comment
-                    parentCommentId={comment.parentCommentId}
-                    key={comment.id}
+                    parentCommentId={replyComment.parentCommentId}
+                    key={replyComment.id}
                     postId={postId}
-                    commentId={comment.id}
-                    name={comment.member.name}
-                    profileImage={comment.member.profileImage}
-                    memberId={comment.member.id}
-                    isDeleted={comment.isDeleted}
+                    commentId={replyComment.id}
+                    name={replyComment.member.name}
+                    profileImage={replyComment.member.profileImage}
+                    memberId={replyComment.member.id}
+                    isDeleted={replyComment.isDeleted}
                     info={getMemberInfo({
-                      member: comment.member,
+                      member: replyComment.member,
                       categoryId: postData.category.id,
                       categoryName: postData.category.name,
                     })}
-                    comment={comment.content}
-                    isBlindWriter={comment.isBlindWriter}
-                    createdAt={comment.createdAt}
-                    isLiked={comment.isLiked}
-                    commentLikeCount={comment.likeCount}
+                    comment={replyComment.content}
+                    isBlindWriter={replyComment.isBlindWriter}
+                    createdAt={replyComment.createdAt}
+                    isLiked={replyComment.isLiked}
+                    commentLikeCount={replyComment.likeCount}
                     isReply={true}
                     moreIcon={
                       <FeedDropdown
@@ -162,12 +163,12 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                           </button>
                         }
                       >
-                        {comment.isMine ? (
+                        {replyComment.isMine ? (
                           <FeedDropdown.Item
                             type='danger'
                             onClick={() =>
                               handleDeleteComment({
-                                commentId: `${comment.id}`,
+                                commentId: `${replyComment.id}`,
                                 onSuccess: () => {
                                   refetchCommentQuery();
                                 },
@@ -180,10 +181,10 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                             </Flex>
                           </FeedDropdown.Item>
                         ) : null}
-                        {!comment.isMine ? (
+                        {!replyComment.isMine ? (
                           <FeedDropdown.Item
                             type='danger'
-                            onClick={() => handleReportComment({ commentId: `${comment.id}` })}
+                            onClick={() => handleReportComment({ commentId: `${replyComment.id}` })}
                           >
                             <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
                               <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
@@ -196,9 +197,9 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                   />
                 ) : null,
               )}
-          </>
+          </div>
         ) : comment.member ? (
-          <>
+          <div key={comment.id}>
             <DetailFeedCard.Comment
               parentCommentId={comment.parentCommentId}
               key={comment.id}
@@ -258,7 +259,123 @@ const FeedDetailComments: FC<FeedDetailCommentsProps> = ({ postId }) => {
                 </FeedDropdown>
               }
             />
-          </>
+            {comment.replies.length > 0 &&
+              comment.replies.map((replyComment) =>
+                replyComment.isBlindWriter ? (
+                  <DetailFeedCard.Comment
+                    parentCommentId={replyComment.parentCommentId}
+                    commentId={replyComment.id}
+                    key={replyComment.id}
+                    comment={replyComment.content}
+                    isBlindWriter={replyComment.isBlindWriter}
+                    anonymousProfile={replyComment.anonymousProfile}
+                    createdAt={replyComment.createdAt}
+                    isDeleted={replyComment.isDeleted}
+                    postId={postId}
+                    isLiked={replyComment.isLiked}
+                    commentLikeCount={replyComment.likeCount}
+                    isReply={true}
+                    moreIcon={
+                      <FeedDropdown
+                        trigger={
+                          <button>
+                            <DetailFeedCard.Icon name='moreHorizontal' />
+                          </button>
+                        }
+                      >
+                        {replyComment.isMine ? (
+                          <FeedDropdown.Item
+                            type='danger'
+                            onClick={() =>
+                              handleDeleteComment({
+                                commentId: `${replyComment.id}`,
+                                onSuccess: () => {
+                                  refetchCommentQuery();
+                                },
+                              })
+                            }
+                          >
+                            <Flex align='center' css={{ gap: '10px' }}>
+                              <IconTrash css={{ width: '16px', height: '16px' }} />
+                              삭제
+                            </Flex>
+                          </FeedDropdown.Item>
+                        ) : null}
+                        {!comment.isMine ? (
+                          <FeedDropdown.Item onClick={() => handleReportComment({ commentId: `${comment.id}` })}>
+                            <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                              <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                              신고
+                            </Flex>
+                          </FeedDropdown.Item>
+                        ) : null}
+                      </FeedDropdown>
+                    }
+                  />
+                ) : replyComment.member ? (
+                  <DetailFeedCard.Comment
+                    parentCommentId={replyComment.parentCommentId}
+                    key={replyComment.id}
+                    postId={postId}
+                    commentId={replyComment.id}
+                    name={replyComment.member.name}
+                    profileImage={replyComment.member.profileImage}
+                    memberId={replyComment.member.id}
+                    isDeleted={replyComment.isDeleted}
+                    info={getMemberInfo({
+                      member: replyComment.member,
+                      categoryId: postData.category.id,
+                      categoryName: postData.category.name,
+                    })}
+                    comment={replyComment.content}
+                    isBlindWriter={replyComment.isBlindWriter}
+                    createdAt={replyComment.createdAt}
+                    isLiked={replyComment.isLiked}
+                    commentLikeCount={replyComment.likeCount}
+                    isReply={true}
+                    moreIcon={
+                      <FeedDropdown
+                        trigger={
+                          <button>
+                            <DetailFeedCard.Icon name='moreHorizontal' />
+                          </button>
+                        }
+                      >
+                        {replyComment.isMine ? (
+                          <FeedDropdown.Item
+                            type='danger'
+                            onClick={() =>
+                              handleDeleteComment({
+                                commentId: `${replyComment.id}`,
+                                onSuccess: () => {
+                                  refetchCommentQuery();
+                                },
+                              })
+                            }
+                          >
+                            <Flex align='center' css={{ gap: '10px' }}>
+                              <IconTrash css={{ width: '16px', height: '16px' }} />
+                              삭제
+                            </Flex>
+                          </FeedDropdown.Item>
+                        ) : null}
+                        {!replyComment.isMine ? (
+                          <FeedDropdown.Item
+                            type='danger'
+                            onClick={() => handleReportComment({ commentId: `${replyComment.id}` })}
+                          >
+                            <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                              <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                              신고
+                            </Flex>
+                          </FeedDropdown.Item>
+                        ) : null}
+                      </FeedDropdown>
+                    }
+                  />
+                ) : null,
+              )}
+          </div>
         ) : null,
       )}
     </Container>
