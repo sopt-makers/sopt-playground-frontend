@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import IconPlane from '@/public/icons/icon_plane.svg';
 import { Button, DialogContext, TextArea, TextField } from '@sopt-makers/ui';
-import { FC, useContext, useState } from 'react';
+import { ComponentType, FC, SVGProps, useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -13,7 +13,7 @@ import Loading from '@/components/common/Loading';
 import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Text from '@/components/common/Text';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { MB_BIG_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 import IconNetwork from '@/public//icons/icon-network.svg';
 import IconAppjam from '@/public//icons/icon-appjam-build.svg';
@@ -27,7 +27,7 @@ export enum MessageCategory {
   ETC = '기타',
 }
 interface Category {
-  icon: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
   value: MessageCategory;
 }
 const CATEGORY: Category[] = [
