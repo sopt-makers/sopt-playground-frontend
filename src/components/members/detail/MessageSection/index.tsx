@@ -20,18 +20,18 @@ interface MessageSectionProps {
 }
 
 export default function MessageSection({ memberId, profile }: MessageSectionProps) {
-  const { name, email, profileImage, isCoffeeChatActivate } = profile;
+  const { name, email, profileImage, isCoffeeChatActivate, phone } = profile;
 
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const toast = useToast();
   const router = useRouter();
   const { logClickEvent, logSubmitEvent } = useEventLogger();
 
-  const isEmptyEmail = !email || email.length < 1;
+  const isEmptyPhone = !phone || phone.length < 1;
 
   const handleClickMessageButton = () => {
-    if (isEmptyEmail) {
-      toast.show({ message: `해당 유저는 이메일을 등록하지 않아 쪽지를 보낼 수 없어요.` });
+    if (isEmptyPhone) {
+      toast.show({ message: `해당 유저는 전화번호를 등록하지 않아 쪽지를 보낼 수 없어요.` });
     } else {
       onOpenMessageModal();
     }
@@ -91,7 +91,7 @@ export default function MessageSection({ memberId, profile }: MessageSectionProp
                 커피챗 보러가기
               </CoffeeChatButton>
             )}
-            <MessageButton size='sm' onClick={handleClickMessageButton} disabled={isEmptyEmail}>
+            <MessageButton size='sm' onClick={handleClickMessageButton} disabled={isEmptyPhone}>
               쪽지 보내기
             </MessageButton>
           </ButtonWrapper>
