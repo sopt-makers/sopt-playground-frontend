@@ -200,6 +200,8 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
   const { isOpen: isOpenVoteModal, onOpen: onOpenVoteModal, onClose: onCloseVoteModal } = useModalState();
   const hasVoteOptions = feedData.vote && feedData.vote.voteOptions?.length > 0;
 
+  const isIOSApp = typeof navigator !== 'undefined' && /SOPT-iOS/.test(navigator.userAgent);
+
   return (
     <form onSubmit={handleSubmit}>
       <Responsive only='desktop'>
@@ -318,10 +320,10 @@ export default function FeedUploadPage({ defaultValue, editingId, onSubmit }: Fe
           header={
             <>
               <TopHeader>
-                <IconLeft color={colors.white} onClick={handleQuitUpload} />
                 <Button type='submit' theme='blue' size='sm' disabled={!checkReadyToUpload() || isGroupFeedPending}>
                   올리기
                 </Button>
+                {!isIOSApp && <IconLeft color={colors.white} onClick={handleQuitUpload} />}
               </TopHeader>
               <Category feedData={feedData} onSaveCategory={handleSaveCategory} isEdit={isEdit} />
             </>
@@ -467,6 +469,7 @@ const TopHeader = styled.header`
   display: flex;
   position: fixed;
   top: 0;
+  flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
   z-index: 2;
