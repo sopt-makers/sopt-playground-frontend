@@ -147,70 +147,71 @@ const MessageModal: FC<MessageModalProps> = ({
 
   const { data: me } = useGetMemberProfileOfMe();
 
+  if (!me) return null;
+
   return (
     <StyledModal isOpen {...props}>
-      {me && (
-        <StyledForm onSubmit={handleSubmit(submit)}>
-          <StyledIconPlane>
-            <IconPlane />
-          </StyledIconPlane>
-          <Text mt={24} typography='SUIT_24_B'>
-            {name}님에게 쪽지 보내기
+      <StyledForm onSubmit={handleSubmit(submit)}>
+        <StyledIconPlane>
+          <IconPlane />
+        </StyledIconPlane>
+        <Text mt={24} typography='SUIT_24_B'>
+          {name}님에게 쪽지 보내기
+        </Text>
+        <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
+          작성하신 내용은 회원님의 프로필과 함께 문자로 전달돼요
+        </Text>
+        <StyledCategory>
+          {CATEGORY.map((category, index) => (
+            <StyledCategoryItem
+              key={index}
+              onClick={() => onClickCategory(category.value)}
+              isSelected={category.value === (selectedCategory as MessageCategory | null)}
+            >
+              <category.icon />
+              <Text typography='SUIT_15_SB'>{category.value}</Text>
+            </StyledCategoryItem>
+          ))}
+        </StyledCategory>
+        <TextWrapper>
+          <Text typography='SUIT_14_SB'>
+            회신 받을 나의 연락처 <StyledRequired>*</StyledRequired>
           </Text>
-          <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
-            작성하신 내용은 회원님의 프로필과 함께 문자로 전달돼요
+        </TextWrapper>
+        <RHFControllerFormItem
+          style={{ width: '100%' }}
+          control={control}
+          name='phone'
+          component={StyledInput}
+          defaultValue={me?.phone}
+          placeholder='전화번호를 입력해주세요!'
+        />
+        <TextWrapper>
+          <Text typography='SUIT_14_SB'>
+            무엇이 궁금하신가요? <StyledRequired>*</StyledRequired>
           </Text>
-          <StyledCategory>
-            {CATEGORY.map((category, index) => (
-              <StyledCategoryItem
-                key={index}
-                onClick={() => onClickCategory(category.value)}
-                isSelected={category.value === (selectedCategory as MessageCategory | null)}
-              >
-                <category.icon />
-                <Text typography='SUIT_15_SB'>{category.value}</Text>
-              </StyledCategoryItem>
-            ))}
-          </StyledCategory>
-          <TextWrapper>
-            <Text typography='SUIT_14_SB'>
-              회신 받을 나의 연락처 <StyledRequired>*</StyledRequired>
+        </TextWrapper>
+        <RHFControllerFormItem
+          style={{ width: '100%' }}
+          control={control}
+          name='content'
+          component={StyledTextArea}
+          placeholder={`쪽지에 ${name}님에게 어떤 점이 궁금한지 자세하게 적어주세요. ${name}님의 스킬과 소개와 관련된 내용으로 작성하면 회신 확률을 높일 수 있어요.`}
+          maxLength={500}
+          fixedHeight={184}
+          defaultValue=''
+          disableEnterSubmit
+        />
+        <StyledButton type='submit' disabled={!isValid || isPending}>
+          {isPending ? (
+            <Loading color='white' />
+          ) : (
+            <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
+              쪽지 보내기
             </Text>
-          </TextWrapper>
-          <RHFControllerFormItem
-            style={{ width: '100%' }}
-            control={control}
-            name='phone'
-            component={StyledInput}
-            defaultValue={me?.phone}
-            placeholder='전화번호를 입력해주세요!'
-          />
-          <TextWrapper>
-            <Text typography='SUIT_14_SB'>
-              무엇이 궁금하신가요? <StyledRequired>*</StyledRequired>
-            </Text>
-          </TextWrapper>
-          <RHFControllerFormItem
-            style={{ width: '100%' }}
-            control={control}
-            name='content'
-            component={StyledTextArea}
-            placeholder={`쪽지에 ${name}님에게 어떤 점이 궁금한지 자세하게 적어주세요. ${name}님의 스킬과 소개와 관련된 내용으로 작성하면 회신 확률을 높일 수 있어요.`}
-            maxLength={500}
-            fixedHeight={184}
-            disableEnterSubmit
-          />
-          <StyledButton type='submit' disabled={!isValid || isPending}>
-            {isPending ? (
-              <Loading color='white' />
-            ) : (
-              <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
-                쪽지 보내기
-              </Text>
-            )}
-          </StyledButton>
-        </StyledForm>
-      )}
+          )}
+        </StyledButton>
+      </StyledForm>
       {ConfirmComponent}
     </StyledModal>
   );

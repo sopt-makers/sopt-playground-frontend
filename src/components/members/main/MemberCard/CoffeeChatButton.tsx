@@ -40,7 +40,7 @@ const CoffeeChatButton: FC<CoffeeChatButtonProps> = ({ className, onClick, recei
               <Tag size='sm' shape='rect' variant='primary' type='solid'>
                 커피챗
               </Tag>
-              {receiver}님이 {me?.name}님의 제안을 기다려요.
+              {receiver}님이 {me?.name ?? '회원'}님의 제안을 기다려요.
             </Flex>
             <TooltipArrow />
           </TooltipContent>
