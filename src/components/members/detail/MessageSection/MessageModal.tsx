@@ -198,6 +198,7 @@ const MessageModal: FC<MessageModalProps> = ({
             placeholder={`쪽지에 ${name}님에게 어떤 점이 궁금한지 자세하게 적어주세요. ${name}님의 스킬과 소개와 관련된 내용으로 작성하면 회신 확률을 높일 수 있어요.`}
             maxLength={500}
             fixedHeight={184}
+            disableEnterSubmit
           />
           <StyledButton type='submit' disabled={!isValid || isPending}>
             {isPending ? (

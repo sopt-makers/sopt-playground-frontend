@@ -146,6 +146,7 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
             maxLength={500}
             fixedHeight={172}
             defaultValue=''
+            disableEnterSubmit
           />
           {/* 향후 any 수정 */}
           <StyledButton isDisabled={!isValid || isPending}>
