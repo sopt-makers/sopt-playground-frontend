@@ -15,6 +15,10 @@ import Text from '@/components/common/Text';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { MB_BIG_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
+import IconNetwork from '@/public//icons/icon-network.svg';
+import IconAppjam from '@/public//icons/icon-appjam-build.svg';
+import IconProject from '@/public//icons/icon-project-suggest.svg';
+import IconEtc from '@/public/icons/icon-postnote-etc.svg';
 
 export enum MessageCategory {
   NETWORK = '친목',
@@ -28,19 +32,19 @@ interface Category {
 }
 const CATEGORY: Category[] = [
   {
-    icon: '/icons/icon-network.svg',
+    icon: IconNetwork,
     value: MessageCategory.NETWORK,
   },
   {
-    icon: '/icons/icon-appjam-build.svg',
+    icon: IconAppjam,
     value: MessageCategory.APPJAM_TEAM_BUILDING,
   },
   {
-    icon: '/icons/icon-project-suggest.svg',
+    icon: IconProject,
     value: MessageCategory.PROJECT_SUGGESTION,
   },
   {
-    icon: '/icons/icon-postnote-etc.svg',
+    icon: IconEtc,
     value: MessageCategory.ETC,
   },
 ];
@@ -159,7 +163,7 @@ const MessageModal: FC<MessageModalProps> = ({
                 onClick={() => onClickCategory(category.value)}
                 isSelected={category.value === (selectedCategory as MessageCategory | null)}
               >
-                <StyledIcon src={category.icon} alt={category.value} />
+                <category.icon />
                 <Text typography='SUIT_15_SB'>{category.value}</Text>
               </StyledCategoryItem>
             ))}
@@ -266,11 +270,6 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   & span {
     color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.gray400)};
   }
-`;
-
-const StyledIcon = styled.img`
-  width: 20px;
-  height: 20px;
 `;
 
 const TextWrapper = styled.div`
