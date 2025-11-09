@@ -12,7 +12,6 @@ import { useContext } from 'react';
 import { useResetRecoilState } from 'recoil';
 
 import { useCommentLikeMutation, useCommentUnLikeMutation } from '@/api/endpoint/feed/commentLike';
-
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ImageWithSkeleton from '@/components/common/ImageWithSkeleton';
@@ -504,25 +503,23 @@ const Comment = ({
         parentCommentId: null,
       });
     } else {
-      if (memberId === member?.id) {
-        setReplyState((prev) => ({
-          ...prev,
-          //TODO: 부모댓글에 대한 commentId로 통일
-          replyTargetCommentId: commentId,
-          parentCommentId: parentCommentId ?? commentId,
-        }));
-      } else {
-        setReplyState({
-          member: {
-            id: memberId ? memberId : ANONYMOUS_MEMBER_ID,
-            name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
-            generation: 0, //TODO: generation 데이터 필요
-            profileImage: profileImage ?? null,
-          },
-          replyTargetCommentId: commentId,
-          parentCommentId: parentCommentId ?? commentId,
-        });
-      }
+      // 추후 같은 멤버에 대해 입력하고 있던 댓글을 남겨두는 것이 UX 상 좋다고 판단하면 주석 해제
+      // if (memberId === member?.id) {
+      //   setReplyState((prev) => ({
+      //     ...prev,
+      //     replyTargetCommentId: commentId,
+      //     parentCommentId: parentCommentId ?? commentId,
+      //   }));
+      setReplyState({
+        member: {
+          id: memberId ? memberId : ANONYMOUS_MEMBER_ID,
+          name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
+          generation: 0, //TODO: generation 데이터 필요
+          profileImage: profileImage ?? null,
+        },
+        replyTargetCommentId: commentId,
+        parentCommentId: parentCommentId ?? commentId,
+      });
     }
   };
 
