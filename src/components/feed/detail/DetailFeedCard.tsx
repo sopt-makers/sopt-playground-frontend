@@ -772,17 +772,20 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
       selectMention({ selectedMember: member, isReply });
       handleContentsInput();
     },
-    [handleContentsInput],
+    [handleContentsInput, selectMention],
   );
 
   useEffect(() => {
+    // safari 환경에서 모든 텍스트를 지웠을 때 br태그가 남아있어 답글 기능 off가 안되는 이슈로 추가
     if (textareaRef.current) {
       if (textareaRef.current.innerHTML === '<br>') {
         textareaRef.current.innerHTML = '';
         setTextareaValue('');
       }
     }
+  }, [textareaRef, setTextareaValue]);
 
+  useEffect(() => {
     if (replyTargetCommentId && replyTargetMember && textareaRef.current) {
       if (prevReplyTargetCommentIdRef.current !== replyTargetCommentId) {
         if (textareaRef.current.innerHTML.length !== 0) {
@@ -806,8 +809,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
       });
       setTextareaValue('');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [replyTargetMember, replyTargetCommentId, textareaValue]);
+  }, [replyTargetMember, replyTargetCommentId, textareaValue, setReplyState, setTextareaValue, handleSelectMention]);
 
   useEffect(() => {
     if (!textareaRef.current || value === null) return;
