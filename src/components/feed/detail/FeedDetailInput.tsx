@@ -64,7 +64,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
           mentionIds.length > 0
             ? {
                 userIds: mentionIds.filter((id) => id !== ANONYMOUS_MEMBER_ID),
-                writerName: me?.name,
+                writerName: commentData.isBlindWriter ? undefined : me?.name,
                 webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
               }
             : null,
