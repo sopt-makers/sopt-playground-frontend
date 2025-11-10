@@ -781,10 +781,8 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
         textareaRef.current.innerHTML = '';
         setTextareaValue('');
       }
-      console.log(textareaRef.current.innerHTML);
-      console.log(textareaRef.current.innerHTML.length);
     }
-    console.log('textareaValue', textareaValue);
+
     if (replyTargetCommentId && replyTargetMember && textareaRef.current) {
       if (prevReplyTargetCommentIdRef.current !== replyTargetCommentId) {
         if (textareaRef.current.innerHTML.length !== 0) {
@@ -801,7 +799,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     }
 
     if (textareaRef.current && textareaRef.current.innerHTML.length === 0) {
-      console.log('triiger');
       setReplyState({
         member: null,
         replyTargetCommentId: null,
