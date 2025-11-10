@@ -661,12 +661,14 @@ const StyledCommentReplyAction = styled.div`
   cursor: pointer;
   color: ${colors.gray300};
 
-  &:hover > svg:first-of-type {
-    display: none;
-  }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover > svg:first-of-type {
+      display: none;
+    }
 
-  &:hover > svg:last-of-type {
-    display: block;
+    &:hover > svg:last-of-type {
+      display: block;
+    }
   }
 `;
 
@@ -761,6 +763,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     if (!textareaRef.current) return;
     const html = textareaRef.current.innerHTML;
     onChange(parseHTMLToMentions(html));
+
     setTextareaValue(html);
   }, [onChange, saveCursor]);
 
@@ -773,7 +776,15 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   );
 
   useEffect(() => {
-    console.log(textareaValue);
+    if (textareaRef.current) {
+      if (textareaRef.current.innerHTML === '<br>') {
+        textareaRef.current.innerHTML = '';
+        setTextareaValue('');
+      }
+      console.log(textareaRef.current.innerHTML);
+      console.log(textareaRef.current.innerHTML.length);
+    }
+    console.log('textareaValue', textareaValue);
     if (replyTargetCommentId && replyTargetMember && textareaRef.current) {
       if (prevReplyTargetCommentIdRef.current !== replyTargetCommentId) {
         if (textareaRef.current.innerHTML.length !== 0) {
@@ -790,6 +801,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     }
 
     if (textareaRef.current && textareaRef.current.innerHTML.length === 0) {
+      console.log('triiger');
       setReplyState({
         member: null,
         replyTargetCommentId: null,
