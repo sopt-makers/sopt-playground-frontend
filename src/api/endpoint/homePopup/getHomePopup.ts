@@ -3,16 +3,20 @@ import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
 
-const HomePopupSchema = z.object({
-  id: z.number(),
-  startDate: z.string(),
-  endDate: z.string(),
-  pcImageUrl: z.string(),
-  mobileImageUrl: z.string(),
-  linkUrl: z.string().nullable(),
-  openInNewTab: z.boolean(),
-  showOnlyToRecentGeneration: z.boolean(),
-});
+const HomePopupSchema = z.union([
+  z.object({
+    id: z.number(),
+    startDate: z.string(),
+    endDate: z.string(),
+    pcImageUrl: z.string(),
+    mobileImageUrl: z.string(),
+    linkUrl: z.string().nullable(),
+    openInNewTab: z.boolean(),
+    showOnlyToRecentGeneration: z.boolean(),
+  }),
+  z.null(),
+  z.string(),
+]);
 
 export const getHomePopup = createEndpoint({
   request: () => ({
