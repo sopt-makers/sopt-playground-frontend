@@ -525,7 +525,7 @@ const Comment = ({
         member: {
           id: memberId ? memberId : ANONYMOUS_MEMBER_ID,
           name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name ?? '삭제된 댓글',
-          generation: 0, //TODO: generation 데이터 필요
+          generation: info ? Number(info.split(' ')[0]?.replace(/기$/, '')) ?? 0 : 0, //TODO: generation 데이터 필요
           profileImage: profileImage ?? null,
         },
         replyTargetCommentId: commentId,
