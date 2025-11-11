@@ -15,9 +15,9 @@ import Text from '@/components/common/Text';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
-import IconNetwork from '@/public//icons/icon-network.svg';
-import IconAppjam from '@/public//icons/icon-appjam-build.svg';
-import IconProject from '@/public//icons/icon-project-suggest.svg';
+import IconNetwork from '@/public/icons/icon-network.svg';
+import IconAppjam from '@/public/icons/icon-appjam-build.svg';
+import IconProject from '@/public/icons/icon-project-suggest.svg';
 import IconEtc from '@/public/icons/icon-postnote-etc.svg';
 
 export enum MessageCategory {
