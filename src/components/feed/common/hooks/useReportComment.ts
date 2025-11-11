@@ -7,6 +7,7 @@ import useConfirm from '@/components/common/Modal/useConfirm';
 import { zIndex } from '@/styles/zIndex';
 
 interface Options {
+  postId: string;
   commentId: string;
   onSuccess?: () => void;
 }
@@ -27,21 +28,24 @@ export const useReportComment = () => {
       });
 
       if (result) {
-        mutate(options.commentId, {
-          onSuccess: () => {
-            open({
-              icon: 'success',
-              content: '신고가 완료되었어요.\n건전한 커뮤니티를 함께 만들어주셔서 감사해요!',
-              style: {
-                content: {
-                  whiteSpace: 'pre-wrap',
+        mutate(
+          { commentId: options.commentId, postId: options.postId },
+          {
+            onSuccess: () => {
+              open({
+                icon: 'success',
+                content: '신고가 완료되었어요.\n건전한 커뮤니티를 함께 만들어주셔서 감사해요!',
+                style: {
+                  content: {
+                    whiteSpace: 'pre-wrap',
+                  },
                 },
-              },
-            });
+              });
 
-            options.onSuccess?.();
+              options.onSuccess?.();
+            },
           },
-        });
+        );
       }
     },
     [confirm, mutate, open],
