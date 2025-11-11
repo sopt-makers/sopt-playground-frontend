@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import IconPlane from '@/public/icons/icon_plane.svg';
 import { Button, DialogContext, TextArea, TextField } from '@sopt-makers/ui';
-import { FC, useContext, useState } from 'react';
+import { ComponentType, FC, SVGProps, useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -13,8 +13,12 @@ import Loading from '@/components/common/Loading';
 import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Text from '@/components/common/Text';
 import Modal, { ModalProps } from '@/components/members/detail/MessageSection/Modal';
-import { MB_BIG_MEDIA_QUERY, MB_SM_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
+import IconNetwork from '@/public/icons/icon-network.svg';
+import IconAppjam from '@/public/icons/icon-appjam-build.svg';
+import IconProject from '@/public/icons/icon-project-suggest.svg';
+import IconEtc from '@/public/icons/icon-postnote-etc.svg';
 
 export enum MessageCategory {
   NETWORK = '친목',
@@ -23,30 +27,34 @@ export enum MessageCategory {
   ETC = '기타',
 }
 interface Category {
-  icon: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
   value: MessageCategory;
 }
 const CATEGORY: Category[] = [
   {
-    icon: '/icons/icon-network.svg',
+    icon: IconNetwork,
     value: MessageCategory.NETWORK,
   },
   {
-    icon: '/icons/icon-appjam-build.svg',
+    icon: IconAppjam,
     value: MessageCategory.APPJAM_TEAM_BUILDING,
   },
   {
-    icon: '/icons/icon-project-suggest.svg',
+    icon: IconProject,
     value: MessageCategory.PROJECT_SUGGESTION,
   },
   {
-    icon: '/icons/icon-postnote-etc.svg',
+    icon: IconEtc,
     value: MessageCategory.ETC,
   },
 ];
 
 const schema = yup.object().shape({
-  phone: yup.string().required('전화번호를 입력해주세요.').matches(/^\d+$/, "'-' 없이 입력해주세요."),
+  phone: yup
+    .string()
+    .required('전화번호를 입력해주세요.')
+    .matches(/^\d+$/, "'-' 없이 입력해주세요.")
+    .matches(/^010\d{8}$/, '전화번호를 입력해주세요.'),
   content: yup.string().required('내용을 입력해주세요.').max(500, '500자 이내로 입력해주세요.'),
 });
 
@@ -139,69 +147,71 @@ const MessageModal: FC<MessageModalProps> = ({
 
   const { data: me } = useGetMemberProfileOfMe();
 
+  if (!me) return null;
+
   return (
     <StyledModal isOpen {...props}>
-      {me && (
-        <StyledForm onSubmit={handleSubmit(submit)}>
-          <StyledIconPlane>
-            <IconPlane />
-          </StyledIconPlane>
-          <Text mt={24} typography='SUIT_24_B'>
-            {name}님에게 쪽지 보내기
+      <StyledForm onSubmit={handleSubmit(submit)}>
+        <StyledIconPlane>
+          <IconPlane />
+        </StyledIconPlane>
+        <Text mt={24} typography='SUIT_24_B'>
+          {name}님에게 쪽지 보내기
+        </Text>
+        <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
+          작성하신 내용은 회원님의 프로필과 함께 문자로 전달돼요
+        </Text>
+        <StyledCategory>
+          {CATEGORY.map((category, index) => (
+            <StyledCategoryItem
+              key={index}
+              onClick={() => onClickCategory(category.value)}
+              isSelected={category.value === (selectedCategory as MessageCategory | null)}
+            >
+              <category.icon />
+              <Text typography='SUIT_15_SB'>{category.value}</Text>
+            </StyledCategoryItem>
+          ))}
+        </StyledCategory>
+        <TextWrapper>
+          <Text typography='SUIT_14_SB'>
+            회신 받을 나의 연락처 <StyledRequired>*</StyledRequired>
           </Text>
-          <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
-            작성하신 내용은 회원님의 프로필과 함께 문자로 전달돼요
+        </TextWrapper>
+        <RHFControllerFormItem
+          style={{ width: '100%' }}
+          control={control}
+          name='phone'
+          component={StyledInput}
+          defaultValue={me?.phone}
+          placeholder='전화번호를 입력해주세요!'
+        />
+        <TextWrapper>
+          <Text typography='SUIT_14_SB'>
+            무엇이 궁금하신가요? <StyledRequired>*</StyledRequired>
           </Text>
-          <StyledCategory>
-            {CATEGORY.map((category, index) => (
-              <StyledCategoryItem
-                key={index}
-                onClick={() => onClickCategory(category.value)}
-                isSelected={category.value === (selectedCategory as MessageCategory | null)}
-              >
-                <StyledIcon src={category.icon} alt={category.value} />
-                <Text typography='SUIT_15_SB'>{category.value}</Text>
-              </StyledCategoryItem>
-            ))}
-          </StyledCategory>
-          <TextWrapper>
-            <Text typography='SUIT_14_SB'>
-              회신 받을 나의 연락처 <StyledRequired>*</StyledRequired>
+        </TextWrapper>
+        <RHFControllerFormItem
+          style={{ width: '100%' }}
+          control={control}
+          name='content'
+          component={StyledTextArea}
+          placeholder={`쪽지에 ${name}님에게 어떤 점이 궁금한지 자세하게 적어주세요. ${name}님의 스킬과 소개와 관련된 내용으로 작성하면 회신 확률을 높일 수 있어요.`}
+          maxLength={500}
+          fixedHeight={184}
+          defaultValue=''
+          disableEnterSubmit
+        />
+        <StyledButton type='submit' disabled={!isValid || isPending}>
+          {isPending ? (
+            <Loading color='white' />
+          ) : (
+            <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
+              쪽지 보내기
             </Text>
-          </TextWrapper>
-          <RHFControllerFormItem
-            style={{ width: '100%' }}
-            control={control}
-            name='phone'
-            component={StyledInput}
-            defaultValue={me?.phone}
-            placeholder='전화번호를 입력해주세요!'
-          />
-          <TextWrapper>
-            <Text typography='SUIT_14_SB'>
-              무엇이 궁금하신가요? <StyledRequired>*</StyledRequired>
-            </Text>
-          </TextWrapper>
-          <RHFControllerFormItem
-            style={{ width: '100%' }}
-            control={control}
-            name='content'
-            component={StyledTextArea}
-            placeholder={`쪽지에 ${name}님에게 어떤 점이 궁금한지 자세하게 적어주세요. ${name}님의 스킬과 소개와 관련된 내용으로 작성하면 회신 확률을 높일 수 있어요.`}
-            maxLength={500}
-            fixedHeight={184}
-          />
-          <StyledButton type='submit' disabled={!isValid || isPending}>
-            {isPending ? (
-              <Loading color='white' />
-            ) : (
-              <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
-                쪽지 보내기
-              </Text>
-            )}
-          </StyledButton>
-        </StyledForm>
-      )}
+          )}
+        </StyledButton>
+      </StyledForm>
       {ConfirmComponent}
     </StyledModal>
   );
@@ -266,11 +276,6 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   & span {
     color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.gray400)};
   }
-`;
-
-const StyledIcon = styled.img`
-  width: 20px;
-  height: 20px;
 `;
 
 const TextWrapper = styled.div`
