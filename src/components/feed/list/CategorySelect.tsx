@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { FC, useRef } from 'react';
 
 import { useGetPostsInfiniteQuery } from '@/api/endpoint/feed/getPosts';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { CategoryLink, useCategoryParam } from '@/components/feed/common/queryParam';
-import { textStyles } from '@/styles/typography';
 import IconHot from '@/public/icons/icon_fire.svg';
-import { fonts } from '@sopt-makers/fonts';
+import { textStyles } from '@/styles/typography';
 
 interface CategorySelectProps {
   categories: {
@@ -95,6 +95,8 @@ export default CategorySelect;
 
 export const Container = styled.div`
   border-bottom: 1px solid ${colors.gray800};
+  padding-top: 14px;
+  padding-left: 16px;
 `;
 
 export const CategoryBox = styled.div`

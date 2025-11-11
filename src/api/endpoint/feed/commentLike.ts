@@ -3,7 +3,7 @@ import { produce } from 'immer';
 import { z } from 'zod';
 
 import { getComment } from '@/api/endpoint/feed/getComment';
-import { recursiveCommentSchema } from '@/api/endpoint/feed/getComment';
+import { activeCommentSchemaWithReplies } from '@/api/endpoint/feed/getComment';
 import { createEndpoint } from '@/api/typedAxios';
 export const commentLike = createEndpoint({
   request: (postId: number, commentId: number) => ({
@@ -34,7 +34,7 @@ export const useCommentLikeMutation = () => {
 
       queryClient.setQueryData(
         getComment.cacheKey(String(postId)),
-        (oldData: z.infer<typeof recursiveCommentSchema>) => {
+        (oldData: z.infer<typeof activeCommentSchemaWithReplies>) => {
           return produce(oldData, () => {
             oldData.likeCount = oldData.likeCount + 1;
             oldData.isLiked = true;
@@ -67,7 +67,7 @@ export const useCommentUnLikeMutation = () => {
 
       queryClient.setQueryData(
         getComment.cacheKey(String(postId)),
-        (oldData: z.infer<typeof recursiveCommentSchema>) => {
+        (oldData: z.infer<typeof activeCommentSchemaWithReplies>) => {
           return produce(oldData, () => {
             oldData.likeCount = oldData.likeCount - 1;
             oldData.isLiked = false;

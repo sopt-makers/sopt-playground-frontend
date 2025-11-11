@@ -157,6 +157,7 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     } else if (e.key === 'Enter') {
       // 자동 선택
       // 멘션 목록이 오픈되어 있고 사용자가 입력을 마친 경우에만 실행
+      // TODO: 자동선택이 0번째가 아닌 가장 비슷한 검색 결과를 가져오도록 변경
       if (!isComposing && isMentionOpen && searchedMemberList.length > 0) {
         selectMention({ selectedMember: searchedMemberList[0] });
         e.preventDefault();

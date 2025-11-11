@@ -28,7 +28,7 @@ export const commentAtomFamily = atomFamily({
 export const anonymouseMentionRegex = /@([^\[\]@]+?)\[((?:-1))\]/g;
 
 const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, category, tag, hasChildren }) => {
-  const { member, parentCommentId, setReplyState } = useContext(ReplyContext);
+  const { parentCommentId, setReplyState } = useContext(ReplyContext);
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
   const { mutate: postComment, isPending } = usePostCommentMutation(postId);
@@ -57,14 +57,14 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
       {
         content: commentData.text,
         isBlindWriter: commentData.isBlindWriter,
-        isChildComment: false,
+        isChildComment: parentCommentId !== null,
         parentCommentId: parentCommentId ?? undefined,
         webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
         mention:
           mentionIds.length > 0
             ? {
                 userIds: mentionIds.filter((id) => id !== ANONYMOUS_MEMBER_ID),
-                writerName: me?.name,
+                writerName: commentData.isBlindWriter ? undefined : me?.name,
                 webLink: `${PLAYGROUND_ORIGIN}${playgroundLink.feedDetail(postId)}`,
               }
             : null,

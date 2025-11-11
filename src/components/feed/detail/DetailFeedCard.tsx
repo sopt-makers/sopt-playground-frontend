@@ -6,13 +6,12 @@ import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { forwardRef, PropsWithChildren, ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
 import { KeyboardEvent } from 'react';
 import { useContext } from 'react';
 import { useResetRecoilState } from 'recoil';
 
 import { useCommentLikeMutation, useCommentUnLikeMutation } from '@/api/endpoint/feed/commentLike';
-
 import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ImageWithSkeleton from '@/components/common/ImageWithSkeleton';
@@ -44,6 +43,7 @@ import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
 import { ReplyContext } from '@/components/feed/detail/FeedDetail';
 import { commentAtomFamily } from '@/components/feed/detail/FeedDetailInput';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
+import { Container } from '@/components/feed/list/CategorySelect';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import Vote from '@/components/vote';
 import { playgroundLink } from '@/constants/links';
@@ -441,6 +441,7 @@ type CommentProps = {
   isReply?: boolean;
   parentCommentId: number | null;
   isDeleted: boolean;
+  hasReplies: boolean;
 } & (
   | {
       isBlindWriter: false;
@@ -457,6 +458,14 @@ type CommentProps = {
       info?: null;
       name?: null;
       memberId?: number;
+    }
+  | {
+      isBlindWriter?: undefined;
+      profileImage?: undefined;
+      anonymousProfile?: undefined;
+      info?: undefined;
+      name?: undefined;
+      memberId?: undefined;
     }
 );
 
@@ -478,12 +487,13 @@ const Comment = ({
   isReply = false,
   parentCommentId = null,
   isDeleted,
+  hasReplies,
 }: CommentProps) => {
   const router = useRouter();
   const parsedMentions = parseMentionsToJSX(comment, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
 
-  const { member, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
+  const { replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const resetCommentData = useResetRecoilState(commentAtomFamily(postId));
   const { mutate: commentLike } = useCommentLikeMutation();
   const { mutate: commentUnLike } = useCommentUnLikeMutation();
@@ -504,25 +514,23 @@ const Comment = ({
         parentCommentId: null,
       });
     } else {
-      if (memberId === member?.id) {
-        setReplyState((prev) => ({
-          ...prev,
-          //TODO: 부모댓글에 대한 commentId로 통일
-          replyTargetCommentId: commentId,
-          parentCommentId: parentCommentId ?? commentId,
-        }));
-      } else {
-        setReplyState({
-          member: {
-            id: memberId ? memberId : ANONYMOUS_MEMBER_ID,
-            name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
-            generation: 0, //TODO: generation 데이터 필요
-            profileImage: profileImage ?? null,
-          },
-          replyTargetCommentId: commentId,
-          parentCommentId: parentCommentId ?? commentId,
-        });
-      }
+      // 추후 같은 멤버에 대해 입력하고 있던 댓글을 남겨두는 것이 UX 상 좋다고 판단하면 주석 해제
+      // if (memberId === member?.id) {
+      //   setReplyState((prev) => ({
+      //     ...prev,
+      //     replyTargetCommentId: commentId,
+      //     parentCommentId: parentCommentId ?? commentId,
+      //   }));
+      setReplyState({
+        member: {
+          id: memberId ? memberId : ANONYMOUS_MEMBER_ID,
+          name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name ?? '삭제된 댓글',
+          generation: info ? Number(info.split(' ')[0]?.replace(/기$/, '')) ?? 0 : 0, //TODO: generation 데이터 필요
+          profileImage: profileImage ?? null,
+        },
+        replyTargetCommentId: commentId,
+        parentCommentId: parentCommentId ?? commentId,
+      });
     }
   };
 
@@ -532,11 +540,11 @@ const Comment = ({
         {isReply ? (
           <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500, transform: 'scale(1, -1)' }} />
         ) : null}
-        {isDeleted ? (
+        {isDeleted && hasReplies ? (
           <Text typography='SUIT_14_M' color={colors.gray500} css={{ whiteSpace: 'nowrap' }}>
             {isReply ? '삭제된 답글입니다.' : '삭제된 댓글입니다.'}
           </Text>
-        ) : isBlindWriter ? (
+        ) : isDeleted && !hasReplies ? null : isBlindWriter ? (
           <CommentProfileImageBox>
             {anonymousProfile ? (
               <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />
@@ -663,12 +671,14 @@ const StyledCommentReplyAction = styled.div`
   cursor: pointer;
   color: ${colors.gray300};
 
-  &:hover > svg:first-of-type {
-    display: none;
-  }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover > svg:first-of-type {
+      display: none;
+    }
 
-  &:hover > svg:last-of-type {
-    display: block;
+    &:hover > svg:last-of-type {
+      display: block;
+    }
   }
 `;
 
@@ -729,8 +739,11 @@ interface InputProps {
 const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
   const { member: replyTargetMember, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const id = useId();
+  const [textareaValue, setTextareaValue] = useState<string>(''); // textarea의 value 상태 기반 추적 변수
   const textareaRef = useRef<HTMLDivElement | null>(null);
   const parentRef = useRef<HTMLDivElement | null>(null);
+  const prevReplyTargetCommentIdRef = useRef<number | null>(null);
+
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
   const {
     isMentionOpen,
@@ -750,32 +763,63 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     textareaRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    if (replyTargetMember) {
-      if (textareaRef.current) {
-        textareaRef.current.innerHTML = '';
-      }
-      handleSelectMention({ member: replyTargetMember, isReply: !!replyTargetMember });
-    }
-  }, [replyTargetMember]);
-
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
     onChangeIsBlindChecked(isBlindWriter);
   };
 
-  const handleContentsInput = () => {
+  const handleContentsInput = useCallback(() => {
     saveCursor();
     if (!textareaRef.current) return;
     const html = textareaRef.current.innerHTML;
-    console.log('html', html);
     onChange(parseHTMLToMentions(html));
-  };
 
-  const handleSelectMention = ({ member, isReply = false }: { member: Member; isReply?: boolean }) => {
-    selectMention({ selectedMember: member, isReply });
-    handleContentsInput();
-  };
+    setTextareaValue(html);
+  }, [onChange, saveCursor]);
+
+  const handleSelectMention = useCallback(
+    ({ member, isReply = false }: { member: Member; isReply?: boolean }) => {
+      selectMention({ selectedMember: member, isReply });
+      handleContentsInput();
+    },
+    [handleContentsInput, selectMention],
+  );
+
+  useEffect(() => {
+    // safari 환경에서 모든 텍스트를 지웠을 때 br태그가 남아있어 답글 기능 off가 안되는 이슈로 추가
+    if (textareaRef.current) {
+      if (textareaRef.current.innerHTML === '<br>') {
+        textareaRef.current.innerHTML = '';
+        setTextareaValue('');
+      }
+    }
+  }, [textareaRef, setTextareaValue]);
+
+  useEffect(() => {
+    if (replyTargetCommentId && replyTargetMember && textareaRef.current) {
+      if (prevReplyTargetCommentIdRef.current !== replyTargetCommentId) {
+        if (textareaRef.current.innerHTML.length !== 0) {
+          textareaRef.current.innerHTML = '';
+          setTextareaValue('');
+        }
+        handleSelectMention({ member: replyTargetMember, isReply: !!replyTargetMember });
+        prevReplyTargetCommentIdRef.current = replyTargetCommentId;
+      }
+    }
+    if (replyTargetCommentId === null) {
+      prevReplyTargetCommentIdRef.current = null;
+      return;
+    }
+
+    if (textareaRef.current && textareaRef.current.innerHTML.length === 0) {
+      setReplyState({
+        member: null,
+        replyTargetCommentId: null,
+        parentCommentId: null,
+      });
+      setTextareaValue('');
+    }
+  }, [replyTargetMember, replyTargetCommentId, textareaValue, setReplyState, setTextareaValue, handleSelectMention]);
 
   useEffect(() => {
     if (!textareaRef.current || value === null) return;
@@ -816,6 +860,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             onInput={(e) => {
               handleMention();
               handleContentsInput();
+              setTextareaValue(e.currentTarget.innerHTML);
             }}
             onKeyDown={(e) => {
               handleKeyDown(e);
@@ -843,23 +888,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     </Container>
   );
 };
-
-const Container = styled.div`
-  --card-max-width: 560px;
-
-  border-top: 1px solid ${colors.gray800};
-  border-right: 1px solid ${colors.gray800};
-  background-color: ${colors.gray950};
-  padding: 12px 16px;
-  width: 100%;
-  max-width: var(--card-max-width);
-
-  @media ${MOBILE_MEDIA_QUERY} {
-    border-right: none;
-    padding: 10px 16px;
-    max-width: 100%;
-  }
-`;
 
 const InputAnimateArea = styled(m.div)`
   position: relative;
