@@ -493,7 +493,7 @@ const Comment = ({
   const parsedMentions = parseMentionsToJSX(comment, router);
   const parsedMentionsAndLinks = parsedMentions.map((fragment, index) => parseTextToLink(fragment));
 
-  const { member, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
+  const { replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const resetCommentData = useResetRecoilState(commentAtomFamily(postId));
   const { mutate: commentLike } = useCommentLikeMutation();
   const { mutate: commentUnLike } = useCommentUnLikeMutation();

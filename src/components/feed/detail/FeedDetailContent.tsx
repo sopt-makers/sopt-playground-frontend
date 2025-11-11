@@ -31,6 +31,7 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
     return null;
   }
 
+  const commentLength = commentData?.filter((comment) => !comment.isDeleted).length ?? 0;
   const isSopticle = postData.posts.categoryId === SOPTICLE_CATEGORY_ID;
   const isQuestion = postData.posts.categoryId === QUESTION_CATEGORY_ID;
 
@@ -75,7 +76,7 @@ const FeedDetailContent: FC<FeedDetailContentProps> = ({ postId }) => {
         isQuestion={isQuestion}
         title={postData.posts.title}
         hits={postData.posts.hits}
-        commentLength={commentData?.length ?? 0}
+        commentLength={commentLength}
         content={postData.posts.content}
         images={postData.posts.images}
         isSopticle={isSopticle}

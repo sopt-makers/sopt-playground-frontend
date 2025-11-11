@@ -134,6 +134,7 @@ export const Default = () => {
             createdAt={comment.createdAt}
             parentCommentId={null}
             isDeleted={false}
+            hasReplies={false}
           />
         ))}
       </DetailFeedCard.Body>
