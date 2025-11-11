@@ -441,6 +441,7 @@ type CommentProps = {
   isReply?: boolean;
   parentCommentId: number | null;
   isDeleted: boolean;
+  hasReplies: boolean;
 } & (
   | {
       isBlindWriter: false;
@@ -457,6 +458,14 @@ type CommentProps = {
       info?: null;
       name?: null;
       memberId?: number;
+    }
+  | {
+      isBlindWriter?: undefined;
+      profileImage?: undefined;
+      anonymousProfile?: undefined;
+      info?: undefined;
+      name?: undefined;
+      memberId?: undefined;
     }
 );
 
@@ -478,6 +487,7 @@ const Comment = ({
   isReply = false,
   parentCommentId = null,
   isDeleted,
+  hasReplies,
 }: CommentProps) => {
   const router = useRouter();
   const parsedMentions = parseMentionsToJSX(comment, router);
@@ -514,7 +524,7 @@ const Comment = ({
       setReplyState({
         member: {
           id: memberId ? memberId : ANONYMOUS_MEMBER_ID,
-          name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name,
+          name: isBlindWriter ? anonymousProfile?.nickname ?? '익명' : name ?? '삭제된 댓글',
           generation: 0, //TODO: generation 데이터 필요
           profileImage: profileImage ?? null,
         },
@@ -530,11 +540,11 @@ const Comment = ({
         {isReply ? (
           <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500, transform: 'scale(1, -1)' }} />
         ) : null}
-        {isDeleted ? (
+        {isDeleted && hasReplies ? (
           <Text typography='SUIT_14_M' color={colors.gray500} css={{ whiteSpace: 'nowrap' }}>
             {isReply ? '삭제된 답글입니다.' : '삭제된 댓글입니다.'}
           </Text>
-        ) : isBlindWriter ? (
+        ) : isDeleted && !hasReplies ? null : isBlindWriter ? (
           <CommentProfileImageBox>
             {anonymousProfile ? (
               <CommentProfileImage width={32} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />

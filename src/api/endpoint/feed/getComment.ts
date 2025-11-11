@@ -69,7 +69,7 @@ const deletedCommentSchema = z
   })
   .strict();
 
-const commentSchema = z.union([activeCommentSchema, deletedCommentSchema]);
+export const commentSchema = z.union([activeCommentSchema, deletedCommentSchema]);
 
 const activeCommentSchemaWithReplies = activeCommentSchema.extend({
   replies: z.lazy(() => commentSchema.array()),
@@ -79,7 +79,7 @@ const deletedCommentSchemaWithReplies = deletedCommentSchema.extend({
   replies: z.lazy(() => commentSchema.array()),
 });
 
-type CommentWithReplies =
+export type CommentWithReplies =
   | z.infer<typeof activeCommentSchemaWithReplies>
   | z.infer<typeof deletedCommentSchemaWithReplies>;
 
