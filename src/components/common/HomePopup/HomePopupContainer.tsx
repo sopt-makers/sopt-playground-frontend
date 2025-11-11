@@ -9,7 +9,7 @@ const HomePopupContainer = () => {
 
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
 
-  if (!homePopupData) {
+  if (!homePopupData || typeof homePopupData === 'string') {
     return null;
   }
 
