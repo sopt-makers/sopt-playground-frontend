@@ -8,6 +8,7 @@ import HorizontalScroller from '@/components/common/HorizontalScroller';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { CategoryLink, useCategoryParam } from '@/components/feed/common/queryParam';
 import IconHot from '@/public/icons/icon_fire.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 interface CategorySelectProps {
@@ -95,8 +96,10 @@ export default CategorySelect;
 
 export const Container = styled.div`
   border-bottom: 1px solid ${colors.gray800};
-  padding-top: 14px;
-  padding-left: 16px;
+  padding: 14px 16px 36px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 14px 16px 8px;
+  }
 `;
 
 export const CategoryBox = styled.div`
