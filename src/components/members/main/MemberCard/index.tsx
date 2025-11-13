@@ -153,7 +153,7 @@ const MemberCard: FC<MemberCardProps> = ({
           <LoadingIntroBox />
         ) : (
           <Intro typography='SUIT_13_M' color={colors.gray200}>
-            {intro}
+            {intro}11
           </Intro>
         )}
       </ContentArea>
@@ -164,9 +164,9 @@ const MemberCard: FC<MemberCardProps> = ({
         </LoadingSideWrapper>
       ) : (
         <SideButtons>
-        {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
-        {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
-      </SideButtons>
+          {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
+          {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
+        </SideButtons>
       )}
     </MotionMemberCard>
   );
@@ -397,13 +397,14 @@ const LoadingTitleBox = styled.div`
 `;
 
 const LoadingIntroBox = styled.div`
-  ${shimmerEffect};
-
+  margin-top: 8px;
   border-radius: 8px;
   width: 100%;
   height: 96px;
 
+  ${shimmerEffect};
   @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 10px;
     max-width: 335px;
     height: 24px;
   }
