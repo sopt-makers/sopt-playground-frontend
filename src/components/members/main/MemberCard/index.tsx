@@ -53,7 +53,7 @@ const shimmerAnimation = keyframes`
 `;
 
 const shimmerEffect = css`
-  background: linear-gradient(110deg, ${colors.gray800} 0%, ${colors.gray700} 50%, ${colors.gray800} 100%);
+  background: linear-gradient(110deg, ${colors.gray900} 0%, ${colors.gray800} 50%, ${colors.gray900} 100%);
   background-size: 200% 100%;
   animation: ${shimmerAnimation} 2s ease-in-out infinite;
 `;
