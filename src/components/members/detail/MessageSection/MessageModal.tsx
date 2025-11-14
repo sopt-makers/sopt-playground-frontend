@@ -19,7 +19,6 @@ import IconNetwork from '@/public/icons/icon-network.svg';
 import IconAppjam from '@/public/icons/icon-appjam-build.svg';
 import IconProject from '@/public/icons/icon-project-suggest.svg';
 import IconEtc from '@/public/icons/icon-postnote-etc.svg';
-import { Spacing } from '@toss/emotion-utils';
 
 export enum MessageCategory {
   NETWORK = '친목',
