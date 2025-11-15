@@ -186,6 +186,7 @@ const MessageModal: FC<MessageModalProps> = ({
           defaultValue={me?.phone}
           placeholder='전화번호를 입력해주세요!'
         />
+        <StyledSpacing />
         <TextWrapper>
           <Text typography='SUIT_14_SB'>
             무엇이 궁금하신가요? <StyledRequired>*</StyledRequired>
@@ -244,21 +245,39 @@ const StyledIconPlane = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 20px;
+  border-radius: 15.75px;
   background: ${colors.blue50};
-  width: 84px;
-  height: 84px;
+  width: 54px;
+  height: 54px;
+
+  & > svg {
+    width: 30.857px;
+  }
+
+  @media ${MB_BIG_MEDIA_QUERY} {
+    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+
+    & > svg {
+      width: 27.429px;
+    }
+  }
 `;
 
 const StyledCategory = styled.section`
   display: flex;
   flex-wrap: wrap;
-  row-gap: 10px;
-  column-gap: 10px;
+  row-gap: 12px;
+  column-gap: 12px;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
+  margin: 32px 0 44px;
   width: 225px;
+
+  @media ${MB_BIG_MEDIA_QUERY} {
+    margin: 24px 0 32px;
+  }
 `;
 
 const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
@@ -278,9 +297,17 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   }
 `;
 
+const StyledSpacing = styled.div`
+  margin-top: 32px;
+  width: 100%;
+
+  @media ${MB_BIG_MEDIA_QUERY} {
+    margin-top: 24px;
+  }
+`;
+
 const TextWrapper = styled.div`
   display: flex;
-  padding-top: 40px;
   width: 100%;
 `;
 
