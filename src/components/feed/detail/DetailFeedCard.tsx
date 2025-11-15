@@ -566,7 +566,7 @@ const Comment = ({
           </Link>
         )}
         {isDeleted ? null : (
-          <Stack css={{ minWidth: 0, width: '100%' }} gutter={2}>
+          <Stack css={{ minWidth: 0, width: '100%' }} gutter={6}>
             <Flex justify='space-between'>
               <Stack.Horizontal gutter={2} align='center'>
                 {isBlindWriter ? (
@@ -685,7 +685,7 @@ const StyledCommentReplyAction = styled.div`
 const StyledCommentActions = styled.div`
   display: flex;
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 2px;
 `;
 
 const StyledComment = styled.div`
