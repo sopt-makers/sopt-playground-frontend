@@ -53,7 +53,7 @@ const shimmerAnimation = keyframes`
 `;
 
 const shimmerEffect = css`
-  background: linear-gradient(110deg, ${colors.gray800} 0%, ${colors.gray700} 50%, ${colors.gray800} 100%);
+  background: linear-gradient(110deg, ${colors.gray900} 0%, ${colors.gray800} 50%, ${colors.gray900} 100%);
   background-size: 200% 100%;
   animation: ${shimmerAnimation} 2s ease-in-out infinite;
 `;
@@ -164,9 +164,9 @@ const MemberCard: FC<MemberCardProps> = ({
         </LoadingSideWrapper>
       ) : (
         <SideButtons>
-        {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
-        {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
-      </SideButtons>
+          {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
+          {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
+        </SideButtons>
       )}
     </MotionMemberCard>
   );
@@ -397,13 +397,14 @@ const LoadingTitleBox = styled.div`
 `;
 
 const LoadingIntroBox = styled.div`
-  ${shimmerEffect};
-
+  margin-top: 8px;
   border-radius: 8px;
   width: 100%;
   height: 96px;
 
+  ${shimmerEffect};
   @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 10px;
     max-width: 335px;
     height: 24px;
   }
