@@ -8,14 +8,17 @@ import { FC, MouseEvent } from 'react';
 
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import IconCoffee from '@/public/icons/icon-coffee.svg';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 
 interface CoffeeChatButtonProps {
   className?: string;
   onClick?: (e: MouseEvent) => void;
+  receiver: string;
 }
 
-const CoffeeChatButton: FC<CoffeeChatButtonProps> = ({ className, onClick }) => {
+const CoffeeChatButton: FC<CoffeeChatButtonProps> = ({ className, onClick, receiver }) => {
   const { logClickEvent } = useEventLogger();
+  const { data: me } = useGetMemberOfMe();
 
   return (
     <Tooltip.Provider>
@@ -35,9 +38,9 @@ const CoffeeChatButton: FC<CoffeeChatButtonProps> = ({ className, onClick }) => 
           <TooltipContent sideOffset={5}>
             <Flex style={{ gap: 6 }} align='center'>
               <Tag size='sm' shape='rect' variant='primary' type='solid'>
-                NEW
+                커피챗
               </Tag>
-              커피챗 기능이 오픈됐어요!
+              {receiver}님이 {me?.name ?? '회원'}님의 제안을 기다려요.
             </Flex>
             <TooltipArrow />
           </TooltipContent>

@@ -52,7 +52,6 @@ const FeedUrlCardBox = styled.div<{ isDetailFeedCard?: boolean; isFull?: boolean
   background-color: ${colors.gray900};
   padding: 12px;
   width: ${({ isFull }) => (isFull ? '100%' : 'calc(100% - 20px)')};
-  height: 136px;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
@@ -62,7 +61,6 @@ const FeedUrlCardBox = styled.div<{ isDetailFeedCard?: boolean; isFull?: boolean
 
   @media ${MOBILE_MEDIA_QUERY} {
     flex-direction: column;
-    height: 278px;
   }
 
   ${({ isDetailFeedCard }) =>

@@ -1,7 +1,8 @@
-import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
-import { useState, RefObject } from 'react';
-import { useDebounce } from '@toss/react';
 import { colors } from '@sopt-makers/colors';
+import { useDebounce } from '@toss/react';
+import { RefObject, useState } from 'react';
+
+import useGetMembersByNameQuery from '@/components/projects/upload/hooks/useGetMembersByNameQuery';
 
 export type Member = {
   generation: number;
@@ -79,8 +80,45 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     }
   };
 
-  const selectMention = (selectedMember: Member) => {
+  const selectMention = ({ selectedMember, isReply = false }: { selectedMember: Member; isReply?: boolean }) => {
     if (!searchedMemberList) return;
+
+    const mentionSpan = document.createElement('span');
+    mentionSpan.textContent = `@${selectedMember.name}`;
+    mentionSpan.setAttribute('data-id', String(selectedMember.id));
+    mentionSpan.contentEditable = 'false';
+    mentionSpan.style.color = `${colors.success}`;
+    const spaceTextNode = document.createTextNode(' ');
+
+    // 답글달기 시 입력창에 mention span 추가
+    if (isReply && inputRef.current) {
+      inputRef.current.focus();
+      const fragment = document.createDocumentFragment();
+
+      fragment.appendChild(mentionSpan);
+      fragment.appendChild(spaceTextNode);
+
+      const replyRange = document.createRange();
+      replyRange.selectNodeContents(inputRef.current);
+      replyRange.collapse(false);
+      replyRange.insertNode(fragment);
+
+      const selection = window.getSelection();
+      if (selection) {
+        const caretRange = document.createRange();
+        caretRange.setStart(spaceTextNode, spaceTextNode.length);
+        caretRange.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(caretRange);
+      }
+
+      setIsMentionOpen(false);
+      setMentionQuery('');
+      setMentionPosition(null);
+      return;
+    }
+
+    // 일반적인 @멘션 선택 시 입력창에 mention span 추가
     const selectionInfo = getSelectionInfo();
     if (!selectionInfo) return;
     const { range, container, offset } = selectionInfo;
@@ -89,23 +127,14 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     const lastAtIndex = textBeforeCursor.lastIndexOf('@');
 
     if (lastAtIndex !== -1) {
-      // '@' 부터 커서까지의 기존 검색어 삭제
       const mentionRange = range.cloneRange();
       mentionRange.setStart(container, lastAtIndex);
       mentionRange.setEnd(container, offset);
       mentionRange.deleteContents();
 
-      // 선택한 사용자 추가
-      const mentionSpan = document.createElement('span');
-      mentionSpan.textContent = `@${selectedMember.name}`;
-      mentionSpan.setAttribute('data-id', String(selectedMember.id));
-      mentionSpan.contentEditable = 'false';
-      mentionSpan.style.color = `${colors.success}`;
-      const spaceTextNode = document.createTextNode(' ');
       range.insertNode(spaceTextNode);
       range.insertNode(mentionSpan);
 
-      // 커서를 span 바로 다음으로 이동
       const selection = window.getSelection();
       if (selection) {
         range.setStartAfter(mentionSpan);
@@ -114,6 +143,7 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
         selection.addRange(range);
       }
     }
+
     setIsMentionOpen(false);
     setMentionQuery('');
     setMentionPosition(null);
@@ -127,8 +157,9 @@ const useMention = (inputRef: RefObject<HTMLDivElement>) => {
     } else if (e.key === 'Enter') {
       // 자동 선택
       // 멘션 목록이 오픈되어 있고 사용자가 입력을 마친 경우에만 실행
+      // TODO: 자동선택이 0번째가 아닌 가장 비슷한 검색 결과를 가져오도록 변경
       if (!isComposing && isMentionOpen && searchedMemberList.length > 0) {
-        selectMention(searchedMemberList[0]);
+        selectMention({ selectedMember: searchedMemberList[0] });
         e.preventDefault();
       }
     }

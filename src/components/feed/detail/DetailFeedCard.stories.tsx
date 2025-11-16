@@ -121,6 +121,10 @@ export const Default = () => {
         <DetailFeedCard.Divider />
         {COMMENTS.map((comment) => (
           <DetailFeedCard.Comment
+            commentId={comment.id}
+            postId={'123'}
+            isLiked={false}
+            commentLikeCount={0}
             key={comment.id}
             name={comment.name}
             profileImage={comment.image}
@@ -128,6 +132,9 @@ export const Default = () => {
             comment={comment.comment}
             isBlindWriter={false}
             createdAt={comment.createdAt}
+            parentCommentId={null}
+            isDeleted={false}
+            hasReplies={false}
           />
         ))}
       </DetailFeedCard.Body>

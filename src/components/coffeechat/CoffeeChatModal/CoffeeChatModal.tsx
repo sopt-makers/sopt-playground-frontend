@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { useToast } from '@sopt-makers/ui';
+import { TextArea, TextField, useToast } from '@sopt-makers/ui';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -12,12 +12,10 @@ import { useGetMemberProfileById, usePostMemberMessageMutation } from '@/api/end
 import { PHONE_REGEX_SHORT } from '@/components/auth/register/verify/regex';
 import Modal from '@/components/coffeechat/CoffeeChatModal/CoffeeChatCustomPortalModal';
 import RHFControllerFormItem from '@/components/common/form/RHFControllerFormItem';
-import Input from '@/components/common/Input';
 import Loading from '@/components/common/Loading';
 import useCustomConfirm from '@/components/common/Modal/useCustomConfirm';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
-import TextArea from '@/components/common/TextArea';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -27,9 +25,7 @@ const schema = yup.object().shape({
   content: yup.string().required('내용을 입력해주세요.').max(500, '500자 이내로 입력해주세요.'),
 });
 
-const COFFEECHAT_PLACEHOLDER = `ex. 안녕하세요! PM으로 커리어 전환을 고민 중인 김솝트라고 합니다. 
-\n
-게임 업계 PM의 필수 역량이 무엇인지 궁금해 커피챗 제안드립니다.`;
+const COFFEECHAT_PLACEHOLDER = `ex. 안녕하세요! PM으로 커리어 전환을 고민 중인 김솝트라고 합니다.\n게임 업계 PM의 필수 역량이 무엇인지 궁금해 커피챗 제안드립니다.`;
 
 interface MessageForm {
   phone: string;
@@ -46,13 +42,11 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
   const {
     handleSubmit,
     control,
-    watch,
     formState: { isValid: _isValid },
   } = useForm<MessageForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
-  const contentValue = watch('content');
   const isValid = _isValid;
   const { mutateAsync, isPending } = usePostMemberMessageMutation();
   const { confirm, ConfirmComponent } = useCustomConfirm();
@@ -143,19 +137,18 @@ const MessageModal: FC<MessageModalProps> = ({ receiverId, phone, ...props }) =>
               무엇이 궁금하신가요? <span style={{ color: '#F77234' }}>*</span>
             </StyledText>
           </TextWrapper>
-          <InputWrapper>
-            <RHFControllerFormItem
-              style={{ width: '100%', height: '100%' }}
-              control={control}
-              name='content'
-              component={StyledTextArea}
-              placeholder={COFFEECHAT_PLACEHOLDER}
-              maxCount={500}
-            />
-            {/* 향후 any 수정 */}
-          </InputWrapper>
-          <TextCountWrapper>{contentValue ? contentValue.length : 0}/500</TextCountWrapper>
-
+          <RHFControllerFormItem
+            style={{ width: '100%', height: '100%' }}
+            control={control}
+            name='content'
+            component={StyledTextArea}
+            placeholder={COFFEECHAT_PLACEHOLDER}
+            maxLength={500}
+            fixedHeight={172}
+            defaultValue=''
+            disableEnterSubmit
+          />
+          {/* 향후 any 수정 */}
           <StyledButton isDisabled={!isValid || isPending}>
             {isPending ? (
               <Loading color='white' />
@@ -245,27 +238,12 @@ const TextWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledInput = styled(Input)`
+const StyledInput = styled(TextField)`
   margin-top: 12px;
-  border-radius: 6px;
-  background-color: ${colors.gray700};
-
-  &::placeholder {
-    color: ${colors.gray600};
-  }
-
-  &:focus {
-    background-color: ${colors.gray700};
-  }
 `;
 
 const StyledTextArea = styled(TextArea)`
   margin-top: 14px;
-  height: 172px;
-
-  &:focus {
-    background-color: ${colors.gray700};
-  }
 `;
 
 const StyledButton = styled.button<{ isDisabled: boolean }>`
@@ -291,29 +269,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
     margin-bottom: 40px;
   }
 `;
-const InputWrapper = styled.div`
-  width: 100%;
-  height: 184px;
 
-  textarea {
-    min-height: 184px;
-  }
-  @media ${MB_BIG_MEDIA_QUERY} {
-    height: 150px;
-
-    textarea {
-      min-height: 150px;
-    }
-  }
-`;
 const StyledText = styled(Text)`
   ${fonts.LABEL_14_SB};
-`;
-const TextCountWrapper = styled.div`
-  margin-top: 24px;
-  width: 100%;
-  text-align: right;
-  color: ${colors.gray300};
-
-  ${fonts.LABEL_12_SB};
 `;
