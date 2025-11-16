@@ -20,14 +20,14 @@ interface MessageSectionProps {
 }
 
 export default function MessageSection({ memberId, profile }: MessageSectionProps) {
-  const { name, email, profileImage, isCoffeeChatActivate, phone } = profile;
+  const { name, email, profileImage, isCoffeeChatActivate, phone, isPhoneBlind } = profile;
 
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const toast = useToast();
   const router = useRouter();
   const { logClickEvent, logSubmitEvent } = useEventLogger();
 
-  const isEmptyPhone = !phone || phone.length < 1;
+  const isEmptyPhone = (!phone || phone.length < 1) && !isPhoneBlind;
 
   const handleClickMessageButton = () => {
     if (isEmptyPhone) {
