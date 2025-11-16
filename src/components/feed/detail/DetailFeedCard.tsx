@@ -82,7 +82,13 @@ const Header = ({
   renderCategoryLink = (props) => props.children,
   hasChildren,
 }: HeaderProps) => {
-  const isIOSApp = typeof navigator !== 'undefined' && /SOPT-iOS/.test(navigator.userAgent);
+  const [isIOSApp, setIsIOSApp] = useState(false);
+
+  useEffect(() => {
+    alert('현재 User-Agent:\n\n' + navigator.userAgent);
+    const checkIOSApp = /SOPT-iOS/i.test(navigator.userAgent);
+    setIsIOSApp(checkIOSApp);
+  }, []);
 
   return (
     <StyledHeader align='center' justify='space-between' as='header'>
