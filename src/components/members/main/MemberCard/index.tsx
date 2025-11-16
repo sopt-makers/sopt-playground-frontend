@@ -153,7 +153,7 @@ const MemberCard: FC<MemberCardProps> = ({
           <LoadingIntroBox />
         ) : (
           <Intro typography='SUIT_13_M' color={colors.gray200}>
-            {intro}11
+            {intro}
           </Intro>
         )}
       </ContentArea>
