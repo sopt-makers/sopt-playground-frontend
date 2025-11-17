@@ -82,7 +82,6 @@ const StyledModal = styled.div<{ width?: number }>`
   display: flex;
   position: relative;
   flex-direction: column;
-  gap: 16px;
   z-index: 101;
   border-radius: 22.94px;
   background: ${colors.gray800};
