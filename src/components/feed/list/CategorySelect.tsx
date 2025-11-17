@@ -96,16 +96,12 @@ export default CategorySelect;
 
 export const Container = styled.div`
   border-bottom: 1px solid ${colors.gray800};
-  padding: 14px 16px 36px;
-  @media ${MOBILE_MEDIA_QUERY} {
-    padding: 14px 16px 8px;
-  }
 `;
 
 export const CategoryBox = styled.div`
   display: flex;
   gap: 16px;
-  padding: 8px 16px;
+  padding: 12px 16px 8px;
 `;
 
 export const Category = styled(CategoryLink)<{ active: boolean }>`
