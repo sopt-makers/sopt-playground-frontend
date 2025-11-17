@@ -768,7 +768,10 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   const isButtonActive = value.length > 0 && !isPending;
 
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
-    isBlindWriter && handleShowBlindWriterPromise();
+    if (sessionStorage.getItem('hasSeenBlindWriterAlert') === null) {
+      isBlindWriter && handleShowBlindWriterPromise();
+      sessionStorage.setItem('hasSeenBlindWriterAlert', 'seen');
+    }
     onChangeIsBlindChecked(isBlindWriter);
   };
 
