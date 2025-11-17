@@ -943,9 +943,12 @@ const StyledTextArea = styled.div`
 `;
 
 const SendButton = styled.button`
+  display: flex;
   position: absolute;
   top: 50%;
   right: 0;
+  align-items: center;
+  justify-content: start;
   transform: translateY(-50%);
   width: 34px;
   height: 100%;
