@@ -7,7 +7,6 @@ import { m } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
-import { KeyboardEvent } from 'react';
 import { useContext } from 'react';
 import { useResetRecoilState } from 'recoil';
 
@@ -749,6 +748,10 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   const parentRef = useRef<HTMLDivElement | null>(null);
   const prevReplyTargetCommentIdRef = useRef<number | null>(null);
 
+  const placeholderText =
+    (textareaRef.current?.innerText === '' || textareaRef.current?.innerText === undefined) && !replyTargetMember
+      ? `${postAuthorName}님의 글에 댓글을 남겨보세요!`
+      : ' ';
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
   const {
     isMentionOpen,
@@ -772,9 +775,13 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   const handleContentsInput = useCallback(() => {
     saveCursor();
     if (!textareaRef.current) return;
+
+    if (textareaRef.current.innerHTML === '<br>') {
+      textareaRef.current.innerHTML = '';
+    }
+
     const html = textareaRef.current.innerHTML;
     onChange(parseHTMLToMentions(html));
-
     setTextareaValue(html);
   }, [onChange, saveCursor]);
 
@@ -785,16 +792,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     },
     [handleContentsInput, selectMention],
   );
-
-  useEffect(() => {
-    // safari 환경에서 모든 텍스트를 지웠을 때 br태그가 남아있어 답글 기능 off가 안되는 이슈로 추가
-    if (textareaRef.current) {
-      if (textareaRef.current.innerHTML === '<br>') {
-        textareaRef.current.innerHTML = '';
-        setTextareaValue('');
-      }
-    }
-  }, [textareaRef, setTextareaValue]);
 
   useEffect(() => {
     if (replyTargetCommentId && replyTargetMember && textareaRef.current) {
@@ -869,11 +866,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             }}
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
-            data-placeholder={
-              textareaRef.current?.innerText === '' && !replyTargetMember
-                ? `${postAuthorName}님의 글에 댓글을 남겨보세요!`
-                : ''
-            }
+            data-placeholder={placeholderText}
             ref={textareaRef}
           />
           <SendButton type='submit' disabled={!isButtonActive || isPending}>
