@@ -177,6 +177,7 @@ const FeedDetail = ({ postId, renderCategoryLink, renderBackLink }: FeedDetailPr
         </DetailFeedCard.Body>
         <FeedDetailInput
           postId={postId}
+          postAuthorName={postData.member?.name ?? postData.anonymousProfile?.nickname ?? ''}
           category={currentCategory?.category?.name ?? ''}
           tag={currentCategory?.tag?.name ?? '전체'}
           hasChildren={children.length > 0}

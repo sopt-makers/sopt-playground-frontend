@@ -738,9 +738,10 @@ interface InputProps {
   isBlindChecked: boolean;
   onChangeIsBlindChecked: (checked: boolean) => void;
   isPending?: boolean;
+  postAuthorName: string;
 }
 
-const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
+const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending, postAuthorName }: InputProps) => {
   const { member: replyTargetMember, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const id = useId();
   const [textareaValue, setTextareaValue] = useState<string>(''); // textarea의 value 상태 기반 추적 변수
@@ -868,7 +869,11 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             }}
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
-            data-placeholder={textareaRef.current?.innerText === '' && !replyTargetMember ? '댓글을 남겨주세요.' : ''}
+            data-placeholder={
+              textareaRef.current?.innerText === '' && !replyTargetMember
+                ? `${postAuthorName}님의 글에 댓글을 남겨보세요!`
+                : ''
+            }
             ref={textareaRef}
           />
           <SendButton type='submit' disabled={!isButtonActive || isPending}>

@@ -19,6 +19,7 @@ interface FeedDetailInputProps {
   category: string;
   tag: string;
   hasChildren: boolean;
+  postAuthorName: string;
 }
 
 export const commentAtomFamily = atomFamily({
@@ -27,7 +28,14 @@ export const commentAtomFamily = atomFamily({
 });
 export const anonymouseMentionRegex = /@([^\[\]@]+?)\[((?:-1))\]/g;
 
-const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, category, tag, hasChildren }) => {
+const FeedDetailInput: FC<FeedDetailInputProps> = ({
+  postId,
+  onSubmitted,
+  category,
+  tag,
+  hasChildren,
+  postAuthorName,
+}) => {
   const { parentCommentId, setReplyState } = useContext(ReplyContext);
   const [commentData, setCommentData] = useRecoilState(commentAtomFamily(postId));
   const { refetch: refetchCommentQuery } = useGetCommentQuery(postId);
@@ -102,6 +110,7 @@ const FeedDetailInput: FC<FeedDetailInputProps> = ({ postId, onSubmitted, catego
         isBlindChecked={commentData.isBlindWriter}
         onChangeIsBlindChecked={(newValue) => setCommentData((prev) => ({ ...prev, isBlindWriter: newValue }))}
         isPending={isPending}
+        postAuthorName={postAuthorName}
       />
     </form>
   );
