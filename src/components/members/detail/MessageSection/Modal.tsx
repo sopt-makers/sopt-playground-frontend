@@ -10,7 +10,7 @@ import { useEscapeCallback } from '@/hooks/useEscapeCallback';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import IconModalCheck from '@/public/icons/icon-modal-check.svg';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
-import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 /**
@@ -98,7 +98,7 @@ const StyledCloseButton = styled.button`
   padding-right: 32px;
   color: ${colors.white};
 
-  @media ${MB_MID_MEDIA_QUERY} {
+  @media ${MB_BIG_MEDIA_QUERY} {
     padding-top: 24px;
     padding-right: 24px;
   }
