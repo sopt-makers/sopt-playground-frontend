@@ -43,7 +43,6 @@ import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
 import { ReplyContext } from '@/components/feed/detail/FeedDetail';
 import { commentAtomFamily } from '@/components/feed/detail/FeedDetailInput';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
-import { Container } from '@/components/feed/list/CategorySelect';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import Vote from '@/components/vote';
 import { playgroundLink } from '@/constants/links';
@@ -894,6 +893,12 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   );
 };
 
+const Container = styled.div`
+  padding: 14px 16px 36px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 14px 16px 42px;
+  }
+`;
 const InputAnimateArea = styled(m.div)`
   position: relative;
   overflow: hidden;
