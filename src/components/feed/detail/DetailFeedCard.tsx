@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconEye, IconFlipForward, IconHeart, IconMessageDots } from '@sopt-makers/icons';
+import { CheckBox } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
@@ -11,7 +12,6 @@ import { useContext } from 'react';
 import { useResetRecoilState } from 'recoil';
 
 import { useCommentLikeMutation, useCommentUnLikeMutation } from '@/api/endpoint/feed/commentLike';
-import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ImageWithSkeleton from '@/components/common/ImageWithSkeleton';
 import Loading from '@/components/common/Loading';
@@ -836,8 +836,8 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     <Container>
       <InputAnimateArea initial={{ height: '28px' }}>
         <InputContent>
-          <Checkbox
-            size='small'
+          <CheckBox
+            size='sm'
             id={`${id}-check`}
             checked={isBlindChecked}
             onChange={(e) => handleCheckBlindWriter(e.target.checked)}
