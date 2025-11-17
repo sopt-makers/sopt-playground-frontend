@@ -170,7 +170,7 @@ const MessageModal: FC<MessageModalProps> = ({
               isSelected={category.value === (selectedCategory as MessageCategory | null)}
             >
               <category.icon />
-              <p>{category.value}</p>
+              <span>{category.value}</span>
             </StyledCategoryItem>
           ))}
         </StyledCategory>
