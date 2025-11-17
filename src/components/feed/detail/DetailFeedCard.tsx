@@ -842,7 +842,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             checked={isBlindChecked}
             onChange={(e) => handleCheckBlindWriter(e.target.checked)}
           />
-          <label htmlFor={`${id}-check`} css={{ display: 'flex' }}>
+          <label htmlFor={`${id}-check`} css={{ display: 'flex', cursor: 'pointer' }}>
             <Text typography='SUIT_12_M'>익명으로 남기기</Text>
           </label>
         </InputContent>
