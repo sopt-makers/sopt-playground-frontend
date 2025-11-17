@@ -763,10 +763,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
 
   const isButtonActive = value.length > 0 && !isPending;
 
-  useEffect(() => {
-    textareaRef.current?.focus();
-  }, []);
-
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
     isBlindWriter && handleShowBlindWriterPromise();
     onChangeIsBlindChecked(isBlindWriter);
