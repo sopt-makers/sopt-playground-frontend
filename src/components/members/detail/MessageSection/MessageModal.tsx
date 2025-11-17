@@ -205,7 +205,7 @@ const MessageModal: FC<MessageModalProps> = ({
           disableEnterSubmit
         />
         <StyledButton size='md' type='submit' disabled={!isValid || isPending}>
-          {isPending ? <Loading color='white' /> : <>쪽지 보내기</>}
+          {isPending ? <Loading color='white' /> : '쪽지 보내기'}
         </StyledButton>
       </StyledForm>
       {ConfirmComponent}
