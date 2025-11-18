@@ -19,6 +19,7 @@ import IconNetwork from '@/public/icons/icon-network.svg';
 import IconAppjam from '@/public/icons/icon-appjam-build.svg';
 import IconProject from '@/public/icons/icon-project-suggest.svg';
 import IconEtc from '@/public/icons/icon-postnote-etc.svg';
+import { fonts } from '@sopt-makers/fonts';
 
 export enum MessageCategory {
   NETWORK = '친목',
@@ -155,12 +156,12 @@ const MessageModal: FC<MessageModalProps> = ({
         <StyledIconPlane>
           <IconPlane />
         </StyledIconPlane>
-        <Text mt={24} typography='SUIT_24_B'>
+        <StyledText mb={fonts.HEADING_20_B} pc={fonts.HEADING_24_B}>
           {name}님에게 쪽지 보내기
-        </Text>
-        <Text mt={14} typography='SUIT_14_M' color={colors.gray300}>
+        </StyledText>
+        <StyledText mb={fonts.BODY_13_M} pc={fonts.BODY_14_M} color={colors.gray300}>
           작성하신 내용은 회원님의 프로필과 함께 문자로 전달돼요
-        </Text>
+        </StyledText>
         <StyledCategory>
           {CATEGORY.map((category, index) => (
             <StyledCategoryItem
@@ -169,7 +170,7 @@ const MessageModal: FC<MessageModalProps> = ({
               isSelected={category.value === (selectedCategory as MessageCategory | null)}
             >
               <category.icon />
-              <Text typography='SUIT_15_SB'>{category.value}</Text>
+              <span>{category.value}</span>
             </StyledCategoryItem>
           ))}
         </StyledCategory>
@@ -203,14 +204,8 @@ const MessageModal: FC<MessageModalProps> = ({
           defaultValue=''
           disableEnterSubmit
         />
-        <StyledButton type='submit' disabled={!isValid || isPending}>
-          {isPending ? (
-            <Loading color='white' />
-          ) : (
-            <Text typography='SUIT_15_SB' color={isValid ? colors.gray950 : colors.gray400}>
-              쪽지 보내기
-            </Text>
-          )}
+        <StyledButton size='md' type='submit' disabled={!isValid || isPending}>
+          {isPending ? <Loading color='white' /> : '쪽지 보내기'}
         </StyledButton>
       </StyledForm>
       {ConfirmComponent}
@@ -245,6 +240,7 @@ const StyledIconPlane = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 16px;
   border-radius: 15.75px;
   background: ${colors.blue50};
   width: 54px;
@@ -255,6 +251,7 @@ const StyledIconPlane = styled.div`
   }
 
   @media ${MB_BIG_MEDIA_QUERY} {
+    margin-bottom: 12px;
     border-radius: 14px;
     width: 44px;
     height: 44px;
@@ -265,22 +262,38 @@ const StyledIconPlane = styled.div`
   }
 `;
 
+const StyledText = styled(Text)<{ mb: string; pc: string }>`
+  ${({ pc }) =>
+    pc &&
+    `
+          ${pc}
+        `}
+
+  @media ${MB_BIG_MEDIA_QUERY} {
+    ${({ mb }) =>
+      mb &&
+      `${mb}
+      `}
+  }
+`;
+
 const StyledCategory = styled.section`
   display: flex;
   flex-wrap: wrap;
   row-gap: 12px;
-  column-gap: 12px;
+  column-gap: 10px;
   align-items: center;
   justify-content: center;
   margin: 32px 0 44px;
-  width: 225px;
+  width: 230px;
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    margin: 24px 0 32px;
+    margin: 24px 0 36px;
   }
 `;
 
 const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
+  box-sizing: border-box;
   display: flex;
   gap: 4px;
   align-items: center;
@@ -291,6 +304,7 @@ const StyledCategoryItem = styled.div<{ isSelected: boolean }>`
   background-color: ${colors.gray800};
   cursor: pointer;
   padding: 6px 16px 6px 10px;
+  ${fonts.LABEL_16_SB}
 
   & span {
     color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.gray400)};
@@ -332,5 +346,5 @@ const TextLength = styled.span`
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 40px;
+  margin-top: 16px;
 `;

@@ -143,6 +143,7 @@ export const Default = () => {
         onChange={setValue}
         isBlindChecked={isBlind}
         onChangeIsBlindChecked={setIsBlind}
+        postAuthorName='이재훈'
       />
     </DetailFeedCard>
   );
