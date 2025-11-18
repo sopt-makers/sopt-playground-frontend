@@ -2,17 +2,16 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconEye, IconFlipForward, IconHeart, IconMessageDots } from '@sopt-makers/icons';
+import { CheckBox } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
-import { KeyboardEvent } from 'react';
 import { useContext } from 'react';
 import { useResetRecoilState } from 'recoil';
 
 import { useCommentLikeMutation, useCommentUnLikeMutation } from '@/api/endpoint/feed/commentLike';
-import Checkbox from '@/components/common/Checkbox';
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ImageWithSkeleton from '@/components/common/ImageWithSkeleton';
 import Loading from '@/components/common/Loading';
@@ -43,7 +42,6 @@ import { ANONYMOUS_MEMBER_ID } from '@/components/feed/constants';
 import { ReplyContext } from '@/components/feed/detail/FeedDetail';
 import { commentAtomFamily } from '@/components/feed/detail/FeedDetailInput';
 import FeedImageSlider from '@/components/feed/detail/slider/FeedImageSlider';
-import { Container } from '@/components/feed/list/CategorySelect';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
 import Vote from '@/components/vote';
 import { playgroundLink } from '@/constants/links';
@@ -739,9 +737,10 @@ interface InputProps {
   isBlindChecked: boolean;
   onChangeIsBlindChecked: (checked: boolean) => void;
   isPending?: boolean;
+  postAuthorName: string;
 }
 
-const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending }: InputProps) => {
+const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPending, postAuthorName }: InputProps) => {
   const { member: replyTargetMember, replyTargetCommentId, setReplyState } = useContext(ReplyContext);
   const id = useId();
   const [textareaValue, setTextareaValue] = useState<string>(''); // textarea의 value 상태 기반 추적 변수
@@ -749,6 +748,10 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   const parentRef = useRef<HTMLDivElement | null>(null);
   const prevReplyTargetCommentIdRef = useRef<number | null>(null);
 
+  const placeholderText =
+    (textareaRef.current?.innerText === '' || textareaRef.current?.innerText === undefined) && !replyTargetMember
+      ? `${postAuthorName}님의 글에 댓글을 남겨보세요!`
+      : ' ';
   const { handleShowBlindWriterPromise } = useBlindWriterPromise();
   const {
     isMentionOpen,
@@ -764,21 +767,24 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
 
   const isButtonActive = value.length > 0 && !isPending;
 
-  useEffect(() => {
-    textareaRef.current?.focus();
-  }, []);
-
   const handleCheckBlindWriter = (isBlindWriter: boolean) => {
-    isBlindWriter && handleShowBlindWriterPromise();
+    if (sessionStorage.getItem('hasSeenBlindWriterAlert') === null) {
+      isBlindWriter && handleShowBlindWriterPromise();
+      sessionStorage.setItem('hasSeenBlindWriterAlert', 'seen');
+    }
     onChangeIsBlindChecked(isBlindWriter);
   };
 
   const handleContentsInput = useCallback(() => {
     saveCursor();
     if (!textareaRef.current) return;
+
+    if (textareaRef.current.innerHTML === '<br>') {
+      textareaRef.current.innerHTML = '';
+    }
+
     const html = textareaRef.current.innerHTML;
     onChange(parseHTMLToMentions(html));
-
     setTextareaValue(html);
   }, [onChange, saveCursor]);
 
@@ -789,16 +795,6 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     },
     [handleContentsInput, selectMention],
   );
-
-  useEffect(() => {
-    // safari 환경에서 모든 텍스트를 지웠을 때 br태그가 남아있어 답글 기능 off가 안되는 이슈로 추가
-    if (textareaRef.current) {
-      if (textareaRef.current.innerHTML === '<br>') {
-        textareaRef.current.innerHTML = '';
-        setTextareaValue('');
-      }
-    }
-  }, [textareaRef, setTextareaValue]);
 
   useEffect(() => {
     if (replyTargetCommentId && replyTargetMember && textareaRef.current) {
@@ -843,13 +839,13 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
     <Container>
       <InputAnimateArea initial={{ height: '28px' }}>
         <InputContent>
-          <Checkbox
-            size='small'
+          <CheckBox
+            size='sm'
             id={`${id}-check`}
             checked={isBlindChecked}
             onChange={(e) => handleCheckBlindWriter(e.target.checked)}
           />
-          <label htmlFor={`${id}-check`} css={{ display: 'flex' }}>
+          <label htmlFor={`${id}-check`} css={{ display: 'flex', cursor: 'pointer' }}>
             <Text typography='SUIT_12_M'>익명으로 남기기</Text>
           </label>
         </InputContent>
@@ -873,7 +869,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             }}
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
-            data-placeholder={textareaRef.current?.innerText === '' && !replyTargetMember ? '댓글을 남겨주세요.' : ''}
+            data-placeholder={placeholderText}
             ref={textareaRef}
           />
           <SendButton type='submit' disabled={!isButtonActive || isPending}>
@@ -894,6 +890,12 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
   );
 };
 
+const Container = styled.div`
+  padding: 14px 16px 36px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 14px 16px 42px;
+  }
+`;
 const InputAnimateArea = styled(m.div)`
   position: relative;
   overflow: hidden;
@@ -943,9 +945,12 @@ const StyledTextArea = styled.div`
 `;
 
 const SendButton = styled.button`
+  display: flex;
   position: absolute;
   top: 50%;
   right: 0;
+  align-items: center;
+  justify-content: start;
   transform: translateY(-50%);
   width: 34px;
   height: 100%;
