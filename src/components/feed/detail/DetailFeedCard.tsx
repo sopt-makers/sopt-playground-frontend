@@ -91,7 +91,6 @@ const Header = ({
     <StyledHeader align='center' justify='space-between' as='header'>
       <Flex.Center css={{ gap: 8 }}>
         {!isIOSApp && <div css={{ width: '24px', height: '24px' }}>{left}</div>}
-        {navigator.userAgent}
         {renderCategoryLink({
           children: (
             <Chip align='center' as='div'>

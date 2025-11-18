@@ -10,7 +10,7 @@ import { useEscapeCallback } from '@/hooks/useEscapeCallback';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 import IconModalCheck from '@/public/icons/icon-modal-check.svg';
 import IconModalClose from '@/public/icons/icon-modal-close.svg';
-import { MB_BIG_MEDIA_QUERY, MB_MID_MEDIA_QUERY, MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
 /**
@@ -82,7 +82,6 @@ const StyledModal = styled.div<{ width?: number }>`
   display: flex;
   position: relative;
   flex-direction: column;
-  gap: 16px;
   z-index: 101;
   border-radius: 22.94px;
   background: ${colors.gray800};
@@ -99,7 +98,7 @@ const StyledCloseButton = styled.button`
   padding-right: 32px;
   color: ${colors.white};
 
-  @media ${MB_MID_MEDIA_QUERY} {
+  @media ${MB_BIG_MEDIA_QUERY} {
     padding-top: 24px;
     padding-right: 24px;
   }
@@ -119,10 +118,10 @@ const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 32px 40px;
+  padding: 0 32px 32px;
 
   @media ${MB_BIG_MEDIA_QUERY} {
-    padding: 0 24px 32px;
+    padding: 0 24px 24px;
   }
 `;
 
