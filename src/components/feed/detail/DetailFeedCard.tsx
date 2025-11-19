@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconEye, IconFlipForward, IconHeart, IconMessageDots } from '@sopt-makers/icons';
+import { IconXClose } from '@sopt-makers/icons';
 import { CheckBox } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
@@ -810,16 +811,7 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
       prevReplyTargetCommentIdRef.current = null;
       return;
     }
-
-    if (textareaRef.current && textareaRef.current.innerHTML.length === 0) {
-      setReplyState({
-        member: null,
-        replyTargetCommentId: null,
-        parentCommentId: null,
-      });
-      setTextareaValue('');
-    }
-  }, [replyTargetMember, replyTargetCommentId, textareaValue, setReplyState, setTextareaValue, handleSelectMention]);
+  }, [replyTargetMember, replyTargetCommentId, setReplyState, setTextareaValue, handleSelectMention]);
 
   useEffect(() => {
     if (!textareaRef.current || value === null) return;
@@ -836,19 +828,36 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
 
   return (
     <Container>
-      <InputAnimateArea initial={{ height: '28px' }}>
-        <InputContent>
-          <CheckBox
-            size='sm'
-            id={`${id}-check`}
-            checked={isBlindChecked}
-            onChange={(e) => handleCheckBlindWriter(e.target.checked)}
+      <Flex direction='row' align='center' justify='space-between' css={{ width: '100%' }}>
+        <Flex direction='row' align='center' css={{ gap: '8px' }}>
+          <InputAnimateArea>
+            <InputContent>
+              <CheckBox
+                size='sm'
+                id={`${id}-check`}
+                checked={isBlindChecked}
+                onChange={(e) => handleCheckBlindWriter(e.target.checked)}
+              />
+              <label htmlFor={`${id}-check`} css={{ display: 'flex', cursor: 'pointer' }}>
+                <Text typography='SUIT_12_M' color={colors.gray10}>
+                  익명
+                </Text>
+              </label>
+            </InputContent>
+          </InputAnimateArea>
+          {replyTargetMember && (
+            <Text typography='SUIT_12_M' color={colors.gray400}>
+              {replyTargetMember.name}님에게 답글 남기는 중
+            </Text>
+          )}
+        </Flex>
+        {replyTargetMember && (
+          <IconXClose
+            style={{ width: 16, height: 16, color: colors.gray50, cursor: 'pointer' }}
+            onClick={() => setReplyState({ member: null, replyTargetCommentId: null, parentCommentId: null })}
           />
-          <label htmlFor={`${id}-check`} css={{ display: 'flex', cursor: 'pointer' }}>
-            <Text typography='SUIT_12_M'>익명으로 남기기</Text>
-          </label>
-        </InputContent>
-      </InputAnimateArea>
+        )}
+      </Flex>
       <Flex align='flex-center' css={{ gap: '16px', width: '100%' }} ref={parentRef}>
         {replyTargetCommentId !== null && (
           <IconFlipForward style={{ width: 24, height: 24, color: colors.gray500, transform: 'scale(1, -1)' }} />
@@ -890,6 +899,9 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
 };
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   padding: 14px 16px 36px;
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 14px 16px 42px;
@@ -902,10 +914,6 @@ const InputAnimateArea = styled(m.div)`
 
 const InputContent = styled.div`
   display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
   gap: 4px;
   align-items: center;
 `;
