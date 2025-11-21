@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconEye, IconFlipForward, IconHeart, IconMessageDots } from '@sopt-makers/icons';
+import { IconSend } from '@sopt-makers/icons';
 import { CheckBox } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import { m } from 'framer-motion';
@@ -28,7 +29,6 @@ import {
   IconMember,
   IconMoreHoriz,
   IconMoreVert,
-  IconSendFill,
   IconShare,
 } from '@/components/feed/common/Icon';
 import MentionDropdown from '@/components/feed/common/MentionDropdown';
@@ -871,8 +871,23 @@ const Input = ({ value, onChange, isBlindChecked, onChangeIsBlindChecked, isPend
             data-placeholder={placeholderText}
             ref={textareaRef}
           />
-          <SendButton type='submit' disabled={!isButtonActive || isPending}>
-            {isPending ? <Loading size={4} /> : <IconSendFill />}
+          <SendButton
+            type='submit'
+            disabled={!isButtonActive}
+            style={{ cursor: isButtonActive ? 'pointer' : 'default' }}
+          >
+            {isPending ? (
+              <Loading size={4} />
+            ) : (
+              <IconSend
+                style={{
+                  width: 20,
+                  height: 20,
+                  color: isButtonActive ? colors.white : colors.gray500,
+                  cursor: 'inherit',
+                }}
+              />
+            )}
           </SendButton>
         </TextAreaWrapper>
 
@@ -914,10 +929,17 @@ const TextAreaWrapper = styled.div`
   display: flex;
   position: relative;
   align-items: center;
-  border: 1px solid ${colors.gray200};
   border-radius: 10px;
   background-color: ${colors.gray800};
   width: 100%;
+
+  &:focus-within {
+    box-shadow: 0 0 0 1px ${colors.gray200};
+
+    svg {
+      color: ${colors.white};
+    }
+  }
 `;
 
 const StyledTextArea = styled.div`
