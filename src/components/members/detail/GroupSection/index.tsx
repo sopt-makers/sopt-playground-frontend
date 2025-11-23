@@ -4,7 +4,6 @@ import { fonts } from '@sopt-makers/fonts';
 import axios from 'axios';
 import Link from 'next/link';
 
-import { useGetMemberCrewInfiniteQuery } from '@/api/endpoint/members/getMemberCrew';
 import { ProfileDetail } from '@/api/endpoint_LEGACY/members/type';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -14,6 +13,8 @@ import { playgroundLink } from '@/constants/links';
 import useEnterScreen from '@/hooks/useEnterScreen';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { safeParseInt } from '@/utils';
+import { useMemberMeetingList } from '@/api/crew/getMeetingList';
+import Loading from '@/components/common/Loading';
 
 interface GroupSectionProps {
   profile: ProfileDetail;
@@ -22,22 +23,27 @@ interface GroupSectionProps {
 }
 
 const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
-  const {
-    data: memberCrewData,
-    fetchNextPage,
-    error: crewError,
-  } = useGetMemberCrewInfiniteQuery(20, safeParseInt(memberId) ?? undefined);
-  const meetingList = memberCrewData?.pages.map((page) => page.meetings).flat() ?? [];
+  const { data: meetingData, isPending, error: crewError } = useMemberMeetingList(memberId);
 
-  const { ref } = useEnterScreen({
-    onEnter: () => {
-      fetchNextPage();
-    },
-  });
+  // 추후 플그 API 재사용 가능성 있음
+  // const { ref } = useEnterScreen({
+  //   onEnter: () => {
+  //     fetchNextPage();
+  //   },
+  // });
 
   if (axios.isAxiosError(crewError) && crewError.response?.status === 400) {
     return <EmptyProfile />;
   }
+
+  if (isPending || !profile || !meetingData)
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
+
+  const meetingList = meetingData.userAppliedMeetings;
 
   return (
     <>
@@ -49,13 +55,13 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
           <ActivityDisplay>
             {meetingList.map((meeting) => (
               <MemberMeetingCard
-                key={meeting.id}
+                key={meeting.meetingId}
                 {...meeting}
-                {...(meeting.isMeetingLeader && { userName: profile.name })}
+                {...(meeting.isLeader && { userName: profile.name })}
               />
             ))}
           </ActivityDisplay>
-          <Target ref={ref} />
+          {/* <Target ref={ref} /> */}
         </Container>
       ) : (
         <>
