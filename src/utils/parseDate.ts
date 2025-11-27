@@ -3,8 +3,6 @@
 */
 
 import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
-dayjs.extend(isBetween);
 
 export const convertMillisecondsIntoDateValues = (milliseconds: number) => {
   const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
@@ -21,15 +19,4 @@ export const dateIntoPeriod = (startDate: string, endDate: string) => {
   const formattedStartDate = dayjs(startDate).format('YYYY.MM.DD');
   const formattedEndDate = dayjs(endDate).format('YYYY.MM.DD');
   return `${formattedStartDate}${startDate === endDate ? '' : ` - ${formattedEndDate}`}`;
-};
-
-/**
- * @desc 현재 날짜가 시작일과 종료일 기간 사이에 포함되는지 확인합니다.
- */
-export const isTodayInPeriod = (startDate: string, endDate: string): boolean => {
-  const today = dayjs().startOf('day');
-  const start = dayjs(startDate).startOf('day');
-  const end = dayjs(endDate).startOf('day');
-
-  return today.isBetween(start, end, 'day', '[]');
 };

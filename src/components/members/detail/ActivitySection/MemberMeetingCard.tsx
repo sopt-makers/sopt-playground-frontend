@@ -6,33 +6,35 @@ import { FC } from 'react';
 
 import ContentsCard from '@/components/common/ContentsCard';
 import { playgroundLink } from '@/constants/links';
-import { dateIntoPeriod, isTodayInPeriod } from '@/utils/parseDate';
+import { dateIntoPeriod } from '@/utils/parseDate';
 
 interface MemberMeetingCardProps {
-  meetingId: number;
-  meetingTitle: string;
-  meetingCategory: string | null;
-  isLeader: boolean;
-  mStartTime: string | null;
-  mEndTime: string | null;
-  imgUrl: string | null;
+  id: number;
+  title: string;
+  category: string | null;
+  isMeetingLeader: boolean;
+  isActiveMeeting: boolean;
+  mstartDate: string;
+  mendDate: string;
+  imageUrl: string | null;
   userName?: string;
 }
 
 const MemberMeetingCard: FC<MemberMeetingCardProps> = ({
-  meetingId,
-  meetingTitle,
-  meetingCategory,
-  isLeader,
-  mStartTime,
-  mEndTime,
-  imgUrl,
+  id,
+  title,
+  category,
+  isMeetingLeader,
+  isActiveMeeting,
+  mstartDate,
+  mendDate,
+  imageUrl,
   userName,
 }) => {
-  const category = (
+  const meetingCategory = (
     <MeetingCategory>
-      {meetingCategory}
-      {isLeader && (
+      {category}
+      {isMeetingLeader && (
         <>
           <div>|</div>
           <div>{userName}님이 만든 모임</div>
@@ -41,17 +43,16 @@ const MemberMeetingCard: FC<MemberMeetingCardProps> = ({
     </MeetingCategory>
   );
 
-  const meetingDate =
-    mStartTime && mEndTime ? (
-      <MeetingDate>
-        <MeetingStatus $isActiveMeeting={isTodayInPeriod(mStartTime, mEndTime)} />
-        <div>{dateIntoPeriod(mStartTime, mEndTime)}</div>
-      </MeetingDate>
-    ) : null;
+  const meetingDate = (
+    <MeetingDate>
+      <MeetingStatus $isActiveMeeting={isActiveMeeting} />
+      <div>{dateIntoPeriod(mstartDate, mendDate)}</div>
+    </MeetingDate>
+  );
 
   return (
-    <Link href={playgroundLink.groupDetail(meetingId)}>
-      <ContentsCard thumbnail={imgUrl || ''} title={meetingTitle} top={category} bottom={meetingDate} />
+    <Link href={playgroundLink.groupDetail(id)}>
+      <ContentsCard thumbnail={imageUrl ? imageUrl : ''} title={title} top={meetingCategory} bottom={meetingDate} />
     </Link>
   );
 };
