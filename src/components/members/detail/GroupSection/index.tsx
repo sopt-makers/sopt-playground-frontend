@@ -27,9 +27,6 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
 
   const parentRef = useRef<HTMLDivElement>(null);
 
-  if (axios.isAxiosError(crewError) && crewError.response?.status === 400) {
-    return <EmptyProfile />;
-  }
   const meetingList = meetingData?.userAppliedMeetings ?? []; // 데이터를 안전하게 추출
   const ITEMS_PER_ROW = 2;
   const ROW_COUNT = Math.ceil(meetingList.length / ITEMS_PER_ROW);
@@ -40,6 +37,10 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
     overscan: 6,
     estimateSize: useCallback(() => 136, []),
   });
+
+  if (axios.isAxiosError(crewError) && crewError.response?.status === 400) {
+    return <EmptyProfile />;
+  }
 
   if (isPending || !profile || !meetingData)
     return (
@@ -75,6 +76,7 @@ const GroupSection = ({ profile, meId, memberId }: GroupSectionProps) => {
 
                 return (
                   <MemberMeetingCardWrapper
+                    key={virtualRow.index}
                     data-index={virtualRow.index}
                     style={{
                       transform: `translateY(${virtualRow.start}px)`,
