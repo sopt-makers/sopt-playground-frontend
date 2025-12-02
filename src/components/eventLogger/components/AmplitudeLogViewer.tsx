@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface LogEntry {
   id: string;
@@ -14,7 +14,7 @@ interface AmplitudeLogViewerProps {
   isDev?: boolean;
 }
 
-const AmplitudeLogViewer: FC<AmplitudeLogViewerProps> = ({ isDev = false }) => {
+const AmplitudeLogViewer = ({ isDev = false }: AmplitudeLogViewerProps) => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [isVisible, setIsVisible] = useState(false);
   const originalConsole = useRef<typeof console.log>();
@@ -23,14 +23,12 @@ const AmplitudeLogViewer: FC<AmplitudeLogViewerProps> = ({ isDev = false }) => {
   useEffect(() => {
     if (!isDev) return;
 
-    // 원본 console.log 저장
     if (!originalConsole.current) {
       originalConsole.current = console.log;
     }
 
     // console.log 오버라이드
     console.log = (...args: any[]) => {
-      // 원본 console.log 호출
       originalConsole.current?.(...args);
 
       // EventLogger 로그만 캡처
@@ -52,7 +50,6 @@ const AmplitudeLogViewer: FC<AmplitudeLogViewerProps> = ({ isDev = false }) => {
 
           setLogs((prev) => {
             const newLogs = [...prev.slice(-49), newLog]; // 최대 50개 로그 유지
-            // 다음 렌더링 사이클에서 스크롤을 맨 아래로 이동
             setTimeout(() => {
               if (logContainerRef.current) {
                 logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
@@ -64,7 +61,6 @@ const AmplitudeLogViewer: FC<AmplitudeLogViewerProps> = ({ isDev = false }) => {
       }
     };
 
-    // cleanup
     return () => {
       if (originalConsole.current) {
         console.log = originalConsole.current;
@@ -76,7 +72,7 @@ const AmplitudeLogViewer: FC<AmplitudeLogViewerProps> = ({ isDev = false }) => {
 
   return (
     <>
-      <ToggleButton onClick={() => setIsVisible(!isVisible)}>📊 Amplitude Logs ({logs.length})</ToggleButton>
+      <ToggleButton onClick={() => setIsVisible(!isVisible)}>Amplitude Logs ({logs.length})</ToggleButton>
 
       {isVisible && (
         <LogViewer>
@@ -105,17 +101,17 @@ const AmplitudeLogViewer: FC<AmplitudeLogViewerProps> = ({ isDev = false }) => {
                   {log.params && log.params.length > 0 && (
                     <LogTable>
                       <thead>
-                        <LogTableRow>
+                        <tr>
                           <LogTableHeader>Properties</LogTableHeader>
                           <LogTableHeader>value</LogTableHeader>
-                        </LogTableRow>
+                        </tr>
                       </thead>
                       <tbody>
                         {Object.entries(log.params[0] || {}).map(([key, value]) => (
-                          <LogTableRow key={key}>
+                          <tr key={key}>
                             <LogTableCell isProperty>{key}</LogTableCell>
                             <LogTableCell>{String(value)}</LogTableCell>
-                          </LogTableRow>
+                          </tr>
                         ))}
                       </tbody>
                     </LogTable>
@@ -123,17 +119,17 @@ const AmplitudeLogViewer: FC<AmplitudeLogViewerProps> = ({ isDev = false }) => {
                   {log.properties && (
                     <LogTable>
                       <thead>
-                        <LogTableRow>
+                        <tr>
                           <LogTableHeader>Properties</LogTableHeader>
                           <LogTableHeader>value</LogTableHeader>
-                        </LogTableRow>
+                        </tr>
                       </thead>
                       <tbody>
                         {Object.entries(log.properties).map(([key, value]) => (
-                          <LogTableRow key={key}>
+                          <tr key={key}>
                             <LogTableCell isProperty>{key}</LogTableCell>
                             <LogTableCell>{String(value)}</LogTableCell>
-                          </LogTableRow>
+                          </tr>
                         ))}
                       </tbody>
                     </LogTable>
@@ -226,24 +222,7 @@ const EmptyMessage = styled.div`
   color: #666;
 `;
 
-interface LogEntryProps {
-  logType: LogEntry['type'];
-}
-
-const getLogEntryBackground = (logType: LogEntry['type']) => {
-  switch (logType) {
-    case 'impressionEvent':
-      return '#1a3a1a';
-    case 'clickEvent':
-      return '#1a1a3a';
-    case 'pageViewEvent':
-      return '#3a1a1a';
-    default:
-      return '#2a2a2a';
-  }
-};
-
-const LogEntry = styled.div<LogEntryProps>`
+const LogEntry = styled.div<{ logType: LogEntry['type'] }>`
   padding: 8px 12px;
 `;
 
@@ -253,10 +232,6 @@ const LogHeader = styled.div`
   justify-content: space-between;
   margin-bottom: 4px;
 `;
-
-interface EventTagProps {
-  logType: LogEntry['type'];
-}
 
 const getEventTagColor = (logType: LogEntry['type']) => {
   switch (logType) {
@@ -271,7 +246,7 @@ const getEventTagColor = (logType: LogEntry['type']) => {
   }
 };
 
-const EventTag = styled.span<EventTagProps>`
+const EventTag = styled.span<{ logType: LogEntry['type'] }>`
   border-radius: 3px;
   background-color: ${({ logType }) => getEventTagColor(logType)};
   padding: 2px 6px;
@@ -297,8 +272,6 @@ const LogTable = styled.table`
   font-size: 10px;
 `;
 
-const LogTableRow = styled.tr``;
-
 const LogTableHeader = styled.th`
   border: 1px solid #444;
   background-color: #333;
@@ -309,17 +282,11 @@ const LogTableHeader = styled.th`
   font-weight: bold;
 `;
 
-interface LogTableCellProps {
-  isProperty?: boolean;
-}
-
-const LogTableCell = styled.td<LogTableCellProps>`
+const LogTableCell = styled.td<{ isProperty?: boolean }>`
   border: 1px solid #444;
   padding: 4px 8px;
   vertical-align: top;
   word-break: break-word;
   color: white;
-
-  /* color: ${({ isProperty }) => (isProperty ? '#ffeb3b' : '#e0e0e0')}; */
   font-weight: ${({ isProperty }) => (isProperty ? 'bold' : 'normal')};
 `;
