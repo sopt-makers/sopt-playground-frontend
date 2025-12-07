@@ -1,0 +1,341 @@
+import { css, keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { IconSend, IconUser } from '@sopt-makers/icons';
+import { TextField } from '@sopt-makers/ui';
+import { m } from 'framer-motion';
+
+import ResizedImage from '@/components/common/ResizedImage';
+import Text from '@/components/common/Text';
+import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
+import { LATEST_GENERATION } from '@/constants/generation';
+
+interface Activity {
+  id: number;
+  generation: number;
+  part: string;
+  team: string | null;
+}
+
+interface WorkPreference {
+  ideationStyle: string;
+  workTime: string;
+  communicationStyle: string;
+  workPlace: string;
+  feedbackStyle: string;
+}
+
+interface MemberCardProps {
+  id: number;
+  name: string;
+  profileImage?: string;
+  university: string;
+  workPreference: WorkPreference;
+  activities: Activity[];
+  isLoading?: boolean;
+}
+
+const imageVariants = {
+  hover: {
+    scale: 1.1,
+  },
+};
+
+const shimmerAnimation = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+const shimmerEffect = css`
+  background: linear-gradient(110deg, ${colors.gray900} 0%, ${colors.gray800} 50%, ${colors.gray900} 100%);
+  background-size: 200% 100%;
+  animation: ${shimmerAnimation} 2s ease-in-out infinite;
+`;
+
+const GoodBadge = () => {
+  return <StyledGoodBadge>잘 맞을 확률 up💘</StyledGoodBadge>;
+};
+
+const ELLIPSIS_WIDTH = 26;
+const BADGE_GAP = 4;
+
+const MemberCard = ({ name, profileImage, university, workPreference, activities, isLoading }: MemberCardProps) => {
+  const activityBadges = activities.map((activity) => ({
+    content: `${activity.generation}기 ${activity.part}`,
+    isActive: activity.generation === LATEST_GENERATION,
+  }));
+
+  const workPreferenceBadges = [
+    workPreference.ideationStyle,
+    workPreference.communicationStyle,
+    workPreference.workPlace,
+    workPreference.workTime,
+    workPreference.feedbackStyle,
+  ];
+
+  const {
+    visibleBadges: visibleActivityBadges,
+    isBadgeOverflow: isActivityOverflow,
+    badgeRefs: activityBadgeRefs,
+    badgeWrapperRef: activityBadgeWrapperRef,
+  } = useVisibleBadges(activityBadges, ELLIPSIS_WIDTH, BADGE_GAP);
+
+  return (
+    <MotionMemberCard whileHover='hover'>
+      <Container>
+        <ProfileImageWrapper>
+          {!isLoading && <GoodBadge />}
+          <StyledImageArea>
+            <ImageHolder variants={imageVariants}>
+              {isLoading ? (
+                <LoadingImage />
+              ) : profileImage ? (
+                <Image className='image' src={profileImage} width={80} alt='member_image' />
+              ) : (
+                <IconUser style={{ width: 60, height: 60, color: `${colors.gray400}`, paddingTop: '10px' }} />
+              )}
+            </ImageHolder>
+          </StyledImageArea>
+        </ProfileImageWrapper>
+        <ContentArea>
+          <TitleBox>
+            {isLoading ? (
+              <LoadingTitleBox />
+            ) : (
+              <>
+                <Name>{name}</Name>
+                <Belongs>{university}</Belongs>
+              </>
+            )}
+          </TitleBox>
+          {isLoading ? (
+            <>
+              <BadgesBox>
+                <LoadingBadge />
+              </BadgesBox>
+              <BadgesBox>
+                <Badges>
+                  <LoadingBadge />
+                  <LoadingBadge />
+                  <LoadingBadge />
+                </Badges>
+              </BadgesBox>
+            </>
+          ) : (
+            <>
+              {activityBadges.length > 0 && (
+                <BadgesBox ref={activityBadgeWrapperRef}>
+                  <Badges>
+                    {visibleActivityBadges.map((badge, idx) => (
+                      <Badge
+                        ref={(el: HTMLDivElement) => (activityBadgeRefs.current[idx] = el)}
+                        isActive={badge.isActive}
+                        key={idx}
+                      >
+                        {badge.isActive && <BadgeActiveDot />}
+                        <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                          {badge.content}
+                        </Text>
+                      </Badge>
+                    ))}
+                    {isActivityOverflow && (
+                      <Badge isActive={false}>
+                        <Text typography='SUIT_11_SB'>...</Text>
+                      </Badge>
+                    )}
+                  </Badges>
+                </BadgesBox>
+              )}
+              <BadgesBox>
+                <Badges>
+                  {workPreferenceBadges.map((badge, idx) => (
+                    <Badge isActive={false} key={idx}>
+                      <Text typography='SUIT_11_SB' color={colors.gray200}>
+                        {badge}
+                      </Text>
+                    </Badge>
+                  ))}
+                </Badges>
+              </BadgesBox>
+            </>
+          )}
+        </ContentArea>
+      </Container>
+      {isLoading ? (
+        <LoadingTextField />
+      ) : (
+        <TextField rightAddon={<IconSend style={{ height: '24px', width: '24px' }} />} placeholder='우리 친해져요!' />
+      )}
+    </MotionMemberCard>
+  );
+};
+
+export default MemberCard;
+
+const MotionMemberCard = styled(m.div)`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: box-shadow 0.3s;
+  border-radius: 16px;
+  background-color: ${colors.gray900};
+  cursor: pointer;
+  padding: 16px;
+  width: 335px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+`;
+
+const ProfileImageWrapper = styled.div`
+  position: relative;
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+`;
+
+const StyledImageArea = styled.div`
+  transform: translateZ(0);
+  border-radius: 50%;
+  background-color: ${colors.gray700};
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+`;
+
+const ImageHolder = styled(m.div)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+`;
+
+const LoadingImage = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+`;
+
+const ContentArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  grid-area: content;
+  justify-content: center;
+  width: 100%;
+  min-height: unset;
+  overflow: hidden;
+`;
+
+const Image = styled(ResizedImage)`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const TitleBox = styled(m.div)`
+  display: flex;
+  align-items: center;
+  height: 28px;
+`;
+
+const Name = styled.p`
+  flex-shrink: 0;
+  color: ${colors.gray30};
+  ${fonts.TITLE_18_SB};
+`;
+
+const Belongs = styled.p`
+  flex-grow: 1;
+  margin-left: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: ${colors.gray300};
+  ${fonts.LABEL_12_SB}
+`;
+
+const BadgesBox = styled.div`
+  position: relative;
+  margin-top: 8px;
+  overflow-x: hidden;
+`;
+
+const Badges = styled.div`
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+  height: 22px;
+`;
+
+const Badge = styled.div<{ isActive: boolean }>`
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  gap: 6px;
+  align-items: center;
+  border-radius: 6px;
+  background-color: ${({ isActive }) => (isActive ? 'rgb(247 114 52 / 20%)' : colors.gray700)};
+  padding: 4px 6px;
+  height: 22px;
+  line-height: 0;
+  color: ${colors.gray100};
+`;
+
+const BadgeActiveDot = styled.span`
+  border-radius: 50%;
+  background-color: ${colors.secondary};
+  width: 6px;
+  height: 6px;
+`;
+
+const LoadingBadge = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 6px;
+  width: 60px;
+  height: 22px;
+`;
+
+const LoadingTitleBox = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 8px;
+  width: 54px;
+  height: 24px;
+`;
+
+const LoadingTextField = styled.div`
+  ${shimmerEffect};
+
+  border-radius: 10px;
+  width: 100%;
+  height: 48px;
+`;
+
+const StyledGoodBadge = styled.div`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  border-radius: 16px;
+  background-color: #fdbbf9;
+  padding: 6px 8px;
+  white-space: nowrap;
+  color: ${colors.black};
+
+  ${fonts.LABEL_11_SB}
+`;
