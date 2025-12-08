@@ -12,6 +12,7 @@ import { zIndex } from '@/styles/zIndex';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import Text from '@/components/common/Text';
 import promotion from '@/public/icons/img/popup/member_match.png';
+import bgImg from '@/public/icons/img/popup/member_match_bg.png';
 import { Button } from '@sopt-makers/ui';
 import { Spacing } from '@toss/emotion-utils';
 import ResizedImage from '@/components/common/ResizedImage';
@@ -192,6 +193,7 @@ const MemberCard = () => {
             <Badge key={key}>{value}</Badge>
           ))}
         </BadgeContainer>
+        <BackgroundBlur />
       </CardContent>
     </CardWrapper>
   );
@@ -218,7 +220,7 @@ const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
   return (
     <>
       <Responsive only='desktop'>
-        <StyledModal isOpen={isOpen} onClose={handleClose} zIndex={zIndex.헤더 + 100}>
+        <StyledModal isOpen={isOpen} onClose={handleClose} zIndex={zIndex.헤더 + 100} step={step}>
           <StyledContent>
             <MatchContent step={step} value={value} onChange={handleChange} onNextStep={handleNextStep} />
           </StyledContent>
@@ -226,11 +228,11 @@ const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
       </Responsive>
 
       <Responsive only='mobile'>
-        <ModalBottomSheet isOpen={isOpen} onClose={handleClose}>
+        <StyledModalBottomSheet isOpen={isOpen} onClose={handleClose} step={step}>
           <StyledContent>
             <MatchContent step={step} value={value} onChange={handleChange} onNextStep={handleNextStep} />
           </StyledContent>
-        </ModalBottomSheet>
+        </StyledModalBottomSheet>
       </Responsive>
     </>
   );
@@ -238,7 +240,7 @@ const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
 
 export default MatchMemberModal;
 
-const StyledModal = styled(Modal)`
+const StyledModal = styled(Modal)<{ step: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -259,6 +261,28 @@ const StyledModal = styled(Modal)`
   @media ${MB_BIG_MEDIA_QUERY} {
     width: 100vw;
   }
+
+  ${({ step }) =>
+    step === 3 &&
+    css`
+      background-image: url(${bgImg.src});
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    `}
+`;
+
+const StyledModalBottomSheet = styled(ModalBottomSheet)<{ step: number }>`
+  ${({ step }) =>
+    step === 3 &&
+    css`
+      .react-modal-sheet-container {
+        background-image: url(${bgImg.src});
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    `}
 `;
 
 const StyledContent = styled.div`
@@ -302,6 +326,7 @@ const QuestionRow = styled.div`
 
 const CardWrapper = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 12px;
   align-items: center;
@@ -309,10 +334,15 @@ const CardWrapper = styled.div`
   border: 1px solid #9cbce3;
   border-radius: 16px;
   box-shadow: 0 1px 20.6px 0 rgb(194 197 255 / 33%);
-  background: colors.gray800;
+  background: ${colors.gray800};
   padding: 16px 18px 24px;
   min-width: 243px;
   min-height: 285px;
+  overflow: hidden;
+
+  & > span {
+    z-index: 1;
+  }
 `;
 
 const CardContent = styled.div`
@@ -323,6 +353,7 @@ const CardContent = styled.div`
 
 const ImageBox = styled.div`
   position: relative;
+  z-index: 1;
   width: 108px;
   height: 108px;
   clip-path: circle(50%);
@@ -394,4 +425,15 @@ const Badge = styled.div`
   ${fonts.LABEL_11_SB}
 
   color: ${colors.gray200}
+`;
+
+const BackgroundBlur = styled.div`
+  position: absolute;
+  top: -66.871px;
+  left: 17px;
+  opacity: 0.4;
+  background: ${colors.success};
+  width: 197px;
+  height: 162px;
+  filter: blur(50px);
 `;
