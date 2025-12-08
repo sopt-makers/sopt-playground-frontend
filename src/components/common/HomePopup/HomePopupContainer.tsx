@@ -1,6 +1,7 @@
 import { useGetHomePopup } from '@/api/endpoint/homePopup/getHomePopup';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { HomePopup } from '@/components/common/HomePopup';
+import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { LATEST_GENERATION } from '@/constants/generation';
 
 const HomePopupContainer = () => {
@@ -8,6 +9,16 @@ const HomePopupContainer = () => {
   const { data: homePopupData } = useGetHomePopup();
 
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
+  const isSpecialPopupPeriod = true; // 타임캡솝 & 맴버 매칭 기간
+
+  if (isSpecialPopupPeriod) {
+    return (
+      <>
+        {/* 멤버 추천 모달 */}
+        <MatchMemberModal isOpen={true} onClose={() => {}} />
+      </>
+    );
+  }
 
   if (!homePopupData || typeof homePopupData === 'string') {
     return null;
