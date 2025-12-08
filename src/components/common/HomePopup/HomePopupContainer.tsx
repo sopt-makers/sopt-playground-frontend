@@ -1,8 +1,10 @@
 import { useGetHomePopup } from '@/api/endpoint/homePopup/getHomePopup';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { HomePopup } from '@/components/common/HomePopup';
+import useModalState from '@/components/common/Modal/useModalState';
 import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { LATEST_GENERATION } from '@/constants/generation';
+import { useEffect } from 'react';
 
 const HomePopupContainer = () => {
   const { data: myData } = useGetMemberOfMe();
@@ -12,12 +14,11 @@ const HomePopupContainer = () => {
   const isSpecialPopupPeriod = true; // 타임캡솝 & 맴버 매칭 기간
 
   if (isSpecialPopupPeriod) {
-    return (
-      <>
-        {/* 멤버 추천 모달 */}
-        <MatchMemberModal isOpen={true} onClose={() => {}} />
-      </>
-    );
+    const { isOpen, onOpen, onClose } = useModalState();
+    useEffect(() => {
+      onOpen();
+    }, []);
+    return <MatchMemberModal isOpen={isOpen} onClose={onClose} />;
   }
 
   if (!homePopupData || typeof homePopupData === 'string') {
