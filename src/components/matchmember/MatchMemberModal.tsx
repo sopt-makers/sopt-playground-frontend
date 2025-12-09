@@ -76,10 +76,10 @@ const MatchContent = ({ step, value, onChange, onNextStep }: MatchContentProps) 
     return (
       <>
         <Text typography='SUIT_14_SB' color='#FFCA00'>
-          기획 경선에서 함께할
+          나와 합숙할
         </Text>
-        <Text typography='SUIT_20_B' color={colors.white}>
-          나와 <span style={{ color: colors.gray10 }}>찰~떡 케미</span> 멤버 찾기!
+        <Text typography='SUIT_20_B' color={colors.gray10}>
+          찰떡 케미 앱잼 멤버 찾기!
         </Text>
         <Spacing size={20} />
         <img src={promotion.src} />
