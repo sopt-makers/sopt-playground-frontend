@@ -11,13 +11,19 @@ const HomePopupContainer = () => {
   const { data: homePopupData } = useGetHomePopup();
 
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
-  const isSpecialPopupPeriod = true; // 타임캡솝 & 맴버 매칭 기간
+  const hasWorkPreference = myData?.hasWorkPreference;
+  const isSpecialPopupPeriod = true; // 타임캡솝, 맴버 매칭 기간
 
   if (isSpecialPopupPeriod) {
+    if (isLastGeneration || hasWorkPreference) {
+      return null;
+    }
+
     const { isOpen, onOpen, onClose } = useModalState();
     useEffect(() => {
       onOpen();
     }, []);
+
     return <MatchMemberModal isOpen={isOpen} onClose={onClose} />;
   }
 
