@@ -3,17 +3,15 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import Text from '@/components/common/Text';
 import ProfileIcon from 'public/icons/icon-profile.svg';
-import { css } from '@emotion/react';
 import ResizedImage from '@/components/common/ResizedImage';
+import { useGetRecommendations } from '@/api/endpoint/members/getRecommendations';
+import { useState } from 'react';
 
 export const MemberCard = () => {
-  const mock = {
-    ideationStyle: '즉흥',
-    workTime: '아침',
-    communicationStyle: '몰아서',
-    workPlace: '카공',
-    feedbackStyle: '직설적',
-  };
+  const { data, isPending } = useGetRecommendations();
+  const [_isImageLoaded, setIsImageLoaded] = useState(false);
+
+  if (isPending) return null;
 
   return (
     <CardWrapper>
@@ -22,34 +20,37 @@ export const MemberCard = () => {
       </Text>
       <CardContent>
         <ImageBox>
-          <EmptyProfileImage>
-            <ProfileIcon />
-          </EmptyProfileImage>
-          {/* {profileImage && (
+          {data?.recommendations[0]?.profileImage ? (
             <ResizedProfileImage
-              src={profileImage}
+              src={data?.recommendations[0]?.profileImage}
               onLoad={() => setIsImageLoaded(true)}
-              hide={!isImageLoaded}
-              width={68}
+              width={108}
             />
-          )} */}
+          ) : (
+            <EmptyProfileImage>
+              <ProfileIcon />
+            </EmptyProfileImage>
+          )}
         </ImageBox>
         <Tag>
           <Circle />
-          디자인
+          {data?.recommendations[0]?.activities[0].part}
         </Tag>
         <InfoBox>
           <Text typography='SUIT_20_SB' color={colors.gray10}>
-            이름
+            {data?.recommendations[0]?.name}
           </Text>
-          <Text typography='SUIT_12_SB' color={colors.gray200}>
-            서울과학기술대학교
-          </Text>
+          {data?.recommendations[0]?.university && (
+            <Text typography='SUIT_12_SB' color={colors.gray200}>
+              {data?.recommendations[0]?.university}
+            </Text>
+          )}
         </InfoBox>
         <BadgeContainer>
-          {Object.entries(mock).map(([key, value]) => (
-            <Badge key={key}>{value}</Badge>
-          ))}
+          {data?.recommendations[0]?.workPreference &&
+            Object.entries(data?.recommendations[0]?.workPreference).map(([key, value]) => (
+              <Badge key={key}>{value}</Badge>
+            ))}
         </BadgeContainer>
         <BackgroundBlur />
       </CardContent>
@@ -102,17 +103,11 @@ const EmptyProfileImage = styled.div`
   height: 108px;
 `;
 
-const ResizedProfileImage = styled(ResizedImage)<{ hide?: boolean }>`
+const ResizedProfileImage = styled(ResizedImage)`
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
-
-  ${(props) =>
-    props.hide &&
-    css`
-      visibility: hidden;
-    `};
 `;
 
 const Tag = styled.div`
@@ -157,7 +152,7 @@ const Badge = styled.div`
   padding: 4px 6px;
   ${fonts.LABEL_11_SB}
 
-  color: ${colors.gray200}
+  color: ${colors.gray200};
 `;
 
 const BackgroundBlur = styled.div`

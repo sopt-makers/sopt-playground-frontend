@@ -13,7 +13,7 @@ export type Question = {
   right: Choice;
 };
 
-export const QUESTIONS: Question[] = [
+export const QUESTIONS = [
   {
     key: 'ideationStyle',
     left: { value: '즉흥', label: '즉흥 아이데이션' },
@@ -39,6 +39,25 @@ export const QUESTIONS: Question[] = [
     left: { value: '직설적', label: '직설적 피드백' },
     right: { value: '돌려서', label: '돌려서 피드백' },
   },
-] as const;
+] as const satisfies readonly Question[];
 
 export type BalanceGameValue = Partial<Record<QuestionKey, ChoiceSide>>;
+
+export type QuestionItem = (typeof QUESTIONS)[number];
+
+export type WorkPreferenceType = {
+  [Q in QuestionItem as Q['key']]: Q['left']['value'] | Q['right']['value'];
+};
+
+export const convertAnswersToApiPayload = (answers: BalanceGameValue) => {
+  const payload: Partial<WorkPreferenceType> = {};
+
+  QUESTIONS.forEach((q) => {
+    const selectedSide = answers[q.key];
+    if (selectedSide) {
+      payload[q.key] = q[selectedSide].value as any;
+    }
+  });
+
+  return payload as WorkPreferenceType;
+};

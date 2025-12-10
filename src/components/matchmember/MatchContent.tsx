@@ -7,7 +7,15 @@ import { Button } from '@sopt-makers/ui';
 import styled from '@emotion/styled';
 import { MemberCard } from '@/components/matchmember/MemberCard';
 import { playgroundLink } from '@/constants/links';
-import { BalanceGameValue, ChoiceSide, QuestionKey, QUESTIONS } from '@/components/matchmember/constant';
+import {
+  BalanceGameValue,
+  ChoiceSide,
+  convertAnswersToApiPayload,
+  QuestionKey,
+  QUESTIONS,
+} from '@/components/matchmember/constant';
+import { usePostWorkPreferenceMutation } from '@/api/endpoint/members/postWorkPreference';
+import Loading from '@/components/common/Loading';
 
 interface MatchContentProps {
   step: number;
@@ -18,6 +26,8 @@ interface MatchContentProps {
 
 export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContentProps) => {
   const router = useRouter();
+  const { mutateAsync, isPending } = usePostWorkPreferenceMutation();
+  const isValid = QUESTIONS.every((q) => value[q.key] !== undefined);
 
   if (step === 1)
     return (
@@ -38,6 +48,17 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
     );
 
   if (step === 2) {
+    const handleSubmit = async () => {
+      if (!isValid || isPending) return;
+
+      try {
+        await mutateAsync(convertAnswersToApiPayload(value));
+        onNextStep();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     return (
       <>
         <Text typography='SUIT_14_SB' color='#FFCA00'>
@@ -71,8 +92,8 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
           ))}
         </QuestionList>
         <Spacing size={24} />
-        <Button size='lg' onClick={onNextStep}>
-          결과 확인하기
+        <Button size='lg' disabled={!isValid || isPending} onClick={handleSubmit}>
+          {isPending ? <Loading color='white' /> : '결과 확인하기'}
         </Button>
       </>
     );

@@ -14,15 +14,15 @@ const HomePopupContainer = () => {
   const hasWorkPreference = myData?.hasWorkPreference;
   const isSpecialPopupPeriod = true; // 타임캡솝, 맴버 매칭 기간
 
+  const { isOpen, onOpen, onClose } = useModalState();
+  useEffect(() => {
+    onOpen();
+  }, []);
+
   if (isSpecialPopupPeriod) {
     if (isLastGeneration || hasWorkPreference) {
       return null;
     }
-
-    const { isOpen, onOpen, onClose } = useModalState();
-    useEffect(() => {
-      onOpen();
-    }, []);
 
     return <MatchMemberModal isOpen={isOpen} onClose={onClose} />;
   }
