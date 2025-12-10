@@ -1,14 +1,10 @@
-import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import * as AspectRatio from '@radix-ui/react-aspect-ratio';
 import { colors } from '@sopt-makers/colors';
-import { IconUser } from '@sopt-makers/icons';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { playgroundLink } from 'playground-common/export';
 import { FC, SyntheticEvent } from 'react';
 
-import ResizedImage from '@/components/common/ResizedImage';
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
@@ -17,6 +13,8 @@ import MessageButton from '@/components/members/main/MemberCard/MessageButton';
 import IconCoffee from '@/public/icons/icon-coffee.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
+import { shimmerEffect } from '../style';
+import MemberProfileImage from './MemberProfileImage';
 interface MemberCardProps {
   memberId: number;
   name: string;
@@ -34,29 +32,8 @@ interface MemberCardProps {
   onMessage?: (e: SyntheticEvent) => void;
 }
 
-const imageVariants = {
-  hover: {
-    scale: 1.1,
-  },
-};
-
 const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
-
-const shimmerAnimation = keyframes`
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-`;
-
-const shimmerEffect = css`
-  background: linear-gradient(110deg, ${colors.gray900} 0%, ${colors.gray800} 50%, ${colors.gray900} 100%);
-  background-size: 200% 100%;
-  animation: ${shimmerAnimation} 2s ease-in-out infinite;
-`;
 
 const MemberCard: FC<MemberCardProps> = ({
   memberId,
@@ -84,28 +61,7 @@ const MemberCard: FC<MemberCardProps> = ({
 
   return (
     <MotionMemberCard whileHover='hover'>
-      <ProfileImage>
-        <StyledImageArea>
-          <StyledAspectRatio ratio={1 / 1}>
-            <ImageHolder variants={imageVariants}>
-              {isLoading ? (
-                <LoadingImage />
-              ) : imageUrl ? (
-                <Image className='image' src={imageUrl} width={196} alt='member_image' />
-              ) : (
-                <>
-                  <Responsive only='desktop'>
-                    <IconUser style={{ width: 115, height: 115, color: `${colors.gray400}`, paddingTop: '10px' }} />
-                  </Responsive>
-                  <Responsive only='mobile'>
-                    <IconUser style={{ width: 60, height: 60, color: `${colors.gray400}`, paddingTop: '10px' }} />
-                  </Responsive>
-                </>
-              )}
-            </ImageHolder>
-          </StyledAspectRatio>
-        </StyledImageArea>
-      </ProfileImage>
+      <MemberProfileImage isLoading={isLoading} imageUrl={imageUrl || ''} />
       {isLoading ? (
         <></>
       ) : (
@@ -157,7 +113,6 @@ const MemberCard: FC<MemberCardProps> = ({
           </Intro>
         )}
       </ContentArea>
-
       {isLoading ? (
         <LoadingSideWrapper only='desktop'>
           <LoadingSideButton />
@@ -205,43 +160,6 @@ const MotionMemberCard = styled(m.div)`
   }
 `;
 
-const StyledAspectRatio = styled(AspectRatio.Root)`
-  width: 100%;
-`;
-
-const ProfileImage = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
-
-const StyledImageArea = styled.div`
-  transform: translateZ(0);
-  border-radius: 50%;
-  background-color: ${colors.gray700};
-  width: 100%;
-  max-width: 196px;
-  overflow: hidden;
-`;
-
-const ImageHolder = styled(m.div)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-`;
-
-const LoadingImage = styled.div`
-  ${shimmerEffect};
-
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-`;
-
 const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
@@ -252,12 +170,6 @@ const ContentArea = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     min-height: unset;
   }
-`;
-
-const Image = styled(ResizedImage)`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 `;
 
 const TitleBox = styled(m.div)`
