@@ -6,26 +6,51 @@ import ProfileIcon from 'public/icons/icon-profile.svg';
 import ResizedImage from '@/components/common/ResizedImage';
 import { useGetRecommendations } from '@/api/endpoint/members/getRecommendations';
 import { useState } from 'react';
+import { Skeleton } from '@sopt-makers/ui';
+import { playgroundLink } from '@/constants/links';
+import { useRouter } from 'next/router';
 
 export const MemberCard = () => {
   const { data, isPending } = useGetRecommendations();
   const [_isImageLoaded, setIsImageLoaded] = useState(false);
+  const router = useRouter();
 
-  if (isPending) return null;
+  if (isPending)
+    return (
+      <CardWrapper>
+        <Text typography='SUIT_12_SB' color='#ADC8E9'>
+          케미 UP!
+        </Text>
+        <CardContent>
+          <Skeleton width={108} height={108} variant='circular' />
+          <Tag>
+            <Skeleton width={80} height={20} />
+          </Tag>
+          <InfoBox>
+            <Skeleton width={40} height={30} /> <Skeleton width={90} height={30} />
+          </InfoBox>
+          <BadgeContainer>
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} width={40} height={22} />
+            ))}
+          </BadgeContainer>
+          <BackgroundBlur />
+        </CardContent>
+      </CardWrapper>
+    );
+
+  const member = data?.recommendations?.[0];
+  if (!member) return null;
 
   return (
-    <CardWrapper>
+    <CardWrapper onClick={() => router.push(playgroundLink.memberDetail(member.id))}>
       <Text typography='SUIT_12_SB' color='#ADC8E9'>
         케미 UP!
       </Text>
       <CardContent>
         <ImageBox>
-          {data?.recommendations[0]?.profileImage ? (
-            <ResizedProfileImage
-              src={data?.recommendations[0]?.profileImage}
-              onLoad={() => setIsImageLoaded(true)}
-              width={108}
-            />
+          {member.profileImage ? (
+            <ResizedProfileImage src={member.profileImage} onLoad={() => setIsImageLoaded(true)} width={108} />
           ) : (
             <EmptyProfileImage>
               <ProfileIcon />
@@ -34,23 +59,21 @@ export const MemberCard = () => {
         </ImageBox>
         <Tag>
           <Circle />
-          {data?.recommendations[0]?.activities[0].part}
+          {member.activities[0].generation}기 {member.activities[0].part}
         </Tag>
         <InfoBox>
           <Text typography='SUIT_20_SB' color={colors.gray10}>
-            {data?.recommendations[0]?.name}
+            {member.name}
           </Text>
-          {data?.recommendations[0]?.university && (
+          {member.university && (
             <Text typography='SUIT_12_SB' color={colors.gray200}>
-              {data?.recommendations[0]?.university}
+              {member.university}
             </Text>
           )}
         </InfoBox>
         <BadgeContainer>
-          {data?.recommendations[0]?.workPreference &&
-            Object.entries(data?.recommendations[0]?.workPreference).map(([key, value]) => (
-              <Badge key={key}>{value}</Badge>
-            ))}
+          {member.workPreference &&
+            Object.entries(member.workPreference).map(([key, value]) => <Badge key={key}>{value}</Badge>)}
         </BadgeContainer>
         <BackgroundBlur />
       </CardContent>

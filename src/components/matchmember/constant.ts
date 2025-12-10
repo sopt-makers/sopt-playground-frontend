@@ -49,13 +49,13 @@ export type WorkPreferenceType = {
   [Q in QuestionItem as Q['key']]: Q['left']['value'] | Q['right']['value'];
 };
 
-export const convertAnswersToApiPayload = (answers: BalanceGameValue) => {
+export const convertAnswersToApiPayload = (answers: BalanceGameValue): WorkPreferenceType => {
   const payload: Partial<WorkPreferenceType> = {};
 
   QUESTIONS.forEach((q) => {
     const selectedSide = answers[q.key];
     if (selectedSide) {
-      payload[q.key] = q[selectedSide].value as any;
+      (payload as Record<QuestionKey, string>)[q.key] = q[selectedSide].value;
     }
   });
 

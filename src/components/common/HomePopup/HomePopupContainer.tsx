@@ -11,7 +11,7 @@ const HomePopupContainer = () => {
   const { data: homePopupData } = useGetHomePopup();
 
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
-  const hasWorkPreference = myData?.hasWorkPreference;
+  const hasWorkPreference = myData?.hasWorkPreference ?? false;
   const isSpecialPopupPeriod = true; // 타임캡솝, 맴버 매칭 기간
 
   const { isOpen, onOpen, onClose } = useModalState();

@@ -39,7 +39,7 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
           찰떡 케미 앱잼 멤버 찾기!
         </Text>
         <Spacing size={20} />
-        <img src={promotion.src} />
+        <img src={promotion.src} alt='찰떡 케미 앱잼 멤버 찾기' />
         <Spacing size={24} />
         <Button size='lg' onClick={onNextStep}>
           5초만에 소울메이트 찾기
