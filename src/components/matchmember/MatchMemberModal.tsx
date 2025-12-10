@@ -66,7 +66,6 @@ const StyledModal = styled(Modal)<{ step: number }>`
   background-color: ${colors.gray900};
   padding-top: 18px;
   width: 375px;
-  height: 526px;
   overflow-y: auto;
 
   ::-webkit-scrollbar {

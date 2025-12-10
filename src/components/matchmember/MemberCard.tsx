@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Skeleton } from '@sopt-makers/ui';
 import { playgroundLink } from '@/constants/links';
 import { useRouter } from 'next/router';
+import NonIcon from '@/public/icons/img/popup/member_match_search.svg';
 
 export const MemberCard = () => {
   const { data, isPending } = useGetRecommendations();
@@ -40,7 +41,15 @@ export const MemberCard = () => {
     );
 
   const member = data?.recommendations?.[0];
-  if (!member) return null;
+  if (!member)
+    return (
+      <NonWrapper>
+        <NonIcon />
+        <Text typography='SUIT_14_SB' color={colors.gray400}>
+          {`아직 나와 맞는 멤버가 나타나지 않았어요.\n다른 멤버들을 살펴볼까요?`}
+        </Text>
+      </NonWrapper>
+    );
 
   return (
     <CardWrapper onClick={() => router.push(playgroundLink.memberDetail(member.id))}>
@@ -187,4 +196,22 @@ const BackgroundBlur = styled.div`
   width: 197px;
   height: 162px;
   filter: blur(50px);
+`;
+
+const NonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: ${colors.gray800};
+  padding: 16px;
+  width: 339px;
+  height: 285px;
+
+  & > span {
+    text-align: center;
+    white-space: pre-wrap;
+  }
 `;
