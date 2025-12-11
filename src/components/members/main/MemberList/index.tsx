@@ -4,7 +4,6 @@ import { colors } from '@sopt-makers/colors';
 import { IconSwitchVertical } from '@sopt-makers/icons';
 import { SearchField } from '@sopt-makers/ui';
 import { debounce, uniq } from 'lodash-es';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, FC, ReactNode, useEffect, useMemo, useState } from 'react';
@@ -242,7 +241,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 <Banner
                   src={'/icons/img/banner_TL_list_mobile.png'}
                   alt='TL List Link'
-                  fill
                   onClick={() => router.push(playgroundLink.teamLeaderList())}
                 />
               </BannerWrapper>
@@ -319,7 +317,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               <Banner
                 src={'/icons/img/banner_TL_list_desktop.png'}
                 alt='TL List Link'
-                fill
                 onClick={() => router.push(playgroundLink.teamLeaderList())}
               />
             </BannerWrapper>
@@ -549,7 +546,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
 export default MemberList;
 
-const Banner = styled(Image)`
+const Banner = styled.img`
   position: relative;
   cursor: pointer;
   width: 100%;
