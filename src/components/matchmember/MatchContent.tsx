@@ -118,7 +118,7 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
       <Spacing size={24} />
       <LoggingClick eventKey='newmember'>
         <Button size='lg' onClick={() => router.push(playgroundLink.memberList())}>
-          나랑 찰떡 멤버 더 찾아보기
+          다른 찰떡 멤버도 확인하기
         </Button>
       </LoggingClick>
     </>

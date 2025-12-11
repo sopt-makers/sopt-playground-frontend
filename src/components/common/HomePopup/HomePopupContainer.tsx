@@ -2,6 +2,7 @@ import { useGetHomePopup } from '@/api/endpoint/homePopup/getHomePopup';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { HomePopup } from '@/components/common/HomePopup';
 import useModalState from '@/components/common/Modal/useModalState';
+import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
 import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { useEffect, useState } from 'react';
@@ -9,26 +10,17 @@ import { useEffect, useState } from 'react';
 const HomePopupContainer = () => {
   const { data: myData } = useGetMemberOfMe();
   const { data: homePopupData } = useGetHomePopup();
-
+  const { isSpecialPopupPeriod, canOpenModal } = useMatchMemberEvent();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
 
-  const hasWorkPreference = myData?.hasWorkPreference ?? false;
-  const isSpecialPopupPeriod = true; // 이벤트용 팝업 오픈
   const { isOpen, onOpen, onClose } = useModalState();
-  const [isQA, setIsQA] = useState(false);
-  const shouldShowMatchModal =
-    isQA ||
-    (myData && isSpecialPopupPeriod && isLastGeneration && !hasWorkPreference && myData.enableWorkPreferenceEvent);
   useEffect(() => {
-    setIsQA(localStorage.getItem('BALANCEGAME_OPEN') === 'true');
-  }, []);
-  useEffect(() => {
-    if (shouldShowMatchModal) {
+    if (canOpenModal && isSpecialPopupPeriod) {
       onOpen();
     }
-  }, [shouldShowMatchModal]);
+  }, [canOpenModal, isSpecialPopupPeriod]);
   if (isSpecialPopupPeriod) {
-    if (!shouldShowMatchModal) return null;
+    if (!canOpenModal) return null;
     return <MatchMemberModal isOpen={isOpen} onClose={onClose} />;
   }
 
