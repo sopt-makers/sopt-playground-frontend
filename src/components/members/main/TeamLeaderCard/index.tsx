@@ -81,10 +81,10 @@ const TeamLeaderCard = ({ name, university, profileImageUrl, activities, introdu
       </ContentWrapper>
       <ButtonWrapper>
         {/* TODO: API 연동 후 버튼 onClick 핸들러 추가 */}
-        <Button variant='fill' theme='black'>
+        <Button variant='fill' theme='black' style={{ width: '100%' }}>
           자기 소개 보기
         </Button>
-        <Button variant='fill' theme='white'>
+        <Button variant='fill' theme='white' style={{ width: '100%' }}>
           경선 자료 보기
         </Button>
       </ButtonWrapper>
