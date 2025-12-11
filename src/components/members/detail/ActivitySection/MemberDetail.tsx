@@ -74,7 +74,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           memberId={memberId}
           isMine={profile.isMine}
         />
-        {(profile.sojuCapacity ||
+        {(profile.sojuCapacity !== undefined && profile.sojuCapacity !== null ||
           profile.mbti ||
           profile.interest ||
           profile.selfIntroduction ||
@@ -104,6 +104,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
             }
             interest={profile.interest}
             selfIntroduction={profile.selfIntroduction}
+            workPreference={profile.workPreference}
           />
         )}
         <ProjectSection profile={profile} memberId={memberId} meId={me?.id} />
