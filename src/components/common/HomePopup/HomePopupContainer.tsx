@@ -4,7 +4,7 @@ import { HomePopup } from '@/components/common/HomePopup';
 import useModalState from '@/components/common/Modal/useModalState';
 import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { LATEST_GENERATION } from '@/constants/generation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const HomePopupContainer = () => {
   const { data: myData } = useGetMemberOfMe();
@@ -15,8 +15,13 @@ const HomePopupContainer = () => {
   const hasWorkPreference = myData?.hasWorkPreference ?? false;
   const isSpecialPopupPeriod = true; // 이벤트용 팝업 오픈
   const { isOpen, onOpen, onClose } = useModalState();
+  const [isQA, setIsQA] = useState(false);
   const shouldShowMatchModal =
-    myData && isSpecialPopupPeriod && isLastGeneration && !hasWorkPreference && myData.enableWorkPreferenceEvent;
+    isQA ||
+    (myData && isSpecialPopupPeriod && isLastGeneration && !hasWorkPreference && myData.enableWorkPreferenceEvent);
+  useEffect(() => {
+    setIsQA(localStorage.getItem('BALANCEGAME_OPEN') === 'true');
+  }, []);
   useEffect(() => {
     if (shouldShowMatchModal) {
       onOpen();

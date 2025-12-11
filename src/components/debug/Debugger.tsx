@@ -5,6 +5,7 @@ import NavigationPanel from '@/components/debug/panels/NavigationPanel';
 import SideBar from '@/components/debug/SideBar';
 import SideToggleButton from '@/components/debug/SideToggleButton';
 import TimecapsopDelteButton from '@/components/resolution/delete';
+import BalanceOpenButton from '@/components/matchmember/BalanceOpenButton';
 
 const Debugger: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +39,7 @@ const Debugger: FC = () => {
         <AccessTokenPanel />
         <NavigationPanel />
         <TimecapsopDelteButton />
+        <BalanceOpenButton />
       </SideBar>
     </>
   );
