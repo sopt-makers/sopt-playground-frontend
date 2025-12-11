@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { useGetRecommendations } from '@/api/endpoint/members/getRecommendations';
 import Responsive from '@/components/common/Responsive/Responsive';
@@ -12,11 +11,9 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const WorkPreferenceMatchedMemberList = () => {
   const { data, isLoading } = useGetRecommendations();
-  // TODO: empty 뷰, 작업선호 입력하지 않은 사람 뷰 추가
   const isEmpty = data?.recommendations.length === 0;
   const hasWorkPreference = data?.hasWorkPreference;
 
-  const queryClient = useQueryClient();
   if (isLoading) {
     return (
       <div
@@ -34,6 +31,97 @@ const WorkPreferenceMatchedMemberList = () => {
     );
   }
   const recommendations = data?.recommendations || [];
+  // const data = {
+  //   hasWorkPreference: true,
+  //   recommendations: [
+  //     {
+  //       id: 101,
+  //       name: '홍길동',
+  //       profileImage: '',
+  //         communicationStyle: '몰아서',
+  //         workPlace: '카공',
+  //         feedbackStyle: '직설적',
+  //       },
+  //       activities: [
+  //         {
+  //           id: 1,
+  //           generation: 37,
+  //           part: '서버',
+  //           team: null,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       id: 102,
+  //       name: '김철수',
+  //       profileImage: '',
+  //       birthday: '1996-07-15',
+  //       university: '연세대학교',
+  //       mbti: 'ISTP',
+  //       workPreference: {
+  //         ideationStyle: '숙고',
+  //         workTime: '밤',
+  //         communicationStyle: '나눠서',
+  //         workPlace: '집콕',
+  //         feedbackStyle: '돌려서',
+  //       },
+  //       activities: [
+  //         {
+  //           id: 2,
+  //           generation: 36,
+  //           part: '웹',
+  //           team: null,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       id: 103,
+  //       name: '이영희',
+  //       profileImage: '',
+  //       birthday: '1998-03-22',
+  //       university: '고려대학교',
+  //       mbti: 'INFJ',
+  //       workPreference: {
+  //         ideationStyle: '숙고',
+  //         workTime: '아침',
+  //         communicationStyle: '나눠서',
+  //         workPlace: '카공',
+  //         feedbackStyle: '돌려서',
+  //       },
+  //       activities: [
+  //         {
+  //           id: 3,
+  //           generation: 35,
+  //           part: '디자인',
+  //           team: null,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       id: 104,
+  //       name: '박민수',
+  //       profileImage: '',
+  //       birthday: '1994-11-05',
+  //       university: '한양대학교',
+  //       mbti: 'ENTJ',
+  //       workPreference: {
+  //         ideationStyle: '즉흥',
+  //         workTime: '밤',
+  //         communicationStyle: '몰아서',
+  //         workPlace: '집콕',
+  //         feedbackStyle: '직설적',
+  //       },
+  //       activities: [
+  //         {
+  //           id: 4,
+  //           generation: 38,
+  //           part: '기획',
+  //           team: 'PM 팀',
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // };
 
   return (
     <StyledContainer>
@@ -49,13 +137,7 @@ const WorkPreferenceMatchedMemberList = () => {
           </Text>
         </Responsive>
         <RefreshIconWrapper>
-          <button
-            onClick={() => {
-              queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
-            }}
-          >
-            <RefreshIcon style={{ width: '24px', height: '24px', flexShrink: 0, cursor: 'pointer' }} />
-          </button>
+          <RefreshIcon style={{ width: '24px', height: '24px', flexShrink: 0 }} />
           <Responsive only='mobile'>
             <MobileTooltipWrapper>
               <Text typography='SUIT_13_M' color={colors.gray50}>

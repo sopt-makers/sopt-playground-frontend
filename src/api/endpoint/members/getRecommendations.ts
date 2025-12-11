@@ -29,21 +29,17 @@ export const getRecommendations = createEndpoint({
             workPlace: z.string(),
             feedbackStyle: z.string(),
           }),
-          activities: z
-            .array(
-              z.object({
-                id: z.number(),
-                generation: z.number(),
-                part: z.string(),
-                team: z.string().nullable(),
-              }),
-            )
-            .optional()
-            .default([]),
+          activities: z.array(
+            z.object({
+              id: z.number(),
+              generation: z.number(),
+              part: z.string(),
+              team: z.string().nullable(),
+            }),
+          ),
         }),
       )
-      .optional()
-      .default([]),
+      .optional(),
   }),
 });
 
