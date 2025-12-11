@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import MatchingMemberCard from './MatchingMemberCard';
+import WorkPreferneceMemberCard from './WorkPreferneceMemberCard';
 
 export default {
-  component: MatchingMemberCard,
+  component: WorkPreferneceMemberCard,
   parameters: {
     layout: 'centered',
   },
@@ -14,9 +14,9 @@ export default {
       </div>
     ),
   ],
-} as Meta<typeof MatchingMemberCard>;
+} as Meta<typeof WorkPreferneceMemberCard>;
 
-type Story = StoryObj<typeof MatchingMemberCard>;
+type Story = StoryObj<typeof WorkPreferneceMemberCard>;
 
 export const Default: Story = {
   args: {

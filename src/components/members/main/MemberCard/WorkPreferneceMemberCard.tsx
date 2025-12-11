@@ -2,9 +2,9 @@ import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconSend, IconUser } from '@sopt-makers/icons';
-import { TextField } from '@sopt-makers/ui';
+import { IconUser } from '@sopt-makers/icons';
 import { m } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -29,8 +29,8 @@ interface WorkPreference {
 interface MemberCardProps {
   id: number;
   name: string;
-  profileImage?: string;
-  university: string;
+  profileImage: string;
+  university: string | null;
   workPreference: WorkPreference;
   activities: Activity[];
   isLoading?: boolean;
@@ -58,13 +58,22 @@ const shimmerEffect = css`
 `;
 
 const GoodBadge = () => {
-  return <StyledGoodBadge>잘 맞을 확률 up💘</StyledGoodBadge>;
+  return <StyledGoodBadge>잘맞아요💘</StyledGoodBadge>;
 };
 
 const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
 
-const MemberCard = ({ name, profileImage, university, workPreference, activities, isLoading }: MemberCardProps) => {
+const WorkPreferenceMemberCard = ({
+  name,
+  profileImage,
+  university,
+  workPreference,
+  activities,
+  isLoading,
+  id,
+}: MemberCardProps) => {
+  const router = useRouter();
   const activityBadges = activities.map((activity) => ({
     content: `${activity.generation}기 ${activity.part}`,
     isActive: activity.generation === LATEST_GENERATION,
@@ -87,7 +96,11 @@ const MemberCard = ({ name, profileImage, university, workPreference, activities
 
   return (
     <MotionMemberCard whileHover='hover'>
-      <Container>
+      <Container
+        onClick={() => {
+          router.push(`/members/${id}`);
+        }}
+      >
         <ProfileImageWrapper>
           {!isLoading && <GoodBadge />}
           <StyledImageArea>
@@ -166,32 +179,40 @@ const MemberCard = ({ name, profileImage, university, workPreference, activities
           )}
         </ContentArea>
       </Container>
-      {isLoading ? (
-        <LoadingTextField />
-      ) : (
-        <TextField rightAddon={<IconSend style={{ height: '24px', width: '24px' }} />} placeholder='우리 친해져요!' />
-      )}
+      {isLoading ? <LoadingTextField /> : <MessageButton>가볍게 인사해볼까요? </MessageButton>}
     </MotionMemberCard>
   );
 };
 
-export default MemberCard;
+export default WorkPreferenceMemberCard;
+
+const MessageButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: ${colors.gray700};
+  padding: 14px 16px;
+  width: 100%;
+  color: ${colors.white};
+  ${fonts.LABEL_14_SB}
+`;
 
 const MotionMemberCard = styled(m.div)`
   display: flex;
   flex-direction: column;
   gap: 16px;
   transition: box-shadow 0.3s;
-  border-radius: 16px;
+  border-radius: 10px;
   background-color: ${colors.gray900};
   cursor: pointer;
-  padding: 16px;
-  width: 335px;
+  padding: 20px 16px;
+  width: 319px;
 `;
 
 const Container = styled.div`
   display: flex;
-  gap: 14px;
+  gap: 12px;
   width: 100%;
   height: 100%;
 `;
@@ -199,16 +220,16 @@ const Container = styled.div`
 const ProfileImageWrapper = styled.div`
   position: relative;
   flex-shrink: 0;
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
 `;
 
 const StyledImageArea = styled.div`
   transform: translateZ(0);
   border-radius: 50%;
   background-color: ${colors.gray700};
-  width: 96px;
-  height: 96px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 `;
 
@@ -333,7 +354,7 @@ const StyledGoodBadge = styled.div`
   z-index: 1;
   border-radius: 16px;
   background-color: #fdbbf9;
-  padding: 6px 8px;
+  padding: 5px 4px 5px 8px;
   white-space: nowrap;
   color: ${colors.black};
 
