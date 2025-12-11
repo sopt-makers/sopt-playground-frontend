@@ -10,16 +10,16 @@ import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 // TODO: API 연동 후 optional 제거
 interface TeamLeaderCardProps {
-  name?: string;
-  university?: string;
-  profileImageUrl?: string;
-  activities?: {
+  name: string;
+  university: string | null;
+  profileImageUrl: string;
+  activities: {
     id: number;
     generation: number;
     part: string;
-    team?: string;
+    team: string | null;
   }[];
-  introduction?: string;
+  introduction: string | null;
   teamLeaderElectionDataUrl?: string;
   notionIntroductionUrl?: string;
   isLoading?: boolean;

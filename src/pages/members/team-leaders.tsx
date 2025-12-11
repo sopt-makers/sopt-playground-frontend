@@ -12,9 +12,12 @@ import TeamLeaderCard from '@/components/members/main/TeamLeaderCard';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 type SelectedPart = 'APP' | 'WEB';
+import { useGetTLMember } from '@/api/endpoint/members/getTeamLeaderMember';
 const cardComponentWidth = 316;
 
 const TeamLeadersPage = () => {
+  const { data: tlMemberList } = useGetTLMember();
+  console.log(tlMemberList);
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
   return (
     <AuthRequired>
@@ -36,71 +39,18 @@ const TeamLeadersPage = () => {
           </ChipWrapper>
 
           <TeamLeaderCardsWrapper>
-            <TeamLeaderCard
-              name='김철수'
-              university='서울대학교'
-              activities={[
-                {
-                  id: 363,
-                  generation: 32,
-                  part: '웹',
-                  team: '미디어팀',
-                },
-                {
-                  id: 364,
-                  generation: 33,
-                  part: '서버',
-                  team: '서버 파트장',
-                },
-                {
-                  id: 365,
-                  generation: 37,
-                  part: '기획',
-                  team: '총무',
-                },
-              ]}
-              introduction='안녕하세요. 김철수입니다. 저는 서울대학교 컴퓨터공학과 졸업생이고, 현재 메이커스 30기 미디어팀 팀장을 맡고 있습니다.'
-            />
-            <TeamLeaderCard
-              name='김철수'
-              university='서울대학교'
-              activities={[
-                {
-                  id: 363,
-                  generation: 30,
-                  part: 'iOS',
-                  team: '미디어팀',
-                },
-                {
-                  id: 364,
-                  generation: 31,
-                  part: '서버',
-                  team: '서버 파트장',
-                },
-                {
-                  id: 365,
-                  generation: 37,
-                  part: '기획',
-                  team: '총무',
-                },
-                {
-                  id: 366,
-                  generation: 32,
-                  part: '웹',
-                },
-                {
-                  id: 367,
-                  generation: 33,
-                  part: '서버',
-                },
-                {
-                  id: 368,
-                  generation: 29,
-                  part: '기획',
-                },
-              ]}
-              introduction='안녕하세요. 김철수입니다. 저는 서울대학교 컴퓨터공학과 졸업생이고, 현재 메이커스 30기 미디어팀 팀장을 맡고 있습니다.'
-            />
+            {tlMemberList
+              ?.filter((tlMember) => tlMember.serviceType === selectedPart)
+              .map((tlMember) => (
+                <TeamLeaderCard
+                  profileImageUrl={tlMember.profileImage}
+                  key={tlMember.id}
+                  name={tlMember.name}
+                  university={tlMember.university}
+                  activities={tlMember.activities}
+                  introduction={tlMember.introduction}
+                />
+              ))}
           </TeamLeaderCardsWrapper>
         </StyledMain>
       </StyledContainer>
