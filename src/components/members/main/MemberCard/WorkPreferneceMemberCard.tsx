@@ -28,8 +28,8 @@ interface WorkPreference {
 interface MemberCardProps {
   id: number;
   name: string;
-  profileImage?: string;
-  university: string;
+  profileImage: string;
+  university: string | null;
   workPreference: WorkPreference;
   activities: Activity[];
   isLoading?: boolean;
