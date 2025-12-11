@@ -16,6 +16,9 @@ import {
 } from '@/components/matchmember/constant';
 import { usePostWorkPreferenceMutation } from '@/api/endpoint/members/postWorkPreference';
 import Loading from '@/components/common/Loading';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 
 interface MatchContentProps {
   step: number;
@@ -28,6 +31,7 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
   const router = useRouter();
   const { mutateAsync, isPending } = usePostWorkPreferenceMutation();
   const isValid = QUESTIONS.every((q) => value[q.key] !== undefined);
+  const { logSubmitEvent } = useEventLogger();
 
   if (step === 1)
     return (
@@ -41,9 +45,11 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
         <Spacing size={20} />
         <img src={promotion.src} alt='찰떡 케미 앱잼 멤버 찾기' />
         <Spacing size={24} />
-        <Button size='lg' onClick={onNextStep}>
-          5초만에 소울메이트 찾기
-        </Button>
+        <LoggingClick eventKey='balancegame'>
+          <Button size='lg' onClick={onNextStep}>
+            5초만에 소울메이트 찾기
+          </Button>
+        </LoggingClick>
       </>
     );
 
@@ -53,6 +59,7 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
 
       try {
         await mutateAsync(convertAnswersToApiPayload(value));
+        logSubmitEvent('balancegame');
         onNextStep();
       } catch (e) {
         console.error(e);
@@ -109,9 +116,11 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
       <Spacing size={20} />
       <MemberCard />
       <Spacing size={24} />
-      <Button size='lg' onClick={() => router.push(playgroundLink.memberList())}>
-        나랑 찰떡 멤버 더 찾아보기
-      </Button>
+      <LoggingClick eventKey='newmember'>
+        <Button size='lg' onClick={() => router.push(playgroundLink.memberList())}>
+          나랑 찰떡 멤버 더 찾아보기
+        </Button>
+      </LoggingClick>
     </>
   );
 };

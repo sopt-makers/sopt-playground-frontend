@@ -10,11 +10,18 @@ import { Skeleton } from '@sopt-makers/ui';
 import { playgroundLink } from '@/constants/links';
 import { useRouter } from 'next/router';
 import NonIcon from '@/public/icons/img/popup/member_match_search.svg';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { useRunOnce } from '@/hooks/useRunOnce';
 
 export const MemberCard = () => {
   const { data, isPending } = useGetRecommendations();
   const [_isImageLoaded, setIsImageLoaded] = useState(false);
   const router = useRouter();
+  const { logImpressionEvent } = useEventLogger();
+
+  useRunOnce(() => {
+    logImpressionEvent('feedCard', { screen: '기획경선 홈팝업' });
+  }, []);
 
   if (isPending)
     return (

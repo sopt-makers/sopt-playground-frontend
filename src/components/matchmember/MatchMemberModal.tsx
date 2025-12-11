@@ -12,6 +12,7 @@ import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import bgImg from '@/public/icons/img/popup/member_match_bg.png';
 import { MatchContent } from '@/components/matchmember/MatchContent';
 import { BalanceGameValue, ChoiceSide, QuestionKey } from '@/components/matchmember/constant';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 
 interface MatchMemberModalProps {
   onClose: () => void;
@@ -37,7 +38,7 @@ const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
   };
 
   return (
-    <>
+    <LoggingImpression eventKey='balancegame'>
       <Responsive only='desktop'>
         <StyledModal isOpen={isOpen} onClose={handleClose} zIndex={zIndex.헤더 + 100} step={step}>
           <StyledContent>
@@ -53,7 +54,7 @@ const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
           </StyledContent>
         </StyledModalBottomSheet>
       </Responsive>
-    </>
+    </LoggingImpression>
   );
 };
 
