@@ -8,23 +8,34 @@ import { textStyles } from '@/styles/typography';
 interface FavorToggleProps<T extends string> {
   left: T;
   right: T;
+  leftLabel?: string;
+  rightLabel?: string;
   selected: T | null;
   onSelect: (value: T | null) => void;
+  buttonWidth?: number;
 }
 
-export default function FavorToggle<T extends string>({ left, right, selected, onSelect }: FavorToggleProps<T>) {
+export default function FavorToggle<T extends string>({
+  left,
+  right,
+  leftLabel,
+  rightLabel,
+  selected,
+  onSelect,
+  buttonWidth = 122,
+}: FavorToggleProps<T>) {
   const handleClick = (target: T) => {
     onSelect(target === selected ? null : target);
   };
 
   return (
     <Container>
-      <Button onClick={() => handleClick(left)} isSelected={left === selected}>
-        {left}
+      <Button onClick={() => handleClick(left)} isSelected={left === selected} buttonWidth={buttonWidth}>
+        {leftLabel || left}
       </Button>
       <Versus>vs</Versus>
-      <Button onClick={() => handleClick(right)} isSelected={right === selected}>
-        {right}
+      <Button onClick={() => handleClick(right)} isSelected={right === selected} buttonWidth={buttonWidth}>
+        {rightLabel || right}
       </Button>
     </Container>
   );
@@ -41,12 +52,12 @@ const Container = styled.div`
   }
 `;
 
-const Button = styled.button<{ isSelected: boolean }>`
+const Button = styled.button<{ isSelected: boolean; buttonWidth: number }>`
   border-radius: 13px;
   background-color: ${({ isSelected }) => (isSelected ? colors.gray10 : colors.gray800)};
   cursor: pointer;
   padding: 14px 0;
-  width: 122px;
+  min-width: ${({ buttonWidth }) => buttonWidth}px;
   color: ${({ isSelected }) => (isSelected ? colors.gray950 : colors.gray300)};
 
   ${textStyles.SUIT_16_SB}

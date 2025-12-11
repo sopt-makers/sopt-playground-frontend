@@ -1,5 +1,14 @@
 import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
-import { FavorPeach, FavorTteokbokki, Mbti } from '@/components/members/upload/FormSection/Tmi/types';
+import {
+  CommunicationStyle,
+  FavorPeach,
+  FavorTteokbokki,
+  FeedbackStyle,
+  IdeationStyle,
+  Mbti,
+  WorkPlace,
+  WorkTime,
+} from '@/components/members/upload/FormSection/Tmi/types';
 
 import { FavorAlcohol, FavorFishBread, FavorMintChocolate, FavorSweetAndSourPork } from './FormSection/Tmi/types';
 
@@ -20,6 +29,13 @@ export interface MemberUploadForm {
   careers: Career[];
   mbti: Mbti | null;
   mbtiDescription: string;
+  workPreference: {
+    ideationStyle: IdeationStyle | null;
+    workTime: WorkTime | null;
+    communicationStyle: CommunicationStyle | null;
+    workPlace: WorkPlace | null;
+    feedbackStyle: FeedbackStyle | null;
+  };
   favor: {
     sweetAndSourPork: FavorSweetAndSourPork | null;
     mintChocolate: FavorMintChocolate | null;
