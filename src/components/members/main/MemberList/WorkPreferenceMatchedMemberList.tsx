@@ -12,6 +12,7 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 const WorkPreferenceMatchedMemberList = () => {
   const { data, isLoading } = useGetRecommendations();
+  // TODO: empty 뷰, 작업선호 입력하지 않은 사람 뷰 추가
   const isEmpty = data?.recommendations.length === 0;
   const hasWorkPreference = data?.hasWorkPreference;
 

@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconUser } from '@sopt-makers/icons';
 import { m } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -70,7 +71,9 @@ const WorkPreferenceMemberCard = ({
   workPreference,
   activities,
   isLoading,
+  id,
 }: MemberCardProps) => {
+  const router = useRouter();
   const activityBadges = activities.map((activity) => ({
     content: `${activity.generation}기 ${activity.part}`,
     isActive: activity.generation === LATEST_GENERATION,
@@ -93,7 +96,11 @@ const WorkPreferenceMemberCard = ({
 
   return (
     <MotionMemberCard whileHover='hover'>
-      <Container>
+      <Container
+        onClick={() => {
+          router.push(`/members/${id}`);
+        }}
+      >
         <ProfileImageWrapper>
           {!isLoading && <GoodBadge />}
           <StyledImageArea>
