@@ -15,7 +15,8 @@ const HomePopupContainer = () => {
   const hasWorkPreference = myData?.hasWorkPreference ?? false;
   const isSpecialPopupPeriod = true; // 이벤트용 팝업 오픈
   const { isOpen, onOpen, onClose } = useModalState();
-  const shouldShowMatchModal = myData && isSpecialPopupPeriod && isLastGeneration && !hasWorkPreference;
+  const shouldShowMatchModal =
+    myData && isSpecialPopupPeriod && isLastGeneration && !hasWorkPreference && myData.enableWorkPreferenceEvent;
   useEffect(() => {
     if (shouldShowMatchModal) {
       onOpen();

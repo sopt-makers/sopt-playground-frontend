@@ -20,6 +20,7 @@ export const getMemberOfMe = createEndpoint({
     editActivitiesAble: z.boolean(),
     hasCoffeeChat: z.boolean(),
     hasWorkPreference: z.boolean(),
+    enableWorkPreferenceEvent: z.boolean(),
   }),
 });
 
