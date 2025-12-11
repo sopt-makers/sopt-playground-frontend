@@ -33,12 +33,14 @@ import {
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import { MemberListOrder } from '@/components/members/main/MemberList/filters/MemberListOrder';
+import WorkPreferenceMatchedMemberList from '@/components/members/main/MemberList/WorkPreferenceMatchedMemberList';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
+import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -239,12 +241,20 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
               <BannerWrapper>
                 <Banner
+                  src={'/icons/img/banner_TL_list_tablet.png'}
+                  alt='TL List Link'
+                  onClick={() => router.push(playgroundLink.teamLeaderList())}
+                />
+                <OnlyMobileBanner
                   src={'/icons/img/banner_TL_list_mobile.png'}
                   alt='TL List Link'
                   onClick={() => router.push(playgroundLink.teamLeaderList())}
                 />
               </BannerWrapper>
 
+              <Responsive only='mobile'>
+                <WorkPreferenceMatchedMemberList />
+              </Responsive>
               <StyledMobileFilterWrapper>
                 <BottomSheetSelect
                   options={GENERATION_OPTIONS}
@@ -322,15 +332,20 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             </BannerWrapper>
           </Responsive>
           <StyledMain>
-            <Responsive
-              only='desktop'
-              css={css`
-                margin-top: 64px;
-                width: 100%;
-              `}
-            >
-              {banner}
+            <Responsive only='desktop'>
+              <WorkPreferenceMatchedMemberList />
             </Responsive>
+            {banner && (
+              <Responsive
+                only='desktop'
+                css={css`
+                  margin-top: 64px;
+                  width: 100%;
+                `}
+              >
+                {banner}
+              </Responsive>
+            )}
 
             <StyledRightWrapper>
               <Responsive only='desktop'>
@@ -552,8 +567,19 @@ const Banner = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+
   @media ${MOBILE_MEDIA_QUERY} {
-    object-fit: contain;
+    border-radius: 10px;
+  }
+  @media ${MB_BIG_MEDIA_QUERY} {
+    display: none;
+  }
+`;
+
+const OnlyMobileBanner = styled(Banner)`
+  display: none;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    display: block;
   }
 `;
 const BannerWrapper = styled.div`
@@ -561,7 +587,7 @@ const BannerWrapper = styled.div`
   width: 100%;
   height: 168px;
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 12px;
+    margin-top: 20px;
     border-radius: 10px;
     height: 192px;
   }
@@ -597,6 +623,7 @@ const StyledRightWrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  margin-top: 68px;
   width: 100%;
 `;
 
@@ -709,7 +736,7 @@ const StyledMobileFilterWrapper = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-top: 16px;
+  margin-top: 20px;
   margin-right: -20px;
   padding-right: 20px;
   overflow-x: auto;
