@@ -96,6 +96,7 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 16px;
+  width: 100%;
 `;
 
 const ButtonWrapper = styled.div`
@@ -187,13 +188,11 @@ const MotionMemberCard = styled(m.div)`
   transition: box-shadow 0.3s;
   border-radius: 16px;
   background-color: ${colors.gray900};
-  padding: 16px 24px;
+  padding: 16px 20px;
   width: 316px;
   @media ${MOBILE_MEDIA_QUERY} {
     position: relative;
-    border-radius: 0;
-    background-color: transparent;
-    padding: 20px 0;
+    border-radius: 10px;
     width: 100%;
 
     &:hover {

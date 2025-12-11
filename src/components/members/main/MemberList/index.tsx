@@ -556,7 +556,6 @@ const Banner = styled(Image)`
   height: 100%;
   object-fit: cover;
   @media ${MOBILE_MEDIA_QUERY} {
-    max-width: 335px;
     object-fit: contain;
   }
 `;

@@ -169,13 +169,10 @@ const TeamLeaderCardsWrapper = styled.div`
 
   @media ${MOBILE_MEDIA_QUERY} {
     grid-template-columns: repeat(1, 1fr);
-    gap: 0 8px;
+    gap: 16px 8px;
     justify-items: stretch;
     margin-top: 0;
-
-    & > div {
-      width: 100%;
-    }
+    width: 100%;
   }
 `;
 
