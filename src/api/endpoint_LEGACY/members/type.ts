@@ -46,6 +46,13 @@ export type ProfileDetail = {
   mbtiDescription: string;
   sojuCapacity: number;
   interest: string;
+  workPreference: {
+    ideationStyle: string;
+    workTime: string;
+    communicationStyle: string;
+    workPlace: string;
+    feedbackStyle: string;
+  };
   userFavor: {
     isPourSauceLover: boolean;
     isHardPeachLover: boolean;
@@ -143,6 +150,13 @@ export interface ProfileRequest {
   mbtiDescription: string | null;
   sojuCapacity: number | null;
   interest: string | null;
+  workPreference: {
+    ideationStyle: string | null;
+    workTime: string | null;
+    communicationStyle: string | null;
+    workPlace: string | null;
+    feedbackStyle: string | null;
+  };
   userFavor: {
     isPourSauceLover: boolean | null;
     isHardPeachLover: boolean | null;
@@ -158,7 +172,7 @@ export interface ProfileRequest {
 export interface PostMemberMessageVariables {
   receiverId: string;
   senderEmail?: string;
-  senderPhone?:string;
+  senderPhone?: string;
   category: string;
   content: string;
 }

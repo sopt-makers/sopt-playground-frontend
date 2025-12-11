@@ -75,6 +75,13 @@ export default function CheckSoptActivity() {
           }
           return newActivity;
         }),
+        workPreference: {
+          ideationStyle: null,
+          workTime: null,
+          communicationStyle: null,
+          workPlace: null,
+          feedbackStyle: null,
+        },
         userFavor:
           profile.userFavor === null
             ? {

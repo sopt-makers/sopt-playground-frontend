@@ -29,14 +29,26 @@ export const putMemberProfile = createEndpoint({
     mbtiDescription: z.string().nullable(),
     sojuCapacity: z.number().nullable(),
     interest: z.string().nullable(),
-    userFavor: z.object({
-      isPourSauceLover: z.boolean().nullable(),
-      isHardPeachLover: z.boolean().nullable(),
-      isMintChocoLover: z.boolean().nullable(),
-      isRedBeanFishBreadLover: z.boolean().nullable(),
-      isSojuLover: z.boolean().nullable(),
-      isRiceTteokLover: z.boolean().nullable(),
-    }),
+    workPreference: z
+      .object({
+        ideationStyle: z.string().nullable(),
+        workTime: z.string().nullable(),
+        communicationStyle: z.string().nullable(),
+        workPlace: z.string().nullable(),
+        feedbackStyle: z.string().nullable(),
+      })
+      .nullable()
+      .optional(),
+    userFavor: z
+      .object({
+        isPourSauceLover: z.boolean().nullable(),
+        isHardPeachLover: z.boolean().nullable(),
+        isMintChocoLover: z.boolean().nullable(),
+        isRedBeanFishBreadLover: z.boolean().nullable(),
+        isSojuLover: z.boolean().nullable(),
+        isRiceTteokLover: z.boolean().nullable(),
+      })
+      .nullable(),
     selfIntroduction: z.string().nullable(),
     activities: z.array(
       z.object({

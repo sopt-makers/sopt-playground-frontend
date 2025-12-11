@@ -46,6 +46,7 @@ export default function MemberUploadPage() {
       mbti,
       sojuCapacity,
       favor,
+      workPreference,
       longIntroduction,
       name,
       profileImage,
@@ -90,6 +91,13 @@ export default function MemberUploadPage() {
         .filter((career) => !Object.values(career).some((item) => item === '')),
       mbti: mbti ? mbti.join('') : mbti,
       sojuCapacity: getSojuCapacityApiValue(sojuCapacity) ?? null,
+      workPreference: {
+        ideationStyle: workPreference.ideationStyle,
+        workTime: workPreference.workTime,
+        communicationStyle: workPreference.communicationStyle,
+        workPlace: workPreference.workPlace,
+        feedbackStyle: workPreference.feedbackStyle,
+      },
       userFavor: {
         isPourSauceLover: favor.sweetAndSourPork === null ? null : favor.sweetAndSourPork === '부먹',
         isHardPeachLover: favor.peach === null ? null : favor.peach === '딱복',

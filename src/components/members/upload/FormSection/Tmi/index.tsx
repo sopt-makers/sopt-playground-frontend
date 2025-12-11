@@ -1,11 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { colors } from '@sopt-makers/colors';
 import { TextArea, TextField } from '@sopt-makers/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
-import Input from '@/components/common/Input';
 import Responsive from '@/components/common/Responsive';
 import { SOJU_CAPACITY_RANGE } from '@/components/members/upload/constants';
 import MemberCountableTextArea from '@/components/members/upload/forms/CountableTextArea';
@@ -16,13 +14,18 @@ import Select from '@/components/members/upload/forms/Select';
 import FavorToggle from '@/components/members/upload/FormSection/Tmi/FavorToggle';
 import MbtiSelector from '@/components/members/upload/FormSection/Tmi/MbtiSelector';
 import {
+  CommunicationStyle,
   FavorAlcohol,
   FavorFishBread,
   FavorMintChocolate,
   FavorPeach,
   FavorSweetAndSourPork,
   FavorTteokbokki,
+  FeedbackStyle,
+  IdeationStyle,
   Mbti,
+  WorkPlace,
+  WorkTime,
 } from '@/components/members/upload/FormSection/Tmi/types';
 import { MemberUploadForm } from '@/components/members/upload/types';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
@@ -115,6 +118,87 @@ export default function TmiFormSection() {
           />
         </Responsive>
       </StyledMemberFormItem>
+
+      <StyledMemberFormItem title='이렇게 일하는 걸 선호해요!'>
+        <WorkPreferenceWrapper>
+          <Controller
+            control={control}
+            name='workPreference.ideationStyle'
+            render={({ field }) => (
+              <FavorToggle<IdeationStyle>
+                left='즉흥'
+                right='숙고'
+                leftLabel='즉흥 아이디에이션'
+                rightLabel='숙고 아이디에이션'
+                selected={field.value}
+                onSelect={field.onChange}
+                buttonWidth={150}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='workPreference.workTime'
+            render={({ field }) => (
+              <FavorToggle<WorkTime>
+                left='아침'
+                right='밤'
+                leftLabel='아침 작업'
+                rightLabel='밤 작업'
+                selected={field.value}
+                onSelect={field.onChange}
+                buttonWidth={150}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='workPreference.communicationStyle'
+            render={({ field }) => (
+              <FavorToggle<CommunicationStyle>
+                left='몰아서'
+                right='나눠서'
+                leftLabel='몰아서 작업'
+                rightLabel='나눠서 작업'
+                selected={field.value}
+                onSelect={field.onChange}
+                buttonWidth={150}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='workPreference.workPlace'
+            render={({ field }) => (
+              <FavorToggle<WorkPlace>
+                left='카공'
+                right='집콕'
+                leftLabel='카공 작업'
+                rightLabel='집콕 작업'
+                selected={field.value}
+                onSelect={field.onChange}
+                buttonWidth={150}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='workPreference.feedbackStyle'
+            render={({ field }) => (
+              <FavorToggle<FeedbackStyle>
+                left='직설적'
+                right='돌려서'
+                leftLabel='직설적 피드백'
+                rightLabel='돌려서 피드백'
+                selected={field.value}
+                onSelect={field.onChange}
+                buttonWidth={150}
+              />
+            )}
+          />
+        </WorkPreferenceWrapper>
+      </StyledMemberFormItem>
+
       <StyledMemberFormItem title='나는 어느 쪽?'>
         <FavorWrapper>
           <Controller
@@ -215,6 +299,19 @@ const StyledTextArea = styled(TextArea)`
   width: 632px;
 
   @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
+`;
+
+const WorkPreferenceWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+  width: 593px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 11px;
     width: 100%;
   }
 `;
