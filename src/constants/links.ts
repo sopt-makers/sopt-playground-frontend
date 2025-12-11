@@ -9,6 +9,7 @@ export const PLAYGROUND_ORIGIN =
 
 export const playgroundLink = {
   memberList: () => `/members`,
+  teamLeaderList: () => `/members/team-leaders`,
   memberDetail: (id: string | number) => `/members/${id}`,
   memberUpload: () => `/members/upload`,
   memberEdit: () => '/members/edit',

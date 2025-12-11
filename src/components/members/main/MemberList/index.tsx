@@ -227,6 +227,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             `}
           >
             <Responsive only='mobile'>{banner}</Responsive>
+
             <Responsive only='mobile' css={{ marginTop: '20px' }}>
               <StyledMemberSearch
                 placeholder='이름, 학교, 회사를 검색해보세요!'
@@ -235,6 +236,15 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 onSubmit={() => handleSearchSubmit(search as string)}
                 onReset={handleSearchReset}
               />
+
+              <BannerWrapper>
+                <Banner
+                  src={'/icons/img/banner_TL_list_mobile.png'}
+                  alt='TL List Link'
+                  onClick={() => router.push(playgroundLink.teamLeaderList())}
+                />
+              </BannerWrapper>
+
               <StyledMobileFilterWrapper>
                 <BottomSheetSelect
                   options={GENERATION_OPTIONS}
@@ -302,6 +312,15 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             </Responsive>
           </div>
+          <Responsive asChild only='desktop'>
+            <BannerWrapper>
+              <Banner
+                src={'/icons/img/banner_TL_list_desktop.png'}
+                alt='TL List Link'
+                onClick={() => router.push(playgroundLink.teamLeaderList())}
+              />
+            </BannerWrapper>
+          </Responsive>
           <StyledMain>
             <Responsive
               only='desktop'
@@ -312,6 +331,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             >
               {banner}
             </Responsive>
+
             <StyledRightWrapper>
               <Responsive only='desktop'>
                 <StyledTopWrapper>
@@ -525,6 +545,27 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 };
 
 export default MemberList;
+
+const Banner = styled.img`
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  @media ${MOBILE_MEDIA_QUERY} {
+    object-fit: contain;
+  }
+`;
+const BannerWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 168px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 12px;
+    border-radius: 10px;
+    height: 192px;
+  }
+`;
 
 const StyledContainer = styled.div`
   display: flex;
