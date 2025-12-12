@@ -17,9 +17,11 @@ import { LoggingImpression } from '@/components/eventLogger/components/LoggingIm
 interface MatchMemberModalProps {
   onClose: () => void;
   isOpen: boolean;
+  handleCloseForToday: () => void;
+  hasWorkPreference?: boolean;
 }
 
-const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
+const MatchMemberModal = ({ onClose, isOpen, handleCloseForToday, hasWorkPreference }: MatchMemberModalProps) => {
   const [step, setStep] = useState(1);
   const [value, setValue] = useState<BalanceGameValue>({});
 
@@ -32,7 +34,11 @@ const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
   };
 
   const handleNextStep = () => {
-    setStep((prev) => prev + 1);
+    if (hasWorkPreference) {
+      setStep(3);
+    } else {
+      setStep((prev) => prev + 1);
+    }
   };
 
   return (
@@ -40,7 +46,14 @@ const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
       <Responsive only='desktop'>
         <StyledModal isOpen={isOpen} onClose={handleClose} zIndex={zIndex.헤더 + 100} step={step}>
           <StyledContent>
-            <MatchContent step={step} value={value} onChange={handleChange} onNextStep={handleNextStep} />
+            <MatchContent
+              step={step}
+              value={value}
+              onChange={handleChange}
+              onNextStep={handleNextStep}
+              handleClose={handleClose}
+              handleCloseForToday={handleCloseForToday}
+            />
           </StyledContent>
         </StyledModal>
       </Responsive>
@@ -48,7 +61,14 @@ const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
       <Responsive only='mobile'>
         <StyledModalBottomSheet isOpen={isOpen} onClose={handleClose} step={step}>
           <StyledContent>
-            <MatchContent step={step} value={value} onChange={handleChange} onNextStep={handleNextStep} />
+            <MatchContent
+              step={step}
+              value={value}
+              onChange={handleChange}
+              onNextStep={handleNextStep}
+              handleClose={handleClose}
+              handleCloseForToday={handleCloseForToday}
+            />
           </StyledContent>
         </StyledModalBottomSheet>
       </Responsive>

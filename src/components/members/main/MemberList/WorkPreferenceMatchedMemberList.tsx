@@ -19,7 +19,7 @@ const WorkPreferenceMatchedMemberList = () => {
   const isEmpty = data?.recommendations && data.recommendations.length === 0;
   const hasWorkPreference = data?.hasWorkPreference;
   const queryClient = useQueryClient();
-  const { canOpenModal } = useMatchMemberEvent();
+  const { canOpenModal, handleCloseForToday } = useMatchMemberEvent();
   const { isOpen, onOpen, onClose } = useModalState();
 
   const handleClickStartButton = () => {
@@ -115,7 +115,7 @@ const WorkPreferenceMatchedMemberList = () => {
           </WorkPreferenceMemberListWrapper>
         )}
       </StyledContainer>
-      <MatchMemberModal isOpen={isOpen} onClose={onClose} />
+      <MatchMemberModal isOpen={isOpen} onClose={onClose} handleCloseForToday={handleCloseForToday} />
     </>
   );
 };
