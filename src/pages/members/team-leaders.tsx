@@ -43,6 +43,7 @@ const TeamLeadersPage = () => {
               ?.filter((tlMember) => tlMember.serviceType === selectedPart)
               .map((tlMember) => (
                 <TeamLeaderCard
+                  id={tlMember.id}
                   profileImageUrl={tlMember.profileImage}
                   key={tlMember.id}
                   name={tlMember.name}

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { Button } from '@sopt-makers/ui';
 import { m } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 import Text from '@/components/common/Text';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
@@ -10,6 +11,7 @@ import { LATEST_GENERATION } from '@/constants/generation';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 // TODO: API 연동 후 optional 제거
 interface TeamLeaderCardProps {
+  id: number;
   name: string;
   university: string | null;
   profileImageUrl: string;
@@ -27,7 +29,8 @@ interface TeamLeaderCardProps {
 const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
 
-const TeamLeaderCard = ({ name, university, profileImageUrl, activities, introduction }: TeamLeaderCardProps) => {
+const TeamLeaderCard = ({ id, name, university, profileImageUrl, activities, introduction }: TeamLeaderCardProps) => {
+  const router = useRouter();
   const sortedGenerationActivities = activities?.sort((a, b) => b.generation - a.generation) || []; // TODO: || [] 테스트 후 삭제
   const badges = sortedGenerationActivities.map((activity) => ({
     content: `${activity.generation}기 ${activity.part}`,
@@ -41,7 +44,12 @@ const TeamLeaderCard = ({ name, university, profileImageUrl, activities, introdu
   );
 
   return (
-    <MotionMemberCard whileHover='hover'>
+    <MotionMemberCard
+      whileHover='hover'
+      onClick={() => {
+        router.push(`/members/${id}`);
+      }}
+    >
       <ContentWrapper>
         <ImageWrapper>
           <MemberProfileImage
@@ -79,7 +87,7 @@ const TeamLeaderCard = ({ name, university, profileImageUrl, activities, introdu
           </Intro>
         </ContentArea>
       </ContentWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper onClick={(e) => e.stopPropagation()}>
         {/* TODO: API 연동 후 버튼 onClick 핸들러 추가 */}
         <Button variant='fill' theme='black' style={{ width: '100%' }}>
           자기 소개 보기
@@ -188,6 +196,7 @@ const MotionMemberCard = styled(m.div)`
   transition: box-shadow 0.3s;
   border-radius: 16px;
   background-color: ${colors.gray900};
+  cursor: pointer;
   padding: 16px 20px;
   width: 316px;
   @media ${MOBILE_MEDIA_QUERY} {

@@ -9,14 +9,12 @@ import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/m
 import WorkPreferenceMemberCard from '@/components/members/main/MemberCard/WorkPreferneceMemberCard';
 import RefreshIcon from '@/public/icons/icon_refresh.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-
 const WorkPreferenceMatchedMemberList = () => {
   const { data, isLoading } = useGetRecommendations();
-  // TODO: empty 뷰, 작업선호 입력하지 않은 사람 뷰 추가
-  const isEmpty = data?.recommendations.length === 0;
+  const isEmpty = data?.recommendations && data.recommendations.length === 0;
   const hasWorkPreference = data?.hasWorkPreference;
-
   const queryClient = useQueryClient();
+
   if (isLoading) {
     return (
       <div
