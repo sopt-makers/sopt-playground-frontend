@@ -1,22 +1,23 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useGetRecommendations } from '@/api/endpoint/members/getRecommendations';
+import { useGetMyWorkPreference } from '@/api/endpoint/members/getWorkPreference';
+import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { convertWorkPreferenceToHashtags } from '@/components/matchmember/constant';
+import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
+import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import WorkPreferenceMemberCard from '@/components/members/main/MemberCard/WorkPreferneceMemberCard';
 import { mockRecommendationsResponse } from '@/components/members/main/MemberList/constants';
 import RefreshIcon from '@/public/icons/icon_refresh.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
-import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
-import useModalState from '@/components/common/Modal/useModalState';
-import { fonts } from '@sopt-makers/fonts';
-import { useGetMyWorkPreference } from '@/api/endpoint/members/getWorkPreference';
-import { convertWorkPreferenceToHashtags } from '@/components/matchmember/constant';
 
 const MyPreferenceSubTitle = () => {
   const { data: myData, isLoading: myLoading } = useGetMyWorkPreference();
@@ -35,11 +36,17 @@ const WorkPreferenceMatchedMemberList = () => {
   const queryClient = useQueryClient();
   const { canOpenModal, handleCloseForToday } = useMatchMemberEvent();
   const { isOpen, onOpen, onClose } = useModalState();
+  const { logClickEvent } = useEventLogger();
 
   const handleClickStartButton = () => {
     if (canOpenModal) {
       onOpen();
     }
+  };
+
+  const handleClickRefresh = () => {
+    logClickEvent('refreshmember');
+    queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
   };
 
   if (isLoading) {
@@ -74,11 +81,7 @@ const WorkPreferenceMatchedMemberList = () => {
               </Text>
             </Responsive>
             <RefreshIconWrapper>
-              <button
-                onClick={() => {
-                  queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
-                }}
-              >
+              <button onClick={handleClickRefresh}>
                 <StyledRefreshIcon />
               </button>
               <Responsive only='mobile'>
