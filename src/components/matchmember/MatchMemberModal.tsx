@@ -20,13 +20,11 @@ interface MatchMemberModalProps {
 }
 
 const MatchMemberModal = ({ onClose, isOpen }: MatchMemberModalProps) => {
-  const router = useRouter();
   const [step, setStep] = useState(1);
   const [value, setValue] = useState<BalanceGameValue>({});
 
   const handleClose = () => {
     onClose();
-    router.push(playgroundLink.feedList());
   };
 
   const handleChange = (key: QuestionKey, side: ChoiceSide) => {

@@ -22,7 +22,7 @@ const WorkPreferenceMatchedMemberList = () => {
   const { canOpenModal } = useMatchMemberEvent();
   const { isOpen, onOpen, onClose } = useModalState();
 
-  const handleClickBanner = () => {
+  const handleClickStartButton = () => {
     if (canOpenModal) {
       onOpen();
     }
@@ -100,9 +100,8 @@ const WorkPreferenceMatchedMemberList = () => {
                   : '나의 작업 스타일을 5초만에 알아보고\n찰떡 케미 앱잼 멤버 확인해요!'}
               </Text>
 
-              {/* TODO: 작업선택 모달 오픈로직 추가 */}
               {!hasWorkPreference && (
-                <Button variant='fill' theme='white' onClick={handleClickBanner}>
+                <Button variant='fill' theme='white' onClick={handleClickStartButton}>
                   작업 스타일 선택하기
                 </Button>
               )}
