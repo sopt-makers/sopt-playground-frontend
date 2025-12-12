@@ -13,21 +13,11 @@ import matchMemberBannerMobile from '@/public/icons/img/banner_balancegame_mobil
 import { playgroundLink } from 'playground-common/export';
 
 const BalanceGameBanner = () => {
-  const { canOpenModal } = useMatchMemberEvent();
-  const { isOpen, onOpen, onClose } = useModalState();
   const router = useRouter();
-
-  const handleClickBanner = () => {
-    if (canOpenModal) {
-      onOpen();
-    } else {
-      router.push(playgroundLink.memberList());
-    }
-  };
 
   return (
     <>
-      <BannerContainer onClick={handleClickBanner}>
+      <BannerContainer onClick={() => router.push(playgroundLink.memberList())}>
         <BannerImageWrapper>
           <Responsive only='desktop'>
             <BannerImage src={matchMemberBannerDesktop.src} alt='매칭 배너 데스크탑' />
@@ -37,7 +27,6 @@ const BalanceGameBanner = () => {
           </Responsive>
         </BannerImageWrapper>
       </BannerContainer>
-      {canOpenModal && <MatchMemberModal isOpen={isOpen} onClose={onClose} />}
     </>
   );
 };
