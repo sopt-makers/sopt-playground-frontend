@@ -5,7 +5,7 @@ import Text from '@/components/common/Text';
 import ProfileIcon from 'public/icons/icon-profile.svg';
 import ResizedImage from '@/components/common/ResizedImage';
 import { useGetRecommendations } from '@/api/endpoint/members/getRecommendations';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Skeleton, useToast } from '@sopt-makers/ui';
 import { playgroundLink } from '@/constants/links';
 import { useRouter } from 'next/router';
@@ -25,16 +25,18 @@ export const MemberCard = () => {
     logImpressionEvent('feedCard', { screen: '기획경선 홈팝업' });
   }, []);
 
-  if (isError) {
-    const status =
-      axios.isAxiosError(error) && !!error.response && typeof error.response.status === 'number'
-        ? error.response.status
-        : null;
+  useEffect(() => {
+    if (isError) {
+      const status =
+        axios.isAxiosError(error) && !!error.response && typeof error.response.status === 'number'
+          ? error.response.status
+          : null;
 
-    const errorMessage =
-      status === 400 ? `밸런스게임을 먼저 진행해주세요` : `데이터를 불러오는 중 오류가 발생했습니다.`;
-    toastOpen({ icon: 'error', content: errorMessage });
-  }
+      const errorMessage =
+        status === 400 ? `밸런스게임을 먼저 진행해주세요` : `데이터를 불러오는 중 오류가 발생했습니다.`;
+      toastOpen({ icon: 'error', content: errorMessage });
+    }
+  }, [isError, error]);
 
   if (isPending)
     return (
