@@ -14,6 +14,20 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
 import useModalState from '@/components/common/Modal/useModalState';
+import { fonts } from '@sopt-makers/fonts';
+import { useGetMyWorkPreference } from '@/api/endpoint/members/getWorkPreference';
+import { convertWorkPreferenceToHashtags } from '@/components/matchmember/constant';
+
+const MyPreferenceSubTitle = () => {
+  const { data: myData, isLoading: myLoading } = useGetMyWorkPreference();
+
+  if (myLoading || !myData?.workPreference) return <></>;
+
+  const tags = convertWorkPreferenceToHashtags(myData.workPreference);
+
+  return <SubTitle>내 작업 스타일은 {tags}</SubTitle>;
+};
+
 const WorkPreferenceMatchedMemberList = () => {
   const { data, isLoading } = useGetRecommendations();
   const isEmpty = data?.recommendations && data.recommendations.length === 0;
@@ -47,41 +61,44 @@ const WorkPreferenceMatchedMemberList = () => {
   return (
     <>
       <StyledContainer>
-        <TitleWrapper>
-          <Responsive only='desktop'>
-            <Text typography='SUIT_20_B' color={colors.gray10}>
-              나와 37기 사람들의 작업 궁합은?
-            </Text>
-          </Responsive>
-          <Responsive only='mobile'>
-            <Text typography='SUIT_16_B' color={colors.gray10}>
-              나와 37기 사람들의 작업 궁합은?
-            </Text>
-          </Responsive>
-          <RefreshIconWrapper>
-            <button
-              onClick={() => {
-                queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
-              }}
-            >
-              <RefreshIcon style={{ width: '24px', height: '24px', flexShrink: 0, cursor: 'pointer' }} />
-            </button>
+        <TitleContainer>
+          <TitleWrapper>
+            <Responsive only='desktop'>
+              <Text typography='SUIT_24_B' color={colors.gray10}>
+                나와 37기 사람들의 작업 궁합은?
+              </Text>
+            </Responsive>
             <Responsive only='mobile'>
-              <MobileTooltipWrapper>
+              <Text typography='SUIT_16_B' color={colors.gray10}>
+                나와 37기 사람들의 작업 궁합은?
+              </Text>
+            </Responsive>
+            <RefreshIconWrapper>
+              <button
+                onClick={() => {
+                  queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
+                }}
+              >
+                <StyledRefreshIcon />
+              </button>
+              <Responsive only='mobile'>
+                <MobileTooltipWrapper>
+                  <Text typography='SUIT_13_M' color={colors.gray50}>
+                    더 많은 멤버를 찾아보세요!
+                  </Text>
+                </MobileTooltipWrapper>
+              </Responsive>
+            </RefreshIconWrapper>
+            <Responsive only='desktop'>
+              <TooltipWrapper>
                 <Text typography='SUIT_13_M' color={colors.gray50}>
                   더 많은 멤버를 찾아보세요!
                 </Text>
-              </MobileTooltipWrapper>
+              </TooltipWrapper>
             </Responsive>
-          </RefreshIconWrapper>
-          <Responsive only='desktop'>
-            <TooltipWrapper>
-              <Text typography='SUIT_13_M' color={colors.gray50}>
-                더 많은 멤버를 찾아보세요!
-              </Text>
-            </TooltipWrapper>
-          </Responsive>
-        </TitleWrapper>
+          </TitleWrapper>
+          <MyPreferenceSubTitle />
+        </TitleContainer>
         {isEmpty ? (
           <EmptyStateWrapper>
             <WorkPreferenceMemberListWrapper isEmpty={isEmpty}>
@@ -100,6 +117,7 @@ const WorkPreferenceMatchedMemberList = () => {
                   : '나의 작업 스타일을 5초만에 알아보고\n찰떡 케미 앱잼 멤버 확인해요!'}
               </Text>
 
+              {/* TODO: 작업선택 모달 오픈로직 추가 */}
               {!hasWorkPreference && (
                 <Button variant='fill' theme='white' onClick={handleClickStartButton}>
                   작업 스타일 선택하기
@@ -174,6 +192,17 @@ const TooltipWrapper = styled.div`
     content: '';
   }
 `;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    gap: 2px;
+  }
+`;
+
 const TitleWrapper = styled.div`
   display: flex;
   gap: 8px;
@@ -242,5 +271,27 @@ const EmptyStateContent = styled.div`
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
+`;
+
+const StyledRefreshIcon = styled(RefreshIcon)`
+  flex-shrink: 0;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+const SubTitle = styled.p`
+  ${fonts.TITLE_18_SB};
+
+  color: ${colors.gray200};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.BODY_13_M};
+  }
 `;
 export default WorkPreferenceMatchedMemberList;

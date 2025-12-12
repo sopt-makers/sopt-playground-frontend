@@ -55,7 +55,7 @@ export const MatchContent = ({
         <Spacing size={24} />
         <LoggingClick eventKey='balancegame'>
           <Button size='lg' onClick={onNextStep}>
-            5초만에 소울메이트 찾기
+            앱잼 소울메이트 보러가기
           </Button>
         </LoggingClick>
         <CloseForTodayButton

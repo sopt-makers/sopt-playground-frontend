@@ -61,3 +61,12 @@ export const convertAnswersToApiPayload = (answers: BalanceGameValue): WorkPrefe
 
   return payload as WorkPreferenceType;
 };
+
+export const convertWorkPreferenceToHashtags = (preference: WorkPreferenceType): string => {
+  if (!preference) return '';
+
+  const tags = Object.values(preference);
+  const hashtagString = tags.map((tag) => `#${tag}`).join(' ');
+
+  return hashtagString;
+};
