@@ -288,6 +288,8 @@ const StyledRefreshIcon = styled(RefreshIcon)`
 const SubTitle = styled.p`
   ${fonts.TITLE_18_SB};
 
+  color: ${colors.gray200};
+
   @media ${MOBILE_MEDIA_QUERY} {
     ${fonts.BODY_13_M};
   }
