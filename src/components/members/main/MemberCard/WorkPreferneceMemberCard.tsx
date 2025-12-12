@@ -35,7 +35,7 @@ interface MemberCardProps {
   profileImage: string;
   university: string | null;
   workPreference: WorkPreference;
-  activities: Activity[];
+  activity: Activity;
   isLoading?: boolean;
 }
 
@@ -64,23 +64,20 @@ const GoodBadge = () => {
   return <StyledGoodBadge>잘맞아요💘</StyledGoodBadge>;
 };
 
-const ELLIPSIS_WIDTH = 26;
-const BADGE_GAP = 4;
-
 const WorkPreferenceMemberCard = ({
   name,
   profileImage,
   university,
   workPreference,
-  activities,
+  activity,
   isLoading,
   id,
 }: MemberCardProps) => {
   const router = useRouter();
-  const activityBadges = activities.map((activity) => ({
+  const activityBadges = {
     content: `${activity.generation}기 ${activity.part}`,
     isActive: activity.generation === LATEST_GENERATION,
-  }));
+  };
 
   const workPreferenceBadges = [
     workPreference.ideationStyle,
@@ -89,13 +86,6 @@ const WorkPreferenceMemberCard = ({
     workPreference.workTime,
     workPreference.feedbackStyle,
   ];
-
-  const {
-    visibleBadges: visibleActivityBadges,
-    isBadgeOverflow: isActivityOverflow,
-    badgeRefs: activityBadgeRefs,
-    badgeWrapperRef: activityBadgeWrapperRef,
-  } = useVisibleBadges(activityBadges, ELLIPSIS_WIDTH, BADGE_GAP);
 
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const { logSubmitEvent } = useEventLogger();
@@ -148,28 +138,15 @@ const WorkPreferenceMemberCard = ({
               </>
             ) : (
               <>
-                {activityBadges.length > 0 && (
-                  <BadgesBox ref={activityBadgeWrapperRef}>
-                    <Badges>
-                      {visibleActivityBadges.map((badge, idx) => (
-                        <Badge
-                          ref={(el: HTMLDivElement) => (activityBadgeRefs.current[idx] = el)}
-                          isActive={badge.isActive}
-                          key={idx}
-                        >
-                          {badge.isActive && <BadgeActiveDot />}
-                          <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
-                            {badge.content}
-                          </Text>
-                        </Badge>
-                      ))}
-                      {isActivityOverflow && (
-                        <Badge isActive={false}>
-                          <Text typography='SUIT_11_SB'>...</Text>
-                        </Badge>
-                      )}
-                    </Badges>
-                  </BadgesBox>
+                {activityBadges && (
+                  <Badges>
+                    <Badge isActive={activityBadges.isActive}>
+                      {activityBadges.isActive && <BadgeActiveDot />}
+                      <Text typography='SUIT_11_SB' color={activityBadges.isActive ? colors.secondary : colors.gray200}>
+                        {activityBadges.content}
+                      </Text>
+                    </Badge>
+                  </Badges>
                 )}
                 <BadgesBox>
                   <Badges>

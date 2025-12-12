@@ -14,14 +14,12 @@ export const mockRecommendationsResponse = {
         workPlace: '카공',
         feedbackStyle: '직설적',
       },
-      activities: [
-        {
-          generation: 37,
-          id: 2,
-          part: '웹',
-          team: null,
-        },
-      ], // optional + default([]) → 빈 배열로 처리
+      activity: {
+        generation: 37,
+        id: 2,
+        part: '웹',
+        team: null,
+      },
     },
     {
       id: 1,
@@ -36,14 +34,12 @@ export const mockRecommendationsResponse = {
         workPlace: '카공',
         feedbackStyle: '직설적',
       },
-      activities: [
-        {
-          generation: 34,
-          id: 1,
-          part: '기획',
-          team: null,
-        },
-      ], // optional + default([]) → 빈 배열로 처리
+      activity: {
+        generation: 34,
+        id: 1,
+        part: '기획',
+        team: null,
+      },
     },
     {
       id: 1,
@@ -58,20 +54,12 @@ export const mockRecommendationsResponse = {
         workPlace: '카공',
         feedbackStyle: '직설적',
       },
-      activities: [
-        {
-          generation: 37,
-          id: 3,
-          part: '안드로이드',
-          team: null,
-        },
-        {
-          generation: 36,
-          id: 4,
-          part: 'iOS',
-          team: null,
-        },
-      ],
+      activity: {
+        generation: 37,
+        id: 3,
+        part: '안드로이드',
+        team: null,
+      },
     },
     {
       id: 1,
@@ -85,14 +73,12 @@ export const mockRecommendationsResponse = {
         workPlace: '카공',
         feedbackStyle: '직설적',
       },
-      activities: [
-        {
-          generation: 35,
-          id: 5,
-          part: '서버',
-          team: null,
-        },
-      ],
+      activity: {
+        generation: 35,
+        id: 5,
+        part: '서버',
+        team: null,
+      },
     },
   ],
 };
