@@ -18,22 +18,30 @@ import { usePostWorkPreferenceMutation } from '@/api/endpoint/members/postWorkPr
 import Loading from '@/components/common/Loading';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 
 interface MatchContentProps {
   step: number;
   value: BalanceGameValue;
   onChange: (key: QuestionKey, side: ChoiceSide) => void;
   onNextStep: () => void;
+  handleClose: () => void;
+  handleCloseForToday: () => void;
 }
 
-export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContentProps) => {
+export const MatchContent = ({
+  step,
+  value,
+  onChange,
+  onNextStep,
+  handleClose,
+  handleCloseForToday,
+}: MatchContentProps) => {
   const router = useRouter();
   const { mutateAsync, isPending } = usePostWorkPreferenceMutation();
   const isValid = QUESTIONS.every((q) => value[q.key] !== undefined);
   const { logSubmitEvent } = useEventLogger();
 
-  if (step === 1)
+  if (step === 1) {
     return (
       <>
         <Text typography='SUIT_14_SB' color='#FFCA00'>
@@ -50,8 +58,19 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
             5초만에 소울메이트 찾기
           </Button>
         </LoggingClick>
+        <CloseForTodayButton
+          onClick={() => {
+            handleCloseForToday();
+            handleClose();
+          }}
+        >
+          <Text typography='SUIT_14_SB' color={colors.gray200}>
+            다시 보지 않기
+          </Text>
+        </CloseForTodayButton>
       </>
     );
+  }
 
   if (step === 2) {
     const handleSubmit = async () => {
@@ -118,7 +137,7 @@ export const MatchContent = ({ step, value, onChange, onNextStep }: MatchContent
       <Spacing size={24} />
       <LoggingClick eventKey='newmember'>
         <Button size='lg' onClick={() => router.push(playgroundLink.memberList())}>
-          나랑 찰떡 멤버 더 찾아보기
+          다른 찰떡 멤버도 확인하기
         </Button>
       </LoggingClick>
     </>
@@ -141,4 +160,10 @@ const QuestionRow = styled.div`
   & > button {
     flex: 1;
   }
+`;
+
+const CloseForTodayButton = styled.button`
+  margin-top: 16px;
+  text-decoration: underline;
+  color: ${colors.gray200};
 `;

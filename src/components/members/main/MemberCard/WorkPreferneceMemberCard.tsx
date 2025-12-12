@@ -2,7 +2,7 @@ import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconUser } from '@sopt-makers/icons';
+import { IconSend, IconUser } from '@sopt-makers/icons';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 
@@ -10,6 +10,9 @@ import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import { LATEST_GENERATION } from '@/constants/generation';
+import useModalState from '@/components/common/Modal/useModalState';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 
 interface Activity {
   id: number;
@@ -32,7 +35,7 @@ interface MemberCardProps {
   profileImage: string;
   university: string | null;
   workPreference: WorkPreference;
-  activities: Activity[];
+  activity: Activity;
   isLoading?: boolean;
 }
 
@@ -61,23 +64,20 @@ const GoodBadge = () => {
   return <StyledGoodBadge>잘맞아요💘</StyledGoodBadge>;
 };
 
-const ELLIPSIS_WIDTH = 26;
-const BADGE_GAP = 4;
-
 const WorkPreferenceMemberCard = ({
   name,
   profileImage,
   university,
   workPreference,
-  activities,
+  activity,
   isLoading,
   id,
 }: MemberCardProps) => {
   const router = useRouter();
-  const activityBadges = activities.map((activity) => ({
+  const activityBadges = {
     content: `${activity.generation}기 ${activity.part}`,
     isActive: activity.generation === LATEST_GENERATION,
-  }));
+  };
 
   const workPreferenceBadges = [
     workPreference.ideationStyle,
@@ -87,100 +87,107 @@ const WorkPreferenceMemberCard = ({
     workPreference.feedbackStyle,
   ];
 
-  const {
-    visibleBadges: visibleActivityBadges,
-    isBadgeOverflow: isActivityOverflow,
-    badgeRefs: activityBadgeRefs,
-    badgeWrapperRef: activityBadgeWrapperRef,
-  } = useVisibleBadges(activityBadges, ELLIPSIS_WIDTH, BADGE_GAP);
+  const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
+  const { logSubmitEvent } = useEventLogger();
 
   return (
-    <MotionMemberCard whileHover='hover'>
-      <Container
-        onClick={() => {
-          router.push(`/members/${id}`);
-        }}
-      >
-        <ProfileImageWrapper>
-          {!isLoading && <GoodBadge />}
-          <StyledImageArea>
-            <ImageHolder variants={imageVariants}>
+    <>
+      <MotionMemberCard whileHover='hover'>
+        <Container
+          onClick={() => {
+            router.push(`/members/${id}`);
+          }}
+        >
+          <ProfileImageWrapper>
+            {!isLoading && <GoodBadge />}
+            <StyledImageArea>
+              <ImageHolder variants={imageVariants}>
+                {isLoading ? (
+                  <LoadingImage />
+                ) : profileImage ? (
+                  <Image className='image' src={profileImage} width={80} alt='member_image' />
+                ) : (
+                  <IconUser style={{ width: 60, height: 60, color: `${colors.gray400}`, paddingTop: '10px' }} />
+                )}
+              </ImageHolder>
+            </StyledImageArea>
+          </ProfileImageWrapper>
+          <ContentArea>
+            <TitleBox>
               {isLoading ? (
-                <LoadingImage />
-              ) : profileImage ? (
-                <Image className='image' src={profileImage} width={80} alt='member_image' />
+                <LoadingTitleBox />
               ) : (
-                <IconUser style={{ width: 60, height: 60, color: `${colors.gray400}`, paddingTop: '10px' }} />
+                <>
+                  <Name>{name}</Name>
+                  <Belongs>{university}</Belongs>
+                </>
               )}
-            </ImageHolder>
-          </StyledImageArea>
-        </ProfileImageWrapper>
-        <ContentArea>
-          <TitleBox>
+            </TitleBox>
             {isLoading ? (
-              <LoadingTitleBox />
+              <>
+                <BadgesBox>
+                  <LoadingBadge />
+                </BadgesBox>
+                <BadgesBox>
+                  <Badges>
+                    <LoadingBadge />
+                    <LoadingBadge />
+                    <LoadingBadge />
+                  </Badges>
+                </BadgesBox>
+              </>
             ) : (
               <>
-                <Name>{name}</Name>
-                <Belongs>{university}</Belongs>
-              </>
-            )}
-          </TitleBox>
-          {isLoading ? (
-            <>
-              <BadgesBox>
-                <LoadingBadge />
-              </BadgesBox>
-              <BadgesBox>
-                <Badges>
-                  <LoadingBadge />
-                  <LoadingBadge />
-                  <LoadingBadge />
-                </Badges>
-              </BadgesBox>
-            </>
-          ) : (
-            <>
-              {activityBadges.length > 0 && (
-                <BadgesBox ref={activityBadgeWrapperRef}>
+                {activityBadges && (
                   <Badges>
-                    {visibleActivityBadges.map((badge, idx) => (
-                      <Badge
-                        ref={(el: HTMLDivElement) => (activityBadgeRefs.current[idx] = el)}
-                        isActive={badge.isActive}
-                        key={idx}
-                      >
-                        {badge.isActive && <BadgeActiveDot />}
-                        <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
-                          {badge.content}
+                    <Badge isActive={activityBadges.isActive}>
+                      {activityBadges.isActive && <BadgeActiveDot />}
+                      <Text typography='SUIT_11_SB' color={activityBadges.isActive ? colors.secondary : colors.gray200}>
+                        {activityBadges.content}
+                      </Text>
+                    </Badge>
+                  </Badges>
+                )}
+                <BadgesBox>
+                  <Badges>
+                    {workPreferenceBadges.map((badge, idx) => (
+                      <Badge isActive={false} key={idx}>
+                        <Text typography='SUIT_11_SB' color={colors.gray200}>
+                          {badge}
                         </Text>
                       </Badge>
                     ))}
-                    {isActivityOverflow && (
-                      <Badge isActive={false}>
-                        <Text typography='SUIT_11_SB'>...</Text>
-                      </Badge>
-                    )}
                   </Badges>
                 </BadgesBox>
-              )}
-              <BadgesBox>
-                <Badges>
-                  {workPreferenceBadges.map((badge, idx) => (
-                    <Badge isActive={false} key={idx}>
-                      <Text typography='SUIT_11_SB' color={colors.gray200}>
-                        {badge}
-                      </Text>
-                    </Badge>
-                  ))}
-                </Badges>
-              </BadgesBox>
-            </>
-          )}
-        </ContentArea>
-      </Container>
-      {isLoading ? <LoadingTextField /> : <MessageButton>가볍게 인사해볼까요? </MessageButton>}
-    </MotionMemberCard>
+              </>
+            )}
+          </ContentArea>
+        </Container>
+        {isLoading ? (
+          <LoadingTextField />
+        ) : (
+          <MessageButton onClick={onOpenMessageModal}>
+            우리 친해져요 <IconSend style={{ width: '16px', height: '16px', marginLeft: '4px' }} />
+          </MessageButton>
+        )}
+      </MotionMemberCard>
+      {isOpenMessageModal && (
+        <MessageModal
+          receiverId={`${id}`}
+          name={name}
+          profileImageUrl={profileImage}
+          onClose={onCloseMessageModal}
+          defaultCategory={MessageCategory.NETWORK}
+          onLog={(options) =>
+            logSubmitEvent('sendMessage', {
+              category: options?.category?.toString() ?? '',
+              receiverId: +id,
+              referral: 'memberDetail',
+            })
+          }
+        />
+      )}
+    </>
   );
 };
 

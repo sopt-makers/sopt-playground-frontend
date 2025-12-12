@@ -75,7 +75,7 @@ export const MemberCard = () => {
         </ImageBox>
         <Tag>
           <Circle />
-          {member.activities[0].generation}기 {member.activities[0].part}
+          {member.activity?.generation}기 {member.activity?.part}
         </Tag>
         <InfoBox>
           <Text typography='SUIT_20_SB' color={colors.gray10}>

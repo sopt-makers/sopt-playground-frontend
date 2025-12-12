@@ -32,14 +32,12 @@ export const Default: Story = {
       workPlace: '카공',
       feedbackStyle: '직설적',
     },
-    activities: [
-      {
-        id: 1,
-        generation: 37,
-        part: '웹',
-        team: null,
-      },
-    ],
+    activity: {
+      id: 1,
+      generation: 37,
+      part: '웹',
+      team: null,
+    },
   },
 };
 
@@ -56,14 +54,12 @@ export const WithoutProfileImage: Story = {
       workPlace: '집',
       feedbackStyle: '완곡한',
     },
-    activities: [
-      {
-        id: 2,
-        generation: 37,
-        part: '디자인',
-        team: null,
-      },
-    ],
+    activity: {
+      id: 2,
+      generation: 37,
+      part: '디자인',
+      team: null,
+    },
   },
 };
 
@@ -81,26 +77,12 @@ export const MultipleActivities: Story = {
       workPlace: '카공',
       feedbackStyle: '직설적',
     },
-    activities: [
-      {
-        id: 3,
-        generation: 37,
-        part: '서버',
-        team: null,
-      },
-      {
-        id: 4,
-        generation: 36,
-        part: '서버',
-        team: null,
-      },
-      {
-        id: 5,
-        generation: 35,
-        part: '기획',
-        team: null,
-      },
-    ],
+    activity: {
+      id: 3,
+      generation: 37,
+      part: '서버',
+      team: null,
+    },
   },
 };
 
@@ -118,14 +100,12 @@ export const OldGeneration: Story = {
       workPlace: '집',
       feedbackStyle: '완곡한',
     },
-    activities: [
-      {
-        id: 6,
-        generation: 35,
-        part: 'iOS',
-        team: null,
-      },
-    ],
+    activity: {
+      id: 6,
+      generation: 35,
+      part: 'iOS',
+      team: null,
+    },
   },
 };
 
@@ -142,7 +122,12 @@ export const Loading: Story = {
       workPlace: '',
       feedbackStyle: '',
     },
-    activities: [],
+    activity: {
+      id: 0,
+      generation: 0,
+      part: '',
+      team: null,
+    },
     isLoading: true,
   },
 };

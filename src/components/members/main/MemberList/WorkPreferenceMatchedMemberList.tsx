@@ -11,11 +11,22 @@ import WorkPreferenceMemberCard from '@/components/members/main/MemberCard/WorkP
 import { mockRecommendationsResponse } from '@/components/members/main/MemberList/constants';
 import RefreshIcon from '@/public/icons/icon_refresh.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
+import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
+import useModalState from '@/components/common/Modal/useModalState';
 const WorkPreferenceMatchedMemberList = () => {
   const { data, isLoading } = useGetRecommendations();
   const isEmpty = data?.recommendations && data.recommendations.length === 0;
   const hasWorkPreference = data?.hasWorkPreference;
   const queryClient = useQueryClient();
+  const { canOpenModal, handleCloseForToday } = useMatchMemberEvent();
+  const { isOpen, onOpen, onClose } = useModalState();
+
+  const handleClickStartButton = () => {
+    if (canOpenModal) {
+      onOpen();
+    }
+  };
 
   if (isLoading) {
     return (
@@ -34,72 +45,78 @@ const WorkPreferenceMatchedMemberList = () => {
   const recommendations = data?.recommendations || [];
 
   return (
-    <StyledContainer>
-      <TitleWrapper>
-        <Responsive only='desktop'>
-          <Text typography='SUIT_20_B' color={colors.gray10}>
-            나와 37기 사람들의 작업 궁합은?
-          </Text>
-        </Responsive>
-        <Responsive only='mobile'>
-          <Text typography='SUIT_16_B' color={colors.gray10}>
-            나와 37기 사람들의 작업 궁합은?
-          </Text>
-        </Responsive>
-        <RefreshIconWrapper>
-          <button
-            onClick={() => {
-              queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
-            }}
-          >
-            <RefreshIcon style={{ width: '24px', height: '24px', flexShrink: 0, cursor: 'pointer' }} />
-          </button>
+    <>
+      <StyledContainer>
+        <TitleWrapper>
+          <Responsive only='desktop'>
+            <Text typography='SUIT_20_B' color={colors.gray10}>
+              나와 37기 사람들의 작업 궁합은?
+            </Text>
+          </Responsive>
           <Responsive only='mobile'>
-            <MobileTooltipWrapper>
+            <Text typography='SUIT_16_B' color={colors.gray10}>
+              나와 37기 사람들의 작업 궁합은?
+            </Text>
+          </Responsive>
+          <RefreshIconWrapper>
+            <button
+              onClick={() => {
+                queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
+              }}
+            >
+              <RefreshIcon style={{ width: '24px', height: '24px', flexShrink: 0, cursor: 'pointer' }} />
+            </button>
+            <Responsive only='mobile'>
+              <MobileTooltipWrapper>
+                <Text typography='SUIT_13_M' color={colors.gray50}>
+                  더 많은 멤버를 찾아보세요!
+                </Text>
+              </MobileTooltipWrapper>
+            </Responsive>
+          </RefreshIconWrapper>
+          <Responsive only='desktop'>
+            <TooltipWrapper>
               <Text typography='SUIT_13_M' color={colors.gray50}>
                 더 많은 멤버를 찾아보세요!
               </Text>
-            </MobileTooltipWrapper>
+            </TooltipWrapper>
           </Responsive>
-        </RefreshIconWrapper>
-        <Responsive only='desktop'>
-          <TooltipWrapper>
-            <Text typography='SUIT_13_M' color={colors.gray50}>
-              더 많은 멤버를 찾아보세요!
-            </Text>
-          </TooltipWrapper>
-        </Responsive>
-      </TitleWrapper>
-      {isEmpty ? (
-        <EmptyStateWrapper>
-          <WorkPreferenceMemberListWrapper isEmpty={isEmpty}>
-            {mockRecommendationsResponse.recommendations.map((recommendation) => (
+        </TitleWrapper>
+        {isEmpty ? (
+          <EmptyStateWrapper>
+            <WorkPreferenceMemberListWrapper isEmpty={isEmpty}>
+              {mockRecommendationsResponse.recommendations.map((recommendation) => (
+                <WorkPreferenceMemberCard key={recommendation.id} {...recommendation} />
+              ))}
+            </WorkPreferenceMemberListWrapper>
+            <EmptyStateContent>
+              <Text
+                typography='SUIT_16_B'
+                color={colors.gray10}
+                style={{ textAlign: 'center', whiteSpace: 'pre-line' }}
+              >
+                {hasWorkPreference
+                  ? '아직 궁합이 맞는 멤버가 없어요.'
+                  : '나의 작업 스타일을 5초만에 알아보고\n찰떡 케미 앱잼 멤버 확인해요!'}
+              </Text>
+
+              {!hasWorkPreference && (
+                <Button variant='fill' theme='white' onClick={handleClickStartButton}>
+                  작업 스타일 선택하기
+                </Button>
+              )}
+            </EmptyStateContent>
+          </EmptyStateWrapper>
+        ) : (
+          <WorkPreferenceMemberListWrapper isEmpty={!!isEmpty}>
+            {recommendations.map((recommendation) => (
               <WorkPreferenceMemberCard key={recommendation.id} {...recommendation} />
             ))}
           </WorkPreferenceMemberListWrapper>
-          <EmptyStateContent>
-            <Text typography='SUIT_16_B' color={colors.gray10} style={{ textAlign: 'center', whiteSpace: 'pre-line' }}>
-              {hasWorkPreference
-                ? '아직 궁합이 맞는 멤버가 없어요.'
-                : '나의 작업 스타일을 5초만에 알아보고\n찰떡 케미 앱잼 멤버 확인해요!'}
-            </Text>
-
-            {/* TODO: 작업선택 모달 오픈로직 추가 */}
-            {!hasWorkPreference && (
-              <Button variant='fill' theme='white'>
-                작업 스타일 선택하기
-              </Button>
-            )}
-          </EmptyStateContent>
-        </EmptyStateWrapper>
-      ) : (
-        <WorkPreferenceMemberListWrapper isEmpty={!!isEmpty}>
-          {recommendations.map((recommendation) => (
-            <WorkPreferenceMemberCard key={recommendation.id} {...recommendation} />
-          ))}
-        </WorkPreferenceMemberListWrapper>
-      )}
-    </StyledContainer>
+        )}
+      </StyledContainer>
+      <MatchMemberModal isOpen={isOpen} onClose={onClose} handleCloseForToday={handleCloseForToday} />
+    </>
   );
 };
 
