@@ -30,7 +30,6 @@ const MyPreferenceSubTitle = () => {
 
 const WorkPreferenceMatchedMemberList = () => {
   const { data, isLoading } = useGetRecommendations();
-  const { data: myData, isLoading: myLoading } = useGetMyWorkPreference();
   const isEmpty = data?.recommendations && data.recommendations.length === 0;
   const hasWorkPreference = data?.hasWorkPreference;
   const queryClient = useQueryClient();
