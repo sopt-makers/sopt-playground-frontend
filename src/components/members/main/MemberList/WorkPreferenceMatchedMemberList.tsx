@@ -15,8 +15,22 @@ import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
 import useModalState from '@/components/common/Modal/useModalState';
 import { fonts } from '@sopt-makers/fonts';
+import { useGetMyWorkPreference } from '@/api/endpoint/members/getWorkPreference';
+import { convertWorkPreferenceToHashtags } from '@/components/matchmember/constant';
+
+const MyPreferenceSubTitle = () => {
+  const { data: myData, isLoading: myLoading } = useGetMyWorkPreference();
+
+  if (myLoading || !myData?.workPreference) return <></>;
+
+  const tags = convertWorkPreferenceToHashtags(myData.workPreference);
+
+  return <SubTitle>내 작업 스타일은 {tags}</SubTitle>;
+};
+
 const WorkPreferenceMatchedMemberList = () => {
   const { data, isLoading } = useGetRecommendations();
+  const { data: myData, isLoading: myLoading } = useGetMyWorkPreference();
   const isEmpty = data?.recommendations && data.recommendations.length === 0;
   const hasWorkPreference = data?.hasWorkPreference;
   const queryClient = useQueryClient();
@@ -84,7 +98,7 @@ const WorkPreferenceMatchedMemberList = () => {
               </TooltipWrapper>
             </Responsive>
           </TitleWrapper>
-          <SubTitle>내 작업 스타일은 #숙고 #아침 #몰아서 #카공 #직설적</SubTitle>
+          <MyPreferenceSubTitle />
         </TitleContainer>
         {isEmpty ? (
           <EmptyStateWrapper>
