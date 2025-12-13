@@ -75,6 +75,7 @@ export default function MemberEditPage() {
       mbti,
       sojuCapacity,
       favor,
+      workPreference,
       longIntroduction,
       name,
       profileImage,
@@ -118,6 +119,13 @@ export default function MemberEditPage() {
         .filter((career) => !Object.values(career).some((item) => item === '')),
       mbti: mbti ? mbti.join('') : mbti,
       sojuCapacity: getSojuCapacityApiValue(sojuCapacity) ?? null,
+      workPreference: {
+        ideationStyle: workPreference.ideationStyle,
+        workTime: workPreference.workTime,
+        communicationStyle: workPreference.communicationStyle,
+        workPlace: workPreference.workPlace,
+        feedbackStyle: workPreference.feedbackStyle,
+      },
       userFavor: {
         isPourSauceLover: favor.sweetAndSourPork === null ? null : favor.sweetAndSourPork === '부먹',
         isHardPeachLover: favor.peach === null ? null : favor.peach === '딱복',
@@ -180,6 +188,46 @@ export default function MemberEditPage() {
         mbtiDescription: myProfile.mbtiDescription,
         sojuCapacity: getSojuCapacityFromApiValue(myProfile.sojuCapacity),
         interest: myProfile.interest,
+        workPreference: myProfile.workPreference
+          ? {
+              ideationStyle:
+                myProfile.workPreference.ideationStyle === '즉흥'
+                  ? '즉흥'
+                  : myProfile.workPreference.ideationStyle === '숙고'
+                  ? '숙고'
+                  : null,
+              workTime:
+                myProfile.workPreference.workTime === '아침'
+                  ? '아침'
+                  : myProfile.workPreference.workTime === '밤'
+                  ? '밤'
+                  : null,
+              communicationStyle:
+                myProfile.workPreference.communicationStyle === '몰아서'
+                  ? '몰아서'
+                  : myProfile.workPreference.communicationStyle === '나눠서'
+                  ? '나눠서'
+                  : null,
+              workPlace:
+                myProfile.workPreference.workPlace === '카공'
+                  ? '카공'
+                  : myProfile.workPreference.workPlace === '집콕'
+                  ? '집콕'
+                  : null,
+              feedbackStyle:
+                myProfile.workPreference.feedbackStyle === '직설적'
+                  ? '직설적'
+                  : myProfile.workPreference.feedbackStyle === '돌려서'
+                  ? '돌려서'
+                  : null,
+            }
+          : {
+              ideationStyle: null,
+              workTime: null,
+              communicationStyle: null,
+              workPlace: null,
+              feedbackStyle: null,
+            },
         favor: myProfile.userFavor
           ? {
               sweetAndSourPork:

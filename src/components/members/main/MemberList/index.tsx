@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { Profile } from '@/api/endpoint_LEGACY/members/type';
 import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import EmptyView from '@/components/common/EmptyView';
@@ -33,12 +34,14 @@ import {
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import { MemberListOrder } from '@/components/members/main/MemberList/filters/MemberListOrder';
+import WorkPreferenceMatchedMemberList from '@/components/members/main/MemberList/WorkPreferenceMatchedMemberList';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { usePageQueryParams } from '@/hooks/usePageQueryParams';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
+import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { textStyles } from '@/styles/typography';
 
@@ -87,9 +90,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const { addQueryParamsToUrl } = usePageQueryParams({
     skipNull: true,
   });
+  const { data: memberOfMeData } = useGetMemberOfMe();
 
   const isEmpty = memberProfileData?.pages[0].members.length === 0;
-
+  const canViewWorkPreference = memberOfMeData?.generation === LATEST_GENERATION;
   const profiles = useMemo(
     () =>
       memberProfileData?.pages.map((page) =>
@@ -227,6 +231,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             `}
           >
             <Responsive only='mobile'>{banner}</Responsive>
+
             <Responsive only='mobile' css={{ marginTop: '20px' }}>
               <StyledMemberSearch
                 placeholder='이름, 학교, 회사를 검색해보세요!'
@@ -235,6 +240,26 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 onSubmit={() => handleSearchSubmit(search as string)}
                 onReset={handleSearchReset}
               />
+
+              {/* TODO: TL리스트 추후 배포 */}
+              {/* <BannerWrapper>
+                <Banner
+                  src={'/icons/img/banner_TL_list_tablet.png'}
+                  alt='TL List Link'
+                  onClick={() => router.push(playgroundLink.teamLeaderList())}
+                />
+                <OnlyMobileBanner
+                  src={'/icons/img/banner_TL_list_mobile.png'}
+                  alt='TL List Link'
+                  onClick={() => router.push(playgroundLink.teamLeaderList())}
+                />
+              </BannerWrapper> */}
+
+              {canViewWorkPreference && (
+                <Responsive only='mobile'>
+                  <WorkPreferenceMatchedMemberList />
+                </Responsive>
+              )}
               <StyledMobileFilterWrapper>
                 <BottomSheetSelect
                   options={GENERATION_OPTIONS}
@@ -302,16 +327,33 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             </Responsive>
           </div>
+          {/* <Responsive asChild only='desktop'>
+            <BannerWrapper>
+              <Banner
+                src={'/icons/img/banner_TL_list_desktop.png'}
+                alt='TL List Link'
+                onClick={() => router.push(playgroundLink.teamLeaderList())}
+              />
+            </BannerWrapper>
+          </Responsive> */}
           <StyledMain>
-            <Responsive
-              only='desktop'
-              css={css`
-                margin-top: 64px;
-                width: 100%;
-              `}
-            >
-              {banner}
-            </Responsive>
+            {canViewWorkPreference && (
+              <Responsive only='desktop'>
+                <WorkPreferenceMatchedMemberList />
+              </Responsive>
+            )}
+            {banner && (
+              <Responsive
+                only='desktop'
+                css={css`
+                  margin-top: 64px;
+                  width: 100%;
+                `}
+              >
+                {banner}
+              </Responsive>
+            )}
+
             <StyledRightWrapper>
               <Responsive only='desktop'>
                 <StyledTopWrapper>
@@ -526,6 +568,38 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
 export default MemberList;
 
+const Banner = styled.img`
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    border-radius: 10px;
+  }
+  @media ${MB_BIG_MEDIA_QUERY} {
+    display: none;
+  }
+`;
+
+const OnlyMobileBanner = styled(Banner)`
+  display: none;
+  @media ${MB_BIG_MEDIA_QUERY} {
+    display: block;
+  }
+`;
+const BannerWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 168px;
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 20px;
+    border-radius: 10px;
+    height: 192px;
+  }
+`;
+
 const StyledContainer = styled.div`
   display: flex;
   flex: 1;
@@ -556,6 +630,7 @@ const StyledRightWrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  margin-top: 68px;
   width: 100%;
 `;
 
@@ -668,7 +743,7 @@ const StyledMobileFilterWrapper = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-top: 16px;
+  margin-top: 20px;
   margin-right: -20px;
   padding-right: 20px;
   overflow-x: auto;

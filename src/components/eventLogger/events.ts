@@ -212,6 +212,10 @@ export interface ClickEvents {
   // 투표
   vote: Vote;
   voteResult: Vote;
+
+  // 기획경선 특집
+  balancegame: undefined;
+  newmember: undefined;
 }
 
 export interface SubmitEvents {
@@ -274,6 +278,9 @@ export interface SubmitEvents {
   luckyTimeCapsule: {
     event_winner: boolean;
   };
+
+  // 기획경선 특집
+  balancegame: undefined;
 }
 
 export interface PageViewEvents {
@@ -292,9 +299,13 @@ export interface PageViewEvents {
 
 export interface ImpressionEvents {
   feedCard: {
-    feedId: string;
-    category: string;
+    feedId?: string;
+    category?: string;
+    screen?: '멤버' | '기획경선 홈팝업' | 'TL리스트';
   };
   ads: { bannerId: number; pageUrl: string; timeStamp: string };
   adPopup: undefined;
+
+  // 기획경선 특집
+  balancegame: undefined;
 }

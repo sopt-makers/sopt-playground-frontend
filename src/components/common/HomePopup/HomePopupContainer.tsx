@@ -1,13 +1,35 @@
 import { useGetHomePopup } from '@/api/endpoint/homePopup/getHomePopup';
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { HomePopup } from '@/components/common/HomePopup';
+import useModalState from '@/components/common/Modal/useModalState';
+import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
+import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { LATEST_GENERATION } from '@/constants/generation';
+import { useEffect, useState } from 'react';
 
 const HomePopupContainer = () => {
   const { data: myData } = useGetMemberOfMe();
   const { data: homePopupData } = useGetHomePopup();
-
+  const { isSpecialPopupPeriod, canOpenModal, handleCloseForToday } = useMatchMemberEvent();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
+
+  const { isOpen, onOpen, onClose } = useModalState();
+  useEffect(() => {
+    if (canOpenModal && isSpecialPopupPeriod) {
+      onOpen();
+    }
+  }, [canOpenModal, isSpecialPopupPeriod]);
+  if (isSpecialPopupPeriod) {
+    if (!canOpenModal) return null;
+    return (
+      <MatchMemberModal
+        isOpen={isOpen}
+        onClose={onClose}
+        handleCloseForToday={handleCloseForToday}
+        hasWorkPreference={myData?.hasWorkPreference}
+      />
+    );
+  }
 
   if (!homePopupData || typeof homePopupData === 'string') {
     return null;

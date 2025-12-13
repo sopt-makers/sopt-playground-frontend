@@ -49,6 +49,14 @@ type BalanceGame = {
   isRiceTteokLover: boolean | null;
 } | null;
 
+type WorkPreference = {
+  ideationStyle: string;
+  workTime: string;
+  communicationStyle: string;
+  workPlace: string;
+  feedbackStyle: string;
+} | null;
+
 interface InterestSectionProps {
   mbti: {
     name?: string;
@@ -56,12 +64,21 @@ interface InterestSectionProps {
   };
   sojuCapacity?: number;
   interest?: string;
+  workPreference?: WorkPreference;
   balanceGame: BalanceGame;
   selfIntroduction?: string;
 }
-const InterestSection: FC<InterestSectionProps> = ({ mbti, sojuCapacity, balanceGame, interest, selfIntroduction }) => {
+const InterestSection: FC<InterestSectionProps> = ({
+  mbti,
+  sojuCapacity,
+  balanceGame,
+  interest,
+  workPreference,
+  selfIntroduction,
+}) => {
   const balanceGameResults = getBalanceGameResults(balanceGame);
   const isBalanceGameAvailable = balanceGame && Object.values(balanceGame).some((value) => value !== null);
+  const isWorkPreferenceAvailable = workPreference && Object.values(workPreference).some((value) => value !== null);
 
   return (
     <StyledMemberDetailSection>
@@ -71,7 +88,7 @@ const InterestSection: FC<InterestSectionProps> = ({ mbti, sojuCapacity, balance
           <MBTIDescription>{mbti.description ?? ''}</MBTIDescription>
         </InfoItem>
       )}
-      {(sojuCapacity || sojuCapacity === 0) && (
+      {sojuCapacity !== undefined && sojuCapacity !== null && (
         <InfoItem label='소주, 어디까지 마셔봤니?'>
           <Description>{getSojuCapacityLabel(sojuCapacity)}</Description>
         </InfoItem>
@@ -79,6 +96,19 @@ const InterestSection: FC<InterestSectionProps> = ({ mbti, sojuCapacity, balance
       {interest && (
         <InfoItem label='저는 요새 이런 걸 좋아해요!'>
           <Description>{interest}</Description>
+        </InfoItem>
+      )}
+      {isWorkPreferenceAvailable && (
+        <InfoItem label='이렇게 일하는 걸 선호해요!'>
+          <BalanceGameWrapper>
+            {workPreference?.ideationStyle && <BalanceGameItem>{workPreference.ideationStyle}</BalanceGameItem>}
+            {workPreference?.workTime && <BalanceGameItem>{workPreference.workTime}</BalanceGameItem>}
+            {workPreference?.communicationStyle && (
+              <BalanceGameItem>{workPreference.communicationStyle}</BalanceGameItem>
+            )}
+            {workPreference?.workPlace && <BalanceGameItem>{workPreference.workPlace}</BalanceGameItem>}
+            {workPreference?.feedbackStyle && <BalanceGameItem>{workPreference.feedbackStyle}</BalanceGameItem>}
+          </BalanceGameWrapper>
         </InfoItem>
       )}
       {isBalanceGameAvailable && (
