@@ -9,6 +9,7 @@ import { useGetMyWorkPreference } from '@/api/endpoint/members/getWorkPreference
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { convertWorkPreferenceToHashtags } from '@/components/matchmember/constant';
 import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
 import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
@@ -36,11 +37,17 @@ const WorkPreferenceMatchedMemberList = () => {
   const queryClient = useQueryClient();
   const { canOpenModal, handleCloseForToday } = useMatchMemberEvent();
   const { isOpen, onOpen, onClose } = useModalState();
+  const { logClickEvent } = useEventLogger();
 
   const handleClickStartButton = () => {
     if (canOpenModal) {
       onOpen();
     }
+  };
+
+  const handleClickRefresh = () => {
+    logClickEvent('refreshmember');
+    queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
   };
 
   if (isLoading) {

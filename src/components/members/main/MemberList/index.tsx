@@ -217,7 +217,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   }, 0);
 
   const handleClickCard = (profile: Profile) => {
-    logClickEvent('memberCard', { id: profile.id, name: profile.name });
+    logClickEvent('memberCard', { id: profile.id, name: profile.name, screen: 'member' });
   };
 
   return (
@@ -246,12 +246,18 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 <Banner
                   src={'/icons/img/banner_TL_list_tablet.png'}
                   alt='TL List Link'
-                  onClick={() => router.push(playgroundLink.teamLeaderList())}
+                  onClick={() => {
+                    logClickEvent('TL_list');
+                    router.push(playgroundLink.teamLeaderList());
+                  }}
                 />
                 <OnlyMobileBanner
                   src={'/icons/img/banner_TL_list_mobile.png'}
                   alt='TL List Link'
-                  onClick={() => router.push(playgroundLink.teamLeaderList())}
+                  onClick={() => {
+                    logClickEvent('TL_list');
+                    router.push(playgroundLink.teamLeaderList());
+                  }}
                 />
               </BannerWrapper> */}
 
@@ -332,7 +338,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               <Banner
                 src={'/icons/img/banner_TL_list_desktop.png'}
                 alt='TL List Link'
-                onClick={() => router.push(playgroundLink.teamLeaderList())}
+                onClick={() => {
+                  logClickEvent('TL_list');
+                  router.push(playgroundLink.teamLeaderList());
+                }}
               />
             </BannerWrapper>
           </Responsive> */}
