@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import useModalState from '@/components/common/Modal/useModalState';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
@@ -88,16 +89,22 @@ const WorkPreferenceMemberCard = ({
   ];
 
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
-  const { logSubmitEvent } = useEventLogger();
+  const { logClickEvent, logSubmitEvent } = useEventLogger();
+
+  const handleClickMessage = () => {
+    logClickEvent('messageBadge', { isRecommended: true });
+    onOpenMessageModal();
+  };
+
+  const handleClickCard = () => {
+    logClickEvent('memberCard', { id, name, screen: 'recommended' });
+    router.push(`/members/${id}`);
+  };
 
   return (
-    <>
+    <LoggingImpression eventKey='memberCard' param={{ id, name, screen: 'recommended' }}>
       <MotionMemberCard whileHover='hover'>
-        <Container
-          onClick={() => {
-            router.push(`/members/${id}`);
-          }}
-        >
+        <Container onClick={handleClickCard}>
           <ProfileImageWrapper>
             {!isLoading && <GoodBadge />}
             <StyledImageArea>
@@ -185,7 +192,7 @@ const WorkPreferenceMemberCard = ({
           }
         />
       )}
-    </>
+    </LoggingImpression>
   );
 };
 

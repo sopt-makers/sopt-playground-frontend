@@ -1,12 +1,14 @@
-import { useRouter } from 'next/router';
-import Text from '@/components/common/Text';
-import { colors } from '@sopt-makers/colors';
-import { Spacing } from '@toss/emotion-utils';
-import promotion from '@/public/icons/img/popup/member_match.png';
-import { Button } from '@sopt-makers/ui';
 import styled from '@emotion/styled';
-import { MemberCard } from '@/components/matchmember/MemberCard';
-import { playgroundLink } from '@/constants/links';
+import { colors } from '@sopt-makers/colors';
+import { Button } from '@sopt-makers/ui';
+import { Spacing } from '@toss/emotion-utils';
+import { useRouter } from 'next/router';
+
+import { usePostWorkPreferenceMutation } from '@/api/endpoint/members/postWorkPreference';
+import Loading from '@/components/common/Loading';
+import Text from '@/components/common/Text';
+import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import {
   BalanceGameValue,
   ChoiceSide,
@@ -14,10 +16,9 @@ import {
   QuestionKey,
   QUESTIONS,
 } from '@/components/matchmember/constant';
-import { usePostWorkPreferenceMutation } from '@/api/endpoint/members/postWorkPreference';
-import Loading from '@/components/common/Loading';
-import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { MemberCard } from '@/components/matchmember/MemberCard';
+import { playgroundLink } from '@/constants/links';
+import promotion from '@/public/icons/img/popup/member_match.png';
 
 interface MatchContentProps {
   step: number;
@@ -124,6 +125,15 @@ export const MatchContent = ({
       </>
     );
   }
+
+  const handleNavigateToMemberList = () => {
+    if (router.pathname === playgroundLink.memberList()) {
+      handleClose();
+    } else {
+      router.push(playgroundLink.memberList());
+    }
+  };
+
   return (
     <>
       <Text typography='SUIT_20_B' color={colors.gray10}>
@@ -136,7 +146,7 @@ export const MatchContent = ({
       <MemberCard />
       <Spacing size={24} />
       <LoggingClick eventKey='newmember'>
-        <Button size='lg' onClick={() => router.push(playgroundLink.memberList())}>
+        <Button size='lg' onClick={handleNavigateToMemberList}>
           다른 찰떡 멤버도 확인하기
         </Button>
       </LoggingClick>

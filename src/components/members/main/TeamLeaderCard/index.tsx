@@ -5,6 +5,8 @@ import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 
 import Text from '@/components/common/Text';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import MemberProfileImage from '@/components/members/main/MemberCard/MemberProfileImage';
 import { LATEST_GENERATION } from '@/constants/generation';
@@ -31,6 +33,7 @@ const BADGE_GAP = 4;
 
 const TeamLeaderCard = ({ id, name, university, profileImageUrl, activities, introduction }: TeamLeaderCardProps) => {
   const router = useRouter();
+  const { logClickEvent } = useEventLogger();
   const sortedGenerationActivities = activities?.sort((a, b) => b.generation - a.generation) || []; // TODO: || [] 테스트 후 삭제
   const badges = sortedGenerationActivities.map((activity) => ({
     content: `${activity.generation}기 ${activity.part}`,
@@ -43,60 +46,75 @@ const TeamLeaderCard = ({ id, name, university, profileImageUrl, activities, int
     BADGE_GAP,
   );
 
-  return (
-    <MotionMemberCard
-      whileHover='hover'
-      onClick={() => {
-        router.push(`/members/${id}`);
-      }}
-    >
-      <ContentWrapper>
-        <ImageWrapper>
-          <MemberProfileImage
-            isLoading={false}
-            imageUrl='https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//dev/image/project/d8dc321d-ce24-43cc-a20b-9876e6046bf3-고양이츄릅.jpeg'
-          />
-        </ImageWrapper>
-        <ContentArea>
-          <TitleBox>
-            <Text typography='SUIT_18_SB'>{name}</Text>
-            <Text typography='SUIT_12_SB' color={colors.gray200}>
-              {university}
-            </Text>
-          </TitleBox>
+  const handleClickIntroduce = () => {
+    logClickEvent('TL_introduce');
+    // TODO: API 연동 후 자기 소개 페이지 이동 로직 추가
+  };
 
-          <BadgesBox ref={badgeWrapperRef}>
-            <Badges>
-              {visibleBadges?.map((badge, idx) => (
-                <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} key={idx} isActive={badge.isActive}>
-                  {badge.isActive && <BadgeActiveDot />}
-                  <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
-                    {badge.content}
-                  </Text>
-                </Badge>
-              ))}
-              {isBadgeOverflow && (
-                <Badge isActive={false}>
-                  <Text typography='SUIT_11_SB'>...</Text>
-                </Badge>
-              )}
-            </Badges>
-          </BadgesBox>
-          <Intro typography='SUIT_13_M' color={colors.gray200}>
-            {introduction}
-          </Intro>
-        </ContentArea>
-      </ContentWrapper>
-      <ButtonWrapper onClick={(e) => e.stopPropagation()}>
-        {/* TODO: API 연동 후 버튼 onClick 핸들러 추가 */}
-        <Button variant='fill' theme='black' style={{ width: '100%' }}>
-          자기 소개 보기
-        </Button>
-        <Button variant='fill' theme='white' style={{ width: '100%' }}>
-          경선 자료 보기
-        </Button>
-      </ButtonWrapper>
-    </MotionMemberCard>
+  const handleClickAppjam = () => {
+    logClickEvent('TL_appjam');
+    // TODO: API 연동 후 경선 자료 페이지 이동 로직 추가
+  };
+
+  const handleClickCard = () => {
+    logClickEvent('memberCard', { id, name, screen: 'TL' });
+    router.push(`/members/${id}`);
+  };
+
+  return (
+    <LoggingImpression eventKey='memberCard' param={{ id, name, screen: 'TL' }}>
+      <MotionMemberCard whileHover='hover' onClick={handleClickCard}>
+        <ContentWrapper>
+          <ImageWrapper>
+            <MemberProfileImage
+              isLoading={false}
+              imageUrl='https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//dev/image/project/d8dc321d-ce24-43cc-a20b-9876e6046bf3-고양이츄릅.jpeg'
+            />
+          </ImageWrapper>
+          <ContentArea>
+            <TitleBox>
+              <Text typography='SUIT_18_SB'>{name}</Text>
+              <Text typography='SUIT_12_SB' color={colors.gray200}>
+                {university}
+              </Text>
+            </TitleBox>
+
+            <BadgesBox ref={badgeWrapperRef}>
+              <Badges>
+                {visibleBadges?.map((badge, idx) => (
+                  <Badge
+                    ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)}
+                    key={idx}
+                    isActive={badge.isActive}
+                  >
+                    {badge.isActive && <BadgeActiveDot />}
+                    <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                      {badge.content}
+                    </Text>
+                  </Badge>
+                ))}
+                {isBadgeOverflow && (
+                  <Badge isActive={false}>
+                    <Text typography='SUIT_11_SB'>...</Text>
+                  </Badge>
+                )}
+              </Badges>
+            </BadgesBox>
+            <Intro typography='SUIT_13_M' color={colors.gray200}>
+              {introduction}
+            </Intro>
+          </ContentArea>
+        </ContentWrapper>
+        <ButtonWrapper onClick={(e) => e.stopPropagation()}>
+          <Button variant='fill' theme='black' style={{ width: '100%' }} onClick={handleClickIntroduce}>
+            자기 소개 보기
+          </Button>
+          <Button variant='fill' theme='white' style={{ width: '100%' }} onClick={handleClickAppjam}>
+            경선 자료 보기
+          </Button>
+        </ButtonWrapper>
+      </MotionMemberCard>
+    </LoggingImpression>
   );
 };
 
