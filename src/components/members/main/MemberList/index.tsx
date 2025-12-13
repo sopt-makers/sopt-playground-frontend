@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, FC, ReactNode, useEffect, useMemo, useState } from 'react';
 
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { Profile } from '@/api/endpoint_LEGACY/members/type';
 import BottomSheetSelect from '@/components/coffeechat/upload/CoffeechatForm/BottomSheetSelect';
 import EmptyView from '@/components/common/EmptyView';
@@ -89,9 +90,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const { addQueryParamsToUrl } = usePageQueryParams({
     skipNull: true,
   });
+  const { data: memberOfMeData } = useGetMemberOfMe();
 
   const isEmpty = memberProfileData?.pages[0].members.length === 0;
-
+  const canViewWorkPreference = memberOfMeData?.generation === LATEST_GENERATION;
   const profiles = useMemo(
     () =>
       memberProfileData?.pages.map((page) =>
@@ -239,7 +241,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 onReset={handleSearchReset}
               />
 
-              <BannerWrapper>
+              {/* TODO: TL리스트 추후 배포 */}
+              {/* <BannerWrapper>
                 <Banner
                   src={'/icons/img/banner_TL_list_tablet.png'}
                   alt='TL List Link'
@@ -256,11 +259,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     router.push(playgroundLink.teamLeaderList());
                   }}
                 />
-              </BannerWrapper>
+              </BannerWrapper> */}
 
-              <Responsive only='mobile'>
-                <WorkPreferenceMatchedMemberList />
-              </Responsive>
+              {canViewWorkPreference && (
+                <Responsive only='mobile'>
+                  <WorkPreferenceMatchedMemberList />
+                </Responsive>
+              )}
               <StyledMobileFilterWrapper>
                 <BottomSheetSelect
                   options={GENERATION_OPTIONS}
@@ -328,7 +333,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             </Responsive>
           </div>
-          <Responsive asChild only='desktop'>
+          {/* <Responsive asChild only='desktop'>
             <BannerWrapper>
               <Banner
                 src={'/icons/img/banner_TL_list_desktop.png'}
@@ -339,11 +344,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 }}
               />
             </BannerWrapper>
-          </Responsive>
+          </Responsive> */}
           <StyledMain>
-            <Responsive only='desktop'>
-              <WorkPreferenceMatchedMemberList />
-            </Responsive>
+            {canViewWorkPreference && (
+              <Responsive only='desktop'>
+                <WorkPreferenceMatchedMemberList />
+              </Responsive>
+            )}
             {banner && (
               <Responsive
                 only='desktop'
