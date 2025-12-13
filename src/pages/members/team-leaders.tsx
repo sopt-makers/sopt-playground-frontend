@@ -38,7 +38,7 @@ const TeamLeadersPage = () => {
             </Chip>
           </ChipWrapper>
 
-          <TeamLeaderCardsWrapper>
+          {/* <TeamLeaderCardsWrapper>
             {tlMemberList
               ?.filter((tlMember) => tlMember.serviceType === selectedPart)
               .map((tlMember) => (
@@ -52,7 +52,7 @@ const TeamLeadersPage = () => {
                   introduction={tlMember.introduction}
                 />
               ))}
-          </TeamLeaderCardsWrapper>
+          </TeamLeaderCardsWrapper> */}
         </StyledMain>
       </StyledContainer>
     </AuthRequired>

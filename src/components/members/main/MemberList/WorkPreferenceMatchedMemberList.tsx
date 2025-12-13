@@ -219,7 +219,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-top: 90px;
+  margin-top: 78px;
   width: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
     margin-top: 24px;
