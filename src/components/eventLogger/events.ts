@@ -3,6 +3,7 @@ import { string } from 'zod';
 type MemberCard = {
   id: number;
   name: string;
+  screen?: 'recommended' | 'TL' | 'member';
 };
 
 type CommunityFeedData = {
@@ -174,7 +175,11 @@ export interface ClickEvents {
   coffeechatToggleOff: undefined;
   coffeechatToggleOn: undefined;
   skillAdd: undefined;
-  messageBadge: undefined;
+  messageBadge:
+    | {
+        isRecommended?: boolean;
+      }
+    | undefined;
   gotoCoffeechat: GotoCoffeechat;
 
   // 광고
@@ -216,6 +221,11 @@ export interface ClickEvents {
   // 기획경선 특집
   balancegame: undefined;
   newmember: undefined;
+
+  TL_list: undefined;
+  TL_introduce: undefined;
+  TL_appjam: undefined;
+  refreshmember: undefined;
 }
 
 export interface SubmitEvents {
@@ -303,6 +313,7 @@ export interface ImpressionEvents {
     category?: string;
     screen?: '멤버' | '기획경선 홈팝업' | 'TL리스트';
   };
+  memberCard: MemberCard;
   ads: { bannerId: number; pageUrl: string; timeStamp: string };
   adPopup: undefined;
 

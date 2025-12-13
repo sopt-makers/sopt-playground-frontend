@@ -7,6 +7,7 @@ import { FC, SyntheticEvent } from 'react';
 
 import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
+import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import CoffeeChatButton from '@/components/members/main/MemberCard/CoffeeChatButton';
 import MessageButton from '@/components/members/main/MemberCard/MessageButton';
@@ -60,70 +61,76 @@ const MemberCard: FC<MemberCardProps> = ({
   };
 
   return (
-    <MotionMemberCard whileHover='hover'>
-      <MemberProfileImage isLoading={isLoading} imageUrl={imageUrl || ''} />
-      {isLoading ? (
-        <></>
-      ) : (
-        <MobileCoffeeChatBadge only='mobile'>
-          {isCoffeeChatActivate && (
-            <IconCoffeeWrapper>
-              <IconCoffee />
-            </IconCoffeeWrapper>
-          )}
-        </MobileCoffeeChatBadge>
-      )}
-      <ContentArea>
-        <TitleBox>
-          {isLoading ? (
-            <LoadingTitleBox />
-          ) : (
-            <>
-              <Name typography='SUIT_18_SB'>{name}</Name>
-              <Belongs typography='SUIT_12_SB'>{belongs}</Belongs>
-            </>
-          )}
-        </TitleBox>
+    <LoggingImpression eventKey='memberCard' param={{ id: memberId, name, screen: 'member' }}>
+      <MotionMemberCard whileHover='hover'>
+        <MemberProfileImage isLoading={isLoading} imageUrl={imageUrl || ''} />
         {isLoading ? (
           <></>
         ) : (
-          <BadgesBox ref={badgeWrapperRef}>
-            <Badges>
-              {visibleBadges.map((badge, idx) => (
-                <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} isActive={badge.isActive} key={idx}>
-                  {badge.isActive && <BadgeActiveDot />}
-                  <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
-                    {badge.content}
-                  </Text>
-                </Badge>
-              ))}
-              {isBadgeOverflow && (
-                <Badge isActive={false}>
-                  <Text typography='SUIT_11_SB'>...</Text>
-                </Badge>
-              )}
-            </Badges>
-          </BadgesBox>
+          <MobileCoffeeChatBadge only='mobile'>
+            {isCoffeeChatActivate && (
+              <IconCoffeeWrapper>
+                <IconCoffee />
+              </IconCoffeeWrapper>
+            )}
+          </MobileCoffeeChatBadge>
         )}
+        <ContentArea>
+          <TitleBox>
+            {isLoading ? (
+              <LoadingTitleBox />
+            ) : (
+              <>
+                <Name typography='SUIT_18_SB'>{name}</Name>
+                <Belongs typography='SUIT_12_SB'>{belongs}</Belongs>
+              </>
+            )}
+          </TitleBox>
+          {isLoading ? (
+            <></>
+          ) : (
+            <BadgesBox ref={badgeWrapperRef}>
+              <Badges>
+                {visibleBadges.map((badge, idx) => (
+                  <Badge
+                    ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)}
+                    isActive={badge.isActive}
+                    key={idx}
+                  >
+                    {badge.isActive && <BadgeActiveDot />}
+                    <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                      {badge.content}
+                    </Text>
+                  </Badge>
+                ))}
+                {isBadgeOverflow && (
+                  <Badge isActive={false}>
+                    <Text typography='SUIT_11_SB'>...</Text>
+                  </Badge>
+                )}
+              </Badges>
+            </BadgesBox>
+          )}
+          {isLoading ? (
+            <LoadingIntroBox />
+          ) : (
+            <Intro typography='SUIT_13_M' color={colors.gray200}>
+              {intro}
+            </Intro>
+          )}
+        </ContentArea>
         {isLoading ? (
-          <LoadingIntroBox />
+          <LoadingSideWrapper only='desktop'>
+            <LoadingSideButton />
+          </LoadingSideWrapper>
         ) : (
-          <Intro typography='SUIT_13_M' color={colors.gray200}>
-            {intro}
-          </Intro>
+          <SideButtons>
+            {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
+            {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
+          </SideButtons>
         )}
-      </ContentArea>
-      {isLoading ? (
-        <LoadingSideWrapper only='desktop'>
-          <LoadingSideButton />
-        </LoadingSideWrapper>
-      ) : (
-        <SideButtons>
-          {isCoffeeChatActivate && <CoffeeChatButton onClick={onCoffeeChatButtonClick} receiver={name} />}
-          {email && email.length > 0 && <MessageButton name={name} onClick={onMessage} />}
-        </SideButtons>
-      )}
-    </MotionMemberCard>
+      </MotionMemberCard>
+    </LoggingImpression>
   );
 };
 

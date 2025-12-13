@@ -9,6 +9,7 @@ import { useGetMyWorkPreference } from '@/api/endpoint/members/getWorkPreference
 import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { convertWorkPreferenceToHashtags } from '@/components/matchmember/constant';
 import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
 import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
@@ -36,11 +37,17 @@ const WorkPreferenceMatchedMemberList = () => {
   const queryClient = useQueryClient();
   const { canOpenModal, handleCloseForToday } = useMatchMemberEvent();
   const { isOpen, onOpen, onClose } = useModalState();
+  const { logClickEvent } = useEventLogger();
 
   const handleClickStartButton = () => {
     if (canOpenModal) {
       onOpen();
     }
+  };
+
+  const handleClickRefresh = () => {
+    logClickEvent('refreshmember');
+    queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
   };
 
   if (isLoading) {
@@ -77,11 +84,7 @@ const WorkPreferenceMatchedMemberList = () => {
             {!isEmpty && hasWorkPreference && (
               <>
                 <RefreshIconWrapper>
-                  <button
-                    onClick={() => {
-                      queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
-                    }}
-                  >
+                  <button onClick={handleClickRefresh}>
                     <StyledRefreshIcon />
                   </button>
                   {/* <Responsive only='mobile'> */}
@@ -107,29 +110,32 @@ const WorkPreferenceMatchedMemberList = () => {
         </TitleContainer>
         {isEmpty ? (
           <EmptyStateWrapper>
-            <WorkPreferenceMemberListWrapper isEmpty={isEmpty}>
-              {mockRecommendationsResponse.recommendations.map((recommendation) => (
-                <WorkPreferenceMemberCard key={recommendation.id} {...recommendation} />
-              ))}
-            </WorkPreferenceMemberListWrapper>
-            <EmptyStateContent>
-              <Text
-                typography='SUIT_16_B'
-                color={colors.gray10}
-                style={{ textAlign: 'center', whiteSpace: 'pre-line' }}
-              >
-                {hasWorkPreference
-                  ? '아직 나와 맞는 멤버가 나타나지 않았어요. \n 다른 멤버들을 살펴볼까요?'
-                  : '나의 작업 스타일을 5초만에 알아보고\n찰떡 케미 앱잼 멤버 확인해요!'}
-              </Text>
+            {hasWorkPreference ? (
+              <EmptyBannerImage src='/icons/img/banner_workPreference_empty.png' alt='작업 선호도 빈 배너' />
+            ) : (
+              <>
+                <WorkPreferenceMemberListWrapper isEmpty={isEmpty}>
+                  {mockRecommendationsResponse.recommendations.map((recommendation) => (
+                    <WorkPreferenceMemberCard key={recommendation.id} {...recommendation} />
+                  ))}
+                </WorkPreferenceMemberListWrapper>
+                <EmptyStateContent>
+                  <Text
+                    typography='SUIT_16_B'
+                    color={colors.gray10}
+                    style={{ textAlign: 'center', whiteSpace: 'pre-line' }}
+                  >
+                    나의 작업 스타일을 5초만에 알아보고
+                    {'\n'}찰떡 케미 앱잼 멤버 확인해요!
+                  </Text>
 
-              {/* TODO: 작업선택 모달 오픈로직 추가 */}
-              {!hasWorkPreference && (
-                <Button variant='fill' theme='white' onClick={handleClickStartButton}>
-                  작업 스타일 선택하기
-                </Button>
-              )}
-            </EmptyStateContent>
+                  {/* TODO: 작업선택 모달 오픈로직 추가 */}
+                  <Button variant='fill' theme='white' onClick={handleClickStartButton}>
+                    작업 스타일 선택하기
+                  </Button>
+                </EmptyStateContent>
+              </>
+            )}
           </EmptyStateWrapper>
         ) : (
           <WorkPreferenceMemberListWrapper isEmpty={!!isEmpty}>
@@ -300,4 +306,27 @@ const SubTitle = styled.p`
     ${fonts.BODY_13_M};
   }
 `;
+
+const EmptyBannerImage = styled.img`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(10px, 319px));
+  gap: 12px;
+  height: 190px;
+  object-fit: cover;
+
+  @media ${DESKTOP_ONE_MEDIA_QUERY} {
+    grid-template-columns: repeat(3, minmax(10px, 319px));
+  }
+
+  @media ${DESKTOP_TWO_MEDIA_QUERY} {
+    grid-template-columns: repeat(2, minmax(10px, 319px));
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0 8px;
+    height: 190px;
+  }
+`;
+
 export default WorkPreferenceMatchedMemberList;

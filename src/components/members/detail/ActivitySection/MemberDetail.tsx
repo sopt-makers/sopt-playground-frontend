@@ -74,7 +74,7 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           memberId={memberId}
           isMine={profile.isMine}
         />
-        {(profile.sojuCapacity !== undefined && profile.sojuCapacity !== null ||
+        {((profile.sojuCapacity !== undefined && profile.sojuCapacity !== null) ||
           profile.mbti ||
           profile.interest ||
           profile.selfIntroduction ||

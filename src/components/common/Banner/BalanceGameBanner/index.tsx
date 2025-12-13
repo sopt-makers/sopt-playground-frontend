@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { MB_BASE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { MB_BASE_MEDIA_QUERY, PCTA_S_MEDIA_QUERY } from '@/styles/mediaQuery';
 import matchMemberBannerDesktop from '@/public/icons/img/banner_balancegame_desktop.png';
 import matchMemberBannerMobile from '@/public/icons/img/banner_balancegame_mobile.png';
+import matchMemberBannerMid from '@/public/icons/img/banner_balancegame_mid.png';
 import { playgroundLink } from 'playground-common/export';
 
 const BalanceGameBanner = () => {
   const router = useRouter();
+  const MB_MID_MEDIA_QUERY = '(min-width: 376px) and (max-width: 768px)';
 
   return (
     <>
@@ -14,6 +16,7 @@ const BalanceGameBanner = () => {
         <BannerImageWrapper>
           <picture>
             <source media={MB_BASE_MEDIA_QUERY} srcSet={matchMemberBannerMobile.src} />
+            <source media={MB_MID_MEDIA_QUERY} srcSet={matchMemberBannerMid.src} />
             <BannerImage src={matchMemberBannerDesktop.src} alt='매칭 배너' />
           </picture>
         </BannerImageWrapper>
@@ -36,10 +39,8 @@ const BannerContainer = styled.header`
 `;
 
 const BannerImageWrapper = styled.div`
-  @media ${MB_BASE_MEDIA_QUERY} {
-    width: 100%;
-    height: auto;
-  }
+  width: 100%;
+  height: auto;
 `;
 
 const BannerImage = styled.img`
