@@ -17,7 +17,7 @@ const cardComponentWidth = 316;
 
 const TeamLeadersPage = () => {
   const { data: tlMemberList } = useGetTLMember();
-  console.log(tlMemberList);
+
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
   return (
     <AuthRequired>
