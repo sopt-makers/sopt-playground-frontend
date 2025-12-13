@@ -84,22 +84,22 @@ const WorkPreferenceMatchedMemberList = () => {
                   >
                     <StyledRefreshIcon />
                   </button>
-                  <Responsive only='mobile'>
-                    <MobileTooltipWrapper>
-                      <Text typography='SUIT_13_M' color={colors.gray50}>
-                        더 많은 멤버를 찾아보세요!
-                      </Text>
-                    </MobileTooltipWrapper>
-                  </Responsive>
+                  {/* <Responsive only='mobile'> */}
+                  <MobileTooltipWrapper>
+                    <Text typography='SUIT_13_M' color={colors.gray50}>
+                      더 많은 멤버를 찾아보세요!
+                    </Text>
+                  </MobileTooltipWrapper>
+                  {/* </Responsive> */}
                 </RefreshIconWrapper>
 
-                <Responsive only='desktop'>
+                {/* <Responsive only='desktop'>
                   <TooltipWrapper>
                     <Text typography='SUIT_13_M' color={colors.gray50}>
                       더 많은 멤버를 찾아보세요!
                     </Text>
                   </TooltipWrapper>
-                </Responsive>
+                </Responsive> */}
               </>
             )}
           </TitleWrapper>
@@ -163,7 +163,7 @@ const MobileTooltipWrapper = styled.div`
     left: 50%;
     transform: translate(-50%, -5%);
     background-color: ${colors.gray600};
-    width: 20px;
+    width: 16px;
     height: 14px;
     clip-path: polygon(0 0, 50% 100%, 100% 0);
     content: '';
@@ -222,7 +222,7 @@ const StyledContainer = styled.div`
   margin-top: 78px;
   width: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 24px;
+    margin-top: 54px;
     padding: 12px 0;
   }
 `;
