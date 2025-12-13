@@ -19,7 +19,6 @@ export const useMatchMemberEvent = () => {
     setIsQA(typeof window !== 'undefined' && localStorage.getItem('BALANCEGAME_OPEN') === 'true');
   }, []);
 
-  const isLastGeneration = myData?.generation === LATEST_GENERATION;
   const hasWorkPreference = myData?.hasWorkPreference ?? false;
   const isSpecialPopupPeriod = true;
 
@@ -46,9 +45,7 @@ export const useMatchMemberEvent = () => {
   }, []);
 
   const canOpenModal =
-    !!myData &&
-    !isClosedToday &&
-    (isQA || (isSpecialPopupPeriod && isLastGeneration && myData.enableWorkPreferenceEvent));
+    !!myData && !isClosedToday && (isQA || (isSpecialPopupPeriod && myData.enableWorkPreferenceEvent));
 
   return {
     hasWorkPreference,
