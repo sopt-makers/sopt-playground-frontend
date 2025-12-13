@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { createEndpoint } from '@/api/typedAxios';
@@ -14,7 +14,12 @@ export const postWorkPreference = createEndpoint({
 });
 
 export const usePostWorkPreferenceMutation = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (requestBody: WorkPreferenceType) => postWorkPreference.request(requestBody),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
+    },
   });
 };
