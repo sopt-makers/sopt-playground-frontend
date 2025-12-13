@@ -26,7 +26,7 @@ const TeamLeadersPage = () => {
           <TitleWrapper>
             <Text typography='SUIT_32_B'>37기 앱잼 TL 후보를 만나보세요🔥</Text>
             <Text typography='SUIT_18_M' color={colors.gray200}>
-              정렬 순서는 접속할 때마다 무작위로 바뀌어요.
+              정렬 순서는 이름 기준 가나다 순이에요.
             </Text>
           </TitleWrapper>
           <ChipWrapper>
