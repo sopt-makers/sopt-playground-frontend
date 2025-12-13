@@ -24,6 +24,7 @@ interface MatchMemberModalProps {
 const MatchMemberModal = ({ onClose, isOpen, handleCloseForToday, hasWorkPreference }: MatchMemberModalProps) => {
   const [step, setStep] = useState(1);
   const [value, setValue] = useState<BalanceGameValue>({});
+  const router = useRouter();
 
   const handleClose = () => {
     onClose();
@@ -35,7 +36,7 @@ const MatchMemberModal = ({ onClose, isOpen, handleCloseForToday, hasWorkPrefere
 
   const handleNextStep = () => {
     if (hasWorkPreference) {
-      setStep(3);
+      router.push(playgroundLink.memberList());
     } else {
       setStep((prev) => prev + 1);
     }
