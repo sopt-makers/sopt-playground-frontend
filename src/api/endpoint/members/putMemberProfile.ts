@@ -90,7 +90,6 @@ export const usePutMemberProfileMutation = () => {
       queryClient.invalidateQueries({ queryKey: ['getMemberProfile'] });
       queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
       queryClient.invalidateQueries({ queryKey: ['getMembersCoffeeChat'] });
-      queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
     },
   });
 };
