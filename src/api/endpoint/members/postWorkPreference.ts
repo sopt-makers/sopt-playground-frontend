@@ -21,6 +21,7 @@ export const usePostWorkPreferenceMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
       queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
+
     },
   });
 };
