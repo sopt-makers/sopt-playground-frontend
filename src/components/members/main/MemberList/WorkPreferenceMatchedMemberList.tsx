@@ -1,22 +1,22 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useGetRecommendations } from '@/api/endpoint/members/getRecommendations';
+import { useGetMyWorkPreference } from '@/api/endpoint/members/getWorkPreference';
+import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive/Responsive';
 import Text from '@/components/common/Text';
+import { convertWorkPreferenceToHashtags } from '@/components/matchmember/constant';
+import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
+import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
 import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import WorkPreferenceMemberCard from '@/components/members/main/MemberCard/WorkPreferneceMemberCard';
 import { mockRecommendationsResponse } from '@/components/members/main/MemberList/constants';
 import RefreshIcon from '@/public/icons/icon_refresh.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import MatchMemberModal from '@/components/matchmember/MatchMemberModal';
-import { useMatchMemberEvent } from '@/components/matchmember/hooks/useMatchMemberEvent';
-import useModalState from '@/components/common/Modal/useModalState';
-import { fonts } from '@sopt-makers/fonts';
-import { useGetMyWorkPreference } from '@/api/endpoint/members/getWorkPreference';
-import { convertWorkPreferenceToHashtags } from '@/components/matchmember/constant';
 
 const MyPreferenceSubTitle = () => {
   const { data: myData, isLoading: myLoading } = useGetMyWorkPreference();
@@ -32,6 +32,7 @@ const WorkPreferenceMatchedMemberList = () => {
   const { data, isLoading } = useGetRecommendations();
   const isEmpty = data?.recommendations && data.recommendations.length === 0;
   const hasWorkPreference = data?.hasWorkPreference;
+
   const queryClient = useQueryClient();
   const { canOpenModal, handleCloseForToday } = useMatchMemberEvent();
   const { isOpen, onOpen, onClose } = useModalState();
@@ -73,31 +74,36 @@ const WorkPreferenceMatchedMemberList = () => {
                 나와 37기 사람들의 작업 궁합은?
               </Text>
             </Responsive>
-            <RefreshIconWrapper>
-              <button
-                onClick={() => {
-                  queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
-                }}
-              >
-                <StyledRefreshIcon />
-              </button>
-              <Responsive only='mobile'>
-                <MobileTooltipWrapper>
-                  <Text typography='SUIT_13_M' color={colors.gray50}>
-                    더 많은 멤버를 찾아보세요!
-                  </Text>
-                </MobileTooltipWrapper>
-              </Responsive>
-            </RefreshIconWrapper>
-            <Responsive only='desktop'>
-              <TooltipWrapper>
-                <Text typography='SUIT_13_M' color={colors.gray50}>
-                  더 많은 멤버를 찾아보세요!
-                </Text>
-              </TooltipWrapper>
-            </Responsive>
+            {!isEmpty && hasWorkPreference && (
+              <>
+                <RefreshIconWrapper>
+                  <button
+                    onClick={() => {
+                      queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
+                    }}
+                  >
+                    <StyledRefreshIcon />
+                  </button>
+                  {/* <Responsive only='mobile'> */}
+                  <MobileTooltipWrapper>
+                    <Text typography='SUIT_13_M' color={colors.gray50}>
+                      더 많은 멤버를 찾아보세요!
+                    </Text>
+                  </MobileTooltipWrapper>
+                  {/* </Responsive> */}
+                </RefreshIconWrapper>
+
+                {/* <Responsive only='desktop'>
+                  <TooltipWrapper>
+                    <Text typography='SUIT_13_M' color={colors.gray50}>
+                      더 많은 멤버를 찾아보세요!
+                    </Text>
+                  </TooltipWrapper>
+                </Responsive> */}
+              </>
+            )}
           </TitleWrapper>
-          <MyPreferenceSubTitle />
+          {!isEmpty && hasWorkPreference && <MyPreferenceSubTitle />}
         </TitleContainer>
         {isEmpty ? (
           <EmptyStateWrapper>
@@ -113,7 +119,7 @@ const WorkPreferenceMatchedMemberList = () => {
                 style={{ textAlign: 'center', whiteSpace: 'pre-line' }}
               >
                 {hasWorkPreference
-                  ? '아직 궁합이 맞는 멤버가 없어요.'
+                  ? '아직 나와 맞는 멤버가 나타나지 않았어요. \n 다른 멤버들을 살펴볼까요?'
                   : '나의 작업 스타일을 5초만에 알아보고\n찰떡 케미 앱잼 멤버 확인해요!'}
               </Text>
 
@@ -157,7 +163,7 @@ const MobileTooltipWrapper = styled.div`
     left: 50%;
     transform: translate(-50%, -5%);
     background-color: ${colors.gray600};
-    width: 20px;
+    width: 16px;
     height: 14px;
     clip-path: polygon(0 0, 50% 100%, 100% 0);
     content: '';
@@ -213,10 +219,10 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-top: 90px;
+  margin-top: 78px;
   width: 100%;
   @media ${MOBILE_MEDIA_QUERY} {
-    margin-top: 24px;
+    margin-top: 54px;
     padding: 12px 0;
   }
 `;
@@ -230,7 +236,7 @@ const WorkPreferenceMemberListWrapper = styled.div<{ isEmpty: boolean }>`
   height: 190px;
   overflow-y: hidden;
   scrollbar-width: none;
-  filter: ${({ isEmpty }) => (isEmpty ? 'blur(4px)' : 'none')};
+  filter: ${({ isEmpty }) => (isEmpty ? 'blur(6px)' : 'none')};
 
   @media ${DESKTOP_ONE_MEDIA_QUERY} {
     grid-template-columns: repeat(3, minmax(10px, 319px));

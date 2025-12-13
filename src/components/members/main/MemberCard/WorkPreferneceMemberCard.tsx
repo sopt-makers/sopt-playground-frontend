@@ -6,13 +6,13 @@ import { IconSend, IconUser } from '@sopt-makers/icons';
 import { m } from 'framer-motion';
 import { useRouter } from 'next/router';
 
+import useModalState from '@/components/common/Modal/useModalState';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import { LATEST_GENERATION } from '@/constants/generation';
-import useModalState from '@/components/common/Modal/useModalState';
-import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 
 interface Activity {
   id: number;
@@ -81,9 +81,9 @@ const WorkPreferenceMemberCard = ({
 
   const workPreferenceBadges = [
     workPreference.ideationStyle,
+    workPreference.workTime,
     workPreference.communicationStyle,
     workPreference.workPlace,
-    workPreference.workTime,
     workPreference.feedbackStyle,
   ];
 
@@ -166,9 +166,7 @@ const WorkPreferenceMemberCard = ({
         {isLoading ? (
           <LoadingTextField />
         ) : (
-          <MessageButton onClick={onOpenMessageModal}>
-            우리 친해져요 <IconSend style={{ width: '16px', height: '16px', marginLeft: '4px' }} />
-          </MessageButton>
+          <MessageButton onClick={onOpenMessageModal}>가볍게 인사해 볼까요?</MessageButton>
         )}
       </MotionMemberCard>
       {isOpenMessageModal && (
