@@ -20,7 +20,7 @@ export const usePostWorkPreferenceMutation = () => {
     mutationFn: (requestBody: WorkPreferenceType) => postWorkPreference.request(requestBody),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getRecommendations'] });
-      queryClient.invalidateQueries({ queryKey: ['getMemberOfme'] });
+      queryClient.invalidateQueries({ queryKey: ['getMemberOfMe'] });
     },
   });
 };
