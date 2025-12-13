@@ -1,29 +1,40 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import Text from '@/components/common/Text';
-import ProfileIcon from 'public/icons/icon-profile.svg';
-import ResizedImage from '@/components/common/ResizedImage';
-import { useGetRecommendations } from '@/api/endpoint/members/getRecommendations';
-import { useEffect, useState } from 'react';
 import { Skeleton, useToast } from '@sopt-makers/ui';
-import { playgroundLink } from '@/constants/links';
-import { useRouter } from 'next/router';
-import NonIcon from '@/public/icons/img/popup/member_match_search.svg';
-import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import { useRunOnce } from '@/hooks/useRunOnce';
 import axios from 'axios';
+import { useRouter } from 'next/router';
+import ProfileIcon from 'public/icons/icon-profile.svg';
+import { useEffect, useState } from 'react';
+
+import { useGetRecommendations } from '@/api/endpoint/members/getRecommendations';
+import ResizedImage from '@/components/common/ResizedImage';
+import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { playgroundLink } from '@/constants/links';
+import NonIcon from '@/public/icons/img/popup/member_match_search.svg';
 
 export const MemberCard = () => {
   const { data, isPending, isError, error } = useGetRecommendations();
   const [_isImageLoaded, setIsImageLoaded] = useState(false);
   const router = useRouter();
-  const { logImpressionEvent } = useEventLogger();
+  const { logImpressionEvent, logClickEvent } = useEventLogger();
   const { open: toastOpen } = useToast();
 
-  useRunOnce(() => {
-    logImpressionEvent('feedCard', { screen: '기획경선 홈팝업' });
-  }, []);
+  const member = data?.recommendations?.[0];
+
+  useEffect(() => {
+    if (member) {
+      logImpressionEvent('memberCard', { id: member.id, name: member.name, screen: 'recommended' });
+    }
+  }, [member, logImpressionEvent]);
+
+  const handleClickCard = () => {
+    if (member) {
+      logClickEvent('memberCard', { id: member.id, name: member.name, screen: 'recommended' });
+      router.push(playgroundLink.memberDetail(member.id));
+    }
+  };
 
   useEffect(() => {
     if (isError) {
@@ -62,7 +73,6 @@ export const MemberCard = () => {
       </CardWrapper>
     );
 
-  const member = data?.recommendations?.[0];
   if (!member)
     return (
       <NonWrapper>
@@ -74,7 +84,7 @@ export const MemberCard = () => {
     );
 
   return (
-    <CardWrapper onClick={() => router.push(playgroundLink.memberDetail(member.id))}>
+    <CardWrapper onClick={handleClickCard}>
       <Text typography='SUIT_12_SB' color='#ADC8E9'>
         케미 UP!
       </Text>

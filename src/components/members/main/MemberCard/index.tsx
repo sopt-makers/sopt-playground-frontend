@@ -61,7 +61,7 @@ const MemberCard: FC<MemberCardProps> = ({
   };
 
   return (
-    <LoggingImpression eventKey='memberCard' param={{ id: memberId, name }}>
+    <LoggingImpression eventKey='memberCard' param={{ id: memberId, name, screen: 'member' }}>
       <MotionMemberCard whileHover='hover'>
         <MemberProfileImage isLoading={isLoading} imageUrl={imageUrl || ''} />
         {isLoading ? (

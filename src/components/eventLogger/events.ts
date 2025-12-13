@@ -3,7 +3,7 @@ import { string } from 'zod';
 type MemberCard = {
   id: number;
   name: string;
-  screen?: 'recommended' | 'TL';
+  screen?: 'recommended' | 'TL' | 'member';
 };
 
 type CommunityFeedData = {
