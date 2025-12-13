@@ -48,7 +48,7 @@ export const useMatchMemberEvent = () => {
   const canOpenModal =
     !!myData &&
     !isClosedToday &&
-    (isQA || (isSpecialPopupPeriod && isLastGeneration && !hasWorkPreference && myData.enableWorkPreferenceEvent));
+    (isQA || (isSpecialPopupPeriod && isLastGeneration && myData.enableWorkPreferenceEvent));
 
   return {
     hasWorkPreference,
