@@ -174,6 +174,9 @@ const Tag = styled.div`
   background: ${colors.orangeAlpha200};
   padding: 3px 6px;
   width: fit-content;
+  ${fonts.LABEL_12_SB};
+
+  color: ${colors.orange400};
 `;
 
 const Circle = styled.div`
