@@ -93,7 +93,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const { data: memberOfMeData } = useGetMemberOfMe();
 
   const isEmpty = memberProfileData?.pages[0].members.length === 0;
-  const canViewWorkPreference = memberOfMeData?.generation === LATEST_GENERATION;
+  const canViewWorkPreference = memberOfMeData?.enableWorkPreferenceEvent;
   const profiles = useMemo(
     () =>
       memberProfileData?.pages.map((page) =>
