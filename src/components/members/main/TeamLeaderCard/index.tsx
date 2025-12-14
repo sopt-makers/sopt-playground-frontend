@@ -60,15 +60,12 @@ const TeamLeaderCard = ({
   function useDetectWebView() {
     const userAgent = navigator.userAgent;
 
-    // iOS 웹뷰 감지
-    const isIOS = /iPhone|iPad|iPod/.test(userAgent);
-
+    // SOPT-iOS 웹뷰 감지
     const isIOSWebView = /SOPT-iOS/.test(navigator.userAgent);
 
-    // Android 웹뷰 감지 방법:
+    // SOPT-Android 웹뷰 감지 방법:
     // 2. User-Agent에 "wv"가 있으면 웹뷰 (기존 방법)
     // 3. User-Agent가 정확히 "Chrome/56.0.0.0 Mobile"이면 앱에서 설정한 값이므로 웹뷰
-
     const hasWvInUserAgent = /wv/.test(userAgent);
     const isChrome56Mobile = /Chrome\/56\.0\.0\.0 Mobile/.test(userAgent);
     const isAndroidWebView = hasWvInUserAgent || isChrome56Mobile;
@@ -77,7 +74,6 @@ const TeamLeaderCard = ({
       isWebView: isIOSWebView || isAndroidWebView,
       isIOSWebView,
       isAndroidWebView,
-      isIOS,
     };
   }
 
@@ -86,10 +82,9 @@ const TeamLeaderCard = ({
     const originalUrl = url;
     const webViewInfo = useDetectWebView();
 
-    // 웹뷰 환경이면 원래 URL 사용 (window.location.href 사용)
+    //TODO: 웹뷰 환경일 때 Deep Link 처리 앱팀 쪽 협력 요청필요
     if (webViewInfo.isWebView) {
-      // iOS/Android 웹뷰에서는 window.open이 차단될 수 있으므로 window.location.href 사용
-      window.location.href = notionDeepLinkUrl;
+      window.location.href = originalUrl;
       return;
     }
 
