@@ -20,10 +20,12 @@ const TeamLeadersPage = () => {
   const { data: memberOfMeData, isPending } = useGetMemberOfMe();
   const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
 
-  const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant);
+  // TODO: 메인서버 확인을 위한 테스트 유저케이스 추가
+  const isTestUser = memberOfMeData?.id === 361;
+  const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant || isTestUser);
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
 
-  if (!isAppJamParticipant && !isPending) {
+  if (!isAppJamParticipant && !isPending && !isTestUser) {
     return (
       <div
         style={{
@@ -59,7 +61,19 @@ const TeamLeadersPage = () => {
               WEB
             </Chip>
           </ChipWrapper>
-
+          {isTestUser && (
+            <TeamLeaderCard
+              id={361}
+              profileImageUrl=''
+              key={361}
+              name='Test User'
+              university='Test University'
+              activities={[]}
+              introduction='Test Introduction'
+              selfIntroduction='https://www.notion.so/sopt-official/27c1e48dd96080939147f2aa54a1b795?source=copy_link'
+              competitionData='https://www.notion.so/sopt-official/Snappin-2c51e48dd96081139201c3615f4f449f?source=copy_link'
+            />
+          )}
           <TeamLeaderCardsWrapper>
             {tlMemberList
               ?.filter((tlMember) => tlMember.serviceType === selectedPart)

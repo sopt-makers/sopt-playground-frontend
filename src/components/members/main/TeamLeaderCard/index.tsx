@@ -57,21 +57,74 @@ const TeamLeaderCard = ({
     BADGE_GAP,
   );
 
-  const parseNotionDirectUrl = (url: string) => {
-    url = url.replace('https://', 'notion://');
-    return url;
+  function useDetectWebView() {
+    const userAgent = navigator.userAgent;
+
+    // iOS 웹뷰 감지
+    const isIOS = /iPhone|iPad|iPod/.test(userAgent);
+    const isWebKit = /AppleWebKit/.test(userAgent);
+    const isSafari = /Safari/.test(userAgent) || /Version\/[\d.]+.*Safari/.test(userAgent); // Safari 또는 Version/{version}.Safari 패턴을 포함하지 않는 경우
+    const isNotCriOS = !/CriOS/.test(userAgent);
+    const isNotFxiOS = !/FxiOS/.test(userAgent);
+
+    const isIOSWebView = isIOS && isWebKit && isNotCriOS && isNotFxiOS && !isSafari;
+
+    // Android 웹뷰 감지
+    const isAndroid = /Android/.test(userAgent);
+    const isAndroidWebView = isAndroid && /wv/.test(userAgent);
+
+    return {
+      isWebView: isIOSWebView || isAndroidWebView,
+      isIOSWebView,
+      isAndroidWebView,
+      isIOS,
+      isAndroid,
+    };
+  }
+
+  const openNotionUrl = (url: string) => {
+    const notionDeepLinkUrl = url.replace('https://', 'notion://');
+    const originalUrl = url;
+
+    alert('android: ' + useDetectWebView().isAndroidWebView + ' ' + 'ios: ' + useDetectWebView().isIOSWebView);
+    // 웹뷰 환경이면 원래 URL 사용
+    if (useDetectWebView().isWebView) {
+      window.open(originalUrl, '_blank');
+      return;
+    }
+
+    // 일반 브라우저에서 노션 앱 열기 시도
+    try {
+      // 숨겨진 링크로 노션 앱 열기 시도
+      const link = document.createElement('a');
+      link.href = notionDeepLinkUrl;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // 일정 시간 후에도 페이지가 포커스를 잃지 않았다면 앱이 열리지 않은 것으로 간주하고 원래 URL로 fallback
+      setTimeout(() => {
+        if (document.hasFocus()) {
+          window.open(originalUrl, '_blank');
+        }
+      }, 1000);
+    } catch (error) {
+      // 에러 발생 시 원래 URL로 fallback
+      window.open(originalUrl, '_blank');
+    }
   };
 
   const handleClickIntroduce = () => {
     logClickEvent('TL_introduce');
     // TODO: API 연동 후 자기 소개 페이지 이동 로직 추가
-    window.open(parseNotionDirectUrl(selfIntroduction), '_blank');
+    openNotionUrl(selfIntroduction);
   };
 
   const handleClickAppjamData = () => {
     logClickEvent('TL_appjam');
     // TODO: API 연동 후 경선 자료 페이지 이동 로직 추가
-    window.open(parseNotionDirectUrl(competitionData), '_blank');
+    openNotionUrl(competitionData);
   };
 
   const handleClickCard = () => {
