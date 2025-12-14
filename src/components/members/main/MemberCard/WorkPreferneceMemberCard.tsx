@@ -173,7 +173,7 @@ const WorkPreferenceMemberCard = ({
         {isLoading ? (
           <LoadingTextField />
         ) : (
-          <MessageButton onClick={onOpenMessageModal}>가볍게 인사해 볼까요?</MessageButton>
+          <MessageButton onClick={handleClickMessage}>가볍게 인사해 볼까요?</MessageButton>
         )}
       </MotionMemberCard>
       {isOpenMessageModal && (
