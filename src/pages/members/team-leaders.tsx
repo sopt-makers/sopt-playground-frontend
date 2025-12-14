@@ -24,7 +24,7 @@ const TeamLeadersPage = () => {
       <StyledContainer>
         <StyledMain>
           <TitleWrapper>
-            <Text typography='SUIT_32_B'>37기 앱잼 TL 후보를 만나보세요🔥</Text>
+            <Text typography='SUIT_32_B'>37기 앱잼 TL을 만나보세요🔥</Text>
             <Text typography='SUIT_18_M' color={colors.gray200}>
               정렬 순서는 이름 기준 가나다 순이에요.
             </Text>
@@ -38,7 +38,7 @@ const TeamLeadersPage = () => {
             </Chip>
           </ChipWrapper>
 
-          {/* <TeamLeaderCardsWrapper>
+          <TeamLeaderCardsWrapper>
             {tlMemberList
               ?.filter((tlMember) => tlMember.serviceType === selectedPart)
               .map((tlMember) => (
@@ -50,9 +50,11 @@ const TeamLeadersPage = () => {
                   university={tlMember.university}
                   activities={tlMember.activities}
                   introduction={tlMember.introduction}
+                  selfIntroduction={tlMember.selfIntroduction}
+                  competitionData={tlMember.competitionData}
                 />
               ))}
-          </TeamLeaderCardsWrapper> */}
+          </TeamLeaderCardsWrapper>
         </StyledMain>
       </StyledContainer>
     </AuthRequired>

@@ -9,7 +9,19 @@ import Responsive from '@/components/common/Responsive';
 
 import { shimmerEffect } from '../style';
 
-const MemberProfileImage = ({ isLoading, imageUrl }: { isLoading?: boolean; imageUrl: string }) => {
+interface MemberProfileImageProps {
+  isLoading?: boolean;
+  imageUrl: string;
+  size?: 'lg' | 'md' | 'sm';
+}
+
+const MemberProfileImage = ({ isLoading, imageUrl, size = 'md' }: MemberProfileImageProps) => {
+  const imageSize = {
+    lg: 196,
+    md: 115,
+    sm: 60,
+  };
+
   const imageVariants = {
     hover: {
       scale: 1.1,
@@ -28,10 +40,24 @@ const MemberProfileImage = ({ isLoading, imageUrl }: { isLoading?: boolean; imag
             ) : (
               <>
                 <Responsive only='desktop'>
-                  <IconUser style={{ width: 115, height: 115, color: `${colors.gray400}`, paddingTop: '10px' }} />
+                  <IconUser
+                    style={{
+                      width: imageSize[size],
+                      height: imageSize[size],
+                      color: `${colors.gray400}`,
+                      paddingTop: '10px',
+                    }}
+                  />
                 </Responsive>
                 <Responsive only='mobile'>
-                  <IconUser style={{ width: 60, height: 60, color: `${colors.gray400}`, paddingTop: '10px' }} />
+                  <IconUser
+                    style={{
+                      width: 60,
+                      height: 60,
+                      color: `${colors.gray400}`,
+                      paddingTop: '10px',
+                    }}
+                  />
                 </Responsive>
               </>
             )}
