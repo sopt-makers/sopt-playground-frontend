@@ -20,10 +20,11 @@ const TeamLeadersPage = () => {
   const { data: memberOfMeData, isPending } = useGetMemberOfMe();
   const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
 
+  const isTestUser = memberOfMeData?.id === 945;
   const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant);
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
 
-  if (!isAppJamParticipant && !isPending) {
+  if (!isAppJamParticipant && !isPending && !isTestUser) {
     return (
       <div
         style={{
