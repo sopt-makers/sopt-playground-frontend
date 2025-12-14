@@ -62,16 +62,8 @@ const TeamLeaderCard = ({
 
     // iOS 웹뷰 감지
     const isIOS = /iPhone|iPad|iPod/.test(userAgent);
-    const isWebKit = /AppleWebKit/.test(userAgent);
-    const isSafari = /Safari/.test(userAgent) || /Version\/[\d.]+.*Safari/.test(userAgent);
-    const isNotCriOS = !/CriOS/.test(userAgent);
-    const isNotFxiOS = !/FxiOS/.test(userAgent);
 
-    const isIOSWebView =
-      isIOS && isWebKit && isNotCriOS && isNotFxiOS && !isSafari && /SOPT-iOS/.test(navigator.userAgent);
-
-    // Android 웹뷰 감지
-    const isAndroid = /Android/.test(userAgent);
+    const isIOSWebView = /SOPT-iOS/.test(navigator.userAgent);
 
     // Android 웹뷰 감지 방법:
     // 2. User-Agent에 "wv"가 있으면 웹뷰 (기존 방법)
@@ -79,14 +71,13 @@ const TeamLeaderCard = ({
 
     const hasWvInUserAgent = /wv/.test(userAgent);
     const isChrome56Mobile = /Chrome\/56\.0\.0\.0 Mobile/.test(userAgent);
-    const isAndroidWebView = isAndroid && (hasWvInUserAgent || isChrome56Mobile);
+    const isAndroidWebView = hasWvInUserAgent || isChrome56Mobile;
 
     return {
       isWebView: isIOSWebView || isAndroidWebView,
       isIOSWebView,
       isAndroidWebView,
       isIOS,
-      isAndroid,
     };
   }
 
