@@ -20,7 +20,8 @@ const TeamLeadersPage = () => {
   const { data: memberOfMeData, isPending } = useGetMemberOfMe();
   const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
 
-  const isTestUser = memberOfMeData?.id === 945;
+  // TODO: 메인서버 확인을 위한 테스트 유저케이스 추가
+  const isTestUser = memberOfMeData?.id === 361;
   const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant);
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
 
