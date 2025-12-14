@@ -57,21 +57,38 @@ const TeamLeaderCard = ({
     BADGE_GAP,
   );
 
-  const isWebView = () => {
-    if (typeof window === 'undefined') return false;
-    return (
-      (window as any).ReactNativeWebView !== undefined ||
-      /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent) ||
-      /Android.*wv/i.test(navigator.userAgent)
-    );
-  };
+  function useDetectWebView() {
+    const userAgent = navigator.userAgent;
+
+    // iOS 웹뷰 감지
+    const isIOS = /iPhone|iPad|iPod/.test(userAgent);
+    const isWebKit = /AppleWebKit/.test(userAgent);
+    const isSafari = /Safari/.test(userAgent) || /Version\/[\d.]+.*Safari/.test(userAgent); // Safari 또는 Version/{version}.Safari 패턴을 포함하지 않는 경우
+    const isNotCriOS = !/CriOS/.test(userAgent);
+    const isNotFxiOS = !/FxiOS/.test(userAgent);
+
+    const isIOSWebView = isIOS && isWebKit && isNotCriOS && isNotFxiOS && !isSafari;
+
+    // Android 웹뷰 감지
+    const isAndroid = /Android/.test(userAgent);
+    const isAndroidWebView = isAndroid && /wv/.test(userAgent);
+
+    return {
+      isWebView: isIOSWebView || isAndroidWebView,
+      isIOSWebView,
+      isAndroidWebView,
+      isIOS,
+      isAndroid,
+    };
+  }
 
   const openNotionUrl = (url: string) => {
     const notionDeepLinkUrl = url.replace('https://', 'notion://');
     const originalUrl = url;
 
+    alert('android: ' + useDetectWebView().isAndroidWebView + ' ' + 'ios: ' + useDetectWebView().isIOSWebView);
     // 웹뷰 환경이면 원래 URL 사용
-    if (isWebView()) {
+    if (useDetectWebView().isWebView) {
       window.open(originalUrl, '_blank');
       return;
     }
