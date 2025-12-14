@@ -17,14 +17,30 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 const cardComponentWidth = 316;
 
 const TeamLeadersPage = () => {
-  const { data: tlMemberList } = useGetTLMember();
   const { data: memberOfMeData } = useGetMemberOfMe();
-
   const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
-  if (!isAppJamParticipant) {
-    return <div>앱잼 참여자만 확인 가능합니다.</div>;
-  }
+
+  const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant);
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
+
+  if (isAppJamParticipant) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '90vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
+          fontSize: '20px',
+          fontWeight: 'bold',
+        }}
+      >
+        앱잼 참여자만 확인 가능한 페이지입니다.
+      </div>
+    );
+  }
   return (
     <AuthRequired>
       <StyledContainer>
