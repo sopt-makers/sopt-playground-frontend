@@ -86,11 +86,10 @@ const TeamLeaderCard = ({
     const originalUrl = url;
     const webViewInfo = useDetectWebView();
 
-    alert('android: ' + useDetectWebView().isAndroidWebView + ' ' + 'ios: ' + useDetectWebView().isIOSWebView);
     // 웹뷰 환경이면 원래 URL 사용 (window.location.href 사용)
     if (webViewInfo.isWebView) {
       // iOS/Android 웹뷰에서는 window.open이 차단될 수 있으므로 window.location.href 사용
-      window.location.href = originalUrl;
+      window.location.href = notionDeepLinkUrl;
       return;
     }
 
