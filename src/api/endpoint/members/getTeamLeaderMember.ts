@@ -26,7 +26,9 @@ export const getTLMembers = createEndpoint({
         }),
       ),
       introduction: z.string().nullable(),
-      serviceType: z.enum(['WEB', 'APP']).optional(),
+      serviceType: z.enum(['WEB', 'APP']),
+      selfIntroduction: z.string(),
+      competitionData: z.string(),
     }),
   ),
 });

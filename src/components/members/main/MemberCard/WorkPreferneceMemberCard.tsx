@@ -12,8 +12,8 @@ import Text from '@/components/common/Text';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
-import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import { LATEST_GENERATION } from '@/constants/generation';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface Activity {
   id: number;
@@ -220,6 +220,10 @@ const MotionMemberCard = styled(m.div)`
   cursor: pointer;
   padding: 20px 16px;
   width: 319px;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    width: 100%;
+  }
 `;
 
 const Container = styled.div`
