@@ -17,13 +17,13 @@ import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 const cardComponentWidth = 316;
 
 const TeamLeadersPage = () => {
-  const { data: memberOfMeData } = useGetMemberOfMe();
+  const { data: memberOfMeData, isPending } = useGetMemberOfMe();
   const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
 
   const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant);
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
 
-  if (!isAppJamParticipant) {
+  if (!isAppJamParticipant && !isPending) {
     return (
       <div
         style={{
