@@ -13,11 +13,17 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { setLayout } from '@/utils/layout';
 type SelectedPart = 'APP' | 'WEB';
 import { useGetTLMember } from '@/api/endpoint/members/getTeamLeaderMember';
+import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 const cardComponentWidth = 316;
 
 const TeamLeadersPage = () => {
   const { data: tlMemberList } = useGetTLMember();
+  const { data: memberOfMeData } = useGetMemberOfMe();
 
+  const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
+  if (!isAppJamParticipant) {
+    return <div>앱잼 참여자만 확인 가능합니다.</div>;
+  }
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
   return (
     <AuthRequired>
