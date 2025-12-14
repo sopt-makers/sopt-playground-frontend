@@ -93,7 +93,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const { data: memberOfMeData } = useGetMemberOfMe();
 
   const isEmpty = memberProfileData?.pages[0].members.length === 0;
-  const canViewWorkPreference = memberOfMeData?.enableWorkPreferenceEvent;
+  const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
   const profiles = useMemo(
     () =>
       memberProfileData?.pages.map((page) =>
@@ -241,26 +241,28 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 onReset={handleSearchReset}
               />
 
-              <BannerWrapper>
-                <Banner
-                  src={'/icons/img/banner_TL_list_tablet.png'}
-                  alt='TL List Link'
-                  onClick={() => {
-                    logClickEvent('TL_list');
-                    router.push(playgroundLink.teamLeaderList());
-                  }}
-                />
-                <OnlyMobileBanner
-                  src={'/icons/img/banner_TL_list_mobile.png'}
-                  alt='TL List Link'
-                  onClick={() => {
-                    logClickEvent('TL_list');
-                    router.push(playgroundLink.teamLeaderList());
-                  }}
-                />
-              </BannerWrapper>
+              {isAppJamParticipant && (
+                <BannerWrapper>
+                  <Banner
+                    src={'/icons/img/banner_TL_list_tablet.png'}
+                    alt='TL List Link'
+                    onClick={() => {
+                      logClickEvent('TL_list');
+                      router.push(playgroundLink.teamLeaderList());
+                    }}
+                  />
+                  <OnlyMobileBanner
+                    src={'/icons/img/banner_TL_list_mobile.png'}
+                    alt='TL List Link'
+                    onClick={() => {
+                      logClickEvent('TL_list');
+                      router.push(playgroundLink.teamLeaderList());
+                    }}
+                  />
+                </BannerWrapper>
+              )}
 
-              {canViewWorkPreference && (
+              {isAppJamParticipant && (
                 <Responsive only='mobile'>
                   <WorkPreferenceMatchedMemberList />
                 </Responsive>
@@ -332,20 +334,22 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             </Responsive>
           </div>
-          <Responsive asChild only='desktop'>
-            <BannerWrapper>
-              <Banner
-                src={'/icons/img/banner_TL_list_desktop.png'}
-                alt='TL List Link'
-                onClick={() => {
-                  logClickEvent('TL_list');
-                  router.push(playgroundLink.teamLeaderList());
-                }}
-              />
-            </BannerWrapper>
-          </Responsive>
+          {isAppJamParticipant && (
+            <Responsive asChild only='desktop'>
+              <BannerWrapper>
+                <Banner
+                  src={'/icons/img/banner_TL_list_desktop.png'}
+                  alt='TL List Link'
+                  onClick={() => {
+                    logClickEvent('TL_list');
+                    router.push(playgroundLink.teamLeaderList());
+                  }}
+                />
+              </BannerWrapper>
+            </Responsive>
+          )}
           <StyledMain>
-            {canViewWorkPreference && (
+            {isAppJamParticipant && (
               <Responsive only='desktop'>
                 <WorkPreferenceMatchedMemberList />
               </Responsive>

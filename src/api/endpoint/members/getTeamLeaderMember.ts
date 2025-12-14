@@ -36,12 +36,13 @@ export const getTLMembers = createEndpoint({
 /**
  * @desc TL 멤버 조회
  */
-export const useGetTLMember = () => {
+export const useGetTLMember = (isAppJamParticipant: boolean) => {
   return useQuery({
     queryKey: ['getTLMember'],
     queryFn: async () => {
       const data = await getTLMembers.request();
       return data;
     },
+    enabled: isAppJamParticipant,
   });
 };
