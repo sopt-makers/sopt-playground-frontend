@@ -23,7 +23,7 @@ const TeamLeadersPage = () => {
   const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant);
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
 
-  if (isAppJamParticipant) {
+  if (!isAppJamParticipant) {
     return (
       <div
         style={{
