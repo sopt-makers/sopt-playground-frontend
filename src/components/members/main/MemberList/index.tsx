@@ -92,8 +92,9 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   });
   const { data: memberOfMeData } = useGetMemberOfMe();
 
+  const isTestUser = memberOfMeData?.id === 361;
   const isEmpty = memberProfileData?.pages[0].members.length === 0;
-  const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
+  const isAppJamParticipant = isTestUser || memberOfMeData?.enableWorkPreferenceEvent;
   const profiles = useMemo(
     () =>
       memberProfileData?.pages.map((page) =>
