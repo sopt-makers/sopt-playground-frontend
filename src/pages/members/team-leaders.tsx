@@ -61,7 +61,19 @@ const TeamLeadersPage = () => {
               WEB
             </Chip>
           </ChipWrapper>
-
+          {isTestUser && (
+            <TeamLeaderCard
+              id={361}
+              profileImageUrl=''
+              key={361}
+              name='Test User'
+              university='Test University'
+              activities={[]}
+              introduction='Test Introduction'
+              selfIntroduction='https://www.notion.so/sopt-official/27c1e48dd96080939147f2aa54a1b795?source=copy_link'
+              competitionData='https://www.notion.so/sopt-official/Snappin-2c51e48dd96081139201c3615f4f449f?source=copy_link'
+            />
+          )}
           <TeamLeaderCardsWrapper>
             {tlMemberList
               ?.filter((tlMember) => tlMember.serviceType === selectedPart)
