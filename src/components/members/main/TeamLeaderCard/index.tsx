@@ -27,11 +27,22 @@ interface TeamLeaderCardProps {
   teamLeaderElectionDataUrl?: string;
   notionIntroductionUrl?: string;
   isLoading?: boolean;
+  selfIntroduction: string;
+  competitionData: string;
 }
 const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
 
-const TeamLeaderCard = ({ id, name, university, profileImageUrl, activities, introduction }: TeamLeaderCardProps) => {
+const TeamLeaderCard = ({
+  id,
+  name,
+  university,
+  profileImageUrl,
+  activities,
+  introduction,
+  selfIntroduction,
+  competitionData,
+}: TeamLeaderCardProps) => {
   const router = useRouter();
   const { logClickEvent } = useEventLogger();
   const sortedGenerationActivities = activities?.sort((a, b) => b.generation - a.generation) || []; // TODO: || [] 테스트 후 삭제
@@ -46,14 +57,21 @@ const TeamLeaderCard = ({ id, name, university, profileImageUrl, activities, int
     BADGE_GAP,
   );
 
+  const parseNotionDirectUrl = (url: string) => {
+    url = url.replace('https://', 'notion://');
+    return url;
+  };
+
   const handleClickIntroduce = () => {
     logClickEvent('TL_introduce');
     // TODO: API 연동 후 자기 소개 페이지 이동 로직 추가
+    window.open(parseNotionDirectUrl(selfIntroduction), '_blank');
   };
 
-  const handleClickAppjam = () => {
+  const handleClickAppjamData = () => {
     logClickEvent('TL_appjam');
     // TODO: API 연동 후 경선 자료 페이지 이동 로직 추가
+    window.open(parseNotionDirectUrl(competitionData), '_blank');
   };
 
   const handleClickCard = () => {
@@ -66,10 +84,7 @@ const TeamLeaderCard = ({ id, name, university, profileImageUrl, activities, int
       <MotionMemberCard whileHover='hover' onClick={handleClickCard}>
         <ContentWrapper>
           <ImageWrapper>
-            <MemberProfileImage
-              isLoading={false}
-              imageUrl='https://s3.ap-northeast-2.amazonaws.com/sopt-makers-internal//dev/image/project/d8dc321d-ce24-43cc-a20b-9876e6046bf3-고양이츄릅.jpeg'
-            />
+            <MemberProfileImage isLoading={false} imageUrl={profileImageUrl} size='sm' />
           </ImageWrapper>
           <ContentArea>
             <TitleBox>
@@ -109,7 +124,7 @@ const TeamLeaderCard = ({ id, name, university, profileImageUrl, activities, int
           <Button variant='fill' theme='black' style={{ width: '100%' }} onClick={handleClickIntroduce}>
             자기 소개 보기
           </Button>
-          <Button variant='fill' theme='white' style={{ width: '100%' }} onClick={handleClickAppjam}>
+          <Button variant='fill' theme='white' style={{ width: '100%' }} onClick={handleClickAppjamData}>
             경선 자료 보기
           </Button>
         </ButtonWrapper>
@@ -221,10 +236,6 @@ const MotionMemberCard = styled(m.div)`
     position: relative;
     border-radius: 10px;
     width: 100%;
-
-    &:hover {
-      background-color: transparent;
-    }
   }
 `;
 export default TeamLeaderCard;

@@ -241,8 +241,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 onReset={handleSearchReset}
               />
 
-              {/* TODO: TL리스트 추후 배포 */}
-              {/* <BannerWrapper>
+              <BannerWrapper>
                 <Banner
                   src={'/icons/img/banner_TL_list_tablet.png'}
                   alt='TL List Link'
@@ -259,7 +258,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                     router.push(playgroundLink.teamLeaderList());
                   }}
                 />
-              </BannerWrapper> */}
+              </BannerWrapper>
 
               {canViewWorkPreference && (
                 <Responsive only='mobile'>
@@ -333,7 +332,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             </Responsive>
           </div>
-          {/* <Responsive asChild only='desktop'>
+          <Responsive asChild only='desktop'>
             <BannerWrapper>
               <Banner
                 src={'/icons/img/banner_TL_list_desktop.png'}
@@ -344,7 +343,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 }}
               />
             </BannerWrapper>
-          </Responsive> */}
+          </Responsive>
           <StyledMain>
             {canViewWorkPreference && (
               <Responsive only='desktop'>
