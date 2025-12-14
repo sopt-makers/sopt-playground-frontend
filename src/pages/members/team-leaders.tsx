@@ -22,7 +22,7 @@ const TeamLeadersPage = () => {
 
   // TODO: 메인서버 확인을 위한 테스트 유저케이스 추가
   const isTestUser = memberOfMeData?.id === 361;
-  const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant);
+  const { data: tlMemberList } = useGetTLMember(!!isAppJamParticipant || isTestUser);
   const [selectedPart, setSelectedPart] = useState<SelectedPart>('APP');
 
   if (!isAppJamParticipant && !isPending && !isTestUser) {
