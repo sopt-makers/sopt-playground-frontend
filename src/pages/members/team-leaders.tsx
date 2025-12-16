@@ -104,6 +104,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 178px;
 `;
 
 const StyledMain = styled.main`
