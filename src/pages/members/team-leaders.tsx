@@ -48,8 +48,10 @@ const TeamLeadersPage = () => {
       <StyledContainer>
         <StyledMain>
           <TitleWrapper>
-            <Text typography='SUIT_32_B'>37기 앱잼 TL을 만나보세요🔥</Text>
-            <Text typography='SUIT_18_M' color={colors.gray200}>
+            <Text typography='SUIT_32_B' mobileTypography='SUIT_18_B'>
+              37기 앱잼 TL을 만나보세요🔥
+            </Text>
+            <Text typography='SUIT_18_M' mobileTypography='SUIT_14_M' color={colors.gray200}>
               정렬 순서는 이름 기준 가나다 순이에요.
             </Text>
           </TitleWrapper>
