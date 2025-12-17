@@ -70,8 +70,8 @@ const TeamLeadersPage = () => {
               university='Test University'
               activities={[]}
               introduction='Test Introduction'
-              selfIntroduction='https://www.notion.so/sopt-official/27c1e48dd96080939147f2aa54a1b795?source=copy_link'
-              competitionData='https://www.notion.so/sopt-official/Snappin-2c51e48dd96081139201c3615f4f449f?source=copy_link'
+              selfIntroduction='https://www.notion.so/sopt-makers/SOPT-makers-11cec9382470407099eb313ff09963f6?source=copy_link'
+              competitionData='https://www.notion.so/sopt-makers/SOPT-Playground-1a976042aac280a08351da869df3ff82?source=copy_link'
             />
           )}
           <TeamLeaderCardsWrapper>

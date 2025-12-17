@@ -60,36 +60,31 @@ const TeamLeaderCard = ({
   function useDetectWebView() {
     const userAgent = navigator.userAgent;
 
-    // iOS 웹뷰 감지
-    const isIOS = /iPhone|iPad|iPod/.test(userAgent);
-    const isWebKit = /AppleWebKit/.test(userAgent);
-    const isSafari = /Safari/.test(userAgent) || /Version\/[\d.]+.*Safari/.test(userAgent); // Safari 또는 Version/{version}.Safari 패턴을 포함하지 않는 경우
-    const isNotCriOS = !/CriOS/.test(userAgent);
-    const isNotFxiOS = !/FxiOS/.test(userAgent);
+    // SOPT-iOS 웹뷰 감지
+    const isIOSWebView = /SOPT-iOS/.test(navigator.userAgent);
 
-    const isIOSWebView = isIOS && isWebKit && isNotCriOS && isNotFxiOS && !isSafari;
-
-    // Android 웹뷰 감지
-    const isAndroid = /Android/.test(userAgent);
-    const isAndroidWebView = isAndroid && /wv/.test(userAgent);
+    // SOPT-Android 웹뷰 감지 방법:
+    // 2. User-Agent에 "wv"가 있으면 웹뷰 (기존 방법)
+    // 3. User-Agent가 정확히 "Chrome/56.0.0.0 Mobile"이면 앱에서 설정한 값이므로 웹뷰
+    const hasWvInUserAgent = /wv/.test(userAgent);
+    const isChrome56Mobile = /Chrome\/56\.0\.0\.0 Mobile/.test(userAgent);
+    const isAndroidWebView = hasWvInUserAgent || isChrome56Mobile;
 
     return {
       isWebView: isIOSWebView || isAndroidWebView,
       isIOSWebView,
       isAndroidWebView,
-      isIOS,
-      isAndroid,
     };
   }
 
   const openNotionUrl = (url: string) => {
     const notionDeepLinkUrl = url.replace('https://', 'notion://');
     const originalUrl = url;
+    const webViewInfo = useDetectWebView();
 
-    alert('android: ' + useDetectWebView().isAndroidWebView + ' ' + 'ios: ' + useDetectWebView().isIOSWebView);
-    // 웹뷰 환경이면 원래 URL 사용
-    if (useDetectWebView().isWebView) {
-      window.open(originalUrl, '_blank');
+    //TODO: 웹뷰 환경일 때 Deep Link 처리 앱팀 쪽 협력 요청필요
+    if (webViewInfo.isWebView) {
+      window.location.href = originalUrl;
       return;
     }
 
