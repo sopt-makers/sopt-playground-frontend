@@ -1,18 +1,15 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
+import { useRouter } from 'next/router';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
-import CareerSection from '@/components/members/detail/CareerSection';
-import DetailInfoSection from '@/components/members/detail/DetailinfoSection';
-import GroupSection from '@/components/members/detail/GroupSection';
-import InterestSection from '@/components/members/detail/InterestSection';
-import MessageSection from '@/components/members/detail/MessageSection';
+import AskTabContent from '@/components/members/detail/ActivitySection/AskTabContent';
+import ProfileTabContent from '@/components/members/detail/ActivitySection/ProfileTabContent';
 import ProfileSection from '@/components/members/detail/ProfileSection';
-import ProjectSection from '@/components/members/detail/ProjectSection';
-import SoptActivitySection from '@/components/members/detail/SoptActivitySection';
 import { useRunOnce } from '@/hooks/useRunOnce';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { safeParseInt } from '@/utils';
@@ -21,14 +18,25 @@ interface MemberDetailProps {
   memberId: string;
 }
 
+type TabType = 'profile' | 'ask';
+
+interface Tab {
+  id: TabType;
+  label: string;
+}
+
+const TABS: Tab[] = [
+  { id: 'profile', label: '프로필' },
+  { id: 'ask', label: '에스크' },
+];
+
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
+  const router = useRouter();
   const { logPageViewEvent } = useEventLogger();
 
-  const {
-    data: profile,
-    isLoading,
-    error: profileError,
-  } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
+  const currentTab = (router.query.tab as TabType) || 'profile';
+
+  const { data: profile, isLoading } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
 
   const { data: me } = useGetMemberOfMe();
 
@@ -50,6 +58,17 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     }
   }, [profile, memberId]);
 
+  const handleTabChange = (tab: TabType) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, tab },
+      },
+      undefined,
+      { shallow: true },
+    );
+  };
+
   if (isLoading || !profile)
     return (
       <Container>
@@ -61,54 +80,39 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
     <Container>
       <Wrapper>
         <ProfileSection profile={profile} memberId={memberId} />
-        <MessageSection profile={profile} memberId={memberId} />
-        <DetailInfoSection profile={profile} />
-        <SoptActivitySection soptActivities={sortedSoptActivities} isMine={profile.isMine} />
-        <CareerSection
-          careers={profile.careers}
-          links={profile.links}
-          skill={profile.skill}
-          name={profile.name}
-          email={profile.email}
-          profileImage={profile.profileImage}
-          memberId={memberId}
-          isMine={profile.isMine}
-        />
-        {((profile.sojuCapacity !== undefined && profile.sojuCapacity !== null) ||
-          profile.mbti ||
-          profile.interest ||
-          profile.selfIntroduction ||
-          profile.userFavor?.isSojuLover ||
-          profile.userFavor?.isHardPeachLover ||
-          profile.userFavor?.isMintChocoLover ||
-          profile.userFavor?.isPourSauceLover ||
-          profile.userFavor?.isRedBeanFishBreadLover ||
-          profile.userFavor?.isRiceTteokLover) && (
-          <InterestSection
-            sojuCapacity={profile.sojuCapacity}
-            mbti={{
-              name: profile.mbti,
-              description: profile.mbtiDescription,
-            }}
-            balanceGame={
-              profile.userFavor
-                ? {
-                    isSojuLover: profile.userFavor.isSojuLover,
-                    isHardPeachLover: profile.userFavor.isHardPeachLover,
-                    isMintChocoLover: profile.userFavor.isMintChocoLover,
-                    isPourSauceLover: profile.userFavor.isPourSauceLover,
-                    isRedBeanFishBreadLover: profile.userFavor.isRedBeanFishBreadLover,
-                    isRiceTteokLover: profile.userFavor.isRiceTteokLover,
-                  }
-                : null
-            }
-            interest={profile.interest}
-            selfIntroduction={profile.selfIntroduction}
-            workPreference={profile.workPreference}
-          />
-        )}
-        <ProjectSection profile={profile} memberId={memberId} meId={me?.id} />
-        <GroupSection profile={profile} meId={me?.id} memberId={memberId} />
+
+        <TabNavigation>
+          {TABS.map((tab) => (
+            <TabButton key={tab.id} isActive={currentTab === tab.id} onClick={() => handleTabChange(tab.id)}>
+              {tab.label}
+            </TabButton>
+          ))}
+        </TabNavigation>
+
+        {(() => {
+          switch (currentTab) {
+            case 'profile':
+              return (
+                <ProfileTabContent
+                  profile={profile}
+                  memberId={memberId}
+                  meId={me?.id}
+                  sortedSoptActivities={sortedSoptActivities}
+                />
+              );
+            case 'ask':
+              return <AskTabContent memberId={memberId} />;
+            default:
+              return (
+                <ProfileTabContent
+                  profile={profile}
+                  memberId={memberId}
+                  meId={me?.id}
+                  sortedSoptActivities={sortedSoptActivities}
+                />
+              );
+          }
+        })()}
       </Wrapper>
     </Container>
   );
@@ -135,5 +139,44 @@ const Wrapper = styled.div`
   @media ${MOBILE_MEDIA_QUERY} {
     gap: 24px;
     width: 100%;
+  }
+`;
+
+const TabNavigation = styled.div`
+  display: flex;
+  border-bottom: 1px solid ${colors.gray700};
+  width: 100%;
+`;
+
+const TabButton = styled.button<{ isActive: boolean }>`
+  position: relative;
+  flex: 1;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 16px 24px;
+  color: ${({ isActive }) => (isActive ? colors.white : colors.gray600)};
+  font-size: 16px;
+  font-weight: ${({ isActive }) => (isActive ? '600' : '400')};
+
+  &::after {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    transition: background 0.2s ease;
+    background: ${({ isActive }) => (isActive ? colors.white : 'transparent')};
+    width: 100%;
+    height: 2px;
+    content: '';
+  }
+
+  &:hover {
+    color: #fff;
+  }
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    padding: 14px 16px;
+    font-size: 15px;
   }
 `;
