@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
+import { Tag } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { FC, useMemo } from 'react';
 
 import { useGetMemberOfMe } from '@/api/endpoint/members/getMemberOfMe';
+import { useGetUnansweredQuestionCount } from '@/api/endpoint/members/getUnansweredQuestionCount';
 import { useGetMemberProfileById } from '@/api/endpoint_LEGACY/hooks';
 import Loading from '@/components/common/Loading';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
@@ -39,6 +42,12 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const { data: profile, isLoading } = useGetMemberProfileById(safeParseInt(memberId) ?? undefined);
 
   const { data: me } = useGetMemberOfMe();
+
+  const isMyProfile = me?.id !== undefined && String(me.id) === memberId;
+
+  const { data: unansweredCountData } = useGetUnansweredQuestionCount({
+    enabled: isMyProfile,
+  });
 
   const sortedSoptActivities = useMemo(() => {
     if (!profile?.soptActivities) {
@@ -85,6 +94,13 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
           {TABS.map((tab) => (
             <TabButton key={tab.id} isActive={currentTab === tab.id} onClick={() => handleTabChange(tab.id)}>
               {tab.label}
+              {tab.id === 'ask' && isMyProfile && (unansweredCountData?.count ?? 0) > 0 && (
+                <TagWrapper>
+                  <Tag size='sm' variant='primary' shape='pill'>
+                    {unansweredCountData?.count}
+                  </Tag>
+                </TagWrapper>
+              )}
             </TabButton>
           ))}
         </TabNavigation>
@@ -101,7 +117,14 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
                 />
               );
             case 'ask':
-              return <AskTabContent memberId={memberId} />;
+              return (
+                <AskTabContent
+                  memberId={memberId}
+                  memberName={profile.name}
+                  meId={me?.id}
+                  unansweredCount={unansweredCountData?.count}
+                />
+              );
             default:
               return (
                 <ProfileTabContent
@@ -144,21 +167,32 @@ const Wrapper = styled.div`
 
 const TabNavigation = styled.div`
   display: flex;
+  position: sticky;
+  z-index: 10;
   border-bottom: 1px solid ${colors.gray700};
+  background-color: ${colors.gray950};
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    top: 60px;
+  }
 `;
 
 const TabButton = styled.button<{ isActive: boolean }>`
+  display: flex;
   position: relative;
   flex: 1;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s ease;
   border: none;
   background: transparent;
   cursor: pointer;
-  padding: 16px 24px;
+  height: 36px;
   color: ${({ isActive }) => (isActive ? colors.white : colors.gray600)};
-  font-size: 16px;
   font-weight: ${({ isActive }) => (isActive ? '600' : '400')};
+  ${fonts.HEADING_20_B}
 
   &::after {
     position: absolute;
@@ -176,7 +210,12 @@ const TabButton = styled.button<{ isActive: boolean }>`
   }
 
   @media ${MOBILE_MEDIA_QUERY} {
-    padding: 14px 16px;
-    font-size: 15px;
+    height: 32px;
+    ${fonts.HEADING_16_B}
   }
+`;
+
+const TagWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
