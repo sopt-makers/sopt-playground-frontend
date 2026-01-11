@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
+import { fonts } from '@sopt-makers/fonts';
 import { IconSwitchVertical } from '@sopt-makers/icons';
 import { SearchField } from '@sopt-makers/ui';
 import { debounce, uniq } from 'lodash-es';
@@ -16,6 +17,7 @@ import Responsive from '@/components/common/Responsive';
 import Text from '@/components/common/Text';
 import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import MessageModal, { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import BestOBMemberForAsk from '@/components/members/main/AskOBMemberList';
 import { DESKTOP_ONE_MEDIA_QUERY, DESKTOP_TWO_MEDIA_QUERY } from '@/components/members/main/contants';
 import { useMemberProfileQuery } from '@/components/members/main/hooks/useMemberProfileQuery';
 import MemberCard from '@/components/members/main/MemberCard';
@@ -43,8 +45,6 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { textStyles } from '@/styles/typography';
-
 const PAGE_LIMIT = 24;
 
 interface MemberListProps {
@@ -90,11 +90,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
   const { addQueryParamsToUrl } = usePageQueryParams({
     skipNull: true,
   });
-  const { data: memberOfMeData } = useGetMemberOfMe();
+  //const { data: memberOfMeData } = useGetMemberOfMe();
 
-  const isTestUser = memberOfMeData?.id === 361;
   const isEmpty = memberProfileData?.pages[0].members.length === 0;
-  const isAppJamParticipant = isTestUser || memberOfMeData?.enableWorkPreferenceEvent;
+  //const isAppJamParticipant = memberOfMeData?.enableWorkPreferenceEvent;
   const profiles = useMemo(
     () =>
       memberProfileData?.pages.map((page) =>
@@ -242,7 +241,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 onReset={handleSearchReset}
               />
 
-              {isAppJamParticipant && (
+              {/* {isAppJamParticipant && (
                 <BannerWrapper>
                   <Banner
                     src={'/icons/img/banner_TL_list_tablet.png'}
@@ -267,7 +266,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 <Responsive only='mobile'>
                   <WorkPreferenceMatchedMemberList />
                 </Responsive>
-              )}
+              )} */}
               <StyledMobileFilterWrapper>
                 <BottomSheetSelect
                   options={GENERATION_OPTIONS}
@@ -335,7 +334,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
               )}
             </Responsive>
           </div>
-          {isAppJamParticipant && (
+          {/* {isAppJamParticipant && (
             <Responsive asChild only='desktop'>
               <BannerWrapper>
                 <Banner
@@ -348,13 +347,13 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 />
               </BannerWrapper>
             </Responsive>
-          )}
+          )} */}
           <StyledMain>
-            {isAppJamParticipant && (
+            {/* {isAppJamParticipant && (
               <Responsive only='desktop'>
                 <WorkPreferenceMatchedMemberList />
               </Responsive>
-            )}
+            )} */}
             {banner && (
               <Responsive
                 only='desktop'
@@ -633,6 +632,7 @@ const StyledMain = styled.main`
   flex-direction: column;
   column-gap: 30px;
   align-items: center;
+  max-width: 1312px;
 
   @media ${MOBILE_MEDIA_QUERY} {
     padding: 0 20px;
