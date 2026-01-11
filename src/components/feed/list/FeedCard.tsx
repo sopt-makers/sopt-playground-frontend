@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { IconDotsVertical } from '@sopt-makers/icons';
 import { IconEye } from '@sopt-makers/icons';
+import { Tag } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -44,6 +45,9 @@ interface BaseProps {
   thumbnailUrl: string;
   onClickContent?: () => void;
   onCommentClick?: () => void;
+  answer?: ReactNode;
+  isNew?: boolean;
+  isAskMode?: boolean;
 }
 
 const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
@@ -71,6 +75,9 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
       thumbnailUrl,
       onClickContent,
       onCommentClick,
+      answer,
+      isNew = false,
+      isAskMode,
     },
     ref,
   ) => {
@@ -122,6 +129,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray300}>
                     {info}
                   </InfoText>
+                  {isNew && <Tag variant='primary'>New</Tag>}
                 </Flex>
               ) : (
                 <Flex align='center'>
@@ -133,6 +141,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray400}>
                     {info}
                   </InfoText>
+                  {isNew && <Tag variant='primary'>New</Tag>}
                 </Flex>
               )}
               <Stack.Horizontal gutter={4} align='center'>
@@ -175,17 +184,18 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
           {children}
 
           <Bottom gutter={2}>
-            <Flex css={{ gap: 2 }}>
+            <Flex css={{ gap: 2, visibility: !isAskMode ? 'visible' : 'hidden' }}>
               <IconEye style={{ width: 16, height: 16, color: colors.gray600 }} />
               <Text typography='SUIT_14_SB' lineHeight={18} color={colors.gray600}>
                 {hits}
               </Text>
             </Flex>
             <Flex css={{ gap: 8 }}>
-              <FeedLike likes={commentLength} type='message' onClick={onCommentClick} />
+              {!isAskMode && <FeedLike likes={commentLength} type='message' onClick={onCommentClick} />}
               {like}
             </Flex>
           </Bottom>
+          {answer}
         </Flex>
       </Flex>
     );
@@ -209,6 +219,7 @@ const ProfileImage = styled(ResizedImage)`
 `;
 
 const InfoText = styled(Text)`
+  margin-right: 4px;
   white-space: nowrap;
 
   @media ${'screen and (max-width: 460px)'} {
@@ -249,7 +260,6 @@ const Bottom = styled(Stack.Horizontal)`
   display:flex;
   justify-content: space-between;
   align-items: center;
-  margin-right: 20px;
   gap: 8px;
 `;
 
