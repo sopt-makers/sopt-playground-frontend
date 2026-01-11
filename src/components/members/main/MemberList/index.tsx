@@ -369,6 +369,7 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
 
             <StyledRightWrapper>
               <Responsive only='desktop'>
+                <BestOBMemberForAsk />
                 <StyledTopWrapper>
                   <div
                     css={css`
