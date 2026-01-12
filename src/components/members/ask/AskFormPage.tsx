@@ -11,6 +11,7 @@ import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeed
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import BackArrow from '@/public/icons/icon_chevron_left.svg';
 
 interface AskFormValues {
   content: string;
@@ -75,7 +76,7 @@ export default function AskFormPage({
           header={
             <>
               <BackArrowWrapper onClick={handleBack}>
-                <IconChevronLeft style={{ color: colors.white }} />
+                <BackArrow color={colors.white} />
               </BackArrowWrapper>
               <ButtonContainer>
                 <Button type='submit' size='sm' disabled={!isReadyToSubmit || isSubmitting}>
@@ -171,6 +172,7 @@ const BackArrowWrapper = styled.div`
   left: 0;
   cursor: pointer;
   padding-left: 32px;
+  color: ${colors.white};
 `;
 
 const ButtonContainer = styled.div`

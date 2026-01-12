@@ -66,8 +66,6 @@ const AskAnswerEditPage: FC = () => {
     };
   }, [router.events, storageKey]);
 
-  // ...위 훅들(useRouter/useDialog/useToast/useMemo/useEffect...)은 그대로
-
 if (status === 'loading') return null;
 if (!answerId || !question || !question.answer) return null;
 
