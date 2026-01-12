@@ -288,7 +288,23 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                       answer={
                         question.isAnswered && question.answer ? (
                           <AnswerSection>
-                            <AnswerLabel>답변</AnswerLabel>
+                            <AnswerHeader>
+                              <AnswerLabel>답변</AnswerLabel>
+                              {isMyProfile && question.answer?.answerId && (
+                                <Link
+                                  href={`/members/ask/answer/edit/${question.answer.answerId}`}
+                                  onClick={() => {
+                                    if (typeof window === 'undefined' || !question.answer?.answerId) return;
+                                    sessionStorage.setItem(
+                                      `ask-answer-edit-${question.answer.answerId}`,
+                                      JSON.stringify(question),
+                                    );
+                                  }}
+                                >
+                                  <AnswerEditButton>수정</AnswerEditButton>
+                                </Link>
+                              )}
+                            </AnswerHeader>
                             <AnswerContent>{question.answer.content}</AnswerContent>
                             <AnswerDate>{getRelativeTime(question.answer.createdAt)}</AnswerDate>
                           </AnswerSection>
@@ -396,10 +412,32 @@ const AnswerButton = styled(Button)`
   }
 `;
 
+const AnswerHeader = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const AnswerLabel = styled.span`
   color: #666;
   font-size: 12px;
   font-weight: 600;
+`;
+
+const AnswerEditButton = styled.button`
+  transition: background-color 0.2s;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: ${colors.gray600};
+  font-size: 12px;
+
+  &:hover {
+    background-color: ${colors.gray100};
+  }
 `;
 
 const AnswerContent = styled.p`
