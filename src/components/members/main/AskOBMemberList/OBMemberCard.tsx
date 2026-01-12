@@ -18,10 +18,10 @@ interface OBMemberCardProps {
     part: string;
     team: string | null;
   };
-  career?: {
+  career: {
     companyName: string;
     title: string;
-  };
+  } | null;
 
   isAnswerGuaranteed: boolean;
 }
@@ -70,7 +70,6 @@ export default function OBMemberCard({
         <MemberInfo>
           <NameWrapper>
             <Text typography='SUIT_20_SB'>{name}</Text>
-
             <BadgesBox ref={badgeWrapperRef}>
               <Badges>
                 {visibleBadges?.map((badge, idx) => (
@@ -174,6 +173,7 @@ const MemberCardContent = styled.div`
 const MemberInfo = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2px;
   justify-content: center;
 `;
 

@@ -25,7 +25,7 @@ export const getMembersAskList = createEndpoint({
             companyName: z.string(),
             title: z.string(),
           })
-          .optional(),
+          .nullable(),
 
         isAnswerGuaranteed: z.boolean(),
       }),

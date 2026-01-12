@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
-import { ReactNode, startTransition, useLayoutEffect, useMemo, useState } from 'react';
+import { ReactNode, startTransition, useEffect, useLayoutEffect, useState } from 'react';
 
 import { useGetMembersAskList } from '@/api/endpoint/members/getMembersAskList';
 import Carousel from '@/components/common/Carousel';
@@ -37,11 +37,21 @@ export default function BestOBMemberForAsk() {
   const [listType, setListType] = useState<ListType>();
   const [isOpen, setIsOpenOpen] = useState(false);
   const [selectedPart, setSelectedPart] = useState<string>('기획');
+  const [memberCardList, setMemberCardList] = useState<ReactNode[]>([]);
+
   const { data: membersData, isLoading } = useGetMembersAskList(selectedPart);
-  console.log(membersData);
-  const memberCardList = useMemo(() => {
-    if (!membersData?.members) return [];
-    return membersData.members.map((member) => (
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
+    if (!membersData?.members || membersData.members.length === 0) {
+      setMemberCardList([]);
+      return;
+    }
+
+    const cards = membersData.members.map((member) => (
       <OBMemberCard
         key={member.id}
         id={member.id}
@@ -52,7 +62,8 @@ export default function BestOBMemberForAsk() {
         isAnswerGuaranteed={member.isAnswerGuaranteed}
       />
     ));
-  }, [membersData]);
+    setMemberCardList(cards);
+  }, [membersData, isLoading]);
 
   useLayoutEffect(() => {
     const desktopLargeMedia = window.matchMedia(DESKTOP_LARGE_MEDIA_QUERY);
@@ -142,7 +153,7 @@ export default function BestOBMemberForAsk() {
         />
         <Title>분야에서 활약중인 멤버에게 물어보세요</Title>
       </TitleWrapper>
-      {(listType === undefined || listType === 'carousel-large') && (
+      {(listType === undefined || listType === 'carousel-large') && memberCardList.length > 0 && (
         <StyledCarousel
           itemList={memberCardList}
           limit={4}
@@ -150,7 +161,7 @@ export default function BestOBMemberForAsk() {
           className={SCREEN_SIZE.desktopLarge.className}
         />
       )}
-      {(listType === undefined || listType === 'carousel-small') && (
+      {(listType === undefined || listType === 'carousel-small') && memberCardList.length > 0 && (
         <StyledCarousel
           itemList={memberCardList}
           limit={3}
@@ -159,7 +170,7 @@ export default function BestOBMemberForAsk() {
         />
       )}
 
-      {(listType === undefined || listType === 'tablet') && (
+      {(listType === undefined || listType === 'tablet') && memberCardList.length > 0 && (
         <StyledCarousel
           itemList={memberCardList}
           limit={2}
@@ -167,7 +178,7 @@ export default function BestOBMemberForAsk() {
           className={SCREEN_SIZE.tablet.className}
         ></StyledCarousel>
       )}
-      {(listType === undefined || listType === 'mobile') && (
+      {(listType === undefined || listType === 'mobile') && memberCardList.length > 0 && (
         <StyledCarousel
           itemList={memberCardList}
           limit={1}
