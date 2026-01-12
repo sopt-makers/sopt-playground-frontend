@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import AuthRequired from '@/components/auth/AuthRequired';
@@ -15,14 +15,17 @@ import { IconMember } from '@/components/feed/common/Icon';
 import Link from 'next/link';
 import { playgroundLink } from '@/constants/links';
 import { usePutMemberAnswer } from '@/api/endpoint/members/putMemberAnswer';
-import { useDialog } from '@sopt-makers/ui';
+import { useDialog, useToast } from '@sopt-makers/ui';
 
 const STORAGE_PREFIX = 'ask-answer-edit-';
 
 const AskAnswerEditPage: FC = () => {
   const router = useRouter();
   const { status, query } = useStringRouterQuery(['id'] as const);
-  const { open } = useDialog();
+
+  const { open: openDialog, close: closeDialog } = useDialog();
+  const { open: openToast } = useToast();
+
   const [question, setQuestion] = useState<MemberQuestion | null>(null);
 
   const answerId = useMemo(() => {
@@ -40,15 +43,13 @@ const AskAnswerEditPage: FC = () => {
     if (status !== 'success' || !storageKey) return;
 
     const stored = sessionStorage.getItem(storageKey);
-    if (!stored) {
-      return;
-    }
+    if (!stored) return;
 
     try {
       const parsed: MemberQuestion = JSON.parse(stored);
       setQuestion(parsed);
     } catch {
-      // ignore parse error
+      // ignore
     }
   }, [status, storageKey]);
 
@@ -65,48 +66,50 @@ const AskAnswerEditPage: FC = () => {
     };
   }, [router.events, storageKey]);
 
-  if (status === 'loading') return null;
-  if (!answerId || !question || !question.answer) return null;
+  // ...위 훅들(useRouter/useDialog/useToast/useMemo/useEffect...)은 그대로
 
-  const handleSubmit = async ({ content }: { content: string; isAnonymous: boolean }) => {
-    open({
-      title: '답변을 수정하시겠어요?',
-      description: '수정된 답변으로 변경됩니다.',
-      type: 'default',
-      typeOptions: {
-        cancelButtonText: '취소',
-        approveButtonText: '수정하기',
-        buttonFunction: async () => {
-          try {
-            await putAnswer({ answerId, content });
+if (status === 'loading') return null;
+if (!answerId || !question || !question.answer) return null;
 
-            sessionStorage.removeItem(storageKey);
+const runUpdate = async (content: string) => {
+  try {
+    await putAnswer({ answerId, content });
+    sessionStorage.removeItem(storageKey);
 
-            open({
-              title: '답변이 수정되었어요.',
-              type: 'single',
-              typeOptions: {
-                approveButtonText: '확인',
-                buttonFunction: () => {
-                  router.back();
-                },
-              },
-            });
-          } catch {
-            open({
-              title: '수정에 실패했어요.',
-              description: '잠시 후 다시 시도해 주세요.',
-              type: 'single',
-              typeOptions: {
-                approveButtonText: '확인',
-                buttonFunction: () => {},
-              },
-            });
-          }
-        },
-      },
+    openToast({
+      icon: 'success',
+      content: '답변이 수정되었어요.',
+      style: { content: { whiteSpace: 'pre-wrap' } },
     });
-  };
+
+    closeDialog();
+    router.back();
+  } catch {
+    openToast({
+      icon: 'error',
+      content: '수정에 실패했어요. 잠시 후 다시 시도해 주세요.',
+      style: { content: { whiteSpace: 'pre-wrap' } },
+    });
+
+    closeDialog();
+  }
+};
+
+const handleSubmit = async ({ content }: { content: string; isAnonymous: boolean }) => {
+  openDialog({
+    title: '답변을 수정하시겠어요?',
+    description: '수정된 답변으로 변경됩니다.',
+    type: 'default',
+    typeOptions: {
+      cancelButtonText: '취소',
+      approveButtonText: isPending ? '처리중...' : '수정하기',
+      buttonFunction: async () => {
+        if (isPending) return;
+        await runUpdate(content);
+      },
+    },
+  });
+};
 
   const askerName = question.isAnonymous
     ? question.anonymousProfile?.nickname ?? '익명'
@@ -150,6 +153,7 @@ const AskAnswerEditPage: FC = () => {
                   </ProfileImageBox>
                 </Link>
               )}
+
               <HeaderText>
                 <NameRow>
                   <Name>{askerName}</Name>

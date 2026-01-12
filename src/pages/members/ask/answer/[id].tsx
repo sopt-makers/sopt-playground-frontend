@@ -14,6 +14,7 @@ import { IconMember } from '@/components/feed/common/Icon';
 import Link from 'next/link';
 import { playgroundLink } from '@/constants/links';
 import { usePostMemberQuestionAnswer } from '@/api/endpoint/members/postMemberAnswer';
+import { useToast } from '@sopt-makers/ui';
 
 
 const STORAGE_PREFIX = 'ask-answer-';
@@ -21,7 +22,7 @@ const STORAGE_PREFIX = 'ask-answer-';
 const AskAnswerPage: FC = () => {
   const { status, query } = useStringRouterQuery(['id'] as const);
   const [question, setQuestion] = useState<MemberQuestion | null>(null);
-
+const { open } = useToast();
   const questionId = useMemo(() => query?.id ?? '', [query?.id]);
 
   const questionIdNum = useMemo(() => {
@@ -48,16 +49,26 @@ const AskAnswerPage: FC = () => {
   if (status === 'loading') return null;
   if (!questionId || questionIdNum == null || !question) return null;
 
-  const handleSubmit = async ({ content }: { content: string; isAnonymous: boolean }) => {
-    await postAnswer({
-      questionId: questionIdNum,
-      content,
-    });
+ const handleSubmit = async ({ content }: { content: string; isAnonymous: boolean }) => {
+  await postAnswer({
+    questionId: questionIdNum,
+    content,
+  });
 
-    sessionStorage.removeItem(`${STORAGE_PREFIX}${questionId}`);
+  open({
+    icon: 'success',
+    content: '답변이 등록되었어요.',
+    style: {
+      content: {
+        whiteSpace: 'pre-wrap',
+      },
+    },
+  });
 
-    window.history.back();
-  };
+  sessionStorage.removeItem(`${STORAGE_PREFIX}${questionId}`);
+
+  window.history.back();
+};
 
   const askerName = question.isAnonymous
     ? question.anonymousProfile?.nickname ?? '익명'
