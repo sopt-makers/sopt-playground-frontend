@@ -90,8 +90,18 @@ export default function AskFormPage({
               <InputWrapper>
                 {description}
                 {commentSlot}
-                {commentSlot && <IconFlipForward style={{ width: 24, height: 24, transform: 'scale(1, -1)' }} />}
-                <ContentsInput onChange={(e) => setContent(e.target.value)} ref={desktopContentsRef} value={content} />
+                <ReplyRow>
+                  {commentSlot && (
+                    <ReplyIcon aria-hidden>
+                      <IconFlipForward style={{ width: 24, height: 24, transform: 'scale(1, -1)' }} />
+                    </ReplyIcon>
+                  )}
+                  <ContentsInput
+                    onChange={(e) => setContent(e.target.value)}
+                    ref={desktopContentsRef}
+                    value={content}
+                  />
+                </ReplyRow>
               </InputWrapper>
             </Body>
           }
@@ -124,8 +134,20 @@ export default function AskFormPage({
               <InputWrapper>
                 {description}
                 {commentSlot}
-                {commentSlot && <IconRepeat />}
-                <ContentsInput onChange={(e) => setContent(e.target.value)} ref={mobileContentsRef} value={content} />
+
+                <ReplyRow>
+                  {commentSlot && (
+                    <ReplyIcon aria-hidden>
+                      <IconFlipForward style={{ width: 24, height: 24, transform: 'scale(1, -1)' }} />
+                    </ReplyIcon>
+                  )}
+
+                  <ContentsInput
+                    onChange={(e) => setContent(e.target.value)}
+                    ref={mobileContentsRef}
+                    value={content}
+                  />
+                </ReplyRow>
               </InputWrapper>
             </Body>
           }
@@ -217,13 +239,28 @@ const TagAndCheckboxWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-const ReplyArrowWrapper = styled.div`
+
+const ReplyRow = styled.div`
   display: flex;
+  gap: 12px;
   align-items: flex-start;
-  margin-top: -8px;
-  margin-bottom: -8px;
-  padding-left: 8px;
-  line-height: 1;
-  color: ${colors.gray400};
-  font-size: 20px;
+  width: 100%;
+
+  & > *:last-child {
+    flex: 1;
+    min-width: 0;
+  }
+`;
+
+const ReplyIcon = styled.div`
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  color: ${colors.white};
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: currentColor;
+  }
 `;

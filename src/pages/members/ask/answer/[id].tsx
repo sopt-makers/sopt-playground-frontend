@@ -8,13 +8,13 @@ import { getRelativeTime } from '@/components/feed/common/utils';
 import { setLayout } from '@/utils/layout';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
 import ResizedImage from '@/components/common/ResizedImage';
 import { IconMember } from '@/components/feed/common/Icon';
 import Link from 'next/link';
 import { playgroundLink } from '@/constants/links';
 import { usePostMemberQuestionAnswer } from '@/api/endpoint/members/postMemberAnswer';
 import { useToast } from '@sopt-makers/ui';
+import Text from '@/components/common/Text';
 
 
 const STORAGE_PREFIX = 'ask-answer-';
@@ -91,22 +91,22 @@ const { open } = useToast();
                 <ProfileImageBox>
                   {question.anonymousProfile ? (
                     <ProfileImage
-                      width={32}
-                      height={32}
+                      width={24}
+                      height={24}
                       src={question.anonymousProfile?.profileImgUrl}
                       alt='anonymousProfileImage'
                     />
                   ) : (
-                    <IconMember size={32} />
+                    <IconMember size={24} />
                   )}
                 </ProfileImageBox>
               ) : (
                 <Link href={playgroundLink.memberDetail(question.askerId as number)} css={{ height: 'fit-content' }}>
                   <ProfileImageBox>
                     {question.askerProfileImage ? (
-                      <ProfileImage width={32} height={32} src={question.askerProfileImage} alt='profileImage' />
+                      <ProfileImage width={24} height={24} src={question.askerProfileImage} alt='profileImage' />
                     ) : (
-                      <IconMember size={32} />
+                      <IconMember size={24} />
                     )}
                   </ProfileImageBox>
                 </Link>
@@ -114,13 +114,13 @@ const { open } = useToast();
 
               <HeaderText>
                 <NameRow>
-                  <Name>{askerName}</Name>
-                  <Meta>{getRelativeTime(question.createdAt)}</Meta>
+                  <Text typography='SUIT_14_SB'>{askerName}</Text>
+                  <Text typography='SUIT_12_SB' color={colors.gray400}>{question.askerLatestGeneration}∙{getRelativeTime(question.createdAt)}</Text>
                 </NameRow>
               </HeaderText>
             </QuestionHeader>
 
-            <QuestionBody>{question.content}</QuestionBody>
+            <Text typography='SUIT_14_R' color={colors.gray100}>{question.content}</Text>
 
             <Divider />
           </QuestionPreview>
@@ -133,7 +133,6 @@ const { open } = useToast();
 setLayout(AskAnswerPage, 'empty');
 export default AskAnswerPage;
 
-/* styles 그대로 */
 const QuestionPreview = styled.section`
   display: flex;
   flex-direction: column;
@@ -174,30 +173,6 @@ const NameRow = styled.div`
   gap: 10px;
   align-items: baseline;
   min-width: 0;
-`;
-
-const Name = styled.div`
-  ${fonts.HEADING_24_B}
-
-  white-space: nowrap;
-  color: ${colors.white};
-`;
-
-const Meta = styled.div`
-  ${fonts.BODY_16_M}
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: ${colors.gray400};
-`;
-
-const QuestionBody = styled.p`
-  margin: 0;
-  ${fonts.HEADING_24_B}
-
-  line-height: 1.4;
-  color: ${colors.gray50};
 `;
 
 const Divider = styled.hr`
