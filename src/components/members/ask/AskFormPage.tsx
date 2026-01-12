@@ -38,7 +38,6 @@ export default function AskFormPage({
   const [content, setContent] = useState(defaultValues?.content ?? '');
   const [isAnonymous, setIsAnonymous] = useState(defaultValues?.isAnonymous ?? true);
 
-  // ✅ edit 진입 시 defaultValues 동기화
   useEffect(() => {
     if (defaultValues?.content !== undefined) {
       setContent(defaultValues.content);
