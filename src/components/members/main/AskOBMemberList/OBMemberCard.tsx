@@ -62,6 +62,11 @@ export default function OBMemberCard({
     <OBMemberCardWrapper>
       <MemberCardContent>
         <ImageWrapper>
+          {isAnswerGuaranteed && (
+            <AnswerGuaranteedBadge>
+              <Text typography='SUIT_11_SB'>답변 보장</Text>
+            </AnswerGuaranteedBadge>
+          )}
           <MemberProfileImage imageUrl={profileImageUrl || ''} size='sm' />
         </ImageWrapper>
         <MemberInfo>
@@ -103,6 +108,7 @@ export default function OBMemberCard({
 }
 
 const ImageWrapper = styled.div`
+  position: relative;
   width: 72px;
   height: 72px;
 `;
@@ -171,4 +177,18 @@ const MemberCardContent = styled.div`
 const MemberInfo = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const AnswerGuaranteedBadge = styled.div`
+  display: flex;
+  position: absolute;
+  top: -10px;
+  left: 2px;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  z-index: 2;
+  border-radius: 100px;
+  background: ${colors.blue400};
+  padding: 6px;
 `;
