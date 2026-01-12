@@ -367,8 +367,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             )}
 
             <StyledRightWrapper>
+              <BestOBMemberForAsk />
               <Responsive only='desktop'>
-                <BestOBMemberForAsk />
                 <StyledTopWrapper>
                   <div
                     css={css`
@@ -646,6 +646,10 @@ const StyledRightWrapper = styled.div`
   flex-direction: column;
   margin-top: 68px;
   width: 100%;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-top: 6px;
+  }
 `;
 
 const StyledTopWrapper = styled.div`

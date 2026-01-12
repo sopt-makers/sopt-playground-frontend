@@ -89,7 +89,7 @@ export default function OBMemberCard({
         </MemberInfo>
       </MemberCardContent>
       <Button variant='fill' theme='white'>
-        궁금한 점, 편하게 물어보세요!
+        <Text typography='SUIT_14_SB'>궁금한 점, 편하게 물어보세요!</Text>
       </Button>
     </OBMemberCardWrapper>
   );

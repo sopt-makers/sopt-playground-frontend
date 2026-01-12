@@ -1,47 +1,46 @@
 import styled from '@emotion/styled';
 import { fonts } from '@sopt-makers/fonts';
-import { ReactNode, startTransition, useEffect, useState } from 'react';
+import { ReactNode, startTransition, useEffect, useLayoutEffect, useState } from 'react';
 
 import Carousel from '@/components/common/Carousel';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 import OBmemberCardList from './OBmemberCardList';
-type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | undefined;
+type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | 'mobile' | undefined;
 
 const SCREEN_SIZE = {
   desktopLarge: { size: 1542, className: 'large-desktop-only' },
-  desktopSmall: { size: 1046, className: 'small-desktop-only' },
-  tablet: { size: 1200, className: 'tablet-only' },
-  mobile: { size: 375, className: 'mobile-only' },
+  desktopSmall: { size: 1200, className: 'small-desktop-only' },
+  mobile: { size: MOBILE_MEDIA_QUERY, className: 'mobile-only' },
 };
 
 const DESKTOP_LARGE_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopLarge.size}px`);
 const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopSmall.size}px`);
-const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.size}px`);
 
 export default function BestOBMemberForAsk() {
   const [listType, setListType] = useState<ListType>();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const desktopLargeMedia = window.matchMedia(DESKTOP_LARGE_MEDIA_QUERY);
     const desktopSmallMedia = window.matchMedia(DESKTOP_SMALL_MEDIA_QUERY);
-    const tabletMedia = window.matchMedia(TABLET_MEDIA_QUERY);
 
+    const mobileMedia = window.matchMedia(MOBILE_MEDIA_QUERY);
     const handleChangeDesktopLargeMedia = (e: MediaQueryListEvent) => {
       setListType(e.matches ? 'carousel-small' : 'carousel-large');
     };
     const handleChangeDesktopSmallMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'tablet' : 'tablet');
+      setListType(e.matches ? 'tablet' : 'carousel-small');
     };
-    const handleChangeTabletMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'tablet' : 'tablet');
+    const handleChangeMobileMedia = (e: MediaQueryListEvent) => {
+      setListType(e.matches ? 'mobile' : 'tablet');
     };
     desktopLargeMedia.addEventListener('change', handleChangeDesktopLargeMedia);
     desktopSmallMedia.addEventListener('change', handleChangeDesktopSmallMedia);
-    tabletMedia.addEventListener('change', handleChangeTabletMedia);
+    mobileMedia.addEventListener('change', handleChangeMobileMedia);
     startTransition(() => {
-      if (tabletMedia.matches) {
-        setListType('tablet');
+      if (mobileMedia.matches) {
+        setListType('mobile');
       } else if (desktopSmallMedia.matches) {
         setListType('scroll');
       } else if (desktopLargeMedia.matches) {
@@ -54,7 +53,7 @@ export default function BestOBMemberForAsk() {
     return () => {
       desktopLargeMedia.removeEventListener('change', handleChangeDesktopLargeMedia);
       desktopSmallMedia.removeEventListener('change', handleChangeDesktopSmallMedia);
-      tabletMedia.removeEventListener('change', handleChangeTabletMedia);
+      mobileMedia.removeEventListener('change', handleChangeMobileMedia);
     };
   }, []);
   return (
@@ -83,7 +82,14 @@ export default function BestOBMemberForAsk() {
           itemList={OBmemberCardList()}
           limit={2}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
-          className={SCREEN_SIZE.tablet.className}
+        ></StyledCarousel>
+      )}
+      {(listType === undefined || listType === 'mobile') && (
+        <StyledCarousel
+          itemList={OBmemberCardList()}
+          limit={1}
+          renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
+          className={SCREEN_SIZE.mobile.className}
         ></StyledCarousel>
       )}
     </BestOBMemberWrapper>
@@ -92,6 +98,7 @@ export default function BestOBMemberForAsk() {
 
 export const CardContainer = styled.div`
   display: flex;
+  flex-wrap: nowrap;
   gap: 12px;
 `;
 
@@ -105,18 +112,29 @@ const StyledCarousel = styled(Carousel)`
     margin-left: -53px;
     width: 1104px;
   }
-  @media ${TABLET_MEDIA_QUERY} {
+  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
     width: calc(100% + 54px);
+  }
+  @media ${MOBILE_MEDIA_QUERY} {
+    margin-left: 0;
+    width: 100%;
+
+    & > button {
+      display: none;
+    }
   }
 `;
 const BestOBMemberWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-top: 78px;
+  margin-top: 10px;
   margin-bottom: 48px;
 `;
 
 const Title = styled.h2`
   ${fonts.HEADING_28_B}
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.HEADING_20_B}
+  }
 `;
