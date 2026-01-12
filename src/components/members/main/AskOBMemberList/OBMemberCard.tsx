@@ -7,8 +7,8 @@ import { useRouter } from 'next/router';
 import Text from '@/components/common/Text';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import MemberProfileImage from '@/components/members/main/MemberCard/MemberProfileImage';
+import IconAskCheck from '@/public/icons/icon_ask_check.svg';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-
 interface OBMemberCardProps {
   id: number;
   name: string;
@@ -64,6 +64,7 @@ export default function OBMemberCard({
         <ImageWrapper>
           {isAnswerGuaranteed && (
             <AnswerGuaranteedBadge>
+              <IconAskCheck style={{ width: 14, height: 14 }} />
               <Text typography='SUIT_11_SB'>답변 보장</Text>
             </AnswerGuaranteedBadge>
           )}
@@ -184,10 +185,10 @@ const AnswerGuaranteedBadge = styled.div`
   position: absolute;
   top: -10px;
   left: 2px;
-  flex-direction: column;
   gap: 2px;
-  align-items: flex-start;
-  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
   border-radius: 100px;
   background: ${colors.blue400};
   padding: 6px;

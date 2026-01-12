@@ -35,6 +35,7 @@ export default PartDropdown;
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  z-index: 2;
   border-radius: 12px;
   background-color: ${colors.gray700};
   padding: 8px;
