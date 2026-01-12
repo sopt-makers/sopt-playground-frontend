@@ -5,7 +5,7 @@ import AuthRequired from '@/components/auth/AuthRequired';
 import AskFormPage from '@/components/members/ask/AskFormPage';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
-import { usePutMemberQuestion } from '@/api/endpoint/members/putMemberQuestion'; 
+import { usePutMemberQuestion } from '@/api/endpoint/members/putMemberQuestion';
 import { useDialog } from '@sopt-makers/ui';
 
 type AskDraft = { content: string; isAnonymous: boolean };
@@ -13,8 +13,7 @@ type AskDraft = { content: string; isAnonymous: boolean };
 const AskEditPage: FC = () => {
   const router = useRouter();
   const { status, query } = useStringRouterQuery(['id'] as const);
-      const {open} = useDialog();
-
+  const { open } = useDialog();
 
   const questionId = useMemo(() => query?.id ?? '', [query?.id]);
   const questionIdNum = useMemo(() => {
@@ -103,7 +102,6 @@ const AskEditPage: FC = () => {
       },
     });
   };
-
 
   return (
     <AuthRequired>

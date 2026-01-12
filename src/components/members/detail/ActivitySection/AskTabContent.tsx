@@ -294,9 +294,17 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                           </AnswerSection>
                         ) : isMyProfile && !question.isAnswered ? (
                           <AnswerButtonSection>
-                            <AnswerButton theme='white' size='md'>
-                              답변 작성하기
-                            </AnswerButton>
+                            <Link
+                              href={`/members/ask/answer/${question.questionId}`}
+                              onClick={() => {
+                                if (typeof window === 'undefined') return;
+                                sessionStorage.setItem(`ask-answer-${question.questionId}`, JSON.stringify(question));
+                              }}
+                            >
+                              <AnswerButton theme='white' size='md'>
+                                답변 작성하기
+                              </AnswerButton>
+                            </Link>
                           </AnswerButtonSection>
                         ) : undefined
                       }

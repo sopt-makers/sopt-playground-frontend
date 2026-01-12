@@ -11,7 +11,7 @@ import { useDialog } from '@sopt-makers/ui';
 const MemberAskUploadPage: FC = () => {
   const { status, query } = useStringRouterQuery(['memberId'] as const);
   const router = useRouter();
-    const {open} = useDialog();
+  const { open } = useDialog();
   const { mutateAsync: createQuestion, isPending } = usePostMemberAsk();
 
   const receiverId = useMemo(() => {
@@ -24,7 +24,7 @@ const MemberAskUploadPage: FC = () => {
   if (status === 'loading') return null;
   if (receiverId == null) return null;
 
-const handleSubmit = async ({ content, isAnonymous }: { content: string; isAnonymous: boolean }) => {
+  const handleSubmit = async ({ content, isAnonymous }: { content: string; isAnonymous: boolean }) => {
     const latestSoptActivity = '';
 
     open({

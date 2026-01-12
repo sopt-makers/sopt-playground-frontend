@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { IconChevronLeft } from '@sopt-makers/icons';
+import { IconChevronLeft, IconFlipForward, IconRepeat } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
@@ -20,11 +20,11 @@ interface AskFormValues {
 interface AskFormPageProps {
   defaultValues?: Partial<AskFormValues>;
   onSubmit: (values: AskFormValues) => Promise<void> | void;
-
   isEdit?: boolean;
   isSubmitting?: boolean;
   commentSlot?: ReactNode;
   description?: ReactNode;
+  hideAnonymousToggle?: boolean;
 }
 
 export default function AskFormPage({
@@ -34,6 +34,7 @@ export default function AskFormPage({
   isSubmitting = false,
   commentSlot,
   description,
+  hideAnonymousToggle = false,
 }: AskFormPageProps) {
   const [content, setContent] = useState(defaultValues?.content ?? '');
   const [isAnonymous, setIsAnonymous] = useState(defaultValues?.isAnonymous ?? true);
@@ -88,11 +89,8 @@ export default function AskFormPage({
               <InputWrapper>
                 {description}
                 {commentSlot}
-                <ContentsInput
-                  onChange={(e) => setContent(e.target.value)}
-                  ref={desktopContentsRef}
-                  value={content}
-                />
+                {commentSlot && <IconFlipForward style={{ width: 24, height: 24, transform: 'scale(1, -1)' }} />}
+                <ContentsInput onChange={(e) => setContent(e.target.value)} ref={desktopContentsRef} value={content} />
               </InputWrapper>
             </Body>
           }
@@ -100,11 +98,7 @@ export default function AskFormPage({
             <Footer>
               <TagAndCheckboxWrapper>
                 <CheckboxFormItem label='익명'>
-                  <Checkbox
-                    checked={isAnonymous}
-                    onChange={() => setIsAnonymous((p) => !p)}
-                    size='medium'
-                  />
+                  <Checkbox checked={isAnonymous} onChange={() => setIsAnonymous((p) => !p)} size='medium' />
                 </CheckboxFormItem>
               </TagAndCheckboxWrapper>
             </Footer>
@@ -129,24 +123,19 @@ export default function AskFormPage({
               <InputWrapper>
                 {description}
                 {commentSlot}
-                <ContentsInput
-                  onChange={(e) => setContent(e.target.value)}
-                  ref={mobileContentsRef}
-                  value={content}
-                />
+                {commentSlot && <IconRepeat />}
+                <ContentsInput onChange={(e) => setContent(e.target.value)} ref={mobileContentsRef} value={content} />
               </InputWrapper>
             </Body>
           }
           footer={
             <Footer>
               <TagAndCheckboxWrapper>
-                <CheckboxFormItem label='익명'>
-                  <Checkbox
-                    checked={isAnonymous}
-                    onChange={() => setIsAnonymous((p) => !p)}
-                    size='medium'
-                  />
-                </CheckboxFormItem>
+                {!hideAnonymousToggle && (
+                  <CheckboxFormItem label='익명'>
+                    <Checkbox checked={isAnonymous} onChange={() => setIsAnonymous((p) => !p)} size='medium' />
+                  </CheckboxFormItem>
+                )}
               </TagAndCheckboxWrapper>
             </Footer>
           }
@@ -224,4 +213,15 @@ const TagAndCheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+`;
+
+const ReplyArrowWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  padding-left: 8px;
+  line-height: 1;
+  color: ${colors.gray400};
+  font-size: 20px;
 `;
