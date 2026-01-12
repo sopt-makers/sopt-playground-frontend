@@ -108,9 +108,11 @@ export default function AskFormPage({
           footer={
             <Footer>
               <TagAndCheckboxWrapper>
-                <CheckboxFormItem label='익명'>
-                  <Checkbox checked={isAnonymous} onChange={() => setIsAnonymous((p) => !p)} size='medium' />
-                </CheckboxFormItem>
+                {!hideAnonymousToggle && (
+                  <CheckboxFormItem label='익명'>
+                    <Checkbox checked={isAnonymous} onChange={() => setIsAnonymous((p) => !p)} size='medium' />
+                  </CheckboxFormItem>
+                )}
               </TagAndCheckboxWrapper>
             </Footer>
           }
