@@ -19,6 +19,7 @@ import FeedCard from '@/components/feed/list/FeedCard';
 import { useGetMyLatestAnsweredQuestion } from '@/api/endpoint/members/getMyLatestAnsweredQuestion';
 import { IconChevronLeft } from '@/components/feed/common/Icon';
 import Text from '@/components/common/Text';
+import { zIndex } from '@/styles/zIndex';
 
 interface AskTabContentProps {
   memberId: string;
@@ -395,9 +396,10 @@ export default AskTabContent;
 
 const Container = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 20px;
-  min-height: 100vh;
+  max-width: 790px;
 `;
 
 const EmptyContainer = styled.div`
@@ -426,7 +428,6 @@ const UnansweredCount = styled.span`
 
 const QuestionList = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   gap: 16px;
 `;
@@ -509,12 +510,14 @@ const EmptyState = styled.div`
   ${fonts.BODY_14_M};
 `;
 
+
 const FabSticky = styled.div`
-  display: flex;
   position: fixed;
-  bottom: 52px;
-  justify-content: flex-end;
+  top: calc(100vh - 100px); 
+  align-self: flex-end;
+  z-index: ${zIndex.헤더 + 1};
   margin-top: auto;
+  width: fit-content;
 `;
 
 const AnsweredBanner = styled.button`
