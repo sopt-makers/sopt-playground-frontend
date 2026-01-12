@@ -10,20 +10,20 @@ import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface OBMemberCardProps {
   name: string;
-  profileImageUrl: string;
+  profileImageUrl?: string;
   latestActivity: {
     generation: number;
     part: string;
     team: string | null;
   };
-  currentCareer: {
+  currentCareer?: {
     companyName: string;
     title: string;
-  } | null;
-  previousCareer: {
+  };
+  previousCareer?: {
     companyName: string;
     title: string;
-  } | null;
+  };
   isAnswerGuaranteed: boolean;
 }
 

@@ -38,7 +38,7 @@ export default function OBmemberCardList(): ReactNode[] {
         companyName: '네이버',
         title: 'iOS 개발자',
       },
-      previousCareer: null,
+      previousCareer: undefined,
       isAnswerGuaranteed: true,
     },
     {
@@ -55,7 +55,7 @@ export default function OBmemberCardList(): ReactNode[] {
         companyName: '네이버',
         title: 'iOS 개발자',
       },
-      previousCareer: null,
+      previousCareer: undefined,
       isAnswerGuaranteed: true,
     },
     {
@@ -92,7 +92,7 @@ export default function OBmemberCardList(): ReactNode[] {
         companyName: '네이버',
         title: 'iOS 개발자',
       },
-      previousCareer: null,
+      previousCareer: undefined,
       isAnswerGuaranteed: true,
     },
     {
@@ -129,7 +129,7 @@ export default function OBmemberCardList(): ReactNode[] {
         companyName: '당근마켓',
         title: '안드로이드 개발자',
       },
-      previousCareer: null,
+      previousCareer: undefined,
       isAnswerGuaranteed: false,
     },
   ];

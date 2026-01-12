@@ -1,46 +1,85 @@
 import styled from '@emotion/styled';
+import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { ReactNode, startTransition, useEffect, useLayoutEffect, useState } from 'react';
+import { IconChevronDown } from '@sopt-makers/icons';
+import { ReactNode, startTransition, useLayoutEffect, useMemo, useState } from 'react';
 
+import { useGetMembersAskList } from '@/api/endpoint/members/getMembersAskList';
 import Carousel from '@/components/common/Carousel';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { getScreenMaxWidthMediaQuery } from '@/utils';
 
-import OBmemberCardList from './OBmemberCardList';
+import OBMemberCard from './OBMemberCard';
+import PartDropdown from './PartDropDown';
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | 'mobile' | undefined;
 
 const SCREEN_SIZE = {
   desktopLarge: { size: 1542, className: 'large-desktop-only' },
-  desktopSmall: { size: 1200, className: 'small-desktop-only' },
+  desktopSmall: { size: 1046, className: 'small-desktop-only' },
+  tablet: { size: 1200, className: 'tablet-only' },
   mobile: { size: MOBILE_MEDIA_QUERY, className: 'mobile-only' },
 };
 
 const DESKTOP_LARGE_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopLarge.size}px`);
 const DESKTOP_SMALL_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.desktopSmall.size}px`);
+const TABLET_MEDIA_QUERY = getScreenMaxWidthMediaQuery(`${SCREEN_SIZE.tablet.size}px`);
+
+export const PART_OPTIONS = [
+  { value: '기획', label: '기획' },
+  { value: '디자인', label: '디자인' },
+  { value: '웹', label: '웹' },
+  { value: '서버', label: '서버' },
+  { value: '안드로이드', label: '안드로이드' },
+  { value: 'iOS', label: 'iOS' },
+];
 
 export default function BestOBMemberForAsk() {
   const [listType, setListType] = useState<ListType>();
+  const [isOpen, setIsOpenOpen] = useState(false);
+  const [selectedPart, setSelectedPart] = useState<string>('기획');
+  const { data: membersData, isLoading } = useGetMembersAskList(selectedPart);
+
+  const memberCardList = useMemo(() => {
+    if (!membersData?.members) return [];
+    return membersData.members.map((member) => (
+      <OBMemberCard
+        key={member.id}
+        name={member.name}
+        profileImageUrl={member.profileImageUrl || ''}
+        latestActivity={member.latestActivity}
+        currentCareer={member.currentCareer}
+        previousCareer={member.previousCareer}
+        isAnswerGuaranteed={member.isAnswerGuaranteed}
+      />
+    ));
+  }, [membersData]);
 
   useLayoutEffect(() => {
     const desktopLargeMedia = window.matchMedia(DESKTOP_LARGE_MEDIA_QUERY);
     const desktopSmallMedia = window.matchMedia(DESKTOP_SMALL_MEDIA_QUERY);
-
+    const tabletMedia = window.matchMedia(TABLET_MEDIA_QUERY);
     const mobileMedia = window.matchMedia(MOBILE_MEDIA_QUERY);
     const handleChangeDesktopLargeMedia = (e: MediaQueryListEvent) => {
       setListType(e.matches ? 'carousel-small' : 'carousel-large');
     };
     const handleChangeDesktopSmallMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'tablet' : 'carousel-small');
+      setListType(e.matches ? 'tablet' : 'tablet');
+    };
+    const handleChangeTabletMedia = (e: MediaQueryListEvent) => {
+      setListType(e.matches ? 'tablet' : 'tablet');
     };
     const handleChangeMobileMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'mobile' : 'tablet');
+      setListType(e.matches ? 'mobile' : 'mobile');
     };
     desktopLargeMedia.addEventListener('change', handleChangeDesktopLargeMedia);
     desktopSmallMedia.addEventListener('change', handleChangeDesktopSmallMedia);
+    tabletMedia.addEventListener('change', handleChangeTabletMedia);
     mobileMedia.addEventListener('change', handleChangeMobileMedia);
     startTransition(() => {
       if (mobileMedia.matches) {
         setListType('mobile');
+      } else if (tabletMedia.matches) {
+        setListType('tablet');
       } else if (desktopSmallMedia.matches) {
         setListType('scroll');
       } else if (desktopLargeMedia.matches) {
@@ -53,16 +92,59 @@ export default function BestOBMemberForAsk() {
     return () => {
       desktopLargeMedia.removeEventListener('change', handleChangeDesktopLargeMedia);
       desktopSmallMedia.removeEventListener('change', handleChangeDesktopSmallMedia);
-      mobileMedia.removeEventListener('change', handleChangeMobileMedia);
+      tabletMedia.removeEventListener('change', handleChangeTabletMedia);
     };
   }, []);
+
+  if (isLoading) {
+    return (
+      <BestOBMemberWrapper>
+        <TitleWrapper>
+          <DropdownTrigger>
+            {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
+            <IconChevronDown
+              style={{
+                width: 20,
+                height: 20,
+                transform: isOpen ? 'rotate(-180deg)' : '',
+                transition: 'all 0.5s',
+                flexShrink: 0,
+              }}
+            />
+          </DropdownTrigger>
+          <Title>분야에서 활약중인 멤버에게 물어보세요</Title>
+        </TitleWrapper>
+      </BestOBMemberWrapper>
+    );
+  }
+
   return (
     <BestOBMemberWrapper>
-      <Title>기획 분야에서 활약중인 멤버에게 물어보세요</Title>
-
+      <TitleWrapper>
+        <PartDropdown
+          setSelectedPart={setSelectedPart}
+          open={isOpen}
+          setOpen={setIsOpenOpen}
+          trigger={
+            <DropdownTrigger>
+              {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
+              <IconChevronDown
+                style={{
+                  width: 20,
+                  height: 20,
+                  transform: isOpen ? 'rotate(-180deg)' : '',
+                  transition: 'all 0.5s',
+                  flexShrink: 0,
+                }}
+              />
+            </DropdownTrigger>
+          }
+        />
+        <Title>분야에서 활약중인 멤버에게 물어보세요</Title>
+      </TitleWrapper>
       {(listType === undefined || listType === 'carousel-large') && (
         <StyledCarousel
-          itemList={OBmemberCardList()}
+          itemList={memberCardList}
           limit={4}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
           className={SCREEN_SIZE.desktopLarge.className}
@@ -70,7 +152,7 @@ export default function BestOBMemberForAsk() {
       )}
       {(listType === undefined || listType === 'carousel-small') && (
         <StyledCarousel
-          itemList={OBmemberCardList()}
+          itemList={memberCardList}
           limit={3}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
           className={SCREEN_SIZE.desktopSmall.className}
@@ -79,14 +161,15 @@ export default function BestOBMemberForAsk() {
 
       {(listType === undefined || listType === 'tablet') && (
         <StyledCarousel
-          itemList={OBmemberCardList()}
+          itemList={memberCardList}
           limit={2}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
+          className={SCREEN_SIZE.tablet.className}
         ></StyledCarousel>
       )}
       {(listType === undefined || listType === 'mobile') && (
         <StyledCarousel
-          itemList={OBmemberCardList()}
+          itemList={memberCardList}
           limit={1}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
           className={SCREEN_SIZE.mobile.className}
@@ -112,7 +195,7 @@ const StyledCarousel = styled(Carousel)`
     margin-left: -53px;
     width: 1104px;
   }
-  @media ${DESKTOP_SMALL_MEDIA_QUERY} {
+  @media ${TABLET_MEDIA_QUERY} {
     width: calc(100% + 54px);
   }
   @media ${MOBILE_MEDIA_QUERY} {
@@ -124,6 +207,7 @@ const StyledCarousel = styled(Carousel)`
     }
   }
 `;
+
 const BestOBMemberWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -132,9 +216,27 @@ const BestOBMemberWrapper = styled.div`
   margin-bottom: 48px;
 `;
 
-const Title = styled.h2`
+const Title = styled.span`
   ${fonts.HEADING_28_B}
   @media ${MOBILE_MEDIA_QUERY} {
     ${fonts.HEADING_20_B}
   }
+`;
+
+const DropdownTrigger = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+  ${fonts.HEADING_28_B}
+
+  color: ${colors.yellow400};
+  @media ${MOBILE_MEDIA_QUERY} {
+    ${fonts.HEADING_20_B}
+  }
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
