@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
+import { useRouter } from 'next/router';
 
 import Text from '@/components/common/Text';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
@@ -9,6 +10,7 @@ import MemberProfileImage from '@/components/members/main/MemberCard/MemberProfi
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface OBMemberCardProps {
+  id: number;
   name: string;
   profileImageUrl?: string;
   latestActivity: {
@@ -31,6 +33,7 @@ const ELLIPSIS_WIDTH = 26;
 const BADGE_GAP = 4;
 
 export default function OBMemberCard({
+  id,
   name,
   profileImageUrl,
   latestActivity,
@@ -38,6 +41,7 @@ export default function OBMemberCard({
   previousCareer,
   isAnswerGuaranteed,
 }: OBMemberCardProps) {
+  const router = useRouter();
   const badges = [
     {
       content: `${latestActivity.generation}기 ${latestActivity.part}`,
@@ -51,11 +55,14 @@ export default function OBMemberCard({
     BADGE_GAP,
   );
 
+  const handleClickButton = () => {
+    router.push(`/members/${id}?tab=ask`);
+  };
   return (
     <OBMemberCardWrapper>
       <MemberCardContent>
         <ImageWrapper>
-          <MemberProfileImage imageUrl={''} size='sm' />
+          <MemberProfileImage imageUrl={profileImageUrl || ''} size='sm' />
         </ImageWrapper>
         <MemberInfo>
           <Text typography='SUIT_16_SB'>
@@ -88,7 +95,7 @@ export default function OBMemberCard({
           </BadgesBox>
         </MemberInfo>
       </MemberCardContent>
-      <Button variant='fill' theme='white'>
+      <Button variant='fill' theme='white' onClick={handleClickButton}>
         <Text typography='SUIT_14_SB'>궁금한 점, 편하게 물어보세요!</Text>
       </Button>
     </OBMemberCardWrapper>

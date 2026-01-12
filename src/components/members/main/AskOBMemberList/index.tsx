@@ -44,6 +44,7 @@ export default function BestOBMemberForAsk() {
     return membersData.members.map((member) => (
       <OBMemberCard
         key={member.id}
+        id={member.id}
         name={member.name}
         profileImageUrl={member.profileImageUrl || ''}
         latestActivity={member.latestActivity}
