@@ -38,7 +38,7 @@ export default function BestOBMemberForAsk() {
   const [isOpen, setIsOpenOpen] = useState(false);
   const [selectedPart, setSelectedPart] = useState<string>('기획');
   const { data: membersData, isLoading } = useGetMembersAskList(selectedPart);
-
+  console.log(membersData);
   const memberCardList = useMemo(() => {
     if (!membersData?.members) return [];
     return membersData.members.map((member) => (
@@ -48,8 +48,7 @@ export default function BestOBMemberForAsk() {
         name={member.name}
         profileImageUrl={member.profileImageUrl || ''}
         latestActivity={member.latestActivity}
-        currentCareer={member.currentCareer}
-        previousCareer={member.previousCareer}
+        career={member.career}
         isAnswerGuaranteed={member.isAnswerGuaranteed}
       />
     ));

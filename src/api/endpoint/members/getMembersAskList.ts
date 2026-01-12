@@ -20,18 +20,13 @@ export const getMembersAskList = createEndpoint({
           part: z.string(),
           team: z.string().nullable(),
         }),
-        currentCareer: z
+        career: z
           .object({
             companyName: z.string(),
             title: z.string(),
           })
           .optional(),
-        previousCareer: z
-          .object({
-            companyName: z.string(),
-            title: z.string(),
-          })
-          .optional(),
+
         isAnswerGuaranteed: z.boolean(),
       }),
     ),

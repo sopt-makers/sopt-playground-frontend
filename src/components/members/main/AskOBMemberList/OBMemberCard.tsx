@@ -18,14 +18,11 @@ interface OBMemberCardProps {
     part: string;
     team: string | null;
   };
-  currentCareer?: {
+  career?: {
     companyName: string;
     title: string;
   };
-  previousCareer?: {
-    companyName: string;
-    title: string;
-  };
+
   isAnswerGuaranteed: boolean;
 }
 
@@ -37,8 +34,8 @@ export default function OBMemberCard({
   name,
   profileImageUrl,
   latestActivity,
-  currentCareer,
-  previousCareer,
+  career,
+
   isAnswerGuaranteed,
 }: OBMemberCardProps) {
   const router = useRouter();
@@ -71,34 +68,34 @@ export default function OBMemberCard({
           <MemberProfileImage imageUrl={profileImageUrl || ''} size='sm' />
         </ImageWrapper>
         <MemberInfo>
-          <Text typography='SUIT_16_SB'>
-            {name}
-            <Separator>ㅣ</Separator>
-            {currentCareer?.companyName} {currentCareer?.title} 재직 중
-          </Text>
+          <NameWrapper>
+            <Text typography='SUIT_20_SB'>{name}</Text>
 
-          {previousCareer && (
-            <Text typography='SUIT_13_M' color={colors.gray300}>
-              (전) {previousCareer?.companyName} {previousCareer?.title}
-            </Text>
-          )}
-          <BadgesBox ref={badgeWrapperRef}>
-            <Badges>
-              {visibleBadges?.map((badge, idx) => (
-                <Badge ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)} key={idx} isActive={badge.isActive}>
-                  {badge.isActive && <BadgeActiveDot />}
-                  <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
-                    {badge.content}
-                  </Text>
-                </Badge>
-              ))}
-              {isBadgeOverflow && (
-                <Badge isActive={false}>
-                  <Text typography='SUIT_11_SB'>...</Text>
-                </Badge>
-              )}
-            </Badges>
-          </BadgesBox>
+            <BadgesBox ref={badgeWrapperRef}>
+              <Badges>
+                {visibleBadges?.map((badge, idx) => (
+                  <Badge
+                    ref={(el: HTMLDivElement) => (badgeRefs.current[idx] = el)}
+                    key={idx}
+                    isActive={badge.isActive}
+                  >
+                    {badge.isActive && <BadgeActiveDot />}
+                    <Text typography='SUIT_11_SB' color={badge.isActive ? colors.secondary : colors.gray200}>
+                      {badge.content}
+                    </Text>
+                  </Badge>
+                ))}
+                {isBadgeOverflow && (
+                  <Badge isActive={false}>
+                    <Text typography='SUIT_11_SB'>...</Text>
+                  </Badge>
+                )}
+              </Badges>
+            </BadgesBox>
+          </NameWrapper>
+          <Text typography='SUIT_16_M'>
+            {career?.companyName} {career?.title}
+          </Text>
         </MemberInfo>
       </MemberCardContent>
       <Button variant='fill' theme='white' onClick={handleClickButton}>
@@ -108,6 +105,11 @@ export default function OBMemberCard({
   );
 }
 
+const NameWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+`;
 const ImageWrapper = styled.div`
   position: relative;
   width: 72px;
@@ -146,13 +148,7 @@ const Badges = styled.div`
 
 const BadgesBox = styled.div`
   position: relative;
-  margin-top: 8px;
   overflow-x: hidden;
-`;
-
-const Separator = styled.span`
-  color: ${colors.gray400};
-  ${fonts.TITLE_16_SB}
 `;
 
 const OBMemberCardWrapper = styled.div`
@@ -178,6 +174,7 @@ const MemberCardContent = styled.div`
 const MemberInfo = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 const AnswerGuaranteedBadge = styled.div`
