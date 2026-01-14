@@ -19,6 +19,7 @@ import FeedCard from '@/components/feed/list/FeedCard';
 import { useGetMyLatestAnsweredQuestion } from '@/api/endpoint/members/getMyLatestAnsweredQuestion';
 import Text from '@/components/common/Text';
 import { zIndex } from '@/styles/zIndex';
+import { useRouter } from 'next/router';
 
 import AskReply from './AskReply';
 interface AskTabContentProps {
@@ -31,6 +32,7 @@ interface AskTabContentProps {
 const ITEMS_PER_PAGE = 5;
 
 const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabContentProps) => {
+  const router = useRouter();
   const [selectedTab, setSelectedTab] = useState<QuestionTab>('answered');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -63,7 +65,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
 
   const [scrollTargetIndex, setScrollTargetIndex] = useState<number | null>(null);
 
-  const { data: latestAnswered } = useGetMyLatestAnsweredQuestion(Number(memberId) ?? null);
+  const { data: latestAnswered } = useGetMyLatestAnsweredQuestion(isMyProfile ? null : Number(memberId));
   const hasLatestAnswered =
   latestAnswered != null &&
   (latestAnswered.questionId != null || latestAnswered.page != null || latestAnswered.index != null);
@@ -119,6 +121,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
       </Container>
     );
   }
+  if (!memberId) return null;
 
   return (
     <Container>
@@ -232,24 +235,23 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                           {question.isMine ? (
                             <>
                               {!question.isAnswered && (
-                                <Link href={`/members/ask/edit/${question.questionId}`}
-                                    onClick={(e) => {
-                                      e.stopPropagation(); 
-                                      sessionStorage.setItem(
-                                        `ask-edit-${question.questionId}`,
-                                        JSON.stringify({
-                                          content: question.content,
-                                          isAnonymous: question.isAnonymous,
-                                        }),
-                                      );
+                                  <FeedDropdown.Item
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    sessionStorage.setItem(
+                                      `ask-edit-${question.questionId}`,
+                                      JSON.stringify({
+                                        content: question.content,
+                                        isAnonymous: question.isAnonymous,
+                                      }),
+                                    );
+                                    router.push(`/members/ask/edit/${question.questionId}`);
                                     }}>
-                                  <FeedDropdown.Item>
                                     <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
                                       <IconWrite css={{ width: '16px', height: '16px' }} />
                                       수정
                                     </Flex>
                                   </FeedDropdown.Item>
-                                </Link>
                               )}
                               {!question.isAnswered && (
                                 <FeedDropdown.Item
@@ -333,13 +335,10 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                       answer={
                         question.isAnswered && question.answer ? (
                           <AskReply
-                            answerId={question.answer.answerId}
-                            reactionCount={question.answer.reactionCount}
-                            isReacted={question.answer.isReacted}
-                            createdAt={question.answer.createdAt}
-                            profileImage={''}
+                            question={question}
                             answererName={memberName}
-                            content={question.answer.content}
+                            profileImage={question.answer.profileImage ?? ''} 
+                            isMyProfile={isMyProfile}
                           />
                         ) : isMyProfile && !question.isAnswered ? (
                           <AnswerButtonSection>

@@ -41,3 +41,41 @@ export const useDeleteQuestion = () => {
 
   return { handleDeleteQuestion };
 };
+
+
+interface AnswerOptions {
+  answerId: number;
+  onSuccess?: () => void;
+}
+
+export const useDeleteQuestionAnswer = () => {
+  const toast = useToast();
+  const { mutate } = useDeleteMemberQuestion();
+  const { confirm } = useConfirm();
+
+  const handleDeleteQuestionAnswer = async (options: AnswerOptions) => {
+    const result = await confirm({
+      title: '답변을 정말 삭제하시겠어요?',
+      description: '유익한 정보를 담고 있다면, 글을 남겨 다른 사람들과도 공유해보세요.',
+      okButtonColor: colors.error,
+      okButtonTextColor: colors.white,
+      okButtonText: '삭제하기',
+      cancelButtonText: '취소',
+      maxWidth: 324,
+      zIndex: zIndex.헤더,
+    });
+
+    if (result) {
+      mutate(options.answerId, {
+        onSuccess: () => {
+          options.onSuccess?.();
+          toast.show({
+            message: '답변이 성공적으로 삭제되었어요.',
+          });
+        },
+      });
+    }
+  };
+
+  return { handleDeleteQuestionAnswer };
+};
