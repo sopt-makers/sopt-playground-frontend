@@ -1,6 +1,6 @@
 import { colors } from '@sopt-makers/colors';
 
-import { useDeleteMemberQuestion } from '@/api/endpoint/members/deleteMemberQuestion';
+import { useDeleteMemberQuestion, useDeleteMemberQuestionAnswer } from '@/api/endpoint/members/deleteMemberQuestion';
 import useConfirm from '@/components/common/Modal/useConfirm';
 import useToast from '@/components/common/Toast/useToast';
 import { zIndex } from '@/styles/zIndex';
@@ -50,7 +50,7 @@ interface AnswerOptions {
 
 export const useDeleteQuestionAnswer = () => {
   const toast = useToast();
-  const { mutate } = useDeleteMemberQuestion();
+  const { mutate } = useDeleteMemberQuestionAnswer();
   const { confirm } = useConfirm();
 
   const handleDeleteQuestionAnswer = async (options: AnswerOptions) => {
