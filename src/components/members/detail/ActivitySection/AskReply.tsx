@@ -9,11 +9,15 @@ import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
 
 import { usePostQuestionReaction } from '@/api/endpoint/members/postQuestionReaction';
+import useModalState from '@/components/common/Modal/useModalState';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
+import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { getRelativeTime } from '@/components/feed/common/utils';
+import { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
+import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 interface AskReplyProps {
   createdAt: string;
   profileImage: string;
@@ -32,7 +36,18 @@ export default function AskReply({
   reactionCount,
   isReacted,
 }: AskReplyProps) {
+  const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const { mutate: handleToggleLikeAskAnswer } = usePostQuestionReaction();
+  const toast = useToast();
+
+  const handleClickMessageButton = () => {
+    // TODO: 전화번호 데이터 확인 요망
+    // if (isEmptyPhone) {
+    //   toast.show({ message: `해당 유저는 전화번호를 등록하지 않아 쪽지를 보낼 수 없어요.` });
+    // } else {
+    onOpenMessageModal();
+    //}
+  };
   const isMine = true;
   return (
     <AskReplyContainer>
@@ -122,24 +137,26 @@ export default function AskReply({
             color: colors.white,
             fontSize: '12px',
           }}
+          onClick={handleClickMessageButton}
         >
           쪽지 보내기
         </Button>
       </SendMailWrapper>
+      {isOpenMessageModal && (
+        <MessageModal
+          //TODO: 답변자 id로 수정
+          receiverId={`${answerId}`}
+          name={answererName}
+          profileImageUrl={profileImage}
+          onClose={onCloseMessageModal}
+          //TODO: 카테고리 확인 요망
+          defaultCategory={MessageCategory.NETWORK}
+        />
+      )}
     </AskReplyContainer>
   );
 }
 
-// const Button = styled.button`
-//   padding: 9px 114px;
-
-//   ${fonts.LABEL_14_SB};
-//   background-color: ${colors.gray700};
-//   color: ${colors.gray10};
-//   border-radius: 8px;
-//   border: none;
-//   cursor: pointer;
-// `;
 const HeaderLeft = styled.div`
   display: flex;
   gap: 8px;
