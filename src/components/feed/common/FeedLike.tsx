@@ -11,7 +11,7 @@ interface FeedLikeProps {
   isLiked?: boolean;
   likes: number;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  type?: 'heart' | 'message' | 'thumb';
+  type?: 'heart' | 'message' | 'thumb' | 'helpful';
 }
 
 export const FeedLike = ({ isLiked = false, likes, onClick, type = 'heart' }: FeedLikeProps) => {
@@ -42,6 +42,8 @@ export const FeedLike = ({ isLiked = false, likes, onClick, type = 'heart' }: Fe
 
   const getDefaultBtnText = (type: FeedLikeProps['type']): string => {
     switch (type) {
+      case 'helpful':
+        return '도움돼요';
       case 'heart':
         return '좋아요';
       case 'thumb':

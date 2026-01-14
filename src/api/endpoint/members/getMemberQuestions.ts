@@ -13,6 +13,8 @@ const answerScheme = z
     answerId: z.number(),
     content: z.string(),
     createdAt: z.string(),
+    reactionCount: z.number(),
+    isReacted: z.boolean(),
   })
   .nullable();
 

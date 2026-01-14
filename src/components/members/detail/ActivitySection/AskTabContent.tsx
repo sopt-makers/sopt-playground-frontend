@@ -17,10 +17,10 @@ import { useReportQuestion } from '@/components/feed/common/hooks/useReportQuest
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
 import { useGetMyLatestAnsweredQuestion } from '@/api/endpoint/members/getMyLatestAnsweredQuestion';
-import { IconChevronLeft } from '@/components/feed/common/Icon';
 import Text from '@/components/common/Text';
 import { zIndex } from '@/styles/zIndex';
 
+import AskReply from './AskReply';
 interface AskTabContentProps {
   memberId: string;
   memberName: string;
@@ -193,47 +193,48 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
 
                   return (
                     <div data-ask-index={idx} key={question.questionId}>
-                      <FeedCard
-                        profileImage={question.isAnonymous ? null : question.askerProfileImage}
-                        name={
-                          question.isAnonymous
-                            ? question.anonymousProfile?.nickname ?? '익명'
-                            : question.askerName ?? '익명'
-                        }
-                        info={
-                          <>
-                            <span style={{ margin: '0 4px' }}>·</span>
-                            {question.askerLatestGeneration}
-                            <span style={{ margin: '0 4px' }}>·</span>
-                            {getRelativeTime(question.createdAt)}
-                          </>
-                        }
-                        title=''
-                        content={question.content}
-                        createdAt={question.createdAt}
-                        isBlindWriter={question.isAnonymous}
-                        anonymousProfile={question.anonymousProfile}
-                        isQuestion={true}
-                        commentLength={0}
-                        hits={0}
-                        memberId={question.askerId ?? 0}
-                        isShowInfo={true}
-                        isNew={isNewQuestion}
-                        isAskMode={true}
-                        rightIcon={
-                          <FeedDropdown
-                            trigger={
-                              <Flex as='button'>
-                                <FeedCard.Icon />
-                              </Flex>
-                            }
-                          >
-                            {question.isMine ? (
-                              <>
-                                {!question.isAnswered && (
-                                  <Link
-                                    href={`/members/ask/edit/${question.questionId}`}
-                                    onClick={() => {
+                    <FeedCard
+                      key={question.questionId}
+                      profileImage={question.isAnonymous ? null : question.askerProfileImage}
+                      name={
+                        question.isAnonymous
+                          ? question.anonymousProfile?.nickname ?? '익명'
+                          : question.askerName ?? '익명'
+                      }
+                      info={
+                        <>
+                          <span style={{ margin: '0 4px' }}>·</span>
+                          {question.askerLatestGeneration}
+                          <span style={{ margin: '0 4px' }}>·</span>
+                          {getRelativeTime(question.createdAt)}
+                        </>
+                      }
+                      title=''
+                      content={question.content}
+                      createdAt={question.createdAt}
+                      isBlindWriter={question.isAnonymous}
+                      anonymousProfile={question.anonymousProfile}
+                      isQuestion={true}
+                      commentLength={0}
+                      hits={0}
+                      memberId={question.askerId ?? 0}
+                      isShowInfo={true}
+                      isNew={isNewQuestion}
+                      isAskMode={true}
+                      rightIcon={
+                        <FeedDropdown
+                          trigger={
+                            <Flex as='button'>
+                              <FeedCard.Icon />
+                            </Flex>
+                          }
+                        >
+                          {question.isMine ? (
+                            <>
+                              {!question.isAnswered && (
+                                <Link href={`/members/ask/edit/${question.questionId}`}
+                                    onClick={(e) => {
+                                      e.stopPropagation(); 
                                       sessionStorage.setItem(
                                         `ask-edit-${question.questionId}`,
                                         JSON.stringify({
@@ -241,63 +242,48 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                                           isAnonymous: question.isAnonymous,
                                         }),
                                       );
-                                    }}
-                                  >
-                                    <FeedDropdown.Item>
-                                      <Flex align='center' css={{ gap: '10px', color: `${colors.gray10} ` }}>
-                                        <IconWrite css={{ width: '16px', height: '16px' }} />
-                                        수정
-                                      </Flex>
-                                    </FeedDropdown.Item>
-                                  </Link>
-                                )}
-                                {!question.isAnswered && (
-                                  <FeedDropdown.Item
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleDeleteQuestion({
-                                        questionId: question.questionId,
-                                      });
-                                    }}
-                                  >
-                                    <Flex align='center' css={{ gap: '10px' }}>
-                                      <IconTrash css={{ width: '16px', height: '16px' }} />
-                                      삭제
+                                    }}>
+                                  <FeedDropdown.Item>
+                                    <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                                      <IconWrite css={{ width: '16px', height: '16px' }} />
+                                      수정
                                     </Flex>
                                   </FeedDropdown.Item>
-                                )}
-                              </>
-                            ) : isMyProfile ? (
-                              <>
-                                {!question.isAnswered && (
-                                  <FeedDropdown.Item
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleDeleteQuestion({
-                                        questionId: question.questionId,
-                                      });
-                                    }}
-                                  >
-                                    <Flex align='center' css={{ gap: '10px' }}>
-                                      <IconTrash css={{ width: '16px', height: '16px' }} />
-                                      삭제
-                                    </Flex>
-                                  </FeedDropdown.Item>
-                                )}
+                                </Link>
+                              )}
+                              {!question.isAnswered && (
                                 <FeedDropdown.Item
-                                  type='danger'
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleReportQuestion({ questionId: question.questionId });
+                                    handleDeleteQuestion({
+                                      questionId: question.questionId,
+                                    });
                                   }}
                                 >
-                                  <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-                                    <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
-                                    신고
+                                  <Flex align='center' css={{ gap: '10px' }}>
+                                    <IconTrash css={{ width: '16px', height: '16px' }} />
+                                    삭제
                                   </Flex>
                                 </FeedDropdown.Item>
-                              </>
-                            ) : (
+                              )}
+                            </>
+                          ) : isMyProfile ? (
+                            <>
+                              {!question.isAnswered && (
+                                <FeedDropdown.Item
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteQuestion({
+                                      questionId: question.questionId,
+                                    });
+                                  }}
+                                >
+                                  <Flex align='center' css={{ gap: '10px' }}>
+                                    <IconTrash css={{ width: '16px', height: '16px' }} />
+                                    삭제
+                                  </Flex>
+                                </FeedDropdown.Item>
+                              )}
                               <FeedDropdown.Item
                                 type='danger'
                                 onClick={(e) => {
@@ -310,66 +296,60 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                                   신고
                                 </Flex>
                               </FeedDropdown.Item>
-                            )}
-                          </FeedDropdown>
-                        }
-                        like={
-                          <FeedLike
-                            likes={question.reactionCount}
-                            isLiked={question.isReacted}
-                            type='thumb'
-                            onClick={
-                              question.isReceived
-                                ? undefined
-                                : () => {
-                                    reactToQuestion(question.questionId);
-                                  }
-                            }
+                            </>
+                          ) : (
+                            <FeedDropdown.Item
+                              type='danger'
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleReportQuestion({ questionId: question.questionId });
+                              }}
+                            >
+                              <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
+                                <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                                신고
+                              </Flex>
+                            </FeedDropdown.Item>
+                          )}
+                        </FeedDropdown>
+                      }
+                      like={
+                        <FeedLike
+                          likes={question.reactionCount}
+                          isLiked={question.isReacted}
+                          type='thumb'
+                          onClick={
+                            question.isReceived
+                              ? undefined
+                              : () => {
+                                  reactToQuestion(question.questionId);
+                                }
+                          }
+                        />
+                      }
+                      isSopticle={false}
+                      sopticleUrl=''
+                      thumbnailUrl=''
+                      answer={
+                        question.isAnswered && question.answer ? (
+                          <AskReply
+                            answerId={question.answer.answerId}
+                            reactionCount={question.answer.reactionCount}
+                            isReacted={question.answer.isReacted}
+                            createdAt={question.answer.createdAt}
+                            profileImage={''}
+                            answererName={memberName}
+                            content={question.answer.content}
                           />
-                        }
-                        isSopticle={false}
-                        sopticleUrl=''
-                        thumbnailUrl=''
-                        answer={
-                          question.isAnswered && question.answer ? (
-                            <AnswerSection>
-                              <AnswerHeader>
-                                <AnswerLabel>답변</AnswerLabel>
-                                {isMyProfile && question.answer?.answerId && (
-                                  <Link
-                                    href={`/members/ask/answer/edit/${question.answer.answerId}`}
-                                    onClick={() => {
-                                      if (typeof window === 'undefined' || !question.answer?.answerId) return;
-                                      sessionStorage.setItem(
-                                        `ask-answer-edit-${question.answer.answerId}`,
-                                        JSON.stringify(question),
-                                      );
-                                    }}
-                                  >
-                                    <AnswerEditButton>수정</AnswerEditButton>
-                                  </Link>
-                                )}
-                              </AnswerHeader>
-                              <AnswerContent>{question.answer.content}</AnswerContent>
-                              <AnswerDate>{getRelativeTime(question.answer.createdAt)}</AnswerDate>
-                            </AnswerSection>
-                          ) : isMyProfile && !question.isAnswered ? (
-                            <AnswerButtonSection>
-                              <Link
-                                href={`/members/ask/answer/${question.questionId}`}
-                                onClick={() => {
-                                  if (typeof window === 'undefined') return;
-                                  sessionStorage.setItem(`ask-answer-${question.questionId}`, JSON.stringify(question));
-                                }}
-                              >
-                                <AnswerButton theme='white' size='md'>
-                                  답변 작성하기
-                                </AnswerButton>
-                              </Link>
-                            </AnswerButtonSection>
-                          ) : undefined
-                        }
-                      />
+                        ) : isMyProfile && !question.isAnswered ? (
+                          <AnswerButtonSection>
+                            <AnswerButton theme='white' size='md'>
+                              답변 작성하기
+                            </AnswerButton>
+                          </AnswerButtonSection>
+                        ) : undefined
+                      }
+                    />
                     </div>
                   );
                 })}

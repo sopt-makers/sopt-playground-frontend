@@ -14,7 +14,7 @@ interface CarouselProps {
   onMove?: () => void;
 }
 
-export default function Carousel({ itemList, limit, className, renderItemContainer, onMove}: CarouselProps) {
+export default function Carousel({ itemList, limit, className, renderItemContainer, onMove }: CarouselProps) {
   const { page, direction, moveNext, movePrevious, currentItemList, totalPageSize, move } = useCarousel({
     limit,
     itemList,
@@ -53,10 +53,10 @@ export default function Carousel({ itemList, limit, className, renderItemContain
         </StyledMotionDiv>
       </AnimatePresence>
       <LeftControl onClick={handleClickLeftControl}>
-        <LeftArrowIcon/>
+        <LeftArrowIcon />
       </LeftControl>
       <RightControl onClick={handleClickRightControl}>
-        <RightArrowIcon/>
+        <RightArrowIcon />
       </RightControl>
       <Indicators>
         {Array(totalPageSize)
@@ -105,24 +105,23 @@ const Control = styled.button`
     background-color: ${colors.gray700};
   }
 
-  &:active{
+  &:active {
     background-color: ${colors.gray600};
   }
 `;
 
 const LeftControl = styled(Control)`
-display: flex;
+  display: flex;
   grid-area: left-control;
-align-items: center;
-justify-content: center;
-
+  align-items: center;
+  justify-content: center;
 `;
 
 const RightControl = styled(Control)`
   display: flex;
   grid-area: right-control;
- align-items: center;
- justify-content: center;
+  align-items: center;
+  justify-content: center;
 `;
 
 const RightArrowIcon = styled(LeftArrowIcon)`
