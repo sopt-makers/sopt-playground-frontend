@@ -278,6 +278,9 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                       answer={
                         question.isAnswered && question.answer ? (
                           <AskReply
+                            answerId={question.answer.answerId}
+                            reactionCount={question.answer.reactionCount}
+                            isReacted={question.answer.isReacted}
                             createdAt={question.answer.createdAt}
                             profileImage={''}
                             answererName={memberName}

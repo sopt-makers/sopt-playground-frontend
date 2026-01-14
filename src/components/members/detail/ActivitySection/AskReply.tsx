@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -9,19 +8,31 @@ import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
 
+import { usePostQuestionReaction } from '@/api/endpoint/members/postQuestionReaction';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { getRelativeTime } from '@/components/feed/common/utils';
-
 interface AskReplyProps {
   createdAt: string;
   profileImage: string;
   answererName: string;
   content: string;
+  answerId: number;
+  reactionCount: number;
+  isReacted: boolean;
 }
-export default function AskReply({ createdAt, profileImage, answererName, content }: AskReplyProps) {
+export default function AskReply({
+  createdAt,
+  profileImage,
+  answererName,
+  content,
+  answerId,
+  reactionCount,
+  isReacted,
+}: AskReplyProps) {
+  const { mutate: handleToggleLikeAskAnswer } = usePostQuestionReaction();
   const isMine = true;
   return (
     <AskReplyContainer>
@@ -93,11 +104,12 @@ export default function AskReply({ createdAt, profileImage, answererName, conten
       <Content>{content}</Content>
       <ButtonWrapper>
         <FeedLike
-          isLiked={false}
-          likes={0}
+          isLiked={isReacted}
+          likes={reactionCount}
           type='helpful'
           onClick={() => {
             //TODO: 도움돼요 로직
+            handleToggleLikeAskAnswer(answerId);
           }}
         ></FeedLike>
       </ButtonWrapper>
