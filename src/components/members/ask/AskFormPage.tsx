@@ -12,6 +12,7 @@ import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUp
 import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import BackArrow from '@/public/icons/icon_chevron_left.svg';
+import UsingRules from '@/components/feed/upload/UsingRules';
 
 interface AskFormValues {
   content: string;
@@ -108,6 +109,7 @@ export default function AskFormPage({
           footer={
             <Footer>
               <TagAndCheckboxWrapper>
+                <UsingRules isPreviewOpen={false} onClose={() => {}} />
                 {!hideAnonymousToggle && (
                   <CheckboxFormItem label='익명'>
                     <Checkbox checked={isAnonymous} onChange={() => setIsAnonymous((p) => !p)} size='medium' />
@@ -127,7 +129,7 @@ export default function AskFormPage({
                 {submitLabel}
               </Button>
               <IconLeft type='button' onClick={handleBack}>
-                <IconChevronLeft />
+                <BackArrow color={colors.white} />
               </IconLeft>
             </TopHeader>
           }
@@ -156,6 +158,7 @@ export default function AskFormPage({
           footer={
             <Footer>
               <TagAndCheckboxWrapper>
+                <UsingRules isPreviewOpen={false} onClose={() => {}} />
                 {!hideAnonymousToggle && (
                   <CheckboxFormItem label='익명'>
                     <Checkbox checked={isAnonymous} onChange={() => setIsAnonymous((p) => !p)} size='medium' />
@@ -237,8 +240,9 @@ const Footer = styled.div`
 
 const TagAndCheckboxWrapper = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 41px;
+  align-items: end;
 `;
 
 

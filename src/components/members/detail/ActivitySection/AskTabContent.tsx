@@ -360,13 +360,13 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
         </>
       )}
 
-      <FabSticky>
+      {!isMyProfile && <FabSticky>
         <Link href={`/members/ask/upload?memberId=${memberId}`}>
           <Button LeftIcon={IconPlus} rounded='lg'>
             작성
           </Button>
         </Link>
-      </FabSticky>
+      </FabSticky>}
     </Container>
   );
 };
