@@ -27,3 +27,24 @@ export const useDeleteMemberQuestion = () => {
     },
   });
 };
+
+export const deleteMemberQuestionAnswer = createEndpoint({
+  request: ({ answerId }: { answerId: number }) => ({
+    method: 'DELETE',
+    url: `api/v1/members/questions/answers/${answerId}`,
+  }),
+  serverResponseScheme: z.object({
+    success: z.boolean(),
+  }),
+});
+
+export const useDeleteMemberQuestionAnswer = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (answerId: number) => deleteMemberQuestionAnswer.request({ answerId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getMemberQuestions'] });
+    },
+  });
+};

@@ -6,7 +6,6 @@ import { IconAlertTriangle, IconTrash, IconWrite } from '@sopt-makers/icons';
 import { IconDotsVertical } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
-import Link from 'next/link';
 
 import { usePostQuestionReaction } from '@/api/endpoint/members/postQuestionReaction';
 import useModalState from '@/components/common/Modal/useModalState';
@@ -18,27 +17,25 @@ import FeedLike from '@/components/feed/common/FeedLike';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
+import { useRouter } from 'next/router';
+import { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
+import { useDeleteQuestionAnswer } from '@/components/feed/common/hooks/useDeleteQuestion';
 interface AskReplyProps {
-  createdAt: string;
+   question: MemberQuestion;      
+  answererName: string;       
   profileImage: string;
-  answererName: string;
-  content: string;
-  answerId: number;
-  reactionCount: number;
-  isReacted: boolean;
+  isMyProfile: boolean; 
 }
 export default function AskReply({
-  createdAt,
-  profileImage,
-  answererName,
-  content,
-  answerId,
-  reactionCount,
-  isReacted,
+question, answererName, profileImage, isMyProfile
 }: AskReplyProps) {
+  const answer = question.answer;
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const { mutate: handleToggleLikeAskAnswer } = usePostQuestionReaction();
-  const toast = useToast();
+  const router = useRouter();
+  const { handleDeleteQuestionAnswer } = useDeleteQuestionAnswer();
+  if (!answer) return null;
+  const { answerId, content, createdAt, reactionCount, isReacted } = answer;
 
   const handleClickMessageButton = () => {
     // TODO: 전화번호 데이터 확인 요망
@@ -48,7 +45,7 @@ export default function AskReply({
     onOpenMessageModal();
     //}
   };
-  const isMine = true;
+  const isMine = question.isMine;
   return (
     <AskReplyContainer>
       <AskReplyHeader>
@@ -68,15 +65,17 @@ export default function AskReply({
             </Flex>
           }
         >
-          {/* TODO: 추후 isMine 추가 */}
-          {isMine ? (
             <>
-              {isMine && (
-                <Link href=''>
+              {isMyProfile && (
                   <FeedDropdown.Item
                     onClick={(e) => {
                       e.stopPropagation();
-                      // TODO: 수정 로직
+                      if (typeof window === 'undefined' || !answerId) return;
+                      sessionStorage.setItem(
+                        `ask-answer-edit-${answerId}`,
+                        JSON.stringify(question),
+                      );
+                      router.push(`/members/ask/answer/edit/${answerId}`);
                     }}
                   >
                     <Flex align='center' css={{ gap: '10px', color: `${colors.gray10} ` }}>
@@ -84,13 +83,12 @@ export default function AskReply({
                       수정
                     </Flex>
                   </FeedDropdown.Item>
-                </Link>
               )}
-              {isMine && (
+              {isMyProfile && (
                 <FeedDropdown.Item
                   onClick={(e) => {
                     e.stopPropagation();
-                    // TODO: 삭제 로직
+                    handleDeleteQuestionAnswer({answerId: answerId});
                   }}
                 >
                   <Flex align='center' css={{ gap: '10px' }}>
@@ -100,20 +98,6 @@ export default function AskReply({
                 </FeedDropdown.Item>
               )}
             </>
-          ) : (
-            <FeedDropdown.Item
-              type='danger'
-              onClick={(e) => {
-                e.stopPropagation();
-                // TODO: 신고
-              }}
-            >
-              <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-                <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
-                신고
-              </Flex>
-            </FeedDropdown.Item>
-          )}
         </FeedDropdown>
       </AskReplyHeader>
       <Content>{content}</Content>
@@ -144,7 +128,6 @@ export default function AskReply({
       </SendMailWrapper>
       {isOpenMessageModal && (
         <MessageModal
-          //TODO: 답변자 id로 수정
           receiverId={`${answerId}`}
           name={answererName}
           profileImageUrl={profileImage}

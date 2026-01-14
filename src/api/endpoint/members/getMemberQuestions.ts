@@ -15,6 +15,7 @@ const answerScheme = z
     createdAt: z.string(),
     reactionCount: z.number(),
     isReacted: z.boolean(),
+    profileImage: z.string().nullable(),
   })
   .nullable();
 

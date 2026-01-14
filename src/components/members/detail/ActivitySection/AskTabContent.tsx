@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconAlertTriangle, IconTrash, IconWrite } from '@sopt-makers/icons';
+import { IconAlertTriangle, IconChevronDown, IconPlus, IconTrash, IconWrite } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { QuestionTab, useGetMemberQuestions } from '@/api/endpoint/members/getMemberQuestions';
 import { usePostQuestionReaction } from '@/api/endpoint/members/postQuestionReaction';
@@ -16,6 +16,10 @@ import { useDeleteQuestion } from '@/components/feed/common/hooks/useDeleteQuest
 import { useReportQuestion } from '@/components/feed/common/hooks/useReportQuestion';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
+import { useGetMyLatestAnsweredQuestion } from '@/api/endpoint/members/getMyLatestAnsweredQuestion';
+import Text from '@/components/common/Text';
+import { zIndex } from '@/styles/zIndex';
+import { useRouter } from 'next/router';
 
 import AskReply from './AskReply';
 interface AskTabContentProps {
@@ -28,6 +32,7 @@ interface AskTabContentProps {
 const ITEMS_PER_PAGE = 5;
 
 const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabContentProps) => {
+  const router = useRouter();
   const [selectedTab, setSelectedTab] = useState<QuestionTab>('answered');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -58,6 +63,14 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
     size: 1,
   });
 
+  const [scrollTargetIndex, setScrollTargetIndex] = useState<number | null>(null);
+
+  const { data: latestAnswered } = useGetMyLatestAnsweredQuestion(isMyProfile ? null : Number(memberId));
+  const hasLatestAnswered =
+  latestAnswered != null &&
+  (latestAnswered.questionId != null || latestAnswered.page != null || latestAnswered.index != null);
+  const shouldShowBanner = !isMyProfile && hasLatestAnswered;
+
   const isLoading = isTabLoading || isAnsweredPeekLoading || isUnansweredPeekLoading;
 
   const questions = tabData?.questions ?? [];
@@ -75,7 +88,31 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };  
+
+  const handleGoLatestAnswered = () => {
+    if (latestAnswered?.page == null || latestAnswered?.index == null) return;
+    setSelectedTab('answered');
+    setCurrentPage(latestAnswered.page + 1); 
+    setScrollTargetIndex(latestAnswered.index);
   };
+
+  useEffect(() => {
+    if (selectedTab !== 'answered' || scrollTargetIndex == null || questions.length === 0) return;
+
+    if (isLoading) return;
+
+    const timer = setTimeout(() => {
+      const el = document.querySelector(`[data-ask-index="${scrollTargetIndex}"]`);
+      
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setScrollTargetIndex(null);
+      }
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [selectedTab, currentPage, questions, scrollTargetIndex, isLoading]);
 
   if (isLoading) {
     return (
@@ -84,6 +121,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
       </Container>
     );
   }
+  if (!memberId) return null;
 
   return (
     <Container>
@@ -140,14 +178,24 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
             </EmptyContainer>
           ) : (
             <>
+              {shouldShowBanner && (
+                <AnsweredBanner onClick={handleGoLatestAnswered}>
+                  <Text typography='SUIT_14_SB' color={colors.white}>내 질문에 답변이 달렸어요.</Text>
+                  <BannerRight>
+                    <Text typography='SUIT_14_SB' color={colors.gray50}>보러가기</Text>
+                    <StyledChevronDown />
+                  </BannerRight>
+                </AnsweredBanner>
+              )}
               <QuestionList>
-                {questions.map((question) => {
+                {questions.map((question, idx ) => {
                   const createdDate = new Date(question.createdAt);
                   const now = new Date();
                   const diffInDays = Math.floor((now.getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
                   const isNewQuestion = diffInDays <= 7;
 
                   return (
+                    <div data-ask-index={idx} key={question.questionId}>
                     <FeedCard
                       key={question.questionId}
                       profileImage={question.isAnonymous ? null : question.askerProfileImage}
@@ -187,14 +235,23 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                           {question.isMine ? (
                             <>
                               {!question.isAnswered && (
-                                <Link href=''>
-                                  <FeedDropdown.Item>
-                                    <Flex align='center' css={{ gap: '10px', color: `${colors.gray10} ` }}>
+                                  <FeedDropdown.Item
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    sessionStorage.setItem(
+                                      `ask-edit-${question.questionId}`,
+                                      JSON.stringify({
+                                        content: question.content,
+                                        isAnonymous: question.isAnonymous,
+                                      }),
+                                    );
+                                    router.push(`/members/ask/edit/${question.questionId}`);
+                                    }}>
+                                    <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
                                       <IconWrite css={{ width: '16px', height: '16px' }} />
                                       수정
                                     </Flex>
                                   </FeedDropdown.Item>
-                                </Link>
                               )}
                               {!question.isAnswered && (
                                 <FeedDropdown.Item
@@ -278,13 +335,10 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                       answer={
                         question.isAnswered && question.answer ? (
                           <AskReply
-                            answerId={question.answer.answerId}
-                            reactionCount={question.answer.reactionCount}
-                            isReacted={question.answer.isReacted}
-                            createdAt={question.answer.createdAt}
-                            profileImage={''}
+                            question={question}
                             answererName={memberName}
-                            content={question.answer.content}
+                            profileImage={question.answer.profileImage ?? ''} 
+                            isMyProfile={isMyProfile}
                           />
                         ) : isMyProfile && !question.isAnswered ? (
                           <AnswerButtonSection>
@@ -295,6 +349,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                         ) : undefined
                       }
                     />
+                    </div>
                   );
                 })}
               </QuestionList>
@@ -304,6 +359,14 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
           )}
         </>
       )}
+
+      {!isMyProfile && <FabSticky>
+        <Link href={`/members/ask/upload?memberId=${memberId}`}>
+          <Button LeftIcon={IconPlus} rounded='lg'>
+            작성
+          </Button>
+        </Link>
+      </FabSticky>}
     </Container>
   );
 };
@@ -312,9 +375,10 @@ export default AskTabContent;
 
 const Container = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 20px;
-  min-height: 600px;
+  max-width: 790px;
 `;
 
 const EmptyContainer = styled.div`
@@ -373,10 +437,32 @@ const AnswerButton = styled(Button)`
   }
 `;
 
+const AnswerHeader = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const AnswerLabel = styled.span`
   color: #666;
   font-size: 12px;
   font-weight: 600;
+`;
+
+const AnswerEditButton = styled.button`
+  transition: background-color 0.2s;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: ${colors.gray600};
+  font-size: 12px;
+
+  &:hover {
+    background-color: ${colors.gray100};
+  }
 `;
 
 const AnswerContent = styled.p`
@@ -401,4 +487,38 @@ const EmptyState = styled.div`
   text-align: center;
   color: ${colors.gray300};
   ${fonts.BODY_14_M};
+`;
+
+
+const FabSticky = styled.div`
+  position: fixed;
+  top: calc(100vh - 100px); 
+  align-self: flex-end;
+  z-index: ${zIndex.헤더 + 1};
+  margin-top: auto;
+  width: fit-content;
+`;
+
+const AnsweredBanner = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  border-radius: 8px;
+  background: ${colors.blue400};
+  cursor: pointer;
+  padding: 12px 16px;
+  height: 44px;
+`;
+
+const BannerRight = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+`;
+
+const StyledChevronDown = styled(IconChevronDown)`
+  width: 16px;
+  height: 16px;
+  color: ${colors.white};
 `;
