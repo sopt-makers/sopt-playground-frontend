@@ -30,13 +30,12 @@ export default function AskReply({
 question, answererName, profileImage, isMyProfile
 }: AskReplyProps) {
   const answer = question.answer;
-  if (!answer) return null;
-  const { answerId, content, createdAt, reactionCount, isReacted } = answer;
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const { mutate: handleToggleLikeAskAnswer } = usePostQuestionReaction();
   const router = useRouter();
   const { handleDeleteQuestionAnswer } = useDeleteQuestionAnswer();
-
+  if (!answer) return null;
+  const { answerId, content, createdAt, reactionCount, isReacted } = answer;
 
   const handleClickMessageButton = () => {
     // TODO: 전화번호 데이터 확인 요망
