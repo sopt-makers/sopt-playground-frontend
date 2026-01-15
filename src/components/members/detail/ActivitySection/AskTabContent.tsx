@@ -341,8 +341,18 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                             isMyProfile={isMyProfile}
                           />
                         ) : isMyProfile && !question.isAnswered ? (
-                          <AnswerButtonSection>
-                            <AnswerButton theme='white' size='md'>
+                          <AnswerButtonSection >
+                            <AnswerButton theme='white' size='md' onClick={(e) => {
+                                e.stopPropagation();
+                                 if (typeof window !== 'undefined') {
+                                    sessionStorage.setItem(
+                                      `ask-answer-${question.questionId}`,
+                                      JSON.stringify(question),
+                                    );
+                                  }
+
+                                  router.push(`/members/ask/answer/${question.questionId}`);
+                              }}>
                               답변 작성하기
                             </AnswerButton>
                           </AnswerButtonSection>
