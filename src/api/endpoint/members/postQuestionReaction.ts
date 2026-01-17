@@ -11,7 +11,7 @@ import { createEndpoint } from '@/api/typedAxios';
 export const postQuestionReaction = createEndpoint({
   request: ({ answerId }: { answerId: number }) => ({
     method: 'POST',
-    url: `/api/v1/members/answers/${answerId}/reactions`,
+    url: `/api/v1/members/questions/${answerId}/reactions`,
   }),
   serverResponseScheme: z.object({
     success: z.boolean(),
