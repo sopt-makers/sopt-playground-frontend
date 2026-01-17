@@ -6,7 +6,7 @@ import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { QuestionTab, useGetMemberQuestions } from '@/api/endpoint/members/getMemberQuestions';
 import { useGetMyLatestAnsweredQuestion } from '@/api/endpoint/members/getMyLatestAnsweredQuestion';
@@ -33,10 +33,18 @@ const ITEMS_PER_PAGE = 5;
 
 const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabContentProps) => {
   const router = useRouter();
-  const [selectedTab, setSelectedTab] = useState<QuestionTab>('answered');
+  const isMyProfile = meId !== undefined && String(meId) === memberId;
+
+  const defaultTab = isMyProfile ? 'unanswered' : 'answered';
+  const questionTabFromQuery = (router.query.questionTab as QuestionTab) ?? defaultTab;
+
+  const [selectedTab, setSelectedTab] = useState<QuestionTab>(questionTabFromQuery);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const isMyProfile = meId !== undefined && String(meId) === memberId;
+  useEffect(() => {
+    setSelectedTab(questionTabFromQuery);
+    setCurrentPage(1);
+  }, [questionTabFromQuery]);
 
   const { handleDeleteQuestion } = useDeleteQuestion();
   const { mutate: reactToQuestion } = usePostQuestionReaction();
@@ -73,16 +81,23 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
 
   const isLoading = isTabLoading || isAnsweredPeekLoading || isUnansweredPeekLoading;
 
-  const questions = tabData?.questions ?? [];
+  const questions = useMemo(() => tabData?.questions ?? [], [tabData?.questions]);
   const totalPages = tabData?.totalPages ?? 1;
 
   const hasAnswered = (answeredPeek?.questions?.length ?? 0) > 0;
   const hasUnanswered = (unansweredPeek?.questions?.length ?? 0) > 0;
   const hasAnyQuestions = hasAnswered || hasUnanswered;
 
-  const handleTabChange = (tab: QuestionTab) => {
-    setSelectedTab(tab);
-    setCurrentPage(1);
+  const handleTabChange = (questionTab: QuestionTab) => {
+    const { page: _page, ...restQuery } = router.query;
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...restQuery, questionTab },
+      },
+      undefined,
+      { shallow: true },
+    );
   };
 
   const handlePageChange = (page: number) => {
@@ -92,7 +107,15 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
 
   const handleGoLatestAnswered = () => {
     if (latestAnswered?.page == null || latestAnswered?.index == null) return;
-    setSelectedTab('answered');
+    const { page: _page, ...restQuery } = router.query;
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...restQuery, questionTab: 'answered' },
+      },
+      undefined,
+      { shallow: true },
+    );
     setCurrentPage(latestAnswered.page + 1);
     setScrollTargetIndex(latestAnswered.index);
   };
@@ -276,21 +299,19 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                               </>
                             ) : isMyProfile ? (
                               <>
-                                {!question.isAnswered && (
-                                  <FeedDropdown.Item
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleDeleteQuestion({
-                                        questionId: question.questionId,
-                                      });
-                                    }}
-                                  >
-                                    <Flex align='center' css={{ gap: '10px' }}>
-                                      <IconTrash css={{ width: '16px', height: '16px' }} />
-                                      삭제
-                                    </Flex>
-                                  </FeedDropdown.Item>
-                                )}
+                                <FeedDropdown.Item
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteQuestion({
+                                      questionId: question.questionId,
+                                    });
+                                  }}
+                                >
+                                  <Flex align='center' css={{ gap: '10px' }}>
+                                    <IconTrash css={{ width: '16px', height: '16px' }} />
+                                    삭제
+                                  </Flex>
+                                </FeedDropdown.Item>
                                 <FeedDropdown.Item
                                   type='danger'
                                   onClick={(e) => {
@@ -325,13 +346,9 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                             likes={question.reactionCount}
                             isLiked={question.isReacted}
                             type='thumb'
-                            onClick={
-                              question.isReceived
-                                ? undefined
-                                : () => {
-                                    reactToQuestion(question.questionId);
-                                  }
-                            }
+                            onClick={() => {
+                              reactToQuestion(question.questionId);
+                            }}
                           />
                         }
                         isSopticle={false}
@@ -432,16 +449,6 @@ const QuestionList = styled.div`
   gap: 16px;
 `;
 
-const AnswerSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
-  border-left: 3px solid #ddd;
-  background: #fff;
-  padding: 12px;
-`;
-
 const AnswerButtonSection = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -456,46 +463,6 @@ const AnswerButton = styled(Button)`
   @media (max-width: 768px) {
     width: 100%;
   }
-`;
-
-const AnswerHeader = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const AnswerLabel = styled.span`
-  color: #666;
-  font-size: 12px;
-  font-weight: 600;
-`;
-
-const AnswerEditButton = styled.button`
-  transition: background-color 0.2s;
-  border: none;
-  border-radius: 4px;
-  background: none;
-  cursor: pointer;
-  padding: 4px 8px;
-  color: ${colors.gray600};
-  font-size: 12px;
-
-  &:hover {
-    background-color: ${colors.gray100};
-  }
-`;
-
-const AnswerContent = styled.p`
-  margin: 0;
-  line-height: 1.5;
-  color: #333;
-  font-size: 14px;
-`;
-
-const AnswerDate = styled.span`
-  color: #999;
-  font-size: 11px;
 `;
 
 const EmptyTitle = styled.h1`
