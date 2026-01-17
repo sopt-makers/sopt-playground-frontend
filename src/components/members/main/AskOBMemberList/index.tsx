@@ -239,6 +239,7 @@ const DropdownTrigger = styled.div`
   align-items: center;
   cursor: pointer;
   width: fit-content;
+  white-space: nowrap;
   ${fonts.HEADING_28_B}
 
   color: ${colors.yellow400};
@@ -247,7 +248,7 @@ const DropdownTrigger = styled.div`
   }
 `;
 
-const TitleWrapper = styled.div`
+const TitleWrapper = styled.span`
   display: flex;
-  align-items: center;
+  align-items: start;
 `;
