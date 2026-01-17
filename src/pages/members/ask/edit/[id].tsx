@@ -8,7 +8,7 @@ import { setLayout } from '@/utils/layout';
 import { usePutMemberQuestion } from '@/api/endpoint/members/putMemberQuestion';
 import { useDialog } from '@sopt-makers/ui';
 
-type AskDraft = { content: string; isAnonymous: boolean, receiverId: number | null };
+type AskDraft = { content: string; isAnonymous: boolean, receiverId: number };
 
 const AskEditPage: FC = () => {
   const router = useRouter();
@@ -31,20 +31,20 @@ const AskEditPage: FC = () => {
     if (status !== 'success' || !storageKey) return;
 
     const stored = sessionStorage.getItem(storageKey);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        setDefaultValues({
-          content: parsed.content ?? '',
-          isAnonymous: parsed.isAnonymous ?? true,
-          receiverId: parsed.receiverId ?? null,
-        });
-        return;
-      } catch {
-        // ignore
-      }
+    if (!stored) return;
+
+    try {
+      const parsed = JSON.parse(stored);
+      setDefaultValues({
+        content: parsed.content ?? '',
+        isAnonymous: parsed.isAnonymous ?? true,
+        receiverId: parsed.receiverId ?? null,
+      });
+      return;
+    } catch {
+      // ignore
     }
-    setDefaultValues({ content: '', isAnonymous: true, receiverId: null });
+
   }, [status, storageKey]);
 
   useEffect(() => {
