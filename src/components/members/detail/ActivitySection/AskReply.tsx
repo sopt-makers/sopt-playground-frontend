@@ -7,7 +7,6 @@ import { IconDotsVertical } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 
-import { usePostQuestionReaction } from '@/api/endpoint/members/postQuestionReaction';
 import useModalState from '@/components/common/Modal/useModalState';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
@@ -20,6 +19,7 @@ import MessageModal from '@/components/members/detail/MessageSection/MessageModa
 import { useRouter } from 'next/router';
 import { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
 import { useDeleteQuestionAnswer } from '@/components/feed/common/hooks/useDeleteQuestion';
+import { usePostAnswerReaction } from '@/api/endpoint/members/postAnswerReaction';
 interface AskReplyProps {
    question: MemberQuestion;      
   answererName: string;       
@@ -31,7 +31,7 @@ question, answererName, profileImage, isMyProfile
 }: AskReplyProps) {
   const answer = question.answer;
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
-  const { mutate: handleToggleLikeAskAnswer } = usePostQuestionReaction();
+  const { mutate: handleToggleLikeAskAnswer } = usePostAnswerReaction();
   const router = useRouter();
   const { handleDeleteQuestionAnswer } = useDeleteQuestionAnswer();
   if (!answer) return null;
