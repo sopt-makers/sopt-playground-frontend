@@ -22,6 +22,7 @@ import FeedCard from '@/components/feed/list/FeedCard';
 import { zIndex } from '@/styles/zIndex';
 
 import AskReply from './AskReply';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface AskTabContentProps {
   memberId: string;
   memberName: string;
@@ -176,7 +177,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
             </Button>
           </TabButtons>
 
-          {selectedTab === 'unanswered' && isMyProfile && unansweredCount && unansweredCount > 0 && (
+          {selectedTab === 'unanswered' && isMyProfile && (unansweredCount ?? 0) > 0 && (
             <UnansweredNotice>
               <UnansweredCount>{unansweredCount}개</UnansweredCount>의 질문이 답변을 기다리고 있어요
             </UnansweredNotice>
@@ -479,11 +480,15 @@ const EmptyState = styled.div`
 
 const FabSticky = styled.div`
   position: fixed;
-  top: calc(100vh - 100px);
+  bottom: 72px;
   align-self: flex-end;
   z-index: ${zIndex.헤더 + 1};
   margin-top: auto;
   width: fit-content;
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    bottom: 32px;
+  }
 `;
 
 const Fab = styled(Button)`
