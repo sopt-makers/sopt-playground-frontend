@@ -11,9 +11,10 @@ import { textStyles } from '@/styles/typography';
 interface ContentsInputProp {
   onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   value: string | null;
+  placeholder?: string;
 }
 
-const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: Ref<HTMLDivElement>) => {
+const ContentsInput = forwardRef(({ onChange, value, placeholder='내용을 입력해주세요' }: ContentsInputProp, ref: Ref<HTMLDivElement>) => {
   const editableRef = useRef<HTMLDivElement>(null);
   const {
     isMentionOpen,
@@ -71,9 +72,9 @@ const ContentsInput = forwardRef(({ onChange, value }: ContentsInputProp, ref: R
         }}
         onCompositionStart={() => setIsComposing(true)}
         onCompositionEnd={() => setIsComposing(false)}
-        aria-label='내용을 입력해주세요'
+        aria-label={placeholder}
         ref={editableRef}
-        data-placeholder={editableRef.current?.innerText === '' ? '내용을 입력해주세요' : ''}
+        data-placeholder={editableRef.current?.innerText === '' ? placeholder : ''}
       />
       {isMentionOpen && mentionPosition && (
         <MentionDropdown

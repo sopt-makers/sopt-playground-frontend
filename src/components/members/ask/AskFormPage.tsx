@@ -101,6 +101,7 @@ export default function AskFormPage({
                     onChange={(e) => setContent(e.target.value)}
                     ref={desktopContentsRef}
                     value={content}
+                    placeholder='고민이나 안부인사를 남겨보세요.'
                   />
                 </ReplyRow>
               </InputWrapper>
@@ -125,7 +126,7 @@ export default function AskFormPage({
         <MobileFeedUploadLayout
           header={
             <TopHeader>
-              <Button type='submit' theme='blue' size='sm' disabled={!isReadyToSubmit || isSubmitting}>
+              <Button type='submit' size='sm' disabled={!isReadyToSubmit || isSubmitting}>
                 {submitLabel}
               </Button>
               <IconLeft type='button' onClick={handleBack}>
@@ -150,6 +151,7 @@ export default function AskFormPage({
                     onChange={(e) => setContent(e.target.value)}
                     ref={mobileContentsRef}
                     value={content}
+                    placeholder='고민이나 안부인사를 남겨보세요.'
                   />
                 </ReplyRow>
               </InputWrapper>

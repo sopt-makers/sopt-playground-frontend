@@ -372,9 +372,9 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
 
       {!isMyProfile && <FabSticky>
         <Link href={`/members/ask/upload?memberId=${memberId}`}>
-          <Button LeftIcon={IconPlus} rounded='lg'>
-            작성
-          </Button>
+          <Fab LeftIcon={IconPlus}>
+            질문
+          </Fab>
         </Link>
       </FabSticky>}
     </Container>
@@ -507,6 +507,15 @@ const FabSticky = styled.div`
   z-index: ${zIndex.헤더 + 1};
   margin-top: auto;
   width: fit-content;
+`;
+
+const Fab = styled(Button)`
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background-color: ${colors.white};
+  padding: 12px 14px;
 `;
 
 const AnsweredBanner = styled.button`
