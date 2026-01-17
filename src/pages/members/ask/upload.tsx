@@ -51,7 +51,7 @@ const MemberAskUploadPage: FC = () => {
               typeOptions: {
                 approveButtonText: '확인했어요',
                 buttonFunction: () => {
-                  router.back();
+                  router.push(`/members/${receiverId}?tab=ask&questionTab=unanswered`);
                 },
               },
             });

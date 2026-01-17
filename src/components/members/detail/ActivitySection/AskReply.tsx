@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
-import { IconFlipForward } from '@sopt-makers/icons';
+import { IconFlipForward, IconUser } from '@sopt-makers/icons';
 import { IconAlertTriangle, IconTrash, IconWrite } from '@sopt-makers/icons';
 import { IconDotsVertical } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
 import { useDeleteQuestionAnswer } from '@/components/feed/common/hooks/useDeleteQuestion';
 import { usePostAnswerReaction } from '@/api/endpoint/members/postAnswerReaction';
+import { css } from '@emotion/react';
 interface AskReplyProps {
    question: MemberQuestion;      
   answererName: string;       
@@ -52,7 +53,13 @@ question, answererName, profileImage, isMyProfile
         <HeaderLeft>
           <IconFlipForward style={{ width: 16, height: 16, color: colors.white, transform: 'scale(1, -1)' }} />
           <ProfileWrapper>
-            <ProfileImage src={profileImage} width={32} height={32} />
+            <ImageBox>
+              {profileImage ?
+                <ProfileImage src={profileImage} width={32} height={32} />
+                :
+                  <IconUser style={{ width: 22, height: 22, color: `${colors.gray400}`, paddingTop: '2px' }} />
+              }
+            </ImageBox>
             <AnswerName>{answererName}</AnswerName>
             <AnswerDate>{getRelativeTime(createdAt)}</AnswerDate>
           </ProfileWrapper>
@@ -167,6 +174,18 @@ const ProfileWrapper = styled.div`
   align-items: center;
 `;
 
+const ImageBox = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background-color: ${colors.gray700};
+  width: 32px;
+  height: 32px;
+  clip-path: circle(50%);
+`;
+
 const AskReplyHeader = styled.div`
   display: flex;
   align-items: center;
@@ -207,3 +226,5 @@ const AskReplyContainer = styled.div`
   padding: 20px 24px;
   width: 100%;
 `;
+
+
