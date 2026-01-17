@@ -74,7 +74,7 @@ const ContentsInput = forwardRef(({ onChange, value, placeholder='내용을 입�
         onCompositionEnd={() => setIsComposing(false)}
         aria-label={placeholder}
         ref={editableRef}
-        data-placeholder={editableRef.current?.innerText === '' ? placeholder : ''}
+        data-placeholder={(value ?? '').trim().length === 0 ? placeholder : ''}
       />
       {isMentionOpen && mentionPosition && (
         <MentionDropdown

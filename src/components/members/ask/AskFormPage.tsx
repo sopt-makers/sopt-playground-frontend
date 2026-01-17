@@ -27,6 +27,7 @@ interface AskFormPageProps {
   commentSlot?: ReactNode;
   description?: ReactNode;
   hideAnonymousToggle?: boolean;
+  placeholder?: string;
 }
 
 export default function AskFormPage({
@@ -37,6 +38,7 @@ export default function AskFormPage({
   commentSlot,
   description,
   hideAnonymousToggle = false,
+  placeholder
 }: AskFormPageProps) {
   const [content, setContent] = useState(defaultValues?.content ?? '');
   const [isAnonymous, setIsAnonymous] = useState(defaultValues?.isAnonymous ?? true);
@@ -69,6 +71,25 @@ export default function AskFormPage({
   const handleBack = () => {
     if (typeof window !== 'undefined') window.history.back();
   };
+  
+  useEffect(() => {
+  const focusInput = () => {
+    const editableDiv = document.querySelector('[contenteditable="true"]') as HTMLElement;
+    if (editableDiv && editableDiv.offsetParent !== null) {
+      editableDiv.focus();
+    }
+  };
+
+  const timers = [
+    setTimeout(focusInput, 100),
+    setTimeout(focusInput, 300),
+    setTimeout(focusInput, 500),
+  ];
+
+  return () => {
+    timers.forEach(timer => clearTimeout(timer));
+  };
+}, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -101,7 +122,7 @@ export default function AskFormPage({
                     onChange={(e) => setContent(e.target.value)}
                     ref={desktopContentsRef}
                     value={content}
-                    placeholder='고민이나 안부인사를 남겨보세요.'
+                    placeholder={placeholder}
                   />
                 </ReplyRow>
               </InputWrapper>
@@ -151,7 +172,7 @@ export default function AskFormPage({
                     onChange={(e) => setContent(e.target.value)}
                     ref={mobileContentsRef}
                     value={content}
-                    placeholder='고민이나 안부인사를 남겨보세요.'
+                    placeholder={placeholder}
                   />
                 </ReplyRow>
               </InputWrapper>

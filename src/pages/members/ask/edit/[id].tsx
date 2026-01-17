@@ -112,6 +112,7 @@ const AskEditPage: FC = () => {
         defaultValues={defaultValues}
         isSubmitting={isPending}
         commentSlot={null}
+        placeholder='고민이나 안부인사를 남겨보세요.'
       />
     </AuthRequired>
   );

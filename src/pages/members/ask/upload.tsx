@@ -80,6 +80,7 @@ const MemberAskUploadPage: FC = () => {
           content: '',
           isAnonymous: true,
         }}
+        placeholder='고민이나 안부인사를 남겨보세요.'
       />
     </AuthRequired>
   );
