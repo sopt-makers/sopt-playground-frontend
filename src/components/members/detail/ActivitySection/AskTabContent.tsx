@@ -271,7 +271,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                                         JSON.stringify({
                                           content: question.content,
                                           isAnonymous: question.isAnonymous,
-                                          receiverId: memberId,
+                                          receiverId: Number(memberId),
                                         }),
                                       );
                                       router.push(`/members/ask/edit/${question.questionId}`);
