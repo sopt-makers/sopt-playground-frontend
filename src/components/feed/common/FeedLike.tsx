@@ -64,7 +64,12 @@ export const FeedLike = ({ isLiked = false, likes, onClick, type = 'heart' }: Fe
       {renderIcon()}
 
       {resolvedBtnText && (
-        <Text typography='SUIT_14_SB' color={isLiked ? colors.white : colors.gray400} className='btn-hover'>
+        <Text
+          typography='SUIT_12_SB'
+          mobileTypography='SUIT_12_SB'
+          color={isLiked ? colors.white : colors.gray400}
+          className='btn-hover'
+        >
           {resolvedBtnText}
         </Text>
       )}

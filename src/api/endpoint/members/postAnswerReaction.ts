@@ -6,42 +6,42 @@ import { GetMemberQuestionsResponse } from '@/api/endpoint/members/getMemberQues
 import { createEndpoint } from '@/api/typedAxios';
 
 /**
- * @desc 질문에 반응(나도 궁금해요) 추가/취소
+ * @desc 답변에 반응(도움돼요) 추가/취소
  */
-export const postQuestionReaction = createEndpoint({
+export const postAnswerReaction = createEndpoint({
   request: ({ answerId }: { answerId: number }) => ({
     method: 'POST',
-    url: `/api/v1/members/questions/${answerId}/reactions`,
+    url: `/api/v1/members/answers/${answerId}/reactions`,
   }),
   serverResponseScheme: z.object({
     success: z.boolean(),
   }),
 });
 
-export const usePostQuestionReaction = () => {
+export const usePostAnswerReaction = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (answerId: number) => postQuestionReaction.request({ answerId }),
+    mutationFn: (answerId: number) => postAnswerReaction.request({ answerId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getMemberQuestions'] });
     },
   });
 };
 
-interface UseToggleQuestionReactionParams {
+interface UseToggleAnswerReactionParams {
   answerId: number;
   isReacted: boolean;
   reactionCount: number;
   questionQueryKeys: unknown[][];
 }
 
-export const useToggleQuestionReactionMutation = () => {
+export const useToggleAnswerReactionMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ answerId }: UseToggleQuestionReactionParams): Promise<unknown> => {
-      return postQuestionReaction.request({ answerId });
+    mutationFn: ({ answerId }: UseToggleAnswerReactionParams): Promise<unknown> => {
+      return postAnswerReaction.request({ answerId });
     },
     onMutate: async ({ answerId, isReacted, reactionCount, questionQueryKeys }) => {
       // 모든 관련 쿼리 취소
@@ -63,9 +63,9 @@ export const useToggleQuestionReactionMutation = () => {
 
           return produce(oldData, (draft) => {
             draft.questions.forEach((question) => {
-              if (question.questionId === answerId) {
-                question.reactionCount = isReacted ? reactionCount - 1 : reactionCount + 1;
-                question.isReacted = !isReacted;
+              if (question.answer?.answerId === answerId) {
+                question.answer.reactionCount = isReacted ? reactionCount - 1 : reactionCount + 1;
+                question.answer.isReacted = !isReacted;
               }
             });
           });
