@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { CSSProperties, FC, HTMLAttributes, PropsWithChildren } from 'react';
 
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { space, SpaceProps } from '@/styles/spacing';
 import { baseTextStyles, textStyles, Typography } from '@/styles/typography';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 const TEXT_TAGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'b', 'small', 'i', 'span', 'del', 'em', 'blockquote'] as const;
 type As = keyof Pick<JSX.IntrinsicElements, (typeof TEXT_TAGS)[number]>;
 interface TextProps extends HTMLAttributes<HTMLSpanElement>, SpaceProps {
@@ -22,7 +22,7 @@ const Text: FC<PropsWithChildren<TextProps>> = ({
   align,
   as,
   typography = 'SUIT_14_M',
-  mobileTypography = 'SUIT_13_M',
+  mobileTypography,
   color,
   type = 'default',
   children,
