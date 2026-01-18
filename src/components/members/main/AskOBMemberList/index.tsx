@@ -127,8 +127,8 @@ export default function BestOBMemberForAsk() {
             {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
             <IconChevronDown
               style={{
-                width: 20,
-                height: 20,
+                width: 32,
+                height: 32,
                 transform: isOpen ? 'rotate(-180deg)' : '',
                 transition: 'all 0.5s',
                 flexShrink: 0,
@@ -153,8 +153,8 @@ export default function BestOBMemberForAsk() {
               {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
               <IconChevronDown
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 32,
+                  height: 32,
                   transform: isOpen ? 'rotate(-180deg)' : '',
                   transition: 'all 0.5s',
                   flexShrink: 0,
