@@ -227,7 +227,7 @@ const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
   ${({ isButton }) =>
     !isButton &&
     css`
-      & button {
+      & > button {
         display: none;
       }
     `};
