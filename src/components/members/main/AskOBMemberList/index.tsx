@@ -239,7 +239,7 @@ const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
     width: calc(100% + 54px);
   }
   @media ${MOBILE_MEDIA_QUERY} {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     gap: 16px;
     margin-left: 0;
