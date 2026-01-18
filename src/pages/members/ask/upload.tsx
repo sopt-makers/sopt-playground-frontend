@@ -51,7 +51,7 @@ const MemberAskUploadPage: FC = () => {
               typeOptions: {
                 approveButtonText: '확인했어요',
                 buttonFunction: () => {
-                  router.back();
+                  router.push(`/members/${receiverId}?tab=ask&questionTab=unanswered`);
                 },
               },
             });
@@ -80,6 +80,7 @@ const MemberAskUploadPage: FC = () => {
           content: '',
           isAnonymous: true,
         }}
+        placeholder='고민이나 안부인사를 남겨보세요.'
       />
     </AuthRequired>
   );
