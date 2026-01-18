@@ -210,17 +210,12 @@ export const CardContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
-  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-    justify-content: center;
-  }
 `;
 
 const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
   flex-wrap: nowrap;
   gap: 12px;
-  justify-content: start;
-
-  /* margin-left: -58px; */
+  margin-right: auto;
   margin-left: -12px;
   padding-top: 8px;
   width: 1300px;
@@ -232,8 +227,11 @@ const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
       }
     `};
 
+  & > div:last-child {
+    justify-content: center;
+  }
+
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-    /* margin-left: -53px; */
     margin-left: -13px;
     width: 1104px;
   }
@@ -241,6 +239,9 @@ const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
     width: calc(100% + 54px);
   }
   @media ${MOBILE_MEDIA_QUERY} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     margin-left: 0;
     width: 100%;
 
