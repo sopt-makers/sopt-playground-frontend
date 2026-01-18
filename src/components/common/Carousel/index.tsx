@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { AnimatePresence, m } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 
 import CarouselBody from '@/components/common/Carousel/Body';
 import useCarousel, { CarouselDirection } from '@/components/common/Carousel/useCarousel';
@@ -20,6 +20,10 @@ export default function Carousel({ itemList, limit, className, renderItemContain
     itemList,
   });
 
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 100;
+
   const handleClickLeftControl = () => {
     movePrevious();
     onMove?.();
@@ -35,6 +39,31 @@ export default function Carousel({ itemList, limit, className, renderItemContain
     onMove?.();
   };
 
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      moveNext();
+      onMove?.();
+    }
+    if (isRightSwipe) {
+      movePrevious();
+      onMove?.();
+    }
+  };
+
   return (
     <Container className={className}>
       <AnimatePresence initial={false} custom={direction}>
@@ -48,6 +77,9 @@ export default function Carousel({ itemList, limit, className, renderItemContain
             x: { type: 'spring', stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 },
           }}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
         >
           <CarouselBody currentItemList={currentItemList} renderContainer={renderItemContainer} />
         </StyledMotionDiv>

@@ -19,10 +19,10 @@ import { useDeleteQuestion } from '@/components/feed/common/hooks/useDeleteQuest
 import { useReportQuestion } from '@/components/feed/common/hooks/useReportQuestion';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import FeedCard from '@/components/feed/list/FeedCard';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { zIndex } from '@/styles/zIndex';
 
 import AskReply from './AskReply';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface AskTabContentProps {
   memberId: string;
   memberName: string;
@@ -359,6 +359,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                         answer={
                           question.isAnswered && question.answer ? (
                             <AskReply
+                              isMine={question.isMine}
                               question={question}
                               answererName={memberName}
                               profileImage={question.answer.profileImage ?? ''}
@@ -401,9 +402,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
       {!isMyProfile && (
         <FabSticky>
           <Link href={`/members/ask/upload?memberId=${memberId}`}>
-            <Fab LeftIcon={IconPlus}>
-              질문
-            </Fab>
+            <Fab LeftIcon={IconPlus}>질문</Fab>
           </Link>
         </FabSticky>
       )}

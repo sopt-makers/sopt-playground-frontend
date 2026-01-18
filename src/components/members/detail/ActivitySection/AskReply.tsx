@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -6,30 +7,27 @@ import { IconAlertTriangle, IconTrash, IconWrite } from '@sopt-makers/icons';
 import { IconDotsVertical } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
+import { useRouter } from 'next/router';
 
+import { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
+import { usePostAnswerReaction } from '@/api/endpoint/members/postAnswerReaction';
 import useModalState from '@/components/common/Modal/useModalState';
 import ResizedImage from '@/components/common/ResizedImage';
 import Text from '@/components/common/Text';
-import useToast from '@/components/common/Toast/useToast';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
+import { useDeleteQuestionAnswer } from '@/components/feed/common/hooks/useDeleteQuestion';
 import { getRelativeTime } from '@/components/feed/common/utils';
 import { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
-import { useRouter } from 'next/router';
-import { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
-import { useDeleteQuestionAnswer } from '@/components/feed/common/hooks/useDeleteQuestion';
-import { usePostAnswerReaction } from '@/api/endpoint/members/postAnswerReaction';
-import { css } from '@emotion/react';
 interface AskReplyProps {
-   question: MemberQuestion;      
-  answererName: string;       
+  question: MemberQuestion;
+  answererName: string;
   profileImage: string;
-  isMyProfile: boolean; 
+  isMyProfile: boolean;
+  isMine: boolean;
 }
-export default function AskReply({
-question, answererName, profileImage, isMyProfile
-}: AskReplyProps) {
+export default function AskReply({ question, answererName, profileImage, isMyProfile, isMine }: AskReplyProps) {
   const answer = question.answer;
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const { mutate: handleToggleLikeAskAnswer } = usePostAnswerReaction();
@@ -46,7 +44,7 @@ question, answererName, profileImage, isMyProfile
     onOpenMessageModal();
     //}
   };
-  const isMine = question.isMine;
+
   return (
     <AskReplyContainer>
       <AskReplyHeader>
@@ -54,11 +52,11 @@ question, answererName, profileImage, isMyProfile
           <IconFlipForward style={{ width: 16, height: 16, color: colors.white, transform: 'scale(1, -1)' }} />
           <ProfileWrapper>
             <ImageBox>
-              {profileImage ?
+              {profileImage ? (
                 <ProfileImage src={profileImage} width={32} height={32} />
-                :
-                  <IconUser style={{ width: 22, height: 22, color: `${colors.gray400}`, paddingTop: '2px' }} />
-              }
+              ) : (
+                <IconUser style={{ width: 22, height: 22, color: `${colors.gray400}`, paddingTop: '2px' }} />
+              )}
             </ImageBox>
             <AnswerName>{answererName}</AnswerName>
             <AnswerDate>{getRelativeTime(createdAt)}</AnswerDate>
@@ -72,39 +70,36 @@ question, answererName, profileImage, isMyProfile
             </Flex>
           }
         >
-            <>
-              {isMyProfile && (
-                  <FeedDropdown.Item
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (typeof window === 'undefined' || !answerId) return;
-                      sessionStorage.setItem(
-                        `ask-answer-edit-${answerId}`,
-                        JSON.stringify(question),
-                      );
-                      router.push(`/members/ask/answer/edit/${answerId}`);
-                    }}
-                  >
-                    <Flex align='center' css={{ gap: '10px', color: `${colors.gray10} ` }}>
-                      <IconWrite css={{ width: '16px', height: '16px' }} />
-                      수정
-                    </Flex>
-                  </FeedDropdown.Item>
-              )}
-              {isMyProfile && (
-                <FeedDropdown.Item
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteQuestionAnswer({answerId: answerId});
-                  }}
-                >
-                  <Flex align='center' css={{ gap: '10px' }}>
-                    <IconTrash css={{ width: '16px', height: '16px' }} />
-                    삭제
-                  </Flex>
-                </FeedDropdown.Item>
-              )}
-            </>
+          <>
+            {isMyProfile && (
+              <FeedDropdown.Item
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (typeof window === 'undefined' || !answerId) return;
+                  sessionStorage.setItem(`ask-answer-edit-${answerId}`, JSON.stringify(question));
+                  router.push(`/members/ask/answer/edit/${answerId}`);
+                }}
+              >
+                <Flex align='center' css={{ gap: '10px', color: `${colors.gray10} ` }}>
+                  <IconWrite css={{ width: '16px', height: '16px' }} />
+                  수정
+                </Flex>
+              </FeedDropdown.Item>
+            )}
+            {isMyProfile && (
+              <FeedDropdown.Item
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteQuestionAnswer({ answerId: answerId });
+                }}
+              >
+                <Flex align='center' css={{ gap: '10px' }}>
+                  <IconTrash css={{ width: '16px', height: '16px' }} />
+                  삭제
+                </Flex>
+              </FeedDropdown.Item>
+            )}
+          </>
         </FeedDropdown>
       </AskReplyHeader>
       <Content>{content}</Content>
@@ -114,25 +109,27 @@ question, answererName, profileImage, isMyProfile
           likes={reactionCount}
           type='helpful'
           onClick={() => {
-            //TODO: 도움돼요 로직
             handleToggleLikeAskAnswer(answerId);
           }}
         ></FeedLike>
       </ButtonWrapper>
-      <SendMailWrapper>
-        더 궁금한 내용이 있다면 쪽지로 대화를 이어갈 수 있어요.
-        <Button
-          style={{
-            padding: '9px 14px',
-            backgroundColor: 'rgb(255 255 255 / 17%)',
-            color: colors.white,
-            fontSize: '12px',
-          }}
-          onClick={handleClickMessageButton}
-        >
-          쪽지 보내기
-        </Button>
-      </SendMailWrapper>
+      {isMine && (
+        <SendMailWrapper>
+          더 궁금한 내용이 있다면 쪽지로 대화를 이어갈 수 있어요.
+          <Button
+            style={{
+              padding: '9px 14px',
+              backgroundColor: 'rgb(255 255 255 / 17%)',
+              color: colors.white,
+              fontSize: '12px',
+            }}
+            onClick={handleClickMessageButton}
+          >
+            쪽지 보내기
+          </Button>
+        </SendMailWrapper>
+      )}
+
       {isOpenMessageModal && (
         <MessageModal
           receiverId={`${answerId}`}
@@ -226,5 +223,3 @@ const AskReplyContainer = styled.div`
   padding: 20px 24px;
   width: 100%;
 `;
-
-

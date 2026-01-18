@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -15,7 +16,8 @@ type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | 'mob
 
 const SCREEN_SIZE = {
   desktopLarge: { size: 1542, className: 'large-desktop-only' },
-  desktopSmall: { size: 1046, className: 'small-desktop-only' },
+  // TODO: 두 사이즈 중 하나 제거 필요
+  desktopSmall: { size: 1200, className: 'small-desktop-only' },
   tablet: { size: 1200, className: 'tablet-only' },
   mobile: { size: MOBILE_MEDIA_QUERY, className: 'mobile-only' },
 };
@@ -74,13 +76,19 @@ export default function BestOBMemberForAsk() {
       setListType(e.matches ? 'carousel-small' : 'carousel-large');
     };
     const handleChangeDesktopSmallMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'tablet' : 'tablet');
+      setListType(e.matches ? 'tablet' : 'carousel-small');
     };
     const handleChangeTabletMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'tablet' : 'tablet');
+      // 1200px 이하일 때: mobile이 아니면 tablet
+      if (e.matches) {
+        setListType(mobileMedia.matches ? 'mobile' : 'tablet');
+      } else {
+        // 1200px 초과일 때: desktopSmallMedia 체크
+        setListType(desktopSmallMedia.matches ? 'tablet' : 'carousel-small');
+      }
     };
     const handleChangeMobileMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'mobile' : 'mobile');
+      setListType(e.matches ? 'mobile' : tabletMedia.matches ? 'tablet' : 'tablet');
     };
     desktopLargeMedia.addEventListener('change', handleChangeDesktopLargeMedia);
     desktopSmallMedia.addEventListener('change', handleChangeDesktopSmallMedia);
@@ -89,13 +97,17 @@ export default function BestOBMemberForAsk() {
     startTransition(() => {
       if (mobileMedia.matches) {
         setListType('mobile');
-      } else if (tabletMedia.matches) {
-        setListType('tablet');
       } else if (desktopSmallMedia.matches) {
-        setListType('scroll');
+        // 1046px 이하이면서 mobile이 아닌 경우 -> tablet
+        setListType('tablet');
+      } else if (tabletMedia.matches) {
+        // 1200px 이하이면서 desktopSmallMedia가 false인 경우 (1047px ~ 1200px) -> tablet
+        setListType('tablet');
       } else if (desktopLargeMedia.matches) {
+        // 1542px 이하이면서 tabletMedia가 false인 경우 -> carousel-small
         setListType('carousel-small');
       } else {
+        // 1542px 초과 -> carousel-large
         setListType('carousel-large');
       }
     });
@@ -104,6 +116,7 @@ export default function BestOBMemberForAsk() {
       desktopLargeMedia.removeEventListener('change', handleChangeDesktopLargeMedia);
       desktopSmallMedia.removeEventListener('change', handleChangeDesktopSmallMedia);
       tabletMedia.removeEventListener('change', handleChangeTabletMedia);
+      mobileMedia.removeEventListener('change', handleChangeMobileMedia);
     };
   }, []);
 
@@ -115,8 +128,8 @@ export default function BestOBMemberForAsk() {
             {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
             <IconChevronDown
               style={{
-                width: 20,
-                height: 20,
+                width: 32,
+                height: 32,
                 transform: isOpen ? 'rotate(-180deg)' : '',
                 transition: 'all 0.5s',
                 flexShrink: 0,
@@ -141,8 +154,8 @@ export default function BestOBMemberForAsk() {
               {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
               <IconChevronDown
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 32,
+                  height: 32,
                   transform: isOpen ? 'rotate(-180deg)' : '',
                   transition: 'all 0.5s',
                   flexShrink: 0,
@@ -155,6 +168,7 @@ export default function BestOBMemberForAsk() {
       </TitleWrapper>
       {(listType === undefined || listType === 'carousel-large') && memberCardList.length > 0 && (
         <StyledCarousel
+          isButton={memberCardList.length > 4}
           itemList={memberCardList}
           limit={4}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
@@ -163,6 +177,7 @@ export default function BestOBMemberForAsk() {
       )}
       {(listType === undefined || listType === 'carousel-small') && memberCardList.length > 0 && (
         <StyledCarousel
+          isButton={memberCardList.length > 3}
           itemList={memberCardList}
           limit={3}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
@@ -172,6 +187,7 @@ export default function BestOBMemberForAsk() {
 
       {(listType === undefined || listType === 'tablet') && memberCardList.length > 0 && (
         <StyledCarousel
+          isButton={memberCardList.length > 2}
           itemList={memberCardList}
           limit={2}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
@@ -180,6 +196,7 @@ export default function BestOBMemberForAsk() {
       )}
       {(listType === undefined || listType === 'mobile') && memberCardList.length > 0 && (
         <StyledCarousel
+          isButton={memberCardList.length > 1}
           itemList={memberCardList}
           limit={1}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
@@ -196,13 +213,29 @@ export const CardContainer = styled.div`
   gap: 12px;
 `;
 
-const StyledCarousel = styled(Carousel)`
+const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
   flex-wrap: nowrap;
   gap: 12px;
-  margin-left: -58px;
+  margin-right: auto;
+  margin-left: -53px;
   padding-top: 8px;
-  width: 1420px;
+
+  /* width: 1300px; */
+  width: 1424px;
+  ${({ isButton }) =>
+    !isButton &&
+    css`
+      & > button {
+        visibility: hidden;
+      }
+    `};
+
+  & > div:last-child {
+    justify-content: center;
+  }
+
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
+    /* margin-left: -13px; */
     margin-left: -53px;
     width: 1104px;
   }
@@ -210,6 +243,9 @@ const StyledCarousel = styled(Carousel)`
     width: calc(100% + 54px);
   }
   @media ${MOBILE_MEDIA_QUERY} {
+    display: flex !important;
+    flex-direction: column;
+    gap: 16px;
     margin-left: 0;
     width: 100%;
 
@@ -239,6 +275,7 @@ const DropdownTrigger = styled.div`
   align-items: center;
   cursor: pointer;
   width: fit-content;
+  white-space: nowrap;
   ${fonts.HEADING_28_B}
 
   color: ${colors.yellow400};
@@ -247,7 +284,7 @@ const DropdownTrigger = styled.div`
   }
 `;
 
-const TitleWrapper = styled.div`
+const TitleWrapper = styled.span`
   display: flex;
-  align-items: center;
+  align-items: start;
 `;
