@@ -41,57 +41,8 @@ export default function BestOBMemberForAsk() {
   const [selectedPart, setSelectedPart] = useState<string>('기획');
   const [memberCardList, setMemberCardList] = useState<ReactNode[]>([]);
 
-  const { isLoading } = useGetMembersAskList(selectedPart);
+  const { data: membersData, isLoading } = useGetMembersAskList(selectedPart);
 
-  const membersData = {
-    members: [
-      {
-        id: 1,
-        name: 'John Doe',
-        profileImageUrl: 'https://via.placeholder.com/150',
-        latestActivity: {
-          generation: 2024,
-          part: '기획',
-        },
-      },
-      {
-        id: 2,
-        name: 'Jane Doe',
-        profileImageUrl: 'https://via.placeholder.com/150',
-        latestActivity: {
-          generation: 2024,
-          part: '디자인',
-        },
-      },
-      {
-        id: 3,
-        name: 'Jim Beam',
-        profileImageUrl: 'https://via.placeholder.com/150',
-        latestActivity: {
-          generation: 2024,
-          part: '서버',
-        },
-      },
-      {
-        id: 4,
-        name: 'John Doe',
-        profileImageUrl: 'https://via.placeholder.com/150',
-        latestActivity: {
-          generation: 2024,
-          part: '기획',
-        },
-      },
-      {
-        id: 5,
-        name: 'Jane Doe',
-        profileImageUrl: 'https://via.placeholder.com/150',
-        latestActivity: {
-          generation: 2024,
-          part: '디자인',
-        },
-      },
-    ],
-  };
   useEffect(() => {
     if (isLoading) {
       return;
@@ -260,7 +211,6 @@ export const CardContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
-  justify-content: center;
 `;
 
 const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
@@ -276,7 +226,7 @@ const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
     !isButton &&
     css`
       & > button {
-        display: none;
+        visibility: hidden;
       }
     `};
 
