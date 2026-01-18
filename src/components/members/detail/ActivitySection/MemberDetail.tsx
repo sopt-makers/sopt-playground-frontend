@@ -96,9 +96,9 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
               {tab.label}
               {tab.id === 'ask' && isMyProfile && (unansweredCountData?.count ?? 0) > 0 && (
                 <TagWrapper>
-                  <Tag size='sm' variant='primary' shape='pill'>
+                  <StyledTag size='sm' variant='primary' shape='pill'>
                     {unansweredCountData?.count}
-                  </Tag>
+                  </StyledTag>
                 </TagWrapper>
               )}
             </TabButton>
@@ -218,4 +218,8 @@ const TabButton = styled.button<{ isActive: boolean }>`
 const TagWrapper = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const StyledTag = styled(Tag)`
+  padding: 3px 8px;
 `;

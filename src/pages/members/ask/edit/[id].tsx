@@ -8,7 +8,7 @@ import { setLayout } from '@/utils/layout';
 import { usePutMemberQuestion } from '@/api/endpoint/members/putMemberQuestion';
 import { useDialog } from '@sopt-makers/ui';
 
-type AskDraft = { content: string; isAnonymous: boolean };
+type AskDraft = { content: string; isAnonymous: boolean, receiverId: number };
 
 const AskEditPage: FC = () => {
   const router = useRouter();
@@ -31,19 +31,20 @@ const AskEditPage: FC = () => {
     if (status !== 'success' || !storageKey) return;
 
     const stored = sessionStorage.getItem(storageKey);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        setDefaultValues({
-          content: parsed.content ?? '',
-          isAnonymous: parsed.isAnonymous ?? true,
-        });
-        return;
-      } catch {
-        // ignore
-      }
+    if (!stored) return;
+
+    try {
+      const parsed = JSON.parse(stored);
+      setDefaultValues({
+        content: parsed.content ?? '',
+        isAnonymous: parsed.isAnonymous ?? true,
+        receiverId: parsed.receiverId ?? null,
+      });
+      return;
+    } catch {
+      // ignore
     }
-    setDefaultValues({ content: '', isAnonymous: true });
+
   }, [status, storageKey]);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const AskEditPage: FC = () => {
   if (status === 'loading' || defaultValues === null) return null;
   if (!questionId || questionIdNum == null) return null;
 
-  const handleSubmit = async ({ content }: AskDraft) => {
+  const handleSubmit = async ({ content }: Omit<AskDraft, 'receiverId'>) => {
     open({
       title: '답변이 달리면 질문을 수정 혹은 삭제할 수 없어요.',
       description: '답변자와 다른 이용자를 위해, 내용 변경은 제한하고 있어요.',
@@ -83,7 +84,7 @@ const AskEditPage: FC = () => {
               typeOptions: {
                 approveButtonText: '확인했어요',
                 buttonFunction: () => {
-                  router.back();
+                  router.push(`/members/${defaultValues.receiverId}?tab=ask&questionTab=unanswered`);
                 },
               },
             });
@@ -111,6 +112,7 @@ const AskEditPage: FC = () => {
         defaultValues={defaultValues}
         isSubmitting={isPending}
         commentSlot={null}
+        placeholder='고민이나 안부인사를 남겨보세요.'
       />
     </AuthRequired>
   );

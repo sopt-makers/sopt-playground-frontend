@@ -99,30 +99,24 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
         }}
         onClick={onClick}
       >
-        {isBlindWriter ? (
-          <ProfileImageBox>
-            {anonymousProfile ? (
-              <ProfileImage width={32} height={32} src={anonymousProfile?.profileImgUrl} alt='anonymousProfileImage' />
-            ) : (
-              <IconMember size={32} />
-            )}
-          </ProfileImageBox>
-        ) : (
-          <Link href={playgroundLink.memberDetail(memberId)} css={{ height: 'fit-content' }}>
-            <ProfileImageBox>
-              {profileImage ? (
-                <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
-              ) : (
-                <IconMember size={32} />
-              )}
-            </ProfileImageBox>
-          </Link>
-        )}
         <Flex direction='column' css={{ minWidth: 0, gap: '12px', width: '100%' }}>
           <Stack gutter={title ? 12 : 4}>
             <Flex justify='space-between' css={{ height: '32px' }}>
               {isBlindWriter ? (
                 <Flex align='center'>
+                  <ProfileImageBox>
+                    {anonymousProfile?.profileImgUrl ? (
+                      <ProfileImage
+                        width={32}
+                        height={32}
+                        src={anonymousProfile.profileImgUrl}
+                        alt='anonymousProfileImage'
+                      />
+                    ) : (
+                      <IconMember size={32} />
+                    )}
+                  </ProfileImageBox>
+
                   <Text typography='SUIT_14_SB' lineHeight={20}>
                     {anonymousProfile?.nickname ?? '익명'}
                   </Text>
@@ -133,6 +127,16 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                 </Flex>
               ) : (
                 <Flex align='center'>
+                  <Link href={playgroundLink.memberDetail(memberId)} css={{ height: 'fit-content' }}>
+                    <ProfileImageBox>
+                      {profileImage ? (
+                        <ProfileImage width={32} height={32} src={profileImage} alt='profileImage' />
+                      ) : (
+                        <IconMember size={32} />
+                      )}
+                    </ProfileImageBox>
+                  </Link>
+
                   <Link href={playgroundLink.memberDetail(memberId)}>
                     <Text typography='SUIT_14_SB' lineHeight={20}>
                       {name}
@@ -168,6 +172,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   <Text
                     mr='28px'
                     typography='SUIT_15_L'
+                    mobileTypography='SUIT_15_L'
                     color={colors.gray10}
                     lineHeight={22}
                     css={{
@@ -204,6 +209,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
 
 const ProfileImageBox = styled.div`
   flex-shrink: 0;
+  margin-right: 6px;
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -358,7 +364,7 @@ const StyledCommentItem = styled.div`
 `;
 
 const Icon = () => {
-  return <IconDotsVertical style={{ width: 20, height: 20, color: colors.gray600 }} />;
+  return <IconDotsVertical style={{ width: 20, height: 20, color: colors.gray400 }} />;
 };
 
 export default Object.assign(Base, {

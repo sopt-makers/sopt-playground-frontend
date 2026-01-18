@@ -31,7 +31,7 @@ export const useDeleteMemberQuestion = () => {
 export const deleteMemberQuestionAnswer = createEndpoint({
   request: ({ answerId }: { answerId: number }) => ({
     method: 'DELETE',
-    url: `api/v1/members/questions/answers/${answerId}`,
+    url: `api/v1/members/answers/${answerId}`,
   }),
   serverResponseScheme: z.object({
     success: z.boolean(),
