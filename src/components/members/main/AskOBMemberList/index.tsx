@@ -16,7 +16,8 @@ type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | 'mob
 
 const SCREEN_SIZE = {
   desktopLarge: { size: 1542, className: 'large-desktop-only' },
-  desktopSmall: { size: 1046, className: 'small-desktop-only' },
+  // TODO: 두 사이즈 중 하나 제거 필요
+  desktopSmall: { size: 1200, className: 'small-desktop-only' },
   tablet: { size: 1200, className: 'tablet-only' },
   mobile: { size: MOBILE_MEDIA_QUERY, className: 'mobile-only' },
 };
@@ -40,8 +41,57 @@ export default function BestOBMemberForAsk() {
   const [selectedPart, setSelectedPart] = useState<string>('기획');
   const [memberCardList, setMemberCardList] = useState<ReactNode[]>([]);
 
-  const { data: membersData, isLoading } = useGetMembersAskList(selectedPart);
+  const { isLoading } = useGetMembersAskList(selectedPart);
 
+  const membersData = {
+    members: [
+      {
+        id: 1,
+        name: 'John Doe',
+        profileImageUrl: 'https://via.placeholder.com/150',
+        latestActivity: {
+          generation: 2024,
+          part: '기획',
+        },
+      },
+      {
+        id: 2,
+        name: 'Jane Doe',
+        profileImageUrl: 'https://via.placeholder.com/150',
+        latestActivity: {
+          generation: 2024,
+          part: '디자인',
+        },
+      },
+      {
+        id: 3,
+        name: 'Jim Beam',
+        profileImageUrl: 'https://via.placeholder.com/150',
+        latestActivity: {
+          generation: 2024,
+          part: '서버',
+        },
+      },
+      {
+        id: 4,
+        name: 'John Doe',
+        profileImageUrl: 'https://via.placeholder.com/150',
+        latestActivity: {
+          generation: 2024,
+          part: '기획',
+        },
+      },
+      {
+        id: 5,
+        name: 'Jane Doe',
+        profileImageUrl: 'https://via.placeholder.com/150',
+        latestActivity: {
+          generation: 2024,
+          part: '디자인',
+        },
+      },
+    ],
+  };
   useEffect(() => {
     if (isLoading) {
       return;
@@ -210,15 +260,18 @@ export const CardContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
+  justify-content: center;
 `;
 
 const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
   flex-wrap: nowrap;
   gap: 12px;
   margin-right: auto;
-  margin-left: -12px;
+  margin-left: -53px;
   padding-top: 8px;
-  width: 1300px;
+
+  /* width: 1300px; */
+  width: 1424px;
   ${({ isButton }) =>
     !isButton &&
     css`
@@ -232,7 +285,8 @@ const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
   }
 
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-    margin-left: -13px;
+    /* margin-left: -13px; */
+    margin-left: -53px;
     width: 1104px;
   }
   @media ${TABLET_MEDIA_QUERY} {
