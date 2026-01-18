@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -74,13 +75,19 @@ export default function BestOBMemberForAsk() {
       setListType(e.matches ? 'carousel-small' : 'carousel-large');
     };
     const handleChangeDesktopSmallMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'tablet' : 'tablet');
+      setListType(e.matches ? 'tablet' : 'carousel-small');
     };
     const handleChangeTabletMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'tablet' : 'tablet');
+      // 1200px 이하일 때: mobile이 아니면 tablet
+      if (e.matches) {
+        setListType(mobileMedia.matches ? 'mobile' : 'tablet');
+      } else {
+        // 1200px 초과일 때: desktopSmallMedia 체크
+        setListType(desktopSmallMedia.matches ? 'tablet' : 'carousel-small');
+      }
     };
     const handleChangeMobileMedia = (e: MediaQueryListEvent) => {
-      setListType(e.matches ? 'mobile' : 'mobile');
+      setListType(e.matches ? 'mobile' : tabletMedia.matches ? 'tablet' : 'tablet');
     };
     desktopLargeMedia.addEventListener('change', handleChangeDesktopLargeMedia);
     desktopSmallMedia.addEventListener('change', handleChangeDesktopSmallMedia);
@@ -89,13 +96,17 @@ export default function BestOBMemberForAsk() {
     startTransition(() => {
       if (mobileMedia.matches) {
         setListType('mobile');
-      } else if (tabletMedia.matches) {
-        setListType('tablet');
       } else if (desktopSmallMedia.matches) {
-        setListType('scroll');
+        // 1046px 이하이면서 mobile이 아닌 경우 -> tablet
+        setListType('tablet');
+      } else if (tabletMedia.matches) {
+        // 1200px 이하이면서 desktopSmallMedia가 false인 경우 (1047px ~ 1200px) -> tablet
+        setListType('tablet');
       } else if (desktopLargeMedia.matches) {
+        // 1542px 이하이면서 tabletMedia가 false인 경우 -> carousel-small
         setListType('carousel-small');
       } else {
+        // 1542px 초과 -> carousel-large
         setListType('carousel-large');
       }
     });
@@ -104,6 +115,7 @@ export default function BestOBMemberForAsk() {
       desktopLargeMedia.removeEventListener('change', handleChangeDesktopLargeMedia);
       desktopSmallMedia.removeEventListener('change', handleChangeDesktopSmallMedia);
       tabletMedia.removeEventListener('change', handleChangeTabletMedia);
+      mobileMedia.removeEventListener('change', handleChangeMobileMedia);
     };
   }, []);
 
@@ -155,6 +167,7 @@ export default function BestOBMemberForAsk() {
       </TitleWrapper>
       {(listType === undefined || listType === 'carousel-large') && memberCardList.length > 0 && (
         <StyledCarousel
+          isButton={memberCardList.length > 4}
           itemList={memberCardList}
           limit={4}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
@@ -163,6 +176,7 @@ export default function BestOBMemberForAsk() {
       )}
       {(listType === undefined || listType === 'carousel-small') && memberCardList.length > 0 && (
         <StyledCarousel
+          isButton={memberCardList.length > 3}
           itemList={memberCardList}
           limit={3}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
@@ -172,6 +186,7 @@ export default function BestOBMemberForAsk() {
 
       {(listType === undefined || listType === 'tablet') && memberCardList.length > 0 && (
         <StyledCarousel
+          isButton={memberCardList.length > 2}
           itemList={memberCardList}
           limit={2}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
@@ -180,6 +195,7 @@ export default function BestOBMemberForAsk() {
       )}
       {(listType === undefined || listType === 'mobile') && memberCardList.length > 0 && (
         <StyledCarousel
+          isButton={memberCardList.length > 1}
           itemList={memberCardList}
           limit={1}
           renderItemContainer={(children: ReactNode) => <CardContainer>{children}</CardContainer>}
@@ -194,16 +210,31 @@ export const CardContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
+  @media ${DESKTOP_LARGE_MEDIA_QUERY} {
+    justify-content: center;
+  }
 `;
 
-const StyledCarousel = styled(Carousel)`
+const StyledCarousel = styled(Carousel)<{ isButton: boolean }>`
   flex-wrap: nowrap;
   gap: 12px;
-  margin-left: -58px;
+  justify-content: start;
+
+  /* margin-left: -58px; */
+  margin-left: -12px;
   padding-top: 8px;
-  width: 1420px;
+  width: 1300px;
+  ${({ isButton }) =>
+    !isButton &&
+    css`
+      & button {
+        display: none;
+      }
+    `};
+
   @media ${DESKTOP_LARGE_MEDIA_QUERY} {
-    margin-left: -53px;
+    /* margin-left: -53px; */
+    margin-left: -13px;
     width: 1104px;
   }
   @media ${TABLET_MEDIA_QUERY} {
