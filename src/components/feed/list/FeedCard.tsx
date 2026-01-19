@@ -6,7 +6,7 @@ import { Tag } from '@sopt-makers/ui';
 import { Flex, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { forwardRef, PropsWithChildren, ReactNode } from 'react';
+import { forwardRef, PropsWithChildren, ReactNode, useState } from 'react';
 
 import HorizontalScroller from '@/components/common/HorizontalScroller';
 import ImageWithSkeleton from '@/components/common/ImageWithSkeleton';
@@ -82,10 +82,16 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
     ref,
   ) => {
     const router = useRouter();
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
       onClickContent?.();
+    };
+
+    const handleToggleExpand = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setIsExpanded(!isExpanded);
     };
 
     return (
@@ -180,7 +186,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                       wordBreak: 'break-all',
                     }}
                   >
-                    {renderContent(content, router)}
+                    {renderContent(content, router, isAskMode, isExpanded, handleToggleExpand)}
                   </Text>
                 </div>
               )}
@@ -269,7 +275,52 @@ const Bottom = styled(Stack.Horizontal)`
   gap: 8px;
 `;
 
-const renderContent = (content: string, router: ReturnType<typeof useRouter>) => {
+const renderContent = (
+  content: string,
+  router: ReturnType<typeof useRouter>,
+  isAskMode?: boolean,
+  isExpanded?: boolean,
+  handleToggleExpand?: (e: React.MouseEvent) => void,
+) => {
+  // isAskMode일 때
+  if (isAskMode) {
+    if (content.length <= 140) {
+      return parseMentionsToJSX(content, router);
+    }
+
+    if (isExpanded) {
+      const parsed = parseMentionsToJSX(content, router);
+      parsed.push(
+        <Text
+          key='toggle-button'
+          css={{ cursor: 'pointer' }}
+          typography='SUIT_14_R'
+          color={colors.gray400}
+          onClick={handleToggleExpand}
+        >
+          {'\n'}접기
+        </Text>,
+      );
+      return parsed;
+    }
+
+    const displayText = content.slice(0, 140) + '...\n';
+    const parsed = parseMentionsToJSX(displayText, router);
+    parsed.push(
+      <Text
+        key='toggle-button'
+        css={{ cursor: 'pointer' }}
+        typography='SUIT_14_R'
+        color={colors.gray400}
+        onClick={handleToggleExpand}
+      >
+        더보기
+      </Text>,
+    );
+    return parsed;
+  }
+
+  // isAskMode가 아닐 때
   let displayText = content;
   let isLong = false;
 
@@ -281,7 +332,7 @@ const renderContent = (content: string, router: ReturnType<typeof useRouter>) =>
 
   if (isLong) {
     parsed.push(
-      <Text css={{ cursor: 'pointer' }} typography='SUIT_14_R' color={colors.blue400}>
+      <Text key='more-button' css={{ cursor: 'default' }} typography='SUIT_14_R' color={colors.blue400}>
         더보기
       </Text>,
     );

@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
@@ -8,6 +7,7 @@ import { IconDotsVertical } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 import { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
 import { usePostAnswerReaction } from '@/api/endpoint/members/postAnswerReaction';
@@ -33,6 +33,7 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
   const { mutate: handleToggleLikeAskAnswer } = usePostAnswerReaction();
   const router = useRouter();
   const { handleDeleteQuestionAnswer } = useDeleteQuestionAnswer();
+  const [isExpanded, setIsExpanded] = useState(false);
   if (!answer) return null;
   const { answerId, content, createdAt, reactionCount, isReacted } = answer;
 
@@ -43,6 +44,34 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
     // } else {
     onOpenMessageModal();
     //}
+  };
+
+  const handleToggleExpand = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsExpanded(!isExpanded);
+  };
+
+  const renderContent = () => {
+    if (content.length <= 140) {
+      return content;
+    }
+
+    if (isExpanded) {
+      return (
+        <>
+          {content}
+          {'\n'}
+          <MoreButton onClick={handleToggleExpand}>접기</MoreButton>
+        </>
+      );
+    }
+
+    return (
+      <>
+        {content.slice(0, 140)}...{'\n'}
+        <MoreButton onClick={handleToggleExpand}>더보기</MoreButton>
+      </>
+    );
   };
 
   return (
@@ -102,7 +131,7 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
           </>
         </FeedDropdown>
       </AskReplyHeader>
-      <Content>{content}</Content>
+      <Content>{renderContent()}</Content>
       <ButtonWrapper>
         <FeedLike
           isLiked={isReacted}
@@ -192,6 +221,8 @@ const AskReplyHeader = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  white-space: pre-wrap;
+  word-break: break-all;
 
   ${fonts.BODY_16_R}
 
@@ -222,4 +253,11 @@ const AskReplyContainer = styled.div`
   background-color: ${colors.gray900};
   padding: 20px 24px;
   width: 100%;
+`;
+
+const MoreButton = styled.span`
+  cursor: pointer;
+  ${fonts.LABEL_14_SB}
+
+  color: ${colors.gray400};
 `;
