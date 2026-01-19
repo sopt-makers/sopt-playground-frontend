@@ -10,7 +10,7 @@ const putMemberQuestionResponseScheme = z.object({
 interface PutMemberQuestionRequest {
   questionId: number;
   content: string;
-  isAnonymous?: boolean;
+  isAnonymous: boolean;
 }
 
 export const putMemberQuestion = createEndpoint({
