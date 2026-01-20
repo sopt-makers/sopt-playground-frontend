@@ -3,7 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { IconDotsVertical } from '@sopt-makers/icons';
 import { IconEye } from '@sopt-makers/icons';
 import { Tag } from '@sopt-makers/ui';
-import { Flex, Stack } from '@toss/emotion-utils';
+import { Flex, Spacing, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useState } from 'react';
@@ -175,6 +175,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                     </Title>
                   )}
 
+                  {isAskMode && <Spacing size={10} />}
                   <Text
                     mr='28px'
                     typography='SUIT_15_L'

@@ -20,6 +20,7 @@ import { useDeleteQuestionAnswer } from '@/components/feed/common/hooks/useDelet
 import { getRelativeTime } from '@/components/feed/common/utils';
 import { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 interface AskReplyProps {
   question: MemberQuestion;
   answererName: string;
@@ -182,6 +183,10 @@ const AnswerName = styled(Text)`
   ${fonts.LABEL_16_SB}
 
   color: ${colors.white};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+      ${fonts.LABEL_14_SB}
+  }
 `;
 const ProfileImage = styled(ResizedImage)`
   border-radius: 50%;
