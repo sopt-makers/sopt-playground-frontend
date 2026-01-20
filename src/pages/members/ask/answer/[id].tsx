@@ -1,28 +1,29 @@
-import { FC, useEffect, useMemo, useState } from 'react';
-
-import AuthRequired from '@/components/auth/AuthRequired';
-import AskFormPage from '@/components/members/ask/AskFormPage';
-import type { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
-import useStringRouterQuery from '@/hooks/useStringRouterQuery';
-import { getRelativeTime } from '@/components/feed/common/utils';
-import { setLayout } from '@/utils/layout';
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import ResizedImage from '@/components/common/ResizedImage';
-import { IconMember } from '@/components/feed/common/Icon';
-import Link from 'next/link';
-import { playgroundLink } from '@/constants/links';
-import { usePostMemberQuestionAnswer } from '@/api/endpoint/members/postMemberAnswer';
 import { useToast } from '@sopt-makers/ui';
-import Text from '@/components/common/Text';
+import Link from 'next/link';
+import { FC, useEffect, useMemo, useState } from 'react';
 
+import type { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
+import { usePostMemberQuestionAnswer } from '@/api/endpoint/members/postMemberAnswer';
+import AuthRequired from '@/components/auth/AuthRequired';
+import ResizedImage from '@/components/common/ResizedImage';
+import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import { IconMember } from '@/components/feed/common/Icon';
+import { getRelativeTime } from '@/components/feed/common/utils';
+import AskFormPage from '@/components/members/ask/AskFormPage';
+import { playgroundLink } from '@/constants/links';
+import useStringRouterQuery from '@/hooks/useStringRouterQuery';
+import { setLayout } from '@/utils/layout';
 
 const STORAGE_PREFIX = 'ask-answer-';
 
 const AskAnswerPage: FC = () => {
   const { status, query } = useStringRouterQuery(['id'] as const);
   const [question, setQuestion] = useState<MemberQuestion | null>(null);
-const { open } = useToast();
+  const { open } = useToast();
+  const { logSubmitEvent } = useEventLogger();
   const questionId = useMemo(() => query?.id ?? '', [query?.id]);
 
   const questionIdNum = useMemo(() => {
@@ -49,36 +50,36 @@ const { open } = useToast();
   if (status === 'loading') return null;
   if (!questionId || questionIdNum == null || !question) return null;
 
- const handleSubmit = async ({ content }: { content: string; isAnonymous: boolean }) => {
-  await postAnswer({
-    questionId: questionIdNum,
-    content,
-  });
+  const handleSubmit = async ({ content }: { content: string; isAnonymous: boolean }) => {
+    await postAnswer({
+      questionId: questionIdNum,
+      content,
+    });
 
-  open({
-    icon: 'success',
-    content: '답변이 등록되었어요.',
-    style: {
-      content: {
-        whiteSpace: 'pre-wrap',
+    logSubmitEvent('submitAnswer', { feedId: questionIdNum });
+
+    open({
+      icon: 'success',
+      content: '답변이 등록되었어요.',
+      style: {
+        content: {
+          whiteSpace: 'pre-wrap',
+        },
       },
-    },
-  });
+    });
 
-  sessionStorage.removeItem(`${STORAGE_PREFIX}${questionId}`);
+    sessionStorage.removeItem(`${STORAGE_PREFIX}${questionId}`);
 
-  window.history.back();
-};
+    window.history.back();
+  };
 
-  const askerName = question.isAnonymous
-    ? question.anonymousProfile?.nickname ?? '익명'
-    : question.askerName ?? '익명';
+  const askerName = question.isAnonymous ? question.anonymousProfile?.nickname ?? '익명' : question.askerName ?? '익명';
 
   return (
     <AuthRequired>
       <AskFormPage
         onSubmit={handleSubmit}
-        isSubmitting={isPending} 
+        isSubmitting={isPending}
         defaultValues={{
           content: '',
           isAnonymous: false,
@@ -115,12 +116,16 @@ const { open } = useToast();
               <HeaderText>
                 <NameRow>
                   <Text typography='SUIT_14_SB'>{askerName}</Text>
-                  <Text typography='SUIT_12_SB' color={colors.gray400}>{question.askerLatestGeneration}∙{getRelativeTime(question.createdAt)}</Text>
+                  <Text typography='SUIT_12_SB' color={colors.gray400}>
+                    {question.askerLatestGeneration}∙{getRelativeTime(question.createdAt)}
+                  </Text>
                 </NameRow>
               </HeaderText>
             </QuestionHeader>
 
-            <Text typography='SUIT_14_R' color={colors.gray100}>{question.content}</Text>
+            <Text typography='SUIT_14_R' color={colors.gray100}>
+              {question.content}
+            </Text>
 
             <Divider />
           </QuestionPreview>

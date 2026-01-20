@@ -35,7 +35,7 @@ const TABS: Tab[] = [
 
 const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   const router = useRouter();
-  const { logPageViewEvent } = useEventLogger();
+  const { logPageViewEvent, logClickEvent } = useEventLogger();
 
   const currentTab = (router.query.tab as TabType) || 'profile';
 
@@ -68,6 +68,19 @@ const MemberDetail: FC<MemberDetailProps> = ({ memberId }) => {
   }, [profile, memberId]);
 
   const handleTabChange = (tab: TabType) => {
+    if (profile) {
+      if (tab === 'ask') {
+        logClickEvent('TabAsk', {
+          id: Number(memberId),
+          name: profile.name,
+        });
+      } else if (tab === 'profile') {
+        logClickEvent('TabProfile', {
+          id: Number(memberId),
+          name: profile.name,
+        });
+      }
+    }
     router.push(
       {
         pathname: router.pathname,

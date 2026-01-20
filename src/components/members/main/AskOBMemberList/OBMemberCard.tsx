@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
-import { fonts } from '@sopt-makers/fonts';
 import { Button } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import { useVisibleBadges } from '@/components/members/main/hooks/useVisibleBadges';
 import MemberProfileImage from '@/components/members/main/MemberCard/MemberProfileImage';
 import IconAskCheck from '@/public/icons/icon_ask_check.svg';
@@ -39,6 +39,7 @@ export default function OBMemberCard({
   isAnswerGuaranteed,
 }: OBMemberCardProps) {
   const router = useRouter();
+  const { logClickEvent } = useEventLogger();
   const badges = [
     {
       content: `${latestActivity.generation}기 ${latestActivity.part}`,
@@ -53,6 +54,7 @@ export default function OBMemberCard({
   );
 
   const handleClickButton = () => {
+    logClickEvent('CTAAsk', { id, name });
     router.push(`/members/${id}?tab=ask`);
   };
   return (

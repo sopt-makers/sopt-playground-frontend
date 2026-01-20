@@ -13,7 +13,9 @@ import { MemberQuestion } from '@/api/endpoint/members/getMemberQuestions';
 import { usePostAnswerReaction } from '@/api/endpoint/members/postAnswerReaction';
 import useModalState from '@/components/common/Modal/useModalState';
 import ResizedImage from '@/components/common/ResizedImage';
+import Responsive from '@/components/common/Responsive/Responsive';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useDeleteQuestionAnswer } from '@/components/feed/common/hooks/useDeleteQuestion';
@@ -21,7 +23,6 @@ import { getRelativeTime } from '@/components/feed/common/utils';
 import { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import Responsive from '@/components/common/Responsive/Responsive';
 interface AskReplyProps {
   question: MemberQuestion;
   answererName: string;
@@ -33,6 +34,7 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
   const answer = question.answer;
   const { isOpen: isOpenMessageModal, onOpen: onOpenMessageModal, onClose: onCloseMessageModal } = useModalState();
   const { mutate: handleToggleLikeAskAnswer } = usePostAnswerReaction();
+  const { logClickEvent } = useEventLogger();
   const router = useRouter();
   const { handleDeleteQuestionAnswer } = useDeleteQuestionAnswer();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -140,18 +142,15 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
           likes={reactionCount}
           type='helpful'
           onClick={() => {
+            logClickEvent('AskLike', { feedId: answerId });
             handleToggleLikeAskAnswer(answerId);
           }}
         ></FeedLike>
       </ButtonWrapper>
       {isMine && (
         <SendMailWrapper>
-           <Responsive only='desktop'>
-            더 궁금한 내용이 있다면 쪽지로 대화를 이어갈 수 있어요.
-           </Responsive>
-           <Responsive only='mobile'>
-             더 궁금한 내용이 있다면{'\n'}쪽지로 대화를 이어갈 수 있어요.
-          </Responsive>
+          <Responsive only='desktop'>더 궁금한 내용이 있다면 쪽지로 대화를 이어갈 수 있어요.</Responsive>
+          <Responsive only='mobile'>더 궁금한 내용이 있다면{'\n'}쪽지로 대화를 이어갈 수 있어요.</Responsive>
           <Button
             style={{
               padding: '9px 14px',
@@ -192,7 +191,7 @@ const AnswerName = styled(Text)`
   color: ${colors.white};
 
   @media ${MOBILE_MEDIA_QUERY} {
-      ${fonts.LABEL_14_SB}
+    ${fonts.LABEL_14_SB}
   }
 `;
 const ProfileImage = styled(ResizedImage)`
@@ -260,7 +259,7 @@ const SendMailWrapper = styled.div`
   width: 100%;
   ${fonts.LABEL_12_SB};
 
-  white-space: pre-line; 
+  white-space: pre-line;
 `;
 
 const AskReplyContainer = styled.div`
