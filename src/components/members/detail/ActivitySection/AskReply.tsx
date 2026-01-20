@@ -21,6 +21,7 @@ import { getRelativeTime } from '@/components/feed/common/utils';
 import { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import Responsive from '@/components/common/Responsive/Responsive';
 interface AskReplyProps {
   question: MemberQuestion;
   answererName: string;
@@ -145,13 +146,19 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
       </ButtonWrapper>
       {isMine && (
         <SendMailWrapper>
-          더 궁금한 내용이 있다면 쪽지로 대화를 이어갈 수 있어요.
+           <Responsive only='desktop'>
+            더 궁금한 내용이 있다면 \n쪽지로 대화를 이어갈 수 있어요.
+           </Responsive>
+           <Responsive only='mobile'>
+             더 궁금한 내용이 있다면{'\n'}쪽지로 대화를 이어갈 수 있어요.
+          </Responsive>
           <Button
             style={{
               padding: '9px 14px',
               backgroundColor: 'rgb(255 255 255 / 17%)',
               color: colors.white,
               fontSize: '12px',
+              borderRadius: '8px',
             }}
             onClick={handleClickMessageButton}
           >
@@ -201,7 +208,7 @@ const AnswerDate = styled.span`
 
 const ProfileWrapper = styled.div`
   display: flex;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
 `;
 
@@ -232,6 +239,10 @@ const Content = styled.div`
   ${fonts.BODY_16_R}
 
   color: ${colors.gray10};
+
+  @media ${MOBILE_MEDIA_QUERY} {
+    font-size: 15px;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -247,7 +258,9 @@ const SendMailWrapper = styled.div`
   background: linear-gradient(93deg, #27272d 4.36%, #205572 156.14%);
   padding: 14px 16px;
   width: 100%;
-  ${fonts.LABEL_14_SB};
+  ${fonts.LABEL_12_SB};
+
+  white-space: pre-line; 
 `;
 
 const AskReplyContainer = styled.div`
@@ -256,7 +269,7 @@ const AskReplyContainer = styled.div`
   gap: 8px;
   border-radius: 12px;
   background-color: ${colors.gray900};
-  padding: 20px 24px;
+  padding: 16px;
   width: 100%;
 `;
 

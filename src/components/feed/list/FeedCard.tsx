@@ -123,7 +123,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                     )}
                   </ProfileImageBox>
 
-                  <Text typography='SUIT_14_SB' lineHeight={20}>
+                  <Text typography={isAskMode ? 'SUIT_16_SB' : 'SUIT_14_SB'} mobileTypography='SUIT_14_SB' lineHeight={20}>
                     {anonymousProfile?.nickname ?? '익명'}
                   </Text>
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray300}>
@@ -178,7 +178,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                   {isAskMode && <Spacing size={10} />}
                   <Text
                     mr='28px'
-                    typography='SUIT_15_L'
+                    typography={isAskMode ? 'SUIT_16_L' : 'SUIT_15_L'}
                     mobileTypography='SUIT_15_L'
                     color={colors.gray10}
                     lineHeight={22}
