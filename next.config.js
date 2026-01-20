@@ -47,6 +47,30 @@ const nextConfig = {
   eslint: {
     dirs: ['api', 'components', 'constants', 'hooks', 'pages', 'styles', 'types', 'utils'],
   },
+
+  // well-known 형식 파일 정상제공하도록 헤더 추가
+  async headers() {
+    return [
+      {
+        source: '/.well-known/assetlinks.json',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          },
+        ],
+      },
+      {
+        source: '/.well-known/apple-app-site-association',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
