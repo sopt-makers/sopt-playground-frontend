@@ -26,6 +26,7 @@ export const FeedLike = ({ isLiked = false, likes, onClick, type = 'heart' }: Fe
     border: 1px solid ${colors.gray700};
     border-radius: 51px;
     padding: 8px 12px;
+    height: 32px;
   `;
 
   const renderIcon = () => {

@@ -10,14 +10,16 @@ const putMemberQuestionResponseScheme = z.object({
 interface PutMemberQuestionRequest {
   questionId: number;
   content: string;
+  isAnonymous: boolean;
 }
 
 export const putMemberQuestion = createEndpoint({
-  request: ({ questionId, content }: PutMemberQuestionRequest) => ({
+  request: ({ questionId, content, isAnonymous }: PutMemberQuestionRequest) => ({
     method: 'PUT',
     url: `api/v1/members/questions/${questionId}`,
     data: {
       content,
+      isAnonymous,
     },
   }),
   serverResponseScheme: putMemberQuestionResponseScheme,

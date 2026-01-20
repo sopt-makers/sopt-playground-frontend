@@ -164,14 +164,18 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
             <Button
               onClick={() => handleTabChange('answered')}
               rounded='lg'
+              size='sm'
               theme={selectedTab === 'answered' ? 'white' : 'black'}
+              style={{height: '36px'}}
             >
               답변완료
             </Button>
             <Button
               onClick={() => handleTabChange('unanswered')}
               rounded='lg'
+              size='sm'
               theme={selectedTab === 'unanswered' ? 'white' : 'black'}
+              style={{height: '36px'}}
             >
               새질문
             </Button>

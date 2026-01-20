@@ -3,7 +3,7 @@ import { colors } from '@sopt-makers/colors';
 import { IconDotsVertical } from '@sopt-makers/icons';
 import { IconEye } from '@sopt-makers/icons';
 import { Tag } from '@sopt-makers/ui';
-import { Flex, Stack } from '@toss/emotion-utils';
+import { Flex, Spacing, Stack } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { forwardRef, PropsWithChildren, ReactNode, useState } from 'react';
@@ -99,7 +99,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
         ref={ref}
         css={{
           backgroundColor: colors.gray950,
-          padding: '16px 16px 22px',
+          padding: isAskMode ? '16px 0 22px' : '16px 16px 22px',
           gap: 12,
           borderBottom: `1px solid ${colors.gray800}`,
         }}
@@ -123,7 +123,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                     )}
                   </ProfileImageBox>
 
-                  <Text typography='SUIT_14_SB' lineHeight={20}>
+                  <Text typography={isAskMode ? 'SUIT_16_SB' : 'SUIT_14_SB'} mobileTypography='SUIT_14_SB' lineHeight={20}>
                     {anonymousProfile?.nickname ?? '익명'}
                   </Text>
                   <InfoText typography='SUIT_14_M' lineHeight={20} color={colors.gray300}>
@@ -175,9 +175,10 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
                     </Title>
                   )}
 
+                  {isAskMode && <Spacing size={10} />}
                   <Text
                     mr='28px'
-                    typography='SUIT_15_L'
+                    typography={isAskMode ? 'SUIT_16_L' : 'SUIT_15_L'}
                     mobileTypography='SUIT_15_L'
                     color={colors.gray10}
                     lineHeight={22}

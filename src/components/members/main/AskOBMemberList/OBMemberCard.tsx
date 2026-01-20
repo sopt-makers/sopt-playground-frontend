@@ -173,7 +173,7 @@ const MemberCardContent = styled.div`
 const MemberInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
   justify-content: center;
 `;
 

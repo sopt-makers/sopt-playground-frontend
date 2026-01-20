@@ -63,7 +63,7 @@ const AskEditPage: FC = () => {
   if (status === 'loading' || defaultValues === null) return null;
   if (!questionId || questionIdNum == null) return null;
 
-  const handleSubmit = async ({ content }: Omit<AskDraft, 'receiverId'>) => {
+  const handleSubmit = async ({ content, isAnonymous }: Omit<AskDraft, 'receiverId'>) => {
     open({
       title: '답변이 달리면 질문을 수정 혹은 삭제할 수 없어요.',
       description: '답변자와 다른 이용자를 위해, 내용 변경은 제한하고 있어요.',
@@ -73,7 +73,7 @@ const AskEditPage: FC = () => {
         approveButtonText: '수정하기',
         buttonFunction: async () => {
           try {
-            await putQuestion({ questionId: questionIdNum, content });
+            await putQuestion({ questionId: questionIdNum, content, isAnonymous });
 
             sessionStorage.removeItem(storageKey);
 
