@@ -7,12 +7,12 @@
 \pard\pardeftab720\partightenfactor0
 
 \f0\fs24 \cf0 \expnd0\expndtw0\kerning0
-\{\
+\outl0\strokewidth0 \strokec2 \{\
 	\'93applinks\'94: \{\
 		\'93apps\'94: [],\
 		\'93details\'94: [\
 			\{\
-				\'93appID\'94: \'9395YWTT5L8K.com.sopt-stamp-iOS.release\'94,\
+				\'93appID\'94: \'9395YWTT5L8K.com.sopt-stamp-iOS.alpha\'94,\
 				\'93paths\'94: [\'93*\'94]\
 			\}\
 		]\
