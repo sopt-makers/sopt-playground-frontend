@@ -13,7 +13,6 @@ import { getScreenMaxWidthMediaQuery } from '@/utils';
 import OBMemberCard from './OBMemberCard';
 import PartDropdown from './PartDropDown';
 import Responsive from '@/components/common/Responsive';
-import { R } from 'msw/lib/core/HttpResponse-B07UKAkU';
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | 'mobile' | undefined;
 
 const SCREEN_SIZE = {
