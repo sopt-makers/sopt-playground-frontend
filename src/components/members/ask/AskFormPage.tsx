@@ -6,13 +6,13 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import Checkbox from '@/components/common/Checkbox';
 import Responsive from '@/components/common/Responsive';
+import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
 import ContentsInput from '@/components/feed/upload/Input/ContentsInput';
 import DesktopFeedUploadLayout from '@/components/feed/upload/layout/DesktopFeedUploadLayout';
 import MobileFeedUploadLayout from '@/components/feed/upload/layout/MobileFeedUploadLayout';
-import CheckboxFormItem from '@/components/feed/upload/CheckboxFormItem';
-import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import BackArrow from '@/public/icons/icon_chevron_left.svg';
 import UsingRules from '@/components/feed/upload/UsingRules';
+import BackArrow from '@/public/icons/icon_chevron_left.svg';
+import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
 
 interface AskFormValues {
   content: string;
@@ -38,7 +38,7 @@ export default function AskFormPage({
   commentSlot,
   description,
   hideAnonymousToggle = false,
-  placeholder
+  placeholder,
 }: AskFormPageProps) {
   const [content, setContent] = useState(defaultValues?.content ?? '');
   const [isAnonymous, setIsAnonymous] = useState(defaultValues?.isAnonymous ?? true);
@@ -71,25 +71,21 @@ export default function AskFormPage({
   const handleBack = () => {
     if (typeof window !== 'undefined') window.history.back();
   };
-  
+
   useEffect(() => {
-  const focusInput = () => {
-    const editableDiv = document.querySelector('[contenteditable="true"]') as HTMLElement;
-    if (editableDiv && editableDiv.offsetParent !== null) {
-      editableDiv.focus();
-    }
-  };
+    const focusInput = () => {
+      const editableDiv = document.querySelector('[contenteditable="true"]') as HTMLElement;
+      if (editableDiv && editableDiv.offsetParent !== null) {
+        editableDiv.focus();
+      }
+    };
 
-  const timers = [
-    setTimeout(focusInput, 100),
-    setTimeout(focusInput, 300),
-    setTimeout(focusInput, 500),
-  ];
+    const timers = [setTimeout(focusInput, 100), setTimeout(focusInput, 300), setTimeout(focusInput, 500)];
 
-  return () => {
-    timers.forEach(timer => clearTimeout(timer));
-  };
-}, []);
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+    };
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -267,7 +263,6 @@ const TagAndCheckboxWrapper = styled.div`
   gap: 41px;
   align-items: end;
 `;
-
 
 const ReplyRow = styled.div`
   display: flex;

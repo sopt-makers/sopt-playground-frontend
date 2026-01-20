@@ -6,13 +6,14 @@ import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { QuestionTab, useGetMemberQuestions } from '@/api/endpoint/members/getMemberQuestions';
 import { useGetMyLatestAnsweredQuestion } from '@/api/endpoint/members/getMyLatestAnsweredQuestion';
 import { usePostQuestionReaction } from '@/api/endpoint/members/postQuestionReaction';
 import Pagination from '@/components/common/Pagination';
 import Text from '@/components/common/Text';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
 import FeedDropdown from '@/components/feed/common/FeedDropdown';
 import FeedLike from '@/components/feed/common/FeedLike';
 import { useDeleteQuestion } from '@/components/feed/common/hooks/useDeleteQuestion';
@@ -34,6 +35,7 @@ const ITEMS_PER_PAGE = 5;
 
 const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabContentProps) => {
   const router = useRouter();
+  const { logClickEvent, logImpressionEvent } = useEventLogger();
   const isMyProfile = meId !== undefined && String(meId) === memberId;
 
   const defaultTab = isMyProfile ? 'unanswered' : 'answered';
@@ -73,6 +75,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
   });
 
   const [scrollTargetIndex, setScrollTargetIndex] = useState<number | null>(null);
+  const observedQuestionsRef = useRef<Set<number>>(new Set());
 
   const { data: latestAnswered } = useGetMyLatestAnsweredQuestion(isMyProfile ? null : Number(memberId));
   const hasLatestAnswered =
@@ -138,6 +141,36 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
     return () => clearTimeout(timer);
   }, [selectedTab, currentPage, questions, scrollTargetIndex, isLoading]);
 
+  const observerCallback = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const questionId = Number(entry.target.getAttribute('data-question-id'));
+          if (questionId && !observedQuestionsRef.current.has(questionId)) {
+            observedQuestionsRef.current.add(questionId);
+            logImpressionEvent('AskCard', { feedId: questionId });
+          }
+        }
+      });
+    },
+    [logImpressionEvent],
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5,
+    });
+
+    const elements = document.querySelectorAll('[data-question-id]');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [questions, observerCallback]);
+
   if (isLoading) {
     return (
       <Container>
@@ -166,7 +199,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
               rounded='lg'
               size='sm'
               theme={selectedTab === 'answered' ? 'white' : 'black'}
-              style={{height: '36px'}}
+              style={{ height: '36px' }}
             >
               답변완료
             </Button>
@@ -175,7 +208,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
               rounded='lg'
               size='sm'
               theme={selectedTab === 'unanswered' ? 'white' : 'black'}
-              style={{height: '36px'}}
+              style={{ height: '36px' }}
             >
               새질문
             </Button>
@@ -227,7 +260,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                   const isNewQuestion = diffInDays <= 7;
 
                   return (
-                    <div data-ask-index={idx} key={question.questionId}>
+                    <div data-ask-index={idx} data-question-id={question.questionId} key={question.questionId}>
                       <FeedCard
                         key={question.questionId}
                         profileImage={question.isAnonymous ? null : question.askerProfileImage}
@@ -353,6 +386,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                             isLiked={question.isReacted}
                             type='thumb'
                             onClick={() => {
+                              logClickEvent('AskLike', { feedId: question.questionId });
                               reactToQuestion(question.questionId);
                             }}
                           />
@@ -376,6 +410,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                                 size='md'
                                 onClick={(e) => {
                                   e.stopPropagation();
+                                  logClickEvent('AnswerUploadButton');
                                   if (typeof window !== 'undefined') {
                                     sessionStorage.setItem(
                                       `ask-answer-${question.questionId}`,
@@ -405,7 +440,7 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
 
       {!isMyProfile && (
         <FabSticky>
-          <Link href={`/members/ask/upload?memberId=${memberId}`}>
+          <Link href={`/members/ask/upload?memberId=${memberId}`} onClick={() => logClickEvent('AskUploadButton')}>
             <Fab LeftIcon={IconPlus}>질문</Fab>
           </Link>
         </FabSticky>

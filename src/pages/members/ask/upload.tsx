@@ -1,17 +1,19 @@
+import { useDialog } from '@sopt-makers/ui';
 import { useRouter } from 'next/router';
 import { FC, useMemo } from 'react';
 
-import AuthRequired from '@/components/auth/AuthRequired';
-import AskFormPage from '@/components/members/ask/AskFormPage';
 import { usePostMemberAsk } from '@/api/endpoint/members/postMemberQuestion';
+import AuthRequired from '@/components/auth/AuthRequired';
+import useEventLogger from '@/components/eventLogger/hooks/useEventLogger';
+import AskFormPage from '@/components/members/ask/AskFormPage';
 import useStringRouterQuery from '@/hooks/useStringRouterQuery';
 import { setLayout } from '@/utils/layout';
-import { useDialog } from '@sopt-makers/ui';
 
 const MemberAskUploadPage: FC = () => {
   const { status, query } = useStringRouterQuery(['memberId'] as const);
   const router = useRouter();
   const { open } = useDialog();
+  const { logSubmitEvent } = useEventLogger();
   const { mutateAsync: createQuestion, isPending } = usePostMemberAsk();
 
   const receiverId = useMemo(() => {
@@ -37,12 +39,14 @@ const MemberAskUploadPage: FC = () => {
 
         buttonFunction: async () => {
           try {
-            await createQuestion({
+            const result = await createQuestion({
               receiverId,
               content,
               isAnonymous,
               latestSoptActivity,
             });
+
+            logSubmitEvent('submitAsk', { feedId: result.questionId });
 
             open({
               title: '알림이 켜져 있는지 확인해 주세요.',

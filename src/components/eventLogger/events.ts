@@ -226,6 +226,23 @@ export interface ClickEvents {
   TL_introduce: undefined;
   TL_appjam: undefined;
   refreshmember: undefined;
+  CTAAsk: {
+    id: number;
+    name: string;
+  };
+  TabAsk: {
+    id: number;
+    name: string;
+  };
+  TabProfile: {
+    id: number;
+    name: string;
+  };
+  AskUploadButton: undefined;
+  AnswerUploadButton: undefined;
+  AskLike: {
+    feedId: number;
+  };
 }
 
 export interface SubmitEvents {
@@ -291,6 +308,12 @@ export interface SubmitEvents {
 
   // 기획경선 특집
   balancegame: undefined;
+  submitAsk: {
+    feedId: number;
+  };
+  submitAnswer: {
+    feedId: number;
+  };
 }
 
 export interface PageViewEvents {
@@ -319,4 +342,7 @@ export interface ImpressionEvents {
 
   // 기획경선 특집
   balancegame: undefined;
+  AskCard: {
+    feedId: number;
+  };
 }
