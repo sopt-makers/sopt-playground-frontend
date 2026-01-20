@@ -12,6 +12,8 @@ import { getScreenMaxWidthMediaQuery } from '@/utils';
 
 import OBMemberCard from './OBMemberCard';
 import PartDropdown from './PartDropDown';
+import Responsive from '@/components/common/Responsive';
+import { R } from 'msw/lib/core/HttpResponse-B07UKAkU';
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | 'mobile' | undefined;
 
 const SCREEN_SIZE = {
@@ -144,28 +146,55 @@ export default function BestOBMemberForAsk() {
 
   return (
     <BestOBMemberWrapper>
-      <TitleWrapper>
-        <PartDropdown
-          setSelectedPart={setSelectedPart}
-          open={isOpen}
-          setOpen={setIsOpenOpen}
-          trigger={
-            <DropdownTrigger>
-              {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
-              <IconChevronDown
-                style={{
-                  width: 32,
-                  height: 32,
-                  transform: isOpen ? 'rotate(-180deg)' : '',
-                  transition: 'all 0.5s',
-                  flexShrink: 0,
-                }}
-              />
-            </DropdownTrigger>
-          }
-        />
-        <Title>분야에서 활약중인 멤버에게 물어보세요</Title>
-      </TitleWrapper>
+      <Responsive only='desktop'>
+        <TitleWrapper>
+          <PartDropdown
+            setSelectedPart={setSelectedPart}
+            open={isOpen}
+            setOpen={setIsOpenOpen}
+            trigger={
+              <DropdownTrigger>
+                {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
+                <IconChevronDown
+                  style={{
+                    width: 32,
+                    height: 32,
+                    transform: isOpen ? 'rotate(-180deg)' : '',
+                    transition: 'all 0.5s',
+                    flexShrink: 0,
+                  }}
+                />
+              </DropdownTrigger>
+            }
+          />
+          <Title>분야에서 활약중인 멤버에게 물어보세요</Title>
+        </TitleWrapper>
+      </Responsive>
+      <Responsive only='mobile'>
+        <TitleWrapper>
+          <PartDropdown
+            setSelectedPart={setSelectedPart}
+            open={isOpen}
+            setOpen={setIsOpenOpen}
+            trigger={
+              <DropdownTrigger>
+                {PART_OPTIONS.find((option) => option.value === selectedPart)?.label}
+                <IconChevronDown
+                  style={{
+                    width: 32,
+                    height: 32,
+                    transform: isOpen ? 'rotate(-180deg)' : '',
+                    transition: 'all 0.5s',
+                    flexShrink: 0,
+                  }}
+                />
+              </DropdownTrigger>
+            }
+          />
+          <Title>분야에서 활약중인</Title>
+        </TitleWrapper>
+        <Title>멤버에게 물어보세요</Title>
+      </Responsive>
       {(listType === undefined || listType === 'carousel-large') && memberCardList.length > 0 && (
         <StyledCarousel
           isButton={memberCardList.length > 4}
