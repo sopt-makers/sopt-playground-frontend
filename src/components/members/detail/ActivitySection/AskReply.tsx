@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconFlipForward, IconUser } from '@sopt-makers/icons';
-import { IconAlertTriangle, IconTrash, IconWrite } from '@sopt-makers/icons';
+import { IconTrash, IconWrite } from '@sopt-makers/icons';
 import { IconDotsVertical } from '@sopt-makers/icons';
 import { Button } from '@sopt-makers/ui';
 import { Flex } from '@toss/emotion-utils';
@@ -147,7 +147,7 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
       {isMine && (
         <SendMailWrapper>
            <Responsive only='desktop'>
-            더 궁금한 내용이 있다면 \n쪽지로 대화를 이어갈 수 있어요.
+            더 궁금한 내용이 있다면 쪽지로 대화를 이어갈 수 있어요.
            </Responsive>
            <Responsive only='mobile'>
              더 궁금한 내용이 있다면{'\n'}쪽지로 대화를 이어갈 수 있어요.
