@@ -99,7 +99,7 @@ const Base = forwardRef<HTMLDivElement, PropsWithChildren<BaseProps>>(
         ref={ref}
         css={{
           backgroundColor: colors.gray950,
-          padding: '16px 16px 22px',
+          padding: isAskMode ? '16px 0 22px' : '16px 16px 22px',
           gap: 12,
           borderBottom: `1px solid ${colors.gray800}`,
         }}
