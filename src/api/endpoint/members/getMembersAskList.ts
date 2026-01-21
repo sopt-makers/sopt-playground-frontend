@@ -14,7 +14,7 @@ export const getMembersAskList = createEndpoint({
       z.object({
         id: z.number(),
         name: z.string(),
-        profileImageUrl: z.string().optional(),
+        profileImage: z.string().nullable().optional(),
         latestActivity: z.object({
           generation: z.number(),
           part: z.string(),

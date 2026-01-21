@@ -94,9 +94,9 @@ export default function OBMemberCard({
               </Badges>
             </BadgesBox>
           </NameWrapper>
-          <Text typography='SUIT_16_M'>
+          <CareerText typography='SUIT_16_M'>
             {career?.companyName} {career?.title}
-          </Text>
+          </CareerText>
         </MemberInfo>
       </MemberCardContent>
       <Button variant='fill' theme='white' onClick={handleClickButton}>
@@ -178,6 +178,16 @@ const MemberInfo = styled.div`
   flex-direction: column;
   gap: 6px;
   justify-content: center;
+`;
+
+const CareerText = styled(Text)`
+  /* stylelint-disable-next-line value-no-vendor-prefix */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 `;
 
 const AnswerGuaranteedBadge = styled.div`
