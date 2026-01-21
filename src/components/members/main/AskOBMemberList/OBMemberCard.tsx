@@ -113,6 +113,7 @@ const NameWrapper = styled.div`
 `;
 const ImageWrapper = styled.div`
   position: relative;
+  flex-shrink: 0;
   width: 72px;
   height: 72px;
 `;
