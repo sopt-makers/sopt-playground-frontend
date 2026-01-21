@@ -15,10 +15,10 @@ interface MemberProfileImageProps {
   size?: 'lg' | 'md' | 'sm';
 }
 
-const MemberProfileImage = ({ isLoading, imageUrl, size = 'md' }: MemberProfileImageProps) => {
+const MemberProfileImage = ({ isLoading, imageUrl, size = 'lg' }: MemberProfileImageProps) => {
   const imageSize = {
-    lg: 196,
-    md: 115,
+    lg: 115,
+    md: 72,
     sm: 60,
   };
 

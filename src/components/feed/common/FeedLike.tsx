@@ -11,7 +11,7 @@ interface FeedLikeProps {
   isLiked?: boolean;
   likes: number;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  type?: 'heart' | 'message' | 'thumb';
+  type?: 'heart' | 'message' | 'thumb' | 'helpful';
 }
 
 export const FeedLike = ({ isLiked = false, likes, onClick, type = 'heart' }: FeedLikeProps) => {
@@ -26,6 +26,7 @@ export const FeedLike = ({ isLiked = false, likes, onClick, type = 'heart' }: Fe
     border: 1px solid ${colors.gray700};
     border-radius: 51px;
     padding: 8px 12px;
+    height: 32px;
   `;
 
   const renderIcon = () => {
@@ -42,6 +43,8 @@ export const FeedLike = ({ isLiked = false, likes, onClick, type = 'heart' }: Fe
 
   const getDefaultBtnText = (type: FeedLikeProps['type']): string => {
     switch (type) {
+      case 'helpful':
+        return '도움돼요';
       case 'heart':
         return '좋아요';
       case 'thumb':
@@ -62,7 +65,12 @@ export const FeedLike = ({ isLiked = false, likes, onClick, type = 'heart' }: Fe
       {renderIcon()}
 
       {resolvedBtnText && (
-        <Text typography='SUIT_14_SB' color={isLiked ? colors.white : colors.gray400} className='btn-hover'>
+        <Text
+          typography='SUIT_12_SB'
+          mobileTypography='SUIT_12_SB'
+          color={isLiked ? colors.white : colors.gray400}
+          className='btn-hover'
+        >
           {resolvedBtnText}
         </Text>
       )}
