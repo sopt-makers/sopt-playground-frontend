@@ -59,7 +59,7 @@ export default function BestOBMemberForAsk() {
         key={member.id}
         id={member.id}
         name={member.name}
-        profileImageUrl={member.profileImageUrl || ''}
+        profileImageUrl={member.profileImage || ''}
         latestActivity={member.latestActivity}
         career={member.career}
         isAnswerGuaranteed={member.isAnswerGuaranteed}
