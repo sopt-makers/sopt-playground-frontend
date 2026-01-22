@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconChevronDown } from '@sopt-makers/icons';
-import { ReactNode, startTransition, useEffect, useLayoutEffect, useState } from 'react';
+import { ReactNode, startTransition, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { useGetMembersAskList } from '@/api/endpoint/members/getMembersAskList';
 import Carousel from '@/components/common/Carousel';
@@ -13,6 +13,7 @@ import { getScreenMaxWidthMediaQuery } from '@/utils';
 import OBMemberCard from './OBMemberCard';
 import PartDropdown from './PartDropDown';
 import Responsive from '@/components/common/Responsive';
+import { useGetMemberProperty } from '@/api/endpoint/members/getMemberProperty';
 type ListType = 'carousel-large' | 'carousel-small' | 'scroll' | 'tablet' | 'mobile' | undefined;
 
 const SCREEN_SIZE = {
@@ -43,6 +44,18 @@ export default function BestOBMemberForAsk() {
   const [memberCardList, setMemberCardList] = useState<ReactNode[]>([]);
 
   const { data: membersData, isLoading } = useGetMembersAskList(selectedPart);
+  const { data: myProperty } = useGetMemberProperty();
+
+  const didInitSelectedPart = useRef(false);
+  useEffect(() => {
+    if (didInitSelectedPart.current) return;
+
+    const myLastPart = myProperty?.part?.at(-1);
+    if (myLastPart) {
+      setSelectedPart(myLastPart);
+      didInitSelectedPart.current = true;
+    }
+  }, [myProperty]);
 
   useEffect(() => {
     if (isLoading) {

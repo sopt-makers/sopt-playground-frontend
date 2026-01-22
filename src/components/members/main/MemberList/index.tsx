@@ -45,6 +45,7 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { Spacing } from '@toss/emotion-utils';
 const PAGE_LIMIT = 24;
 
 interface MemberListProps {
@@ -240,7 +241,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                 onSubmit={() => handleSearchSubmit(search as string)}
                 onReset={handleSearchReset}
               />
-
+              <Spacing size={14} />
+              <BestOBMemberForAsk />
               {/* {isAppJamParticipant && (
                 <BannerWrapper>
                   <Banner
@@ -367,8 +369,8 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
             )}
 
             <StyledRightWrapper>
-              <BestOBMemberForAsk />
               <Responsive only='desktop'>
+                <BestOBMemberForAsk />
                 <StyledTopWrapper>
                   <div
                     css={css`
