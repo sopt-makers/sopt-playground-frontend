@@ -10,26 +10,7 @@ import { useEffect, useState } from 'react';
 const HomePopupContainer = () => {
   const { data: myData } = useGetMemberOfMe();
   const { data: homePopupData } = useGetHomePopup();
-  const { isSpecialPopupPeriod, canOpenModal, handleCloseForToday } = useMatchMemberEvent();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
-
-  const { isOpen, onOpen, onClose } = useModalState();
-  useEffect(() => {
-    if (canOpenModal && isSpecialPopupPeriod) {
-      onOpen();
-    }
-  }, [canOpenModal, isSpecialPopupPeriod]);
-  if (isSpecialPopupPeriod) {
-    if (!canOpenModal) return null;
-    return (
-      <MatchMemberModal
-        isOpen={isOpen}
-        onClose={onClose}
-        handleCloseForToday={handleCloseForToday}
-        hasWorkPreference={myData?.hasWorkPreference}
-      />
-    );
-  }
 
   if (!homePopupData || typeof homePopupData === 'string') {
     return null;
