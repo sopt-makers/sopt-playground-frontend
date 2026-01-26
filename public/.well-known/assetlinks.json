@@ -4,7 +4,9 @@
     "namespace": "android_app",
     "package_name": "org.sopt.official",
     "sha256_cert_fingerprints":
-    ["89:D9:B9:FA:59:2D:FE:43:5D:EA:80:E6:BF:88:16:2A:8B:2E:F4:1C:F4:29:B6:76:A3:2C:44:46:1D:12:B1:6E"]
+    [
+      "29:23:1F:E3:7A:FD:76:9C:58:CA:F3:E2:D9:7C:A1:69:CF:04:A8:6E:5B:8A:C6:56:6A:6F:E8:FD:D8:FF:47:43",
+      "30:8A:35:1F:E1:88:94:6F:BC:E9:B2:D5:FC:2F:9B:F2:10:35:2A:43:B8:36:03:8B:C4:1B:EA:51:23:76:1C:00"
+    ]
   }
 }]
-
