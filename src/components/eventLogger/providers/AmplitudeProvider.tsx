@@ -5,6 +5,7 @@ import { useGetMemberProperty } from '@/api/endpoint/members/getMemberProperty';
 import AmplitudeLogViewer from '@/components/eventLogger/components/AmplitudeLogViewer';
 import { EventLoggerContext } from '@/components/eventLogger/context';
 import { createConsoleLogController } from '@/components/eventLogger/controllers/consoleLog';
+import { DEBUG } from '@/constants/env';
 
 interface EventLoggerProviderProps {
   children: ReactNode;
@@ -55,7 +56,7 @@ const AmplitudeProvider: FC<EventLoggerProviderProps> = ({ children, apiKey }) =
   return (
     <EventLoggerContext.Provider value={controller}>
       {children}
-      <AmplitudeLogViewer isDev={process.env.NODE_ENV === 'development'} />
+      <AmplitudeLogViewer isDev={DEBUG} />
     </EventLoggerContext.Provider>
   );
 };
