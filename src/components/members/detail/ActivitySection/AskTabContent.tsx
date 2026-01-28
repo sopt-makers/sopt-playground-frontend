@@ -271,8 +271,12 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                         }
                         info={
                           <>
-                            <span style={{ margin: '0 4px' }}>·</span>
-                            {question.askerLatestGeneration}
+                            {!question.isAnonymous && 
+                              <>
+                                <span style={{ margin: '0 4px' }}>·</span>
+                                {question.askerLatestGeneration}
+                              </>
+                            }
                             <span style={{ margin: '0 4px' }}>·</span>
                             {getRelativeTime(question.createdAt)}
                           </>
