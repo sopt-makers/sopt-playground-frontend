@@ -25,7 +25,7 @@ const questionScheme = z.object({
   askerId: z.number().nullable(),
   askerName: z.string().nullable(),
   askerProfileImage: z.string().nullable(),
-  askerLatestGeneration: z.string(),
+  askerLatestGeneration: z.string().nullable(),
   anonymousProfile: anonymousProfileScheme.nullable(),
   isAnonymous: z.boolean(),
   reactionCount: z.number(),
