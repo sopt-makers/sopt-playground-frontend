@@ -59,7 +59,7 @@ export const ClosingBanner = () => {
   };
 
   const text: textType = {
-    title: 'AT SOPT 수료를 축하드려요!',
+    title: 'DIVE SOPT 수료를 축하드려요!',
     subtitle: 'SOPT playground가 준비한 타임캡솝 선물 받아가세요',
     buttonContent: '타임캡솝 열고, 행운 뽑기',
   };

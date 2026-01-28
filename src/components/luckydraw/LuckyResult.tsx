@@ -29,7 +29,7 @@ const LuckyResult = ({ isWinner, username, onClickButton }: LuckyResultProps) =>
           <>
             꽝! 아쉬워요.ㅠ.ㅠ
             <br />
-            AT SOPT과 함께한 추억
+            DIVE SOPT과 함께한 추억
             <MobileLineBreak />
             잊지 않을게요
           </>
