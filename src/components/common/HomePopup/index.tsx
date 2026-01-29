@@ -3,9 +3,11 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { useEffect, useState } from 'react';
 
+import useModalState from '@/components/common/Modal/useModalState';
 import Responsive from '@/components/common/Responsive';
 import { LoggingClick } from '@/components/eventLogger/components/LoggingClick';
 import { LoggingImpression } from '@/components/eventLogger/components/LoggingImpression';
+import ResolutionReadModal from '@/components/resolution/read/ResolutionReadModal';
 import PlaygroundGuideModal from '@/components/resolution/submit/PlaygroundGuideModal';
 import TimecapsopSubmitModal from '@/components/resolution/submit/TimecapsopSubmitModal';
 import { useOpenResolutionModal } from '@/components/resolution/submit/useOpenResolutionModal';
@@ -84,7 +86,7 @@ export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }:
   // 타입캡솝 모달 띄우기
   const handleOpenModal = async () => {
     await handleClosePopup();
-    handleResolutionModalOpen();
+    onOpenResolutionModal();
   };
 
   const handleClickPopup = () => {
@@ -97,11 +99,11 @@ export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }:
     }
   };
 
-  // const {
-  //   isOpen: isOpenReadResolutionModal,
-  //   onClose: onCloseReadResolutionModal,
-  //   onOpen: onOpenResolutionModal,
-  // } = useModalState();
+  const {
+    isOpen: isOpenReadResolutionModal,
+    onClose: onCloseReadResolutionModal,
+    onOpen: onOpenResolutionModal,
+  } = useModalState();
 
   return (
     <>
@@ -111,14 +113,14 @@ export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }:
             <StPopupModal>
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <StButton onClick={handleClickPopup}>
+                  <StButton onClick={handleOpenModal}>
                     <StImage src={pcImageUrl} />
                   </StButton>
                 </LoggingClick>
               </Responsive>
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <StButton onClick={handleClickPopup}>
+                  <StButton onClick={handleOpenModal}>
                     <StImage src={mobileImageUrl} />
                   </StButton>
                 </LoggingClick>
@@ -137,7 +139,7 @@ export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }:
       )}
 
       {/* 타임캡솝 결과 모달 */}
-      {/* <ResolutionReadModal isOpen={isOpenReadResolutionModal} onClose={onCloseReadResolutionModal} /> */}
+      <ResolutionReadModal isOpen={isOpenReadResolutionModal} onClose={onCloseReadResolutionModal} />
 
       {/* 신입 기수 들어올 때 타임캡솝 이동 및 플그 가이드 모달 띄우기 */}
       <TimecapsopSubmitModal
