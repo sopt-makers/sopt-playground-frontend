@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { createEndpoint } from '@/api/typedAxios';
 
 const getMyLatestAnsweredQuestionResponseScheme = z.object({
-  questionId: z.number(),
+  questionId: z.number().nullable(),
   page: z.number().nullable(),
   index: z.number().nullable(),
 });

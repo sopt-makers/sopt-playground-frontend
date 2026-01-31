@@ -148,8 +148,8 @@ export default AmplitudeLogViewer;
 
 const ToggleButton = styled.div`
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 55px;
+  right: 4px;
   z-index: 9999;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
@@ -170,8 +170,8 @@ const EventHeader = styled.div`
 
 const LogViewer = styled.div`
   position: fixed;
-  top: 60px;
-  right: 20px;
+  top: 95px;
+  right: 4px;
   z-index: 9998;
   border: 1px solid #333;
   border-radius: 8px;

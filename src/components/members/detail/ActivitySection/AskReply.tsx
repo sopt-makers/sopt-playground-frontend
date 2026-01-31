@@ -47,6 +47,7 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
     //   toast.show({ message: `해당 유저는 전화번호를 등록하지 않아 쪽지를 보낼 수 없어요.` });
     // } else {
     onOpenMessageModal();
+    logClickEvent('messageBadge');
     //}
   };
 
