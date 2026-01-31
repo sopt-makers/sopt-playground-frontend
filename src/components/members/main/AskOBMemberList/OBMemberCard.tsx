@@ -100,7 +100,7 @@ export default function OBMemberCard({
         </MemberInfo>
       </MemberCardContent>
       <Button variant='fill' theme='white' onClick={handleClickButton}>
-        <Text typography='SUIT_14_SB'>궁금한 점, 편하게 물어보세요!</Text>
+        <Text typography='SUIT_14_SB'>익명 질문 남기기</Text>
       </Button>
     </OBMemberCardWrapper>
   );
