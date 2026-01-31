@@ -117,7 +117,7 @@ const AskAnswerPage: FC = () => {
                 <NameRow>
                   <Text typography='SUIT_14_SB'>{askerName}</Text>
                   <Text typography='SUIT_12_SB' color={colors.gray400}>
-                    {question.askerLatestGeneration}∙{getRelativeTime(question.createdAt)}
+                    {!question.isAnonymous && <>{question.askerLatestGeneration}∙</>}{getRelativeTime(question.createdAt)}
                   </Text>
                 </NameRow>
               </HeaderText>

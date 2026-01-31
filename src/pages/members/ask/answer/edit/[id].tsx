@@ -155,7 +155,7 @@ const handleSubmit = async ({ content }: { content: string; isAnonymous: boolean
               <HeaderText>
                 <NameRow>
                   <Name>{askerName}</Name>
-                  <Meta>{getRelativeTime(question.createdAt)}</Meta>
+                  <Meta>{!question.isAnonymous && <>{question.askerLatestGeneration}∙</>}{getRelativeTime(question.createdAt)}</Meta>
                 </NameRow>
               </HeaderText>
             </QuestionHeader>
