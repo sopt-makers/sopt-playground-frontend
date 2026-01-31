@@ -39,15 +39,8 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
   const isMyProfile = meId !== undefined && String(meId) === memberId;
 
   const defaultTab = isMyProfile ? 'unanswered' : 'answered';
-  const questionTabFromQuery = (router.query.questionTab as QuestionTab) ?? defaultTab;
-
-  const [selectedTab, setSelectedTab] = useState<QuestionTab>(questionTabFromQuery);
+  const [selectedTab, setSelectedTab] = useState<QuestionTab>(defaultTab);
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    setSelectedTab(questionTabFromQuery);
-    setCurrentPage(1);
-  }, [questionTabFromQuery]);
 
   const { handleDeleteQuestion } = useDeleteQuestion();
   const { mutate: reactToQuestion } = usePostQuestionReaction();
@@ -73,6 +66,18 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
     page: 0,
     size: 1,
   });
+
+  useEffect(() => {
+    const questionTabFromQuery = router.query.questionTab as QuestionTab;
+
+    if (questionTabFromQuery) {
+      setSelectedTab(questionTabFromQuery);
+      setCurrentPage(1);
+    } else if (!isMyProfile && answeredPeek && (answeredPeek.questions?.length ?? 0) === 0) {
+      // 본인 프로필이 아니고, 답변완료 탭에 글이 없으면 새질문 탭으로
+      setSelectedTab('unanswered');
+    }
+  }, [router.query.questionTab, answeredPeek, isMyProfile]);
 
   const [scrollTargetIndex, setScrollTargetIndex] = useState<number | null>(null);
   const observedQuestionsRef = useRef<Set<number>>(new Set());
@@ -271,12 +276,12 @@ const AskTabContent = ({ memberId, memberName, meId, unansweredCount }: AskTabCo
                         }
                         info={
                           <>
-                            {!question.isAnonymous && 
+                            {!question.isAnonymous && (
                               <>
                                 <span style={{ margin: '0 4px' }}>·</span>
                                 {question.askerLatestGeneration}
                               </>
-                            }
+                            )}
                             <span style={{ margin: '0 4px' }}>·</span>
                             {getRelativeTime(question.createdAt)}
                           </>
