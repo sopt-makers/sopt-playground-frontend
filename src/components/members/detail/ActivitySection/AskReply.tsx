@@ -23,6 +23,8 @@ import { getRelativeTime } from '@/components/feed/common/utils';
 import { MessageCategory } from '@/components/members/detail/MessageSection/MessageModal';
 import MessageModal from '@/components/members/detail/MessageSection/MessageModal';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
+import { parseMentionsToJSX } from '@/components/feed/common/utils/parseMention';
+import { parseTextToLink } from '@/utils/parseTextToLink';
 interface AskReplyProps {
   question: MemberQuestion;
   answererName: string;
@@ -56,15 +58,21 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
     setIsExpanded(!isExpanded);
   };
 
+   const renderParsedContent = (text: string) => {
+    const parsedMentions = parseMentionsToJSX(text, router);
+    return parsedMentions.map((fragment, index) => parseTextToLink(fragment));
+  };
+
   const renderContent = () => {
-    if (content.length <= 140) {
-      return content;
+    const LIMIT = 140;
+    if (content.length <= LIMIT) {
+      return renderParsedContent(content);
     }
 
     if (isExpanded) {
       return (
         <>
-          {content}
+          {renderParsedContent(content)}
           {'\n'}
           <MoreButton onClick={handleToggleExpand}>접기</MoreButton>
         </>
@@ -73,7 +81,7 @@ export default function AskReply({ question, answererName, profileImage, isMyPro
 
     return (
       <>
-        {content.slice(0, 140)}...{'\n'}
+        {renderParsedContent(`${content.slice(0, LIMIT)}...`)}
         <MoreButton onClick={handleToggleExpand}>더보기</MoreButton>
       </>
     );
