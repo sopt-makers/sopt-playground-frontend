@@ -36,10 +36,6 @@ const HomePopupContainer = () => {
     return null;
   }
 
-  if (!isLastGeneration) {
-    return null;
-  }
-
   return (
     <>
       <HomePopup
