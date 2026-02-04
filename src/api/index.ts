@@ -95,6 +95,10 @@ export const handleTokenError = async (error: AxiosError<unknown>) => {
       // 개인정보 처리방침 페이지는 로그인 필요 없음, 구글 정책상 오픈
       return Promise.reject(error);
     }
+    // 에스크 문자를 통한 딥링크 접근을 위해 허용
+    if (window.location.pathname === '/.well-known/apple-app-site-association' || '/.well-known/assetlinks.json') {
+      return Promise.reject(error);
+    }
     /** 토큰이 없으면 refresh 시도하지 않고 바로 intro로 이동 */
     const currentToken = tokenStorage.get();
     if (currentToken === null && window.location.pathname !== '/intro') {
