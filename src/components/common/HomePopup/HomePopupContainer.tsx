@@ -13,28 +13,28 @@ const HomePopupContainer = () => {
   const { data: homePopupData } = useGetHomePopup();
   const isLastGeneration = myData?.generation === LATEST_GENERATION;
 
-  // if (!homePopupData || typeof homePopupData === 'string') {
-  //   return null;
-  // }
+  if (!homePopupData || typeof homePopupData === 'string') {
+    return null;
+  }
 
-  // const { startDate, endDate, pcImageUrl, mobileImageUrl, linkUrl, openInNewTab, showOnlyToRecentGeneration } =
-  //   homePopupData;
+  const { startDate, endDate, pcImageUrl, mobileImageUrl, linkUrl, openInNewTab, showOnlyToRecentGeneration } =
+    homePopupData;
 
-  // // 팝업 표시 기간 설정
-  // const now = new Date();
-  // const popupStart = new Date(`${startDate}T00:00:00+09:00`);
-  // const popupEnd = new Date(`${endDate}T23:59:59+09:00`);
-  // const isWithinPeriod = now >= popupStart && now <= popupEnd;
+  // 팝업 표시 기간 설정
+  const now = new Date();
+  const popupStart = new Date(`${startDate}T00:00:00+09:00`);
+  const popupEnd = new Date(`${endDate}T23:59:59+09:00`);
+  const isWithinPeriod = now >= popupStart && now <= popupEnd;
 
-  // 팝업 표시 기간이 아닌 경우
-  // if (!isWithinPeriod) {
-  //   return null;
-  // }
+  //팝업 표시 기간이 아닌 경우
+  if (!isWithinPeriod) {
+    return null;
+  }
 
-  // 최신 기수만 보기 옵션이 활성화인 경우
-  // if (showOnlyToRecentGeneration && !isLastGeneration) {
-  //   return null;
-  // }
+  //최신 기수만 보기 옵션이 활성화인 경우
+  if (showOnlyToRecentGeneration && !isLastGeneration) {
+    return null;
+  }
 
   if (!isLastGeneration) {
     return null;
@@ -42,17 +42,13 @@ const HomePopupContainer = () => {
 
   return (
     <>
-      {/* <HomePopup
+      <HomePopup
         pcImageUrl={pcImageUrl}
         mobileImageUrl={mobileImageUrl}
         linkUrl={linkUrl}
         openInNewTab={openInNewTab}
-      /> */}
-      <HomePopup
-        pcImageUrl="/icons/img/popup/PC.png"
-        mobileImageUrl="/icons/img/popup/MO.png"
-        openInNewTab={false}
       />
+      {/* <HomePopup pcImageUrl='/icons/img/popup/PC.png' mobileImageUrl='/icons/img/popup/MO.png' openInNewTab={false} /> */}
     </>
   );
 };

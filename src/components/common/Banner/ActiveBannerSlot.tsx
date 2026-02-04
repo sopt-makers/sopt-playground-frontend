@@ -9,9 +9,9 @@ import WelcomeBannerContainer from '@/components/common/Banner/WelcomeBanner/Wel
 interface ActiveBannerSlotProps {}
 
 const ActiveBannerSlot: FC<ActiveBannerSlotProps> = ({}) => {
-  const isTimecapsopOpen = true; // 타임캡솝 오픈 기간에만 이 값을 true로 변경
+  const isTimecapsopOpen = false; // 타임캡솝 오픈 기간에만 이 값을 true로 변경
   const { data: myData } = useGetMemberOfMe();
-  const isBalanceGameOpen = true;
+  const isBalanceGameOpen = false;
 
   return (
     <StyledActiveBanner>

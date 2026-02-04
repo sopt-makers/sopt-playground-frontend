@@ -86,7 +86,7 @@ export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }:
   // 타입캡솝 모달 띄우기
   const handleOpenModal = async () => {
     await handleClosePopup();
-    onOpenResolutionModal();
+    handleResolutionModalOpen();
   };
 
   const handleClickPopup = () => {
@@ -99,11 +99,11 @@ export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }:
     }
   };
 
-  const {
-    isOpen: isOpenReadResolutionModal,
-    onClose: onCloseReadResolutionModal,
-    onOpen: onOpenResolutionModal,
-  } = useModalState();
+  // const {
+  //   isOpen: isOpenReadResolutionModal,
+  //   onClose: onCloseReadResolutionModal,
+  //   onOpen: onOpenResolutionModal,
+  // } = useModalState();
 
   return (
     <>
@@ -113,14 +113,14 @@ export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }:
             <StPopupModal>
               <Responsive only='desktop'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <StButton onClick={handleOpenModal}>
+                  <StButton onClick={handleClickPopup}>
                     <StImage src={pcImageUrl} />
                   </StButton>
                 </LoggingClick>
               </Responsive>
               <Responsive only='mobile'>
                 <LoggingClick eventKey='adPopupBody'>
-                  <StButton onClick={handleOpenModal}>
+                  <StButton onClick={handleClickPopup}>
                     <StImage src={mobileImageUrl} />
                   </StButton>
                 </LoggingClick>
@@ -139,7 +139,7 @@ export const HomePopup = ({ pcImageUrl, mobileImageUrl, linkUrl, openInNewTab }:
       )}
 
       {/* 타임캡솝 결과 모달 */}
-      <ResolutionReadModal isOpen={isOpenReadResolutionModal} onClose={onCloseReadResolutionModal} />
+      {/* <ResolutionReadModal isOpen={isOpenReadResolutionModal} onClose={onCloseReadResolutionModal} /> */}
 
       {/* 신입 기수 들어올 때 타임캡솝 이동 및 플그 가이드 모달 띄우기 */}
       <TimecapsopSubmitModal
