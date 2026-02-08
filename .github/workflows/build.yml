@@ -41,9 +41,15 @@ jobs:
       - name: Build
         run: yarn build && yarn next export
 
+      - name: Prepare deployment package
+        run: |
+          mkdir -p deploy
+          cp -r out/* deploy/
+          cp -r functions deploy/
+
       - uses: actions/upload-artifact@v4
         with:
           name: built-app
-          path: out
+          path: deploy
           if-no-files-found: error
           retention-days: 7
