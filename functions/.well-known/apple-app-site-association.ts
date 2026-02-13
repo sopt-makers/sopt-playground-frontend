@@ -3,7 +3,7 @@ const APPLE_APP_SITE_ASSOCIATION = `{
     "apps": [],
     "details": [
       {
-        "appID": "95YWTT5L8K.com.sopt-stamp-iOS.release",
+        "appID": "95YWTT5L8K.com.sopt-stamp-iOS.alpha",
         "paths": ["*"]
       }
     ]
