@@ -95,12 +95,17 @@ export const handleTokenError = async (error: AxiosError<unknown>) => {
       // 개인정보 처리방침 페이지는 로그인 필요 없음, 구글 정책상 오픈
       return Promise.reject(error);
     }
+    // 앱 딥링크를 위한 .well-known 경로는 인증 체크 제외
+    if (window.location.pathname.startsWith('/.well-known')) {
+      return Promise.reject(error);
+    }
     /** 토큰이 없으면 refresh 시도하지 않고 바로 intro로 이동 */
     const currentToken = tokenStorage.get();
     if (currentToken === null && window.location.pathname !== '/intro') {
       window.location.replace('/intro');
       throw new Error('토큰이 없습니다.');
     }
+
     try {
       const { data } = await axiosAuthInstance.post<{ data: { accessToken: string } }>(
         `/api/v1/auth/refresh/web`,
