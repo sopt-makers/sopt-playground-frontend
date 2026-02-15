@@ -107,8 +107,6 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
     [memberProfileData],
   );
 
-  console.log(profiles);
-
   useRunOnce(() => {
     logPageViewEvent('memberPageList');
   }, []);
