@@ -22,14 +22,15 @@ type PartItemProps = {
 };
 
 const PartItem: FC<PartItemProps> = ({ generation, part, teams, activities, isMine }) => {
-  const partLabel = `${part} ${NORMAL_PARTS.includes(part) ? '파트' : ''}`;
+  const partLabel = `${part} ${NORMAL_PARTS.includes(part) ? '파트' : teams?.includes('메이커스') ? '챕터' : ''}`;
   const soptLogoSrc = Number(generation) < 12 ? '/icons/logo/time=1-11.svg' : `/icons/logo/time=${generation}.svg`;
+  const logoSrc = teams?.includes('메이커스') ? '/icons/icon-makers-logo.svg' : soptLogoSrc;
 
   const hasActivities = !(activities.length === 0 && !isMine);
   return (
     <Container hasActivities={hasActivities}>
       <Thumbnail>
-        <img alt={`${generation}기 SOPT`} src={soptLogoSrc} />
+        <img alt={`${generation}기 SOPT`} src={logoSrc} />
       </Thumbnail>
       <Generation>{generation}기</Generation>
       <BelongArea>

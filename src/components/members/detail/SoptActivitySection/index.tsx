@@ -12,11 +12,18 @@ interface SoptActivitySectionProps {
 }
 
 export default function SoptActivitySection({ soptActivities, isMine }: SoptActivitySectionProps) {
+  // 메이커스 정보가 프로필에서 먼저 오도록 정렬
+  const sortedActivities = [...soptActivities].sort((a, b) => {
+    const aIsMakers = a.team === '메이커스' ? 1 : 0;
+    const bIsMakers = b.team === '메이커스' ? 1 : 0;
+    return bIsMakers - aIsMakers;
+  });
+
   return (
     <MemberDetailSection>
-      {soptActivities.map(({ generation, part, projects, team }, idx) => (
+      {sortedActivities.map(({ generation, part, projects, team }, idx) => (
         <PartItem
-          key={idx}
+          key={`${generation}-${part}-${team ?? ''}-${idx}`}
           generation={`${generation}`}
           part={part}
           activities={projects.map((project) => ({
