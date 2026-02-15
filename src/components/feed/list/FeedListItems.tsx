@@ -141,7 +141,7 @@ const FeedListItems: FC<FeedListItemsProps> = ({ categoryId, renderFeedDetailLin
                               categoryId: post.categoryId,
                               categoryName: post.categoryName,
                               member: {
-                                activity: post.member?.activity ?? { generation: 0, part: '' },
+                                activity: post.member?.activity ?? { generation: 0, part: '', team: null },
                                 careers: post.member?.careers ?? null,
                               },
                             })}

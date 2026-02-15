@@ -80,6 +80,7 @@ axiosCrewInstance.interceptors.response.use(
 );
 
 export const handleTokenError = async (error: AxiosError<unknown>) => {
+  console.log(error);
   const originRequest = error.config;
 
   if (!error.response || !originRequest) throw new Error('에러가 발생했습니다.');
