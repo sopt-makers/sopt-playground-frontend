@@ -50,11 +50,14 @@ export default function BestOBMemberForAsk() {
   useEffect(() => {
     if (didInitSelectedPart.current) return;
 
-    const myLastPart = myProperty?.part?.at(-1);
-    if (myLastPart) {
-      setSelectedPart(myLastPart);
-      didInitSelectedPart.current = true;
-    }
+  const parts = myProperty?.part ?? [];
+  const lastRealPart = [...parts].reverse().find((p) => p !== '메이커스');
+
+  if (lastRealPart) {
+    setSelectedPart(lastRealPart);
+    didInitSelectedPart.current = true;
+  }
+
   }, [myProperty]);
 
   useEffect(() => {
