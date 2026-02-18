@@ -1,3 +1,0 @@
-# dev → main merge 시 대상 브랜치(main)의 .well-known 버전 유지
-functions/.well-known/** merge=ours
-public/.well-known/** merge=ours
