@@ -4,6 +4,7 @@ import { colors } from '@sopt-makers/colors';
 import { fonts } from '@sopt-makers/fonts';
 import { IconSwitchVertical } from '@sopt-makers/icons';
 import { SearchField } from '@sopt-makers/ui';
+import { Spacing } from '@toss/emotion-utils';
 import { debounce, uniq } from 'lodash-es';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -36,7 +37,6 @@ import {
 } from '@/components/members/main/MemberList/filters/constants';
 import MemberListFilter from '@/components/members/main/MemberList/filters/MemberListFilter';
 import { MemberListOrder } from '@/components/members/main/MemberList/filters/MemberListOrder';
-import WorkPreferenceMatchedMemberList from '@/components/members/main/MemberList/WorkPreferenceMatchedMemberList';
 import { LATEST_GENERATION } from '@/constants/generation';
 import { playgroundLink } from '@/constants/links';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -45,7 +45,6 @@ import { useRunOnce } from '@/hooks/useRunOnce';
 import IconDiagonalArrow from '@/public/icons/icon-diagonal-arrow.svg';
 import { MB_BIG_MEDIA_QUERY } from '@/styles/mediaQuery';
 import { MOBILE_MEDIA_QUERY } from '@/styles/mediaQuery';
-import { Spacing } from '@toss/emotion-utils';
 const PAGE_LIMIT = 24;
 
 interface MemberListProps {
@@ -492,7 +491,10 @@ const MemberList: FC<MemberListProps> = ({ banner }) => {
                           const badges = sorted
                             .filter((activity) => activity.generation && activity.part)
                             .map((activity) => ({
-                              content: `${activity.generation}기 ${activity.part}`,
+                              content:
+                                activity.team === '메이커스'
+                                  ? `${activity.generation}기 ${activity.team}`
+                                  : `${activity.generation}기 ${activity.part}`,
                               isActive: activity.generation === LATEST_GENERATION,
                             }));
 

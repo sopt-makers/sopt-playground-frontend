@@ -7,6 +7,7 @@ import { RecentSopticleType } from '@/api/endpoint/feed/getRecentSopticle';
 import Text from '@/components/common/Text';
 import { SOPTICLE_CATEGORY_ID } from '@/components/feed/constants';
 import FeedUrlCard from '@/components/feed/list/FeedUrlCard';
+import { getMemberInfo } from '@/components/feed/common/utils';
 
 interface SopticleCardProps {
   sopticle: RecentSopticleType;
@@ -23,7 +24,14 @@ const SopticleCard = ({ sopticle }: SopticleCardProps) => {
         <UserNameStyle>{member.name}</UserNameStyle>
         <DotStyle>•</DotStyle>
         <SubTextStyle>
-          {member.activity.generation}기 {member.activity.part}파트
+         {getMemberInfo({
+            categoryId: 21,
+            categoryName: '솝티클',
+            member: {
+              activity: member?.activity ?? { generation: 0, part: '', team: null },
+              careers: member?.careers ?? null,
+            },
+          })}
         </SubTextStyle>
         <DotStyle>•</DotStyle>
         <SubTextStyle>{createdAt}</SubTextStyle>
