@@ -6,6 +6,7 @@
     "playground-common"
   ],
   "scripts": {
+    "prepare": "git config merge.ours.driver true || true",
     "analyze": "cross-env ANALYZE=true next build",
     "build": "next build",
     "build-storybook": "cross-env NODE_OPTIONS='--max-old-space-size=4096' storybook build",
