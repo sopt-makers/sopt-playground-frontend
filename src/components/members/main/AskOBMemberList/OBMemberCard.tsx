@@ -42,7 +42,7 @@ export default function OBMemberCard({
   const { logClickEvent } = useEventLogger();
   const badges = [
     {
-      content: `${latestActivity.generation}기 ${latestActivity.part}`,
+      content: `${latestActivity.generation}기 ${latestActivity.team === '메이커스' ? '메이커스' : latestActivity.part}`,
       isActive: false,
     },
   ];
