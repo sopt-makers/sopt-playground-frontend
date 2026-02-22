@@ -121,7 +121,7 @@ const ProfileSection = ({ profile, memberId }: ProfileSectionProps) => {
               logClickEvent('editProfile');
             }}
           >
-            <EditIcon />
+            <EditIcon style={{ width: '20px', height: '20px' }} />
           </EditButton>
         ) : (
           <MoreIconContainer>
@@ -132,7 +132,7 @@ const ProfileSection = ({ profile, memberId }: ProfileSectionProps) => {
                 }}
               >
                 <Flex align='center' css={{ gap: '10px', color: `${colors.gray10}` }}>
-                  <IconAlertTriangle css={{ width: '16px', height: '16px' }} />
+                  <IconAlertTriangle css={{ width: '20px', height: '20px' }} />
                   신고
                 </Flex>
               </FeedDropdown.Item>
@@ -143,7 +143,7 @@ const ProfileSection = ({ profile, memberId }: ProfileSectionProps) => {
                 }}
               >
                 <Flex align='center' css={{ gap: '10px' }}>
-                  <IconUserX css={{ width: '16px', height: '16px' }} /> 차단
+                  <IconUserX css={{ width: '20px', height: '20px' }} /> 차단
                 </Flex>
               </FeedDropdown.Item>
             </FeedDropdown>
