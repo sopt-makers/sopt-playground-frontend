@@ -17,26 +17,18 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
   return (
     <StyledJoinNotifier className={className}>
       {/* MEMO: 38기 모집 시작 시 주석 해제 */}
-      {/* <Title>36기 makers 지원이 곧 시작될 예정이에요.</Title> */}
-      {/* <Title>36기 makers 지원이 시작되었어요.</Title> */}
-      {/* <Title>현재 37기 makers 진행 중이에요. 38기에서 만나요!</Title> */}
-      <Title>현재 38기 makers 팀 모집이 진행 중이에요. 곧 만나요!</Title>
-      {/* <SubTitle>38기 모집은 2026년 2월 중에 진행될 예정이에요.</SubTitle> */}
-      <SubTitle>38기 모집은 2026년 2월 6일 금요일부터 2월 13일 금요일 23:59까지 진행될 예정이에요.</SubTitle>
+      {/* <Title>현재 38기 makers 팀 모집이 진행 중이에요. 곧 만나요!</Title> */}
+      <Title>39기 makers 모집은 2026년 8월 중에 진행될 예정이에요.</Title>
+      {/* <SubTitle>38기 모집은 2026년 2월 6일 금요일부터 2월 13일 금요일 23:59까지 진행될 예정이에요.</SubTitle> */}
       <ButtonGroup>
         {/* MEMO: 36기 모집 알림 신청시에 다시 주석 해제 */}
         {/* <SubscribeButton href={RECRUIT_NOTIFY_GENERATION_URL} target='_blank'>
           <StyledBellIcon />
           36기 모집 알림 신청
         </SubscribeButton> */}
-        {/* <ExpiredButton href='https://makers.sopt.org' target='_blank'>
-          <StyledOutgoingIcon />
-          36기 메이커스팀 모집글 보기
-          {/* 모집 페이지 가기 
-        </ExpiredButton> */}
         <ExpiredButton href={RECRUITING_URL} target='_blank'>
           <StyledOutgoingIcon />
-          38기 모집글 보기
+          38기 메이커스팀 모집글 보기
         </ExpiredButton>
       </ButtonGroup>
     </StyledJoinNotifier>
