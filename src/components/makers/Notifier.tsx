@@ -18,7 +18,7 @@ const Notifier: FC<NotifierProps> = ({ className }) => {
     <StyledJoinNotifier className={className}>
       {/* MEMO: 38기 모집 시작 시 주석 해제 */}
       {/* <Title>현재 38기 makers 팀 모집이 진행 중이에요. 곧 만나요!</Title> */}
-      <Title>39기 makers 모집은 2026년 7월 중에 진행될 예정이에요.</Title>
+      <Title>39기 makers 모집은 2026년 8월 중에 진행될 예정이에요.</Title>
       {/* <SubTitle>38기 모집은 2026년 2월 6일 금요일부터 2월 13일 금요일 23:59까지 진행될 예정이에요.</SubTitle> */}
       <ButtonGroup>
         {/* MEMO: 36기 모집 알림 신청시에 다시 주석 해제 */}
